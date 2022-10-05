@@ -9,6 +9,7 @@
 import {
   Declaration,
   Modifier,
+  ModifierLike,
   PropertySignature,
   SymbolFlags,
   SyntaxKind,
@@ -274,7 +275,8 @@ export = {
             if (
               modifiers !== undefined &&
               modifiers.some(
-                (modifier: Modifier): boolean => modifier.kind === SyntaxKind.PrivateKeyword
+                (modifier: Modifier | ModifierLike): boolean =>
+                  modifier.kind === SyntaxKind.PrivateKeyword
               )
             ) {
               return;

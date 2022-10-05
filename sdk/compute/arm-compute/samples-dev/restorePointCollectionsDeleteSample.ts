@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to The operation to delete the restore point collection. This operation will also delete all the contained restore points.
  *
  * @summary The operation to delete the restore point collection. This operation will also delete all the contained restore points.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/restorePointExamples/RestorePointCollections_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePointCollections_Delete_MaximumSet_Gen.json
  */
 async function restorePointCollectionsDeleteMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -36,7 +36,7 @@ restorePointCollectionsDeleteMaximumSetGen().catch(console.error);
  * This sample demonstrates how to The operation to delete the restore point collection. This operation will also delete all the contained restore points.
  *
  * @summary The operation to delete the restore point collection. This operation will also delete all the contained restore points.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/restorePointExamples/RestorePointCollections_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePointCollections_Delete_MinimumSet_Gen.json
  */
 async function restorePointCollectionsDeleteMinimumSetGen() {
   const subscriptionId = "{subscription-id}";

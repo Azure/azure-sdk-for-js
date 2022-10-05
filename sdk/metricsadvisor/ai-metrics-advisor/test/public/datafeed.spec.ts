@@ -24,7 +24,7 @@ import {
 } from "../../src";
 import { createRecordedAdminClient, testEnv, makeCredential } from "./util/recordedClients";
 import { Recorder } from "@azure-tools/test-recorder";
-import { matrix, getYieldedValue } from "@azure/test-utils";
+import { matrix, getYieldedValue, fakeTestSecretPlaceholder } from "@azure/test-utils";
 
 matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}]`, () => {
@@ -580,7 +580,7 @@ matrix([[true, false]] as const, async (useAad) => {
             connectionString: "https://connect-to-influxdb",
             database: "data-feed-database",
             userName: "user",
-            password: "SecretPlaceholder",
+            password: fakeTestSecretPlaceholder,
             query: "partition-key eq @start-time",
             authenticationType: "Basic",
           };

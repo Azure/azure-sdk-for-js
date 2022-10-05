@@ -22,7 +22,7 @@ Key links:
 
 ### Currently supported environments
 
-- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 
 See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
@@ -56,14 +56,14 @@ The [Azure Identity library][identity] provides easy Azure Active Directory supp
 ```javascript
 const {
   ContainerRegistryClient,
-  KnownContainerRegistryAudience
+  KnownContainerRegistryAudience,
 } = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT;
 // Create a ContainerRegistryClient that will authenticate through Active Directory
 const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(), {
-  audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+  audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
 });
 ```
 
@@ -79,7 +79,7 @@ To authenticate with a registry in a [National Cloud](https://docs.microsoft.com
 ```javascript
 const {
   ContainerRegistryClient,
-  KnownContainerRegistryAudience
+  KnownContainerRegistryAudience,
 } = require("@azure/container-registry");
 const { DefaultAzureCredential, AzureAuthorityHosts } = require("@azure/identity");
 
@@ -89,7 +89,7 @@ const client = new ContainerRegistryClient(
   endpoint,
   new DefaultAzureCredential({ authorityHost: AzureAuthorityHosts.AzureChina }),
   {
-    audience: KnownContainerRegistryAudience.AzureResourceManagerChina
+    audience: KnownContainerRegistryAudience.AzureResourceManagerChina,
   }
 );
 ```
@@ -111,7 +111,7 @@ Iterate through the collection of repositories in the registry.
 ```javascript
 const {
   ContainerRegistryClient,
-  KnownContainerRegistryAudience
+  KnownContainerRegistryAudience,
 } = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
 
@@ -120,7 +120,7 @@ async function main() {
   // where "myregistryname" is the actual name of your registry
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(), {
-    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
   });
 
   console.log("Listing repositories");
@@ -140,7 +140,7 @@ main().catch((err) => {
 ```javascript
 const {
   ContainerRegistryClient,
-  KnownContainerRegistryAudience
+  KnownContainerRegistryAudience,
 } = require("@azure/container-registry");
 
 async function main() {
@@ -149,7 +149,7 @@ async function main() {
 
   // Create a new ContainerRegistryClient for anonymous access
   const client = new ContainerRegistryClient(endpoint, {
-    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
   });
 
   // Obtain a RegistryArtifact object to get access to image operations
@@ -175,7 +175,7 @@ main().catch((err) => {
 ```javascript
 const {
   ContainerRegistryClient,
-  KnownContainerRegistryAudience
+  KnownContainerRegistryAudience,
 } = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
 
@@ -185,7 +185,7 @@ async function main() {
 
   // Create a new ContainerRegistryClient and RegistryArtifact to access image operations
   const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(), {
-    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
   });
   const image = client.getArtifact("library/hello-world", "v1");
 
@@ -203,7 +203,7 @@ main().catch((err) => {
 ```javascript
 const {
   ContainerRegistryClient,
-  KnownContainerRegistryAudience
+  KnownContainerRegistryAudience,
 } = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
 
@@ -212,7 +212,7 @@ async function main() {
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   // Create a new ContainerRegistryClient
   const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(), {
-    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
   });
 
   // Iterate through repositories
@@ -221,7 +221,7 @@ async function main() {
     const repository = client.getRepository(repositoryName);
     // Obtain the images ordered from newest to oldest by passing the `order` option
     const imageManifests = repository.listManifestProperties({
-      order: "LastUpdatedOnDescending"
+      order: "LastUpdatedOnDescending",
     });
     const imagesToKeep = 3;
     let imageCount = 0;
@@ -249,15 +249,7 @@ main().catch((err) => {
 
 ## Troubleshooting
 
-### Logging
-
-Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
-
-```javascript
-const { setLogLevel } = require("@azure/logger");
-
-setLogLevel("info");
-```
+For infomation about troubleshooting, refer to the [troubleshooting guide].
 
 ## Next steps
 
@@ -291,3 +283,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_sub]: https://azure.microsoft.com/free/
 [identity]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md
 [az_sdk_js]: https://github.com/Azure/azure-sdk-for-js
+[troubleshooting guide]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/TROUBLESHOOTING.md

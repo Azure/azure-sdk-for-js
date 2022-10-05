@@ -12,7 +12,6 @@ export interface SchemaProperties {
 
   /**
    * Serialization type of schema.
-   * Currently only 'avro' is supported, but this is subject to change.
    */
   format: string;
 
@@ -21,6 +20,9 @@ export interface SchemaProperties {
 
   /** Name of schema.*/
   name: string;
+
+  /** The version of schema */
+  version: number;
 }
 
 /**
@@ -35,7 +37,6 @@ export interface SchemaDescription {
 
   /**
    * The format of schema and it must match the serialization type of the schema's group.
-   * "Avro" is the only currently accepted value at the time of this package's release.
    */
   format: string;
 

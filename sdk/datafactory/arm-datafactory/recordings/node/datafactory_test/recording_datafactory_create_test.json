@@ -1,0 +1,53 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DataFactory/factories/examplefactorytest?api-version=2018-06-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "21",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-datafactory/10.8.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "29d706e8-be5d-4590-b345-00d78ffbdc1a"
+      },
+      "RequestBody": {
+        "location": "eastus"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 07 Sep 2022 08:06:19 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "0046c010-816a-4cee-97f5-511ba36f37b5",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "0046c010-816a-4cee-97f5-511ba36f37b5",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220907T080619Z:0046c010-816a-4cee-97f5-511ba36f37b5"
+      },
+      "ResponseBody": {
+        "name": "examplefactorytest",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DataFactory/factories/examplefactorytest",
+        "type": "Microsoft.DataFactory/factories",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "createTime": "2022-09-07T08:06:18.5852616Z",
+          "version": "2018-06-01"
+        },
+        "eTag": "\u00229b001bb4-0000-0100-0000-631850fa0000\u0022",
+        "location": "eastus",
+        "tags": {}
+      }
+    }
+  ],
+  "Variables": {}
+}

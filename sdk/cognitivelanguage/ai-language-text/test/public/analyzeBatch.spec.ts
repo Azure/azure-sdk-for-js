@@ -3,8 +3,6 @@
 
 import {
   AnalyzeBatchActionNames,
-  KnownExtractiveSummarizationOrderingCriteria,
-  KnownFhirVersion,
   KnownPiiEntityCategory,
   KnownPiiEntityDomain,
   KnownStringIndexType,
@@ -34,11 +32,7 @@ import {
   expectation22,
   expectation23,
   expectation24,
-  expectation25,
   expectation26,
-  expectation27,
-  expectation28,
-  expectation29,
   expectation3,
   expectation4,
   expectation5,
@@ -47,8 +41,7 @@ import {
   expectation8,
   expectation9,
 } from "./expectations";
-import { windows365ArticlePart1, windows365ArticlePart2 } from "./inputs";
-import { getDocsFromState } from "../../src/lro";
+import { getDocIDsFromState } from "../../src/lro";
 
 matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
@@ -69,6 +62,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
     describe("analyzeBatch", function () {
       const pollingInterval = isPlaybackMode() ? 0 : 2000;
+
       describe("actions", function () {
         describe("prebuilt", function () {
           it("entity recognition", async function () {
@@ -261,83 +255,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               }
             );
             await assertActionResults(await poller.pollUntilDone(), expectation20);
-          });
-
-          it("healthcare with fhir", async function () {
-            const docs = [
-              "Patient does not suffer from high blood pressure.",
-              "Prescribed 100mg ibuprofen, taken twice daily.",
-              "Baby not likely to have Meningitis. in case of fever in the mother, consider Penicillin for the baby too.",
-            ];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.Healthcare,
-                  fhirVersion: KnownFhirVersion["4.0.1"],
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionResults(await poller.pollUntilDone(), expectation25, {
-              excludedAdditionalProps: ["reference", "id", "fullUrl", "value", "date"],
-            });
-          });
-
-          it("extractive summarization", async function () {
-            const docs = [windows365ArticlePart1, windows365ArticlePart2];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.ExtractiveSummarization,
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionResults(await poller.pollUntilDone(), expectation27);
-          });
-
-          it("extractive summarization with maxSentenceCount", async function () {
-            const docs = [windows365ArticlePart1, windows365ArticlePart2];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.ExtractiveSummarization,
-                  maxSentenceCount: 2,
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionResults(await poller.pollUntilDone(), expectation28);
-          });
-
-          it("extractive summarization with orderBy", async function () {
-            const docs = [windows365ArticlePart1, windows365ArticlePart2];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.ExtractiveSummarization,
-                  orderBy: KnownExtractiveSummarizationOrderingCriteria.Rank,
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionResults(await poller.pollUntilDone(), expectation29);
           });
         });
 
@@ -915,51 +832,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           await poller.pollUntilDone();
         });
 
-        /**
-         * Cancellation causes subsequent GET requests to get 500 internal server
-         * error responses.
-         * TODO unskip after the service deploy a fix.
-         */
-        it.skip("cancel", async function () {
-          const docs = [
-            "Patient does not suffer from high blood pressure.",
-            "Prescribed 100mg ibuprofen, taken twice daily.",
-          ];
-          const originalPoller = await client.beginAnalyzeBatch(
-            [
-              {
-                kind: AnalyzeBatchActionNames.Healthcare,
-              },
-              {
-                kind: AnalyzeBatchActionNames.EntityRecognition,
-              },
-              {
-                kind: AnalyzeBatchActionNames.PiiEntityRecognition,
-              },
-              {
-                kind: AnalyzeBatchActionNames.SentimentAnalysis,
-                includeOpinionMining: true,
-              },
-            ],
-            docs,
-            "en",
-            {
-              updateIntervalInMs: pollingInterval,
-            }
-          );
-          if (originalPoller.isDone()) {
-            assert.fail(`Operation has finished processing before requested to be cancelled`);
-          }
-          await originalPoller.cancelOperation();
-          await assert.isRejected(originalPoller.pollUntilDone(), /Poller cancelled/);
-          assert.isTrue(originalPoller.getOperationState().isCancelled);
-        });
-
-        /**
-         * Cancellation causes subsequent GET requests to get 500 internal server
-         * error responses.
-         * TODO unskip after the service deploy a fix.
-         */
         it.skip("cancel after progress", async function () {
           const docs = [
             "Patient does not suffer from high blood pressure.",
@@ -980,29 +852,29 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               includeOpinionMining: true,
             },
           ];
-          const originalPoller = await client.beginAnalyzeBatch(actions, docs, "en", {
+          const poller = await client.beginAnalyzeBatch(actions, docs, "en", {
             updateIntervalInMs: 100,
           });
-
-          originalPoller.onProgress(async (state) => {
-            if (state.status === "running" && state.actionInProgressCount < actions.length) {
-              const newPoller = await client.restoreAnalyzeBatchPoller(originalPoller.toString());
-              await originalPoller.cancelOperation();
-              let nonEmptyActionResults = false;
-              for await (const actionResult of await newPoller.pollUntilDone()) {
-                nonEmptyActionResults = true;
-                if (!actionResult.error) {
-                  assert.isNotEmpty(actionResult.results);
-                } else {
-                  assert.fail("Unexpected failed action");
-                }
-              }
-              assert.isTrue(nonEmptyActionResults, "Unexpected empty action results");
-            } else if (state.status === "succeeded") {
-              assert.fail(`Operation has finished processing before requested to be cancelled`);
+          const pollPromise = poller.pollUntilDone();
+          poller.onProgress(async (state) => {
+            if (state.actionInProgressCount < actions.length) {
+              await poller.sendCancellationRequest();
             }
           });
-          await assert.isRejected(originalPoller.pollUntilDone(), /Poller cancelled/);
+          await assert.isRejected(pollPromise, /Operation was canceled/);
+          assert.equal(poller.getOperationState().status, "canceled");
+          const results = poller.getResult();
+          if (results === undefined) {
+            assert.fail(`No results found`);
+          }
+          let nonEmptyResult = false;
+          for await (const actionResult of results) {
+            nonEmptyResult = true;
+            if (actionResult.error) {
+              assert.fail("Unexpected failed action");
+            }
+          }
+          assert.isTrue(nonEmptyResult);
         });
 
         it("rehydrated polling", async function () {
@@ -1035,8 +907,13 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             assert.fail("Operation finished processing before creating a new poller");
           }
           const serializedState = originalPoller.toString();
-          assert.deepEqual(getDocsFromState(serializedState), docs);
-          const rehydratedPoller = await client.restoreAnalyzeBatchPoller(serializedState);
+          assert.deepEqual(
+            getDocIDsFromState(serializedState),
+            docs.map(({ id }) => id)
+          );
+          const rehydratedPoller = await client.restoreAnalyzeBatchPoller(serializedState, {
+            updateIntervalInMs: pollingInterval,
+          });
           await assertActionResults(await rehydratedPoller.pollUntilDone(), expectation26);
           await assertActionResults(await originalPoller.pollUntilDone(), expectation26);
         });

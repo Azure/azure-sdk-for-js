@@ -14,7 +14,7 @@ Key links:
 
 ## Getting started
 
-- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 
 ### Prerequisites
 
@@ -113,6 +113,19 @@ const { SchemaRegistryClient } = require("@azure/schema-registry");
 
 const client = new SchemaRegistryClient("<fullyQualifiedNamespace>", new DefaultAzureCredential());
 const foundSchema = await client.getSchema("<id>");
+if (foundSchema) {
+  console.log(`Got schema definition=${foundSchema.definition}`);
+}
+```
+
+### Get definition of existing schema by version
+
+```javascript
+const { DefaultAzureCredential } = require("@azure/identity");
+const { SchemaRegistryClient } = require("@azure/schema-registry");
+
+const client = new SchemaRegistryClient("<fullyQualifiedNamespace>", new DefaultAzureCredential());
+const foundSchema = await client.getSchema("<schema name>", "<group name>", version);
 if (foundSchema) {
   console.log(`Got schema definition=${foundSchema.definition}`);
 }

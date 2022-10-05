@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createTestCredential } from "@azure-tools/test-credential";
-import { SchemaRegistryClient } from "../../../src";
 import {
   Recorder,
   RecorderStartOptions,
   assertEnvironmentVariable,
 } from "@azure-tools/test-recorder";
+import { SchemaRegistryClient } from "../../../src";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: {

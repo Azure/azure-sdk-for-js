@@ -1,0 +1,10174 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import {
+  AdminRuleCollectionsCreateOrUpdateParameters,
+  AdminRuleCollectionsDeleteParameters,
+  AdminRuleCollectionsGetParameters,
+  AdminRuleCollectionsListParameters,
+  AdminRulesCreateOrUpdateParameters,
+  AdminRulesDeleteParameters,
+  AdminRulesGetParameters,
+  AdminRulesListParameters,
+  ApplicationGatewayPrivateEndpointConnectionsDeleteParameters,
+  ApplicationGatewayPrivateEndpointConnectionsGetParameters,
+  ApplicationGatewayPrivateEndpointConnectionsListParameters,
+  ApplicationGatewayPrivateEndpointConnectionsUpdateParameters,
+  ApplicationGatewayPrivateLinkResourcesListParameters,
+  ApplicationGatewayWafDynamicManifestsDefaultGetParameters,
+  ApplicationGatewayWafDynamicManifestsGetParameters,
+  ApplicationGatewaysBackendHealthOnDemandParameters,
+  ApplicationGatewaysBackendHealthParameters,
+  ApplicationGatewaysCreateOrUpdateParameters,
+  ApplicationGatewaysDeleteParameters,
+  ApplicationGatewaysGetParameters,
+  ApplicationGatewaysGetSslPredefinedPolicyParameters,
+  ApplicationGatewaysListAllParameters,
+  ApplicationGatewaysListAvailableRequestHeadersParameters,
+  ApplicationGatewaysListAvailableResponseHeadersParameters,
+  ApplicationGatewaysListAvailableServerVariablesParameters,
+  ApplicationGatewaysListAvailableSslOptionsParameters,
+  ApplicationGatewaysListAvailableSslPredefinedPoliciesParameters,
+  ApplicationGatewaysListAvailableWafRuleSetsParameters,
+  ApplicationGatewaysListParameters,
+  ApplicationGatewaysStartParameters,
+  ApplicationGatewaysStopParameters,
+  ApplicationGatewaysUpdateTagsParameters,
+  ApplicationSecurityGroupsCreateOrUpdateParameters,
+  ApplicationSecurityGroupsDeleteParameters,
+  ApplicationSecurityGroupsGetParameters,
+  ApplicationSecurityGroupsListAllParameters,
+  ApplicationSecurityGroupsListParameters,
+  ApplicationSecurityGroupsUpdateTagsParameters,
+  AvailableDelegationsListParameters,
+  AvailableEndpointServicesListParameters,
+  AvailablePrivateEndpointTypesListByResourceGroupParameters,
+  AvailablePrivateEndpointTypesListParameters,
+  AvailableResourceGroupDelegationsListParameters,
+  AvailableServiceAliasesListByResourceGroupParameters,
+  AvailableServiceAliasesListParameters,
+  AzureFirewallFqdnTagsListAllParameters,
+  AzureFirewallsCreateOrUpdateParameters,
+  AzureFirewallsDeleteParameters,
+  AzureFirewallsGetParameters,
+  AzureFirewallsListAllParameters,
+  AzureFirewallsListLearnedPrefixesParameters,
+  AzureFirewallsListParameters,
+  AzureFirewallsUpdateTagsParameters,
+  BastionHostsCreateOrUpdateParameters,
+  BastionHostsDeleteParameters,
+  BastionHostsGetParameters,
+  BastionHostsListByResourceGroupParameters,
+  BastionHostsListParameters,
+  BastionHostsUpdateTagsParameters,
+  BgpServiceCommunitiesListParameters,
+  CheckDnsNameAvailabilityParameters,
+  ConfigurationPolicyGroupsCreateOrUpdateParameters,
+  ConfigurationPolicyGroupsDeleteParameters,
+  ConfigurationPolicyGroupsGetParameters,
+  ConfigurationPolicyGroupsListByVpnServerConfigurationParameters,
+  ConnectionMonitorsCreateOrUpdateParameters,
+  ConnectionMonitorsDeleteParameters,
+  ConnectionMonitorsGetParameters,
+  ConnectionMonitorsListParameters,
+  ConnectionMonitorsQueryParameters,
+  ConnectionMonitorsStartParameters,
+  ConnectionMonitorsStopParameters,
+  ConnectionMonitorsUpdateTagsParameters,
+  ConnectivityConfigurationsCreateOrUpdateParameters,
+  ConnectivityConfigurationsDeleteParameters,
+  ConnectivityConfigurationsGetParameters,
+  ConnectivityConfigurationsListParameters,
+  CustomIPPrefixesCreateOrUpdateParameters,
+  CustomIPPrefixesDeleteParameters,
+  CustomIPPrefixesGetParameters,
+  CustomIPPrefixesListAllParameters,
+  CustomIPPrefixesListParameters,
+  CustomIPPrefixesUpdateTagsParameters,
+  DdosCustomPoliciesCreateOrUpdateParameters,
+  DdosCustomPoliciesDeleteParameters,
+  DdosCustomPoliciesGetParameters,
+  DdosCustomPoliciesUpdateTagsParameters,
+  DdosProtectionPlansCreateOrUpdateParameters,
+  DdosProtectionPlansDeleteParameters,
+  DdosProtectionPlansGetParameters,
+  DdosProtectionPlansListByResourceGroupParameters,
+  DdosProtectionPlansListParameters,
+  DdosProtectionPlansUpdateTagsParameters,
+  DefaultSecurityRulesGetParameters,
+  DefaultSecurityRulesListParameters,
+  DeleteBastionShareableLinkParameters,
+  DisconnectActiveSessionsParameters,
+  DscpConfigurationCreateOrUpdateParameters,
+  DscpConfigurationDeleteParameters,
+  DscpConfigurationGetParameters,
+  DscpConfigurationListAllParameters,
+  DscpConfigurationListParameters,
+  ExpressRouteCircuitAuthorizationsCreateOrUpdateParameters,
+  ExpressRouteCircuitAuthorizationsDeleteParameters,
+  ExpressRouteCircuitAuthorizationsGetParameters,
+  ExpressRouteCircuitAuthorizationsListParameters,
+  ExpressRouteCircuitConnectionsCreateOrUpdateParameters,
+  ExpressRouteCircuitConnectionsDeleteParameters,
+  ExpressRouteCircuitConnectionsGetParameters,
+  ExpressRouteCircuitConnectionsListParameters,
+  ExpressRouteCircuitPeeringsCreateOrUpdateParameters,
+  ExpressRouteCircuitPeeringsDeleteParameters,
+  ExpressRouteCircuitPeeringsGetParameters,
+  ExpressRouteCircuitPeeringsListParameters,
+  ExpressRouteCircuitsCreateOrUpdateParameters,
+  ExpressRouteCircuitsDeleteParameters,
+  ExpressRouteCircuitsGetParameters,
+  ExpressRouteCircuitsGetPeeringStatsParameters,
+  ExpressRouteCircuitsGetStatsParameters,
+  ExpressRouteCircuitsListAllParameters,
+  ExpressRouteCircuitsListArpTableParameters,
+  ExpressRouteCircuitsListParameters,
+  ExpressRouteCircuitsListRoutesTableParameters,
+  ExpressRouteCircuitsListRoutesTableSummaryParameters,
+  ExpressRouteCircuitsUpdateTagsParameters,
+  ExpressRouteConnectionsCreateOrUpdateParameters,
+  ExpressRouteConnectionsDeleteParameters,
+  ExpressRouteConnectionsGetParameters,
+  ExpressRouteConnectionsListParameters,
+  ExpressRouteCrossConnectionPeeringsCreateOrUpdateParameters,
+  ExpressRouteCrossConnectionPeeringsDeleteParameters,
+  ExpressRouteCrossConnectionPeeringsGetParameters,
+  ExpressRouteCrossConnectionPeeringsListParameters,
+  ExpressRouteCrossConnectionsCreateOrUpdateParameters,
+  ExpressRouteCrossConnectionsGetParameters,
+  ExpressRouteCrossConnectionsListArpTableParameters,
+  ExpressRouteCrossConnectionsListByResourceGroupParameters,
+  ExpressRouteCrossConnectionsListParameters,
+  ExpressRouteCrossConnectionsListRoutesTableParameters,
+  ExpressRouteCrossConnectionsListRoutesTableSummaryParameters,
+  ExpressRouteCrossConnectionsUpdateTagsParameters,
+  ExpressRouteGatewaysCreateOrUpdateParameters,
+  ExpressRouteGatewaysDeleteParameters,
+  ExpressRouteGatewaysGetParameters,
+  ExpressRouteGatewaysListByResourceGroupParameters,
+  ExpressRouteGatewaysListBySubscriptionParameters,
+  ExpressRouteGatewaysUpdateTagsParameters,
+  ExpressRouteLinksGetParameters,
+  ExpressRouteLinksListParameters,
+  ExpressRoutePortAuthorizationsCreateOrUpdateParameters,
+  ExpressRoutePortAuthorizationsDeleteParameters,
+  ExpressRoutePortAuthorizationsGetParameters,
+  ExpressRoutePortAuthorizationsListParameters,
+  ExpressRoutePortsCreateOrUpdateParameters,
+  ExpressRoutePortsDeleteParameters,
+  ExpressRoutePortsGenerateLOAParameters,
+  ExpressRoutePortsGetParameters,
+  ExpressRoutePortsListByResourceGroupParameters,
+  ExpressRoutePortsListParameters,
+  ExpressRoutePortsLocationsGetParameters,
+  ExpressRoutePortsLocationsListParameters,
+  ExpressRoutePortsUpdateTagsParameters,
+  ExpressRouteProviderPortsGetParameters,
+  ExpressRouteProviderPortsLocationListParameters,
+  ExpressRouteServiceProvidersListParameters,
+  FirewallPoliciesCreateOrUpdateParameters,
+  FirewallPoliciesDeleteParameters,
+  FirewallPoliciesGetParameters,
+  FirewallPoliciesListAllParameters,
+  FirewallPoliciesListParameters,
+  FirewallPoliciesUpdateTagsParameters,
+  FirewallPolicyIdpsSignaturesFilterValuesListParameters,
+  FirewallPolicyIdpsSignaturesListParameters,
+  FirewallPolicyIdpsSignaturesOverridesGetParameters,
+  FirewallPolicyIdpsSignaturesOverridesListParameters,
+  FirewallPolicyIdpsSignaturesOverridesPatchParameters,
+  FirewallPolicyIdpsSignaturesOverridesPutParameters,
+  FirewallPolicyRuleCollectionGroupsCreateOrUpdateParameters,
+  FirewallPolicyRuleCollectionGroupsDeleteParameters,
+  FirewallPolicyRuleCollectionGroupsGetParameters,
+  FirewallPolicyRuleCollectionGroupsListParameters,
+  FlowLogsCreateOrUpdateParameters,
+  FlowLogsDeleteParameters,
+  FlowLogsGetParameters,
+  FlowLogsListParameters,
+  FlowLogsUpdateTagsParameters,
+  GeneratevirtualwanvpnserverconfigurationvpnprofileParameters,
+  GetActiveSessionsParameters,
+  GetBastionShareableLinkParameters,
+  HubRouteTablesCreateOrUpdateParameters,
+  HubRouteTablesDeleteParameters,
+  HubRouteTablesGetParameters,
+  HubRouteTablesListParameters,
+  HubVirtualNetworkConnectionsCreateOrUpdateParameters,
+  HubVirtualNetworkConnectionsDeleteParameters,
+  HubVirtualNetworkConnectionsGetParameters,
+  HubVirtualNetworkConnectionsListParameters,
+  InboundNatRulesCreateOrUpdateParameters,
+  InboundNatRulesDeleteParameters,
+  InboundNatRulesGetParameters,
+  InboundNatRulesListParameters,
+  InboundSecurityRuleCreateOrUpdateParameters,
+  IpAllocationsCreateOrUpdateParameters,
+  IpAllocationsDeleteParameters,
+  IpAllocationsGetParameters,
+  IpAllocationsListByResourceGroupParameters,
+  IpAllocationsListParameters,
+  IpAllocationsUpdateTagsParameters,
+  IpGroupsCreateOrUpdateParameters,
+  IpGroupsDeleteParameters,
+  IpGroupsGetParameters,
+  IpGroupsListByResourceGroupParameters,
+  IpGroupsListParameters,
+  IpGroupsUpdateGroupsParameters,
+  ListActiveConnectivityConfigurationsParameters,
+  ListActiveSecurityAdminRulesParameters,
+  ListNetworkManagerEffectiveConnectivityConfigurationsParameters,
+  ListNetworkManagerEffectiveSecurityAdminRulesParameters,
+  LoadBalancerBackendAddressPoolsCreateOrUpdateParameters,
+  LoadBalancerBackendAddressPoolsDeleteParameters,
+  LoadBalancerBackendAddressPoolsGetParameters,
+  LoadBalancerBackendAddressPoolsListParameters,
+  LoadBalancerFrontendIPConfigurationsGetParameters,
+  LoadBalancerFrontendIPConfigurationsListParameters,
+  LoadBalancerLoadBalancingRulesGetParameters,
+  LoadBalancerLoadBalancingRulesListParameters,
+  LoadBalancerNetworkInterfacesListParameters,
+  LoadBalancerOutboundRulesGetParameters,
+  LoadBalancerOutboundRulesListParameters,
+  LoadBalancerProbesGetParameters,
+  LoadBalancerProbesListParameters,
+  LoadBalancersCreateOrUpdateParameters,
+  LoadBalancersDeleteParameters,
+  LoadBalancersGetParameters,
+  LoadBalancersListAllParameters,
+  LoadBalancersListInboundNatRulePortMappingsParameters,
+  LoadBalancersListParameters,
+  LoadBalancersSwapPublicIpAddressesParameters,
+  LoadBalancersUpdateTagsParameters,
+  LocalNetworkGatewaysCreateOrUpdateParameters,
+  LocalNetworkGatewaysDeleteParameters,
+  LocalNetworkGatewaysGetParameters,
+  LocalNetworkGatewaysListParameters,
+  LocalNetworkGatewaysUpdateTagsParameters,
+  ManagementGroupNetworkManagerConnectionsCreateOrUpdateParameters,
+  ManagementGroupNetworkManagerConnectionsDeleteParameters,
+  ManagementGroupNetworkManagerConnectionsGetParameters,
+  ManagementGroupNetworkManagerConnectionsListParameters,
+  NatGatewaysCreateOrUpdateParameters,
+  NatGatewaysDeleteParameters,
+  NatGatewaysGetParameters,
+  NatGatewaysListAllParameters,
+  NatGatewaysListParameters,
+  NatGatewaysUpdateTagsParameters,
+  NatRulesCreateOrUpdateParameters,
+  NatRulesDeleteParameters,
+  NatRulesGetParameters,
+  NatRulesListByVpnGatewayParameters,
+  NetworkGroupsCreateOrUpdateParameters,
+  NetworkGroupsDeleteParameters,
+  NetworkGroupsGetParameters,
+  NetworkGroupsListParameters,
+  NetworkInterfaceIPConfigurationsGetParameters,
+  NetworkInterfaceIPConfigurationsListParameters,
+  NetworkInterfaceLoadBalancersListParameters,
+  NetworkInterfaceTapConfigurationsCreateOrUpdateParameters,
+  NetworkInterfaceTapConfigurationsDeleteParameters,
+  NetworkInterfaceTapConfigurationsGetParameters,
+  NetworkInterfaceTapConfigurationsListParameters,
+  NetworkInterfacesCreateOrUpdateParameters,
+  NetworkInterfacesDeleteParameters,
+  NetworkInterfacesGetCloudServiceNetworkInterfaceParameters,
+  NetworkInterfacesGetEffectiveRouteTableParameters,
+  NetworkInterfacesGetParameters,
+  NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationParameters,
+  NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceParameters,
+  NetworkInterfacesListAllParameters,
+  NetworkInterfacesListCloudServiceNetworkInterfacesParameters,
+  NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesParameters,
+  NetworkInterfacesListEffectiveNetworkSecurityGroupsParameters,
+  NetworkInterfacesListParameters,
+  NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsParameters,
+  NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesParameters,
+  NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesParameters,
+  NetworkInterfacesUpdateTagsParameters,
+  NetworkManagerCommitsPostParameters,
+  NetworkManagerDeploymentStatusListParameters,
+  NetworkManagersCreateOrUpdateParameters,
+  NetworkManagersDeleteParameters,
+  NetworkManagersGetParameters,
+  NetworkManagersListBySubscriptionParameters,
+  NetworkManagersListParameters,
+  NetworkManagersPatchParameters,
+  NetworkProfilesCreateOrUpdateParameters,
+  NetworkProfilesDeleteParameters,
+  NetworkProfilesGetParameters,
+  NetworkProfilesListAllParameters,
+  NetworkProfilesListParameters,
+  NetworkProfilesUpdateTagsParameters,
+  NetworkSecurityGroupsCreateOrUpdateParameters,
+  NetworkSecurityGroupsDeleteParameters,
+  NetworkSecurityGroupsGetParameters,
+  NetworkSecurityGroupsListAllParameters,
+  NetworkSecurityGroupsListParameters,
+  NetworkSecurityGroupsUpdateTagsParameters,
+  NetworkVirtualAppliancesCreateOrUpdateParameters,
+  NetworkVirtualAppliancesDeleteParameters,
+  NetworkVirtualAppliancesGetParameters,
+  NetworkVirtualAppliancesListByResourceGroupParameters,
+  NetworkVirtualAppliancesListParameters,
+  NetworkVirtualAppliancesUpdateTagsParameters,
+  NetworkWatchersCheckConnectivityParameters,
+  NetworkWatchersCreateOrUpdateParameters,
+  NetworkWatchersDeleteParameters,
+  NetworkWatchersGetAzureReachabilityReportParameters,
+  NetworkWatchersGetFlowLogStatusParameters,
+  NetworkWatchersGetNetworkConfigurationDiagnosticParameters,
+  NetworkWatchersGetNextHopParameters,
+  NetworkWatchersGetParameters,
+  NetworkWatchersGetTopologyParameters,
+  NetworkWatchersGetTroubleshootingParameters,
+  NetworkWatchersGetTroubleshootingResultParameters,
+  NetworkWatchersGetVMSecurityRulesParameters,
+  NetworkWatchersListAllParameters,
+  NetworkWatchersListAvailableProvidersParameters,
+  NetworkWatchersListParameters,
+  NetworkWatchersSetFlowLogConfigurationParameters,
+  NetworkWatchersUpdateTagsParameters,
+  NetworkWatchersVerifyIPFlowParameters,
+  OperationsListParameters,
+  P2SVpnGatewaysCreateOrUpdateParameters,
+  P2SVpnGatewaysDeleteParameters,
+  P2SVpnGatewaysDisconnectP2SVpnConnectionsParameters,
+  P2SVpnGatewaysGenerateVpnProfileParameters,
+  P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedParameters,
+  P2SVpnGatewaysGetP2SVpnConnectionHealthParameters,
+  P2SVpnGatewaysGetParameters,
+  P2SVpnGatewaysListByResourceGroupParameters,
+  P2SVpnGatewaysListParameters,
+  P2SVpnGatewaysResetParameters,
+  P2SVpnGatewaysUpdateTagsParameters,
+  PacketCapturesCreateParameters,
+  PacketCapturesDeleteParameters,
+  PacketCapturesGetParameters,
+  PacketCapturesGetStatusParameters,
+  PacketCapturesListParameters,
+  PacketCapturesStopParameters,
+  PeerExpressRouteCircuitConnectionsGetParameters,
+  PeerExpressRouteCircuitConnectionsListParameters,
+  PrivateDnsZoneGroupsCreateOrUpdateParameters,
+  PrivateDnsZoneGroupsDeleteParameters,
+  PrivateDnsZoneGroupsGetParameters,
+  PrivateDnsZoneGroupsListParameters,
+  PrivateEndpointsCreateOrUpdateParameters,
+  PrivateEndpointsDeleteParameters,
+  PrivateEndpointsGetParameters,
+  PrivateEndpointsListBySubscriptionParameters,
+  PrivateEndpointsListParameters,
+  PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupParameters,
+  PrivateLinkServicesCheckPrivateLinkServiceVisibilityParameters,
+  PrivateLinkServicesCreateOrUpdateParameters,
+  PrivateLinkServicesDeleteParameters,
+  PrivateLinkServicesDeletePrivateEndpointConnectionParameters,
+  PrivateLinkServicesGetParameters,
+  PrivateLinkServicesGetPrivateEndpointConnectionParameters,
+  PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupParameters,
+  PrivateLinkServicesListAutoApprovedPrivateLinkServicesParameters,
+  PrivateLinkServicesListBySubscriptionParameters,
+  PrivateLinkServicesListParameters,
+  PrivateLinkServicesListPrivateEndpointConnectionsParameters,
+  PrivateLinkServicesUpdatePrivateEndpointConnectionParameters,
+  PublicIPAddressesCreateOrUpdateParameters,
+  PublicIPAddressesDdosProtectionStatusParameters,
+  PublicIPAddressesDeleteParameters,
+  PublicIPAddressesGetCloudServicePublicIPAddressParameters,
+  PublicIPAddressesGetParameters,
+  PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressParameters,
+  PublicIPAddressesListAllParameters,
+  PublicIPAddressesListCloudServicePublicIPAddressesParameters,
+  PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesParameters,
+  PublicIPAddressesListParameters,
+  PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesParameters,
+  PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesParameters,
+  PublicIPAddressesUpdateTagsParameters,
+  PublicIPPrefixesCreateOrUpdateParameters,
+  PublicIPPrefixesDeleteParameters,
+  PublicIPPrefixesGetParameters,
+  PublicIPPrefixesListAllParameters,
+  PublicIPPrefixesListParameters,
+  PublicIPPrefixesUpdateTagsParameters,
+  PutBastionShareableLinkParameters,
+  ResourceNavigationLinksListParameters,
+  RouteFilterRulesCreateOrUpdateParameters,
+  RouteFilterRulesDeleteParameters,
+  RouteFilterRulesGetParameters,
+  RouteFilterRulesListByRouteFilterParameters,
+  RouteFiltersCreateOrUpdateParameters,
+  RouteFiltersDeleteParameters,
+  RouteFiltersGetParameters,
+  RouteFiltersListByResourceGroupParameters,
+  RouteFiltersListParameters,
+  RouteFiltersUpdateTagsParameters,
+  RouteMapsCreateOrUpdateParameters,
+  RouteMapsDeleteParameters,
+  RouteMapsGetParameters,
+  RouteMapsListParameters,
+  RouteTablesCreateOrUpdateParameters,
+  RouteTablesDeleteParameters,
+  RouteTablesGetParameters,
+  RouteTablesListAllParameters,
+  RouteTablesListParameters,
+  RouteTablesUpdateTagsParameters,
+  RoutesCreateOrUpdateParameters,
+  RoutesDeleteParameters,
+  RoutesGetParameters,
+  RoutesListParameters,
+  RoutingIntentCreateOrUpdateParameters,
+  RoutingIntentDeleteParameters,
+  RoutingIntentGetParameters,
+  RoutingIntentListParameters,
+  ScopeConnectionsCreateOrUpdateParameters,
+  ScopeConnectionsDeleteParameters,
+  ScopeConnectionsGetParameters,
+  ScopeConnectionsListParameters,
+  SecurityAdminConfigurationsCreateOrUpdateParameters,
+  SecurityAdminConfigurationsDeleteParameters,
+  SecurityAdminConfigurationsGetParameters,
+  SecurityAdminConfigurationsListParameters,
+  SecurityPartnerProvidersCreateOrUpdateParameters,
+  SecurityPartnerProvidersDeleteParameters,
+  SecurityPartnerProvidersGetParameters,
+  SecurityPartnerProvidersListByResourceGroupParameters,
+  SecurityPartnerProvidersListParameters,
+  SecurityPartnerProvidersUpdateTagsParameters,
+  SecurityRulesCreateOrUpdateParameters,
+  SecurityRulesDeleteParameters,
+  SecurityRulesGetParameters,
+  SecurityRulesListParameters,
+  ServiceAssociationLinksListParameters,
+  ServiceEndpointPoliciesCreateOrUpdateParameters,
+  ServiceEndpointPoliciesDeleteParameters,
+  ServiceEndpointPoliciesGetParameters,
+  ServiceEndpointPoliciesListByResourceGroupParameters,
+  ServiceEndpointPoliciesListParameters,
+  ServiceEndpointPoliciesUpdateTagsParameters,
+  ServiceEndpointPolicyDefinitionsCreateOrUpdateParameters,
+  ServiceEndpointPolicyDefinitionsDeleteParameters,
+  ServiceEndpointPolicyDefinitionsGetParameters,
+  ServiceEndpointPolicyDefinitionsListByResourceGroupParameters,
+  ServiceTagInformationListParameters,
+  ServiceTagsListParameters,
+  StaticMembersCreateOrUpdateParameters,
+  StaticMembersDeleteParameters,
+  StaticMembersGetParameters,
+  StaticMembersListParameters,
+  SubnetsCreateOrUpdateParameters,
+  SubnetsDeleteParameters,
+  SubnetsGetParameters,
+  SubnetsListParameters,
+  SubnetsPrepareNetworkPoliciesParameters,
+  SubnetsUnprepareNetworkPoliciesParameters,
+  SubscriptionNetworkManagerConnectionsCreateOrUpdateParameters,
+  SubscriptionNetworkManagerConnectionsDeleteParameters,
+  SubscriptionNetworkManagerConnectionsGetParameters,
+  SubscriptionNetworkManagerConnectionsListParameters,
+  SupportedSecurityProvidersParameters,
+  UsagesListParameters,
+  VipSwapCreateParameters,
+  VipSwapGetParameters,
+  VipSwapListParameters,
+  VirtualApplianceSitesCreateOrUpdateParameters,
+  VirtualApplianceSitesDeleteParameters,
+  VirtualApplianceSitesGetParameters,
+  VirtualApplianceSitesListParameters,
+  VirtualApplianceSkusGetParameters,
+  VirtualApplianceSkusListParameters,
+  VirtualHubBgpConnectionCreateOrUpdateParameters,
+  VirtualHubBgpConnectionDeleteParameters,
+  VirtualHubBgpConnectionGetParameters,
+  VirtualHubBgpConnectionsListAdvertisedRoutesParameters,
+  VirtualHubBgpConnectionsListLearnedRoutesParameters,
+  VirtualHubBgpConnectionsListParameters,
+  VirtualHubIpConfigurationCreateOrUpdateParameters,
+  VirtualHubIpConfigurationDeleteParameters,
+  VirtualHubIpConfigurationGetParameters,
+  VirtualHubIpConfigurationListParameters,
+  VirtualHubRouteTableV2SCreateOrUpdateParameters,
+  VirtualHubRouteTableV2SDeleteParameters,
+  VirtualHubRouteTableV2SGetParameters,
+  VirtualHubRouteTableV2SListParameters,
+  VirtualHubsCreateOrUpdateParameters,
+  VirtualHubsDeleteParameters,
+  VirtualHubsGetEffectiveVirtualHubRoutesParameters,
+  VirtualHubsGetInboundRoutesParameters,
+  VirtualHubsGetOutboundRoutesParameters,
+  VirtualHubsGetParameters,
+  VirtualHubsListByResourceGroupParameters,
+  VirtualHubsListParameters,
+  VirtualHubsUpdateTagsParameters,
+  VirtualNetworkGatewayConnectionsCreateOrUpdateParameters,
+  VirtualNetworkGatewayConnectionsDeleteParameters,
+  VirtualNetworkGatewayConnectionsGetIkeSasParameters,
+  VirtualNetworkGatewayConnectionsGetParameters,
+  VirtualNetworkGatewayConnectionsGetSharedKeyParameters,
+  VirtualNetworkGatewayConnectionsListParameters,
+  VirtualNetworkGatewayConnectionsResetConnectionParameters,
+  VirtualNetworkGatewayConnectionsResetSharedKeyParameters,
+  VirtualNetworkGatewayConnectionsSetSharedKeyParameters,
+  VirtualNetworkGatewayConnectionsStartPacketCaptureParameters,
+  VirtualNetworkGatewayConnectionsStopPacketCaptureParameters,
+  VirtualNetworkGatewayConnectionsUpdateTagsParameters,
+  VirtualNetworkGatewayNatRulesCreateOrUpdateParameters,
+  VirtualNetworkGatewayNatRulesDeleteParameters,
+  VirtualNetworkGatewayNatRulesGetParameters,
+  VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayParameters,
+  VirtualNetworkGatewaysCreateOrUpdateParameters,
+  VirtualNetworkGatewaysDeleteParameters,
+  VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsParameters,
+  VirtualNetworkGatewaysGenerateVpnProfileParameters,
+  VirtualNetworkGatewaysGeneratevpnclientpackageParameters,
+  VirtualNetworkGatewaysGetAdvertisedRoutesParameters,
+  VirtualNetworkGatewaysGetBgpPeerStatusParameters,
+  VirtualNetworkGatewaysGetLearnedRoutesParameters,
+  VirtualNetworkGatewaysGetParameters,
+  VirtualNetworkGatewaysGetVpnProfilePackageUrlParameters,
+  VirtualNetworkGatewaysGetVpnclientConnectionHealthParameters,
+  VirtualNetworkGatewaysGetVpnclientIpsecParametersParameters,
+  VirtualNetworkGatewaysListConnectionsParameters,
+  VirtualNetworkGatewaysListParameters,
+  VirtualNetworkGatewaysResetParameters,
+  VirtualNetworkGatewaysResetVpnClientSharedKeyParameters,
+  VirtualNetworkGatewaysSetVpnclientIpsecParametersParameters,
+  VirtualNetworkGatewaysStartPacketCaptureParameters,
+  VirtualNetworkGatewaysStopPacketCaptureParameters,
+  VirtualNetworkGatewaysSupportedVpnDevicesParameters,
+  VirtualNetworkGatewaysUpdateTagsParameters,
+  VirtualNetworkGatewaysVpnDeviceConfigurationScriptParameters,
+  VirtualNetworkPeeringsCreateOrUpdateParameters,
+  VirtualNetworkPeeringsDeleteParameters,
+  VirtualNetworkPeeringsGetParameters,
+  VirtualNetworkPeeringsListParameters,
+  VirtualNetworkTapsCreateOrUpdateParameters,
+  VirtualNetworkTapsDeleteParameters,
+  VirtualNetworkTapsGetParameters,
+  VirtualNetworkTapsListAllParameters,
+  VirtualNetworkTapsListByResourceGroupParameters,
+  VirtualNetworkTapsUpdateTagsParameters,
+  VirtualNetworksCheckIPAddressAvailabilityParameters,
+  VirtualNetworksCreateOrUpdateParameters,
+  VirtualNetworksDeleteParameters,
+  VirtualNetworksGetParameters,
+  VirtualNetworksListAllParameters,
+  VirtualNetworksListDdosProtectionStatusParameters,
+  VirtualNetworksListParameters,
+  VirtualNetworksListUsageParameters,
+  VirtualNetworksUpdateTagsParameters,
+  VirtualRouterPeeringsCreateOrUpdateParameters,
+  VirtualRouterPeeringsDeleteParameters,
+  VirtualRouterPeeringsGetParameters,
+  VirtualRouterPeeringsListParameters,
+  VirtualRoutersCreateOrUpdateParameters,
+  VirtualRoutersDeleteParameters,
+  VirtualRoutersGetParameters,
+  VirtualRoutersListByResourceGroupParameters,
+  VirtualRoutersListParameters,
+  VirtualWansCreateOrUpdateParameters,
+  VirtualWansDeleteParameters,
+  VirtualWansGetParameters,
+  VirtualWansListByResourceGroupParameters,
+  VirtualWansListParameters,
+  VirtualWansUpdateTagsParameters,
+  VpnConnectionsCreateOrUpdateParameters,
+  VpnConnectionsDeleteParameters,
+  VpnConnectionsGetParameters,
+  VpnConnectionsListByVpnGatewayParameters,
+  VpnConnectionsStartPacketCaptureParameters,
+  VpnConnectionsStopPacketCaptureParameters,
+  VpnGatewaysCreateOrUpdateParameters,
+  VpnGatewaysDeleteParameters,
+  VpnGatewaysGetParameters,
+  VpnGatewaysListByResourceGroupParameters,
+  VpnGatewaysListParameters,
+  VpnGatewaysResetParameters,
+  VpnGatewaysStartPacketCaptureParameters,
+  VpnGatewaysStopPacketCaptureParameters,
+  VpnGatewaysUpdateTagsParameters,
+  VpnLinkConnectionsGetIkeSasParameters,
+  VpnLinkConnectionsListByVpnConnectionParameters,
+  VpnLinkConnectionsResetConnectionParameters,
+  VpnServerConfigurationsAssociatedWithVirtualWanListParameters,
+  VpnServerConfigurationsCreateOrUpdateParameters,
+  VpnServerConfigurationsDeleteParameters,
+  VpnServerConfigurationsGetParameters,
+  VpnServerConfigurationsListByResourceGroupParameters,
+  VpnServerConfigurationsListParameters,
+  VpnServerConfigurationsUpdateTagsParameters,
+  VpnSiteLinkConnectionsGetParameters,
+  VpnSiteLinksGetParameters,
+  VpnSiteLinksListByVpnSiteParameters,
+  VpnSitesConfigurationDownloadParameters,
+  VpnSitesCreateOrUpdateParameters,
+  VpnSitesDeleteParameters,
+  VpnSitesGetParameters,
+  VpnSitesListByResourceGroupParameters,
+  VpnSitesListParameters,
+  VpnSitesUpdateTagsParameters,
+  WebApplicationFirewallPoliciesCreateOrUpdateParameters,
+  WebApplicationFirewallPoliciesDeleteParameters,
+  WebApplicationFirewallPoliciesGetParameters,
+  WebApplicationFirewallPoliciesListAllParameters,
+  WebApplicationFirewallPoliciesListParameters,
+  WebCategoriesGetParameters,
+  WebCategoriesListBySubscriptionParameters,
+} from "./parameters";
+import {
+  AdminRuleCollectionsCreateOrUpdate200Response,
+  AdminRuleCollectionsCreateOrUpdate201Response,
+  AdminRuleCollectionsCreateOrUpdateDefaultResponse,
+  AdminRuleCollectionsDelete200Response,
+  AdminRuleCollectionsDelete202Response,
+  AdminRuleCollectionsDelete204Response,
+  AdminRuleCollectionsDeleteDefaultResponse,
+  AdminRuleCollectionsGet200Response,
+  AdminRuleCollectionsGetDefaultResponse,
+  AdminRuleCollectionsList200Response,
+  AdminRuleCollectionsListDefaultResponse,
+  AdminRulesCreateOrUpdate200Response,
+  AdminRulesCreateOrUpdate201Response,
+  AdminRulesCreateOrUpdateDefaultResponse,
+  AdminRulesDelete200Response,
+  AdminRulesDelete202Response,
+  AdminRulesDelete204Response,
+  AdminRulesDeleteDefaultResponse,
+  AdminRulesGet200Response,
+  AdminRulesGetDefaultResponse,
+  AdminRulesList200Response,
+  AdminRulesListDefaultResponse,
+  ApplicationGatewayPrivateEndpointConnectionsDelete200Response,
+  ApplicationGatewayPrivateEndpointConnectionsDelete202Response,
+  ApplicationGatewayPrivateEndpointConnectionsDelete204Response,
+  ApplicationGatewayPrivateEndpointConnectionsDeleteDefaultResponse,
+  ApplicationGatewayPrivateEndpointConnectionsGet200Response,
+  ApplicationGatewayPrivateEndpointConnectionsGetDefaultResponse,
+  ApplicationGatewayPrivateEndpointConnectionsList200Response,
+  ApplicationGatewayPrivateEndpointConnectionsListDefaultResponse,
+  ApplicationGatewayPrivateEndpointConnectionsUpdate200Response,
+  ApplicationGatewayPrivateEndpointConnectionsUpdate202Response,
+  ApplicationGatewayPrivateEndpointConnectionsUpdateDefaultResponse,
+  ApplicationGatewayPrivateLinkResourcesList200Response,
+  ApplicationGatewayPrivateLinkResourcesListDefaultResponse,
+  ApplicationGatewayWafDynamicManifestsDefaultGet200Response,
+  ApplicationGatewayWafDynamicManifestsDefaultGetDefaultResponse,
+  ApplicationGatewayWafDynamicManifestsGet200Response,
+  ApplicationGatewayWafDynamicManifestsGetDefaultResponse,
+  ApplicationGatewaysBackendHealth200Response,
+  ApplicationGatewaysBackendHealth202Response,
+  ApplicationGatewaysBackendHealthDefaultResponse,
+  ApplicationGatewaysBackendHealthOnDemand200Response,
+  ApplicationGatewaysBackendHealthOnDemand202Response,
+  ApplicationGatewaysBackendHealthOnDemandDefaultResponse,
+  ApplicationGatewaysCreateOrUpdate200Response,
+  ApplicationGatewaysCreateOrUpdate201Response,
+  ApplicationGatewaysCreateOrUpdateDefaultResponse,
+  ApplicationGatewaysDelete200Response,
+  ApplicationGatewaysDelete202Response,
+  ApplicationGatewaysDelete204Response,
+  ApplicationGatewaysDeleteDefaultResponse,
+  ApplicationGatewaysGet200Response,
+  ApplicationGatewaysGetDefaultResponse,
+  ApplicationGatewaysGetSslPredefinedPolicy200Response,
+  ApplicationGatewaysGetSslPredefinedPolicyDefaultResponse,
+  ApplicationGatewaysList200Response,
+  ApplicationGatewaysListAll200Response,
+  ApplicationGatewaysListAllDefaultResponse,
+  ApplicationGatewaysListAvailableRequestHeaders200Response,
+  ApplicationGatewaysListAvailableRequestHeadersDefaultResponse,
+  ApplicationGatewaysListAvailableResponseHeaders200Response,
+  ApplicationGatewaysListAvailableResponseHeadersDefaultResponse,
+  ApplicationGatewaysListAvailableServerVariables200Response,
+  ApplicationGatewaysListAvailableServerVariablesDefaultResponse,
+  ApplicationGatewaysListAvailableSslOptions200Response,
+  ApplicationGatewaysListAvailableSslOptionsDefaultResponse,
+  ApplicationGatewaysListAvailableSslPredefinedPolicies200Response,
+  ApplicationGatewaysListAvailableSslPredefinedPoliciesDefaultResponse,
+  ApplicationGatewaysListAvailableWafRuleSets200Response,
+  ApplicationGatewaysListAvailableWafRuleSetsDefaultResponse,
+  ApplicationGatewaysListDefaultResponse,
+  ApplicationGatewaysStart200Response,
+  ApplicationGatewaysStart202Response,
+  ApplicationGatewaysStartDefaultResponse,
+  ApplicationGatewaysStop200Response,
+  ApplicationGatewaysStop202Response,
+  ApplicationGatewaysStopDefaultResponse,
+  ApplicationGatewaysUpdateTags200Response,
+  ApplicationGatewaysUpdateTagsDefaultResponse,
+  ApplicationSecurityGroupsCreateOrUpdate200Response,
+  ApplicationSecurityGroupsCreateOrUpdate201Response,
+  ApplicationSecurityGroupsCreateOrUpdateDefaultResponse,
+  ApplicationSecurityGroupsDelete200Response,
+  ApplicationSecurityGroupsDelete202Response,
+  ApplicationSecurityGroupsDelete204Response,
+  ApplicationSecurityGroupsDeleteDefaultResponse,
+  ApplicationSecurityGroupsGet200Response,
+  ApplicationSecurityGroupsGetDefaultResponse,
+  ApplicationSecurityGroupsList200Response,
+  ApplicationSecurityGroupsListAll200Response,
+  ApplicationSecurityGroupsListAllDefaultResponse,
+  ApplicationSecurityGroupsListDefaultResponse,
+  ApplicationSecurityGroupsUpdateTags200Response,
+  ApplicationSecurityGroupsUpdateTagsDefaultResponse,
+  AvailableDelegationsList200Response,
+  AvailableDelegationsListDefaultResponse,
+  AvailableEndpointServicesList200Response,
+  AvailableEndpointServicesListDefaultResponse,
+  AvailablePrivateEndpointTypesList200Response,
+  AvailablePrivateEndpointTypesListByResourceGroup200Response,
+  AvailablePrivateEndpointTypesListByResourceGroupDefaultResponse,
+  AvailablePrivateEndpointTypesListDefaultResponse,
+  AvailableResourceGroupDelegationsList200Response,
+  AvailableResourceGroupDelegationsListDefaultResponse,
+  AvailableServiceAliasesList200Response,
+  AvailableServiceAliasesListByResourceGroup200Response,
+  AvailableServiceAliasesListByResourceGroupDefaultResponse,
+  AvailableServiceAliasesListDefaultResponse,
+  AzureFirewallFqdnTagsListAll200Response,
+  AzureFirewallFqdnTagsListAllDefaultResponse,
+  AzureFirewallsCreateOrUpdate200Response,
+  AzureFirewallsCreateOrUpdate201Response,
+  AzureFirewallsCreateOrUpdateDefaultResponse,
+  AzureFirewallsDelete200Response,
+  AzureFirewallsDelete202Response,
+  AzureFirewallsDelete204Response,
+  AzureFirewallsDeleteDefaultResponse,
+  AzureFirewallsGet200Response,
+  AzureFirewallsGetDefaultResponse,
+  AzureFirewallsList200Response,
+  AzureFirewallsListAll200Response,
+  AzureFirewallsListAllDefaultResponse,
+  AzureFirewallsListDefaultResponse,
+  AzureFirewallsListLearnedPrefixes200Response,
+  AzureFirewallsListLearnedPrefixes202Response,
+  AzureFirewallsListLearnedPrefixesDefaultResponse,
+  AzureFirewallsUpdateTags200Response,
+  AzureFirewallsUpdateTags202Response,
+  AzureFirewallsUpdateTagsDefaultResponse,
+  BastionHostsCreateOrUpdate200Response,
+  BastionHostsCreateOrUpdate201Response,
+  BastionHostsCreateOrUpdateDefaultResponse,
+  BastionHostsDelete200Response,
+  BastionHostsDelete202Response,
+  BastionHostsDelete204Response,
+  BastionHostsDeleteDefaultResponse,
+  BastionHostsGet200Response,
+  BastionHostsGetDefaultResponse,
+  BastionHostsList200Response,
+  BastionHostsListByResourceGroup200Response,
+  BastionHostsListByResourceGroupDefaultResponse,
+  BastionHostsListDefaultResponse,
+  BastionHostsUpdateTags200Response,
+  BastionHostsUpdateTags202Response,
+  BastionHostsUpdateTagsDefaultResponse,
+  BgpServiceCommunitiesList200Response,
+  BgpServiceCommunitiesListDefaultResponse,
+  CheckDnsNameAvailability200Response,
+  CheckDnsNameAvailabilityDefaultResponse,
+  ConfigurationPolicyGroupsCreateOrUpdate200Response,
+  ConfigurationPolicyGroupsCreateOrUpdate201Response,
+  ConfigurationPolicyGroupsCreateOrUpdateDefaultResponse,
+  ConfigurationPolicyGroupsDelete200Response,
+  ConfigurationPolicyGroupsDelete202Response,
+  ConfigurationPolicyGroupsDelete204Response,
+  ConfigurationPolicyGroupsDeleteDefaultResponse,
+  ConfigurationPolicyGroupsGet200Response,
+  ConfigurationPolicyGroupsGetDefaultResponse,
+  ConfigurationPolicyGroupsListByVpnServerConfiguration200Response,
+  ConfigurationPolicyGroupsListByVpnServerConfigurationDefaultResponse,
+  ConnectionMonitorsCreateOrUpdate200Response,
+  ConnectionMonitorsCreateOrUpdate201Response,
+  ConnectionMonitorsCreateOrUpdateDefaultResponse,
+  ConnectionMonitorsDelete202Response,
+  ConnectionMonitorsDelete204Response,
+  ConnectionMonitorsDeleteDefaultResponse,
+  ConnectionMonitorsGet200Response,
+  ConnectionMonitorsGetDefaultResponse,
+  ConnectionMonitorsList200Response,
+  ConnectionMonitorsListDefaultResponse,
+  ConnectionMonitorsQuery200Response,
+  ConnectionMonitorsQuery202Response,
+  ConnectionMonitorsQueryDefaultResponse,
+  ConnectionMonitorsStart200Response,
+  ConnectionMonitorsStart202Response,
+  ConnectionMonitorsStartDefaultResponse,
+  ConnectionMonitorsStop200Response,
+  ConnectionMonitorsStop202Response,
+  ConnectionMonitorsStopDefaultResponse,
+  ConnectionMonitorsUpdateTags200Response,
+  ConnectionMonitorsUpdateTagsDefaultResponse,
+  ConnectivityConfigurationsCreateOrUpdate200Response,
+  ConnectivityConfigurationsCreateOrUpdate201Response,
+  ConnectivityConfigurationsCreateOrUpdateDefaultResponse,
+  ConnectivityConfigurationsDelete200Response,
+  ConnectivityConfigurationsDelete202Response,
+  ConnectivityConfigurationsDelete204Response,
+  ConnectivityConfigurationsDeleteDefaultResponse,
+  ConnectivityConfigurationsGet200Response,
+  ConnectivityConfigurationsGetDefaultResponse,
+  ConnectivityConfigurationsList200Response,
+  ConnectivityConfigurationsListDefaultResponse,
+  CustomIPPrefixesCreateOrUpdate200Response,
+  CustomIPPrefixesCreateOrUpdate201Response,
+  CustomIPPrefixesCreateOrUpdateDefaultResponse,
+  CustomIPPrefixesDelete200Response,
+  CustomIPPrefixesDelete202Response,
+  CustomIPPrefixesDelete204Response,
+  CustomIPPrefixesDeleteDefaultResponse,
+  CustomIPPrefixesGet200Response,
+  CustomIPPrefixesGetDefaultResponse,
+  CustomIPPrefixesList200Response,
+  CustomIPPrefixesListAll200Response,
+  CustomIPPrefixesListAllDefaultResponse,
+  CustomIPPrefixesListDefaultResponse,
+  CustomIPPrefixesUpdateTags200Response,
+  CustomIPPrefixesUpdateTagsDefaultResponse,
+  DdosCustomPoliciesCreateOrUpdate200Response,
+  DdosCustomPoliciesCreateOrUpdate201Response,
+  DdosCustomPoliciesCreateOrUpdateDefaultResponse,
+  DdosCustomPoliciesDelete200Response,
+  DdosCustomPoliciesDelete202Response,
+  DdosCustomPoliciesDelete204Response,
+  DdosCustomPoliciesDeleteDefaultResponse,
+  DdosCustomPoliciesGet200Response,
+  DdosCustomPoliciesGetDefaultResponse,
+  DdosCustomPoliciesUpdateTags200Response,
+  DdosCustomPoliciesUpdateTagsDefaultResponse,
+  DdosProtectionPlansCreateOrUpdate200Response,
+  DdosProtectionPlansCreateOrUpdate201Response,
+  DdosProtectionPlansCreateOrUpdateDefaultResponse,
+  DdosProtectionPlansDelete200Response,
+  DdosProtectionPlansDelete202Response,
+  DdosProtectionPlansDelete204Response,
+  DdosProtectionPlansDeleteDefaultResponse,
+  DdosProtectionPlansGet200Response,
+  DdosProtectionPlansGetDefaultResponse,
+  DdosProtectionPlansList200Response,
+  DdosProtectionPlansListByResourceGroup200Response,
+  DdosProtectionPlansListByResourceGroupDefaultResponse,
+  DdosProtectionPlansListDefaultResponse,
+  DdosProtectionPlansUpdateTags200Response,
+  DdosProtectionPlansUpdateTagsDefaultResponse,
+  DefaultSecurityRulesGet200Response,
+  DefaultSecurityRulesGetDefaultResponse,
+  DefaultSecurityRulesList200Response,
+  DefaultSecurityRulesListDefaultResponse,
+  DeleteBastionShareableLink200Response,
+  DeleteBastionShareableLink202Response,
+  DeleteBastionShareableLinkDefaultResponse,
+  DisconnectActiveSessions200Response,
+  DisconnectActiveSessionsDefaultResponse,
+  DscpConfigurationCreateOrUpdate200Response,
+  DscpConfigurationCreateOrUpdate201Response,
+  DscpConfigurationCreateOrUpdateDefaultResponse,
+  DscpConfigurationDelete200Response,
+  DscpConfigurationDelete202Response,
+  DscpConfigurationDelete204Response,
+  DscpConfigurationDeleteDefaultResponse,
+  DscpConfigurationGet200Response,
+  DscpConfigurationGetDefaultResponse,
+  DscpConfigurationList200Response,
+  DscpConfigurationListAll200Response,
+  DscpConfigurationListAllDefaultResponse,
+  DscpConfigurationListDefaultResponse,
+  ExpressRouteCircuitAuthorizationsCreateOrUpdate200Response,
+  ExpressRouteCircuitAuthorizationsCreateOrUpdate201Response,
+  ExpressRouteCircuitAuthorizationsCreateOrUpdateDefaultResponse,
+  ExpressRouteCircuitAuthorizationsDelete200Response,
+  ExpressRouteCircuitAuthorizationsDelete202Response,
+  ExpressRouteCircuitAuthorizationsDelete204Response,
+  ExpressRouteCircuitAuthorizationsDeleteDefaultResponse,
+  ExpressRouteCircuitAuthorizationsGet200Response,
+  ExpressRouteCircuitAuthorizationsGetDefaultResponse,
+  ExpressRouteCircuitAuthorizationsList200Response,
+  ExpressRouteCircuitAuthorizationsListDefaultResponse,
+  ExpressRouteCircuitConnectionsCreateOrUpdate200Response,
+  ExpressRouteCircuitConnectionsCreateOrUpdate201Response,
+  ExpressRouteCircuitConnectionsCreateOrUpdateDefaultResponse,
+  ExpressRouteCircuitConnectionsDelete200Response,
+  ExpressRouteCircuitConnectionsDelete202Response,
+  ExpressRouteCircuitConnectionsDelete204Response,
+  ExpressRouteCircuitConnectionsDeleteDefaultResponse,
+  ExpressRouteCircuitConnectionsGet200Response,
+  ExpressRouteCircuitConnectionsGetDefaultResponse,
+  ExpressRouteCircuitConnectionsList200Response,
+  ExpressRouteCircuitConnectionsListDefaultResponse,
+  ExpressRouteCircuitPeeringsCreateOrUpdate200Response,
+  ExpressRouteCircuitPeeringsCreateOrUpdate201Response,
+  ExpressRouteCircuitPeeringsCreateOrUpdateDefaultResponse,
+  ExpressRouteCircuitPeeringsDelete200Response,
+  ExpressRouteCircuitPeeringsDelete202Response,
+  ExpressRouteCircuitPeeringsDelete204Response,
+  ExpressRouteCircuitPeeringsDeleteDefaultResponse,
+  ExpressRouteCircuitPeeringsGet200Response,
+  ExpressRouteCircuitPeeringsGetDefaultResponse,
+  ExpressRouteCircuitPeeringsList200Response,
+  ExpressRouteCircuitPeeringsListDefaultResponse,
+  ExpressRouteCircuitsCreateOrUpdate200Response,
+  ExpressRouteCircuitsCreateOrUpdate201Response,
+  ExpressRouteCircuitsCreateOrUpdateDefaultResponse,
+  ExpressRouteCircuitsDelete200Response,
+  ExpressRouteCircuitsDelete202Response,
+  ExpressRouteCircuitsDelete204Response,
+  ExpressRouteCircuitsDeleteDefaultResponse,
+  ExpressRouteCircuitsGet200Response,
+  ExpressRouteCircuitsGetDefaultResponse,
+  ExpressRouteCircuitsGetPeeringStats200Response,
+  ExpressRouteCircuitsGetPeeringStatsDefaultResponse,
+  ExpressRouteCircuitsGetStats200Response,
+  ExpressRouteCircuitsGetStatsDefaultResponse,
+  ExpressRouteCircuitsList200Response,
+  ExpressRouteCircuitsListAll200Response,
+  ExpressRouteCircuitsListAllDefaultResponse,
+  ExpressRouteCircuitsListArpTable200Response,
+  ExpressRouteCircuitsListArpTable202Response,
+  ExpressRouteCircuitsListArpTableDefaultResponse,
+  ExpressRouteCircuitsListDefaultResponse,
+  ExpressRouteCircuitsListRoutesTable200Response,
+  ExpressRouteCircuitsListRoutesTable202Response,
+  ExpressRouteCircuitsListRoutesTableDefaultResponse,
+  ExpressRouteCircuitsListRoutesTableSummary200Response,
+  ExpressRouteCircuitsListRoutesTableSummary202Response,
+  ExpressRouteCircuitsListRoutesTableSummaryDefaultResponse,
+  ExpressRouteCircuitsUpdateTags200Response,
+  ExpressRouteCircuitsUpdateTagsDefaultResponse,
+  ExpressRouteConnectionsCreateOrUpdate200Response,
+  ExpressRouteConnectionsCreateOrUpdate201Response,
+  ExpressRouteConnectionsCreateOrUpdateDefaultResponse,
+  ExpressRouteConnectionsDelete200Response,
+  ExpressRouteConnectionsDelete202Response,
+  ExpressRouteConnectionsDelete204Response,
+  ExpressRouteConnectionsDeleteDefaultResponse,
+  ExpressRouteConnectionsGet200Response,
+  ExpressRouteConnectionsGetDefaultResponse,
+  ExpressRouteConnectionsList200Response,
+  ExpressRouteConnectionsListDefaultResponse,
+  ExpressRouteCrossConnectionPeeringsCreateOrUpdate200Response,
+  ExpressRouteCrossConnectionPeeringsCreateOrUpdate201Response,
+  ExpressRouteCrossConnectionPeeringsCreateOrUpdateDefaultResponse,
+  ExpressRouteCrossConnectionPeeringsDelete200Response,
+  ExpressRouteCrossConnectionPeeringsDelete202Response,
+  ExpressRouteCrossConnectionPeeringsDelete204Response,
+  ExpressRouteCrossConnectionPeeringsDeleteDefaultResponse,
+  ExpressRouteCrossConnectionPeeringsGet200Response,
+  ExpressRouteCrossConnectionPeeringsGetDefaultResponse,
+  ExpressRouteCrossConnectionPeeringsList200Response,
+  ExpressRouteCrossConnectionPeeringsListDefaultResponse,
+  ExpressRouteCrossConnectionsCreateOrUpdate200Response,
+  ExpressRouteCrossConnectionsCreateOrUpdateDefaultResponse,
+  ExpressRouteCrossConnectionsGet200Response,
+  ExpressRouteCrossConnectionsGetDefaultResponse,
+  ExpressRouteCrossConnectionsList200Response,
+  ExpressRouteCrossConnectionsListArpTable200Response,
+  ExpressRouteCrossConnectionsListArpTable202Response,
+  ExpressRouteCrossConnectionsListArpTableDefaultResponse,
+  ExpressRouteCrossConnectionsListByResourceGroup200Response,
+  ExpressRouteCrossConnectionsListByResourceGroupDefaultResponse,
+  ExpressRouteCrossConnectionsListDefaultResponse,
+  ExpressRouteCrossConnectionsListRoutesTable200Response,
+  ExpressRouteCrossConnectionsListRoutesTable202Response,
+  ExpressRouteCrossConnectionsListRoutesTableDefaultResponse,
+  ExpressRouteCrossConnectionsListRoutesTableSummary200Response,
+  ExpressRouteCrossConnectionsListRoutesTableSummary202Response,
+  ExpressRouteCrossConnectionsListRoutesTableSummaryDefaultResponse,
+  ExpressRouteCrossConnectionsUpdateTags200Response,
+  ExpressRouteCrossConnectionsUpdateTagsDefaultResponse,
+  ExpressRouteGatewaysCreateOrUpdate200Response,
+  ExpressRouteGatewaysCreateOrUpdate201Response,
+  ExpressRouteGatewaysCreateOrUpdateDefaultResponse,
+  ExpressRouteGatewaysDelete200Response,
+  ExpressRouteGatewaysDelete202Response,
+  ExpressRouteGatewaysDelete204Response,
+  ExpressRouteGatewaysDeleteDefaultResponse,
+  ExpressRouteGatewaysGet200Response,
+  ExpressRouteGatewaysGetDefaultResponse,
+  ExpressRouteGatewaysListByResourceGroup200Response,
+  ExpressRouteGatewaysListByResourceGroupDefaultResponse,
+  ExpressRouteGatewaysListBySubscription200Response,
+  ExpressRouteGatewaysListBySubscriptionDefaultResponse,
+  ExpressRouteGatewaysUpdateTags200Response,
+  ExpressRouteGatewaysUpdateTags202Response,
+  ExpressRouteGatewaysUpdateTagsDefaultResponse,
+  ExpressRouteLinksGet200Response,
+  ExpressRouteLinksGetDefaultResponse,
+  ExpressRouteLinksList200Response,
+  ExpressRouteLinksListDefaultResponse,
+  ExpressRoutePortAuthorizationsCreateOrUpdate200Response,
+  ExpressRoutePortAuthorizationsCreateOrUpdate201Response,
+  ExpressRoutePortAuthorizationsCreateOrUpdateDefaultResponse,
+  ExpressRoutePortAuthorizationsDelete200Response,
+  ExpressRoutePortAuthorizationsDelete202Response,
+  ExpressRoutePortAuthorizationsDelete204Response,
+  ExpressRoutePortAuthorizationsDeleteDefaultResponse,
+  ExpressRoutePortAuthorizationsGet200Response,
+  ExpressRoutePortAuthorizationsGetDefaultResponse,
+  ExpressRoutePortAuthorizationsList200Response,
+  ExpressRoutePortAuthorizationsListDefaultResponse,
+  ExpressRoutePortsCreateOrUpdate200Response,
+  ExpressRoutePortsCreateOrUpdate201Response,
+  ExpressRoutePortsCreateOrUpdateDefaultResponse,
+  ExpressRoutePortsDelete200Response,
+  ExpressRoutePortsDelete202Response,
+  ExpressRoutePortsDelete204Response,
+  ExpressRoutePortsDeleteDefaultResponse,
+  ExpressRoutePortsGenerateLOA200Response,
+  ExpressRoutePortsGenerateLOADefaultResponse,
+  ExpressRoutePortsGet200Response,
+  ExpressRoutePortsGetDefaultResponse,
+  ExpressRoutePortsList200Response,
+  ExpressRoutePortsListByResourceGroup200Response,
+  ExpressRoutePortsListByResourceGroupDefaultResponse,
+  ExpressRoutePortsListDefaultResponse,
+  ExpressRoutePortsLocationsGet200Response,
+  ExpressRoutePortsLocationsGetDefaultResponse,
+  ExpressRoutePortsLocationsList200Response,
+  ExpressRoutePortsLocationsListDefaultResponse,
+  ExpressRoutePortsUpdateTags200Response,
+  ExpressRoutePortsUpdateTagsDefaultResponse,
+  ExpressRouteProviderPortsGet200Response,
+  ExpressRouteProviderPortsGetDefaultResponse,
+  ExpressRouteProviderPortsLocationList200Response,
+  ExpressRouteProviderPortsLocationListDefaultResponse,
+  ExpressRouteServiceProvidersList200Response,
+  ExpressRouteServiceProvidersListDefaultResponse,
+  FirewallPoliciesCreateOrUpdate200Response,
+  FirewallPoliciesCreateOrUpdate201Response,
+  FirewallPoliciesCreateOrUpdateDefaultResponse,
+  FirewallPoliciesDelete200Response,
+  FirewallPoliciesDelete202Response,
+  FirewallPoliciesDelete204Response,
+  FirewallPoliciesDeleteDefaultResponse,
+  FirewallPoliciesGet200Response,
+  FirewallPoliciesGetDefaultResponse,
+  FirewallPoliciesList200Response,
+  FirewallPoliciesListAll200Response,
+  FirewallPoliciesListAllDefaultResponse,
+  FirewallPoliciesListDefaultResponse,
+  FirewallPoliciesUpdateTags200Response,
+  FirewallPoliciesUpdateTagsDefaultResponse,
+  FirewallPolicyIdpsSignaturesFilterValuesList200Response,
+  FirewallPolicyIdpsSignaturesFilterValuesListDefaultResponse,
+  FirewallPolicyIdpsSignaturesList200Response,
+  FirewallPolicyIdpsSignaturesListDefaultResponse,
+  FirewallPolicyIdpsSignaturesOverridesGet200Response,
+  FirewallPolicyIdpsSignaturesOverridesGetDefaultResponse,
+  FirewallPolicyIdpsSignaturesOverridesList200Response,
+  FirewallPolicyIdpsSignaturesOverridesListDefaultResponse,
+  FirewallPolicyIdpsSignaturesOverridesPatch200Response,
+  FirewallPolicyIdpsSignaturesOverridesPatchDefaultResponse,
+  FirewallPolicyIdpsSignaturesOverridesPut200Response,
+  FirewallPolicyIdpsSignaturesOverridesPutDefaultResponse,
+  FirewallPolicyRuleCollectionGroupsCreateOrUpdate200Response,
+  FirewallPolicyRuleCollectionGroupsCreateOrUpdate201Response,
+  FirewallPolicyRuleCollectionGroupsCreateOrUpdateDefaultResponse,
+  FirewallPolicyRuleCollectionGroupsDelete200Response,
+  FirewallPolicyRuleCollectionGroupsDelete202Response,
+  FirewallPolicyRuleCollectionGroupsDelete204Response,
+  FirewallPolicyRuleCollectionGroupsDeleteDefaultResponse,
+  FirewallPolicyRuleCollectionGroupsGet200Response,
+  FirewallPolicyRuleCollectionGroupsGetDefaultResponse,
+  FirewallPolicyRuleCollectionGroupsList200Response,
+  FirewallPolicyRuleCollectionGroupsListDefaultResponse,
+  FlowLogsCreateOrUpdate200Response,
+  FlowLogsCreateOrUpdate201Response,
+  FlowLogsCreateOrUpdateDefaultResponse,
+  FlowLogsDelete202Response,
+  FlowLogsDelete204Response,
+  FlowLogsDeleteDefaultResponse,
+  FlowLogsGet200Response,
+  FlowLogsGetDefaultResponse,
+  FlowLogsList200Response,
+  FlowLogsListDefaultResponse,
+  FlowLogsUpdateTags200Response,
+  FlowLogsUpdateTagsDefaultResponse,
+  Generatevirtualwanvpnserverconfigurationvpnprofile200Response,
+  Generatevirtualwanvpnserverconfigurationvpnprofile202Response,
+  GeneratevirtualwanvpnserverconfigurationvpnprofileDefaultResponse,
+  GetActiveSessions200Response,
+  GetActiveSessions202Response,
+  GetActiveSessionsDefaultResponse,
+  GetBastionShareableLink200Response,
+  GetBastionShareableLinkDefaultResponse,
+  HubRouteTablesCreateOrUpdate200Response,
+  HubRouteTablesCreateOrUpdate201Response,
+  HubRouteTablesCreateOrUpdateDefaultResponse,
+  HubRouteTablesDelete200Response,
+  HubRouteTablesDelete202Response,
+  HubRouteTablesDelete204Response,
+  HubRouteTablesDeleteDefaultResponse,
+  HubRouteTablesGet200Response,
+  HubRouteTablesGetDefaultResponse,
+  HubRouteTablesList200Response,
+  HubRouteTablesListDefaultResponse,
+  HubVirtualNetworkConnectionsCreateOrUpdate200Response,
+  HubVirtualNetworkConnectionsCreateOrUpdate201Response,
+  HubVirtualNetworkConnectionsCreateOrUpdateDefaultResponse,
+  HubVirtualNetworkConnectionsDelete200Response,
+  HubVirtualNetworkConnectionsDelete202Response,
+  HubVirtualNetworkConnectionsDelete204Response,
+  HubVirtualNetworkConnectionsDeleteDefaultResponse,
+  HubVirtualNetworkConnectionsGet200Response,
+  HubVirtualNetworkConnectionsGetDefaultResponse,
+  HubVirtualNetworkConnectionsList200Response,
+  HubVirtualNetworkConnectionsListDefaultResponse,
+  InboundNatRulesCreateOrUpdate200Response,
+  InboundNatRulesCreateOrUpdate201Response,
+  InboundNatRulesCreateOrUpdateDefaultResponse,
+  InboundNatRulesDelete200Response,
+  InboundNatRulesDelete202Response,
+  InboundNatRulesDelete204Response,
+  InboundNatRulesDeleteDefaultResponse,
+  InboundNatRulesGet200Response,
+  InboundNatRulesGetDefaultResponse,
+  InboundNatRulesList200Response,
+  InboundNatRulesListDefaultResponse,
+  InboundSecurityRuleCreateOrUpdate200Response,
+  InboundSecurityRuleCreateOrUpdate201Response,
+  InboundSecurityRuleCreateOrUpdateDefaultResponse,
+  IpAllocationsCreateOrUpdate200Response,
+  IpAllocationsCreateOrUpdate201Response,
+  IpAllocationsCreateOrUpdateDefaultResponse,
+  IpAllocationsDelete200Response,
+  IpAllocationsDelete202Response,
+  IpAllocationsDelete204Response,
+  IpAllocationsDeleteDefaultResponse,
+  IpAllocationsGet200Response,
+  IpAllocationsGetDefaultResponse,
+  IpAllocationsList200Response,
+  IpAllocationsListByResourceGroup200Response,
+  IpAllocationsListByResourceGroupDefaultResponse,
+  IpAllocationsListDefaultResponse,
+  IpAllocationsUpdateTags200Response,
+  IpAllocationsUpdateTagsDefaultResponse,
+  IpGroupsCreateOrUpdate200Response,
+  IpGroupsCreateOrUpdate201Response,
+  IpGroupsCreateOrUpdateDefaultResponse,
+  IpGroupsDelete200Response,
+  IpGroupsDelete202Response,
+  IpGroupsDelete204Response,
+  IpGroupsDeleteDefaultResponse,
+  IpGroupsGet200Response,
+  IpGroupsGetDefaultResponse,
+  IpGroupsList200Response,
+  IpGroupsListByResourceGroup200Response,
+  IpGroupsListByResourceGroupDefaultResponse,
+  IpGroupsListDefaultResponse,
+  IpGroupsUpdateGroups200Response,
+  IpGroupsUpdateGroupsDefaultResponse,
+  ListActiveConnectivityConfigurations200Response,
+  ListActiveConnectivityConfigurationsDefaultResponse,
+  ListActiveSecurityAdminRules200Response,
+  ListActiveSecurityAdminRulesDefaultResponse,
+  ListNetworkManagerEffectiveConnectivityConfigurations200Response,
+  ListNetworkManagerEffectiveConnectivityConfigurationsDefaultResponse,
+  ListNetworkManagerEffectiveSecurityAdminRules200Response,
+  ListNetworkManagerEffectiveSecurityAdminRulesDefaultResponse,
+  LoadBalancerBackendAddressPoolsCreateOrUpdate200Response,
+  LoadBalancerBackendAddressPoolsCreateOrUpdate201Response,
+  LoadBalancerBackendAddressPoolsCreateOrUpdateDefaultResponse,
+  LoadBalancerBackendAddressPoolsDelete200Response,
+  LoadBalancerBackendAddressPoolsDelete202Response,
+  LoadBalancerBackendAddressPoolsDelete204Response,
+  LoadBalancerBackendAddressPoolsDeleteDefaultResponse,
+  LoadBalancerBackendAddressPoolsGet200Response,
+  LoadBalancerBackendAddressPoolsGetDefaultResponse,
+  LoadBalancerBackendAddressPoolsList200Response,
+  LoadBalancerBackendAddressPoolsListDefaultResponse,
+  LoadBalancerFrontendIPConfigurationsGet200Response,
+  LoadBalancerFrontendIPConfigurationsGetDefaultResponse,
+  LoadBalancerFrontendIPConfigurationsList200Response,
+  LoadBalancerFrontendIPConfigurationsListDefaultResponse,
+  LoadBalancerLoadBalancingRulesGet200Response,
+  LoadBalancerLoadBalancingRulesGetDefaultResponse,
+  LoadBalancerLoadBalancingRulesList200Response,
+  LoadBalancerLoadBalancingRulesListDefaultResponse,
+  LoadBalancerNetworkInterfacesList200Response,
+  LoadBalancerNetworkInterfacesListDefaultResponse,
+  LoadBalancerOutboundRulesGet200Response,
+  LoadBalancerOutboundRulesGetDefaultResponse,
+  LoadBalancerOutboundRulesList200Response,
+  LoadBalancerOutboundRulesListDefaultResponse,
+  LoadBalancerProbesGet200Response,
+  LoadBalancerProbesGetDefaultResponse,
+  LoadBalancerProbesList200Response,
+  LoadBalancerProbesListDefaultResponse,
+  LoadBalancersCreateOrUpdate200Response,
+  LoadBalancersCreateOrUpdate201Response,
+  LoadBalancersCreateOrUpdateDefaultResponse,
+  LoadBalancersDelete200Response,
+  LoadBalancersDelete202Response,
+  LoadBalancersDelete204Response,
+  LoadBalancersDeleteDefaultResponse,
+  LoadBalancersGet200Response,
+  LoadBalancersGetDefaultResponse,
+  LoadBalancersList200Response,
+  LoadBalancersListAll200Response,
+  LoadBalancersListAllDefaultResponse,
+  LoadBalancersListDefaultResponse,
+  LoadBalancersListInboundNatRulePortMappings200Response,
+  LoadBalancersListInboundNatRulePortMappings202Response,
+  LoadBalancersListInboundNatRulePortMappingsDefaultResponse,
+  LoadBalancersSwapPublicIpAddresses200Response,
+  LoadBalancersSwapPublicIpAddresses202Response,
+  LoadBalancersSwapPublicIpAddressesDefaultResponse,
+  LoadBalancersUpdateTags200Response,
+  LoadBalancersUpdateTagsDefaultResponse,
+  LocalNetworkGatewaysCreateOrUpdate200Response,
+  LocalNetworkGatewaysCreateOrUpdate201Response,
+  LocalNetworkGatewaysCreateOrUpdateDefaultResponse,
+  LocalNetworkGatewaysDelete200Response,
+  LocalNetworkGatewaysDelete202Response,
+  LocalNetworkGatewaysDelete204Response,
+  LocalNetworkGatewaysDeleteDefaultResponse,
+  LocalNetworkGatewaysGet200Response,
+  LocalNetworkGatewaysGetDefaultResponse,
+  LocalNetworkGatewaysList200Response,
+  LocalNetworkGatewaysListDefaultResponse,
+  LocalNetworkGatewaysUpdateTags200Response,
+  LocalNetworkGatewaysUpdateTagsDefaultResponse,
+  ManagementGroupNetworkManagerConnectionsCreateOrUpdate200Response,
+  ManagementGroupNetworkManagerConnectionsCreateOrUpdate201Response,
+  ManagementGroupNetworkManagerConnectionsCreateOrUpdateDefaultResponse,
+  ManagementGroupNetworkManagerConnectionsDelete200Response,
+  ManagementGroupNetworkManagerConnectionsDelete204Response,
+  ManagementGroupNetworkManagerConnectionsDeleteDefaultResponse,
+  ManagementGroupNetworkManagerConnectionsGet200Response,
+  ManagementGroupNetworkManagerConnectionsGetDefaultResponse,
+  ManagementGroupNetworkManagerConnectionsList200Response,
+  ManagementGroupNetworkManagerConnectionsListDefaultResponse,
+  NatGatewaysCreateOrUpdate200Response,
+  NatGatewaysCreateOrUpdate201Response,
+  NatGatewaysCreateOrUpdate202Response,
+  NatGatewaysCreateOrUpdateDefaultResponse,
+  NatGatewaysDelete200Response,
+  NatGatewaysDelete202Response,
+  NatGatewaysDelete204Response,
+  NatGatewaysDeleteDefaultResponse,
+  NatGatewaysGet200Response,
+  NatGatewaysGetDefaultResponse,
+  NatGatewaysList200Response,
+  NatGatewaysListAll200Response,
+  NatGatewaysListAllDefaultResponse,
+  NatGatewaysListDefaultResponse,
+  NatGatewaysUpdateTags200Response,
+  NatGatewaysUpdateTagsDefaultResponse,
+  NatRulesCreateOrUpdate200Response,
+  NatRulesCreateOrUpdate201Response,
+  NatRulesCreateOrUpdateDefaultResponse,
+  NatRulesDelete200Response,
+  NatRulesDelete202Response,
+  NatRulesDelete204Response,
+  NatRulesDeleteDefaultResponse,
+  NatRulesGet200Response,
+  NatRulesGetDefaultResponse,
+  NatRulesListByVpnGateway200Response,
+  NatRulesListByVpnGatewayDefaultResponse,
+  NetworkGroupsCreateOrUpdate200Response,
+  NetworkGroupsCreateOrUpdate201Response,
+  NetworkGroupsCreateOrUpdateDefaultResponse,
+  NetworkGroupsDelete200Response,
+  NetworkGroupsDelete202Response,
+  NetworkGroupsDelete204Response,
+  NetworkGroupsDeleteDefaultResponse,
+  NetworkGroupsGet200Response,
+  NetworkGroupsGetDefaultResponse,
+  NetworkGroupsList200Response,
+  NetworkGroupsListDefaultResponse,
+  NetworkInterfaceIPConfigurationsGet200Response,
+  NetworkInterfaceIPConfigurationsGetDefaultResponse,
+  NetworkInterfaceIPConfigurationsList200Response,
+  NetworkInterfaceIPConfigurationsListDefaultResponse,
+  NetworkInterfaceLoadBalancersList200Response,
+  NetworkInterfaceLoadBalancersListDefaultResponse,
+  NetworkInterfaceTapConfigurationsCreateOrUpdate200Response,
+  NetworkInterfaceTapConfigurationsCreateOrUpdate201Response,
+  NetworkInterfaceTapConfigurationsCreateOrUpdateDefaultResponse,
+  NetworkInterfaceTapConfigurationsDelete200Response,
+  NetworkInterfaceTapConfigurationsDelete202Response,
+  NetworkInterfaceTapConfigurationsDelete204Response,
+  NetworkInterfaceTapConfigurationsDeleteDefaultResponse,
+  NetworkInterfaceTapConfigurationsGet200Response,
+  NetworkInterfaceTapConfigurationsGetDefaultResponse,
+  NetworkInterfaceTapConfigurationsList200Response,
+  NetworkInterfaceTapConfigurationsListDefaultResponse,
+  NetworkInterfacesCreateOrUpdate200Response,
+  NetworkInterfacesCreateOrUpdate201Response,
+  NetworkInterfacesCreateOrUpdateDefaultResponse,
+  NetworkInterfacesDelete200Response,
+  NetworkInterfacesDelete202Response,
+  NetworkInterfacesDelete204Response,
+  NetworkInterfacesDeleteDefaultResponse,
+  NetworkInterfacesGet200Response,
+  NetworkInterfacesGetCloudServiceNetworkInterface200Response,
+  NetworkInterfacesGetCloudServiceNetworkInterfaceDefaultResponse,
+  NetworkInterfacesGetDefaultResponse,
+  NetworkInterfacesGetEffectiveRouteTable200Response,
+  NetworkInterfacesGetEffectiveRouteTable202Response,
+  NetworkInterfacesGetEffectiveRouteTableDefaultResponse,
+  NetworkInterfacesGetVirtualMachineScaleSetIpConfiguration200Response,
+  NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationDefaultResponse,
+  NetworkInterfacesGetVirtualMachineScaleSetNetworkInterface200Response,
+  NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceDefaultResponse,
+  NetworkInterfacesList200Response,
+  NetworkInterfacesListAll200Response,
+  NetworkInterfacesListAllDefaultResponse,
+  NetworkInterfacesListCloudServiceNetworkInterfaces200Response,
+  NetworkInterfacesListCloudServiceNetworkInterfacesDefaultResponse,
+  NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfaces200Response,
+  NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesDefaultResponse,
+  NetworkInterfacesListDefaultResponse,
+  NetworkInterfacesListEffectiveNetworkSecurityGroups200Response,
+  NetworkInterfacesListEffectiveNetworkSecurityGroups202Response,
+  NetworkInterfacesListEffectiveNetworkSecurityGroupsDefaultResponse,
+  NetworkInterfacesListVirtualMachineScaleSetIpConfigurations200Response,
+  NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsDefaultResponse,
+  NetworkInterfacesListVirtualMachineScaleSetNetworkInterfaces200Response,
+  NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesDefaultResponse,
+  NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfaces200Response,
+  NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesDefaultResponse,
+  NetworkInterfacesUpdateTags200Response,
+  NetworkInterfacesUpdateTagsDefaultResponse,
+  NetworkManagerCommitsPost200Response,
+  NetworkManagerCommitsPost202Response,
+  NetworkManagerCommitsPostDefaultResponse,
+  NetworkManagerDeploymentStatusList200Response,
+  NetworkManagerDeploymentStatusListDefaultResponse,
+  NetworkManagersCreateOrUpdate200Response,
+  NetworkManagersCreateOrUpdate201Response,
+  NetworkManagersCreateOrUpdateDefaultResponse,
+  NetworkManagersDelete200Response,
+  NetworkManagersDelete202Response,
+  NetworkManagersDelete204Response,
+  NetworkManagersDeleteDefaultResponse,
+  NetworkManagersGet200Response,
+  NetworkManagersGetDefaultResponse,
+  NetworkManagersList200Response,
+  NetworkManagersListBySubscription200Response,
+  NetworkManagersListBySubscriptionDefaultResponse,
+  NetworkManagersListDefaultResponse,
+  NetworkManagersPatch200Response,
+  NetworkManagersPatchDefaultResponse,
+  NetworkProfilesCreateOrUpdate200Response,
+  NetworkProfilesCreateOrUpdate201Response,
+  NetworkProfilesCreateOrUpdateDefaultResponse,
+  NetworkProfilesDelete200Response,
+  NetworkProfilesDelete202Response,
+  NetworkProfilesDelete204Response,
+  NetworkProfilesDeleteDefaultResponse,
+  NetworkProfilesGet200Response,
+  NetworkProfilesGetDefaultResponse,
+  NetworkProfilesList200Response,
+  NetworkProfilesListAll200Response,
+  NetworkProfilesListAllDefaultResponse,
+  NetworkProfilesListDefaultResponse,
+  NetworkProfilesUpdateTags200Response,
+  NetworkProfilesUpdateTagsDefaultResponse,
+  NetworkSecurityGroupsCreateOrUpdate200Response,
+  NetworkSecurityGroupsCreateOrUpdate201Response,
+  NetworkSecurityGroupsCreateOrUpdateDefaultResponse,
+  NetworkSecurityGroupsDelete200Response,
+  NetworkSecurityGroupsDelete202Response,
+  NetworkSecurityGroupsDelete204Response,
+  NetworkSecurityGroupsDeleteDefaultResponse,
+  NetworkSecurityGroupsGet200Response,
+  NetworkSecurityGroupsGetDefaultResponse,
+  NetworkSecurityGroupsList200Response,
+  NetworkSecurityGroupsListAll200Response,
+  NetworkSecurityGroupsListAllDefaultResponse,
+  NetworkSecurityGroupsListDefaultResponse,
+  NetworkSecurityGroupsUpdateTags200Response,
+  NetworkSecurityGroupsUpdateTagsDefaultResponse,
+  NetworkVirtualAppliancesCreateOrUpdate200Response,
+  NetworkVirtualAppliancesCreateOrUpdate201Response,
+  NetworkVirtualAppliancesCreateOrUpdateDefaultResponse,
+  NetworkVirtualAppliancesDelete200Response,
+  NetworkVirtualAppliancesDelete202Response,
+  NetworkVirtualAppliancesDelete204Response,
+  NetworkVirtualAppliancesDeleteDefaultResponse,
+  NetworkVirtualAppliancesGet200Response,
+  NetworkVirtualAppliancesGetDefaultResponse,
+  NetworkVirtualAppliancesList200Response,
+  NetworkVirtualAppliancesListByResourceGroup200Response,
+  NetworkVirtualAppliancesListByResourceGroupDefaultResponse,
+  NetworkVirtualAppliancesListDefaultResponse,
+  NetworkVirtualAppliancesUpdateTags200Response,
+  NetworkVirtualAppliancesUpdateTagsDefaultResponse,
+  NetworkWatchersCheckConnectivity200Response,
+  NetworkWatchersCheckConnectivity202Response,
+  NetworkWatchersCheckConnectivityDefaultResponse,
+  NetworkWatchersCreateOrUpdate200Response,
+  NetworkWatchersCreateOrUpdate201Response,
+  NetworkWatchersCreateOrUpdateDefaultResponse,
+  NetworkWatchersDelete202Response,
+  NetworkWatchersDelete204Response,
+  NetworkWatchersDeleteDefaultResponse,
+  NetworkWatchersGet200Response,
+  NetworkWatchersGetAzureReachabilityReport200Response,
+  NetworkWatchersGetAzureReachabilityReport202Response,
+  NetworkWatchersGetAzureReachabilityReportDefaultResponse,
+  NetworkWatchersGetDefaultResponse,
+  NetworkWatchersGetFlowLogStatus200Response,
+  NetworkWatchersGetFlowLogStatus202Response,
+  NetworkWatchersGetFlowLogStatusDefaultResponse,
+  NetworkWatchersGetNetworkConfigurationDiagnostic200Response,
+  NetworkWatchersGetNetworkConfigurationDiagnostic202Response,
+  NetworkWatchersGetNetworkConfigurationDiagnosticDefaultResponse,
+  NetworkWatchersGetNextHop200Response,
+  NetworkWatchersGetNextHop202Response,
+  NetworkWatchersGetNextHopDefaultResponse,
+  NetworkWatchersGetTopology200Response,
+  NetworkWatchersGetTopologyDefaultResponse,
+  NetworkWatchersGetTroubleshooting200Response,
+  NetworkWatchersGetTroubleshooting202Response,
+  NetworkWatchersGetTroubleshootingDefaultResponse,
+  NetworkWatchersGetTroubleshootingResult200Response,
+  NetworkWatchersGetTroubleshootingResult202Response,
+  NetworkWatchersGetTroubleshootingResultDefaultResponse,
+  NetworkWatchersGetVMSecurityRules200Response,
+  NetworkWatchersGetVMSecurityRules202Response,
+  NetworkWatchersGetVMSecurityRulesDefaultResponse,
+  NetworkWatchersList200Response,
+  NetworkWatchersListAll200Response,
+  NetworkWatchersListAllDefaultResponse,
+  NetworkWatchersListAvailableProviders200Response,
+  NetworkWatchersListAvailableProviders202Response,
+  NetworkWatchersListAvailableProvidersDefaultResponse,
+  NetworkWatchersListDefaultResponse,
+  NetworkWatchersSetFlowLogConfiguration200Response,
+  NetworkWatchersSetFlowLogConfiguration202Response,
+  NetworkWatchersSetFlowLogConfigurationDefaultResponse,
+  NetworkWatchersUpdateTags200Response,
+  NetworkWatchersUpdateTagsDefaultResponse,
+  NetworkWatchersVerifyIPFlow200Response,
+  NetworkWatchersVerifyIPFlow202Response,
+  NetworkWatchersVerifyIPFlowDefaultResponse,
+  OperationsList200Response,
+  OperationsListDefaultResponse,
+  P2SVpnGatewaysCreateOrUpdate200Response,
+  P2SVpnGatewaysCreateOrUpdate201Response,
+  P2SVpnGatewaysCreateOrUpdateDefaultResponse,
+  P2SVpnGatewaysDelete200Response,
+  P2SVpnGatewaysDelete202Response,
+  P2SVpnGatewaysDelete204Response,
+  P2SVpnGatewaysDeleteDefaultResponse,
+  P2SVpnGatewaysDisconnectP2SVpnConnections200Response,
+  P2SVpnGatewaysDisconnectP2SVpnConnections202Response,
+  P2SVpnGatewaysDisconnectP2SVpnConnectionsDefaultResponse,
+  P2SVpnGatewaysGenerateVpnProfile200Response,
+  P2SVpnGatewaysGenerateVpnProfile202Response,
+  P2SVpnGatewaysGenerateVpnProfileDefaultResponse,
+  P2SVpnGatewaysGet200Response,
+  P2SVpnGatewaysGetDefaultResponse,
+  P2SVpnGatewaysGetP2SVpnConnectionHealth200Response,
+  P2SVpnGatewaysGetP2SVpnConnectionHealth202Response,
+  P2SVpnGatewaysGetP2SVpnConnectionHealthDefaultResponse,
+  P2SVpnGatewaysGetP2SVpnConnectionHealthDetailed200Response,
+  P2SVpnGatewaysGetP2SVpnConnectionHealthDetailed202Response,
+  P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedDefaultResponse,
+  P2SVpnGatewaysList200Response,
+  P2SVpnGatewaysListByResourceGroup200Response,
+  P2SVpnGatewaysListByResourceGroupDefaultResponse,
+  P2SVpnGatewaysListDefaultResponse,
+  P2SVpnGatewaysReset200Response,
+  P2SVpnGatewaysReset202Response,
+  P2SVpnGatewaysResetDefaultResponse,
+  P2SVpnGatewaysUpdateTags200Response,
+  P2SVpnGatewaysUpdateTags202Response,
+  P2SVpnGatewaysUpdateTagsDefaultResponse,
+  PacketCapturesCreate201Response,
+  PacketCapturesCreateDefaultResponse,
+  PacketCapturesDelete202Response,
+  PacketCapturesDelete204Response,
+  PacketCapturesDeleteDefaultResponse,
+  PacketCapturesGet200Response,
+  PacketCapturesGetDefaultResponse,
+  PacketCapturesGetStatus200Response,
+  PacketCapturesGetStatus202Response,
+  PacketCapturesGetStatusDefaultResponse,
+  PacketCapturesList200Response,
+  PacketCapturesListDefaultResponse,
+  PacketCapturesStop200Response,
+  PacketCapturesStop202Response,
+  PacketCapturesStopDefaultResponse,
+  PeerExpressRouteCircuitConnectionsGet200Response,
+  PeerExpressRouteCircuitConnectionsGetDefaultResponse,
+  PeerExpressRouteCircuitConnectionsList200Response,
+  PeerExpressRouteCircuitConnectionsListDefaultResponse,
+  PrivateDnsZoneGroupsCreateOrUpdate200Response,
+  PrivateDnsZoneGroupsCreateOrUpdate201Response,
+  PrivateDnsZoneGroupsCreateOrUpdateDefaultResponse,
+  PrivateDnsZoneGroupsDelete200Response,
+  PrivateDnsZoneGroupsDelete202Response,
+  PrivateDnsZoneGroupsDelete204Response,
+  PrivateDnsZoneGroupsDeleteDefaultResponse,
+  PrivateDnsZoneGroupsGet200Response,
+  PrivateDnsZoneGroupsGetDefaultResponse,
+  PrivateDnsZoneGroupsList200Response,
+  PrivateDnsZoneGroupsListDefaultResponse,
+  PrivateEndpointsCreateOrUpdate200Response,
+  PrivateEndpointsCreateOrUpdate201Response,
+  PrivateEndpointsCreateOrUpdateDefaultResponse,
+  PrivateEndpointsDelete200Response,
+  PrivateEndpointsDelete202Response,
+  PrivateEndpointsDelete204Response,
+  PrivateEndpointsDeleteDefaultResponse,
+  PrivateEndpointsGet200Response,
+  PrivateEndpointsGetDefaultResponse,
+  PrivateEndpointsList200Response,
+  PrivateEndpointsListBySubscription200Response,
+  PrivateEndpointsListBySubscriptionDefaultResponse,
+  PrivateEndpointsListDefaultResponse,
+  PrivateLinkServicesCheckPrivateLinkServiceVisibility200Response,
+  PrivateLinkServicesCheckPrivateLinkServiceVisibility202Response,
+  PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroup200Response,
+  PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroup202Response,
+  PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupDefaultResponse,
+  PrivateLinkServicesCheckPrivateLinkServiceVisibilityDefaultResponse,
+  PrivateLinkServicesCreateOrUpdate200Response,
+  PrivateLinkServicesCreateOrUpdate201Response,
+  PrivateLinkServicesCreateOrUpdateDefaultResponse,
+  PrivateLinkServicesDelete200Response,
+  PrivateLinkServicesDelete202Response,
+  PrivateLinkServicesDelete204Response,
+  PrivateLinkServicesDeleteDefaultResponse,
+  PrivateLinkServicesDeletePrivateEndpointConnection200Response,
+  PrivateLinkServicesDeletePrivateEndpointConnection202Response,
+  PrivateLinkServicesDeletePrivateEndpointConnection204Response,
+  PrivateLinkServicesDeletePrivateEndpointConnectionDefaultResponse,
+  PrivateLinkServicesGet200Response,
+  PrivateLinkServicesGetDefaultResponse,
+  PrivateLinkServicesGetPrivateEndpointConnection200Response,
+  PrivateLinkServicesGetPrivateEndpointConnectionDefaultResponse,
+  PrivateLinkServicesList200Response,
+  PrivateLinkServicesListAutoApprovedPrivateLinkServices200Response,
+  PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroup200Response,
+  PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupDefaultResponse,
+  PrivateLinkServicesListAutoApprovedPrivateLinkServicesDefaultResponse,
+  PrivateLinkServicesListBySubscription200Response,
+  PrivateLinkServicesListBySubscriptionDefaultResponse,
+  PrivateLinkServicesListDefaultResponse,
+  PrivateLinkServicesListPrivateEndpointConnections200Response,
+  PrivateLinkServicesListPrivateEndpointConnectionsDefaultResponse,
+  PrivateLinkServicesUpdatePrivateEndpointConnection200Response,
+  PrivateLinkServicesUpdatePrivateEndpointConnectionDefaultResponse,
+  PublicIPAddressesCreateOrUpdate200Response,
+  PublicIPAddressesCreateOrUpdate201Response,
+  PublicIPAddressesCreateOrUpdateDefaultResponse,
+  PublicIPAddressesDdosProtectionStatus200Response,
+  PublicIPAddressesDdosProtectionStatus202Response,
+  PublicIPAddressesDdosProtectionStatusDefaultResponse,
+  PublicIPAddressesDelete200Response,
+  PublicIPAddressesDelete202Response,
+  PublicIPAddressesDelete204Response,
+  PublicIPAddressesDeleteDefaultResponse,
+  PublicIPAddressesGet200Response,
+  PublicIPAddressesGetCloudServicePublicIPAddress200Response,
+  PublicIPAddressesGetCloudServicePublicIPAddressDefaultResponse,
+  PublicIPAddressesGetDefaultResponse,
+  PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddress200Response,
+  PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressDefaultResponse,
+  PublicIPAddressesList200Response,
+  PublicIPAddressesListAll200Response,
+  PublicIPAddressesListAllDefaultResponse,
+  PublicIPAddressesListCloudServicePublicIPAddresses200Response,
+  PublicIPAddressesListCloudServicePublicIPAddressesDefaultResponse,
+  PublicIPAddressesListCloudServiceRoleInstancePublicIPAddresses200Response,
+  PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesDefaultResponse,
+  PublicIPAddressesListDefaultResponse,
+  PublicIPAddressesListVirtualMachineScaleSetPublicIPAddresses200Response,
+  PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesDefaultResponse,
+  PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddresses200Response,
+  PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesDefaultResponse,
+  PublicIPAddressesUpdateTags200Response,
+  PublicIPAddressesUpdateTagsDefaultResponse,
+  PublicIPPrefixesCreateOrUpdate200Response,
+  PublicIPPrefixesCreateOrUpdate201Response,
+  PublicIPPrefixesCreateOrUpdateDefaultResponse,
+  PublicIPPrefixesDelete200Response,
+  PublicIPPrefixesDelete202Response,
+  PublicIPPrefixesDelete204Response,
+  PublicIPPrefixesDeleteDefaultResponse,
+  PublicIPPrefixesGet200Response,
+  PublicIPPrefixesGetDefaultResponse,
+  PublicIPPrefixesList200Response,
+  PublicIPPrefixesListAll200Response,
+  PublicIPPrefixesListAllDefaultResponse,
+  PublicIPPrefixesListDefaultResponse,
+  PublicIPPrefixesUpdateTags200Response,
+  PublicIPPrefixesUpdateTagsDefaultResponse,
+  PutBastionShareableLink200Response,
+  PutBastionShareableLink202Response,
+  PutBastionShareableLinkDefaultResponse,
+  ResourceNavigationLinksList200Response,
+  ResourceNavigationLinksListDefaultResponse,
+  RouteFilterRulesCreateOrUpdate200Response,
+  RouteFilterRulesCreateOrUpdate201Response,
+  RouteFilterRulesCreateOrUpdateDefaultResponse,
+  RouteFilterRulesDelete200Response,
+  RouteFilterRulesDelete202Response,
+  RouteFilterRulesDelete204Response,
+  RouteFilterRulesDeleteDefaultResponse,
+  RouteFilterRulesGet200Response,
+  RouteFilterRulesGetDefaultResponse,
+  RouteFilterRulesListByRouteFilter200Response,
+  RouteFilterRulesListByRouteFilterDefaultResponse,
+  RouteFiltersCreateOrUpdate200Response,
+  RouteFiltersCreateOrUpdate201Response,
+  RouteFiltersCreateOrUpdateDefaultResponse,
+  RouteFiltersDelete200Response,
+  RouteFiltersDelete202Response,
+  RouteFiltersDelete204Response,
+  RouteFiltersDeleteDefaultResponse,
+  RouteFiltersGet200Response,
+  RouteFiltersGetDefaultResponse,
+  RouteFiltersList200Response,
+  RouteFiltersListByResourceGroup200Response,
+  RouteFiltersListByResourceGroupDefaultResponse,
+  RouteFiltersListDefaultResponse,
+  RouteFiltersUpdateTags200Response,
+  RouteFiltersUpdateTagsDefaultResponse,
+  RouteMapsCreateOrUpdate200Response,
+  RouteMapsCreateOrUpdate201Response,
+  RouteMapsCreateOrUpdateDefaultResponse,
+  RouteMapsDelete200Response,
+  RouteMapsDelete202Response,
+  RouteMapsDelete204Response,
+  RouteMapsDeleteDefaultResponse,
+  RouteMapsGet200Response,
+  RouteMapsGetDefaultResponse,
+  RouteMapsList200Response,
+  RouteMapsListDefaultResponse,
+  RouteTablesCreateOrUpdate200Response,
+  RouteTablesCreateOrUpdate201Response,
+  RouteTablesCreateOrUpdateDefaultResponse,
+  RouteTablesDelete200Response,
+  RouteTablesDelete202Response,
+  RouteTablesDelete204Response,
+  RouteTablesDeleteDefaultResponse,
+  RouteTablesGet200Response,
+  RouteTablesGetDefaultResponse,
+  RouteTablesList200Response,
+  RouteTablesListAll200Response,
+  RouteTablesListAllDefaultResponse,
+  RouteTablesListDefaultResponse,
+  RouteTablesUpdateTags200Response,
+  RouteTablesUpdateTagsDefaultResponse,
+  RoutesCreateOrUpdate200Response,
+  RoutesCreateOrUpdate201Response,
+  RoutesCreateOrUpdateDefaultResponse,
+  RoutesDelete200Response,
+  RoutesDelete202Response,
+  RoutesDelete204Response,
+  RoutesDeleteDefaultResponse,
+  RoutesGet200Response,
+  RoutesGetDefaultResponse,
+  RoutesList200Response,
+  RoutesListDefaultResponse,
+  RoutingIntentCreateOrUpdate200Response,
+  RoutingIntentCreateOrUpdate201Response,
+  RoutingIntentCreateOrUpdateDefaultResponse,
+  RoutingIntentDelete200Response,
+  RoutingIntentDelete202Response,
+  RoutingIntentDelete204Response,
+  RoutingIntentDeleteDefaultResponse,
+  RoutingIntentGet200Response,
+  RoutingIntentGetDefaultResponse,
+  RoutingIntentList200Response,
+  RoutingIntentListDefaultResponse,
+  ScopeConnectionsCreateOrUpdate200Response,
+  ScopeConnectionsCreateOrUpdate201Response,
+  ScopeConnectionsCreateOrUpdateDefaultResponse,
+  ScopeConnectionsDelete200Response,
+  ScopeConnectionsDelete204Response,
+  ScopeConnectionsDeleteDefaultResponse,
+  ScopeConnectionsGet200Response,
+  ScopeConnectionsGetDefaultResponse,
+  ScopeConnectionsList200Response,
+  ScopeConnectionsListDefaultResponse,
+  SecurityAdminConfigurationsCreateOrUpdate200Response,
+  SecurityAdminConfigurationsCreateOrUpdate201Response,
+  SecurityAdminConfigurationsCreateOrUpdateDefaultResponse,
+  SecurityAdminConfigurationsDelete200Response,
+  SecurityAdminConfigurationsDelete202Response,
+  SecurityAdminConfigurationsDelete204Response,
+  SecurityAdminConfigurationsDeleteDefaultResponse,
+  SecurityAdminConfigurationsGet200Response,
+  SecurityAdminConfigurationsGetDefaultResponse,
+  SecurityAdminConfigurationsList200Response,
+  SecurityAdminConfigurationsListDefaultResponse,
+  SecurityPartnerProvidersCreateOrUpdate200Response,
+  SecurityPartnerProvidersCreateOrUpdate201Response,
+  SecurityPartnerProvidersCreateOrUpdateDefaultResponse,
+  SecurityPartnerProvidersDelete200Response,
+  SecurityPartnerProvidersDelete202Response,
+  SecurityPartnerProvidersDelete204Response,
+  SecurityPartnerProvidersDeleteDefaultResponse,
+  SecurityPartnerProvidersGet200Response,
+  SecurityPartnerProvidersGetDefaultResponse,
+  SecurityPartnerProvidersList200Response,
+  SecurityPartnerProvidersListByResourceGroup200Response,
+  SecurityPartnerProvidersListByResourceGroupDefaultResponse,
+  SecurityPartnerProvidersListDefaultResponse,
+  SecurityPartnerProvidersUpdateTags200Response,
+  SecurityPartnerProvidersUpdateTagsDefaultResponse,
+  SecurityRulesCreateOrUpdate200Response,
+  SecurityRulesCreateOrUpdate201Response,
+  SecurityRulesCreateOrUpdateDefaultResponse,
+  SecurityRulesDelete200Response,
+  SecurityRulesDelete202Response,
+  SecurityRulesDelete204Response,
+  SecurityRulesDeleteDefaultResponse,
+  SecurityRulesGet200Response,
+  SecurityRulesGetDefaultResponse,
+  SecurityRulesList200Response,
+  SecurityRulesListDefaultResponse,
+  ServiceAssociationLinksList200Response,
+  ServiceAssociationLinksListDefaultResponse,
+  ServiceEndpointPoliciesCreateOrUpdate200Response,
+  ServiceEndpointPoliciesCreateOrUpdate201Response,
+  ServiceEndpointPoliciesCreateOrUpdateDefaultResponse,
+  ServiceEndpointPoliciesDelete200Response,
+  ServiceEndpointPoliciesDelete202Response,
+  ServiceEndpointPoliciesDelete204Response,
+  ServiceEndpointPoliciesDeleteDefaultResponse,
+  ServiceEndpointPoliciesGet200Response,
+  ServiceEndpointPoliciesGetDefaultResponse,
+  ServiceEndpointPoliciesList200Response,
+  ServiceEndpointPoliciesListByResourceGroup200Response,
+  ServiceEndpointPoliciesListByResourceGroupDefaultResponse,
+  ServiceEndpointPoliciesListDefaultResponse,
+  ServiceEndpointPoliciesUpdateTags200Response,
+  ServiceEndpointPoliciesUpdateTagsDefaultResponse,
+  ServiceEndpointPolicyDefinitionsCreateOrUpdate200Response,
+  ServiceEndpointPolicyDefinitionsCreateOrUpdate201Response,
+  ServiceEndpointPolicyDefinitionsCreateOrUpdateDefaultResponse,
+  ServiceEndpointPolicyDefinitionsDelete200Response,
+  ServiceEndpointPolicyDefinitionsDelete202Response,
+  ServiceEndpointPolicyDefinitionsDelete204Response,
+  ServiceEndpointPolicyDefinitionsDeleteDefaultResponse,
+  ServiceEndpointPolicyDefinitionsGet200Response,
+  ServiceEndpointPolicyDefinitionsGetDefaultResponse,
+  ServiceEndpointPolicyDefinitionsListByResourceGroup200Response,
+  ServiceEndpointPolicyDefinitionsListByResourceGroupDefaultResponse,
+  ServiceTagInformationList200Response,
+  ServiceTagInformationListDefaultResponse,
+  ServiceTagsList200Response,
+  ServiceTagsListDefaultResponse,
+  StaticMembersCreateOrUpdate200Response,
+  StaticMembersCreateOrUpdate201Response,
+  StaticMembersCreateOrUpdateDefaultResponse,
+  StaticMembersDelete200Response,
+  StaticMembersDelete204Response,
+  StaticMembersDeleteDefaultResponse,
+  StaticMembersGet200Response,
+  StaticMembersGetDefaultResponse,
+  StaticMembersList200Response,
+  StaticMembersListDefaultResponse,
+  SubnetsCreateOrUpdate200Response,
+  SubnetsCreateOrUpdate201Response,
+  SubnetsCreateOrUpdateDefaultResponse,
+  SubnetsDelete200Response,
+  SubnetsDelete202Response,
+  SubnetsDelete204Response,
+  SubnetsDeleteDefaultResponse,
+  SubnetsGet200Response,
+  SubnetsGetDefaultResponse,
+  SubnetsList200Response,
+  SubnetsListDefaultResponse,
+  SubnetsPrepareNetworkPolicies200Response,
+  SubnetsPrepareNetworkPolicies202Response,
+  SubnetsPrepareNetworkPoliciesDefaultResponse,
+  SubnetsUnprepareNetworkPolicies200Response,
+  SubnetsUnprepareNetworkPolicies202Response,
+  SubnetsUnprepareNetworkPoliciesDefaultResponse,
+  SubscriptionNetworkManagerConnectionsCreateOrUpdate200Response,
+  SubscriptionNetworkManagerConnectionsCreateOrUpdate201Response,
+  SubscriptionNetworkManagerConnectionsCreateOrUpdateDefaultResponse,
+  SubscriptionNetworkManagerConnectionsDelete200Response,
+  SubscriptionNetworkManagerConnectionsDelete204Response,
+  SubscriptionNetworkManagerConnectionsDeleteDefaultResponse,
+  SubscriptionNetworkManagerConnectionsGet200Response,
+  SubscriptionNetworkManagerConnectionsGetDefaultResponse,
+  SubscriptionNetworkManagerConnectionsList200Response,
+  SubscriptionNetworkManagerConnectionsListDefaultResponse,
+  SupportedSecurityProviders200Response,
+  SupportedSecurityProvidersDefaultResponse,
+  UsagesList200Response,
+  UsagesListDefaultResponse,
+  VipSwapCreate200Response,
+  VipSwapCreate202Response,
+  VipSwapCreateDefaultResponse,
+  VipSwapGet200Response,
+  VipSwapGetDefaultResponse,
+  VipSwapList200Response,
+  VipSwapListDefaultResponse,
+  VirtualApplianceSitesCreateOrUpdate200Response,
+  VirtualApplianceSitesCreateOrUpdate201Response,
+  VirtualApplianceSitesCreateOrUpdateDefaultResponse,
+  VirtualApplianceSitesDelete200Response,
+  VirtualApplianceSitesDelete202Response,
+  VirtualApplianceSitesDelete204Response,
+  VirtualApplianceSitesDeleteDefaultResponse,
+  VirtualApplianceSitesGet200Response,
+  VirtualApplianceSitesGetDefaultResponse,
+  VirtualApplianceSitesList200Response,
+  VirtualApplianceSitesListDefaultResponse,
+  VirtualApplianceSkusGet200Response,
+  VirtualApplianceSkusGetDefaultResponse,
+  VirtualApplianceSkusList200Response,
+  VirtualApplianceSkusListDefaultResponse,
+  VirtualHubBgpConnectionCreateOrUpdate200Response,
+  VirtualHubBgpConnectionCreateOrUpdate201Response,
+  VirtualHubBgpConnectionCreateOrUpdateDefaultResponse,
+  VirtualHubBgpConnectionDelete200Response,
+  VirtualHubBgpConnectionDelete202Response,
+  VirtualHubBgpConnectionDelete204Response,
+  VirtualHubBgpConnectionDeleteDefaultResponse,
+  VirtualHubBgpConnectionGet200Response,
+  VirtualHubBgpConnectionGetDefaultResponse,
+  VirtualHubBgpConnectionsList200Response,
+  VirtualHubBgpConnectionsListAdvertisedRoutes200Response,
+  VirtualHubBgpConnectionsListAdvertisedRoutes202Response,
+  VirtualHubBgpConnectionsListAdvertisedRoutesDefaultResponse,
+  VirtualHubBgpConnectionsListDefaultResponse,
+  VirtualHubBgpConnectionsListLearnedRoutes200Response,
+  VirtualHubBgpConnectionsListLearnedRoutes202Response,
+  VirtualHubBgpConnectionsListLearnedRoutesDefaultResponse,
+  VirtualHubIpConfigurationCreateOrUpdate200Response,
+  VirtualHubIpConfigurationCreateOrUpdate201Response,
+  VirtualHubIpConfigurationCreateOrUpdateDefaultResponse,
+  VirtualHubIpConfigurationDelete200Response,
+  VirtualHubIpConfigurationDelete202Response,
+  VirtualHubIpConfigurationDelete204Response,
+  VirtualHubIpConfigurationDeleteDefaultResponse,
+  VirtualHubIpConfigurationGet200Response,
+  VirtualHubIpConfigurationGetDefaultResponse,
+  VirtualHubIpConfigurationList200Response,
+  VirtualHubIpConfigurationListDefaultResponse,
+  VirtualHubRouteTableV2SCreateOrUpdate200Response,
+  VirtualHubRouteTableV2SCreateOrUpdate201Response,
+  VirtualHubRouteTableV2SCreateOrUpdateDefaultResponse,
+  VirtualHubRouteTableV2SDelete200Response,
+  VirtualHubRouteTableV2SDelete202Response,
+  VirtualHubRouteTableV2SDelete204Response,
+  VirtualHubRouteTableV2SDeleteDefaultResponse,
+  VirtualHubRouteTableV2SGet200Response,
+  VirtualHubRouteTableV2SGetDefaultResponse,
+  VirtualHubRouteTableV2SList200Response,
+  VirtualHubRouteTableV2SListDefaultResponse,
+  VirtualHubsCreateOrUpdate200Response,
+  VirtualHubsCreateOrUpdate201Response,
+  VirtualHubsCreateOrUpdateDefaultResponse,
+  VirtualHubsDelete200Response,
+  VirtualHubsDelete202Response,
+  VirtualHubsDelete204Response,
+  VirtualHubsDeleteDefaultResponse,
+  VirtualHubsGet200Response,
+  VirtualHubsGetDefaultResponse,
+  VirtualHubsGetEffectiveVirtualHubRoutes200Response,
+  VirtualHubsGetEffectiveVirtualHubRoutes202Response,
+  VirtualHubsGetEffectiveVirtualHubRoutesDefaultResponse,
+  VirtualHubsGetInboundRoutes200Response,
+  VirtualHubsGetInboundRoutes202Response,
+  VirtualHubsGetInboundRoutesDefaultResponse,
+  VirtualHubsGetOutboundRoutes200Response,
+  VirtualHubsGetOutboundRoutes202Response,
+  VirtualHubsGetOutboundRoutesDefaultResponse,
+  VirtualHubsList200Response,
+  VirtualHubsListByResourceGroup200Response,
+  VirtualHubsListByResourceGroupDefaultResponse,
+  VirtualHubsListDefaultResponse,
+  VirtualHubsUpdateTags200Response,
+  VirtualHubsUpdateTagsDefaultResponse,
+  VirtualNetworkGatewayConnectionsCreateOrUpdate200Response,
+  VirtualNetworkGatewayConnectionsCreateOrUpdate201Response,
+  VirtualNetworkGatewayConnectionsCreateOrUpdateDefaultResponse,
+  VirtualNetworkGatewayConnectionsDelete200Response,
+  VirtualNetworkGatewayConnectionsDelete202Response,
+  VirtualNetworkGatewayConnectionsDelete204Response,
+  VirtualNetworkGatewayConnectionsDeleteDefaultResponse,
+  VirtualNetworkGatewayConnectionsGet200Response,
+  VirtualNetworkGatewayConnectionsGetDefaultResponse,
+  VirtualNetworkGatewayConnectionsGetIkeSas200Response,
+  VirtualNetworkGatewayConnectionsGetIkeSas202Response,
+  VirtualNetworkGatewayConnectionsGetIkeSasDefaultResponse,
+  VirtualNetworkGatewayConnectionsGetSharedKey200Response,
+  VirtualNetworkGatewayConnectionsGetSharedKeyDefaultResponse,
+  VirtualNetworkGatewayConnectionsList200Response,
+  VirtualNetworkGatewayConnectionsListDefaultResponse,
+  VirtualNetworkGatewayConnectionsResetConnection202Response,
+  VirtualNetworkGatewayConnectionsResetConnectionDefaultResponse,
+  VirtualNetworkGatewayConnectionsResetSharedKey200Response,
+  VirtualNetworkGatewayConnectionsResetSharedKey202Response,
+  VirtualNetworkGatewayConnectionsResetSharedKeyDefaultResponse,
+  VirtualNetworkGatewayConnectionsSetSharedKey200Response,
+  VirtualNetworkGatewayConnectionsSetSharedKey201Response,
+  VirtualNetworkGatewayConnectionsSetSharedKeyDefaultResponse,
+  VirtualNetworkGatewayConnectionsStartPacketCapture200Response,
+  VirtualNetworkGatewayConnectionsStartPacketCapture202Response,
+  VirtualNetworkGatewayConnectionsStartPacketCaptureDefaultResponse,
+  VirtualNetworkGatewayConnectionsStopPacketCapture200Response,
+  VirtualNetworkGatewayConnectionsStopPacketCapture202Response,
+  VirtualNetworkGatewayConnectionsStopPacketCaptureDefaultResponse,
+  VirtualNetworkGatewayConnectionsUpdateTags200Response,
+  VirtualNetworkGatewayConnectionsUpdateTags202Response,
+  VirtualNetworkGatewayConnectionsUpdateTagsDefaultResponse,
+  VirtualNetworkGatewayNatRulesCreateOrUpdate200Response,
+  VirtualNetworkGatewayNatRulesCreateOrUpdate201Response,
+  VirtualNetworkGatewayNatRulesCreateOrUpdateDefaultResponse,
+  VirtualNetworkGatewayNatRulesDelete200Response,
+  VirtualNetworkGatewayNatRulesDelete202Response,
+  VirtualNetworkGatewayNatRulesDelete204Response,
+  VirtualNetworkGatewayNatRulesDeleteDefaultResponse,
+  VirtualNetworkGatewayNatRulesGet200Response,
+  VirtualNetworkGatewayNatRulesGetDefaultResponse,
+  VirtualNetworkGatewayNatRulesListByVirtualNetworkGateway200Response,
+  VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayDefaultResponse,
+  VirtualNetworkGatewaysCreateOrUpdate200Response,
+  VirtualNetworkGatewaysCreateOrUpdate201Response,
+  VirtualNetworkGatewaysCreateOrUpdateDefaultResponse,
+  VirtualNetworkGatewaysDelete200Response,
+  VirtualNetworkGatewaysDelete202Response,
+  VirtualNetworkGatewaysDelete204Response,
+  VirtualNetworkGatewaysDeleteDefaultResponse,
+  VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections200Response,
+  VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections202Response,
+  VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsDefaultResponse,
+  VirtualNetworkGatewaysGenerateVpnProfile200Response,
+  VirtualNetworkGatewaysGenerateVpnProfile202Response,
+  VirtualNetworkGatewaysGenerateVpnProfileDefaultResponse,
+  VirtualNetworkGatewaysGeneratevpnclientpackage200Response,
+  VirtualNetworkGatewaysGeneratevpnclientpackage202Response,
+  VirtualNetworkGatewaysGeneratevpnclientpackageDefaultResponse,
+  VirtualNetworkGatewaysGet200Response,
+  VirtualNetworkGatewaysGetAdvertisedRoutes200Response,
+  VirtualNetworkGatewaysGetAdvertisedRoutes202Response,
+  VirtualNetworkGatewaysGetAdvertisedRoutesDefaultResponse,
+  VirtualNetworkGatewaysGetBgpPeerStatus200Response,
+  VirtualNetworkGatewaysGetBgpPeerStatus202Response,
+  VirtualNetworkGatewaysGetBgpPeerStatusDefaultResponse,
+  VirtualNetworkGatewaysGetDefaultResponse,
+  VirtualNetworkGatewaysGetLearnedRoutes200Response,
+  VirtualNetworkGatewaysGetLearnedRoutes202Response,
+  VirtualNetworkGatewaysGetLearnedRoutesDefaultResponse,
+  VirtualNetworkGatewaysGetVpnProfilePackageUrl200Response,
+  VirtualNetworkGatewaysGetVpnProfilePackageUrl202Response,
+  VirtualNetworkGatewaysGetVpnProfilePackageUrlDefaultResponse,
+  VirtualNetworkGatewaysGetVpnclientConnectionHealth200Response,
+  VirtualNetworkGatewaysGetVpnclientConnectionHealth202Response,
+  VirtualNetworkGatewaysGetVpnclientConnectionHealthDefaultResponse,
+  VirtualNetworkGatewaysGetVpnclientIpsecParameters200Response,
+  VirtualNetworkGatewaysGetVpnclientIpsecParametersDefaultResponse,
+  VirtualNetworkGatewaysList200Response,
+  VirtualNetworkGatewaysListConnections200Response,
+  VirtualNetworkGatewaysListConnectionsDefaultResponse,
+  VirtualNetworkGatewaysListDefaultResponse,
+  VirtualNetworkGatewaysReset200Response,
+  VirtualNetworkGatewaysReset202Response,
+  VirtualNetworkGatewaysResetDefaultResponse,
+  VirtualNetworkGatewaysResetVpnClientSharedKey200Response,
+  VirtualNetworkGatewaysResetVpnClientSharedKey202Response,
+  VirtualNetworkGatewaysResetVpnClientSharedKeyDefaultResponse,
+  VirtualNetworkGatewaysSetVpnclientIpsecParameters200Response,
+  VirtualNetworkGatewaysSetVpnclientIpsecParameters202Response,
+  VirtualNetworkGatewaysSetVpnclientIpsecParametersDefaultResponse,
+  VirtualNetworkGatewaysStartPacketCapture200Response,
+  VirtualNetworkGatewaysStartPacketCapture202Response,
+  VirtualNetworkGatewaysStartPacketCaptureDefaultResponse,
+  VirtualNetworkGatewaysStopPacketCapture200Response,
+  VirtualNetworkGatewaysStopPacketCapture202Response,
+  VirtualNetworkGatewaysStopPacketCaptureDefaultResponse,
+  VirtualNetworkGatewaysSupportedVpnDevices200Response,
+  VirtualNetworkGatewaysSupportedVpnDevicesDefaultResponse,
+  VirtualNetworkGatewaysUpdateTags200Response,
+  VirtualNetworkGatewaysUpdateTags202Response,
+  VirtualNetworkGatewaysUpdateTagsDefaultResponse,
+  VirtualNetworkGatewaysVpnDeviceConfigurationScript200Response,
+  VirtualNetworkGatewaysVpnDeviceConfigurationScriptDefaultResponse,
+  VirtualNetworkPeeringsCreateOrUpdate200Response,
+  VirtualNetworkPeeringsCreateOrUpdate201Response,
+  VirtualNetworkPeeringsCreateOrUpdateDefaultResponse,
+  VirtualNetworkPeeringsDelete200Response,
+  VirtualNetworkPeeringsDelete202Response,
+  VirtualNetworkPeeringsDelete204Response,
+  VirtualNetworkPeeringsDeleteDefaultResponse,
+  VirtualNetworkPeeringsGet200Response,
+  VirtualNetworkPeeringsGetDefaultResponse,
+  VirtualNetworkPeeringsList200Response,
+  VirtualNetworkPeeringsListDefaultResponse,
+  VirtualNetworkTapsCreateOrUpdate200Response,
+  VirtualNetworkTapsCreateOrUpdate201Response,
+  VirtualNetworkTapsCreateOrUpdateDefaultResponse,
+  VirtualNetworkTapsDelete200Response,
+  VirtualNetworkTapsDelete202Response,
+  VirtualNetworkTapsDelete204Response,
+  VirtualNetworkTapsDeleteDefaultResponse,
+  VirtualNetworkTapsGet200Response,
+  VirtualNetworkTapsGetDefaultResponse,
+  VirtualNetworkTapsListAll200Response,
+  VirtualNetworkTapsListAllDefaultResponse,
+  VirtualNetworkTapsListByResourceGroup200Response,
+  VirtualNetworkTapsListByResourceGroupDefaultResponse,
+  VirtualNetworkTapsUpdateTags200Response,
+  VirtualNetworkTapsUpdateTagsDefaultResponse,
+  VirtualNetworksCheckIPAddressAvailability200Response,
+  VirtualNetworksCheckIPAddressAvailabilityDefaultResponse,
+  VirtualNetworksCreateOrUpdate200Response,
+  VirtualNetworksCreateOrUpdate201Response,
+  VirtualNetworksCreateOrUpdateDefaultResponse,
+  VirtualNetworksDelete200Response,
+  VirtualNetworksDelete202Response,
+  VirtualNetworksDelete204Response,
+  VirtualNetworksDeleteDefaultResponse,
+  VirtualNetworksGet200Response,
+  VirtualNetworksGetDefaultResponse,
+  VirtualNetworksList200Response,
+  VirtualNetworksListAll200Response,
+  VirtualNetworksListAllDefaultResponse,
+  VirtualNetworksListDdosProtectionStatus200Response,
+  VirtualNetworksListDdosProtectionStatus202Response,
+  VirtualNetworksListDdosProtectionStatusDefaultResponse,
+  VirtualNetworksListDefaultResponse,
+  VirtualNetworksListUsage200Response,
+  VirtualNetworksListUsageDefaultResponse,
+  VirtualNetworksUpdateTags200Response,
+  VirtualNetworksUpdateTagsDefaultResponse,
+  VirtualRouterPeeringsCreateOrUpdate200Response,
+  VirtualRouterPeeringsCreateOrUpdate201Response,
+  VirtualRouterPeeringsCreateOrUpdateDefaultResponse,
+  VirtualRouterPeeringsDelete200Response,
+  VirtualRouterPeeringsDelete202Response,
+  VirtualRouterPeeringsDelete204Response,
+  VirtualRouterPeeringsDeleteDefaultResponse,
+  VirtualRouterPeeringsGet200Response,
+  VirtualRouterPeeringsGetDefaultResponse,
+  VirtualRouterPeeringsList200Response,
+  VirtualRouterPeeringsListDefaultResponse,
+  VirtualRoutersCreateOrUpdate200Response,
+  VirtualRoutersCreateOrUpdate201Response,
+  VirtualRoutersCreateOrUpdateDefaultResponse,
+  VirtualRoutersDelete200Response,
+  VirtualRoutersDelete202Response,
+  VirtualRoutersDelete204Response,
+  VirtualRoutersDeleteDefaultResponse,
+  VirtualRoutersGet200Response,
+  VirtualRoutersGetDefaultResponse,
+  VirtualRoutersList200Response,
+  VirtualRoutersListByResourceGroup200Response,
+  VirtualRoutersListByResourceGroupDefaultResponse,
+  VirtualRoutersListDefaultResponse,
+  VirtualWansCreateOrUpdate200Response,
+  VirtualWansCreateOrUpdate201Response,
+  VirtualWansCreateOrUpdateDefaultResponse,
+  VirtualWansDelete200Response,
+  VirtualWansDelete202Response,
+  VirtualWansDelete204Response,
+  VirtualWansDeleteDefaultResponse,
+  VirtualWansGet200Response,
+  VirtualWansGetDefaultResponse,
+  VirtualWansList200Response,
+  VirtualWansListByResourceGroup200Response,
+  VirtualWansListByResourceGroupDefaultResponse,
+  VirtualWansListDefaultResponse,
+  VirtualWansUpdateTags200Response,
+  VirtualWansUpdateTagsDefaultResponse,
+  VpnConnectionsCreateOrUpdate200Response,
+  VpnConnectionsCreateOrUpdate201Response,
+  VpnConnectionsCreateOrUpdateDefaultResponse,
+  VpnConnectionsDelete200Response,
+  VpnConnectionsDelete202Response,
+  VpnConnectionsDelete204Response,
+  VpnConnectionsDeleteDefaultResponse,
+  VpnConnectionsGet200Response,
+  VpnConnectionsGetDefaultResponse,
+  VpnConnectionsListByVpnGateway200Response,
+  VpnConnectionsListByVpnGatewayDefaultResponse,
+  VpnConnectionsStartPacketCapture200Response,
+  VpnConnectionsStartPacketCapture202Response,
+  VpnConnectionsStartPacketCaptureDefaultResponse,
+  VpnConnectionsStopPacketCapture200Response,
+  VpnConnectionsStopPacketCapture202Response,
+  VpnConnectionsStopPacketCaptureDefaultResponse,
+  VpnGatewaysCreateOrUpdate200Response,
+  VpnGatewaysCreateOrUpdate201Response,
+  VpnGatewaysCreateOrUpdateDefaultResponse,
+  VpnGatewaysDelete200Response,
+  VpnGatewaysDelete202Response,
+  VpnGatewaysDelete204Response,
+  VpnGatewaysDeleteDefaultResponse,
+  VpnGatewaysGet200Response,
+  VpnGatewaysGetDefaultResponse,
+  VpnGatewaysList200Response,
+  VpnGatewaysListByResourceGroup200Response,
+  VpnGatewaysListByResourceGroupDefaultResponse,
+  VpnGatewaysListDefaultResponse,
+  VpnGatewaysReset200Response,
+  VpnGatewaysReset202Response,
+  VpnGatewaysResetDefaultResponse,
+  VpnGatewaysStartPacketCapture200Response,
+  VpnGatewaysStartPacketCapture202Response,
+  VpnGatewaysStartPacketCaptureDefaultResponse,
+  VpnGatewaysStopPacketCapture200Response,
+  VpnGatewaysStopPacketCapture202Response,
+  VpnGatewaysStopPacketCaptureDefaultResponse,
+  VpnGatewaysUpdateTags200Response,
+  VpnGatewaysUpdateTags202Response,
+  VpnGatewaysUpdateTagsDefaultResponse,
+  VpnLinkConnectionsGetIkeSas200Response,
+  VpnLinkConnectionsGetIkeSas202Response,
+  VpnLinkConnectionsGetIkeSasDefaultResponse,
+  VpnLinkConnectionsListByVpnConnection200Response,
+  VpnLinkConnectionsListByVpnConnectionDefaultResponse,
+  VpnLinkConnectionsResetConnection202Response,
+  VpnLinkConnectionsResetConnectionDefaultResponse,
+  VpnServerConfigurationsAssociatedWithVirtualWanList200Response,
+  VpnServerConfigurationsAssociatedWithVirtualWanList202Response,
+  VpnServerConfigurationsAssociatedWithVirtualWanListDefaultResponse,
+  VpnServerConfigurationsCreateOrUpdate200Response,
+  VpnServerConfigurationsCreateOrUpdate201Response,
+  VpnServerConfigurationsCreateOrUpdateDefaultResponse,
+  VpnServerConfigurationsDelete200Response,
+  VpnServerConfigurationsDelete202Response,
+  VpnServerConfigurationsDelete204Response,
+  VpnServerConfigurationsDeleteDefaultResponse,
+  VpnServerConfigurationsGet200Response,
+  VpnServerConfigurationsGetDefaultResponse,
+  VpnServerConfigurationsList200Response,
+  VpnServerConfigurationsListByResourceGroup200Response,
+  VpnServerConfigurationsListByResourceGroupDefaultResponse,
+  VpnServerConfigurationsListDefaultResponse,
+  VpnServerConfigurationsUpdateTags200Response,
+  VpnServerConfigurationsUpdateTagsDefaultResponse,
+  VpnSiteLinkConnectionsGet200Response,
+  VpnSiteLinkConnectionsGetDefaultResponse,
+  VpnSiteLinksGet200Response,
+  VpnSiteLinksGetDefaultResponse,
+  VpnSiteLinksListByVpnSite200Response,
+  VpnSiteLinksListByVpnSiteDefaultResponse,
+  VpnSitesConfigurationDownload200Response,
+  VpnSitesConfigurationDownload202Response,
+  VpnSitesConfigurationDownloadDefaultResponse,
+  VpnSitesCreateOrUpdate200Response,
+  VpnSitesCreateOrUpdate201Response,
+  VpnSitesCreateOrUpdateDefaultResponse,
+  VpnSitesDelete200Response,
+  VpnSitesDelete202Response,
+  VpnSitesDelete204Response,
+  VpnSitesDeleteDefaultResponse,
+  VpnSitesGet200Response,
+  VpnSitesGetDefaultResponse,
+  VpnSitesList200Response,
+  VpnSitesListByResourceGroup200Response,
+  VpnSitesListByResourceGroupDefaultResponse,
+  VpnSitesListDefaultResponse,
+  VpnSitesUpdateTags200Response,
+  VpnSitesUpdateTagsDefaultResponse,
+  WebApplicationFirewallPoliciesCreateOrUpdate200Response,
+  WebApplicationFirewallPoliciesCreateOrUpdate201Response,
+  WebApplicationFirewallPoliciesCreateOrUpdateDefaultResponse,
+  WebApplicationFirewallPoliciesDelete200Response,
+  WebApplicationFirewallPoliciesDelete202Response,
+  WebApplicationFirewallPoliciesDelete204Response,
+  WebApplicationFirewallPoliciesDeleteDefaultResponse,
+  WebApplicationFirewallPoliciesGet200Response,
+  WebApplicationFirewallPoliciesGetDefaultResponse,
+  WebApplicationFirewallPoliciesList200Response,
+  WebApplicationFirewallPoliciesListAll200Response,
+  WebApplicationFirewallPoliciesListAllDefaultResponse,
+  WebApplicationFirewallPoliciesListDefaultResponse,
+  WebCategoriesGet200Response,
+  WebCategoriesGetDefaultResponse,
+  WebCategoriesListBySubscription200Response,
+  WebCategoriesListBySubscriptionDefaultResponse,
+} from "./responses";
+import { Client, StreamableMethod } from "@azure-rest/core-client";
+
+export interface ApplicationGatewaysDelete {
+  /** Deletes the specified application gateway. */
+  delete(
+    options: ApplicationGatewaysDeleteParameters
+  ): StreamableMethod<
+    | ApplicationGatewaysDelete200Response
+    | ApplicationGatewaysDelete202Response
+    | ApplicationGatewaysDelete204Response
+    | ApplicationGatewaysDeleteDefaultResponse
+  >;
+  /** Gets the specified application gateway. */
+  get(
+    options: ApplicationGatewaysGetParameters
+  ): StreamableMethod<ApplicationGatewaysGet200Response | ApplicationGatewaysGetDefaultResponse>;
+  /** Creates or updates the specified application gateway. */
+  put(
+    options: ApplicationGatewaysCreateOrUpdateParameters
+  ): StreamableMethod<
+    | ApplicationGatewaysCreateOrUpdate200Response
+    | ApplicationGatewaysCreateOrUpdate201Response
+    | ApplicationGatewaysCreateOrUpdateDefaultResponse
+  >;
+  /** Updates the specified application gateway tags. */
+  patch(
+    options: ApplicationGatewaysUpdateTagsParameters
+  ): StreamableMethod<
+    ApplicationGatewaysUpdateTags200Response | ApplicationGatewaysUpdateTagsDefaultResponse
+  >;
+}
+
+export interface ApplicationGatewaysList {
+  /** Lists all application gateways in a resource group. */
+  get(
+    options: ApplicationGatewaysListParameters
+  ): StreamableMethod<ApplicationGatewaysList200Response | ApplicationGatewaysListDefaultResponse>;
+}
+
+export interface ApplicationGatewaysListAll {
+  /** Gets all the application gateways in a subscription. */
+  get(
+    options: ApplicationGatewaysListAllParameters
+  ): StreamableMethod<
+    ApplicationGatewaysListAll200Response | ApplicationGatewaysListAllDefaultResponse
+  >;
+}
+
+export interface ApplicationGatewaysStart {
+  /** Starts the specified application gateway. */
+  post(
+    options: ApplicationGatewaysStartParameters
+  ): StreamableMethod<
+    | ApplicationGatewaysStart200Response
+    | ApplicationGatewaysStart202Response
+    | ApplicationGatewaysStartDefaultResponse
+  >;
+}
+
+export interface ApplicationGatewaysStop {
+  /** Stops the specified application gateway in a resource group. */
+  post(
+    options: ApplicationGatewaysStopParameters
+  ): StreamableMethod<
+    | ApplicationGatewaysStop200Response
+    | ApplicationGatewaysStop202Response
+    | ApplicationGatewaysStopDefaultResponse
+  >;
+}
+
+export interface ApplicationGatewaysBackendHealth {
+  /** Gets the backend health of the specified application gateway in a resource group. */
+  post(
+    options: ApplicationGatewaysBackendHealthParameters
+  ): StreamableMethod<
+    | ApplicationGatewaysBackendHealth200Response
+    | ApplicationGatewaysBackendHealth202Response
+    | ApplicationGatewaysBackendHealthDefaultResponse
+  >;
+}
+
+export interface ApplicationGatewaysBackendHealthOnDemand {
+  /** Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group. */
+  post(
+    options: ApplicationGatewaysBackendHealthOnDemandParameters
+  ): StreamableMethod<
+    | ApplicationGatewaysBackendHealthOnDemand200Response
+    | ApplicationGatewaysBackendHealthOnDemand202Response
+    | ApplicationGatewaysBackendHealthOnDemandDefaultResponse
+  >;
+}
+
+export interface ApplicationGatewaysListAvailableServerVariables {
+  /** Lists all available server variables. */
+  get(
+    options: ApplicationGatewaysListAvailableServerVariablesParameters
+  ): StreamableMethod<
+    | ApplicationGatewaysListAvailableServerVariables200Response
+    | ApplicationGatewaysListAvailableServerVariablesDefaultResponse
+  >;
+}
+
+export interface ApplicationGatewaysListAvailableRequestHeaders {
+  /** Lists all available request headers. */
+  get(
+    options: ApplicationGatewaysListAvailableRequestHeadersParameters
+  ): StreamableMethod<
+    | ApplicationGatewaysListAvailableRequestHeaders200Response
+    | ApplicationGatewaysListAvailableRequestHeadersDefaultResponse
+  >;
+}
+
+export interface ApplicationGatewaysListAvailableResponseHeaders {
+  /** Lists all available response headers. */
+  get(
+    options: ApplicationGatewaysListAvailableResponseHeadersParameters
+  ): StreamableMethod<
+    | ApplicationGatewaysListAvailableResponseHeaders200Response
+    | ApplicationGatewaysListAvailableResponseHeadersDefaultResponse
+  >;
+}
+
+export interface ApplicationGatewaysListAvailableWafRuleSets {
+  /** Lists all available web application firewall rule sets. */
+  get(
+    options: ApplicationGatewaysListAvailableWafRuleSetsParameters
+  ): StreamableMethod<
+    | ApplicationGatewaysListAvailableWafRuleSets200Response
+    | ApplicationGatewaysListAvailableWafRuleSetsDefaultResponse
+  >;
+}
+
+export interface ApplicationGatewaysListAvailableSslOptions {
+  /** Lists available Ssl options for configuring Ssl policy. */
+  get(
+    options: ApplicationGatewaysListAvailableSslOptionsParameters
+  ): StreamableMethod<
+    | ApplicationGatewaysListAvailableSslOptions200Response
+    | ApplicationGatewaysListAvailableSslOptionsDefaultResponse
+  >;
+}
+
+export interface ApplicationGatewaysListAvailableSslPredefinedPolicies {
+  /** Lists all SSL predefined policies for configuring Ssl policy. */
+  get(
+    options: ApplicationGatewaysListAvailableSslPredefinedPoliciesParameters
+  ): StreamableMethod<
+    | ApplicationGatewaysListAvailableSslPredefinedPolicies200Response
+    | ApplicationGatewaysListAvailableSslPredefinedPoliciesDefaultResponse
+  >;
+}
+
+export interface ApplicationGatewaysGetSslPredefinedPolicy {
+  /** Gets Ssl predefined policy with the specified policy name. */
+  get(
+    options: ApplicationGatewaysGetSslPredefinedPolicyParameters
+  ): StreamableMethod<
+    | ApplicationGatewaysGetSslPredefinedPolicy200Response
+    | ApplicationGatewaysGetSslPredefinedPolicyDefaultResponse
+  >;
+}
+
+export interface ApplicationGatewayPrivateLinkResourcesList {
+  /** Lists all private link resources on an application gateway. */
+  get(
+    options: ApplicationGatewayPrivateLinkResourcesListParameters
+  ): StreamableMethod<
+    | ApplicationGatewayPrivateLinkResourcesList200Response
+    | ApplicationGatewayPrivateLinkResourcesListDefaultResponse
+  >;
+}
+
+export interface ApplicationGatewayPrivateEndpointConnectionsDelete {
+  /** Deletes the specified private endpoint connection on application gateway. */
+  delete(
+    options: ApplicationGatewayPrivateEndpointConnectionsDeleteParameters
+  ): StreamableMethod<
+    | ApplicationGatewayPrivateEndpointConnectionsDelete200Response
+    | ApplicationGatewayPrivateEndpointConnectionsDelete202Response
+    | ApplicationGatewayPrivateEndpointConnectionsDelete204Response
+    | ApplicationGatewayPrivateEndpointConnectionsDeleteDefaultResponse
+  >;
+  /** Updates the specified private endpoint connection on application gateway. */
+  put(
+    options: ApplicationGatewayPrivateEndpointConnectionsUpdateParameters
+  ): StreamableMethod<
+    | ApplicationGatewayPrivateEndpointConnectionsUpdate200Response
+    | ApplicationGatewayPrivateEndpointConnectionsUpdate202Response
+    | ApplicationGatewayPrivateEndpointConnectionsUpdateDefaultResponse
+  >;
+  /** Gets the specified private endpoint connection on application gateway. */
+  get(
+    options: ApplicationGatewayPrivateEndpointConnectionsGetParameters
+  ): StreamableMethod<
+    | ApplicationGatewayPrivateEndpointConnectionsGet200Response
+    | ApplicationGatewayPrivateEndpointConnectionsGetDefaultResponse
+  >;
+}
+
+export interface ApplicationGatewayPrivateEndpointConnectionsList {
+  /** Lists all private endpoint connections on an application gateway. */
+  get(
+    options: ApplicationGatewayPrivateEndpointConnectionsListParameters
+  ): StreamableMethod<
+    | ApplicationGatewayPrivateEndpointConnectionsList200Response
+    | ApplicationGatewayPrivateEndpointConnectionsListDefaultResponse
+  >;
+}
+
+export interface ApplicationGatewayWafDynamicManifestsDefaultGet {
+  /** Gets the regional application gateway waf manifest. */
+  get(
+    options: ApplicationGatewayWafDynamicManifestsDefaultGetParameters
+  ): StreamableMethod<
+    | ApplicationGatewayWafDynamicManifestsDefaultGet200Response
+    | ApplicationGatewayWafDynamicManifestsDefaultGetDefaultResponse
+  >;
+}
+
+export interface ApplicationGatewayWafDynamicManifestsGet {
+  /** Gets the regional application gateway waf manifest. */
+  get(
+    options: ApplicationGatewayWafDynamicManifestsGetParameters
+  ): StreamableMethod<
+    | ApplicationGatewayWafDynamicManifestsGet200Response
+    | ApplicationGatewayWafDynamicManifestsGetDefaultResponse
+  >;
+}
+
+export interface ApplicationSecurityGroupsDelete {
+  /** Deletes the specified application security group. */
+  delete(
+    options: ApplicationSecurityGroupsDeleteParameters
+  ): StreamableMethod<
+    | ApplicationSecurityGroupsDelete200Response
+    | ApplicationSecurityGroupsDelete202Response
+    | ApplicationSecurityGroupsDelete204Response
+    | ApplicationSecurityGroupsDeleteDefaultResponse
+  >;
+  /** Gets information about the specified application security group. */
+  get(
+    options: ApplicationSecurityGroupsGetParameters
+  ): StreamableMethod<
+    ApplicationSecurityGroupsGet200Response | ApplicationSecurityGroupsGetDefaultResponse
+  >;
+  /** Creates or updates an application security group. */
+  put(
+    options: ApplicationSecurityGroupsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | ApplicationSecurityGroupsCreateOrUpdate200Response
+    | ApplicationSecurityGroupsCreateOrUpdate201Response
+    | ApplicationSecurityGroupsCreateOrUpdateDefaultResponse
+  >;
+  /** Updates an application security group's tags. */
+  patch(
+    options: ApplicationSecurityGroupsUpdateTagsParameters
+  ): StreamableMethod<
+    | ApplicationSecurityGroupsUpdateTags200Response
+    | ApplicationSecurityGroupsUpdateTagsDefaultResponse
+  >;
+}
+
+export interface ApplicationSecurityGroupsListAll {
+  /** Gets all application security groups in a subscription. */
+  get(
+    options: ApplicationSecurityGroupsListAllParameters
+  ): StreamableMethod<
+    ApplicationSecurityGroupsListAll200Response | ApplicationSecurityGroupsListAllDefaultResponse
+  >;
+}
+
+export interface ApplicationSecurityGroupsList {
+  /** Gets all the application security groups in a resource group. */
+  get(
+    options: ApplicationSecurityGroupsListParameters
+  ): StreamableMethod<
+    ApplicationSecurityGroupsList200Response | ApplicationSecurityGroupsListDefaultResponse
+  >;
+}
+
+export interface AvailableDelegationsList {
+  /** Gets all of the available subnet delegations for this subscription in this region. */
+  get(
+    options: AvailableDelegationsListParameters
+  ): StreamableMethod<
+    AvailableDelegationsList200Response | AvailableDelegationsListDefaultResponse
+  >;
+}
+
+export interface AvailableResourceGroupDelegationsList {
+  /** Gets all of the available subnet delegations for this resource group in this region. */
+  get(
+    options: AvailableResourceGroupDelegationsListParameters
+  ): StreamableMethod<
+    | AvailableResourceGroupDelegationsList200Response
+    | AvailableResourceGroupDelegationsListDefaultResponse
+  >;
+}
+
+export interface AvailableServiceAliasesList {
+  /** Gets all available service aliases for this subscription in this region. */
+  get(
+    options: AvailableServiceAliasesListParameters
+  ): StreamableMethod<
+    AvailableServiceAliasesList200Response | AvailableServiceAliasesListDefaultResponse
+  >;
+}
+
+export interface AvailableServiceAliasesListByResourceGroup {
+  /** Gets all available service aliases for this resource group in this region. */
+  get(
+    options: AvailableServiceAliasesListByResourceGroupParameters
+  ): StreamableMethod<
+    | AvailableServiceAliasesListByResourceGroup200Response
+    | AvailableServiceAliasesListByResourceGroupDefaultResponse
+  >;
+}
+
+export interface AzureFirewallsDelete {
+  /** Deletes the specified Azure Firewall. */
+  delete(
+    options: AzureFirewallsDeleteParameters
+  ): StreamableMethod<
+    | AzureFirewallsDelete200Response
+    | AzureFirewallsDelete202Response
+    | AzureFirewallsDelete204Response
+    | AzureFirewallsDeleteDefaultResponse
+  >;
+  /** Gets the specified Azure Firewall. */
+  get(
+    options: AzureFirewallsGetParameters
+  ): StreamableMethod<AzureFirewallsGet200Response | AzureFirewallsGetDefaultResponse>;
+  /** Creates or updates the specified Azure Firewall. */
+  put(
+    options: AzureFirewallsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | AzureFirewallsCreateOrUpdate200Response
+    | AzureFirewallsCreateOrUpdate201Response
+    | AzureFirewallsCreateOrUpdateDefaultResponse
+  >;
+  /** Updates tags of an Azure Firewall resource. */
+  patch(
+    options: AzureFirewallsUpdateTagsParameters
+  ): StreamableMethod<
+    | AzureFirewallsUpdateTags200Response
+    | AzureFirewallsUpdateTags202Response
+    | AzureFirewallsUpdateTagsDefaultResponse
+  >;
+}
+
+export interface AzureFirewallsList {
+  /** Lists all Azure Firewalls in a resource group. */
+  get(
+    options: AzureFirewallsListParameters
+  ): StreamableMethod<AzureFirewallsList200Response | AzureFirewallsListDefaultResponse>;
+}
+
+export interface AzureFirewallsListAll {
+  /** Gets all the Azure Firewalls in a subscription. */
+  get(
+    options: AzureFirewallsListAllParameters
+  ): StreamableMethod<AzureFirewallsListAll200Response | AzureFirewallsListAllDefaultResponse>;
+}
+
+export interface AzureFirewallsListLearnedPrefixes {
+  /** Retrieves a list of all IP prefixes that azure firewall has learned to not SNAT. */
+  post(
+    options: AzureFirewallsListLearnedPrefixesParameters
+  ): StreamableMethod<
+    | AzureFirewallsListLearnedPrefixes200Response
+    | AzureFirewallsListLearnedPrefixes202Response
+    | AzureFirewallsListLearnedPrefixesDefaultResponse
+  >;
+}
+
+export interface AzureFirewallFqdnTagsListAll {
+  /** Gets all the Azure Firewall FQDN Tags in a subscription. */
+  get(
+    options: AzureFirewallFqdnTagsListAllParameters
+  ): StreamableMethod<
+    AzureFirewallFqdnTagsListAll200Response | AzureFirewallFqdnTagsListAllDefaultResponse
+  >;
+}
+
+export interface WebCategoriesGet {
+  /** Gets the specified Azure Web Category. */
+  get(
+    options: WebCategoriesGetParameters
+  ): StreamableMethod<WebCategoriesGet200Response | WebCategoriesGetDefaultResponse>;
+}
+
+export interface WebCategoriesListBySubscription {
+  /** Gets all the Azure Web Categories in a subscription. */
+  get(
+    options: WebCategoriesListBySubscriptionParameters
+  ): StreamableMethod<
+    WebCategoriesListBySubscription200Response | WebCategoriesListBySubscriptionDefaultResponse
+  >;
+}
+
+export interface BastionHostsDelete {
+  /** Deletes the specified Bastion Host. */
+  delete(
+    options: BastionHostsDeleteParameters
+  ): StreamableMethod<
+    | BastionHostsDelete200Response
+    | BastionHostsDelete202Response
+    | BastionHostsDelete204Response
+    | BastionHostsDeleteDefaultResponse
+  >;
+  /** Gets the specified Bastion Host. */
+  get(
+    options: BastionHostsGetParameters
+  ): StreamableMethod<BastionHostsGet200Response | BastionHostsGetDefaultResponse>;
+  /** Creates or updates the specified Bastion Host. */
+  put(
+    options: BastionHostsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | BastionHostsCreateOrUpdate200Response
+    | BastionHostsCreateOrUpdate201Response
+    | BastionHostsCreateOrUpdateDefaultResponse
+  >;
+  /** Updates Tags for BastionHost resource */
+  patch(
+    options: BastionHostsUpdateTagsParameters
+  ): StreamableMethod<
+    | BastionHostsUpdateTags200Response
+    | BastionHostsUpdateTags202Response
+    | BastionHostsUpdateTagsDefaultResponse
+  >;
+}
+
+export interface BastionHostsList {
+  /** Lists all Bastion Hosts in a subscription. */
+  get(
+    options: BastionHostsListParameters
+  ): StreamableMethod<BastionHostsList200Response | BastionHostsListDefaultResponse>;
+}
+
+export interface BastionHostsListByResourceGroup {
+  /** Lists all Bastion Hosts in a resource group. */
+  get(
+    options: BastionHostsListByResourceGroupParameters
+  ): StreamableMethod<
+    BastionHostsListByResourceGroup200Response | BastionHostsListByResourceGroupDefaultResponse
+  >;
+}
+
+export interface PutBastionShareableLink {
+  /** Creates a Bastion Shareable Links for all the VMs specified in the request. */
+  post(
+    options: PutBastionShareableLinkParameters
+  ): StreamableMethod<
+    | PutBastionShareableLink200Response
+    | PutBastionShareableLink202Response
+    | PutBastionShareableLinkDefaultResponse
+  >;
+}
+
+export interface DeleteBastionShareableLink {
+  /** Deletes the Bastion Shareable Links for all the VMs specified in the request. */
+  post(
+    options: DeleteBastionShareableLinkParameters
+  ): StreamableMethod<
+    | DeleteBastionShareableLink200Response
+    | DeleteBastionShareableLink202Response
+    | DeleteBastionShareableLinkDefaultResponse
+  >;
+}
+
+export interface GetBastionShareableLink {
+  /** Return the Bastion Shareable Links for all the VMs specified in the request. */
+  post(
+    options: GetBastionShareableLinkParameters
+  ): StreamableMethod<GetBastionShareableLink200Response | GetBastionShareableLinkDefaultResponse>;
+}
+
+export interface GetActiveSessions {
+  /** Returns the list of currently active sessions on the Bastion. */
+  post(
+    options: GetActiveSessionsParameters
+  ): StreamableMethod<
+    GetActiveSessions200Response | GetActiveSessions202Response | GetActiveSessionsDefaultResponse
+  >;
+}
+
+export interface DisconnectActiveSessions {
+  /** Returns the list of currently active sessions on the Bastion. */
+  post(
+    options: DisconnectActiveSessionsParameters
+  ): StreamableMethod<
+    DisconnectActiveSessions200Response | DisconnectActiveSessionsDefaultResponse
+  >;
+}
+
+export interface CheckDnsNameAvailability {
+  /** Checks whether a domain name in the cloudapp.azure.com zone is available for use. */
+  get(
+    options: CheckDnsNameAvailabilityParameters
+  ): StreamableMethod<
+    CheckDnsNameAvailability200Response | CheckDnsNameAvailabilityDefaultResponse
+  >;
+}
+
+export interface ListActiveConnectivityConfigurations {
+  /** Lists active connectivity configurations in a network manager. */
+  post(
+    options: ListActiveConnectivityConfigurationsParameters
+  ): StreamableMethod<
+    | ListActiveConnectivityConfigurations200Response
+    | ListActiveConnectivityConfigurationsDefaultResponse
+  >;
+}
+
+export interface ListActiveSecurityAdminRules {
+  /** Lists active security admin rules in a network manager. */
+  post(
+    options: ListActiveSecurityAdminRulesParameters
+  ): StreamableMethod<
+    ListActiveSecurityAdminRules200Response | ListActiveSecurityAdminRulesDefaultResponse
+  >;
+}
+
+export interface ListNetworkManagerEffectiveConnectivityConfigurations {
+  /** List all effective connectivity configurations applied on a virtual network. */
+  post(
+    options: ListNetworkManagerEffectiveConnectivityConfigurationsParameters
+  ): StreamableMethod<
+    | ListNetworkManagerEffectiveConnectivityConfigurations200Response
+    | ListNetworkManagerEffectiveConnectivityConfigurationsDefaultResponse
+  >;
+}
+
+export interface ListNetworkManagerEffectiveSecurityAdminRules {
+  /** List all effective security admin rules applied on a virtual network. */
+  post(
+    options: ListNetworkManagerEffectiveSecurityAdminRulesParameters
+  ): StreamableMethod<
+    | ListNetworkManagerEffectiveSecurityAdminRules200Response
+    | ListNetworkManagerEffectiveSecurityAdminRulesDefaultResponse
+  >;
+}
+
+export interface SupportedSecurityProviders {
+  /** Gives the supported security providers for the virtual wan. */
+  get(
+    options: SupportedSecurityProvidersParameters
+  ): StreamableMethod<
+    SupportedSecurityProviders200Response | SupportedSecurityProvidersDefaultResponse
+  >;
+}
+
+export interface Generatevirtualwanvpnserverconfigurationvpnprofile {
+  /** Generates a unique VPN profile for P2S clients for VirtualWan and associated VpnServerConfiguration combination in the specified resource group. */
+  post(
+    options: GeneratevirtualwanvpnserverconfigurationvpnprofileParameters
+  ): StreamableMethod<
+    | Generatevirtualwanvpnserverconfigurationvpnprofile200Response
+    | Generatevirtualwanvpnserverconfigurationvpnprofile202Response
+    | GeneratevirtualwanvpnserverconfigurationvpnprofileDefaultResponse
+  >;
+}
+
+export interface NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfaces {
+  /** Gets information about all network interfaces in a role instance in a cloud service. */
+  get(
+    options: NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesParameters
+  ): StreamableMethod<
+    | NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfaces200Response
+    | NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesDefaultResponse
+  >;
+}
+
+export interface NetworkInterfacesListCloudServiceNetworkInterfaces {
+  /** Gets all network interfaces in a cloud service. */
+  get(
+    options: NetworkInterfacesListCloudServiceNetworkInterfacesParameters
+  ): StreamableMethod<
+    | NetworkInterfacesListCloudServiceNetworkInterfaces200Response
+    | NetworkInterfacesListCloudServiceNetworkInterfacesDefaultResponse
+  >;
+}
+
+export interface NetworkInterfacesGetCloudServiceNetworkInterface {
+  /** Get the specified network interface in a cloud service. */
+  get(
+    options: NetworkInterfacesGetCloudServiceNetworkInterfaceParameters
+  ): StreamableMethod<
+    | NetworkInterfacesGetCloudServiceNetworkInterface200Response
+    | NetworkInterfacesGetCloudServiceNetworkInterfaceDefaultResponse
+  >;
+}
+
+export interface NetworkInterfacesDelete {
+  /** Deletes the specified network interface. */
+  delete(
+    options: NetworkInterfacesDeleteParameters
+  ): StreamableMethod<
+    | NetworkInterfacesDelete200Response
+    | NetworkInterfacesDelete202Response
+    | NetworkInterfacesDelete204Response
+    | NetworkInterfacesDeleteDefaultResponse
+  >;
+  /** Gets information about the specified network interface. */
+  get(
+    options: NetworkInterfacesGetParameters
+  ): StreamableMethod<NetworkInterfacesGet200Response | NetworkInterfacesGetDefaultResponse>;
+  /** Creates or updates a network interface. */
+  put(
+    options: NetworkInterfacesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | NetworkInterfacesCreateOrUpdate200Response
+    | NetworkInterfacesCreateOrUpdate201Response
+    | NetworkInterfacesCreateOrUpdateDefaultResponse
+  >;
+  /** Updates a network interface tags. */
+  patch(
+    options: NetworkInterfacesUpdateTagsParameters
+  ): StreamableMethod<
+    NetworkInterfacesUpdateTags200Response | NetworkInterfacesUpdateTagsDefaultResponse
+  >;
+}
+
+export interface NetworkInterfacesListAll {
+  /** Gets all network interfaces in a subscription. */
+  get(
+    options: NetworkInterfacesListAllParameters
+  ): StreamableMethod<
+    NetworkInterfacesListAll200Response | NetworkInterfacesListAllDefaultResponse
+  >;
+}
+
+export interface NetworkInterfacesList {
+  /** Gets all network interfaces in a resource group. */
+  get(
+    options: NetworkInterfacesListParameters
+  ): StreamableMethod<NetworkInterfacesList200Response | NetworkInterfacesListDefaultResponse>;
+}
+
+export interface NetworkInterfacesGetEffectiveRouteTable {
+  /** Gets all route tables applied to a network interface. */
+  post(
+    options: NetworkInterfacesGetEffectiveRouteTableParameters
+  ): StreamableMethod<
+    | NetworkInterfacesGetEffectiveRouteTable200Response
+    | NetworkInterfacesGetEffectiveRouteTable202Response
+    | NetworkInterfacesGetEffectiveRouteTableDefaultResponse
+  >;
+}
+
+export interface NetworkInterfacesListEffectiveNetworkSecurityGroups {
+  /** Gets all network security groups applied to a network interface. */
+  post(
+    options: NetworkInterfacesListEffectiveNetworkSecurityGroupsParameters
+  ): StreamableMethod<
+    | NetworkInterfacesListEffectiveNetworkSecurityGroups200Response
+    | NetworkInterfacesListEffectiveNetworkSecurityGroups202Response
+    | NetworkInterfacesListEffectiveNetworkSecurityGroupsDefaultResponse
+  >;
+}
+
+export interface NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfaces {
+  /** Gets information about all network interfaces in a virtual machine in a virtual machine scale set. */
+  get(
+    options: NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesParameters
+  ): StreamableMethod<
+    | NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfaces200Response
+    | NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesDefaultResponse
+  >;
+}
+
+export interface NetworkInterfacesListVirtualMachineScaleSetNetworkInterfaces {
+  /** Gets all network interfaces in a virtual machine scale set. */
+  get(
+    options: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesParameters
+  ): StreamableMethod<
+    | NetworkInterfacesListVirtualMachineScaleSetNetworkInterfaces200Response
+    | NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesDefaultResponse
+  >;
+}
+
+export interface NetworkInterfacesGetVirtualMachineScaleSetNetworkInterface {
+  /** Get the specified network interface in a virtual machine scale set. */
+  get(
+    options: NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceParameters
+  ): StreamableMethod<
+    | NetworkInterfacesGetVirtualMachineScaleSetNetworkInterface200Response
+    | NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceDefaultResponse
+  >;
+}
+
+export interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurations {
+  /** Get the specified network interface ip configuration in a virtual machine scale set. */
+  get(
+    options: NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsParameters
+  ): StreamableMethod<
+    | NetworkInterfacesListVirtualMachineScaleSetIpConfigurations200Response
+    | NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsDefaultResponse
+  >;
+}
+
+export interface NetworkInterfacesGetVirtualMachineScaleSetIpConfiguration {
+  /** Get the specified network interface ip configuration in a virtual machine scale set. */
+  get(
+    options: NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationParameters
+  ): StreamableMethod<
+    | NetworkInterfacesGetVirtualMachineScaleSetIpConfiguration200Response
+    | NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationDefaultResponse
+  >;
+}
+
+export interface PublicIPAddressesListCloudServicePublicIPAddresses {
+  /** Gets information about all public IP addresses on a cloud service level. */
+  get(
+    options: PublicIPAddressesListCloudServicePublicIPAddressesParameters
+  ): StreamableMethod<
+    | PublicIPAddressesListCloudServicePublicIPAddresses200Response
+    | PublicIPAddressesListCloudServicePublicIPAddressesDefaultResponse
+  >;
+}
+
+export interface PublicIPAddressesListCloudServiceRoleInstancePublicIPAddresses {
+  /** Gets information about all public IP addresses in a role instance IP configuration in a cloud service. */
+  get(
+    options: PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesParameters
+  ): StreamableMethod<
+    | PublicIPAddressesListCloudServiceRoleInstancePublicIPAddresses200Response
+    | PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesDefaultResponse
+  >;
+}
+
+export interface PublicIPAddressesGetCloudServicePublicIPAddress {
+  /** Get the specified public IP address in a cloud service. */
+  get(
+    options: PublicIPAddressesGetCloudServicePublicIPAddressParameters
+  ): StreamableMethod<
+    | PublicIPAddressesGetCloudServicePublicIPAddress200Response
+    | PublicIPAddressesGetCloudServicePublicIPAddressDefaultResponse
+  >;
+}
+
+export interface PublicIPAddressesDelete {
+  /** Deletes the specified public IP address. */
+  delete(
+    options: PublicIPAddressesDeleteParameters
+  ): StreamableMethod<
+    | PublicIPAddressesDelete200Response
+    | PublicIPAddressesDelete202Response
+    | PublicIPAddressesDelete204Response
+    | PublicIPAddressesDeleteDefaultResponse
+  >;
+  /** Gets the specified public IP address in a specified resource group. */
+  get(
+    options: PublicIPAddressesGetParameters
+  ): StreamableMethod<PublicIPAddressesGet200Response | PublicIPAddressesGetDefaultResponse>;
+  /** Creates or updates a static or dynamic public IP address. */
+  put(
+    options: PublicIPAddressesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | PublicIPAddressesCreateOrUpdate200Response
+    | PublicIPAddressesCreateOrUpdate201Response
+    | PublicIPAddressesCreateOrUpdateDefaultResponse
+  >;
+  /** Updates public IP address tags. */
+  patch(
+    options: PublicIPAddressesUpdateTagsParameters
+  ): StreamableMethod<
+    PublicIPAddressesUpdateTags200Response | PublicIPAddressesUpdateTagsDefaultResponse
+  >;
+}
+
+export interface PublicIPAddressesListAll {
+  /** Gets all the public IP addresses in a subscription. */
+  get(
+    options: PublicIPAddressesListAllParameters
+  ): StreamableMethod<
+    PublicIPAddressesListAll200Response | PublicIPAddressesListAllDefaultResponse
+  >;
+}
+
+export interface PublicIPAddressesList {
+  /** Gets all public IP addresses in a resource group. */
+  get(
+    options: PublicIPAddressesListParameters
+  ): StreamableMethod<PublicIPAddressesList200Response | PublicIPAddressesListDefaultResponse>;
+}
+
+export interface PublicIPAddressesDdosProtectionStatus {
+  /** Gets the Ddos Protection Status of a Public IP Address */
+  post(
+    options: PublicIPAddressesDdosProtectionStatusParameters
+  ): StreamableMethod<
+    | PublicIPAddressesDdosProtectionStatus200Response
+    | PublicIPAddressesDdosProtectionStatus202Response
+    | PublicIPAddressesDdosProtectionStatusDefaultResponse
+  >;
+}
+
+export interface PublicIPAddressesListVirtualMachineScaleSetPublicIPAddresses {
+  /** Gets information about all public IP addresses on a virtual machine scale set level. */
+  get(
+    options: PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesParameters
+  ): StreamableMethod<
+    | PublicIPAddressesListVirtualMachineScaleSetPublicIPAddresses200Response
+    | PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesDefaultResponse
+  >;
+}
+
+export interface PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddresses {
+  /** Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale set. */
+  get(
+    options: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesParameters
+  ): StreamableMethod<
+    | PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddresses200Response
+    | PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesDefaultResponse
+  >;
+}
+
+export interface PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddress {
+  /** Get the specified public IP address in a virtual machine scale set. */
+  get(
+    options: PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressParameters
+  ): StreamableMethod<
+    | PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddress200Response
+    | PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressDefaultResponse
+  >;
+}
+
+export interface CustomIPPrefixesDelete {
+  /** Deletes the specified custom IP prefix. */
+  delete(
+    options: CustomIPPrefixesDeleteParameters
+  ): StreamableMethod<
+    | CustomIPPrefixesDelete200Response
+    | CustomIPPrefixesDelete202Response
+    | CustomIPPrefixesDelete204Response
+    | CustomIPPrefixesDeleteDefaultResponse
+  >;
+  /** Gets the specified custom IP prefix in a specified resource group. */
+  get(
+    options: CustomIPPrefixesGetParameters
+  ): StreamableMethod<CustomIPPrefixesGet200Response | CustomIPPrefixesGetDefaultResponse>;
+  /** Creates or updates a custom IP prefix. */
+  put(
+    options: CustomIPPrefixesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | CustomIPPrefixesCreateOrUpdate200Response
+    | CustomIPPrefixesCreateOrUpdate201Response
+    | CustomIPPrefixesCreateOrUpdateDefaultResponse
+  >;
+  /** Updates custom IP prefix tags. */
+  patch(
+    options: CustomIPPrefixesUpdateTagsParameters
+  ): StreamableMethod<
+    CustomIPPrefixesUpdateTags200Response | CustomIPPrefixesUpdateTagsDefaultResponse
+  >;
+}
+
+export interface CustomIPPrefixesListAll {
+  /** Gets all the custom IP prefixes in a subscription. */
+  get(
+    options: CustomIPPrefixesListAllParameters
+  ): StreamableMethod<CustomIPPrefixesListAll200Response | CustomIPPrefixesListAllDefaultResponse>;
+}
+
+export interface CustomIPPrefixesList {
+  /** Gets all custom IP prefixes in a resource group. */
+  get(
+    options: CustomIPPrefixesListParameters
+  ): StreamableMethod<CustomIPPrefixesList200Response | CustomIPPrefixesListDefaultResponse>;
+}
+
+export interface DdosCustomPoliciesDelete {
+  /** Deletes the specified DDoS custom policy. */
+  delete(
+    options: DdosCustomPoliciesDeleteParameters
+  ): StreamableMethod<
+    | DdosCustomPoliciesDelete200Response
+    | DdosCustomPoliciesDelete202Response
+    | DdosCustomPoliciesDelete204Response
+    | DdosCustomPoliciesDeleteDefaultResponse
+  >;
+  /** Gets information about the specified DDoS custom policy. */
+  get(
+    options: DdosCustomPoliciesGetParameters
+  ): StreamableMethod<DdosCustomPoliciesGet200Response | DdosCustomPoliciesGetDefaultResponse>;
+  /** Creates or updates a DDoS custom policy. */
+  put(
+    options: DdosCustomPoliciesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | DdosCustomPoliciesCreateOrUpdate200Response
+    | DdosCustomPoliciesCreateOrUpdate201Response
+    | DdosCustomPoliciesCreateOrUpdateDefaultResponse
+  >;
+  /** Update a DDoS custom policy tags. */
+  patch(
+    options: DdosCustomPoliciesUpdateTagsParameters
+  ): StreamableMethod<
+    DdosCustomPoliciesUpdateTags200Response | DdosCustomPoliciesUpdateTagsDefaultResponse
+  >;
+}
+
+export interface DdosProtectionPlansDelete {
+  /** Deletes the specified DDoS protection plan. */
+  delete(
+    options: DdosProtectionPlansDeleteParameters
+  ): StreamableMethod<
+    | DdosProtectionPlansDelete200Response
+    | DdosProtectionPlansDelete202Response
+    | DdosProtectionPlansDelete204Response
+    | DdosProtectionPlansDeleteDefaultResponse
+  >;
+  /** Gets information about the specified DDoS protection plan. */
+  get(
+    options: DdosProtectionPlansGetParameters
+  ): StreamableMethod<DdosProtectionPlansGet200Response | DdosProtectionPlansGetDefaultResponse>;
+  /** Creates or updates a DDoS protection plan. */
+  put(
+    options: DdosProtectionPlansCreateOrUpdateParameters
+  ): StreamableMethod<
+    | DdosProtectionPlansCreateOrUpdate200Response
+    | DdosProtectionPlansCreateOrUpdate201Response
+    | DdosProtectionPlansCreateOrUpdateDefaultResponse
+  >;
+  /** Update a DDoS protection plan tags. */
+  patch(
+    options: DdosProtectionPlansUpdateTagsParameters
+  ): StreamableMethod<
+    DdosProtectionPlansUpdateTags200Response | DdosProtectionPlansUpdateTagsDefaultResponse
+  >;
+}
+
+export interface DdosProtectionPlansList {
+  /** Gets all DDoS protection plans in a subscription. */
+  get(
+    options: DdosProtectionPlansListParameters
+  ): StreamableMethod<DdosProtectionPlansList200Response | DdosProtectionPlansListDefaultResponse>;
+}
+
+export interface DdosProtectionPlansListByResourceGroup {
+  /** Gets all the DDoS protection plans in a resource group. */
+  get(
+    options: DdosProtectionPlansListByResourceGroupParameters
+  ): StreamableMethod<
+    | DdosProtectionPlansListByResourceGroup200Response
+    | DdosProtectionPlansListByResourceGroupDefaultResponse
+  >;
+}
+
+export interface DscpConfigurationCreateOrUpdate {
+  /** Creates or updates a DSCP Configuration. */
+  put(
+    options: DscpConfigurationCreateOrUpdateParameters
+  ): StreamableMethod<
+    | DscpConfigurationCreateOrUpdate200Response
+    | DscpConfigurationCreateOrUpdate201Response
+    | DscpConfigurationCreateOrUpdateDefaultResponse
+  >;
+  /** Deletes a DSCP Configuration. */
+  delete(
+    options: DscpConfigurationDeleteParameters
+  ): StreamableMethod<
+    | DscpConfigurationDelete200Response
+    | DscpConfigurationDelete202Response
+    | DscpConfigurationDelete204Response
+    | DscpConfigurationDeleteDefaultResponse
+  >;
+  /** Gets a DSCP Configuration. */
+  get(
+    options: DscpConfigurationGetParameters
+  ): StreamableMethod<DscpConfigurationGet200Response | DscpConfigurationGetDefaultResponse>;
+}
+
+export interface DscpConfigurationList {
+  /** Gets a DSCP Configuration. */
+  get(
+    options: DscpConfigurationListParameters
+  ): StreamableMethod<DscpConfigurationList200Response | DscpConfigurationListDefaultResponse>;
+}
+
+export interface DscpConfigurationListAll {
+  /** Gets all dscp configurations in a subscription. */
+  get(
+    options: DscpConfigurationListAllParameters
+  ): StreamableMethod<
+    DscpConfigurationListAll200Response | DscpConfigurationListAllDefaultResponse
+  >;
+}
+
+export interface AvailableEndpointServicesList {
+  /** List what values of endpoint services are available for use. */
+  get(
+    options: AvailableEndpointServicesListParameters
+  ): StreamableMethod<
+    AvailableEndpointServicesList200Response | AvailableEndpointServicesListDefaultResponse
+  >;
+}
+
+export interface ExpressRouteCircuitAuthorizationsDelete {
+  /** Deletes the specified authorization from the specified express route circuit. */
+  delete(
+    options: ExpressRouteCircuitAuthorizationsDeleteParameters
+  ): StreamableMethod<
+    | ExpressRouteCircuitAuthorizationsDelete200Response
+    | ExpressRouteCircuitAuthorizationsDelete202Response
+    | ExpressRouteCircuitAuthorizationsDelete204Response
+    | ExpressRouteCircuitAuthorizationsDeleteDefaultResponse
+  >;
+  /** Gets the specified authorization from the specified express route circuit. */
+  get(
+    options: ExpressRouteCircuitAuthorizationsGetParameters
+  ): StreamableMethod<
+    | ExpressRouteCircuitAuthorizationsGet200Response
+    | ExpressRouteCircuitAuthorizationsGetDefaultResponse
+  >;
+  /** Creates or updates an authorization in the specified express route circuit. */
+  put(
+    options: ExpressRouteCircuitAuthorizationsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | ExpressRouteCircuitAuthorizationsCreateOrUpdate200Response
+    | ExpressRouteCircuitAuthorizationsCreateOrUpdate201Response
+    | ExpressRouteCircuitAuthorizationsCreateOrUpdateDefaultResponse
+  >;
+}
+
+export interface ExpressRouteCircuitAuthorizationsList {
+  /** Gets all authorizations in an express route circuit. */
+  get(
+    options: ExpressRouteCircuitAuthorizationsListParameters
+  ): StreamableMethod<
+    | ExpressRouteCircuitAuthorizationsList200Response
+    | ExpressRouteCircuitAuthorizationsListDefaultResponse
+  >;
+}
+
+export interface ExpressRouteCircuitPeeringsDelete {
+  /** Deletes the specified peering from the specified express route circuit. */
+  delete(
+    options: ExpressRouteCircuitPeeringsDeleteParameters
+  ): StreamableMethod<
+    | ExpressRouteCircuitPeeringsDelete200Response
+    | ExpressRouteCircuitPeeringsDelete202Response
+    | ExpressRouteCircuitPeeringsDelete204Response
+    | ExpressRouteCircuitPeeringsDeleteDefaultResponse
+  >;
+  /** Gets the specified peering for the express route circuit. */
+  get(
+    options: ExpressRouteCircuitPeeringsGetParameters
+  ): StreamableMethod<
+    ExpressRouteCircuitPeeringsGet200Response | ExpressRouteCircuitPeeringsGetDefaultResponse
+  >;
+  /** Creates or updates a peering in the specified express route circuits. */
+  put(
+    options: ExpressRouteCircuitPeeringsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | ExpressRouteCircuitPeeringsCreateOrUpdate200Response
+    | ExpressRouteCircuitPeeringsCreateOrUpdate201Response
+    | ExpressRouteCircuitPeeringsCreateOrUpdateDefaultResponse
+  >;
+}
+
+export interface ExpressRouteCircuitPeeringsList {
+  /** Gets all peerings in a specified express route circuit. */
+  get(
+    options: ExpressRouteCircuitPeeringsListParameters
+  ): StreamableMethod<
+    ExpressRouteCircuitPeeringsList200Response | ExpressRouteCircuitPeeringsListDefaultResponse
+  >;
+}
+
+export interface ExpressRouteCircuitConnectionsDelete {
+  /** Deletes the specified Express Route Circuit Connection from the specified express route circuit. */
+  delete(
+    options: ExpressRouteCircuitConnectionsDeleteParameters
+  ): StreamableMethod<
+    | ExpressRouteCircuitConnectionsDelete200Response
+    | ExpressRouteCircuitConnectionsDelete202Response
+    | ExpressRouteCircuitConnectionsDelete204Response
+    | ExpressRouteCircuitConnectionsDeleteDefaultResponse
+  >;
+  /** Gets the specified Express Route Circuit Connection from the specified express route circuit. */
+  get(
+    options: ExpressRouteCircuitConnectionsGetParameters
+  ): StreamableMethod<
+    ExpressRouteCircuitConnectionsGet200Response | ExpressRouteCircuitConnectionsGetDefaultResponse
+  >;
+  /** Creates or updates a Express Route Circuit Connection in the specified express route circuits. */
+  put(
+    options: ExpressRouteCircuitConnectionsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | ExpressRouteCircuitConnectionsCreateOrUpdate200Response
+    | ExpressRouteCircuitConnectionsCreateOrUpdate201Response
+    | ExpressRouteCircuitConnectionsCreateOrUpdateDefaultResponse
+  >;
+}
+
+export interface ExpressRouteCircuitConnectionsList {
+  /** Gets all global reach connections associated with a private peering in an express route circuit. */
+  get(
+    options: ExpressRouteCircuitConnectionsListParameters
+  ): StreamableMethod<
+    | ExpressRouteCircuitConnectionsList200Response
+    | ExpressRouteCircuitConnectionsListDefaultResponse
+  >;
+}
+
+export interface PeerExpressRouteCircuitConnectionsGet {
+  /** Gets the specified Peer Express Route Circuit Connection from the specified express route circuit. */
+  get(
+    options: PeerExpressRouteCircuitConnectionsGetParameters
+  ): StreamableMethod<
+    | PeerExpressRouteCircuitConnectionsGet200Response
+    | PeerExpressRouteCircuitConnectionsGetDefaultResponse
+  >;
+}
+
+export interface PeerExpressRouteCircuitConnectionsList {
+  /** Gets all global reach peer connections associated with a private peering in an express route circuit. */
+  get(
+    options: PeerExpressRouteCircuitConnectionsListParameters
+  ): StreamableMethod<
+    | PeerExpressRouteCircuitConnectionsList200Response
+    | PeerExpressRouteCircuitConnectionsListDefaultResponse
+  >;
+}
+
+export interface ExpressRouteCircuitsDelete {
+  /** Deletes the specified express route circuit. */
+  delete(
+    options: ExpressRouteCircuitsDeleteParameters
+  ): StreamableMethod<
+    | ExpressRouteCircuitsDelete200Response
+    | ExpressRouteCircuitsDelete202Response
+    | ExpressRouteCircuitsDelete204Response
+    | ExpressRouteCircuitsDeleteDefaultResponse
+  >;
+  /** Gets information about the specified express route circuit. */
+  get(
+    options: ExpressRouteCircuitsGetParameters
+  ): StreamableMethod<ExpressRouteCircuitsGet200Response | ExpressRouteCircuitsGetDefaultResponse>;
+  /** Creates or updates an express route circuit. */
+  put(
+    options: ExpressRouteCircuitsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | ExpressRouteCircuitsCreateOrUpdate200Response
+    | ExpressRouteCircuitsCreateOrUpdate201Response
+    | ExpressRouteCircuitsCreateOrUpdateDefaultResponse
+  >;
+  /** Updates an express route circuit tags. */
+  patch(
+    options: ExpressRouteCircuitsUpdateTagsParameters
+  ): StreamableMethod<
+    ExpressRouteCircuitsUpdateTags200Response | ExpressRouteCircuitsUpdateTagsDefaultResponse
+  >;
+}
+
+export interface ExpressRouteCircuitsListArpTable {
+  /** Gets the currently advertised ARP table associated with the express route circuit in a resource group. */
+  post(
+    options: ExpressRouteCircuitsListArpTableParameters
+  ): StreamableMethod<
+    | ExpressRouteCircuitsListArpTable200Response
+    | ExpressRouteCircuitsListArpTable202Response
+    | ExpressRouteCircuitsListArpTableDefaultResponse
+  >;
+}
+
+export interface ExpressRouteCircuitsListRoutesTable {
+  /** Gets the currently advertised routes table associated with the express route circuit in a resource group. */
+  post(
+    options: ExpressRouteCircuitsListRoutesTableParameters
+  ): StreamableMethod<
+    | ExpressRouteCircuitsListRoutesTable200Response
+    | ExpressRouteCircuitsListRoutesTable202Response
+    | ExpressRouteCircuitsListRoutesTableDefaultResponse
+  >;
+}
+
+export interface ExpressRouteCircuitsListRoutesTableSummary {
+  /** Gets the currently advertised routes table summary associated with the express route circuit in a resource group. */
+  post(
+    options: ExpressRouteCircuitsListRoutesTableSummaryParameters
+  ): StreamableMethod<
+    | ExpressRouteCircuitsListRoutesTableSummary200Response
+    | ExpressRouteCircuitsListRoutesTableSummary202Response
+    | ExpressRouteCircuitsListRoutesTableSummaryDefaultResponse
+  >;
+}
+
+export interface ExpressRouteCircuitsGetStats {
+  /** Gets all the stats from an express route circuit in a resource group. */
+  get(
+    options: ExpressRouteCircuitsGetStatsParameters
+  ): StreamableMethod<
+    ExpressRouteCircuitsGetStats200Response | ExpressRouteCircuitsGetStatsDefaultResponse
+  >;
+}
+
+export interface ExpressRouteCircuitsGetPeeringStats {
+  /** Gets all stats from an express route circuit in a resource group. */
+  get(
+    options: ExpressRouteCircuitsGetPeeringStatsParameters
+  ): StreamableMethod<
+    | ExpressRouteCircuitsGetPeeringStats200Response
+    | ExpressRouteCircuitsGetPeeringStatsDefaultResponse
+  >;
+}
+
+export interface ExpressRouteCircuitsList {
+  /** Gets all the express route circuits in a resource group. */
+  get(
+    options: ExpressRouteCircuitsListParameters
+  ): StreamableMethod<
+    ExpressRouteCircuitsList200Response | ExpressRouteCircuitsListDefaultResponse
+  >;
+}
+
+export interface ExpressRouteCircuitsListAll {
+  /** Gets all the express route circuits in a subscription. */
+  get(
+    options: ExpressRouteCircuitsListAllParameters
+  ): StreamableMethod<
+    ExpressRouteCircuitsListAll200Response | ExpressRouteCircuitsListAllDefaultResponse
+  >;
+}
+
+export interface ExpressRouteServiceProvidersList {
+  /** Gets all the available express route service providers. */
+  get(
+    options: ExpressRouteServiceProvidersListParameters
+  ): StreamableMethod<
+    ExpressRouteServiceProvidersList200Response | ExpressRouteServiceProvidersListDefaultResponse
+  >;
+}
+
+export interface ExpressRouteCrossConnectionsList {
+  /** Retrieves all the ExpressRouteCrossConnections in a subscription. */
+  get(
+    options: ExpressRouteCrossConnectionsListParameters
+  ): StreamableMethod<
+    ExpressRouteCrossConnectionsList200Response | ExpressRouteCrossConnectionsListDefaultResponse
+  >;
+}
+
+export interface ExpressRouteCrossConnectionsListByResourceGroup {
+  /** Retrieves all the ExpressRouteCrossConnections in a resource group. */
+  get(
+    options: ExpressRouteCrossConnectionsListByResourceGroupParameters
+  ): StreamableMethod<
+    | ExpressRouteCrossConnectionsListByResourceGroup200Response
+    | ExpressRouteCrossConnectionsListByResourceGroupDefaultResponse
+  >;
+}
+
+export interface ExpressRouteCrossConnectionsGet {
+  /** Gets details about the specified ExpressRouteCrossConnection. */
+  get(
+    options: ExpressRouteCrossConnectionsGetParameters
+  ): StreamableMethod<
+    ExpressRouteCrossConnectionsGet200Response | ExpressRouteCrossConnectionsGetDefaultResponse
+  >;
+  /** Update the specified ExpressRouteCrossConnection. */
+  put(
+    options: ExpressRouteCrossConnectionsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | ExpressRouteCrossConnectionsCreateOrUpdate200Response
+    | ExpressRouteCrossConnectionsCreateOrUpdateDefaultResponse
+  >;
+  /** Updates an express route cross connection tags. */
+  patch(
+    options: ExpressRouteCrossConnectionsUpdateTagsParameters
+  ): StreamableMethod<
+    | ExpressRouteCrossConnectionsUpdateTags200Response
+    | ExpressRouteCrossConnectionsUpdateTagsDefaultResponse
+  >;
+}
+
+export interface ExpressRouteCrossConnectionsListArpTable {
+  /** Gets the currently advertised ARP table associated with the express route cross connection in a resource group. */
+  post(
+    options: ExpressRouteCrossConnectionsListArpTableParameters
+  ): StreamableMethod<
+    | ExpressRouteCrossConnectionsListArpTable200Response
+    | ExpressRouteCrossConnectionsListArpTable202Response
+    | ExpressRouteCrossConnectionsListArpTableDefaultResponse
+  >;
+}
+
+export interface ExpressRouteCrossConnectionsListRoutesTableSummary {
+  /** Gets the route table summary associated with the express route cross connection in a resource group. */
+  post(
+    options: ExpressRouteCrossConnectionsListRoutesTableSummaryParameters
+  ): StreamableMethod<
+    | ExpressRouteCrossConnectionsListRoutesTableSummary200Response
+    | ExpressRouteCrossConnectionsListRoutesTableSummary202Response
+    | ExpressRouteCrossConnectionsListRoutesTableSummaryDefaultResponse
+  >;
+}
+
+export interface ExpressRouteCrossConnectionsListRoutesTable {
+  /** Gets the currently advertised routes table associated with the express route cross connection in a resource group. */
+  post(
+    options: ExpressRouteCrossConnectionsListRoutesTableParameters
+  ): StreamableMethod<
+    | ExpressRouteCrossConnectionsListRoutesTable200Response
+    | ExpressRouteCrossConnectionsListRoutesTable202Response
+    | ExpressRouteCrossConnectionsListRoutesTableDefaultResponse
+  >;
+}
+
+export interface ExpressRouteCrossConnectionPeeringsList {
+  /** Gets all peerings in a specified ExpressRouteCrossConnection. */
+  get(
+    options: ExpressRouteCrossConnectionPeeringsListParameters
+  ): StreamableMethod<
+    | ExpressRouteCrossConnectionPeeringsList200Response
+    | ExpressRouteCrossConnectionPeeringsListDefaultResponse
+  >;
+}
+
+export interface ExpressRouteCrossConnectionPeeringsDelete {
+  /** Deletes the specified peering from the ExpressRouteCrossConnection. */
+  delete(
+    options: ExpressRouteCrossConnectionPeeringsDeleteParameters
+  ): StreamableMethod<
+    | ExpressRouteCrossConnectionPeeringsDelete200Response
+    | ExpressRouteCrossConnectionPeeringsDelete202Response
+    | ExpressRouteCrossConnectionPeeringsDelete204Response
+    | ExpressRouteCrossConnectionPeeringsDeleteDefaultResponse
+  >;
+  /** Gets the specified peering for the ExpressRouteCrossConnection. */
+  get(
+    options: ExpressRouteCrossConnectionPeeringsGetParameters
+  ): StreamableMethod<
+    | ExpressRouteCrossConnectionPeeringsGet200Response
+    | ExpressRouteCrossConnectionPeeringsGetDefaultResponse
+  >;
+  /** Creates or updates a peering in the specified ExpressRouteCrossConnection. */
+  put(
+    options: ExpressRouteCrossConnectionPeeringsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | ExpressRouteCrossConnectionPeeringsCreateOrUpdate200Response
+    | ExpressRouteCrossConnectionPeeringsCreateOrUpdate201Response
+    | ExpressRouteCrossConnectionPeeringsCreateOrUpdateDefaultResponse
+  >;
+}
+
+export interface ExpressRoutePortsLocationsList {
+  /** Retrieves all ExpressRoutePort peering locations. Does not return available bandwidths for each location. Available bandwidths can only be obtained when retrieving a specific peering location. */
+  get(
+    options: ExpressRoutePortsLocationsListParameters
+  ): StreamableMethod<
+    ExpressRoutePortsLocationsList200Response | ExpressRoutePortsLocationsListDefaultResponse
+  >;
+}
+
+export interface ExpressRoutePortsLocationsGet {
+  /** Retrieves a single ExpressRoutePort peering location, including the list of available bandwidths available at said peering location. */
+  get(
+    options: ExpressRoutePortsLocationsGetParameters
+  ): StreamableMethod<
+    ExpressRoutePortsLocationsGet200Response | ExpressRoutePortsLocationsGetDefaultResponse
+  >;
+}
+
+export interface ExpressRoutePortsDelete {
+  /** Deletes the specified ExpressRoutePort resource. */
+  delete(
+    options: ExpressRoutePortsDeleteParameters
+  ): StreamableMethod<
+    | ExpressRoutePortsDelete200Response
+    | ExpressRoutePortsDelete202Response
+    | ExpressRoutePortsDelete204Response
+    | ExpressRoutePortsDeleteDefaultResponse
+  >;
+  /** Retrieves the requested ExpressRoutePort resource. */
+  get(
+    options: ExpressRoutePortsGetParameters
+  ): StreamableMethod<ExpressRoutePortsGet200Response | ExpressRoutePortsGetDefaultResponse>;
+  /** Creates or updates the specified ExpressRoutePort resource. */
+  put(
+    options: ExpressRoutePortsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | ExpressRoutePortsCreateOrUpdate200Response
+    | ExpressRoutePortsCreateOrUpdate201Response
+    | ExpressRoutePortsCreateOrUpdateDefaultResponse
+  >;
+  /** Update ExpressRoutePort tags. */
+  patch(
+    options: ExpressRoutePortsUpdateTagsParameters
+  ): StreamableMethod<
+    ExpressRoutePortsUpdateTags200Response | ExpressRoutePortsUpdateTagsDefaultResponse
+  >;
+}
+
+export interface ExpressRoutePortsListByResourceGroup {
+  /** List all the ExpressRoutePort resources in the specified resource group. */
+  get(
+    options: ExpressRoutePortsListByResourceGroupParameters
+  ): StreamableMethod<
+    | ExpressRoutePortsListByResourceGroup200Response
+    | ExpressRoutePortsListByResourceGroupDefaultResponse
+  >;
+}
+
+export interface ExpressRoutePortsList {
+  /** List all the ExpressRoutePort resources in the specified subscription. */
+  get(
+    options: ExpressRoutePortsListParameters
+  ): StreamableMethod<ExpressRoutePortsList200Response | ExpressRoutePortsListDefaultResponse>;
+}
+
+export interface ExpressRoutePortsGenerateLOA {
+  /** Generate a letter of authorization for the requested ExpressRoutePort resource. */
+  post(
+    options: ExpressRoutePortsGenerateLOAParameters
+  ): StreamableMethod<
+    ExpressRoutePortsGenerateLOA200Response | ExpressRoutePortsGenerateLOADefaultResponse
+  >;
+}
+
+export interface ExpressRouteLinksGet {
+  /** Retrieves the specified ExpressRouteLink resource. */
+  get(
+    options: ExpressRouteLinksGetParameters
+  ): StreamableMethod<ExpressRouteLinksGet200Response | ExpressRouteLinksGetDefaultResponse>;
+}
+
+export interface ExpressRouteLinksList {
+  /** Retrieve the ExpressRouteLink sub-resources of the specified ExpressRoutePort resource. */
+  get(
+    options: ExpressRouteLinksListParameters
+  ): StreamableMethod<ExpressRouteLinksList200Response | ExpressRouteLinksListDefaultResponse>;
+}
+
+export interface ExpressRoutePortAuthorizationsDelete {
+  /** Deletes the specified authorization from the specified express route port. */
+  delete(
+    options: ExpressRoutePortAuthorizationsDeleteParameters
+  ): StreamableMethod<
+    | ExpressRoutePortAuthorizationsDelete200Response
+    | ExpressRoutePortAuthorizationsDelete202Response
+    | ExpressRoutePortAuthorizationsDelete204Response
+    | ExpressRoutePortAuthorizationsDeleteDefaultResponse
+  >;
+  /** Gets the specified authorization from the specified express route port. */
+  get(
+    options: ExpressRoutePortAuthorizationsGetParameters
+  ): StreamableMethod<
+    ExpressRoutePortAuthorizationsGet200Response | ExpressRoutePortAuthorizationsGetDefaultResponse
+  >;
+  /** Creates or updates an authorization in the specified express route port. */
+  put(
+    options: ExpressRoutePortAuthorizationsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | ExpressRoutePortAuthorizationsCreateOrUpdate200Response
+    | ExpressRoutePortAuthorizationsCreateOrUpdate201Response
+    | ExpressRoutePortAuthorizationsCreateOrUpdateDefaultResponse
+  >;
+}
+
+export interface ExpressRoutePortAuthorizationsList {
+  /** Gets all authorizations in an express route port. */
+  get(
+    options: ExpressRoutePortAuthorizationsListParameters
+  ): StreamableMethod<
+    | ExpressRoutePortAuthorizationsList200Response
+    | ExpressRoutePortAuthorizationsListDefaultResponse
+  >;
+}
+
+export interface ExpressRouteProviderPortsLocationList {
+  /** Retrieves all the ExpressRouteProviderPorts in a subscription. */
+  get(
+    options: ExpressRouteProviderPortsLocationListParameters
+  ): StreamableMethod<
+    | ExpressRouteProviderPortsLocationList200Response
+    | ExpressRouteProviderPortsLocationListDefaultResponse
+  >;
+}
+
+export interface ExpressRouteProviderPortsGet {
+  /** Retrieves detail of a provider port. */
+  get(
+    options: ExpressRouteProviderPortsGetParameters
+  ): StreamableMethod<
+    ExpressRouteProviderPortsGet200Response | ExpressRouteProviderPortsGetDefaultResponse
+  >;
+}
+
+export interface FirewallPoliciesDelete {
+  /** Deletes the specified Firewall Policy. */
+  delete(
+    options: FirewallPoliciesDeleteParameters
+  ): StreamableMethod<
+    | FirewallPoliciesDelete200Response
+    | FirewallPoliciesDelete202Response
+    | FirewallPoliciesDelete204Response
+    | FirewallPoliciesDeleteDefaultResponse
+  >;
+  /** Gets the specified Firewall Policy. */
+  get(
+    options: FirewallPoliciesGetParameters
+  ): StreamableMethod<FirewallPoliciesGet200Response | FirewallPoliciesGetDefaultResponse>;
+  /** Creates or updates the specified Firewall Policy. */
+  put(
+    options: FirewallPoliciesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | FirewallPoliciesCreateOrUpdate200Response
+    | FirewallPoliciesCreateOrUpdate201Response
+    | FirewallPoliciesCreateOrUpdateDefaultResponse
+  >;
+  /** Updates tags of a Azure Firewall Policy resource. */
+  patch(
+    options: FirewallPoliciesUpdateTagsParameters
+  ): StreamableMethod<
+    FirewallPoliciesUpdateTags200Response | FirewallPoliciesUpdateTagsDefaultResponse
+  >;
+}
+
+export interface FirewallPoliciesList {
+  /** Lists all Firewall Policies in a resource group. */
+  get(
+    options: FirewallPoliciesListParameters
+  ): StreamableMethod<FirewallPoliciesList200Response | FirewallPoliciesListDefaultResponse>;
+}
+
+export interface FirewallPoliciesListAll {
+  /** Gets all the Firewall Policies in a subscription. */
+  get(
+    options: FirewallPoliciesListAllParameters
+  ): StreamableMethod<FirewallPoliciesListAll200Response | FirewallPoliciesListAllDefaultResponse>;
+}
+
+export interface FirewallPolicyRuleCollectionGroupsDelete {
+  /** Deletes the specified FirewallPolicyRuleCollectionGroup. */
+  delete(
+    options: FirewallPolicyRuleCollectionGroupsDeleteParameters
+  ): StreamableMethod<
+    | FirewallPolicyRuleCollectionGroupsDelete200Response
+    | FirewallPolicyRuleCollectionGroupsDelete202Response
+    | FirewallPolicyRuleCollectionGroupsDelete204Response
+    | FirewallPolicyRuleCollectionGroupsDeleteDefaultResponse
+  >;
+  /** Gets the specified FirewallPolicyRuleCollectionGroup. */
+  get(
+    options: FirewallPolicyRuleCollectionGroupsGetParameters
+  ): StreamableMethod<
+    | FirewallPolicyRuleCollectionGroupsGet200Response
+    | FirewallPolicyRuleCollectionGroupsGetDefaultResponse
+  >;
+  /** Creates or updates the specified FirewallPolicyRuleCollectionGroup. */
+  put(
+    options: FirewallPolicyRuleCollectionGroupsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | FirewallPolicyRuleCollectionGroupsCreateOrUpdate200Response
+    | FirewallPolicyRuleCollectionGroupsCreateOrUpdate201Response
+    | FirewallPolicyRuleCollectionGroupsCreateOrUpdateDefaultResponse
+  >;
+}
+
+export interface FirewallPolicyRuleCollectionGroupsList {
+  /** Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource. */
+  get(
+    options: FirewallPolicyRuleCollectionGroupsListParameters
+  ): StreamableMethod<
+    | FirewallPolicyRuleCollectionGroupsList200Response
+    | FirewallPolicyRuleCollectionGroupsListDefaultResponse
+  >;
+}
+
+export interface FirewallPolicyIdpsSignaturesList {
+  /** Retrieves the current status of IDPS signatures for the relevant policy */
+  post(
+    options: FirewallPolicyIdpsSignaturesListParameters
+  ): StreamableMethod<
+    FirewallPolicyIdpsSignaturesList200Response | FirewallPolicyIdpsSignaturesListDefaultResponse
+  >;
+}
+
+export interface FirewallPolicyIdpsSignaturesOverridesPatch {
+  /** Will update the status of policy's signature overrides for IDPS */
+  patch(
+    options: FirewallPolicyIdpsSignaturesOverridesPatchParameters
+  ): StreamableMethod<
+    | FirewallPolicyIdpsSignaturesOverridesPatch200Response
+    | FirewallPolicyIdpsSignaturesOverridesPatchDefaultResponse
+  >;
+  /** Will override/create a new signature overrides for the policy's IDPS */
+  put(
+    options: FirewallPolicyIdpsSignaturesOverridesPutParameters
+  ): StreamableMethod<
+    | FirewallPolicyIdpsSignaturesOverridesPut200Response
+    | FirewallPolicyIdpsSignaturesOverridesPutDefaultResponse
+  >;
+  /** Returns all signatures overrides for a specific policy. */
+  get(
+    options: FirewallPolicyIdpsSignaturesOverridesGetParameters
+  ): StreamableMethod<
+    | FirewallPolicyIdpsSignaturesOverridesGet200Response
+    | FirewallPolicyIdpsSignaturesOverridesGetDefaultResponse
+  >;
+}
+
+export interface FirewallPolicyIdpsSignaturesOverridesList {
+  /** Returns all signatures overrides objects for a specific policy as a list containing a single value. */
+  get(
+    options: FirewallPolicyIdpsSignaturesOverridesListParameters
+  ): StreamableMethod<
+    | FirewallPolicyIdpsSignaturesOverridesList200Response
+    | FirewallPolicyIdpsSignaturesOverridesListDefaultResponse
+  >;
+}
+
+export interface FirewallPolicyIdpsSignaturesFilterValuesList {
+  /** Retrieves the current filter values for the signatures overrides */
+  post(
+    options: FirewallPolicyIdpsSignaturesFilterValuesListParameters
+  ): StreamableMethod<
+    | FirewallPolicyIdpsSignaturesFilterValuesList200Response
+    | FirewallPolicyIdpsSignaturesFilterValuesListDefaultResponse
+  >;
+}
+
+export interface IpAllocationsDelete {
+  /** Deletes the specified IpAllocation. */
+  delete(
+    options: IpAllocationsDeleteParameters
+  ): StreamableMethod<
+    | IpAllocationsDelete200Response
+    | IpAllocationsDelete202Response
+    | IpAllocationsDelete204Response
+    | IpAllocationsDeleteDefaultResponse
+  >;
+  /** Gets the specified IpAllocation by resource group. */
+  get(
+    options: IpAllocationsGetParameters
+  ): StreamableMethod<IpAllocationsGet200Response | IpAllocationsGetDefaultResponse>;
+  /** Creates or updates an IpAllocation in the specified resource group. */
+  put(
+    options: IpAllocationsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | IpAllocationsCreateOrUpdate200Response
+    | IpAllocationsCreateOrUpdate201Response
+    | IpAllocationsCreateOrUpdateDefaultResponse
+  >;
+  /** Updates a IpAllocation tags. */
+  patch(
+    options: IpAllocationsUpdateTagsParameters
+  ): StreamableMethod<IpAllocationsUpdateTags200Response | IpAllocationsUpdateTagsDefaultResponse>;
+}
+
+export interface IpAllocationsList {
+  /** Gets all IpAllocations in a subscription. */
+  get(
+    options: IpAllocationsListParameters
+  ): StreamableMethod<IpAllocationsList200Response | IpAllocationsListDefaultResponse>;
+}
+
+export interface IpAllocationsListByResourceGroup {
+  /** Gets all IpAllocations in a resource group. */
+  get(
+    options: IpAllocationsListByResourceGroupParameters
+  ): StreamableMethod<
+    IpAllocationsListByResourceGroup200Response | IpAllocationsListByResourceGroupDefaultResponse
+  >;
+}
+
+export interface IpGroupsGet {
+  /** Gets the specified ipGroups. */
+  get(
+    options: IpGroupsGetParameters
+  ): StreamableMethod<IpGroupsGet200Response | IpGroupsGetDefaultResponse>;
+  /** Creates or updates an ipGroups in a specified resource group. */
+  put(
+    options: IpGroupsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | IpGroupsCreateOrUpdate200Response
+    | IpGroupsCreateOrUpdate201Response
+    | IpGroupsCreateOrUpdateDefaultResponse
+  >;
+  /** Updates tags of an IpGroups resource. */
+  patch(
+    options: IpGroupsUpdateGroupsParameters
+  ): StreamableMethod<IpGroupsUpdateGroups200Response | IpGroupsUpdateGroupsDefaultResponse>;
+  /** Deletes the specified ipGroups. */
+  delete(
+    options: IpGroupsDeleteParameters
+  ): StreamableMethod<
+    | IpGroupsDelete200Response
+    | IpGroupsDelete202Response
+    | IpGroupsDelete204Response
+    | IpGroupsDeleteDefaultResponse
+  >;
+}
+
+export interface IpGroupsListByResourceGroup {
+  /** Gets all IpGroups in a resource group. */
+  get(
+    options: IpGroupsListByResourceGroupParameters
+  ): StreamableMethod<
+    IpGroupsListByResourceGroup200Response | IpGroupsListByResourceGroupDefaultResponse
+  >;
+}
+
+export interface IpGroupsList {
+  /** Gets all IpGroups in a subscription. */
+  get(
+    options: IpGroupsListParameters
+  ): StreamableMethod<IpGroupsList200Response | IpGroupsListDefaultResponse>;
+}
+
+export interface LoadBalancersDelete {
+  /** Deletes the specified load balancer. */
+  delete(
+    options: LoadBalancersDeleteParameters
+  ): StreamableMethod<
+    | LoadBalancersDelete200Response
+    | LoadBalancersDelete202Response
+    | LoadBalancersDelete204Response
+    | LoadBalancersDeleteDefaultResponse
+  >;
+  /** Gets the specified load balancer. */
+  get(
+    options: LoadBalancersGetParameters
+  ): StreamableMethod<LoadBalancersGet200Response | LoadBalancersGetDefaultResponse>;
+  /** Creates or updates a load balancer. */
+  put(
+    options: LoadBalancersCreateOrUpdateParameters
+  ): StreamableMethod<
+    | LoadBalancersCreateOrUpdate200Response
+    | LoadBalancersCreateOrUpdate201Response
+    | LoadBalancersCreateOrUpdateDefaultResponse
+  >;
+  /** Updates a load balancer tags. */
+  patch(
+    options: LoadBalancersUpdateTagsParameters
+  ): StreamableMethod<LoadBalancersUpdateTags200Response | LoadBalancersUpdateTagsDefaultResponse>;
+}
+
+export interface LoadBalancersListAll {
+  /** Gets all the load balancers in a subscription. */
+  get(
+    options: LoadBalancersListAllParameters
+  ): StreamableMethod<LoadBalancersListAll200Response | LoadBalancersListAllDefaultResponse>;
+}
+
+export interface LoadBalancersList {
+  /** Gets all the load balancers in a resource group. */
+  get(
+    options: LoadBalancersListParameters
+  ): StreamableMethod<LoadBalancersList200Response | LoadBalancersListDefaultResponse>;
+}
+
+export interface LoadBalancersSwapPublicIpAddresses {
+  /** Swaps VIPs between two load balancers. */
+  post(
+    options: LoadBalancersSwapPublicIpAddressesParameters
+  ): StreamableMethod<
+    | LoadBalancersSwapPublicIpAddresses200Response
+    | LoadBalancersSwapPublicIpAddresses202Response
+    | LoadBalancersSwapPublicIpAddressesDefaultResponse
+  >;
+}
+
+export interface LoadBalancersListInboundNatRulePortMappings {
+  /** List of inbound NAT rule port mappings. */
+  post(
+    options: LoadBalancersListInboundNatRulePortMappingsParameters
+  ): StreamableMethod<
+    | LoadBalancersListInboundNatRulePortMappings200Response
+    | LoadBalancersListInboundNatRulePortMappings202Response
+    | LoadBalancersListInboundNatRulePortMappingsDefaultResponse
+  >;
+}
+
+export interface LoadBalancerBackendAddressPoolsList {
+  /** Gets all the load balancer backed address pools. */
+  get(
+    options: LoadBalancerBackendAddressPoolsListParameters
+  ): StreamableMethod<
+    | LoadBalancerBackendAddressPoolsList200Response
+    | LoadBalancerBackendAddressPoolsListDefaultResponse
+  >;
+}
+
+export interface LoadBalancerBackendAddressPoolsGet {
+  /** Gets load balancer backend address pool. */
+  get(
+    options: LoadBalancerBackendAddressPoolsGetParameters
+  ): StreamableMethod<
+    | LoadBalancerBackendAddressPoolsGet200Response
+    | LoadBalancerBackendAddressPoolsGetDefaultResponse
+  >;
+  /** Creates or updates a load balancer backend address pool. */
+  put(
+    options: LoadBalancerBackendAddressPoolsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | LoadBalancerBackendAddressPoolsCreateOrUpdate200Response
+    | LoadBalancerBackendAddressPoolsCreateOrUpdate201Response
+    | LoadBalancerBackendAddressPoolsCreateOrUpdateDefaultResponse
+  >;
+  /** Deletes the specified load balancer backend address pool. */
+  delete(
+    options: LoadBalancerBackendAddressPoolsDeleteParameters
+  ): StreamableMethod<
+    | LoadBalancerBackendAddressPoolsDelete200Response
+    | LoadBalancerBackendAddressPoolsDelete202Response
+    | LoadBalancerBackendAddressPoolsDelete204Response
+    | LoadBalancerBackendAddressPoolsDeleteDefaultResponse
+  >;
+}
+
+export interface LoadBalancerFrontendIPConfigurationsList {
+  /** Gets all the load balancer frontend IP configurations. */
+  get(
+    options: LoadBalancerFrontendIPConfigurationsListParameters
+  ): StreamableMethod<
+    | LoadBalancerFrontendIPConfigurationsList200Response
+    | LoadBalancerFrontendIPConfigurationsListDefaultResponse
+  >;
+}
+
+export interface LoadBalancerFrontendIPConfigurationsGet {
+  /** Gets load balancer frontend IP configuration. */
+  get(
+    options: LoadBalancerFrontendIPConfigurationsGetParameters
+  ): StreamableMethod<
+    | LoadBalancerFrontendIPConfigurationsGet200Response
+    | LoadBalancerFrontendIPConfigurationsGetDefaultResponse
+  >;
+}
+
+export interface InboundNatRulesList {
+  /** Gets all the inbound NAT rules in a load balancer. */
+  get(
+    options: InboundNatRulesListParameters
+  ): StreamableMethod<InboundNatRulesList200Response | InboundNatRulesListDefaultResponse>;
+}
+
+export interface InboundNatRulesDelete {
+  /** Deletes the specified load balancer inbound NAT rule. */
+  delete(
+    options: InboundNatRulesDeleteParameters
+  ): StreamableMethod<
+    | InboundNatRulesDelete200Response
+    | InboundNatRulesDelete202Response
+    | InboundNatRulesDelete204Response
+    | InboundNatRulesDeleteDefaultResponse
+  >;
+  /** Gets the specified load balancer inbound NAT rule. */
+  get(
+    options: InboundNatRulesGetParameters
+  ): StreamableMethod<InboundNatRulesGet200Response | InboundNatRulesGetDefaultResponse>;
+  /** Creates or updates a load balancer inbound NAT rule. */
+  put(
+    options: InboundNatRulesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | InboundNatRulesCreateOrUpdate200Response
+    | InboundNatRulesCreateOrUpdate201Response
+    | InboundNatRulesCreateOrUpdateDefaultResponse
+  >;
+}
+
+export interface LoadBalancerLoadBalancingRulesList {
+  /** Gets all the load balancing rules in a load balancer. */
+  get(
+    options: LoadBalancerLoadBalancingRulesListParameters
+  ): StreamableMethod<
+    | LoadBalancerLoadBalancingRulesList200Response
+    | LoadBalancerLoadBalancingRulesListDefaultResponse
+  >;
+}
+
+export interface LoadBalancerLoadBalancingRulesGet {
+  /** Gets the specified load balancer load balancing rule. */
+  get(
+    options: LoadBalancerLoadBalancingRulesGetParameters
+  ): StreamableMethod<
+    LoadBalancerLoadBalancingRulesGet200Response | LoadBalancerLoadBalancingRulesGetDefaultResponse
+  >;
+}
+
+export interface LoadBalancerOutboundRulesList {
+  /** Gets all the outbound rules in a load balancer. */
+  get(
+    options: LoadBalancerOutboundRulesListParameters
+  ): StreamableMethod<
+    LoadBalancerOutboundRulesList200Response | LoadBalancerOutboundRulesListDefaultResponse
+  >;
+}
+
+export interface LoadBalancerOutboundRulesGet {
+  /** Gets the specified load balancer outbound rule. */
+  get(
+    options: LoadBalancerOutboundRulesGetParameters
+  ): StreamableMethod<
+    LoadBalancerOutboundRulesGet200Response | LoadBalancerOutboundRulesGetDefaultResponse
+  >;
+}
+
+export interface LoadBalancerNetworkInterfacesList {
+  /** Gets associated load balancer network interfaces. */
+  get(
+    options: LoadBalancerNetworkInterfacesListParameters
+  ): StreamableMethod<
+    LoadBalancerNetworkInterfacesList200Response | LoadBalancerNetworkInterfacesListDefaultResponse
+  >;
+}
+
+export interface LoadBalancerProbesList {
+  /** Gets all the load balancer probes. */
+  get(
+    options: LoadBalancerProbesListParameters
+  ): StreamableMethod<LoadBalancerProbesList200Response | LoadBalancerProbesListDefaultResponse>;
+}
+
+export interface LoadBalancerProbesGet {
+  /** Gets load balancer probe. */
+  get(
+    options: LoadBalancerProbesGetParameters
+  ): StreamableMethod<LoadBalancerProbesGet200Response | LoadBalancerProbesGetDefaultResponse>;
+}
+
+export interface NatGatewaysDelete {
+  /** Deletes the specified nat gateway. */
+  delete(
+    options: NatGatewaysDeleteParameters
+  ): StreamableMethod<
+    | NatGatewaysDelete200Response
+    | NatGatewaysDelete202Response
+    | NatGatewaysDelete204Response
+    | NatGatewaysDeleteDefaultResponse
+  >;
+  /** Gets the specified nat gateway in a specified resource group. */
+  get(
+    options: NatGatewaysGetParameters
+  ): StreamableMethod<NatGatewaysGet200Response | NatGatewaysGetDefaultResponse>;
+  /** Creates or updates a nat gateway. */
+  put(
+    options: NatGatewaysCreateOrUpdateParameters
+  ): StreamableMethod<
+    | NatGatewaysCreateOrUpdate200Response
+    | NatGatewaysCreateOrUpdate201Response
+    | NatGatewaysCreateOrUpdate202Response
+    | NatGatewaysCreateOrUpdateDefaultResponse
+  >;
+  /** Updates nat gateway tags. */
+  patch(
+    options: NatGatewaysUpdateTagsParameters
+  ): StreamableMethod<NatGatewaysUpdateTags200Response | NatGatewaysUpdateTagsDefaultResponse>;
+}
+
+export interface NatGatewaysListAll {
+  /** Gets all the Nat Gateways in a subscription. */
+  get(
+    options: NatGatewaysListAllParameters
+  ): StreamableMethod<NatGatewaysListAll200Response | NatGatewaysListAllDefaultResponse>;
+}
+
+export interface NatGatewaysList {
+  /** Gets all nat gateways in a resource group. */
+  get(
+    options: NatGatewaysListParameters
+  ): StreamableMethod<NatGatewaysList200Response | NatGatewaysListDefaultResponse>;
+}
+
+export interface NetworkInterfaceIPConfigurationsList {
+  /** Get all ip configurations in a network interface. */
+  get(
+    options: NetworkInterfaceIPConfigurationsListParameters
+  ): StreamableMethod<
+    | NetworkInterfaceIPConfigurationsList200Response
+    | NetworkInterfaceIPConfigurationsListDefaultResponse
+  >;
+}
+
+export interface NetworkInterfaceIPConfigurationsGet {
+  /** Gets the specified network interface ip configuration. */
+  get(
+    options: NetworkInterfaceIPConfigurationsGetParameters
+  ): StreamableMethod<
+    | NetworkInterfaceIPConfigurationsGet200Response
+    | NetworkInterfaceIPConfigurationsGetDefaultResponse
+  >;
+}
+
+export interface NetworkInterfaceLoadBalancersList {
+  /** List all load balancers in a network interface. */
+  get(
+    options: NetworkInterfaceLoadBalancersListParameters
+  ): StreamableMethod<
+    NetworkInterfaceLoadBalancersList200Response | NetworkInterfaceLoadBalancersListDefaultResponse
+  >;
+}
+
+export interface NetworkInterfaceTapConfigurationsDelete {
+  /** Deletes the specified tap configuration from the NetworkInterface. */
+  delete(
+    options: NetworkInterfaceTapConfigurationsDeleteParameters
+  ): StreamableMethod<
+    | NetworkInterfaceTapConfigurationsDelete200Response
+    | NetworkInterfaceTapConfigurationsDelete202Response
+    | NetworkInterfaceTapConfigurationsDelete204Response
+    | NetworkInterfaceTapConfigurationsDeleteDefaultResponse
+  >;
+  /** Get the specified tap configuration on a network interface. */
+  get(
+    options: NetworkInterfaceTapConfigurationsGetParameters
+  ): StreamableMethod<
+    | NetworkInterfaceTapConfigurationsGet200Response
+    | NetworkInterfaceTapConfigurationsGetDefaultResponse
+  >;
+  /** Creates or updates a Tap configuration in the specified NetworkInterface. */
+  put(
+    options: NetworkInterfaceTapConfigurationsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | NetworkInterfaceTapConfigurationsCreateOrUpdate200Response
+    | NetworkInterfaceTapConfigurationsCreateOrUpdate201Response
+    | NetworkInterfaceTapConfigurationsCreateOrUpdateDefaultResponse
+  >;
+}
+
+export interface NetworkInterfaceTapConfigurationsList {
+  /** Get all Tap configurations in a network interface. */
+  get(
+    options: NetworkInterfaceTapConfigurationsListParameters
+  ): StreamableMethod<
+    | NetworkInterfaceTapConfigurationsList200Response
+    | NetworkInterfaceTapConfigurationsListDefaultResponse
+  >;
+}
+
+export interface NetworkManagersGet {
+  /** Gets the specified Network Manager. */
+  get(
+    options: NetworkManagersGetParameters
+  ): StreamableMethod<NetworkManagersGet200Response | NetworkManagersGetDefaultResponse>;
+  /** Creates or updates a Network Manager. */
+  put(
+    options: NetworkManagersCreateOrUpdateParameters
+  ): StreamableMethod<
+    | NetworkManagersCreateOrUpdate200Response
+    | NetworkManagersCreateOrUpdate201Response
+    | NetworkManagersCreateOrUpdateDefaultResponse
+  >;
+  /** Deletes a network manager. */
+  delete(
+    options: NetworkManagersDeleteParameters
+  ): StreamableMethod<
+    | NetworkManagersDelete200Response
+    | NetworkManagersDelete202Response
+    | NetworkManagersDelete204Response
+    | NetworkManagersDeleteDefaultResponse
+  >;
+  /** Patch NetworkManager. */
+  patch(
+    options: NetworkManagersPatchParameters
+  ): StreamableMethod<NetworkManagersPatch200Response | NetworkManagersPatchDefaultResponse>;
+}
+
+export interface NetworkManagersListBySubscription {
+  /** List all network managers in a subscription. */
+  get(
+    options: NetworkManagersListBySubscriptionParameters
+  ): StreamableMethod<
+    NetworkManagersListBySubscription200Response | NetworkManagersListBySubscriptionDefaultResponse
+  >;
+}
+
+export interface NetworkManagersList {
+  /** List network managers in a resource group. */
+  get(
+    options: NetworkManagersListParameters
+  ): StreamableMethod<NetworkManagersList200Response | NetworkManagersListDefaultResponse>;
+}
+
+export interface NetworkManagerCommitsPost {
+  /** Post a Network Manager Commit. */
+  post(
+    options: NetworkManagerCommitsPostParameters
+  ): StreamableMethod<
+    | NetworkManagerCommitsPost200Response
+    | NetworkManagerCommitsPost202Response
+    | NetworkManagerCommitsPostDefaultResponse
+  >;
+}
+
+export interface NetworkManagerDeploymentStatusList {
+  /** Post to List of Network Manager Deployment Status. */
+  post(
+    options: NetworkManagerDeploymentStatusListParameters
+  ): StreamableMethod<
+    | NetworkManagerDeploymentStatusList200Response
+    | NetworkManagerDeploymentStatusListDefaultResponse
+  >;
+}
+
+export interface SubscriptionNetworkManagerConnectionsCreateOrUpdate {
+  /** Create a network manager connection on this subscription. */
+  put(
+    options: SubscriptionNetworkManagerConnectionsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | SubscriptionNetworkManagerConnectionsCreateOrUpdate200Response
+    | SubscriptionNetworkManagerConnectionsCreateOrUpdate201Response
+    | SubscriptionNetworkManagerConnectionsCreateOrUpdateDefaultResponse
+  >;
+  /** Get a specified connection created by this subscription. */
+  get(
+    options: SubscriptionNetworkManagerConnectionsGetParameters
+  ): StreamableMethod<
+    | SubscriptionNetworkManagerConnectionsGet200Response
+    | SubscriptionNetworkManagerConnectionsGetDefaultResponse
+  >;
+  /** Delete specified connection created by this subscription. */
+  delete(
+    options: SubscriptionNetworkManagerConnectionsDeleteParameters
+  ): StreamableMethod<
+    | SubscriptionNetworkManagerConnectionsDelete200Response
+    | SubscriptionNetworkManagerConnectionsDelete204Response
+    | SubscriptionNetworkManagerConnectionsDeleteDefaultResponse
+  >;
+}
+
+export interface SubscriptionNetworkManagerConnectionsList {
+  /** List all network manager connections created by this subscription. */
+  get(
+    options: SubscriptionNetworkManagerConnectionsListParameters
+  ): StreamableMethod<
+    | SubscriptionNetworkManagerConnectionsList200Response
+    | SubscriptionNetworkManagerConnectionsListDefaultResponse
+  >;
+}
+
+export interface ManagementGroupNetworkManagerConnectionsCreateOrUpdate {
+  /** Create a network manager connection on this management group. */
+  put(
+    options: ManagementGroupNetworkManagerConnectionsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | ManagementGroupNetworkManagerConnectionsCreateOrUpdate200Response
+    | ManagementGroupNetworkManagerConnectionsCreateOrUpdate201Response
+    | ManagementGroupNetworkManagerConnectionsCreateOrUpdateDefaultResponse
+  >;
+  /** Get a specified connection created by this management group. */
+  get(
+    options: ManagementGroupNetworkManagerConnectionsGetParameters
+  ): StreamableMethod<
+    | ManagementGroupNetworkManagerConnectionsGet200Response
+    | ManagementGroupNetworkManagerConnectionsGetDefaultResponse
+  >;
+  /** Delete specified pending connection created by this management group. */
+  delete(
+    options: ManagementGroupNetworkManagerConnectionsDeleteParameters
+  ): StreamableMethod<
+    | ManagementGroupNetworkManagerConnectionsDelete200Response
+    | ManagementGroupNetworkManagerConnectionsDelete204Response
+    | ManagementGroupNetworkManagerConnectionsDeleteDefaultResponse
+  >;
+}
+
+export interface ManagementGroupNetworkManagerConnectionsList {
+  /** List all network manager connections created by this management group. */
+  get(
+    options: ManagementGroupNetworkManagerConnectionsListParameters
+  ): StreamableMethod<
+    | ManagementGroupNetworkManagerConnectionsList200Response
+    | ManagementGroupNetworkManagerConnectionsListDefaultResponse
+  >;
+}
+
+export interface ConnectivityConfigurationsGet {
+  /** Gets a Network Connectivity Configuration, specified by the resource group, network manager name, and connectivity Configuration name */
+  get(
+    options: ConnectivityConfigurationsGetParameters
+  ): StreamableMethod<
+    ConnectivityConfigurationsGet200Response | ConnectivityConfigurationsGetDefaultResponse
+  >;
+  /** Creates/Updates a new network manager connectivity configuration */
+  put(
+    options: ConnectivityConfigurationsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | ConnectivityConfigurationsCreateOrUpdate200Response
+    | ConnectivityConfigurationsCreateOrUpdate201Response
+    | ConnectivityConfigurationsCreateOrUpdateDefaultResponse
+  >;
+  /** Deletes a network manager connectivity configuration, specified by the resource group, network manager name, and connectivity configuration name */
+  delete(
+    options: ConnectivityConfigurationsDeleteParameters
+  ): StreamableMethod<
+    | ConnectivityConfigurationsDelete200Response
+    | ConnectivityConfigurationsDelete202Response
+    | ConnectivityConfigurationsDelete204Response
+    | ConnectivityConfigurationsDeleteDefaultResponse
+  >;
+}
+
+export interface ConnectivityConfigurationsList {
+  /** Lists all the network manager connectivity configuration in a specified network manager. */
+  get(
+    options: ConnectivityConfigurationsListParameters
+  ): StreamableMethod<
+    ConnectivityConfigurationsList200Response | ConnectivityConfigurationsListDefaultResponse
+  >;
+}
+
+export interface NetworkGroupsGet {
+  /** Gets the specified network group. */
+  get(
+    options: NetworkGroupsGetParameters
+  ): StreamableMethod<NetworkGroupsGet200Response | NetworkGroupsGetDefaultResponse>;
+  /** Creates or updates a network group. */
+  put(
+    options: NetworkGroupsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | NetworkGroupsCreateOrUpdate200Response
+    | NetworkGroupsCreateOrUpdate201Response
+    | NetworkGroupsCreateOrUpdateDefaultResponse
+  >;
+  /** Deletes a network group. */
+  delete(
+    options: NetworkGroupsDeleteParameters
+  ): StreamableMethod<
+    | NetworkGroupsDelete200Response
+    | NetworkGroupsDelete202Response
+    | NetworkGroupsDelete204Response
+    | NetworkGroupsDeleteDefaultResponse
+  >;
+}
+
+export interface NetworkGroupsList {
+  /** Lists the specified network group. */
+  get(
+    options: NetworkGroupsListParameters
+  ): StreamableMethod<NetworkGroupsList200Response | NetworkGroupsListDefaultResponse>;
+}
+
+export interface StaticMembersGet {
+  /** Gets the specified static member. */
+  get(
+    options: StaticMembersGetParameters
+  ): StreamableMethod<StaticMembersGet200Response | StaticMembersGetDefaultResponse>;
+  /** Creates or updates a static member. */
+  put(
+    options: StaticMembersCreateOrUpdateParameters
+  ): StreamableMethod<
+    | StaticMembersCreateOrUpdate200Response
+    | StaticMembersCreateOrUpdate201Response
+    | StaticMembersCreateOrUpdateDefaultResponse
+  >;
+  /** Deletes a static member. */
+  delete(
+    options: StaticMembersDeleteParameters
+  ): StreamableMethod<
+    | StaticMembersDelete200Response
+    | StaticMembersDelete204Response
+    | StaticMembersDeleteDefaultResponse
+  >;
+}
+
+export interface StaticMembersList {
+  /** Lists the specified static member. */
+  get(
+    options: StaticMembersListParameters
+  ): StreamableMethod<StaticMembersList200Response | StaticMembersListDefaultResponse>;
+}
+
+export interface ScopeConnectionsCreateOrUpdate {
+  /** Creates or updates scope connection from Network Manager */
+  put(
+    options: ScopeConnectionsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | ScopeConnectionsCreateOrUpdate200Response
+    | ScopeConnectionsCreateOrUpdate201Response
+    | ScopeConnectionsCreateOrUpdateDefaultResponse
+  >;
+  /** Get specified scope connection created by this Network Manager. */
+  get(
+    options: ScopeConnectionsGetParameters
+  ): StreamableMethod<ScopeConnectionsGet200Response | ScopeConnectionsGetDefaultResponse>;
+  /** Delete the pending scope connection created by this network manager. */
+  delete(
+    options: ScopeConnectionsDeleteParameters
+  ): StreamableMethod<
+    | ScopeConnectionsDelete200Response
+    | ScopeConnectionsDelete204Response
+    | ScopeConnectionsDeleteDefaultResponse
+  >;
+}
+
+export interface ScopeConnectionsList {
+  /** List all scope connections created by this network manager. */
+  get(
+    options: ScopeConnectionsListParameters
+  ): StreamableMethod<ScopeConnectionsList200Response | ScopeConnectionsListDefaultResponse>;
+}
+
+export interface SecurityAdminConfigurationsList {
+  /** Lists all the network manager security admin configurations in a network manager, in a paginated format. */
+  get(
+    options: SecurityAdminConfigurationsListParameters
+  ): StreamableMethod<
+    SecurityAdminConfigurationsList200Response | SecurityAdminConfigurationsListDefaultResponse
+  >;
+}
+
+export interface SecurityAdminConfigurationsGet {
+  /** Retrieves a network manager security admin configuration. */
+  get(
+    options: SecurityAdminConfigurationsGetParameters
+  ): StreamableMethod<
+    SecurityAdminConfigurationsGet200Response | SecurityAdminConfigurationsGetDefaultResponse
+  >;
+  /** Creates or updates a network manager security admin configuration. */
+  put(
+    options: SecurityAdminConfigurationsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | SecurityAdminConfigurationsCreateOrUpdate200Response
+    | SecurityAdminConfigurationsCreateOrUpdate201Response
+    | SecurityAdminConfigurationsCreateOrUpdateDefaultResponse
+  >;
+  /** Deletes a network manager security admin configuration. */
+  delete(
+    options: SecurityAdminConfigurationsDeleteParameters
+  ): StreamableMethod<
+    | SecurityAdminConfigurationsDelete200Response
+    | SecurityAdminConfigurationsDelete202Response
+    | SecurityAdminConfigurationsDelete204Response
+    | SecurityAdminConfigurationsDeleteDefaultResponse
+  >;
+}
+
+export interface AdminRuleCollectionsList {
+  /** Lists all the rule collections in a security admin configuration, in a paginated format. */
+  get(
+    options: AdminRuleCollectionsListParameters
+  ): StreamableMethod<
+    AdminRuleCollectionsList200Response | AdminRuleCollectionsListDefaultResponse
+  >;
+}
+
+export interface AdminRuleCollectionsGet {
+  /** Gets a network manager security admin configuration rule collection. */
+  get(
+    options: AdminRuleCollectionsGetParameters
+  ): StreamableMethod<AdminRuleCollectionsGet200Response | AdminRuleCollectionsGetDefaultResponse>;
+  /** Creates or updates an admin rule collection. */
+  put(
+    options: AdminRuleCollectionsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | AdminRuleCollectionsCreateOrUpdate200Response
+    | AdminRuleCollectionsCreateOrUpdate201Response
+    | AdminRuleCollectionsCreateOrUpdateDefaultResponse
+  >;
+  /** Deletes an admin rule collection. */
+  delete(
+    options: AdminRuleCollectionsDeleteParameters
+  ): StreamableMethod<
+    | AdminRuleCollectionsDelete200Response
+    | AdminRuleCollectionsDelete202Response
+    | AdminRuleCollectionsDelete204Response
+    | AdminRuleCollectionsDeleteDefaultResponse
+  >;
+}
+
+export interface AdminRulesList {
+  /** List all network manager security configuration admin rules. */
+  get(
+    options: AdminRulesListParameters
+  ): StreamableMethod<AdminRulesList200Response | AdminRulesListDefaultResponse>;
+}
+
+export interface AdminRulesGet {
+  /** Gets a network manager security configuration admin rule. */
+  get(
+    options: AdminRulesGetParameters
+  ): StreamableMethod<AdminRulesGet200Response | AdminRulesGetDefaultResponse>;
+  /** Creates or updates an admin rule. */
+  put(
+    options: AdminRulesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | AdminRulesCreateOrUpdate200Response
+    | AdminRulesCreateOrUpdate201Response
+    | AdminRulesCreateOrUpdateDefaultResponse
+  >;
+  /** Deletes an admin rule. */
+  delete(
+    options: AdminRulesDeleteParameters
+  ): StreamableMethod<
+    | AdminRulesDelete200Response
+    | AdminRulesDelete202Response
+    | AdminRulesDelete204Response
+    | AdminRulesDeleteDefaultResponse
+  >;
+}
+
+export interface NetworkProfilesDelete {
+  /** Deletes the specified network profile. */
+  delete(
+    options: NetworkProfilesDeleteParameters
+  ): StreamableMethod<
+    | NetworkProfilesDelete200Response
+    | NetworkProfilesDelete202Response
+    | NetworkProfilesDelete204Response
+    | NetworkProfilesDeleteDefaultResponse
+  >;
+  /** Gets the specified network profile in a specified resource group. */
+  get(
+    options: NetworkProfilesGetParameters
+  ): StreamableMethod<NetworkProfilesGet200Response | NetworkProfilesGetDefaultResponse>;
+  /** Creates or updates a network profile. */
+  put(
+    options: NetworkProfilesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | NetworkProfilesCreateOrUpdate200Response
+    | NetworkProfilesCreateOrUpdate201Response
+    | NetworkProfilesCreateOrUpdateDefaultResponse
+  >;
+  /** Updates network profile tags. */
+  patch(
+    options: NetworkProfilesUpdateTagsParameters
+  ): StreamableMethod<
+    NetworkProfilesUpdateTags200Response | NetworkProfilesUpdateTagsDefaultResponse
+  >;
+}
+
+export interface NetworkProfilesListAll {
+  /** Gets all the network profiles in a subscription. */
+  get(
+    options: NetworkProfilesListAllParameters
+  ): StreamableMethod<NetworkProfilesListAll200Response | NetworkProfilesListAllDefaultResponse>;
+}
+
+export interface NetworkProfilesList {
+  /** Gets all network profiles in a resource group. */
+  get(
+    options: NetworkProfilesListParameters
+  ): StreamableMethod<NetworkProfilesList200Response | NetworkProfilesListDefaultResponse>;
+}
+
+export interface NetworkSecurityGroupsDelete {
+  /** Deletes the specified network security group. */
+  delete(
+    options: NetworkSecurityGroupsDeleteParameters
+  ): StreamableMethod<
+    | NetworkSecurityGroupsDelete200Response
+    | NetworkSecurityGroupsDelete202Response
+    | NetworkSecurityGroupsDelete204Response
+    | NetworkSecurityGroupsDeleteDefaultResponse
+  >;
+  /** Gets the specified network security group. */
+  get(
+    options: NetworkSecurityGroupsGetParameters
+  ): StreamableMethod<
+    NetworkSecurityGroupsGet200Response | NetworkSecurityGroupsGetDefaultResponse
+  >;
+  /** Creates or updates a network security group in the specified resource group. */
+  put(
+    options: NetworkSecurityGroupsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | NetworkSecurityGroupsCreateOrUpdate200Response
+    | NetworkSecurityGroupsCreateOrUpdate201Response
+    | NetworkSecurityGroupsCreateOrUpdateDefaultResponse
+  >;
+  /** Updates a network security group tags. */
+  patch(
+    options: NetworkSecurityGroupsUpdateTagsParameters
+  ): StreamableMethod<
+    NetworkSecurityGroupsUpdateTags200Response | NetworkSecurityGroupsUpdateTagsDefaultResponse
+  >;
+}
+
+export interface NetworkSecurityGroupsListAll {
+  /** Gets all network security groups in a subscription. */
+  get(
+    options: NetworkSecurityGroupsListAllParameters
+  ): StreamableMethod<
+    NetworkSecurityGroupsListAll200Response | NetworkSecurityGroupsListAllDefaultResponse
+  >;
+}
+
+export interface NetworkSecurityGroupsList {
+  /** Gets all network security groups in a resource group. */
+  get(
+    options: NetworkSecurityGroupsListParameters
+  ): StreamableMethod<
+    NetworkSecurityGroupsList200Response | NetworkSecurityGroupsListDefaultResponse
+  >;
+}
+
+export interface SecurityRulesDelete {
+  /** Deletes the specified network security rule. */
+  delete(
+    options: SecurityRulesDeleteParameters
+  ): StreamableMethod<
+    | SecurityRulesDelete200Response
+    | SecurityRulesDelete202Response
+    | SecurityRulesDelete204Response
+    | SecurityRulesDeleteDefaultResponse
+  >;
+  /** Get the specified network security rule. */
+  get(
+    options: SecurityRulesGetParameters
+  ): StreamableMethod<SecurityRulesGet200Response | SecurityRulesGetDefaultResponse>;
+  /** Creates or updates a security rule in the specified network security group. */
+  put(
+    options: SecurityRulesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | SecurityRulesCreateOrUpdate200Response
+    | SecurityRulesCreateOrUpdate201Response
+    | SecurityRulesCreateOrUpdateDefaultResponse
+  >;
+}
+
+export interface SecurityRulesList {
+  /** Gets all security rules in a network security group. */
+  get(
+    options: SecurityRulesListParameters
+  ): StreamableMethod<SecurityRulesList200Response | SecurityRulesListDefaultResponse>;
+}
+
+export interface DefaultSecurityRulesList {
+  /** Gets all default security rules in a network security group. */
+  get(
+    options: DefaultSecurityRulesListParameters
+  ): StreamableMethod<
+    DefaultSecurityRulesList200Response | DefaultSecurityRulesListDefaultResponse
+  >;
+}
+
+export interface DefaultSecurityRulesGet {
+  /** Get the specified default network security rule. */
+  get(
+    options: DefaultSecurityRulesGetParameters
+  ): StreamableMethod<DefaultSecurityRulesGet200Response | DefaultSecurityRulesGetDefaultResponse>;
+}
+
+export interface NetworkVirtualAppliancesDelete {
+  /** Deletes the specified Network Virtual Appliance. */
+  delete(
+    options: NetworkVirtualAppliancesDeleteParameters
+  ): StreamableMethod<
+    | NetworkVirtualAppliancesDelete200Response
+    | NetworkVirtualAppliancesDelete202Response
+    | NetworkVirtualAppliancesDelete204Response
+    | NetworkVirtualAppliancesDeleteDefaultResponse
+  >;
+  /** Gets the specified Network Virtual Appliance. */
+  get(
+    options: NetworkVirtualAppliancesGetParameters
+  ): StreamableMethod<
+    NetworkVirtualAppliancesGet200Response | NetworkVirtualAppliancesGetDefaultResponse
+  >;
+  /** Updates a Network Virtual Appliance. */
+  patch(
+    options: NetworkVirtualAppliancesUpdateTagsParameters
+  ): StreamableMethod<
+    | NetworkVirtualAppliancesUpdateTags200Response
+    | NetworkVirtualAppliancesUpdateTagsDefaultResponse
+  >;
+  /** Creates or updates the specified Network Virtual Appliance. */
+  put(
+    options: NetworkVirtualAppliancesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | NetworkVirtualAppliancesCreateOrUpdate200Response
+    | NetworkVirtualAppliancesCreateOrUpdate201Response
+    | NetworkVirtualAppliancesCreateOrUpdateDefaultResponse
+  >;
+}
+
+export interface NetworkVirtualAppliancesListByResourceGroup {
+  /** Lists all Network Virtual Appliances in a resource group. */
+  get(
+    options: NetworkVirtualAppliancesListByResourceGroupParameters
+  ): StreamableMethod<
+    | NetworkVirtualAppliancesListByResourceGroup200Response
+    | NetworkVirtualAppliancesListByResourceGroupDefaultResponse
+  >;
+}
+
+export interface NetworkVirtualAppliancesList {
+  /** Gets all Network Virtual Appliances in a subscription. */
+  get(
+    options: NetworkVirtualAppliancesListParameters
+  ): StreamableMethod<
+    NetworkVirtualAppliancesList200Response | NetworkVirtualAppliancesListDefaultResponse
+  >;
+}
+
+export interface VirtualApplianceSitesDelete {
+  /** Deletes the specified site from a Virtual Appliance. */
+  delete(
+    options: VirtualApplianceSitesDeleteParameters
+  ): StreamableMethod<
+    | VirtualApplianceSitesDelete200Response
+    | VirtualApplianceSitesDelete202Response
+    | VirtualApplianceSitesDelete204Response
+    | VirtualApplianceSitesDeleteDefaultResponse
+  >;
+  /** Gets the specified Virtual Appliance Site. */
+  get(
+    options: VirtualApplianceSitesGetParameters
+  ): StreamableMethod<
+    VirtualApplianceSitesGet200Response | VirtualApplianceSitesGetDefaultResponse
+  >;
+  /** Creates or updates the specified Network Virtual Appliance Site. */
+  put(
+    options: VirtualApplianceSitesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VirtualApplianceSitesCreateOrUpdate200Response
+    | VirtualApplianceSitesCreateOrUpdate201Response
+    | VirtualApplianceSitesCreateOrUpdateDefaultResponse
+  >;
+}
+
+export interface VirtualApplianceSitesList {
+  /** Lists all Network Virtual Appliance Sites in a Network Virtual Appliance resource. */
+  get(
+    options: VirtualApplianceSitesListParameters
+  ): StreamableMethod<
+    VirtualApplianceSitesList200Response | VirtualApplianceSitesListDefaultResponse
+  >;
+}
+
+export interface VirtualApplianceSkusList {
+  /** List all SKUs available for a virtual appliance. */
+  get(
+    options: VirtualApplianceSkusListParameters
+  ): StreamableMethod<
+    VirtualApplianceSkusList200Response | VirtualApplianceSkusListDefaultResponse
+  >;
+}
+
+export interface VirtualApplianceSkusGet {
+  /** Retrieves a single available sku for network virtual appliance. */
+  get(
+    options: VirtualApplianceSkusGetParameters
+  ): StreamableMethod<VirtualApplianceSkusGet200Response | VirtualApplianceSkusGetDefaultResponse>;
+}
+
+export interface InboundSecurityRuleCreateOrUpdate {
+  /** Creates or updates the specified Network Virtual Appliance Inbound Security Rules. */
+  put(
+    options: InboundSecurityRuleCreateOrUpdateParameters
+  ): StreamableMethod<
+    | InboundSecurityRuleCreateOrUpdate200Response
+    | InboundSecurityRuleCreateOrUpdate201Response
+    | InboundSecurityRuleCreateOrUpdateDefaultResponse
+  >;
+}
+
+export interface NetworkWatchersCreateOrUpdate {
+  /** Creates or updates a network watcher in the specified resource group. */
+  put(
+    options: NetworkWatchersCreateOrUpdateParameters
+  ): StreamableMethod<
+    | NetworkWatchersCreateOrUpdate200Response
+    | NetworkWatchersCreateOrUpdate201Response
+    | NetworkWatchersCreateOrUpdateDefaultResponse
+  >;
+  /** Gets the specified network watcher by resource group. */
+  get(
+    options: NetworkWatchersGetParameters
+  ): StreamableMethod<NetworkWatchersGet200Response | NetworkWatchersGetDefaultResponse>;
+  /** Deletes the specified network watcher resource. */
+  delete(
+    options: NetworkWatchersDeleteParameters
+  ): StreamableMethod<
+    | NetworkWatchersDelete202Response
+    | NetworkWatchersDelete204Response
+    | NetworkWatchersDeleteDefaultResponse
+  >;
+  /** Updates a network watcher tags. */
+  patch(
+    options: NetworkWatchersUpdateTagsParameters
+  ): StreamableMethod<
+    NetworkWatchersUpdateTags200Response | NetworkWatchersUpdateTagsDefaultResponse
+  >;
+}
+
+export interface NetworkWatchersList {
+  /** Gets all network watchers by resource group. */
+  get(
+    options: NetworkWatchersListParameters
+  ): StreamableMethod<NetworkWatchersList200Response | NetworkWatchersListDefaultResponse>;
+}
+
+export interface NetworkWatchersListAll {
+  /** Gets all network watchers by subscription. */
+  get(
+    options: NetworkWatchersListAllParameters
+  ): StreamableMethod<NetworkWatchersListAll200Response | NetworkWatchersListAllDefaultResponse>;
+}
+
+export interface NetworkWatchersGetTopology {
+  /** Gets the current network topology by resource group. */
+  post(
+    options: NetworkWatchersGetTopologyParameters
+  ): StreamableMethod<
+    NetworkWatchersGetTopology200Response | NetworkWatchersGetTopologyDefaultResponse
+  >;
+}
+
+export interface NetworkWatchersVerifyIPFlow {
+  /** Verify IP flow from the specified VM to a location given the currently configured NSG rules. */
+  post(
+    options: NetworkWatchersVerifyIPFlowParameters
+  ): StreamableMethod<
+    | NetworkWatchersVerifyIPFlow200Response
+    | NetworkWatchersVerifyIPFlow202Response
+    | NetworkWatchersVerifyIPFlowDefaultResponse
+  >;
+}
+
+export interface NetworkWatchersGetNextHop {
+  /** Gets the next hop from the specified VM. */
+  post(
+    options: NetworkWatchersGetNextHopParameters
+  ): StreamableMethod<
+    | NetworkWatchersGetNextHop200Response
+    | NetworkWatchersGetNextHop202Response
+    | NetworkWatchersGetNextHopDefaultResponse
+  >;
+}
+
+export interface NetworkWatchersGetVMSecurityRules {
+  /** Gets the configured and effective security group rules on the specified VM. */
+  post(
+    options: NetworkWatchersGetVMSecurityRulesParameters
+  ): StreamableMethod<
+    | NetworkWatchersGetVMSecurityRules200Response
+    | NetworkWatchersGetVMSecurityRules202Response
+    | NetworkWatchersGetVMSecurityRulesDefaultResponse
+  >;
+}
+
+export interface NetworkWatchersGetTroubleshooting {
+  /** Initiate troubleshooting on a specified resource. */
+  post(
+    options: NetworkWatchersGetTroubleshootingParameters
+  ): StreamableMethod<
+    | NetworkWatchersGetTroubleshooting200Response
+    | NetworkWatchersGetTroubleshooting202Response
+    | NetworkWatchersGetTroubleshootingDefaultResponse
+  >;
+}
+
+export interface NetworkWatchersGetTroubleshootingResult {
+  /** Get the last completed troubleshooting result on a specified resource. */
+  post(
+    options: NetworkWatchersGetTroubleshootingResultParameters
+  ): StreamableMethod<
+    | NetworkWatchersGetTroubleshootingResult200Response
+    | NetworkWatchersGetTroubleshootingResult202Response
+    | NetworkWatchersGetTroubleshootingResultDefaultResponse
+  >;
+}
+
+export interface NetworkWatchersSetFlowLogConfiguration {
+  /** Configures flow log and traffic analytics (optional) on a specified resource. */
+  post(
+    options: NetworkWatchersSetFlowLogConfigurationParameters
+  ): StreamableMethod<
+    | NetworkWatchersSetFlowLogConfiguration200Response
+    | NetworkWatchersSetFlowLogConfiguration202Response
+    | NetworkWatchersSetFlowLogConfigurationDefaultResponse
+  >;
+}
+
+export interface NetworkWatchersGetFlowLogStatus {
+  /** Queries status of flow log and traffic analytics (optional) on a specified resource. */
+  post(
+    options: NetworkWatchersGetFlowLogStatusParameters
+  ): StreamableMethod<
+    | NetworkWatchersGetFlowLogStatus200Response
+    | NetworkWatchersGetFlowLogStatus202Response
+    | NetworkWatchersGetFlowLogStatusDefaultResponse
+  >;
+}
+
+export interface NetworkWatchersCheckConnectivity {
+  /** Verifies the possibility of establishing a direct TCP connection from a virtual machine to a given endpoint including another VM or an arbitrary remote server. */
+  post(
+    options: NetworkWatchersCheckConnectivityParameters
+  ): StreamableMethod<
+    | NetworkWatchersCheckConnectivity200Response
+    | NetworkWatchersCheckConnectivity202Response
+    | NetworkWatchersCheckConnectivityDefaultResponse
+  >;
+}
+
+export interface NetworkWatchersGetAzureReachabilityReport {
+  /** NOTE: This feature is currently in preview and still being tested for stability. Gets the relative latency score for internet service providers from a specified location to Azure regions. */
+  post(
+    options: NetworkWatchersGetAzureReachabilityReportParameters
+  ): StreamableMethod<
+    | NetworkWatchersGetAzureReachabilityReport200Response
+    | NetworkWatchersGetAzureReachabilityReport202Response
+    | NetworkWatchersGetAzureReachabilityReportDefaultResponse
+  >;
+}
+
+export interface NetworkWatchersListAvailableProviders {
+  /** NOTE: This feature is currently in preview and still being tested for stability. Lists all available internet service providers for a specified Azure region. */
+  post(
+    options: NetworkWatchersListAvailableProvidersParameters
+  ): StreamableMethod<
+    | NetworkWatchersListAvailableProviders200Response
+    | NetworkWatchersListAvailableProviders202Response
+    | NetworkWatchersListAvailableProvidersDefaultResponse
+  >;
+}
+
+export interface NetworkWatchersGetNetworkConfigurationDiagnostic {
+  /** Gets Network Configuration Diagnostic data to help customers understand and debug network behavior. It provides detailed information on what security rules were applied to a specified traffic flow and the result of evaluating these rules. Customers must provide details of a flow like source, destination, protocol, etc. The API returns whether traffic was allowed or denied, the rules evaluated for the specified flow and the evaluation results. */
+  post(
+    options: NetworkWatchersGetNetworkConfigurationDiagnosticParameters
+  ): StreamableMethod<
+    | NetworkWatchersGetNetworkConfigurationDiagnostic200Response
+    | NetworkWatchersGetNetworkConfigurationDiagnostic202Response
+    | NetworkWatchersGetNetworkConfigurationDiagnosticDefaultResponse
+  >;
+}
+
+export interface PacketCapturesCreate {
+  /** Create and start a packet capture on the specified VM. */
+  put(
+    options: PacketCapturesCreateParameters
+  ): StreamableMethod<PacketCapturesCreate201Response | PacketCapturesCreateDefaultResponse>;
+  /** Gets a packet capture session by name. */
+  get(
+    options: PacketCapturesGetParameters
+  ): StreamableMethod<PacketCapturesGet200Response | PacketCapturesGetDefaultResponse>;
+  /** Deletes the specified packet capture session. */
+  delete(
+    options: PacketCapturesDeleteParameters
+  ): StreamableMethod<
+    | PacketCapturesDelete202Response
+    | PacketCapturesDelete204Response
+    | PacketCapturesDeleteDefaultResponse
+  >;
+}
+
+export interface PacketCapturesStop {
+  /** Stops a specified packet capture session. */
+  post(
+    options: PacketCapturesStopParameters
+  ): StreamableMethod<
+    | PacketCapturesStop200Response
+    | PacketCapturesStop202Response
+    | PacketCapturesStopDefaultResponse
+  >;
+}
+
+export interface PacketCapturesGetStatus {
+  /** Query the status of a running packet capture session. */
+  post(
+    options: PacketCapturesGetStatusParameters
+  ): StreamableMethod<
+    | PacketCapturesGetStatus200Response
+    | PacketCapturesGetStatus202Response
+    | PacketCapturesGetStatusDefaultResponse
+  >;
+}
+
+export interface PacketCapturesList {
+  /** Lists all packet capture sessions within the specified resource group. */
+  get(
+    options: PacketCapturesListParameters
+  ): StreamableMethod<PacketCapturesList200Response | PacketCapturesListDefaultResponse>;
+}
+
+export interface ConnectionMonitorsCreateOrUpdate {
+  /** Create or update a connection monitor. */
+  put(
+    options: ConnectionMonitorsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | ConnectionMonitorsCreateOrUpdate200Response
+    | ConnectionMonitorsCreateOrUpdate201Response
+    | ConnectionMonitorsCreateOrUpdateDefaultResponse
+  >;
+  /** Gets a connection monitor by name. */
+  get(
+    options: ConnectionMonitorsGetParameters
+  ): StreamableMethod<ConnectionMonitorsGet200Response | ConnectionMonitorsGetDefaultResponse>;
+  /** Deletes the specified connection monitor. */
+  delete(
+    options: ConnectionMonitorsDeleteParameters
+  ): StreamableMethod<
+    | ConnectionMonitorsDelete202Response
+    | ConnectionMonitorsDelete204Response
+    | ConnectionMonitorsDeleteDefaultResponse
+  >;
+  /** Update tags of the specified connection monitor. */
+  patch(
+    options: ConnectionMonitorsUpdateTagsParameters
+  ): StreamableMethod<
+    ConnectionMonitorsUpdateTags200Response | ConnectionMonitorsUpdateTagsDefaultResponse
+  >;
+}
+
+export interface ConnectionMonitorsStop {
+  /** Stops the specified connection monitor. */
+  post(
+    options: ConnectionMonitorsStopParameters
+  ): StreamableMethod<
+    | ConnectionMonitorsStop200Response
+    | ConnectionMonitorsStop202Response
+    | ConnectionMonitorsStopDefaultResponse
+  >;
+}
+
+export interface ConnectionMonitorsStart {
+  /** Starts the specified connection monitor. */
+  post(
+    options: ConnectionMonitorsStartParameters
+  ): StreamableMethod<
+    | ConnectionMonitorsStart200Response
+    | ConnectionMonitorsStart202Response
+    | ConnectionMonitorsStartDefaultResponse
+  >;
+}
+
+export interface ConnectionMonitorsQuery {
+  /** Query a snapshot of the most recent connection states. */
+  post(
+    options: ConnectionMonitorsQueryParameters
+  ): StreamableMethod<
+    | ConnectionMonitorsQuery200Response
+    | ConnectionMonitorsQuery202Response
+    | ConnectionMonitorsQueryDefaultResponse
+  >;
+}
+
+export interface ConnectionMonitorsList {
+  /** Lists all connection monitors for the specified Network Watcher. */
+  get(
+    options: ConnectionMonitorsListParameters
+  ): StreamableMethod<ConnectionMonitorsList200Response | ConnectionMonitorsListDefaultResponse>;
+}
+
+export interface FlowLogsCreateOrUpdate {
+  /** Create or update a flow log for the specified network security group. */
+  put(
+    options: FlowLogsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | FlowLogsCreateOrUpdate200Response
+    | FlowLogsCreateOrUpdate201Response
+    | FlowLogsCreateOrUpdateDefaultResponse
+  >;
+  /** Update tags of the specified flow log. */
+  patch(
+    options: FlowLogsUpdateTagsParameters
+  ): StreamableMethod<FlowLogsUpdateTags200Response | FlowLogsUpdateTagsDefaultResponse>;
+  /** Gets a flow log resource by name. */
+  get(
+    options: FlowLogsGetParameters
+  ): StreamableMethod<FlowLogsGet200Response | FlowLogsGetDefaultResponse>;
+  /** Deletes the specified flow log resource. */
+  delete(
+    options: FlowLogsDeleteParameters
+  ): StreamableMethod<
+    FlowLogsDelete202Response | FlowLogsDelete204Response | FlowLogsDeleteDefaultResponse
+  >;
+}
+
+export interface FlowLogsList {
+  /** Lists all flow log resources for the specified Network Watcher. */
+  get(
+    options: FlowLogsListParameters
+  ): StreamableMethod<FlowLogsList200Response | FlowLogsListDefaultResponse>;
+}
+
+export interface OperationsList {
+  /** Lists all of the available Network Rest API operations. */
+  get(
+    options: OperationsListParameters
+  ): StreamableMethod<OperationsList200Response | OperationsListDefaultResponse>;
+}
+
+export interface PrivateEndpointsDelete {
+  /** Deletes the specified private endpoint. */
+  delete(
+    options: PrivateEndpointsDeleteParameters
+  ): StreamableMethod<
+    | PrivateEndpointsDelete200Response
+    | PrivateEndpointsDelete202Response
+    | PrivateEndpointsDelete204Response
+    | PrivateEndpointsDeleteDefaultResponse
+  >;
+  /** Gets the specified private endpoint by resource group. */
+  get(
+    options: PrivateEndpointsGetParameters
+  ): StreamableMethod<PrivateEndpointsGet200Response | PrivateEndpointsGetDefaultResponse>;
+  /** Creates or updates an private endpoint in the specified resource group. */
+  put(
+    options: PrivateEndpointsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | PrivateEndpointsCreateOrUpdate200Response
+    | PrivateEndpointsCreateOrUpdate201Response
+    | PrivateEndpointsCreateOrUpdateDefaultResponse
+  >;
+}
+
+export interface PrivateEndpointsList {
+  /** Gets all private endpoints in a resource group. */
+  get(
+    options: PrivateEndpointsListParameters
+  ): StreamableMethod<PrivateEndpointsList200Response | PrivateEndpointsListDefaultResponse>;
+}
+
+export interface PrivateEndpointsListBySubscription {
+  /** Gets all private endpoints in a subscription. */
+  get(
+    options: PrivateEndpointsListBySubscriptionParameters
+  ): StreamableMethod<
+    | PrivateEndpointsListBySubscription200Response
+    | PrivateEndpointsListBySubscriptionDefaultResponse
+  >;
+}
+
+export interface AvailablePrivateEndpointTypesList {
+  /** Returns all of the resource types that can be linked to a Private Endpoint in this subscription in this region. */
+  get(
+    options: AvailablePrivateEndpointTypesListParameters
+  ): StreamableMethod<
+    AvailablePrivateEndpointTypesList200Response | AvailablePrivateEndpointTypesListDefaultResponse
+  >;
+}
+
+export interface AvailablePrivateEndpointTypesListByResourceGroup {
+  /** Returns all of the resource types that can be linked to a Private Endpoint in this subscription in this region. */
+  get(
+    options: AvailablePrivateEndpointTypesListByResourceGroupParameters
+  ): StreamableMethod<
+    | AvailablePrivateEndpointTypesListByResourceGroup200Response
+    | AvailablePrivateEndpointTypesListByResourceGroupDefaultResponse
+  >;
+}
+
+export interface PrivateDnsZoneGroupsDelete {
+  /** Deletes the specified private dns zone group. */
+  delete(
+    options: PrivateDnsZoneGroupsDeleteParameters
+  ): StreamableMethod<
+    | PrivateDnsZoneGroupsDelete200Response
+    | PrivateDnsZoneGroupsDelete202Response
+    | PrivateDnsZoneGroupsDelete204Response
+    | PrivateDnsZoneGroupsDeleteDefaultResponse
+  >;
+  /** Gets the private dns zone group resource by specified private dns zone group name. */
+  get(
+    options: PrivateDnsZoneGroupsGetParameters
+  ): StreamableMethod<PrivateDnsZoneGroupsGet200Response | PrivateDnsZoneGroupsGetDefaultResponse>;
+  /** Creates or updates a private dns zone group in the specified private endpoint. */
+  put(
+    options: PrivateDnsZoneGroupsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | PrivateDnsZoneGroupsCreateOrUpdate200Response
+    | PrivateDnsZoneGroupsCreateOrUpdate201Response
+    | PrivateDnsZoneGroupsCreateOrUpdateDefaultResponse
+  >;
+}
+
+export interface PrivateDnsZoneGroupsList {
+  /** Gets all private dns zone groups in a private endpoint. */
+  get(
+    options: PrivateDnsZoneGroupsListParameters
+  ): StreamableMethod<
+    PrivateDnsZoneGroupsList200Response | PrivateDnsZoneGroupsListDefaultResponse
+  >;
+}
+
+export interface PrivateLinkServicesDelete {
+  /** Deletes the specified private link service. */
+  delete(
+    options: PrivateLinkServicesDeleteParameters
+  ): StreamableMethod<
+    | PrivateLinkServicesDelete200Response
+    | PrivateLinkServicesDelete202Response
+    | PrivateLinkServicesDelete204Response
+    | PrivateLinkServicesDeleteDefaultResponse
+  >;
+  /** Gets the specified private link service by resource group. */
+  get(
+    options: PrivateLinkServicesGetParameters
+  ): StreamableMethod<PrivateLinkServicesGet200Response | PrivateLinkServicesGetDefaultResponse>;
+  /** Creates or updates an private link service in the specified resource group. */
+  put(
+    options: PrivateLinkServicesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | PrivateLinkServicesCreateOrUpdate200Response
+    | PrivateLinkServicesCreateOrUpdate201Response
+    | PrivateLinkServicesCreateOrUpdateDefaultResponse
+  >;
+}
+
+export interface PrivateLinkServicesList {
+  /** Gets all private link services in a resource group. */
+  get(
+    options: PrivateLinkServicesListParameters
+  ): StreamableMethod<PrivateLinkServicesList200Response | PrivateLinkServicesListDefaultResponse>;
+}
+
+export interface PrivateLinkServicesListBySubscription {
+  /** Gets all private link service in a subscription. */
+  get(
+    options: PrivateLinkServicesListBySubscriptionParameters
+  ): StreamableMethod<
+    | PrivateLinkServicesListBySubscription200Response
+    | PrivateLinkServicesListBySubscriptionDefaultResponse
+  >;
+}
+
+export interface PrivateLinkServicesGetPrivateEndpointConnection {
+  /** Get the specific private end point connection by specific private link service in the resource group. */
+  get(
+    options: PrivateLinkServicesGetPrivateEndpointConnectionParameters
+  ): StreamableMethod<
+    | PrivateLinkServicesGetPrivateEndpointConnection200Response
+    | PrivateLinkServicesGetPrivateEndpointConnectionDefaultResponse
+  >;
+  /** Approve or reject private end point connection for a private link service in a subscription. */
+  put(
+    options: PrivateLinkServicesUpdatePrivateEndpointConnectionParameters
+  ): StreamableMethod<
+    | PrivateLinkServicesUpdatePrivateEndpointConnection200Response
+    | PrivateLinkServicesUpdatePrivateEndpointConnectionDefaultResponse
+  >;
+  /** Delete private end point connection for a private link service in a subscription. */
+  delete(
+    options: PrivateLinkServicesDeletePrivateEndpointConnectionParameters
+  ): StreamableMethod<
+    | PrivateLinkServicesDeletePrivateEndpointConnection200Response
+    | PrivateLinkServicesDeletePrivateEndpointConnection202Response
+    | PrivateLinkServicesDeletePrivateEndpointConnection204Response
+    | PrivateLinkServicesDeletePrivateEndpointConnectionDefaultResponse
+  >;
+}
+
+export interface PrivateLinkServicesListPrivateEndpointConnections {
+  /** Gets all private end point connections for a specific private link service. */
+  get(
+    options: PrivateLinkServicesListPrivateEndpointConnectionsParameters
+  ): StreamableMethod<
+    | PrivateLinkServicesListPrivateEndpointConnections200Response
+    | PrivateLinkServicesListPrivateEndpointConnectionsDefaultResponse
+  >;
+}
+
+export interface PrivateLinkServicesCheckPrivateLinkServiceVisibility {
+  /** Checks whether the subscription is visible to private link service. */
+  post(
+    options: PrivateLinkServicesCheckPrivateLinkServiceVisibilityParameters
+  ): StreamableMethod<
+    | PrivateLinkServicesCheckPrivateLinkServiceVisibility200Response
+    | PrivateLinkServicesCheckPrivateLinkServiceVisibility202Response
+    | PrivateLinkServicesCheckPrivateLinkServiceVisibilityDefaultResponse
+  >;
+}
+
+export interface PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroup {
+  /** Checks whether the subscription is visible to private link service in the specified resource group. */
+  post(
+    options: PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupParameters
+  ): StreamableMethod<
+    | PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroup200Response
+    | PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroup202Response
+    | PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupDefaultResponse
+  >;
+}
+
+export interface PrivateLinkServicesListAutoApprovedPrivateLinkServices {
+  /** Returns all of the private link service ids that can be linked to a Private Endpoint with auto approved in this subscription in this region. */
+  get(
+    options: PrivateLinkServicesListAutoApprovedPrivateLinkServicesParameters
+  ): StreamableMethod<
+    | PrivateLinkServicesListAutoApprovedPrivateLinkServices200Response
+    | PrivateLinkServicesListAutoApprovedPrivateLinkServicesDefaultResponse
+  >;
+}
+
+export interface PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroup {
+  /** Returns all of the private link service ids that can be linked to a Private Endpoint with auto approved in this subscription in this region. */
+  get(
+    options: PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupParameters
+  ): StreamableMethod<
+    | PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroup200Response
+    | PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupDefaultResponse
+  >;
+}
+
+export interface PublicIPPrefixesDelete {
+  /** Deletes the specified public IP prefix. */
+  delete(
+    options: PublicIPPrefixesDeleteParameters
+  ): StreamableMethod<
+    | PublicIPPrefixesDelete200Response
+    | PublicIPPrefixesDelete202Response
+    | PublicIPPrefixesDelete204Response
+    | PublicIPPrefixesDeleteDefaultResponse
+  >;
+  /** Gets the specified public IP prefix in a specified resource group. */
+  get(
+    options: PublicIPPrefixesGetParameters
+  ): StreamableMethod<PublicIPPrefixesGet200Response | PublicIPPrefixesGetDefaultResponse>;
+  /** Creates or updates a static or dynamic public IP prefix. */
+  put(
+    options: PublicIPPrefixesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | PublicIPPrefixesCreateOrUpdate200Response
+    | PublicIPPrefixesCreateOrUpdate201Response
+    | PublicIPPrefixesCreateOrUpdateDefaultResponse
+  >;
+  /** Updates public IP prefix tags. */
+  patch(
+    options: PublicIPPrefixesUpdateTagsParameters
+  ): StreamableMethod<
+    PublicIPPrefixesUpdateTags200Response | PublicIPPrefixesUpdateTagsDefaultResponse
+  >;
+}
+
+export interface PublicIPPrefixesListAll {
+  /** Gets all the public IP prefixes in a subscription. */
+  get(
+    options: PublicIPPrefixesListAllParameters
+  ): StreamableMethod<PublicIPPrefixesListAll200Response | PublicIPPrefixesListAllDefaultResponse>;
+}
+
+export interface PublicIPPrefixesList {
+  /** Gets all public IP prefixes in a resource group. */
+  get(
+    options: PublicIPPrefixesListParameters
+  ): StreamableMethod<PublicIPPrefixesList200Response | PublicIPPrefixesListDefaultResponse>;
+}
+
+export interface RouteFiltersDelete {
+  /** Deletes the specified route filter. */
+  delete(
+    options: RouteFiltersDeleteParameters
+  ): StreamableMethod<
+    | RouteFiltersDelete200Response
+    | RouteFiltersDelete202Response
+    | RouteFiltersDelete204Response
+    | RouteFiltersDeleteDefaultResponse
+  >;
+  /** Gets the specified route filter. */
+  get(
+    options: RouteFiltersGetParameters
+  ): StreamableMethod<RouteFiltersGet200Response | RouteFiltersGetDefaultResponse>;
+  /** Creates or updates a route filter in a specified resource group. */
+  put(
+    options: RouteFiltersCreateOrUpdateParameters
+  ): StreamableMethod<
+    | RouteFiltersCreateOrUpdate200Response
+    | RouteFiltersCreateOrUpdate201Response
+    | RouteFiltersCreateOrUpdateDefaultResponse
+  >;
+  /** Updates tags of a route filter. */
+  patch(
+    options: RouteFiltersUpdateTagsParameters
+  ): StreamableMethod<RouteFiltersUpdateTags200Response | RouteFiltersUpdateTagsDefaultResponse>;
+}
+
+export interface RouteFiltersListByResourceGroup {
+  /** Gets all route filters in a resource group. */
+  get(
+    options: RouteFiltersListByResourceGroupParameters
+  ): StreamableMethod<
+    RouteFiltersListByResourceGroup200Response | RouteFiltersListByResourceGroupDefaultResponse
+  >;
+}
+
+export interface RouteFiltersList {
+  /** Gets all route filters in a subscription. */
+  get(
+    options: RouteFiltersListParameters
+  ): StreamableMethod<RouteFiltersList200Response | RouteFiltersListDefaultResponse>;
+}
+
+export interface RouteFilterRulesDelete {
+  /** Deletes the specified rule from a route filter. */
+  delete(
+    options: RouteFilterRulesDeleteParameters
+  ): StreamableMethod<
+    | RouteFilterRulesDelete200Response
+    | RouteFilterRulesDelete202Response
+    | RouteFilterRulesDelete204Response
+    | RouteFilterRulesDeleteDefaultResponse
+  >;
+  /** Gets the specified rule from a route filter. */
+  get(
+    options: RouteFilterRulesGetParameters
+  ): StreamableMethod<RouteFilterRulesGet200Response | RouteFilterRulesGetDefaultResponse>;
+  /** Creates or updates a route in the specified route filter. */
+  put(
+    options: RouteFilterRulesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | RouteFilterRulesCreateOrUpdate200Response
+    | RouteFilterRulesCreateOrUpdate201Response
+    | RouteFilterRulesCreateOrUpdateDefaultResponse
+  >;
+}
+
+export interface RouteFilterRulesListByRouteFilter {
+  /** Gets all RouteFilterRules in a route filter. */
+  get(
+    options: RouteFilterRulesListByRouteFilterParameters
+  ): StreamableMethod<
+    RouteFilterRulesListByRouteFilter200Response | RouteFilterRulesListByRouteFilterDefaultResponse
+  >;
+}
+
+export interface RouteTablesDelete {
+  /** Deletes the specified route table. */
+  delete(
+    options: RouteTablesDeleteParameters
+  ): StreamableMethod<
+    | RouteTablesDelete200Response
+    | RouteTablesDelete202Response
+    | RouteTablesDelete204Response
+    | RouteTablesDeleteDefaultResponse
+  >;
+  /** Gets the specified route table. */
+  get(
+    options: RouteTablesGetParameters
+  ): StreamableMethod<RouteTablesGet200Response | RouteTablesGetDefaultResponse>;
+  /** Create or updates a route table in a specified resource group. */
+  put(
+    options: RouteTablesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | RouteTablesCreateOrUpdate200Response
+    | RouteTablesCreateOrUpdate201Response
+    | RouteTablesCreateOrUpdateDefaultResponse
+  >;
+  /** Updates a route table tags. */
+  patch(
+    options: RouteTablesUpdateTagsParameters
+  ): StreamableMethod<RouteTablesUpdateTags200Response | RouteTablesUpdateTagsDefaultResponse>;
+}
+
+export interface RouteTablesList {
+  /** Gets all route tables in a resource group. */
+  get(
+    options: RouteTablesListParameters
+  ): StreamableMethod<RouteTablesList200Response | RouteTablesListDefaultResponse>;
+}
+
+export interface RouteTablesListAll {
+  /** Gets all route tables in a subscription. */
+  get(
+    options: RouteTablesListAllParameters
+  ): StreamableMethod<RouteTablesListAll200Response | RouteTablesListAllDefaultResponse>;
+}
+
+export interface RoutesDelete {
+  /** Deletes the specified route from a route table. */
+  delete(
+    options: RoutesDeleteParameters
+  ): StreamableMethod<
+    | RoutesDelete200Response
+    | RoutesDelete202Response
+    | RoutesDelete204Response
+    | RoutesDeleteDefaultResponse
+  >;
+  /** Gets the specified route from a route table. */
+  get(
+    options: RoutesGetParameters
+  ): StreamableMethod<RoutesGet200Response | RoutesGetDefaultResponse>;
+  /** Creates or updates a route in the specified route table. */
+  put(
+    options: RoutesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | RoutesCreateOrUpdate200Response
+    | RoutesCreateOrUpdate201Response
+    | RoutesCreateOrUpdateDefaultResponse
+  >;
+}
+
+export interface RoutesList {
+  /** Gets all routes in a route table. */
+  get(
+    options: RoutesListParameters
+  ): StreamableMethod<RoutesList200Response | RoutesListDefaultResponse>;
+}
+
+export interface SecurityPartnerProvidersDelete {
+  /** Deletes the specified Security Partner Provider. */
+  delete(
+    options: SecurityPartnerProvidersDeleteParameters
+  ): StreamableMethod<
+    | SecurityPartnerProvidersDelete200Response
+    | SecurityPartnerProvidersDelete202Response
+    | SecurityPartnerProvidersDelete204Response
+    | SecurityPartnerProvidersDeleteDefaultResponse
+  >;
+  /** Gets the specified Security Partner Provider. */
+  get(
+    options: SecurityPartnerProvidersGetParameters
+  ): StreamableMethod<
+    SecurityPartnerProvidersGet200Response | SecurityPartnerProvidersGetDefaultResponse
+  >;
+  /** Creates or updates the specified Security Partner Provider. */
+  put(
+    options: SecurityPartnerProvidersCreateOrUpdateParameters
+  ): StreamableMethod<
+    | SecurityPartnerProvidersCreateOrUpdate200Response
+    | SecurityPartnerProvidersCreateOrUpdate201Response
+    | SecurityPartnerProvidersCreateOrUpdateDefaultResponse
+  >;
+  /** Updates tags of a Security Partner Provider resource. */
+  patch(
+    options: SecurityPartnerProvidersUpdateTagsParameters
+  ): StreamableMethod<
+    | SecurityPartnerProvidersUpdateTags200Response
+    | SecurityPartnerProvidersUpdateTagsDefaultResponse
+  >;
+}
+
+export interface SecurityPartnerProvidersListByResourceGroup {
+  /** Lists all Security Partner Providers in a resource group. */
+  get(
+    options: SecurityPartnerProvidersListByResourceGroupParameters
+  ): StreamableMethod<
+    | SecurityPartnerProvidersListByResourceGroup200Response
+    | SecurityPartnerProvidersListByResourceGroupDefaultResponse
+  >;
+}
+
+export interface SecurityPartnerProvidersList {
+  /** Gets all the Security Partner Providers in a subscription. */
+  get(
+    options: SecurityPartnerProvidersListParameters
+  ): StreamableMethod<
+    SecurityPartnerProvidersList200Response | SecurityPartnerProvidersListDefaultResponse
+  >;
+}
+
+export interface BgpServiceCommunitiesList {
+  /** Gets all the available bgp service communities. */
+  get(
+    options: BgpServiceCommunitiesListParameters
+  ): StreamableMethod<
+    BgpServiceCommunitiesList200Response | BgpServiceCommunitiesListDefaultResponse
+  >;
+}
+
+export interface ServiceEndpointPoliciesDelete {
+  /** Deletes the specified service endpoint policy. */
+  delete(
+    options: ServiceEndpointPoliciesDeleteParameters
+  ): StreamableMethod<
+    | ServiceEndpointPoliciesDelete200Response
+    | ServiceEndpointPoliciesDelete202Response
+    | ServiceEndpointPoliciesDelete204Response
+    | ServiceEndpointPoliciesDeleteDefaultResponse
+  >;
+  /** Gets the specified service Endpoint Policies in a specified resource group. */
+  get(
+    options: ServiceEndpointPoliciesGetParameters
+  ): StreamableMethod<
+    ServiceEndpointPoliciesGet200Response | ServiceEndpointPoliciesGetDefaultResponse
+  >;
+  /** Creates or updates a service Endpoint Policies. */
+  put(
+    options: ServiceEndpointPoliciesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | ServiceEndpointPoliciesCreateOrUpdate200Response
+    | ServiceEndpointPoliciesCreateOrUpdate201Response
+    | ServiceEndpointPoliciesCreateOrUpdateDefaultResponse
+  >;
+  /** Updates tags of a service endpoint policy. */
+  patch(
+    options: ServiceEndpointPoliciesUpdateTagsParameters
+  ): StreamableMethod<
+    ServiceEndpointPoliciesUpdateTags200Response | ServiceEndpointPoliciesUpdateTagsDefaultResponse
+  >;
+}
+
+export interface ServiceEndpointPoliciesList {
+  /** Gets all the service endpoint policies in a subscription. */
+  get(
+    options: ServiceEndpointPoliciesListParameters
+  ): StreamableMethod<
+    ServiceEndpointPoliciesList200Response | ServiceEndpointPoliciesListDefaultResponse
+  >;
+}
+
+export interface ServiceEndpointPoliciesListByResourceGroup {
+  /** Gets all service endpoint Policies in a resource group. */
+  get(
+    options: ServiceEndpointPoliciesListByResourceGroupParameters
+  ): StreamableMethod<
+    | ServiceEndpointPoliciesListByResourceGroup200Response
+    | ServiceEndpointPoliciesListByResourceGroupDefaultResponse
+  >;
+}
+
+export interface ServiceEndpointPolicyDefinitionsDelete {
+  /** Deletes the specified ServiceEndpoint policy definitions. */
+  delete(
+    options: ServiceEndpointPolicyDefinitionsDeleteParameters
+  ): StreamableMethod<
+    | ServiceEndpointPolicyDefinitionsDelete200Response
+    | ServiceEndpointPolicyDefinitionsDelete202Response
+    | ServiceEndpointPolicyDefinitionsDelete204Response
+    | ServiceEndpointPolicyDefinitionsDeleteDefaultResponse
+  >;
+  /** Get the specified service endpoint policy definitions from service endpoint policy. */
+  get(
+    options: ServiceEndpointPolicyDefinitionsGetParameters
+  ): StreamableMethod<
+    | ServiceEndpointPolicyDefinitionsGet200Response
+    | ServiceEndpointPolicyDefinitionsGetDefaultResponse
+  >;
+  /** Creates or updates a service endpoint policy definition in the specified service endpoint policy. */
+  put(
+    options: ServiceEndpointPolicyDefinitionsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | ServiceEndpointPolicyDefinitionsCreateOrUpdate200Response
+    | ServiceEndpointPolicyDefinitionsCreateOrUpdate201Response
+    | ServiceEndpointPolicyDefinitionsCreateOrUpdateDefaultResponse
+  >;
+}
+
+export interface ServiceEndpointPolicyDefinitionsListByResourceGroup {
+  /** Gets all service endpoint policy definitions in a service end point policy. */
+  get(
+    options: ServiceEndpointPolicyDefinitionsListByResourceGroupParameters
+  ): StreamableMethod<
+    | ServiceEndpointPolicyDefinitionsListByResourceGroup200Response
+    | ServiceEndpointPolicyDefinitionsListByResourceGroupDefaultResponse
+  >;
+}
+
+export interface ServiceTagsList {
+  /** Gets a list of service tag information resources. */
+  get(
+    options: ServiceTagsListParameters
+  ): StreamableMethod<ServiceTagsList200Response | ServiceTagsListDefaultResponse>;
+}
+
+export interface ServiceTagInformationList {
+  /** Gets a list of service tag information resources with pagination. */
+  get(
+    options: ServiceTagInformationListParameters
+  ): StreamableMethod<
+    ServiceTagInformationList200Response | ServiceTagInformationListDefaultResponse
+  >;
+}
+
+export interface UsagesList {
+  /** List network usages for a subscription. */
+  get(
+    options: UsagesListParameters
+  ): StreamableMethod<UsagesList200Response | UsagesListDefaultResponse>;
+}
+
+export interface VirtualNetworksDelete {
+  /** Deletes the specified virtual network. */
+  delete(
+    options: VirtualNetworksDeleteParameters
+  ): StreamableMethod<
+    | VirtualNetworksDelete200Response
+    | VirtualNetworksDelete202Response
+    | VirtualNetworksDelete204Response
+    | VirtualNetworksDeleteDefaultResponse
+  >;
+  /** Gets the specified virtual network by resource group. */
+  get(
+    options: VirtualNetworksGetParameters
+  ): StreamableMethod<VirtualNetworksGet200Response | VirtualNetworksGetDefaultResponse>;
+  /** Creates or updates a virtual network in the specified resource group. */
+  put(
+    options: VirtualNetworksCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VirtualNetworksCreateOrUpdate200Response
+    | VirtualNetworksCreateOrUpdate201Response
+    | VirtualNetworksCreateOrUpdateDefaultResponse
+  >;
+  /** Updates a virtual network tags. */
+  patch(
+    options: VirtualNetworksUpdateTagsParameters
+  ): StreamableMethod<
+    VirtualNetworksUpdateTags200Response | VirtualNetworksUpdateTagsDefaultResponse
+  >;
+}
+
+export interface VirtualNetworksListAll {
+  /** Gets all virtual networks in a subscription. */
+  get(
+    options: VirtualNetworksListAllParameters
+  ): StreamableMethod<VirtualNetworksListAll200Response | VirtualNetworksListAllDefaultResponse>;
+}
+
+export interface VirtualNetworksList {
+  /** Gets all virtual networks in a resource group. */
+  get(
+    options: VirtualNetworksListParameters
+  ): StreamableMethod<VirtualNetworksList200Response | VirtualNetworksListDefaultResponse>;
+}
+
+export interface VirtualNetworksCheckIPAddressAvailability {
+  /** Checks whether a private IP address is available for use. */
+  get(
+    options: VirtualNetworksCheckIPAddressAvailabilityParameters
+  ): StreamableMethod<
+    | VirtualNetworksCheckIPAddressAvailability200Response
+    | VirtualNetworksCheckIPAddressAvailabilityDefaultResponse
+  >;
+}
+
+export interface VirtualNetworksListUsage {
+  /** Lists usage stats. */
+  get(
+    options: VirtualNetworksListUsageParameters
+  ): StreamableMethod<
+    VirtualNetworksListUsage200Response | VirtualNetworksListUsageDefaultResponse
+  >;
+}
+
+export interface VirtualNetworksListDdosProtectionStatus {
+  /** Gets the Ddos Protection Status of all IP Addresses under the Virtual Network */
+  post(
+    options: VirtualNetworksListDdosProtectionStatusParameters
+  ): StreamableMethod<
+    | VirtualNetworksListDdosProtectionStatus200Response
+    | VirtualNetworksListDdosProtectionStatus202Response
+    | VirtualNetworksListDdosProtectionStatusDefaultResponse
+  >;
+}
+
+export interface SubnetsDelete {
+  /** Deletes the specified subnet. */
+  delete(
+    options: SubnetsDeleteParameters
+  ): StreamableMethod<
+    | SubnetsDelete200Response
+    | SubnetsDelete202Response
+    | SubnetsDelete204Response
+    | SubnetsDeleteDefaultResponse
+  >;
+  /** Gets the specified subnet by virtual network and resource group. */
+  get(
+    options: SubnetsGetParameters
+  ): StreamableMethod<SubnetsGet200Response | SubnetsGetDefaultResponse>;
+  /** Creates or updates a subnet in the specified virtual network. */
+  put(
+    options: SubnetsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | SubnetsCreateOrUpdate200Response
+    | SubnetsCreateOrUpdate201Response
+    | SubnetsCreateOrUpdateDefaultResponse
+  >;
+}
+
+export interface SubnetsPrepareNetworkPolicies {
+  /** Prepares a subnet by applying network intent policies. */
+  post(
+    options: SubnetsPrepareNetworkPoliciesParameters
+  ): StreamableMethod<
+    | SubnetsPrepareNetworkPolicies200Response
+    | SubnetsPrepareNetworkPolicies202Response
+    | SubnetsPrepareNetworkPoliciesDefaultResponse
+  >;
+}
+
+export interface SubnetsUnprepareNetworkPolicies {
+  /** Unprepares a subnet by removing network intent policies. */
+  post(
+    options: SubnetsUnprepareNetworkPoliciesParameters
+  ): StreamableMethod<
+    | SubnetsUnprepareNetworkPolicies200Response
+    | SubnetsUnprepareNetworkPolicies202Response
+    | SubnetsUnprepareNetworkPoliciesDefaultResponse
+  >;
+}
+
+export interface SubnetsList {
+  /** Gets all subnets in a virtual network. */
+  get(
+    options: SubnetsListParameters
+  ): StreamableMethod<SubnetsList200Response | SubnetsListDefaultResponse>;
+}
+
+export interface ResourceNavigationLinksList {
+  /** Gets a list of resource navigation links for a subnet. */
+  get(
+    options: ResourceNavigationLinksListParameters
+  ): StreamableMethod<
+    ResourceNavigationLinksList200Response | ResourceNavigationLinksListDefaultResponse
+  >;
+}
+
+export interface ServiceAssociationLinksList {
+  /** Gets a list of service association links for a subnet. */
+  get(
+    options: ServiceAssociationLinksListParameters
+  ): StreamableMethod<
+    ServiceAssociationLinksList200Response | ServiceAssociationLinksListDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkPeeringsDelete {
+  /** Deletes the specified virtual network peering. */
+  delete(
+    options: VirtualNetworkPeeringsDeleteParameters
+  ): StreamableMethod<
+    | VirtualNetworkPeeringsDelete200Response
+    | VirtualNetworkPeeringsDelete202Response
+    | VirtualNetworkPeeringsDelete204Response
+    | VirtualNetworkPeeringsDeleteDefaultResponse
+  >;
+  /** Gets the specified virtual network peering. */
+  get(
+    options: VirtualNetworkPeeringsGetParameters
+  ): StreamableMethod<
+    VirtualNetworkPeeringsGet200Response | VirtualNetworkPeeringsGetDefaultResponse
+  >;
+  /** Creates or updates a peering in the specified virtual network. */
+  put(
+    options: VirtualNetworkPeeringsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VirtualNetworkPeeringsCreateOrUpdate200Response
+    | VirtualNetworkPeeringsCreateOrUpdate201Response
+    | VirtualNetworkPeeringsCreateOrUpdateDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkPeeringsList {
+  /** Gets all virtual network peerings in a virtual network. */
+  get(
+    options: VirtualNetworkPeeringsListParameters
+  ): StreamableMethod<
+    VirtualNetworkPeeringsList200Response | VirtualNetworkPeeringsListDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewaysCreateOrUpdate {
+  /** Creates or updates a virtual network gateway in the specified resource group. */
+  put(
+    options: VirtualNetworkGatewaysCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewaysCreateOrUpdate200Response
+    | VirtualNetworkGatewaysCreateOrUpdate201Response
+    | VirtualNetworkGatewaysCreateOrUpdateDefaultResponse
+  >;
+  /** Gets the specified virtual network gateway by resource group. */
+  get(
+    options: VirtualNetworkGatewaysGetParameters
+  ): StreamableMethod<
+    VirtualNetworkGatewaysGet200Response | VirtualNetworkGatewaysGetDefaultResponse
+  >;
+  /** Deletes the specified virtual network gateway. */
+  delete(
+    options: VirtualNetworkGatewaysDeleteParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewaysDelete200Response
+    | VirtualNetworkGatewaysDelete202Response
+    | VirtualNetworkGatewaysDelete204Response
+    | VirtualNetworkGatewaysDeleteDefaultResponse
+  >;
+  /** Updates a virtual network gateway tags. */
+  patch(
+    options: VirtualNetworkGatewaysUpdateTagsParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewaysUpdateTags200Response
+    | VirtualNetworkGatewaysUpdateTags202Response
+    | VirtualNetworkGatewaysUpdateTagsDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewaysList {
+  /** Gets all virtual network gateways by resource group. */
+  get(
+    options: VirtualNetworkGatewaysListParameters
+  ): StreamableMethod<
+    VirtualNetworkGatewaysList200Response | VirtualNetworkGatewaysListDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewaysListConnections {
+  /** Gets all the connections in a virtual network gateway. */
+  get(
+    options: VirtualNetworkGatewaysListConnectionsParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewaysListConnections200Response
+    | VirtualNetworkGatewaysListConnectionsDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewaysReset {
+  /** Resets the primary of the virtual network gateway in the specified resource group. */
+  post(
+    options: VirtualNetworkGatewaysResetParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewaysReset200Response
+    | VirtualNetworkGatewaysReset202Response
+    | VirtualNetworkGatewaysResetDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewaysResetVpnClientSharedKey {
+  /** Resets the VPN client shared key of the virtual network gateway in the specified resource group. */
+  post(
+    options: VirtualNetworkGatewaysResetVpnClientSharedKeyParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewaysResetVpnClientSharedKey200Response
+    | VirtualNetworkGatewaysResetVpnClientSharedKey202Response
+    | VirtualNetworkGatewaysResetVpnClientSharedKeyDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewaysGeneratevpnclientpackage {
+  /** Generates VPN client package for P2S client of the virtual network gateway in the specified resource group. */
+  post(
+    options: VirtualNetworkGatewaysGeneratevpnclientpackageParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewaysGeneratevpnclientpackage200Response
+    | VirtualNetworkGatewaysGeneratevpnclientpackage202Response
+    | VirtualNetworkGatewaysGeneratevpnclientpackageDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewaysGenerateVpnProfile {
+  /** Generates VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication. */
+  post(
+    options: VirtualNetworkGatewaysGenerateVpnProfileParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewaysGenerateVpnProfile200Response
+    | VirtualNetworkGatewaysGenerateVpnProfile202Response
+    | VirtualNetworkGatewaysGenerateVpnProfileDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewaysGetVpnProfilePackageUrl {
+  /** Gets pre-generated VPN profile for P2S client of the virtual network gateway in the specified resource group. The profile needs to be generated first using generateVpnProfile. */
+  post(
+    options: VirtualNetworkGatewaysGetVpnProfilePackageUrlParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewaysGetVpnProfilePackageUrl200Response
+    | VirtualNetworkGatewaysGetVpnProfilePackageUrl202Response
+    | VirtualNetworkGatewaysGetVpnProfilePackageUrlDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewaysGetBgpPeerStatus {
+  /** The GetBgpPeerStatus operation retrieves the status of all BGP peers. */
+  post(
+    options: VirtualNetworkGatewaysGetBgpPeerStatusParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewaysGetBgpPeerStatus200Response
+    | VirtualNetworkGatewaysGetBgpPeerStatus202Response
+    | VirtualNetworkGatewaysGetBgpPeerStatusDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewaysSupportedVpnDevices {
+  /** Gets a xml format representation for supported vpn devices. */
+  post(
+    options: VirtualNetworkGatewaysSupportedVpnDevicesParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewaysSupportedVpnDevices200Response
+    | VirtualNetworkGatewaysSupportedVpnDevicesDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewaysGetLearnedRoutes {
+  /** This operation retrieves a list of routes the virtual network gateway has learned, including routes learned from BGP peers. */
+  post(
+    options: VirtualNetworkGatewaysGetLearnedRoutesParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewaysGetLearnedRoutes200Response
+    | VirtualNetworkGatewaysGetLearnedRoutes202Response
+    | VirtualNetworkGatewaysGetLearnedRoutesDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewaysGetAdvertisedRoutes {
+  /** This operation retrieves a list of routes the virtual network gateway is advertising to the specified peer. */
+  post(
+    options: VirtualNetworkGatewaysGetAdvertisedRoutesParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewaysGetAdvertisedRoutes200Response
+    | VirtualNetworkGatewaysGetAdvertisedRoutes202Response
+    | VirtualNetworkGatewaysGetAdvertisedRoutesDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewaysSetVpnclientIpsecParameters {
+  /** The Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider. */
+  post(
+    options: VirtualNetworkGatewaysSetVpnclientIpsecParametersParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewaysSetVpnclientIpsecParameters200Response
+    | VirtualNetworkGatewaysSetVpnclientIpsecParameters202Response
+    | VirtualNetworkGatewaysSetVpnclientIpsecParametersDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewaysGetVpnclientIpsecParameters {
+  /** The Get VpnclientIpsecParameters operation retrieves information about the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider. */
+  post(
+    options: VirtualNetworkGatewaysGetVpnclientIpsecParametersParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewaysGetVpnclientIpsecParameters200Response
+    | VirtualNetworkGatewaysGetVpnclientIpsecParametersDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewaysVpnDeviceConfigurationScript {
+  /** Gets a xml format representation for vpn device configuration script. */
+  post(
+    options: VirtualNetworkGatewaysVpnDeviceConfigurationScriptParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewaysVpnDeviceConfigurationScript200Response
+    | VirtualNetworkGatewaysVpnDeviceConfigurationScriptDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewaysStartPacketCapture {
+  /** Starts packet capture on virtual network gateway in the specified resource group. */
+  post(
+    options: VirtualNetworkGatewaysStartPacketCaptureParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewaysStartPacketCapture200Response
+    | VirtualNetworkGatewaysStartPacketCapture202Response
+    | VirtualNetworkGatewaysStartPacketCaptureDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewaysStopPacketCapture {
+  /** Stops packet capture on virtual network gateway in the specified resource group. */
+  post(
+    options: VirtualNetworkGatewaysStopPacketCaptureParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewaysStopPacketCapture200Response
+    | VirtualNetworkGatewaysStopPacketCapture202Response
+    | VirtualNetworkGatewaysStopPacketCaptureDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewaysGetVpnclientConnectionHealth {
+  /** Get VPN client connection health detail per P2S client connection of the virtual network gateway in the specified resource group. */
+  post(
+    options: VirtualNetworkGatewaysGetVpnclientConnectionHealthParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewaysGetVpnclientConnectionHealth200Response
+    | VirtualNetworkGatewaysGetVpnclientConnectionHealth202Response
+    | VirtualNetworkGatewaysGetVpnclientConnectionHealthDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections {
+  /** Disconnect vpn connections of virtual network gateway in the specified resource group. */
+  post(
+    options: VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections200Response
+    | VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections202Response
+    | VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewayConnectionsCreateOrUpdate {
+  /** Creates or updates a virtual network gateway connection in the specified resource group. */
+  put(
+    options: VirtualNetworkGatewayConnectionsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewayConnectionsCreateOrUpdate200Response
+    | VirtualNetworkGatewayConnectionsCreateOrUpdate201Response
+    | VirtualNetworkGatewayConnectionsCreateOrUpdateDefaultResponse
+  >;
+  /** Gets the specified virtual network gateway connection by resource group. */
+  get(
+    options: VirtualNetworkGatewayConnectionsGetParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewayConnectionsGet200Response
+    | VirtualNetworkGatewayConnectionsGetDefaultResponse
+  >;
+  /** Deletes the specified virtual network Gateway connection. */
+  delete(
+    options: VirtualNetworkGatewayConnectionsDeleteParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewayConnectionsDelete200Response
+    | VirtualNetworkGatewayConnectionsDelete202Response
+    | VirtualNetworkGatewayConnectionsDelete204Response
+    | VirtualNetworkGatewayConnectionsDeleteDefaultResponse
+  >;
+  /** Updates a virtual network gateway connection tags. */
+  patch(
+    options: VirtualNetworkGatewayConnectionsUpdateTagsParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewayConnectionsUpdateTags200Response
+    | VirtualNetworkGatewayConnectionsUpdateTags202Response
+    | VirtualNetworkGatewayConnectionsUpdateTagsDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewayConnectionsSetSharedKey {
+  /** The Put VirtualNetworkGatewayConnectionSharedKey operation sets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider. */
+  put(
+    options: VirtualNetworkGatewayConnectionsSetSharedKeyParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewayConnectionsSetSharedKey200Response
+    | VirtualNetworkGatewayConnectionsSetSharedKey201Response
+    | VirtualNetworkGatewayConnectionsSetSharedKeyDefaultResponse
+  >;
+  /** The Get VirtualNetworkGatewayConnectionSharedKey operation retrieves information about the specified virtual network gateway connection shared key through Network resource provider. */
+  get(
+    options: VirtualNetworkGatewayConnectionsGetSharedKeyParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewayConnectionsGetSharedKey200Response
+    | VirtualNetworkGatewayConnectionsGetSharedKeyDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewayConnectionsList {
+  /** The List VirtualNetworkGatewayConnections operation retrieves all the virtual network gateways connections created. */
+  get(
+    options: VirtualNetworkGatewayConnectionsListParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewayConnectionsList200Response
+    | VirtualNetworkGatewayConnectionsListDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewayConnectionsResetSharedKey {
+  /** The VirtualNetworkGatewayConnectionResetSharedKey operation resets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider. */
+  post(
+    options: VirtualNetworkGatewayConnectionsResetSharedKeyParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewayConnectionsResetSharedKey200Response
+    | VirtualNetworkGatewayConnectionsResetSharedKey202Response
+    | VirtualNetworkGatewayConnectionsResetSharedKeyDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewayConnectionsStartPacketCapture {
+  /** Starts packet capture on virtual network gateway connection in the specified resource group. */
+  post(
+    options: VirtualNetworkGatewayConnectionsStartPacketCaptureParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewayConnectionsStartPacketCapture200Response
+    | VirtualNetworkGatewayConnectionsStartPacketCapture202Response
+    | VirtualNetworkGatewayConnectionsStartPacketCaptureDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewayConnectionsStopPacketCapture {
+  /** Stops packet capture on virtual network gateway connection in the specified resource group. */
+  post(
+    options: VirtualNetworkGatewayConnectionsStopPacketCaptureParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewayConnectionsStopPacketCapture200Response
+    | VirtualNetworkGatewayConnectionsStopPacketCapture202Response
+    | VirtualNetworkGatewayConnectionsStopPacketCaptureDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewayConnectionsGetIkeSas {
+  /** Lists IKE Security Associations for the virtual network gateway connection in the specified resource group. */
+  post(
+    options: VirtualNetworkGatewayConnectionsGetIkeSasParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewayConnectionsGetIkeSas200Response
+    | VirtualNetworkGatewayConnectionsGetIkeSas202Response
+    | VirtualNetworkGatewayConnectionsGetIkeSasDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewayConnectionsResetConnection {
+  /** Resets the virtual network gateway connection specified. */
+  post(
+    options: VirtualNetworkGatewayConnectionsResetConnectionParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewayConnectionsResetConnection202Response
+    | VirtualNetworkGatewayConnectionsResetConnectionDefaultResponse
+  >;
+}
+
+export interface LocalNetworkGatewaysCreateOrUpdate {
+  /** Creates or updates a local network gateway in the specified resource group. */
+  put(
+    options: LocalNetworkGatewaysCreateOrUpdateParameters
+  ): StreamableMethod<
+    | LocalNetworkGatewaysCreateOrUpdate200Response
+    | LocalNetworkGatewaysCreateOrUpdate201Response
+    | LocalNetworkGatewaysCreateOrUpdateDefaultResponse
+  >;
+  /** Gets the specified local network gateway in a resource group. */
+  get(
+    options: LocalNetworkGatewaysGetParameters
+  ): StreamableMethod<LocalNetworkGatewaysGet200Response | LocalNetworkGatewaysGetDefaultResponse>;
+  /** Deletes the specified local network gateway. */
+  delete(
+    options: LocalNetworkGatewaysDeleteParameters
+  ): StreamableMethod<
+    | LocalNetworkGatewaysDelete200Response
+    | LocalNetworkGatewaysDelete202Response
+    | LocalNetworkGatewaysDelete204Response
+    | LocalNetworkGatewaysDeleteDefaultResponse
+  >;
+  /** Updates a local network gateway tags. */
+  patch(
+    options: LocalNetworkGatewaysUpdateTagsParameters
+  ): StreamableMethod<
+    LocalNetworkGatewaysUpdateTags200Response | LocalNetworkGatewaysUpdateTagsDefaultResponse
+  >;
+}
+
+export interface LocalNetworkGatewaysList {
+  /** Gets all the local network gateways in a resource group. */
+  get(
+    options: LocalNetworkGatewaysListParameters
+  ): StreamableMethod<
+    LocalNetworkGatewaysList200Response | LocalNetworkGatewaysListDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewayNatRulesGet {
+  /** Retrieves the details of a nat rule. */
+  get(
+    options: VirtualNetworkGatewayNatRulesGetParameters
+  ): StreamableMethod<
+    VirtualNetworkGatewayNatRulesGet200Response | VirtualNetworkGatewayNatRulesGetDefaultResponse
+  >;
+  /** Creates a nat rule to a scalable virtual network gateway if it doesn't exist else updates the existing nat rules. */
+  put(
+    options: VirtualNetworkGatewayNatRulesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewayNatRulesCreateOrUpdate200Response
+    | VirtualNetworkGatewayNatRulesCreateOrUpdate201Response
+    | VirtualNetworkGatewayNatRulesCreateOrUpdateDefaultResponse
+  >;
+  /** Deletes a nat rule. */
+  delete(
+    options: VirtualNetworkGatewayNatRulesDeleteParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewayNatRulesDelete200Response
+    | VirtualNetworkGatewayNatRulesDelete202Response
+    | VirtualNetworkGatewayNatRulesDelete204Response
+    | VirtualNetworkGatewayNatRulesDeleteDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkGatewayNatRulesListByVirtualNetworkGateway {
+  /** Retrieves all nat rules for a particular virtual network gateway. */
+  get(
+    options: VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayParameters
+  ): StreamableMethod<
+    | VirtualNetworkGatewayNatRulesListByVirtualNetworkGateway200Response
+    | VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkTapsDelete {
+  /** Deletes the specified virtual network tap. */
+  delete(
+    options: VirtualNetworkTapsDeleteParameters
+  ): StreamableMethod<
+    | VirtualNetworkTapsDelete200Response
+    | VirtualNetworkTapsDelete202Response
+    | VirtualNetworkTapsDelete204Response
+    | VirtualNetworkTapsDeleteDefaultResponse
+  >;
+  /** Gets information about the specified virtual network tap. */
+  get(
+    options: VirtualNetworkTapsGetParameters
+  ): StreamableMethod<VirtualNetworkTapsGet200Response | VirtualNetworkTapsGetDefaultResponse>;
+  /** Creates or updates a Virtual Network Tap. */
+  put(
+    options: VirtualNetworkTapsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VirtualNetworkTapsCreateOrUpdate200Response
+    | VirtualNetworkTapsCreateOrUpdate201Response
+    | VirtualNetworkTapsCreateOrUpdateDefaultResponse
+  >;
+  /** Updates an VirtualNetworkTap tags. */
+  patch(
+    options: VirtualNetworkTapsUpdateTagsParameters
+  ): StreamableMethod<
+    VirtualNetworkTapsUpdateTags200Response | VirtualNetworkTapsUpdateTagsDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkTapsListAll {
+  /** Gets all the VirtualNetworkTaps in a subscription. */
+  get(
+    options: VirtualNetworkTapsListAllParameters
+  ): StreamableMethod<
+    VirtualNetworkTapsListAll200Response | VirtualNetworkTapsListAllDefaultResponse
+  >;
+}
+
+export interface VirtualNetworkTapsListByResourceGroup {
+  /** Gets all the VirtualNetworkTaps in a subscription. */
+  get(
+    options: VirtualNetworkTapsListByResourceGroupParameters
+  ): StreamableMethod<
+    | VirtualNetworkTapsListByResourceGroup200Response
+    | VirtualNetworkTapsListByResourceGroupDefaultResponse
+  >;
+}
+
+export interface VirtualRoutersDelete {
+  /** Deletes the specified Virtual Router. */
+  delete(
+    options: VirtualRoutersDeleteParameters
+  ): StreamableMethod<
+    | VirtualRoutersDelete200Response
+    | VirtualRoutersDelete202Response
+    | VirtualRoutersDelete204Response
+    | VirtualRoutersDeleteDefaultResponse
+  >;
+  /** Gets the specified Virtual Router. */
+  get(
+    options: VirtualRoutersGetParameters
+  ): StreamableMethod<VirtualRoutersGet200Response | VirtualRoutersGetDefaultResponse>;
+  /** Creates or updates the specified Virtual Router. */
+  put(
+    options: VirtualRoutersCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VirtualRoutersCreateOrUpdate200Response
+    | VirtualRoutersCreateOrUpdate201Response
+    | VirtualRoutersCreateOrUpdateDefaultResponse
+  >;
+}
+
+export interface VirtualRoutersListByResourceGroup {
+  /** Lists all Virtual Routers in a resource group. */
+  get(
+    options: VirtualRoutersListByResourceGroupParameters
+  ): StreamableMethod<
+    VirtualRoutersListByResourceGroup200Response | VirtualRoutersListByResourceGroupDefaultResponse
+  >;
+}
+
+export interface VirtualRoutersList {
+  /** Gets all the Virtual Routers in a subscription. */
+  get(
+    options: VirtualRoutersListParameters
+  ): StreamableMethod<VirtualRoutersList200Response | VirtualRoutersListDefaultResponse>;
+}
+
+export interface VirtualRouterPeeringsDelete {
+  /** Deletes the specified peering from a Virtual Router. */
+  delete(
+    options: VirtualRouterPeeringsDeleteParameters
+  ): StreamableMethod<
+    | VirtualRouterPeeringsDelete200Response
+    | VirtualRouterPeeringsDelete202Response
+    | VirtualRouterPeeringsDelete204Response
+    | VirtualRouterPeeringsDeleteDefaultResponse
+  >;
+  /** Gets the specified Virtual Router Peering. */
+  get(
+    options: VirtualRouterPeeringsGetParameters
+  ): StreamableMethod<
+    VirtualRouterPeeringsGet200Response | VirtualRouterPeeringsGetDefaultResponse
+  >;
+  /** Creates or updates the specified Virtual Router Peering. */
+  put(
+    options: VirtualRouterPeeringsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VirtualRouterPeeringsCreateOrUpdate200Response
+    | VirtualRouterPeeringsCreateOrUpdate201Response
+    | VirtualRouterPeeringsCreateOrUpdateDefaultResponse
+  >;
+}
+
+export interface VirtualRouterPeeringsList {
+  /** Lists all Virtual Router Peerings in a Virtual Router resource. */
+  get(
+    options: VirtualRouterPeeringsListParameters
+  ): StreamableMethod<
+    VirtualRouterPeeringsList200Response | VirtualRouterPeeringsListDefaultResponse
+  >;
+}
+
+export interface VirtualWansGet {
+  /** Retrieves the details of a VirtualWAN. */
+  get(
+    options: VirtualWansGetParameters
+  ): StreamableMethod<VirtualWansGet200Response | VirtualWansGetDefaultResponse>;
+  /** Creates a VirtualWAN resource if it doesn't exist else updates the existing VirtualWAN. */
+  put(
+    options: VirtualWansCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VirtualWansCreateOrUpdate200Response
+    | VirtualWansCreateOrUpdate201Response
+    | VirtualWansCreateOrUpdateDefaultResponse
+  >;
+  /** Updates a VirtualWAN tags. */
+  patch(
+    options: VirtualWansUpdateTagsParameters
+  ): StreamableMethod<VirtualWansUpdateTags200Response | VirtualWansUpdateTagsDefaultResponse>;
+  /** Deletes a VirtualWAN. */
+  delete(
+    options: VirtualWansDeleteParameters
+  ): StreamableMethod<
+    | VirtualWansDelete200Response
+    | VirtualWansDelete202Response
+    | VirtualWansDelete204Response
+    | VirtualWansDeleteDefaultResponse
+  >;
+}
+
+export interface VirtualWansListByResourceGroup {
+  /** Lists all the VirtualWANs in a resource group. */
+  get(
+    options: VirtualWansListByResourceGroupParameters
+  ): StreamableMethod<
+    VirtualWansListByResourceGroup200Response | VirtualWansListByResourceGroupDefaultResponse
+  >;
+}
+
+export interface VirtualWansList {
+  /** Lists all the VirtualWANs in a subscription. */
+  get(
+    options: VirtualWansListParameters
+  ): StreamableMethod<VirtualWansList200Response | VirtualWansListDefaultResponse>;
+}
+
+export interface VpnSitesGet {
+  /** Retrieves the details of a VPN site. */
+  get(
+    options: VpnSitesGetParameters
+  ): StreamableMethod<VpnSitesGet200Response | VpnSitesGetDefaultResponse>;
+  /** Creates a VpnSite resource if it doesn't exist else updates the existing VpnSite. */
+  put(
+    options: VpnSitesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VpnSitesCreateOrUpdate200Response
+    | VpnSitesCreateOrUpdate201Response
+    | VpnSitesCreateOrUpdateDefaultResponse
+  >;
+  /** Updates VpnSite tags. */
+  patch(
+    options: VpnSitesUpdateTagsParameters
+  ): StreamableMethod<VpnSitesUpdateTags200Response | VpnSitesUpdateTagsDefaultResponse>;
+  /** Deletes a VpnSite. */
+  delete(
+    options: VpnSitesDeleteParameters
+  ): StreamableMethod<
+    | VpnSitesDelete200Response
+    | VpnSitesDelete202Response
+    | VpnSitesDelete204Response
+    | VpnSitesDeleteDefaultResponse
+  >;
+}
+
+export interface VpnSitesListByResourceGroup {
+  /** Lists all the vpnSites in a resource group. */
+  get(
+    options: VpnSitesListByResourceGroupParameters
+  ): StreamableMethod<
+    VpnSitesListByResourceGroup200Response | VpnSitesListByResourceGroupDefaultResponse
+  >;
+}
+
+export interface VpnSitesList {
+  /** Lists all the VpnSites in a subscription. */
+  get(
+    options: VpnSitesListParameters
+  ): StreamableMethod<VpnSitesList200Response | VpnSitesListDefaultResponse>;
+}
+
+export interface VpnSiteLinksGet {
+  /** Retrieves the details of a VPN site link. */
+  get(
+    options: VpnSiteLinksGetParameters
+  ): StreamableMethod<VpnSiteLinksGet200Response | VpnSiteLinksGetDefaultResponse>;
+}
+
+export interface VpnSiteLinksListByVpnSite {
+  /** Lists all the vpnSiteLinks in a resource group for a vpn site. */
+  get(
+    options: VpnSiteLinksListByVpnSiteParameters
+  ): StreamableMethod<
+    VpnSiteLinksListByVpnSite200Response | VpnSiteLinksListByVpnSiteDefaultResponse
+  >;
+}
+
+export interface VpnSitesConfigurationDownload {
+  /** Gives the sas-url to download the configurations for vpn-sites in a resource group. */
+  post(
+    options: VpnSitesConfigurationDownloadParameters
+  ): StreamableMethod<
+    | VpnSitesConfigurationDownload200Response
+    | VpnSitesConfigurationDownload202Response
+    | VpnSitesConfigurationDownloadDefaultResponse
+  >;
+}
+
+export interface VpnServerConfigurationsGet {
+  /** Retrieves the details of a VpnServerConfiguration. */
+  get(
+    options: VpnServerConfigurationsGetParameters
+  ): StreamableMethod<
+    VpnServerConfigurationsGet200Response | VpnServerConfigurationsGetDefaultResponse
+  >;
+  /** Creates a VpnServerConfiguration resource if it doesn't exist else updates the existing VpnServerConfiguration. */
+  put(
+    options: VpnServerConfigurationsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VpnServerConfigurationsCreateOrUpdate200Response
+    | VpnServerConfigurationsCreateOrUpdate201Response
+    | VpnServerConfigurationsCreateOrUpdateDefaultResponse
+  >;
+  /** Updates VpnServerConfiguration tags. */
+  patch(
+    options: VpnServerConfigurationsUpdateTagsParameters
+  ): StreamableMethod<
+    VpnServerConfigurationsUpdateTags200Response | VpnServerConfigurationsUpdateTagsDefaultResponse
+  >;
+  /** Deletes a VpnServerConfiguration. */
+  delete(
+    options: VpnServerConfigurationsDeleteParameters
+  ): StreamableMethod<
+    | VpnServerConfigurationsDelete200Response
+    | VpnServerConfigurationsDelete202Response
+    | VpnServerConfigurationsDelete204Response
+    | VpnServerConfigurationsDeleteDefaultResponse
+  >;
+}
+
+export interface VpnServerConfigurationsListByResourceGroup {
+  /** Lists all the vpnServerConfigurations in a resource group. */
+  get(
+    options: VpnServerConfigurationsListByResourceGroupParameters
+  ): StreamableMethod<
+    | VpnServerConfigurationsListByResourceGroup200Response
+    | VpnServerConfigurationsListByResourceGroupDefaultResponse
+  >;
+}
+
+export interface VpnServerConfigurationsList {
+  /** Lists all the VpnServerConfigurations in a subscription. */
+  get(
+    options: VpnServerConfigurationsListParameters
+  ): StreamableMethod<
+    VpnServerConfigurationsList200Response | VpnServerConfigurationsListDefaultResponse
+  >;
+}
+
+export interface ConfigurationPolicyGroupsCreateOrUpdate {
+  /** Creates a ConfigurationPolicyGroup if it doesn't exist else updates the existing one. */
+  put(
+    options: ConfigurationPolicyGroupsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | ConfigurationPolicyGroupsCreateOrUpdate200Response
+    | ConfigurationPolicyGroupsCreateOrUpdate201Response
+    | ConfigurationPolicyGroupsCreateOrUpdateDefaultResponse
+  >;
+  /** Deletes a ConfigurationPolicyGroup. */
+  delete(
+    options: ConfigurationPolicyGroupsDeleteParameters
+  ): StreamableMethod<
+    | ConfigurationPolicyGroupsDelete200Response
+    | ConfigurationPolicyGroupsDelete202Response
+    | ConfigurationPolicyGroupsDelete204Response
+    | ConfigurationPolicyGroupsDeleteDefaultResponse
+  >;
+  /** Retrieves the details of a ConfigurationPolicyGroup. */
+  get(
+    options: ConfigurationPolicyGroupsGetParameters
+  ): StreamableMethod<
+    ConfigurationPolicyGroupsGet200Response | ConfigurationPolicyGroupsGetDefaultResponse
+  >;
+}
+
+export interface ConfigurationPolicyGroupsListByVpnServerConfiguration {
+  /** Lists all the configurationPolicyGroups in a resource group for a vpnServerConfiguration. */
+  get(
+    options: ConfigurationPolicyGroupsListByVpnServerConfigurationParameters
+  ): StreamableMethod<
+    | ConfigurationPolicyGroupsListByVpnServerConfiguration200Response
+    | ConfigurationPolicyGroupsListByVpnServerConfigurationDefaultResponse
+  >;
+}
+
+export interface VirtualHubsGet {
+  /** Retrieves the details of a VirtualHub. */
+  get(
+    options: VirtualHubsGetParameters
+  ): StreamableMethod<VirtualHubsGet200Response | VirtualHubsGetDefaultResponse>;
+  /** Creates a VirtualHub resource if it doesn't exist else updates the existing VirtualHub. */
+  put(
+    options: VirtualHubsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VirtualHubsCreateOrUpdate200Response
+    | VirtualHubsCreateOrUpdate201Response
+    | VirtualHubsCreateOrUpdateDefaultResponse
+  >;
+  /** Updates VirtualHub tags. */
+  patch(
+    options: VirtualHubsUpdateTagsParameters
+  ): StreamableMethod<VirtualHubsUpdateTags200Response | VirtualHubsUpdateTagsDefaultResponse>;
+  /** Deletes a VirtualHub. */
+  delete(
+    options: VirtualHubsDeleteParameters
+  ): StreamableMethod<
+    | VirtualHubsDelete200Response
+    | VirtualHubsDelete202Response
+    | VirtualHubsDelete204Response
+    | VirtualHubsDeleteDefaultResponse
+  >;
+}
+
+export interface VirtualHubsListByResourceGroup {
+  /** Lists all the VirtualHubs in a resource group. */
+  get(
+    options: VirtualHubsListByResourceGroupParameters
+  ): StreamableMethod<
+    VirtualHubsListByResourceGroup200Response | VirtualHubsListByResourceGroupDefaultResponse
+  >;
+}
+
+export interface VirtualHubsList {
+  /** Lists all the VirtualHubs in a subscription. */
+  get(
+    options: VirtualHubsListParameters
+  ): StreamableMethod<VirtualHubsList200Response | VirtualHubsListDefaultResponse>;
+}
+
+export interface VirtualHubsGetEffectiveVirtualHubRoutes {
+  /** Gets the effective routes configured for the Virtual Hub resource or the specified resource . */
+  post(
+    options: VirtualHubsGetEffectiveVirtualHubRoutesParameters
+  ): StreamableMethod<
+    | VirtualHubsGetEffectiveVirtualHubRoutes200Response
+    | VirtualHubsGetEffectiveVirtualHubRoutes202Response
+    | VirtualHubsGetEffectiveVirtualHubRoutesDefaultResponse
+  >;
+}
+
+export interface VirtualHubsGetInboundRoutes {
+  /** Gets the inbound routes configured for the Virtual Hub on a particular connection. */
+  post(
+    options: VirtualHubsGetInboundRoutesParameters
+  ): StreamableMethod<
+    | VirtualHubsGetInboundRoutes200Response
+    | VirtualHubsGetInboundRoutes202Response
+    | VirtualHubsGetInboundRoutesDefaultResponse
+  >;
+}
+
+export interface VirtualHubsGetOutboundRoutes {
+  /** Gets the outbound routes configured for the Virtual Hub on a particular connection. */
+  post(
+    options: VirtualHubsGetOutboundRoutesParameters
+  ): StreamableMethod<
+    | VirtualHubsGetOutboundRoutes200Response
+    | VirtualHubsGetOutboundRoutes202Response
+    | VirtualHubsGetOutboundRoutesDefaultResponse
+  >;
+}
+
+export interface RouteMapsGet {
+  /** Retrieves the details of a RouteMap. */
+  get(
+    options: RouteMapsGetParameters
+  ): StreamableMethod<RouteMapsGet200Response | RouteMapsGetDefaultResponse>;
+  /** Creates a RouteMap if it doesn't exist else updates the existing one. */
+  put(
+    options: RouteMapsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | RouteMapsCreateOrUpdate200Response
+    | RouteMapsCreateOrUpdate201Response
+    | RouteMapsCreateOrUpdateDefaultResponse
+  >;
+  /** Deletes a RouteMap. */
+  delete(
+    options: RouteMapsDeleteParameters
+  ): StreamableMethod<
+    | RouteMapsDelete200Response
+    | RouteMapsDelete202Response
+    | RouteMapsDelete204Response
+    | RouteMapsDeleteDefaultResponse
+  >;
+}
+
+export interface RouteMapsList {
+  /** Retrieves the details of all RouteMaps. */
+  get(
+    options: RouteMapsListParameters
+  ): StreamableMethod<RouteMapsList200Response | RouteMapsListDefaultResponse>;
+}
+
+export interface HubVirtualNetworkConnectionsCreateOrUpdate {
+  /** Creates a hub virtual network connection if it doesn't exist else updates the existing one. */
+  put(
+    options: HubVirtualNetworkConnectionsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | HubVirtualNetworkConnectionsCreateOrUpdate200Response
+    | HubVirtualNetworkConnectionsCreateOrUpdate201Response
+    | HubVirtualNetworkConnectionsCreateOrUpdateDefaultResponse
+  >;
+  /** Deletes a HubVirtualNetworkConnection. */
+  delete(
+    options: HubVirtualNetworkConnectionsDeleteParameters
+  ): StreamableMethod<
+    | HubVirtualNetworkConnectionsDelete200Response
+    | HubVirtualNetworkConnectionsDelete202Response
+    | HubVirtualNetworkConnectionsDelete204Response
+    | HubVirtualNetworkConnectionsDeleteDefaultResponse
+  >;
+  /** Retrieves the details of a HubVirtualNetworkConnection. */
+  get(
+    options: HubVirtualNetworkConnectionsGetParameters
+  ): StreamableMethod<
+    HubVirtualNetworkConnectionsGet200Response | HubVirtualNetworkConnectionsGetDefaultResponse
+  >;
+}
+
+export interface HubVirtualNetworkConnectionsList {
+  /** Retrieves the details of all HubVirtualNetworkConnections. */
+  get(
+    options: HubVirtualNetworkConnectionsListParameters
+  ): StreamableMethod<
+    HubVirtualNetworkConnectionsList200Response | HubVirtualNetworkConnectionsListDefaultResponse
+  >;
+}
+
+export interface VpnGatewaysGet {
+  /** Retrieves the details of a virtual wan vpn gateway. */
+  get(
+    options: VpnGatewaysGetParameters
+  ): StreamableMethod<VpnGatewaysGet200Response | VpnGatewaysGetDefaultResponse>;
+  /** Creates a virtual wan vpn gateway if it doesn't exist else updates the existing gateway. */
+  put(
+    options: VpnGatewaysCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VpnGatewaysCreateOrUpdate200Response
+    | VpnGatewaysCreateOrUpdate201Response
+    | VpnGatewaysCreateOrUpdateDefaultResponse
+  >;
+  /** Updates virtual wan vpn gateway tags. */
+  patch(
+    options: VpnGatewaysUpdateTagsParameters
+  ): StreamableMethod<
+    | VpnGatewaysUpdateTags200Response
+    | VpnGatewaysUpdateTags202Response
+    | VpnGatewaysUpdateTagsDefaultResponse
+  >;
+  /** Deletes a virtual wan vpn gateway. */
+  delete(
+    options: VpnGatewaysDeleteParameters
+  ): StreamableMethod<
+    | VpnGatewaysDelete200Response
+    | VpnGatewaysDelete202Response
+    | VpnGatewaysDelete204Response
+    | VpnGatewaysDeleteDefaultResponse
+  >;
+}
+
+export interface VpnGatewaysReset {
+  /** Resets the primary of the vpn gateway in the specified resource group. */
+  post(
+    options: VpnGatewaysResetParameters
+  ): StreamableMethod<
+    VpnGatewaysReset200Response | VpnGatewaysReset202Response | VpnGatewaysResetDefaultResponse
+  >;
+}
+
+export interface VpnGatewaysStartPacketCapture {
+  /** Starts packet capture on vpn gateway in the specified resource group. */
+  post(
+    options: VpnGatewaysStartPacketCaptureParameters
+  ): StreamableMethod<
+    | VpnGatewaysStartPacketCapture200Response
+    | VpnGatewaysStartPacketCapture202Response
+    | VpnGatewaysStartPacketCaptureDefaultResponse
+  >;
+}
+
+export interface VpnGatewaysStopPacketCapture {
+  /** Stops packet capture on vpn gateway in the specified resource group. */
+  post(
+    options: VpnGatewaysStopPacketCaptureParameters
+  ): StreamableMethod<
+    | VpnGatewaysStopPacketCapture200Response
+    | VpnGatewaysStopPacketCapture202Response
+    | VpnGatewaysStopPacketCaptureDefaultResponse
+  >;
+}
+
+export interface VpnGatewaysListByResourceGroup {
+  /** Lists all the VpnGateways in a resource group. */
+  get(
+    options: VpnGatewaysListByResourceGroupParameters
+  ): StreamableMethod<
+    VpnGatewaysListByResourceGroup200Response | VpnGatewaysListByResourceGroupDefaultResponse
+  >;
+}
+
+export interface VpnGatewaysList {
+  /** Lists all the VpnGateways in a subscription. */
+  get(
+    options: VpnGatewaysListParameters
+  ): StreamableMethod<VpnGatewaysList200Response | VpnGatewaysListDefaultResponse>;
+}
+
+export interface VpnLinkConnectionsResetConnection {
+  /** Resets the VpnLink connection specified. */
+  post(
+    options: VpnLinkConnectionsResetConnectionParameters
+  ): StreamableMethod<
+    VpnLinkConnectionsResetConnection202Response | VpnLinkConnectionsResetConnectionDefaultResponse
+  >;
+}
+
+export interface VpnLinkConnectionsGetIkeSas {
+  /** Lists IKE Security Associations for Vpn Site Link Connection in the specified resource group. */
+  post(
+    options: VpnLinkConnectionsGetIkeSasParameters
+  ): StreamableMethod<
+    | VpnLinkConnectionsGetIkeSas200Response
+    | VpnLinkConnectionsGetIkeSas202Response
+    | VpnLinkConnectionsGetIkeSasDefaultResponse
+  >;
+}
+
+export interface VpnLinkConnectionsListByVpnConnection {
+  /** Retrieves all vpn site link connections for a particular virtual wan vpn gateway vpn connection. */
+  get(
+    options: VpnLinkConnectionsListByVpnConnectionParameters
+  ): StreamableMethod<
+    | VpnLinkConnectionsListByVpnConnection200Response
+    | VpnLinkConnectionsListByVpnConnectionDefaultResponse
+  >;
+}
+
+export interface VpnConnectionsGet {
+  /** Retrieves the details of a vpn connection. */
+  get(
+    options: VpnConnectionsGetParameters
+  ): StreamableMethod<VpnConnectionsGet200Response | VpnConnectionsGetDefaultResponse>;
+  /** Creates a vpn connection to a scalable vpn gateway if it doesn't exist else updates the existing connection. */
+  put(
+    options: VpnConnectionsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VpnConnectionsCreateOrUpdate200Response
+    | VpnConnectionsCreateOrUpdate201Response
+    | VpnConnectionsCreateOrUpdateDefaultResponse
+  >;
+  /** Deletes a vpn connection. */
+  delete(
+    options: VpnConnectionsDeleteParameters
+  ): StreamableMethod<
+    | VpnConnectionsDelete200Response
+    | VpnConnectionsDelete202Response
+    | VpnConnectionsDelete204Response
+    | VpnConnectionsDeleteDefaultResponse
+  >;
+}
+
+export interface VpnConnectionsStartPacketCapture {
+  /** Starts packet capture on Vpn connection in the specified resource group. */
+  post(
+    options: VpnConnectionsStartPacketCaptureParameters
+  ): StreamableMethod<
+    | VpnConnectionsStartPacketCapture200Response
+    | VpnConnectionsStartPacketCapture202Response
+    | VpnConnectionsStartPacketCaptureDefaultResponse
+  >;
+}
+
+export interface VpnConnectionsStopPacketCapture {
+  /** Stops packet capture on Vpn connection in the specified resource group. */
+  post(
+    options: VpnConnectionsStopPacketCaptureParameters
+  ): StreamableMethod<
+    | VpnConnectionsStopPacketCapture200Response
+    | VpnConnectionsStopPacketCapture202Response
+    | VpnConnectionsStopPacketCaptureDefaultResponse
+  >;
+}
+
+export interface VpnConnectionsListByVpnGateway {
+  /** Retrieves all vpn connections for a particular virtual wan vpn gateway. */
+  get(
+    options: VpnConnectionsListByVpnGatewayParameters
+  ): StreamableMethod<
+    VpnConnectionsListByVpnGateway200Response | VpnConnectionsListByVpnGatewayDefaultResponse
+  >;
+}
+
+export interface VpnSiteLinkConnectionsGet {
+  /** Retrieves the details of a vpn site link connection. */
+  get(
+    options: VpnSiteLinkConnectionsGetParameters
+  ): StreamableMethod<
+    VpnSiteLinkConnectionsGet200Response | VpnSiteLinkConnectionsGetDefaultResponse
+  >;
+}
+
+export interface NatRulesGet {
+  /** Retrieves the details of a nat ruleGet. */
+  get(
+    options: NatRulesGetParameters
+  ): StreamableMethod<NatRulesGet200Response | NatRulesGetDefaultResponse>;
+  /** Creates a nat rule to a scalable vpn gateway if it doesn't exist else updates the existing nat rules. */
+  put(
+    options: NatRulesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | NatRulesCreateOrUpdate200Response
+    | NatRulesCreateOrUpdate201Response
+    | NatRulesCreateOrUpdateDefaultResponse
+  >;
+  /** Deletes a nat rule. */
+  delete(
+    options: NatRulesDeleteParameters
+  ): StreamableMethod<
+    | NatRulesDelete200Response
+    | NatRulesDelete202Response
+    | NatRulesDelete204Response
+    | NatRulesDeleteDefaultResponse
+  >;
+}
+
+export interface NatRulesListByVpnGateway {
+  /** Retrieves all nat rules for a particular virtual wan vpn gateway. */
+  get(
+    options: NatRulesListByVpnGatewayParameters
+  ): StreamableMethod<
+    NatRulesListByVpnGateway200Response | NatRulesListByVpnGatewayDefaultResponse
+  >;
+}
+
+export interface P2SVpnGatewaysGet {
+  /** Retrieves the details of a virtual wan p2s vpn gateway. */
+  get(
+    options: P2SVpnGatewaysGetParameters
+  ): StreamableMethod<P2SVpnGatewaysGet200Response | P2SVpnGatewaysGetDefaultResponse>;
+  /** Creates a virtual wan p2s vpn gateway if it doesn't exist else updates the existing gateway. */
+  put(
+    options: P2SVpnGatewaysCreateOrUpdateParameters
+  ): StreamableMethod<
+    | P2SVpnGatewaysCreateOrUpdate200Response
+    | P2SVpnGatewaysCreateOrUpdate201Response
+    | P2SVpnGatewaysCreateOrUpdateDefaultResponse
+  >;
+  /** Updates virtual wan p2s vpn gateway tags. */
+  patch(
+    options: P2SVpnGatewaysUpdateTagsParameters
+  ): StreamableMethod<
+    | P2SVpnGatewaysUpdateTags200Response
+    | P2SVpnGatewaysUpdateTags202Response
+    | P2SVpnGatewaysUpdateTagsDefaultResponse
+  >;
+  /** Deletes a virtual wan p2s vpn gateway. */
+  delete(
+    options: P2SVpnGatewaysDeleteParameters
+  ): StreamableMethod<
+    | P2SVpnGatewaysDelete200Response
+    | P2SVpnGatewaysDelete202Response
+    | P2SVpnGatewaysDelete204Response
+    | P2SVpnGatewaysDeleteDefaultResponse
+  >;
+}
+
+export interface P2SVpnGatewaysListByResourceGroup {
+  /** Lists all the P2SVpnGateways in a resource group. */
+  get(
+    options: P2SVpnGatewaysListByResourceGroupParameters
+  ): StreamableMethod<
+    P2SVpnGatewaysListByResourceGroup200Response | P2SVpnGatewaysListByResourceGroupDefaultResponse
+  >;
+}
+
+export interface P2SVpnGatewaysList {
+  /** Lists all the P2SVpnGateways in a subscription. */
+  get(
+    options: P2SVpnGatewaysListParameters
+  ): StreamableMethod<P2SVpnGatewaysList200Response | P2SVpnGatewaysListDefaultResponse>;
+}
+
+export interface P2SVpnGatewaysReset {
+  /** Resets the primary of the p2s vpn gateway in the specified resource group. */
+  post(
+    options: P2SVpnGatewaysResetParameters
+  ): StreamableMethod<
+    | P2SVpnGatewaysReset200Response
+    | P2SVpnGatewaysReset202Response
+    | P2SVpnGatewaysResetDefaultResponse
+  >;
+}
+
+export interface P2SVpnGatewaysGenerateVpnProfile {
+  /** Generates VPN profile for P2S client of the P2SVpnGateway in the specified resource group. */
+  post(
+    options: P2SVpnGatewaysGenerateVpnProfileParameters
+  ): StreamableMethod<
+    | P2SVpnGatewaysGenerateVpnProfile200Response
+    | P2SVpnGatewaysGenerateVpnProfile202Response
+    | P2SVpnGatewaysGenerateVpnProfileDefaultResponse
+  >;
+}
+
+export interface P2SVpnGatewaysGetP2SVpnConnectionHealth {
+  /** Gets the connection health of P2S clients of the virtual wan P2SVpnGateway in the specified resource group. */
+  post(
+    options: P2SVpnGatewaysGetP2SVpnConnectionHealthParameters
+  ): StreamableMethod<
+    | P2SVpnGatewaysGetP2SVpnConnectionHealth200Response
+    | P2SVpnGatewaysGetP2SVpnConnectionHealth202Response
+    | P2SVpnGatewaysGetP2SVpnConnectionHealthDefaultResponse
+  >;
+}
+
+export interface P2SVpnGatewaysGetP2SVpnConnectionHealthDetailed {
+  /** Gets the sas url to get the connection health detail of P2S clients of the virtual wan P2SVpnGateway in the specified resource group. */
+  post(
+    options: P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedParameters
+  ): StreamableMethod<
+    | P2SVpnGatewaysGetP2SVpnConnectionHealthDetailed200Response
+    | P2SVpnGatewaysGetP2SVpnConnectionHealthDetailed202Response
+    | P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedDefaultResponse
+  >;
+}
+
+export interface P2SVpnGatewaysDisconnectP2SVpnConnections {
+  /** Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group. */
+  post(
+    options: P2SVpnGatewaysDisconnectP2SVpnConnectionsParameters
+  ): StreamableMethod<
+    | P2SVpnGatewaysDisconnectP2SVpnConnections200Response
+    | P2SVpnGatewaysDisconnectP2SVpnConnections202Response
+    | P2SVpnGatewaysDisconnectP2SVpnConnectionsDefaultResponse
+  >;
+}
+
+export interface VpnServerConfigurationsAssociatedWithVirtualWanList {
+  /** Gives the list of VpnServerConfigurations associated with Virtual Wan in a resource group. */
+  post(
+    options: VpnServerConfigurationsAssociatedWithVirtualWanListParameters
+  ): StreamableMethod<
+    | VpnServerConfigurationsAssociatedWithVirtualWanList200Response
+    | VpnServerConfigurationsAssociatedWithVirtualWanList202Response
+    | VpnServerConfigurationsAssociatedWithVirtualWanListDefaultResponse
+  >;
+}
+
+export interface VirtualHubRouteTableV2SGet {
+  /** Retrieves the details of a VirtualHubRouteTableV2. */
+  get(
+    options: VirtualHubRouteTableV2SGetParameters
+  ): StreamableMethod<
+    VirtualHubRouteTableV2SGet200Response | VirtualHubRouteTableV2SGetDefaultResponse
+  >;
+  /** Creates a VirtualHubRouteTableV2 resource if it doesn't exist else updates the existing VirtualHubRouteTableV2. */
+  put(
+    options: VirtualHubRouteTableV2SCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VirtualHubRouteTableV2SCreateOrUpdate200Response
+    | VirtualHubRouteTableV2SCreateOrUpdate201Response
+    | VirtualHubRouteTableV2SCreateOrUpdateDefaultResponse
+  >;
+  /** Deletes a VirtualHubRouteTableV2. */
+  delete(
+    options: VirtualHubRouteTableV2SDeleteParameters
+  ): StreamableMethod<
+    | VirtualHubRouteTableV2SDelete200Response
+    | VirtualHubRouteTableV2SDelete202Response
+    | VirtualHubRouteTableV2SDelete204Response
+    | VirtualHubRouteTableV2SDeleteDefaultResponse
+  >;
+}
+
+export interface VirtualHubRouteTableV2SList {
+  /** Retrieves the details of all VirtualHubRouteTableV2s. */
+  get(
+    options: VirtualHubRouteTableV2SListParameters
+  ): StreamableMethod<
+    VirtualHubRouteTableV2SList200Response | VirtualHubRouteTableV2SListDefaultResponse
+  >;
+}
+
+export interface ExpressRouteGatewaysListBySubscription {
+  /** Lists ExpressRoute gateways under a given subscription. */
+  get(
+    options: ExpressRouteGatewaysListBySubscriptionParameters
+  ): StreamableMethod<
+    | ExpressRouteGatewaysListBySubscription200Response
+    | ExpressRouteGatewaysListBySubscriptionDefaultResponse
+  >;
+}
+
+export interface ExpressRouteGatewaysListByResourceGroup {
+  /** Lists ExpressRoute gateways in a given resource group. */
+  get(
+    options: ExpressRouteGatewaysListByResourceGroupParameters
+  ): StreamableMethod<
+    | ExpressRouteGatewaysListByResourceGroup200Response
+    | ExpressRouteGatewaysListByResourceGroupDefaultResponse
+  >;
+}
+
+export interface ExpressRouteGatewaysCreateOrUpdate {
+  /** Creates or updates a ExpressRoute gateway in a specified resource group. */
+  put(
+    options: ExpressRouteGatewaysCreateOrUpdateParameters
+  ): StreamableMethod<
+    | ExpressRouteGatewaysCreateOrUpdate200Response
+    | ExpressRouteGatewaysCreateOrUpdate201Response
+    | ExpressRouteGatewaysCreateOrUpdateDefaultResponse
+  >;
+  /** Updates express route gateway tags. */
+  patch(
+    options: ExpressRouteGatewaysUpdateTagsParameters
+  ): StreamableMethod<
+    | ExpressRouteGatewaysUpdateTags200Response
+    | ExpressRouteGatewaysUpdateTags202Response
+    | ExpressRouteGatewaysUpdateTagsDefaultResponse
+  >;
+  /** Fetches the details of a ExpressRoute gateway in a resource group. */
+  get(
+    options: ExpressRouteGatewaysGetParameters
+  ): StreamableMethod<ExpressRouteGatewaysGet200Response | ExpressRouteGatewaysGetDefaultResponse>;
+  /** Deletes the specified ExpressRoute gateway in a resource group. An ExpressRoute gateway resource can only be deleted when there are no connection subresources. */
+  delete(
+    options: ExpressRouteGatewaysDeleteParameters
+  ): StreamableMethod<
+    | ExpressRouteGatewaysDelete200Response
+    | ExpressRouteGatewaysDelete202Response
+    | ExpressRouteGatewaysDelete204Response
+    | ExpressRouteGatewaysDeleteDefaultResponse
+  >;
+}
+
+export interface ExpressRouteConnectionsCreateOrUpdate {
+  /** Creates a connection between an ExpressRoute gateway and an ExpressRoute circuit. */
+  put(
+    options: ExpressRouteConnectionsCreateOrUpdateParameters
+  ): StreamableMethod<
+    | ExpressRouteConnectionsCreateOrUpdate200Response
+    | ExpressRouteConnectionsCreateOrUpdate201Response
+    | ExpressRouteConnectionsCreateOrUpdateDefaultResponse
+  >;
+  /** Gets the specified ExpressRouteConnection. */
+  get(
+    options: ExpressRouteConnectionsGetParameters
+  ): StreamableMethod<
+    ExpressRouteConnectionsGet200Response | ExpressRouteConnectionsGetDefaultResponse
+  >;
+  /** Deletes a connection to a ExpressRoute circuit. */
+  delete(
+    options: ExpressRouteConnectionsDeleteParameters
+  ): StreamableMethod<
+    | ExpressRouteConnectionsDelete200Response
+    | ExpressRouteConnectionsDelete202Response
+    | ExpressRouteConnectionsDelete204Response
+    | ExpressRouteConnectionsDeleteDefaultResponse
+  >;
+}
+
+export interface ExpressRouteConnectionsList {
+  /** Lists ExpressRouteConnections. */
+  get(
+    options: ExpressRouteConnectionsListParameters
+  ): StreamableMethod<
+    ExpressRouteConnectionsList200Response | ExpressRouteConnectionsListDefaultResponse
+  >;
+}
+
+export interface VirtualHubBgpConnectionGet {
+  /** Retrieves the details of a Virtual Hub Bgp Connection. */
+  get(
+    options: VirtualHubBgpConnectionGetParameters
+  ): StreamableMethod<
+    VirtualHubBgpConnectionGet200Response | VirtualHubBgpConnectionGetDefaultResponse
+  >;
+  /** Creates a VirtualHubBgpConnection resource if it doesn't exist else updates the existing VirtualHubBgpConnection. */
+  put(
+    options: VirtualHubBgpConnectionCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VirtualHubBgpConnectionCreateOrUpdate200Response
+    | VirtualHubBgpConnectionCreateOrUpdate201Response
+    | VirtualHubBgpConnectionCreateOrUpdateDefaultResponse
+  >;
+  /** Deletes a VirtualHubBgpConnection. */
+  delete(
+    options: VirtualHubBgpConnectionDeleteParameters
+  ): StreamableMethod<
+    | VirtualHubBgpConnectionDelete200Response
+    | VirtualHubBgpConnectionDelete202Response
+    | VirtualHubBgpConnectionDelete204Response
+    | VirtualHubBgpConnectionDeleteDefaultResponse
+  >;
+}
+
+export interface VirtualHubBgpConnectionsList {
+  /** Retrieves the details of all VirtualHubBgpConnections. */
+  get(
+    options: VirtualHubBgpConnectionsListParameters
+  ): StreamableMethod<
+    VirtualHubBgpConnectionsList200Response | VirtualHubBgpConnectionsListDefaultResponse
+  >;
+}
+
+export interface VirtualHubBgpConnectionsListLearnedRoutes {
+  /** Retrieves a list of routes the virtual hub bgp connection has learned. */
+  post(
+    options: VirtualHubBgpConnectionsListLearnedRoutesParameters
+  ): StreamableMethod<
+    | VirtualHubBgpConnectionsListLearnedRoutes200Response
+    | VirtualHubBgpConnectionsListLearnedRoutes202Response
+    | VirtualHubBgpConnectionsListLearnedRoutesDefaultResponse
+  >;
+}
+
+export interface VirtualHubBgpConnectionsListAdvertisedRoutes {
+  /** Retrieves a list of routes the virtual hub bgp connection is advertising to the specified peer. */
+  post(
+    options: VirtualHubBgpConnectionsListAdvertisedRoutesParameters
+  ): StreamableMethod<
+    | VirtualHubBgpConnectionsListAdvertisedRoutes200Response
+    | VirtualHubBgpConnectionsListAdvertisedRoutes202Response
+    | VirtualHubBgpConnectionsListAdvertisedRoutesDefaultResponse
+  >;
+}
+
+export interface VirtualHubIpConfigurationGet {
+  /** Retrieves the details of a Virtual Hub Ip configuration. */
+  get(
+    options: VirtualHubIpConfigurationGetParameters
+  ): StreamableMethod<
+    VirtualHubIpConfigurationGet200Response | VirtualHubIpConfigurationGetDefaultResponse
+  >;
+  /** Creates a VirtualHubIpConfiguration resource if it doesn't exist else updates the existing VirtualHubIpConfiguration. */
+  put(
+    options: VirtualHubIpConfigurationCreateOrUpdateParameters
+  ): StreamableMethod<
+    | VirtualHubIpConfigurationCreateOrUpdate200Response
+    | VirtualHubIpConfigurationCreateOrUpdate201Response
+    | VirtualHubIpConfigurationCreateOrUpdateDefaultResponse
+  >;
+  /** Deletes a VirtualHubIpConfiguration. */
+  delete(
+    options: VirtualHubIpConfigurationDeleteParameters
+  ): StreamableMethod<
+    | VirtualHubIpConfigurationDelete200Response
+    | VirtualHubIpConfigurationDelete202Response
+    | VirtualHubIpConfigurationDelete204Response
+    | VirtualHubIpConfigurationDeleteDefaultResponse
+  >;
+}
+
+export interface VirtualHubIpConfigurationList {
+  /** Retrieves the details of all VirtualHubIpConfigurations. */
+  get(
+    options: VirtualHubIpConfigurationListParameters
+  ): StreamableMethod<
+    VirtualHubIpConfigurationList200Response | VirtualHubIpConfigurationListDefaultResponse
+  >;
+}
+
+export interface HubRouteTablesCreateOrUpdate {
+  /** Creates a RouteTable resource if it doesn't exist else updates the existing RouteTable. */
+  put(
+    options: HubRouteTablesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | HubRouteTablesCreateOrUpdate200Response
+    | HubRouteTablesCreateOrUpdate201Response
+    | HubRouteTablesCreateOrUpdateDefaultResponse
+  >;
+  /** Retrieves the details of a RouteTable. */
+  get(
+    options: HubRouteTablesGetParameters
+  ): StreamableMethod<HubRouteTablesGet200Response | HubRouteTablesGetDefaultResponse>;
+  /** Deletes a RouteTable. */
+  delete(
+    options: HubRouteTablesDeleteParameters
+  ): StreamableMethod<
+    | HubRouteTablesDelete200Response
+    | HubRouteTablesDelete202Response
+    | HubRouteTablesDelete204Response
+    | HubRouteTablesDeleteDefaultResponse
+  >;
+}
+
+export interface HubRouteTablesList {
+  /** Retrieves the details of all RouteTables. */
+  get(
+    options: HubRouteTablesListParameters
+  ): StreamableMethod<HubRouteTablesList200Response | HubRouteTablesListDefaultResponse>;
+}
+
+export interface RoutingIntentCreateOrUpdate {
+  /** Creates a RoutingIntent resource if it doesn't exist else updates the existing RoutingIntent. */
+  put(
+    options: RoutingIntentCreateOrUpdateParameters
+  ): StreamableMethod<
+    | RoutingIntentCreateOrUpdate200Response
+    | RoutingIntentCreateOrUpdate201Response
+    | RoutingIntentCreateOrUpdateDefaultResponse
+  >;
+  /** Retrieves the details of a RoutingIntent. */
+  get(
+    options: RoutingIntentGetParameters
+  ): StreamableMethod<RoutingIntentGet200Response | RoutingIntentGetDefaultResponse>;
+  /** Deletes a RoutingIntent. */
+  delete(
+    options: RoutingIntentDeleteParameters
+  ): StreamableMethod<
+    | RoutingIntentDelete200Response
+    | RoutingIntentDelete202Response
+    | RoutingIntentDelete204Response
+    | RoutingIntentDeleteDefaultResponse
+  >;
+}
+
+export interface RoutingIntentList {
+  /** Retrieves the details of all RoutingIntent child resources of the VirtualHub. */
+  get(
+    options: RoutingIntentListParameters
+  ): StreamableMethod<RoutingIntentList200Response | RoutingIntentListDefaultResponse>;
+}
+
+export interface WebApplicationFirewallPoliciesList {
+  /** Lists all of the protection policies within a resource group. */
+  get(
+    options: WebApplicationFirewallPoliciesListParameters
+  ): StreamableMethod<
+    | WebApplicationFirewallPoliciesList200Response
+    | WebApplicationFirewallPoliciesListDefaultResponse
+  >;
+}
+
+export interface WebApplicationFirewallPoliciesListAll {
+  /** Gets all the WAF policies in a subscription. */
+  get(
+    options: WebApplicationFirewallPoliciesListAllParameters
+  ): StreamableMethod<
+    | WebApplicationFirewallPoliciesListAll200Response
+    | WebApplicationFirewallPoliciesListAllDefaultResponse
+  >;
+}
+
+export interface WebApplicationFirewallPoliciesGet {
+  /** Retrieve protection policy with specified name within a resource group. */
+  get(
+    options: WebApplicationFirewallPoliciesGetParameters
+  ): StreamableMethod<
+    WebApplicationFirewallPoliciesGet200Response | WebApplicationFirewallPoliciesGetDefaultResponse
+  >;
+  /** Creates or update policy with specified rule set name within a resource group. */
+  put(
+    options: WebApplicationFirewallPoliciesCreateOrUpdateParameters
+  ): StreamableMethod<
+    | WebApplicationFirewallPoliciesCreateOrUpdate200Response
+    | WebApplicationFirewallPoliciesCreateOrUpdate201Response
+    | WebApplicationFirewallPoliciesCreateOrUpdateDefaultResponse
+  >;
+  /** Deletes Policy. */
+  delete(
+    options: WebApplicationFirewallPoliciesDeleteParameters
+  ): StreamableMethod<
+    | WebApplicationFirewallPoliciesDelete200Response
+    | WebApplicationFirewallPoliciesDelete202Response
+    | WebApplicationFirewallPoliciesDelete204Response
+    | WebApplicationFirewallPoliciesDeleteDefaultResponse
+  >;
+}
+
+export interface VipSwapGet {
+  /** Gets the SwapResource which identifies the slot type for the specified cloud service. The slot type on a cloud service can either be Staging or Production */
+  get(
+    options: VipSwapGetParameters
+  ): StreamableMethod<VipSwapGet200Response | VipSwapGetDefaultResponse>;
+  /** Performs vip swap operation on swappable cloud services. */
+  put(
+    options: VipSwapCreateParameters
+  ): StreamableMethod<
+    VipSwapCreate200Response | VipSwapCreate202Response | VipSwapCreateDefaultResponse
+  >;
+}
+
+export interface VipSwapList {
+  /** Gets the list of SwapResource which identifies the slot type for the specified cloud service. The slot type on a cloud service can either be Staging or Production */
+  get(
+    options: VipSwapListParameters
+  ): StreamableMethod<VipSwapList200Response | VipSwapListDefaultResponse>;
+}
+
+export interface Routes {
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/applicationGateways/\{applicationGatewayName\}' has methods for the following verbs: delete, get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    applicationGatewayName: string
+  ): ApplicationGatewaysDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/applicationGateways' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): ApplicationGatewaysList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/applicationGateways' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGateways",
+    subscriptionId: string
+  ): ApplicationGatewaysListAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/applicationGateways/\{applicationGatewayName\}/start' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/start",
+    subscriptionId: string,
+    resourceGroupName: string,
+    applicationGatewayName: string
+  ): ApplicationGatewaysStart;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/applicationGateways/\{applicationGatewayName\}/stop' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/stop",
+    subscriptionId: string,
+    resourceGroupName: string,
+    applicationGatewayName: string
+  ): ApplicationGatewaysStop;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/applicationGateways/\{applicationGatewayName\}/backendhealth' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/backendhealth",
+    subscriptionId: string,
+    resourceGroupName: string,
+    applicationGatewayName: string
+  ): ApplicationGatewaysBackendHealth;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/applicationGateways/\{applicationGatewayName\}/getBackendHealthOnDemand' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/getBackendHealthOnDemand",
+    subscriptionId: string,
+    resourceGroupName: string,
+    applicationGatewayName: string
+  ): ApplicationGatewaysBackendHealthOnDemand;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/applicationGatewayAvailableServerVariables' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableServerVariables",
+    subscriptionId: string
+  ): ApplicationGatewaysListAvailableServerVariables;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/applicationGatewayAvailableRequestHeaders' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableRequestHeaders",
+    subscriptionId: string
+  ): ApplicationGatewaysListAvailableRequestHeaders;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/applicationGatewayAvailableResponseHeaders' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableResponseHeaders",
+    subscriptionId: string
+  ): ApplicationGatewaysListAvailableResponseHeaders;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/applicationGatewayAvailableWafRuleSets' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableWafRuleSets",
+    subscriptionId: string
+  ): ApplicationGatewaysListAvailableWafRuleSets;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default",
+    subscriptionId: string
+  ): ApplicationGatewaysListAvailableSslOptions;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default/predefinedPolicies' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default/predefinedPolicies",
+    subscriptionId: string
+  ): ApplicationGatewaysListAvailableSslPredefinedPolicies;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default/predefinedPolicies/\{predefinedPolicyName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default/predefinedPolicies/{predefinedPolicyName}",
+    subscriptionId: string,
+    predefinedPolicyName: string
+  ): ApplicationGatewaysGetSslPredefinedPolicy;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/applicationGateways/\{applicationGatewayName\}/privateLinkResources' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateLinkResources",
+    subscriptionId: string,
+    resourceGroupName: string,
+    applicationGatewayName: string
+  ): ApplicationGatewayPrivateLinkResourcesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/applicationGateways/\{applicationGatewayName\}/privateEndpointConnections/\{connectionName\}' has methods for the following verbs: delete, put, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateEndpointConnections/{connectionName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    connectionName: string
+  ): ApplicationGatewayPrivateEndpointConnectionsDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/applicationGateways/\{applicationGatewayName\}/privateEndpointConnections' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateEndpointConnections",
+    subscriptionId: string,
+    resourceGroupName: string,
+    applicationGatewayName: string
+  ): ApplicationGatewayPrivateEndpointConnectionsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/locations/\{location\}/applicationGatewayWafDynamicManifests/dafault' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/applicationGatewayWafDynamicManifests/dafault",
+    subscriptionId: string,
+    location: string
+  ): ApplicationGatewayWafDynamicManifestsDefaultGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/locations/\{location\}/applicationGatewayWafDynamicManifests' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/applicationGatewayWafDynamicManifests",
+    subscriptionId: string,
+    location: string
+  ): ApplicationGatewayWafDynamicManifestsGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/applicationSecurityGroups/\{applicationSecurityGroupName\}' has methods for the following verbs: delete, get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    applicationSecurityGroupName: string
+  ): ApplicationSecurityGroupsDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/applicationSecurityGroups' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationSecurityGroups",
+    subscriptionId: string
+  ): ApplicationSecurityGroupsListAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/applicationSecurityGroups' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): ApplicationSecurityGroupsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/locations/\{location\}/availableDelegations' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availableDelegations",
+    subscriptionId: string,
+    location: string
+  ): AvailableDelegationsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/locations/\{location\}/availableDelegations' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availableDelegations",
+    subscriptionId: string,
+    resourceGroupName: string,
+    location: string
+  ): AvailableResourceGroupDelegationsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/locations/\{location\}/availableServiceAliases' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availableServiceAliases",
+    subscriptionId: string,
+    location: string
+  ): AvailableServiceAliasesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/locations/\{location\}/availableServiceAliases' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availableServiceAliases",
+    subscriptionId: string,
+    resourceGroupName: string,
+    location: string
+  ): AvailableServiceAliasesListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/azureFirewalls/\{azureFirewallName\}' has methods for the following verbs: delete, get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    azureFirewallName: string
+  ): AzureFirewallsDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/azureFirewalls' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): AzureFirewallsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/azureFirewalls' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/azureFirewalls",
+    subscriptionId: string
+  ): AzureFirewallsListAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/azureFirewalls/\{azureFirewallName\}/learnedIPPrefixes' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}/learnedIPPrefixes",
+    subscriptionId: string,
+    resourceGroupName: string,
+    azureFirewallName: string
+  ): AzureFirewallsListLearnedPrefixes;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/azureFirewallFqdnTags' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/azureFirewallFqdnTags",
+    subscriptionId: string
+  ): AzureFirewallFqdnTagsListAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/azureWebCategories/\{name\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/azureWebCategories/{name}",
+    subscriptionId: string,
+    name: string
+  ): WebCategoriesGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/azureWebCategories' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/azureWebCategories",
+    subscriptionId: string
+  ): WebCategoriesListBySubscription;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/bastionHosts/\{bastionHostName\}' has methods for the following verbs: delete, get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    bastionHostName: string
+  ): BastionHostsDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/bastionHosts' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/bastionHosts",
+    subscriptionId: string
+  ): BastionHostsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/bastionHosts' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): BastionHostsListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/bastionHosts/\{bastionHostName\}/createShareableLinks' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/createShareableLinks",
+    subscriptionId: string,
+    resourceGroupName: string,
+    bastionHostName: string
+  ): PutBastionShareableLink;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/bastionHosts/\{bastionHostName\}/deleteShareableLinks' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/deleteShareableLinks",
+    subscriptionId: string,
+    resourceGroupName: string,
+    bastionHostName: string
+  ): DeleteBastionShareableLink;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/bastionHosts/\{bastionHostName\}/getShareableLinks' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/getShareableLinks",
+    subscriptionId: string,
+    resourceGroupName: string,
+    bastionHostName: string
+  ): GetBastionShareableLink;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/bastionHosts/\{bastionHostName\}/getActiveSessions' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/getActiveSessions",
+    subscriptionId: string,
+    resourceGroupName: string,
+    bastionHostName: string
+  ): GetActiveSessions;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/bastionHosts/\{bastionHostName\}/disconnectActiveSessions' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/disconnectActiveSessions",
+    subscriptionId: string,
+    resourceGroupName: string,
+    bastionHostName: string
+  ): DisconnectActiveSessions;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/locations/\{location\}/CheckDnsNameAvailability' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/CheckDnsNameAvailability",
+    subscriptionId: string,
+    location: string
+  ): CheckDnsNameAvailability;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkManagers/\{networkManagerName\}/listActiveConnectivityConfigurations' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listActiveConnectivityConfigurations",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkManagerName: string
+  ): ListActiveConnectivityConfigurations;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkManagers/\{networkManagerName\}/listActiveSecurityAdminRules' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listActiveSecurityAdminRules",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkManagerName: string
+  ): ListActiveSecurityAdminRules;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworks/\{virtualNetworkName\}/listNetworkManagerEffectiveConnectivityConfigurations' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/listNetworkManagerEffectiveConnectivityConfigurations",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkName: string
+  ): ListNetworkManagerEffectiveConnectivityConfigurations;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworks/\{virtualNetworkName\}/listNetworkManagerEffectiveSecurityAdminRules' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/listNetworkManagerEffectiveSecurityAdminRules",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkName: string
+  ): ListNetworkManagerEffectiveSecurityAdminRules;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualWans/\{virtualWANName\}/supportedSecurityProviders' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/supportedSecurityProviders",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualWANName: string
+  ): SupportedSecurityProviders;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualWans/\{virtualWANName\}/GenerateVpnProfile' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/GenerateVpnProfile",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualWANName: string
+  ): Generatevirtualwanvpnserverconfigurationvpnprofile;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}/roleInstances/\{roleInstanceName\}/networkInterfaces' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    roleInstanceName: string
+  ): NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfaces;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}/networkInterfaces' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/networkInterfaces",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string
+  ): NetworkInterfacesListCloudServiceNetworkInterfaces;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}/roleInstances/\{roleInstanceName\}/networkInterfaces/\{networkInterfaceName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces/{networkInterfaceName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    roleInstanceName: string,
+    networkInterfaceName: string
+  ): NetworkInterfacesGetCloudServiceNetworkInterface;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkInterfaces/\{networkInterfaceName\}' has methods for the following verbs: delete, get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkInterfaceName: string
+  ): NetworkInterfacesDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/networkInterfaces' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkInterfaces",
+    subscriptionId: string
+  ): NetworkInterfacesListAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkInterfaces' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): NetworkInterfacesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkInterfaces/\{networkInterfaceName\}/effectiveRouteTable' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveRouteTable",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkInterfaceName: string
+  ): NetworkInterfacesGetEffectiveRouteTable;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkInterfaces/\{networkInterfaceName\}/effectiveNetworkSecurityGroups' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveNetworkSecurityGroups",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkInterfaceName: string
+  ): NetworkInterfacesListEffectiveNetworkSecurityGroups;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/microsoft.Compute/virtualMachineScaleSets/\{virtualMachineScaleSetName\}/virtualMachines/\{virtualmachineIndex\}/networkInterfaces' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualMachineScaleSetName: string,
+    virtualmachineIndex: string
+  ): NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfaces;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/microsoft.Compute/virtualMachineScaleSets/\{virtualMachineScaleSetName\}/networkInterfaces' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/networkInterfaces",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualMachineScaleSetName: string
+  ): NetworkInterfacesListVirtualMachineScaleSetNetworkInterfaces;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/microsoft.Compute/virtualMachineScaleSets/\{virtualMachineScaleSetName\}/virtualMachines/\{virtualmachineIndex\}/networkInterfaces/\{networkInterfaceName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualMachineScaleSetName: string,
+    virtualmachineIndex: string,
+    networkInterfaceName: string
+  ): NetworkInterfacesGetVirtualMachineScaleSetNetworkInterface;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/microsoft.Compute/virtualMachineScaleSets/\{virtualMachineScaleSetName\}/virtualMachines/\{virtualmachineIndex\}/networkInterfaces/\{networkInterfaceName\}/ipConfigurations' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipConfigurations",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualMachineScaleSetName: string,
+    virtualmachineIndex: string,
+    networkInterfaceName: string
+  ): NetworkInterfacesListVirtualMachineScaleSetIpConfigurations;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/microsoft.Compute/virtualMachineScaleSets/\{virtualMachineScaleSetName\}/virtualMachines/\{virtualmachineIndex\}/networkInterfaces/\{networkInterfaceName\}/ipConfigurations/\{ipConfigurationName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipConfigurations/{ipConfigurationName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualMachineScaleSetName: string,
+    virtualmachineIndex: string,
+    networkInterfaceName: string,
+    ipConfigurationName: string
+  ): NetworkInterfacesGetVirtualMachineScaleSetIpConfiguration;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}/publicipaddresses' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/publicipaddresses",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string
+  ): PublicIPAddressesListCloudServicePublicIPAddresses;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}/roleInstances/\{roleInstanceName\}/networkInterfaces/\{networkInterfaceName\}/ipconfigurations/\{ipConfigurationName\}/publicipaddresses' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    roleInstanceName: string,
+    networkInterfaceName: string,
+    ipConfigurationName: string
+  ): PublicIPAddressesListCloudServiceRoleInstancePublicIPAddresses;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/cloudServices/\{cloudServiceName\}/roleInstances/\{roleInstanceName\}/networkInterfaces/\{networkInterfaceName\}/ipconfigurations/\{ipConfigurationName\}/publicipaddresses/\{publicIpAddressName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses/{publicIpAddressName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    roleInstanceName: string,
+    networkInterfaceName: string,
+    ipConfigurationName: string,
+    publicIpAddressName: string
+  ): PublicIPAddressesGetCloudServicePublicIPAddress;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/publicIPAddresses/\{publicIpAddressName\}' has methods for the following verbs: delete, get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    publicIpAddressName: string
+  ): PublicIPAddressesDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/publicIPAddresses' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPAddresses",
+    subscriptionId: string
+  ): PublicIPAddressesListAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/publicIPAddresses' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): PublicIPAddressesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/publicIPAddresses/\{publicIpAddressName\}/ddosProtectionStatus' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}/ddosProtectionStatus",
+    subscriptionId: string,
+    resourceGroupName: string,
+    publicIpAddressName: string
+  ): PublicIPAddressesDdosProtectionStatus;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{virtualMachineScaleSetName\}/publicipaddresses' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/publicipaddresses",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualMachineScaleSetName: string
+  ): PublicIPAddressesListVirtualMachineScaleSetPublicIPAddresses;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{virtualMachineScaleSetName\}/virtualMachines/\{virtualmachineIndex\}/networkInterfaces/\{networkInterfaceName\}/ipconfigurations/\{ipConfigurationName\}/publicipaddresses' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualMachineScaleSetName: string,
+    virtualmachineIndex: string,
+    networkInterfaceName: string,
+    ipConfigurationName: string
+  ): PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddresses;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Compute/virtualMachineScaleSets/\{virtualMachineScaleSetName\}/virtualMachines/\{virtualmachineIndex\}/networkInterfaces/\{networkInterfaceName\}/ipconfigurations/\{ipConfigurationName\}/publicipaddresses/\{publicIpAddressName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses/{publicIpAddressName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualMachineScaleSetName: string,
+    virtualmachineIndex: string,
+    networkInterfaceName: string,
+    ipConfigurationName: string,
+    publicIpAddressName: string
+  ): PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddress;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/customIpPrefixes/\{customIpPrefixName\}' has methods for the following verbs: delete, get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    customIpPrefixName: string
+  ): CustomIPPrefixesDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/customIpPrefixes' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/customIpPrefixes",
+    subscriptionId: string
+  ): CustomIPPrefixesListAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/customIpPrefixes' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): CustomIPPrefixesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/ddosCustomPolicies/\{ddosCustomPolicyName\}' has methods for the following verbs: delete, get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    ddosCustomPolicyName: string
+  ): DdosCustomPoliciesDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/ddosProtectionPlans/\{ddosProtectionPlanName\}' has methods for the following verbs: delete, get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    ddosProtectionPlanName: string
+  ): DdosProtectionPlansDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/ddosProtectionPlans' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/ddosProtectionPlans",
+    subscriptionId: string
+  ): DdosProtectionPlansList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/ddosProtectionPlans' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): DdosProtectionPlansListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/dscpConfigurations/\{dscpConfigurationName\}' has methods for the following verbs: put, delete, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations/{dscpConfigurationName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    dscpConfigurationName: string
+  ): DscpConfigurationCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/dscpConfigurations' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): DscpConfigurationList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/dscpConfigurations' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/dscpConfigurations",
+    subscriptionId: string
+  ): DscpConfigurationListAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/locations/\{location\}/virtualNetworkAvailableEndpointServices' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/virtualNetworkAvailableEndpointServices",
+    subscriptionId: string,
+    location: string
+  ): AvailableEndpointServicesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteCircuits/\{circuitName\}/authorizations/\{authorizationName\}' has methods for the following verbs: delete, get, put */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations/{authorizationName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    circuitName: string,
+    authorizationName: string
+  ): ExpressRouteCircuitAuthorizationsDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteCircuits/\{circuitName\}/authorizations' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations",
+    subscriptionId: string,
+    resourceGroupName: string,
+    circuitName: string
+  ): ExpressRouteCircuitAuthorizationsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteCircuits/\{circuitName\}/peerings/\{peeringName\}' has methods for the following verbs: delete, get, put */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    circuitName: string,
+    peeringName: string
+  ): ExpressRouteCircuitPeeringsDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteCircuits/\{circuitName\}/peerings' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings",
+    subscriptionId: string,
+    resourceGroupName: string,
+    circuitName: string
+  ): ExpressRouteCircuitPeeringsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteCircuits/\{circuitName\}/peerings/\{peeringName\}/connections/\{connectionName\}' has methods for the following verbs: delete, get, put */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections/{connectionName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    circuitName: string,
+    peeringName: string,
+    connectionName: string
+  ): ExpressRouteCircuitConnectionsDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteCircuits/\{circuitName\}/peerings/\{peeringName\}/connections' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections",
+    subscriptionId: string,
+    resourceGroupName: string,
+    circuitName: string,
+    peeringName: string
+  ): ExpressRouteCircuitConnectionsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteCircuits/\{circuitName\}/peerings/\{peeringName\}/peerConnections/\{connectionName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/peerConnections/{connectionName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    circuitName: string,
+    peeringName: string,
+    connectionName: string
+  ): PeerExpressRouteCircuitConnectionsGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteCircuits/\{circuitName\}/peerings/\{peeringName\}/peerConnections' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/peerConnections",
+    subscriptionId: string,
+    resourceGroupName: string,
+    circuitName: string,
+    peeringName: string
+  ): PeerExpressRouteCircuitConnectionsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteCircuits/\{circuitName\}' has methods for the following verbs: delete, get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    circuitName: string
+  ): ExpressRouteCircuitsDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteCircuits/\{circuitName\}/peerings/\{peeringName\}/arpTables/\{devicePath\}' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/arpTables/{devicePath}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    circuitName: string,
+    peeringName: string,
+    devicePath: string
+  ): ExpressRouteCircuitsListArpTable;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteCircuits/\{circuitName\}/peerings/\{peeringName\}/routeTables/\{devicePath\}' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTables/{devicePath}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    circuitName: string,
+    peeringName: string,
+    devicePath: string
+  ): ExpressRouteCircuitsListRoutesTable;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteCircuits/\{circuitName\}/peerings/\{peeringName\}/routeTablesSummary/\{devicePath\}' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTablesSummary/{devicePath}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    circuitName: string,
+    peeringName: string,
+    devicePath: string
+  ): ExpressRouteCircuitsListRoutesTableSummary;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteCircuits/\{circuitName\}/stats' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/stats",
+    subscriptionId: string,
+    resourceGroupName: string,
+    circuitName: string
+  ): ExpressRouteCircuitsGetStats;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteCircuits/\{circuitName\}/peerings/\{peeringName\}/stats' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/stats",
+    subscriptionId: string,
+    resourceGroupName: string,
+    circuitName: string,
+    peeringName: string
+  ): ExpressRouteCircuitsGetPeeringStats;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteCircuits' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): ExpressRouteCircuitsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/expressRouteCircuits' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteCircuits",
+    subscriptionId: string
+  ): ExpressRouteCircuitsListAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/expressRouteServiceProviders' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteServiceProviders",
+    subscriptionId: string
+  ): ExpressRouteServiceProvidersList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/expressRouteCrossConnections' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteCrossConnections",
+    subscriptionId: string
+  ): ExpressRouteCrossConnectionsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteCrossConnections' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): ExpressRouteCrossConnectionsListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteCrossConnections/\{crossConnectionName\}' has methods for the following verbs: get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    crossConnectionName: string
+  ): ExpressRouteCrossConnectionsGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteCrossConnections/\{crossConnectionName\}/peerings/\{peeringName\}/arpTables/\{devicePath\}' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/arpTables/{devicePath}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    crossConnectionName: string,
+    peeringName: string,
+    devicePath: string
+  ): ExpressRouteCrossConnectionsListArpTable;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteCrossConnections/\{crossConnectionName\}/peerings/\{peeringName\}/routeTablesSummary/\{devicePath\}' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTablesSummary/{devicePath}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    crossConnectionName: string,
+    peeringName: string,
+    devicePath: string
+  ): ExpressRouteCrossConnectionsListRoutesTableSummary;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteCrossConnections/\{crossConnectionName\}/peerings/\{peeringName\}/routeTables/\{devicePath\}' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTables/{devicePath}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    crossConnectionName: string,
+    peeringName: string,
+    devicePath: string
+  ): ExpressRouteCrossConnectionsListRoutesTable;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteCrossConnections/\{crossConnectionName\}/peerings' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings",
+    subscriptionId: string,
+    resourceGroupName: string,
+    crossConnectionName: string
+  ): ExpressRouteCrossConnectionPeeringsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteCrossConnections/\{crossConnectionName\}/peerings/\{peeringName\}' has methods for the following verbs: delete, get, put */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    crossConnectionName: string,
+    peeringName: string
+  ): ExpressRouteCrossConnectionPeeringsDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/ExpressRoutePortsLocations' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePortsLocations",
+    subscriptionId: string
+  ): ExpressRoutePortsLocationsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/ExpressRoutePortsLocations/\{locationName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePortsLocations/{locationName}",
+    subscriptionId: string,
+    locationName: string
+  ): ExpressRoutePortsLocationsGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/ExpressRoutePorts/\{expressRoutePortName\}' has methods for the following verbs: delete, get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    expressRoutePortName: string
+  ): ExpressRoutePortsDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/ExpressRoutePorts' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): ExpressRoutePortsListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/ExpressRoutePorts' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePorts",
+    subscriptionId: string
+  ): ExpressRoutePortsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRoutePorts/\{expressRoutePortName\}/generateLoa' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/generateLoa",
+    subscriptionId: string,
+    resourceGroupName: string,
+    expressRoutePortName: string
+  ): ExpressRoutePortsGenerateLOA;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/ExpressRoutePorts/\{expressRoutePortName\}/links/\{linkName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}/links/{linkName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    expressRoutePortName: string,
+    linkName: string
+  ): ExpressRouteLinksGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/ExpressRoutePorts/\{expressRoutePortName\}/links' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}/links",
+    subscriptionId: string,
+    resourceGroupName: string,
+    expressRoutePortName: string
+  ): ExpressRouteLinksList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRoutePorts/\{expressRoutePortName\}/authorizations/\{authorizationName\}' has methods for the following verbs: delete, get, put */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations/{authorizationName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    expressRoutePortName: string,
+    authorizationName: string
+  ): ExpressRoutePortAuthorizationsDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRoutePorts/\{expressRoutePortName\}/authorizations' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations",
+    subscriptionId: string,
+    resourceGroupName: string,
+    expressRoutePortName: string
+  ): ExpressRoutePortAuthorizationsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/expressRouteProviderPorts' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts",
+    subscriptionId: string
+  ): ExpressRouteProviderPortsLocationList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/expressRouteProviderPorts/\{providerport\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts/{providerport}",
+    subscriptionId: string,
+    providerport: string
+  ): ExpressRouteProviderPortsGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/firewallPolicies/\{firewallPolicyName\}' has methods for the following verbs: delete, get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    firewallPolicyName: string
+  ): FirewallPoliciesDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/firewallPolicies' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): FirewallPoliciesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/firewallPolicies' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/firewallPolicies",
+    subscriptionId: string
+  ): FirewallPoliciesListAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/firewallPolicies/\{firewallPolicyName\}/ruleCollectionGroups/\{ruleCollectionGroupName\}' has methods for the following verbs: delete, get, put */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    ruleCollectionGroupName: string
+  ): FirewallPolicyRuleCollectionGroupsDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/firewallPolicies/\{firewallPolicyName\}/ruleCollectionGroups' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups",
+    subscriptionId: string,
+    resourceGroupName: string,
+    firewallPolicyName: string
+  ): FirewallPolicyRuleCollectionGroupsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/firewallPolicies/\{firewallPolicyName\}/listIdpsSignatures' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/listIdpsSignatures",
+    subscriptionId: string,
+    resourceGroupName: string,
+    firewallPolicyName: string
+  ): FirewallPolicyIdpsSignaturesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/firewallPolicies/\{firewallPolicyName\}/signatureOverrides/default' has methods for the following verbs: patch, put, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides/default",
+    subscriptionId: string,
+    resourceGroupName: string,
+    firewallPolicyName: string
+  ): FirewallPolicyIdpsSignaturesOverridesPatch;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/firewallPolicies/\{firewallPolicyName\}/signatureOverrides' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides",
+    subscriptionId: string,
+    resourceGroupName: string,
+    firewallPolicyName: string
+  ): FirewallPolicyIdpsSignaturesOverridesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/firewallPolicies/\{firewallPolicyName\}/listIdpsFilterOptions' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/listIdpsFilterOptions",
+    subscriptionId: string,
+    resourceGroupName: string,
+    firewallPolicyName: string
+  ): FirewallPolicyIdpsSignaturesFilterValuesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/IpAllocations/\{ipAllocationName\}' has methods for the following verbs: delete, get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    ipAllocationName: string
+  ): IpAllocationsDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/IpAllocations' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/IpAllocations",
+    subscriptionId: string
+  ): IpAllocationsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/IpAllocations' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): IpAllocationsListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/ipGroups/\{ipGroupsName\}' has methods for the following verbs: get, put, patch, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    ipGroupsName: string
+  ): IpGroupsGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/ipGroups' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): IpGroupsListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/ipGroups' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/ipGroups",
+    subscriptionId: string
+  ): IpGroupsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/loadBalancers/\{loadBalancerName\}' has methods for the following verbs: delete, get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    loadBalancerName: string
+  ): LoadBalancersDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/loadBalancers' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/loadBalancers",
+    subscriptionId: string
+  ): LoadBalancersListAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/loadBalancers' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): LoadBalancersList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/locations/\{location\}/setLoadBalancerFrontendPublicIpAddresses' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/setLoadBalancerFrontendPublicIpAddresses",
+    subscriptionId: string,
+    location: string
+  ): LoadBalancersSwapPublicIpAddresses;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{groupName\}/providers/Microsoft.Network/loadBalancers/\{loadBalancerName\}/backendAddressPools/\{backendPoolName\}/queryInboundNatRulePortMapping' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendPoolName}/queryInboundNatRulePortMapping",
+    subscriptionId: string,
+    groupName: string,
+    loadBalancerName: string,
+    backendPoolName: string
+  ): LoadBalancersListInboundNatRulePortMappings;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/loadBalancers/\{loadBalancerName\}/backendAddressPools' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools",
+    subscriptionId: string,
+    resourceGroupName: string,
+    loadBalancerName: string
+  ): LoadBalancerBackendAddressPoolsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/loadBalancers/\{loadBalancerName\}/backendAddressPools/\{backendAddressPoolName\}' has methods for the following verbs: get, put, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendAddressPoolName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    loadBalancerName: string,
+    backendAddressPoolName: string
+  ): LoadBalancerBackendAddressPoolsGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/loadBalancers/\{loadBalancerName\}/frontendIPConfigurations' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/frontendIPConfigurations",
+    subscriptionId: string,
+    resourceGroupName: string,
+    loadBalancerName: string
+  ): LoadBalancerFrontendIPConfigurationsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/loadBalancers/\{loadBalancerName\}/frontendIPConfigurations/\{frontendIPConfigurationName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/frontendIPConfigurations/{frontendIPConfigurationName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    loadBalancerName: string,
+    frontendIPConfigurationName: string
+  ): LoadBalancerFrontendIPConfigurationsGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/loadBalancers/\{loadBalancerName\}/inboundNatRules' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules",
+    subscriptionId: string,
+    resourceGroupName: string,
+    loadBalancerName: string
+  ): InboundNatRulesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/loadBalancers/\{loadBalancerName\}/inboundNatRules/\{inboundNatRuleName\}' has methods for the following verbs: delete, get, put */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    loadBalancerName: string,
+    inboundNatRuleName: string
+  ): InboundNatRulesDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/loadBalancers/\{loadBalancerName\}/loadBalancingRules' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/loadBalancingRules",
+    subscriptionId: string,
+    resourceGroupName: string,
+    loadBalancerName: string
+  ): LoadBalancerLoadBalancingRulesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/loadBalancers/\{loadBalancerName\}/loadBalancingRules/\{loadBalancingRuleName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/loadBalancingRules/{loadBalancingRuleName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    loadBalancerName: string,
+    loadBalancingRuleName: string
+  ): LoadBalancerLoadBalancingRulesGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/loadBalancers/\{loadBalancerName\}/outboundRules' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/outboundRules",
+    subscriptionId: string,
+    resourceGroupName: string,
+    loadBalancerName: string
+  ): LoadBalancerOutboundRulesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/loadBalancers/\{loadBalancerName\}/outboundRules/\{outboundRuleName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/outboundRules/{outboundRuleName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    loadBalancerName: string,
+    outboundRuleName: string
+  ): LoadBalancerOutboundRulesGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/loadBalancers/\{loadBalancerName\}/networkInterfaces' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/networkInterfaces",
+    subscriptionId: string,
+    resourceGroupName: string,
+    loadBalancerName: string
+  ): LoadBalancerNetworkInterfacesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/loadBalancers/\{loadBalancerName\}/probes' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes",
+    subscriptionId: string,
+    resourceGroupName: string,
+    loadBalancerName: string
+  ): LoadBalancerProbesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/loadBalancers/\{loadBalancerName\}/probes/\{probeName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    loadBalancerName: string,
+    probeName: string
+  ): LoadBalancerProbesGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/natGateways/\{natGatewayName\}' has methods for the following verbs: delete, get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    natGatewayName: string
+  ): NatGatewaysDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/natGateways' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/natGateways",
+    subscriptionId: string
+  ): NatGatewaysListAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/natGateways' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): NatGatewaysList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkInterfaces/\{networkInterfaceName\}/ipConfigurations' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/ipConfigurations",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkInterfaceName: string
+  ): NetworkInterfaceIPConfigurationsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkInterfaces/\{networkInterfaceName\}/ipConfigurations/\{ipConfigurationName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/ipConfigurations/{ipConfigurationName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    ipConfigurationName: string
+  ): NetworkInterfaceIPConfigurationsGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkInterfaces/\{networkInterfaceName\}/loadBalancers' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/loadBalancers",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkInterfaceName: string
+  ): NetworkInterfaceLoadBalancersList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkInterfaces/\{networkInterfaceName\}/tapConfigurations/\{tapConfigurationName\}' has methods for the following verbs: delete, get, put */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    tapConfigurationName: string
+  ): NetworkInterfaceTapConfigurationsDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkInterfaces/\{networkInterfaceName\}/tapConfigurations' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkInterfaceName: string
+  ): NetworkInterfaceTapConfigurationsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkManagers/\{networkManagerName\}' has methods for the following verbs: get, put, delete, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkManagerName: string
+  ): NetworkManagersGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/networkManagers' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagers",
+    subscriptionId: string
+  ): NetworkManagersListBySubscription;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkManagers' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): NetworkManagersList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkManagers/\{networkManagerName\}/commit' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/commit",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkManagerName: string
+  ): NetworkManagerCommitsPost;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkManagers/\{networkManagerName\}/listDeploymentStatus' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listDeploymentStatus",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkManagerName: string
+  ): NetworkManagerDeploymentStatusList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/networkManagerConnections/\{networkManagerConnectionName\}' has methods for the following verbs: put, get, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
+    subscriptionId: string,
+    networkManagerConnectionName: string
+  ): SubscriptionNetworkManagerConnectionsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/networkManagerConnections' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections",
+    subscriptionId: string
+  ): SubscriptionNetworkManagerConnectionsList;
+  /** Resource for '/providers/Microsoft.Management/managementGroups/\{managementGroupId\}/providers/Microsoft.Network/networkManagerConnections/\{networkManagerConnectionName\}' has methods for the following verbs: put, get, delete */
+  (
+    path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
+    managementGroupId: string,
+    networkManagerConnectionName: string
+  ): ManagementGroupNetworkManagerConnectionsCreateOrUpdate;
+  /** Resource for '/providers/Microsoft.Management/managementGroups/\{managementGroupId\}/providers/Microsoft.Network/networkManagerConnections' has methods for the following verbs: get */
+  (
+    path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections",
+    managementGroupId: string
+  ): ManagementGroupNetworkManagerConnectionsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkManagers/\{networkManagerName\}/connectivityConfigurations/\{configurationName\}' has methods for the following verbs: get, put, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkManagerName: string,
+    configurationName: string
+  ): ConnectivityConfigurationsGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkManagers/\{networkManagerName\}/connectivityConfigurations' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkManagerName: string
+  ): ConnectivityConfigurationsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkManagers/\{networkManagerName\}/networkGroups/\{networkGroupName\}' has methods for the following verbs: get, put, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkManagerName: string,
+    networkGroupName: string
+  ): NetworkGroupsGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkManagers/\{networkManagerName\}/networkGroups' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkManagerName: string
+  ): NetworkGroupsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkManagers/\{networkManagerName\}/networkGroups/\{networkGroupName\}/staticMembers/\{staticMemberName\}' has methods for the following verbs: get, put, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}/staticMembers/{staticMemberName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkManagerName: string,
+    networkGroupName: string,
+    staticMemberName: string
+  ): StaticMembersGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkManagers/\{networkManagerName\}/networkGroups/\{networkGroupName\}/staticMembers' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}/staticMembers",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkManagerName: string,
+    networkGroupName: string
+  ): StaticMembersList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkManagers/\{networkManagerName\}/scopeConnections/\{scopeConnectionName\}' has methods for the following verbs: put, get, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/scopeConnections/{scopeConnectionName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkManagerName: string,
+    scopeConnectionName: string
+  ): ScopeConnectionsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkManagers/\{networkManagerName\}/scopeConnections' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/scopeConnections",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkManagerName: string
+  ): ScopeConnectionsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkManagers/\{networkManagerName\}/securityAdminConfigurations' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkManagerName: string
+  ): SecurityAdminConfigurationsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkManagers/\{networkManagerName\}/securityAdminConfigurations/\{configurationName\}' has methods for the following verbs: get, put, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkManagerName: string,
+    configurationName: string
+  ): SecurityAdminConfigurationsGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkManagers/\{networkManagerName\}/securityAdminConfigurations/\{configurationName\}/ruleCollections' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkManagerName: string,
+    configurationName: string
+  ): AdminRuleCollectionsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkManagers/\{networkManagerName\}/securityAdminConfigurations/\{configurationName\}/ruleCollections/\{ruleCollectionName\}' has methods for the following verbs: get, put, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkManagerName: string,
+    configurationName: string,
+    ruleCollectionName: string
+  ): AdminRuleCollectionsGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkManagers/\{networkManagerName\}/securityAdminConfigurations/\{configurationName\}/ruleCollections/\{ruleCollectionName\}/rules' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkManagerName: string,
+    configurationName: string,
+    ruleCollectionName: string
+  ): AdminRulesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkManagers/\{networkManagerName\}/securityAdminConfigurations/\{configurationName\}/ruleCollections/\{ruleCollectionName\}/rules/\{ruleName\}' has methods for the following verbs: get, put, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkManagerName: string,
+    configurationName: string,
+    ruleCollectionName: string,
+    ruleName: string
+  ): AdminRulesGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkProfiles/\{networkProfileName\}' has methods for the following verbs: delete, get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkProfileName: string
+  ): NetworkProfilesDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/networkProfiles' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkProfiles",
+    subscriptionId: string
+  ): NetworkProfilesListAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkProfiles' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): NetworkProfilesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkSecurityGroups/\{networkSecurityGroupName\}' has methods for the following verbs: delete, get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkSecurityGroupName: string
+  ): NetworkSecurityGroupsDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/networkSecurityGroups' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkSecurityGroups",
+    subscriptionId: string
+  ): NetworkSecurityGroupsListAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkSecurityGroups' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): NetworkSecurityGroupsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkSecurityGroups/\{networkSecurityGroupName\}/securityRules/\{securityRuleName\}' has methods for the following verbs: delete, get, put */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkSecurityGroupName: string,
+    securityRuleName: string
+  ): SecurityRulesDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkSecurityGroups/\{networkSecurityGroupName\}/securityRules' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkSecurityGroupName: string
+  ): SecurityRulesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkSecurityGroups/\{networkSecurityGroupName\}/defaultSecurityRules' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/defaultSecurityRules",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkSecurityGroupName: string
+  ): DefaultSecurityRulesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkSecurityGroups/\{networkSecurityGroupName\}/defaultSecurityRules/\{defaultSecurityRuleName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/defaultSecurityRules/{defaultSecurityRuleName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkSecurityGroupName: string,
+    defaultSecurityRuleName: string
+  ): DefaultSecurityRulesGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkVirtualAppliances/\{networkVirtualApplianceName\}' has methods for the following verbs: delete, get, patch, put */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkVirtualApplianceName: string
+  ): NetworkVirtualAppliancesDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkVirtualAppliances' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): NetworkVirtualAppliancesListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/networkVirtualAppliances' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualAppliances",
+    subscriptionId: string
+  ): NetworkVirtualAppliancesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkVirtualAppliances/\{networkVirtualApplianceName\}/virtualApplianceSites/\{siteName\}' has methods for the following verbs: delete, get, put */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/virtualApplianceSites/{siteName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    siteName: string
+  ): VirtualApplianceSitesDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkVirtualAppliances/\{networkVirtualApplianceName\}/virtualApplianceSites' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/virtualApplianceSites",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkVirtualApplianceName: string
+  ): VirtualApplianceSitesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/networkVirtualApplianceSkus' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualApplianceSkus",
+    subscriptionId: string
+  ): VirtualApplianceSkusList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/networkVirtualApplianceSkus/\{skuName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualApplianceSkus/{skuName}",
+    subscriptionId: string,
+    skuName: string
+  ): VirtualApplianceSkusGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkVirtualAppliances/\{networkVirtualApplianceName\}/inboundSecurityRules/\{ruleCollectionName\}' has methods for the following verbs: put */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/inboundSecurityRules/{ruleCollectionName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    ruleCollectionName: string
+  ): InboundSecurityRuleCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers/\{networkWatcherName\}' has methods for the following verbs: put, get, delete, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkWatcherName: string
+  ): NetworkWatchersCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): NetworkWatchersList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/networkWatchers' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkWatchers",
+    subscriptionId: string
+  ): NetworkWatchersListAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers/\{networkWatcherName\}/topology' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/topology",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkWatcherName: string
+  ): NetworkWatchersGetTopology;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers/\{networkWatcherName\}/ipFlowVerify' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/ipFlowVerify",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkWatcherName: string
+  ): NetworkWatchersVerifyIPFlow;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers/\{networkWatcherName\}/nextHop' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/nextHop",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkWatcherName: string
+  ): NetworkWatchersGetNextHop;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers/\{networkWatcherName\}/securityGroupView' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/securityGroupView",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkWatcherName: string
+  ): NetworkWatchersGetVMSecurityRules;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers/\{networkWatcherName\}/troubleshoot' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/troubleshoot",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkWatcherName: string
+  ): NetworkWatchersGetTroubleshooting;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers/\{networkWatcherName\}/queryTroubleshootResult' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/queryTroubleshootResult",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkWatcherName: string
+  ): NetworkWatchersGetTroubleshootingResult;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers/\{networkWatcherName\}/configureFlowLog' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/configureFlowLog",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkWatcherName: string
+  ): NetworkWatchersSetFlowLogConfiguration;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers/\{networkWatcherName\}/queryFlowLogStatus' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/queryFlowLogStatus",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkWatcherName: string
+  ): NetworkWatchersGetFlowLogStatus;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers/\{networkWatcherName\}/connectivityCheck' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectivityCheck",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkWatcherName: string
+  ): NetworkWatchersCheckConnectivity;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers/\{networkWatcherName\}/azureReachabilityReport' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/azureReachabilityReport",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkWatcherName: string
+  ): NetworkWatchersGetAzureReachabilityReport;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers/\{networkWatcherName\}/availableProvidersList' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/availableProvidersList",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkWatcherName: string
+  ): NetworkWatchersListAvailableProviders;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers/\{networkWatcherName\}/networkConfigurationDiagnostic' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/networkConfigurationDiagnostic",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkWatcherName: string
+  ): NetworkWatchersGetNetworkConfigurationDiagnostic;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers/\{networkWatcherName\}/packetCaptures/\{packetCaptureName\}' has methods for the following verbs: put, get, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkWatcherName: string,
+    packetCaptureName: string
+  ): PacketCapturesCreate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers/\{networkWatcherName\}/packetCaptures/\{packetCaptureName\}/stop' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}/stop",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkWatcherName: string,
+    packetCaptureName: string
+  ): PacketCapturesStop;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers/\{networkWatcherName\}/packetCaptures/\{packetCaptureName\}/queryStatus' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}/queryStatus",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkWatcherName: string,
+    packetCaptureName: string
+  ): PacketCapturesGetStatus;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers/\{networkWatcherName\}/packetCaptures' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkWatcherName: string
+  ): PacketCapturesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers/\{networkWatcherName\}/connectionMonitors/\{connectionMonitorName\}' has methods for the following verbs: put, get, delete, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionMonitorName: string
+  ): ConnectionMonitorsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers/\{networkWatcherName\}/connectionMonitors/\{connectionMonitorName\}/stop' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/stop",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionMonitorName: string
+  ): ConnectionMonitorsStop;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers/\{networkWatcherName\}/connectionMonitors/\{connectionMonitorName\}/start' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/start",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionMonitorName: string
+  ): ConnectionMonitorsStart;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers/\{networkWatcherName\}/connectionMonitors/\{connectionMonitorName\}/query' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/query",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionMonitorName: string
+  ): ConnectionMonitorsQuery;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers/\{networkWatcherName\}/connectionMonitors' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkWatcherName: string
+  ): ConnectionMonitorsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers/\{networkWatcherName\}/flowLogs/\{flowLogName\}' has methods for the following verbs: put, patch, get, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkWatcherName: string,
+    flowLogName: string
+  ): FlowLogsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/networkWatchers/\{networkWatcherName\}/flowLogs' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs",
+    subscriptionId: string,
+    resourceGroupName: string,
+    networkWatcherName: string
+  ): FlowLogsList;
+  /** Resource for '/providers/Microsoft.Network/operations' has methods for the following verbs: get */
+  (path: "/providers/Microsoft.Network/operations"): OperationsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/privateEndpoints/\{privateEndpointName\}' has methods for the following verbs: delete, get, put */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    privateEndpointName: string
+  ): PrivateEndpointsDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/privateEndpoints' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): PrivateEndpointsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/privateEndpoints' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/privateEndpoints",
+    subscriptionId: string
+  ): PrivateEndpointsListBySubscription;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/locations/\{location\}/availablePrivateEndpointTypes' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availablePrivateEndpointTypes",
+    subscriptionId: string,
+    location: string
+  ): AvailablePrivateEndpointTypesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/locations/\{location\}/availablePrivateEndpointTypes' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availablePrivateEndpointTypes",
+    subscriptionId: string,
+    resourceGroupName: string,
+    location: string
+  ): AvailablePrivateEndpointTypesListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/privateEndpoints/\{privateEndpointName\}/privateDnsZoneGroups/\{privateDnsZoneGroupName\}' has methods for the following verbs: delete, get, put */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    privateEndpointName: string,
+    privateDnsZoneGroupName: string
+  ): PrivateDnsZoneGroupsDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/privateEndpoints/\{privateEndpointName\}/privateDnsZoneGroups' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups",
+    subscriptionId: string,
+    resourceGroupName: string,
+    privateEndpointName: string
+  ): PrivateDnsZoneGroupsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/privateLinkServices/\{serviceName\}' has methods for the following verbs: delete, get, put */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    serviceName: string
+  ): PrivateLinkServicesDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/privateLinkServices' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): PrivateLinkServicesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/privateLinkServices' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/privateLinkServices",
+    subscriptionId: string
+  ): PrivateLinkServicesListBySubscription;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/privateLinkServices/\{serviceName\}/privateEndpointConnections/\{peConnectionName\}' has methods for the following verbs: get, put, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections/{peConnectionName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    serviceName: string,
+    peConnectionName: string
+  ): PrivateLinkServicesGetPrivateEndpointConnection;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/privateLinkServices/\{serviceName\}/privateEndpointConnections' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections",
+    subscriptionId: string,
+    resourceGroupName: string,
+    serviceName: string
+  ): PrivateLinkServicesListPrivateEndpointConnections;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/locations/\{location\}/checkPrivateLinkServiceVisibility' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/checkPrivateLinkServiceVisibility",
+    subscriptionId: string,
+    location: string
+  ): PrivateLinkServicesCheckPrivateLinkServiceVisibility;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/locations/\{location\}/checkPrivateLinkServiceVisibility' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/checkPrivateLinkServiceVisibility",
+    subscriptionId: string,
+    resourceGroupName: string,
+    location: string
+  ): PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/locations/\{location\}/autoApprovedPrivateLinkServices' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/autoApprovedPrivateLinkServices",
+    subscriptionId: string,
+    location: string
+  ): PrivateLinkServicesListAutoApprovedPrivateLinkServices;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/locations/\{location\}/autoApprovedPrivateLinkServices' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/autoApprovedPrivateLinkServices",
+    subscriptionId: string,
+    resourceGroupName: string,
+    location: string
+  ): PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/publicIPPrefixes/\{publicIpPrefixName\}' has methods for the following verbs: delete, get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    publicIpPrefixName: string
+  ): PublicIPPrefixesDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/publicIPPrefixes' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPPrefixes",
+    subscriptionId: string
+  ): PublicIPPrefixesListAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/publicIPPrefixes' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): PublicIPPrefixesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/routeFilters/\{routeFilterName\}' has methods for the following verbs: delete, get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    routeFilterName: string
+  ): RouteFiltersDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/routeFilters' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): RouteFiltersListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/routeFilters' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/routeFilters",
+    subscriptionId: string
+  ): RouteFiltersList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/routeFilters/\{routeFilterName\}/routeFilterRules/\{ruleName\}' has methods for the following verbs: delete, get, put */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    routeFilterName: string,
+    ruleName: string
+  ): RouteFilterRulesDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/routeFilters/\{routeFilterName\}/routeFilterRules' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules",
+    subscriptionId: string,
+    resourceGroupName: string,
+    routeFilterName: string
+  ): RouteFilterRulesListByRouteFilter;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/routeTables/\{routeTableName\}' has methods for the following verbs: delete, get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    routeTableName: string
+  ): RouteTablesDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/routeTables' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): RouteTablesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/routeTables' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/routeTables",
+    subscriptionId: string
+  ): RouteTablesListAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/routeTables/\{routeTableName\}/routes/\{routeName\}' has methods for the following verbs: delete, get, put */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    routeTableName: string,
+    routeName: string
+  ): RoutesDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/routeTables/\{routeTableName\}/routes' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes",
+    subscriptionId: string,
+    resourceGroupName: string,
+    routeTableName: string
+  ): RoutesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/securityPartnerProviders/\{securityPartnerProviderName\}' has methods for the following verbs: delete, get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    securityPartnerProviderName: string
+  ): SecurityPartnerProvidersDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/securityPartnerProviders' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): SecurityPartnerProvidersListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/securityPartnerProviders' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/securityPartnerProviders",
+    subscriptionId: string
+  ): SecurityPartnerProvidersList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/bgpServiceCommunities' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/bgpServiceCommunities",
+    subscriptionId: string
+  ): BgpServiceCommunitiesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/serviceEndpointPolicies/\{serviceEndpointPolicyName\}' has methods for the following verbs: delete, get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    serviceEndpointPolicyName: string
+  ): ServiceEndpointPoliciesDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/ServiceEndpointPolicies' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/ServiceEndpointPolicies",
+    subscriptionId: string
+  ): ServiceEndpointPoliciesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/serviceEndpointPolicies' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): ServiceEndpointPoliciesListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/serviceEndpointPolicies/\{serviceEndpointPolicyName\}/serviceEndpointPolicyDefinitions/\{serviceEndpointPolicyDefinitionName\}' has methods for the following verbs: delete, get, put */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions/{serviceEndpointPolicyDefinitionName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    serviceEndpointPolicyName: string,
+    serviceEndpointPolicyDefinitionName: string
+  ): ServiceEndpointPolicyDefinitionsDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/serviceEndpointPolicies/\{serviceEndpointPolicyName\}/serviceEndpointPolicyDefinitions' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions",
+    subscriptionId: string,
+    resourceGroupName: string,
+    serviceEndpointPolicyName: string
+  ): ServiceEndpointPolicyDefinitionsListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/locations/\{location\}/serviceTags' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/serviceTags",
+    subscriptionId: string,
+    location: string
+  ): ServiceTagsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/locations/\{location\}/serviceTagDetails' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/serviceTagDetails",
+    subscriptionId: string,
+    location: string
+  ): ServiceTagInformationList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/locations/\{location\}/usages' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/usages",
+    subscriptionId: string,
+    location: string
+  ): UsagesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworks/\{virtualNetworkName\}' has methods for the following verbs: delete, get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkName: string
+  ): VirtualNetworksDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/virtualNetworks' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworks",
+    subscriptionId: string
+  ): VirtualNetworksListAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworks' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): VirtualNetworksList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworks/\{virtualNetworkName\}/CheckIPAddressAvailability' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/CheckIPAddressAvailability",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkName: string
+  ): VirtualNetworksCheckIPAddressAvailability;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworks/\{virtualNetworkName\}/usages' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/usages",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkName: string
+  ): VirtualNetworksListUsage;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworks/\{virtualNetworkName\}/ddosProtectionStatus' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/ddosProtectionStatus",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkName: string
+  ): VirtualNetworksListDdosProtectionStatus;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworks/\{virtualNetworkName\}/subnets/\{subnetName\}' has methods for the following verbs: delete, get, put */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    subnetName: string
+  ): SubnetsDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworks/\{virtualNetworkName\}/subnets/\{subnetName\}/PrepareNetworkPolicies' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/PrepareNetworkPolicies",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    subnetName: string
+  ): SubnetsPrepareNetworkPolicies;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworks/\{virtualNetworkName\}/subnets/\{subnetName\}/UnprepareNetworkPolicies' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/UnprepareNetworkPolicies",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    subnetName: string
+  ): SubnetsUnprepareNetworkPolicies;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworks/\{virtualNetworkName\}/subnets' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkName: string
+  ): SubnetsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworks/\{virtualNetworkName\}/subnets/\{subnetName\}/ResourceNavigationLinks' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/ResourceNavigationLinks",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    subnetName: string
+  ): ResourceNavigationLinksList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworks/\{virtualNetworkName\}/subnets/\{subnetName\}/ServiceAssociationLinks' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/ServiceAssociationLinks",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    subnetName: string
+  ): ServiceAssociationLinksList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworks/\{virtualNetworkName\}/virtualNetworkPeerings/\{virtualNetworkPeeringName\}' has methods for the following verbs: delete, get, put */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    virtualNetworkPeeringName: string
+  ): VirtualNetworkPeeringsDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworks/\{virtualNetworkName\}/virtualNetworkPeerings' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkName: string
+  ): VirtualNetworkPeeringsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworkGateways/\{virtualNetworkGatewayName\}' has methods for the following verbs: put, get, delete, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string
+  ): VirtualNetworkGatewaysCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworkGateways' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): VirtualNetworkGatewaysList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworkGateways/\{virtualNetworkGatewayName\}/connections' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/connections",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string
+  ): VirtualNetworkGatewaysListConnections;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworkGateways/\{virtualNetworkGatewayName\}/reset' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/reset",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string
+  ): VirtualNetworkGatewaysReset;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworkGateways/\{virtualNetworkGatewayName\}/resetvpnclientsharedkey' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/resetvpnclientsharedkey",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string
+  ): VirtualNetworkGatewaysResetVpnClientSharedKey;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworkGateways/\{virtualNetworkGatewayName\}/generatevpnclientpackage' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/generatevpnclientpackage",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string
+  ): VirtualNetworkGatewaysGeneratevpnclientpackage;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworkGateways/\{virtualNetworkGatewayName\}/generatevpnprofile' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/generatevpnprofile",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string
+  ): VirtualNetworkGatewaysGenerateVpnProfile;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworkGateways/\{virtualNetworkGatewayName\}/getvpnprofilepackageurl' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getvpnprofilepackageurl",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string
+  ): VirtualNetworkGatewaysGetVpnProfilePackageUrl;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworkGateways/\{virtualNetworkGatewayName\}/getBgpPeerStatus' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getBgpPeerStatus",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string
+  ): VirtualNetworkGatewaysGetBgpPeerStatus;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworkGateways/\{virtualNetworkGatewayName\}/supportedvpndevices' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/supportedvpndevices",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string
+  ): VirtualNetworkGatewaysSupportedVpnDevices;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworkGateways/\{virtualNetworkGatewayName\}/getLearnedRoutes' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getLearnedRoutes",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string
+  ): VirtualNetworkGatewaysGetLearnedRoutes;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworkGateways/\{virtualNetworkGatewayName\}/getAdvertisedRoutes' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getAdvertisedRoutes",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string
+  ): VirtualNetworkGatewaysGetAdvertisedRoutes;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworkGateways/\{virtualNetworkGatewayName\}/setvpnclientipsecparameters' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/setvpnclientipsecparameters",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string
+  ): VirtualNetworkGatewaysSetVpnclientIpsecParameters;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworkGateways/\{virtualNetworkGatewayName\}/getvpnclientipsecparameters' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getvpnclientipsecparameters",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string
+  ): VirtualNetworkGatewaysGetVpnclientIpsecParameters;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/connections/\{virtualNetworkGatewayConnectionName\}/vpndeviceconfigurationscript' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/vpndeviceconfigurationscript",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayConnectionName: string
+  ): VirtualNetworkGatewaysVpnDeviceConfigurationScript;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworkGateways/\{virtualNetworkGatewayName\}/startPacketCapture' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/startPacketCapture",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string
+  ): VirtualNetworkGatewaysStartPacketCapture;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworkGateways/\{virtualNetworkGatewayName\}/stopPacketCapture' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/stopPacketCapture",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string
+  ): VirtualNetworkGatewaysStopPacketCapture;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworkGateways/\{virtualNetworkGatewayName\}/getVpnClientConnectionHealth' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getVpnClientConnectionHealth",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string
+  ): VirtualNetworkGatewaysGetVpnclientConnectionHealth;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworkGateways/\{virtualNetworkGatewayName\}/disconnectVirtualNetworkGatewayVpnConnections' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/disconnectVirtualNetworkGatewayVpnConnections",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string
+  ): VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/connections/\{virtualNetworkGatewayConnectionName\}' has methods for the following verbs: put, get, delete, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayConnectionName: string
+  ): VirtualNetworkGatewayConnectionsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/connections/\{virtualNetworkGatewayConnectionName\}/sharedkey' has methods for the following verbs: put, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayConnectionName: string
+  ): VirtualNetworkGatewayConnectionsSetSharedKey;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/connections' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): VirtualNetworkGatewayConnectionsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/connections/\{virtualNetworkGatewayConnectionName\}/sharedkey/reset' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey/reset",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayConnectionName: string
+  ): VirtualNetworkGatewayConnectionsResetSharedKey;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/connections/\{virtualNetworkGatewayConnectionName\}/startPacketCapture' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/startPacketCapture",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayConnectionName: string
+  ): VirtualNetworkGatewayConnectionsStartPacketCapture;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/connections/\{virtualNetworkGatewayConnectionName\}/stopPacketCapture' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/stopPacketCapture",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayConnectionName: string
+  ): VirtualNetworkGatewayConnectionsStopPacketCapture;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/connections/\{virtualNetworkGatewayConnectionName\}/getikesas' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/getikesas",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayConnectionName: string
+  ): VirtualNetworkGatewayConnectionsGetIkeSas;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/connections/\{virtualNetworkGatewayConnectionName\}/resetconnection' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/resetconnection",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayConnectionName: string
+  ): VirtualNetworkGatewayConnectionsResetConnection;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/localNetworkGateways/\{localNetworkGatewayName\}' has methods for the following verbs: put, get, delete, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    localNetworkGatewayName: string
+  ): LocalNetworkGatewaysCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/localNetworkGateways' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): LocalNetworkGatewaysList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworkGateways/\{virtualNetworkGatewayName\}/natRules/\{natRuleName\}' has methods for the following verbs: get, put, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/natRules/{natRuleName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    natRuleName: string
+  ): VirtualNetworkGatewayNatRulesGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworkGateways/\{virtualNetworkGatewayName\}/natRules' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/natRules",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string
+  ): VirtualNetworkGatewayNatRulesListByVirtualNetworkGateway;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworkTaps/\{tapName\}' has methods for the following verbs: delete, get, put, patch */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    tapName: string
+  ): VirtualNetworkTapsDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/virtualNetworkTaps' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworkTaps",
+    subscriptionId: string
+  ): VirtualNetworkTapsListAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualNetworkTaps' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): VirtualNetworkTapsListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualRouters/\{virtualRouterName\}' has methods for the following verbs: delete, get, put */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualRouterName: string
+  ): VirtualRoutersDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualRouters' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): VirtualRoutersListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/virtualRouters' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualRouters",
+    subscriptionId: string
+  ): VirtualRoutersList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualRouters/\{virtualRouterName\}/peerings/\{peeringName\}' has methods for the following verbs: delete, get, put */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings/{peeringName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualRouterName: string,
+    peeringName: string
+  ): VirtualRouterPeeringsDelete;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualRouters/\{virtualRouterName\}/peerings' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualRouterName: string
+  ): VirtualRouterPeeringsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualWans/\{VirtualWANName\}' has methods for the following verbs: get, put, patch, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    VirtualWANName: string
+  ): VirtualWansGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualWans' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): VirtualWansListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/virtualWans' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualWans",
+    subscriptionId: string
+  ): VirtualWansList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/vpnSites/\{vpnSiteName\}' has methods for the following verbs: get, put, patch, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vpnSiteName: string
+  ): VpnSitesGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/vpnSites' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): VpnSitesListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/vpnSites' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnSites",
+    subscriptionId: string
+  ): VpnSitesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/vpnSites/\{vpnSiteName\}/vpnSiteLinks/\{vpnSiteLinkName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}/vpnSiteLinks/{vpnSiteLinkName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vpnSiteName: string,
+    vpnSiteLinkName: string
+  ): VpnSiteLinksGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/vpnSites/\{vpnSiteName\}/vpnSiteLinks' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}/vpnSiteLinks",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vpnSiteName: string
+  ): VpnSiteLinksListByVpnSite;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualWans/\{virtualWANName\}/vpnConfiguration' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/vpnConfiguration",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualWANName: string
+  ): VpnSitesConfigurationDownload;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/vpnServerConfigurations/\{vpnServerConfigurationName\}' has methods for the following verbs: get, put, patch, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vpnServerConfigurationName: string
+  ): VpnServerConfigurationsGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/vpnServerConfigurations' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): VpnServerConfigurationsListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/vpnServerConfigurations' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnServerConfigurations",
+    subscriptionId: string
+  ): VpnServerConfigurationsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/vpnServerConfigurations/\{vpnServerConfigurationName\}/configurationPolicyGroups/\{configurationPolicyGroupName\}' has methods for the following verbs: put, delete, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups/{configurationPolicyGroupName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vpnServerConfigurationName: string,
+    configurationPolicyGroupName: string
+  ): ConfigurationPolicyGroupsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/vpnServerConfigurations/\{vpnServerConfigurationName\}/configurationPolicyGroups' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups",
+    subscriptionId: string,
+    resourceGroupName: string,
+    vpnServerConfigurationName: string
+  ): ConfigurationPolicyGroupsListByVpnServerConfiguration;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualHubs/\{virtualHubName\}' has methods for the following verbs: get, put, patch, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualHubName: string
+  ): VirtualHubsGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualHubs' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): VirtualHubsListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/virtualHubs' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualHubs",
+    subscriptionId: string
+  ): VirtualHubsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualHubs/\{virtualHubName\}/effectiveRoutes' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/effectiveRoutes",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualHubName: string
+  ): VirtualHubsGetEffectiveVirtualHubRoutes;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualHubs/\{virtualHubName\}/inboundRoutes' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/inboundRoutes",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualHubName: string
+  ): VirtualHubsGetInboundRoutes;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualHubs/\{virtualHubName\}/outboundRoutes' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/outboundRoutes",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualHubName: string
+  ): VirtualHubsGetOutboundRoutes;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualHubs/\{virtualHubName\}/routeMaps/\{routeMapName\}' has methods for the following verbs: get, put, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps/{routeMapName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualHubName: string,
+    routeMapName: string
+  ): RouteMapsGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualHubs/\{virtualHubName\}/routeMaps' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualHubName: string
+  ): RouteMapsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualHubs/\{virtualHubName\}/hubVirtualNetworkConnections/\{connectionName\}' has methods for the following verbs: put, delete, get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualHubName: string,
+    connectionName: string
+  ): HubVirtualNetworkConnectionsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualHubs/\{virtualHubName\}/hubVirtualNetworkConnections' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualHubName: string
+  ): HubVirtualNetworkConnectionsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/vpnGateways/\{gatewayName\}' has methods for the following verbs: get, put, patch, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    gatewayName: string
+  ): VpnGatewaysGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/vpnGateways/\{gatewayName\}/reset' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/reset",
+    subscriptionId: string,
+    resourceGroupName: string,
+    gatewayName: string
+  ): VpnGatewaysReset;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/vpnGateways/\{gatewayName\}/startpacketcapture' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/startpacketcapture",
+    subscriptionId: string,
+    resourceGroupName: string,
+    gatewayName: string
+  ): VpnGatewaysStartPacketCapture;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/vpnGateways/\{gatewayName\}/stoppacketcapture' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/stoppacketcapture",
+    subscriptionId: string,
+    resourceGroupName: string,
+    gatewayName: string
+  ): VpnGatewaysStopPacketCapture;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/vpnGateways' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): VpnGatewaysListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/vpnGateways' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnGateways",
+    subscriptionId: string
+  ): VpnGatewaysList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/vpnGateways/\{gatewayName\}/vpnConnections/\{connectionName\}/vpnLinkConnections/\{linkConnectionName\}/resetconnection' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}/resetconnection",
+    subscriptionId: string,
+    resourceGroupName: string,
+    gatewayName: string,
+    connectionName: string,
+    linkConnectionName: string
+  ): VpnLinkConnectionsResetConnection;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/vpnGateways/\{gatewayName\}/vpnConnections/\{connectionName\}/vpnLinkConnections/\{linkConnectionName\}/getikesas' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}/getikesas",
+    subscriptionId: string,
+    resourceGroupName: string,
+    gatewayName: string,
+    connectionName: string,
+    linkConnectionName: string
+  ): VpnLinkConnectionsGetIkeSas;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/vpnGateways/\{gatewayName\}/vpnConnections/\{connectionName\}/vpnLinkConnections' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections",
+    subscriptionId: string,
+    resourceGroupName: string,
+    gatewayName: string,
+    connectionName: string
+  ): VpnLinkConnectionsListByVpnConnection;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/vpnGateways/\{gatewayName\}/vpnConnections/\{connectionName\}' has methods for the following verbs: get, put, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    gatewayName: string,
+    connectionName: string
+  ): VpnConnectionsGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/vpnGateways/\{gatewayName\}/vpnConnections/\{vpnConnectionName\}/startpacketcapture' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{vpnConnectionName}/startpacketcapture",
+    subscriptionId: string,
+    resourceGroupName: string,
+    gatewayName: string,
+    vpnConnectionName: string
+  ): VpnConnectionsStartPacketCapture;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/vpnGateways/\{gatewayName\}/vpnConnections/\{vpnConnectionName\}/stoppacketcapture' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{vpnConnectionName}/stoppacketcapture",
+    subscriptionId: string,
+    resourceGroupName: string,
+    gatewayName: string,
+    vpnConnectionName: string
+  ): VpnConnectionsStopPacketCapture;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/vpnGateways/\{gatewayName\}/vpnConnections' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections",
+    subscriptionId: string,
+    resourceGroupName: string,
+    gatewayName: string
+  ): VpnConnectionsListByVpnGateway;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/vpnGateways/\{gatewayName\}/vpnConnections/\{connectionName\}/vpnLinkConnections/\{linkConnectionName\}' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    gatewayName: string,
+    connectionName: string,
+    linkConnectionName: string
+  ): VpnSiteLinkConnectionsGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/vpnGateways/\{gatewayName\}/natRules/\{natRuleName\}' has methods for the following verbs: get, put, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules/{natRuleName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    gatewayName: string,
+    natRuleName: string
+  ): NatRulesGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/vpnGateways/\{gatewayName\}/natRules' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules",
+    subscriptionId: string,
+    resourceGroupName: string,
+    gatewayName: string
+  ): NatRulesListByVpnGateway;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/p2svpnGateways/\{gatewayName\}' has methods for the following verbs: get, put, patch, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    gatewayName: string
+  ): P2SVpnGatewaysGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/p2svpnGateways' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): P2SVpnGatewaysListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/p2svpnGateways' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/p2svpnGateways",
+    subscriptionId: string
+  ): P2SVpnGatewaysList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/p2svpnGateways/\{gatewayName\}/reset' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/reset",
+    subscriptionId: string,
+    resourceGroupName: string,
+    gatewayName: string
+  ): P2SVpnGatewaysReset;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/p2svpnGateways/\{gatewayName\}/generatevpnprofile' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/generatevpnprofile",
+    subscriptionId: string,
+    resourceGroupName: string,
+    gatewayName: string
+  ): P2SVpnGatewaysGenerateVpnProfile;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/p2svpnGateways/\{gatewayName\}/getP2sVpnConnectionHealth' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealth",
+    subscriptionId: string,
+    resourceGroupName: string,
+    gatewayName: string
+  ): P2SVpnGatewaysGetP2SVpnConnectionHealth;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/p2svpnGateways/\{gatewayName\}/getP2sVpnConnectionHealthDetailed' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealthDetailed",
+    subscriptionId: string,
+    resourceGroupName: string,
+    gatewayName: string
+  ): P2SVpnGatewaysGetP2SVpnConnectionHealthDetailed;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/p2svpnGateways/\{p2sVpnGatewayName\}/disconnectP2sVpnConnections' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{p2sVpnGatewayName}/disconnectP2sVpnConnections",
+    subscriptionId: string,
+    resourceGroupName: string,
+    p2sVpnGatewayName: string
+  ): P2SVpnGatewaysDisconnectP2SVpnConnections;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualWans/\{virtualWANName\}/vpnServerConfigurations' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/vpnServerConfigurations",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualWANName: string
+  ): VpnServerConfigurationsAssociatedWithVirtualWanList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualHubs/\{virtualHubName\}/routeTables/\{routeTableName\}' has methods for the following verbs: get, put, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeTables/{routeTableName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualHubName: string,
+    routeTableName: string
+  ): VirtualHubRouteTableV2SGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualHubs/\{virtualHubName\}/routeTables' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeTables",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualHubName: string
+  ): VirtualHubRouteTableV2SList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/expressRouteGateways' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteGateways",
+    subscriptionId: string
+  ): ExpressRouteGatewaysListBySubscription;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteGateways' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): ExpressRouteGatewaysListByResourceGroup;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteGateways/\{expressRouteGatewayName\}' has methods for the following verbs: put, patch, get, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    expressRouteGatewayName: string
+  ): ExpressRouteGatewaysCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteGateways/\{expressRouteGatewayName\}/expressRouteConnections/\{connectionName\}' has methods for the following verbs: put, get, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/expressRouteConnections/{connectionName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    expressRouteGatewayName: string,
+    connectionName: string
+  ): ExpressRouteConnectionsCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/expressRouteGateways/\{expressRouteGatewayName\}/expressRouteConnections' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/expressRouteConnections",
+    subscriptionId: string,
+    resourceGroupName: string,
+    expressRouteGatewayName: string
+  ): ExpressRouteConnectionsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualHubs/\{virtualHubName\}/bgpConnections/\{connectionName\}' has methods for the following verbs: get, put, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections/{connectionName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualHubName: string,
+    connectionName: string
+  ): VirtualHubBgpConnectionGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualHubs/\{virtualHubName\}/bgpConnections' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualHubName: string
+  ): VirtualHubBgpConnectionsList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualHubs/\{hubName\}/bgpConnections/\{connectionName\}/learnedRoutes' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{hubName}/bgpConnections/{connectionName}/learnedRoutes",
+    subscriptionId: string,
+    resourceGroupName: string,
+    hubName: string,
+    connectionName: string
+  ): VirtualHubBgpConnectionsListLearnedRoutes;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualHubs/\{hubName\}/bgpConnections/\{connectionName\}/advertisedRoutes' has methods for the following verbs: post */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{hubName}/bgpConnections/{connectionName}/advertisedRoutes",
+    subscriptionId: string,
+    resourceGroupName: string,
+    hubName: string,
+    connectionName: string
+  ): VirtualHubBgpConnectionsListAdvertisedRoutes;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualHubs/\{virtualHubName\}/ipConfigurations/\{ipConfigName\}' has methods for the following verbs: get, put, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/ipConfigurations/{ipConfigName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualHubName: string,
+    ipConfigName: string
+  ): VirtualHubIpConfigurationGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualHubs/\{virtualHubName\}/ipConfigurations' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/ipConfigurations",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualHubName: string
+  ): VirtualHubIpConfigurationList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualHubs/\{virtualHubName\}/hubRouteTables/\{routeTableName\}' has methods for the following verbs: put, get, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables/{routeTableName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualHubName: string,
+    routeTableName: string
+  ): HubRouteTablesCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualHubs/\{virtualHubName\}/hubRouteTables' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualHubName: string
+  ): HubRouteTablesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualHubs/\{virtualHubName\}/routingIntent/\{routingIntentName\}' has methods for the following verbs: put, get, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent/{routingIntentName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualHubName: string,
+    routingIntentName: string
+  ): RoutingIntentCreateOrUpdate;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/virtualHubs/\{virtualHubName\}/routingIntent' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent",
+    subscriptionId: string,
+    resourceGroupName: string,
+    virtualHubName: string
+  ): RoutingIntentList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies",
+    subscriptionId: string,
+    resourceGroupName: string
+  ): WebApplicationFirewallPoliciesList;
+  /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies",
+    subscriptionId: string
+  ): WebApplicationFirewallPoliciesListAll;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/\{policyName\}' has methods for the following verbs: get, put, delete */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}",
+    subscriptionId: string,
+    resourceGroupName: string,
+    policyName: string
+  ): WebApplicationFirewallPoliciesGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{groupName\}/providers/Microsoft.Compute/cloudServices/\{resourceName\}/providers/Microsoft.Network/cloudServiceSlots/\{singletonResource\}' has methods for the following verbs: get, put */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Compute/cloudServices/{resourceName}/providers/Microsoft.Network/cloudServiceSlots/{singletonResource}",
+    subscriptionId: string,
+    groupName: string,
+    resourceName: string,
+    singletonResource: "swap"
+  ): VipSwapGet;
+  /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{groupName\}/providers/Microsoft.Compute/cloudServices/\{resourceName\}/providers/Microsoft.Network/cloudServiceSlots' has methods for the following verbs: get */
+  (
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Compute/cloudServices/{resourceName}/providers/Microsoft.Network/cloudServiceSlots",
+    subscriptionId: string,
+    groupName: string,
+    resourceName: string
+  ): VipSwapList;
+}
+
+export type NetworkManagementClient = Client & {
+  path: Routes;
+};

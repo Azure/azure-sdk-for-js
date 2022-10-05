@@ -18,13 +18,15 @@ import {
   ContainerGroupsImpl,
   OperationsImpl,
   LocationImpl,
-  ContainersImpl
+  ContainersImpl,
+  SubnetServiceAssociationLinkImpl
 } from "./operations";
 import {
   ContainerGroups,
   Operations,
   Location,
-  Containers
+  Containers,
+  SubnetServiceAssociationLink
 } from "./operationsInterfaces";
 import { ContainerInstanceManagementClientOptionalParams } from "./models";
 
@@ -61,15 +63,12 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-containerinstance/8.2.1`;
+    const packageDetails = `azsdk-js-arm-containerinstance/9.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
@@ -120,6 +119,9 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
     this.operations = new OperationsImpl(this);
     this.location = new LocationImpl(this);
     this.containers = new ContainersImpl(this);
+    this.subnetServiceAssociationLink = new SubnetServiceAssociationLinkImpl(
+      this
+    );
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -155,4 +157,5 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
   operations: Operations;
   location: Location;
   containers: Containers;
+  subnetServiceAssociationLink: SubnetServiceAssociationLink;
 }

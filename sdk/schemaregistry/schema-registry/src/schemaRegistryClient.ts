@@ -1,26 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GeneratedSchemaRegistryClient } from "./generated/generatedSchemaRegistryClient";
-import { TokenCredential } from "@azure/core-auth";
-import { createTracingClient, TracingClient } from "@azure/core-tracing";
-import {
-  bearerTokenAuthenticationPolicy,
-  InternalPipelineOptions,
-} from "@azure/core-rest-pipeline";
-import { convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
-
+import { DEFAULT_SCOPE, SDK_VERSION } from "./constants";
 import {
   GetSchemaOptions,
   GetSchemaPropertiesOptions,
-  SchemaDescription,
-  SchemaRegistryClientOptions,
-  SchemaRegistry,
   RegisterSchemaOptions,
-  SchemaProperties,
   Schema,
+  SchemaDescription,
+  SchemaProperties,
+  SchemaRegistry,
+  SchemaRegistryClientOptions,
 } from "./models";
-import { DEFAULT_SCOPE, SDK_VERSION } from "./constants";
+import {
+  InternalPipelineOptions,
+  bearerTokenAuthenticationPolicy,
+} from "@azure/core-rest-pipeline";
+import { TracingClient, createTracingClient } from "@azure/core-tracing";
+import { convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
+import { GeneratedSchemaRegistryClient } from "./generated/generatedSchemaRegistryClient";
+import { TokenCredential } from "@azure/core-auth";
 import { logger } from "./logger";
 
 /**
@@ -152,9 +151,58 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * @param schemaId - Unique schema ID.
    * @returns Schema with given ID.
    */
-  getSchema(schemaId: string, options: GetSchemaOptions = {}): Promise<Schema> {
-    return this._tracing.withSpan("SchemaRegistryClient.getSchema", options, (updatedOptions) =>
-      this._client.schema.getById(schemaId, updatedOptions).then(convertSchemaResponse)
+  getSchema(schemaId: string, options?: GetSchemaOptions): Promise<Schema>;
+
+  /**
+   * Gets an existing schema by version. If the schema was not found, a RestError with
+   * status code 404 will be thrown, which could be caught as follows:
+   * 
+   * ```js
+   * ...
+   * } catch (e) {
+    if (typeof e === "object" && e.statusCode === 404) {
+      ...;
+    }
+    throw e;
+  }
+   * ```
+   *
+   * @param schemaDescription - schema version.
+   * @returns Schema with given ID.
+   */
+  getSchema(
+    name: string,
+    groupName: string,
+    version: number,
+    options?: GetSchemaOptions
+  ): Promise<Schema>;
+  // implementation
+  getSchema(
+    nameOrId: string,
+    groupNameOrOptions?: string | GetSchemaOptions,
+    version?: number,
+    options: GetSchemaOptions = {}
+  ): Promise<Schema> {
+    if (typeof groupNameOrOptions !== "string" && version === undefined) {
+      return this._tracing.withSpan(
+        "SchemaRegistryClient.getSchema",
+        groupNameOrOptions ?? {},
+        (updatedOptions) =>
+          this._client.schema.getById(nameOrId, updatedOptions).then(convertSchemaResponse)
+      );
+    }
+    return this._tracing.withSpan(
+      "SchemaRegistryClient.getSchemaByVersion",
+      options,
+      (updatedOptions) =>
+        this._client.schema
+          .getSchemaVersion(
+            groupNameOrOptions as string,
+            nameOrId,
+            version as number,
+            updatedOptions
+          )
+          .then(convertSchemaResponse)
     );
   }
 }
