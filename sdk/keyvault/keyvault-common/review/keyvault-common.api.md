@@ -7,14 +7,14 @@
 import { ChallengeCallbacks } from '@azure/core-rest-pipeline';
 
 // @public
-export function createChallengeCallbacks({ disableChallengeResourceVerification, }?: CreateChallengeCallbacksOptions): ChallengeCallbacks;
+export function createChallengeCallbacks(options?: CreateChallengeCallbacksOptions): ChallengeCallbacks;
 
-// @public (undocumented)
+// @public
 export interface CreateChallengeCallbacksOptions {
     disableChallengeResourceVerification?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface ParsedKeyVaultEntityIdentifier {
     name: string;
     vaultUrl: string;
@@ -26,7 +26,7 @@ export type ParsedWWWAuthenticate = {
     [Key in ValidParsedWWWAuthenticateProperties]?: string;
 };
 
-// @public (undocumented)
+// @public
 export function parseKeyvaultIdentifier(collection: string, identifier: string | undefined): ParsedKeyVaultEntityIdentifier;
 
 // @public

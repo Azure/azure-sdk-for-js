@@ -3,6 +3,9 @@
 
 import * as url from "url";
 
+/**
+ * The parsed components of a Key Vault entity identifier.
+ */
 export interface ParsedKeyVaultEntityIdentifier {
   /**
    * The vault URI.
@@ -17,6 +20,10 @@ export interface ParsedKeyVaultEntityIdentifier {
    */
   name: string;
 }
+
+/**
+ * Parses a Key Vault identifier into its components.
+ */
 export function parseKeyvaultIdentifier(
   collection: string,
   identifier: string | undefined
