@@ -7,9 +7,7 @@ import { getPagedAsyncIterator, PagedResult, PageSettings } from "../src";
 function buildIterator<T>(input: T) {
   return getPagedAsyncIterator({
     firstPageLink: 0,
-    async getPage() {
-      return Promise.resolve({ page: input });
-    },
+    getPage: () => Promise.resolve({ page: input }),
   });
 }
 
@@ -136,9 +134,7 @@ describe("getPagedAsyncIterator", function () {
       };
       const pagedResult: PagedResult<collectionObject, PageSettings, number, number> = {
         firstPageLink: 0,
-        async getPage() {
-          return Promise.resolve({ page: collection });
-        },
+        getPage: () => Promise.resolve({ page: collection }),
         toElements: (page) => page.elements,
       };
       const iterator = getPagedAsyncIterator(pagedResult);
