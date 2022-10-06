@@ -212,11 +212,9 @@ describe("SchemaRegistryClient", function () {
     const registered = await client.registerSchema(schema, options);
     assertIsValidSchemaProperties(registered);
     const found = await client.getSchema(
-      {
-        groupName: registered.groupName,
-        name: registered.name,
-        version: registered.version,
-      },
+      registered.name,
+      registered.groupName,
+      registered.version,
       {
         onResponse: (rawResponse: { status: number }) => {
           assert.equal(rawResponse.status, 200);
