@@ -47,7 +47,7 @@ export function sendNotification(
 
       const headers = await context.createHeaders("sendNotification", notification.headers);
       headers.set("ServiceBusNotification-Format", notification.platform);
-      
+
       let body = notification.body;
       let contentType: string = notification.contentType;
 

@@ -102,7 +102,10 @@ class NotificationHubsServiceClient extends ServiceClient implements Notificatio
     );
   }
 
-  async createHeaders(operationName: string, rawHeaders?: Record<string, string>): Promise<HttpHeaders> {
+  async createHeaders(
+    operationName: string,
+    rawHeaders?: Record<string, string>
+  ): Promise<HttpHeaders> {
     const authorization = await this.sasTokenProvider.getToken(this.baseUrl);
     const headers = createHttpHeaders(rawHeaders);
     headers.set("Authorization", authorization.token);

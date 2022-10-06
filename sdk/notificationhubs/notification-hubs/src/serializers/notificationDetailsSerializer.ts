@@ -62,7 +62,9 @@ export async function parseNotificationDetails(bodyText: string): Promise<Notifi
   };
 }
 
-function parseOutcomeCounts(counts: Record<string, any>[] | Record<string, any>): NotificationOutcomeCollectionItem[] {
+function parseOutcomeCounts(
+  counts: Record<string, any>[] | Record<string, any>
+): NotificationOutcomeCollectionItem[] {
   const items = Array.isArray(counts) ? counts : [counts];
   const results: NotificationOutcomeCollectionItem[] = [];
   for (const item of items) {
