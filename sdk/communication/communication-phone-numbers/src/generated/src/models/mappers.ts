@@ -14,7 +14,7 @@ export const PhoneNumberCountries: coreClient.CompositeMapper = {
     className: "PhoneNumberCountries",
     modelProperties: {
       countries: {
-        serializedName: "phoneNumberCountries",
+        serializedName: "countries",
         type: {
           name: "Sequence",
           element: {

@@ -10,8 +10,8 @@ description: Phone number configuration client
 package-version: 1.2.0-beta.5
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-phonenumber-2022-11-30
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/c24836060a7ac3aa6e6d4eb64d4c69ef801bb9cb/specification/communication/data-plane/PhoneNumbers/readme.md
+tag: package-phonenumber-2022-12-01
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/4412bbe05d50af59ea1fcc39854975cdeb71652c/specification/communication/data-plane/PhoneNumbers/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10
