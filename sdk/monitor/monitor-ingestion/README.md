@@ -5,10 +5,11 @@ The Azure Monitor Ingestion client library is used to send custom logs to [Azure
 This library allows you to send data from virtually any source to supported built-in tables or to custom tables that you create in Log Analytics workspace. You can even extend the schema of built-in tables with custom columns.
 
 **Resources:**
-* [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/src)
-* [Package (NPM)](https://www.npmjs.com/)
-* [Service documentation][azure_monitor_overview]
-* [Change log](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/CHANGELOG.md)
+
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/src)
+- [Package (NPM)](https://www.npmjs.com/)
+- [Service documentation][azure_monitor_overview]
+- [Change log](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/CHANGELOG.md)
 
 ## Getting started
 
@@ -50,8 +51,8 @@ const logsIngestionClient = new LogsIngestionClient(logsIngestionEndpoint, crede
 
 ### Data Collection Endpoint
 
-Data Collection Endpoints (DCEs) allow you to uniquely configure ingestion settings for Azure Monitor. [This 
-article][data_collection_endpoint] provides an overview of data collection endpoints including their contents and 
+Data Collection Endpoints (DCEs) allow you to uniquely configure ingestion settings for Azure Monitor. [This
+article][data_collection_endpoint] provides an overview of data collection endpoints including their contents and
 structure and how you can create and work with them.
 
 ### Data Collection Rule
@@ -68,7 +69,7 @@ For more details, refer to [Data collection rules in Azure Monitor][data_collect
 
 ### Log Analytics workspace tables
 
-Custom logs can send data to any custom table that you create and to certain built-in tables in your Log Analytics 
+Custom logs can send data to any custom table that you create and to certain built-in tables in your Log Analytics
 workspace. The target table must exist before you can send data to it. The following built-in tables are currently supported:
 
 - [CommonSecurityLog](https://docs.microsoft.com/azure/azure-monitor/reference/tables/commonsecuritylog)
@@ -112,10 +113,10 @@ async function main() {
     },
   ];
   const result = await client.upload(ruleId, streamName, logs);
-  if (result.uploadStatus !== "Success") {
-    console.log("Some logs have failed to complete ingestion. Upload status=", result.uploadStatus);
+  if (result.status !== "Success") {
+    console.log("Some logs have failed to complete ingestion. Upload status=", result.status);
     for (const errors of result.errors) {
-      console.log(`Error - ${JSON.stringify(errors.responseError)}`);
+      console.log(`Error - ${JSON.stringify(errors.cause)}`);
       console.log(`Log - ${JSON.stringify(errors.failedLogs)}`);
     }
   }
@@ -127,9 +128,10 @@ main().catch((err) => {
 
 module.exports = { main };
 ```
+
 ### Verify logs
 
-You can verify that your data has been uploaded correctly by using the [@azure/monitor-query](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/README.md#install-the-package) library. Run the [Upload custom logs](#upload-custom-logs) sample first before verifying the logs. 
+You can verify that your data has been uploaded correctly by using the [@azure/monitor-query](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/README.md#install-the-package) library. Run the [Upload custom logs](#upload-custom-logs) sample first before verifying the logs.
 
 ```js
 // Copyright (c) Microsoft Corporation.
@@ -174,8 +176,53 @@ main().catch((err) => {
 });
 
 module.exports = { main };
-
 ```
+
+### Uploading large batches of logs
+
+When uploading more than 1MB of logs in a single call to the `upload` method on `LogsIngestionClient`, the upload will be split into several smaller batches, each no larger than 1MB. By default, these batches will be uploaded in parallel, with a maximum of 5 batches being uploaded concurrently. It may be desirable to decrease the maximum concurrency if memory usage is a concern. The maximum number of concurrent uploads can be controlled using the `maxConcurrency` option, as shown in this example:
+
+```js
+const { DefaultAzureCredential } = require("@azure/identity");
+const { LogsIngestionClient } = require("@azure/monitor-ingestion");
+
+require("dotenv").config();
+
+async function main() {
+  const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
+  const ruleId = process.env.DATA_COLLECTION_RULE_ID || "data_collection_rule_id";
+  const streamName = process.env.STREAM_NAME || "data_stream_name";
+  const credential = new DefaultAzureCredential();
+  const client = new LogsIngestionClient(logsIngestionEndpoint, credential);
+
+  // Constructing a large number of logs to ensure batching takes place
+  const logs = [];
+  for (let i = 0; i < 100000; ++i) {
+    logs.push({
+      Time: "2021-12-08T23:51:14.1104269Z",
+      Computer: "Computer1",
+      AdditionalContext: `context-${i}`,
+    });
+  }
+
+  // Set the maximum concurrency to 1 to prevent concurrent requests entirely
+  const result = await client.upload(ruleId, streamName, logs, { maxConcurrency: 1 });
+  if (result.status !== "Success") {
+    console.log("Some logs have failed to complete ingestion. Upload status=", result.status);
+    for (const error of result.errors) {
+      console.log(`Error - ${JSON.stringify(error.cause)}`);
+      console.log(`Log - ${JSON.stringify(error.failedLogs)}`);
+    }
+  }
+}
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+  process.exit(1);
+});
+
+module.exports = { main };
+```
+
 ## Troubleshooting
 
 ### Logging
@@ -191,6 +238,7 @@ setLogLevel("info");
 For detailed instructions on how to enable logs, see the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 ## Next steps
+
 To learn more about Azure Monitor, see the [Azure Monitor service documentation][azure_monitor_overview].
 
 ## Contributing
@@ -198,6 +246,7 @@ To learn more about Azure Monitor, see the [Azure Monitor service documentation]
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 <!-- LINKS -->
+
 [azure_monitor_overview]: https://docs.microsoft.com/azure/azure-monitor/overview
 [data_collection_endpoint]: https://docs.microsoft.com/azure/azure-monitor/essentials/data-collection-endpoint-overview
 [data_collection_rule]: https://docs.microsoft.com/azure/azure-monitor/essentials/data-collection-rule-overview
