@@ -1,14 +1,11 @@
 # Release History
 
-## 7.7.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 7.7.2 (2022-10-11)
 
 ### Other Changes
+
+- Pass timeout to server when accepting next session [PR #23210](https://github.com/Azure/azure-sdk-for-js/pull/23210)
+- Enable tracing for more operations. [PR #23334](https://github.com/Azure/azure-sdk-for-js/pull/23334)
 
 ## 7.7.1 (2022-09-07)
 

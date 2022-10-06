@@ -17,6 +17,8 @@ import { isLive } from "./isLive";
 import { testSchemaIds } from "./dummies";
 import { v4 as uuid } from "uuid";
 
+type UpdatedSchemaDescription = Required<Omit<SchemaDescription, "version">>;
+
 function getEnvVar(name: string): string {
   const value = env[name];
   if (!value) {
@@ -59,7 +61,7 @@ function createMockedTestRegistry(): SchemaRegistry {
   return { registerSchema, getSchemaProperties, getSchema };
 
   async function registerSchema(
-    schema: SchemaDescription,
+    schema: UpdatedSchemaDescription,
     _options?: RegisterSchemaOptions
   ): Promise<SchemaProperties> {
     let result = mapByContent.get(schema.definition);
@@ -93,7 +95,7 @@ function createMockedTestRegistry(): SchemaRegistry {
   }
 
   async function getSchemaProperties(
-    schema: SchemaDescription,
+    schema: UpdatedSchemaDescription,
     _options?: GetSchemaPropertiesOptions
   ): Promise<SchemaProperties> {
     const storedSchema = mapByContent.get(schema.definition);

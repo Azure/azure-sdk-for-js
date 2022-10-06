@@ -1,16 +1,12 @@
 # Release History
 
-## 18.0.0-beta.2 (Unreleased)
+## 18.0.0-beta.3 (2022-09-30)
 
-### Features Added
+**Bugs Fixed**
 
-### Breaking Changes
+  -  fix better user experience of credential scopes in government cloud
 
-### Bugs Fixed
-
-### Other Changes
-
-## 18.0.0-beta.1 (2022-09-21)
+## 18.0.0-beta.2 (2022-09-29)
     
 **Features**
 
@@ -23,6 +19,7 @@
   - Added operation ManagedClusters.abortLatestOperation
   - Added operation ManagedClusters.beginRotateServiceAccountSigningKeys
   - Added operation ManagedClusters.beginRotateServiceAccountSigningKeysAndWait
+  - Added Interface AgentPoolNetworkProfile
   - Added Interface AgentPoolsAbortLatestOperationOptionalParams
   - Added Interface AgentPoolWindowsProfile
   - Added Interface AzureEntityResource
@@ -54,6 +51,7 @@
   - Added Interface FleetsListOptionalParams
   - Added Interface FleetsUpdateOptionalParams
   - Added Interface GuardrailsProfile
+  - Added Interface IPTag
   - Added Interface ManagedClusterAzureMonitorProfile
   - Added Interface ManagedClusterAzureMonitorProfileKubeStateMetrics
   - Added Interface ManagedClusterAzureMonitorProfileMetrics
@@ -131,6 +129,7 @@
   - Interface AgentPool has a new optional parameter capacityReservationGroupID
   - Interface AgentPool has a new optional parameter enableCustomCATrust
   - Interface AgentPool has a new optional parameter messageOfTheDay
+  - Interface AgentPool has a new optional parameter networkProfile
   - Interface AgentPool has a new optional parameter windowsProfile
   - Interface AgentPoolsDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
   - Interface ContainerServiceNetworkProfile has a new optional parameter kubeProxyConfig
@@ -145,6 +144,7 @@
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter capacityReservationGroupID
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter enableCustomCATrust
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter messageOfTheDay
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter networkProfile
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter windowsProfile
   - Interface ManagedClusterAPIServerAccessProfile has a new optional parameter enableVnetIntegration
   - Interface ManagedClusterAPIServerAccessProfile has a new optional parameter subnetId

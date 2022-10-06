@@ -31,6 +31,10 @@ import {
   VirtualHubsListByResourceGroupResponse,
   VirtualHubsListResponse,
   VirtualHubsGetEffectiveVirtualHubRoutesOptionalParams,
+  GetInboundRoutesParameters,
+  VirtualHubsGetInboundRoutesOptionalParams,
+  GetOutboundRoutesParameters,
+  VirtualHubsGetOutboundRoutesOptionalParams,
   VirtualHubsListByResourceGroupNextResponse,
   VirtualHubsListNextResponse
 } from "../models";
@@ -464,6 +468,196 @@ export class VirtualHubsImpl implements VirtualHubs {
   }
 
   /**
+   * Gets the inbound routes configured for the Virtual Hub on a particular connection.
+   * @param resourceGroupName The resource group name of the VirtualHub.
+   * @param virtualHubName The name of the VirtualHub.
+   * @param getInboundRoutesParameters Parameters supplied to get the inbound routes for a connection
+   *                                   resource.
+   * @param options The options parameters.
+   */
+  async beginGetInboundRoutes(
+    resourceGroupName: string,
+    virtualHubName: string,
+    getInboundRoutesParameters: GetInboundRoutesParameters,
+    options?: VirtualHubsGetInboundRoutesOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        virtualHubName,
+        getInboundRoutesParameters,
+        options
+      },
+      getInboundRoutesOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Gets the inbound routes configured for the Virtual Hub on a particular connection.
+   * @param resourceGroupName The resource group name of the VirtualHub.
+   * @param virtualHubName The name of the VirtualHub.
+   * @param getInboundRoutesParameters Parameters supplied to get the inbound routes for a connection
+   *                                   resource.
+   * @param options The options parameters.
+   */
+  async beginGetInboundRoutesAndWait(
+    resourceGroupName: string,
+    virtualHubName: string,
+    getInboundRoutesParameters: GetInboundRoutesParameters,
+    options?: VirtualHubsGetInboundRoutesOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginGetInboundRoutes(
+      resourceGroupName,
+      virtualHubName,
+      getInboundRoutesParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Gets the outbound routes configured for the Virtual Hub on a particular connection.
+   * @param resourceGroupName The resource group name of the VirtualHub.
+   * @param virtualHubName The name of the VirtualHub.
+   * @param getOutboundRoutesParameters Parameters supplied to get the outbound routes for a connection
+   *                                    resource.
+   * @param options The options parameters.
+   */
+  async beginGetOutboundRoutes(
+    resourceGroupName: string,
+    virtualHubName: string,
+    getOutboundRoutesParameters: GetOutboundRoutesParameters,
+    options?: VirtualHubsGetOutboundRoutesOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        virtualHubName,
+        getOutboundRoutesParameters,
+        options
+      },
+      getOutboundRoutesOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Gets the outbound routes configured for the Virtual Hub on a particular connection.
+   * @param resourceGroupName The resource group name of the VirtualHub.
+   * @param virtualHubName The name of the VirtualHub.
+   * @param getOutboundRoutesParameters Parameters supplied to get the outbound routes for a connection
+   *                                    resource.
+   * @param options The options parameters.
+   */
+  async beginGetOutboundRoutesAndWait(
+    resourceGroupName: string,
+    virtualHubName: string,
+    getOutboundRoutesParameters: GetOutboundRoutesParameters,
+    options?: VirtualHubsGetOutboundRoutesOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginGetOutboundRoutes(
+      resourceGroupName,
+      virtualHubName,
+      getOutboundRoutesParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListByResourceGroupNext
    * @param resourceGroupName The resource group name of the VirtualHub.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
@@ -652,6 +846,56 @@ const getEffectiveVirtualHubRoutesOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.effectiveRoutesParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.virtualHubName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const getInboundRoutesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/inboundRoutes",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.getInboundRoutesParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.virtualHubName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const getOutboundRoutesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/outboundRoutes",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.getOutboundRoutesParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

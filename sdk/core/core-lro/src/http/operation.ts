@@ -208,9 +208,10 @@ export async function initHttpOperation<TResult, TState>(inputs: {
   stateProxy: StateProxy<TState, TResult>;
   resourceLocationConfig?: LroResourceLocationConfig;
   processResult?: (result: unknown, state: TState) => TResult;
+  setErrorAsResult: boolean;
   lro: LongRunningOperation;
 }): Promise<RestorableOperationState<TState>> {
-  const { stateProxy, resourceLocationConfig, processResult, lro } = inputs;
+  const { stateProxy, resourceLocationConfig, processResult, lro, setErrorAsResult } = inputs;
   return initOperation({
     init: async () => {
       const response = await lro.sendInitialRequest();
@@ -232,6 +233,7 @@ export async function initHttpOperation<TResult, TState>(inputs: {
       ? ({ flatResponse }, state) => processResult(flatResponse, state)
       : ({ flatResponse }) => flatResponse as TResult,
     getOperationStatus: getStatusFromInitialResponse,
+    setErrorAsResult,
   });
 }
 
@@ -300,8 +302,18 @@ export async function pollHttpOperation<TState, TResult>(inputs: {
   setDelay: (intervalInMs: number) => void;
   options?: { abortSignal?: AbortSignalLike };
   state: RestorableOperationState<TState>;
+  setErrorAsResult: boolean;
 }): Promise<void> {
-  const { lro, stateProxy, options, processResult, updateState, setDelay, state } = inputs;
+  const {
+    lro,
+    stateProxy,
+    options,
+    processResult,
+    updateState,
+    setDelay,
+    state,
+    setErrorAsResult,
+  } = inputs;
   return pollOperation({
     state,
     stateProxy,
@@ -320,5 +332,6 @@ export async function pollHttpOperation<TState, TResult>(inputs: {
      * references an inner this, so we need to preserve a reference to it.
      */
     poll: async (location, inputOptions) => lro.sendPollRequest(location, inputOptions),
+    setErrorAsResult,
   });
 }
