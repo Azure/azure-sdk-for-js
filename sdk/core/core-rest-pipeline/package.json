@@ -8,9 +8,14 @@
   "type": "module",
   "export": {
     ".": {
-      "types": "core-rest-pipeline.shims.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist-esm/src/index.js"
+      "require": {
+        "types": "core-rest-pipeline.shims.d.ts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "core-rest-pipeline.shims.d.cts",
+        "default": "./dist-esm/src/index.js"
+      }
     }
   },
   "browser": {
@@ -31,6 +36,9 @@
     "<3.6": {
       "core-rest-pipeline.shims.d.ts": [
         "core-rest-pipeline.shims-3_1.d.ts"
+      ],
+      "core-rest-pipeline.shims.d.cts": [
+        "core-rest-pipeline.shims-3_1.d.cts"
       ]
     }
   },
