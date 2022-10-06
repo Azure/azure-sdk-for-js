@@ -1,0 +1,12 @@
+{
+  "extends": "../../../tsconfig.package",
+  "compilerOptions": {
+    "outDir": "./dist-esm",
+    "esModuleInterop": true,
+    "paths": {
+      "@azure-rest/loadtesting": ["./src/index"]
+    },
+    "types": []
+  },
+  "include": ["src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
+}
