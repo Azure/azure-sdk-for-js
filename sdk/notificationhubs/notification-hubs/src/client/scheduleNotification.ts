@@ -31,13 +31,7 @@ export function scheduleNotification(
       const endpoint = context.requestUrl();
       endpoint.pathname += "/schedulednotifications/";
 
-      const headers = await context.createHeaders("scheduleNotification");
-      if (notification.headers) {
-        for (const headerName of Object.keys(notification.headers)) {
-          headers.set(headerName, notification.headers[headerName]);
-        }
-      }
-
+      const headers = await context.createHeaders("scheduleNotification", notification.headers);
       headers.set("ServiceBusNotification-ScheduleTime", scheduledTime.toISOString());
       headers.set("Content-Type", notification.contentType);
       headers.set("ServiceBusNotification-Format", notification.platform);

@@ -45,14 +45,9 @@ export function sendNotification(
         endpoint.searchParams.append("test", "true");
       }
 
-      const headers = await context.createHeaders("sendNotification");
-      if (notification.headers) {
-        for (const headerName of Object.keys(notification.headers)) {
-          headers.set(headerName, notification.headers[headerName]);
-        }
-      }
-
+      const headers = await context.createHeaders("sendNotification", notification.headers);
       headers.set("ServiceBusNotification-Format", notification.platform);
+      
       let body = notification.body;
       let contentType: string = notification.contentType;
 
