@@ -42,7 +42,7 @@ import {
   isSASCredential,
   isTokenCredential,
 } from "@azure/core-auth";
-import { Pipeline, readWriteFailoverHostIteratorFactory } from "@azure/core-rest-pipeline";
+import { Pipeline, readWriteFailoverHostDelegate } from "@azure/core-rest-pipeline";
 import { STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import { decodeContinuationToken, encodeContinuationToken } from "./utils/continuationToken";
 import {
@@ -252,10 +252,10 @@ export class TableClient {
 
     if (this.clientOptions.georedundantFailover) {
       internalPipelineOptions.retryOptions = {
-        ...internalPipelineOptions.retryOptions,
-        failoverHostIteratorFactory: readWriteFailoverHostIteratorFactory({
+        failoverHostDelegate: readWriteFailoverHostDelegate({
           readHosts: [getSecondaryUrlFromPrimary(url)],
         }),
+        ...internalPipelineOptions.retryOptions,
       };
     }
 

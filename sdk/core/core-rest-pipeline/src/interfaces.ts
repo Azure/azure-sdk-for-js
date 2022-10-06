@@ -3,7 +3,7 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationTracingOptions } from "@azure/core-tracing";
-import { FailoverHostIteratorFactory } from "./retryStrategies/failoverRetryStrategy";
+import { FailoverHostDelegate } from "./retryStrategies/failoverRetryStrategy";
 
 /**
  * A HttpHeaders collection represented as a simple JSON object.
@@ -341,11 +341,16 @@ export interface PipelineRetryOptions {
    * to 64000 (64 seconds).
    */
   maxRetryDelayInMs?: number;
+}
 
+/**
+ * Internal options that control how to retry failed requests.
+ */
+export interface InternalPipelineRetryOptions extends PipelineRetryOptions {
   /**
    * A generator for failover endpoints.
    */
-  failoverHostIteratorFactory?: FailoverHostIteratorFactory;
+  failoverHostDelegate?: FailoverHostDelegate;
 }
 
 /**

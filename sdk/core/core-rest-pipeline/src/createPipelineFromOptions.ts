@@ -3,7 +3,7 @@
 
 import { LogPolicyOptions, logPolicy } from "./policies/logPolicy";
 import { Pipeline, createEmptyPipeline } from "./pipeline";
-import { PipelineRetryOptions, TlsSettings } from "./interfaces";
+import { InternalPipelineRetryOptions, PipelineRetryOptions, TlsSettings } from "./interfaces";
 import { RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy";
 import { UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy";
 
@@ -51,6 +51,10 @@ export interface PipelineOptions {
  * the HTTP pipeline for an SDK client.
  */
 export interface InternalPipelineOptions extends PipelineOptions {
+  /**
+   * Internal options that control how to retry failed requests.
+   */
+  retryOptions?: InternalPipelineRetryOptions;
   /**
    * Options to configure request/response logging.
    */

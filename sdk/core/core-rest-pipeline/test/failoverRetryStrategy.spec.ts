@@ -6,7 +6,7 @@ import { createHttpHeaders } from "../src/httpHeaders";
 import { assert } from "chai";
 import {
   failoverRetryStrategy,
-  readWriteFailoverHostIteratorFactory,
+  readWriteFailoverHostDelegate,
 } from "../src/retryStrategies/failoverRetryStrategy";
 import { DefaultRetryPolicyOptions } from "../src/policies/defaultRetryPolicy";
 import sinon from "sinon";
@@ -21,7 +21,7 @@ describe(`failoverRetryStrategy`, () => {
     maxRetries,
     maxRetryDelayInMs: 1600,
     retryDelayInMs: 100,
-    failoverHostIteratorFactory: readWriteFailoverHostIteratorFactory({ readHosts, writeHosts }),
+    failoverHostDelegate: readWriteFailoverHostDelegate({ readHosts, writeHosts }),
   };
 
   const strategy = failoverRetryStrategy(options);

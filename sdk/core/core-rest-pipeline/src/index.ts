@@ -8,6 +8,7 @@ export {
   HttpClient,
   HttpHeaders,
   HttpMethods,
+  InternalPipelineRetryOptions,
   KeyObject,
   PipelineRequest,
   PipelineResponse,
@@ -88,7 +89,7 @@ export {
 } from "./policies/bearerTokenAuthenticationPolicy";
 export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";
 export {
-  readWriteFailoverHostIteratorFactory,
-  FailoverHostIteratorFactory as FailoverHostGenerator,
+  readWriteFailoverHostDelegate,
+  FailoverHostDelegate,
   FailoverHostState,
 } from "./retryStrategies/failoverRetryStrategy";

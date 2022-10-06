@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineRetryOptions } from "../interfaces";
+import { InternalPipelineRetryOptions } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStrategy";
 import { throttlingRetryStrategy } from "../retryStrategies/throttlingRetryStrategy";
@@ -17,7 +17,7 @@ export const defaultRetryPolicyName = "defaultRetryPolicy";
 /**
  * Options that control how to retry failed requests.
  */
-export interface DefaultRetryPolicyOptions extends PipelineRetryOptions {}
+export interface DefaultRetryPolicyOptions extends InternalPipelineRetryOptions {}
 
 /**
  * A policy that retries according to three strategies:
@@ -28,7 +28,7 @@ export interface DefaultRetryPolicyOptions extends PipelineRetryOptions {}
 export function defaultRetryPolicy(options: DefaultRetryPolicyOptions = {}): PipelinePolicy {
   const failover = failoverRetryStrategy(options);
   const strategies = [throttlingRetryStrategy(), failover, exponentialRetryStrategy(options)];
-  if (!options.failoverHostIteratorFactory) {
+  if (!options.failoverHostDelegate) {
     strategies.splice(strategies.indexOf(failover), 1);
   }
   return {

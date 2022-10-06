@@ -10,7 +10,7 @@ import { exponentialDelayInMs } from "../util/retryAfter";
 /**
  * An iterator factory for failover hosts. Yields the next host to retry, or yields undefined if failover should be skipped.
  */
-export type FailoverHostIteratorFactory = (
+export type FailoverHostDelegate = (
   retryState: RetryInformation,
   options: DefaultRetryPolicyOptions
 ) => Iterator<FailoverHostState | undefined, void, RetryInformation>;
@@ -42,10 +42,10 @@ interface FailoverHosts {
  *
  * If the request method is GET, HEAD, or OPTIONS, it cycles through `readHosts`. Otherwise, it cycles through `writeHosts`.
  */
-export function readWriteFailoverHostIteratorFactory(options: {
+export function readWriteFailoverHostDelegate(options: {
   readHosts?: string[];
   writeHosts?: string[];
-}): FailoverHostIteratorFactory {
+}): FailoverHostDelegate {
   const { readHosts, writeHosts } = options;
   const readHostStateList: FailoverHosts = {
     index: 0,
@@ -105,7 +105,7 @@ export function readWriteFailoverHostIteratorFactory(options: {
  * @returns An exponential retry strategy with support for multiple endpoints
  */
 export function failoverRetryStrategy(options: DefaultRetryPolicyOptions): RetryStrategy {
-  const generatorMap = new WeakMap<PipelineRequest, ReturnType<FailoverHostIteratorFactory>>();
+  const generatorMap = new WeakMap<PipelineRequest, ReturnType<FailoverHostDelegate>>();
   return {
     name: "failoverRetryStrategy",
     retry(state) {
@@ -115,13 +115,13 @@ export function failoverRetryStrategy(options: DefaultRetryPolicyOptions): Retry
         return { skipStrategy: true };
       }
 
-      if (!options.failoverHostIteratorFactory) {
+      if (!options.failoverHostDelegate) {
         return { skipStrategy: true };
       }
 
       // Register a generator for failover hosts for this request (and all of its retries)
       if (!generatorMap.has(response.request)) {
-        generatorMap.set(response.request, options.failoverHostIteratorFactory(state, options));
+        generatorMap.set(response.request, options.failoverHostDelegate(state, options));
       }
 
       // Get the next host for this request

@@ -93,7 +93,7 @@ export const decompressResponsePolicyName = "decompressResponsePolicy";
 export function defaultRetryPolicy(options?: DefaultRetryPolicyOptions): PipelinePolicy;
 
 // @public
-export interface DefaultRetryPolicyOptions extends PipelineRetryOptions {
+export interface DefaultRetryPolicyOptions extends InternalPipelineRetryOptions {
 }
 
 // @public
@@ -110,7 +110,7 @@ export interface ExponentialRetryPolicyOptions {
 }
 
 // @public
-export type FailoverHostGenerator = (retryState: RetryInformation, options: DefaultRetryPolicyOptions) => Iterator<FailoverHostState | undefined, void, RetryInformation>;
+export type FailoverHostDelegate = (retryState: RetryInformation, options: DefaultRetryPolicyOptions) => Iterator<FailoverHostState | undefined, void, RetryInformation>;
 
 // @public
 export interface FailoverHostState {
@@ -158,6 +158,12 @@ export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" |
 // @public
 export interface InternalPipelineOptions extends PipelineOptions {
     loggingOptions?: LogPolicyOptions;
+    retryOptions?: InternalPipelineRetryOptions;
+}
+
+// @public
+export interface InternalPipelineRetryOptions extends PipelineRetryOptions {
+    failoverHostDelegate?: FailoverHostDelegate;
 }
 
 // @public
@@ -275,7 +281,6 @@ export interface PipelineResponse {
 
 // @public
 export interface PipelineRetryOptions {
-    failoverHostIteratorFactory?: FailoverHostGenerator;
     maxRetries?: number;
     maxRetryDelayInMs?: number;
     retryDelayInMs?: number;
@@ -312,10 +317,10 @@ export type RawHttpHeaders = {
 export type RawHttpHeadersInput = Record<string, string | number | boolean>;
 
 // @public
-export function readWriteFailoverHostIteratorFactory(options: {
+export function readWriteFailoverHostDelegate(options: {
     readHosts?: string[];
     writeHosts?: string[];
-}): FailoverHostGenerator;
+}): FailoverHostDelegate;
 
 // @public
 export function redirectPolicy(options?: RedirectPolicyOptions): PipelinePolicy;
