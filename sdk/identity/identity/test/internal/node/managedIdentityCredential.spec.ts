@@ -25,7 +25,7 @@ import { join } from "path";
 import { logger } from "../../../src/credentials/managedIdentityCredential/cloudShellMsi";
 import { tmpdir } from "os";
 
-describe("ManagedIdentityCredential", function () {
+describe.only("ManagedIdentityCredential", function () {
   let testContext: IdentityTestContextInterface;
   let envCopy: string = "";
 
@@ -159,7 +159,7 @@ describe("ManagedIdentityCredential", function () {
       authRequest.url.indexOf(`api-version=${imdsApiVersion}`) > -1,
       "URL does not have expected version"
     );
-    const expectedMessage = `azure:identity:info [Authenticated account] Client ID: HIDDEN. Tenant ID: HIDDEN. User Principal Name: No User Principal Name available. Object ID (user): HIDDEN`;
+    const expectedMessage = `azure:identity:info ManagedIdentityCredential => getToken() => SUCCESS. Scopes: https://service/.default.`;
     assert.equal((spy.getCall(spy.callCount - 3).args[0] as any as string).trim(), expectedMessage);
     AzureLogger.destroy();
   });
@@ -258,8 +258,7 @@ describe("ManagedIdentityCredential", function () {
     });
     assert.ok(error!.message!.indexOf("No managed identity endpoint found.") > -1);
   });
-
-  // TODO:needs-to-fix
+//no authority host validation and metadata discovery to be done in managed identity
   it("IMDS MSI retries and succeeds on 404", async function () {
     const { result, error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
@@ -274,7 +273,7 @@ describe("ManagedIdentityCredential", function () {
         }),
       ],
     });
-
+    console.log(error);
     assert.isUndefined(error);
     assert.equal(result?.token, "token");
   });
@@ -310,7 +309,7 @@ describe("ManagedIdentityCredential", function () {
         createResponse(503, {}, { "Retry-After": "2" }),
         createResponse(503, {}, { "Retry-After": "2" }),
         createResponse(503, {}, { "Retry-After": "2" }),
-        createResponse(200, { access_token: "token", expires_on: "1506484173" }),
+        createResponse(200, { access_token: "token", expires_on: 1506484173 }),
       ],
     });
 
@@ -522,6 +521,7 @@ describe("ManagedIdentityCredential", function () {
         createResponse(200, { access_token: "token", expires_on: "1506484173" }),
       ],
     });
+    console.log(authDetails2);
     assert.isUndefined(authDetails2.error);
     assert.equal(authDetails2.requests.length, 1);
     assert.equal(authDetails2.result?.token, "token");
@@ -544,6 +544,8 @@ describe("ManagedIdentityCredential", function () {
     });
 
     const authRequest = authDetails.requests[0];
+    console.log("authdetails=")
+    console.log(authDetails)
     const query = new URLSearchParams(authRequest.url.split("?")[1]);
 
     assert.equal(authRequest.method, "GET");
@@ -560,7 +562,7 @@ describe("ManagedIdentityCredential", function () {
     );
     console.log(authDetails)
     if (authDetails.result?.token) {
-      assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000);
+      assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000000);
     } else {
       assert.fail("No token was returned!");
     }
@@ -600,7 +602,7 @@ describe("ManagedIdentityCredential", function () {
       "URL does not have expected version"
     );
     if (authDetails.result?.token) {
-      assert.equal(authDetails.result.expiresOnTimestamp, 1624157878000);
+      assert.equal(authDetails.result.expiresOnTimestamp, 1624157878000000);
     } else {
       assert.fail("No token was returned!");
     }
@@ -640,7 +642,7 @@ describe("ManagedIdentityCredential", function () {
       "URL does not have expected version"
     );
     if (authDetails.result?.token) {
-      assert.equal(authDetails.result.expiresOnTimestamp, 1624157878000);
+      assert.equal(authDetails.result.expiresOnTimestamp, 1624157878000000);
     } else {
       assert.fail("No token was returned!");
     }
@@ -981,7 +983,7 @@ describe("ManagedIdentityCredential", function () {
 
     if (authDetails.result!.token) {
       // We use Date.now underneath.
-      assert.equal(authDetails.result!.expiresOnTimestamp, 1000);
+      assert.equal(authDetails.result!.expiresOnTimestamp, 1000000);
     } else {
       assert.fail("No token was returned!");
     }
@@ -1023,7 +1025,7 @@ describe("ManagedIdentityCredential", function () {
 
     if (authDetails.result!.token) {
       // We use Date.now underneath.
-      assert.equal(authDetails.result!.expiresOnTimestamp, 1000);
+      assert.equal(authDetails.result!.expiresOnTimestamp, 1000000);
     } else {
       assert.fail("No token was returned!");
     }
@@ -1051,7 +1053,7 @@ describe("ManagedIdentityCredential", function () {
     console.log(confidentialSpy.callCount);
 
     if (authDetails.result?.token) {
-      assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000);
+      assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000000);
     } else {
       assert.fail("No token was returned!");
     }
@@ -1106,9 +1108,9 @@ describe("ManagedIdentityCredential", function () {
       );
       assert.strictEqual(decodeURIComponent(body.get("scope")!), "https://service/.default");
       assert.strictEqual(authDetails.result!.token, "token");
-      assert.strictEqual(authDetails.result!.expiresOnTimestamp, 1000);
+      assert.strictEqual(authDetails.result!.expiresOnTimestamp, 1000000);
     });
-
+   //TODO: needs fix
     it("reads from the token file again only after 5 minutes have passed", async function (this: Mocha.Context) {
       // Keep in mind that in this test we're also testing:
       // - Client ID on environment variable.
@@ -1175,6 +1177,7 @@ describe("ManagedIdentityCredential", function () {
           }),
         ],
       });
+      console.log("authdetails first", authDetails);
       authRequest = authDetails.requests[0];
       body = new URLSearchParams(authRequest.body);
       assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), newExpectedAssertion);
@@ -1194,6 +1197,7 @@ describe("ManagedIdentityCredential", function () {
           }),
         ],
       });
+      console.log("authdetails", authDetails);
       authRequest = authDetails.requests[0];
       body = new URLSearchParams(authRequest.body);
       assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), expectedAssertion);
@@ -1212,6 +1216,7 @@ describe("ManagedIdentityCredential", function () {
           }),
         ],
       });
+      console.log("authDetails third", authDetails);
       authRequest = authDetails.requests[0];
       body = new URLSearchParams(authRequest.body);
       assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), newExpectedAssertion);
