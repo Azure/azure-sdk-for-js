@@ -5,7 +5,7 @@ import { ServiceClient } from "@azure/core-client";
 import { createHttpHeaders, PipelineRequest } from "@azure/core-rest-pipeline";
 import { AzureExporterConfig, AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
 import { diag } from "@opentelemetry/api";
-import { ObservableGauge, ObservableResult } from "@opentelemetry/api-metrics";
+import { BatchObservableResult, ObservableGauge, ObservableResult } from "@opentelemetry/api-metrics";
 import { Meter } from "@opentelemetry/api-metrics/build/src/types/Meter";
 import { MeterProvider, MeterProviderOptions, PeriodicExportingMetricReader, PeriodicExportingMetricReaderOptions } from "@opentelemetry/sdk-metrics-base";
 import { SDK_VERSION } from "../../../../../../sdk/template/template/src/constants";
@@ -41,6 +41,7 @@ export interface IVirtualMachineInfo {
 
 export class StatsbeatMetrics {
   private _commonProperties = {};
+  private _networkProperties = {};
   private _meter: Meter;
   private _isEnabled: boolean = false;
   private _isInitialized: boolean = false;
@@ -183,12 +184,17 @@ export class StatsbeatMetrics {
         attach: this._attach
       };
 
+      this._networkProperties = {
+        endpoint: this._endpointUrl,
+        host: this._host
+      }
+
       // Add observable callbacks
       this._successCountGauge.addCallback(this._successCallback.bind(this));
-      this._failureCountGauge.addCallback(this._failureCallback.bind(this));
-      this._retryCountGauge.addCallback(this._retryCallback.bind(this));
-      this._throttleCountGauge.addCallback(this._throttleCallback.bind(this));
-      this._exceptionCountGauge.addCallback(this._exceptionCallback.bind(this));
+      this._meter.addBatchObservableCallback(this._failureCallback.bind(this), [ this._failureCountGauge ]);
+      this._meter.addBatchObservableCallback(this._retryCallback.bind(this), [ this._retryCountGauge ]);
+      this._meter.addBatchObservableCallback(this._throttleCallback.bind(this), [ this._throttleCountGauge ]);
+      this._meter.addBatchObservableCallback(this._exceptionCallback.bind(this), [ this._exceptionCountGauge ]);
       this._averageDurationGauge.addCallback(this._durationCallback.bind(this));
     } catch (error) {
       diag.debug("Call to get the resource provider failed.");
@@ -203,29 +209,71 @@ export class StatsbeatMetrics {
     counter.totalSuccesfulRequestCount = 0;
   }
 
-  private _failureCallback(observableResult: ObservableResult) {
-    // TODO: Include statusCode - can I call observe on the counter for each unique statusCode?
+  private _failureCallback(observableResult: BatchObservableResult) {
+    // TODO: Include statusCode - implement the batched observable callback. Example at:
+    // https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/opentelemetry-sdk-metrics
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
-    observableResult.observe(counter.totalFailedRequestCount, this._commonProperties);
-    counter.totalFailedRequestCount = 0;
+
+    // Takes the failureCountGauge, value (of the counter), and attributes
+    // create a unqiue counter based on statusCode as well
+    // append statusCode to attributes so the newly created attributes are unique.
+    let attributes = Object.assign(
+      this._networkProperties,
+      this._commonProperties,
+      { "statusCode": 0 }
+    );
+
+    // For each { statusCode -> count } mapping, call observe, passing the count and attributes that include the statusCode
+    for (let i = 0; i < counter.totalFailedRequestCount.length; i++) {
+      attributes.statusCode = counter.totalFailedRequestCount[i].statusCode;
+      observableResult.observe(this._failureCountGauge, counter.totalFailedRequestCount[i].count, attributes);
+      counter.totalFailedRequestCount[i].count = 0;
+    }
   }
 
-  private _retryCallback(observableResult: ObservableResult) {
+  private _retryCallback(observableResult: BatchObservableResult) {
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
-    observableResult.observe(counter.retryCount, this._commonProperties);
-    counter.retryCount = 0;
+    let attributes = Object.assign(
+      this._networkProperties,
+      this._commonProperties,
+      { "statusCode": 0 }
+    );
+
+    for (let i = 0; i < counter.retryCount.length; i++) {
+      attributes.statusCode = counter.retryCount[i].statusCode;
+      observableResult.observe(this._retryCountGauge, counter.retryCount[i].count, attributes);
+      counter.retryCount[i].count = 0;
+    }
   }
 
-  private _throttleCallback(observableResult: ObservableResult) {
+  private _throttleCallback(observableResult: BatchObservableResult) {
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
-    observableResult.observe(counter.throttleCount, this._commonProperties);
-    counter.throttleCount = 0;
+    let attributes = Object.assign(
+      this._networkProperties,
+      this._commonProperties,
+      { "statusCode": 0 }
+    );
+
+    for (let i = 0; i < counter.throttleCount.length; i++) {
+      attributes.statusCode = counter.throttleCount[i].statusCode;
+      observableResult.observe(this._throttleCountGauge, counter.throttleCount[i].count, attributes);
+      counter.throttleCount[i].count = 0;
+    }
   }
 
-  private _exceptionCallback(observableResult: ObservableResult) {
+  private _exceptionCallback(observableResult: BatchObservableResult) {
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
-    observableResult.observe(counter.exceptionCount, this._commonProperties);
-    counter.exceptionCount = 0;
+    let attributes = Object.assign(
+      this._networkProperties,
+      this._commonProperties,
+      { "exceptionType": "" }
+    );
+
+    for (let i = 0; i < counter.exceptionCount.length; i++) {
+      attributes.exceptionType = counter.exceptionCount[i].exceptionType;
+      observableResult.observe(this._exceptionCountGauge, counter.exceptionCount[i].count, attributes);
+      counter.exceptionCount[i].count = 0;
+    }
   }
 
   private _durationCallback(observableResult: ObservableResult) {
@@ -245,39 +293,62 @@ export class StatsbeatMetrics {
     counter.intervalRequestExecutionTime += duration;
   }
 
-  public countFailure(duration: number) {
+  public countFailure(duration: number, statusCode: number) {
     if (!this.isEnabled) {
       return;
     }
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
+    let currentStatusCounter = counter.totalFailedRequestCount.find((statusCounter) => statusCode === statusCounter.statusCode);
+
+    if (currentStatusCounter) {
+      currentStatusCounter.count++;
+    } else {
+      counter.totalFailedRequestCount.push({ statusCode: statusCode, count: 1 });
+    }
+
     counter.totalRequestCount++;
-    counter.totalFailedRequestCount++;
     counter.intervalRequestExecutionTime += duration;
-
   }
 
-  public countRetry() {
+  public countRetry(statusCode: number) {
     if (!this.isEnabled) {
       return;
     }
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
-    counter.retryCount++;
+    let currentStatusCounter = counter.retryCount.find((statusCounter) => statusCode === statusCounter.statusCode);
+
+    if (currentStatusCounter) {
+      currentStatusCounter.count++;
+    } else {
+      counter.retryCount.push({ statusCode: statusCode, count: 1 });
+    }
   }
 
-  public countThrottle() {
+  public countThrottle(statusCode: number) {
     if (!this.isEnabled) {
       return;
     }
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
-    counter.throttleCount++;
+    let currentStatusCounter = counter.throttleCount.find((statusCounter) => statusCode === statusCounter.statusCode);
+
+    if (currentStatusCounter) {
+      currentStatusCounter.count++;
+    } else {
+      counter.throttleCount.push({ statusCode: statusCode, count: 1 });
+    }
   }
 
-  public countException() {
+  public countException(exceptionType: Error) {
     if (!this.isEnabled) {
       return;
     }
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
-    counter.exceptionCount++;
+    let currentErrorCounter = counter.exceptionCount.find((exceptionCounter) => exceptionType.name === exceptionCounter.exceptionType);
+    if (currentErrorCounter) {
+      currentErrorCounter.count++;
+    } else {
+      counter.exceptionCount.push({ exceptionType: exceptionType.name, count: 1 });
+    }
   }
 
   public countAverageDuration() {
@@ -298,11 +369,6 @@ export class StatsbeatMetrics {
 
   // Gets a networkStatsbeat counter if one exists for the given endpoint
   private _getNetworkStatsbeatCounter(endpoint: string, host: string): NetworkStatsbeat {
-    // TODO: Managing the number of gauges.
-    // If creating a new one create a new gauge. Counter -> Gauge
-    // Network statsbeat should have a gauge.
-    // Need to check with Leighton how his implementation manages this, otherwise dynamically create a new gauge every time a new counter is created.
-
     // Check if the counter is available
     for (let i = 0; i < this._networkStatsbeatCollection.length; i++) {
       // Same object

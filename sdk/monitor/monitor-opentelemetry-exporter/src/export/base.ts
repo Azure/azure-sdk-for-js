@@ -69,6 +69,8 @@ export abstract class AzureMonitorBaseExporter {
     this._persister = new FileSystemPersist(this._options);
 
     this._statsbeatMetrics = new StatsbeatMetrics(this._instrumentationKey, this._options.endpointUrl);
+    // Enable by default -- shut off if three failures occur
+    this._statsbeatMetrics.enable(true);
     this._retryTimer = null;
     diag.debug("AzureMonitorTraceExporter was successfully setup");
   }
@@ -136,7 +138,7 @@ export abstract class AzureMonitorBaseExporter {
       } else if (statusCode && isRetriable(statusCode)) {
         // Failed -- persist failed data
         if (statusCode === 429 && !this._isStatsbeatExporter) {
-          this._statsbeatMetrics.countThrottle();
+          this._statsbeatMetrics.countThrottle(statusCode);
         }
         if (result) {
           diag.info(result);
@@ -151,7 +153,7 @@ export abstract class AzureMonitorBaseExporter {
           }
           if (filteredEnvelopes.length > 0) {
             if (!this._isStatsbeatExporter) {
-              this._statsbeatMetrics.countRetry();
+              this._statsbeatMetrics.countRetry(statusCode);
             }
             // calls resultCallback(ExportResult) based on result of persister.push
             return await this._persist(filteredEnvelopes);
@@ -160,7 +162,7 @@ export abstract class AzureMonitorBaseExporter {
           if (this._isStatsbeatExporter) {
             this._statsbeatFailureCount++;
           } else {
-            this._statsbeatMetrics.countFailure(endTime - startTime);
+            this._statsbeatMetrics.countFailure((endTime - startTime), statusCode);
           }
           return {
             code: ExportResultCode.FAILED,
@@ -168,14 +170,17 @@ export abstract class AzureMonitorBaseExporter {
         } else {
           // calls resultCallback(ExportResult) based on result of persister.push
           if (!this._isStatsbeatExporter) {
-            this._statsbeatMetrics.countRetry();
+            this._statsbeatMetrics.countRetry(statusCode);
           }
           return await this._persist(envelopes);
         }
       } else {
         // Failed -- not retriable
         if (!this._isStatsbeatExporter) {
-          this._statsbeatMetrics.countFailure(endTime - startTime);
+          // TODO: Determine the process if statusCode is undefined. Should I make statusCode optional and allow undefined -> count statsbeat counts?
+          if (statusCode) {
+            this._statsbeatMetrics.countFailure((endTime - startTime), statusCode);
+          }
         }
         if (this._isStatsbeatExporter) {
           this._statsbeatFailureCount++;
@@ -205,22 +210,26 @@ export abstract class AzureMonitorBaseExporter {
             }
           }
         } else {
+          let redirectError = new Error("Circular redirect");
           if (this._isStatsbeatExporter) {
             this._statsbeatFailureCount++;
           } else {
-            this._statsbeatMetrics.countException();
+            this._statsbeatMetrics.countException(redirectError);
           }
-          return { code: ExportResultCode.FAILED, error: new Error("Circular redirect") };
+          return { code: ExportResultCode.FAILED, error: redirectError };
         }
       } else if (restError.statusCode && isRetriable(restError.statusCode)) {
         if (!this._isStatsbeatExporter) {
-          this._statsbeatMetrics.countRetry();
+          this._statsbeatMetrics.countRetry(restError.statusCode);
         }
         return await this._persist(envelopes);
       }
       if (this._isNetworkError(restError)) {
         if (!this._isStatsbeatExporter) {
-          this._statsbeatMetrics.countRetry();
+          // TODO: How robust should we make counting this retry? If there's no statusCode present is counting the retry some other way worth it?
+          if (restError.statusCode) {
+            this._statsbeatMetrics.countRetry(restError.statusCode);
+          }
         }
         diag.error(
           "Retrying due to transient client side error. Error message:",
@@ -230,7 +239,7 @@ export abstract class AzureMonitorBaseExporter {
       }
 
       if (!this._isStatsbeatExporter) {
-        this._statsbeatMetrics.countException();
+        this._statsbeatMetrics.countException(restError);
       }
       diag.error(
         "Envelopes could not be exported and are not retriable. Error message:",

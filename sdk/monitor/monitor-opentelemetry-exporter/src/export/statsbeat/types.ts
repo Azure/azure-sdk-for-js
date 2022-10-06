@@ -13,13 +13,13 @@ export class NetworkStatsbeat {
 
   public totalSuccesfulRequestCount: number;
 
-  public totalFailedRequestCount: number;
+  public totalFailedRequestCount: { statusCode: number, count: number }[];
 
-  public retryCount: number;
+  public retryCount: { statusCode: number, count: number }[];
 
-  public exceptionCount: number;
+  public exceptionCount: { exceptionType: string, count: number }[];
 
-  public throttleCount: number;
+  public throttleCount: { statusCode: number, count: number }[];
 
   public intervalRequestExecutionTime: number;
 
@@ -32,10 +32,10 @@ export class NetworkStatsbeat {
       this.host = host;
       this.totalRequestCount = 0;
       this.totalSuccesfulRequestCount = 0;
-      this.totalFailedRequestCount = 0;
-      this.retryCount = 0;
-      this.exceptionCount = 0;
-      this.throttleCount = 0;
+      this.totalFailedRequestCount = [];
+      this.retryCount = [];
+      this.exceptionCount = [];
+      this.throttleCount = [];
       this.intervalRequestExecutionTime = 0;
       this.lastIntervalRequestExecutionTime = 0;
       this.lastTime = +new Date();
