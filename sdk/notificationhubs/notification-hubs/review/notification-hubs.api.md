@@ -413,14 +413,10 @@ export interface InstallationTemplate {
     tags?: string[];
 }
 
-// Warning: (ae-internal-missing-underscore) The name "isDirectSendNotificationOptions" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
+// @public
 export function isDirectSendNotificationOptions(options: unknown): options is DirectSendNotificationOptions;
 
-// Warning: (ae-internal-missing-underscore) The name "isSendNotificationOptions" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
+// @public
 export function isSendNotificationOptions(options: unknown): options is SendNotificationOptions;
 
 // @public

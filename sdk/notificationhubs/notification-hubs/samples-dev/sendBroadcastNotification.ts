@@ -49,9 +49,8 @@ async function main() {
     },
   });
 
-  // Not required but can set test send to true for debugging purposes.
-  const sendOptions: SendNotificationOptions = { enableTestSend: false };
-  const result = await sendNotification(context, notification, sendOptions);
+  // Can set enableTestSend to true for debugging purposes
+  const result = await sendNotification(context, notification, { enableTestSend: false });
 
   console.log(`Tag List send Tracking ID: ${result.trackingId}`);
   console.log(`Tag List Correlation ID: ${result.correlationId}`);

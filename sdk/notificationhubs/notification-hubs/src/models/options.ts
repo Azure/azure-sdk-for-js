@@ -35,7 +35,6 @@ export interface SendNotificationOptions extends OperationOptions {
 }
 
 /**
- * @internal
  * Determines whether the options are of type SendNotificationOptions.
  * @param options - The options to test if SendNotificationOptions.
  * @returns true if SendNotificationOptions otherwise false.
@@ -55,7 +54,6 @@ export interface DirectSendNotificationOptions extends OperationOptions {
 }
 
 /**
- * @internal
  * Determines whether the options are of type DirectSendNotificationOptions.
  * @param options - The options to test if DirectSendNotificationOptions.
  * @returns true if DirectSendNotificationOptions otherwise false.

@@ -7,13 +7,14 @@ import {
   isDirectSendNotificationOptions,
   isSendNotificationOptions,
 } from "../models/options.js";
+import { createMultipartDirectNotification, normalizeTags } from "../utils/notificationUtils.js";
 import { createRequest, parseNotificationSendResponse, sendRequest } from "./internal/_client.js";
 import { BrowserPushChannel } from "../models/installation.js";
 import { Notification } from "../models/notification.js";
 import { NotificationHubsClientContext } from "./index.js";
 import { NotificationHubsMessageResponse } from "../models/notificationDetails.js";
-import { createMultipartDirectNotification } from "../utils/notificationUtils.js";
 import { tracingClient } from "../utils/tracing.js";
+import { v4 as uuid } from "uuid";
 
 /**
  * Sends push notifications to devices that match the given tags or tag expression.
@@ -58,8 +59,9 @@ export function sendNotification(
       // Check for direct batch send
       if (isDirectSendNotificationOptions(options) && Array.isArray(options.deviceHandle)) {
         endpoint.searchParams.append("direct", "true");
-        contentType = `multipart/mixed; boundary = "nh-batch-multipart-boundary"`;
-        body = createMultipartDirectNotification(notification, options.deviceHandle);
+        const boundary = `nh-boundary-${uuid()}`;
+        contentType = `multipart/mixed; boundary = "${boundary}"`;
+        body = createMultipartDirectNotification(boundary, notification, options.deviceHandle);
       } else if (isDirectSendNotificationOptions(options)) {
         endpoint.searchParams.append("direct", "true");
 
@@ -73,13 +75,7 @@ export function sendNotification(
         }
       } else if (isSendNotificationOptions(options)) {
         if (options.tags) {
-          let tagExpression = null;
-          if (Array.isArray(options.tags)) {
-            tagExpression = options.tags.join("||");
-          } else {
-            tagExpression = options.tags;
-          }
-          headers.set("ServiceBusNotification-Tags", tagExpression);
+          headers.set("ServiceBusNotification-Tags", normalizeTags(options.tags));
         }
       }
 

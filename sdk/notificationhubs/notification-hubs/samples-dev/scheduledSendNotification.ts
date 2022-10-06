@@ -16,7 +16,6 @@
  */
 
 import * as dotenv from "dotenv";
-import { ScheduleNotificationOptions } from "../src/models/options.js";
 import { createClientContext } from "@azure/notification-hubs/client";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
 import { scheduleNotification } from "@azure/notification-hubs/client/scheduleNotification";
@@ -45,8 +44,9 @@ async function main() {
   // Schedule 8 hours from nows
   const scheduledTime = new Date(Date.now() + 8 * 60 * 60 * 1000);
 
-  const sendOptions: ScheduleNotificationOptions = { tags: tagExpression };
-  const result = await scheduleNotification(context, scheduledTime, notification, sendOptions);
+  const result = await scheduleNotification(context, scheduledTime, notification, {
+    tags: tagExpression,
+  });
 
   console.log(`Scheduled send Tracking ID: ${result.trackingId}`);
   console.log(`Scheduled send Correlation ID: ${result.correlationId}`);

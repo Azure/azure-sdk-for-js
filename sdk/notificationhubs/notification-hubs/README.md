@@ -383,7 +383,7 @@ const apnsMessage = buildAppleNativeMessage({
 
 // Send the message using the modular approach
 
-const result = await sendBroadcastNotification(context, apnsMessage);
+const result = await sendNotification(context, apnsMessage);
 ```
 
 #### Broadcast Send
@@ -393,7 +393,6 @@ Notification Hubs can be used to send notifications to all registered devices pe
 ```typescript
 import { 
   NotificationHubServiceClient,
-  SendNotificationOptions,
   createAppleNotification,
 } from "@azure/notification-hubs/client";
 
@@ -409,8 +408,7 @@ const message = createAppleNotification({
   },
 });
 
-const sendOptions: SendNotificationOptions = { enableTestSend: false };
-const result = await client.sendBroadcastNotification(message, sendOptions);
+const result = await client.sendNotification(message);
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -424,10 +422,9 @@ if (result.notificationId) {
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { SendOperationOptions } from "@azure/notification-hubs/models/options";
 import { createClientContext } from "@azure/notification-hubs/client";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
-import { sendBroadcastNotification } from "@azure/notification-hubs/client/sendBroadcastNotification";
+import { sendNotification } from "@azure/notification-hubs/client/sendNotification";
 
 const context = createClientContext(connectionString, hubName);
 
@@ -441,8 +438,7 @@ const message = createAppleNotification({
   },
 });
 
-const sendOptions: SendNotificationOptions = { enableTestSend: false };
-const result = await sendBroadcastNotification(context, message, sendOptions);
+const result = await sendNotification(context, message);
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -476,7 +472,7 @@ const message = createAppleNotification({
   },
 });
 
-const result = await client.sendDirectNotification(message, { deviceHandle });
+const result = await client.sendNotification(message, { deviceHandle });
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -525,7 +521,6 @@ In addition to targeting a single device, a user can target multiple devices usi
 ```typescript
 import {
   NotificationHubServiceClient,
-  SendNotificationOptions,
   createAppleMessage,
 } from "@azure/notification-hubs";
 
@@ -542,10 +537,8 @@ const message = createAppleMessage({
   },
 });
 
-
-// Not required but can set test send to true for debugging purposes.
-const sendOptions: SendNotificationOptions = { enableTestSend: false, tags: tagExpression };
-const result = await client.sendNotification(message, sendOptions);
+const sendOptions: SendNotificationOptions = ;
+const result = await client.sendNotification(message, { tags: tagExpression });
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -559,7 +552,6 @@ if (result.notificationId) {
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { SendNotificationOptions } from "@azure/notification-hubs/models/options";
 import { createClientContext } from "@azure/notification-hubs/client";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
 import { sendNotification } from "@azure/notification-hubs/client/sendNotification";
@@ -577,10 +569,7 @@ const message = createAppleMessage({
   },
 });
 
-
-// Not required but can set test send to true for debugging purposes.
-const sendOptions: SendNotificationOptions = { enableTestSend: false, tags: tagExpression };
-const result = await sendNotification(context, tagExpression, message, sendOptions);
+const result = await sendNotification(context, tagExpression, message, { tags: tagExpression });
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -606,7 +595,7 @@ const client = new NotificationHubServiceClient("<connection string>", "<hub nam
 const tagExpression = "likes_hockey && likes_football";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 
-// Schedule 8 hours from nows
+// Schedule 8 hours from now
 const scheduledTime = new Date(Date.now() + (8 * 60 * 60 * 1000));
 
 const message = createAppleNotification({
@@ -638,7 +627,7 @@ const context = createClientContext("<connection string>", "<hub name>");
 const tagExpression = "likes_hockey && likes_football";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 
-// Schedule 8 hours from nows
+// Schedule 8 hours from now
 const scheduledTime = new Date(Date.now() + (8 * 60 * 60 * 1000));
 
 const message = createAppleNotification({
@@ -667,8 +656,7 @@ Azure Notification Hubs has a complete guide to troubleshooting problems with dr
 [Test send](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer#enabletestsend-property) is supported supported in the `sendNotification` method with the `enableTestSend` option:
 
 ```typescript
-const sendOptions: SendOperationOptions = { enableTestSend: true };
-const result = await client.sendNotification(tags, message, sendOptions);
+const result = await client.sendNotification(tags, message, { enableTestSend: true };);
 ```
 
 ### Logging

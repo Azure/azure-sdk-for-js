@@ -27,6 +27,7 @@ import { SendNotificationOptions } from "../src/models/options.js";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
 import { delay } from "@azure/core-util";
 import { getNotificationOutcomeDetails } from "@azure/notification-hubs/client/getNotificationOutcomeDetails";
+import { isRestError } from "@azure/core-rest-pipeline";
 import { sendNotification } from "@azure/notification-hubs/client/sendNotification";
 
 // Load the .env file if it exists
@@ -81,6 +82,11 @@ async function getNotificationDetails(
       state = result.state!;
     } catch (e) {
       // Possible to get 404 for when it doesn't exist yet.
+      if (isRestError(e) && e.statusCode === 404) {
+        continue;
+      } else {
+        throw e;
+      }
     }
 
     await delay(1000);

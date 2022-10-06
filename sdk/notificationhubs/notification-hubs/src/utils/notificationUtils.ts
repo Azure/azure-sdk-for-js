@@ -7,22 +7,28 @@ import { Notification } from "../models/notification.js";
  * @internal
  */
 export function createMultipartDirectNotification(
+  boundaryName: string,
   notification: Notification,
   deviceHandles: string[]
 ): string {
   return (
-    "--nh-batch-multipart-boundary\r\n" +
-    "Content-type: " +
-    notification.contentType +
-    "\r\n" +
+    `--${boundaryName}\r\n` +
+    `Content-type: ${notification.contentType}\r\n` +
     "Content-Disposition: inline; name=notification\r\n\r\n" +
     notification.body +
     "\r\n" +
-    "--nh-batch-multipart-boundary\r\n" +
+    `--${boundaryName}\r\n` +
     "Content-type: application/json\r\n" +
     "Content-Disposition: inline; name=devices\r\n\r\n" +
     JSON.stringify(deviceHandles) +
     "\r\n" +
-    "--nh-batch-multipart-boundary--"
+    `--${boundaryName}--`
   );
+}
+
+/**
+ * @internal
+ */
+export function normalizeTags(tags: string | string[]): string {
+  return Array.isArray(tags) ? tags.join("||") : tags;
 }

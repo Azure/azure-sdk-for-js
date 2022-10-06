@@ -6,6 +6,7 @@ import { Notification } from "../models/notification.js";
 import { NotificationHubsClientContext } from "./index.js";
 import { NotificationHubsMessageResponse } from "../models/notificationDetails.js";
 import { ScheduleNotificationOptions } from "../models/options.js";
+import { normalizeTags } from "../utils/notificationUtils.js";
 import { tracingClient } from "../utils/tracing.js";
 
 /**
@@ -43,13 +44,7 @@ export function scheduleNotification(
 
       const { tags } = options;
       if (tags) {
-        let tagExpression = null;
-        if (Array.isArray(tags)) {
-          tagExpression = tags.join("||");
-        } else {
-          tagExpression = tags;
-        }
-        headers.set("ServiceBusNotification-Tags", tagExpression);
+        headers.set("ServiceBusNotification-Tags", normalizeTags(tags));
       }
 
       const request = createRequest(endpoint, "POST", headers, updatedOptions);
