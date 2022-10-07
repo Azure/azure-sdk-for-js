@@ -15,7 +15,7 @@ import { getUniqueName } from "./util/utils";
 import { throwErrorIfConnectionClosed } from "./util/errors";
 import { SqlRuleFilter } from "./serializers/ruleResourceSerializer";
 import { tracingClient } from "./diagnostics/tracing";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { getPagedAsyncIterator, PagedAsyncIterableIterator, PagedResult, PageSettings } from "@azure/core-paging";
 import { OperationOptions } from "@azure/core-client";
 import { ListRequestOptions } from "./serviceBusAtomManagementClient";
 
@@ -65,6 +65,10 @@ export interface ServiceBusRuleManager {
    * @returns An asyncIterableIterator that supports paging.
    */
   listRules(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options?: OperationOptions
+  ): PagedAsyncIterableIterator<RuleProperties>;
+  listRules2(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: OperationOptions
   ): PagedAsyncIterableIterator<RuleProperties>;
@@ -198,6 +202,29 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
         return retry<RuleProperties[]>(config);
       }
     );
+  }
+
+  public listRules2(
+    options?: OperationOptions
+  ): PagedAsyncIterableIterator<RuleProperties, RuleProperties[], { maxPageSize?: number }> {
+    const that = this;
+    const pagedResult: PagedResult<RuleProperties[], { maxPageSize?: number }, number> = {
+      firstPageLink: 0,
+      async getPage(pageLink, maxPageSize) {
+        const top = maxPageSize ?? 100;
+        const rules = await that.getRules({
+          skip: pageLink,
+          maxCount: top,
+          ...options,
+        });
+        return {
+          page: rules,
+          nextPageLink: rules.length > 0 ? pageLink + rules.length: undefined
+        }
+      }
+    };
+
+    return getPagedAsyncIterator(pagedResult)
   }
 
   private async *listRulesPage(
