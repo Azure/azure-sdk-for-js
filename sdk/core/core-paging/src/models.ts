@@ -17,25 +17,34 @@ export interface PageSettings {
 /**
  * An interface that allows async iterable iteration both to completion and by page.
  */
-export interface PagedAsyncIterableIterator<T, PageT = T[], PageSettingsT = PageSettings> {
+export interface PagedAsyncIterableIterator<
+  TElement,
+  TPage = TElement[],
+  TPageSettings = PageSettings
+> {
   /**
    * The next method, part of the iteration protocol
    */
-  next(): Promise<IteratorResult<T>>;
+  next(): Promise<IteratorResult<TElement>>;
   /**
    * The connection to the async iterator, part of the iteration protocol
    */
-  [Symbol.asyncIterator](): PagedAsyncIterableIterator<T, PageT, PageSettingsT>;
+  [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
   /**
    * Return an AsyncIterableIterator that works a page at a time
    */
-  byPage: (settings?: PageSettingsT) => AsyncIterableIterator<PageT>;
+  byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
 }
 
 /**
  * An interface that describes how to communicate with the service.
  */
-export interface PagedResult<TPage, TPageSettings = PageSettings, TLink = string, T = unknown> {
+export interface PagedResult<
+  TPage,
+  TPageSettings = PageSettings,
+  TLink = string,
+  TElement = unknown
+> {
   /**
    * Link to the first page of results.
    */
@@ -56,5 +65,5 @@ export interface PagedResult<TPage, TPageSettings = PageSettings, TLink = string
   /**
    * A function to extract elements from a page.
    */
-  toElements?: (page: TPage) => T[];
+  toElements?: (page: TPage) => TElement[];
 }
