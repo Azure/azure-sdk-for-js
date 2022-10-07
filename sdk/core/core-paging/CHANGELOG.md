@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Allow `PagedResault.getPage()` to return `undefined`, indicating no more pages left. This avoids having to return a page of empty array in the scenario where the total number of elements on is unknown, and we rely on service returning empty result to know that enumeration is done.
+
 ## 1.3.0 (2022-05-18)
 
 ### Other Changes

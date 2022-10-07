@@ -147,7 +147,7 @@ describe("RuleManager tests", () => {
       assert.deepStrictEqual(correlationFilter.applicationProperties, applicationProperties);
     });
 
-    it.only("list rules", async () => {
+    it("list rules", async () => {
       const ruleManager = serviceBusClient.createRuleManager(topic, subscription);
 
       const sqlRuleName = "sqlRule";
@@ -180,7 +180,7 @@ describe("RuleManager tests", () => {
       };
       await ruleManager.createRule(correlationRuleName, correlationRuleFilter, action);
 
-      const iterator = ruleManager.listRules2();
+      const iterator = ruleManager.listRules();
       const result: RuleProperties[] = [];
       for await (const rule of iterator) {
         result.push(rule);
@@ -188,7 +188,7 @@ describe("RuleManager tests", () => {
       assert.equal(result.length, 3, "Expecting three rules");
     });
 
-    it.only("list rules by page specifying page size", async () => {
+    it("list rules by page specifying page size", async () => {
       const ruleManager = serviceBusClient.createRuleManager(topic, subscription);
 
       const sqlRuleName = "sqlRule";
@@ -221,7 +221,7 @@ describe("RuleManager tests", () => {
       };
       await ruleManager.createRule(correlationRuleName, correlationRuleFilter, action);
 
-      const iterator = ruleManager.listRules2().byPage({ maxPageSize: 1 });
+      const iterator = ruleManager.listRules().byPage({ maxPageSize: 1 });
       let result = await iterator.next();
       assert.equal(result.value.length, 1, "Expecting one rule in first page");
       assert.equal(result.value[0].name, defaultRuleName);
@@ -235,7 +235,7 @@ describe("RuleManager tests", () => {
       assert.equal(result.value, undefined, "Not expecting any more pages");
     });
 
-    it.only("list rules by page without specifying page size", async () => {
+    it("list rules by page without specifying page size", async () => {
       const ruleManager = serviceBusClient.createRuleManager(topic, subscription);
 
       const sqlRuleName = "sqlRule";
@@ -268,9 +268,9 @@ describe("RuleManager tests", () => {
       };
       await ruleManager.createRule(correlationRuleName, correlationRuleFilter, action);
 
-      const iterator = ruleManager.listRules2().byPage();
+      const iterator = ruleManager.listRules().byPage();
       let result = await iterator.next();
-      assert.equal(result.value.length, 3, "Expecting one rule in first page");
+      assert.equal(result.value.length, 3, "Expecting three rules in first page");
       result = await iterator.next();
       assert.equal(result.value, undefined, "Not expecting any more pages");
     });
