@@ -1880,6 +1880,11 @@
       "packageName": "@azure/functions-authentication-events",
       "projectFolder": "sdk/entra/functions-authentication-events",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/developer-devcenter",
+      "projectFolder": "sdk/devcenter/developer-devcenter-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
