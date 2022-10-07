@@ -258,7 +258,7 @@ describe.only("ManagedIdentityCredential", function () {
     });
     assert.ok(error!.message!.indexOf("No managed identity endpoint found.") > -1);
   });
-//no authority host validation and metadata discovery to be done in managed identity
+// no authority host validation and metadata discovery to be done in managed identity
   it("IMDS MSI retries and succeeds on 404", async function () {
     const { result, error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
@@ -1110,7 +1110,7 @@ describe.only("ManagedIdentityCredential", function () {
       assert.strictEqual(authDetails.result!.token, "token");
       assert.strictEqual(authDetails.result!.expiresOnTimestamp, 1000000);
     });
-   //TODO: needs fix
+   // TODO: needs fix
     it("reads from the token file again only after 5 minutes have passed", async function (this: Mocha.Context) {
       // Keep in mind that in this test we're also testing:
       // - Client ID on environment variable.

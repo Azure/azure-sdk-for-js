@@ -121,8 +121,8 @@ export class ManagedIdentityCredential implements TokenCredential {
         maxRetries: 0,
       },
     });
-//azureCloudInstance
-//knownAuthorities OR cloudMetadata & instanceDiscoveryMetadata
+// azureCloudInstance
+// knownAuthorities OR cloudMetadata & instanceDiscoveryMetadata
     this.confidentialApp = new ConfidentialClientApplication({
       auth: {
         clientId: this.clientId ?? DeveloperSignOnClientId,
