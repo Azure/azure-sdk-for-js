@@ -11,8 +11,8 @@ import { LroResponse } from "@azure/core-lro";
 /**
  * Extract several fields of the response to the rawResponse
  *
- * @param getResponse A async function that actually call the backend API.
- * @param options The options for the getResponse callback
+ * @param getResponse - A async function that actually call the backend API.
+ * @param options - The options for the getResponse callback
  * @returns A promise for the API call.
  */
 export async function getRawResponse<TOptions extends OperationOptions, TResponse>(
@@ -41,7 +41,7 @@ export async function getRawResponse<TOptions extends OperationOptions, TRespons
 /**
  * Helper function to create a method that can be passed to sendPollRequest in createHttpPoller.
  *
- * @param settings The settings of the poll request, including client, options and the spec
+ * @param settings - The settings of the poll request, including client, options and the spec
  * @returns A callback that accept the path as input and return the promise of Lro response.
  */
 export function createSendPollRequest<
