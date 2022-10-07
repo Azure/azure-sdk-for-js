@@ -130,12 +130,12 @@ describe("getPagedAsyncIterator", function () {
         if (pageLink === 0) {
           return Promise.resolve({
             page: [1],
-            nextPageLink: 1
+            nextPageLink: 1,
           });
         } else {
           return undefined;
         }
-      }
+      },
     };
 
     const pageIterator = getPagedAsyncIterator(pageResult).byPage();
