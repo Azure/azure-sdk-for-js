@@ -77,6 +77,7 @@ describe("#AzureMonitorBaseExporter", () => {
         const persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
         assert.strictEqual(persistedEnvelopes?.length, 1);
         assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+        assert.strictEqual(true, false, "broken");
       });
 
       it("should persist partial retriable failed telemetry", async () => {

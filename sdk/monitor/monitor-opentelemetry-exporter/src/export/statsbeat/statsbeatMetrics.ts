@@ -7,7 +7,7 @@ import { AzureExporterConfig, AzureMonitorMetricExporter } from "@azure/monitor-
 import { diag } from "@opentelemetry/api";
 import { BatchObservableResult, ObservableGauge, ObservableResult } from "@opentelemetry/api-metrics";
 import { Meter } from "@opentelemetry/api-metrics/build/src/types/Meter";
-import { MeterProvider, MeterProviderOptions, PeriodicExportingMetricReader, PeriodicExportingMetricReaderOptions } from "@opentelemetry/sdk-metrics-base";
+import { MeterProvider, PeriodicExportingMetricReader, PeriodicExportingMetricReaderOptions } from "@opentelemetry/sdk-metrics-base";
 import { SDK_VERSION } from "../../../../../../sdk/template/template/src/constants";
 import { StatsbeatCounter, StatsbeatResourceProvider, STATSBEAT_LANGUAGE } from "../constants";
 import { NetworkStatsbeat } from "./types";
@@ -138,7 +138,7 @@ export class StatsbeatMetrics {
       };
 
       serviceClient.sendRequest(request)
-        .then((res) => {
+        .then((res: any) => {
           if (res.status === 200) {
             return true;
           } else {
@@ -205,7 +205,6 @@ export class StatsbeatMetrics {
   private _successCallback(observableResult: ObservableResult) {
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
     observableResult.observe(counter.totalSuccesfulRequestCount, this._commonProperties);
-    // Clear counter after observing
     counter.totalSuccesfulRequestCount = 0;
   }
 
