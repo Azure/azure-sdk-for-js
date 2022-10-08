@@ -1,14 +1,10 @@
 # Release History
 
-## 8.1.2 (Unreleased)
+## 8.1.2 (2022-10-08)
 
-### Features Added
+**Bugs Fixed**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  -  revert credential scopes
 
 ## 8.1.1 (2022-09-30)
 

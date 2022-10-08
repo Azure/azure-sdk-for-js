@@ -1,14 +1,10 @@
 # Release History
 
-## 1.1.2 (Unreleased)
+## 1.1.2 (2022-10-08)
 
-### Features Added
+**Bugs Fixed**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  -  revert credential scopes
 
 ## 1.1.1 (2022-09-30)
 

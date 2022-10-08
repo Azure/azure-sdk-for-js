@@ -1,14 +1,10 @@
 # Release History
 
-## 11.0.0-beta.3 (Unreleased)
+## 11.0.0-beta.3 (2022-10-08)
 
-### Features Added
+**Bugs Fixed**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  -  revert credential scopes
 
 ## 11.0.0-beta.2 (2022-09-30)
 
