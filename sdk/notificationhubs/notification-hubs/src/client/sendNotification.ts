@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  DirectSendNotificationOptions,
-  SendNotificationOptions,
-  isDirectSendNotificationOptions,
-  isSendNotificationOptions,
-} from "../models/options.js";
+import { DirectSendNotificationOptions, SendNotificationOptions } from "../models/options.js";
 import { createMultipartDirectNotification, normalizeTags } from "../utils/notificationUtils.js";
 import { createRequest, parseNotificationSendResponse, sendRequest } from "./internal/_client.js";
 import { BrowserPushChannel } from "../models/installation.js";
@@ -15,6 +10,10 @@ import { NotificationHubsClientContext } from "./index.js";
 import { NotificationHubsMessageResponse } from "../models/notificationDetails.js";
 import { tracingClient } from "../utils/tracing.js";
 import { v4 as uuid } from "uuid";
+import {
+  isDirectSendNotificationOptions,
+  isSendNotificationOptions,
+} from "../utils/optionUtils.js";
 
 /**
  * Sends push notifications to devices that match the given tags or tag expression.
@@ -29,7 +28,7 @@ export function sendNotification(
   options: DirectSendNotificationOptions | SendNotificationOptions = { enableTestSend: false }
 ): Promise<NotificationHubsMessageResponse> {
   return tracingClient.withSpan(
-    `NotificationHubsClientContext-sendNotification`,
+    `NotificationHubsClientContext.sendNotification`,
     options,
     async (updatedOptions) => {
       const endpoint = context.requestUrl();

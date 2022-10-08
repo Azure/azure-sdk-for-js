@@ -25,7 +25,7 @@ export function scheduleNotification(
   options: ScheduleNotificationOptions = {}
 ): Promise<NotificationHubsMessageResponse> {
   return tracingClient.withSpan(
-    `NotificationHubsClientContext-scheduleNotification`,
+    `NotificationHubsClientContext.scheduleNotification`,
     options,
     async (updatedOptions) => {
       const endpoint = context.requestUrl();
@@ -36,9 +36,8 @@ export function scheduleNotification(
       headers.set("Content-Type", notification.contentType);
       headers.set("ServiceBusNotification-Format", notification.platform);
 
-      const { tags } = options;
-      if (tags) {
-        headers.set("ServiceBusNotification-Tags", normalizeTags(tags));
+      if (options.tags) {
+        headers.set("ServiceBusNotification-Tags", normalizeTags(options.tags));
       }
 
       const request = createRequest(endpoint, "POST", headers, updatedOptions);
