@@ -4,16 +4,16 @@
 import { DirectSendNotificationOptions, SendNotificationOptions } from "../models/options.js";
 import { createMultipartDirectNotification, normalizeTags } from "../utils/notificationUtils.js";
 import { createRequest, parseNotificationSendResponse, sendRequest } from "./internal/_client.js";
+import {
+  isDirectSendNotificationOptions,
+  isSendNotificationOptions,
+} from "../utils/optionUtils.js";
 import { BrowserPushChannel } from "../models/installation.js";
 import { Notification } from "../models/notification.js";
 import { NotificationHubsClientContext } from "./index.js";
 import { NotificationHubsMessageResponse } from "../models/notificationDetails.js";
 import { tracingClient } from "../utils/tracing.js";
 import { v4 as uuid } from "uuid";
-import {
-  isDirectSendNotificationOptions,
-  isSendNotificationOptions,
-} from "../utils/optionUtils.js";
 
 /**
  * Sends push notifications to devices that match the given tags or tag expression.
