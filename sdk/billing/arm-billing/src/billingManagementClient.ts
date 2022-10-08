@@ -93,6 +93,7 @@ export class BillingManagementClient extends coreClient.ServiceClient {
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
+    image.png
     const optionsWithDefaults = {
       ...defaults,
       ...options,
