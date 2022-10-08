@@ -24,9 +24,9 @@ export class AzureMonitorMetricExporter
    * Initializes a new instance of the AzureMonitorMetricExporter class.
    * @param AzureExporterConfig - Exporter configuration.
    */
-  constructor(options: AzureExporterConfig = {}) {
+  constructor(options: AzureExporterConfig = {}, isStatsbeat: boolean) {
     super(options);
-    this._isStatsbeat = options.isStatsbeat;
+    this._isStatsbeat = isStatsbeat;
     diag.debug("AzureMonitorMetricExporter was successfully setup");
   }
 

@@ -77,11 +77,10 @@ export class StatsbeatMetrics {
     this._meterProvider = new MeterProvider();
 
     const exporterConfig: AzureExporterConfig = {
-      connectionString: this._connectionString,
-      isStatsbeat: true
+      connectionString: this._connectionString
     };
 
-    this._azureExporter = new AzureMonitorMetricExporter(exporterConfig);
+    this._azureExporter = new AzureMonitorMetricExporter(exporterConfig, true);
     
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter as any,
