@@ -1,14 +1,10 @@
 # Release History
 
-## 3.0.0-beta.4 (Unreleased)
+## 3.0.0-beta.4 (2022-10-08)
 
-### Features Added
+**Bugs Fixed**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  -  revert credential scopes
 
 ## 3.0.0-beta.3 (2022-09-30)
 

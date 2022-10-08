@@ -66,12 +66,15 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-agrifood/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-agrifood/1.0.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
