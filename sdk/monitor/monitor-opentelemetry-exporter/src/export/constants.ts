@@ -39,5 +39,5 @@ export enum StatsbeatCounter {
   RETRY_COUNT = "Retry Count",
   THROTTLE_COUNT = "Throttle Count",
   EXCEPTION_COUNT = "Exception Count",
-  AVERAGE_DURATION = "Average Durtion"
+  AVERAGE_DURATION = "Average Duration"
 }
