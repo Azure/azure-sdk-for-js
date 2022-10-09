@@ -92,7 +92,7 @@ Seeing a "Generic error" returned from the SDK is most often caused by heavy loa
 
 Example error:
 
-```bash
+```
 (3014) Generic error during training.
 Invalid model created with ID=<model ID>
 ```
