@@ -1,5 +1,15 @@
 # Release History
 
+## 9.0.0-beta.4 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 9.0.0-beta.3 (2022-10-08)
 
 **Bugs Fixed**
