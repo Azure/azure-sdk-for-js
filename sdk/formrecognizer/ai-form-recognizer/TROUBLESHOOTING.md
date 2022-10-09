@@ -31,7 +31,7 @@ Build model errors usually occur when trying to build a custom model. The most c
 #### Invalid training data set
 
 This error indicates that the provided data set does not match the training data requirements.
-Learn more about building a training data set, [here](https://aka.ms/customModelV3).
+Learn more about building a training data set [on Microsoft Learn by following this link](https://aka.ms/customModelV3).
 
 Example error below:
 
