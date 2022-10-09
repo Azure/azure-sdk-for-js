@@ -99,7 +99,7 @@ Invalid model created with ID=<model ID>
 
 ### Unexpected time to build a custom model
 
-It is common to have a longer completion time than what is expected when building a custom model using the `neural` build mode with `DocumentModelAdministrationClient#beginBuildDocumentModel()`. Depending on the service load you can usually expect it to take ~10min.
+It is common to have a longer completion time than what is expected when building a custom model using the `neural` build mode with `DocumentModelAdministrationClient#beginBuildDocumentModel()`.
 
 For simpler use-cases, you can use `template` build mode which uses a different model building algorithm that takes less time. See more about `template` custom models [here](https://aka.ms/custom-template-models). To see more information about `neural` custom models (these models use deep learning to train and build), see documentation [here](https://aka.ms/custom-neural-models).
 
