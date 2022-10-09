@@ -1,88 +1,36 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Chaos/experiments/exampleExperiment?api-version=2022-07-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Chaos/experiments/exampleExperiment?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-chaos/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "eab4eb93-5dc5-41eb-8f16-d5f308c9e4e3"
+        "User-Agent": "azsdk-js-arm-chaos/1.0.0-beta.2 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "cec7eb9b-37b4-4ab0-b2bd-8f82a604138d"
       },
       "RequestBody": null,
-      "StatusCode": 200,
+      "StatusCode": 404,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-07-01-preview, 2021-07-05-preview, 2021-08-11-preview, 2021-09-15-preview, 2022-07-01-preview",
         "Cache-Control": "no-cache",
-        "Content-Encoding": "gzip",
+        "Content-Length": "225",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 14 Sep 2022 01:32:01 GMT",
+        "Date": "Sun, 09 Oct 2022 05:51:53 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
-        "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "37b98253-9a70-41f7-88de-1c3d51813ce3",
-        "x-ms-ratelimit-remaining-subscription-resource-requests": "299",
-        "x-ms-request-id": "37b98253-9a70-41f7-88de-1c3d51813ce3",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220914T013201Z:37b98253-9a70-41f7-88de-1c3d51813ce3"
+        "x-ms-correlation-request-id": "0609970e-d162-4aa1-88aa-b39fd36b1a3a",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "0609970e-d162-4aa1-88aa-b39fd36b1a3a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221009T055153Z:0609970e-d162-4aa1-88aa-b39fd36b1a3a"
       },
       "ResponseBody": {
-        "type": "Microsoft.Chaos/experiments",
-        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Chaos/experiments/exampleExperiment",
-        "name": "exampleExperiment",
-        "systemData": {
-          "createdAt": "2022-09-14T01:31:58.1427439\u002B00:00",
-          "lastModifiedAt": "2022-09-14T01:31:58.1427439\u002B00:00",
-          "createdByType": "User"
-        },
-        "identity": {
-          "type": "SystemAssigned",
-          "principalId": "78ee16c5-d8d8-40ae-aa57-36e2184b86fb",
-          "tenantId": "88888888-8888-8888-8888-888888888888"
-        },
-        "location": "eastus",
-        "properties": {
-          "selectors": [
-            {
-              "type": "List",
-              "id": "f15dd483-3281-4e95-bcbe-cbf535d0de98",
-              "targets": [
-                {
-                  "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts/test-123aa",
-                  "type": "ChaosTarget"
-                }
-              ]
-            }
-          ],
-          "steps": [
-            {
-              "name": "step1",
-              "branches": [
-                {
-                  "name": "branch1",
-                  "actions": [
-                    {
-                      "type": "continuous",
-                      "selectorId": "f15dd483-3281-4e95-bcbe-cbf535d0de98",
-                      "duration": "PT10M",
-                      "parameters": [
-                        {
-                          "key": "readRegion",
-                          "value": "East US"
-                        }
-                      ],
-                      "name": "urn:csci:microsoft:cosmosDB:failover/1.0"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
+        "error": {
+          "code": "ResourceNotFound",
+          "message": "The Resource \u0027Microsoft.Chaos/experiments/exampleExperiment\u0027 under resource group \u0027myjstest\u0027 was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"
         }
       }
     }

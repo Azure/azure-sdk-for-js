@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Chaos/experiments/exampleExperiment?api-version=2022-07-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Chaos/experiments/exampleExperiment?api-version=2022-10-01-preview",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "577",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-chaos/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "79a21687-a3b0-424d-843b-8e0a667f2ca3"
+        "User-Agent": "azsdk-js-arm-chaos/1.0.0-beta.2 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "be3153e5-a6a1-47ce-99e7-a29639471642"
       },
       "RequestBody": {
         "location": "eastus",
@@ -57,77 +57,25 @@
           ]
         }
       },
-      "StatusCode": 200,
+      "StatusCode": 400,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-07-01-preview, 2021-07-05-preview, 2021-08-11-preview, 2021-09-15-preview, 2022-07-01-preview",
         "Cache-Control": "no-cache",
-        "Content-Encoding": "gzip",
+        "Content-Length": "381",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 14 Sep 2022 01:31:59 GMT",
+        "Date": "Sun, 09 Oct 2022 05:51:51 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
-        "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "a77200b6-3f8a-4ef1-b872-8ce42c03590c",
-        "x-ms-ratelimit-remaining-subscription-resource-requests": "99",
-        "x-ms-request-id": "a77200b6-3f8a-4ef1-b872-8ce42c03590c",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220914T013159Z:a77200b6-3f8a-4ef1-b872-8ce42c03590c"
+        "x-ms-correlation-request-id": "ab68ed3d-4ccb-479a-9c94-23c8b8409528",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "ab68ed3d-4ccb-479a-9c94-23c8b8409528",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221009T055152Z:ab68ed3d-4ccb-479a-9c94-23c8b8409528"
       },
       "ResponseBody": {
-        "type": "Microsoft.Chaos/experiments",
-        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Chaos/experiments/exampleExperiment",
-        "name": "exampleExperiment",
-        "systemData": {
-          "createdAt": "2022-09-14T01:31:58.1427439\u002B00:00",
-          "lastModifiedAt": "2022-09-14T01:31:58.1427439\u002B00:00",
-          "createdByType": "User"
-        },
-        "identity": {
-          "type": "SystemAssigned",
-          "principalId": "78ee16c5-d8d8-40ae-aa57-36e2184b86fb",
-          "tenantId": "88888888-8888-8888-8888-888888888888"
-        },
-        "location": "eastus",
-        "properties": {
-          "selectors": [
-            {
-              "type": "List",
-              "id": "f15dd483-3281-4e95-bcbe-cbf535d0de98",
-              "targets": [
-                {
-                  "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts/test-123aa",
-                  "type": "ChaosTarget"
-                }
-              ]
-            }
-          ],
-          "steps": [
-            {
-              "name": "step1",
-              "branches": [
-                {
-                  "name": "branch1",
-                  "actions": [
-                    {
-                      "type": "continuous",
-                      "selectorId": "f15dd483-3281-4e95-bcbe-cbf535d0de98",
-                      "duration": "PT10M",
-                      "parameters": [
-                        {
-                          "key": "readRegion",
-                          "value": "East US"
-                        }
-                      ],
-                      "name": "urn:csci:microsoft:cosmosDB:failover/1.0"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
+        "error": {
+          "code": "NoRegisteredProviderFound",
+          "message": "No registered resource provider found for location \u0027eastus\u0027 and API version \u00272022-10-01-preview\u0027 for type \u0027experiments\u0027. The supported api-versions are \u00272021-09-15-preview, 2022-07-01-preview\u0027. The supported locations are \u0027westcentralus, eastus, westus, centralus, uksouth, westeurope, japaneast, northcentralus, eastus2\u0027."
         }
       }
     }

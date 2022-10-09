@@ -1,66 +1,64 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Chaos/experiments/exampleExperiment?api-version=2022-07-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Chaos/experiments/exampleExperiment?api-version=2022-10-01-preview",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-chaos/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "b05498d4-1b5c-4eff-ac09-5b893cb9ffa0"
+        "User-Agent": "azsdk-js-arm-chaos/1.0.0-beta.2 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "5d4e02cd-b201-4306-8dca-c610caa43923"
       },
       "RequestBody": null,
-      "StatusCode": 200,
+      "StatusCode": 204,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-07-01-preview, 2021-07-05-preview, 2021-08-11-preview, 2021-09-15-preview, 2022-07-01-preview",
         "Cache-Control": "no-cache",
-        "Content-Length": "0",
-        "Date": "Wed, 14 Sep 2022 01:32:08 GMT",
+        "Date": "Sun, 09 Oct 2022 05:51:57 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
-        "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "ea227d64-c4be-4ca1-ae61-3488ad6c2293",
+        "x-ms-correlation-request-id": "57bd1862-2291-4d36-a2a1-e658bcb1c0d9",
         "x-ms-ratelimit-remaining-subscription-resource-requests": "99",
-        "x-ms-request-id": "ea227d64-c4be-4ca1-ae61-3488ad6c2293",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220914T013208Z:ea227d64-c4be-4ca1-ae61-3488ad6c2293"
+        "x-ms-request-id": "57bd1862-2291-4d36-a2a1-e658bcb1c0d9",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221009T055157Z:57bd1862-2291-4d36-a2a1-e658bcb1c0d9"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Chaos/experiments?api-version=2022-07-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Chaos/experiments?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-chaos/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "a2473e0a-41b7-45f5-8d6c-d0b1f4380b39"
+        "User-Agent": "azsdk-js-arm-chaos/1.0.0-beta.2 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "9effb338-57ee-4d6d-9218-1ee5e7d8a95f"
       },
       "RequestBody": null,
-      "StatusCode": 200,
+      "StatusCode": 404,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Encoding": "gzip",
-        "Content-Length": "12",
+        "Content-Length": "248",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 14 Sep 2022 01:32:08 GMT",
+        "Date": "Sun, 09 Oct 2022 05:51:57 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "582430b7-d5f3-4366-b76e-7e0458ea04ed",
-        "x-ms-ratelimit-remaining-subscription-resource-requests": "297",
-        "x-ms-request-id": "582430b7-d5f3-4366-b76e-7e0458ea04ed",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220914T013208Z:582430b7-d5f3-4366-b76e-7e0458ea04ed"
+        "x-ms-correlation-request-id": "3106def6-8d48-4982-afae-6f84a63689a7",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "3106def6-8d48-4982-afae-6f84a63689a7",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221009T055157Z:3106def6-8d48-4982-afae-6f84a63689a7"
       },
       "ResponseBody": {
-        "value": []
+        "error": {
+          "code": "InvalidResourceType",
+          "message": "The resource type \u0027experiments\u0027 could not be found in the namespace \u0027Microsoft.Chaos\u0027 for api version \u00272022-10-01-preview\u0027. The supported api-versions are \u00272021-09-15-preview,2022-07-01-preview\u0027."
+        }
       }
     }
   ],
