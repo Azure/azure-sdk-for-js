@@ -14,6 +14,13 @@ export function resourceMetricsToEnvelope(metrics: ResourceMetrics, ikey: string
   const time = new Date();
   const instrumentationKey = ikey;
   const tags = createTagsFromResource(metrics.resource);
+  let envelopeName: string;
+
+  if (isStatsbeat) {
+    envelopeName = "Microsoft.ApplicationInsights.Statsbeat";
+  } else {
+    envelopeName = "Microsoft.ApplicationInsights.Metric";
+  }
 
   metrics.scopeMetrics.forEach((scopeMetric) => {
     let baseData: MetricsData = {
@@ -43,24 +50,8 @@ export function resourceMetricsToEnvelope(metrics: ResourceMetrics, ikey: string
       });
     });
     let envelope: Envelope;
-    if (isStatsbeat) {
       envelope = {
-              name: "Microsoft.ApplicationInsights.Statsbeat",
-      time: time,
-      sampleRate: 100,
-      instrumentationKey: instrumentationKey,
-      tags: tags,
-      version: 1,
-      data: {
-        baseType: "MetricData",
-        baseData: {
-          ...baseData,
-        },
-      },
-      }
-    } else {
-      envelope = {
-        name: "Microsoft.ApplicationInsights.Metric",
+        name: envelopeName,
         time: time,
         sampleRate: 100,
         instrumentationKey: instrumentationKey,
@@ -71,9 +62,8 @@ export function resourceMetricsToEnvelope(metrics: ResourceMetrics, ikey: string
           baseData: {
             ...baseData,
           },
-        },
-      };
-    }
+        }
+      }
     envelopes.push(envelope);
   });
 

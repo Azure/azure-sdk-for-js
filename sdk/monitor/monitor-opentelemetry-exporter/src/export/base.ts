@@ -112,7 +112,7 @@ export abstract class AzureMonitorBaseExporter {
     }
 
     // Shutdown statsbeat if the maximum number of failures is exceeded
-    if (this._statsbeatFailureCount > MAX_STATSBEAT_FAILURES) {
+    if ((this._statsbeatFailureCount > MAX_STATSBEAT_FAILURES) && this._statsbeatMetrics.isEnabled()) {
       this._statsbeatMetrics.enable(false);
       this._statsbeatMetrics.shutdown();
     }
