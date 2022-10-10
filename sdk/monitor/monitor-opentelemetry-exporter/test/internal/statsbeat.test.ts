@@ -30,7 +30,7 @@ describe("#AzureMonitorStatsbeat", () => {
   // Example test
   it("should pass the options to the exporter", () => {
     const exporter = new TestExporter();
-    assert.ok(exporter["_options"].instrumentationKey);
+    assert.ok(exporter["_options"], "WHATEVER");
     assert.equal(false, true);
   });
 });

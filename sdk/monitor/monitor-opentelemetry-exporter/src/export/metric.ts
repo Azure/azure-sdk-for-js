@@ -7,19 +7,18 @@ import {
   PushMetricExporter,
   ResourceMetrics,
 } from "@opentelemetry/sdk-metrics";
-import { ExportResult } from "@opentelemetry/core";
+import { ExportResult, ExportResultCode } from "@opentelemetry/core";
 import { AzureMonitorBaseExporter } from "./base";
-import { AzureMonitorExporterOptions } from "../config";
 import { TelemetryItem as Envelope } from "../generated";
 import { resourceMetricsToEnvelope } from "../utils/metricUtils";
+import { AzureMonitorExporterOptions } from "../config";
 
 /**
  * Azure Monitor OpenTelemetry Metric Exporter.
  */
 export class AzureMonitorMetricExporter
   extends AzureMonitorBaseExporter
-  implements PushMetricExporter
-{
+  implements PushMetricExporter {
   private _isStatsbeat: boolean | undefined;
   /**
    * Flag to determine if Exporter is shutdown.
@@ -35,8 +34,9 @@ export class AzureMonitorMetricExporter
    * @param AzureExporterConfig - Exporter configuration.
    */
 
-  constructor(options: AzureExporterConfig = {}, isStatsbeat?: boolean) {
+  constructor(options: AzureMonitorExporterOptions = {}, isStatsbeat?: boolean) {
     super(options);
+    this._aggregationTemporality = AggregationTemporality.CUMULATIVE;
     this._isStatsbeat = isStatsbeat;
     diag.debug("AzureMonitorMetricExporter was successfully setup");
   }

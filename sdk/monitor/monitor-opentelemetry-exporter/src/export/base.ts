@@ -9,7 +9,7 @@ import { HttpSender, FileSystemPersist } from "../platform";
 import { AzureMonitorExporterOptions } from "../config";
 import { PersistentStorage, Sender } from "../types";
 import { isRetriable, BreezeResponse } from "../utils/breezeUtils";
-import { DEFAULT_BREEZE_ENDPOINT, ENV_CONNECTION_STRING } from "../Declarations/Constants";
+import { ENV_CONNECTION_STRING } from "../Declarations/Constants";
 import { TelemetryItem as Envelope } from "../generated";
 import { StatsbeatMetrics } from "./statsbeat/statsbeatMetrics";
 import { MAX_STATSBEAT_FAILURES } from "./constants";
@@ -22,7 +22,8 @@ export abstract class AzureMonitorBaseExporter {
   /**
    * Instrumentation key to be used for exported envelopes
    */
-  protected _instrumentationKey: string;
+  protected _instrumentationKey: string = "";
+  private _endpointUrl: string = "";
   private readonly _persister: PersistentStorage;
   private readonly _sender: Sender;
   private _numConsecutiveRedirects: number;
@@ -30,7 +31,6 @@ export abstract class AzureMonitorBaseExporter {
   private _statsbeatMetrics: StatsbeatMetrics;
   private _isStatsbeatExporter: boolean = false;
   private _statsbeatFailureCount: number = 0;
-  private _endpointUrl: string;
   private _batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
   /**
    * Exporter internal configuration
@@ -45,10 +45,6 @@ export abstract class AzureMonitorBaseExporter {
     this._options = options;
     this._numConsecutiveRedirects = 0;
     const connectionString = options.connectionString || process.env[ENV_CONNECTION_STRING];
-    this._options = {
-      ...DEFAULT_EXPORTER_CONFIG,
-    };
-    this._options.apiVersion = options.apiVersion ?? this._options.apiVersion;
 
     if (connectionString) {
       const parsedConnectionString = ConnectionStringParser.parse(connectionString);
@@ -64,13 +60,12 @@ export abstract class AzureMonitorBaseExporter {
       diag.error(message);
       throw new Error(message);
     }
-    this._instrumentationKey = this._options.instrumentationKey;
-    this._sender = new HttpSender(this._options);
-    this._persister = new FileSystemPersist(this._options);
+    this._sender = new HttpSender(this._endpointUrl, this._options);
+    this._persister = new FileSystemPersist(this._instrumentationKey, this._options);
 
     this._statsbeatMetrics = new StatsbeatMetrics(
       this._instrumentationKey,
-      this._options.endpointUrl
+      this._endpointUrl
     );
     // Enable by default -- shut off if three failures occur
     this._statsbeatMetrics.enable(true);
@@ -87,9 +82,9 @@ export abstract class AzureMonitorBaseExporter {
       return success
         ? { code: ExportResultCode.SUCCESS }
         : {
-            code: ExportResultCode.FAILED,
-            error: new Error("Failed to persist envelope in disk."),
-          };
+          code: ExportResultCode.FAILED,
+          error: new Error("Failed to persist envelope in disk."),
+        };
     } catch (ex: any) {
       return { code: ExportResultCode.FAILED, error: ex };
     }

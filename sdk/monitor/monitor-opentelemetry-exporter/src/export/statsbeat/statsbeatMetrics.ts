@@ -3,10 +3,6 @@
 
 import { ServiceClient } from "@azure/core-client";
 import { createHttpHeaders, PipelineRequest } from "@azure/core-rest-pipeline";
-import {
-  AzureExporterConfig,
-  AzureMonitorMetricExporter,
-} from "@azure/monitor-opentelemetry-exporter";
 import { diag } from "@opentelemetry/api";
 import {
   BatchObservableResult,
@@ -19,6 +15,10 @@ import {
   PeriodicExportingMetricReader,
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
+import {
+  AzureMonitorExporterOptions,
+  AzureMonitorMetricExporter,
+} from "../../index";
 import { SDK_VERSION } from "../../../../../../sdk/template/template/src/constants";
 import { StatsbeatCounter, StatsbeatResourceProvider, STATSBEAT_LANGUAGE } from "../constants";
 import { NetworkStatsbeat } from "./types";
@@ -89,7 +89,7 @@ export class StatsbeatMetrics {
     this._connectionString = this._getConnectionString(endpointUrl);
     this._meterProvider = new MeterProvider();
 
-    const exporterConfig: AzureExporterConfig = {
+    const exporterConfig: AzureMonitorExporterOptions = {
       connectionString: this._connectionString,
     };
 
@@ -395,7 +395,7 @@ export class StatsbeatMetrics {
       currentCounter.averageRequestExecutionTime =
         (currentCounter.intervalRequestExecutionTime -
           currentCounter.lastIntervalRequestExecutionTime) /
-          intervalRequests || 0;
+        intervalRequests || 0;
       currentCounter.lastIntervalRequestExecutionTime = currentCounter.intervalRequestExecutionTime; // reset
 
       currentCounter.lastRequestCount = currentCounter.totalRequestCount;

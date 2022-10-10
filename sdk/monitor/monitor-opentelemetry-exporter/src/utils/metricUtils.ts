@@ -67,7 +67,7 @@ export function resourceMetricsToEnvelope(
         }
         baseData.metrics.push(metricDataPoint);
         let envelope: Envelope = {
-          name: "Microsoft.ApplicationInsights.Metric",
+          name: envelopeName,
           time: time,
           sampleRate: 100,
           instrumentationKey: instrumentationKey,
@@ -83,22 +83,7 @@ export function resourceMetricsToEnvelope(
         envelopes.push(envelope);
       });
     });
-    let envelope: Envelope;
-    envelope = {
-      name: envelopeName,
-      time: time,
-      sampleRate: 100,
-      instrumentationKey: instrumentationKey,
-      tags: tags,
-      version: 1,
-      data: {
-        baseType: "MetricData",
-        baseData: {
-          ...baseData,
-        },
-      },
-    };
-    envelopes.push(envelope);
+
   });
 
   return envelopes;
