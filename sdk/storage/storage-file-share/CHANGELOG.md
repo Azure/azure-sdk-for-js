@@ -10,6 +10,7 @@
 
 - Fixed a hang issue in ShareFileClient.downloadToBuffer when encountering transient network failure.
 - Refined URL parsing method to let it be able to correctly parse URLs with account name in path.
+- Fixed an issue of escaping slashes in file or directory path unnecessarily.
 
 ### Other Changes
 

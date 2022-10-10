@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed an issue of escaping slashes in file or directory path unnecessarily.
+
 ### Other Changes
 
 ## 12.11.0-beta.1 (2022-08-26)

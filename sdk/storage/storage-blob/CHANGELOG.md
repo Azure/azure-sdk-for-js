@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed an issue of escaping slashes in blob name unnecessarily.
+
 ### Other Changes
 
 ## 12.12.0-beta.1 (2022-08-26)
