@@ -5,8 +5,13 @@
 ### Features Added
 
 - Added retriable behavior for 502, 503 and 504 status codes.
+- Export Metric attributes and Histogram Min/Max values.
+- Added new config options disableOfflineStorage, storageDirectory and exposed ApplicationInsightsClientOptionalParams for HTTP client extra configuration.
 
 ### Breaking Changes
+
+- Azure Monitor OpenTelemetry Metrics Exporter Configuration updated.
+
 
 ### Bugs Fixed
 

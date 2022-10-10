@@ -33,6 +33,7 @@ export interface AgentPool extends SubResource {
     messageOfTheDay?: string;
     minCount?: number;
     mode?: AgentPoolMode;
+    networkProfile?: AgentPoolNetworkProfile;
     readonly nodeImageVersion?: string;
     nodeLabels?: {
         [propertyName: string]: string;
@@ -86,6 +87,11 @@ export interface AgentPoolListResult {
 
 // @public
 export type AgentPoolMode = string;
+
+// @public
+export interface AgentPoolNetworkProfile {
+    nodePublicIPTags?: IPTag[];
+}
 
 // @public
 export interface AgentPools {
@@ -628,6 +634,12 @@ export interface GuardrailsProfile {
 
 // @public
 export type IpFamily = string;
+
+// @public
+export interface IPTag {
+    ipTagType?: string;
+    tag?: string;
+}
 
 // @public
 export type IpvsScheduler = string;
@@ -1310,6 +1322,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     messageOfTheDay?: string;
     minCount?: number;
     mode?: AgentPoolMode;
+    networkProfile?: AgentPoolNetworkProfile;
     readonly nodeImageVersion?: string;
     nodeLabels?: {
         [propertyName: string]: string;

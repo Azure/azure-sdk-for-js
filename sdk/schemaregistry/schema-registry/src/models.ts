@@ -26,22 +26,6 @@ export interface SchemaProperties {
 }
 
 /**
- * Version of a schema
- */
-export interface SchemaVersion {
-  /**
-   * Version of the schema
-   */
-  version: number;
-
-  /** Schema group under which schema is or should be registered. */
-  groupName: string;
-
-  /** Name of schema.*/
-  name: string;
-}
-
-/**
  * Schema definition with its name, format, and group.
  */
 export interface SchemaDescription {
@@ -94,11 +78,6 @@ export interface GetSchemaPropertiesOptions extends OperationOptions {}
  * Options to configure SchemaRegistryClient.getSchema.
  */
 export interface GetSchemaOptions extends OperationOptions {}
-
-/**
- * Options to configure SchemaRegistryClient.getSchemaByVersion.
- */
-export interface GetSchemaByVersionOptions extends OperationOptions {}
 
 /**
  * Represents a store of registered schemas.

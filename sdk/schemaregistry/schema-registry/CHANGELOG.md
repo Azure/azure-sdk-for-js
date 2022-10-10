@@ -1,10 +1,10 @@
 # Release History
 
-## 1.1.0 (Unreleased)
+## 1.2.0 (2022-10-11)
 
 ### Features Added
 
-- `getSchemaByVersion` is added to query schemas by their version.
+- An overload of `getSchema` is added that queries schemas by their version.
 - `version` property is added to `SchemaProperties`.
 
 ## 1.1.0 (2022-05-10)
