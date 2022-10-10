@@ -1,0 +1,54 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.HybridContainerService/storageSpaces/test-storage?api-version=2022-05-01-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "344",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-hybridcontainerservice/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "9a2432ee-204c-4047-87a2-0be6a991602e"
+      },
+      "RequestBody": {
+        "location": "westus",
+        "properties": {
+          "hciStorageProfile": {
+            "mocGroup": "target-group",
+            "mocLocation": "MocLocation",
+            "mocStorageContainer": "WssdStorageContainer"
+          }
+        },
+        "extendedLocation": {
+          "type": "CustomLocation",
+          "name": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/microsoft.extendedlocation/customlocations/testcustomlocation"
+        }
+      },
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "179",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 10 Oct 2022 08:40:43 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "136eff21-cfcf-4246-aae3-036927682e81",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "136eff21-cfcf-4246-aae3-036927682e81",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221010T084044Z:136eff21-cfcf-4246-aae3-036927682e81"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidResourceType",
+          "message": "The resource type could not be found in the namespace \u0027Microsoft.HybridContainerService\u0027 for api version \u00272022-05-01-preview\u0027."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

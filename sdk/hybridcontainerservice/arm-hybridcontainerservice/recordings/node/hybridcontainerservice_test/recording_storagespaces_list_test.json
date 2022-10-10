@@ -1,0 +1,39 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.HybridContainerService/storageSpaces?api-version=2022-05-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-hybridcontainerservice/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "ab718d43-4b8b-411e-bfd9-47613dd6be96"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "179",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 10 Oct 2022 08:40:45 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "1d772993-34aa-4678-b84e-27ca2d23b752",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "1d772993-34aa-4678-b84e-27ca2d23b752",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221010T084046Z:1d772993-34aa-4678-b84e-27ca2d23b752"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidResourceType",
+          "message": "The resource type could not be found in the namespace \u0027Microsoft.HybridContainerService\u0027 for api version \u00272022-05-01-preview\u0027."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
