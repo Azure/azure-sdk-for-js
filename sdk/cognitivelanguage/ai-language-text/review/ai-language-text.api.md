@@ -668,7 +668,7 @@ export enum KnownHealthcareEntityCategory {
     Age = "Age",
     BodyStructure = "BodyStructure",
     CareEnvironment = "CareEnvironment",
-    ConditionalQualifier = "ConditionalQualifier",
+    ConditionQualifier = "ConditionQualifier",
     Date = "Date",
     Diagnosis = "Diagnosis",
     Direction = "Direction",
