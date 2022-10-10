@@ -1103,7 +1103,6 @@ describe("ManagedIdentityCredential", function () {
       assert.strictEqual(authDetails.result!.token, "token");
       assert.strictEqual(authDetails.result!.expiresOnTimestamp, 1000000);
     });
-    // TODO: needs fix
     it("reads from the token file again only after 5 minutes have passed", async function (this: Mocha.Context) {
       // Keep in mind that in this test we're also testing:
       // - Client ID on environment variable.
