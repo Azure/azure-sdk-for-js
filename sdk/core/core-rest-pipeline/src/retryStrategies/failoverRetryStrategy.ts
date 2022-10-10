@@ -62,12 +62,12 @@ export function readWriteFailoverHostDelegate(options: {
     }),
   };
 
-  // Optimization for the case where no retry hosts are specified
-  if (!readHostStateList.hostStates.length && !writeHostStateList.hostStates.length) {
-    return function* () {};
-  }
-
   return function* (retryState, factoryOptions) {
+    // Optimization for the case where no retry hosts are specified
+    if (!readHostStateList.hostStates.length && !writeHostStateList.hostStates.length) {
+      return;
+    }
+
     while (true) {
       const response = retryState.response;
       const retryDelayInMs = factoryOptions.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
