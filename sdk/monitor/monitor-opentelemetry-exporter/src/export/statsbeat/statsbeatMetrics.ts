@@ -19,7 +19,6 @@ import {
   AzureMonitorExporterOptions,
   AzureMonitorMetricExporter,
 } from "../../index";
-import { SDK_VERSION } from "../../../../../../sdk/template/template/src/constants";
 import { StatsbeatCounter, StatsbeatResourceProvider, STATSBEAT_LANGUAGE } from "../constants";
 import { NetworkStatsbeat } from "./types";
 
@@ -108,7 +107,7 @@ export class StatsbeatMetrics {
     this._endpointUrl = endpointUrl;
     this._runtimeVersion = process.version;
     this._language = STATSBEAT_LANGUAGE;
-    this._version = SDK_VERSION;
+    this._version = "WHATEVER";
     this._host = this._getShortHost(endpointUrl);
     this._cikey = instrumentationKey;
 
