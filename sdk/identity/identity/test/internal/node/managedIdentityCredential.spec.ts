@@ -161,7 +161,7 @@ describe("ManagedIdentityCredential", function () {
       "URL does not have expected version"
     );
     const expectedMessage = `azure:identity:info ManagedIdentityCredential => getToken() => SUCCESS. Scopes: https://service/.default.`;
-    assert.equal((spy.getCall(spy.callCount - 3).args[0] as any as string).trim(), expectedMessage);
+    assert.equal((spy.getCall(spy.callCount - 2).args[0] as any as string).trim(), expectedMessage);
     AzureLogger.destroy();
   });
 
