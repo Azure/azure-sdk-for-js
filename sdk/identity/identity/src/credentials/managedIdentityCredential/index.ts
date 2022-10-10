@@ -380,9 +380,6 @@ export class ManagedIdentityCredential implements TokenCredential {
     result?: MsalResult,
     getTokenOptions?: GetTokenOptions
   ): AccessToken {
-    // if (result?.account) {
-    //  this.authenticationRecord = msalToPublic(clientId, result.account);
-    // }
     this.ensureValidMsalToken(scopes, result, getTokenOptions);
     logger.getToken.info(formatSuccess(scopes));
     return {
@@ -400,7 +397,6 @@ export class ManagedIdentityCredential implements TokenCredential {
     msalToken?: MsalToken,
     getTokenOptions?: GetTokenOptions
   ): void {
-    logger.info(`msalToken = ${msalToken}`);
     const error = (message: string): Error => {
       logger.getToken.info(message);
       return new AuthenticationRequiredError({
