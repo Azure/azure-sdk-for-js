@@ -58,7 +58,9 @@ describe("ManagedIdentityCredential", function () {
   it("sends an authorization request with a modified resource name", async function () {
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential("client",{authorityHost:"https://login.microsoftonline.com"}),
+      credential: new ManagedIdentityCredential("client", {
+        authorityHost: "https://login.microsoftonline.com",
+      }),
       insecureResponses: [
         createResponse(200), // IMDS Endpoint ping
         createResponse(200, {
@@ -67,7 +69,7 @@ describe("ManagedIdentityCredential", function () {
         }),
       ],
     });
-    console.log(`${JSON.stringify(authDetails)}`)
+    console.log(`${JSON.stringify(authDetails)}`);
 
     // The first request is the IMDS ping.
     // This ping request has to skip a header and the query parameters for it to work on POD identity.
@@ -258,11 +260,13 @@ describe("ManagedIdentityCredential", function () {
     });
     assert.ok(error!.message!.indexOf("No managed identity endpoint found.") > -1);
   });
-// no authority host validation and metadata discovery to be done in managed identity
+  // no authority host validation and metadata discovery to be done in managed identity
   it("IMDS MSI retries and succeeds on 404", async function () {
     const { result, error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
-      credential: new ManagedIdentityCredential("errclient", {authorityHost:"https://login.microsoftonline.com"}),
+      credential: new ManagedIdentityCredential("errclient", {
+        authorityHost: "https://login.microsoftonline.com",
+      }),
       insecureResponses: [
         createResponse(200),
         createResponse(404),
@@ -558,7 +562,7 @@ describe("ManagedIdentityCredential", function () {
       authRequest.url.indexOf(`api-version=2017-09-01`) > -1,
       "URL does not have expected version"
     );
-    console.log(authDetails)
+    console.log(authDetails);
     if (authDetails.result?.token) {
       assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000000);
     } else {
@@ -1108,7 +1112,7 @@ describe("ManagedIdentityCredential", function () {
       assert.strictEqual(authDetails.result!.token, "token");
       assert.strictEqual(authDetails.result!.expiresOnTimestamp, 1000000);
     });
-   // TODO: needs fix
+    // TODO: needs fix
     it("reads from the token file again only after 5 minutes have passed", async function (this: Mocha.Context) {
       // Keep in mind that in this test we're also testing:
       // - Client ID on environment variable.
@@ -1194,8 +1198,8 @@ describe("ManagedIdentityCredential", function () {
           }),
         ],
       });
-      
-      // The Federated Token File is used in MSI Kubernetes Pods, 
+
+      // The Federated Token File is used in MSI Kubernetes Pods,
       // and already has a layer of caching through the file
       // A request is sent to STS (security token service) for fetching the token
       // This token is saved in the file in this type of MSI authentication.
@@ -1203,7 +1207,7 @@ describe("ManagedIdentityCredential", function () {
       // This enables double caching on Federated Token File in MSI Kubernetes Pods
       // For this reason, there is no subsequent requests being passed as before to the STS,
       // since the token is already retrieved from the double caching.
-      assert.equal(authDetails.requests.length,0);
+      assert.equal(authDetails.requests.length, 0);
       assert.equal(authDetails.result?.expiresOnTimestamp, 1000000);
       assert.equal(authDetails.result?.token, "token");
 
@@ -1221,7 +1225,7 @@ describe("ManagedIdentityCredential", function () {
           }),
         ],
       });
-      assert.equal(authDetails.requests.length,0);
+      assert.equal(authDetails.requests.length, 0);
       assert.equal(authDetails.result?.expiresOnTimestamp, 1000000);
       assert.equal(authDetails.result?.token, "token");
     });
