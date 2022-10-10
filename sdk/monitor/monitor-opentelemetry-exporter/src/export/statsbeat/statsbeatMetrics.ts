@@ -3,11 +3,22 @@
 
 import { ServiceClient } from "@azure/core-client";
 import { createHttpHeaders, PipelineRequest } from "@azure/core-rest-pipeline";
-import { AzureExporterConfig, AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
+import {
+  AzureExporterConfig,
+  AzureMonitorMetricExporter,
+} from "@azure/monitor-opentelemetry-exporter";
 import { diag } from "@opentelemetry/api";
-import { BatchObservableResult, ObservableGauge, ObservableResult } from "@opentelemetry/api-metrics";
+import {
+  BatchObservableResult,
+  ObservableGauge,
+  ObservableResult,
+} from "@opentelemetry/api-metrics";
 import { Meter } from "@opentelemetry/api-metrics/build/src/types/Meter";
-import { MeterProvider, PeriodicExportingMetricReader, PeriodicExportingMetricReaderOptions } from "@opentelemetry/sdk-metrics-base";
+import {
+  MeterProvider,
+  PeriodicExportingMetricReader,
+  PeriodicExportingMetricReaderOptions,
+} from "@opentelemetry/sdk-metrics";
 import { SDK_VERSION } from "../../../../../../sdk/template/template/src/constants";
 import { StatsbeatCounter, StatsbeatResourceProvider, STATSBEAT_LANGUAGE } from "../constants";
 import { NetworkStatsbeat } from "./types";
@@ -16,8 +27,10 @@ var os = require("os");
 const AIMS_URI = "http://169.254.169.254/metadata/instance/compute";
 const AIMS_API_VERSION = "api-version=2017-12-01";
 const AIMS_FORMAT = "format=json";
-const NON_EU_CONNECTION_STRING = "InstrumentationKey=c4a29126-a7cb-47e5-b348-11414998b11e;IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com";
-const EU_CONNECTION_STRING = "InstrumentationKey=7dc56bab-3c0c-4e9f-9ebb-d1acadee8d0f;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com";
+const NON_EU_CONNECTION_STRING =
+  "InstrumentationKey=c4a29126-a7cb-47e5-b348-11414998b11e;IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com";
+const EU_CONNECTION_STRING =
+  "InstrumentationKey=7dc56bab-3c0c-4e9f-9ebb-d1acadee8d0f;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com";
 const STATS_COLLECTION_SHORT_INTERVAL: number = 900000; // 15 minutes
 const EU_ENDPOINTS = [
   "westeurope",
@@ -29,14 +42,14 @@ const EU_ENDPOINTS = [
   "norwaywest",
   "swedencentral",
   "switzerlandnorth",
-  "switzerlandwest"
+  "switzerlandwest",
 ];
 
 export interface IVirtualMachineInfo {
-    isVM?: boolean;
-    id?: string;
-    subscriptionId?: string;
-    osType?: string;
+  isVM?: boolean;
+  id?: string;
+  subscriptionId?: string;
+  osType?: string;
 }
 
 export class StatsbeatMetrics {
@@ -77,14 +90,14 @@ export class StatsbeatMetrics {
     this._meterProvider = new MeterProvider();
 
     const exporterConfig: AzureExporterConfig = {
-      connectionString: this._connectionString
+      connectionString: this._connectionString,
     };
 
     this._azureExporter = new AzureMonitorMetricExporter(exporterConfig, true);
-    
+
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter as any,
-      exportIntervalMillis: STATS_COLLECTION_SHORT_INTERVAL // 15 minutes
+      exportIntervalMillis: STATS_COLLECTION_SHORT_INTERVAL, // 15 minutes
     };
 
     // Exports Network Statsbeat every 15 minutes
@@ -104,49 +117,53 @@ export class StatsbeatMetrics {
     this._retryCountGauge = this._meter.createObservableGauge(StatsbeatCounter.RETRY_COUNT);
     this._throttleCountGauge = this._meter.createObservableGauge(StatsbeatCounter.THROTTLE_COUNT);
     this._exceptionCountGauge = this._meter.createObservableGauge(StatsbeatCounter.EXCEPTION_COUNT);
-    this._averageDurationGauge = this._meter.createObservableGauge(StatsbeatCounter.AVERAGE_DURATION);
+    this._averageDurationGauge = this._meter.createObservableGauge(
+      StatsbeatCounter.AVERAGE_DURATION
+    );
   }
 
   private async _getResourceProvider(): Promise<void> {
-      // Check resource provider
+    // Check resource provider
+    this._resourceProvider = StatsbeatResourceProvider.unknown;
+    if (process.env.WEBSITE_SITE_NAME) {
+      // Web apps
+      this._resourceProvider = StatsbeatResourceProvider.appsvc;
+    } else if (process.env.FUNCTIONS_WORKER_RUNTIME) {
+      // Function apps
+      this._resourceProvider = StatsbeatResourceProvider.functions;
+    } else if (this._getAzureComputeMetadata()) {
+      this._resourceProvider = StatsbeatResourceProvider.vm;
+    } else {
       this._resourceProvider = StatsbeatResourceProvider.unknown;
-      if (process.env.WEBSITE_SITE_NAME) {
-          // Web apps
-          this._resourceProvider = StatsbeatResourceProvider.appsvc;
-      } else if (process.env.FUNCTIONS_WORKER_RUNTIME) {
-          // Function apps
-          this._resourceProvider = StatsbeatResourceProvider.functions;
-      } else if (this._getAzureComputeMetadata()) {
-        this._resourceProvider = StatsbeatResourceProvider.vm;
-      } else {
-        this._resourceProvider = StatsbeatResourceProvider.unknown;
-      }
+    }
   }
 
   private _getAzureComputeMetadata(): boolean {
-      const serviceClient = new ServiceClient;
-      const headers = createHttpHeaders({"MetaData": "True"});
+    const serviceClient = new ServiceClient();
+    const headers = createHttpHeaders({ MetaData: "True" });
 
-      const request: PipelineRequest = {
-        url: `${AIMS_URI}?${AIMS_API_VERSION}&${AIMS_FORMAT}`,
-        headers: headers,
-        timeout: 5000, // 5 seconds
-        method: "GET",
-        withCredentials: false,
-        requestId: "azure-metadata-request"
-      };
+    const request: PipelineRequest = {
+      url: `${AIMS_URI}?${AIMS_API_VERSION}&${AIMS_FORMAT}`,
+      headers: headers,
+      timeout: 5000, // 5 seconds
+      method: "GET",
+      withCredentials: false,
+      requestId: "azure-metadata-request",
+    };
 
-      serviceClient.sendRequest(request)
-        .then((res: any) => {
-          if (res.status === 200) {
-            return true;
-          } else {
-            return false;
-          }
-        }).catch(() => {
+    serviceClient
+      .sendRequest(request)
+      .then((res: any) => {
+        if (res.status === 200) {
+          return true;
+        } else {
           return false;
-        });
-      return false;
+        }
+      })
+      .catch(() => {
+        return false;
+      });
+    return false;
   }
 
   public isInitialized() {
@@ -180,20 +197,28 @@ export class StatsbeatMetrics {
         runtimeVersion: this._runtimeVersion,
         language: this._language,
         version: this._version,
-        attach: this._attach
+        attach: this._attach,
       };
 
       this._networkProperties = {
         endpoint: this._endpointUrl,
-        host: this._host
-      }
+        host: this._host,
+      };
 
       // Add observable callbacks
       this._successCountGauge.addCallback(this._successCallback.bind(this));
-      this._meter.addBatchObservableCallback(this._failureCallback.bind(this), [ this._failureCountGauge ]);
-      this._meter.addBatchObservableCallback(this._retryCallback.bind(this), [ this._retryCountGauge ]);
-      this._meter.addBatchObservableCallback(this._throttleCallback.bind(this), [ this._throttleCountGauge ]);
-      this._meter.addBatchObservableCallback(this._exceptionCallback.bind(this), [ this._exceptionCountGauge ]);
+      this._meter.addBatchObservableCallback(this._failureCallback.bind(this), [
+        this._failureCountGauge,
+      ]);
+      this._meter.addBatchObservableCallback(this._retryCallback.bind(this), [
+        this._retryCountGauge,
+      ]);
+      this._meter.addBatchObservableCallback(this._throttleCallback.bind(this), [
+        this._throttleCountGauge,
+      ]);
+      this._meter.addBatchObservableCallback(this._exceptionCallback.bind(this), [
+        this._exceptionCountGauge,
+      ]);
       this._averageDurationGauge.addCallback(this._durationCallback.bind(this));
     } catch (error) {
       diag.debug("Call to get the resource provider failed.");
@@ -215,27 +240,27 @@ export class StatsbeatMetrics {
     // Takes the failureCountGauge, value (of the counter), and attributes
     // create a unqiue counter based on statusCode as well
     // append statusCode to attributes so the newly created attributes are unique.
-    let attributes = Object.assign(
-      this._networkProperties,
-      this._commonProperties,
-      { "statusCode": 0 }
-    );
+    let attributes = Object.assign(this._networkProperties, this._commonProperties, {
+      statusCode: 0,
+    });
 
     // For each { statusCode -> count } mapping, call observe, passing the count and attributes that include the statusCode
     for (let i = 0; i < counter.totalFailedRequestCount.length; i++) {
       attributes.statusCode = counter.totalFailedRequestCount[i].statusCode;
-      observableResult.observe(this._failureCountGauge, counter.totalFailedRequestCount[i].count, attributes);
+      observableResult.observe(
+        this._failureCountGauge,
+        counter.totalFailedRequestCount[i].count,
+        attributes
+      );
       counter.totalFailedRequestCount[i].count = 0;
     }
   }
 
   private _retryCallback(observableResult: BatchObservableResult) {
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
-    let attributes = Object.assign(
-      this._networkProperties,
-      this._commonProperties,
-      { "statusCode": 0 }
-    );
+    let attributes = Object.assign(this._networkProperties, this._commonProperties, {
+      statusCode: 0,
+    });
 
     for (let i = 0; i < counter.retryCount.length; i++) {
       attributes.statusCode = counter.retryCount[i].statusCode;
@@ -246,30 +271,34 @@ export class StatsbeatMetrics {
 
   private _throttleCallback(observableResult: BatchObservableResult) {
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
-    let attributes = Object.assign(
-      this._networkProperties,
-      this._commonProperties,
-      { "statusCode": 0 }
-    );
+    let attributes = Object.assign(this._networkProperties, this._commonProperties, {
+      statusCode: 0,
+    });
 
     for (let i = 0; i < counter.throttleCount.length; i++) {
       attributes.statusCode = counter.throttleCount[i].statusCode;
-      observableResult.observe(this._throttleCountGauge, counter.throttleCount[i].count, attributes);
+      observableResult.observe(
+        this._throttleCountGauge,
+        counter.throttleCount[i].count,
+        attributes
+      );
       counter.throttleCount[i].count = 0;
     }
   }
 
   private _exceptionCallback(observableResult: BatchObservableResult) {
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
-    let attributes = Object.assign(
-      this._networkProperties,
-      this._commonProperties,
-      { "exceptionType": "" }
-    );
+    let attributes = Object.assign(this._networkProperties, this._commonProperties, {
+      exceptionType: "",
+    });
 
     for (let i = 0; i < counter.exceptionCount.length; i++) {
       attributes.exceptionType = counter.exceptionCount[i].exceptionType;
-      observableResult.observe(this._exceptionCountGauge, counter.exceptionCount[i].count, attributes);
+      observableResult.observe(
+        this._exceptionCountGauge,
+        counter.exceptionCount[i].count,
+        attributes
+      );
       counter.exceptionCount[i].count = 0;
     }
   }
@@ -296,7 +325,9 @@ export class StatsbeatMetrics {
       return;
     }
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
-    let currentStatusCounter = counter.totalFailedRequestCount.find((statusCounter) => statusCode === statusCounter.statusCode);
+    let currentStatusCounter = counter.totalFailedRequestCount.find(
+      (statusCounter) => statusCode === statusCounter.statusCode
+    );
 
     if (currentStatusCounter) {
       currentStatusCounter.count++;
@@ -313,7 +344,9 @@ export class StatsbeatMetrics {
       return;
     }
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
-    let currentStatusCounter = counter.retryCount.find((statusCounter) => statusCode === statusCounter.statusCode);
+    let currentStatusCounter = counter.retryCount.find(
+      (statusCounter) => statusCode === statusCounter.statusCode
+    );
 
     if (currentStatusCounter) {
       currentStatusCounter.count++;
@@ -327,7 +360,9 @@ export class StatsbeatMetrics {
       return;
     }
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
-    let currentStatusCounter = counter.throttleCount.find((statusCounter) => statusCode === statusCounter.statusCode);
+    let currentStatusCounter = counter.throttleCount.find(
+      (statusCounter) => statusCode === statusCounter.statusCode
+    );
 
     if (currentStatusCounter) {
       currentStatusCounter.count++;
@@ -341,7 +376,9 @@ export class StatsbeatMetrics {
       return;
     }
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
-    let currentErrorCounter = counter.exceptionCount.find((exceptionCounter) => exceptionType.name === exceptionCounter.exceptionType);
+    let currentErrorCounter = counter.exceptionCount.find(
+      (exceptionCounter) => exceptionType.name === exceptionCounter.exceptionType
+    );
     if (currentErrorCounter) {
       currentErrorCounter.count++;
     } else {
@@ -352,14 +389,15 @@ export class StatsbeatMetrics {
   public countAverageDuration() {
     for (let i = 0; i < this._networkStatsbeatCollection.length; i++) {
       let currentCounter = this._networkStatsbeatCollection[i];
-      currentCounter.time = Number(new Date);
-      let intervalRequests = currentCounter.totalRequestCount - currentCounter.lastRequestCount || 0;
-      currentCounter.averageRequestExecutionTime = 
+      currentCounter.time = Number(new Date());
+      let intervalRequests =
+        currentCounter.totalRequestCount - currentCounter.lastRequestCount || 0;
+      currentCounter.averageRequestExecutionTime =
         (currentCounter.intervalRequestExecutionTime -
           currentCounter.lastIntervalRequestExecutionTime) /
-        intervalRequests || 0;
+          intervalRequests || 0;
       currentCounter.lastIntervalRequestExecutionTime = currentCounter.intervalRequestExecutionTime; // reset
-      
+
       currentCounter.lastRequestCount = currentCounter.totalRequestCount;
       currentCounter.lastTime = currentCounter.time;
     }
@@ -373,26 +411,25 @@ export class StatsbeatMetrics {
       if (
         endpoint === this._networkStatsbeatCollection[i].endpoint &&
         host === this._networkStatsbeatCollection[i].host
-        ) {
-          return this._networkStatsbeatCollection[i];
-        }
+      ) {
+        return this._networkStatsbeatCollection[i];
       }
-      // Create a new counter if not found
-      let newCounter = new NetworkStatsbeat(endpoint, host);
-      this._networkStatsbeatCollection.push(newCounter);
-      return newCounter;
+    }
+    // Create a new counter if not found
+    let newCounter = new NetworkStatsbeat(endpoint, host);
+    this._networkStatsbeatCollection.push(newCounter);
+    return newCounter;
   }
 
   private _getShortHost(originalHost: string) {
     let shortHost = originalHost;
     try {
-        let hostRegex = new RegExp(/^https?:\/\/(?:www\.)?([^\/.-]+)/);
-        let res = hostRegex.exec(originalHost);
-        if (res != null && res.length > 1) {
-            shortHost = res[1];
-        }
-    }
-    catch (error) {
+      let hostRegex = new RegExp(/^https?:\/\/(?:www\.)?([^\/.-]+)/);
+      let res = hostRegex.exec(originalHost);
+      if (res != null && res.length > 1) {
+        shortHost = res[1];
+      }
+    } catch (error) {
       diag.debug("Failed to get the short host name.");
     }
     return shortHost;
@@ -400,7 +437,7 @@ export class StatsbeatMetrics {
 
   private _getConnectionString(endpointUrl: string) {
     let currentEndpoint = endpointUrl;
-    for(let i = 0; i < EU_ENDPOINTS.length; i++) {
+    for (let i = 0; i < EU_ENDPOINTS.length; i++) {
       if (currentEndpoint.indexOf(EU_ENDPOINTS[i]) > -1) {
         return EU_CONNECTION_STRING;
       }

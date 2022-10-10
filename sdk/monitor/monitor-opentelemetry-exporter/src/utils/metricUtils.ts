@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics-base";
+import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
 import { TelemetryItem as Envelope, MetricsData, MetricDataPoint } from "../generated";
 import { createTagsFromResource } from "./resourceUtils";
 
@@ -9,7 +9,11 @@ import { createTagsFromResource } from "./resourceUtils";
  * Metric to Azure envelope parsing.
  * @internal
  */
-export function resourceMetricsToEnvelope(metrics: ResourceMetrics, ikey: string, isStatsbeat?: boolean): Envelope[] {
+export function resourceMetricsToEnvelope(
+  metrics: ResourceMetrics,
+  ikey: string,
+  isStatsbeat?: boolean
+): Envelope[] {
   let envelopes: Envelope[] = [];
   const time = new Date();
   const instrumentationKey = ikey;
@@ -50,20 +54,20 @@ export function resourceMetricsToEnvelope(metrics: ResourceMetrics, ikey: string
       });
     });
     let envelope: Envelope;
-      envelope = {
-        name: envelopeName,
-        time: time,
-        sampleRate: 100,
-        instrumentationKey: instrumentationKey,
-        tags: tags,
-        version: 1,
-        data: {
-          baseType: "MetricData",
-          baseData: {
-            ...baseData,
-          },
-        }
-      }
+    envelope = {
+      name: envelopeName,
+      time: time,
+      sampleRate: 100,
+      instrumentationKey: instrumentationKey,
+      tags: tags,
+      version: 1,
+      data: {
+        baseType: "MetricData",
+        baseData: {
+          ...baseData,
+        },
+      },
+    };
     envelopes.push(envelope);
   });
 

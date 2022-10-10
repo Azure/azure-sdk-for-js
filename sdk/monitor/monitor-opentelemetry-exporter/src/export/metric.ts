@@ -5,7 +5,7 @@ import {
   AggregationTemporality,
   PushMetricExporter,
   ResourceMetrics,
-} from "@opentelemetry/sdk-metrics-base";
+} from "@opentelemetry/sdk-metrics";
 import { ExportResult } from "@opentelemetry/core";
 import { AzureMonitorBaseExporter } from "./base";
 import { AzureExporterConfig } from "../config";
@@ -19,12 +19,12 @@ export class AzureMonitorMetricExporter
   extends AzureMonitorBaseExporter
   implements PushMetricExporter
 {
-  private _isStatsbeat: boolean|undefined;
+  private _isStatsbeat: boolean | undefined;
   /**
    * Initializes a new instance of the AzureMonitorMetricExporter class.
    * @param AzureExporterConfig - Exporter configuration.
    */
-  constructor(options: AzureExporterConfig = {}, isStatsbeat: boolean) {
+  constructor(options: AzureExporterConfig = {}, isStatsbeat?: boolean) {
     super(options);
     this._isStatsbeat = isStatsbeat;
     diag.debug("AzureMonitorMetricExporter was successfully setup");
@@ -41,7 +41,11 @@ export class AzureMonitorMetricExporter
   ): Promise<void> {
     diag.info(`Exporting ${metrics.scopeMetrics.length} metrics(s). Converting to envelopes...`);
 
-    let envelopes: Envelope[] = resourceMetricsToEnvelope(metrics, this._instrumentationKey, this._isStatsbeat);
+    let envelopes: Envelope[] = resourceMetricsToEnvelope(
+      metrics,
+      this._instrumentationKey,
+      this._isStatsbeat
+    );
     resultCallback(await this._exportEnvelopes(envelopes));
   }
 

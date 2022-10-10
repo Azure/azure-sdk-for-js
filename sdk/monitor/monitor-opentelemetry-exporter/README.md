@@ -62,7 +62,7 @@ provider.addSpanProcessor(
 Add the exporter to your existing OpenTelemetry tracer provider (`NodeTracerProvider` / `BasicTracerProvider`)
 
 ```js
-const { MeterProvider, PeriodicExportingMetricReader } = require("@opentelemetry/sdk-metrics-base");
+const { MeterProvider, PeriodicExportingMetricReader } = require("@opentelemetry/sdk-metrics");
 const { Resource } = require("@opentelemetry/resources");
 const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions");
 const { AzureMonitorMetricExporter } = require("@azure/monitor-opentelemetry-exporter");

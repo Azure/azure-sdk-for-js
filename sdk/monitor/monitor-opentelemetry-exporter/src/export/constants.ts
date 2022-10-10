@@ -8,8 +8,8 @@ export const StatsbeatResourceProvider = {
   appsvc: "appsvc",
   functions: "functions",
   vm: "vm",
-  unknown: "unknown"
-}
+  unknown: "unknown",
+};
 
 export enum StatsbeatCounter {
   SUCCESS_COUNT = "Success Count",
@@ -17,5 +17,5 @@ export enum StatsbeatCounter {
   RETRY_COUNT = "Retry Count",
   THROTTLE_COUNT = "Throttle Count",
   EXCEPTION_COUNT = "Exception Count",
-  AVERAGE_DURATION = "Average Duration"
+  AVERAGE_DURATION = "Average Duration",
 }

@@ -68,7 +68,10 @@ export abstract class AzureMonitorBaseExporter {
     this._sender = new HttpSender(this._options);
     this._persister = new FileSystemPersist(this._options);
 
-    this._statsbeatMetrics = new StatsbeatMetrics(this._instrumentationKey, this._options.endpointUrl);
+    this._statsbeatMetrics = new StatsbeatMetrics(
+      this._instrumentationKey,
+      this._options.endpointUrl
+    );
     // Enable by default -- shut off if three failures occur
     this._statsbeatMetrics.enable(true);
     this._retryTimer = null;
@@ -112,11 +115,14 @@ export abstract class AzureMonitorBaseExporter {
     }
 
     // Shutdown statsbeat if the maximum number of failures is exceeded
-    if ((this._statsbeatFailureCount > MAX_STATSBEAT_FAILURES) && this._statsbeatMetrics.isEnabled()) {
+    if (
+      this._statsbeatFailureCount > MAX_STATSBEAT_FAILURES &&
+      this._statsbeatMetrics.isEnabled()
+    ) {
       this._statsbeatMetrics.enable(false);
       this._statsbeatMetrics.shutdown();
     }
-    
+
     try {
       const startTime = Number(new Date().getTime());
       const { result, statusCode } = await this._sender.send(envelopes);
@@ -162,7 +168,7 @@ export abstract class AzureMonitorBaseExporter {
           if (this._isStatsbeatExporter) {
             this._statsbeatFailureCount++;
           } else {
-            this._statsbeatMetrics.countFailure((endTime - startTime), statusCode);
+            this._statsbeatMetrics.countFailure(endTime - startTime, statusCode);
           }
           return {
             code: ExportResultCode.FAILED,
@@ -179,7 +185,7 @@ export abstract class AzureMonitorBaseExporter {
         if (!this._isStatsbeatExporter) {
           // TODO: Determine the process if statusCode is undefined. Should I make statusCode optional and allow undefined -> count statsbeat counts?
           if (statusCode) {
-            this._statsbeatMetrics.countFailure((endTime - startTime), statusCode);
+            this._statsbeatMetrics.countFailure(endTime - startTime, statusCode);
           }
         }
         if (this._isStatsbeatExporter) {
