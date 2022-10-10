@@ -8,15 +8,17 @@ import { hideBin } from "yargs/helpers";
 import { Application as TypeDocApplication, TSConfigReader, TypeDocReader } from "typedoc";
 
 async function runTypeDoc({ outputFolder, cwd }: { outputFolder: string; cwd: string }) {
+  const oldCwd = process.cwd();
+  process.chdir(cwd);
   const app = new TypeDocApplication();
   app.options.addReader(new TSConfigReader());
   app.options.addReader(new TypeDocReader());
 
   app.bootstrap({
-    entryPointStrategy: "packages",
-    entryPoints: [cwd],
+    entryPoints: ["src/index.ts"],
     excludeInternal: true,
     excludePrivate: true,
+    skipErrorChecking: true,
   });
 
   const project = app.convert();
@@ -27,6 +29,8 @@ async function runTypeDoc({ outputFolder, cwd }: { outputFolder: string; cwd: st
     console.error("Failed converting project in TypeDoc");
     process.exit(1);
   }
+
+  process.chdir(oldCwd);
 }
 
 async function fileExists(filePath: string) {
