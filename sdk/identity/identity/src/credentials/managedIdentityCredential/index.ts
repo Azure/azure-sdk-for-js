@@ -121,8 +121,6 @@ export class ManagedIdentityCredential implements TokenCredential {
         maxRetries: 0,
       },
     });
-    // azureCloudInstance
-    // knownAuthorities OR cloudMetadata & instanceDiscoveryMetadata
     this.confidentialApp = new ConfidentialClientApplication({
       auth: {
         clientId: this.clientId ?? DeveloperSignOnClientId,
@@ -230,8 +228,6 @@ export class ManagedIdentityCredential implements TokenCredential {
       // If it's null, it means we don't yet know whether
       // the endpoint is available and need to check for it.
       if (this.isEndpointUnavailable !== true) {
-        // result = await this.authenticateManagedIdentity(scopes, updatedOptions);
-
         const appTokenParameters: AppTokenProviderParameters = {
           correlationId: this.identityClient.getCorrelationId(),
           tenantId: options?.tenantId || "organizations",
