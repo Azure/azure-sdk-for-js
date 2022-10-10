@@ -7,13 +7,13 @@ export function exponentialDelayInMs(
   retryCount: number,
   retryDelayInMs: number,
   maxRetryDelayInMs: number,
-  jitter: boolean = true
+  noJitter: boolean = false
 ): number {
   if (retryCount < 0) {
     return 0;
   }
   const clampedExponentialDelay = Math.min(retryDelayInMs * 2 ** retryCount, maxRetryDelayInMs);
-  if (jitter) {
+  if (!noJitter) {
     return getRandomIntegerInclusive(clampedExponentialDelay / 2, clampedExponentialDelay);
   }
   return Math.floor(clampedExponentialDelay);

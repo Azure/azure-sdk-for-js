@@ -30,7 +30,7 @@ describe(`failoverRetryStrategy`, () => {
     const stub = sinon
       .stub(retryAfterUtil, "exponentialDelayInMs")
       .callsFake((retryCount, retryDelayInMs, maxRetryDelayInMs) => {
-        return stub.wrappedMethod(retryCount, retryDelayInMs, maxRetryDelayInMs, false);
+        return stub.wrappedMethod(retryCount, retryDelayInMs, maxRetryDelayInMs, true);
       });
     const modifiers = [];
     const response: PipelineResponse = {

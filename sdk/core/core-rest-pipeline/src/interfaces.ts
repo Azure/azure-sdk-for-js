@@ -348,7 +348,9 @@ export interface PipelineRetryOptions {
  */
 export interface InternalPipelineRetryOptions extends PipelineRetryOptions {
   /**
-   * A generator for failover endpoints.
+   * An iterator factory for failover endpoints. The return value should maintain the
+   * state of a request and all of its retry attempts and yield the URL to failover
+   * to if it exists.
    */
   failoverHostDelegate?: FailoverHostDelegate;
 }

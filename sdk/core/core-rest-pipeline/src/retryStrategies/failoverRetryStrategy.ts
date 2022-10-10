@@ -61,6 +61,12 @@ export function readWriteFailoverHostDelegate(options: {
       return { host, retryCount: 0 };
     }),
   };
+
+  // Optimization for the case where no retry hosts are specified
+  if (!readHostStateList.hostStates.length && !writeHostStateList.hostStates.length) {
+    return function* () {};
+  }
+
   return function* (retryState, factoryOptions) {
     while (true) {
       const response = retryState.response;
