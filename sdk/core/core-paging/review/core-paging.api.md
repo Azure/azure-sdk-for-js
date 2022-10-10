@@ -15,14 +15,14 @@ export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageS
 }
 
 // @public
-export interface PagedResult<TPage, TPageSettings = PageSettings, TLink = string, TElement = unknown> {
+export interface PagedResult<TPage, TPageSettings = PageSettings, TLink = string> {
     byPage?: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
     firstPageLink: TLink;
     getPage: (pageLink: TLink, maxPageSize?: number) => Promise<{
         page: TPage;
         nextPageLink?: TLink;
     }>;
-    toElements?: (page: TPage) => TElement[];
+    toElements?: (page: TPage) => unknown[];
 }
 
 // @public

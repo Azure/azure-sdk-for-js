@@ -132,7 +132,7 @@ describe("getPagedAsyncIterator", function () {
         elements: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         next: 0,
       };
-      const pagedResult: PagedResult<collectionObject, PageSettings, number, number> = {
+      const pagedResult: PagedResult<collectionObject, PageSettings, number> = {
         firstPageLink: 0,
         getPage: async () => ({ page: collection }),
         toElements: (page) => page.elements,

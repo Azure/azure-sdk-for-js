@@ -10,6 +10,15 @@ import { PageSettings, PagedAsyncIterableIterator, PagedResult } from "./models"
  * @param pagedResult - an object that specifies how to get pages.
  * @returns a paged async iterator that iterates over results.
  */
+
+export function getPagedAsyncIterator<
+  TElement,
+  TPage = TElement[],
+  TPageSettings = PageSettings,
+  TLink = string
+>(
+  pagedResult: PagedResult<TPage, TPageSettings, TLink>
+): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
 export function getPagedAsyncIterator<
   TElement,
   TPage = TElement[],
@@ -18,9 +27,7 @@ export function getPagedAsyncIterator<
 >(
   pagedResult: PagedResult<TPage, TPageSettings, TLink>
 ): PagedAsyncIterableIterator<TElement, TPage, TPageSettings> {
-  const iter = getItemAsyncIterator<TElement, TPage, TLink, TPageSettings>(
-    pagedResult as PagedResult<TPage, TPageSettings, TLink, TElement>
-  );
+  const iter = getItemAsyncIterator<TElement, TPage, TLink, TPageSettings>(pagedResult);
   return {
     next() {
       return iter.next();
@@ -32,19 +39,16 @@ export function getPagedAsyncIterator<
       pagedResult?.byPage ??
       (((settings?: PageSettings) => {
         const { continuationToken, maxPageSize } = settings ?? {};
-        return getPageAsyncIterator(
-          pagedResult as PagedResult<TPage, PageSettings, TLink, TElement>,
-          {
-            pageLink: continuationToken as unknown as TLink | undefined,
-            maxPageSize,
-          }
-        );
+        return getPageAsyncIterator(pagedResult, {
+          pageLink: continuationToken as unknown as TLink | undefined,
+          maxPageSize,
+        });
       }) as unknown as (settings?: TPageSettings) => AsyncIterableIterator<TPage>),
   };
 }
 
 async function* getItemAsyncIterator<TElement, TPage, TLink, TPageSettings>(
-  pagedResult: PagedResult<TPage, TPageSettings, TLink, TElement>
+  pagedResult: PagedResult<TPage, TPageSettings, TLink>
 ): AsyncIterableIterator<TElement> {
   const pages = getPageAsyncIterator(pagedResult);
   const firstVal = await pages.next();
@@ -53,9 +57,9 @@ async function* getItemAsyncIterator<TElement, TPage, TLink, TPageSettings>(
     // can extract elements from this page
     const toElements = pagedResult.toElements;
     if (toElements !== undefined) {
-      yield* toElements(firstVal.value);
+      yield* toElements(firstVal.value) as TElement[];
       for await (const page of pages) {
-        yield* toElements(page);
+        yield* toElements(page) as TElement[];
       }
     } else {
       yield firstVal.value;
@@ -72,8 +76,8 @@ async function* getItemAsyncIterator<TElement, TPage, TLink, TPageSettings>(
   }
 }
 
-async function* getPageAsyncIterator<TPage, TLink, TPageSettings, TElement>(
-  pagedResult: PagedResult<TPage, TPageSettings, TLink, TElement>,
+async function* getPageAsyncIterator<TPage, TLink, TPageSettings>(
+  pagedResult: PagedResult<TPage, TPageSettings, TLink>,
   options: {
     maxPageSize?: number;
     pageLink?: TLink;

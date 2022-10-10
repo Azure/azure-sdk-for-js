@@ -39,12 +39,7 @@ export interface PagedAsyncIterableIterator<
 /**
  * An interface that describes how to communicate with the service.
  */
-export interface PagedResult<
-  TPage,
-  TPageSettings = PageSettings,
-  TLink = string,
-  TElement = unknown
-> {
+export interface PagedResult<TPage, TPageSettings = PageSettings, TLink = string> {
   /**
    * Link to the first page of results.
    */
@@ -65,5 +60,5 @@ export interface PagedResult<
   /**
    * A function to extract elements from a page.
    */
-  toElements?: (page: TPage) => TElement[];
+  toElements?: (page: TPage) => unknown[];
 }
