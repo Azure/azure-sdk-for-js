@@ -18,14 +18,6 @@ export function getPagedAsyncIterator<
   TLink = string
 >(
   pagedResult: PagedResult<TPage, TPageSettings, TLink>
-): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-export function getPagedAsyncIterator<
-  TElement,
-  TPage = TElement[],
-  TPageSettings = PageSettings,
-  TLink = string
->(
-  pagedResult: PagedResult<TPage, TPageSettings, TLink>
 ): PagedAsyncIterableIterator<TElement, TPage, TPageSettings> {
   const iter = getItemAsyncIterator<TElement, TPage, TLink, TPageSettings>(pagedResult);
   return {
