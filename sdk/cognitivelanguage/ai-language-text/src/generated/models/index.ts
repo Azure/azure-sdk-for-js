@@ -2384,8 +2384,8 @@ export enum KnownHealthcareEntityCategory {
   Diagnosis = "Diagnosis",
   /** SymptomOrSign */
   SymptomOrSign = "SymptomOrSign",
-  /** ConditionalQualifier */
-  ConditionalQualifier = "ConditionalQualifier",
+  /** ConditionQualifier */
+  ConditionQualifier = "ConditionQualifier",
   /** MedicationClass */
   MedicationClass = "MedicationClass",
   /** MedicationName */
@@ -2425,7 +2425,7 @@ export enum KnownHealthcareEntityCategory {
  * **HealthcareProfession** \
  * **Diagnosis** \
  * **SymptomOrSign** \
- * **ConditionalQualifier** \
+ * **ConditionQualifier** \
  * **MedicationClass** \
  * **MedicationName** \
  * **Dosage** \
