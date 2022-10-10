@@ -130,7 +130,7 @@ async function main() {
       { timestamp: new Date("2018-03-14T00:00:00Z"), value: 33760076 },
       { timestamp: new Date("2018-03-15T00:00:00Z"), value: 33093515 }
     ],
-    granularity: TimeGranularity.daily
+    granularity: "daily"
   };
 
   // get change point detect results
