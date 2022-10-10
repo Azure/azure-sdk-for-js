@@ -69,7 +69,6 @@ describe("ManagedIdentityCredential", function () {
         }),
       ],
     });
-    console.log(`${JSON.stringify(authDetails)}`);
 
     // The first request is the IMDS ping.
     // This ping request has to skip a header and the query parameters for it to work on POD identity.
@@ -260,7 +259,7 @@ describe("ManagedIdentityCredential", function () {
     });
     assert.ok(error!.message!.indexOf("No managed identity endpoint found.") > -1);
   });
-  // no authority host validation and metadata discovery to be done in managed identity
+
   it("IMDS MSI retries and succeeds on 404", async function () {
     const { result, error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
@@ -277,7 +276,6 @@ describe("ManagedIdentityCredential", function () {
         }),
       ],
     });
-    console.log(error);
     assert.isUndefined(error);
     assert.equal(result?.token, "token");
   });
@@ -525,7 +523,6 @@ describe("ManagedIdentityCredential", function () {
         createResponse(200, { access_token: "token", expires_on: "1506484173" }),
       ],
     });
-    console.log(authDetails2);
     assert.isUndefined(authDetails2.error);
     assert.equal(authDetails2.requests.length, 1);
     assert.equal(authDetails2.result?.token, "token");
@@ -562,7 +559,6 @@ describe("ManagedIdentityCredential", function () {
       authRequest.url.indexOf(`api-version=2017-09-01`) > -1,
       "URL does not have expected version"
     );
-    console.log(authDetails);
     if (authDetails.result?.token) {
       assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000000);
     } else {
@@ -587,8 +583,6 @@ describe("ManagedIdentityCredential", function () {
     });
 
     const authRequest = authDetails.requests[0];
-    console.log(`authDetails = ${authDetails}`);
-    console.log(`authRequest = ${authRequest}`);
     const query = new URLSearchParams(authRequest.url.split("?")[1]);
 
     assert.equal(authRequest.method, "GET");
@@ -627,8 +621,6 @@ describe("ManagedIdentityCredential", function () {
     });
 
     const authRequest = authDetails.requests[0];
-    console.log(`authDetails = ${authDetails}`);
-    console.log(`authRequest = ${authRequest}`);
     const query = new URLSearchParams(authRequest.url.split("?")[1]);
 
     assert.equal(authRequest.method, "GET");
@@ -1052,7 +1044,6 @@ describe("ManagedIdentityCredential", function () {
       ],
     });
     assert.equal(confidentialSpy.callCount, 1);
-    console.log(confidentialSpy.callCount);
 
     if (authDetails.result?.token) {
       assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000000);

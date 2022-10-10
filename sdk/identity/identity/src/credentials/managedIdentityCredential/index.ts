@@ -121,6 +121,9 @@ export class ManagedIdentityCredential implements TokenCredential {
         maxRetries: 0,
       },
     });
+    /**  authority host validation and metadata discovery to be skipped in managed identity
+     * since this wasn't done previously before adding token cache support
+     */
     this.confidentialApp = new ConfidentialClientApplication({
       auth: {
         clientId: this.clientId ?? DeveloperSignOnClientId,
