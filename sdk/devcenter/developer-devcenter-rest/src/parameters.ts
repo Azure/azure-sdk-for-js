@@ -2,12 +2,7 @@
 // Licensed under the MIT license.
 
 import { RequestParameters } from "@azure-rest/core-client";
-import {
-  DevBox,
-  Environment,
-  EnvironmentUpdateProperties,
-  ActionRequest
-} from "./models";
+import { DevBox, Environment, EnvironmentUpdateProperties, ActionRequest } from "./models";
 
 export interface DevCenterListProjectsQueryParamProperties {
   /** An OData filter clause to apply to the operation. */
@@ -20,8 +15,7 @@ export interface DevCenterListProjectsQueryParam {
   queryParameters?: DevCenterListProjectsQueryParamProperties;
 }
 
-export type DevCenterListProjectsParameters = DevCenterListProjectsQueryParam &
-  RequestParameters;
+export type DevCenterListProjectsParameters = DevCenterListProjectsQueryParam & RequestParameters;
 export type DevCenterGetProjectParameters = RequestParameters;
 
 export interface DevCenterListAllDevBoxesQueryParamProperties {
@@ -63,8 +57,7 @@ export interface DevBoxesListPoolsQueryParam {
   queryParameters?: DevBoxesListPoolsQueryParamProperties;
 }
 
-export type DevBoxesListPoolsParameters = DevBoxesListPoolsQueryParam &
-  RequestParameters;
+export type DevBoxesListPoolsParameters = DevBoxesListPoolsQueryParam & RequestParameters;
 export type DevBoxesGetPoolParameters = RequestParameters;
 
 export interface DevBoxesListSchedulesByPoolQueryParamProperties {

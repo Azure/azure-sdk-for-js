@@ -74,7 +74,7 @@ import {
   EnvironmentsGetCatalogItemVersion200Response,
   EnvironmentsGetCatalogItemVersiondefaultResponse,
   EnvironmentsListEnvironmentTypes200Response,
-  EnvironmentsListEnvironmentTypesdefaultResponse
+  EnvironmentsListEnvironmentTypesdefaultResponse,
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
@@ -85,107 +85,69 @@ const responseMap: Record<string, string[]> = {
   "GET /projects/{projectName}/pools": ["200"],
   "GET /projects/{projectName}/pools/{poolName}": ["200"],
   "GET /projects/{projectName}/pools/{poolName}/schedules": ["200"],
-  "GET /projects/{projectName}/pools/{poolName}/schedules/{scheduleName}": [
-    "200"
-  ],
+  "GET /projects/{projectName}/pools/{poolName}/schedules/{scheduleName}": ["200"],
   "GET /projects/{projectName}/users/{userId}/devboxes": ["200"],
   "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}": ["200"],
-  "PUT /projects/{projectName}/users/{userId}/devboxes/{devBoxName}": [
-    "200",
-    "201"
-  ],
-  "DELETE /projects/{projectName}/users/{userId}/devboxes/{devBoxName}": [
-    "200",
-    "202",
-    "204"
-  ],
-  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:start": [
-    "200",
-    "202"
-  ],
-  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:start": [
-    "200",
-    "202"
-  ],
-  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:stop": [
-    "200",
-    "202"
-  ],
-  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:stop": [
-    "200",
-    "202"
-  ],
-  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/remoteConnection": [
-    "200"
-  ],
+  "PUT /projects/{projectName}/users/{userId}/devboxes/{devBoxName}": ["200", "201"],
+  "DELETE /projects/{projectName}/users/{userId}/devboxes/{devBoxName}": ["200", "202", "204"],
+  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:start": ["200", "202"],
+  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:start": ["200", "202"],
+  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:stop": ["200", "202"],
+  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:stop": ["200", "202"],
+  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/remoteConnection": ["200"],
   "GET /projects/{projectName}/environments": ["200"],
   "GET /projects/{projectName}/users/{userId}/environments": ["200"],
-  "GET /projects/{projectName}/users/{userId}/environments/{environmentName}": [
-    "200"
-  ],
-  "PUT /projects/{projectName}/users/{userId}/environments/{environmentName}": [
-    "200",
-    "201"
-  ],
-  "PATCH /projects/{projectName}/users/{userId}/environments/{environmentName}": [
-    "200"
-  ],
+  "GET /projects/{projectName}/users/{userId}/environments/{environmentName}": ["200"],
+  "PUT /projects/{projectName}/users/{userId}/environments/{environmentName}": ["200", "201"],
+  "PATCH /projects/{projectName}/users/{userId}/environments/{environmentName}": ["200"],
   "DELETE /projects/{projectName}/users/{userId}/environments/{environmentName}": [
     "200",
     "202",
-    "204"
+    "204",
   ],
   "POST /projects/{projectName}/users/{userId}/environments/{environmentName}:deploy": [
     "200",
-    "202"
+    "202",
   ],
   "GET /projects/{projectName}/users/{userId}/environments/{environmentName}:deploy": [
     "200",
-    "202"
+    "202",
   ],
   "POST /projects/{projectName}/users/{userId}/environments/{environmentName}:delete": [
     "200",
-    "202"
+    "202",
   ],
   "GET /projects/{projectName}/users/{userId}/environments/{environmentName}:delete": [
     "200",
-    "202"
+    "202",
   ],
   "POST /projects/{projectName}/users/{userId}/environments/{environmentName}:custom": [
     "200",
-    "202"
+    "202",
   ],
   "GET /projects/{projectName}/users/{userId}/environments/{environmentName}:custom": [
     "200",
-    "202"
+    "202",
   ],
-  "GET /projects/{projectName}/users/{userId}/environments/{environmentName}/artifacts": [
-    "200"
-  ],
+  "GET /projects/{projectName}/users/{userId}/environments/{environmentName}/artifacts": ["200"],
   "GET /projects/{projectName}/users/{userId}/environments/{environmentName}/artifacts/{artifactPath}": [
-    "200"
+    "200",
   ],
   "GET /projects/{projectName}/catalogItems": ["200"],
   "GET /projects/{projectName}/catalogItems/{catalogItemId}": ["200"],
   "GET /projects/{projectName}/catalogItems/{catalogItemId}/versions": ["200"],
-  "GET /projects/{projectName}/catalogItems/{catalogItemId}/versions/{version}": [
-    "200"
-  ],
-  "GET /projects/{projectName}/environmentTypes": ["200"]
+  "GET /projects/{projectName}/catalogItems/{catalogItemId}/versions/{version}": ["200"],
+  "GET /projects/{projectName}/environmentTypes": ["200"],
 };
 
 export function isUnexpected(
-  response:
-    | DevCenterListProjects200Response
-    | DevCenterListProjectsdefaultResponse
+  response: DevCenterListProjects200Response | DevCenterListProjectsdefaultResponse
 ): response is DevCenterListProjectsdefaultResponse;
 export function isUnexpected(
   response: DevCenterGetProject200Response | DevCenterGetProjectdefaultResponse
 ): response is DevCenterGetProjectdefaultResponse;
 export function isUnexpected(
-  response:
-    | DevCenterListAllDevBoxes200Response
-    | DevCenterListAllDevBoxesdefaultResponse
+  response: DevCenterListAllDevBoxes200Response | DevCenterListAllDevBoxesdefaultResponse
 ): response is DevCenterListAllDevBoxesdefaultResponse;
 export function isUnexpected(
   response:
@@ -199,24 +161,16 @@ export function isUnexpected(
   response: DevBoxesGetPool200Response | DevBoxesGetPooldefaultResponse
 ): response is DevBoxesGetPooldefaultResponse;
 export function isUnexpected(
-  response:
-    | DevBoxesListSchedulesByPool200Response
-    | DevBoxesListSchedulesByPooldefaultResponse
+  response: DevBoxesListSchedulesByPool200Response | DevBoxesListSchedulesByPooldefaultResponse
 ): response is DevBoxesListSchedulesByPooldefaultResponse;
 export function isUnexpected(
-  response:
-    | DevBoxesGetScheduleByPool200Response
-    | DevBoxesGetScheduleByPooldefaultResponse
+  response: DevBoxesGetScheduleByPool200Response | DevBoxesGetScheduleByPooldefaultResponse
 ): response is DevBoxesGetScheduleByPooldefaultResponse;
 export function isUnexpected(
-  response:
-    | DevBoxesListDevBoxesByUser200Response
-    | DevBoxesListDevBoxesByUserdefaultResponse
+  response: DevBoxesListDevBoxesByUser200Response | DevBoxesListDevBoxesByUserdefaultResponse
 ): response is DevBoxesListDevBoxesByUserdefaultResponse;
 export function isUnexpected(
-  response:
-    | DevBoxesGetDevBoxByUser200Response
-    | DevBoxesGetDevBoxByUserdefaultResponse
+  response: DevBoxesGetDevBoxByUser200Response | DevBoxesGetDevBoxByUserdefaultResponse
 ): response is DevBoxesGetDevBoxByUserdefaultResponse;
 export function isUnexpected(
   response:
@@ -244,14 +198,10 @@ export function isUnexpected(
     | DevBoxesStopDevBoxdefaultResponse
 ): response is DevBoxesStopDevBoxdefaultResponse;
 export function isUnexpected(
-  response:
-    | DevBoxesGetRemoteConnection200Response
-    | DevBoxesGetRemoteConnectiondefaultResponse
+  response: DevBoxesGetRemoteConnection200Response | DevBoxesGetRemoteConnectiondefaultResponse
 ): response is DevBoxesGetRemoteConnectiondefaultResponse;
 export function isUnexpected(
-  response:
-    | EnvironmentsListEnvironments200Response
-    | EnvironmentsListEnvironmentsdefaultResponse
+  response: EnvironmentsListEnvironments200Response | EnvironmentsListEnvironmentsdefaultResponse
 ): response is EnvironmentsListEnvironmentsdefaultResponse;
 export function isUnexpected(
   response:
@@ -270,9 +220,7 @@ export function isUnexpected(
     | EnvironmentsCreateOrUpdateEnvironmentdefaultResponse
 ): response is EnvironmentsCreateOrUpdateEnvironmentdefaultResponse;
 export function isUnexpected(
-  response:
-    | EnvironmentsUpdateEnvironment200Response
-    | EnvironmentsUpdateEnvironmentdefaultResponse
+  response: EnvironmentsUpdateEnvironment200Response | EnvironmentsUpdateEnvironmentdefaultResponse
 ): response is EnvironmentsUpdateEnvironmentdefaultResponse;
 export function isUnexpected(
   response:
@@ -310,14 +258,10 @@ export function isUnexpected(
     | EnvironmentsListArtifactsByEnvironmentAndPathdefaultResponse
 ): response is EnvironmentsListArtifactsByEnvironmentAndPathdefaultResponse;
 export function isUnexpected(
-  response:
-    | EnvironmentsListCatalogItems200Response
-    | EnvironmentsListCatalogItemsdefaultResponse
+  response: EnvironmentsListCatalogItems200Response | EnvironmentsListCatalogItemsdefaultResponse
 ): response is EnvironmentsListCatalogItemsdefaultResponse;
 export function isUnexpected(
-  response:
-    | EnvironmentsGetCatalogItem200Response
-    | EnvironmentsGetCatalogItemdefaultResponse
+  response: EnvironmentsGetCatalogItem200Response | EnvironmentsGetCatalogItemdefaultResponse
 ): response is EnvironmentsGetCatalogItemdefaultResponse;
 export function isUnexpected(
   response:
@@ -440,26 +384,26 @@ export function isUnexpected(
   | EnvironmentsGetCatalogItemdefaultResponse
   | EnvironmentsListCatalogItemVersionsdefaultResponse
   | EnvironmentsGetCatalogItemVersiondefaultResponse
-    | EnvironmentsListEnvironmentTypesdefaultResponse {
-    const lroOriginal = response.headers["x-ms-original-url"];
-    const url = new URL(lroOriginal ?? response.request.url);
-    const method = response.request.method;
-    let pathDetails = responseMap[`${method} ${url.pathname}`];
+  | EnvironmentsListEnvironmentTypesdefaultResponse {
+  const lroOriginal = response.headers["x-ms-original-url"];
+  const url = new URL(lroOriginal ?? response.request.url);
+  const method = response.request.method;
+  let pathDetails = responseMap[`${method} ${url.pathname}`];
   if (!pathDetails) {
     pathDetails = geParametrizedPathSuccess(method, url.pathname);
   }
   return !pathDetails.includes(response.status);
 }
 
-function geParametrizedPathSuccess(method:string, path: string): string[] {
+function geParametrizedPathSuccess(method: string, path: string): string[] {
   const pathParts = path.split("/");
 
   // Iterate the responseMap to find a match
   for (const [key, value] of Object.entries(responseMap)) {
     // Extracting the path from the map key which is in format
     // GET /path/foo
-      const candidatePath = getPathFromMapKey(key);
-      const candidateMethod = getMethodFromMapKey(key);
+    const candidatePath = getPathFromMapKey(key);
+    const candidateMethod = getMethodFromMapKey(key);
     // Get each part of the url path
     const candidateParts = candidatePath.split("/");
 
@@ -467,16 +411,13 @@ function geParametrizedPathSuccess(method:string, path: string): string[] {
     // we move on to the next candidate path
     if (
       candidateParts.length === pathParts.length &&
-        hasParametrizedPath(key)
-        && method == candidateMethod
+      hasParametrizedPath(key) &&
+      method == candidateMethod
     ) {
       // track if we have found a match to return the values found.
       let found = true;
       for (let i = 0; i < candidateParts.length; i++) {
-        if (
-          candidateParts[i].startsWith("{") &&
-          candidateParts[i].endsWith("}")
-        ) {
+        if (candidateParts[i].startsWith("{") && candidateParts[i].endsWith("}")) {
           // If the current part of the candidate is a "template" part
           // it is a match with the actual path part on hand
           // skip as the parameterized part can match anything
@@ -515,5 +456,5 @@ function getPathFromMapKey(mapKey: string): string {
 }
 
 function getMethodFromMapKey(mapKey: string): string {
-    return mapKey.split(" ")[0];
+  return mapKey.split(" ")[0];
 }

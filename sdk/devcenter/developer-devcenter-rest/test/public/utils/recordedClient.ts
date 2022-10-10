@@ -17,11 +17,11 @@ const envSetupForPlayback: Record<string, string> = {
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   DEVCENTER_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   DEFAULT_DEVCENTER_NAME: "sdk-test-devcenter",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
-  envSetupForPlayback
+  envSetupForPlayback,
 };
 
 /**
@@ -36,12 +36,19 @@ export async function createRecorder(context: Context): Promise<Recorder> {
 }
 
 export function createRecordedClient(
-    recorder: Recorder,
-    tenantId: string,
-    devCenter: string,
-    options: ClientOptions = {},
-    devCenterDnsSuffix: string = "devcenter.azure.com") {
-    // We need to use a user-persona, so the clientSecretCredential that createTestCredential uses in live/record modes is not sufficient
-    const credential = isPlaybackMode() ? createTestCredential() : new DefaultAzureCredential();
-    return createClient(tenantId, devCenter, credential, devCenterDnsSuffix, recorder.configureClientOptions(options))
+  recorder: Recorder,
+  tenantId: string,
+  devCenter: string,
+  options: ClientOptions = {},
+  devCenterDnsSuffix: string = "devcenter.azure.com"
+) {
+  // We need to use a user-persona, so the clientSecretCredential that createTestCredential uses in live/record modes is not sufficient
+  const credential = isPlaybackMode() ? createTestCredential() : new DefaultAzureCredential();
+  return createClient(
+    tenantId,
+    devCenter,
+    credential,
+    devCenterDnsSuffix,
+    recorder.configureClientOptions(options)
+  );
 }

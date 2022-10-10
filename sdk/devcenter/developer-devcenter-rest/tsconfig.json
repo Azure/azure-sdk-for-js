@@ -3,7 +3,8 @@
   "compilerOptions": {
     "outDir": "./dist-esm",
     "declarationDir": "./types",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "paths": { "@azure-rest/developer-devcenter": ["./src/index"] }
   },
-  "include": ["src/**/*.ts", "./test/**/*.ts"]
+  "include": ["src/**/*.ts", "./test/**/*.ts", "./samples-dev/**/*.ts"]
 }

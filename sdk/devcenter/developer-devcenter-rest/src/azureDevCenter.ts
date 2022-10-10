@@ -12,14 +12,13 @@ export default function createClient(
   devCenterDnsSuffix: string = "devcenter.azure.com",
   options: ClientOptions = {}
 ): AzureDevCenterClient {
-  const baseUrl =
-    options.baseUrl ?? `https://${tenantId}-${devCenter}.${devCenterDnsSuffix}`;
+  const baseUrl = options.baseUrl ?? `https://${tenantId}-${devCenter}.${devCenterDnsSuffix}`;
   options.apiVersion = options.apiVersion ?? "2022-03-01-preview";
   options = {
     ...options,
     credentials: {
-      scopes: ["https://devcenter.azure.com/.default"]
-    }
+      scopes: ["https://devcenter.azure.com/.default"],
+    },
   };
 
   const userAgentInfo = `azsdk-js-developer-devcenter-rest/1.0.0`;
@@ -30,15 +29,11 @@ export default function createClient(
   options = {
     ...options,
     userAgentOptions: {
-      userAgentPrefix
-    }
+      userAgentPrefix,
+    },
   };
 
-  const client = getClient(
-    baseUrl,
-    credentials,
-    options
-  ) as AzureDevCenterClient;
+  const client = getClient(baseUrl, credentials, options) as AzureDevCenterClient;
 
   return client;
 }
