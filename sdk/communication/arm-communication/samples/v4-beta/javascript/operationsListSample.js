@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Lists all of the available REST API operations of the Microsoft.Communication provider.
  *
  * @summary Lists all of the available REST API operations of the Microsoft.Communication provider.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2021-10-01-preview/examples/communicationServices/operationsList.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/communicationServices/operationsList.json
  */
 async function operationsList() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

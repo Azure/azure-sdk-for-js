@@ -87,6 +87,7 @@ export type LinkedServiceUnion =
   | AppFiguresLinkedService
   | AsanaLinkedService
   | TwilioLinkedService
+  | GoogleSheetsLinkedService
   | AmazonS3LinkedService
   | AmazonRedshiftLinkedService
   | CustomDataSourceLinkedService
@@ -138,7 +139,8 @@ export type LinkedServiceUnion =
   | AzureDataExplorerLinkedService
   | AzureFunctionLinkedService
   | SnowflakeLinkedService
-  | SharePointOnlineListLinkedService;
+  | SharePointOnlineListLinkedService
+  | AzureSynapseArtifactsLinkedService;
 export type DatasetUnion =
   | Dataset
   | AmazonS3Dataset
@@ -471,7 +473,9 @@ export type ExecutionActivityUnion =
   | DatabricksSparkPythonActivity
   | AzureFunctionActivity
   | ExecuteDataFlowActivity
-  | ScriptActivity;
+  | ScriptActivity
+  | SynapseNotebookActivity
+  | SynapseSparkJobDefinitionActivity;
 export type MultiplePipelineTriggerUnion =
   | MultiplePipelineTrigger
   | ScheduleTrigger
@@ -1300,6 +1304,7 @@ export interface LinkedService {
     | "AppFigures"
     | "Asana"
     | "Twilio"
+    | "GoogleSheets"
     | "AmazonS3"
     | "AmazonRedshift"
     | "CustomDataSource"
@@ -1351,7 +1356,8 @@ export interface LinkedService {
     | "AzureDataExplorer"
     | "AzureFunction"
     | "Snowflake"
-    | "SharePointOnlineList";
+    | "SharePointOnlineList"
+    | "AzureSynapseArtifacts";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** The integration runtime reference. */
@@ -1574,7 +1580,9 @@ export interface Activity {
     | "WebHook"
     | "ExecuteDataFlow"
     | "ExecuteWranglingDataflow"
-    | "Script";
+    | "Script"
+    | "SynapseNotebook"
+    | "SparkJob";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Activity name. */
@@ -2821,7 +2829,7 @@ export interface SqlAlwaysEncryptedProperties {
 export interface WebLinkedServiceTypeProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authenticationType: "Anonymous" | "Basic" | "ClientCertificate";
-  /** The URL of the web service endpoint, e.g. http://www.microsoft.com . Type: string (or Expression with resultType string). */
+  /** The URL of the web service endpoint, e.g. https://www.microsoft.com . Type: string (or Expression with resultType string). */
   url: any;
 }
 
@@ -3586,6 +3594,38 @@ export interface ScriptActivityTypePropertiesLogSettings {
   logDestination: ScriptActivityLogDestination;
   /** Log location settings customer needs to provide when enabling log. */
   logLocationSettings?: LogLocationSettings;
+}
+
+/** Synapse notebook reference type. */
+export interface SynapseNotebookReference {
+  /** Synapse notebook reference type. */
+  type: NotebookReferenceType;
+  /** Reference notebook name. Type: string (or Expression with resultType string). */
+  referenceName: any;
+}
+
+/** Big data pool reference type. */
+export interface BigDataPoolParametrizationReference {
+  /** Big data pool reference type. */
+  type: BigDataPoolReferenceType;
+  /** Reference big data pool name. Type: string (or Expression with resultType string). */
+  referenceName: any;
+}
+
+/** Notebook parameter. */
+export interface NotebookParameter {
+  /** Notebook parameter value. Type: string (or Expression with resultType string). */
+  value?: any;
+  /** Notebook parameter type. */
+  type?: NotebookParameterType;
+}
+
+/** Synapse spark job reference type. */
+export interface SynapseSparkJobReference {
+  /** Synapse spark job reference type. */
+  type: SparkJobReferenceType;
+  /** Reference spark job name. */
+  referenceName: string;
 }
 
 /** The workflow trigger recurrence. */
@@ -5108,6 +5148,16 @@ export interface TwilioLinkedService extends LinkedService {
   password: SecretBaseUnion;
 }
 
+/** Linked service for GoogleSheets. */
+export interface GoogleSheetsLinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "GoogleSheets";
+  /** The api token for the GoogleSheets source. */
+  apiToken: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: any;
+}
+
 /** Linked service for Amazon S3. */
 export interface AmazonS3LinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -5168,7 +5218,7 @@ export interface AzureSearchLinkedService extends LinkedService {
 export interface HttpLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HttpServer";
-  /** The base URL of the HTTP endpoint, e.g. http://www.microsoft.com. Type: string (or Expression with resultType string). */
+  /** The base URL of the HTTP endpoint, e.g. https://www.microsoft.com. Type: string (or Expression with resultType string). */
   url: any;
   /** The authentication type to be used to connect to the HTTP server. */
   authenticationType?: HttpAuthenticationType;
@@ -6269,6 +6319,16 @@ export interface SharePointOnlineListLinkedService extends LinkedService {
   encryptedCredential?: any;
 }
 
+/** Azure Synapse Analytics (Artifacts) linked service. */
+export interface AzureSynapseArtifactsLinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AzureSynapseArtifacts";
+  /** https://<workspacename>.dev.azuresynapse.net, Azure Synapse Analytics workspace URL. Type: string (or Expression with resultType string). */
+  endpoint: any;
+  /** Required to specify MSI, if using system assigned managed identity as authentication method. Type: string (or Expression with resultType string). */
+  authentication?: any;
+}
+
 /** A single Amazon Simple Storage Service (S3) object or a set of S3 objects. */
 export interface AmazonS3Dataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -7305,7 +7365,9 @@ export interface ExecutionActivity extends Activity {
     | "DatabricksSparkPython"
     | "AzureFunctionActivity"
     | "ExecuteDataFlow"
-    | "Script";
+    | "Script"
+    | "SynapseNotebook"
+    | "SparkJob";
   /** Linked service reference. */
   linkedServiceName?: LinkedServiceReference;
   /** Activity policy. */
@@ -9916,6 +9978,52 @@ export interface ScriptActivity extends ExecutionActivity {
   logSettings?: ScriptActivityTypePropertiesLogSettings;
 }
 
+/** Execute Synapse notebook activity. */
+export interface SynapseNotebookActivity extends ExecutionActivity {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SynapseNotebook";
+  /** Synapse notebook reference. */
+  notebook: SynapseNotebookReference;
+  /** The name of the big data pool which will be used to execute the notebook. */
+  sparkPool?: BigDataPoolParametrizationReference;
+  /** Notebook parameters. */
+  parameters?: { [propertyName: string]: NotebookParameter };
+  /** Number of core and memory to be used for executors allocated in the specified Spark pool for the session, which will be used for overriding 'executorCores' and 'executorMemory' of the notebook you provide. Type: string (or Expression with resultType string). */
+  executorSize?: any;
+  /** Spark configuration properties, which will override the 'conf' of the notebook you provide. */
+  conf?: any;
+  /** Number of core and memory to be used for driver allocated in the specified Spark pool for the session, which will be used for overriding 'driverCores' and 'driverMemory' of the notebook you provide. Type: string (or Expression with resultType string). */
+  driverSize?: any;
+  /** Number of executors to launch for this session, which will override the 'numExecutors' of the notebook you provide. */
+  numExecutors?: number;
+}
+
+/** Execute spark job activity. */
+export interface SynapseSparkJobDefinitionActivity extends ExecutionActivity {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SparkJob";
+  /** Synapse spark job reference. */
+  sparkJob: SynapseSparkJobReference;
+  /** User specified arguments to SynapseSparkJobDefinitionActivity. */
+  arguments?: any[];
+  /** The main file used for the job, which will override the 'file' of the spark job definition you provide. Type: string (or Expression with resultType string). */
+  file?: any;
+  /** The fully-qualified identifier or the main class that is in the main definition file, which will override the 'className' of the spark job definition you provide. Type: string (or Expression with resultType string). */
+  className?: any;
+  /** Additional files used for reference in the main definition file, which will override the 'files' of the spark job definition you provide. */
+  files?: any[];
+  /** The name of the big data pool which will be used to execute the spark batch job, which will override the 'targetBigDataPool' of the spark job definition you provide. */
+  targetBigDataPool?: BigDataPoolParametrizationReference;
+  /** Number of core and memory to be used for executors allocated in the specified Spark pool for the job, which will be used for overriding 'executorCores' and 'executorMemory' of the spark job definition you provide. Type: string (or Expression with resultType string). */
+  executorSize?: any;
+  /** Spark configuration properties, which will override the 'conf' of the spark job definition you provide. */
+  conf?: any;
+  /** Number of core and memory to be used for driver allocated in the specified Spark pool for the job, which will be used for overriding 'driverCores' and 'driverMemory' of the spark job definition you provide. Type: string (or Expression with resultType string). */
+  driverSize?: any;
+  /** Number of executors to launch for this job, which will override the 'numExecutors' of the spark job definition you provide. */
+  numExecutors?: number;
+}
+
 /** Trigger that creates pipeline runs periodically, on schedule. */
 export interface ScheduleTrigger extends MultiplePipelineTrigger {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -12360,6 +12468,75 @@ export enum KnownScriptActivityLogDestination {
  * **ExternalStore**
  */
 export type ScriptActivityLogDestination = string;
+
+/** Known values of {@link NotebookReferenceType} that the service accepts. */
+export enum KnownNotebookReferenceType {
+  /** NotebookReference */
+  NotebookReference = "NotebookReference"
+}
+
+/**
+ * Defines values for NotebookReferenceType. \
+ * {@link KnownNotebookReferenceType} can be used interchangeably with NotebookReferenceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotebookReference**
+ */
+export type NotebookReferenceType = string;
+
+/** Known values of {@link BigDataPoolReferenceType} that the service accepts. */
+export enum KnownBigDataPoolReferenceType {
+  /** BigDataPoolReference */
+  BigDataPoolReference = "BigDataPoolReference"
+}
+
+/**
+ * Defines values for BigDataPoolReferenceType. \
+ * {@link KnownBigDataPoolReferenceType} can be used interchangeably with BigDataPoolReferenceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **BigDataPoolReference**
+ */
+export type BigDataPoolReferenceType = string;
+
+/** Known values of {@link NotebookParameterType} that the service accepts. */
+export enum KnownNotebookParameterType {
+  /** String */
+  String = "string",
+  /** Int */
+  Int = "int",
+  /** Float */
+  Float = "float",
+  /** Bool */
+  Bool = "bool"
+}
+
+/**
+ * Defines values for NotebookParameterType. \
+ * {@link KnownNotebookParameterType} can be used interchangeably with NotebookParameterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **string** \
+ * **int** \
+ * **float** \
+ * **bool**
+ */
+export type NotebookParameterType = string;
+
+/** Known values of {@link SparkJobReferenceType} that the service accepts. */
+export enum KnownSparkJobReferenceType {
+  /** SparkJobDefinitionReference */
+  SparkJobDefinitionReference = "SparkJobDefinitionReference"
+}
+
+/**
+ * Defines values for SparkJobReferenceType. \
+ * {@link KnownSparkJobReferenceType} can be used interchangeably with SparkJobReferenceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SparkJobDefinitionReference**
+ */
+export type SparkJobReferenceType = string;
 
 /** Known values of {@link RecurrenceFrequency} that the service accepts. */
 export enum KnownRecurrenceFrequency {

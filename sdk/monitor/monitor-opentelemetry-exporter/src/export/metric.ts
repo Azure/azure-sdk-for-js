@@ -3,12 +3,13 @@
 import { diag } from "@opentelemetry/api";
 import {
   AggregationTemporality,
+  InstrumentType,
   PushMetricExporter,
   ResourceMetrics,
 } from "@opentelemetry/sdk-metrics";
 import { ExportResult } from "@opentelemetry/core";
 import { AzureMonitorBaseExporter } from "./base";
-import { AzureExporterConfig } from "../config";
+import { AzureMonitorExporterOptions } from "../config";
 import { TelemetryItem as Envelope } from "../generated";
 import { resourceMetricsToEnvelope } from "../utils/metricUtils";
 
@@ -21,9 +22,19 @@ export class AzureMonitorMetricExporter
 {
   private _isStatsbeat: boolean | undefined;
   /**
+   * Flag to determine if Exporter is shutdown.
+   */
+  private _isShutdown = false;
+  /**
+   * Aggregation temporality.
+   */
+  private _aggregationTemporality: AggregationTemporality;
+
+  /**
    * Initializes a new instance of the AzureMonitorMetricExporter class.
    * @param AzureExporterConfig - Exporter configuration.
    */
+
   constructor(options: AzureExporterConfig = {}, isStatsbeat?: boolean) {
     super(options);
     this._isStatsbeat = isStatsbeat;
@@ -39,6 +50,11 @@ export class AzureMonitorMetricExporter
     metrics: ResourceMetrics,
     resultCallback: (result: ExportResult) => void
   ): Promise<void> {
+    if (this._isShutdown) {
+      diag.info("Exporter shut down. Failed to export spans.");
+      setTimeout(() => resultCallback({ code: ExportResultCode.FAILED }), 0);
+      return;
+    }
     diag.info(`Exporting ${metrics.scopeMetrics.length} metrics(s). Converting to envelopes...`);
 
     let envelopes: Envelope[] = resourceMetricsToEnvelope(
@@ -53,22 +69,22 @@ export class AzureMonitorMetricExporter
    * Shutdown AzureMonitorMetricExporter.
    */
   public async shutdown(): Promise<void> {
-    diag.info("Azure Monitor Trace Exporter shutting down");
+    this._isShutdown = true;
+    diag.info("AzureMonitorMetricExporter shutting down");
     return this._shutdown();
   }
 
   /**
    * Select aggregation temporality
    */
-  public selectAggregationTemporality() {
-    return AggregationTemporality.CUMULATIVE;
+  public selectAggregationTemporality(_instrumentType: InstrumentType): AggregationTemporality {
+    return this._aggregationTemporality;
   }
 
   /**
    * Force flush
    */
   public async forceFlush() {
-    // TODO: https://github.com/open-telemetry/opentelemetry-js/issues/3060
-    throw new Error("Method not implemented.");
+    return Promise.resolve();
   }
 }

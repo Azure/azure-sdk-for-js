@@ -331,13 +331,13 @@ export interface IotHubClientOptionalParams extends coreClient.ServiceClientOpti
 }
 
 // @public
-export type IotHubDescription = Resource & {
+export interface IotHubDescription extends Resource {
     etag?: string;
+    identity?: ArmIdentity;
     properties?: IotHubProperties;
     sku: IotHubSkuInfo;
-    identity?: ArmIdentity;
     readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface IotHubDescriptionListResult {
@@ -733,171 +733,116 @@ export type JobType = string;
 
 // @public
 export enum KnownAuthenticationType {
-    // (undocumented)
     IdentityBased = "identityBased",
-    // (undocumented)
     KeyBased = "keyBased"
 }
 
 // @public
 export enum KnownCapabilities {
-    // (undocumented)
     DeviceManagement = "DeviceManagement",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDefaultAction {
-    // (undocumented)
     Allow = "Allow",
-    // (undocumented)
     Deny = "Deny"
 }
 
 // @public
 export enum KnownEndpointHealthStatus {
-    // (undocumented)
     Dead = "dead",
-    // (undocumented)
     Degraded = "degraded",
-    // (undocumented)
     Healthy = "healthy",
-    // (undocumented)
     Unhealthy = "unhealthy",
-    // (undocumented)
     Unknown = "unknown"
 }
 
 // @public
 export enum KnownIotHubReplicaRoleType {
-    // (undocumented)
     Primary = "primary",
-    // (undocumented)
     Secondary = "secondary"
 }
 
 // @public
 export enum KnownIotHubSku {
-    // (undocumented)
     B1 = "B1",
-    // (undocumented)
     B2 = "B2",
-    // (undocumented)
     B3 = "B3",
-    // (undocumented)
     F1 = "F1",
-    // (undocumented)
     S1 = "S1",
-    // (undocumented)
     S2 = "S2",
-    // (undocumented)
     S3 = "S3"
 }
 
 // @public
 export enum KnownJobType {
-    // (undocumented)
     Backup = "backup",
-    // (undocumented)
     Export = "export",
-    // (undocumented)
     FactoryResetDevice = "factoryResetDevice",
-    // (undocumented)
     FirmwareUpdate = "firmwareUpdate",
-    // (undocumented)
     Import = "import",
-    // (undocumented)
     ReadDeviceProperties = "readDeviceProperties",
-    // (undocumented)
     RebootDevice = "rebootDevice",
-    // (undocumented)
     Unknown = "unknown",
-    // (undocumented)
     UpdateDeviceConfiguration = "updateDeviceConfiguration",
-    // (undocumented)
     WriteDeviceProperties = "writeDeviceProperties"
 }
 
 // @public
 export enum KnownNetworkRuleIPAction {
-    // (undocumented)
     Allow = "Allow"
 }
 
 // @public
 export enum KnownPrivateLinkServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownRouteErrorSeverity {
-    // (undocumented)
     Error = "error",
-    // (undocumented)
     Warning = "warning"
 }
 
 // @public
 export enum KnownRoutingSource {
-    // (undocumented)
     DeviceConnectionStateEvents = "DeviceConnectionStateEvents",
-    // (undocumented)
     DeviceJobLifecycleEvents = "DeviceJobLifecycleEvents",
-    // (undocumented)
     DeviceLifecycleEvents = "DeviceLifecycleEvents",
-    // (undocumented)
     DeviceMessages = "DeviceMessages",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     TwinChangeEvents = "TwinChangeEvents"
 }
 
 // @public
 export enum KnownRoutingStorageContainerPropertiesEncoding {
-    // (undocumented)
     Avro = "Avro",
-    // (undocumented)
     AvroDeflate = "AvroDeflate",
-    // (undocumented)
     Json = "JSON"
 }
 
 // @public
 export enum KnownTestResultStatus {
-    // (undocumented)
     False = "false",
-    // (undocumented)
     True = "true",
-    // (undocumented)
     Undefined = "undefined"
 }
 

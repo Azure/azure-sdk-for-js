@@ -6,7 +6,7 @@ import {
   createAppleInstallation,
   createBaiduInstallation,
   createBrowserInstallation,
-  createFirebaseLegacyInstallation,
+  createFcmLegacyInstallation,
   createWindowsInstallation,
 } from "../../../src/models/installation.js";
 import { assert } from "@azure/test-utils";
@@ -72,9 +72,9 @@ describe("createBrowserInstallation", () => {
   });
 });
 
-describe("createFirebaseLegacyInstallation", () => {
+describe("createFcmLegacyInstallation", () => {
   it("should set the default properties", () => {
-    const installation = createFirebaseLegacyInstallation({
+    const installation = createFcmLegacyInstallation({
       installationId: "abc123",
       pushChannel: "zxy321",
     });

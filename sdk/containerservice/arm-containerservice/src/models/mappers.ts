@@ -663,6 +663,20 @@ export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMappe
         type: {
           name: "String"
         }
+      },
+      windowsProfile: {
+        serializedName: "windowsProfile",
+        type: {
+          name: "Composite",
+          className: "AgentPoolWindowsProfile"
+        }
+      },
+      networkProfile: {
+        serializedName: "networkProfile",
+        type: {
+          name: "Composite",
+          className: "AgentPoolNetworkProfile"
+        }
       }
     }
   }
@@ -971,6 +985,63 @@ export const SysctlConfig: coreClient.CompositeMapper = {
         serializedName: "vmVfsCachePressure",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AgentPoolWindowsProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgentPoolWindowsProfile",
+    modelProperties: {
+      disableOutboundNat: {
+        serializedName: "disableOutboundNat",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const AgentPoolNetworkProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgentPoolNetworkProfile",
+    modelProperties: {
+      nodePublicIPTags: {
+        serializedName: "nodePublicIPTags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IPTag"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const IPTag: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IPTag",
+    modelProperties: {
+      ipTagType: {
+        serializedName: "ipTagType",
+        type: {
+          name: "String"
+        }
+      },
+      tag: {
+        serializedName: "tag",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1544,6 +1615,13 @@ export const ContainerServiceNetworkProfile: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      kubeProxyConfig: {
+        serializedName: "kubeProxyConfig",
+        type: {
+          name: "Composite",
+          className: "ContainerServiceNetworkProfileKubeProxyConfig"
+        }
       }
     }
   }
@@ -1613,6 +1691,13 @@ export const ManagedClusterLoadBalancerProfile: coreClient.CompositeMapper = {
         serializedName: "enableMultipleStandardLoadBalancers",
         type: {
           name: "Boolean"
+        }
+      },
+      backendPoolType: {
+        defaultValue: "NodeIPConfiguration",
+        serializedName: "backendPoolType",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1758,6 +1843,67 @@ export const ManagedClusterManagedOutboundIPProfile: coreClient.CompositeMapper 
           InclusiveMinimum: 1
         },
         serializedName: "count",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerServiceNetworkProfileKubeProxyConfig: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerServiceNetworkProfileKubeProxyConfig",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      mode: {
+        serializedName: "mode",
+        type: {
+          name: "String"
+        }
+      },
+      ipvsConfig: {
+        serializedName: "ipvsConfig",
+        type: {
+          name: "Composite",
+          className: "ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig",
+    modelProperties: {
+      scheduler: {
+        serializedName: "scheduler",
+        type: {
+          name: "String"
+        }
+      },
+      tcpTimeoutSeconds: {
+        serializedName: "tcpTimeoutSeconds",
+        type: {
+          name: "Number"
+        }
+      },
+      tcpFinTimeoutSeconds: {
+        serializedName: "tcpFinTimeoutSeconds",
+        type: {
+          name: "Number"
+        }
+      },
+      udpTimeoutSeconds: {
+        serializedName: "udpTimeoutSeconds",
         type: {
           name: "Number"
         }
@@ -2131,6 +2277,13 @@ export const ManagedClusterSecurityProfile: coreClient.CompositeMapper = {
           className: "ManagedClusterSecurityProfileWorkloadIdentity"
         }
       },
+      imageCleaner: {
+        serializedName: "imageCleaner",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterSecurityProfileImageCleaner"
+        }
+      },
       nodeRestriction: {
         serializedName: "nodeRestriction",
         type: {
@@ -2222,6 +2375,27 @@ export const ManagedClusterSecurityProfileWorkloadIdentity: coreClient.Composite
         serializedName: "enabled",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterSecurityProfileImageCleaner: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterSecurityProfileImageCleaner",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      intervalHours: {
+        serializedName: "intervalHours",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -2394,6 +2568,14 @@ export const ManagedClusterWorkloadAutoScalerProfile: coreClient.CompositeMapper
           name: "Composite",
           className: "ManagedClusterWorkloadAutoScalerProfileKeda"
         }
+      },
+      verticalPodAutoscaler: {
+        serializedName: "verticalPodAutoscaler",
+        type: {
+          name: "Composite",
+          className:
+            "ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler"
+        }
       }
     }
   }
@@ -2409,6 +2591,145 @@ export const ManagedClusterWorkloadAutoScalerProfileKeda: coreClient.CompositeMa
         required: true,
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler",
+    modelProperties: {
+      enabled: {
+        defaultValue: false,
+        serializedName: "enabled",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      controlledValues: {
+        defaultValue: "RequestsAndLimits",
+        serializedName: "controlledValues",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      updateMode: {
+        defaultValue: "Off",
+        serializedName: "updateMode",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterAzureMonitorProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterAzureMonitorProfile",
+    modelProperties: {
+      metrics: {
+        serializedName: "metrics",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterAzureMonitorProfileMetrics"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterAzureMonitorProfileMetrics: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterAzureMonitorProfileMetrics",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      kubeStateMetrics: {
+        serializedName: "kubeStateMetrics",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterAzureMonitorProfileKubeStateMetrics"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterAzureMonitorProfileKubeStateMetrics: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterAzureMonitorProfileKubeStateMetrics",
+    modelProperties: {
+      metricLabelsAllowlist: {
+        serializedName: "metricLabelsAllowlist",
+        type: {
+          name: "String"
+        }
+      },
+      metricAnnotationsAllowList: {
+        serializedName: "metricAnnotationsAllowList",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GuardrailsProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GuardrailsProfile",
+    modelProperties: {
+      systemExcludedNamespaces: {
+        serializedName: "systemExcludedNamespaces",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      version: {
+        serializedName: "version",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      level: {
+        serializedName: "level",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      excludedNamespaces: {
+        serializedName: "excludedNamespaces",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -4379,6 +4700,20 @@ export const AgentPool: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      windowsProfile: {
+        serializedName: "properties.windowsProfile",
+        type: {
+          name: "Composite",
+          className: "AgentPoolWindowsProfile"
+        }
+      },
+      networkProfile: {
+        serializedName: "properties.networkProfile",
+        type: {
+          name: "Composite",
+          className: "AgentPoolNetworkProfile"
+        }
       }
     }
   }
@@ -4672,6 +5007,20 @@ export const ManagedCluster: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedClusterWorkloadAutoScalerProfile"
+        }
+      },
+      azureMonitorProfile: {
+        serializedName: "properties.azureMonitorProfile",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterAzureMonitorProfile"
+        }
+      },
+      guardrailsProfile: {
+        serializedName: "properties.guardrailsProfile",
+        type: {
+          name: "Composite",
+          className: "GuardrailsProfile"
         }
       }
     }

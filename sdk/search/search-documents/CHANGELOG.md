@@ -1,6 +1,16 @@
 # Release History
 
-## 11.3.0-beta.8 (unreleased)
+## 11.3.0-beta.9 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 11.3.0-beta.8 (2022-09-06)
 
 - Added `core-http-compat` dependency
 - Enabled national cloud support for Azure Search SDK. Please refer [#22887](https://github.com/Azure/azure-sdk-for-js/pull/22887) for further details.

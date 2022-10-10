@@ -8,7 +8,7 @@
  * @azsdk-weight 20
  */
 
-import AccessControl, { paginate } from "@azure-rest/synapse-access-control";
+import AccessControl, { isUnexpected, paginate } from "@azure-rest/synapse-access-control";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
@@ -20,7 +20,7 @@ async function main() {
   const client = AccessControl(endpoint, new DefaultAzureCredential());
   const initialResponse = await client.path("/roleAssignments").get();
 
-  if (initialResponse.status !== "200") {
+  if (isUnexpected(initialResponse)) {
     throw initialResponse.body.error;
   }
 

@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for CommunicationServiceManagementClient.",
-  "version": "4.0.0-beta.2",
+  "version": "4.0.0-beta.3",
   "engines": {
     "node": ">=12.0.0"
   },
@@ -28,7 +28,7 @@
   "module": "./dist-esm/src/index.js",
   "types": "./types/arm-communication.d.ts",
   "devDependencies": {
-    "@microsoft/api-extractor": "7.18.11",
+    "@microsoft/api-extractor": "^7.31.1",
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-multi-entry": "^4.1.0",
@@ -36,7 +36,7 @@
     "mkdirp": "^1.0.4",
     "rollup": "^2.66.1",
     "rollup-plugin-sourcemaps": "^0.6.3",
-    "typescript": "~4.2.0",
+    "typescript": "~4.6.0",
     "uglify-js": "^3.4.9",
     "rimraf": "^3.0.0",
     "@azure/identity": "^2.0.1",
@@ -98,8 +98,7 @@
     "unit-test:browser": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 'test/*.ts'",
-    "integration-test:browser": "echo skipped",
-    "docs": "echo skipped"
+    "integration-test:browser": "echo skipped"
   },
   "sideEffects": false,
   "//metadata": {

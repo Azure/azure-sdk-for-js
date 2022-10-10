@@ -18,3 +18,11 @@ https://docs.microsoft.com/javascript/api/@azure/arm-fluidrelay?view=azure-node-
 https://docs.microsoft.com/javascript/api/@azure/arm-automanage
 https://docs.microsoft.com/javascript/api/@azure/arm-automanage?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-devcenter?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-connectedvmware?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-nginx
+https://docs.microsoft.com/javascript/api/@azure/arm-nginx?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-agrifood?view=azure-node-preview
+https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/personalizer/ai-personalizer-rest/samples
+https://docs.microsoft.com/javascript/api/@azure/arm-chaos?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure-rest/arm-compute?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure-rest/arm-network?view=azure-node-preview

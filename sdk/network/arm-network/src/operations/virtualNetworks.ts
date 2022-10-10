@@ -23,6 +23,9 @@ import {
   VirtualNetworkUsage,
   VirtualNetworksListUsageNextOptionalParams,
   VirtualNetworksListUsageOptionalParams,
+  PublicIpDdosProtectionStatusResult,
+  VirtualNetworksListDdosProtectionStatusNextOptionalParams,
+  VirtualNetworksListDdosProtectionStatusOptionalParams,
   VirtualNetworksDeleteOptionalParams,
   VirtualNetworksGetOptionalParams,
   VirtualNetworksGetResponse,
@@ -36,9 +39,11 @@ import {
   VirtualNetworksCheckIPAddressAvailabilityOptionalParams,
   VirtualNetworksCheckIPAddressAvailabilityResponse,
   VirtualNetworksListUsageResponse,
+  VirtualNetworksListDdosProtectionStatusResponse,
   VirtualNetworksListAllNextResponse,
   VirtualNetworksListNextResponse,
-  VirtualNetworksListUsageNextResponse
+  VirtualNetworksListUsageNextResponse,
+  VirtualNetworksListDdosProtectionStatusNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -209,6 +214,78 @@ export class VirtualNetworksImpl implements VirtualNetworks {
     options?: VirtualNetworksListUsageOptionalParams
   ): AsyncIterableIterator<VirtualNetworkUsage> {
     for await (const page of this.listUsagePagingPage(
+      resourceGroupName,
+      virtualNetworkName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Gets the Ddos Protection Status of all IP Addresses under the Virtual Network
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkName The name of the virtual network.
+   * @param options The options parameters.
+   */
+  public beginListDdosProtectionStatusAndWait(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    options?: VirtualNetworksListDdosProtectionStatusOptionalParams
+  ): PagedAsyncIterableIterator<PublicIpDdosProtectionStatusResult> {
+    const iter = this.listDdosProtectionStatusPagingAll(
+      resourceGroupName,
+      virtualNetworkName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listDdosProtectionStatusPagingPage(
+          resourceGroupName,
+          virtualNetworkName,
+          options
+        );
+      }
+    };
+  }
+
+  private async *listDdosProtectionStatusPagingPage(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    options?: VirtualNetworksListDdosProtectionStatusOptionalParams
+  ): AsyncIterableIterator<PublicIpDdosProtectionStatusResult[]> {
+    const poller = await this._listDdosProtectionStatus(
+      resourceGroupName,
+      virtualNetworkName,
+      options
+    );
+    let result: any = await poller.pollUntilDone();
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listDdosProtectionStatusNext(
+        resourceGroupName,
+        virtualNetworkName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listDdosProtectionStatusPagingAll(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    options?: VirtualNetworksListDdosProtectionStatusOptionalParams
+  ): AsyncIterableIterator<PublicIpDdosProtectionStatusResult> {
+    for await (const page of this.listDdosProtectionStatusPagingPage(
       resourceGroupName,
       virtualNetworkName,
       options
@@ -491,6 +568,75 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   }
 
   /**
+   * Gets the Ddos Protection Status of all IP Addresses under the Virtual Network
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkName The name of the virtual network.
+   * @param options The options parameters.
+   */
+  private async _listDdosProtectionStatus(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    options?: VirtualNetworksListDdosProtectionStatusOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<VirtualNetworksListDdosProtectionStatusResponse>,
+      VirtualNetworksListDdosProtectionStatusResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<VirtualNetworksListDdosProtectionStatusResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, virtualNetworkName, options },
+      listDdosProtectionStatusOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
    * ListAllNext
    * @param nextLink The nextLink from the previous successful call to the ListAll method.
    * @param options The options parameters.
@@ -538,6 +684,26 @@ export class VirtualNetworksImpl implements VirtualNetworks {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualNetworkName, nextLink, options },
       listUsageNextOperationSpec
+    );
+  }
+
+  /**
+   * ListDdosProtectionStatusNext
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkName The name of the virtual network.
+   * @param nextLink The nextLink from the previous successful call to the ListDdosProtectionStatus
+   *                 method.
+   * @param options The options parameters.
+   */
+  private _listDdosProtectionStatusNext(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    nextLink: string,
+    options?: VirtualNetworksListDdosProtectionStatusNextOptionalParams
+  ): Promise<VirtualNetworksListDdosProtectionStatusNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, virtualNetworkName, nextLink, options },
+      listDdosProtectionStatusNextOperationSpec
     );
   }
 }
@@ -728,6 +894,41 @@ const listUsageOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const listDdosProtectionStatusOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/ddosProtectionStatus",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualNetworkDdosProtectionStatusResult
+    },
+    201: {
+      bodyMapper: Mappers.VirtualNetworkDdosProtectionStatusResult
+    },
+    202: {
+      bodyMapper: Mappers.VirtualNetworkDdosProtectionStatusResult
+    },
+    204: {
+      bodyMapper: Mappers.VirtualNetworkDdosProtectionStatusResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.top1,
+    Parameters.skipToken1
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.virtualNetworkName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listAllNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -781,6 +982,33 @@ const listUsageNextOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.virtualNetworkName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listDdosProtectionStatusNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualNetworkDdosProtectionStatusResult
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.top1,
+    Parameters.skipToken1
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

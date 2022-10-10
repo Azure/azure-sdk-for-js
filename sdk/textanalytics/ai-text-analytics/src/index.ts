@@ -29,6 +29,7 @@ export {
   StringIndexType,
   RecognizeLinkedEntitiesAction,
   AnalyzeSentimentAction,
+  PollerLikeWithCancellation,
 } from "./textAnalyticsClient";
 export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 export {

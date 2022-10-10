@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs?api-version=2022-05-01",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "296",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "2c24d927-c1c0-48ab-b479-a1fc37b4838c"
+        "User-Agent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 Node/v14.18.1 OS/(x64-Linux-5.15.57.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "f25cf379-667d-4180-a6e1-02c86c9e3504"
       },
       "RequestBody": {
         "analysisInput": {
@@ -40,49 +40,43 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "5e585936-43d6-4160-9f92-bc8c2ccbec6e",
+        "apim-request-id": "9b81a830-6ad5-4477-8814-c06457ee69da",
         "Content-Length": "0",
-        "Date": "Fri, 15 Jul 2022 14:41:22 GMT",
-        "operation-location": "https://endpoint/language/analyze-text/jobs/b35a582a-d28e-4fc6-8052-e2abcfe302ef?api-version=2022-04-01-preview",
+        "Date": "Thu, 06 Oct 2022 03:28:37 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/61284388-94f9-4859-a8cb-f6fae070a417?api-version=2022-05-01",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "warn-agent": "-",
-        "warn-code": "299",
-        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "244"
+        "x-envoy-upstream-service-time": "205"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/b35a582a-d28e-4fc6-8052-e2abcfe302ef?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/61284388-94f9-4859-a8cb-f6fae070a417?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "6c3e2e3d-b41d-4379-a192-f89790687b78"
+        "User-Agent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 Node/v14.18.1 OS/(x64-Linux-5.15.57.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "8e891f59-95ef-403d-acf3-27bb082a5e76"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "f5699c5f-e340-4b45-b62a-65a44e8007ed",
-        "Content-Length": "279",
+        "apim-request-id": "1119803d-8048-47dc-9702-632899693b18",
+        "Content-Length": "280",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 15 Jul 2022 14:41:23 GMT",
+        "Date": "Thu, 06 Oct 2022 03:28:37 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "warn-agent": "-",
-        "warn-code": "299",
-        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "8"
+        "x-envoy-upstream-service-time": "7"
       },
       "ResponseBody": {
-        "jobId": "b35a582a-d28e-4fc6-8052-e2abcfe302ef",
-        "lastUpdateDateTime": "2022-07-15T14:41:23Z",
-        "createdDateTime": "2022-07-15T14:41:22Z",
-        "expirationDateTime": "2022-07-16T14:41:22Z",
+        "jobId": "61284388-94f9-4859-a8cb-f6fae070a417",
+        "lastUpdatedDateTime": "2022-10-06T03:28:38Z",
+        "createdDateTime": "2022-10-06T03:28:37Z",
+        "expirationDateTime": "2022-10-07T03:28:37Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -95,35 +89,32 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/b35a582a-d28e-4fc6-8052-e2abcfe302ef?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/61284388-94f9-4859-a8cb-f6fae070a417?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "4aa5337d-2216-4c76-8faf-730d9307de6f"
+        "User-Agent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 Node/v14.18.1 OS/(x64-Linux-5.15.57.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "d4e69fa1-f0cd-45a2-87b3-af51be94df18"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "a4ad959b-7918-4c6a-8dff-08a95aec3bd0",
-        "Content-Length": "279",
+        "apim-request-id": "deaea5ff-83b6-4bac-895b-77a43d844348",
+        "Content-Length": "280",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 15 Jul 2022 14:41:23 GMT",
+        "Date": "Thu, 06 Oct 2022 03:28:37 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "warn-agent": "-",
-        "warn-code": "299",
-        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "10"
+        "x-envoy-upstream-service-time": "6"
       },
       "ResponseBody": {
-        "jobId": "b35a582a-d28e-4fc6-8052-e2abcfe302ef",
-        "lastUpdateDateTime": "2022-07-15T14:41:23Z",
-        "createdDateTime": "2022-07-15T14:41:22Z",
-        "expirationDateTime": "2022-07-16T14:41:22Z",
+        "jobId": "61284388-94f9-4859-a8cb-f6fae070a417",
+        "lastUpdatedDateTime": "2022-10-06T03:28:38Z",
+        "createdDateTime": "2022-10-06T03:28:37Z",
+        "expirationDateTime": "2022-10-07T03:28:37Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -136,35 +127,32 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/b35a582a-d28e-4fc6-8052-e2abcfe302ef?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/61284388-94f9-4859-a8cb-f6fae070a417?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "8d0f77da-f031-41c4-8be0-15f273501e5a"
+        "User-Agent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 Node/v14.18.1 OS/(x64-Linux-5.15.57.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "7847dda3-4109-406c-a0dc-ab3e8c32dc35"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "651690f9-4fc8-4506-bcfa-4736e1633764",
-        "Content-Length": "1901",
+        "apim-request-id": "4eb57b9e-24c3-40e4-b83f-95cb50179cc9",
+        "Content-Length": "1948",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 15 Jul 2022 14:41:26 GMT",
+        "Date": "Thu, 06 Oct 2022 03:28:39 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "warn-agent": "-",
-        "warn-code": "299",
-        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "52"
+        "x-envoy-upstream-service-time": "61"
       },
       "ResponseBody": {
-        "jobId": "b35a582a-d28e-4fc6-8052-e2abcfe302ef",
-        "lastUpdateDateTime": "2022-07-15T14:41:24Z",
-        "createdDateTime": "2022-07-15T14:41:22Z",
-        "expirationDateTime": "2022-07-16T14:41:22Z",
+        "jobId": "61284388-94f9-4859-a8cb-f6fae070a417",
+        "lastUpdatedDateTime": "2022-10-06T03:28:39Z",
+        "createdDateTime": "2022-10-06T03:28:37Z",
+        "expirationDateTime": "2022-10-07T03:28:37Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -175,7 +163,7 @@
           "items": [
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-07-15T14:41:24.691226Z",
+              "lastUpdateDateTime": "2022-10-06T03:28:39.7281163Z",
               "status": "succeeded",
               "results": {
                 "documents": [],
@@ -187,7 +175,7 @@
                       "message": "Invalid Language Code.",
                       "innererror": {
                         "code": "UnsupportedLanguageCode",
-                        "message": "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition"
+                        "message": "Invalid language code \u0027notalanguage\u0027. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition"
                       }
                     }
                   }
@@ -197,7 +185,7 @@
             },
             {
               "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-07-15T14:41:24.8227666Z",
+              "lastUpdateDateTime": "2022-10-06T03:28:39.8019905Z",
               "status": "succeeded",
               "results": {
                 "documents": [],
@@ -209,7 +197,7 @@
                       "message": "Invalid Language Code.",
                       "innererror": {
                         "code": "UnsupportedLanguageCode",
-                        "message": "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition"
+                        "message": "Invalid language code \u0027notalanguage\u0027. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition"
                       }
                     }
                   }
@@ -219,7 +207,7 @@
             },
             {
               "kind": "KeyPhraseExtractionLROResults",
-              "lastUpdateDateTime": "2022-07-15T14:41:24.8688528Z",
+              "lastUpdateDateTime": "2022-10-06T03:28:39.8319586Z",
               "status": "succeeded",
               "results": {
                 "documents": [],
@@ -231,7 +219,7 @@
                       "message": "Invalid Language Code.",
                       "innererror": {
                         "code": "UnsupportedLanguageCode",
-                        "message": "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction"
+                        "message": "Invalid language code \u0027notalanguage\u0027. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction"
                       }
                     }
                   }
@@ -244,35 +232,32 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/b35a582a-d28e-4fc6-8052-e2abcfe302ef?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/61284388-94f9-4859-a8cb-f6fae070a417?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.0-beta.1 core-rest-pipeline/1.9.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "dc26e622-4d6f-41db-a182-ccd387541f55"
+        "User-Agent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 Node/v14.18.1 OS/(x64-Linux-5.15.57.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "bd87a215-d21b-4999-8685-29faf92e1984"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "15de4867-8296-4533-82a1-c5365cc06baf",
-        "Content-Length": "1901",
+        "apim-request-id": "53d6ffdb-7746-4aef-bb90-7f1b260a49c0",
+        "Content-Length": "1948",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 15 Jul 2022 14:41:26 GMT",
+        "Date": "Thu, 06 Oct 2022 03:28:39 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "warn-agent": "-",
-        "warn-code": "299",
-        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "56"
+        "x-envoy-upstream-service-time": "64"
       },
       "ResponseBody": {
-        "jobId": "b35a582a-d28e-4fc6-8052-e2abcfe302ef",
-        "lastUpdateDateTime": "2022-07-15T14:41:24Z",
-        "createdDateTime": "2022-07-15T14:41:22Z",
-        "expirationDateTime": "2022-07-16T14:41:22Z",
+        "jobId": "61284388-94f9-4859-a8cb-f6fae070a417",
+        "lastUpdatedDateTime": "2022-10-06T03:28:39Z",
+        "createdDateTime": "2022-10-06T03:28:37Z",
+        "expirationDateTime": "2022-10-07T03:28:37Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -283,7 +268,7 @@
           "items": [
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-07-15T14:41:24.691226Z",
+              "lastUpdateDateTime": "2022-10-06T03:28:39.7281163Z",
               "status": "succeeded",
               "results": {
                 "documents": [],
@@ -295,7 +280,7 @@
                       "message": "Invalid Language Code.",
                       "innererror": {
                         "code": "UnsupportedLanguageCode",
-                        "message": "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition"
+                        "message": "Invalid language code \u0027notalanguage\u0027. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition"
                       }
                     }
                   }
@@ -305,7 +290,7 @@
             },
             {
               "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-07-15T14:41:24.8227666Z",
+              "lastUpdateDateTime": "2022-10-06T03:28:39.8019905Z",
               "status": "succeeded",
               "results": {
                 "documents": [],
@@ -317,7 +302,7 @@
                       "message": "Invalid Language Code.",
                       "innererror": {
                         "code": "UnsupportedLanguageCode",
-                        "message": "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition"
+                        "message": "Invalid language code \u0027notalanguage\u0027. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition"
                       }
                     }
                   }
@@ -327,7 +312,7 @@
             },
             {
               "kind": "KeyPhraseExtractionLROResults",
-              "lastUpdateDateTime": "2022-07-15T14:41:24.8688528Z",
+              "lastUpdateDateTime": "2022-10-06T03:28:39.8319586Z",
               "status": "succeeded",
               "results": {
                 "documents": [],
@@ -339,7 +324,7 @@
                       "message": "Invalid Language Code.",
                       "innererror": {
                         "code": "UnsupportedLanguageCode",
-                        "message": "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction"
+                        "message": "Invalid language code \u0027notalanguage\u0027. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction"
                       }
                     }
                   }

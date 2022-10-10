@@ -9,6 +9,7 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AzureLogger } from '@azure/logger';
 import { BaseRequestPolicy } from '@azure/core-http';
+import { CancelOnProgress } from '@azure/core-lro';
 import * as coreHttp from '@azure/core-http';
 import { deserializationPolicy } from '@azure/core-http';
 import { HttpHeaders } from '@azure/core-http';
@@ -408,7 +409,7 @@ export class BlobClient extends StorageClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: PipelineLike);
     abortCopyFromURL(copyId: string, options?: BlobAbortCopyFromURLOptions): Promise<BlobAbortCopyFromURLResponse>;
-    beginCopyFromURL(copySource: string, options?: BlobBeginCopyFromURLOptions): Promise<PollerLike<PollOperationState<BlobBeginCopyFromURLResponse>, BlobBeginCopyFromURLResponse>>;
+    beginCopyFromURL(copySource: string, options?: BlobBeginCopyFromURLOptions): Promise<PollerLikeWithCancellation<PollOperationState<BlobBeginCopyFromURLResponse>, BlobBeginCopyFromURLResponse>>;
     get containerName(): string;
     createSnapshot(options?: BlobCreateSnapshotOptions): Promise<BlobCreateSnapshotResponse>;
     delete(options?: BlobDeleteOptions): Promise<BlobDeleteResponse>;
@@ -2661,7 +2662,7 @@ export interface PageBlobGetPageRangesDiffResponse extends PageList, PageBlobGet
     };
 }
 
-// Warning: (ae-forgotten-export) The symbol "PageList" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "PageList_2" needs to be exported by the entry point index.d.ts
 //
 // @public
 export type PageBlobGetPageRangesDiffResponseModel = PageBlobGetPageRangesDiffHeaders & PageList_2 & {
@@ -2895,6 +2896,24 @@ export interface PipelineOptions {
 }
 
 export { PollerLike }
+
+// @public
+export interface PollerLikeWithCancellation<TState extends PollOperationState<TResult>, TResult> {
+    cancelOperation(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<void>;
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<void>;
+    pollUntilDone(): Promise<TResult>;
+    stopPolling(): void;
+    toString(): string;
+}
 
 export { PollOperationState }
 

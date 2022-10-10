@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkzzz/subnets/subnetzzz?api-version=2022-01-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkzzz/subnets/subnetzzz?api-version=2022-05-01",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "46",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-network/29.0.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "8bab2f27-b0b9-4d82-bcac-7f69e90ebc69"
+        "User-Agent": "azsdk-js-arm-network/30.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "bb76f909-cea3-4c70-81ab-5e63ede5f2d8"
       },
       "RequestBody": {
         "properties": {
@@ -20,11 +20,12 @@
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Network/locations/eastus/operations/97f23e4b-db7d-4d52-89b9-6de993cd23f2?api-version=2022-01-01",
+        "Azure-AsyncNotification": "Enabled",
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Network/locations/eastus/operations/1e00826a-554b-41f4-8596-2583b25e4b3c?api-version=2022-05-01",
         "Cache-Control": "no-cache",
         "Content-Length": "520",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 02 Aug 2022 07:47:41 GMT",
+        "Date": "Fri, 30 Sep 2022 02:02:14 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Retry-After": "3",
@@ -34,16 +35,16 @@
         ],
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-arm-service-request-id": "1dfcb333-ac88-4ab3-a814-1590d3f3f8a4",
-        "x-ms-correlation-request-id": "93712183-ab48-4f6c-8dcf-38978b6427e4",
+        "x-ms-arm-service-request-id": "b58d293a-9622-49a9-8201-5d8455c89905",
+        "x-ms-correlation-request-id": "6edce3a0-dbb7-4829-a82d-d3bd55096183",
         "x-ms-ratelimit-remaining-subscription-writes": "1198",
-        "x-ms-request-id": "97f23e4b-db7d-4d52-89b9-6de993cd23f2",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220802T074742Z:93712183-ab48-4f6c-8dcf-38978b6427e4"
+        "x-ms-request-id": "1e00826a-554b-41f4-8596-2583b25e4b3c",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220930T020214Z:6edce3a0-dbb7-4829-a82d-d3bd55096183"
       },
       "ResponseBody": {
         "name": "subnetzzz",
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkzzz/subnets/subnetzzz",
-        "etag": "W/\u0022012f7182-1e5f-4d3c-b06e-8bd471cabab5\u0022",
+        "etag": "W/\u0022a6f60275-def5-48f8-9f8c-1015193b1c31\u0022",
         "properties": {
           "provisioningState": "Updating",
           "addressPrefix": "10.0.0.0/24",
@@ -55,7 +56,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Network/locations/eastus/operations/97f23e4b-db7d-4d52-89b9-6de993cd23f2?api-version=2022-01-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Network/locations/eastus/operations/1e00826a-554b-41f4-8596-2583b25e4b3c?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -63,8 +64,8 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-network/29.0.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "51eaad91-1dfa-4406-9b69-7741ca950118"
+        "User-Agent": "azsdk-js-arm-network/30.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "ff4aadbb-9432-452b-a659-de6d8853776d"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -72,7 +73,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 02 Aug 2022 07:47:41 GMT",
+        "Date": "Fri, 30 Sep 2022 02:02:14 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": [
@@ -83,14 +84,64 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-arm-service-request-id": "150e1c41-c826-49ae-844e-a373229efa84",
-        "x-ms-correlation-request-id": "eae3d959-2aef-4b6f-84ed-bb7f986dff59",
+        "x-ms-arm-service-request-id": "108221c3-d656-48de-a04b-0c59f2856706",
+        "x-ms-correlation-request-id": "6a1ef881-0de8-47af-9854-45e9ffa037a6",
         "x-ms-ratelimit-remaining-subscription-reads": "11997",
-        "x-ms-request-id": "23348354-5534-4f9e-9a19-e3101da9d658",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220802T074742Z:eae3d959-2aef-4b6f-84ed-bb7f986dff59"
+        "x-ms-request-id": "a3f63cb0-c2ad-4b3d-852d-b72ac6f78d95",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220930T020215Z:6a1ef881-0de8-47af-9854-45e9ffa037a6"
       },
       "ResponseBody": {
         "status": "Succeeded"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkzzz/subnets/subnetzzz?api-version=2022-05-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-network/30.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "964c0d68-cd18-415d-8a09-283cf793f68e"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 30 Sep 2022 02:02:15 GMT",
+        "ETag": "W/\u0022ba526257-5fe3-4c30-bf63-2c0ebbd90d11\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": [
+          "Microsoft-HTTPAPI/2.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-arm-service-request-id": "f18e9105-0d2d-43f0-b138-bb6139cb4683",
+        "x-ms-correlation-request-id": "29af5483-4b59-4019-90be-e1bd9f9b042f",
+        "x-ms-ratelimit-remaining-subscription-reads": "11996",
+        "x-ms-request-id": "19a9d551-70fb-44e8-90a6-180e16d1429c",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220930T020215Z:29af5483-4b59-4019-90be-e1bd9f9b042f"
+      },
+      "ResponseBody": {
+        "name": "subnetzzz",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkzzz/subnets/subnetzzz",
+        "etag": "W/\u0022ba526257-5fe3-4c30-bf63-2c0ebbd90d11\u0022",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "addressPrefix": "10.0.0.0/24",
+          "delegations": [],
+          "privateEndpointNetworkPolicies": "Disabled",
+          "privateLinkServiceNetworkPolicies": "Enabled"
+        },
+        "type": "Microsoft.Network/virtualNetworks/subnets"
       }
     }
   ],

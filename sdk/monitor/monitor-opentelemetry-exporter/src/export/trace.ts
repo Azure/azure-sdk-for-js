@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { diag } from "@opentelemetry/api";
-import { ExportResult } from "@opentelemetry/core";
+import { ExportResult, ExportResultCode } from "@opentelemetry/core";
 import { ReadableSpan, SpanExporter } from "@opentelemetry/sdk-trace-base";
 import { AzureMonitorBaseExporter } from "./base";
-import { AzureExporterConfig } from "../config";
+import { AzureMonitorExporterOptions } from "../config";
 import { TelemetryItem as Envelope } from "../generated";
 import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../utils/spanUtils";
 
@@ -14,10 +14,15 @@ import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../utils/spanUtil
  */
 export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implements SpanExporter {
   /**
+   * Flag to determine if Exporter is shutdown.
+   */
+  private _isShutdown = false;
+
+  /**
    * Initializes a new instance of the AzureMonitorTraceExporter class.
    * @param AzureExporterConfig - Exporter configuration.
    */
-  constructor(options: AzureExporterConfig = {}) {
+  constructor(options: AzureMonitorExporterOptions = {}) {
     super(options);
     diag.debug("AzureMonitorTraceExporter was successfully setup");
   }
@@ -31,6 +36,12 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
     spans: ReadableSpan[],
     resultCallback: (result: ExportResult) => void
   ): Promise<void> {
+    if (this._isShutdown) {
+      diag.info("Exporter shut down. Failed to export spans.");
+      setTimeout(() => resultCallback({ code: ExportResultCode.FAILED }), 0);
+      return;
+    }
+
     diag.info(`Exporting ${spans.length} span(s). Converting to envelopes...`);
 
     let envelopes: Envelope[] = [];
@@ -48,7 +59,8 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
    * Shutdown AzureMonitorTraceExporter.
    */
   async shutdown(): Promise<void> {
-    diag.info("Azure Monitor Trace Exporter shutting down");
+    this._isShutdown = true;
+    diag.info("AzureMonitorTraceExporter shutting down");
     return this._shutdown();
   }
 }
