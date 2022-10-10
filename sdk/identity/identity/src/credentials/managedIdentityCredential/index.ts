@@ -179,7 +179,6 @@ export class ManagedIdentityCredential implements TokenCredential {
     scopes: string | string[],
     getTokenOptions?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    console.log("this function is called");
     const { span, updatedOptions } = tracingClient.startSpan(
       `${ManagedIdentityCredential.name}.authenticateManagedIdentity`,
       getTokenOptions
@@ -222,12 +221,10 @@ export class ManagedIdentityCredential implements TokenCredential {
     options?: GetTokenOptions
   ): Promise<AccessToken> {
     let result: AccessToken | null = null;
-    console.log("getToken is called");
     const { span, updatedOptions } = tracingClient.startSpan(
       `${ManagedIdentityCredential.name}.getToken`,
       options
     );
-    console.log("attempted till after span is set");
     try {
       // isEndpointAvailable can be true, false, or null,
       // If it's null, it means we don't yet know whether
@@ -272,16 +269,10 @@ export class ManagedIdentityCredential implements TokenCredential {
             }
           }
         );
-        console.log("before acquireToken");
         const authenticationResult = await this.confidentialApp.acquireTokenByClientCredential({
           ...appTokenParameters,
         });
-        console.log("after acquireToken");
-        console.log(authenticationResult);
-        logger.info(`authenticationResult= ${authenticationResult?.accessToken}`);
         result = this.handleResult(scopes, authenticationResult || undefined);
-        logger.info(`result is returned ${result}`);
-        console.log("result is returned", result);
         if (result === null) {
           // If authenticateManagedIdentity returns null,
           // it means no MSI endpoints are available.
