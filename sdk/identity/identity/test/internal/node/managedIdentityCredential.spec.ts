@@ -25,7 +25,7 @@ import { join } from "path";
 import { logger } from "../../../src/credentials/managedIdentityCredential/cloudShellMsi";
 import { tmpdir } from "os";
 
-describe.only("ManagedIdentityCredential", function () {
+describe("ManagedIdentityCredential", function () {
   let testContext: IdentityTestContextInterface;
   let envCopy: string = "";
 
@@ -544,8 +544,6 @@ describe.only("ManagedIdentityCredential", function () {
     });
 
     const authRequest = authDetails.requests[0];
-    console.log("authdetails=")
-    console.log(authDetails)
     const query = new URLSearchParams(authRequest.url.split("?")[1]);
 
     assert.equal(authRequest.method, "GET");
@@ -1177,7 +1175,6 @@ describe.only("ManagedIdentityCredential", function () {
           }),
         ],
       });
-      console.log("authdetails first", authDetails);
       authRequest = authDetails.requests[0];
       body = new URLSearchParams(authRequest.body);
       assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), newExpectedAssertion);
@@ -1197,10 +1194,18 @@ describe.only("ManagedIdentityCredential", function () {
           }),
         ],
       });
-      console.log("authdetails", authDetails);
-      authRequest = authDetails.requests[0];
-      body = new URLSearchParams(authRequest.body);
-      assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), expectedAssertion);
+      
+      // The Federated Token File is used in MSI Kubernetes Pods, 
+      // and already has a layer of caching through the file
+      // A request is sent to STS (security token service) for fetching the token
+      // This token is saved in the file in this type of MSI authentication.
+      // Recently we added the Token Caching to Managed Identity Credential.
+      // This enables double caching on Federated Token File in MSI Kubernetes Pods
+      // For this reason, there is no subsequent requests being passed as before to the STS,
+      // since the token is already retrieved from the double caching.
+      assert.equal(authDetails.requests.length,0);
+      assert.equal(authDetails.result?.expiresOnTimestamp, 1000000);
+      assert.equal(authDetails.result?.token, "token");
 
       // More than 5 minutes means we read the file again.
       testContext.sandbox.restore();
@@ -1216,10 +1221,9 @@ describe.only("ManagedIdentityCredential", function () {
           }),
         ],
       });
-      console.log("authDetails third", authDetails);
-      authRequest = authDetails.requests[0];
-      body = new URLSearchParams(authRequest.body);
-      assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), newExpectedAssertion);
+      assert.equal(authDetails.requests.length,0);
+      assert.equal(authDetails.result?.expiresOnTimestamp, 1000000);
+      assert.equal(authDetails.result?.token, "token");
     });
 
     it("the provided client ID overrides the AZURE_CLIENT_ID environment variable", async function (this: Mocha.Context) {
