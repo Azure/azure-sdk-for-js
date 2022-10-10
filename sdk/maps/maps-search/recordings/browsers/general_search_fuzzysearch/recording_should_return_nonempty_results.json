@@ -17,30 +17,30 @@
         "Sec-Fetch-Site": "same-site",
         "subscription-key": "azure_maps_subscription_key",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "61879c38-21b2-4247-82f0-3026cddaa5e3",
+        "x-ms-client-request-id": "3105a678-c479-4fe5-b3d3-b24df54c08bf",
         "x-ms-useragent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "10937",
+        "Content-Length": "10933",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 16 Sep 2022 10:56:06 GMT",
+        "Date": "Thu, 06 Oct 2022 02:38:54 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: 61486494BBD546E4912024A4F6F4D4D4 Ref B: SG2EDGE2315 Ref C: 2022-09-16T10:56:05Z"
+        "X-MSEdge-Ref": "Ref A: 7E5D92FAD8D848C8A1620E6B9D04E884 Ref B: SG2EDGE3221 Ref C: 2022-10-06T02:38:54Z"
       },
       "ResponseBody": {
         "summary": {
           "query": "restaurant",
           "queryType": "NON_NEAR",
-          "queryTime": 719,
+          "queryTime": 502,
           "numResults": 10,
           "offset": 0,
-          "totalResults": 6488733,
+          "totalResults": 6488746,
           "fuzzyLevel": 1,
           "geoBias": {
             "lat": 47.606038,
@@ -73,11 +73,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "pizza"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "pizza"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -441,11 +441,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "ice cream parlor"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "ice cream parlor"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -664,11 +664,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "american"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "american"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -716,21 +716,21 @@
           },
           {
             "type": "POI",
-            "id": "840531000385225",
+            "id": "840531000475812",
             "score": 2.5745222569,
             "dist": 129.68130419307732,
-            "info": "search:ta:840531000385225-US",
+            "info": "search:ta:840531000475812-US",
             "poi": {
-              "name": "Pabla Punjabi Cuisine",
-              "phone": "\u002B1 206-623-5587",
+              "name": "Atlantic Street Pizza",
+              "phone": "\u002B1 206-624-7200",
               "categorySet": [
                 {
-                  "id": 7315023
+                  "id": 7315036
                 }
               ],
-              "url": "www.pablaindiancuisine.com",
+              "url": "atlanticstreetpizza.com/",
               "categories": [
-                "indian",
+                "pizza",
                 "restaurant"
               ],
               "classifications": [
@@ -739,7 +739,7 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "indian"
+                      "name": "pizza"
                     },
                     {
                       "nameLocale": "en-US",

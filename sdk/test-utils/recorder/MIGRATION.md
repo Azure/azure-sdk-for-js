@@ -6,9 +6,19 @@ This document outlines key differences between the legacy recorder and the new U
 
 - [Docker] is required, as the [test proxy server] is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it. For WSL 2, running `sudo service docker start` and `sudo usermod -aG docker $USER` should be sufficient.
 
+## Advantages of migration to v2
+
+- Recorder v2 handles secrets in the recordings better than v1 leveraging the new sanitizers/transformations approach.
+- There are maintenance benefits to recorder v2, partly owing to the new test-proxy tool that is built to support recorders in various languages.
+- Will allow us to run the tests in parallel in the future.
+- All the recordings will be saved as JSON files instead of being JS files.
+- Recordings will soon be migrated to an assets repository to lessen the load of the JS repo, which needs the packages to be migrated to recorder v2 first to grasp the benefits.
+- The new recorder allows tests to imitate the live service more accurately during playback, since real HTTP requests are being made.
+- The new recorder's API is more transparent and is easier to use compared to the old recorder.
+
 ## Upgrading to the Unified Recorder
 
-The new recorder is version 2.0.0 of the `@azure-tools/test-recorder` package. Update the test-recorder dependency in your package.json file as follows:
+The new recorder is version 2.x.y of the `@azure-tools/test-recorder` package. Update the test-recorder dependency in your package.json file as follows:
 
 ```json
 {
