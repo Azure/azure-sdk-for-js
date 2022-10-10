@@ -414,12 +414,6 @@ export interface InstallationTemplate {
 }
 
 // @public
-export function isDirectSendNotificationOptions(options: unknown): options is DirectSendNotificationOptions;
-
-// @public
-export function isSendNotificationOptions(options: unknown): options is SendNotificationOptions;
-
-// @public
 export interface JsonNotification extends NotificationCommon {
     contentType: "application/json;charset=utf-8";
 }
