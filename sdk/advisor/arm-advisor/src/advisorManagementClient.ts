@@ -56,7 +56,7 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-advisor/3.0.2`;
+    const packageDetails = `azsdk-js-arm-advisor/3.0.4`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -65,6 +65,7 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
     if (!options.credentialScopes) {
       options.credentialScopes = ["https://management.azure.com/.default"];
     }
+
     const optionsWithDefaults = {
       ...defaults,
       ...options,

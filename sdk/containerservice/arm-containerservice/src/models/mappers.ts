@@ -670,6 +670,13 @@ export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMappe
           name: "Composite",
           className: "AgentPoolWindowsProfile"
         }
+      },
+      networkProfile: {
+        serializedName: "networkProfile",
+        type: {
+          name: "Composite",
+          className: "AgentPoolNetworkProfile"
+        }
       }
     }
   }
@@ -993,6 +1000,48 @@ export const AgentPoolWindowsProfile: coreClient.CompositeMapper = {
         serializedName: "disableOutboundNat",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const AgentPoolNetworkProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgentPoolNetworkProfile",
+    modelProperties: {
+      nodePublicIPTags: {
+        serializedName: "nodePublicIPTags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IPTag"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const IPTag: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IPTag",
+    modelProperties: {
+      ipTagType: {
+        serializedName: "ipTagType",
+        type: {
+          name: "String"
+        }
+      },
+      tag: {
+        serializedName: "tag",
+        type: {
+          name: "String"
         }
       }
     }
@@ -4657,6 +4706,13 @@ export const AgentPool: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "AgentPoolWindowsProfile"
+        }
+      },
+      networkProfile: {
+        serializedName: "properties.networkProfile",
+        type: {
+          name: "Composite",
+          className: "AgentPoolNetworkProfile"
         }
       }
     }

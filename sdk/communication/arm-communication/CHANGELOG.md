@@ -9,7 +9,6 @@
 ### Bugs Fixed
 
 ### Other Changes
-
 ## 4.0.0-beta.2 (2022-08-19)
     
 **Features**

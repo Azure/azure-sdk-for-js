@@ -4,45 +4,12 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { CancelOnProgress } from '@azure/core-lro';
 import { KeyCredential } from '@azure/core-auth';
+import { LroResponse } from '@azure/core-lro';
+import { OperationOptions } from '@azure/core-client';
+import { OperationSpec } from '@azure/core-client';
 import { PipelinePolicy } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
-
-// @public
-export interface BatchPoller<TBatchResult> extends PollerLike<PollOperationState<TBatchResult>, TBatchResult> {
-}
-
-// @public
-export class BatchPollerProxy<TBatchResult, TInternalBatchResult> implements BatchPoller<TBatchResult> {
-    constructor(internalPoller: PollerLike<PollOperationState<TInternalBatchResult>, TInternalBatchResult>, mapper: (res: TInternalBatchResult) => TBatchResult);
-    // (undocumented)
-    cancelOperation(options?: {
-        abortSignal?: AbortSignalLike;
-    }): Promise<void>;
-    // (undocumented)
-    getOperationState(): PollOperationState<TBatchResult>;
-    // (undocumented)
-    getResult(): TBatchResult | undefined;
-    // (undocumented)
-    isDone(): boolean;
-    // (undocumented)
-    isStopped(): boolean;
-    // (undocumented)
-    onProgress(callback: (state: PollOperationState<TBatchResult>) => void): CancelOnProgress;
-    // (undocumented)
-    poll(options?: {
-        abortSignal?: AbortSignalLike;
-    }): Promise<void>;
-    // (undocumented)
-    pollUntilDone(): Promise<TBatchResult>;
-    // (undocumented)
-    stopPolling(): void;
-    // (undocumented)
-    toString(): string;
-}
+import { ServiceClient } from '@azure/core-client';
 
 // @public
 export type BBox = BBox2D | BBox3D;
@@ -76,6 +43,13 @@ export function createAzureMapsKeyCredentialPolicy(azureKeyCredential: KeyCreden
 
 // @public
 export function createMapsClientIdPolicy(mapsClientId: string): PipelinePolicy;
+
+// @public
+export function createSendPollRequest<TOptions extends OperationOptions, TClient extends ServiceClient>(settings: {
+    client: TClient;
+    options: TOptions;
+    spec: OperationSpec;
+}): (path: string) => Promise<LroResponse<unknown>>;
 
 // @public
 export interface GeoJsonFeature extends GeoJsonObject {
@@ -161,6 +135,9 @@ export type GeoJsonType = GeometryType | "Feature" | "FeatureCollection";
 
 // @public
 export type GeometryType = "Point" | "MultiPoint" | "LineString" | "MultiLineString" | "Polygon" | "MultiPolygon" | "GeometryCollection";
+
+// @public
+export function getRawResponse<TOptions extends OperationOptions, TResponse>(getResponse: (options: TOptions) => Promise<TResponse>, options: TOptions): Promise<LroResponse<TResponse>>;
 
 // @public
 export type LatLon = [latitude: number, longitude: number];

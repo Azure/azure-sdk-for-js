@@ -20,7 +20,6 @@ import { TracingClient, createTracingClient } from "@azure/core-tracing";
 import { convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
 import { GeneratedSchemaRegistryClient } from "./generated/generatedSchemaRegistryClient";
 import { TokenCredential } from "@azure/core-auth";
-import { isDefined } from "./utils";
 import { logger } from "./logger";
 
 /**
@@ -90,12 +89,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options: RegisterSchemaOptions = {}
   ): Promise<SchemaProperties> {
-    const {
-      groupName,
-      name: schemaName,
-      definition: schemaContent,
-      format,
-    } = isDefined(schema, ["definition", "format"]);
+    const { groupName, name: schemaName, definition: schemaContent, format } = schema;
     return this._tracing.withSpan(
       "SchemaRegistryClient.registerSchema",
       options,
@@ -123,12 +117,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options: GetSchemaPropertiesOptions = {}
   ): Promise<SchemaProperties> {
-    const {
-      groupName,
-      name: schemaName,
-      definition: schemaContent,
-      format,
-    } = isDefined(schema, ["definition", "format"]);
+    const { groupName, name: schemaName, definition: schemaContent, format } = schema;
     return this._tracing.withSpan(
       "SchemaRegistryClient.getSchemaProperties",
       options,
@@ -181,24 +170,38 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * @param schemaDescription - schema version.
    * @returns Schema with given ID.
    */
-  getSchema(schemaDescription: SchemaDescription, options?: GetSchemaOptions): Promise<Schema>;
+  getSchema(
+    name: string,
+    groupName: string,
+    version: number,
+    options?: GetSchemaOptions
+  ): Promise<Schema>;
   // implementation
   getSchema(
-    schemaDescription: string | SchemaDescription,
+    nameOrId: string,
+    groupNameOrOptions?: string | GetSchemaOptions,
+    version?: number,
     options: GetSchemaOptions = {}
   ): Promise<Schema> {
-    if (typeof schemaDescription === "string") {
-      return this._tracing.withSpan("SchemaRegistryClient.getSchema", options, (updatedOptions) =>
-        this._client.schema.getById(schemaDescription, updatedOptions).then(convertSchemaResponse)
+    if (typeof groupNameOrOptions !== "string" && version === undefined) {
+      return this._tracing.withSpan(
+        "SchemaRegistryClient.getSchema",
+        groupNameOrOptions ?? {},
+        (updatedOptions) =>
+          this._client.schema.getById(nameOrId, updatedOptions).then(convertSchemaResponse)
       );
     }
-    const { groupName, name, version } = isDefined(schemaDescription, ["version"]);
     return this._tracing.withSpan(
       "SchemaRegistryClient.getSchemaByVersion",
       options,
       (updatedOptions) =>
         this._client.schema
-          .getSchemaVersion(groupName, name, version, updatedOptions)
+          .getSchemaVersion(
+            groupNameOrOptions as string,
+            nameOrId,
+            version as number,
+            updatedOptions
+          )
           .then(convertSchemaResponse)
     );
   }

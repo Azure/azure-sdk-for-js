@@ -20,7 +20,11 @@ import {
   VirtualHubsUpdateTagsOptionalParams,
   VirtualHubsUpdateTagsResponse,
   VirtualHubsDeleteOptionalParams,
-  VirtualHubsGetEffectiveVirtualHubRoutesOptionalParams
+  VirtualHubsGetEffectiveVirtualHubRoutesOptionalParams,
+  GetInboundRoutesParameters,
+  VirtualHubsGetInboundRoutesOptionalParams,
+  GetOutboundRoutesParameters,
+  VirtualHubsGetOutboundRoutesOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -140,5 +144,61 @@ export interface VirtualHubs {
     resourceGroupName: string,
     virtualHubName: string,
     options?: VirtualHubsGetEffectiveVirtualHubRoutesOptionalParams
+  ): Promise<void>;
+  /**
+   * Gets the inbound routes configured for the Virtual Hub on a particular connection.
+   * @param resourceGroupName The resource group name of the VirtualHub.
+   * @param virtualHubName The name of the VirtualHub.
+   * @param getInboundRoutesParameters Parameters supplied to get the inbound routes for a connection
+   *                                   resource.
+   * @param options The options parameters.
+   */
+  beginGetInboundRoutes(
+    resourceGroupName: string,
+    virtualHubName: string,
+    getInboundRoutesParameters: GetInboundRoutesParameters,
+    options?: VirtualHubsGetInboundRoutesOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Gets the inbound routes configured for the Virtual Hub on a particular connection.
+   * @param resourceGroupName The resource group name of the VirtualHub.
+   * @param virtualHubName The name of the VirtualHub.
+   * @param getInboundRoutesParameters Parameters supplied to get the inbound routes for a connection
+   *                                   resource.
+   * @param options The options parameters.
+   */
+  beginGetInboundRoutesAndWait(
+    resourceGroupName: string,
+    virtualHubName: string,
+    getInboundRoutesParameters: GetInboundRoutesParameters,
+    options?: VirtualHubsGetInboundRoutesOptionalParams
+  ): Promise<void>;
+  /**
+   * Gets the outbound routes configured for the Virtual Hub on a particular connection.
+   * @param resourceGroupName The resource group name of the VirtualHub.
+   * @param virtualHubName The name of the VirtualHub.
+   * @param getOutboundRoutesParameters Parameters supplied to get the outbound routes for a connection
+   *                                    resource.
+   * @param options The options parameters.
+   */
+  beginGetOutboundRoutes(
+    resourceGroupName: string,
+    virtualHubName: string,
+    getOutboundRoutesParameters: GetOutboundRoutesParameters,
+    options?: VirtualHubsGetOutboundRoutesOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Gets the outbound routes configured for the Virtual Hub on a particular connection.
+   * @param resourceGroupName The resource group name of the VirtualHub.
+   * @param virtualHubName The name of the VirtualHub.
+   * @param getOutboundRoutesParameters Parameters supplied to get the outbound routes for a connection
+   *                                    resource.
+   * @param options The options parameters.
+   */
+  beginGetOutboundRoutesAndWait(
+    resourceGroupName: string,
+    virtualHubName: string,
+    getOutboundRoutesParameters: GetOutboundRoutesParameters,
+    options?: VirtualHubsGetOutboundRoutesOptionalParams
   ): Promise<void>;
 }

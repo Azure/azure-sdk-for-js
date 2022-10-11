@@ -13,6 +13,8 @@ import {
   CassandraResourcesListCassandraKeyspacesOptionalParams,
   CassandraTableGetResults,
   CassandraResourcesListCassandraTablesOptionalParams,
+  CassandraViewGetResults,
+  CassandraResourcesListCassandraViewsOptionalParams,
   CassandraResourcesGetCassandraKeyspaceOptionalParams,
   CassandraResourcesGetCassandraKeyspaceResponse,
   CassandraKeyspaceCreateUpdateParameters,
@@ -41,7 +43,21 @@ import {
   CassandraResourcesMigrateCassandraTableToAutoscaleOptionalParams,
   CassandraResourcesMigrateCassandraTableToAutoscaleResponse,
   CassandraResourcesMigrateCassandraTableToManualThroughputOptionalParams,
-  CassandraResourcesMigrateCassandraTableToManualThroughputResponse
+  CassandraResourcesMigrateCassandraTableToManualThroughputResponse,
+  CassandraResourcesGetCassandraViewOptionalParams,
+  CassandraResourcesGetCassandraViewResponse,
+  CassandraViewCreateUpdateParameters,
+  CassandraResourcesCreateUpdateCassandraViewOptionalParams,
+  CassandraResourcesCreateUpdateCassandraViewResponse,
+  CassandraResourcesDeleteCassandraViewOptionalParams,
+  CassandraResourcesGetCassandraViewThroughputOptionalParams,
+  CassandraResourcesGetCassandraViewThroughputResponse,
+  CassandraResourcesUpdateCassandraViewThroughputOptionalParams,
+  CassandraResourcesUpdateCassandraViewThroughputResponse,
+  CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams,
+  CassandraResourcesMigrateCassandraViewToAutoscaleResponse,
+  CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams,
+  CassandraResourcesMigrateCassandraViewToManualThroughputResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -71,6 +87,19 @@ export interface CassandraResources {
     keyspaceName: string,
     options?: CassandraResourcesListCassandraTablesOptionalParams
   ): PagedAsyncIterableIterator<CassandraTableGetResults>;
+  /**
+   * Lists the Cassandra materialized views under an existing Azure Cosmos DB database account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param options The options parameters.
+   */
+  listCassandraViews(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    options?: CassandraResourcesListCassandraViewsOptionalParams
+  ): PagedAsyncIterableIterator<CassandraViewGetResults>;
   /**
    * Gets the Cassandra keyspaces under an existing Azure Cosmos DB database account with the provided
    * name.
@@ -490,4 +519,221 @@ export interface CassandraResources {
     tableName: string,
     options?: CassandraResourcesMigrateCassandraTableToManualThroughputOptionalParams
   ): Promise<CassandraResourcesMigrateCassandraTableToManualThroughputResponse>;
+  /**
+   * Gets the Cassandra view under an existing Azure Cosmos DB database account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param options The options parameters.
+   */
+  getCassandraView(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    options?: CassandraResourcesGetCassandraViewOptionalParams
+  ): Promise<CassandraResourcesGetCassandraViewResponse>;
+  /**
+   * Create or update an Azure Cosmos DB Cassandra View
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param createUpdateCassandraViewParameters The parameters to provide for the current Cassandra View.
+   * @param options The options parameters.
+   */
+  beginCreateUpdateCassandraView(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    createUpdateCassandraViewParameters: CassandraViewCreateUpdateParameters,
+    options?: CassandraResourcesCreateUpdateCassandraViewOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<CassandraResourcesCreateUpdateCassandraViewResponse>,
+      CassandraResourcesCreateUpdateCassandraViewResponse
+    >
+  >;
+  /**
+   * Create or update an Azure Cosmos DB Cassandra View
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param createUpdateCassandraViewParameters The parameters to provide for the current Cassandra View.
+   * @param options The options parameters.
+   */
+  beginCreateUpdateCassandraViewAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    createUpdateCassandraViewParameters: CassandraViewCreateUpdateParameters,
+    options?: CassandraResourcesCreateUpdateCassandraViewOptionalParams
+  ): Promise<CassandraResourcesCreateUpdateCassandraViewResponse>;
+  /**
+   * Deletes an existing Azure Cosmos DB Cassandra view.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param options The options parameters.
+   */
+  beginDeleteCassandraView(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    options?: CassandraResourcesDeleteCassandraViewOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Deletes an existing Azure Cosmos DB Cassandra view.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param options The options parameters.
+   */
+  beginDeleteCassandraViewAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    options?: CassandraResourcesDeleteCassandraViewOptionalParams
+  ): Promise<void>;
+  /**
+   * Gets the RUs per second of the Cassandra view under an existing Azure Cosmos DB database account
+   * with the provided name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param options The options parameters.
+   */
+  getCassandraViewThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    options?: CassandraResourcesGetCassandraViewThroughputOptionalParams
+  ): Promise<CassandraResourcesGetCassandraViewThroughputResponse>;
+  /**
+   * Update RUs per second of an Azure Cosmos DB Cassandra view
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param updateThroughputParameters The RUs per second of the parameters to provide for the current
+   *                                   Cassandra view.
+   * @param options The options parameters.
+   */
+  beginUpdateCassandraViewThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    updateThroughputParameters: ThroughputSettingsUpdateParameters,
+    options?: CassandraResourcesUpdateCassandraViewThroughputOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        CassandraResourcesUpdateCassandraViewThroughputResponse
+      >,
+      CassandraResourcesUpdateCassandraViewThroughputResponse
+    >
+  >;
+  /**
+   * Update RUs per second of an Azure Cosmos DB Cassandra view
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param updateThroughputParameters The RUs per second of the parameters to provide for the current
+   *                                   Cassandra view.
+   * @param options The options parameters.
+   */
+  beginUpdateCassandraViewThroughputAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    updateThroughputParameters: ThroughputSettingsUpdateParameters,
+    options?: CassandraResourcesUpdateCassandraViewThroughputOptionalParams
+  ): Promise<CassandraResourcesUpdateCassandraViewThroughputResponse>;
+  /**
+   * Migrate an Azure Cosmos DB Cassandra view from manual throughput to autoscale
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param options The options parameters.
+   */
+  beginMigrateCassandraViewToAutoscale(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    options?: CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        CassandraResourcesMigrateCassandraViewToAutoscaleResponse
+      >,
+      CassandraResourcesMigrateCassandraViewToAutoscaleResponse
+    >
+  >;
+  /**
+   * Migrate an Azure Cosmos DB Cassandra view from manual throughput to autoscale
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param options The options parameters.
+   */
+  beginMigrateCassandraViewToAutoscaleAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    options?: CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams
+  ): Promise<CassandraResourcesMigrateCassandraViewToAutoscaleResponse>;
+  /**
+   * Migrate an Azure Cosmos DB Cassandra view from autoscale to manual throughput
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param options The options parameters.
+   */
+  beginMigrateCassandraViewToManualThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    options?: CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        CassandraResourcesMigrateCassandraViewToManualThroughputResponse
+      >,
+      CassandraResourcesMigrateCassandraViewToManualThroughputResponse
+    >
+  >;
+  /**
+   * Migrate an Azure Cosmos DB Cassandra view from autoscale to manual throughput
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param options The options parameters.
+   */
+  beginMigrateCassandraViewToManualThroughputAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    options?: CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams
+  ): Promise<CassandraResourcesMigrateCassandraViewToManualThroughputResponse>;
 }

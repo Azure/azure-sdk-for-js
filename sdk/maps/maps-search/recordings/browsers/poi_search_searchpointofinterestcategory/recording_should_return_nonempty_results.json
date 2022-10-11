@@ -17,30 +17,30 @@
         "Sec-Fetch-Site": "same-site",
         "subscription-key": "azure_maps_subscription_key",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "5be4ffb5-0664-4306-a93c-d052cde45ca4",
+        "x-ms-client-request-id": "0087d6e6-6a78-4327-b33b-8c0598d7ac04",
         "x-ms-useragent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "10936",
+        "Content-Length": "10933",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 16 Sep 2022 10:56:04 GMT",
+        "Date": "Thu, 06 Oct 2022 02:38:53 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: 43F2D86244F04A6FABC2089E34204B14 Ref B: SG1EDGE0112 Ref C: 2022-09-16T10:56:04Z"
+        "X-MSEdge-Ref": "Ref A: 60AD8A8D2E5F4DFF80F0CF85EE09D858 Ref B: SG2EDGE3221 Ref C: 2022-10-06T02:38:53Z"
       },
       "ResponseBody": {
         "summary": {
           "query": "restaurant",
           "queryType": "NON_NEAR",
-          "queryTime": 10,
+          "queryTime": 478,
           "numResults": 10,
           "offset": 0,
-          "totalResults": 6444142,
+          "totalResults": 6444151,
           "fuzzyLevel": 1,
           "geoBias": {
             "lat": 47.606038,
@@ -147,11 +147,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "sushi"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "sushi"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -366,11 +366,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "sushi"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "sushi"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -716,21 +716,21 @@
           },
           {
             "type": "POI",
-            "id": "840531000385225",
+            "id": "840531000475812",
             "score": 2.5745222569,
             "dist": 129.68130419307732,
-            "info": "search:ta:840531000385225-US",
+            "info": "search:ta:840531000475812-US",
             "poi": {
-              "name": "Pabla Punjabi Cuisine",
-              "phone": "\u002B1 206-623-5587",
+              "name": "Atlantic Street Pizza",
+              "phone": "\u002B1 206-624-7200",
               "categorySet": [
                 {
-                  "id": 7315023
+                  "id": 7315036
                 }
               ],
-              "url": "www.pablaindiancuisine.com",
+              "url": "atlanticstreetpizza.com/",
               "categories": [
-                "indian",
+                "pizza",
                 "restaurant"
               ],
               "classifications": [
@@ -739,11 +739,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "indian"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "pizza"
                     }
                   ]
                 }

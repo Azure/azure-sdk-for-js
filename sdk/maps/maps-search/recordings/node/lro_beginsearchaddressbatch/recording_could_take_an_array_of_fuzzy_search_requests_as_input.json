@@ -11,7 +11,7 @@
         "Content-Type": "application/json",
         "subscription-key": "azure_maps_subscription_key",
         "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
-        "x-ms-client-request-id": "f0c4dec2-dae7-463f-86d9-913c0c434d04"
+        "x-ms-client-request-id": "da5a2f97-de35-419d-8a7f-a802a30e7c4c"
       },
       "RequestBody": {
         "batchItems": [
@@ -30,39 +30,39 @@
       "ResponseHeaders": {
         "Content-Length": "2",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 16 Sep 2022 10:55:50 GMT",
-        "Location": "https://atlas.microsoft.com/search/address/batch/770ba182-4823-4465-b799-0073a4eff68b?api-version=1.0",
+        "Date": "Thu, 06 Oct 2022 02:38:27 GMT",
+        "Location": "https://atlas.microsoft.com/search/address/batch/33183190-01af-4c82-a4aa-f6769126eace?api-version=1.0",
+        "Retry-After": "120",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: B8EE655E9CA742FD8820326FB2D68F78 Ref B: SGEEDGE0617 Ref C: 2022-09-16T10:55:50Z"
+        "X-MSEdge-Ref": "Ref A: 2D9CF3A00BCD41818FE2B7A8140666CF Ref B: SIN30EDGE0307 Ref C: 2022-10-06T02:38:28Z"
       },
       "ResponseBody": "\u0022\u0022"
     },
     {
-      "RequestUri": "https://atlas.microsoft.com/search/address/batch/770ba182-4823-4465-b799-0073a4eff68b?api-version=1.0",
+      "RequestUri": "https://atlas.microsoft.com/search/address/batch/33183190-01af-4c82-a4aa-f6769126eace?api-version=1.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
-        "Content-Type": "application/json",
         "subscription-key": "azure_maps_subscription_key",
         "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
-        "x-ms-client-request-id": "728ae31b-3ac1-4a7f-a801-3ca104196573"
+        "x-ms-client-request-id": "ebd26c82-78b3-46ba-96dc-89c6c11b48af"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Fri, 16 Sep 2022 10:55:50 GMT",
+        "Date": "Thu, 06 Oct 2022 02:38:28 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: 697372E798514258B970CF08DF88DFC6 Ref B: SGEEDGE0617 Ref C: 2022-09-16T10:55:51Z"
+        "X-MSEdge-Ref": "Ref A: E25974A4D77B41EE9552CE0E46A8FAB3 Ref B: SIN30EDGE0307 Ref C: 2022-10-06T02:38:28Z"
       },
       "ResponseBody": {
         "batchItems": [
@@ -72,7 +72,7 @@
               "summary": {
                 "query": "400 broad st seattle wa 98109",
                 "queryType": "NON_NEAR",
-                "queryTime": 5,
+                "queryTime": 8,
                 "numResults": 2,
                 "offset": 0,
                 "totalResults": 2,
@@ -81,7 +81,7 @@
               "results": [
                 {
                   "type": "Point Address",
-                  "id": "US/PAD/p0/19612094",
+                  "id": "US/PAD/p1/20211940",
                   "score": 11.9729099274,
                   "matchConfidence": {
                     "score": 1
@@ -128,10 +128,10 @@
                 },
                 {
                   "type": "Street",
-                  "id": "US/STR/p3/2344882",
+                  "id": "US/STR/p3/5448673",
                   "score": 10.22519207,
                   "matchConfidence": {
-                    "score": 0.8954463376096298
+                    "score": 0.8910657043461443
                   },
                   "address": {
                     "streetName": "Broad Street",
@@ -172,19 +172,19 @@
               "summary": {
                 "query": "one microsoft way redmond wa 98052",
                 "queryType": "NON_NEAR",
-                "queryTime": 6,
+                "queryTime": 9,
                 "numResults": 3,
                 "offset": 0,
-                "totalResults": 3503,
+                "totalResults": 3504,
                 "fuzzyLevel": 2
               },
               "results": [
                 {
                   "type": "Street",
-                  "id": "US/STR/p3/2357211",
+                  "id": "US/STR/p0/1935998",
                   "score": 10.22519207,
                   "matchConfidence": {
-                    "score": 0.9150232505141617
+                    "score": 0.9122512019379447
                   },
                   "address": {
                     "streetName": "Microsoft Way",
@@ -217,10 +217,10 @@
                 },
                 {
                   "type": "Street",
-                  "id": "US/STR/p0/1886082",
+                  "id": "US/STR/p1/1607551",
                   "score": 10.0968618393,
                   "matchConfidence": {
-                    "score": 0.9131179254941199
+                    "score": 0.9133789138007583
                   },
                   "address": {
                     "streetName": "157th Avenue Northeast",
@@ -253,10 +253,10 @@
                 },
                 {
                   "type": "Street",
-                  "id": "US/STR/p0/1877778",
+                  "id": "US/STR/p0/2073941",
                   "score": 7.9237017632,
                   "matchConfidence": {
-                    "score": 0.6787735686936728
+                    "score": 0.6779320043057474
                   },
                   "address": {
                     "streetName": "Redmond Way",
@@ -296,7 +296,7 @@
               "summary": {
                 "query": "350 5th ave new york ny 10118",
                 "queryType": "NON_NEAR",
-                "queryTime": 10,
+                "queryTime": 5,
                 "numResults": 1,
                 "offset": 0,
                 "totalResults": 839,
@@ -305,47 +305,47 @@
               "results": [
                 {
                   "type": "Point Address",
-                  "id": "US/PAD/p1/5881537",
+                  "id": "US/PAD/p0/11725475",
                   "score": 12.0984487534,
                   "matchConfidence": {
-                    "score": 0.8829499371212715
+                    "score": 0.8837586053135148
                   },
                   "address": {
                     "streetNumber": "350",
                     "streetName": "5th Avenue",
-                    "municipalitySubdivision": "Midtown South",
+                    "municipalitySubdivision": "Brooklyn",
                     "municipality": "New York",
-                    "countrySecondarySubdivision": "New York",
+                    "countrySecondarySubdivision": "Kings",
                     "countrySubdivision": "NY",
                     "countrySubdivisionName": "New York",
-                    "postalCode": "10001",
-                    "extendedPostalCode": "10001-3105",
+                    "postalCode": "11215",
+                    "extendedPostalCode": "11215-2813",
                     "countryCode": "US",
                     "country": "United States",
                     "countryCodeISO3": "USA",
-                    "freeformAddress": "350 5th Avenue, New York, NY 10001",
-                    "localName": "New York"
+                    "freeformAddress": "350 5th Avenue, Brooklyn, NY 11215",
+                    "localName": "Brooklyn"
                   },
                   "position": {
-                    "lat": 40.74817,
-                    "lon": -73.985
+                    "lat": 40.67199,
+                    "lon": -73.98423
                   },
                   "viewport": {
                     "topLeftPoint": {
-                      "lat": 40.74907,
-                      "lon": -73.98619
+                      "lat": 40.67289,
+                      "lon": -73.98542
                     },
                     "btmRightPoint": {
-                      "lat": 40.74727,
-                      "lon": -73.98381
+                      "lat": 40.67109,
+                      "lon": -73.98304
                     }
                   },
                   "entryPoints": [
                     {
                       "type": "main",
                       "position": {
-                        "lat": 40.74808,
-                        "lon": -73.98482
+                        "lat": 40.67189,
+                        "lon": -73.98402
                       }
                     }
                   ]
