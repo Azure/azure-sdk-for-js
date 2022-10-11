@@ -2,29 +2,42 @@
 // Licensed under the MIT license.
 
 /**
- * Valid key names in WWW-Authenticate header.
+ * Parameters parsed out of the WWW-Authenticate header value by the parseWWWAuthenticate function.
  */
-export const validParsedWWWAuthenticateProperties = [
+export interface ParsedWWWAuthenticate {
+  /**
+   * The authorization parameter, if present.
+   */
+  authorization?: string;
+
+  /**
+   * The authorization_url parameter, if present.
+   */
+  authorization_url?: string;
+
+  /**
+   * The resource parameter, if present.
+   */
+  resource?: string;
+
+  /**
+   * The scope parameter, if present.
+   */
+  scope?: string;
+
+  /**
+   * The tenantId parameter, if present.
+   */
+  tenantId?: string;
+}
+
+const validParsedWWWAuthenticateProperties: readonly (keyof ParsedWWWAuthenticate)[] = [
   "authorization",
   "authorization_url",
   "resource",
   "scope",
   "tenantId",
 ] as const;
-
-/**
- * A union type representing all valid key names in WWW-Authenticate header.
- */
-export type ValidParsedWWWAuthenticateProperties =
-  typeof validParsedWWWAuthenticateProperties[number];
-
-/**
- * Holds the known WWWAuthenticate keys and their values as a result of
- * parsing a WWW-Authenticate header.
- */
-export type ParsedWWWAuthenticate = {
-  [Key in ValidParsedWWWAuthenticateProperties]?: string;
-};
 
 /**
  * Parses an WWW-Authenticate response.
@@ -42,9 +55,7 @@ export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenti
       if (p.match(/\w="/)) {
         // 'sampleKey="sample_value"' -> [sampleKey, "sample_value"] -> { sampleKey: sample_value }
         const [key, value] = p.split("=");
-        if (
-          validParsedWWWAuthenticateProperties.includes(key as ValidParsedWWWAuthenticateProperties)
-        ) {
+        if (validParsedWWWAuthenticateProperties.includes(key as keyof ParsedWWWAuthenticate)) {
           // The values will be wrapped in quotes, which need to be stripped out.
           return { ...kvPairs, [key]: value.slice(1, -1) };
         }

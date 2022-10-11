@@ -22,21 +22,19 @@ export interface ParsedKeyVaultEntityIdentifier {
 }
 
 // @public
-export type ParsedWWWAuthenticate = {
-    [Key in ValidParsedWWWAuthenticateProperties]?: string;
-};
+export interface ParsedWWWAuthenticate {
+    authorization?: string;
+    authorization_url?: string;
+    resource?: string;
+    scope?: string;
+    tenantId?: string;
+}
 
 // @public
 export function parseKeyvaultIdentifier(collection: string, identifier: string | undefined): ParsedKeyVaultEntityIdentifier;
 
 // @public
 export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenticate;
-
-// @public
-export type ValidParsedWWWAuthenticateProperties = typeof validParsedWWWAuthenticateProperties[number];
-
-// @public
-export const validParsedWWWAuthenticateProperties: readonly ["authorization", "authorization_url", "resource", "scope", "tenantId"];
 
 // (No @packageDocumentation comment for this package)
 
