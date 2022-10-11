@@ -1,0 +1,8 @@
+{
+  "commit": "dad644cc6d0c88991f291eda37e18f27c16739b2",
+  "readme": "specification/elasticsan/resource-manager/readme.md",
+  "autorest_command": "",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
+  "release_tool": "@azure-tools/js-sdk-release-tools@2.4.1",
+  "use": "@autorest/typescript@6.0.0-rc.1.20220727.1"
+}
