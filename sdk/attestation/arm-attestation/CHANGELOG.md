@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.2 (Unreleased)
+## 2.0.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.0.2 (2022-10-08)
+
+**Bugs Fixed**
+
+  -  revert credential scopes
 
 ## 2.0.1 (2022-09-30)
 

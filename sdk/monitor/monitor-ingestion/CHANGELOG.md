@@ -17,6 +17,9 @@
 
 ### Other Changes
 
+- Increased the default maximum number of concurrent requests to 5 when uploading in batches. The level of concurrency can
+  be customized using the `maxConcurrency` option passed to the `upload` method.
+
 ## 1.0.0-beta.2 (2022-08-22)
 
 ### Features Added
