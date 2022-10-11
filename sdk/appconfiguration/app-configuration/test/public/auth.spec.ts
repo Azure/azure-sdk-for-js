@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AppConfigurationClient } from "../../src";
 import {
   CredsAndEndpoint,
   getTokenAuthenticationCredential,
   startRecorder,
 } from "./utils/testHelpers";
-import { assert } from "chai";
-import { Recorder } from "@azure-tools/test-recorder";
+import { AppConfigurationClient } from "../../src";
 import { Context } from "mocha";
+import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
 
 describe("Authentication", () => {
   let credsAndEndpoint: CredsAndEndpoint;
