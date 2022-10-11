@@ -11,7 +11,7 @@
         "Content-Length": "214",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-arm-elasticsan/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.19042)",
-        "x-ms-client-request-id": "ae4929b9-03d3-4e35-bcbb-2dd97da1adf4"
+        "x-ms-client-request-id": "3be79445-3766-4d96-b13f-71c8d68a737f"
       },
       "RequestBody": {
         "tags": {
@@ -30,32 +30,26 @@
           "extendedCapacitySizeTiB": 7
         }
       },
-      "StatusCode": 409,
+      "StatusCode": 400,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "451",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 11 Oct 2022 07:22:47 GMT",
+        "Content-Length": "158",
+        "Content-Type": "application/json",
+        "Date": "Tue, 11 Oct 2022 08:10:21 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
+        "Server": "Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "cf971676-f38b-480b-9161-641ec50ac754",
-        "x-ms-failure-cause": "gateway",
-        "x-ms-request-id": "cf971676-f38b-480b-9161-641ec50ac754",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221011T072247Z:cf971676-f38b-480b-9161-641ec50ac754"
+        "x-ms-correlation-request-id": "8aa5c3ff-d179-44c1-8284-6e71af729f72",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "982a0d24-70d0-471a-987e-365c13265d51",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221011T081021Z:8aa5c3ff-d179-44c1-8284-6e71af729f72"
       },
       "ResponseBody": {
         "error": {
-          "code": "MissingSubscriptionRegistration",
-          "message": "The subscription is not registered to use namespace \u0027Microsoft.ElasticSan\u0027. See https://aka.ms/rps-not-found for how to register subscriptions.",
-          "details": [
-            {
-              "code": "MissingSubscriptionRegistration",
-              "target": "Microsoft.ElasticSan",
-              "message": "The subscription is not registered to use namespace \u0027Microsoft.ElasticSan\u0027. See https://aka.ms/rps-not-found for how to register subscriptions."
-            }
-          ]
+          "code": "SubscriptionNotRegisteredWithFeatureFlag",
+          "message": "Microsoft.ElasticSan/ElasticSanPreviewAccess feature is not available in this region"
         }
       }
     }

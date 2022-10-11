@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-elasticsan/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.19042)",
-        "x-ms-client-request-id": "6f68049b-52af-496d-b2c1-24833b18bdb9"
+        "x-ms-client-request-id": "af5618c8-cb0d-416b-9d37-0a9008b39ca6"
       },
       "RequestBody": null,
       "StatusCode": 404,
@@ -17,15 +17,15 @@
         "Cache-Control": "no-cache",
         "Content-Length": "230",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 11 Oct 2022 07:22:48 GMT",
+        "Date": "Tue, 11 Oct 2022 08:10:22 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "00d45aca-e12f-414b-a9d2-2faf38a3d829",
+        "x-ms-correlation-request-id": "5820e3a2-57fe-4ee7-bc47-8c28bbef9161",
         "x-ms-failure-cause": "gateway",
-        "x-ms-request-id": "00d45aca-e12f-414b-a9d2-2faf38a3d829",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221011T072248Z:00d45aca-e12f-414b-a9d2-2faf38a3d829"
+        "x-ms-request-id": "5820e3a2-57fe-4ee7-bc47-8c28bbef9161",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221011T081022Z:5820e3a2-57fe-4ee7-bc47-8c28bbef9161"
       },
       "ResponseBody": {
         "error": {

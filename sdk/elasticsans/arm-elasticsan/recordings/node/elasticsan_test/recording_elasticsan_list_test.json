@@ -9,30 +9,26 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-elasticsan/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.19042)",
-        "x-ms-client-request-id": "6d1f1392-5ece-45fd-9547-521c6c5b9bc9"
+        "x-ms-client-request-id": "d4e29451-3a65-4bf5-bd66-a3a85dbf1926"
       },
       "RequestBody": null,
-      "StatusCode": 404,
+      "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "103",
-        "Content-Type": "application/json",
-        "Date": "Tue, 11 Oct 2022 07:22:49 GMT",
+        "Content-Length": "12",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 11 Oct 2022 08:10:23 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
-        "Server": "Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "0ec5612a-2f3a-4a95-b0e0-418e20048039",
-        "x-ms-ratelimit-remaining-subscription-reads": "11963",
-        "x-ms-request-id": "0af5663c-52e8-4e0a-b04b-cbe0c499131f",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221011T072249Z:0ec5612a-2f3a-4a95-b0e0-418e20048039"
+        "x-ms-correlation-request-id": "04c6cc1c-cceb-445c-9457-f8745bcb8180",
+        "x-ms-ratelimit-remaining-subscription-reads": "11998",
+        "x-ms-request-id": "04c6cc1c-cceb-445c-9457-f8745bcb8180",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221011T081023Z:04c6cc1c-cceb-445c-9457-f8745bcb8180"
       },
       "ResponseBody": {
-        "error": {
-          "code": "SubscriptionNotFound",
-          "message": "Subscription azure_subscription_id was not found."
-        }
+        "value": []
       }
     }
   ],
