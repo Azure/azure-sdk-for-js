@@ -1474,10 +1474,6 @@ export interface RouteRequestRouteMatrixOptionalParams
   routeType?: RouteType;
   /** Types of cargo that may be classified as hazardous materials and restricted from some roads. Available vehicleLoadType values are US Hazmat classes 1 through 9, plus generic classifications for use in other countries. Values beginning with USHazmat are for US routing while otherHazmat should be used for all other countries. vehicleLoadType can be specified multiple times. This parameter is currently only considered for travelMode=truck. */
   vehicleLoadType?: VehicleLoadType;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
 }
 
 /** Contains response data for the requestRouteMatrix operation. */
@@ -1485,12 +1481,7 @@ export type RouteRequestRouteMatrixResponse = RouteMatrixResult;
 
 /** Optional parameters. */
 export interface RouteGetRouteMatrixOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getRouteMatrix operation. */
 export type RouteGetRouteMatrixResponse = RouteMatrixResult;
@@ -2244,24 +2235,14 @@ export type RouteGetRouteRangeResponse = RouteRangeResult;
 
 /** Optional parameters. */
 export interface RouteRequestRouteDirectionsBatchOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the requestRouteDirectionsBatch operation. */
 export type RouteRequestRouteDirectionsBatchResponse = RouteDirectionsBatchResult;
 
 /** Optional parameters. */
 export interface RouteGetRouteDirectionsBatchOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getRouteDirectionsBatch operation. */
 export type RouteGetRouteDirectionsBatchResponse = RouteDirectionsBatchResult;
