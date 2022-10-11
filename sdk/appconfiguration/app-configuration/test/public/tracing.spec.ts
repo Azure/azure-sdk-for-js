@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers";
+import { AppConfigurationClient } from "../../src/appConfigurationClient";
+import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "@azure/test-utils";
-import { Context } from "mocha";
-import { AppConfigurationClient } from "../../src/appConfigurationClient";
-import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers";
 
 describe("supports tracing", () => {
   let client: AppConfigurationClient;
