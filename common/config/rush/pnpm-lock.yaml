@@ -10282,12 +10282,12 @@ packages:
     dev: false
 
   file:projects/arm-appcontainers.tgz:
-    resolution: {integrity: sha512-p6hsQrOTCjIBoSXig5D7c75CNYHYE/PoYnoZTCp9/7L65LQPsBE2oYGu1LJyXBMveQDH7dMRAYom5zC5+uk9RA==, tarball: file:projects/arm-appcontainers.tgz}
+    resolution: {integrity: sha512-zJBlR/FqrpfdpOXdxwPE4l0PhaF5InR3FEFgysDDqmcBSWn5aPFOv7BlE7SYB/uTrlYri8LSh2iai7P2MXQkpA==, tarball: file:projects/arm-appcontainers.tgz}
     name: '@rush-temp/arm-appcontainers'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.18.11
+      '@microsoft/api-extractor': 7.32.0
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
