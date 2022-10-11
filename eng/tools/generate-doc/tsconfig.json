@@ -9,6 +9,7 @@
     "moduleResolution": "node",
     "jsx": "react",
     "jsxFactory": "JSX.createElement",
-    "jsxFragmentFactory": "JSX.Fragment"
+    "jsxFragmentFactory": "JSX.Fragment",
+    "outDir": "dist"
   }
 }

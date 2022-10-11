@@ -7,8 +7,13 @@ steps:
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/generate-doc
     displayName: "Install tool dependencies"
 
+  - script: |
+      npm run build
+    workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/generate-doc
+    displayName: "Compile tool"
+
   - pwsh: |
-      node $(Build.SourcesDirectory)/eng/tools/generate-doc/index.js --serviceDir "${{parameters.ServiceDirectory}}"
+      node $(Build.SourcesDirectory)/eng/tools/generate-doc/dist/index.js --serviceDir "${{parameters.ServiceDirectory}}"
     displayName: "Run Typedoc Docs"
 
   - pwsh: |
