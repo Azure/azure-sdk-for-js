@@ -20,6 +20,9 @@ typescript: true
 azure-arm: false
 add-credentials: false
 v3: true
+tracing-info:
+  namespace: "Azure.Communication"
+  packagePrefix: "Microsoft.Communication"
 use-extension:
   "@autorest/typescript": "6.0.0-rc.1"
 ```
