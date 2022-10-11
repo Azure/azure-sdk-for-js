@@ -11365,12 +11365,12 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-2MGurY8KHRMQSY7UnlvQH01uzDAK6XQXyVmM3dK5nKV8tCosCy82zWxZVAMRRD27gP2te61DfNjBZkYBAoUIdQ==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-zb4VwDTWn8cNRAY38TT2cb3T0oLH7hXPWJ0Dr8yCTi31Bk24NzmDp9gVFF9urBQ9+JQD/U9ACslPGObTMBwbcQ==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.18.11
+      '@microsoft/api-extractor': 7.32.0
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
