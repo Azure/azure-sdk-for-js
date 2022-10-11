@@ -1,21 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as Mappers from "./generated/models/mappers";
+import * as Parameters from "./generated/models/parameters";
 import { AzureKeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { BatchPoller, LatLon, RouteDirectionParameters } from "./models/models";
 import {
-  BatchPollerProxy,
   createAzureMapsKeyCredentialPolicy,
   createMapsClientIdPolicy,
+  createSendPollRequest,
+  getRawResponse,
 } from "@azure/maps-common";
 import { BatchResult, RouteDirections, RouteRangeResult } from "./models/results";
-import {
-  GeneratedClient,
-  RouteDirectionsBatchResult,
-  RouteMatrixResult,
-  RouteRequestRouteDirectionsBatchOptionalParams,
-  RouteRequestRouteMatrixOptionalParams,
-} from "./generated";
+import { GeneratedClient, RouteDirectionsBatchResult, RouteMatrixResult } from "./generated";
 import {
   InternalPipelineOptions,
   bearerTokenAuthenticationPolicy,
@@ -38,10 +35,11 @@ import {
   mapRouteMatrixResult,
   toColonDelimitedLatLonString,
 } from "./models/mappers";
-import { OperationOptions } from "@azure/core-client";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { createSpan } from "./utils/tracing";
+import { createSerializer, OperationOptions, OperationSpec } from "@azure/core-client";
+import { createTracingClient, TracingClient } from "@azure/core-tracing";
 import { logger } from "./utils/logger";
+import { SDK_VERSION } from "./constants";
+import { createHttpPoller } from "@azure/core-lro";
 
 const isMapsRouteClientOptions = (
   clientIdOrOptions: any
@@ -63,6 +61,38 @@ function isRouteDirectionParameters(
   );
 }
 
+const serializer = createSerializer(Mappers, false);
+
+const getRouteDirectionsBatchOperationSpec: OperationSpec = {
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RouteDirectionsBatchResult,
+    },
+    202: {
+      headersMapper: Mappers.RouteGetRouteDirectionsBatchHeaders,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.accept, Parameters.clientId],
+  serializer,
+};
+
+const getRouteMatrixOperationSpec: OperationSpec = {
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RouteMatrixResult,
+    },
+    202: {
+      headersMapper: Mappers.RouteGetRouteMatrixHeaders,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.accept, Parameters.clientId],
+  serializer,
+};
+
 /**
  * Client class for interacting with Azure Maps Route Service.
  */
@@ -72,6 +102,7 @@ export class MapsRouteClient {
    */
   private readonly client: GeneratedClient;
   private readonly defaultFormat: string = "json";
+  private readonly tracing: TracingClient;
   /**
    * Creates an instance of MapsRouteClient from a subscription key.
    *
@@ -124,6 +155,11 @@ export class MapsRouteClient {
     };
 
     this.client = new GeneratedClient(internalPipelineOptions);
+    this.tracing = createTracingClient({
+      packageName: "@azure/maps-route",
+      packageVersion: SDK_VERSION,
+      namespace: "Microsoft.Maps",
+    });
     if (isTokenCredential(credential)) {
       const clientId = typeof clientIdOrOptions === "string" ? clientIdOrOptions : "";
       if (!clientId) {
@@ -179,37 +215,32 @@ export class MapsRouteClient {
         ? maybeOptions
         : routeDirectionParametersOrOptions) || {};
 
-    const { span, updatedOptions } = createSpan("MapsRouteClient-getRouteDirections", options);
-    try {
-      const result = isRouteDirectionParameters(routeDirectionParametersOrOptions)
-        ? await this.client.routeOperations.getRouteDirectionsWithAdditionalParameters(
-            this.defaultFormat,
-            toColonDelimitedLatLonString(routePoints),
-            {
-              ...routeDirectionParametersOrOptions,
-              supportingPoints:
-                routeDirectionParametersOrOptions.supportingPoints as unknown as Record<
-                  string,
-                  unknown
-                >,
-            },
-            updatedOptions
-          )
-        : await this.client.routeOperations.getRouteDirections(
-            this.defaultFormat,
-            toColonDelimitedLatLonString(routePoints),
-            updatedOptions
-          );
-      return mapResponseToRouteDirections(result);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return this.tracing.withSpan(
+      "MapsRouteClient.getRouteDirections",
+      options,
+      async (updatedOptions) => {
+        const result = isRouteDirectionParameters(routeDirectionParametersOrOptions)
+          ? await this.client.routeOperations.getRouteDirectionsWithAdditionalParameters(
+              this.defaultFormat,
+              toColonDelimitedLatLonString(routePoints),
+              {
+                ...routeDirectionParametersOrOptions,
+                supportingPoints:
+                  routeDirectionParametersOrOptions.supportingPoints as unknown as Record<
+                    string,
+                    unknown
+                  >,
+              },
+              updatedOptions
+            )
+          : await this.client.routeOperations.getRouteDirections(
+              this.defaultFormat,
+              toColonDelimitedLatLonString(routePoints),
+              updatedOptions
+            );
+        return mapResponseToRouteDirections(result);
+      }
+    );
   }
 
   /**
@@ -223,26 +254,21 @@ export class MapsRouteClient {
     budget: RouteRangeBudget,
     options: RouteRangeOptions = {}
   ): Promise<RouteRangeResult> {
-    const { span, updatedOptions } = createSpan("MapsRouteClient-getRouteRange", options);
-    try {
-      const result = await this.client.routeOperations.getRouteRange(
-        this.defaultFormat,
-        coordinates,
-        {
-          ...updatedOptions,
-          ...budget,
-        }
-      );
-      return mapResponseToRouteRangeResult(result);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return this.tracing.withSpan(
+      "MapsRouteClient.getRouteRange",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.routeOperations.getRouteRange(
+          this.defaultFormat,
+          coordinates,
+          {
+            ...updatedOptions,
+            ...budget,
+          }
+        );
+        return mapResponseToRouteRangeResult(result);
+      }
+    );
   }
 
   /**
@@ -269,48 +295,59 @@ export class MapsRouteClient {
    * rehydratedPoller.poll()
    * ```
    *
-   * @param resumeFrom - The serialized state from a previous poller.
+   * @param restoreFrom - The serialized state from a previous poller.
    * @param options - Optional parameters for the operation
    */
   public async resumeRequestRouteDirectionsBatch(
-    resumeFrom: string,
+    restoreFrom: string,
     options: RouteDirectionsBatchOptions = {}
   ): Promise<BatchPoller<BatchResult<RouteDirections>>> {
-    return this.createRouteDirectionsBatchPoller(undefined, { ...options, resumeFrom });
+    return this.createRouteDirectionsBatchPoller(restoreFrom, options);
   }
 
   private async createRouteDirectionsBatchPoller(
-    requests: RouteDirectionsRequest[] = [],
-    options: RouteRequestRouteDirectionsBatchOptionalParams = {}
+    requestsOrRestoreFrom: RouteDirectionsRequest[] | string,
+    options: RouteDirectionsBatchOptions = {}
   ): Promise<BatchPoller<BatchResult<RouteDirections>>> {
-    const { span, updatedOptions } = createSpan(
-      "MapsRouteClient-beginRequestRouteDirectionsBatch",
-      options
+    const requests = Array.isArray(requestsOrRestoreFrom) ? requestsOrRestoreFrom : [];
+    const restoreFrom = typeof requestsOrRestoreFrom === "string" ? requestsOrRestoreFrom : "";
+    return this.tracing.withSpan(
+      "MapsRouteClient.beginRequestRouteDirectionsBatch",
+      options,
+      async (updatedOptions) => {
+        const batchRequest = createRouteDirectionsBatchRequest(requests);
+
+        const poller = await createHttpPoller(
+          {
+            sendInitialRequest: async () => {
+              return getRawResponse(
+                async (paramOptions) =>
+                  this.client.routeOperations.requestRouteDirectionsBatch(
+                    this.defaultFormat,
+                    batchRequest,
+                    paramOptions
+                  ),
+                updatedOptions
+              );
+            },
+            sendPollRequest: createSendPollRequest({
+              client: this.client,
+              options: updatedOptions,
+              spec: getRouteDirectionsBatchOperationSpec,
+            }),
+          },
+          {
+            intervalInMs: options.updateIntervalInMs,
+            processResult: (internalResult) =>
+              mapRouteDirectionsBatchResult(internalResult as RouteDirectionsBatchResult),
+            ...(restoreFrom ? { restoreFrom } : {}),
+          }
+        );
+
+        await poller.poll();
+        return poller;
+      }
     );
-    const batchRequest = createRouteDirectionsBatchRequest(requests);
-    try {
-      const internalPoller = await this.client.routeOperations.beginRequestRouteDirectionsBatch(
-        this.defaultFormat,
-        batchRequest,
-        updatedOptions
-      );
-
-      const poller = new BatchPollerProxy<BatchResult<RouteDirections>, RouteDirectionsBatchResult>(
-        internalPoller,
-        mapRouteDirectionsBatchResult
-      );
-
-      await poller.poll();
-      return poller;
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -340,50 +377,62 @@ export class MapsRouteClient {
    * rehydratedPoller.poll()
    * ```
    *
-   * @param resumeFrom - The serialized state from a previous poller.
+   * @param restoreFrom - The serialized state from a previous poller.
    * @param options - Optional parameters for the operation
    */
   public async resumeRequestRouteMatrix(
-    resumeFrom: string,
+    restoreFrom: string,
     options: RouteMatrixRequestOptions = {}
   ): Promise<BatchPoller<RouteMatrixResult>> {
-    return this.createRequestRouteMatrixPoller(
-      /** Give a dump object to avoid type issue. */
-      {
-        origins: { type: "MultiPoint", coordinates: [] },
-        destinations: { type: "MultiPoint", coordinates: [] },
-      },
-      { ...options, resumeFrom }
-    );
+    return this.createRequestRouteMatrixPoller(restoreFrom, options);
   }
 
   private async createRequestRouteMatrixPoller(
-    routeMatrixQuery: RouteMatrixQuery,
-    options: RouteRequestRouteMatrixOptionalParams = {}
+    routeMatrixQueryOrRestoreFrom: RouteMatrixQuery | string,
+    options: RouteMatrixRequestOptions = {}
   ): Promise<BatchPoller<RouteMatrixResult>> {
-    const { span, updatedOptions } = createSpan("MapsRouteClient-beginRequestRouteMatrix", options);
-    try {
-      const internalPoller = await this.client.routeOperations.beginRequestRouteMatrix(
-        this.defaultFormat,
-        routeMatrixQuery,
-        updatedOptions
-      );
+    const routeMatrixQuery =
+      typeof routeMatrixQueryOrRestoreFrom === "string"
+        ? {
+            origins: { type: "MultiPoint", coordinates: [] },
+            destinations: { type: "MultiPoint", coordinates: [] },
+          }
+        : routeMatrixQueryOrRestoreFrom;
+    const restoreFrom =
+      typeof routeMatrixQueryOrRestoreFrom === "string" ? routeMatrixQueryOrRestoreFrom : "";
+    return this.tracing.withSpan(
+      "MapsRouteClient.beginRequestRouteMatrix",
+      options,
+      async (updatedOptions) => {
+        const poller = await createHttpPoller(
+          {
+            sendInitialRequest: async () =>
+              getRawResponse(
+                async (paramOptions) =>
+                  this.client.routeOperations.requestRouteMatrix(
+                    this.defaultFormat,
+                    routeMatrixQuery as RouteMatrixQuery,
+                    paramOptions
+                  ),
+                updatedOptions
+              ),
+            sendPollRequest: createSendPollRequest({
+              client: this.client,
+              options: updatedOptions,
+              spec: getRouteMatrixOperationSpec,
+            }),
+          },
+          {
+            intervalInMs: options.updateIntervalInMs,
+            processResult: (internalResult) =>
+              mapRouteMatrixResult(internalResult as RouteMatrixResult),
+            ...(restoreFrom ? { restoreFrom } : {}),
+          }
+        );
 
-      const poller = new BatchPollerProxy<RouteMatrixResult, RouteMatrixResult>(
-        internalPoller,
-        mapRouteMatrixResult
-      );
-
-      await poller.poll();
-      return poller;
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        await poller.poll();
+        return poller;
+      }
+    );
   }
 }
