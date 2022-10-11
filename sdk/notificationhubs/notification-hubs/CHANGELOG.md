@@ -7,6 +7,7 @@
 - Added support for direct batch send for multiple device handles
 - Collapsed `sendDirectNotification` and `sendBroadcastNotification` into `sendNotification` with options for tags and device handles.
 - Collapsed `scheduleBroadcastNotification` into `scheduleNotification` with options for tags.
+- Add a polled `beginSubmitNotificationHubJob` which submits a notification hub job and then can be polled to completion.
 
 ### Breaking Changes
 
