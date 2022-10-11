@@ -47,8 +47,8 @@ async function* getItemAsyncIterator<TElement, TPage, TLink, TPageSettings>(
   // if the result does not have an array shape, i.e. TPage = TElement, then we return it as is
   if (!Array.isArray(firstVal.value)) {
     // can extract elements from this page
-    const toElements = pagedResult.toElements;
-    if (toElements !== undefined) {
+    const { toElements } = pagedResult;
+    if (toElements) {
       yield* toElements(firstVal.value) as TElement[];
       for await (const page of pages) {
         yield* toElements(page) as TElement[];
