@@ -380,7 +380,10 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
   if (span.events) {
     span.events.forEach((event: TimedEvent) => {
       let baseType: "ExceptionData" | "MessageData";
-      const sampleRate = 100;
+      let sampleRate = 100;
+      if (span.attributes && span.attributes["sampleRate"]) {
+        sampleRate = Number(span.attributes["sampleRate"]);
+      }
       let time = new Date(hrTimeToMilliseconds(event.time));
       let name = "";
       let baseData: TelemetryExceptionData | MessageData;
