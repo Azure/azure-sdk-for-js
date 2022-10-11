@@ -490,7 +490,7 @@ describe("AppConfigurationClient", () => {
   describe("listConfigurationSettings", () => {
     let uniqueLabel: string;
     let listConfigSettingA: ConfigurationSetting;
-    let count = 6;
+    let count = 0;
 
     /** Simulating a setting in production that will be made read only */
     const productionASettingId: Pick<
