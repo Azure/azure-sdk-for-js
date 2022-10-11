@@ -2136,24 +2136,14 @@ export type SearchFuzzySearchBatchSyncResponse = SearchAddressBatchResult;
 
 /** Optional parameters. */
 export interface SearchFuzzySearchBatchOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the fuzzySearchBatch operation. */
 export type SearchFuzzySearchBatchResponse = SearchAddressBatchResult;
 
 /** Optional parameters. */
 export interface SearchGetFuzzySearchBatchOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getFuzzySearchBatch operation. */
 export type SearchGetFuzzySearchBatchResponse = SearchAddressBatchResult;
@@ -2167,24 +2157,14 @@ export type SearchSearchAddressBatchSyncResponse = SearchAddressBatchResult;
 
 /** Optional parameters. */
 export interface SearchSearchAddressBatchOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the searchAddressBatch operation. */
 export type SearchSearchAddressBatchResponse = SearchAddressBatchResult;
 
 /** Optional parameters. */
 export interface SearchGetSearchAddressBatchOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSearchAddressBatch operation. */
 export type SearchGetSearchAddressBatchResponse = SearchAddressBatchResult;
@@ -2198,24 +2178,14 @@ export type SearchReverseSearchAddressBatchSyncResponse = ReverseSearchAddressBa
 
 /** Optional parameters. */
 export interface SearchReverseSearchAddressBatchOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the reverseSearchAddressBatch operation. */
 export type SearchReverseSearchAddressBatchResponse = ReverseSearchAddressBatchResult;
 
 /** Optional parameters. */
 export interface SearchGetReverseSearchAddressBatchOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getReverseSearchAddressBatch operation. */
 export type SearchGetReverseSearchAddressBatchResponse = ReverseSearchAddressBatchResult;

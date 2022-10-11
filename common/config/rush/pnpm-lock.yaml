@@ -734,6 +734,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-cosmosdb/15.2.0:
+    resolution: {integrity: sha512-UOUlZQbe/H6E25nLo3iTF90bcuBXEwjZLLCBjzmVAq2TWbM9SVpgDewV+nwWykq94pdRt8OT0neKUh5YRUBnVQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.4.0
+      '@azure/core-client': 1.6.1
+      '@azure/core-lro': 2.4.0
+      '@azure/core-paging': 1.3.0
+      '@azure/core-rest-pipeline': 1.9.2
+      tslib: 2.4.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-msi/2.0.0:
     resolution: {integrity: sha512-yBprEoMQRNLyHtR/RuJh8ehQCcF6rO5049Pfped79uRd/Y8EW+pNpbW0EjqWC5lVllC1VG4B89aC5PwE3XeISA==}
     engines: {node: '>=12.0.0'}
@@ -2476,8 +2491,8 @@ packages:
     resolution: {integrity: sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==}
     dev: false
 
-  /@types/mustache/4.1.2:
-    resolution: {integrity: sha512-c4OVMMcyodKQ9dpwBwh3ofK9P6U9ZktKU9S+p33UqwMNN1vlv2P0zJZUScTshnx7OEoIIRcCFNQ904sYxZz8kg==}
+  /@types/mustache/4.2.1:
+    resolution: {integrity: sha512-gFAlWL9Ik21nJioqjlGCnNYbf9zHi0sVbaZ/1hQEBcCEuxfLJDvz4bVJSV6v6CUaoLOz0XEIoP7mSrhJ6o237w==}
     dev: false
 
   /@types/nise/1.4.0:
@@ -3944,7 +3959,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20221003
+      typescript: 4.9.0-dev.20221011
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8941,8 +8956,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20221003:
-    resolution: {integrity: sha512-VnpykPljJAPfKMPEKYFPLIXAltuE/+H8e4MFqZ/DJugrGW6JDVphIr+kbVL061cKJKDB+vJs7QuNQXqkea0AUA==}
+  /typescript/4.9.0-dev.20221011:
+    resolution: {integrity: sha512-ONzbj3hrlLtfCGhDV7zP9FHoVgYo7+zRvphDqNNoqg2B3uqnxw57Ql/zPThRfepFmISdd/P03owzxeBUE48xqA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9973,7 +9988,7 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-scaffolder.tgz:
-    resolution: {integrity: sha512-YoSuFkh3zHGtbH9KNPpwyfgMdLJq2iSv9vTEG/TvbcJzjIHeFxUUafFfuk/8viTjU17ZpYVUSz8OB1CCoD8KXw==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
+    resolution: {integrity: sha512-PZlH8UqHibMD2WG8lrD7R0hBuJBvw6QMrVbCnXGaT+xL0OXd0qtotBIK1r/7Yxtsjg47fgmGnWMcramyenE/fA==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
     name: '@rush-temp/api-management-custom-widgets-scaffolder'
     version: 0.0.0
     dependencies:
@@ -9983,7 +9998,7 @@ packages:
       '@types/glob': 7.2.0
       '@types/inquirer': 8.2.4
       '@types/mocha': 7.0.2
-      '@types/mustache': 4.1.2
+      '@types/mustache': 4.2.1
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
       '@types/yargs': 17.0.13
@@ -10013,7 +10028,7 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-tools.tgz:
-    resolution: {integrity: sha512-ARgnfeyaIOgPqrf+CeQKr+HXBYhe8X7NdVGCHBxighgBRsNZ+QEM8tIGie5wYIk+rYMqATOPXjpoMJcn5qh3pQ==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
+    resolution: {integrity: sha512-rkK0ypNoOhHvruyxIyyH+N8XUFphLQ8z02Q0uQqWnIDQW50X1cwl6bFWcYUJBl7gLOyV+skoE2ZqsCia9AnieQ==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
     name: '@rush-temp/api-management-custom-widgets-tools'
     version: 0.0.0
     dependencies:
@@ -10025,7 +10040,7 @@ packages:
       '@types/glob': 7.2.0
       '@types/mime': 3.0.1
       '@types/mocha': 7.0.2
-      '@types/mustache': 4.1.2
+      '@types/mustache': 4.2.1
       '@types/node': 12.20.55
       '@types/sinon': 9.0.11
       '@types/yargs': 17.0.13
@@ -10856,10 +10871,11 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-5tVHYfsa4c80DA7PNdZB6A2NR2mZmpXkT6MxSvtvq2gjDJwIyblu07/dHCx/qJ1kaa6NaLkV9ecBKIcPpIu0xw==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-coVlRjdx8RDzEXluiY0GXqLbreUKl9e/F36lKaj0xGO8keaNa5ryH7nWX19p8jkxlTl0qEHMr2j3Me1StKaGKQ==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
+      '@azure/arm-cosmosdb': 15.2.0
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.32.0
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
@@ -17476,7 +17492,7 @@ packages:
     dev: false
 
   file:projects/maps-common.tgz:
-    resolution: {integrity: sha512-Q4aBuP5dNsfGi5j91wfqiYg/GF/4/WyBeTSMc8GvFG/BsJu6M4+mR9DSer7L/028RPqIzntZLsGyzOw3W1nHxw==, tarball: file:projects/maps-common.tgz}
+    resolution: {integrity: sha512-SqlN7V5PxJsIXBXFsV/oSQWX6ojSoxn3Kbwxc9qR4cUXQHkIO5gNwV/Ps/abLrR97YtzMGpCpMG713fDQwFjBA==, tarball: file:projects/maps-common.tgz}
     name: '@rush-temp/maps-common'
     version: 0.0.0
     dependencies:
@@ -17491,7 +17507,7 @@ packages:
     dev: false
 
   file:projects/maps-search.tgz:
-    resolution: {integrity: sha512-W2NX4N3s2xGDEamU+ijJ8OQFBJ4J/WxbnYZcI93+c03oCmmqz4xTIGRYrvRrE0Fz9NOiUzSfauK66BwhrJV0tA==, tarball: file:projects/maps-search.tgz}
+    resolution: {integrity: sha512-hzFWlF9BN1c4SCfbrhIswYQ48/5blXvIzQp4hPEcgqZVWGJNoqcrRrwjGs/ed+8jRMxe5lfsNUp/Prk8CGnDtA==, tarball: file:projects/maps-search.tgz}
     name: '@rush-temp/maps-search'
     version: 0.0.0
     dependencies:

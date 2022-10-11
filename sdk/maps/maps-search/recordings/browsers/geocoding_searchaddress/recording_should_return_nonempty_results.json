@@ -17,27 +17,27 @@
         "Sec-Fetch-Site": "same-site",
         "subscription-key": "azure_maps_subscription_key",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "be05bf52-274b-4868-8c5d-550f46c4349b",
+        "x-ms-client-request-id": "5be412e9-5ee0-46db-abf7-a79b2b836e1c",
         "x-ms-useragent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "5936",
+        "Content-Length": "5940",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 16 Sep 2022 10:56:03 GMT",
+        "Date": "Thu, 06 Oct 2022 02:38:51 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: 3530127373394E399CA5BB270D3EEA61 Ref B: SG1EDGE0112 Ref C: 2022-09-16T10:56:03Z"
+        "X-MSEdge-Ref": "Ref A: 447F0827DF184B1F9629A45082DA88F5 Ref B: SG1EDGE0118 Ref C: 2022-10-06T02:38:51Z"
       },
       "ResponseBody": {
         "summary": {
           "query": "pizza",
           "queryType": "NON_NEAR",
-          "queryTime": 64,
+          "queryTime": 13,
           "numResults": 10,
           "offset": 0,
           "totalResults": 61,
@@ -46,7 +46,7 @@
         "results": [
           {
             "type": "Street",
-            "id": "US/STR/p3/4437983",
+            "id": "US/STR/p2/4309765",
             "score": 2.1169600487,
             "matchConfidence": {
               "score": 1
@@ -80,10 +80,10 @@
           },
           {
             "type": "Street",
-            "id": "BR/STR/p0/6785",
+            "id": "BR/STR/p0/741039",
             "score": 2.0962057114,
             "matchConfidence": {
-              "score": 0.9219343570542333
+              "score": 0.9219389503681287
             },
             "address": {
               "streetName": "Rua Lu\u00EDz Pizza",
@@ -114,10 +114,10 @@
           },
           {
             "type": "Street",
-            "id": "BR/STR/p0/1187222",
+            "id": "BR/STR/p0/1692479",
             "score": 2.0962057114,
             "matchConfidence": {
-              "score": 0.8982757314239036
+              "score": 0.8982731622802224
             },
             "address": {
               "streetName": "Rua Toledo Pizza",
@@ -146,10 +146,10 @@
           },
           {
             "type": "Street",
-            "id": "BR/STR/p0/1866308",
+            "id": "BR/STR/p0/2340946",
             "score": 2.0962057114,
             "matchConfidence": {
-              "score": 0.8982757314239036
+              "score": 0.8982731622802224
             },
             "address": {
               "streetName": "Rua Toledo Pizza",
@@ -181,7 +181,7 @@
           },
           {
             "type": "Street",
-            "id": "IT/STR/p0/369897",
+            "id": "IT/STR/p0/1152394",
             "score": 2.0959999561,
             "matchConfidence": {
               "score": 1
@@ -215,43 +215,7 @@
           },
           {
             "type": "Street",
-            "id": "US/STR/p0/4482883",
-            "score": 2.0959999561,
-            "matchConfidence": {
-              "score": 1
-            },
-            "address": {
-              "streetName": "Pizza Lane",
-              "municipality": "Wilson",
-              "countrySecondarySubdivision": "Teton",
-              "countrySubdivision": "WY",
-              "countrySubdivisionName": "Wyoming",
-              "postalCode": "83014",
-              "extendedPostalCode": "83014-9164",
-              "countryCode": "US",
-              "country": "United States",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "Pizza Lane, Wilson, WY 83014",
-              "localName": "Wilson"
-            },
-            "position": {
-              "lat": 43.51855,
-              "lon": -110.84023
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 43.51882,
-                "lon": -110.84204
-              },
-              "btmRightPoint": {
-                "lat": 43.51846,
-                "lon": -110.83869
-              }
-            }
-          },
-          {
-            "type": "Street",
-            "id": "US/STR/p2/5237720",
+            "id": "US/STR/p0/4722363",
             "score": 2.0959999561,
             "matchConfidence": {
               "score": 1
@@ -286,7 +250,7 @@
           },
           {
             "type": "Street",
-            "id": "US/STR/p3/1283512",
+            "id": "US/STR/p1/1415646",
             "score": 2.0959999561,
             "matchConfidence": {
               "score": 1
@@ -322,7 +286,7 @@
           },
           {
             "type": "Street",
-            "id": "US/STR/p3/4272133",
+            "id": "US/STR/p1/6446821",
             "score": 2.0959999561,
             "matchConfidence": {
               "score": 1
@@ -358,10 +322,46 @@
           },
           {
             "type": "Street",
-            "id": "BR/STR/p0/355648",
+            "id": "US/STR/p3/4407936",
+            "score": 2.0959999561,
+            "matchConfidence": {
+              "score": 1
+            },
+            "address": {
+              "streetName": "Pizza Lane",
+              "municipality": "Wilson",
+              "countrySecondarySubdivision": "Teton",
+              "countrySubdivision": "WY",
+              "countrySubdivisionName": "Wyoming",
+              "postalCode": "83014",
+              "extendedPostalCode": "83014-9164",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "Pizza Lane, Wilson, WY 83014",
+              "localName": "Wilson"
+            },
+            "position": {
+              "lat": 43.51855,
+              "lon": -110.84023
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 43.51882,
+                "lon": -110.84204
+              },
+              "btmRightPoint": {
+                "lat": 43.51846,
+                "lon": -110.83869
+              }
+            }
+          },
+          {
+            "type": "Street",
+            "id": "BR/STR/p0/1148757",
             "score": 2.075854063,
             "matchConfidence": {
-              "score": 0.8837980762666655
+              "score": 0.8838056393641002
             },
             "address": {
               "streetName": "Rua Doutor Luiz Pizza",
