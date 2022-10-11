@@ -6,6 +6,7 @@ import * as path from "path";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { Application as TypeDocApplication, TSConfigReader, TypeDocReader } from "typedoc";
+import { loadTheme } from "./theme/theme.js";
 
 async function runTypeDoc({ outputFolder, cwd }: { outputFolder: string; cwd: string }) {
   const oldCwd = process.cwd();
@@ -14,11 +15,15 @@ async function runTypeDoc({ outputFolder, cwd }: { outputFolder: string; cwd: st
   app.options.addReader(new TSConfigReader());
   app.options.addReader(new TypeDocReader());
 
+  loadTheme(app);
+
   app.bootstrap({
     entryPoints: ["src/index.ts"],
     excludeInternal: true,
     excludePrivate: true,
     skipErrorChecking: true,
+    gaID: "UA-62780441-43",
+    theme: "azureSdk",
   });
 
   const project = app.convert();
