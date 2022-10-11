@@ -7,9 +7,7 @@ import { getPagedAsyncIterator, PagedResult, PageSettings } from "../src";
 function buildIterator<T>(input: T) {
   return getPagedAsyncIterator({
     firstPageLink: 0,
-    async getPage() {
-      return Promise.resolve({ page: input });
-    },
+    getPage: async () => ({ page: input }),
   });
 }
 
@@ -121,6 +119,31 @@ describe("getPagedAsyncIterator", function () {
     }
     assert.equal(pagesCount, Math.ceil(collection.length / maxPageSize));
     assert.deepEqual([].concat(...receivedPages), collection);
+  });
+
+  describe("Iterator over object", function () {
+    interface collectionObject {
+      elements: number[];
+      next: number;
+    }
+
+    it("should return an iterator over an object that can extract elements", async function () {
+      const collection: collectionObject = {
+        elements: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        next: 0,
+      };
+      const pagedResult: PagedResult<collectionObject, PageSettings, number> = {
+        firstPageLink: 0,
+        getPage: async () => ({ page: collection }),
+        toElements: (page) => page.elements,
+      };
+      const iterator = getPagedAsyncIterator(pagedResult);
+      const expected = [];
+      for await (const val of iterator) {
+        expected.push(val);
+      }
+      assert.deepEqual(expected, collection.elements);
+    });
   });
 
   describe("Strong typing experience", function () {
