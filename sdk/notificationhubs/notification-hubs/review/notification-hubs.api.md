@@ -6,7 +6,9 @@
 
 import { CommonClientOptions } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AdmInstallation extends DeviceTokenInstallation {
@@ -555,6 +557,7 @@ export interface NotificationHubsResponse {
 // @public
 export class NotificationHubsServiceClient {
     constructor(connectionString: string, hubName: string, options?: NotificationHubsClientOptions);
+    beginSubmitNotificationHubJob(notificationHubJob: NotificationHubJob, options?: OperationOptions): Promise<SimplePollerLike<OperationState<NotificationHubJob>, NotificationHubJob>>;
     cancelScheduledNotification(notificationId: string, options?: OperationOptions): Promise<NotificationHubsResponse>;
     createOrUpdateInstallation(installation: Installation, options?: OperationOptions): Promise<NotificationHubsResponse>;
     createOrUpdateRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;

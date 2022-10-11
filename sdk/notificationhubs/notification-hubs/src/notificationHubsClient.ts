@@ -17,11 +17,13 @@ import {
   NotificationHubsResponse,
 } from "./models/notificationDetails.js";
 import { NotificationHubsClientContext, createClientContext } from "./client/index.js";
+import { OperationState, SimplePollerLike } from "@azure/core-lro";
 import { Notification } from "./models/notification.js";
 import { NotificationHubJob } from "./models/notificationHubJob.js";
 import { OperationOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RegistrationDescription } from "./models/registration.js";
+import { beginSubmitNotificationHubJob as beginSubmitNotificationHubJobMethod } from "./client/beginSubmitNotificationHubJob.js"; 
 import { cancelScheduledNotification as cancelScheduledNotificationMethod } from "./client/cancelScheduledNotification.js";
 import { createOrUpdateInstallation as createOrUpdateInstallationMethod } from "./client/createOrUpdateInstallation.js";
 import { createOrUpdateRegistration as createOrUpdateRegistrationMethod } from "./client/createOrUpdateRegistration.js";
@@ -292,6 +294,19 @@ export class NotificationHubsServiceClient {
     options: OperationOptions = {}
   ): Promise<NotificationHubJob> {
     return getNotificationHubJobMethod(this._client, jobId, options);
+  }
+
+  /**
+   * Submits a Notification Hub job and creates a poller to poll for results.
+   * @param notificationHubJob - The Notification Hub import/export job to start.
+   * @param options - The operation options.
+   * @returns A poller which can be called to poll until completion of the job.
+   */
+  beginSubmitNotificationHubJob(
+    notificationHubJob: NotificationHubJob,
+    options: OperationOptions = {}
+  ): Promise<SimplePollerLike<OperationState<NotificationHubJob>, NotificationHubJob>> {
+    return beginSubmitNotificationHubJobMethod(this._client, notificationHubJob, options)
   }
 
   /**
