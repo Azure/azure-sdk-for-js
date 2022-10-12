@@ -37,6 +37,13 @@ interface FailoverHosts {
   hostStates: FailoverHostState[];
 }
 
+function shouldFailover({ response, responseError }: RetryInformation): boolean {
+  const retryableResponse = response && 500 <= response.status && response.status < 600;
+  const retryableError =
+    responseError?.code && ["ETIMEDOUT", "ECONNREFUSED", "ENOENT"].includes(responseError.code);
+  return (retryableResponse || retryableError) as boolean;
+}
+
 /**
  * Default behavior for generating hosts for failover.
  *
@@ -68,21 +75,21 @@ export function readWriteFailoverHostDelegate(options: {
       return;
     }
 
+    const retryDelayInMs = factoryOptions.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
+    const maxRetryDelayInMs = factoryOptions.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
+
     while (true) {
-      const response = retryState.response;
-      const retryDelayInMs = factoryOptions.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
-      const maxRetryDelayInMs =
-        factoryOptions.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
-      if (!response) {
-        return;
+      const request = retryState.response?.request || retryState.responseError?.request;
+      if (!request) {
+        throw Error("Request should be defined.");
       }
 
       // Select correct list of hosts for this request
-      const isSafeMethod = ["GET", "HEAD", "OPTIONS"].includes(response.request.method);
+      const isSafeMethod = ["GET", "HEAD", "OPTIONS"].includes(request.method);
       const currentStateList = isSafeMethod ? readHostStateList : writeHostStateList;
 
       if (currentStateList.hostStates.length === 0) {
-        yield undefined;
+        retryState = yield undefined;
         continue;
       }
       const hostState = currentStateList.hostStates[currentStateList.index];
@@ -111,27 +118,26 @@ export function readWriteFailoverHostDelegate(options: {
  * @returns An exponential retry strategy with support for multiple endpoints
  */
 export function failoverRetryStrategy(options: DefaultRetryPolicyOptions): RetryStrategy {
-  const generatorMap = new WeakMap<PipelineRequest, ReturnType<FailoverHostDelegate>>();
+  const delegateMap = new WeakMap<PipelineRequest, ReturnType<FailoverHostDelegate>>();
   return {
     name: "failoverRetryStrategy",
     retry(state) {
-      const response = state.response;
-      // Only fallback to another host on a 5xx response
-      if (!(response && 500 <= response.status && response.status < 600)) {
+      if (!shouldFailover(state) || !options.failoverHostDelegate) {
         return { skipStrategy: true };
       }
 
-      if (!options.failoverHostDelegate) {
-        return { skipStrategy: true };
+      const request = state.response?.request || state.responseError?.request;
+      if (!request) {
+        throw Error("Request should be defined.");
       }
 
-      // Register a generator for failover hosts for this request (and all of its retries)
-      if (!generatorMap.has(response.request)) {
-        generatorMap.set(response.request, options.failoverHostDelegate(state, options));
+      // Register a delegate for failover hosts for this request (and all of its retries)
+      if (!delegateMap.has(request)) {
+        delegateMap.set(request, options.failoverHostDelegate(state, options));
       }
 
       // Get the next host for this request
-      const failoverHosts = generatorMap.get(response.request)!;
+      const failoverHosts = delegateMap.get(request)!;
       const hostResult = failoverHosts.next(state);
 
       // Skip if there are no fallback hosts
@@ -139,13 +145,13 @@ export function failoverRetryStrategy(options: DefaultRetryPolicyOptions): Retry
         return { skipStrategy: true };
       }
 
-      // Skip if the generator decides not to failover
+      // Skip if the delegate decides not to failover
       const hostState = hostResult.value;
       if (!hostState) {
         return { skipStrategy: true };
       }
 
-      const redirectUrl = new URL(response.request.url);
+      const redirectUrl = new URL(request.url);
       redirectUrl.host = hostState.host;
 
       const modifiers: RetryModifiers = { redirectTo: redirectUrl.toString() };
