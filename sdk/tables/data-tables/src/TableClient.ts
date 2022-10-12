@@ -65,7 +65,6 @@ import { apiVersionPolicy } from "./utils/apiVersionPolicy";
 import { cosmosPatchPolicy } from "./cosmosPathPolicy";
 import { escapeQuotes } from "./odata";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
-import { getSecondaryUrlFromPrimary } from "./secondaryEndpointPolicy";
 import { handleTableAlreadyExists } from "./utils/errorHelpers";
 import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
 import { isCredential } from "./utils/isCredential";
@@ -250,10 +249,11 @@ export class TableClient {
       },
     };
 
-    if (this.clientOptions.georedundantFailover) {
+    if (this.clientOptions.readFailoverHosts || this.clientOptions.writeFailoverHosts) {
       internalPipelineOptions.retryOptions = {
         failoverHostDelegate: readWriteFailoverHostDelegate({
-          readHosts: [getSecondaryUrlFromPrimary(url)],
+          readHosts: this.clientOptions.readFailoverHosts,
+          writeHosts: this.clientOptions.writeFailoverHosts,
         }),
         ...internalPipelineOptions.retryOptions,
       };

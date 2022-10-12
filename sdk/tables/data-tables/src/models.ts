@@ -27,8 +27,9 @@ export type TransactionAction = CreateDeleteEntityAction | UpdateEntityAction;
  */
 export type TableServiceClientOptions = CommonClientOptions & {
   endpoint?: string;
-  georedundantFailover?: boolean;
   version?: string;
+  readFailoverHosts?: string[];
+  writeFailoverHosts?: string[];
 };
 
 /**

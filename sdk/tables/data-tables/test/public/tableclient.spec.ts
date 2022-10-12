@@ -9,6 +9,7 @@ import { FullOperationResponse } from "@azure/core-client";
 import { SendRequest } from "@azure/core-rest-pipeline";
 import { assert } from "@azure/test-utils";
 import { createTableClient } from "./utils/recordedClient";
+import { getSecondaryUrlFromPrimary } from "../../src/secondaryEndpointPolicy";
 import sinon from "sinon";
 
 describe("special characters", () => {
@@ -712,10 +713,10 @@ describe("regional failover", () => {
     const stub = sinon.stub(retryPolicy, "sendRequest").callsFake(async (request, next) => {
       const nextWithFailingPrimary: SendRequest = async (req) => {
         const response = await next(req);
-        if (
-          new URL(req.url).origin === new URL(tableClient.url).origin &&
-          ["GET", "HEAD", "OPTIONS"].includes(req.method)
-        ) {
+        const initialOrigin = new URL(req.url).origin;
+        const currentOrigin = new URL(tableClient.url).origin;
+        const isSafeMethod = ["GET", "HEAD", "OPTIONS"].includes(req.method);
+        if (initialOrigin === currentOrigin && isSafeMethod) {
           response.status = 500;
         }
         return response;
@@ -726,16 +727,24 @@ describe("regional failover", () => {
     return stub;
   }
 
+  async function createFailoverClient(rec?: Recorder) {
+    const tempClient = await createTableClient(tableName, "SASConnectionString");
+    const secondaryUrl = getSecondaryUrlFromPrimary(tempClient.url);
+    return createTableClient(tableName, "SASConnectionString", rec, {
+      readFailoverHosts: [secondaryUrl],
+    });
+  }
+
   before(async () => {
     if (!isPlaybackMode()) {
-      unRecordedClient = await createTableClient(tableName, "SASConnectionString");
+      unRecordedClient = await createFailoverClient();
       await unRecordedClient.createTable();
     }
   });
 
   after(async () => {
     if (!isPlaybackMode()) {
-      unRecordedClient = await createTableClient(tableName, "SASConnectionString");
+      unRecordedClient = await createFailoverClient();
       await unRecordedClient.deleteTable();
     }
   });
@@ -743,7 +752,7 @@ describe("regional failover", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     // todo: test with every auth mode
-    client = await createTableClient(tableName, "SASConnectionString", recorder);
+    client = await createFailoverClient(recorder);
   });
 
   afterEach(async function () {

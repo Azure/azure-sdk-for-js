@@ -50,10 +50,9 @@ export type CreateClientMode =
 export async function createTableClient(
   tableName: string,
   mode: CreateClientMode = "SASConnectionString",
-  recorder?: Recorder
+  recorder?: Recorder,
+  options: TableServiceClientOptions = {}
 ): Promise<TableClient> {
-  let options: TableServiceClientOptions = {};
-
   if (recorder) {
     await recorder.start(recorderOptions);
     await recorder.setMatcher("HeaderlessMatcher");

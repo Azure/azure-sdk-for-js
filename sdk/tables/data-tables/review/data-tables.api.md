@@ -394,8 +394,9 @@ export class TableServiceClient {
 // @public
 export type TableServiceClientOptions = CommonClientOptions & {
     endpoint?: string;
-    georedundantFailover?: boolean;
     version?: string;
+    readFailoverHosts?: string[];
+    writeFailoverHosts?: string[];
 };
 
 // @public
