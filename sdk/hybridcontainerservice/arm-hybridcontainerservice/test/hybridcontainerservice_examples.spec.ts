@@ -34,7 +34,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("hybridcontainerservice test", () => {
+describe.skip("hybridcontainerservice test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: HybridContainerServiceClient;
@@ -50,7 +50,7 @@ describe("hybridcontainerservice test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new HybridContainerServiceClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "westus";
+    location = "eastus";
     resourceGroup = "myjstest";
     storageSpacesName = "test-storage";
     storageSpaces = {
@@ -59,7 +59,7 @@ describe("hybridcontainerservice test", () => {
           "/subscriptions/" + subscriptionId + "/resourcegroups/" + resourceGroup + "/providers/microsoft.extendedlocation/customlocations/testcustomlocation",
         type: "CustomLocation"
       },
-      location: "westus",
+      location: location,
       properties: {
         hciStorageProfile: {
           mocGroup: "target-group",

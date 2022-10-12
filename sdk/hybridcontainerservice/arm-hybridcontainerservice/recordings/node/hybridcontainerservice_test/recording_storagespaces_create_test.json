@@ -8,44 +8,44 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "344",
+        "Content-Length": "157",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-hybridcontainerservice/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "9a2432ee-204c-4047-87a2-0be6a991602e"
+        "User-Agent": "azsdk-js-arm-hybridcontainerservice/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "1f7a3588-eebb-4819-8fc1-09a7b098e713"
       },
       "RequestBody": {
-        "location": "westus",
+        "location": "eastus",
         "properties": {
           "hciStorageProfile": {
             "mocGroup": "target-group",
             "mocLocation": "MocLocation",
             "mocStorageContainer": "WssdStorageContainer"
           }
-        },
-        "extendedLocation": {
-          "type": "CustomLocation",
-          "name": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/microsoft.extendedlocation/customlocations/testcustomlocation"
         }
       },
-      "StatusCode": 404,
+      "StatusCode": 400,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "179",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 10 Oct 2022 08:40:43 GMT",
+        "Content-Length": "346",
+        "Content-Type": "application/json",
+        "Date": "Wed, 12 Oct 2022 06:56:40 GMT",
         "Expires": "-1",
+        "mise-correlation-id": "e907e83a-4e68-4492-88be-c0ee10665ad8",
         "Pragma": "no-cache",
+        "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "136eff21-cfcf-4246-aae3-036927682e81",
+        "x-ms-correlation-request-id": "b4b40b1b-fdb1-4b79-9533-27ef278dcfe3",
         "x-ms-failure-cause": "gateway",
-        "x-ms-request-id": "136eff21-cfcf-4246-aae3-036927682e81",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221010T084044Z:136eff21-cfcf-4246-aae3-036927682e81"
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-writes": "1197",
+        "x-ms-request-id": "8d9567cf-2d13-414b-89f1-a03280124ecf",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221012T065640Z:b4b40b1b-fdb1-4b79-9533-27ef278dcfe3"
       },
       "ResponseBody": {
         "error": {
-          "code": "InvalidResourceType",
-          "message": "The resource type could not be found in the namespace \u0027Microsoft.HybridContainerService\u0027 for api version \u00272022-05-01-preview\u0027."
+          "code": "InvalidExtendedLocation",
+          "message": "The resource \u0027/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.HybridContainerService/storageSpaces/test-storage\u0027 has an invalid extended location \u0027\u003Cnull\u003E\u0027. The extended location must specify a valid \u0027Microsoft.ExtendedLocation/customLocations\u0027 resource id."
         }
       }
     }
