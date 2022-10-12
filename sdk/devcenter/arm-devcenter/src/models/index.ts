@@ -290,6 +290,20 @@ export interface EnvironmentTypeUpdate {
   tags?: { [propertyName: string]: string };
 }
 
+/** Result of the allowed environment type list operation. */
+export interface AllowedEnvironmentTypeListResult {
+  /**
+   * Current page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: AllowedEnvironmentType[];
+  /**
+   * URL to get the next set of results if there are any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** Result of the project environment type list operation. */
 export interface ProjectEnvironmentTypeListResult {
   /**
@@ -502,6 +516,11 @@ export interface OperationStatus {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: string;
+  /**
+   * The id of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceId?: string;
   /**
    * The start time of the operation
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -807,6 +826,15 @@ export interface Catalog extends Resource {
 export interface EnvironmentType extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
+  /**
+   * The provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+}
+
+/** Represents an allowed environment type. */
+export interface AllowedEnvironmentType extends Resource {
   /**
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1934,6 +1962,33 @@ export interface EnvironmentTypesListByDevCenterNextOptionalParams
 
 /** Contains response data for the listByDevCenterNext operation. */
 export type EnvironmentTypesListByDevCenterNextResponse = EnvironmentTypeListResult;
+
+/** Optional parameters. */
+export interface ProjectAllowedEnvironmentTypesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
+  top?: number;
+}
+
+/** Contains response data for the list operation. */
+export type ProjectAllowedEnvironmentTypesListResponse = AllowedEnvironmentTypeListResult;
+
+/** Optional parameters. */
+export interface ProjectAllowedEnvironmentTypesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ProjectAllowedEnvironmentTypesGetResponse = AllowedEnvironmentType;
+
+/** Optional parameters. */
+export interface ProjectAllowedEnvironmentTypesListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
+  top?: number;
+}
+
+/** Contains response data for the listNext operation. */
+export type ProjectAllowedEnvironmentTypesListNextResponse = AllowedEnvironmentTypeListResult;
 
 /** Optional parameters. */
 export interface ProjectEnvironmentTypesListOptionalParams

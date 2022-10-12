@@ -23,6 +23,7 @@ import {
   ImageVersionsImpl,
   CatalogsImpl,
   EnvironmentTypesImpl,
+  ProjectAllowedEnvironmentTypesImpl,
   ProjectEnvironmentTypesImpl,
   DevBoxDefinitionsImpl,
   OperationsImpl,
@@ -42,6 +43,7 @@ import {
   ImageVersions,
   Catalogs,
   EnvironmentTypes,
+  ProjectAllowedEnvironmentTypes,
   ProjectEnvironmentTypes,
   DevBoxDefinitions,
   Operations,
@@ -141,7 +143,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-08-01-preview";
+    this.apiVersion = options.apiVersion || "2022-09-01-preview";
     this.devCenters = new DevCentersImpl(this);
     this.projects = new ProjectsImpl(this);
     this.attachedNetworks = new AttachedNetworksImpl(this);
@@ -150,6 +152,9 @@ export class DevCenterClient extends coreClient.ServiceClient {
     this.imageVersions = new ImageVersionsImpl(this);
     this.catalogs = new CatalogsImpl(this);
     this.environmentTypes = new EnvironmentTypesImpl(this);
+    this.projectAllowedEnvironmentTypes = new ProjectAllowedEnvironmentTypesImpl(
+      this
+    );
     this.projectEnvironmentTypes = new ProjectEnvironmentTypesImpl(this);
     this.devBoxDefinitions = new DevBoxDefinitionsImpl(this);
     this.operations = new OperationsImpl(this);
@@ -198,6 +203,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
   imageVersions: ImageVersions;
   catalogs: Catalogs;
   environmentTypes: EnvironmentTypes;
+  projectAllowedEnvironmentTypes: ProjectAllowedEnvironmentTypes;
   projectEnvironmentTypes: ProjectEnvironmentTypes;
   devBoxDefinitions: DevBoxDefinitions;
   operations: Operations;
