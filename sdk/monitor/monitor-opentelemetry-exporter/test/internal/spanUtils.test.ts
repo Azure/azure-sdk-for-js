@@ -38,6 +38,7 @@ let packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
 function assertEnvelope(
   envelope: Envelope,
   name: string,
+  sampleRate: number,
   baseType: string,
   expectedTags: Tags,
   expectedProperties: Properties,
@@ -48,6 +49,7 @@ function assertEnvelope(
   assert.strictEqual(Context.sdkVersion, packageJson.version);
   assert.ok(envelope);
   assert.strictEqual(envelope.name, name);
+  assert.strictEqual(envelope.sampleRate, sampleRate);
   assert.deepStrictEqual(envelope.data?.baseType, baseType);
 
   assert.strictEqual(envelope.instrumentationKey, "ikey");
@@ -79,6 +81,7 @@ function assertEnvelope(
 const emptyMeasurements: Measurements = {};
 
 describe("spanUtils.ts", () => {
+
   describe("#readableSpanToEnvelope", () => {
     describe("GRPC", () => {
       it("should create a Request Envelope for Server Spans", () => {
@@ -124,6 +127,7 @@ describe("spanUtils.ts", () => {
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.Request",
+          100,
           "RequestData",
           expectedTags,
           expectedProperties,
@@ -174,6 +178,7 @@ describe("spanUtils.ts", () => {
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.RemoteDependency",
+          100,
           "RemoteDependencyData",
           expectedTags,
           expectedProperties,
@@ -193,7 +198,7 @@ describe("spanUtils.ts", () => {
           "parentSpanId"
         );
         span.setAttributes({
-          "extra.attribute": "foo",
+          "_MS.sampleRate": "50",
         });
         span.setStatus({
           code: SpanStatusCode.OK,
@@ -205,10 +210,6 @@ describe("spanUtils.ts", () => {
           [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
           [KnownContextTagKeys.AiOperationName]: "parent span",
         };
-        const expectedProperties = {
-          "extra.attribute": "foo",
-        };
-
         const expectedBaseData: Partial<RequestData> = {
           duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
           id: `${span.spanContext().spanId}`,
@@ -217,7 +218,7 @@ describe("spanUtils.ts", () => {
           name: `parent span`,
           version: 2,
           source: undefined,
-          properties: expectedProperties,
+          properties: {}, // Should not add sampleRate
           measurements: {},
         };
 
@@ -225,9 +226,10 @@ describe("spanUtils.ts", () => {
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.Request",
+          50,
           "RequestData",
           expectedTags,
-          expectedProperties,
+          {},
           emptyMeasurements,
           expectedBaseData,
           expectedTime
@@ -274,6 +276,7 @@ describe("spanUtils.ts", () => {
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.RemoteDependency",
+          100,
           "RemoteDependencyData",
           expectedTags,
           expectedProperties,
@@ -330,6 +333,7 @@ describe("spanUtils.ts", () => {
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.Request",
+          100,
           "RequestData",
           expectedTags,
           expectedProperties,
@@ -382,6 +386,7 @@ describe("spanUtils.ts", () => {
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.RemoteDependency",
+          100,
           "RemoteDependencyData",
           expectedTags,
           expectedProperties,
@@ -435,6 +440,7 @@ describe("spanUtils.ts", () => {
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.RemoteDependency",
+          100,
           "RemoteDependencyData",
           expectedTags,
           expectedProperties,

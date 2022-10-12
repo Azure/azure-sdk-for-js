@@ -11,7 +11,7 @@ import { createTagsFromResource } from "./resourceUtils";
 import { Tags, Properties, MSLink, Measurements } from "../types";
 import { msToTimeSpan } from "./breezeUtils";
 import { parseEventHubSpan } from "./eventhub";
-import { DependencyTypes, MS_LINKS } from "./constants/applicationinsights";
+import { AzureMonitorSampleRate, DependencyTypes, MS_LINKS } from "./constants/applicationinsights";
 import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes";
 import {
   TelemetryExceptionData,
@@ -48,14 +48,13 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
       const httpUrl = span.attributes[SemanticAttributes.HTTP_URL];
       tags[KnownContextTagKeys.AiOperationName] = span.name; // Default
       if (httpRoute) {
-        tags[KnownContextTagKeys.AiOperationName] = `${httpMethod as string} ${
-          httpRoute as string
-        }`;
+        tags[KnownContextTagKeys.AiOperationName] = `${httpMethod as string} ${httpRoute as string
+          }`;
       } else if (httpUrl) {
         try {
           let url = new URL(String(httpUrl));
           tags[KnownContextTagKeys.AiOperationName] = `${httpMethod} ${url.pathname}`;
-        } catch (ex: any) {}
+        } catch (ex: any) { }
       }
       if (httpClientIp) {
         tags[KnownContextTagKeys.AiLocationIp] = String(httpClientIp);
@@ -93,7 +92,8 @@ function createPropertiesFromSpanAttributes(attributes?: SpanAttributes): {
           key.startsWith("exception.") ||
           key.startsWith("thread.") ||
           key.startsWith("faas.") ||
-          key.startsWith("code.")
+          key.startsWith("code.") ||
+          key.startsWith("_MS.")
         )
       ) {
         properties[key] = attributes[key] as string;
@@ -211,7 +211,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
       try {
         let dependencyUrl = new URL(String(httpUrl));
         remoteDependencyData.name = `${httpMethod} ${dependencyUrl.pathname}`;
-      } catch (ex: any) {}
+      } catch (ex: any) { }
     }
     remoteDependencyData.type = DependencyTypes.Http;
     remoteDependencyData.data = getUrl(span);
@@ -233,7 +233,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
             target = res[1] + res[2] + res[4];
           }
         }
-      } catch (ex: any) {}
+      } catch (ex: any) { }
       remoteDependencyData.target = `${target}`;
     }
   }
@@ -315,7 +315,6 @@ function createRequestData(span: ReadableSpan): RequestData {
 export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelope {
   let name: string;
   let baseType: "RemoteDependencyData" | "RequestData";
-  const sampleRate = 100;
   let baseData: RemoteDependencyData | RequestData;
 
   const time = new Date(hrTimeToMilliseconds(span.startTime));
@@ -341,6 +340,11 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
       // never
       diag.error(`Unsupported span kind ${span.kind}`);
       throw new Error(`Unsupported span kind ${span.kind}`);
+  }
+
+  let sampleRate = 100;
+  if (span.attributes[AzureMonitorSampleRate]) {
+    sampleRate = Number(span.attributes[AzureMonitorSampleRate]);
   }
 
   // Azure SDK
@@ -380,10 +384,6 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
   if (span.events) {
     span.events.forEach((event: TimedEvent) => {
       let baseType: "ExceptionData" | "MessageData";
-      let sampleRate = 100;
-      if (span.attributes && span.attributes["sampleRate"]) {
-        sampleRate = Number(span.attributes["sampleRate"]);
-      }
       let time = new Date(hrTimeToMilliseconds(event.time));
       let name = "";
       let baseData: TelemetryExceptionData | MessageData;
@@ -433,6 +433,10 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
           properties: properties,
         };
         baseData = messageData;
+      }
+      let sampleRate = 100;
+      if (span.attributes[AzureMonitorSampleRate]) {
+        sampleRate = Number(span.attributes[AzureMonitorSampleRate]);
       }
       let env: Envelope = {
         name: name,

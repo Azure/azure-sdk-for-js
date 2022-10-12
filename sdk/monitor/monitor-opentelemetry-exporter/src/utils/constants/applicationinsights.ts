@@ -29,3 +29,5 @@ export enum DependencyTypes {
   Http = "Http",
   Grpc = "GRPC",
 }
+
+export const AzureMonitorSampleRate = "_MS.sampleRate"; 
