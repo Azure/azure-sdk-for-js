@@ -83,7 +83,6 @@ export function resourceMetricsToEnvelope(
         envelopes.push(envelope);
       });
     });
-
   });
 
   return envelopes;

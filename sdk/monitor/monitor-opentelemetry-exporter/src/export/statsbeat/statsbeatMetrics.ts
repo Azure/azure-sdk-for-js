@@ -15,10 +15,7 @@ import {
   PeriodicExportingMetricReader,
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
-import {
-  AzureMonitorExporterOptions,
-  AzureMonitorMetricExporter,
-} from "../../index";
+import { AzureMonitorExporterOptions, AzureMonitorMetricExporter } from "../../index";
 import { StatsbeatCounter, StatsbeatResourceProvider, STATSBEAT_LANGUAGE } from "../constants";
 import { NetworkStatsbeat } from "./types";
 
@@ -183,10 +180,11 @@ export class StatsbeatMetrics {
 
     if (this._isEnabled && !this._isInitialized) {
       this._isInitialized = true;
+      this._initialize();
     }
   }
 
-  public async trackShortIntervalStatsbeats() {
+  private async _initialize() {
     try {
       await this._getResourceProvider();
       this._commonProperties = {
@@ -394,7 +392,7 @@ export class StatsbeatMetrics {
       currentCounter.averageRequestExecutionTime =
         (currentCounter.intervalRequestExecutionTime -
           currentCounter.lastIntervalRequestExecutionTime) /
-        intervalRequests || 0;
+          intervalRequests || 0;
       currentCounter.lastIntervalRequestExecutionTime = currentCounter.intervalRequestExecutionTime; // reset
 
       currentCounter.lastRequestCount = currentCounter.totalRequestCount;

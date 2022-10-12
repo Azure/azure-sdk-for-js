@@ -18,7 +18,8 @@ import { AzureMonitorExporterOptions } from "../config";
  */
 export class AzureMonitorMetricExporter
   extends AzureMonitorBaseExporter
-  implements PushMetricExporter {
+  implements PushMetricExporter
+{
   private _isStatsbeat: boolean | undefined;
   /**
    * Flag to determine if Exporter is shutdown.

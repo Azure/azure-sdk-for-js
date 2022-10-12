@@ -9,7 +9,7 @@ import { HttpSender, FileSystemPersist } from "../platform";
 import { AzureMonitorExporterOptions } from "../config";
 import { PersistentStorage, Sender } from "../types";
 import { isRetriable, BreezeResponse } from "../utils/breezeUtils";
-import { ENV_CONNECTION_STRING } from "../Declarations/Constants";
+import { DEFAULT_BREEZE_ENDPOINT, ENV_CONNECTION_STRING } from "../Declarations/Constants";
 import { TelemetryItem as Envelope } from "../generated";
 import { StatsbeatMetrics } from "./statsbeat/statsbeatMetrics";
 import { MAX_STATSBEAT_FAILURES } from "./constants";
@@ -44,7 +44,9 @@ export abstract class AzureMonitorBaseExporter {
   constructor(options: AzureMonitorExporterOptions = {}, isStatsbeatExporter?: boolean) {
     this._options = options;
     this._numConsecutiveRedirects = 0;
-    const connectionString = options.connectionString || process.env[ENV_CONNECTION_STRING];
+    this._instrumentationKey = "";
+    this._endpointUrl = DEFAULT_BREEZE_ENDPOINT;
+    const connectionString = this._options.connectionString || process.env[ENV_CONNECTION_STRING];
     this._isStatsbeatExporter = isStatsbeatExporter ? isStatsbeatExporter : false;
 
     if (connectionString) {
@@ -65,10 +67,7 @@ export abstract class AzureMonitorBaseExporter {
     this._persister = new FileSystemPersist(this._instrumentationKey, this._options);
 
     if (!isStatsbeatExporter) {
-      this._statsbeatMetrics = new StatsbeatMetrics(
-        this._instrumentationKey,
-        this._endpointUrl
-      );
+      this._statsbeatMetrics = new StatsbeatMetrics(this._instrumentationKey, this._endpointUrl);
       // Enable by default -- shut off if three failures occur
       this._statsbeatMetrics.enable(true);
     }
@@ -85,9 +84,9 @@ export abstract class AzureMonitorBaseExporter {
       return success
         ? { code: ExportResultCode.SUCCESS }
         : {
-          code: ExportResultCode.FAILED,
-          error: new Error("Failed to persist envelope in disk."),
-        };
+            code: ExportResultCode.FAILED,
+            error: new Error("Failed to persist envelope in disk."),
+          };
     } catch (ex: any) {
       return { code: ExportResultCode.FAILED, error: ex };
     }
