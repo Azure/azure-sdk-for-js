@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Enable `OcrSkill` and `ImageAnalysisSkill`. [#23495](https://github.com/Azure/azure-sdk-for-js/pull/23495)
+
 ### Breaking Changes
 
 ### Bugs Fixed
