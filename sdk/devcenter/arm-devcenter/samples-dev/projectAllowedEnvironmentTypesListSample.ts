@@ -12,24 +12,25 @@ import { DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Un-attach a NetworkConnection.
+ * This sample demonstrates how to Lists allowed environment types for a project.
  *
- * @summary Un-attach a NetworkConnection.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-08-01-preview/examples/AttachedNetworks_Delete.json
+ * @summary Lists allowed environment types for a project.
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/ProjectAllowedEnvironmentTypes_List.json
  */
-async function attachedNetworksDelete() {
+async function projectAllowedEnvironmentTypesList() {
   const subscriptionId = "{subscriptionId}";
   const resourceGroupName = "rg1";
-  const devCenterName = "Contoso";
-  const attachedNetworkConnectionName = "{attachedNetworkConnectionName}";
+  const projectName = "Contoso";
   const credential = new DefaultAzureCredential();
   const client = new DevCenterClient(credential, subscriptionId);
-  const result = await client.attachedNetworks.beginDeleteAndWait(
+  const resArray = new Array();
+  for await (let item of client.projectAllowedEnvironmentTypes.list(
     resourceGroupName,
-    devCenterName,
-    attachedNetworkConnectionName
-  );
-  console.log(result);
+    projectName
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
-attachedNetworksDelete().catch(console.error);
+projectAllowedEnvironmentTypesList().catch(console.error);

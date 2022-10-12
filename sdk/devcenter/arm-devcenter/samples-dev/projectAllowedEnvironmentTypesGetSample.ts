@@ -12,24 +12,24 @@ import { DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Gets an attached NetworkConnection.
+ * This sample demonstrates how to Gets an allowed environment type.
  *
- * @summary Gets an attached NetworkConnection.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-08-01-preview/examples/AttachedNetworks_GetByProject.json
+ * @summary Gets an allowed environment type.
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/ProjectAllowedEnvironmentTypes_Get.json
  */
-async function attachedNetworksGetByProject() {
+async function projectAllowedEnvironmentTypesGet() {
   const subscriptionId = "{subscriptionId}";
   const resourceGroupName = "rg1";
-  const projectName = "{projectName}";
-  const attachedNetworkConnectionName = "network-uswest3";
+  const projectName = "Contoso";
+  const environmentTypeName = "{environmentTypeName}";
   const credential = new DefaultAzureCredential();
   const client = new DevCenterClient(credential, subscriptionId);
-  const result = await client.attachedNetworks.getByProject(
+  const result = await client.projectAllowedEnvironmentTypes.get(
     resourceGroupName,
     projectName,
-    attachedNetworkConnectionName
+    environmentTypeName
   );
   console.log(result);
 }
 
-attachedNetworksGetByProject().catch(console.error);
+projectAllowedEnvironmentTypesGet().catch(console.error);
