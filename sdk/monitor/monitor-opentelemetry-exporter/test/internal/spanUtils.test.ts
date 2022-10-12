@@ -81,7 +81,6 @@ function assertEnvelope(
 const emptyMeasurements: Measurements = {};
 
 describe("spanUtils.ts", () => {
-
   describe("#readableSpanToEnvelope", () => {
     describe("GRPC", () => {
       it("should create a Request Envelope for Server Spans", () => {

@@ -30,4 +30,4 @@ export enum DependencyTypes {
   Grpc = "GRPC",
 }
 
-export const AzureMonitorSampleRate = "_MS.sampleRate"; 
+export const AzureMonitorSampleRate = "_MS.sampleRate";
