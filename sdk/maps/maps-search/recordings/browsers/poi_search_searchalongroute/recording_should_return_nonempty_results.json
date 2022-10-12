@@ -19,7 +19,7 @@
         "Sec-Fetch-Site": "same-site",
         "subscription-key": "azure_maps_subscription_key",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "291d0e12-5c10-444a-9852-52588f16740a",
+        "x-ms-client-request-id": "d82741b9-5557-42e5-889e-b11419f1d280",
         "x-ms-useragent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
       },
       "RequestBody": {
@@ -47,9 +47,9 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "11812",
+        "Content-Length": "11706",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 16 Sep 2022 10:56:04 GMT",
+        "Date": "Thu, 06 Oct 2022 02:38:53 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": [
           "Accept-Encoding",
@@ -58,17 +58,22 @@
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: FBEBD4CC20C447EFAC88F9D368690ED2 Ref B: SGEEDGE0617 Ref C: 2022-09-16T10:56:05Z"
+        "X-MSEdge-Ref": "Ref A: 51CE6729F9EF4A1DBB4C56DA4FCF4428 Ref B: SG1EDGE0118 Ref C: 2022-10-06T02:38:54Z"
       },
       "ResponseBody": {
         "summary": {
           "query": "burger",
           "queryType": "NON_NEAR",
-          "queryTime": 233,
+          "queryTime": 174,
           "numResults": 10,
           "offset": 0,
           "totalResults": 10,
-          "fuzzyLevel": 1
+          "fuzzyLevel": 1,
+          "backtracking": {
+            "abGroupsApplicable": [
+              "frequentMisspells"
+            ]
+          }
         },
         "results": [
           {
@@ -95,11 +100,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "hamburgers"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "hamburgers"
                     }
                   ]
                 }
@@ -142,8 +147,8 @@
                 }
               }
             ],
-            "detourTime": -434,
-            "detourDistance": -20368
+            "detourTime": -474,
+            "detourDistance": -20865
           },
           {
             "type": "POI",
@@ -170,11 +175,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "fast food"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "fast food"
                     }
                   ]
                 }
@@ -218,8 +223,8 @@
                 }
               }
             ],
-            "detourTime": -193,
-            "detourDistance": -13373
+            "detourTime": -167,
+            "detourDistance": -13870
           },
           {
             "type": "POI",
@@ -246,11 +251,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "hamburgers"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "hamburgers"
                     }
                   ]
                 }
@@ -295,8 +300,8 @@
                 }
               }
             ],
-            "detourTime": 77,
-            "detourDistance": -7246
+            "detourTime": 100,
+            "detourDistance": -7743
           },
           {
             "type": "POI",
@@ -324,11 +329,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "fast food"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "fast food"
                     }
                   ]
                 }
@@ -372,8 +377,8 @@
                 }
               }
             ],
-            "detourTime": 84,
-            "detourDistance": -6787
+            "detourTime": 116,
+            "detourDistance": -7284
           },
           {
             "type": "POI",
@@ -406,11 +411,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "fast food"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "fast food"
                     }
                   ]
                 }
@@ -461,98 +466,8 @@
                 }
               }
             ],
-            "detourTime": 174,
-            "detourDistance": -6089
-          },
-          {
-            "type": "POI",
-            "id": "840531000465150",
-            "score": 2.8922464848,
-            "dist": 1748.7957271682615,
-            "query": "burger",
-            "info": "search:ta:840531000465150-US",
-            "poi": {
-              "name": "BURGER KING",
-              "phone": "\u002B1 425-746-7508",
-              "brands": [
-                {
-                  "name": "BURGER KING"
-                }
-              ],
-              "categorySet": [
-                {
-                  "id": 7315015
-                }
-              ],
-              "url": "burgerking.com/store-locator/store/restaurant_490",
-              "categories": [
-                "fast food",
-                "restaurant"
-              ],
-              "classifications": [
-                {
-                  "code": "RESTAURANT",
-                  "names": [
-                    {
-                      "nameLocale": "en-US",
-                      "name": "fast food"
-                    },
-                    {
-                      "nameLocale": "en-US",
-                      "name": "restaurant"
-                    }
-                  ]
-                }
-              ]
-            },
-            "address": {
-              "streetNumber": "14620",
-              "streetName": "Northeast 24th Street",
-              "municipalitySubdivision": "Bridle Trails",
-              "municipality": "Bellevue",
-              "countrySecondarySubdivision": "King",
-              "countrySubdivision": "WA",
-              "countrySubdivisionName": "Washington",
-              "postalCode": "98007",
-              "extendedPostalCode": "98007-3723",
-              "countryCode": "US",
-              "country": "United States",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "14620 Northeast 24th Street, Bellevue, WA 98007",
-              "localName": "Bellevue"
-            },
-            "position": {
-              "lat": 47.63187,
-              "lon": -122.14472
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 47.63277,
-                "lon": -122.14605
-              },
-              "btmRightPoint": {
-                "lat": 47.63097,
-                "lon": -122.14339
-              }
-            },
-            "entryPoints": [
-              {
-                "type": "minor",
-                "position": {
-                  "lat": 47.63188,
-                  "lon": -122.14458
-                }
-              },
-              {
-                "type": "main",
-                "position": {
-                  "lat": 47.63155,
-                  "lon": -122.14461
-                }
-              }
-            ],
-            "detourTime": 194,
-            "detourDistance": -5827
+            "detourTime": 205,
+            "detourDistance": -6285
           },
           {
             "type": "POI",
@@ -585,11 +500,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "fast food"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "fast food"
                     }
                   ]
                 }
@@ -641,8 +556,8 @@
                 }
               }
             ],
-            "detourTime": 195,
-            "detourDistance": 6858
+            "detourTime": 207,
+            "detourDistance": 6361
           },
           {
             "type": "POI",
@@ -675,11 +590,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "fast food"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "fast food"
                     }
                   ]
                 }
@@ -724,7 +639,7 @@
                 }
               }
             ],
-            "detourTime": 205,
+            "detourTime": 238,
             "detourDistance": 309
           },
           {
@@ -800,7 +715,84 @@
                 }
               }
             ],
-            "detourTime": 251,
+            "detourTime": 349,
+            "detourDistance": 1146
+          },
+          {
+            "type": "POI",
+            "id": "840539003122177",
+            "score": 2.7946257591,
+            "dist": 1603.845158876708,
+            "query": "burger",
+            "info": "search:ta:840539003122177-US",
+            "poi": {
+              "name": "Burger Brawler",
+              "phone": "\u002B1 425-362-6082",
+              "categorySet": [
+                {
+                  "id": 7315069
+                }
+              ],
+              "url": "www.lincolnsfh.com",
+              "categories": [
+                "hamburgers",
+                "restaurant"
+              ],
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "hamburgers"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "440",
+              "streetName": "Bellevue Way Northeast",
+              "municipality": "Bellevue",
+              "countrySecondarySubdivision": "King",
+              "countrySubdivision": "WA",
+              "countrySubdivisionName": "Washington",
+              "postalCode": "98004",
+              "extendedPostalCode": "98004-5015",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "440 Bellevue Way Northeast, Bellevue, WA 98004",
+              "localName": "Bellevue"
+            },
+            "position": {
+              "lat": 47.61443,
+              "lon": -122.20124
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.61533,
+                "lon": -122.20257
+              },
+              "btmRightPoint": {
+                "lat": 47.61353,
+                "lon": -122.19991
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.61442,
+                  "lon": -122.20157
+                }
+              }
+            ],
+            "detourTime": 349,
             "detourDistance": 1146
           },
           {
@@ -829,11 +821,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "hamburgers"
+                      "name": "restaurant"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "hamburgers"
                     }
                   ]
                 }
@@ -878,8 +870,8 @@
                 }
               }
             ],
-            "detourTime": 402,
-            "detourDistance": 3097
+            "detourTime": 447,
+            "detourDistance": 3092
           }
         ]
       }

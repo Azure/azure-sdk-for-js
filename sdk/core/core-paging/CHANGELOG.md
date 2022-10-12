@@ -1,8 +1,10 @@
 # Release History
 
-## 1.3.1 (Unreleased)
+## 1.4.0 (Unreleased)
 
 ### Features Added
+
+- Add `toElements` function to convert a page to a list of elements
 
 ### Breaking Changes
 
