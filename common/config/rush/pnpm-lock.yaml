@@ -3959,7 +3959,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20221007
+      typescript: 4.9.0-dev.20221011
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8956,8 +8956,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20221007:
-    resolution: {integrity: sha512-WUWBISjoFrMbCYj2tTqFiivW3dDNRLHIXEAKj26BoGYjbperB4jSCyrpTo45FNYcpRM3viCU4Tie8FruXAYZRg==}
+  /typescript/4.9.0-dev.20221011:
+    resolution: {integrity: sha512-ONzbj3hrlLtfCGhDV7zP9FHoVgYo7+zRvphDqNNoqg2B3uqnxw57Ql/zPThRfepFmISdd/P03owzxeBUE48xqA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11743,12 +11743,12 @@ packages:
     dev: false
 
   file:projects/arm-devcenter.tgz:
-    resolution: {integrity: sha512-JDzPyJDTchEgS9eBLHz4wWbWoWMKmCxU+eZTOEwpPnitw3HhUmdAsInU/zMqWVKNZQs1fLEuPtPO59leplVrEg==, tarball: file:projects/arm-devcenter.tgz}
+    resolution: {integrity: sha512-VgCNzmr+2BlcnDYuXWZFAySW9A9TT1wt9dKvhbWk+7y9WqpnWG0p5VegZBf/trdpND8EEJfC8HZVuulz/K+sRw==, tarball: file:projects/arm-devcenter.tgz}
     name: '@rush-temp/arm-devcenter'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.32.0
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
