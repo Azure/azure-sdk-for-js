@@ -3,9 +3,9 @@
 
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { CancelOnProgress, OperationState, SimplePollerLike } from "@azure/core-lro";
-import { NotificationHubJob } from "../models/notificationHubJob.js";
+import { NotificationHubJob, NotificationHubJobPoller } from "../models/notificationHubJob.js";
 import { NotificationHubsClientContext } from "./index.js";
-import { OperationOptions } from "@azure/core-client";
+import { PolledOperationOptions } from "../models/options.js";
 import { getNotificationHubJob } from "./getNotificationHubJob.js";
 import { submitNotificationHubJob } from "./submitNotificationHubJob.js";
 
@@ -19,9 +19,9 @@ import { submitNotificationHubJob } from "./submitNotificationHubJob.js";
 export async function beginSubmitNotificationHubJob(
   context: NotificationHubsClientContext,
   notificationHubJob: NotificationHubJob,
-  options: OperationOptions = {}
-): Promise<SimplePollerLike<OperationState<NotificationHubJob>, NotificationHubJob>> {
-  let submittedJob = await submitNotificationHubJob(context, notificationHubJob, options);
+  polledOperationOptions: PolledOperationOptions = {}
+): Promise<NotificationHubJobPoller> {
+  let submittedJob = await submitNotificationHubJob(context, notificationHubJob, polledOperationOptions);
 
   type Handler = (state: OperationState<NotificationHubJob>) => void;
 
@@ -29,13 +29,13 @@ export async function beginSubmitNotificationHubJob(
     status: "notStarted",
   };
 
-  const progressCallbacks = new Map<Symbol, Handler>();
+  const progressCallbacks = new Map<symbol, Handler>();
   const processProgressCallbacks = async (): Promise<void> =>
     progressCallbacks.forEach((h) => h(state));
   let resultPromise: Promise<NotificationHubJob> | undefined;
   let cancelJob: (() => void) | undefined;
   const abortController = new AbortController();
-  const currentPollIntervalInMs = 2000;
+  const currentPollIntervalInMs = polledOperationOptions.updateIntervalInMs ?? 2000;
 
   const poller: SimplePollerLike<OperationState<NotificationHubJob>, NotificationHubJob> = {
     async poll(options?: { abortSignal?: AbortSignalLike }): Promise<void> {
@@ -158,7 +158,7 @@ function sleep(ms: number, signal: AbortSignalLike): Promise<void> {
 
     signal.addEventListener("abort", onAbort, { once: true });
 
-    function onAbort() {
+    function onAbort(): void {
       clearTimeout(id);
       reject(REJECTED_ERR);
     }

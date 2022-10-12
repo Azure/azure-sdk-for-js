@@ -491,6 +491,9 @@ export interface NotificationHubJob {
 }
 
 // @public
+export type NotificationHubJobPoller = SimplePollerLike<OperationState<NotificationHubJob>, NotificationHubJob>;
+
+// @public
 export type NotificationHubJobStatus =
 /**
 * Indicates that the NotificationHubJob was accepted.
@@ -557,7 +560,7 @@ export interface NotificationHubsResponse {
 // @public
 export class NotificationHubsServiceClient {
     constructor(connectionString: string, hubName: string, options?: NotificationHubsClientOptions);
-    beginSubmitNotificationHubJob(notificationHubJob: NotificationHubJob, options?: OperationOptions): Promise<SimplePollerLike<OperationState<NotificationHubJob>, NotificationHubJob>>;
+    beginSubmitNotificationHubJob(notificationHubJob: NotificationHubJob, options?: PolledOperationOptions): Promise<NotificationHubJobPoller>;
     cancelScheduledNotification(notificationId: string, options?: OperationOptions): Promise<NotificationHubsResponse>;
     createOrUpdateInstallation(installation: Installation, options?: OperationOptions): Promise<NotificationHubsResponse>;
     createOrUpdateRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
@@ -588,6 +591,11 @@ export interface NotificationOutcomeCollectionItem {
 
 // @public
 export type NotificationOutcomeState = "Enqueued" | "DetailedStateAvailable" | "Processing" | "Completed" | "Abandoned" | "Unknown" | "NoTargetFound" | "Cancelled";
+
+// @public
+export interface PolledOperationOptions extends OperationOptions {
+    updateIntervalInMs?: number;
+}
 
 // @public
 export type PushHandle = BrowserPushChannel | string;

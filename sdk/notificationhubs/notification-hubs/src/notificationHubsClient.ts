@@ -5,6 +5,7 @@ import {
   DirectSendNotificationOptions,
   EntityOperationOptions,
   NotificationHubsClientOptions,
+  PolledOperationOptions,
   RegistrationQueryLimitOptions,
   RegistrationQueryOptions,
   ScheduleNotificationOptions,
@@ -16,14 +17,13 @@ import {
   NotificationHubsMessageResponse,
   NotificationHubsResponse,
 } from "./models/notificationDetails.js";
+import { NotificationHubJob, NotificationHubJobPoller } from "./models/notificationHubJob.js";
 import { NotificationHubsClientContext, createClientContext } from "./client/index.js";
-import { OperationState, SimplePollerLike } from "@azure/core-lro";
 import { Notification } from "./models/notification.js";
-import { NotificationHubJob } from "./models/notificationHubJob.js";
 import { OperationOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RegistrationDescription } from "./models/registration.js";
-import { beginSubmitNotificationHubJob as beginSubmitNotificationHubJobMethod } from "./client/beginSubmitNotificationHubJob.js"; 
+import { beginSubmitNotificationHubJob as beginSubmitNotificationHubJobMethod } from "./client/beginSubmitNotificationHubJob.js";
 import { cancelScheduledNotification as cancelScheduledNotificationMethod } from "./client/cancelScheduledNotification.js";
 import { createOrUpdateInstallation as createOrUpdateInstallationMethod } from "./client/createOrUpdateInstallation.js";
 import { createOrUpdateRegistration as createOrUpdateRegistrationMethod } from "./client/createOrUpdateRegistration.js";
@@ -304,9 +304,9 @@ export class NotificationHubsServiceClient {
    */
   beginSubmitNotificationHubJob(
     notificationHubJob: NotificationHubJob,
-    options: OperationOptions = {}
-  ): Promise<SimplePollerLike<OperationState<NotificationHubJob>, NotificationHubJob>> {
-    return beginSubmitNotificationHubJobMethod(this._client, notificationHubJob, options)
+    options: PolledOperationOptions = {}
+  ): Promise<NotificationHubJobPoller> {
+    return beginSubmitNotificationHubJobMethod(this._client, notificationHubJob, options);
   }
 
   /**

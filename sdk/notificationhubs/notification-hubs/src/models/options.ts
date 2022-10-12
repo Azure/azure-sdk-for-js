@@ -10,6 +10,16 @@ import { BrowserPushChannel } from "./installation.js";
 export interface NotificationHubsClientOptions extends CommonClientOptions {}
 
 /**
+ * Options for polled operations including the polling interval cycle.
+ */
+export interface PolledOperationOptions extends OperationOptions {
+  /**
+   * Time delay between poll requests, in milliseconds.
+   */
+  updateIntervalInMs?: number;
+}
+
+/**
  * Options for sending notifications for both tag based send and broadcast scheduled send.
  */
 export interface ScheduleNotificationOptions extends OperationOptions {
