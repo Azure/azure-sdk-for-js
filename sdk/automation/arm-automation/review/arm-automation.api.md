@@ -535,7 +535,7 @@ export interface ConnectionOperations {
 }
 
 // @public
-interface ConnectionType_2 {
+export interface ConnectionType {
     readonly creationTime?: Date;
     description?: string;
     readonly fieldDefinitions?: {
@@ -547,7 +547,6 @@ interface ConnectionType_2 {
     readonly name?: string;
     readonly type?: string;
 }
-export { ConnectionType_2 as ConnectionType }
 
 // @public
 export interface ConnectionTypeAssociationProperty {
@@ -568,7 +567,7 @@ export interface ConnectionTypeCreateOrUpdateParameters {
 }
 
 // @public
-export type ConnectionTypeCreateOrUpdateResponse = ConnectionType_2;
+export type ConnectionTypeCreateOrUpdateResponse = ConnectionType;
 
 // @public
 export interface ConnectionTypeDeleteOptionalParams extends coreClient.OperationOptions {
@@ -579,7 +578,7 @@ export interface ConnectionTypeGetOptionalParams extends coreClient.OperationOpt
 }
 
 // @public
-export type ConnectionTypeGetResponse = ConnectionType_2;
+export type ConnectionTypeGetResponse = ConnectionType;
 
 // @public
 export interface ConnectionTypeListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
@@ -598,7 +597,7 @@ export type ConnectionTypeListByAutomationAccountResponse = ConnectionTypeListRe
 // @public
 export interface ConnectionTypeListResult {
     nextLink?: string;
-    value?: ConnectionType_2[];
+    value?: ConnectionType[];
 }
 
 // @public
@@ -606,7 +605,7 @@ export interface ConnectionTypeOperations {
     createOrUpdate(resourceGroupName: string, automationAccountName: string, connectionTypeName: string, parameters: ConnectionTypeCreateOrUpdateParameters, options?: ConnectionTypeCreateOrUpdateOptionalParams): Promise<ConnectionTypeCreateOrUpdateResponse>;
     delete(resourceGroupName: string, automationAccountName: string, connectionTypeName: string, options?: ConnectionTypeDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, automationAccountName: string, connectionTypeName: string, options?: ConnectionTypeGetOptionalParams): Promise<ConnectionTypeGetResponse>;
-    listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: ConnectionTypeListByAutomationAccountOptionalParams): PagedAsyncIterableIterator<ConnectionType_2>;
+    listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: ConnectionTypeListByAutomationAccountOptionalParams): PagedAsyncIterableIterator<ConnectionType>;
 }
 
 // @public
