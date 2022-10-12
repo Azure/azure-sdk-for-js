@@ -12,37 +12,37 @@ import { SearchServiceClient as GeneratedClient } from "./generated/service/sear
 import { logger } from "./logger";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
 import {
+  AliasIterator,
   AnalyzeTextOptions,
+  CreateAliasOptions,
   CreateIndexOptions,
+  CreateOrUpdateAliasOptions,
   CreateOrUpdateIndexOptions,
   CreateOrUpdateSynonymMapOptions,
   CreateSynonymMapOptions,
+  DeleteAliasOptions,
   DeleteIndexOptions,
   DeleteSynonymMapOptions,
+  GetAliasOptions,
   GetIndexOptions,
   GetIndexStatisticsOptions,
-  GetSynonymMapsOptions,
-  SearchIndex,
-  ListIndexesOptions,
-  ListSynonymMapsOptions,
-  SynonymMap,
   GetServiceStatisticsOptions,
+  GetSynonymMapsOptions,
   IndexIterator,
   IndexNameIterator,
+  ListAliasesOptions,
+  ListIndexesOptions,
+  ListSynonymMapsOptions,
+  SearchIndex,
+  SearchIndexAlias,
   SearchIndexStatistics,
   SearchServiceStatistics,
-  CreateAliasOptions,
-  SearchIndexAlias,
-  CreateOrUpdateAliasOptions,
-  DeleteAliasOptions,
-  GetAliasOptions,
-  ListAliasesOptions,
-  AliasIterator,
+  SynonymMap,
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
-import { SearchClient, SearchClientOptions as GetSearchClientOptions } from "./searchClient";
+import { SearchClientOptions as GetSearchClientOptions, SearchClient } from "./searchClient";
 import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import { KnownSearchAudience } from "./searchAudience";
 
@@ -493,14 +493,14 @@ export class SearchIndexClient {
   ): Promise<SearchIndex> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-createOrUpdateIndex", options);
     try {
-      const etag = options.onlyIfUnchanged ? index.etag : undefined;
+      const eTag = options.onlyIfUnchanged ? index.eTag : undefined;
 
       const result = await this.client.indexes.createOrUpdate(
         index.name,
         utils.publicIndexToGeneratedIndex(index),
         {
           ...updatedOptions,
-          ifMatch: etag,
+          ifMatch: eTag,
         }
       );
       return utils.generatedIndexToPublicIndex(result);
@@ -529,14 +529,14 @@ export class SearchIndexClient {
       options
     );
     try {
-      const etag = options.onlyIfUnchanged ? synonymMap.etag : undefined;
+      const eTag = options.onlyIfUnchanged ? synonymMap.eTag : undefined;
 
       const result = await this.client.synonymMaps.createOrUpdate(
         synonymMap.name,
         utils.publicSynonymMapToGeneratedSynonymMap(synonymMap),
         {
           ...updatedOptions,
-          ifMatch: etag,
+          ifMatch: eTag,
         }
       );
       return utils.generatedSynonymMapToPublicSynonymMap(result);
@@ -563,12 +563,12 @@ export class SearchIndexClient {
     const { span, updatedOptions } = createSpan("SearchIndexClient-deleteIndex", options);
     try {
       const indexName: string = typeof index === "string" ? index : index.name;
-      const etag =
-        typeof index === "string" ? undefined : options.onlyIfUnchanged ? index.etag : undefined;
+      const eTag =
+        typeof index === "string" ? undefined : options.onlyIfUnchanged ? index.eTag : undefined;
 
       await this.client.indexes.delete(indexName, {
         ...updatedOptions,
-        ifMatch: etag,
+        ifMatch: eTag,
       });
     } catch (e: any) {
       span.setStatus({
@@ -593,16 +593,16 @@ export class SearchIndexClient {
     const { span, updatedOptions } = createSpan("SearchIndexClient-deleteSynonymMap", options);
     try {
       const synonymMapName: string = typeof synonymMap === "string" ? synonymMap : synonymMap.name;
-      const etag =
+      const eTag =
         typeof synonymMap === "string"
           ? undefined
           : options.onlyIfUnchanged
-          ? synonymMap.etag
+          ? synonymMap.eTag
           : undefined;
 
       await this.client.synonymMaps.delete(synonymMapName, {
         ...updatedOptions,
-        ifMatch: etag,
+        ifMatch: eTag,
       });
     } catch (e: any) {
       span.setStatus({
@@ -626,11 +626,11 @@ export class SearchIndexClient {
   ): Promise<SearchIndexAlias> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-createOrUpdateAlias", options);
     try {
-      const etag = options.onlyIfUnchanged ? alias.etag : undefined;
+      const eTag = options.onlyIfUnchanged ? alias.eTag : undefined;
 
       const result = await this.client.aliases.createOrUpdate(alias.name, alias, {
         ...updatedOptions,
-        ifMatch: etag,
+        ifMatch: eTag,
       });
       return result;
     } catch (e: any) {
@@ -681,12 +681,12 @@ export class SearchIndexClient {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteAlias", options);
     try {
       const aliasName: string = typeof alias === "string" ? alias : alias.name;
-      const etag =
-        typeof alias === "string" ? undefined : options.onlyIfUnchanged ? alias.etag : undefined;
+      const eTag =
+        typeof alias === "string" ? undefined : options.onlyIfUnchanged ? alias.eTag : undefined;
 
       await this.client.aliases.delete(aliasName, {
         ...updatedOptions,
-        ifMatch: etag,
+        ifMatch: eTag,
       });
     } catch (e: any) {
       span.setStatus({

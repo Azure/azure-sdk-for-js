@@ -26,7 +26,7 @@ async function createSkillset(skillsetName: string, client: SearchIndexerClient)
     description: `Skillset description`,
     skills: [
       {
-        odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
+        odataType: "#Microsoft.Skills.Text.EntityRecognitionSkill",
         inputs: [
           {
             name: "text",
@@ -87,7 +87,7 @@ async function listSkillsets(client: SearchIndexerClient) {
     console.log(`Skills`);
     console.log(`******`);
     for (let skill of skillset.skills) {
-      console.log(`ODataType: ${skill.odatatype}`);
+      console.log(`ODataType: ${skill.odataType}`);
       console.log(`Inputs`);
       for (let input of skill.inputs) {
         console.log(`\tName: ${input.name}`);

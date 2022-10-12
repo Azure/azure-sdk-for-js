@@ -10,29 +10,29 @@ import { SearchServiceClient as GeneratedClient } from "./generated/service/sear
 import { logger } from "./logger";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
 import {
+  CreateDataSourceConnectionOptions,
+  CreateIndexerOptions,
   CreateOrUpdateSkillsetOptions,
   CreateSkillsetOptions,
-  DeleteSkillsetOptions,
-  GetSkillSetOptions,
-  ListSkillsetsOptions,
-  SearchIndexerSkillset,
-  ListIndexersOptions,
-  CreateIndexerOptions,
-  GetIndexerOptions,
+  CreateorUpdateDataSourceConnectionOptions,
   CreateorUpdateIndexerOptions,
+  DeleteDataSourceConnectionOptions,
   DeleteIndexerOptions,
+  DeleteSkillsetOptions,
+  GetDataSourceConnectionOptions,
+  GetIndexerOptions,
   GetIndexerStatusOptions,
-  ResetIndexerOptions,
-  RunIndexerOptions,
+  GetSkillSetOptions,
   ListDataSourceConnectionsOptions,
+  ListIndexersOptions,
+  ListSkillsetsOptions,
+  ResetDocumentsOptions,
+  ResetIndexerOptions,
+  ResetSkillsOptions,
+  RunIndexerOptions,
   SearchIndexer,
   SearchIndexerDataSourceConnection,
-  CreateDataSourceConnectionOptions,
-  DeleteDataSourceConnectionOptions,
-  GetDataSourceConnectionOptions,
-  CreateorUpdateDataSourceConnectionOptions,
-  ResetDocumentsOptions,
-  ResetSkillsOptions,
+  SearchIndexerSkillset,
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
@@ -493,14 +493,14 @@ export class SearchIndexerClient {
       options
     );
     try {
-      const etag = options.onlyIfUnchanged ? indexer.etag : undefined;
+      const eTag = options.onlyIfUnchanged ? indexer.eTag : undefined;
 
       const result = await this.client.indexers.createOrUpdate(
         indexer.name,
         utils.publicSearchIndexerToGeneratedSearchIndexer(indexer),
         {
           ...updatedOptions,
-          ifMatch: etag,
+          ifMatch: eTag,
           skipIndexerResetRequirementForCache: options.skipIndexerResetRequirementForCache,
           disableCacheReprocessingChangeDetection: options.disableCacheReprocessingChangeDetection,
         }
@@ -531,14 +531,14 @@ export class SearchIndexerClient {
       options
     );
     try {
-      const etag = options.onlyIfUnchanged ? dataSourceConnection.etag : undefined;
+      const eTag = options.onlyIfUnchanged ? dataSourceConnection.eTag : undefined;
 
       const result = await this.client.dataSources.createOrUpdate(
         dataSourceConnection.name,
         utils.publicDataSourceToGeneratedDataSource(dataSourceConnection),
         {
           ...updatedOptions,
-          ifMatch: etag,
+          ifMatch: eTag,
           skipIndexerResetRequirementForCache: options.skipIndexerResetRequirementForCache,
         }
       );
@@ -568,14 +568,14 @@ export class SearchIndexerClient {
       options
     );
     try {
-      const etag = options.onlyIfUnchanged ? skillset.etag : undefined;
+      const eTag = options.onlyIfUnchanged ? skillset.eTag : undefined;
 
       const result = await this.client.skillsets.createOrUpdate(
         skillset.name,
         utils.publicSkillsetToGeneratedSkillset(skillset),
         {
           ...updatedOptions,
-          ifMatch: etag,
+          ifMatch: eTag,
           skipIndexerResetRequirementForCache: options.skipIndexerResetRequirementForCache,
           disableCacheReprocessingChangeDetection: options.disableCacheReprocessingChangeDetection,
         }
@@ -605,16 +605,16 @@ export class SearchIndexerClient {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteIndexer", options);
     try {
       const indexerName: string = typeof indexer === "string" ? indexer : indexer.name;
-      const etag =
+      const eTag =
         typeof indexer === "string"
           ? undefined
           : options.onlyIfUnchanged
-          ? indexer.etag
+          ? indexer.eTag
           : undefined;
 
       await this.client.indexers.delete(indexerName, {
         ...updatedOptions,
-        ifMatch: etag,
+        ifMatch: eTag,
       });
     } catch (e: any) {
       span.setStatus({
@@ -643,16 +643,16 @@ export class SearchIndexerClient {
     try {
       const dataSourceConnectionName: string =
         typeof dataSourceConnection === "string" ? dataSourceConnection : dataSourceConnection.name;
-      const etag =
+      const eTag =
         typeof dataSourceConnection === "string"
           ? undefined
           : options.onlyIfUnchanged
-          ? dataSourceConnection.etag
+          ? dataSourceConnection.eTag
           : undefined;
 
       await this.client.dataSources.delete(dataSourceConnectionName, {
         ...updatedOptions,
-        ifMatch: etag,
+        ifMatch: eTag,
       });
     } catch (e: any) {
       span.setStatus({
@@ -677,16 +677,16 @@ export class SearchIndexerClient {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteSkillset", options);
     try {
       const skillsetName: string = typeof skillset === "string" ? skillset : skillset.name;
-      const etag =
+      const eTag =
         typeof skillset === "string"
           ? undefined
           : options.onlyIfUnchanged
-          ? skillset.etag
+          ? skillset.eTag
           : undefined;
 
       await this.client.skillsets.delete(skillsetName, {
         ...updatedOptions,
-        ifMatch: etag,
+        ifMatch: eTag,
       });
     } catch (e: any) {
       span.setStatus({

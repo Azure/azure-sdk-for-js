@@ -2,87 +2,87 @@
 // Licensed under the MIT license.
 
 import {
-  LexicalAnalyzerUnion,
-  CognitiveServicesAccountKey,
-  CognitiveServicesAccountUnion,
-  DefaultCognitiveServicesAccount,
-  SearchField as GeneratedSearchField,
-  SearchIndex as GeneratedSearchIndex,
-  RegexFlags,
-  SearchIndexer as GeneratedSearchIndexer,
-  SearchIndexerSkillset as GeneratedSearchIndexerSkillset,
-  SearchIndexerSkillUnion,
-  LexicalTokenizerUnion,
-  SynonymMap as GeneratedSynonymMap,
-  SearchIndexerDataSource as GeneratedSearchIndexerDataSourceConnection,
-  DataChangeDetectionPolicyUnion,
-  HighWaterMarkChangeDetectionPolicy,
-  SqlIntegratedChangeTrackingPolicy,
-  SearchIndexerDataUserAssignedIdentity,
-  SearchIndexerDataNoneIdentity,
-  DataDeletionDetectionPolicyUnion,
-  SoftDeleteColumnDeletionDetectionPolicy,
-  LexicalAnalyzerName,
-  SimilarityUnion,
+  AzureMachineLearningSkill,
   BM25Similarity,
   ClassicSimilarity,
-  TokenFilterUnion,
-  SearchResourceEncryptionKey as GeneratedSearchResourceEncryptionKey,
+  CognitiveServicesAccountKey,
+  CognitiveServicesAccountUnion,
   ConditionalSkill,
-  KeyPhraseExtractionSkill,
-  OcrSkill,
-  ImageAnalysisSkill,
-  LanguageDetectionSkill,
-  ShaperSkill,
-  MergeSkill,
-  EntityRecognitionSkill,
-  SentimentSkill,
-  DocumentExtractionSkill,
-  CustomEntityLookupSkill,
-  SplitSkill,
-  PIIDetectionSkill,
-  EntityRecognitionSkillV3,
-  EntityLinkingSkill,
-  SentimentSkillV3,
-  TextTranslationSkill,
-  WebApiSkill,
-  AzureMachineLearningSkill,
-  LuceneStandardAnalyzer,
-  StopAnalyzer,
-  PatternAnalyzer as GeneratedPatternAnalyzer,
   CustomAnalyzer,
-  PatternTokenizer,
+  CustomEntityLookupSkill,
+  DataChangeDetectionPolicyUnion,
+  DataDeletionDetectionPolicyUnion,
+  DefaultCognitiveServicesAccount,
+  DocumentExtractionSkill,
+  EntityLinkingSkill,
+  EntityRecognitionSkill,
+  EntityRecognitionSkillV3,
+  PatternAnalyzer as GeneratedPatternAnalyzer,
+  SearchField as GeneratedSearchField,
+  SearchIndex as GeneratedSearchIndex,
+  SearchIndexer as GeneratedSearchIndexer,
+  SearchIndexerDataSource as GeneratedSearchIndexerDataSourceConnection,
+  SearchIndexerSkillset as GeneratedSearchIndexerSkillset,
+  SearchResourceEncryptionKey as GeneratedSearchResourceEncryptionKey,
+  SynonymMap as GeneratedSynonymMap,
+  HighWaterMarkChangeDetectionPolicy,
+  ImageAnalysisSkill,
+  KeyPhraseExtractionSkill,
+  LanguageDetectionSkill,
+  LexicalAnalyzerName,
+  LexicalAnalyzerUnion,
   LexicalNormalizerName,
+  LexicalTokenizerUnion,
+  LuceneStandardAnalyzer,
+  MergeSkill,
+  OcrSkill,
+  PIIDetectionSkill,
+  PatternTokenizer,
+  RegexFlags,
   SearchIndexerDataIdentityUnion,
+  SearchIndexerDataNoneIdentity,
+  SearchIndexerDataUserAssignedIdentity,
+  SearchIndexerSkillUnion,
+  SentimentSkill,
+  SentimentSkillV3,
+  ShaperSkill,
+  SimilarityUnion,
+  SoftDeleteColumnDeletionDetectionPolicy,
+  SplitSkill,
+  SqlIntegratedChangeTrackingPolicy,
+  StopAnalyzer,
+  TextTranslationSkill,
+  TokenFilterUnion,
+  WebApiSkill,
 } from "./generated/service/models";
 import {
-  LexicalAnalyzer,
   CharFilter,
   CognitiveServicesAccount,
-  SearchField,
-  SearchIndex,
-  isComplexField,
-  ScoringProfile,
-  SimpleField,
-  SearchIndexerSkill,
-  SearchIndexerSkillset,
-  TokenFilter,
-  LexicalTokenizer,
-  SynonymMap,
-  SearchIndexer,
-  SearchIndexerDataSourceConnection,
   DataChangeDetectionPolicy,
   DataDeletionDetectionPolicy,
-  SimilarityAlgorithm,
-  SearchResourceEncryptionKey,
-  PatternAnalyzer,
+  LexicalAnalyzer,
   LexicalNormalizer,
+  LexicalTokenizer,
+  PatternAnalyzer,
+  ScoringProfile,
+  SearchField,
+  SearchIndex,
+  SearchIndexer,
   SearchIndexerDataIdentity,
+  SearchIndexerDataSourceConnection,
+  SearchIndexerSkill,
+  SearchIndexerSkillset,
+  SearchResourceEncryptionKey,
+  SimilarityAlgorithm,
+  SimpleField,
+  SynonymMap,
+  TokenFilter,
+  isComplexField,
 } from "./serviceModels";
-import { SuggestDocumentsResult, SuggestResult, SearchResult } from "./indexModels";
+import { SearchResult, SuggestDocumentsResult, SuggestResult } from "./indexModels";
 import {
-  SuggestDocumentsResult as GeneratedSuggestDocumentsResult,
   SearchResult as GeneratedSearchResult,
+  SuggestDocumentsResult as GeneratedSuggestDocumentsResult,
 } from "./generated/data/models";
 
 export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): SearchIndexerSkill[] {
@@ -92,7 +92,7 @@ export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): Search
 
   const result: SearchIndexerSkill[] = [];
   for (const skill of skills) {
-    switch (skill.odatatype) {
+    switch (skill.odataType) {
       case "#Microsoft.Skills.Util.ConditionalSkill":
         result.push(skill as ConditionalSkill);
         break;
@@ -172,7 +172,7 @@ export function convertCognitiveServicesAccountToPublic(
     return cognitiveServicesAccount;
   }
 
-  if (cognitiveServicesAccount.odatatype === "#Microsoft.Azure.Search.DefaultCognitiveServices") {
+  if (cognitiveServicesAccount.odataType === "#Microsoft.Azure.Search.DefaultCognitiveServices") {
     return cognitiveServicesAccount as DefaultCognitiveServicesAccount;
   } else {
     return cognitiveServicesAccount as CognitiveServicesAccountKey;
@@ -203,7 +203,7 @@ export function convertAnalyzersToGenerated(
 
   const result: LexicalAnalyzerUnion[] = [];
   for (const analyzer of analyzers) {
-    switch (analyzer.odatatype) {
+    switch (analyzer.odataType) {
       case "#Microsoft.Azure.Search.StandardAnalyzer":
       case "#Microsoft.Azure.Search.StopAnalyzer":
         result.push(analyzer);
@@ -234,7 +234,7 @@ export function convertAnalyzersToPublic(
 
   const result: LexicalAnalyzer[] = [];
   for (const analyzer of analyzers) {
-    switch (analyzer.odatatype) {
+    switch (analyzer.odataType) {
       case "#Microsoft.Azure.Search.StandardAnalyzer":
         result.push(analyzer as LuceneStandardAnalyzer);
         break;
@@ -335,7 +335,7 @@ export function convertTokenizersToGenerated(
 
   const result: LexicalTokenizerUnion[] = [];
   for (const tokenizer of tokenizers) {
-    if (tokenizer.odatatype === "#Microsoft.Azure.Search.PatternTokenizer") {
+    if (tokenizer.odataType === "#Microsoft.Azure.Search.PatternTokenizer") {
       result.push({
         ...tokenizer,
         flags: tokenizer.flags ? tokenizer.flags.join("|") : undefined,
@@ -356,7 +356,7 @@ export function convertTokenizersToPublic(
 
   const result: LexicalTokenizer[] = [];
   for (const tokenizer of tokenizers) {
-    if (tokenizer.odatatype === "#Microsoft.Azure.Search.PatternTokenizer") {
+    if (tokenizer.odataType === "#Microsoft.Azure.Search.PatternTokenizer") {
       result.push({
         ...tokenizer,
         flags: (tokenizer as PatternTokenizer).flags
@@ -387,7 +387,7 @@ export function convertSimilarityToPublic(
     return similarity;
   }
 
-  if (similarity.odatatype === "#Microsoft.Azure.Search.ClassicSimilarity") {
+  if (similarity.odataType === "#Microsoft.Azure.Search.ClassicSimilarity") {
     return similarity as ClassicSimilarity;
   } else {
     return similarity as BM25Similarity;
@@ -447,7 +447,7 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
     corsOptions: generatedIndex.corsOptions,
     suggesters: generatedIndex.suggesters,
     encryptionKey: convertEncryptionKeyToPublic(generatedIndex.encryptionKey),
-    etag: generatedIndex.etag,
+    eTag: generatedIndex.eTag,
     analyzers: convertAnalyzersToPublic(generatedIndex.analyzers),
     tokenizers: convertTokenizersToPublic(generatedIndex.tokenizers),
     tokenFilters: generatedIndex.tokenFilters as TokenFilter[],
@@ -513,7 +513,7 @@ export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearch
     corsOptions: index.corsOptions,
     suggesters: index.suggesters,
     encryptionKey: convertEncryptionKeyToGenerated(index.encryptionKey),
-    etag: index.etag,
+    eTag: index.eTag,
     tokenFilters: convertTokenFiltersToGenerated(index.tokenFilters),
     charFilters: index.charFilters,
     normalizers: index.normalizers,
@@ -537,7 +537,7 @@ export function generatedSkillsetToPublicSkillset(
       generatedSkillset.cognitiveServicesAccount
     ),
     knowledgeStore: generatedSkillset.knowledgeStore,
-    etag: generatedSkillset.etag,
+    eTag: generatedSkillset.eTag,
     encryptionKey: convertEncryptionKeyToPublic(generatedSkillset.encryptionKey),
   };
 }
@@ -548,7 +548,7 @@ export function publicSkillsetToGeneratedSkillset(
   return {
     name: skillset.name,
     description: skillset.description,
-    etag: skillset.etag,
+    eTag: skillset.eTag,
     skills: skillset.skills,
     cognitiveServicesAccount: convertCognitiveServicesAccountToGenerated(
       skillset.cognitiveServicesAccount
@@ -562,7 +562,7 @@ export function generatedSynonymMapToPublicSynonymMap(synonymMap: GeneratedSynon
   const result: SynonymMap = {
     name: synonymMap.name,
     encryptionKey: convertEncryptionKeyToPublic(synonymMap.encryptionKey),
-    etag: synonymMap.etag,
+    eTag: synonymMap.eTag,
     synonyms: [],
   };
 
@@ -578,7 +578,7 @@ export function publicSynonymMapToGeneratedSynonymMap(synonymMap: SynonymMap): G
     name: synonymMap.name,
     format: "solr",
     encryptionKey: convertEncryptionKeyToGenerated(synonymMap.encryptionKey),
-    etag: synonymMap.etag,
+    eTag: synonymMap.eTag,
     synonyms: synonymMap.synonyms.join("\n"),
   };
 
@@ -617,7 +617,7 @@ export function publicDataSourceToGeneratedDataSource(
     },
     container: dataSource.container,
     identity: dataSource.identity,
-    etag: dataSource.etag,
+    eTag: dataSource.eTag,
     dataChangeDetectionPolicy: dataSource.dataChangeDetectionPolicy,
     dataDeletionDetectionPolicy: dataSource.dataDeletionDetectionPolicy,
     encryptionKey: convertEncryptionKeyToGenerated(dataSource.encryptionKey),
@@ -634,7 +634,7 @@ export function generatedDataSourceToPublicDataSource(
     connectionString: dataSource.credentials.connectionString,
     container: dataSource.container,
     identity: convertSearchIndexerDataIdentityToPublic(dataSource.identity),
-    etag: dataSource.etag,
+    eTag: dataSource.eTag,
     dataChangeDetectionPolicy: convertDataChangeDetectionPolicyToPublic(
       dataSource.dataChangeDetectionPolicy
     ),
@@ -652,9 +652,7 @@ export function convertSearchIndexerDataIdentityToPublic(
     return searchIndexerDataIdentity;
   }
 
-  if (
-    searchIndexerDataIdentity.odatatype === "#Microsoft.Azure.Search.SearchIndexerDataNoneIdentity"
-  ) {
+  if (searchIndexerDataIdentity.odataType === "#Microsoft.Azure.Search.DataNoneIdentity") {
     return searchIndexerDataIdentity as SearchIndexerDataNoneIdentity;
   } else {
     return searchIndexerDataIdentity as SearchIndexerDataUserAssignedIdentity;
@@ -669,7 +667,7 @@ export function convertDataChangeDetectionPolicyToPublic(
   }
 
   if (
-    dataChangeDetectionPolicy.odatatype ===
+    dataChangeDetectionPolicy.odataType ===
     "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy"
   ) {
     return dataChangeDetectionPolicy as HighWaterMarkChangeDetectionPolicy;

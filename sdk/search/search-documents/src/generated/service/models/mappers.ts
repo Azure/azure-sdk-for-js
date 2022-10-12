@@ -68,8 +68,8 @@ export const SearchIndexerDataSource: coreClient.CompositeMapper = {
           className: "DataDeletionDetectionPolicy"
         }
       },
-      etag: {
-        serializedName: "@odata\\.etag",
+      eTag: {
+        serializedName: "@odata\\.eTag",
         type: {
           name: "String"
         }
@@ -129,10 +129,10 @@ export const SearchIndexerDataIdentity: coreClient.CompositeMapper = {
     uberParent: "SearchIndexerDataIdentity",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "odatatype"
+      clientName: "odataType"
     },
     modelProperties: {
-      odatatype: {
+      odataType: {
         serializedName: "@odata\\.type",
         required: true,
         type: {
@@ -150,10 +150,10 @@ export const DataChangeDetectionPolicy: coreClient.CompositeMapper = {
     uberParent: "DataChangeDetectionPolicy",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "odatatype"
+      clientName: "odataType"
     },
     modelProperties: {
-      odatatype: {
+      odataType: {
         serializedName: "@odata\\.type",
         required: true,
         type: {
@@ -171,10 +171,10 @@ export const DataDeletionDetectionPolicy: coreClient.CompositeMapper = {
     uberParent: "DataDeletionDetectionPolicy",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "odatatype"
+      clientName: "odataType"
     },
     modelProperties: {
-      odatatype: {
+      odataType: {
         serializedName: "@odata\\.type",
         required: true,
         type: {
@@ -426,8 +426,8 @@ export const SearchIndexer: coreClient.CompositeMapper = {
           name: "Boolean"
         }
       },
-      etag: {
-        serializedName: "@odata\\.etag",
+      eTag: {
+        serializedName: "@odata\\.eTag",
         type: {
           name: "String"
         }
@@ -1129,8 +1129,8 @@ export const SearchIndexerSkillset: coreClient.CompositeMapper = {
           className: "SearchIndexerKnowledgeStore"
         }
       },
-      etag: {
-        serializedName: "@odata\\.etag",
+      eTag: {
+        serializedName: "@odata\\.eTag",
         type: {
           name: "String"
         }
@@ -1153,10 +1153,10 @@ export const SearchIndexerSkill: coreClient.CompositeMapper = {
     uberParent: "SearchIndexerSkill",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "odatatype"
+      clientName: "odataType"
     },
     modelProperties: {
-      odatatype: {
+      odataType: {
         serializedName: "@odata\\.type",
         required: true,
         type: {
@@ -1280,10 +1280,10 @@ export const CognitiveServicesAccount: coreClient.CompositeMapper = {
     uberParent: "CognitiveServicesAccount",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "odatatype"
+      clientName: "odataType"
     },
     modelProperties: {
-      odatatype: {
+      odataType: {
         serializedName: "@odata\\.type",
         required: true,
         type: {
@@ -1496,8 +1496,8 @@ export const SynonymMap: coreClient.CompositeMapper = {
           className: "SearchResourceEncryptionKey"
         }
       },
-      etag: {
-        serializedName: "@odata\\.etag",
+      eTag: {
+        serializedName: "@odata\\.eTag",
         type: {
           name: "String"
         }
@@ -1672,8 +1672,8 @@ export const SearchIndex: coreClient.CompositeMapper = {
           className: "SemanticSettings"
         }
       },
-      etag: {
-        serializedName: "@odata\\.etag",
+      eTag: {
+        serializedName: "@odata\\.eTag",
         type: {
           name: "String"
         }
@@ -1970,10 +1970,10 @@ export const LexicalAnalyzer: coreClient.CompositeMapper = {
     uberParent: "LexicalAnalyzer",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "odatatype"
+      clientName: "odataType"
     },
     modelProperties: {
-      odatatype: {
+      odataType: {
         serializedName: "@odata\\.type",
         required: true,
         type: {
@@ -1998,10 +1998,10 @@ export const LexicalTokenizer: coreClient.CompositeMapper = {
     uberParent: "LexicalTokenizer",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "odatatype"
+      clientName: "odataType"
     },
     modelProperties: {
-      odatatype: {
+      odataType: {
         serializedName: "@odata\\.type",
         required: true,
         type: {
@@ -2026,10 +2026,10 @@ export const TokenFilter: coreClient.CompositeMapper = {
     uberParent: "TokenFilter",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "odatatype"
+      clientName: "odataType"
     },
     modelProperties: {
-      odatatype: {
+      odataType: {
         serializedName: "@odata\\.type",
         required: true,
         type: {
@@ -2054,10 +2054,10 @@ export const CharFilter: coreClient.CompositeMapper = {
     uberParent: "CharFilter",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "odatatype"
+      clientName: "odataType"
     },
     modelProperties: {
-      odatatype: {
+      odataType: {
         serializedName: "@odata\\.type",
         required: true,
         type: {
@@ -2082,10 +2082,10 @@ export const LexicalNormalizer: coreClient.CompositeMapper = {
     uberParent: "LexicalNormalizer",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "odatatype"
+      clientName: "odataType"
     },
     modelProperties: {
-      odatatype: {
+      odataType: {
         serializedName: "@odata\\.type",
         required: true,
         type: {
@@ -2110,10 +2110,10 @@ export const Similarity: coreClient.CompositeMapper = {
     uberParent: "Similarity",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "odatatype"
+      clientName: "odataType"
     },
     modelProperties: {
-      odatatype: {
+      odataType: {
         serializedName: "@odata\\.type",
         required: true,
         type: {
@@ -2414,8 +2414,8 @@ export const SearchAlias: coreClient.CompositeMapper = {
           }
         }
       },
-      etag: {
-        serializedName: "@odata\\.etag",
+      eTag: {
+        serializedName: "@odata\\.eTag",
         type: {
           name: "String"
         }
@@ -2816,7 +2816,7 @@ export const CustomEntityAlias: coreClient.CompositeMapper = {
 };
 
 export const SearchIndexerDataNoneIdentity: coreClient.CompositeMapper = {
-  serializedName: "#Microsoft.Azure.Search.SearchIndexerDataNoneIdentity",
+  serializedName: "#Microsoft.Azure.Search.DataNoneIdentity",
   type: {
     name: "Composite",
     className: "SearchIndexerDataNoneIdentity",
@@ -2830,8 +2830,7 @@ export const SearchIndexerDataNoneIdentity: coreClient.CompositeMapper = {
 };
 
 export const SearchIndexerDataUserAssignedIdentity: coreClient.CompositeMapper = {
-  serializedName:
-    "#Microsoft.Azure.Search.SearchIndexerDataUserAssignedIdentity",
+  serializedName: "#Microsoft.Azure.Search.DataUserAssignedIdentity",
   type: {
     name: "Composite",
     className: "SearchIndexerDataUserAssignedIdentity",
@@ -5545,8 +5544,8 @@ export let discriminators = {
   CharFilter: CharFilter,
   LexicalNormalizer: LexicalNormalizer,
   Similarity: Similarity,
-  "SearchIndexerDataIdentity.#Microsoft.Azure.Search.SearchIndexerDataNoneIdentity": SearchIndexerDataNoneIdentity,
-  "SearchIndexerDataIdentity.#Microsoft.Azure.Search.SearchIndexerDataUserAssignedIdentity": SearchIndexerDataUserAssignedIdentity,
+  "SearchIndexerDataIdentity.#Microsoft.Azure.Search.DataNoneIdentity": SearchIndexerDataNoneIdentity,
+  "SearchIndexerDataIdentity.#Microsoft.Azure.Search.DataUserAssignedIdentity": SearchIndexerDataUserAssignedIdentity,
   "DataChangeDetectionPolicy.#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy": HighWaterMarkChangeDetectionPolicy,
   "DataChangeDetectionPolicy.#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy": SqlIntegratedChangeTrackingPolicy,
   "DataDeletionDetectionPolicy.#Microsoft.Azure.Search.SoftDeleteColumnDeletionDetectionPolicy": SoftDeleteColumnDeletionDetectionPolicy,

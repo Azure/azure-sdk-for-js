@@ -73,7 +73,7 @@ async function listIndexers(client: SearchIndexerClient) {
     console.log(`\tInterval: ${schedule && schedule.interval}`);
     console.log(`\tStart Time: ${schedule && schedule.startTime}`);
     console.log(`Is Disabled: ${indexer.isDisabled}`);
-    console.log(`ETag: ${indexer.etag}`);
+    console.log(`ETag: ${indexer.eTag}`);
     console.log(`Parameters`);
     console.log(`\tBatch Size: ${parameters && parameters.batchSize}`);
     console.log(`\tMax Failed Items: ${parameters && parameters.maxFailedItems}`);

@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import {
+  GeographyPoint,
+  KnownAnalyzerNames,
   SearchClient,
+  SearchIndex,
   SearchIndexClient,
   SearchIndexerClient,
-  GeographyPoint,
-  SearchIndex,
-  KnownAnalyzerNames,
 } from "../../../src";
 import { Hotel } from "./interfaces";
 import { delay } from "../../../src/serviceUtils";
@@ -477,7 +477,7 @@ export async function createSkillsets(client: SearchIndexerClient): Promise<void
       description: `Skillset description`,
       skills: [
         {
-          odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
+          odataType: "#Microsoft.Skills.Text.EntityRecognitionSkill",
           inputs: [
             {
               name: "text",
