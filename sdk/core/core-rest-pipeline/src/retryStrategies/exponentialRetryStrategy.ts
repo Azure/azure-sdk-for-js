@@ -42,8 +42,6 @@ export function exponentialRetryStrategy(
   const retryInterval = options.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
   const maxRetryInterval = options.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
 
-  let retryAfterInMs = retryInterval;
-
   return {
     name: "exponentialRetryStrategy",
     retry({ retryCount, response, responseError }) {
@@ -61,7 +59,7 @@ export function exponentialRetryStrategy(
       if (responseError && !matchedSystemError && !isExponential) {
         return { errorToThrow: responseError };
       }
-      retryAfterInMs = exponentialDelayInMs(retryCount, retryAfterInMs, maxRetryInterval);
+      const retryAfterInMs = exponentialDelayInMs(retryCount, retryInterval, maxRetryInterval);
       return { retryAfterInMs };
     },
   };
