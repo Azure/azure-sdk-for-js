@@ -3959,7 +3959,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20221007
+      typescript: 4.9.0-dev.20221012
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8956,8 +8956,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20221007:
-    resolution: {integrity: sha512-WUWBISjoFrMbCYj2tTqFiivW3dDNRLHIXEAKj26BoGYjbperB4jSCyrpTo45FNYcpRM3viCU4Tie8FruXAYZRg==}
+  /typescript/4.9.0-dev.20221012:
+    resolution: {integrity: sha512-EqJR8s/4zlC8nKMNB3ImSY/lv0bKnEJ2H4UPHzDC306qKgIRexh2Q/446811kG++20Q4TiFhV7LjLSBtgA3OrA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
