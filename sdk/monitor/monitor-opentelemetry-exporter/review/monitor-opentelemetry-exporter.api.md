@@ -22,7 +22,7 @@ export interface ApplicationInsightsClientOptionalParams extends coreClient.Serv
 
 // @public
 export abstract class AzureMonitorBaseExporter {
-    constructor(options?: AzureMonitorExporterOptions);
+    constructor(options?: AzureMonitorExporterOptions, isStatsbeatExporter?: boolean);
     protected _exportEnvelopes(envelopes: TelemetryItem[]): Promise<ExportResult>;
     protected _instrumentationKey: string;
     protected _shutdown(): Promise<void>;

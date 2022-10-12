@@ -35,7 +35,7 @@ export class AzureMonitorMetricExporter
    */
 
   constructor(options: AzureMonitorExporterOptions = {}, isStatsbeat?: boolean) {
-    super(options);
+    super(options, isStatsbeat);
     this._aggregationTemporality = AggregationTemporality.CUMULATIVE;
     this._isStatsbeat = isStatsbeat;
     diag.debug("AzureMonitorMetricExporter was successfully setup");

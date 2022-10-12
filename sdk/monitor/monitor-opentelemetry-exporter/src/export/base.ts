@@ -28,8 +28,8 @@ export abstract class AzureMonitorBaseExporter {
   private readonly _sender: Sender;
   private _numConsecutiveRedirects: number;
   private _retryTimer: NodeJS.Timer | null;
-  private _statsbeatMetrics: StatsbeatMetrics;
-  private _isStatsbeatExporter: boolean = false;
+  private _statsbeatMetrics: StatsbeatMetrics | undefined;
+  private _isStatsbeatExporter: boolean;
   private _statsbeatFailureCount: number = 0;
   private _batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
   /**
@@ -41,10 +41,11 @@ export abstract class AzureMonitorBaseExporter {
    * Initializes a new instance of the AzureMonitorBaseExporter class.
    * @param AzureMonitorExporterOptions - Exporter configuration.
    */
-  constructor(options: AzureMonitorExporterOptions = {}) {
+  constructor(options: AzureMonitorExporterOptions = {}, isStatsbeatExporter?: boolean) {
     this._options = options;
     this._numConsecutiveRedirects = 0;
     const connectionString = options.connectionString || process.env[ENV_CONNECTION_STRING];
+    this._isStatsbeatExporter = isStatsbeatExporter ? isStatsbeatExporter : false;
 
     if (connectionString) {
       const parsedConnectionString = ConnectionStringParser.parse(connectionString);
@@ -63,12 +64,14 @@ export abstract class AzureMonitorBaseExporter {
     this._sender = new HttpSender(this._endpointUrl, this._options);
     this._persister = new FileSystemPersist(this._instrumentationKey, this._options);
 
-    this._statsbeatMetrics = new StatsbeatMetrics(
-      this._instrumentationKey,
-      this._endpointUrl
-    );
-    // Enable by default -- shut off if three failures occur
-    this._statsbeatMetrics.enable(true);
+    if (!isStatsbeatExporter) {
+      this._statsbeatMetrics = new StatsbeatMetrics(
+        this._instrumentationKey,
+        this._endpointUrl
+      );
+      // Enable by default -- shut off if three failures occur
+      this._statsbeatMetrics.enable(true);
+    }
     this._retryTimer = null;
     diag.debug("AzureMonitorExporter was successfully setup");
   }
@@ -103,15 +106,10 @@ export abstract class AzureMonitorBaseExporter {
   protected async _exportEnvelopes(envelopes: Envelope[]): Promise<ExportResult> {
     diag.info(`Exporting ${envelopes.length} envelope(s)`);
 
-    if (envelopes[0].name === "Microsoft.ApplicationInsights.Statsbeat") {
-      this._isStatsbeatExporter = true;
-    } else {
-      this._isStatsbeatExporter = false;
-    }
-
     // Shutdown statsbeat if the maximum number of failures is exceeded
     if (
       this._statsbeatFailureCount > MAX_STATSBEAT_FAILURES &&
+      this._statsbeatMetrics &&
       this._statsbeatMetrics.isEnabled()
     ) {
       this._statsbeatMetrics.enable(false);
@@ -132,13 +130,13 @@ export abstract class AzureMonitorBaseExporter {
           }, this._batchSendRetryIntervalMs);
           this._retryTimer.unref();
         }
-        if (!this._isStatsbeatExporter) {
+        if (!this._isStatsbeatExporter && this._statsbeatMetrics) {
           this._statsbeatMetrics.countSuccess(endTime - startTime);
         }
         return { code: ExportResultCode.SUCCESS };
       } else if (statusCode && isRetriable(statusCode)) {
         // Failed -- persist failed data
-        if (statusCode === 429 && !this._isStatsbeatExporter) {
+        if (statusCode === 429 && !this._isStatsbeatExporter && this._statsbeatMetrics) {
           this._statsbeatMetrics.countThrottle(statusCode);
         }
         if (result) {
@@ -153,7 +151,7 @@ export abstract class AzureMonitorBaseExporter {
             });
           }
           if (filteredEnvelopes.length > 0) {
-            if (!this._isStatsbeatExporter) {
+            if (!this._isStatsbeatExporter && this._statsbeatMetrics) {
               this._statsbeatMetrics.countRetry(statusCode);
             }
             // calls resultCallback(ExportResult) based on result of persister.push
@@ -163,21 +161,23 @@ export abstract class AzureMonitorBaseExporter {
           if (this._isStatsbeatExporter) {
             this._statsbeatFailureCount++;
           } else {
-            this._statsbeatMetrics.countFailure(endTime - startTime, statusCode);
+            if (this._statsbeatMetrics) {
+              this._statsbeatMetrics.countFailure(endTime - startTime, statusCode);
+            }
           }
           return {
             code: ExportResultCode.FAILED,
           };
         } else {
           // calls resultCallback(ExportResult) based on result of persister.push
-          if (!this._isStatsbeatExporter) {
+          if (!this._isStatsbeatExporter && this._statsbeatMetrics) {
             this._statsbeatMetrics.countRetry(statusCode);
           }
           return await this._persist(envelopes);
         }
       } else {
         // Failed -- not retriable
-        if (!this._isStatsbeatExporter) {
+        if (!this._isStatsbeatExporter && this._statsbeatMetrics) {
           // TODO: Determine the process if statusCode is undefined. Should I make statusCode optional and allow undefined -> count statsbeat counts?
           if (statusCode) {
             this._statsbeatMetrics.countFailure(endTime - startTime, statusCode);
@@ -215,12 +215,14 @@ export abstract class AzureMonitorBaseExporter {
           if (this._isStatsbeatExporter) {
             this._statsbeatFailureCount++;
           } else {
-            this._statsbeatMetrics.countException(redirectError);
+            if (this._statsbeatMetrics) {
+              this._statsbeatMetrics.countException(redirectError);
+            }
           }
           return { code: ExportResultCode.FAILED, error: redirectError };
         }
       } else if (restError.statusCode && isRetriable(restError.statusCode)) {
-        if (!this._isStatsbeatExporter) {
+        if (!this._isStatsbeatExporter && this._statsbeatMetrics) {
           this._statsbeatMetrics.countRetry(restError.statusCode);
         }
         return await this._persist(envelopes);
@@ -228,7 +230,7 @@ export abstract class AzureMonitorBaseExporter {
       if (this._isNetworkError(restError)) {
         if (!this._isStatsbeatExporter) {
           // TODO: How robust should we make counting this retry? If there's no statusCode present is counting the retry some other way worth it?
-          if (restError.statusCode) {
+          if (restError.statusCode && this._statsbeatMetrics) {
             this._statsbeatMetrics.countRetry(restError.statusCode);
           }
         }
@@ -239,7 +241,7 @@ export abstract class AzureMonitorBaseExporter {
         return await this._persist(envelopes);
       }
 
-      if (!this._isStatsbeatExporter) {
+      if (!this._isStatsbeatExporter && this._statsbeatMetrics) {
         this._statsbeatMetrics.countException(restError);
       }
       diag.error(
