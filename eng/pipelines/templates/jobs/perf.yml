@@ -37,7 +37,7 @@ extends:
     InstallLanguageSteps:
     - template: /eng/pipelines/templates/steps/use-node-version.yml
       parameters:
-        NodeVersion: 14.x
+        NodeVersion: 16.x
     ServiceDirectory: ${{ parameters.ServiceDirectory }}
     Services: ${{ parameters.Services }}
     PackageVersions: ${{ parameters.PackageVersions }}
