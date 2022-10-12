@@ -21,7 +21,7 @@ export interface PagedResult<TPage, TPageSettings = PageSettings, TLink = string
     getPage: (pageLink: TLink, maxPageSize?: number) => Promise<{
         page: TPage;
         nextPageLink?: TLink;
-    }>;
+    } | undefined>;
     toElements?: (page: TPage) => unknown[];
 }
 

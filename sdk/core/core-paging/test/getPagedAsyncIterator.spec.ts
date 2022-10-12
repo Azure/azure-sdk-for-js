@@ -146,6 +146,28 @@ describe("getPagedAsyncIterator", function () {
     });
   });
 
+  it("should handle undefined page", async () => {
+    const pageResult: PagedResult<number[], PageSettings, number> = {
+      firstPageLink: 0,
+      async getPage(pageLink) {
+        if (pageLink === 0) {
+          return Promise.resolve({
+            page: [1],
+            nextPageLink: 1,
+          });
+        } else {
+          return undefined;
+        }
+      },
+    };
+
+    const pageIterator = getPagedAsyncIterator(pageResult).byPage();
+    let result = await pageIterator.next();
+    assert.equal(result.value.length, 1, "Expecting one element in first page");
+    result = await pageIterator.next();
+    assert.equal(result.value, undefined, "Not expecting any more pages");
+  });
+
   describe("Strong typing experience", function () {
     type IsAny<T> = boolean extends (T extends never ? true : false) ? true : false;
     function assertNotAny<T extends IsAny<T> extends true ? never : any>(_: T): void {}
