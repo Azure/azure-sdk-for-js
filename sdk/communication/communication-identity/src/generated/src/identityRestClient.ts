@@ -38,7 +38,7 @@ export class IdentityRestClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-communication-identity/1.1.1`;
+    const packageDetails = `azsdk-js-communication-identity/1.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -57,7 +57,7 @@ export class IdentityRestClient extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2022-06-01";
+    this.apiVersion = options.apiVersion || "2022-10-01";
     this.communicationIdentityOperations = new CommunicationIdentityOperationsImpl(
       this
     );

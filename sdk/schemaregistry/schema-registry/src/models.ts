@@ -38,13 +38,10 @@ export interface SchemaDescription {
   /**
    * The format of schema and it must match the serialization type of the schema's group.
    */
-  format?: string;
+  format: string;
 
   /** String representation of schema. */
-  definition?: string;
-
-  /** Version of schema */
-  version?: number;
+  definition: string;
 }
 
 /**

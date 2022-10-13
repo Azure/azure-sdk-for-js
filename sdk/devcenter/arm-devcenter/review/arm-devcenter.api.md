@@ -14,6 +14,17 @@ import { PollOperationState } from '@azure/core-lro';
 export type ActionType = string;
 
 // @public
+export interface AllowedEnvironmentType extends Resource {
+    readonly provisioningState?: string;
+}
+
+// @public
+export interface AllowedEnvironmentTypeListResult {
+    readonly nextLink?: string;
+    readonly value?: AllowedEnvironmentType[];
+}
+
+// @public
 export interface AttachedNetworkConnection extends Resource {
     readonly domainJoinType?: DomainJoinType;
     readonly healthCheckStatus?: HealthCheckStatus;
@@ -385,6 +396,8 @@ export class DevCenterClient extends coreClient.ServiceClient {
     operationStatuses: OperationStatuses;
     // (undocumented)
     pools: Pools;
+    // (undocumented)
+    projectAllowedEnvironmentTypes: ProjectAllowedEnvironmentTypes;
     // (undocumented)
     projectEnvironmentTypes: ProjectEnvironmentTypes;
     // (undocumented)
@@ -1112,6 +1125,7 @@ export interface OperationStatus {
     readonly name?: string;
     readonly percentComplete?: number;
     readonly properties?: Record<string, unknown>;
+    readonly resourceId?: string;
     readonly startTime?: Date;
     readonly status?: string;
 }
@@ -1238,6 +1252,35 @@ export interface Project extends TrackedResource {
     devCenterId?: string;
     readonly provisioningState?: string;
 }
+
+// @public
+export interface ProjectAllowedEnvironmentTypes {
+    get(resourceGroupName: string, projectName: string, environmentTypeName: string, options?: ProjectAllowedEnvironmentTypesGetOptionalParams): Promise<ProjectAllowedEnvironmentTypesGetResponse>;
+    list(resourceGroupName: string, projectName: string, options?: ProjectAllowedEnvironmentTypesListOptionalParams): PagedAsyncIterableIterator<AllowedEnvironmentType>;
+}
+
+// @public
+export interface ProjectAllowedEnvironmentTypesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProjectAllowedEnvironmentTypesGetResponse = AllowedEnvironmentType;
+
+// @public
+export interface ProjectAllowedEnvironmentTypesListNextOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type ProjectAllowedEnvironmentTypesListNextResponse = AllowedEnvironmentTypeListResult;
+
+// @public
+export interface ProjectAllowedEnvironmentTypesListOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type ProjectAllowedEnvironmentTypesListResponse = AllowedEnvironmentTypeListResult;
 
 // @public
 export interface ProjectEnvironmentType extends Resource {

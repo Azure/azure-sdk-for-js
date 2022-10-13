@@ -1,6 +1,6 @@
 {
   "name": "@azure/notification-hubs",
-  "version": "1.0.0-beta.6",
+  "version": "1.0.0-beta.7",
   "description": "Azure Notification Hubs SDK for JavaScript",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -132,18 +132,19 @@
     "rimraf": "^3.0.2",
     "ts-node": "^10.8.1",
     "typescript": "^4.8.3",
-    "util": "^0.12.4",
-    "uuid": "^8.3.2"
+    "util": "^0.12.4"
   },
   "dependencies": {
     "@azure/abort-controller": "^1.1.0",
     "@azure/core-client": "^1.6.1",
+    "@azure/core-lro": "^2.4.0",
     "@azure/core-paging": "^1.3.0",
     "@azure/core-rest-pipeline": "^1.8.1",
     "@azure/core-tracing": "^1.0.1",
     "@azure/core-util": "^1.1.0",
     "@azure/core-xml": "^1.3.0",
     "@azure/logger": "^1.0.3",
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.0",
+    "uuid": "^9.0.0"
   }
 }
