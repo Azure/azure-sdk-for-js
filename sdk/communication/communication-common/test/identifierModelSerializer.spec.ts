@@ -189,12 +189,11 @@ describe("Identifier model serializer", () => {
     assertDeserialize(
       {
         kind: "communicationUser",
-        rawId: "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
+        rawId: "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14",
       },
       {
         kind: "unknown",
-        id:
-          "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14",
+        id: "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14",
       }
     );
     assertDeserialize(

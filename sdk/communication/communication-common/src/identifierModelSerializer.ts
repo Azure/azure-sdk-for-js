@@ -16,7 +16,7 @@ export interface SerializedCommunicationIdentifier {
   /**
    * Kind of the identifier, optional.
    */
-    kind?: string;
+  kind?: string;
   /**
    * Raw Id of the identifier. Optional in requests, required in responses.
    */
@@ -165,8 +165,8 @@ export const deserializeCommunicationIdentifier = (
   assertMaximumOneNestedModel(serializedIdentifier);
 
   const { communicationUser, microsoftTeamsUser, phoneNumber, kind } = serializedIdentifier;
-  if(kind != null){
-    if(kind === "communicationUser" && communicationUser){
+  if (kind != null) {
+    if (kind === "communicationUser" && communicationUser) {
       return {
         kind: "communicationUser",
         communicationUserId: assertNotNullOrUndefined({ communicationUser }, "id"),
