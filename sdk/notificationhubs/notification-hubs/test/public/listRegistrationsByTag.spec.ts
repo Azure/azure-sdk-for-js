@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as dotenv from "dotenv";
 import {
   AppleRegistrationDescription,
   createAppleRegistrationDescription,
@@ -15,9 +16,6 @@ import { deleteRegistration } from "@azure/notification-hubs/client/deleteRegist
 import { listRegistrationsByTag } from "@azure/notification-hubs/client/listRegistrationsByTag";
 
 // Load the .env file if it exists
-// eslint-disable-next-line sort-imports
-import * as dotenv from "dotenv";
-
 dotenv.config();
 
 // Define connection string and hub name

@@ -1,16 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SendOperationOptions } from "../../src/models/options.js";
+import * as dotenv from "dotenv";
+import { SendNotificationOptions } from "../../src/models/options.js";
 import { assert } from "@azure/test-utils";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
 import { createClientContext } from "@azure/notification-hubs/client";
-import { sendBroadcastNotification } from "@azure/notification-hubs/client/sendBroadcastNotification";
+import { sendNotification } from "../../src/client/sendNotification.js";
 
 // Load the .env file if it exists
-// eslint-disable-next-line sort-imports
-import * as dotenv from "dotenv";
-
 dotenv.config();
 
 // Define connection string and hub name
@@ -32,8 +30,8 @@ describe("sendBroadcastNotification()", () => {
     });
 
     // Not required but can set test send to true for debugging purposes.
-    const sendOptions: SendOperationOptions = { enableTestSend: false };
-    const result = await sendBroadcastNotification(context, notification, sendOptions);
+    const sendOptions: SendNotificationOptions = { enableTestSend: false };
+    const result = await sendNotification(context, notification, sendOptions);
 
     assert.isDefined(result.trackingId);
     assert.isDefined(result.correlationId);

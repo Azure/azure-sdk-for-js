@@ -171,6 +171,7 @@ specifiers:
   '@rush-temp/arm-scvmm': file:./projects/arm-scvmm.tgz
   '@rush-temp/arm-search': file:./projects/arm-search.tgz
   '@rush-temp/arm-security': file:./projects/arm-security.tgz
+  '@rush-temp/arm-securitydevops': file:./projects/arm-securitydevops.tgz
   '@rush-temp/arm-securityinsight': file:./projects/arm-securityinsight.tgz
   '@rush-temp/arm-serialconsole': file:./projects/arm-serialconsole.tgz
   '@rush-temp/arm-servicebus': file:./projects/arm-servicebus.tgz
@@ -486,6 +487,7 @@ dependencies:
   '@rush-temp/arm-scvmm': file:projects/arm-scvmm.tgz
   '@rush-temp/arm-search': file:projects/arm-search.tgz
   '@rush-temp/arm-security': file:projects/arm-security.tgz
+  '@rush-temp/arm-securitydevops': file:projects/arm-securitydevops.tgz
   '@rush-temp/arm-securityinsight': file:projects/arm-securityinsight.tgz
   '@rush-temp/arm-serialconsole': file:projects/arm-serialconsole.tgz
   '@rush-temp/arm-servicebus': file:projects/arm-servicebus.tgz
@@ -3961,7 +3963,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20221007
+      typescript: 4.9.0-dev.20221012
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8958,8 +8960,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20221007:
-    resolution: {integrity: sha512-WUWBISjoFrMbCYj2tTqFiivW3dDNRLHIXEAKj26BoGYjbperB4jSCyrpTo45FNYcpRM3viCU4Tie8FruXAYZRg==}
+  /typescript/4.9.0-dev.20221012:
+    resolution: {integrity: sha512-EqJR8s/4zlC8nKMNB3ImSY/lv0bKnEJ2H4UPHzDC306qKgIRexh2Q/446811kG++20Q4TiFhV7LjLSBtgA3OrA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9098,6 +9100,11 @@ packages:
 
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    hasBin: true
+    dev: false
+
+  /uuid/9.0.0:
+    resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
     hasBin: true
     dev: false
 
@@ -14439,6 +14446,33 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-securitydevops.tgz:
+    resolution: {integrity: sha512-lw134aJPsuu1BIOV4F7KKu8jmQgqHJZgDWywwe7Hstt5GxKmZxMlw2OHnHoudCsWEpbWbOC44BZ5wLWzrMwvMA==, tarball: file:projects/arm-securitydevops.tgz}
+    name: '@rush-temp/arm-securitydevops'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.32.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      tslib: 2.4.0
+      typescript: 4.6.4
+      uglify-js: 3.17.2
+    transitivePeerDependencies:
+      - '@types/node'
+      - supports-color
+    dev: false
+
   file:projects/arm-securityinsight.tgz:
     resolution: {integrity: sha512-d8udKrcyGW4OyfXv0psVKzVXVerBuD302uh5OHItbwtda6rWaVw7cyzSJKKnz2tAUeGy5UDqpWJoJ6Ai2ivexw==, tarball: file:projects/arm-securityinsight.tgz}
     name: '@rush-temp/arm-securityinsight'
@@ -17832,7 +17866,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-SijLYulYRiHVlXmUhdgpVoBq+kwud2Y3tQjd2IsBDmBzwFEYdS3Xq7zyleWU0GATDe1T/dbk6pZlM4DmSUFNBg==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-NF3pWFm+ODKaJQc7MMoI4Hukq5DOvBI6oQqiKD2gmpLB/ZVR0WNg18qXL6/lDFezbEs10C9zt1NGwedJs4MIow==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
@@ -17868,7 +17902,7 @@ packages:
       tslib: 2.4.0
       typescript: 4.8.4
       util: 0.12.4
-      uuid: 8.3.2
+      uuid: 9.0.0
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
