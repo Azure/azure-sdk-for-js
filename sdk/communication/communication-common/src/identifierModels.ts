@@ -10,6 +10,12 @@ export type CommunicationIdentifier =
   | MicrosoftTeamsUserIdentifier
   | UnknownIdentifier;
 
+export const KindCommunicationUser = "communicationUser"
+export const KindMicrosoftTeamsUser = "microsoftTeamsUser"
+export const KindPhoneNumber = "phoneNumber"
+export const KindUnknown = "unknown"
+
+
 /**
  * An Azure Communication user.
  */
@@ -129,7 +135,7 @@ export interface CommunicationUserKind extends CommunicationUserIdentifier {
   /**
    * The identifier kind.
    */
-  kind: "communicationUser";
+  kind: "communicationUser"
 }
 
 /**
@@ -171,15 +177,15 @@ export const getIdentifierKind = (
   identifier: CommunicationIdentifier
 ): CommunicationIdentifierKind => {
   if (isCommunicationUserIdentifier(identifier)) {
-    return { ...identifier, kind: "communicationUser" };
+    return { ...identifier, kind: KindCommunicationUser };
   }
   if (isPhoneNumberIdentifier(identifier)) {
-    return { ...identifier, kind: "phoneNumber" };
+    return { ...identifier, kind: KindPhoneNumber };
   }
   if (isMicrosoftTeamsUserIdentifier(identifier)) {
-    return { ...identifier, kind: "microsoftTeamsUser" };
+    return { ...identifier, kind: KindMicrosoftTeamsUser };
   }
-  return { ...identifier, kind: "unknown" };
+  return { ...identifier, kind: KindUnknown };
 };
 
 /**
@@ -190,9 +196,9 @@ export const getIdentifierKind = (
 export const getIdentifierRawId = (identifier: CommunicationIdentifier): string => {
   const identifierKind = getIdentifierKind(identifier);
   switch (identifierKind.kind) {
-    case "communicationUser":
+    case KindCommunicationUser:
       return identifierKind.communicationUserId;
-    case "microsoftTeamsUser": {
+    case KindMicrosoftTeamsUser: {
       const { microsoftTeamsUserId, rawId, cloud, isAnonymous } = identifierKind;
       if (rawId) return rawId;
       if (isAnonymous) return `8:teamsvisitor:${microsoftTeamsUserId}`;
@@ -206,13 +212,13 @@ export const getIdentifierRawId = (identifier: CommunicationIdentifier): string 
       }
       return `8:orgid:${microsoftTeamsUserId}`;
     }
-    case "phoneNumber": {
+    case KindPhoneNumber: {
       const { phoneNumber, rawId } = identifierKind;
       if (rawId) return rawId;
       // strip the leading +. We just assume correct E.164 format here because validation should only happen server-side, not client-side.
       return `4:${phoneNumber.replace(/^\+/, "")}`;
     }
-    case "unknown": {
+    case KindUnknown: {
       return identifierKind.id;
     }
   }
@@ -225,35 +231,35 @@ export const getIdentifierRawId = (identifier: CommunicationIdentifier): string 
  */
 export const createIdentifierFromRawId = (rawId: string): CommunicationIdentifierKind => {
   if (rawId.startsWith("4:")) {
-    return { kind: "phoneNumber", phoneNumber: `+${rawId.substring("4:".length)}` };
+    return { kind: KindPhoneNumber, phoneNumber: `+${rawId.substring("4:".length)}` };
   }
 
   const segments = rawId.split(":");
-  if (segments.length < 3) return { kind: "unknown", id: rawId };
+  if (segments.length < 3) return { kind: KindUnknown, id: rawId };
 
   const prefix = `${segments[0]}:${segments[1]}:`;
   const suffix = rawId.substring(prefix.length);
 
   switch (prefix) {
     case "8:teamsvisitor:":
-      return { kind: "microsoftTeamsUser", microsoftTeamsUserId: suffix, isAnonymous: true };
+      return { kind: KindMicrosoftTeamsUser, microsoftTeamsUserId: suffix, isAnonymous: true };
     case "8:orgid:":
       return {
-        kind: "microsoftTeamsUser",
+        kind: KindMicrosoftTeamsUser,
         microsoftTeamsUserId: suffix,
         isAnonymous: false,
         cloud: "public",
       };
     case "8:dod:":
       return {
-        kind: "microsoftTeamsUser",
+        kind: KindMicrosoftTeamsUser,
         microsoftTeamsUserId: suffix,
         isAnonymous: false,
         cloud: "dod",
       };
     case "8:gcch:":
       return {
-        kind: "microsoftTeamsUser",
+        kind: KindMicrosoftTeamsUser,
         microsoftTeamsUserId: suffix,
         isAnonymous: false,
         cloud: "gcch",
@@ -262,7 +268,7 @@ export const createIdentifierFromRawId = (rawId: string): CommunicationIdentifie
     case "8:spool:":
     case "8:dod-acs:":
     case "8:gcch-acs:":
-      return { kind: "communicationUser", communicationUserId: rawId };
+      return { kind: KindCommunicationUser, communicationUserId: rawId };
   }
-  return { kind: "unknown", id: rawId };
+  return { kind: KindUnknown, id: rawId };
 };
