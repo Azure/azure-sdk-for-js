@@ -12,10 +12,10 @@ export const StatsbeatResourceProvider = {
 };
 
 export enum StatsbeatCounter {
-  SUCCESS_COUNT = "Success Count",
-  FAILURE_COUNT = "Failure Count",
+  SUCCESS_COUNT = "Request Success Count",
+  FAILURE_COUNT = "Request Failure Count",
   RETRY_COUNT = "Retry Count",
   THROTTLE_COUNT = "Throttle Count",
   EXCEPTION_COUNT = "Exception Count",
-  AVERAGE_DURATION = "Average Duration",
+  AVERAGE_DURATION = "Request Duration",
 }
