@@ -5,12 +5,12 @@ import { PipelineRequest, PipelineResponse } from "../src/interfaces";
 import { createHttpHeaders } from "../src/httpHeaders";
 import { assert } from "chai";
 import {
+  _retryAfterUtil,
   failoverRetryStrategy,
   readWriteFailoverHostDelegate,
 } from "../src/retryStrategies/failoverRetryStrategy";
 import { DefaultRetryPolicyOptions } from "../src/policies/defaultRetryPolicy";
 import sinon from "sinon";
-import * as retryAfterUtil from "../src/util/retryAfter";
 
 describe(`failoverRetryStrategy`, () => {
   const readHosts = ["https://read1.azure", "https://read2.azure", "https://read3.azure"];
@@ -28,7 +28,7 @@ describe(`failoverRetryStrategy`, () => {
   it("should redirect and delay correctly", () => {
     const timer = sinon.useFakeTimers();
     const stub = sinon
-      .stub(retryAfterUtil, "exponentialDelayInMs")
+      .stub(_retryAfterUtil, "exponentialDelayInMs")
       .callsFake((retryCount, retryDelayInMs, maxRetryDelayInMs) => {
         return stub.wrappedMethod(retryCount, retryDelayInMs, maxRetryDelayInMs, true);
       });

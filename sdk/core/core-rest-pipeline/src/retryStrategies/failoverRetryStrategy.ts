@@ -5,7 +5,11 @@ import { PipelineRequest } from "../interfaces";
 import { RetryInformation, RetryModifiers, RetryStrategy } from "./retryStrategy";
 import { DEFAULT_CLIENT_MAX_RETRY_INTERVAL, DEFAULT_CLIENT_RETRY_INTERVAL } from "../constants";
 import { DefaultRetryPolicyOptions } from "../policies/defaultRetryPolicy";
-import { exponentialDelayInMs } from "../util/retryAfter";
+import * as retryAfterUtil from "../util/retryAfter";
+
+// Workaround for module imports being non-configurable in browser
+// Allows for sinon to stub the delay function and remove jitter
+export const _retryAfterUtil = { ...retryAfterUtil };
 
 /**
  * An iterator factory for failover hosts. Yields the next host to retry, or yields undefined if failover should be skipped.
@@ -98,7 +102,7 @@ export function readWriteFailoverHostDelegate(options: {
 
       retryState = yield hostState;
 
-      const exponentialDelay = exponentialDelayInMs(
+      const exponentialDelay = _retryAfterUtil.exponentialDelayInMs(
         hostState.retryCount,
         retryDelayInMs,
         maxRetryDelayInMs
