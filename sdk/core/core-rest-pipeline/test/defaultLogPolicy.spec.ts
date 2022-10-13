@@ -12,6 +12,8 @@ import sinon from "sinon";
 
 describe("defaultLogPolicy", function () {
   it("should be invoked on every retry", async function () {
+    const clock = sinon.useFakeTimers();
+
     const request = createPipelineRequest({
       url: "https://bing.com",
     });
@@ -56,7 +58,7 @@ describe("defaultLogPolicy", function () {
       });
     }
 
-    await pipeline.sendRequest(
+    pipeline.sendRequest(
       {
         sendRequest: async function (req) {
           return { headers: createHttpHeaders(), request: req, status: 500 };
@@ -64,6 +66,7 @@ describe("defaultLogPolicy", function () {
       },
       request
     );
+    await clock.runAllAsync();
 
     const expectedOrder: string[] = orderedPolicies.map((policy) => policy.name);
     const repeatedPolicies = expectedOrder.slice(expectedOrder.indexOf("tracingPolicy"));
@@ -71,5 +74,7 @@ describe("defaultLogPolicy", function () {
       expectedOrder.push(...repeatedPolicies);
     }
     assert.deepEqual(order, expectedOrder);
+
+    clock.restore();
   });
 });
