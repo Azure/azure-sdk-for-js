@@ -15,6 +15,7 @@ import {
   getDataLakeServiceClient,
   getEncryptionScope,
   recorderEnvSetup,
+  sleep,
 } from "./utils";
 import { Context } from "mocha";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
@@ -795,6 +796,248 @@ describe("DataLakePathClient", () => {
       accountName,
       "Account name is not the same as the one provided."
     );
+  });
+
+  it("append with acquire lease", async () => {
+    const body = "HelloWorld";
+
+    const tempFileName = recorder.getUniqueName("tempfile2");
+    const tempFileClient = fileSystemClient.getFileClient(tempFileName);
+    const leaseId = "ca761232ed4211cebacd00aa0057b223";
+
+    await tempFileClient.create();
+
+    await tempFileClient.append(body, 0, body.length, {
+      proposedLeaseId: leaseId,
+      leaseDuration: 15,
+      leaseAction: "acquire",
+    });
+
+    let gotError = false;
+    try {
+      await tempFileClient.append(body, body.length, body.length, {
+        flush: true,
+      });
+    } catch (err) {
+      gotError = true;
+      assert.ok(
+        (err as any).message.startsWith(
+          "There is currently a lease on the resource and no lease ID was specified in the request."
+        )
+      );
+    }
+    assert.ok(gotError, "Should throw out an exception to write to a leased file without lease id");
+
+    await tempFileClient.append(body, body.length, body.length, {
+      conditions: {
+        leaseId: leaseId,
+      },
+      flush: true,
+    });
+
+    const properties = await tempFileClient.getProperties();
+    assert.equal(properties.contentLength, body.length * 2);
+    assert.equal(properties.leaseState, "leased");
+    assert.equal(properties.leaseDuration, "fixed");
+    assert.equal(properties.leaseStatus, "locked");
+
+    await sleep(15);
+    await tempFileClient.delete();
+  });
+
+  it("append with auto-renew lease", async () => {
+    const body = "HelloWorld";
+
+    const tempFileName = recorder.getUniqueName("tempfile2");
+    const tempFileClient = fileSystemClient.getFileClient(tempFileName);
+    const leaseId = "ca761232ed4211cebacd00aa0057b223";
+
+    await tempFileClient.create({
+      proposedLeaseId: leaseId,
+      leaseDuration: 15,
+    });
+
+    const properties = await tempFileClient.getProperties();
+    assert.equal(properties.leaseState, "leased");
+    assert.equal(properties.leaseDuration, "fixed");
+    assert.equal(properties.leaseStatus, "locked");
+
+    await sleep(15);
+
+    await tempFileClient.append(body, 0, body.length, {
+      conditions: { leaseId: leaseId },
+      leaseDuration: 15,
+      leaseAction: "auto-renew",
+    });
+
+    let gotError = false;
+    try {
+      await tempFileClient.append(body, body.length, body.length, {
+        flush: true,
+      });
+    } catch (err) {
+      gotError = true;
+      assert.ok(
+        (err as any).message.startsWith(
+          "There is currently a lease on the resource and no lease ID was specified in the request."
+        )
+      );
+    }
+    assert.ok(gotError, "Should throw out an exception to write to a leased file without lease id");
+
+    await sleep(15);
+    await tempFileClient.delete();
+  });
+
+  it("append with release lease", async () => {
+    const body = "HelloWorld";
+
+    const tempFileName = recorder.getUniqueName("tempfile2");
+    const tempFileClient = fileSystemClient.getFileClient(tempFileName);
+    const leaseId = "ca761232ed4211cebacd00aa0057b223";
+
+    await tempFileClient.create({
+      proposedLeaseId: leaseId,
+      leaseDuration: 15,
+    });
+
+    await tempFileClient.append(body, 0, body.length, {
+      conditions: { leaseId: leaseId },
+    });
+
+    await tempFileClient.append(body, body.length, body.length, {
+      conditions: { leaseId: leaseId },
+      leaseAction: "release",
+      flush: true,
+    });
+
+    const properties = await tempFileClient.getProperties();
+    assert.equal(properties.leaseState, "available");
+    assert.equal(properties.leaseStatus, "unlocked");
+
+    await tempFileClient.delete();
+  });
+
+  it("flush with acquire lease", async () => {
+    const body = "HelloWorld";
+
+    const tempFileName = recorder.getUniqueName("tempfile2");
+    const tempFileClient = fileSystemClient.getFileClient(tempFileName);
+    const leaseId = "ca761232ed4211cebacd00aa0057b223";
+
+    await tempFileClient.create();
+
+    await tempFileClient.append(body, 0, body.length);
+    await tempFileClient.append(body, body.length, body.length);
+
+    await tempFileClient.flush(body.length * 2, {
+      proposedLeaseId: leaseId,
+      leaseDuration: 15,
+      leaseAction: "acquire",
+    });
+
+    let gotError = false;
+    try {
+      await tempFileClient.delete();
+    } catch (err) {
+      gotError = true;
+      assert.ok(
+        (err as any).message.startsWith(
+          "There is currently a lease on the resource and no lease ID was specified in the request."
+        )
+      );
+    }
+    assert.ok(gotError, "Should throw out an exception to write to a leased file without lease id");
+
+    const properties = await tempFileClient.getProperties();
+    assert.equal(properties.contentLength, body.length * 2);
+    assert.equal(properties.leaseState, "leased");
+    assert.equal(properties.leaseDuration, "fixed");
+    assert.equal(properties.leaseStatus, "locked");
+
+    await sleep(15);
+    await tempFileClient.delete();
+  });
+
+  it("flush with auto-renew lease", async () => {
+    const body = "HelloWorld";
+
+    const tempFileName = recorder.getUniqueName("tempfile2");
+    const tempFileClient = fileSystemClient.getFileClient(tempFileName);
+    const leaseId = "ca761232ed4211cebacd00aa0057b223";
+
+    await tempFileClient.create({
+      proposedLeaseId: leaseId,
+      leaseDuration: 15,
+    });
+
+    await tempFileClient.append(body, 0, body.length, {
+      conditions: { leaseId: leaseId },
+    });
+    await tempFileClient.append(body, body.length, body.length, {
+      conditions: { leaseId: leaseId },
+    });
+
+    await sleep(15);
+
+    await tempFileClient.flush(body.length * 2, {
+      conditions: { leaseId: leaseId },
+      leaseDuration: 15,
+      leaseAction: "auto-renew",
+    });
+
+    let gotError = false;
+    try {
+      await tempFileClient.delete();
+    } catch (err) {
+      gotError = true;
+      assert.ok(
+        (err as any).message.startsWith(
+          "There is currently a lease on the resource and no lease ID was specified in the request."
+        )
+      );
+    }
+    assert.ok(gotError, "Should throw out an exception to write to a leased file without lease id");
+
+    const properties = await tempFileClient.getProperties();
+    assert.equal(properties.contentLength, body.length * 2);
+    assert.equal(properties.leaseState, "leased");
+    assert.equal(properties.leaseDuration, "fixed");
+    assert.equal(properties.leaseStatus, "locked");
+
+    await sleep(15);
+    await tempFileClient.delete();
+  });
+
+  it("flush with release lease", async () => {
+    const body = "HelloWorld";
+
+    const tempFileName = recorder.getUniqueName("tempfile2");
+    const tempFileClient = fileSystemClient.getFileClient(tempFileName);
+    const leaseId = "ca761232ed4211cebacd00aa0057b223";
+
+    await tempFileClient.create({
+      proposedLeaseId: leaseId,
+      leaseDuration: 15,
+    });
+
+    await tempFileClient.append(body, 0, body.length, {
+      conditions: { leaseId: leaseId },
+    });
+    await tempFileClient.append(body, body.length, body.length, {
+      conditions: { leaseId: leaseId },
+    });
+
+    await tempFileClient.flush(body.length * 2, {
+      conditions: { leaseId: leaseId },
+      leaseAction: "release",
+    });
+
+    const properties = await tempFileClient.getProperties();
+    assert.equal(properties.leaseState, "available");
+    assert.equal(properties.leaseStatus, "unlocked");
+
+    await tempFileClient.delete();
   });
 
   it("append with flush should work", async () => {
