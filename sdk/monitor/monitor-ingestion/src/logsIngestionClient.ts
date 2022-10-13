@@ -17,7 +17,7 @@ export interface LogsIngestionClientOptions extends CommonClientOptions {
   apiVersion?: string;
 }
 const defaultIngestionScope = "https://monitor.azure.com//.default";
-const DEFAULT_MAX_CONCURRENCY = 1;
+const DEFAULT_MAX_CONCURRENCY = 5;
 
 /**
  * Client for Monitor Logs Ingestion
@@ -68,10 +68,7 @@ export class LogsIngestionClient {
     // This splits logs into 1MB chunks
     const chunkArray = splitDataToChunks(logs);
     const noOfChunks = chunkArray.length;
-    const concurrency = Math.max(
-      options?.maxConcurrency ?? DEFAULT_MAX_CONCURRENCY,
-      DEFAULT_MAX_CONCURRENCY
-    );
+    const concurrency = Math.max(options?.maxConcurrency ?? DEFAULT_MAX_CONCURRENCY, 1);
 
     const uploadResultErrors: Array<UploadLogsError> = [];
     await concurrentRun(concurrency, chunkArray, async (eachChunk): Promise<void> => {

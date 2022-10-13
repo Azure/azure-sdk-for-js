@@ -84,7 +84,7 @@
     "util": "^0.12.1",
     "dotenv": "^8.2.0",
     "@azure/test-utils": "^1.0.0",
-    "@types/mustache": "4.1.2",
+    "@types/mustache": "^4.2.1",
     "sinon": "^9.0.4",
     "@types/sinon": "^9.0.4"
   },

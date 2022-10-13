@@ -27,6 +27,7 @@ import { QueryTimeInterval } from "./models/timeInterval";
 import { convertTimespanToInterval } from "./timespanConversion";
 import { SDK_VERSION } from "./constants";
 import { tracingClient } from "./tracing";
+import { getLogQueryEndpoint } from "./internal/logQueryOptionUtils";
 
 const defaultMonitorScope = "https://api.loganalytics.io/.default";
 
@@ -56,8 +57,10 @@ export class LogsQueryClient {
     // This client defaults to using 'https://api.loganalytics.io/' as the
     // host.
     let scope;
+    let endpoint = options?.endpoint;
     if (options?.endpoint) {
-      scope = `${options?.endpoint}/.default`;
+      scope = `${options.endpoint}/.default`;
+      endpoint = getLogQueryEndpoint(options);
     }
     const credentialOptions = {
       credentialScopes: scope,
@@ -69,8 +72,8 @@ export class LogsQueryClient {
         : `${packageDetails}`;
     this._logAnalytics = new AzureLogAnalytics({
       ...options,
-      $host: options?.endpoint,
-      endpoint: options?.endpoint,
+      $host: endpoint,
+      endpoint: endpoint,
       credentialScopes: credentialOptions?.credentialScopes ?? defaultMonitorScope,
       credential: tokenCredential,
       userAgentOptions: {

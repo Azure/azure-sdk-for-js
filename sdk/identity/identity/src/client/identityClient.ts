@@ -19,8 +19,8 @@ import { tracingClient } from "../util/tracing";
 import { logger } from "../util/logging";
 import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import {
-  parseExpiresOn,
   TokenResponseParsedBody,
+  parseExpiresOn,
 } from "../credentials/managedIdentityCredential/utils";
 
 const noCorrelationId = "noCorrelationId";
