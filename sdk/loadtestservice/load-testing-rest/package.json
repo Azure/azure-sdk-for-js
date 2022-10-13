@@ -1,5 +1,5 @@
 {
-  "name": "@azure-rest/loadtesting",
+  "name": "@azure-rest/load-testing",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "version": "1.0.0-beta.1",
@@ -8,29 +8,24 @@
   "license": "MIT",
   "main": "dist/index.js",
   "module": "./dist-esm/src/index.js",
-  "types": "./types/loadtesting.d.ts",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtestservice/loadtesting-rest/README.md",
+  "types": "./types/load-testing.d.ts",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtestservice/load-testing-rest/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
+  "bugs": { "url": "https://github.com/Azure/azure-sdk-for-js/issues" },
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/loadtesting.d.ts",
+    "types/load-testing.d.ts",
     "README.md",
     "LICENSE",
     "review/*"
   ],
   "//metadata": {
-    "constantPaths": [{
-      "path": "swagger/README.md",
-      "prefix": "package-version"
-    }]
+    "constantPaths": [
+      { "path": "swagger/README.md", "prefix": "package-version" }
+    ]
   },
-  "engines": {
-    "node": ">=14.0.0"
-  },
+  "engines": { "node": ">=12.0.0" },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
@@ -65,7 +60,8 @@
     "@azure-rest/core-client": "1.0.0-beta.10",
     "@azure/core-rest-pipeline": "^1.8.0",
     "@azure/logger": "^1.0.0",
-    "tslib": "^2.2.0"
+    "tslib": "^2.2.0",
+    "@azure/core-paging": "^1.2.0"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "7.18.11",
@@ -79,6 +75,7 @@
     "source-map-support": "^0.5.9",
     "typescript": "~4.2.0",
     "@azure/dev-tool": "^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure/identity": "^2.0.1",
     "@azure-tools/test-recorder": "^2.0.0",

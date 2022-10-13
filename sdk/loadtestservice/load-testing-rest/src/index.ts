@@ -10,5 +10,6 @@ export * from "./clientDefinitions";
 export * from "./isUnexpected";
 export * from "./models";
 export * from "./outputModels";
+export * from "./paginateHelper";
 
 export default AzureLoadTesting;

@@ -1885,6 +1885,11 @@
       "packageName": "@azure/arm-securitydevops",
       "projectFolder": "sdk/securitydevops/arm-securitydevops",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/load-testing",
+      "projectFolder": "sdk/loadtestservice/load-testing-rest",
+      "versionPolicyName": "client"
     }
   ]
 }

@@ -1,4 +1,4 @@
-import AzureLoadTesting, { AzureLoadTestingClient } from "@azure-rest/loadtesting";
+import AzureLoadTesting, { AzureLoadTestingClient } from "@azure-rest/load-testing";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 import { createReadStream } from "fs";
