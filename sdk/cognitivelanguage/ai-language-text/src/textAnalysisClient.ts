@@ -654,10 +654,7 @@ export class TextAnalysisClient {
     }
 
     if (isStringArray(documents)) {
-      const languageHint =
-        (languageOrOptions as string) || options.defaultLanguage === undefined
-          ? this.defaultLanguage
-          : undefined;
+      const languageHint = (languageOrOptions as string) ?? this.defaultLanguage;
       realInputs = convertToTextDocumentInput(documents, languageHint);
       realOptions = options;
     } else {
