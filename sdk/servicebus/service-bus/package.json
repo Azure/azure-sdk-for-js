@@ -25,6 +25,10 @@
     "buffer": "buffer",
     "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js"
   },
+  "react-native": {
+    "./dist/index.js": "dist-esm/src/index.js",
+    "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.native.js"
+  },
   "types": "./types/latest/service-bus.d.ts",
   "typesVersions": {
     "<3.6": {
