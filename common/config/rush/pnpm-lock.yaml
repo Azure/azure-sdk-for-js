@@ -9099,6 +9099,11 @@ packages:
     hasBin: true
     dev: false
 
+  /uuid/9.0.0:
+    resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
+    hasBin: true
+    dev: false
+
   /v8-compile-cache-lib/3.0.1:
     resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
     dev: false
@@ -17787,7 +17792,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-SijLYulYRiHVlXmUhdgpVoBq+kwud2Y3tQjd2IsBDmBzwFEYdS3Xq7zyleWU0GATDe1T/dbk6pZlM4DmSUFNBg==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-NF3pWFm+ODKaJQc7MMoI4Hukq5DOvBI6oQqiKD2gmpLB/ZVR0WNg18qXL6/lDFezbEs10C9zt1NGwedJs4MIow==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
@@ -17823,7 +17828,7 @@ packages:
       tslib: 2.4.0
       typescript: 4.8.4
       util: 0.12.4
-      uuid: 8.3.2
+      uuid: 9.0.0
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'

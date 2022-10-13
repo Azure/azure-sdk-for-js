@@ -15,13 +15,12 @@
  * @azsdk-weight 100
  */
 
-import { SendOperationOptions } from "@azure/notification-hubs/models/options";
+import * as dotenv from "dotenv";
 import { createClientContext } from "@azure/notification-hubs/client";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
 import { scheduleNotification } from "@azure/notification-hubs/client/scheduleNotification";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and hub name
@@ -45,15 +44,9 @@ async function main() {
   // Schedule 8 hours from nows
   const scheduledTime = new Date(Date.now() + 8 * 60 * 60 * 1000);
 
-  // Not required but can set test send to true for debugging purposes.
-  const sendOptions: SendOperationOptions = { enableTestSend: false };
-  const result = await scheduleNotification(
-    context,
-    scheduledTime,
-    tagExpression,
-    notification,
-    sendOptions
-  );
+  const result = await scheduleNotification(context, scheduledTime, notification, {
+    tags: tagExpression,
+  });
 
   console.log(`Scheduled send Tracking ID: ${result.trackingId}`);
   console.log(`Scheduled send Correlation ID: ${result.correlationId}`);
