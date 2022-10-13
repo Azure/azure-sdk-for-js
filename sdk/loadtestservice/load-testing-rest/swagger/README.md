@@ -5,7 +5,7 @@
 ## Configuration
 
 ```yaml
-package-name: "@azure-rest/loadtesting"
+package-name: "@azure-rest/load-testing"
 title: Azure Load Testing
 description: Azure Load Testing Client
 generate-metadata: true

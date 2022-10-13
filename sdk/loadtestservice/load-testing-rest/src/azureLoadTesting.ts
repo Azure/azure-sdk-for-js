@@ -15,11 +15,11 @@ export default function createClient(
   options = {
     ...options,
     credentials: {
-      scopes: ["https://loadtestservice.azure.net/.default"]
+      scopes: ["https://cnt-prod.loadtesting.azure.com/.default"]
     }
   };
 
-  const userAgentInfo = `azsdk-js-loadtesting-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-load-testing-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

@@ -1873,8 +1873,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure-rest/loadtesting",
-      "projectFolder": "sdk/loadtestservice/loadtesting-rest",
+      "packageName": "@azure-rest/load-testing",
+      "projectFolder": "sdk/loadtestservice/load-testing-rest",
       "versionPolicyName": "client"
     }
   ]
