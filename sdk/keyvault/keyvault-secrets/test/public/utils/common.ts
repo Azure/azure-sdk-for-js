@@ -27,7 +27,12 @@ type ServiceVersion = SecretClientOptions["serviceVersion"];
 /**
  * The known API versions that we support.
  */
-export const serviceVersions: readonly NonNullable<ServiceVersion>[] = ["7.0", "7.1", "7.2", "7.3"] as const;
+export const serviceVersions: readonly NonNullable<ServiceVersion>[] = [
+  "7.0",
+  "7.1",
+  "7.2",
+  "7.3",
+] as const;
 
 /**
  * Fetches the service version to test against. This version could be configured as part of CI

@@ -36,8 +36,8 @@ export async function authenticate(
     const { hostname } = new URL(assertEnvironmentVariable("KEYVAULT_URI"));
     generalSanitizers.push({
       target: hostname,
-      value: `keyvault_name.vault.azure.net`
-    })
+      value: `keyvault_name.vault.azure.net`,
+    });
   }
 
   const recorderStartOptions: RecorderStartOptions = {

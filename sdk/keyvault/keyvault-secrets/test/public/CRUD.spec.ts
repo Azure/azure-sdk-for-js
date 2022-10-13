@@ -60,7 +60,7 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can timeout adding a secret", async function (this: Context) {
-    if(!isLiveMode()) {
+    if (!isLiveMode()) {
       this.skip();
     }
 
@@ -137,7 +137,7 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can timeout updating a secret", async function (this: Context) {
-    if(!isLiveMode()) {
+    if (!isLiveMode()) {
       this.skip();
     }
 
@@ -190,7 +190,7 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can timeout getting a secret", async function (this: Context) {
-    if(!isLiveMode()) {
+    if (!isLiveMode()) {
       this.skip();
     }
 
@@ -286,7 +286,7 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can timeout deleting a secret", async function (this: Context) {
-    if(!isLiveMode()) {
+    if (!isLiveMode()) {
       this.skip();
     }
 
@@ -362,7 +362,10 @@ describe("Secret client - create, read, update and delete operations", () => {
   });
 
   it("traces through the various operations", async () => {
-    const secretName = recorder.variable("secrettrace", `secrettrace${Math.floor(Math.random() * 1000)}`);
+    const secretName = recorder.variable(
+      "secrettrace",
+      `secrettrace${Math.floor(Math.random() * 1000)}`
+    );
 
     await assert.supportsTracing(
       async (options) => {

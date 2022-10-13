@@ -2,7 +2,8 @@
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config();
 
-process.env.RECORDINGS_RELATIVE_PATH = require("@azure-tools/test-recorder").relativeRecordingsPath();
+process.env.RECORDINGS_RELATIVE_PATH =
+  require("@azure-tools/test-recorder").relativeRecordingsPath();
 
 module.exports = function (config) {
   config.set({

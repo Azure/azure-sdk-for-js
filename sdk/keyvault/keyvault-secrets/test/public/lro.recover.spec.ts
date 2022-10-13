@@ -94,7 +94,7 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can attempt to recover a deleted secret with requestOptions timeout", async function (this: Context) {
-    if(!isLiveMode()) {
+    if (!isLiveMode()) {
       this.skip();
     }
 

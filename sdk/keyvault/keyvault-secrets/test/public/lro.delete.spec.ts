@@ -85,7 +85,7 @@ describe("Secrets client - Long Running Operations - delete", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can attempt to delete a secret with requestOptions timeout", async function (this: Context) {
-    if(!isLiveMode()) {
+    if (!isLiveMode()) {
       this.skip();
     }
 
