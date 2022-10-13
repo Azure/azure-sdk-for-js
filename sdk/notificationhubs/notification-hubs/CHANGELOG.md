@@ -14,10 +14,6 @@
 - Removed `sendDirectNotification` and `sendBroadcastNotification` in favor of `sendNotification` with `DirectSendNotificationOptions` options for a single or multiple device handles, or `SendNotificationOptions` options for tag based send or null/undefined/empty options for a broadcast notification.
 - Removed `scheduleBroadcastNotification` in favor of `scheduleNotification` with `ScheduleNotificationOptions` options for tag based send or null/undefined/empty option for a scheduled broadcast notification.
 
-### Bugs Fixed
-
-### Other Changes
-
 ## 1.0.0-beta.5 (2022-09-16)
 
 ### Bugs Fixed
