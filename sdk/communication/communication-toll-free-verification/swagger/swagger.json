@@ -254,6 +254,10 @@
             }
           }
         },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink",
+          "itemName": "campaignBriefs"
+        },
         "x-ms-examples": {
           "List Briefs": {
             "$ref": "./examples/GetUSCampaignBriefsAsync.json"
@@ -262,12 +266,12 @@
       }
     },
     "/tollfreeVerification/countries/{countryCode}/campaignBriefs/{campaignBriefId}/attachments/{attachmentId}": {
-      "patch": {
+      "put": {
         "tags": [
           "TollFreeVerification - CampaignBriefAttachment"
         ],
         "summary": "Creates or updates an attachment on a Campaign Brief.",
-        "operationId": "TollFreeVerification_UpsertCampaignBriefAttachment",
+        "operationId": "TollFreeVerification_CreateOrReplaceCampaignBriefAttachment",
         "consumes": [
           "application/json"
         ],
@@ -275,6 +279,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "countryCode",
+            "description": "Country Code Id. Must be a valid country code",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "path",
             "name": "campaignBriefId",
@@ -290,12 +301,6 @@
             "required": true,
             "type": "string",
             "format": "uuid"
-          },
-          {
-            "in": "path",
-            "name": "countryCode",
-            "required": true,
-            "type": "string"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -400,6 +405,12 @@
         "parameters": [
           {
             "in": "path",
+            "name": "countryCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "campaignBriefId",
             "description": "Campaign Brief Id. Must be a valid GUID",
             "required": true,
@@ -413,12 +424,6 @@
             "required": true,
             "type": "string",
             "format": "uuid"
-          },
-          {
-            "in": "path",
-            "name": "countryCode",
-            "required": true,
-            "type": "string"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -457,6 +462,19 @@
         ],
         "parameters": [
           {
+            "in": "path",
+            "name": "countryCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "campaignBriefId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
             "in": "query",
             "name": "skip",
             "description": "An optional parameter for how many entries to skip, for pagination purposes.",
@@ -471,18 +489,6 @@
             "type": "integer",
             "format": "int32",
             "default": 100
-          },
-          {
-            "in": "path",
-            "name": "countryCode",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "path",
-            "name": "campaignBriefId",
-            "required": true,
-            "type": "string"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -501,6 +507,10 @@
               "$ref": "#/definitions/CommunicationErrorResponse"
             }
           }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink",
+          "itemName": "attachments"
         },
         "x-ms-examples": {
           "Gets a Campaign Brief File Attachment": {

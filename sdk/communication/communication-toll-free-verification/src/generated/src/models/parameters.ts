@@ -166,13 +166,14 @@ export const top: OperationQueryParameter = {
   }
 };
 
-export const campaignBriefId1: OperationURLParameter = {
-  parameterPath: "campaignBriefId",
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
   mapper: {
-    serializedName: "campaignBriefId",
+    serializedName: "nextLink",
     required: true,
     type: {
       name: "String"
     }
-  }
+  },
+  skipEncoding: true
 };

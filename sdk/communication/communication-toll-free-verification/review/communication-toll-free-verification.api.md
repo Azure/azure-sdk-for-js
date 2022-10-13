@@ -67,6 +67,12 @@ export interface CampaignBriefAttachmentSummary {
 }
 
 // @public
+export interface CampaignBriefs {
+    campaignBriefs?: CampaignBrief[];
+    nextLink?: string;
+}
+
+// @public
 export type CampaignBriefStatus = "submitted" | "approved" | "updateRequested" | "draft" | "denied" | "cancelled";
 
 // @public (undocumented)
@@ -76,6 +82,10 @@ export class TollFreeVerificationClient {
     constructor(endpoint: string, credential: TokenCredential, options?: TollFreeVerificationClientOptions);
     // (undocumented)
     getCampaignBrief(campaignBriefId: string, countryCode: string, options?: TollFreeVerificationGetCampaignBriefOptionalParams): Promise<CampaignBrief>;
+    // (undocumented)
+    getCampaignBriefs(countryCode: string, options?: TollFreeVerificationGetCampaignBriefsOptionalParams): Promise<CampaignBriefs>;
+    // (undocumented)
+    upsertCampaignBrief(campaignBriefId: string, countryCode: string, options?: TollFreeVerificationUpsertCampaignBriefOptionalParams): Promise<TollFreeVerificationUpsertCampaignBriefResponse>;
 }
 
 // @public
@@ -85,6 +95,18 @@ export interface TollFreeVerificationClientOptions extends CommonClientOptions {
 // @public
 export interface TollFreeVerificationGetCampaignBriefOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export interface TollFreeVerificationGetCampaignBriefsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface TollFreeVerificationUpsertCampaignBriefOptionalParams extends coreClient.OperationOptions {
+    body?: CampaignBrief;
+}
+
+// @public
+export type TollFreeVerificationUpsertCampaignBriefResponse = CampaignBrief;
 
 // @public (undocumented)
 export interface UseCaseInfo {

@@ -211,14 +211,14 @@ export interface TollFreeVerificationGetCampaignBriefsOptionalParams
 export type TollFreeVerificationGetCampaignBriefsResponse = CampaignBriefs;
 
 /** Optional parameters. */
-export interface TollFreeVerificationUpsertCampaignBriefAttachmentOptionalParams
+export interface TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptionalParams
   extends coreClient.OperationOptions {
   /** File size in bytes. */
   fileSizeInBytes?: number;
 }
 
-/** Contains response data for the upsertCampaignBriefAttachment operation. */
-export type TollFreeVerificationUpsertCampaignBriefAttachmentResponse = CampaignBrief;
+/** Contains response data for the createOrReplaceCampaignBriefAttachment operation. */
+export type TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse = CampaignBrief;
 
 /** Optional parameters. */
 export interface TollFreeVerificationDeleteCampaignBriefAttachmentOptionalParams
@@ -242,6 +242,25 @@ export interface TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams
 
 /** Contains response data for the getCampaignBriefAttachments operation. */
 export type TollFreeVerificationGetCampaignBriefAttachmentsResponse = CampaignBriefAttachments;
+
+/** Optional parameters. */
+export interface TollFreeVerificationGetCampaignBriefsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getCampaignBriefsNext operation. */
+export type TollFreeVerificationGetCampaignBriefsNextResponse = CampaignBriefs;
+
+/** Optional parameters. */
+export interface TollFreeVerificationGetCampaignBriefAttachmentsNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** An optional parameter for how many entries to skip, for pagination purposes. */
+  skip?: number;
+  /** An optional parameter for how many entries to return, for pagination purposes. */
+  top?: number;
+}
+
+/** Contains response data for the getCampaignBriefAttachmentsNext operation. */
+export type TollFreeVerificationGetCampaignBriefAttachmentsNextResponse = CampaignBriefAttachments;
 
 /** Optional parameters. */
 export interface TollFreeVerificationClientOptionalParams

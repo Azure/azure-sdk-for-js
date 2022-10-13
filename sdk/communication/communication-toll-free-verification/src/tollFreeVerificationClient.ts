@@ -1,8 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
-import { TollFreeVerificationGetCampaignBriefOptionalParams, CampaignBrief } from "./models";
+import {
+  TollFreeVerificationGetCampaignBriefOptionalParams,
+  TollFreeVerificationGetCampaignBriefsOptionalParams,
+  CampaignBrief,
+  FileType,
+  TollFreeVerificationUpsertCampaignBriefResponse,
+  TollFreeVerificationUpsertCampaignBriefOptionalParams,
+  TollFreeVerificationDeleteCampaignBriefOptionalParams,
+  TollFreeVerificationSubmitCampaignBriefOptionalParams,
+  TollFreeVerificationSubmitCampaignBriefResponse,
+  TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptionalParams,
+  TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse,
+  TollFreeVerificationDeleteCampaignBriefAttachmentOptionalParams,
+  TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams,
+  TollFreeVerificationGetCampaignBriefAttachmentOptionalParams,
+} from "./models";
 import { isKeyCredential, parseClientArguments } from "@azure/communication-common";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
 import { TollFreeVerificationClient as TollFreeVerificationGeneratedClient } from "./generated/src";
@@ -12,7 +28,7 @@ import { tracingClient } from "./generated/src/tracing";
 /**
  * Client options used to configure the TollFreeVerificationClient API requests.
  */
-export interface TollFreeVerificationClientOptions extends CommonClientOptions {}
+export interface TollFreeVerificationClientOptions extends CommonClientOptions { }
 
 const isTollFreeVerificationClientOptions = (
   options: any
@@ -75,6 +91,174 @@ export class TollFreeVerificationClient {
         return this.client.tollFreeVerification.getCampaignBrief(
           campaignBriefId,
           countryCode,
+          updatedOptions
+        );
+      }
+    );
+  }
+
+  public listCampaignBriefs(
+    countryCode: string,
+    options: TollFreeVerificationGetCampaignBriefsOptionalParams = {}
+  ): PagedAsyncIterableIterator<CampaignBrief> {
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "TollFreeVerificationClient-listCampaignBriefs",
+      options
+    );
+    try {
+      return this.client.tollFreeVerification.listCampaignBriefs(countryCode, updatedOptions);
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public upsertCampaignBrief(
+    campaignBriefId: string,
+    countryCode: string,
+    options: TollFreeVerificationUpsertCampaignBriefOptionalParams = {}
+  ): Promise<TollFreeVerificationUpsertCampaignBriefResponse> {
+    return tracingClient.withSpan(
+      "TollFreeVerificationClient-upsertCampaignBrief",
+      options,
+      async (updatedOptions) => {
+        return this.client.tollFreeVerification.upsertCampaignBrief(
+          campaignBriefId,
+          countryCode,
+          updatedOptions
+        );
+      }
+    );
+  }
+
+  public deleteCampaignBrief(
+    campaignBriefId: string,
+    countryCode: string,
+    options: TollFreeVerificationDeleteCampaignBriefOptionalParams = {}
+  ): Promise<void> {
+    return tracingClient.withSpan(
+      "TollFreeVerificationClient-deleteCampaignBrief",
+      options,
+      async (updatedOptions) => {
+        return this.client.tollFreeVerification.deleteCampaignBrief(
+          campaignBriefId,
+          countryCode,
+          updatedOptions
+        );
+      }
+    );
+  }
+
+  public submitCampaignBrief(
+    campaignBriefId: string,
+    countryCode: string,
+    options: TollFreeVerificationSubmitCampaignBriefOptionalParams = {}
+  ): Promise<TollFreeVerificationSubmitCampaignBriefResponse> {
+    return tracingClient.withSpan(
+      "TollFreeVerificationClient-upsertCampaignBrief",
+      options,
+      async (updatedOptions) => {
+        return this.client.tollFreeVerification.submitCampaignBrief(
+          campaignBriefId,
+          countryCode,
+          updatedOptions
+        );
+      }
+    );
+  }
+
+  public upsertCampaignBriefAttachment(
+    countryCode: string,
+    campaignBriefId: string,
+    attachmentId: string,
+    fileName: string,
+    fileType: FileType,
+    fileContentBase64: string,
+    options: TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptionalParams = {}
+  ): Promise<TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse> {
+    return tracingClient.withSpan(
+      "TollFreeVerificationClient-upsertCampaignBriefAttachment",
+      options,
+      async (updatedOptions) => {
+        return this.client.tollFreeVerification.createOrReplaceCampaignBriefAttachment(
+          countryCode,
+          campaignBriefId,
+          attachmentId,
+          attachmentId,
+          fileName,
+          fileType,
+          fileContentBase64,
+          updatedOptions
+        );
+      }
+    );
+  }
+
+  public deleteCampaignBriefAttachment(
+    campaignBriefId: string,
+    attachmentId: string,
+    countryCode: string,
+    options: TollFreeVerificationDeleteCampaignBriefAttachmentOptionalParams = {}
+  ): Promise<void> {
+    return tracingClient.withSpan(
+      "TollFreeVerificationClient-deleteCampaignBriefAttachment",
+      options,
+      async (updatedOptions) => {
+        return this.client.tollFreeVerification.deleteCampaignBriefAttachment(
+          campaignBriefId,
+          attachmentId,
+          countryCode,
+          updatedOptions
+        );
+      }
+    );
+  }
+
+  public listCampaignBriefAttachments(
+    countryCode: string,
+    campaignBriefId: string,
+    options: TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams = {}
+  ): PagedAsyncIterableIterator<CampaignBrief> {
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "TollFreeVerificationClient-listCampaignBriefAttachments",
+      options
+    );
+    try {
+      return this.client.tollFreeVerification.listCampaignBriefAttachments(
+        countryCode,
+        campaignBriefId,
+        updatedOptions
+      );
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public getCampaignBriefAttachment(
+    countryCode: string,
+    campaignBriefId: string,
+    attachmentId: string,
+    options: TollFreeVerificationGetCampaignBriefAttachmentOptionalParams = {}
+  ): Promise<CampaignBrief> {
+    return tracingClient.withSpan(
+      "TollFreeVerificationClient-getCampaignBriefAttachment",
+      options,
+      async (updatedOptions) => {
+        return this.client.tollFreeVerification.getCampaignBriefAttachment(
+          countryCode,
+          campaignBriefId,
+          attachmentId,
           updatedOptions
         );
       }

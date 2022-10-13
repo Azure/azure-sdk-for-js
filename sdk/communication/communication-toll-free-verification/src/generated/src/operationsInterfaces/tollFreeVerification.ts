@@ -6,7 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  CampaignBrief,
+  TollFreeVerificationGetCampaignBriefsOptionalParams,
+  CampaignBriefAttachment,
+  TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams,
   TollFreeVerificationUpsertCampaignBriefOptionalParams,
   TollFreeVerificationUpsertCampaignBriefResponse,
   TollFreeVerificationDeleteCampaignBriefOptionalParams,
@@ -14,20 +19,37 @@ import {
   TollFreeVerificationGetCampaignBriefResponse,
   TollFreeVerificationSubmitCampaignBriefOptionalParams,
   TollFreeVerificationSubmitCampaignBriefResponse,
-  TollFreeVerificationGetCampaignBriefsOptionalParams,
-  TollFreeVerificationGetCampaignBriefsResponse,
   FileType,
-  TollFreeVerificationUpsertCampaignBriefAttachmentOptionalParams,
-  TollFreeVerificationUpsertCampaignBriefAttachmentResponse,
+  TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptionalParams,
+  TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse,
   TollFreeVerificationDeleteCampaignBriefAttachmentOptionalParams,
   TollFreeVerificationGetCampaignBriefAttachmentOptionalParams,
-  TollFreeVerificationGetCampaignBriefAttachmentResponse,
-  TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams,
-  TollFreeVerificationGetCampaignBriefAttachmentsResponse
+  TollFreeVerificationGetCampaignBriefAttachmentResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a TollFreeVerification. */
 export interface TollFreeVerification {
+  /**
+   * Get a list of Campaign Briefs for the current resource.
+   * @param countryCode
+   * @param options The options parameters.
+   */
+  listCampaignBriefs(
+    countryCode: string,
+    options?: TollFreeVerificationGetCampaignBriefsOptionalParams
+  ): PagedAsyncIterableIterator<CampaignBrief>;
+  /**
+   * Gets a list of attachments from a Campaign Brief.
+   * @param countryCode
+   * @param campaignBriefId
+   * @param options The options parameters.
+   */
+  listCampaignBriefAttachments(
+    countryCode: string,
+    campaignBriefId: string,
+    options?: TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams
+  ): PagedAsyncIterableIterator<CampaignBriefAttachment>;
   /**
    * Creates or updates a Campaign Brief.
    * @param campaignBriefId Campaign Brief Id. Must be a valid GUID
@@ -73,19 +95,10 @@ export interface TollFreeVerification {
     options?: TollFreeVerificationSubmitCampaignBriefOptionalParams
   ): Promise<TollFreeVerificationSubmitCampaignBriefResponse>;
   /**
-   * Get a list of Campaign Briefs for the current resource.
-   * @param countryCode
-   * @param options The options parameters.
-   */
-  getCampaignBriefs(
-    countryCode: string,
-    options?: TollFreeVerificationGetCampaignBriefsOptionalParams
-  ): Promise<TollFreeVerificationGetCampaignBriefsResponse>;
-  /**
    * Creates or updates an attachment on a Campaign Brief.
+   * @param countryCode Country Code Id. Must be a valid country code
    * @param campaignBriefId Campaign Brief Id. Must be a valid GUID
    * @param attachmentId Attachment Id. Must be a valid GUID
-   * @param countryCode
    * @param id Campaign Brief Attachment Id.
    * @param fileName The name of the file being attached
    *                 e.g. 'myFile01'
@@ -94,16 +107,18 @@ export interface TollFreeVerification {
    * @param fileContentBase64 File content as base 64 encoded string
    * @param options The options parameters.
    */
-  upsertCampaignBriefAttachment(
+  createOrReplaceCampaignBriefAttachment(
+    countryCode: string,
     campaignBriefId: string,
     attachmentId: string,
-    countryCode: string,
     id: string,
     fileName: string,
     fileType: FileType,
     fileContentBase64: string,
-    options?: TollFreeVerificationUpsertCampaignBriefAttachmentOptionalParams
-  ): Promise<TollFreeVerificationUpsertCampaignBriefAttachmentResponse>;
+    options?: TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptionalParams
+  ): Promise<
+    TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse
+  >;
   /**
    * Deletes a specific attachment from a Campaign Brief.
    * @param campaignBriefId Campaign Brief Id. Must be a valid GUID
@@ -119,26 +134,15 @@ export interface TollFreeVerification {
   ): Promise<void>;
   /**
    * Gets a specific attachment from a Campaign Brief.
+   * @param countryCode
    * @param campaignBriefId Campaign Brief Id. Must be a valid GUID
    * @param attachmentId Attachment Id. Must be a valid GUID
-   * @param countryCode
    * @param options The options parameters.
    */
   getCampaignBriefAttachment(
+    countryCode: string,
     campaignBriefId: string,
     attachmentId: string,
-    countryCode: string,
     options?: TollFreeVerificationGetCampaignBriefAttachmentOptionalParams
   ): Promise<TollFreeVerificationGetCampaignBriefAttachmentResponse>;
-  /**
-   * Gets a list of attachments from a Campaign Brief.
-   * @param countryCode
-   * @param campaignBriefId
-   * @param options The options parameters.
-   */
-  getCampaignBriefAttachments(
-    countryCode: string,
-    campaignBriefId: string,
-    options?: TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams
-  ): Promise<TollFreeVerificationGetCampaignBriefAttachmentsResponse>;
 }
