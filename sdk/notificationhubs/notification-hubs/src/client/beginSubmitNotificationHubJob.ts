@@ -21,7 +21,11 @@ export async function beginSubmitNotificationHubJob(
   notificationHubJob: NotificationHubJob,
   polledOperationOptions: PolledOperationOptions = {}
 ): Promise<NotificationHubJobPoller> {
-  let submittedJob = await submitNotificationHubJob(context, notificationHubJob, polledOperationOptions);
+  let submittedJob = await submitNotificationHubJob(
+    context,
+    notificationHubJob,
+    polledOperationOptions
+  );
 
   type Handler = (state: OperationState<NotificationHubJob>) => void;
 
