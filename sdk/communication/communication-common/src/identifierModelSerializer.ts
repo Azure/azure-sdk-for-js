@@ -166,20 +166,20 @@ export const deserializeCommunicationIdentifier = (
 
   const { communicationUser, microsoftTeamsUser, phoneNumber, kind } = serializedIdentifier;
   if(kind != null){
-    if(kind == "communicationUser" && communicationUser){
+    if(kind === "communicationUser" && communicationUser){
       return {
         kind: "communicationUser",
         communicationUserId: assertNotNullOrUndefined({ communicationUser }, "id"),
       };
     }
-    if (kind == "phoneNumber" && phoneNumber) {
+    if (kind === "phoneNumber" && phoneNumber) {
       return {
         kind: "phoneNumber",
         phoneNumber: assertNotNullOrUndefined({ phoneNumber }, "value"),
         rawId: assertNotNullOrUndefined({ phoneNumber: serializedIdentifier }, "rawId"),
       };
     }
-    if (kind == "microsoftTeamsUser" && microsoftTeamsUser) {
+    if (kind === "microsoftTeamsUser" && microsoftTeamsUser) {
       return {
         kind: "microsoftTeamsUser",
         microsoftTeamsUserId: assertNotNullOrUndefined({ microsoftTeamsUser }, "userId"),
