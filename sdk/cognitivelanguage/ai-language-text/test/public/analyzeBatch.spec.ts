@@ -52,17 +52,20 @@ import {
 import { getDocIDsFromState } from "../../src/lro";
 import { windows365ArticlePart1, windows365ArticlePart2 } from "./inputs";
 
-const tempIgnoredProps1 = {
+const FIXME1 = {
   // FIXME: remove this check when the service updates its message
   excludedAdditionalProps: ["message"],
 };
 
-const tempIgnoredProps2 = {
+const FIXME2 = {
   // FIXME: remove this check when the service returns warnings in document results, see https://dev.azure.com/msazure/Cognitive%20Services/_workitems/edit/15772270
   excludedAdditionalProps: ["warnings"],
 };
 
-matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
+// FIXME: add AAD
+const FIXME3: AuthMethod[] = ["APIKey"];
+
+matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
     let recorder: Recorder;
     let client: TextAnalysisClient;
@@ -370,7 +373,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
             await assertActionResults(
               await poller.pollUntilDone(),
               expectation30,
-              tempIgnoredProps2
+              FIXME2
             );
           });
 
@@ -392,12 +395,12 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
             await assertActionResults(
               await poller.pollUntilDone(),
               expectation31,
-              tempIgnoredProps2
+              FIXME2
             );
           });
         });
 
-        // Re-enable once we start testing on prod
+        // FIXME: Re-enable once we start testing on prod
         describe.skip("custom", function () {
           it("entity recognition", async function () {
             const docs = [
@@ -626,7 +629,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
             await assertActionResults(
               await poller.pollUntilDone(),
               expectation21,
-              tempIgnoredProps1
+              FIXME1
             );
           });
         });
@@ -684,7 +687,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionResults(await poller.pollUntilDone(), expectation10, tempIgnoredProps1);
+          await assertActionResults(await poller.pollUntilDone(), expectation10, FIXME1);
         });
 
         it("all documents with errors and multiple actions", async function () {
@@ -718,7 +721,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionResults(await poller.pollUntilDone(), expectation11, tempIgnoredProps1);
+          await assertActionResults(await poller.pollUntilDone(), expectation11, FIXME1);
         });
 
         it("output order is same as the input's one with multiple actions", async function () {
@@ -920,7 +923,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionResults(await poller.pollUntilDone(), expectation16, tempIgnoredProps1);
+          await assertActionResults(await poller.pollUntilDone(), expectation16, FIXME1);
         });
 
         it("paged results with custom page size", async function () {
