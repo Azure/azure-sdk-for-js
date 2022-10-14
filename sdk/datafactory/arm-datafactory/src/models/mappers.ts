@@ -5620,27 +5620,6 @@ export const SapTablePartitionSettings: coreClient.CompositeMapper = {
   }
 };
 
-export const StoredProcedureParameter: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StoredProcedureParameter",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "any"
-        }
-      },
-      type: {
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const SqlPartitionSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5883,6 +5862,27 @@ export const ImportSettings: coreClient.CompositeMapper = {
       type: {
         serializedName: "type",
         required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const StoredProcedureParameter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StoredProcedureParameter",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "any"
+        }
+      },
+      type: {
+        serializedName: "type",
         type: {
           name: "String"
         }
@@ -6822,7 +6822,7 @@ export const SynapseSparkJobReference: coreClient.CompositeMapper = {
         serializedName: "referenceName",
         required: true,
         type: {
-          name: "String"
+          name: "any"
         }
       }
     }
@@ -14648,6 +14648,12 @@ export const AzureSynapseArtifactsLinkedService: coreClient.CompositeMapper = {
         type: {
           name: "any"
         }
+      },
+      workspaceResourceId: {
+        serializedName: "typeProperties.workspaceResourceId",
+        type: {
+          name: "any"
+        }
       }
     }
   }
@@ -21697,10 +21703,7 @@ export const SqlSink: coreClient.CompositeMapper = {
       storedProcedureParameters: {
         serializedName: "storedProcedureParameters",
         type: {
-          name: "Dictionary",
-          value: {
-            type: { name: "Composite", className: "StoredProcedureParameter" }
-          }
+          name: "any"
         }
       },
       storedProcedureTableTypeParameterName: {
@@ -21769,10 +21772,7 @@ export const SqlServerSink: coreClient.CompositeMapper = {
       storedProcedureParameters: {
         serializedName: "storedProcedureParameters",
         type: {
-          name: "Dictionary",
-          value: {
-            type: { name: "Composite", className: "StoredProcedureParameter" }
-          }
+          name: "any"
         }
       },
       storedProcedureTableTypeParameterName: {
@@ -21841,10 +21841,7 @@ export const AzureSqlSink: coreClient.CompositeMapper = {
       storedProcedureParameters: {
         serializedName: "storedProcedureParameters",
         type: {
-          name: "Dictionary",
-          value: {
-            type: { name: "Composite", className: "StoredProcedureParameter" }
-          }
+          name: "any"
         }
       },
       storedProcedureTableTypeParameterName: {
@@ -21913,10 +21910,7 @@ export const SqlMISink: coreClient.CompositeMapper = {
       storedProcedureParameters: {
         serializedName: "storedProcedureParameters",
         type: {
-          name: "Dictionary",
-          value: {
-            type: { name: "Composite", className: "StoredProcedureParameter" }
-          }
+          name: "any"
         }
       },
       storedProcedureTableTypeParameterName: {
@@ -24746,6 +24740,28 @@ export const SynapseSparkJobDefinitionActivity: coreClient.CompositeMapper = {
           }
         }
       },
+      pythonCodeReference: {
+        serializedName: "typeProperties.pythonCodeReference",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "any"
+            }
+          }
+        }
+      },
+      filesV2: {
+        serializedName: "typeProperties.filesV2",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "any"
+            }
+          }
+        }
+      },
       targetBigDataPool: {
         serializedName: "typeProperties.targetBigDataPool",
         type: {
@@ -25422,10 +25438,7 @@ export const SqlSource: coreClient.CompositeMapper = {
       storedProcedureParameters: {
         serializedName: "storedProcedureParameters",
         type: {
-          name: "Dictionary",
-          value: {
-            type: { name: "Composite", className: "StoredProcedureParameter" }
-          }
+          name: "any"
         }
       },
       isolationLevel: {
@@ -25476,10 +25489,7 @@ export const SqlServerSource: coreClient.CompositeMapper = {
       storedProcedureParameters: {
         serializedName: "storedProcedureParameters",
         type: {
-          name: "Dictionary",
-          value: {
-            type: { name: "Composite", className: "StoredProcedureParameter" }
-          }
+          name: "any"
         }
       },
       produceAdditionalTypes: {
@@ -25530,10 +25540,7 @@ export const AmazonRdsForSqlServerSource: coreClient.CompositeMapper = {
       storedProcedureParameters: {
         serializedName: "storedProcedureParameters",
         type: {
-          name: "Dictionary",
-          value: {
-            type: { name: "Composite", className: "StoredProcedureParameter" }
-          }
+          name: "any"
         }
       },
       produceAdditionalTypes: {
@@ -25584,10 +25591,7 @@ export const AzureSqlSource: coreClient.CompositeMapper = {
       storedProcedureParameters: {
         serializedName: "storedProcedureParameters",
         type: {
-          name: "Dictionary",
-          value: {
-            type: { name: "Composite", className: "StoredProcedureParameter" }
-          }
+          name: "any"
         }
       },
       produceAdditionalTypes: {
@@ -25638,10 +25642,7 @@ export const SqlMISource: coreClient.CompositeMapper = {
       storedProcedureParameters: {
         serializedName: "storedProcedureParameters",
         type: {
-          name: "Dictionary",
-          value: {
-            type: { name: "Composite", className: "StoredProcedureParameter" }
-          }
+          name: "any"
         }
       },
       produceAdditionalTypes: {
