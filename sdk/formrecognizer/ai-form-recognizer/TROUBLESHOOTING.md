@@ -31,7 +31,7 @@ Build model errors usually occur when trying to build a custom model. The most c
 #### Invalid training data set
 
 This error indicates that the provided data set does not match the training data requirements.
-Learn more about building a training data set, [here](https://aka.ms/customModelV3).
+Learn more about building a training data set [on Microsoft Learn by following this link](https://aka.ms/customModelV3).
 
 Example error below:
 
@@ -94,16 +94,16 @@ Seeing a "Generic error" returned from the SDK is most often caused by heavy loa
 
 Example error:
 
-```bash
+```
 (3014) Generic error during training.
 Invalid model created with ID=<model ID>
 ```
 
 ### Unexpected time to build a custom model
 
-It is common to have a longer completion time than what is expected when building a custom model using the `neural` build mode with `DocumentModelAdministrationClient#beginBuildDocumentModel()`. Depending on the service load you can usually expect it to take ~10min.
+It is common to have a longer completion time than what is expected when building a custom model using the `neural` build mode with `DocumentModelAdministrationClient#beginBuildDocumentModel()`.
 
-For simpler use-cases, you can use `template` build mode which uses a different model building algorithm that takes less time (typically a few seconds to build). See more about `template` custom models [here](https://aka.ms/custom-template-models). To see more information about `neural` custom models (these models use deep learning to train and build), see documentation [here](https://aka.ms/custom-neural-models).
+For simpler use-cases, you can use `template` build mode which uses a different model building algorithm that takes less time. See more about `template` custom models [here](https://aka.ms/custom-template-models). To see more information about `neural` custom models (these models use deep learning to train and build), see documentation [here](https://aka.ms/custom-neural-models).
 
 ### Form Recognizer errors
 
