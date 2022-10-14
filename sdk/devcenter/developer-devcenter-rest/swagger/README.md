@@ -1,8 +1,5 @@
 ## C
 
-These settings apply only when `--csharp` is specified on the command line.
-Please also specify `--csharp-sdks-folder=<path to "SDKs" directory of your azure-sdk-for-net clone>`.
-
 ```yaml
 package-name: "@azure-rest/developer-devcenter"
 title: "Azure DevCenter"
@@ -22,9 +19,9 @@ use-extension:
   "@autorest/typescript": "6.0.0-rc.1"
 
 input-file:
-  -  C:\Users\chrismiller\source\repos\azure-devtest-center\src\sdk\specification\devcenter\data-plane\Microsoft.DevCenter/preview/2022-03-01-preview/devcenter.json
-  -  C:\Users\chrismiller\source\repos\azure-devtest-center\src\sdk\specification\devcenter\data-plane\Microsoft.DevCenter/preview/2022-03-01-preview/devbox.json
-  -  C:\Users\chrismiller\source\repos\azure-devtest-center\src\sdk\specification\devcenter\data-plane\Microsoft.DevCenter/preview/2022-03-01-preview/environments.json
+  - https://github.com/Azure/azure-rest-api-specs/blob/5a024c0e76424caaca36166ba41cee6f3f1f8add/specification/devcenter/data-plane/Microsoft.DevCenter/preview/2022-03-01-preview/devcenter.json
+  - https://github.com/Azure/azure-rest-api-specs/blob/5a024c0e76424caaca36166ba41cee6f3f1f8add/specification/devcenter/data-plane/Microsoft.DevCenter/preview/2022-03-01-preview/devbox.json
+  - https://github.com/Azure/azure-rest-api-specs/blob/5a024c0e76424caaca36166ba41cee6f3f1f8add/specification/devcenter/data-plane/Microsoft.DevCenter/preview/2022-03-01-preview/environments.json
 
 public-clients: true
 ```

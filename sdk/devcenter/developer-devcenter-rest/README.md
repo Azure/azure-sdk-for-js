@@ -1,6 +1,11 @@
 # AzureDevCenter client library for JavaScript
 
-Azure DevCenter Client
+The Azure DevCenter library provides access to manage resources for Microsoft Dev Box and Azure Deployment Environments. This package enables managing developer machines and environments in Azure.
+
+Use the package for Azure DevCenter to:
+> Create, access, manage, and delete Dev Box resources
+> Create, deploy, manage, and delete Environment resources
+
 
 **Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
 
@@ -20,6 +25,8 @@ Key links:
 ### Prerequisites
 
 - You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
+- You must have [configured](https://learn.microsoft.com/azure/dev-box/quickstart-configure-dev-box-service) a DevCenter, Project, Network Connection, Dev Box Definition, and Pool before you can create Dev Boxes 
+- You must have [configured](https://learn.microsoft.com/azure/deployment-environments/) a DevCenter, Project, Catalog, and Environment Type before you can create Environments
 
 ### Install the `@azure-rest/developer-devcenter` package
 
@@ -29,7 +36,7 @@ Install the AzureDevCenter client REST client library for JavaScript with `npm`:
 npm install @azure-rest/developer-devcenter
 ```
 
-### Create and authenticate a `AzureDevCenter`
+### Create and authenticate to the Azure DevCenter service
 
 To use an [Azure Active Directory (AAD) token credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token),
 provide an instance of the desired credential type obtained from the
@@ -44,6 +51,17 @@ can be used to authenticate the client.
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
 AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
+## Key Concepts
+
+### REST Client
+
+This client is one of our REST clients. We highly recommend you read how to use a REST client [here](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md).
+
+### DevCenter Concepts
+Dev Boxes refer to managed developer machines running in Azure. Dev Boxes are provisioned in Pools, which define the network and image used for a Dev Box.
+
+Environments refer to templated developer environments, which combine a template (Catalog Item) and parameters, as well as an Environment Type which defines permissions and where the resources are deployed.
+
 ## Troubleshooting
 
 ### Logging
@@ -57,3 +75,4 @@ setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+
