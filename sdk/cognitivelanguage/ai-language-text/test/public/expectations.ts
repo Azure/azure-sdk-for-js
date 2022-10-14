@@ -5320,12 +5320,12 @@ export const expectation26: AnalyzeBatchResult[] = [
         id: "0",
         warnings: [],
         sentiment: "neutral",
-        confidenceScores: { positive: 0.04, neutral: 0.76, negative: 0.2 },
+        confidenceScores: { positive: 0.46, neutral: 0.5, negative: 0.05 },
         sentences: [
           {
             text: "Patient does not suffer from high blood pressure.",
             sentiment: "neutral",
-            confidenceScores: { positive: 0.04, neutral: 0.76, negative: 0.2 },
+            confidenceScores: { positive: 0.46, neutral: 0.5, negative: 0.05 },
             offset: 0,
             length: 49,
             opinions: [],
@@ -5336,12 +5336,12 @@ export const expectation26: AnalyzeBatchResult[] = [
         id: "1",
         warnings: [],
         sentiment: "neutral",
-        confidenceScores: { positive: 0, neutral: 0.99, negative: 0.01 },
+        confidenceScores: { positive: 0.01, neutral: 0.99, negative: 0 },
         sentences: [
           {
             text: "Prescribed 100mg ibuprofen, taken twice daily.",
             sentiment: "neutral",
-            confidenceScores: { positive: 0, neutral: 0.99, negative: 0.01 },
+            confidenceScores: { positive: 0.01, neutral: 0.99, negative: 0 },
             offset: 0,
             length: 46,
             opinions: [],
