@@ -35,7 +35,7 @@ Learn more about building a training data set [on Microsoft Learn by following t
 
 Example error below:
 
-```bash
+```
  RestError: Invalid request.
   {
    "name": "RestError",
@@ -65,7 +65,7 @@ This error points to missing permissions on the blob storage SAS URL for the For
 
 Example error:
 
-```bash
+```
  RestError: Invalid argument.
   {
    "name": "RestError",
