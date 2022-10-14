@@ -370,11 +370,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(
-              await poller.pollUntilDone(),
-              expectation30,
-              FIXME2
-            );
+            await assertActionResults(await poller.pollUntilDone(), expectation30, FIXME2);
           });
 
           it("abstractive summarization with maxSentenceCont", async function () {
@@ -392,11 +388,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(
-              await poller.pollUntilDone(),
-              expectation31,
-              FIXME2
-            );
+            await assertActionResults(await poller.pollUntilDone(), expectation31, FIXME2);
           });
         });
 
@@ -626,11 +618,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(
-              await poller.pollUntilDone(),
-              expectation21,
-              FIXME1
-            );
+            await assertActionResults(await poller.pollUntilDone(), expectation21, FIXME1);
           });
         });
 
