@@ -25,7 +25,7 @@ dotenv.config();
 const apiKey = process.env["API_KEY"] || "";
 const endpoint = process.env["ENDPOINT"] || "";
 const apiVersion = "v1.1";
-const timeSeriesDataPath = "./src/example-data/request-data.csv";
+const timeSeriesDataPath = "./example-data/request-data.csv";
 
 function read_series_from_file(path: string): Array<TimeSeriesPoint> {
   let result = Array<TimeSeriesPoint>();
