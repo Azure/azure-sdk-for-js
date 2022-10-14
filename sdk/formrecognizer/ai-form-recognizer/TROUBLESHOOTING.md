@@ -36,25 +36,27 @@ Learn more about building a training data set, [here](https://aka.ms/customModel
 Example error below:
 
 ```bash
-RestError: Invalid argument.
+ RestError: Invalid request.
   {
-    "name": "RestError",
-    "code": "InvalidArgument",
-    "statusCode": 400,
-    .
-    .
-    .
-    "details": {
+   "name": "RestError",
+   "code": "InvalidRequest",
+   "statusCode": 400,
+   .
+   .
+   .
+   .
+   "details": {
      "error": {
-       "code": "InvalidArgument",
-       "message": "Invalid argument.",
+       "code": "InvalidRequest",
+       "message": "Invalid request.",
        "innererror": {
-         "code": "InvalidParameter",
-         "message": "The parameter ContainerUrl is invalid: Url is null or whitespace"
+         "code": "InvalidContent",
+         "message": "The file is corrupted or format is unsupported. Refer to documentation for the list of supported formats."
        }
      }
-    }
-  }
+   },
+   "message": "Invalid request."
+ }
 ```
 
 #### Invalid SAS URL
