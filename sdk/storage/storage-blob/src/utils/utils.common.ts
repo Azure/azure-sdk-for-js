@@ -1250,3 +1250,14 @@ export function* ExtractPageRangeInfoItems(
     };
   }
 }
+
+/**
+ * Escape the blobName but keep path separator ('/').
+ */
+export function EscapePath(blobName: string): string {
+  const split = blobName.split("/");
+  for (let i = 0; i < split.length; i++) {
+    split[i] = encodeURIComponent(split[i]);
+  }
+  return split.join("/");
+}
