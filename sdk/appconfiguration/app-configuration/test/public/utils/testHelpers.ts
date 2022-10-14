@@ -7,17 +7,17 @@ import {
   ListConfigurationSettingPage,
   ListRevisionsPage,
 } from "../../../src";
-import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import { TokenCredential } from "@azure/identity";
 import {
   Recorder,
-  RecorderEnvironmentSetup,
   env,
   isPlaybackMode,
-  record,
+  RecorderStartOptions
 } from "@azure-tools/test-recorder";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RestError } from "@azure/core-rest-pipeline";
 import { assert } from "chai";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 let connectionStringNotPresentWarning = false;
 let tokenCredentialsNotPresentWarning = false;
@@ -27,24 +27,24 @@ export interface CredsAndEndpoint {
   endpoint: string;
 }
 
-export function startRecorder(that: Mocha.Context): Recorder {
-  const recorderEnvSetup: RecorderEnvironmentSetup = {
-    replaceableVariables: {
+export async function startRecorder(that: Mocha.Context): Promise<Recorder> {
+  const recorderStartOptions: RecorderStartOptions = {
+    envSetupForPlayback: {
       APPCONFIG_CONNECTION_STRING:
         "Endpoint=https://myappconfig.azconfig.io;Id=123456;Secret=123456",
       AZ_CONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_TENANT_ID: "azuretenantid",
-    },
-    customizationsOnRecordings: [],
-    queryParametersToSkip: [],
+    }
   };
-
-  return record(that, recorderEnvSetup);
+  
+  const recorder = new Recorder(that.currentTest);
+  await recorder.start(recorderStartOptions);
+  return recorder;
 }
 
-export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined {
+export function getTokenAuthenticationCredential(): CredsAndEndpoint {
   const requiredEnvironmentVariables = [
     "AZ_CONFIG_ENDPOINT",
     "AZURE_CLIENT_ID",
@@ -61,19 +61,20 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined
         console.log("Functional tests not running - set client identity variables to activate");
       }
 
-      return undefined;
+      throw new Error("Invalid value for " + name);
+
     }
   }
 
   return {
-    credential: new DefaultAzureCredential(),
+    credential: createTestCredential(),
     endpoint: env["AZ_CONFIG_ENDPOINT"]!,
   };
 }
 
 export function createAppConfigurationClientForTests<
   Options extends AppConfigurationClientOptions = AppConfigurationClientOptions
->(options?: Options): AppConfigurationClient | undefined {
+>(options?: Options): AppConfigurationClient {
   const connectionString = env["APPCONFIG_CONNECTION_STRING"];
 
   if (connectionString == null) {
@@ -83,7 +84,7 @@ export function createAppConfigurationClientForTests<
         "Functional tests not running - set APPCONFIG_CONNECTION_STRING to a valid AppConfig connection string to activate"
       );
     }
-    return undefined;
+    throw new Error("Invalid APPCONFIG_CONNECTION_STRING")
   }
 
   return new AppConfigurationClient(connectionString, options);

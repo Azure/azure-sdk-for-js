@@ -19,9 +19,9 @@ describe("AppConfigurationClient - SecretReference", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
 
-  beforeEach(function (this: Context) {
-    recorder = startRecorder(this);
-    client = createAppConfigurationClientForTests() || this.skip();
+  beforeEach(async function (this: Context) {
+    recorder = await startRecorder(this);
+    client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
   });
 
   afterEach(async function (this: Context) {
@@ -32,12 +32,12 @@ describe("AppConfigurationClient - SecretReference", () => {
     const getBaseSetting = (): ConfigurationSetting<SecretReferenceValue> => {
       return {
         value: {
-          secretId: `https://vault_name.vault.azure.net/secrets/${recorder.getUniqueName(
-            "name-2"
+          secretId: `https://vault_name.vault.azure.net/secrets/${recorder.variable(
+            "name-2", `name-2${Math.floor(Math.random() * 1000)}`
           )}`,
         },
         isReadOnly: false,
-        key: recorder.getUniqueName("name-3"),
+        key: recorder.variable("name-3", `name-3${Math.floor(Math.random() * 1000)}`),
         label: "label-s",
         contentType: secretReferenceContentType,
       };
@@ -89,8 +89,8 @@ describe("AppConfigurationClient - SecretReference", () => {
         key: baseSetting.key,
         label: baseSetting.label,
       });
-      const newSecretId = `https://vault_name.vault.azure.net/secrets/${recorder.getUniqueName(
-        "name-4"
+      const newSecretId = `https://vault_name.vault.azure.net/secrets/${recorder.variable(
+        "name-4", `name-4${Math.floor(Math.random() * 1000)}`
       )}`;
 
       assertSecretReferenceProps(getResponse, baseSetting);
@@ -118,8 +118,8 @@ describe("AppConfigurationClient - SecretReference", () => {
         ...baseSetting,
         key: `${baseSetting.key}-2`,
       };
-      const newSecretId = `https://vault_name.vault.azure.net/secrets/${recorder.getUniqueName(
-        "name-5"
+      const newSecretId = `https://vault_name.vault.azure.net/secrets/${recorder.variable(
+        "name-5", `name-5${Math.floor(Math.random() * 1000)}`
       )}`;
       await client.addConfigurationSetting(secondSetting);
 
@@ -171,7 +171,7 @@ describe("AppConfigurationClient - SecretReference", () => {
       it(`Unexpected value ${value} as secret reference value`, async () => {
         const setting: ConfigurationSetting<SecretReferenceValue> = {
           contentType: secretReferenceContentType,
-          key: recorder.getUniqueName("name-1"),
+          key: recorder.variable("name-1", `name-1${Math.floor(Math.random() * 1000)}`),
           isReadOnly: false,
           value: { secretId: "id" },
         };

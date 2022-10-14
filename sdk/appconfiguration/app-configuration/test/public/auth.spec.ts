@@ -15,9 +15,9 @@ describe("Authentication", () => {
   let credsAndEndpoint: CredsAndEndpoint;
   let recorder: Recorder;
 
-  beforeEach(function (this: Context) {
-    recorder = startRecorder(this);
-    credsAndEndpoint = getTokenAuthenticationCredential() || this.skip();
+  beforeEach(async function (this: Context) {
+    recorder = await startRecorder(this);
+    credsAndEndpoint = getTokenAuthenticationCredential();
   });
 
   afterEach(async function () {
@@ -26,13 +26,14 @@ describe("Authentication", () => {
   it("token authentication works", async function () {
     const client = new AppConfigurationClient(
       credsAndEndpoint.endpoint,
-      credsAndEndpoint.credential
+      credsAndEndpoint.credential,
+      recorder.configureClientOptions({})
     );
 
     // it doesn't matter if any data comes in so long as we were
     // able to connect and call the service
     await client.addConfigurationSetting({
-      key: `token-authentication-test-${recorder.newDate("label-1").valueOf()}`,
+      key: `token-authentication-test-${recorder.variable("label-1", new Date().toString())}`,
       value: "hello",
     });
   });
