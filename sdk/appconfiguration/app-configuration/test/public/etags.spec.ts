@@ -18,9 +18,9 @@ describe("etags", () => {
   let key: string;
 
   beforeEach(async function (this: Context) {
-    recorder = startRecorder(this);
-    key = recorder.getUniqueName("etags");
-    client = createAppConfigurationClientForTests() || this.skip();
+    recorder = await startRecorder(this);
+    key = recorder.variable("etags", `etags${Math.floor(Math.random() * 1000)}`);
+    client = createAppConfigurationClientForTests(recorder.configureClientOptions({})) || this.skip();
     await client.addConfigurationSetting({
       key: key,
       value: "some value",

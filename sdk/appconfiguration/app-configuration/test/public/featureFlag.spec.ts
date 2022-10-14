@@ -22,8 +22,8 @@ describe("AppConfigurationClient - FeatureFlag", () => {
     let addResponse: AddConfigurationSettingResponse;
 
     beforeEach(async function (this: Context) {
-      recorder = startRecorder(this);
-      client = createAppConfigurationClientForTests() || this.skip();
+      recorder = await startRecorder(this);
+      client = createAppConfigurationClientForTests(recorder.configureClientOptions({})) || this.skip();
       baseSetting = {
         value: {
           conditions: {
@@ -57,7 +57,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
           displayName: "for display",
         },
         isReadOnly: false,
-        key: `${featureFlagPrefix + recorder.getUniqueName("name-1")}`,
+        key: `${featureFlagPrefix + recorder.variable("name-1", `name-1${Math.floor(Math.random() * 1000)}`)}`,
         contentType: featureFlagContentType,
         label: "label-1",
       };
@@ -191,11 +191,11 @@ describe("AppConfigurationClient - FeatureFlag", () => {
     let recorder: Recorder;
     let featureFlag: ConfigurationSetting<FeatureFlagValue>;
     beforeEach(async function (this: Context) {
-      recorder = startRecorder(this);
-      client = createAppConfigurationClientForTests() || this.skip();
+      recorder = await startRecorder(this);
+      client = createAppConfigurationClientForTests(recorder.configureClientOptions({})) || this.skip();
       featureFlag = {
         contentType: featureFlagContentType,
-        key: `${featureFlagPrefix}${recorder.getUniqueName("name-1")}`,
+        key: `${featureFlagPrefix}${recorder.variable("name-1", `name-1${Math.floor(Math.random() * 1000)}`)}`,
         isReadOnly: false,
         value: { conditions: { clientFilters: [] }, enabled: true },
       };
