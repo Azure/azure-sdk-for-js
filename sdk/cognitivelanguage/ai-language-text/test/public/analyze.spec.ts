@@ -36,7 +36,7 @@ const testDataEs = [
 ];
 
 matrix([FIXME1] as const, async (authMethod: AuthMethod) => {
-  describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
+  describe.only(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
     let recorder: Recorder;
     let client: TextAnalysisClient;
 
@@ -749,6 +749,46 @@ matrix([FIXME1] as const, async (authMethod: AuthMethod) => {
             statusCode: 400,
             messagePattern: /Max 5 records are permitted/,
           });
+        });
+      });
+
+      describe.only("#Dynamic Classification", function () {
+        it("client throws on empty list", async function () {
+          return assert.isRejected(
+            client.analyze(AnalyzeActionNames.DynamicClassification, []),
+            /non-empty array/
+          );
+        });
+
+        it("client accepts string[] and language", async function () {
+          const results = await client.analyze(
+            AnalyzeActionNames.DynamicClassification,
+            testDataEn,
+            "en",
+            {
+              categories: ["Travel", "Weather", "Location"],
+              classificationType: "Single",
+            }
+          );
+          assert.equal(results.length, testDataEn.length);
+          assertAllSuccess(results);
+        });
+
+        it.only("service errors on unsupported language", async function () {
+          const [result] = await client.analyze(
+            AnalyzeActionNames.DynamicClassification,
+            ["This is some text, but it doesn't matter."],
+            "notalanguage",
+            {
+              categories: ["Travel", "Weather", "Location"],
+              classificationType: "Single",
+            }
+          );
+
+          if (result.error === undefined) {
+            assert.fail("Expected an error from the service");
+          }
+          assert.equal(result.error.code, KnownTextAnalysisErrorCode.UnsupportedLanguageCode);
         });
       });
 
