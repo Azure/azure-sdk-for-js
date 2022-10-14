@@ -52,11 +52,13 @@ async function getChecks(dir: string) {
   const checks = {
     isPrivate: false,
     srcPresent: false,
+    srcIndexPresent: false,
     version: "0",
     packageName: "",
   };
 
   checks.srcPresent = await fileExists(path.join(dir, "src"));
+  checks.srcIndexPresent = await fileExists(path.join(dir, "src", "index.ts"));
   try {
     const packageJson = JSON.parse(await readFile(path.join(dir, "package.json"), "utf8"));
     checks.isPrivate = packageJson.private === true;
@@ -95,6 +97,10 @@ async function executeTypedoc(serviceDir: string) {
       continue;
     } else if (!checks.srcPresent) {
       console.log("...SKIPPING Since src folder could not be found.....");
+      continue;
+    } else if (!checks.srcIndexPresent) {
+      // TypeDoc now requires an explicit entry point.
+      console.error("...SKIPPING Since project is missing src/index.ts...");
       continue;
     } else {
       const artifactName = checks.packageName.replace("@", "").replace("/", "-");
