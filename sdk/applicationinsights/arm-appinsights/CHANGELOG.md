@@ -1,6 +1,6 @@
 # Release History
 
-## 5.0.0-beta.6 (Unreleased)
+## 5.0.0-beta.7 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 5.0.0-beta.6 (2022-10-08)
+
+**Bugs Fixed**
+
+  -  revert credential scopes
 
 ## 5.0.0-beta.5 (2022-09-30)
 

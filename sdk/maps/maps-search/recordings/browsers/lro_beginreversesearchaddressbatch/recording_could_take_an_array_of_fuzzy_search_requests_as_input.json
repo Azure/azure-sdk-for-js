@@ -19,7 +19,7 @@
         "Sec-Fetch-Site": "same-site",
         "subscription-key": "azure_maps_subscription_key",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "91add54a-8fd6-4e31-a140-971aba2ca4e2",
+        "x-ms-client-request-id": "5e4c46b6-8dab-4af9-9534-74c8ef20146f",
         "x-ms-useragent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
       },
       "RequestBody": {
@@ -39,25 +39,25 @@
       "ResponseHeaders": {
         "Content-Length": "2",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 16 Sep 2022 10:56:10 GMT",
-        "Location": "https://atlas.microsoft.com/search/address/reverse/batch/028255f1-e911-4a81-9f64-35665028bacd?api-version=1.0",
+        "Date": "Thu, 06 Oct 2022 02:39:00 GMT",
+        "Location": "https://atlas.microsoft.com/search/address/reverse/batch/194f25e5-819f-40d8-b480-c4a5908395c4?api-version=1.0",
+        "Retry-After": "120",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: BE1B3579589F46C79C17A1AAE96DA215 Ref B: SG2EDGE2315 Ref C: 2022-09-16T10:56:10Z"
+        "X-MSEdge-Ref": "Ref A: FDBADC147240446E8150021D30345A73 Ref B: SG2EDGE3221 Ref C: 2022-10-06T02:39:00Z"
       },
       "ResponseBody": "\u0022\u0022"
     },
     {
-      "RequestUri": "https://atlas.microsoft.com/search/address/reverse/batch/028255f1-e911-4a81-9f64-35665028bacd?api-version=1.0",
+      "RequestUri": "https://atlas.microsoft.com/search/address/reverse/batch/194f25e5-819f-40d8-b480-c4a5908395c4?api-version=1.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
         "Accept-Language": "en-US",
         "Connection": "keep-alive",
-        "Content-Type": "application/json",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
@@ -67,20 +67,20 @@
         "Sec-Fetch-Site": "same-site",
         "subscription-key": "azure_maps_subscription_key",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "76207c15-cab7-4517-82a3-fe7ad0e5285f",
+        "x-ms-client-request-id": "9c11848e-22d7-42c1-aa9c-30ccb434efc6",
         "x-ms-useragent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Fri, 16 Sep 2022 10:56:10 GMT",
+        "Date": "Thu, 06 Oct 2022 02:39:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: 516E4199257E47839C403849A4F0176B Ref B: SG2EDGE2315 Ref C: 2022-09-16T10:56:11Z"
+        "X-MSEdge-Ref": "Ref A: BBBCBAC6C7E440B88849636EE10919EA Ref B: SG2EDGE3221 Ref C: 2022-10-06T02:39:01Z"
       },
       "ResponseBody": {
         "batchItems": [
@@ -88,7 +88,7 @@
             "statusCode": 200,
             "response": {
               "summary": {
-                "queryTime": 5,
+                "queryTime": 6,
                 "numResults": 1
               },
               "addresses": [
@@ -125,7 +125,7 @@
             "statusCode": 200,
             "response": {
               "summary": {
-                "queryTime": 4,
+                "queryTime": 5,
                 "numResults": 1
               },
               "addresses": [
@@ -160,7 +160,7 @@
             "statusCode": 200,
             "response": {
               "summary": {
-                "queryTime": 2,
+                "queryTime": 3,
                 "numResults": 1
               },
               "addresses": [

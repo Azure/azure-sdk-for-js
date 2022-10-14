@@ -23,7 +23,7 @@ export function listRegistrations(
   options: RegistrationQueryOptions = {}
 ): PagedAsyncIterableIterator<RegistrationDescription> {
   const { span, updatedOptions } = tracingClient.startSpan(
-    `NotificationHubsClientContext-${OPERATION_NAME}`,
+    `NotificationHubsClientContext.${OPERATION_NAME}`,
     options
   );
   try {
