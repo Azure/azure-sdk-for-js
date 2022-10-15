@@ -107,13 +107,17 @@ async function convertIotHubToEventHubsConnectionString(connectionString: string
   return new Promise((resolve, reject) => {
     receiver.on(ReceiverEvents.receiverError, (context) => {
       const error = context.receiver && context.receiver.error;
-      if (isAmqpError(error) && error.condition === "amqp:link:redirect") {
-        const hostname = error.info && error.info.hostname;
-        if (!hostname) {
+      if (isAmqpError(error) && error.condition === "amqp:link:redirect" && error.info) {
+        const hostname = error.info.hostname;
+        const iotAddress = error.info.address;
+        const regex = /:\d+\/(.*)\/\$management/i;
+        const regexResults = regex.exec(iotAddress);
+        if (!hostname || !regexResults) {
           reject(error);
         } else {
+          const eventHubName = regexResults[0];
           resolve(
-            `Endpoint=sb://${hostname}/;EntityPath=${iotHubName};SharedAccessKeyName=${SharedAccessKeyName};SharedAccessKey=${SharedAccessKey}`
+            `Endpoint=sb://${hostname}/;EntityPath=${eventHubName};SharedAccessKeyName=${SharedAccessKeyName};SharedAccessKey=${SharedAccessKey}`
           );
         }
       } else {
