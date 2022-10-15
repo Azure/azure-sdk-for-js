@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "770",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.0 core-rest-pipeline/1.9.2 Node/v18.6.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "47e5d68f-b4fc-46c2-8db2-f0052323c358"
+        "User-Agent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "8a073555-eda3-4e72-8b84-20e3e3a280af"
       },
       "RequestBody": {
         "kind": "EntityRecognition",
@@ -53,13 +53,13 @@
       },
       "StatusCode": 400,
       "ResponseHeaders": {
-        "apim-request-id": "c8ecb4b0-7c52-4946-8b35-7d9b5bb6e742",
+        "apim-request-id": "f522809a-7dcc-43e0-bc40-54b417a6aa9d",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 07 Sep 2022 03:50:01 GMT",
+        "Date": "Sat, 15 Oct 2022 02:20:58 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "5"
+        "x-envoy-upstream-service-time": "7"
       },
       "ResponseBody": {
         "error": {

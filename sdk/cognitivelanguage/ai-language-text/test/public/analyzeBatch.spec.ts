@@ -43,6 +43,11 @@ import {
 } from "./expectations";
 import { getDocIDsFromState } from "../../src/lro";
 
+const FIXME1 = {
+  // Remove this check when the service updates its message
+  excludedAdditionalProps: ["message"],
+};
+
 matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
     let recorder: Recorder;
@@ -483,7 +488,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation21);
+            await assertActionResults(await poller.pollUntilDone(), expectation21, FIXME1);
           });
         });
 
@@ -540,7 +545,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionResults(await poller.pollUntilDone(), expectation10);
+          await assertActionResults(await poller.pollUntilDone(), expectation10, FIXME1);
         });
 
         it("all documents with errors and multiple actions", async function () {
