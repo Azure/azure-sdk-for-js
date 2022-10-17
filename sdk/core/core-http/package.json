@@ -28,8 +28,8 @@
     "cloud"
   ],
   "main": "dist/index.js",
-  "module": "./dist-esm/src/coreHttp.js",
-  "types": "./types/latest/src/coreHttp.d.ts",
+  "module": "./dist-esm/src/index.js",
+  "types": "./types/latest/src/index.d.ts",
   "typesVersions": {
     "<3.6": {
       "types/latest/src/*": [
@@ -56,7 +56,7 @@
     "./dist-esm/src/util/inspect.js": "./dist-esm/src/util/inspect.browser.js"
   },
   "react-native": {
-    "./dist/index.js": "./dist-esm/src/coreHttp.js",
+    "./dist/index.js": "./dist-esm/src/index.js",
     "./dist-esm/src/util/xml.js": "./dist-esm/src/util/xml.js",
     "./dist-esm/src/policies/msRestUserAgentPolicy.js": "./dist-esm/src/policies/msRestUserAgentPolicy.native.js"
   },
