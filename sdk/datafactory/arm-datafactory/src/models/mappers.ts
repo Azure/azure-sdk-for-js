@@ -463,6 +463,12 @@ export const FactoryRepoConfiguration: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      disablePublish: {
+        serializedName: "disablePublish",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }

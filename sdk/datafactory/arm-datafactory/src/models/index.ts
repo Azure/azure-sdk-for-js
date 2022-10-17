@@ -697,6 +697,8 @@ export interface FactoryRepoConfiguration {
   rootFolder: string;
   /** Last commit id. */
   lastCommitId?: string;
+  /** Disable manual publish operation in ADF studio to favor automated publish. */
+  disablePublish?: boolean;
 }
 
 /** Definition of a single parameter for an entity. */

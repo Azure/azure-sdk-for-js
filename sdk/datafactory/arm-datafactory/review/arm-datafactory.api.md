@@ -2724,6 +2724,7 @@ export interface FactoryListResponse {
 export interface FactoryRepoConfiguration {
     accountName: string;
     collaborationBranch: string;
+    disablePublish?: boolean;
     lastCommitId?: string;
     repositoryName: string;
     rootFolder: string;
