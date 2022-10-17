@@ -16,6 +16,7 @@ import {
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
 import { AzureMonitorExporterOptions, AzureMonitorMetricExporter } from "../../index";
+import * as ai from "../../utils/constants/applicationinsights";
 import { StatsbeatCounter, StatsbeatResourceProvider, STATSBEAT_LANGUAGE } from "../constants";
 import { NetworkStatsbeat } from "./types";
 
@@ -65,7 +66,7 @@ export class StatsbeatMetrics {
   private _cikey: string;
   private _runtimeVersion: string;
   private _language: string;
-  private _version: string;
+  private _version: string | null;
   private _attach: string = "sdk";
 
   // Observable Gauges
@@ -83,6 +84,7 @@ export class StatsbeatMetrics {
 
   constructor(instrumentationKey: string, endpointUrl: string) {
     this._connectionString = this._getConnectionString(endpointUrl);
+    // this._connectionString = "InstrumentationKey=54091394-e60a-4f99-8888-d5cc6c995bfb;IngestionEndpoint=https://eastus2-3.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus2.livediagnostics.monitor.azure.com/";
     this._meterProvider = new MeterProvider();
 
     const exporterConfig: AzureMonitorExporterOptions = {
@@ -104,7 +106,7 @@ export class StatsbeatMetrics {
     this._endpointUrl = endpointUrl;
     this._runtimeVersion = process.version;
     this._language = STATSBEAT_LANGUAGE;
-    this._version = "WHATEVER";
+    this._version = ai.packageVersion;
     this._host = this._getShortHost(endpointUrl);
     this._cikey = instrumentationKey;
 
@@ -225,7 +227,8 @@ export class StatsbeatMetrics {
   // Observable gauge callbacks
   private _successCallback(observableResult: ObservableResult) {
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
-    observableResult.observe(counter.totalSuccesfulRequestCount, this._commonProperties);
+    let attributes = { ...this._commonProperties, ...this._networkProperties }
+    observableResult.observe(counter.totalSuccesfulRequestCount, attributes);
     counter.totalSuccesfulRequestCount = 0;
   }
 
@@ -237,9 +240,7 @@ export class StatsbeatMetrics {
     // Takes the failureCountGauge, value (of the counter), and attributes
     // create a unqiue counter based on statusCode as well
     // append statusCode to attributes so the newly created attributes are unique.
-    let attributes = Object.assign(this._networkProperties, this._commonProperties, {
-      statusCode: 0,
-    });
+    let attributes = { ...this._networkProperties, ...this._commonProperties, statusCode: 0 };
 
     // For each { statusCode -> count } mapping, call observe, passing the count and attributes that include the statusCode
     for (let i = 0; i < counter.totalFailedRequestCount.length; i++) {
@@ -255,9 +256,7 @@ export class StatsbeatMetrics {
 
   private _retryCallback(observableResult: BatchObservableResult) {
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
-    let attributes = Object.assign(this._networkProperties, this._commonProperties, {
-      statusCode: 0,
-    });
+    let attributes = { ...this._networkProperties, ...this._commonProperties, statusCode: 0 }
 
     for (let i = 0; i < counter.retryCount.length; i++) {
       attributes.statusCode = counter.retryCount[i].statusCode;
@@ -268,9 +267,7 @@ export class StatsbeatMetrics {
 
   private _throttleCallback(observableResult: BatchObservableResult) {
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
-    let attributes = Object.assign(this._networkProperties, this._commonProperties, {
-      statusCode: 0,
-    });
+    let attributes = {...this._networkProperties, ...this._commonProperties, statusCode: 0 }
 
     for (let i = 0; i < counter.throttleCount.length; i++) {
       attributes.statusCode = counter.throttleCount[i].statusCode;
@@ -285,9 +282,7 @@ export class StatsbeatMetrics {
 
   private _exceptionCallback(observableResult: BatchObservableResult) {
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
-    let attributes = Object.assign(this._networkProperties, this._commonProperties, {
-      exceptionType: "",
-    });
+    let attributes = { ...this._networkProperties, ...this._commonProperties, exceptionType: "" }
 
     for (let i = 0; i < counter.exceptionCount.length; i++) {
       attributes.exceptionType = counter.exceptionCount[i].exceptionType;
@@ -302,7 +297,8 @@ export class StatsbeatMetrics {
 
   private _durationCallback(observableResult: ObservableResult) {
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
-    observableResult.observe(counter.averageRequestExecutionTime, this._commonProperties);
+    let attributes = { ...this._networkProperties, ...this._commonProperties };
+    observableResult.observe(counter.averageRequestExecutionTime, attributes);
     counter.averageRequestExecutionTime = 0;
   }
 
@@ -435,7 +431,7 @@ export class StatsbeatMetrics {
   private _getConnectionString(endpointUrl: string) {
     let currentEndpoint = endpointUrl;
     for (let i = 0; i < EU_ENDPOINTS.length; i++) {
-      if (currentEndpoint.indexOf(EU_ENDPOINTS[i]) > -1) {
+      if (currentEndpoint.includes(EU_ENDPOINTS[i])) {
         return EU_CONNECTION_STRING;
       }
     }
