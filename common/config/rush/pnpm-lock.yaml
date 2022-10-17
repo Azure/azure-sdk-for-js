@@ -11614,12 +11614,12 @@ packages:
     dev: false
 
   file:projects/arm-datafactory.tgz:
-    resolution: {integrity: sha512-G4fblHqK1dTj3H63TU3rG+q4HL1r6yHIWUywZA1YQFrK4nKn1/CEQ4WREjLXgSIt6znfy0DkSy7CvqQPB5gFFw==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-aMHQvZbkrVvcEkSRICRbvLmSKLCY/gdSWanI6SjgZJX514Y+jwleTQmOxUseP1jtivJWErmjF9kZvcsPPLjFQg==, tarball: file:projects/arm-datafactory.tgz}
     name: '@rush-temp/arm-datafactory'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.18.11
+      '@microsoft/api-extractor': 7.32.0
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
