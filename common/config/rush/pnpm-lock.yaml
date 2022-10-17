@@ -254,6 +254,7 @@ specifiers:
   '@rush-temp/logger': file:./projects/logger.tgz
   '@rush-temp/maps-common': file:./projects/maps-common.tgz
   '@rush-temp/maps-route': file:./projects/maps-route.tgz
+  '@rush-temp/maps-route-1': file:./projects/maps-route-1.tgz
   '@rush-temp/maps-search': file:./projects/maps-search.tgz
   '@rush-temp/mixed-reality-authentication': file:./projects/mixed-reality-authentication.tgz
   '@rush-temp/mixed-reality-remote-rendering': file:./projects/mixed-reality-remote-rendering.tgz
@@ -569,6 +570,7 @@ dependencies:
   '@rush-temp/logger': file:projects/logger.tgz
   '@rush-temp/maps-common': file:projects/maps-common.tgz
   '@rush-temp/maps-route': file:projects/maps-route.tgz
+  '@rush-temp/maps-route-1': file:projects/maps-route-1.tgz
   '@rush-temp/maps-search': file:projects/maps-search.tgz
   '@rush-temp/mixed-reality-authentication': file:projects/mixed-reality-authentication.tgz
   '@rush-temp/mixed-reality-remote-rendering': file:projects/mixed-reality-remote-rendering.tgz
@@ -4080,7 +4082,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20221011
+      typescript: 4.9.0-dev.20221017
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -9095,8 +9097,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20221011:
-    resolution: {integrity: sha512-ONzbj3hrlLtfCGhDV7zP9FHoVgYo7+zRvphDqNNoqg2B3uqnxw57Ql/zPThRfepFmISdd/P03owzxeBUE48xqA==}
+  /typescript/4.9.0-dev.20221017:
+    resolution: {integrity: sha512-Aae7UmEtGS1U+pAvYpx8a466hlcXBX3moIdQ93lEAwriqrjidTeEP4JZ7UblTJWYZAlLu9g6LKfSe9X+6XR6GA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -17859,12 +17861,11 @@ packages:
       - supports-color
     dev: false
 
-  file:projects/maps-route.tgz:
-    resolution: {integrity: sha512-J4gKCa8vkSztZ+n+L+ydP3ua5GpTTaAm7JewOLcxvXJDUV4xj8+BLnphbnR2f+numTgFA9FK0kOIcKiIez6NKg==, tarball: file:projects/maps-route.tgz}
-    name: '@rush-temp/maps-route'
+  file:projects/maps-route-1.tgz:
+    resolution: {integrity: sha512-17h2f90eGRGSIox0pWnSp9aPzOBLUMyU+pQbxbkXlRAahjuCZyOiUyMy8a7Rvg93HDnRmJpa2l++FkTS4UgMYQ==, tarball: file:projects/maps-route-1.tgz}
+    name: '@rush-temp/maps-route-1'
     version: 0.0.0
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.1
@@ -17900,6 +17901,60 @@ packages:
       tslib: 2.4.0
       typedoc: 0.15.2
       typescript: 4.6.4
+      util: 0.12.4
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/maps-route.tgz:
+    resolution: {integrity: sha512-1D4m2HU6RRewG+CpunJucin6RIkiOP9clmHeZ2WxKkwuwXJAKeFWXsWewjiJwBZ8tftDyBXLsDokaxIjMBh6lw==, tarball: file:projects/maps-route.tgz}
+    name: '@rush-temp/maps-route'
+    version: 0.0.0
+    dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.10
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@types/chai': 4.3.1
+      '@types/chai-as-promised': 7.1.5
+      '@types/mocha': 7.0.2
+      '@types/node': 12.20.55
+      autorest: 3.6.2
+      chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      downlevel-dts: 0.8.0
+      eslint: 7.32.0
+      esm: 3.2.25
+      inherits: 2.0.4
+      karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.0
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.0
+      karma-json-preprocessor: 0.3.3_karma@6.4.0
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.4.0
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.0
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 2.2.1
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.4.0
+      typedoc: 0.15.2
+      typescript: 4.2.4
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
