@@ -92,7 +92,7 @@ export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): Search
 
   const result: SearchIndexerSkill[] = [];
   for (const skill of skills) {
-    switch (skill.odataType) {
+    switch (skill.odatatype) {
       case "#Microsoft.Skills.Util.ConditionalSkill":
         result.push(skill as ConditionalSkill);
         break;
@@ -172,7 +172,7 @@ export function convertCognitiveServicesAccountToPublic(
     return cognitiveServicesAccount;
   }
 
-  if (cognitiveServicesAccount.odataType === "#Microsoft.Azure.Search.DefaultCognitiveServices") {
+  if (cognitiveServicesAccount.odatatype === "#Microsoft.Azure.Search.DefaultCognitiveServices") {
     return cognitiveServicesAccount as DefaultCognitiveServicesAccount;
   } else {
     return cognitiveServicesAccount as CognitiveServicesAccountKey;
@@ -203,7 +203,7 @@ export function convertAnalyzersToGenerated(
 
   const result: LexicalAnalyzerUnion[] = [];
   for (const analyzer of analyzers) {
-    switch (analyzer.odataType) {
+    switch (analyzer.odatatype) {
       case "#Microsoft.Azure.Search.StandardAnalyzer":
       case "#Microsoft.Azure.Search.StopAnalyzer":
         result.push(analyzer);
@@ -234,7 +234,7 @@ export function convertAnalyzersToPublic(
 
   const result: LexicalAnalyzer[] = [];
   for (const analyzer of analyzers) {
-    switch (analyzer.odataType) {
+    switch (analyzer.odatatype) {
       case "#Microsoft.Azure.Search.StandardAnalyzer":
         result.push(analyzer as LuceneStandardAnalyzer);
         break;
@@ -335,7 +335,7 @@ export function convertTokenizersToGenerated(
 
   const result: LexicalTokenizerUnion[] = [];
   for (const tokenizer of tokenizers) {
-    if (tokenizer.odataType === "#Microsoft.Azure.Search.PatternTokenizer") {
+    if (tokenizer.odatatype === "#Microsoft.Azure.Search.PatternTokenizer") {
       result.push({
         ...tokenizer,
         flags: tokenizer.flags ? tokenizer.flags.join("|") : undefined,
@@ -356,7 +356,7 @@ export function convertTokenizersToPublic(
 
   const result: LexicalTokenizer[] = [];
   for (const tokenizer of tokenizers) {
-    if (tokenizer.odataType === "#Microsoft.Azure.Search.PatternTokenizer") {
+    if (tokenizer.odatatype === "#Microsoft.Azure.Search.PatternTokenizer") {
       result.push({
         ...tokenizer,
         flags: (tokenizer as PatternTokenizer).flags
@@ -387,7 +387,7 @@ export function convertSimilarityToPublic(
     return similarity;
   }
 
-  if (similarity.odataType === "#Microsoft.Azure.Search.ClassicSimilarity") {
+  if (similarity.odatatype === "#Microsoft.Azure.Search.ClassicSimilarity") {
     return similarity as ClassicSimilarity;
   } else {
     return similarity as BM25Similarity;
@@ -447,7 +447,7 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
     corsOptions: generatedIndex.corsOptions,
     suggesters: generatedIndex.suggesters,
     encryptionKey: convertEncryptionKeyToPublic(generatedIndex.encryptionKey),
-    eTag: generatedIndex.eTag,
+    etag: generatedIndex.etag,
     analyzers: convertAnalyzersToPublic(generatedIndex.analyzers),
     tokenizers: convertTokenizersToPublic(generatedIndex.tokenizers),
     tokenFilters: generatedIndex.tokenFilters as TokenFilter[],
@@ -513,7 +513,7 @@ export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearch
     corsOptions: index.corsOptions,
     suggesters: index.suggesters,
     encryptionKey: convertEncryptionKeyToGenerated(index.encryptionKey),
-    eTag: index.eTag,
+    etag: index.etag,
     tokenFilters: convertTokenFiltersToGenerated(index.tokenFilters),
     charFilters: index.charFilters,
     normalizers: index.normalizers,
@@ -537,7 +537,7 @@ export function generatedSkillsetToPublicSkillset(
       generatedSkillset.cognitiveServicesAccount
     ),
     knowledgeStore: generatedSkillset.knowledgeStore,
-    eTag: generatedSkillset.eTag,
+    etag: generatedSkillset.etag,
     encryptionKey: convertEncryptionKeyToPublic(generatedSkillset.encryptionKey),
   };
 }
@@ -548,7 +548,7 @@ export function publicSkillsetToGeneratedSkillset(
   return {
     name: skillset.name,
     description: skillset.description,
-    eTag: skillset.eTag,
+    etag: skillset.etag,
     skills: skillset.skills,
     cognitiveServicesAccount: convertCognitiveServicesAccountToGenerated(
       skillset.cognitiveServicesAccount
@@ -562,7 +562,7 @@ export function generatedSynonymMapToPublicSynonymMap(synonymMap: GeneratedSynon
   const result: SynonymMap = {
     name: synonymMap.name,
     encryptionKey: convertEncryptionKeyToPublic(synonymMap.encryptionKey),
-    eTag: synonymMap.eTag,
+    etag: synonymMap.etag,
     synonyms: [],
   };
 
@@ -578,7 +578,7 @@ export function publicSynonymMapToGeneratedSynonymMap(synonymMap: SynonymMap): G
     name: synonymMap.name,
     format: "solr",
     encryptionKey: convertEncryptionKeyToGenerated(synonymMap.encryptionKey),
-    eTag: synonymMap.eTag,
+    etag: synonymMap.etag,
     synonyms: synonymMap.synonyms.join("\n"),
   };
 
@@ -617,7 +617,7 @@ export function publicDataSourceToGeneratedDataSource(
     },
     container: dataSource.container,
     identity: dataSource.identity,
-    eTag: dataSource.eTag,
+    etag: dataSource.etag,
     dataChangeDetectionPolicy: dataSource.dataChangeDetectionPolicy,
     dataDeletionDetectionPolicy: dataSource.dataDeletionDetectionPolicy,
     encryptionKey: convertEncryptionKeyToGenerated(dataSource.encryptionKey),
@@ -634,7 +634,7 @@ export function generatedDataSourceToPublicDataSource(
     connectionString: dataSource.credentials.connectionString,
     container: dataSource.container,
     identity: convertSearchIndexerDataIdentityToPublic(dataSource.identity),
-    eTag: dataSource.eTag,
+    etag: dataSource.etag,
     dataChangeDetectionPolicy: convertDataChangeDetectionPolicyToPublic(
       dataSource.dataChangeDetectionPolicy
     ),
@@ -652,7 +652,7 @@ export function convertSearchIndexerDataIdentityToPublic(
     return searchIndexerDataIdentity;
   }
 
-  if (searchIndexerDataIdentity.odataType === "#Microsoft.Azure.Search.DataNoneIdentity") {
+  if (searchIndexerDataIdentity.odatatype === "#Microsoft.Azure.Search.DataNoneIdentity") {
     return searchIndexerDataIdentity as SearchIndexerDataNoneIdentity;
   } else {
     return searchIndexerDataIdentity as SearchIndexerDataUserAssignedIdentity;
@@ -667,7 +667,7 @@ export function convertDataChangeDetectionPolicyToPublic(
   }
 
   if (
-    dataChangeDetectionPolicy.odataType ===
+    dataChangeDetectionPolicy.odatatype ===
     "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy"
   ) {
     return dataChangeDetectionPolicy as HighWaterMarkChangeDetectionPolicy;

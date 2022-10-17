@@ -8,7 +8,7 @@
 import {
   SearchIndexerClient,
   AzureKeyCredential,
-  SearchIndexerDataSourceConnection,
+  SearchIndexerDataSourceConnection
 } from "@azure/search-documents";
 
 import * as dotenv from "dotenv";
@@ -29,9 +29,9 @@ async function createDataSourceConnection(
     description: "My Data Source 1",
     type: "cosmosdb",
     container: {
-      name: "my-container-1",
+      name: "my-container-1"
     },
-    connectionString,
+    connectionString
   };
   await client.createDataSourceConnection(dataSourceConnection);
 }
@@ -51,8 +51,7 @@ async function getAndUpdateDataSourceConnection(
 
 async function listDataSourceConnections(client: SearchIndexerClient) {
   console.log(`List DS Connection Operation`);
-  const listOfDataSourceConnections: Array<SearchIndexerDataSourceConnection> =
-    await client.listDataSourceConnections();
+  const listOfDataSourceConnections: Array<SearchIndexerDataSourceConnection> = await client.listDataSourceConnections();
 
   console.log(`List of Data Source Connections`);
   console.log(`*******************************`);
@@ -62,7 +61,7 @@ async function listDataSourceConnections(client: SearchIndexerClient) {
     console.log(`Connection String: ${ds.connectionString}`);
     console.log(`Data Change Detection Policy: ${ds.dataChangeDetectionPolicy}`);
     console.log(`Data Deletion Detection Policy: ${ds.dataDeletionDetectionPolicy}`);
-    console.log(`Etag: ${ds.eTag}`);
+    console.log(`Etag: ${ds.etag}`);
     console.log(`DataContainer`);
     console.log(`\tName: ${ds.container.name}`);
     console.log(`\tQuery: ${ds.container.query}`);

@@ -218,7 +218,7 @@ export type CreateAliasOptions = OperationOptions;
  */
 export interface CreateOrUpdateAliasOptions extends OperationOptions {
   /**
-   * If set to true, Resource will be deleted only if the eTag matches.
+   * If set to true, Resource will be deleted only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
 }
@@ -228,7 +228,7 @@ export interface CreateOrUpdateAliasOptions extends OperationOptions {
  */
 export interface DeleteAliasOptions extends OperationOptions {
   /**
-   * If set to true, Resource will be deleted only if the eTag matches.
+   * If set to true, Resource will be deleted only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
 }
@@ -275,7 +275,7 @@ export interface CreateOrUpdateIndexOptions extends OperationOptions {
    */
   allowIndexDowntime?: boolean;
   /**
-   * If set to true, Resource will be deleted only if the eTag matches.
+   * If set to true, Resource will be deleted only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
 }
@@ -305,7 +305,7 @@ export interface ResetSkillsOptions extends OperationOptions {
  */
 export interface CreateOrUpdateSkillsetOptions extends OperationOptions {
   /**
-   * If set to true, Resource will be updated only if the eTag matches.
+   * If set to true, Resource will be updated only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
   /**
@@ -323,7 +323,7 @@ export interface CreateOrUpdateSkillsetOptions extends OperationOptions {
  */
 export interface CreateOrUpdateSynonymMapOptions extends OperationOptions {
   /**
-   * If set to true, Resource will be updated only if the eTag matches.
+   * If set to true, Resource will be updated only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
 }
@@ -333,7 +333,7 @@ export interface CreateOrUpdateSynonymMapOptions extends OperationOptions {
  */
 export interface CreateorUpdateIndexerOptions extends OperationOptions {
   /**
-   * If set to true, Resource will be updated only if the eTag matches.
+   * If set to true, Resource will be updated only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
   /** Ignores cache reset requirements. */
@@ -347,7 +347,7 @@ export interface CreateorUpdateIndexerOptions extends OperationOptions {
  */
 export interface CreateorUpdateDataSourceConnectionOptions extends OperationOptions {
   /**
-   * If set to true, Resource will be updated only if the eTag matches.
+   * If set to true, Resource will be updated only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
   /**
@@ -361,7 +361,7 @@ export interface CreateorUpdateDataSourceConnectionOptions extends OperationOpti
  */
 export interface DeleteIndexOptions extends OperationOptions {
   /**
-   * If set to true, Resource will be deleted only if the eTag matches.
+   * If set to true, Resource will be deleted only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
 }
@@ -371,7 +371,7 @@ export interface DeleteIndexOptions extends OperationOptions {
  */
 export interface DeleteSkillsetOptions extends OperationOptions {
   /**
-   * If set to true, Resource will be deleted only if the eTag matches.
+   * If set to true, Resource will be deleted only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
 }
@@ -381,7 +381,7 @@ export interface DeleteSkillsetOptions extends OperationOptions {
  */
 export interface DeleteSynonymMapOptions extends OperationOptions {
   /**
-   * If set to true, Resource will be deleted only if the eTag matches.
+   * If set to true, Resource will be deleted only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
 }
@@ -391,7 +391,7 @@ export interface DeleteSynonymMapOptions extends OperationOptions {
  */
 export interface DeleteIndexerOptions extends OperationOptions {
   /**
-   * If set to true, Resource will be deleted only if the eTag matches.
+   * If set to true, Resource will be deleted only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
 }
@@ -401,7 +401,7 @@ export interface DeleteIndexerOptions extends OperationOptions {
  */
 export interface DeleteDataSourceConnectionOptions extends OperationOptions {
   /**
-   * If set to true, Resource will be deleted only if the eTag matches.
+   * If set to true, Resource will be deleted only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
 }
@@ -464,7 +464,7 @@ export interface PatternAnalyzer {
   /**
    * Polymorphic Discriminator
    */
-  odataType: "#Microsoft.Azure.Search.PatternAnalyzer";
+  odatatype: "#Microsoft.Azure.Search.PatternAnalyzer";
   /**
    * The name of the analyzer. It must only contain letters, digits, spaces, dashes or underscores,
    * can only start and end with alphanumeric characters, and is limited to 128 characters.
@@ -500,7 +500,7 @@ export interface CustomAnalyzer {
   /**
    * Polymorphic Discriminator
    */
-  odataType: "#Microsoft.Azure.Search.CustomAnalyzer";
+  odatatype: "#Microsoft.Azure.Search.CustomAnalyzer";
   /**
    * The name of the analyzer. It must only contain letters, digits, spaces, dashes or underscores,
    * can only start and end with alphanumeric characters, and is limited to 128 characters.
@@ -572,7 +572,7 @@ export interface PatternTokenizer {
   /**
    * Polymorphic Discriminator
    */
-  odataType: "#Microsoft.Azure.Search.PatternTokenizer";
+  odatatype: "#Microsoft.Azure.Search.PatternTokenizer";
   /**
    * The name of the tokenizer. It must only contain letters, digits, spaces, dashes or
    * underscores, can only start and end with alphanumeric characters, and is limited to 128
@@ -604,7 +604,7 @@ export interface LuceneStandardTokenizer {
   /**
    * Polymorphic Discriminator
    */
-  odataType:
+  odatatype:
     | "#Microsoft.Azure.Search.StandardTokenizerV2"
     | "#Microsoft.Azure.Search.StandardTokenizer";
   /**
@@ -628,7 +628,7 @@ export interface EdgeNGramTokenFilter {
   /**
    * Polymorphic Discriminator
    */
-  odataType:
+  odatatype:
     | "#Microsoft.Azure.Search.EdgeNGramTokenFilterV2"
     | "#Microsoft.Azure.Search.EdgeNGramTokenFilter";
   /**
@@ -660,7 +660,7 @@ export interface KeywordTokenizer {
   /**
    * Polymorphic Discriminator
    */
-  odataType:
+  odatatype:
     | "#Microsoft.Azure.Search.KeywordTokenizerV2"
     | "#Microsoft.Azure.Search.KeywordTokenizer";
   /**
@@ -703,7 +703,7 @@ export interface NGramTokenFilter {
   /**
    * Polymorphic Discriminator
    */
-  odataType:
+  odatatype:
     | "#Microsoft.Azure.Search.NGramTokenFilterV2"
     | "#Microsoft.Azure.Search.NGramTokenFilter";
   /**
@@ -965,7 +965,7 @@ export interface SynonymMap {
   /**
    * The ETag of the synonym map.
    */
-  eTag?: string;
+  etag?: string;
 }
 
 /**
@@ -1067,7 +1067,7 @@ export interface SearchIndex {
   /**
    * The ETag of the index.
    */
-  eTag?: string;
+  etag?: string;
 }
 
 /**
@@ -1118,7 +1118,7 @@ export interface SearchIndexer {
   /**
    * The ETag of the indexer.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * A description of an encryption key that you create in Azure Key Vault. This key is used to
    * provide an additional level of encryption-at-rest for your indexer definition (as well as
@@ -1204,7 +1204,7 @@ export interface SearchIndexerSkillset {
   /**
    * The ETag of the skillset.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * A description of an encryption key that you create in Azure Key Vault. This key is used to
    * provide an additional level of encryption-at-rest for your skillset definition when you want
@@ -1950,7 +1950,7 @@ export interface SearchIndexerDataSourceConnection {
   /**
    * The ETag of the DataSource.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * A description of an encryption key that you create in Azure Key Vault. This key is used to
    * provide an additional level of encryption-at-rest for your datasource definition when you want

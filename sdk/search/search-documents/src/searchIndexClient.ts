@@ -493,14 +493,14 @@ export class SearchIndexClient {
   ): Promise<SearchIndex> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-createOrUpdateIndex", options);
     try {
-      const eTag = options.onlyIfUnchanged ? index.eTag : undefined;
+      const etag = options.onlyIfUnchanged ? index.etag : undefined;
 
       const result = await this.client.indexes.createOrUpdate(
         index.name,
         utils.publicIndexToGeneratedIndex(index),
         {
           ...updatedOptions,
-          ifMatch: eTag,
+          ifMatch: etag,
         }
       );
       return utils.generatedIndexToPublicIndex(result);
@@ -529,14 +529,14 @@ export class SearchIndexClient {
       options
     );
     try {
-      const eTag = options.onlyIfUnchanged ? synonymMap.eTag : undefined;
+      const etag = options.onlyIfUnchanged ? synonymMap.etag : undefined;
 
       const result = await this.client.synonymMaps.createOrUpdate(
         synonymMap.name,
         utils.publicSynonymMapToGeneratedSynonymMap(synonymMap),
         {
           ...updatedOptions,
-          ifMatch: eTag,
+          ifMatch: etag,
         }
       );
       return utils.generatedSynonymMapToPublicSynonymMap(result);
@@ -563,12 +563,12 @@ export class SearchIndexClient {
     const { span, updatedOptions } = createSpan("SearchIndexClient-deleteIndex", options);
     try {
       const indexName: string = typeof index === "string" ? index : index.name;
-      const eTag =
-        typeof index === "string" ? undefined : options.onlyIfUnchanged ? index.eTag : undefined;
+      const etag =
+        typeof index === "string" ? undefined : options.onlyIfUnchanged ? index.etag : undefined;
 
       await this.client.indexes.delete(indexName, {
         ...updatedOptions,
-        ifMatch: eTag,
+        ifMatch: etag,
       });
     } catch (e: any) {
       span.setStatus({
@@ -593,16 +593,16 @@ export class SearchIndexClient {
     const { span, updatedOptions } = createSpan("SearchIndexClient-deleteSynonymMap", options);
     try {
       const synonymMapName: string = typeof synonymMap === "string" ? synonymMap : synonymMap.name;
-      const eTag =
+      const etag =
         typeof synonymMap === "string"
           ? undefined
           : options.onlyIfUnchanged
-          ? synonymMap.eTag
+          ? synonymMap.etag
           : undefined;
 
       await this.client.synonymMaps.delete(synonymMapName, {
         ...updatedOptions,
-        ifMatch: eTag,
+        ifMatch: etag,
       });
     } catch (e: any) {
       span.setStatus({
@@ -626,11 +626,11 @@ export class SearchIndexClient {
   ): Promise<SearchIndexAlias> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-createOrUpdateAlias", options);
     try {
-      const eTag = options.onlyIfUnchanged ? alias.eTag : undefined;
+      const etag = options.onlyIfUnchanged ? alias.etag : undefined;
 
       const result = await this.client.aliases.createOrUpdate(alias.name, alias, {
         ...updatedOptions,
-        ifMatch: eTag,
+        ifMatch: etag,
       });
       return result;
     } catch (e: any) {
@@ -681,12 +681,12 @@ export class SearchIndexClient {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteAlias", options);
     try {
       const aliasName: string = typeof alias === "string" ? alias : alias.name;
-      const eTag =
-        typeof alias === "string" ? undefined : options.onlyIfUnchanged ? alias.eTag : undefined;
+      const etag =
+        typeof alias === "string" ? undefined : options.onlyIfUnchanged ? alias.etag : undefined;
 
       await this.client.aliases.delete(aliasName, {
         ...updatedOptions,
-        ifMatch: eTag,
+        ifMatch: etag,
       });
     } catch (e: any) {
       span.setStatus({

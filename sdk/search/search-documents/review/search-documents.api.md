@@ -57,7 +57,7 @@ export type Answers = string;
 
 // @public
 export type AsciiFoldingTokenFilter = BaseTokenFilter & {
-    odataType: "#Microsoft.Azure.Search.AsciiFoldingTokenFilter";
+    odatatype: "#Microsoft.Azure.Search.AsciiFoldingTokenFilter";
     preserveOriginal?: boolean;
 };
 
@@ -101,7 +101,7 @@ export { AzureKeyCredential }
 
 // @public
 export type AzureMachineLearningSkill = BaseSearchIndexerSkill & {
-    odataType: "#Microsoft.Skills.Custom.AmlSkill";
+    odatatype: "#Microsoft.Skills.Custom.AmlSkill";
     scoringUri?: string;
     authenticationKey?: string;
     resourceId?: string;
@@ -113,41 +113,41 @@ export type AzureMachineLearningSkill = BaseSearchIndexerSkill & {
 // @public
 export interface BaseCharFilter {
     name: string;
-    odataType: "#Microsoft.Azure.Search.MappingCharFilter" | "#Microsoft.Azure.Search.PatternReplaceCharFilter";
+    odatatype: "#Microsoft.Azure.Search.MappingCharFilter" | "#Microsoft.Azure.Search.PatternReplaceCharFilter";
 }
 
 // @public
 export interface BaseCognitiveServicesAccount {
     description?: string;
-    odataType: "#Microsoft.Azure.Search.DefaultCognitiveServices" | "#Microsoft.Azure.Search.CognitiveServicesByKey";
+    odatatype: "#Microsoft.Azure.Search.DefaultCognitiveServices" | "#Microsoft.Azure.Search.CognitiveServicesByKey";
 }
 
 // @public
 export interface BaseDataChangeDetectionPolicy {
-    odataType: "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy" | "#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy";
+    odatatype: "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy" | "#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy";
 }
 
 // @public
 export interface BaseDataDeletionDetectionPolicy {
-    odataType: "#Microsoft.Azure.Search.SoftDeleteColumnDeletionDetectionPolicy";
+    odatatype: "#Microsoft.Azure.Search.SoftDeleteColumnDeletionDetectionPolicy";
 }
 
 // @public
 export interface BaseLexicalAnalyzer {
     name: string;
-    odataType: "#Microsoft.Azure.Search.CustomAnalyzer" | "#Microsoft.Azure.Search.PatternAnalyzer" | "#Microsoft.Azure.Search.StandardAnalyzer" | "#Microsoft.Azure.Search.StopAnalyzer";
+    odatatype: "#Microsoft.Azure.Search.CustomAnalyzer" | "#Microsoft.Azure.Search.PatternAnalyzer" | "#Microsoft.Azure.Search.StandardAnalyzer" | "#Microsoft.Azure.Search.StopAnalyzer";
 }
 
 // @public
 export interface BaseLexicalNormalizer {
     name: string;
-    odataType: "#Microsoft.Azure.Search.CustomNormalizer";
+    odatatype: "#Microsoft.Azure.Search.CustomNormalizer";
 }
 
 // @public
 export interface BaseLexicalTokenizer {
     name: string;
-    odataType: "#Microsoft.Azure.Search.ClassicTokenizer" | "#Microsoft.Azure.Search.EdgeNGramTokenizer" | "#Microsoft.Azure.Search.KeywordTokenizer" | "#Microsoft.Azure.Search.KeywordTokenizerV2" | "#Microsoft.Azure.Search.MicrosoftLanguageTokenizer" | "#Microsoft.Azure.Search.MicrosoftLanguageStemmingTokenizer" | "#Microsoft.Azure.Search.NGramTokenizer" | "#Microsoft.Azure.Search.PathHierarchyTokenizerV2" | "#Microsoft.Azure.Search.PatternTokenizer" | "#Microsoft.Azure.Search.StandardTokenizer" | "#Microsoft.Azure.Search.StandardTokenizerV2" | "#Microsoft.Azure.Search.UaxUrlEmailTokenizer";
+    odatatype: "#Microsoft.Azure.Search.ClassicTokenizer" | "#Microsoft.Azure.Search.EdgeNGramTokenizer" | "#Microsoft.Azure.Search.KeywordTokenizer" | "#Microsoft.Azure.Search.KeywordTokenizerV2" | "#Microsoft.Azure.Search.MicrosoftLanguageTokenizer" | "#Microsoft.Azure.Search.MicrosoftLanguageStemmingTokenizer" | "#Microsoft.Azure.Search.NGramTokenizer" | "#Microsoft.Azure.Search.PathHierarchyTokenizerV2" | "#Microsoft.Azure.Search.PatternTokenizer" | "#Microsoft.Azure.Search.StandardTokenizer" | "#Microsoft.Azure.Search.StandardTokenizerV2" | "#Microsoft.Azure.Search.UaxUrlEmailTokenizer";
 }
 
 // @public
@@ -160,7 +160,7 @@ export interface BaseScoringFunction {
 
 // @public
 export interface BaseSearchIndexerDataIdentity {
-    odataType: "#Microsoft.Azure.Search.DataNoneIdentity" | "#Microsoft.Azure.Search.DataUserAssignedIdentity";
+    odatatype: "#Microsoft.Azure.Search.DataNoneIdentity" | "#Microsoft.Azure.Search.DataUserAssignedIdentity";
 }
 
 // @public
@@ -169,14 +169,14 @@ export interface BaseSearchIndexerSkill {
     description?: string;
     inputs: InputFieldMappingEntry[];
     name?: string;
-    odataType: "#Microsoft.Skills.Util.ConditionalSkill" | "#Microsoft.Skills.Text.KeyPhraseExtractionSkill" | "#Microsoft.Skills.Vision.OcrSkill" | "#Microsoft.Skills.Vision.ImageAnalysisSkill" | "#Microsoft.Skills.Text.LanguageDetectionSkill" | "#Microsoft.Skills.Util.ShaperSkill" | "#Microsoft.Skills.Text.MergeSkill" | "#Microsoft.Skills.Text.EntityRecognitionSkill" | "#Microsoft.Skills.Text.SentimentSkill" | "#Microsoft.Skills.Text.V3.SentimentSkill" | "#Microsoft.Skills.Text.V3.EntityLinkingSkill" | "#Microsoft.Skills.Text.V3.EntityRecognitionSkill" | "#Microsoft.Skills.Text.PIIDetectionSkill" | "#Microsoft.Skills.Text.SplitSkill" | "#Microsoft.Skills.Text.CustomEntityLookupSkill" | "#Microsoft.Skills.Text.TranslationSkill" | "#Microsoft.Skills.Util.DocumentExtractionSkill" | "#Microsoft.Skills.Custom.WebApiSkill" | "#Microsoft.Skills.Custom.AmlSkill";
+    odatatype: "#Microsoft.Skills.Util.ConditionalSkill" | "#Microsoft.Skills.Text.KeyPhraseExtractionSkill" | "#Microsoft.Skills.Vision.OcrSkill" | "#Microsoft.Skills.Vision.ImageAnalysisSkill" | "#Microsoft.Skills.Text.LanguageDetectionSkill" | "#Microsoft.Skills.Util.ShaperSkill" | "#Microsoft.Skills.Text.MergeSkill" | "#Microsoft.Skills.Text.EntityRecognitionSkill" | "#Microsoft.Skills.Text.SentimentSkill" | "#Microsoft.Skills.Text.V3.SentimentSkill" | "#Microsoft.Skills.Text.V3.EntityLinkingSkill" | "#Microsoft.Skills.Text.V3.EntityRecognitionSkill" | "#Microsoft.Skills.Text.PIIDetectionSkill" | "#Microsoft.Skills.Text.SplitSkill" | "#Microsoft.Skills.Text.CustomEntityLookupSkill" | "#Microsoft.Skills.Text.TranslationSkill" | "#Microsoft.Skills.Util.DocumentExtractionSkill" | "#Microsoft.Skills.Custom.WebApiSkill" | "#Microsoft.Skills.Custom.AmlSkill";
     outputs: OutputFieldMappingEntry[];
 }
 
 // @public
 export interface BaseTokenFilter {
     name: string;
-    odataType: "#Microsoft.Azure.Search.AsciiFoldingTokenFilter" | "#Microsoft.Azure.Search.CjkBigramTokenFilter" | "#Microsoft.Azure.Search.CommonGramTokenFilter" | "#Microsoft.Azure.Search.DictionaryDecompounderTokenFilter" | "#Microsoft.Azure.Search.EdgeNGramTokenFilter" | "#Microsoft.Azure.Search.EdgeNGramTokenFilterV2" | "#Microsoft.Azure.Search.ElisionTokenFilter" | "#Microsoft.Azure.Search.KeepTokenFilter" | "#Microsoft.Azure.Search.KeywordMarkerTokenFilter" | "#Microsoft.Azure.Search.LengthTokenFilter" | "#Microsoft.Azure.Search.LimitTokenFilter" | "#Microsoft.Azure.Search.NGramTokenFilter" | "#Microsoft.Azure.Search.NGramTokenFilterV2" | "#Microsoft.Azure.Search.PatternCaptureTokenFilter" | "#Microsoft.Azure.Search.PatternReplaceTokenFilter" | "#Microsoft.Azure.Search.PhoneticTokenFilter" | "#Microsoft.Azure.Search.ShingleTokenFilter" | "#Microsoft.Azure.Search.SnowballTokenFilter" | "#Microsoft.Azure.Search.StemmerTokenFilter" | "#Microsoft.Azure.Search.StemmerOverrideTokenFilter" | "#Microsoft.Azure.Search.StopwordsTokenFilter" | "#Microsoft.Azure.Search.SynonymTokenFilter" | "#Microsoft.Azure.Search.TruncateTokenFilter" | "#Microsoft.Azure.Search.UniqueTokenFilter" | "#Microsoft.Azure.Search.WordDelimiterTokenFilter";
+    odatatype: "#Microsoft.Azure.Search.AsciiFoldingTokenFilter" | "#Microsoft.Azure.Search.CjkBigramTokenFilter" | "#Microsoft.Azure.Search.CommonGramTokenFilter" | "#Microsoft.Azure.Search.DictionaryDecompounderTokenFilter" | "#Microsoft.Azure.Search.EdgeNGramTokenFilter" | "#Microsoft.Azure.Search.EdgeNGramTokenFilterV2" | "#Microsoft.Azure.Search.ElisionTokenFilter" | "#Microsoft.Azure.Search.KeepTokenFilter" | "#Microsoft.Azure.Search.KeywordMarkerTokenFilter" | "#Microsoft.Azure.Search.LengthTokenFilter" | "#Microsoft.Azure.Search.LimitTokenFilter" | "#Microsoft.Azure.Search.NGramTokenFilter" | "#Microsoft.Azure.Search.NGramTokenFilterV2" | "#Microsoft.Azure.Search.PatternCaptureTokenFilter" | "#Microsoft.Azure.Search.PatternReplaceTokenFilter" | "#Microsoft.Azure.Search.PhoneticTokenFilter" | "#Microsoft.Azure.Search.ShingleTokenFilter" | "#Microsoft.Azure.Search.SnowballTokenFilter" | "#Microsoft.Azure.Search.StemmerTokenFilter" | "#Microsoft.Azure.Search.StemmerOverrideTokenFilter" | "#Microsoft.Azure.Search.StopwordsTokenFilter" | "#Microsoft.Azure.Search.SynonymTokenFilter" | "#Microsoft.Azure.Search.TruncateTokenFilter" | "#Microsoft.Azure.Search.UniqueTokenFilter" | "#Microsoft.Azure.Search.WordDelimiterTokenFilter";
 }
 
 // @public
@@ -193,7 +193,7 @@ export type BlobIndexerPDFTextRotationAlgorithm = string;
 
 // @public
 export type BM25Similarity = Similarity & {
-    odataType: "#Microsoft.Azure.Search.BM25Similarity";
+    odatatype: "#Microsoft.Azure.Search.BM25Similarity";
     k1?: number;
     b?: number;
 };
@@ -216,7 +216,7 @@ export type CharFilterName = string;
 
 // @public
 export type CjkBigramTokenFilter = BaseTokenFilter & {
-    odataType: "#Microsoft.Azure.Search.CjkBigramTokenFilter";
+    odatatype: "#Microsoft.Azure.Search.CjkBigramTokenFilter";
     ignoreScripts?: CjkBigramTokenFilterScripts[];
     outputUnigrams?: boolean;
 };
@@ -226,12 +226,12 @@ export type CjkBigramTokenFilterScripts = "han" | "hiragana" | "katakana" | "han
 
 // @public
 export type ClassicSimilarity = Similarity & {
-    odataType: "#Microsoft.Azure.Search.ClassicSimilarity";
+    odatatype: "#Microsoft.Azure.Search.ClassicSimilarity";
 };
 
 // @public
 export type ClassicTokenizer = BaseLexicalTokenizer & {
-    odataType: "#Microsoft.Azure.Search.ClassicTokenizer";
+    odatatype: "#Microsoft.Azure.Search.ClassicTokenizer";
     maxTokenLength?: number;
 };
 
@@ -240,13 +240,13 @@ export type CognitiveServicesAccount = DefaultCognitiveServicesAccount | Cogniti
 
 // @public
 export type CognitiveServicesAccountKey = BaseCognitiveServicesAccount & {
-    odataType: "#Microsoft.Azure.Search.CognitiveServicesByKey";
+    odatatype: "#Microsoft.Azure.Search.CognitiveServicesByKey";
     key: string;
 };
 
 // @public
 export type CommonGramTokenFilter = BaseTokenFilter & {
-    odataType: "#Microsoft.Azure.Search.CommonGramTokenFilter";
+    odatatype: "#Microsoft.Azure.Search.CommonGramTokenFilter";
     commonWords: string[];
     ignoreCase?: boolean;
     useQueryMode?: boolean;
@@ -264,7 +264,7 @@ export interface ComplexField {
 
 // @public
 export type ConditionalSkill = BaseSearchIndexerSkill & {
-    odataType: "#Microsoft.Skills.Util.ConditionalSkill";
+    odatatype: "#Microsoft.Skills.Util.ConditionalSkill";
 };
 
 // @public
@@ -337,7 +337,7 @@ export type CreateSynonymMapOptions = OperationOptions;
 export interface CustomAnalyzer {
     charFilters?: string[];
     name: string;
-    odataType: "#Microsoft.Azure.Search.CustomAnalyzer";
+    odatatype: "#Microsoft.Azure.Search.CustomAnalyzer";
     tokenFilters?: string[];
     tokenizerName: string;
 }
@@ -368,7 +368,7 @@ export interface CustomEntityAlias {
 
 // @public
 export type CustomEntityLookupSkill = BaseSearchIndexerSkill & {
-    odataType: "#Microsoft.Skills.Text.CustomEntityLookupSkill";
+    odatatype: "#Microsoft.Skills.Text.CustomEntityLookupSkill";
     defaultLanguageCode?: CustomEntityLookupSkillLanguage;
     entitiesDefinitionUri?: string;
     inlineEntitiesDefinition?: CustomEntity[];
@@ -382,7 +382,7 @@ export type CustomEntityLookupSkillLanguage = string;
 
 // @public
 export type CustomNormalizer = BaseLexicalNormalizer & {
-    odataType: "#Microsoft.Azure.Search.CustomNormalizer";
+    odatatype: "#Microsoft.Azure.Search.CustomNormalizer";
     tokenFilters?: TokenFilterName[];
     charFilters?: CharFilterName[];
 };
@@ -404,7 +404,7 @@ export const DEFAULT_RETRY_COUNT: number;
 
 // @public
 export type DefaultCognitiveServicesAccount = BaseCognitiveServicesAccount & {
-    odataType: "#Microsoft.Azure.Search.DefaultCognitiveServices";
+    odatatype: "#Microsoft.Azure.Search.DefaultCognitiveServices";
 };
 
 // @public
@@ -442,7 +442,7 @@ export interface DeleteSynonymMapOptions extends OperationOptions {
 
 // @public
 export type DictionaryDecompounderTokenFilter = BaseTokenFilter & {
-    odataType: "#Microsoft.Azure.Search.DictionaryDecompounderTokenFilter";
+    odatatype: "#Microsoft.Azure.Search.DictionaryDecompounderTokenFilter";
     wordList: string[];
     minWordSize?: number;
     minSubwordSize?: number;
@@ -464,7 +464,7 @@ export interface DistanceScoringParameters {
 
 // @public
 export type DocumentExtractionSkill = BaseSearchIndexerSkill & {
-    odataType: "#Microsoft.Skills.Util.DocumentExtractionSkill";
+    odatatype: "#Microsoft.Skills.Util.DocumentExtractionSkill";
     parsingMode?: string;
     dataToExtract?: string;
     configuration?: {
@@ -477,7 +477,7 @@ export interface EdgeNGramTokenFilter {
     maxGram?: number;
     minGram?: number;
     name: string;
-    odataType: "#Microsoft.Azure.Search.EdgeNGramTokenFilterV2" | "#Microsoft.Azure.Search.EdgeNGramTokenFilter";
+    odatatype: "#Microsoft.Azure.Search.EdgeNGramTokenFilterV2" | "#Microsoft.Azure.Search.EdgeNGramTokenFilter";
     side?: EdgeNGramTokenFilterSide;
 }
 
@@ -486,7 +486,7 @@ export type EdgeNGramTokenFilterSide = "front" | "back";
 
 // @public
 export type EdgeNGramTokenizer = BaseLexicalTokenizer & {
-    odataType: "#Microsoft.Azure.Search.EdgeNGramTokenizer";
+    odatatype: "#Microsoft.Azure.Search.EdgeNGramTokenizer";
     minGram?: number;
     maxGram?: number;
     tokenChars?: TokenCharacterKind[];
@@ -494,7 +494,7 @@ export type EdgeNGramTokenizer = BaseLexicalTokenizer & {
 
 // @public
 export type ElisionTokenFilter = BaseTokenFilter & {
-    odataType: "#Microsoft.Azure.Search.ElisionTokenFilter";
+    odatatype: "#Microsoft.Azure.Search.ElisionTokenFilter";
     articles?: string[];
 };
 
@@ -503,7 +503,7 @@ export type EntityCategory = string;
 
 // @public
 export type EntityLinkingSkill = BaseSearchIndexerSkill & {
-    odataType: "#Microsoft.Skills.Text.V3.EntityLinkingSkill";
+    odatatype: "#Microsoft.Skills.Text.V3.EntityLinkingSkill";
     defaultLanguageCode?: string;
     minimumPrecision?: number;
     modelVersion?: string;
@@ -511,7 +511,7 @@ export type EntityLinkingSkill = BaseSearchIndexerSkill & {
 
 // @public
 export type EntityRecognitionSkill = BaseSearchIndexerSkill & {
-    odataType: "#Microsoft.Skills.Text.EntityRecognitionSkill";
+    odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill";
     categories?: EntityCategory[];
     defaultLanguageCode?: EntityRecognitionSkillLanguage;
     includeTypelessEntities?: boolean;
@@ -523,7 +523,7 @@ export type EntityRecognitionSkillLanguage = string;
 
 // @public
 export type EntityRecognitionSkillV3 = BaseSearchIndexerSkill & {
-    odataType: "#Microsoft.Skills.Text.V3.EntityRecognitionSkill";
+    odatatype: "#Microsoft.Skills.Text.V3.EntityRecognitionSkill";
     categories?: string[];
     defaultLanguageCode?: string;
     minimumPrecision?: number;
@@ -607,13 +607,13 @@ export type GetSynonymMapsOptions = OperationOptions;
 
 // @public
 export type HighWaterMarkChangeDetectionPolicy = BaseDataChangeDetectionPolicy & {
-    odataType: "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy";
+    odatatype: "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy";
     highWaterMarkColumnName: string;
 };
 
 // @public
 export type ImageAnalysisSkill = BaseSearchIndexerSkill & {
-    odataType: "#Microsoft.Skills.Vision.ImageAnalysisSkill";
+    odatatype: "#Microsoft.Skills.Vision.ImageAnalysisSkill";
     defaultLanguageCode?: ImageAnalysisSkillLanguage;
     visualFeatures?: VisualFeature[];
     details?: ImageDetail[];
@@ -760,14 +760,14 @@ export interface InputFieldMappingEntry {
 
 // @public
 export type KeepTokenFilter = BaseTokenFilter & {
-    odataType: "#Microsoft.Azure.Search.KeepTokenFilter";
+    odatatype: "#Microsoft.Azure.Search.KeepTokenFilter";
     keepWords: string[];
     lowerCaseKeepWords?: boolean;
 };
 
 // @public
 export type KeyPhraseExtractionSkill = BaseSearchIndexerSkill & {
-    odataType: "#Microsoft.Skills.Text.KeyPhraseExtractionSkill";
+    odatatype: "#Microsoft.Skills.Text.KeyPhraseExtractionSkill";
     defaultLanguageCode?: KeyPhraseExtractionSkillLanguage;
     maxKeyPhraseCount?: number;
     modelVersion?: string;
@@ -778,7 +778,7 @@ export type KeyPhraseExtractionSkillLanguage = string;
 
 // @public
 export type KeywordMarkerTokenFilter = BaseTokenFilter & {
-    odataType: "#Microsoft.Azure.Search.KeywordMarkerTokenFilter";
+    odatatype: "#Microsoft.Azure.Search.KeywordMarkerTokenFilter";
     keywords: string[];
     ignoreCase?: boolean;
 };
@@ -787,7 +787,7 @@ export type KeywordMarkerTokenFilter = BaseTokenFilter & {
 export interface KeywordTokenizer {
     maxTokenLength?: number;
     name: string;
-    odataType: "#Microsoft.Azure.Search.KeywordTokenizerV2" | "#Microsoft.Azure.Search.KeywordTokenizer";
+    odatatype: "#Microsoft.Azure.Search.KeywordTokenizerV2" | "#Microsoft.Azure.Search.KeywordTokenizer";
 }
 
 // @public
@@ -1720,14 +1720,14 @@ export enum KnownVisualFeature {
 
 // @public
 export type LanguageDetectionSkill = BaseSearchIndexerSkill & {
-    odataType: "#Microsoft.Skills.Text.LanguageDetectionSkill";
+    odatatype: "#Microsoft.Skills.Text.LanguageDetectionSkill";
     defaultCountryHint?: string;
     modelVersion?: string;
 };
 
 // @public
 export type LengthTokenFilter = BaseTokenFilter & {
-    odataType: "#Microsoft.Azure.Search.LengthTokenFilter";
+    odatatype: "#Microsoft.Azure.Search.LengthTokenFilter";
     minLength?: number;
     maxLength?: number;
 };
@@ -1749,7 +1749,7 @@ export type LexicalTokenizer = ClassicTokenizer | EdgeNGramTokenizer | KeywordTo
 
 // @public
 export type LimitTokenFilter = BaseTokenFilter & {
-    odataType: "#Microsoft.Azure.Search.LimitTokenFilter";
+    odatatype: "#Microsoft.Azure.Search.LimitTokenFilter";
     maxTokenCount?: number;
     consumeAllTokens?: boolean;
 };
@@ -1782,7 +1782,7 @@ export type ListSynonymMapsOptions = OperationOptions;
 
 // @public
 export type LuceneStandardAnalyzer = BaseLexicalAnalyzer & {
-    odataType: "#Microsoft.Azure.Search.StandardAnalyzer";
+    odatatype: "#Microsoft.Azure.Search.StandardAnalyzer";
     maxTokenLength?: number;
     stopwords?: string[];
 };
@@ -1791,7 +1791,7 @@ export type LuceneStandardAnalyzer = BaseLexicalAnalyzer & {
 export interface LuceneStandardTokenizer {
     maxTokenLength?: number;
     name: string;
-    odataType: "#Microsoft.Azure.Search.StandardTokenizerV2" | "#Microsoft.Azure.Search.StandardTokenizer";
+    odatatype: "#Microsoft.Azure.Search.StandardTokenizerV2" | "#Microsoft.Azure.Search.StandardTokenizer";
 }
 
 // @public
@@ -1809,7 +1809,7 @@ export interface MagnitudeScoringParameters {
 
 // @public
 export type MappingCharFilter = BaseCharFilter & {
-    odataType: "#Microsoft.Azure.Search.MappingCharFilter";
+    odatatype: "#Microsoft.Azure.Search.MappingCharFilter";
     mappings: string[];
 };
 
@@ -1821,14 +1821,14 @@ export type MergeOrUploadDocumentsOptions = IndexDocumentsOptions;
 
 // @public
 export type MergeSkill = BaseSearchIndexerSkill & {
-    odataType: "#Microsoft.Skills.Text.MergeSkill";
+    odatatype: "#Microsoft.Skills.Text.MergeSkill";
     insertPreTag?: string;
     insertPostTag?: string;
 };
 
 // @public
 export type MicrosoftLanguageStemmingTokenizer = BaseLexicalTokenizer & {
-    odataType: "#Microsoft.Azure.Search.MicrosoftLanguageStemmingTokenizer";
+    odatatype: "#Microsoft.Azure.Search.MicrosoftLanguageStemmingTokenizer";
     maxTokenLength?: number;
     isSearchTokenizer?: boolean;
     language?: MicrosoftStemmingTokenizerLanguage;
@@ -1836,7 +1836,7 @@ export type MicrosoftLanguageStemmingTokenizer = BaseLexicalTokenizer & {
 
 // @public
 export type MicrosoftLanguageTokenizer = BaseLexicalTokenizer & {
-    odataType: "#Microsoft.Azure.Search.MicrosoftLanguageTokenizer";
+    odatatype: "#Microsoft.Azure.Search.MicrosoftLanguageTokenizer";
     maxTokenLength?: number;
     isSearchTokenizer?: boolean;
     language?: MicrosoftTokenizerLanguage;
@@ -1853,12 +1853,12 @@ export interface NGramTokenFilter {
     maxGram?: number;
     minGram?: number;
     name: string;
-    odataType: "#Microsoft.Azure.Search.NGramTokenFilterV2" | "#Microsoft.Azure.Search.NGramTokenFilter";
+    odatatype: "#Microsoft.Azure.Search.NGramTokenFilterV2" | "#Microsoft.Azure.Search.NGramTokenFilter";
 }
 
 // @public
 export type NGramTokenizer = BaseLexicalTokenizer & {
-    odataType: "#Microsoft.Azure.Search.NGramTokenizer";
+    odatatype: "#Microsoft.Azure.Search.NGramTokenizer";
     minGram?: number;
     maxGram?: number;
     tokenChars?: TokenCharacterKind[];
@@ -1866,7 +1866,7 @@ export type NGramTokenizer = BaseLexicalTokenizer & {
 
 // @public
 export type OcrSkill = BaseSearchIndexerSkill & {
-    odataType: "#Microsoft.Skills.Vision.OcrSkill";
+    odatatype: "#Microsoft.Skills.Vision.OcrSkill";
     defaultLanguageCode?: OcrSkillLanguage;
     shouldDetectOrientation?: boolean;
     lineEnding?: LineEnding;
@@ -1886,7 +1886,7 @@ export interface OutputFieldMappingEntry {
 
 // @public
 export type PathHierarchyTokenizer = BaseLexicalTokenizer & {
-    odataType: "#Microsoft.Azure.Search.PathHierarchyTokenizerV2";
+    odatatype: "#Microsoft.Azure.Search.PathHierarchyTokenizerV2";
     delimiter?: string;
     replacement?: string;
     maxTokenLength?: number;
@@ -1899,28 +1899,28 @@ export interface PatternAnalyzer {
     flags?: RegexFlags[];
     lowerCaseTerms?: boolean;
     name: string;
-    odataType: "#Microsoft.Azure.Search.PatternAnalyzer";
+    odatatype: "#Microsoft.Azure.Search.PatternAnalyzer";
     pattern?: string;
     stopwords?: string[];
 }
 
 // @public
 export type PatternCaptureTokenFilter = BaseTokenFilter & {
-    odataType: "#Microsoft.Azure.Search.PatternCaptureTokenFilter";
+    odatatype: "#Microsoft.Azure.Search.PatternCaptureTokenFilter";
     patterns: string[];
     preserveOriginal?: boolean;
 };
 
 // @public
 export type PatternReplaceCharFilter = BaseCharFilter & {
-    odataType: "#Microsoft.Azure.Search.PatternReplaceCharFilter";
+    odatatype: "#Microsoft.Azure.Search.PatternReplaceCharFilter";
     pattern: string;
     replacement: string;
 };
 
 // @public
 export type PatternReplaceTokenFilter = BaseTokenFilter & {
-    odataType: "#Microsoft.Azure.Search.PatternReplaceTokenFilter";
+    odatatype: "#Microsoft.Azure.Search.PatternReplaceTokenFilter";
     pattern: string;
     replacement: string;
 };
@@ -1930,7 +1930,7 @@ export interface PatternTokenizer {
     flags?: RegexFlags[];
     group?: number;
     name: string;
-    odataType: "#Microsoft.Azure.Search.PatternTokenizer";
+    odatatype: "#Microsoft.Azure.Search.PatternTokenizer";
     pattern?: string;
 }
 
@@ -1939,14 +1939,14 @@ export type PhoneticEncoder = "metaphone" | "doubleMetaphone" | "soundex" | "ref
 
 // @public
 export type PhoneticTokenFilter = BaseTokenFilter & {
-    odataType: "#Microsoft.Azure.Search.PhoneticTokenFilter";
+    odatatype: "#Microsoft.Azure.Search.PhoneticTokenFilter";
     encoder?: PhoneticEncoder;
     replaceOriginalTokens?: boolean;
 };
 
 // @public
 export type PIIDetectionSkill = BaseSearchIndexerSkill & {
-    odataType: "#Microsoft.Skills.Text.PIIDetectionSkill";
+    odatatype: "#Microsoft.Skills.Text.PIIDetectionSkill";
     defaultLanguageCode?: string;
     minimumPrecision?: number;
     maskingMode?: PIIDetectionSkillMaskingMode;
@@ -2030,7 +2030,7 @@ export type ScoringStatistics = "local" | "global";
 
 // @public
 export interface SearchAlias {
-    eTag?: string;
+    etag?: string;
     indexes: string[];
     name: string;
 }
@@ -2098,7 +2098,7 @@ export interface SearchIndex {
     corsOptions?: CorsOptions;
     defaultScoringProfile?: string;
     encryptionKey?: SearchResourceEncryptionKey;
-    eTag?: string;
+    etag?: string;
     fields: SearchField[];
     name: string;
     normalizers?: LexicalNormalizer[];
@@ -2157,7 +2157,7 @@ export interface SearchIndexer {
     dataSourceName: string;
     description?: string;
     encryptionKey?: SearchResourceEncryptionKey;
-    eTag?: string;
+    etag?: string;
     fieldMappings?: FieldMapping[];
     isDisabled?: boolean;
     name: string;
@@ -2225,7 +2225,7 @@ export type SearchIndexerDataIdentity = SearchIndexerDataNoneIdentity | SearchIn
 
 // @public
 export type SearchIndexerDataNoneIdentity = BaseSearchIndexerDataIdentity & {
-    odataType: "#Microsoft.Azure.Search.DataNoneIdentity";
+    odatatype: "#Microsoft.Azure.Search.DataNoneIdentity";
 };
 
 // @public
@@ -2236,7 +2236,7 @@ export interface SearchIndexerDataSourceConnection {
     dataDeletionDetectionPolicy?: DataDeletionDetectionPolicy;
     description?: string;
     encryptionKey?: SearchResourceEncryptionKey;
-    eTag?: string;
+    etag?: string;
     identity?: SearchIndexerDataIdentity;
     name: string;
     type: SearchIndexerDataSourceType;
@@ -2247,7 +2247,7 @@ export type SearchIndexerDataSourceType = string;
 
 // @public
 export type SearchIndexerDataUserAssignedIdentity = BaseSearchIndexerDataIdentity & {
-    odataType: "#Microsoft.Azure.Search.DataUserAssignedIdentity";
+    odatatype: "#Microsoft.Azure.Search.DataUserAssignedIdentity";
     userAssignedIdentity: string;
 };
 
@@ -2314,7 +2314,7 @@ export interface SearchIndexerSkillset {
     cognitiveServicesAccount?: CognitiveServicesAccount;
     description?: string;
     encryptionKey?: SearchResourceEncryptionKey;
-    eTag?: string;
+    etag?: string;
     knowledgeStore?: SearchIndexerKnowledgeStore;
     name: string;
     skills: SearchIndexerSkill[];
@@ -2511,7 +2511,7 @@ export interface SemanticSettings {
 
 // @public
 export type SentimentSkill = BaseSearchIndexerSkill & {
-    odataType: "#Microsoft.Skills.Text.SentimentSkill";
+    odatatype: "#Microsoft.Skills.Text.SentimentSkill";
     defaultLanguageCode?: SentimentSkillLanguage;
 };
 
@@ -2520,7 +2520,7 @@ export type SentimentSkillLanguage = string;
 
 // @public
 export type SentimentSkillV3 = BaseSearchIndexerSkill & {
-    odataType: "#Microsoft.Skills.Text.V3.SentimentSkill";
+    odatatype: "#Microsoft.Skills.Text.V3.SentimentSkill";
     defaultLanguageCode?: string;
     includeOpinionMining?: boolean;
     modelVersion?: string;
@@ -2548,12 +2548,12 @@ export interface ServiceLimits {
 
 // @public
 export type ShaperSkill = BaseSearchIndexerSkill & {
-    odataType: "#Microsoft.Skills.Util.ShaperSkill";
+    odatatype: "#Microsoft.Skills.Util.ShaperSkill";
 };
 
 // @public
 export type ShingleTokenFilter = BaseTokenFilter & {
-    odataType: "#Microsoft.Azure.Search.ShingleTokenFilter";
+    odatatype: "#Microsoft.Azure.Search.ShingleTokenFilter";
     maxShingleSize?: number;
     minShingleSize?: number;
     outputUnigrams?: boolean;
@@ -2564,7 +2564,7 @@ export type ShingleTokenFilter = BaseTokenFilter & {
 
 // @public
 export interface Similarity {
-    odataType: "#Microsoft.Azure.Search.ClassicSimilarity" | "#Microsoft.Azure.Search.BM25Similarity";
+    odatatype: "#Microsoft.Azure.Search.ClassicSimilarity" | "#Microsoft.Azure.Search.BM25Similarity";
 }
 
 // @public
@@ -2589,7 +2589,7 @@ export interface SimpleField {
 
 // @public
 export type SnowballTokenFilter = BaseTokenFilter & {
-    odataType: "#Microsoft.Azure.Search.SnowballTokenFilter";
+    odatatype: "#Microsoft.Azure.Search.SnowballTokenFilter";
     language: SnowballTokenFilterLanguage;
 };
 
@@ -2598,7 +2598,7 @@ export type SnowballTokenFilterLanguage = "armenian" | "basque" | "catalan" | "d
 
 // @public
 export type SoftDeleteColumnDeletionDetectionPolicy = BaseDataDeletionDetectionPolicy & {
-    odataType: "#Microsoft.Azure.Search.SoftDeleteColumnDeletionDetectionPolicy";
+    odatatype: "#Microsoft.Azure.Search.SoftDeleteColumnDeletionDetectionPolicy";
     softDeleteColumnName?: string;
     softDeleteMarkerValue?: string;
 };
@@ -2608,7 +2608,7 @@ export type Speller = string;
 
 // @public
 export type SplitSkill = BaseSearchIndexerSkill & {
-    odataType: "#Microsoft.Skills.Text.SplitSkill";
+    odatatype: "#Microsoft.Skills.Text.SplitSkill";
     defaultLanguageCode?: SplitSkillLanguage;
     textSplitMode?: TextSplitMode;
     maxPageLength?: number;
@@ -2619,18 +2619,18 @@ export type SplitSkillLanguage = string;
 
 // @public
 export type SqlIntegratedChangeTrackingPolicy = BaseDataChangeDetectionPolicy & {
-    odataType: "#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy";
+    odatatype: "#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy";
 };
 
 // @public
 export type StemmerOverrideTokenFilter = BaseTokenFilter & {
-    odataType: "#Microsoft.Azure.Search.StemmerOverrideTokenFilter";
+    odatatype: "#Microsoft.Azure.Search.StemmerOverrideTokenFilter";
     rules: string[];
 };
 
 // @public
 export type StemmerTokenFilter = BaseTokenFilter & {
-    odataType: "#Microsoft.Azure.Search.StemmerTokenFilter";
+    odatatype: "#Microsoft.Azure.Search.StemmerTokenFilter";
     language: StemmerTokenFilterLanguage;
 };
 
@@ -2639,7 +2639,7 @@ export type StemmerTokenFilterLanguage = "arabic" | "armenian" | "basque" | "bra
 
 // @public
 export type StopAnalyzer = BaseLexicalAnalyzer & {
-    odataType: "#Microsoft.Azure.Search.StopAnalyzer";
+    odatatype: "#Microsoft.Azure.Search.StopAnalyzer";
     stopwords?: string[];
 };
 
@@ -2648,7 +2648,7 @@ export type StopwordsList = "arabic" | "armenian" | "basque" | "brazilian" | "bu
 
 // @public
 export type StopwordsTokenFilter = BaseTokenFilter & {
-    odataType: "#Microsoft.Azure.Search.StopwordsTokenFilter";
+    odatatype: "#Microsoft.Azure.Search.StopwordsTokenFilter";
     stopwords?: string[];
     stopwordsList?: StopwordsList;
     ignoreCase?: boolean;
@@ -2686,14 +2686,14 @@ export type SuggestResult<T> = {
 // @public
 export interface SynonymMap {
     encryptionKey?: SearchResourceEncryptionKey;
-    eTag?: string;
+    etag?: string;
     name: string;
     synonyms: string[];
 }
 
 // @public
 export type SynonymTokenFilter = BaseTokenFilter & {
-    odataType: "#Microsoft.Azure.Search.SynonymTokenFilter";
+    odatatype: "#Microsoft.Azure.Search.SynonymTokenFilter";
     synonyms: string[];
     ignoreCase?: boolean;
     expand?: boolean;
@@ -2715,7 +2715,7 @@ export type TextSplitMode = string;
 
 // @public
 export type TextTranslationSkill = BaseSearchIndexerSkill & {
-    odataType: "#Microsoft.Skills.Text.TranslationSkill";
+    odatatype: "#Microsoft.Skills.Text.TranslationSkill";
     defaultToLanguageCode: TextTranslationSkillLanguage;
     defaultFromLanguageCode?: TextTranslationSkillLanguage;
     suggestedFrom?: TextTranslationSkillLanguage;
@@ -2742,19 +2742,19 @@ export type TokenFilterName = string;
 
 // @public
 export type TruncateTokenFilter = BaseTokenFilter & {
-    odataType: "#Microsoft.Azure.Search.TruncateTokenFilter";
+    odatatype: "#Microsoft.Azure.Search.TruncateTokenFilter";
     length?: number;
 };
 
 // @public
 export type UaxUrlEmailTokenizer = BaseLexicalTokenizer & {
-    odataType: "#Microsoft.Azure.Search.UaxUrlEmailTokenizer";
+    odatatype: "#Microsoft.Azure.Search.UaxUrlEmailTokenizer";
     maxTokenLength?: number;
 };
 
 // @public
 export type UniqueTokenFilter = BaseTokenFilter & {
-    odataType: "#Microsoft.Azure.Search.UniqueTokenFilter";
+    odatatype: "#Microsoft.Azure.Search.UniqueTokenFilter";
     onlyOnSamePosition?: boolean;
 };
 
@@ -2766,7 +2766,7 @@ export type VisualFeature = string;
 
 // @public
 export type WebApiSkill = BaseSearchIndexerSkill & {
-    odataType: "#Microsoft.Skills.Custom.WebApiSkill";
+    odatatype: "#Microsoft.Skills.Custom.WebApiSkill";
     uri: string;
     httpHeaders?: {
         [propertyName: string]: string;
@@ -2779,7 +2779,7 @@ export type WebApiSkill = BaseSearchIndexerSkill & {
 
 // @public
 export type WordDelimiterTokenFilter = BaseTokenFilter & {
-    odataType: "#Microsoft.Azure.Search.WordDelimiterTokenFilter";
+    odatatype: "#Microsoft.Azure.Search.WordDelimiterTokenFilter";
     generateWordParts?: boolean;
     generateNumberParts?: boolean;
     catenateWords?: boolean;

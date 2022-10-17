@@ -62,7 +62,7 @@ async function listDataSourceConnections(client: SearchIndexerClient) {
     console.log(`Connection String: ${ds.connectionString}`);
     console.log(`Data Change Detection Policy: ${ds.dataChangeDetectionPolicy}`);
     console.log(`Data Deletion Detection Policy: ${ds.dataDeletionDetectionPolicy}`);
-    console.log(`Etag: ${ds.eTag}`);
+    console.log(`Etag: ${ds.etag}`);
     console.log(`DataContainer`);
     console.log(`\tName: ${ds.container.name}`);
     console.log(`\tQuery: ${ds.container.query}`);

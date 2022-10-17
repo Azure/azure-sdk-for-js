@@ -126,7 +126,7 @@ async function listIndexes(client: SearchIndexClient) {
   while (!listOfIndexes.done) {
     const { similarity } = listOfIndexes.value;
     console.log(`Name: ${listOfIndexes.value.name}`);
-    console.log(`Similarity Algorithm: ${similarity && similarity.odataType}`);
+    console.log(`Similarity Algorithm: ${similarity && similarity.odatatype}`);
     console.log();
     listOfIndexes = await result.next();
   }

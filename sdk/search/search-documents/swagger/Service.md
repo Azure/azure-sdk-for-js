@@ -247,7 +247,7 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
-    where: $.definitions..properties["@odata.etag"]
+    where: $.definitions..properties["`@odata.etag"]
     transform: >
       $["x-ms-client-name"] = "etag"
 ```
@@ -267,7 +267,7 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
-    where: $.definitions..properties["@odata.type"]
+    where: $.definitions..properties["`@odata.type"]
     transform: >
       $["x-ms-client-name"] = "odatatype"
 ```

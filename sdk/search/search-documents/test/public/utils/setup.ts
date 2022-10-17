@@ -477,7 +477,7 @@ export async function createSkillsets(client: SearchIndexerClient): Promise<void
       description: `Skillset description`,
       skills: [
         {
-          odataType: "#Microsoft.Skills.Text.EntityRecognitionSkill",
+          odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
           inputs: [
             {
               name: "text",
