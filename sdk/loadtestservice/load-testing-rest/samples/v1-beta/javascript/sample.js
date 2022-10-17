@@ -5,14 +5,13 @@
  * This sample demonstrates how to a) create a loadtest, b) upload a jmx file, c) create appcomponent, d) run test and e) get test status
  *
  * @summary creates and run a loadtest
- * @azsdk-weight 10
  */
 
-import AzureLoadTesting from "@azure-rest/load-testing";
-import { DefaultAzureCredential } from "@azure/identity";
-import dotenv from "dotenv";
-import createReadStream from "fs";
-import { v4 as uuidv4 } from "uuid";
+const AzureLoadTesting = require("@azure-rest/load-testing").default;
+const { DefaultAzureCredential } = require("@azure/identity");
+const dotenv = require("dotenv");
+const createReadStream = require("fs");
+const { v4: uuidv4 } = require("uuid");
 
 const readStream = createReadStream.readFileSync("./sample.jmx");
 dotenv.config();
@@ -22,7 +21,6 @@ async function main() {
   const displayName = "some-load-test";
   const SUBSCRIPTION_ID = process.env["SUBSCRIPTION_ID"] || "";
   const testId = uuidv4(); // ID to be assigned to a test
-  const fileId = uuidv4(); // ID to be assigned to the file being uploaded
   const testRunId = uuidv4(); // ID to be assigned to a testRun
   const appComponentId = uuidv4(); // ID of the app componeents
 
@@ -36,13 +34,14 @@ async function main() {
       displayName: displayName,
       description: "",
       loadTestConfig: {
-        engineInstances: 1, // number of engine instances to run test
+        engineInstances: 1,
+        splitAllCSVs: false,
       },
     },
   });
 
   // Uploading .jmx file to a test
-  await client.path("/loadtests/{testId}/files/{fileId}", testId, fileId).put({
+  await client.path("/loadtests/{testId}/files/{fileId}", "abc", "xyz12365").put({
     contentType: "multipart/form-data",
     body: {
       file: readStream,
@@ -56,13 +55,14 @@ async function main() {
       name: "app_component",
       testId: testId,
       value: {
-        "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo": {
-          resourceId:
-            "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo",
-          resourceName: "App-Service-Sample-Demo",
-          resourceType: "Microsoft.Web/sites",
-          subscriptionId: SUBSCRIPTION_ID,
-        },
+        "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo":
+          {
+            resourceId:
+              "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo",
+            resourceName: "App-Service-Sample-Demo",
+            resourceType: "Microsoft.Web/sites",
+            subscriptionId: SUBSCRIPTION_ID,
+          },
       },
     },
   });
@@ -77,7 +77,7 @@ async function main() {
     },
   });
 
-  // Checking the test run status 
+  // checking the test run status and printing metrics
   await client.path("/testruns/{testRunId}", testRunId).get();
 }
 

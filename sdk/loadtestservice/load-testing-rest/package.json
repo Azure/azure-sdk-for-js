@@ -25,6 +25,16 @@
       { "path": "swagger/README.md", "prefix": "package-version" }
     ]
   },
+  "//sampleConfiguration": {
+    "productName": "Azure Load Testing rest",
+    "productSlugs": [
+      "azure",
+      "azure-load-testing"
+    ],
+    "requiredResources": {
+      "Azure LoadTesting Service instance": "https://learn.microsoft.com/en-us/azure/load-testing/"
+    }
+  },
   "engines": { "node": ">=12.0.0" },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -96,7 +106,8 @@
     "karma-source-map-support": "~1.4.0",
     "karma-sourcemap-loader": "^0.3.8",
     "karma": "^6.2.0",
-    "nyc": "^14.0.0"
+    "nyc": "^14.0.0",
+    "uuid": "^9.0.0"
   },
   "browser": {
     "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"

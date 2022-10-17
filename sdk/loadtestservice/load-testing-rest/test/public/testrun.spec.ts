@@ -7,10 +7,9 @@ import { createRecorder, createClient } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { AzureLoadTestingClient } from "../../src";
 
-describe("File Upload", () => {
+describe("Test Run Creation", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
-  const DISPLAY_NAME = "sample_testrun";
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
@@ -26,7 +25,7 @@ describe("File Upload", () => {
       contentType: "application/merge-patch+json",
       body: {
         testId: "abc",
-        displayName: DISPLAY_NAME,
+        displayName: "sample_testrun",
         vusers: 10,
       },
     });
@@ -34,7 +33,7 @@ describe("File Upload", () => {
     assert.include(["200"], result.status);
   });
 
-  it("should create a test run", async () => {
+  it("should get a test run", async () => {
     const result = await client.path("/testruns/{testRunId}", "abcde").get();
 
     assert.include(["200"], result.status);

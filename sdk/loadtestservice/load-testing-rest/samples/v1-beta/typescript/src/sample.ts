@@ -5,7 +5,6 @@
  * This sample demonstrates how to a) create a loadtest, b) upload a jmx file, c) create appcomponent, d) run test and e) get test status
  *
  * @summary creates and run a loadtest
- * @azsdk-weight 10
  */
 
 import AzureLoadTesting from "@azure-rest/load-testing";
@@ -19,10 +18,9 @@ dotenv.config();
 
 async function main() {
   const endpoint = process.env["LOADTESTSERVICE_ENDPOINT"] || "";
-  const displayName = "some-load-test";
+  const displayName = "some-load-test"; 
   const SUBSCRIPTION_ID = process.env["SUBSCRIPTION_ID"] || "";
   const testId = uuidv4(); // ID to be assigned to a test
-  const fileId = uuidv4(); // ID to be assigned to the file being uploaded
   const testRunId = uuidv4(); // ID to be assigned to a testRun
   const appComponentId = uuidv4(); // ID of the app componeents
 
@@ -37,12 +35,13 @@ async function main() {
       description: "",
       loadTestConfig: {
         engineInstances: 1, // number of engine instances to run test
+        splitAllCSVs: false,
       },
     },
   });
 
   // Uploading .jmx file to a test
-  await client.path("/loadtests/{testId}/files/{fileId}", testId, fileId).put({
+  await client.path("/loadtests/{testId}/files/{fileId}", "abc", "xyz12365").put({
     contentType: "multipart/form-data",
     body: {
       file: readStream,
@@ -77,7 +76,7 @@ async function main() {
     },
   });
 
-  // Checking the test run status 
+  // checking the test run status and printing metrics
   await client.path("/testruns/{testRunId}", testRunId).get();
 }
 

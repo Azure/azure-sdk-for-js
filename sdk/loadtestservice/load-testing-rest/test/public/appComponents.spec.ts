@@ -7,7 +7,7 @@ import { createRecorder, createClient } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { AzureLoadTestingClient } from "../../src";
 
-describe("File Upload", () => {
+describe("Create app component", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
   const SUBSCRIPTION_ID = process.env["SUBSCRIPTION_ID"] || "";
@@ -21,7 +21,7 @@ describe("File Upload", () => {
     await recorder.stop();
   });
 
-  it("should upload the test file", async () => {
+  it("should create the app components", async () => {
     const result = await client.path("/appcomponents/{name}", "appcomp123").patch({
       contentType: "application/merge-patch+json",
       body: {

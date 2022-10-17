@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createRecorder, createClient } from "./utils/recordedClient";
+import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { AzureLoadTestingClient } from "../../src";
+import { Recorder } from "@azure-tools/test-recorder";
 
 describe("Test Creation", () => {
   let recorder: Recorder;
