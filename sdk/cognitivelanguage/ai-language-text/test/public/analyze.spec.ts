@@ -35,8 +35,10 @@ const testDataEs = [
   "La carretera estaba atascada. Había mucho tráfico el día de ayer.",
 ];
 
+const classificationTypeList: string[] = ["single", "multi"];
+
 matrix([FIXME1] as const, async (authMethod: AuthMethod) => {
-  describe.only(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
+  describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
     let recorder: Recorder;
     let client: TextAnalysisClient;
 
@@ -752,43 +754,99 @@ matrix([FIXME1] as const, async (authMethod: AuthMethod) => {
         });
       });
 
-      describe.only("#Dynamic Classification", function () {
-        it("client throws on empty list", async function () {
-          return assert.isRejected(
-            client.analyze(AnalyzeActionNames.DynamicClassification, []),
-            /non-empty array/
-          );
-        });
+      matrix([classificationTypeList], async (classificationType: string) => {
+        describe(`#Dynamic Classification [${classificationType}]`, function () {
+          it("client throws on empty list", async function () {
+            return assert.isRejected(
+              client.analyze(AnalyzeActionNames.DynamicClassification, []),
+              /non-empty array/
+            );
+          });
 
-        it("client accepts string[] and language", async function () {
-          const results = await client.analyze(
-            AnalyzeActionNames.DynamicClassification,
-            testDataEn,
-            "en",
-            {
-              categories: ["Travel", "Weather", "Location"],
-              classificationType: "Single",
+          it("client accepts string[] and language", async function () {
+            const results = await client.analyze(
+              AnalyzeActionNames.DynamicClassification,
+              testDataEn,
+              "en",
+              {
+                categories: ["Travel", "Weather", "Location"],
+                classificationType: classificationType,
+              }
+            );
+            assert.equal(results.length, testDataEn.length);
+            assertAllSuccess(results);
+          });
+
+          it("client accepts string[] with undefined language", async function () {
+            const results = await client.analyze(
+              AnalyzeActionNames.DynamicClassification,
+              testDataEn,
+              undefined,
+              {
+                categories: ["Travel", "Weather", "Location"],
+                classificationType: classificationType,
+              }
+            );
+            assert.equal(results.length, testDataEn.length);
+            assertAllSuccess(results);
+          });
+
+          it("service errors on unsupported language", async function () {
+            const [result] = await client.analyze(
+              AnalyzeActionNames.DynamicClassification,
+              ["This is some text, but it doesn't matter."],
+              "notalanguage",
+              {
+                categories: ["Travel", "Weather", "Location"],
+                classificationType: classificationType,
+              }
+            );
+
+            if (result.error === undefined) {
+              assert.fail("Expected an error from the service");
             }
-          );
-          assert.equal(results.length, testDataEn.length);
-          assertAllSuccess(results);
-        });
+            assert.equal(result.error.code, KnownTextAnalysisErrorCode.UnsupportedLanguageCode);
+          });
 
-        it.only("service errors on unsupported language", async function () {
-          const [result] = await client.analyze(
-            AnalyzeActionNames.DynamicClassification,
-            ["This is some text, but it doesn't matter."],
-            "notalanguage",
-            {
-              categories: ["Travel", "Weather", "Location"],
-              classificationType: "Single",
-            }
-          );
+          it("service errors on invalid number of categories", async function () {
+            await assertRestError(
+              client.analyze(
+                AnalyzeActionNames.DynamicClassification,
+                ["This is some text, but it doesn't matter."],
+                "en",
+                {
+                  categories: ["A"],
+                  classificationType: classificationType,
+                }
+              ),
+              {
+                code: KnownTextAnalysisErrorCode.InvalidParameterValue,
+                statusCode: 400,
+                messagePattern:
+                  /Invalid parameter in request. Parameter 'categories' cannot be empty or contain less than 2 categories/,
+              }
+            );
+          });
 
-          if (result.error === undefined) {
-            assert.fail("Expected an error from the service");
-          }
-          assert.equal(result.error.code, KnownTextAnalysisErrorCode.UnsupportedLanguageCode);
+          it("service errors on invalid classification type", async function () {
+            await assertRestError(
+              client.analyze(
+                AnalyzeActionNames.DynamicClassification,
+                ["This is some text, but it doesn't matter."],
+                "en",
+                {
+                  categories: ["A", "B"],
+                  classificationType: classificationType + "A",
+                }
+              ),
+              {
+                code: KnownTextAnalysisErrorCode.InvalidParameterValue,
+                statusCode: 400,
+                messagePattern:
+                  /Invalid parameter in request. Invalid value for parameter 'classificationType'/,
+              }
+            );
+          });
         });
       });
 
