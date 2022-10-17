@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Resumes a Data Transfer Job.
  *
  * @summary Resumes a Data Transfer Job.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/data-transfer-service/CosmosDBDataTransferJobResume.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/data-transfer-service/CosmosDBDataTransferJobResume.json
  */
 async function cosmosDbDataTransferJobCreate() {
   const subscriptionId = "subid";

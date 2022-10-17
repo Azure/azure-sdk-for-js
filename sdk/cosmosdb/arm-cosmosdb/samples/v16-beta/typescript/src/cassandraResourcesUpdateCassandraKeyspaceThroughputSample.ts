@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Update RUs per second of an Azure Cosmos DB Cassandra Keyspace
  *
  * @summary Update RUs per second of an Azure Cosmos DB Cassandra Keyspace
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBCassandraKeyspaceThroughputUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBCassandraKeyspaceThroughputUpdate.json
  */
 async function cosmosDbCassandraKeyspaceThroughputUpdate() {
   const subscriptionId = "subid";

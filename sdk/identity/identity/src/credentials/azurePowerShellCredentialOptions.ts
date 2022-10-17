@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
+import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
 
 /**
  * Options for the {@link AzurePowerShellCredential}
  */
-export interface AzurePowerShellCredentialOptions extends TokenCredentialOptions {
+export interface AzurePowerShellCredentialOptions extends MultiTenantTokenCredentialOptions {
   /**
    * Allows specifying a tenant ID
    */

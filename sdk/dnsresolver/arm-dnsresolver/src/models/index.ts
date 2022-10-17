@@ -11,7 +11,7 @@ import * as coreClient from "@azure/core-client";
 /** Reference to another ARM resource. */
 export interface SubResource {
   /** Resource ID. */
-  id?: string;
+  id: string;
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */
@@ -87,7 +87,7 @@ export interface DnsResolverListResult {
 /** IP configuration. */
 export interface IpConfiguration {
   /** The reference to the subnet bound to the IP configuration. */
-  subnet?: SubResource;
+  subnet: SubResource;
   /** Private IP address of the IP configuration. */
   privateIpAddress?: string;
   /** Private IP address allocation method. */
@@ -130,6 +130,8 @@ export interface OutboundEndpointListResult {
 
 /** Describes a DNS forwarding ruleset PATCH operation. */
 export interface DnsForwardingRulesetPatch {
+  /** The reference to the DNS resolver outbound endpoints that are used to route DNS queries matching the forwarding rules in the ruleset to the target DNS servers. */
+  dnsResolverOutboundEndpoints?: SubResource[];
   /** Tags for DNS Resolver. */
   tags?: { [propertyName: string]: string };
 }
@@ -148,7 +150,7 @@ export interface DnsForwardingRulesetListResult {
 /** Describes a server to forward the DNS queries to. */
 export interface TargetDnsServer {
   /** DNS server IP address. */
-  ipAddress?: string;
+  ipAddress: string;
   /** DNS server port. */
   port?: number;
 }
@@ -222,18 +224,18 @@ export interface VirtualNetworkDnsForwardingRuleset {
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** Describes a DNS resolver. */
-export type DnsResolver = TrackedResource & {
+export interface DnsResolver extends TrackedResource {
   /**
    * ETag of the DNS resolver.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -245,7 +247,7 @@ export type DnsResolver = TrackedResource & {
    */
   readonly systemData?: SystemData;
   /** The reference to the virtual network. This cannot be changed after creation. */
-  virtualNetwork?: SubResource;
+  virtualNetwork: SubResource;
   /**
    * The current status of the DNS resolver. This is a read-only property and any attempt to set this value will be ignored.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -261,10 +263,10 @@ export type DnsResolver = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceGuid?: string;
-};
+}
 
 /** Describes an inbound endpoint for a DNS resolver. */
-export type InboundEndpoint = TrackedResource & {
+export interface InboundEndpoint extends TrackedResource {
   /**
    * ETag of the inbound endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -276,7 +278,7 @@ export type InboundEndpoint = TrackedResource & {
    */
   readonly systemData?: SystemData;
   /** IP configurations for the inbound endpoint. */
-  ipConfigurations?: IpConfiguration[];
+  ipConfigurations: IpConfiguration[];
   /**
    * The current provisioning state of the inbound endpoint. This is a read-only property and any attempt to set this value will be ignored.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -287,10 +289,10 @@ export type InboundEndpoint = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceGuid?: string;
-};
+}
 
 /** Describes an outbound endpoint for a DNS resolver. */
-export type OutboundEndpoint = TrackedResource & {
+export interface OutboundEndpoint extends TrackedResource {
   /**
    * ETag of the outbound endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -302,7 +304,7 @@ export type OutboundEndpoint = TrackedResource & {
    */
   readonly systemData?: SystemData;
   /** The reference to the subnet used for the outbound endpoint. */
-  subnet?: SubResource;
+  subnet: SubResource;
   /**
    * The current provisioning state of the outbound endpoint. This is a read-only property and any attempt to set this value will be ignored.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -313,10 +315,10 @@ export type OutboundEndpoint = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceGuid?: string;
-};
+}
 
 /** Describes a DNS forwarding ruleset. */
-export type DnsForwardingRuleset = TrackedResource & {
+export interface DnsForwardingRuleset extends TrackedResource {
   /**
    * ETag of the DNS forwarding ruleset.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -328,7 +330,7 @@ export type DnsForwardingRuleset = TrackedResource & {
    */
   readonly systemData?: SystemData;
   /** The reference to the DNS resolver outbound endpoints that are used to route DNS queries matching the forwarding rules in the ruleset to the target DNS servers. */
-  dnsResolverOutboundEndpoints?: SubResource[];
+  dnsResolverOutboundEndpoints: SubResource[];
   /**
    * The current provisioning state of the DNS forwarding ruleset. This is a read-only property and any attempt to set this value will be ignored.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -339,10 +341,10 @@ export type DnsForwardingRuleset = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceGuid?: string;
-};
+}
 
 /** Describes a forwarding rule within a DNS forwarding ruleset. */
-export type ForwardingRule = ProxyResource & {
+export interface ForwardingRule extends ProxyResource {
   /**
    * ETag of the forwarding rule.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -354,9 +356,9 @@ export type ForwardingRule = ProxyResource & {
    */
   readonly systemData?: SystemData;
   /** The domain name for the forwarding rule. */
-  domainName?: string;
+  domainName: string;
   /** DNS servers to forward the DNS query to. */
-  targetDnsServers?: TargetDnsServer[];
+  targetDnsServers: TargetDnsServer[];
   /** Metadata attached to the forwarding rule. */
   metadata?: { [propertyName: string]: string };
   /** The state of forwarding rule. */
@@ -366,10 +368,10 @@ export type ForwardingRule = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** Describes a virtual network link. */
-export type VirtualNetworkLink = ProxyResource & {
+export interface VirtualNetworkLink extends ProxyResource {
   /**
    * ETag of the virtual network link.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -381,7 +383,7 @@ export type VirtualNetworkLink = ProxyResource & {
    */
   readonly systemData?: SystemData;
   /** The reference to the virtual network. This cannot be changed after creation. */
-  virtualNetwork?: SubResource;
+  virtualNetwork: SubResource;
   /** Metadata attached to the virtual network link. */
   metadata?: { [propertyName: string]: string };
   /**
@@ -389,11 +391,13 @@ export type VirtualNetworkLink = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** Known values of {@link DnsResolverState} that the service accepts. */
 export enum KnownDnsResolverState {
+  /** Connected */
   Connected = "Connected",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -409,11 +413,17 @@ export type DnsResolverState = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled"
 }
 
@@ -433,9 +443,13 @@ export type ProvisioningState = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -453,7 +467,9 @@ export type CreatedByType = string;
 
 /** Known values of {@link IpAllocationMethod} that the service accepts. */
 export enum KnownIpAllocationMethod {
+  /** Static */
   Static = "Static",
+  /** Dynamic */
   Dynamic = "Dynamic"
 }
 
@@ -469,7 +485,9 @@ export type IpAllocationMethod = string;
 
 /** Known values of {@link ForwardingRuleState} that the service accepts. */
 export enum KnownForwardingRuleState {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 

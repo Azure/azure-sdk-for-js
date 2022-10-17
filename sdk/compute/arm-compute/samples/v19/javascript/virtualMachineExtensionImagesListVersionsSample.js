@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets a list of virtual machine extension image versions.
  *
  * @summary Gets a list of virtual machine extension image versions.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImages_ListVersions_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImages_ListVersions_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionImagesListVersionsMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -47,7 +47,7 @@ virtualMachineExtensionImagesListVersionsMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Gets a list of virtual machine extension image versions.
  *
  * @summary Gets a list of virtual machine extension image versions.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImages_ListVersions_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImages_ListVersions_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionImagesListVersionsMinimumSetGen() {
   const subscriptionId = "{subscription-id}";

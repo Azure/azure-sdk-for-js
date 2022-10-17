@@ -36,11 +36,14 @@ export {
   AnalyzeResultOperationStatus,
   SelectionMarkState,
   ParagraphRole,
-  DocumentPageKind,
   GetOperationResponse,
   OperationDetails,
   ErrorModel,
   InnerError,
+  OperationDetailsUnion,
+  DocumentModelBuildOperationDetails,
+  DocumentModelComposeOperationDetails,
+  DocumentModelCopyToOperationDetails,
 } from "./generated";
 export {
   AnalysisPoller,

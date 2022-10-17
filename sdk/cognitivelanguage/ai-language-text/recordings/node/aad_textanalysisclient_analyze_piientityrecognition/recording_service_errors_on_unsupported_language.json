@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-05-01",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "167",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "6272b8e4-3589-4319-9cdc-fa55eb96f508"
+        "User-Agent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "34f25f5a-6f36-42b3-8bac-e4ad14aa6a58"
       },
       "RequestBody": {
         "kind": "PiiEntityRecognition",
@@ -28,13 +28,14 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "b13e32d0-462e-45c8-ad7f-3fab915696d6",
-        "Content-Length": "435",
+        "apim-request-id": "32a29586-2908-4b23-81c1-00f0b1a22d40",
+        "Content-Length": "450",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 May 2022 20:17:52 GMT",
+        "Date": "Sat, 15 Oct 2022 02:21:01 GMT",
+        "Set-Cookie": ".AspNetCore.Mvc.CookieTempDataProvider=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; samesite=lax; httponly",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "2"
+        "x-envoy-upstream-service-time": "3"
       },
       "ResponseBody": {
         "kind": "PiiEntityRecognitionResults",
@@ -48,7 +49,7 @@
                 "message": "Invalid Language Code.",
                 "innererror": {
                   "code": "UnsupportedLanguageCode",
-                  "message": "Invalid language code. Supported languages: de,en,es,fr,it,ja,ko,pt-BR,pt-PT,zh-Hans. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition"
+                  "message": "Invalid language code \u0027notalanguage\u0027. Supported languages: de,en,es,fr,it,ja,ko,pt-BR,pt-PT,zh-Hans. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition"
                 }
               }
             }

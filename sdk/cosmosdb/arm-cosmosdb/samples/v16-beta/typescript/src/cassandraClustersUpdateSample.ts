@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Updates some of the properties of a managed Cassandra cluster.
  *
  * @summary Updates some of the properties of a managed Cassandra cluster.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBManagedCassandraClusterPatch.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBManagedCassandraClusterPatch.json
  */
 async function cosmosDbManagedCassandraClusterPatch() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

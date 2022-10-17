@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-05-01",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Content-Length": "592",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "ec852672-9970-42fc-a37a-5f4c73f00c3a"
+        "User-Agent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "fec84218-c91e-4ec6-8fc8-52c987374dfe"
       },
       "RequestBody": {
         "kind": "SentimentAnalysis",
@@ -48,14 +48,15 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "6f21e03f-f3d6-4eba-897c-8886eba7599d",
-        "Content-Length": "1737",
+        "apim-request-id": "6a2fb0df-0cd7-4efe-8b60-9c9aad39f76e",
+        "Content-Length": "1734",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4,CognitiveServices.TextAnalytics.TextRecords=4",
-        "Date": "Fri, 06 May 2022 20:17:29 GMT",
+        "Date": "Sat, 15 Oct 2022 02:20:42 GMT",
+        "Set-Cookie": ".AspNetCore.Mvc.CookieTempDataProvider=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; samesite=lax; httponly",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "23"
+        "x-envoy-upstream-service-time": "25"
       },
       "ResponseBody": {
         "kind": "SentimentAnalysisResults",
@@ -107,9 +108,9 @@
                 {
                   "sentiment": "neutral",
                   "confidenceScores": {
-                    "positive": 0.03,
-                    "neutral": 0.58,
-                    "negative": 0.39
+                    "positive": 0.0,
+                    "neutral": 0.92,
+                    "negative": 0.08
                   },
                   "offset": 59,
                   "length": 43,
@@ -120,19 +121,19 @@
             },
             {
               "id": "3",
-              "sentiment": "positive",
+              "sentiment": "negative",
               "confidenceScores": {
-                "positive": 0.71,
-                "neutral": 0.06,
-                "negative": 0.23
+                "positive": 0.19,
+                "neutral": 0.28,
+                "negative": 0.53
               },
               "sentences": [
                 {
-                  "sentiment": "positive",
+                  "sentiment": "negative",
                   "confidenceScores": {
-                    "positive": 0.71,
-                    "neutral": 0.06,
-                    "negative": 0.23
+                    "positive": 0.19,
+                    "neutral": 0.28,
+                    "negative": 0.53
                   },
                   "offset": 0,
                   "length": 101,
@@ -145,7 +146,7 @@
               "id": "4",
               "sentiment": "negative",
               "confidenceScores": {
-                "positive": 0.01,
+                "positive": 0.0,
                 "neutral": 0.01,
                 "negative": 0.99
               },
@@ -153,7 +154,7 @@
                 {
                   "sentiment": "negative",
                   "confidenceScores": {
-                    "positive": 0.01,
+                    "positive": 0.0,
                     "neutral": 0.01,
                     "negative": 0.99
                   },
@@ -178,7 +179,7 @@
               }
             }
           ],
-          "modelVersion": "2021-10-01"
+          "modelVersion": "2022-10-01"
         }
       }
     }

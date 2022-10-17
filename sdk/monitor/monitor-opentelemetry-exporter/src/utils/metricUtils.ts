@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { MetricAttributes } from "@opentelemetry/api-metrics";
-import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics-base";
+import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
 import { TelemetryItem as Envelope, MetricsData, MetricDataPoint } from "../generated";
 import { createTagsFromResource } from "./resourceUtils";
 
@@ -58,7 +58,7 @@ export function resourceMetricsToEnvelope(metrics: ResourceMetrics, ikey: string
         let envelope: Envelope = {
           name: "Microsoft.ApplicationInsights.Metric",
           time: time,
-          sampleRate: 100,
+          sampleRate: 100, // Metrics are never sampled
           instrumentationKey: instrumentationKey,
           tags: tags,
           version: 1,

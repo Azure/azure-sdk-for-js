@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets the MongoDB databases under an existing Azure Cosmos DB database account with the provided name.
  *
  * @summary Gets the MongoDB databases under an existing Azure Cosmos DB database account with the provided name.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBMongoDBDatabaseGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBMongoDBDatabaseGet.json
  */
 async function cosmosDbMongoDbdatabaseGet() {
   const subscriptionId = "subid";

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Deletes an existing Azure Cosmos DB Cassandra view.
  *
  * @summary Deletes an existing Azure Cosmos DB Cassandra view.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBCassandraViewDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBCassandraViewDelete.json
  */
 async function cosmosDbCassandraViewDelete() {
   const subscriptionId = "subid";

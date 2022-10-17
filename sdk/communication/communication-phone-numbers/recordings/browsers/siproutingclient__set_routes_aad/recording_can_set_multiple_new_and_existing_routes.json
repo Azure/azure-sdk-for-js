@@ -1,0 +1,240 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "248",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
+      },
+      "RequestBody": {
+        "routes": [
+          {
+            "description": "myFirstRoute\u0027s description",
+            "name": "myFirstRoute",
+            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
+            "trunks": []
+          },
+          {
+            "description": "mySecondRoute\u0027s description",
+            "name": "mySecondRoute",
+            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
+            "trunks": []
+          }
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 08 Sep 2022 23:12:21 GMT",
+        "MS-CV": "icJHIG3ZrU\u002Bz6mFU262yKg.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "01XYaYwAAAACOCIYX9Ow7QbFaJlhtFmxlUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "317ms"
+      },
+      "ResponseBody": {
+        "trunks": {
+          "11.fqdn.com": {
+            "sipSignalingPort": 1239
+          },
+          "22.fqdn.com": {
+            "sipSignalingPort": 2348
+          },
+          "33.fqdn.com": {
+            "sipSignalingPort": 3457
+          }
+        },
+        "routes": [
+          {
+            "description": "myFirstRoute\u0027s description",
+            "name": "myFirstRoute",
+            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
+            "trunks": []
+          },
+          {
+            "description": "mySecondRoute\u0027s description",
+            "name": "mySecondRoute",
+            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
+            "trunks": []
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "336",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
+      },
+      "RequestBody": {
+        "routes": [
+          {
+            "description": "myFirstRoute\u0027s description",
+            "name": "myFirstRoute",
+            "numberPattern": "^.*$",
+            "trunks": []
+          },
+          {
+            "description": "ALTERED mySecondRoute\u0027s description",
+            "name": "mySecondRoute",
+            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
+            "trunks": []
+          },
+          {
+            "description": "desc",
+            "name": "myThirdRoute",
+            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
+            "trunks": []
+          }
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 08 Sep 2022 23:12:21 GMT",
+        "MS-CV": "Aos9mMdiJEW4IwEALRhLDQ.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "01XYaYwAAAAA04\u002BOmuV1qTJ40h\u002BzEes6MUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "347ms"
+      },
+      "ResponseBody": {
+        "trunks": {
+          "11.fqdn.com": {
+            "sipSignalingPort": 1239
+          },
+          "22.fqdn.com": {
+            "sipSignalingPort": 2348
+          },
+          "33.fqdn.com": {
+            "sipSignalingPort": 3457
+          }
+        },
+        "routes": [
+          {
+            "description": "myFirstRoute\u0027s description",
+            "name": "myFirstRoute",
+            "numberPattern": "^.*$",
+            "trunks": []
+          },
+          {
+            "description": "ALTERED mySecondRoute\u0027s description",
+            "name": "mySecondRoute",
+            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
+            "trunks": []
+          },
+          {
+            "description": "desc",
+            "name": "myThirdRoute",
+            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
+            "trunks": []
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 08 Sep 2022 23:12:21 GMT",
+        "MS-CV": "//GNuj81zEeqzdImQreHNQ.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "01nYaYwAAAABUBGzF/7PPTJ7qRm9P80OYUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "121ms"
+      },
+      "ResponseBody": {
+        "trunks": {
+          "11.fqdn.com": {
+            "sipSignalingPort": 1239
+          },
+          "22.fqdn.com": {
+            "sipSignalingPort": 2348
+          },
+          "33.fqdn.com": {
+            "sipSignalingPort": 3457
+          }
+        },
+        "routes": [
+          {
+            "description": "myFirstRoute\u0027s description",
+            "name": "myFirstRoute",
+            "numberPattern": "^.*$",
+            "trunks": []
+          },
+          {
+            "description": "ALTERED mySecondRoute\u0027s description",
+            "name": "mySecondRoute",
+            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
+            "trunks": []
+          },
+          {
+            "description": "desc",
+            "name": "myThirdRoute",
+            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
+            "trunks": []
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

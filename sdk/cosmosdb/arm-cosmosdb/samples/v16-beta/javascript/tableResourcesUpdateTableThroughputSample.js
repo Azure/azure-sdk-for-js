@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Update RUs per second of an Azure Cosmos DB Table
  *
  * @summary Update RUs per second of an Azure Cosmos DB Table
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBTableThroughputUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBTableThroughputUpdate.json
  */
 async function cosmosDbTableThroughputUpdate() {
   const subscriptionId = "subid";

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Deletes an existing Azure Cosmos DB Cassandra keyspace.
  *
  * @summary Deletes an existing Azure Cosmos DB Cassandra keyspace.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBCassandraKeyspaceDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBCassandraKeyspaceDelete.json
  */
 async function cosmosDbCassandraKeyspaceDelete() {
   const subscriptionId = "subid";

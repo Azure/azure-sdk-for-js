@@ -33,6 +33,7 @@ export interface AgentPool extends SubResource {
     messageOfTheDay?: string;
     minCount?: number;
     mode?: AgentPoolMode;
+    networkProfile?: AgentPoolNetworkProfile;
     readonly nodeImageVersion?: string;
     nodeLabels?: {
         [propertyName: string]: string;
@@ -59,6 +60,7 @@ export interface AgentPool extends SubResource {
     upgradeSettings?: AgentPoolUpgradeSettings;
     vmSize?: string;
     vnetSubnetID?: string;
+    windowsProfile?: AgentPoolWindowsProfile;
     workloadRuntime?: WorkloadRuntime;
 }
 
@@ -85,6 +87,11 @@ export interface AgentPoolListResult {
 
 // @public
 export type AgentPoolMode = string;
+
+// @public
+export interface AgentPoolNetworkProfile {
+    nodePublicIPTags?: IPTag[];
+}
 
 // @public
 export interface AgentPools {
@@ -193,6 +200,11 @@ export interface AgentPoolUpgradeSettings {
 }
 
 // @public
+export interface AgentPoolWindowsProfile {
+    disableOutboundNat?: boolean;
+}
+
+// @public
 export interface AzureEntityResource extends Resource {
     readonly etag?: string;
 }
@@ -204,6 +216,9 @@ export interface AzureKeyVaultKms {
     keyVaultNetworkAccess?: KeyVaultNetworkAccessTypes;
     keyVaultResourceId?: string;
 }
+
+// @public
+export type BackendPoolType = string;
 
 // @public
 export interface CloudError {
@@ -231,8 +246,6 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerServiceClientOptionalParams);
     // (undocumented)
     agentPools: AgentPools;
-    // (undocumented)
-    apiVersion: string;
     // (undocumented)
     fleetMembers: FleetMembers;
     // (undocumented)
@@ -264,7 +277,6 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
 // @public
 export interface ContainerServiceClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
-    apiVersion?: string;
     endpoint?: string;
 }
 
@@ -296,6 +308,7 @@ export interface ContainerServiceNetworkProfile {
     dnsServiceIP?: string;
     dockerBridgeCidr?: string;
     ipFamilies?: IpFamily[];
+    kubeProxyConfig?: ContainerServiceNetworkProfileKubeProxyConfig;
     loadBalancerProfile?: ManagedClusterLoadBalancerProfile;
     loadBalancerSku?: LoadBalancerSku;
     natGatewayProfile?: ManagedClusterNATGatewayProfile;
@@ -308,6 +321,21 @@ export interface ContainerServiceNetworkProfile {
     podCidrs?: string[];
     serviceCidr?: string;
     serviceCidrs?: string[];
+}
+
+// @public
+export interface ContainerServiceNetworkProfileKubeProxyConfig {
+    enabled?: boolean;
+    ipvsConfig?: ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig;
+    mode?: Mode;
+}
+
+// @public
+export interface ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig {
+    scheduler?: IpvsScheduler;
+    tcpFinTimeoutSeconds?: number;
+    tcpTimeoutSeconds?: number;
+    udpTimeoutSeconds?: number;
 }
 
 // @public
@@ -597,7 +625,24 @@ export type Format = string;
 export type GPUInstanceProfile = string;
 
 // @public
+export interface GuardrailsProfile {
+    excludedNamespaces?: string[];
+    level: Level;
+    readonly systemExcludedNamespaces?: string[];
+    version: string;
+}
+
+// @public
 export type IpFamily = string;
+
+// @public
+export interface IPTag {
+    ipTagType?: string;
+    tag?: string;
+}
+
+// @public
+export type IpvsScheduler = string;
 
 // @public
 export type KeyVaultNetworkAccessTypes = string;
@@ -612,6 +657,12 @@ export enum KnownAgentPoolMode {
 export enum KnownAgentPoolType {
     AvailabilitySet = "AvailabilitySet",
     VirtualMachineScaleSets = "VirtualMachineScaleSets"
+}
+
+// @public
+export enum KnownBackendPoolType {
+    NodeIP = "NodeIP",
+    NodeIPConfiguration = "NodeIPConfiguration"
 }
 
 // @public
@@ -881,6 +932,12 @@ export enum KnownIpFamily {
 }
 
 // @public
+export enum KnownIpvsScheduler {
+    LeastConnection = "LeastConnection",
+    RoundRobin = "RoundRobin"
+}
+
+// @public
 export enum KnownKeyVaultNetworkAccessTypes {
     Private = "Private",
     Public = "Public"
@@ -890,6 +947,13 @@ export enum KnownKeyVaultNetworkAccessTypes {
 export enum KnownKubeletDiskType {
     OS = "OS",
     Temporary = "Temporary"
+}
+
+// @public
+export enum KnownLevel {
+    Enforcement = "Enforcement",
+    Off = "Off",
+    Warning = "Warning"
 }
 
 // @public
@@ -921,6 +985,12 @@ export enum KnownManagedClusterSKUName {
 export enum KnownManagedClusterSKUTier {
     Free = "Free",
     Paid = "Paid"
+}
+
+// @public
+export enum KnownMode {
+    Iptables = "IPTABLES",
+    Ipvs = "IPVS"
 }
 
 // @public
@@ -956,6 +1026,7 @@ export enum KnownOSDiskType {
 // @public
 export enum KnownOssku {
     CBLMariner = "CBLMariner",
+    Mariner = "Mariner",
     Ubuntu = "Ubuntu",
     Windows2019 = "Windows2019",
     Windows2022 = "Windows2022"
@@ -1075,6 +1146,9 @@ export interface KubeletConfig {
 export type KubeletDiskType = string;
 
 // @public
+export type Level = string;
+
+// @public
 export type LicenseType = string;
 
 // @public
@@ -1164,6 +1238,7 @@ export interface ManagedCluster extends TrackedResource {
     extendedLocation?: ExtendedLocation;
     readonly fqdn?: string;
     fqdnSubdomain?: string;
+    guardrailsProfile?: GuardrailsProfile;
     httpProxyConfig?: ManagedClusterHttpProxyConfig;
     identity?: ManagedClusterIdentity;
     identityProfile?: {
@@ -1247,6 +1322,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     messageOfTheDay?: string;
     minCount?: number;
     mode?: AgentPoolMode;
+    networkProfile?: AgentPoolNetworkProfile;
     readonly nodeImageVersion?: string;
     nodeLabels?: {
         [propertyName: string]: string;
@@ -1273,6 +1349,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     upgradeSettings?: AgentPoolUpgradeSettings;
     vmSize?: string;
     vnetSubnetID?: string;
+    windowsProfile?: AgentPoolWindowsProfile;
     workloadRuntime?: WorkloadRuntime;
 }
 
@@ -1348,6 +1425,7 @@ export interface ManagedClusterListResult {
 // @public
 export interface ManagedClusterLoadBalancerProfile {
     allocatedOutboundPorts?: number;
+    backendPoolType?: BackendPoolType;
     effectiveOutboundIPs?: ResourceReference[];
     enableMultipleStandardLoadBalancers?: boolean;
     idleTimeoutInMinutes?: number;
@@ -1895,6 +1973,9 @@ export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
     readonly clientId?: string;
     readonly principalId?: string;
 }
+
+// @public
+export type Mode = string;
 
 // @public
 export type NetworkMode = string;

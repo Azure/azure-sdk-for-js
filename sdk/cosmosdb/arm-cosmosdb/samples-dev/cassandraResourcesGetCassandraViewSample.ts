@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets the Cassandra view under an existing Azure Cosmos DB database account.
  *
  * @summary Gets the Cassandra view under an existing Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBCassandraViewGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBCassandraViewGet.json
  */
 async function cosmosDbCassandraViewGet() {
   const subscriptionId = "subid";

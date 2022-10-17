@@ -14,7 +14,7 @@ const App = () => {
       return
     }
 
-    request(`/subscriptions/000/resourceGroups/000/providers/Microsoft.ApiManagement/service/000/users/${userId}`)
+    request(`/users/${userId}`)
       .then(e => e.json())
       .then(({properties}) => setDefaultEmail(properties.email))
       .catch(e => {

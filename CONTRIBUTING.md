@@ -76,7 +76,7 @@ With GitHub's Codespaces, the container already has all prerequisites installed.
 If you prefer to setup your own environment instead, make sure you have these prerequisites installed and available on your `$PATH`:
 
 - Git
-- Any of the [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Any of the [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - A C++ compiler toolchain and Python (for compiling machine-code modules):
   - Windows: Install the [Visual Studio Build Tools][buildtools] from Microsoft and [Python 3.9][python39windows] from the Microsoft Store.
   - macOS: Install Xcode or the "Command Line Tools for XCode" (much smaller) from [Apple's developer downloads page](https://developer.apple.com/download/all/).

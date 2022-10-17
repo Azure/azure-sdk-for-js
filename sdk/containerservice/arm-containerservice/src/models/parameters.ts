@@ -56,7 +56,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-07-02-preview",
+    defaultValue: "2022-08-03-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -323,6 +323,18 @@ export const trustedAccessRoleBinding: OperationParameter = {
 export const parameters10: OperationParameter = {
   parameterPath: "parameters",
   mapper: FleetMapper
+};
+
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-07-02-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const fleetName: OperationURLParameter = {

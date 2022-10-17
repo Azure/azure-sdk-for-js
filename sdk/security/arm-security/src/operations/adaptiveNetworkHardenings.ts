@@ -347,7 +347,7 @@ const listByExtendedResourceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -371,7 +371,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -398,7 +398,7 @@ const enforceOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.body1,
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -424,7 +424,7 @@ const listByExtendedResourceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

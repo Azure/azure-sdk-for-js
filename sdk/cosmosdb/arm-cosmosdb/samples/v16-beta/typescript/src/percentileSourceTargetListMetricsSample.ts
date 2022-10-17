@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Retrieves the metrics determined by the given filter for the given account, source and target region. This url is only for PBS and Replication Latency data
  *
  * @summary Retrieves the metrics determined by the given filter for the given account, source and target region. This url is only for PBS and Replication Latency data
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBPercentileSourceTargetGetMetrics.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBPercentileSourceTargetGetMetrics.json
  */
 async function cosmosDbDatabaseAccountRegionGetMetrics() {
   const subscriptionId = "subid";

@@ -141,22 +141,6 @@ export interface AnalyticalStorageConfiguration {
   schemaType?: AnalyticalStorageSchemaType;
 }
 
-/** Parameters to indicate the information about the restore. */
-export interface RestoreParameters {
-  /** Describes the mode of the restore. */
-  restoreMode?: RestoreMode;
-  /** The id of the restorable database account from which the restore has to be initiated. For example: /subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{restorableDatabaseAccountName} */
-  restoreSource?: string;
-  /** Time to which the account has to be restored (ISO-8601 format). */
-  restoreTimestampInUtc?: Date;
-  /** List of specific databases available for restore. */
-  databasesToRestore?: DatabaseRestoreResource[];
-  /** List of specific gremlin databases available for restore. */
-  gremlinDatabasesToRestore?: GremlinDatabaseRestoreResource[];
-  /** List of specific tables available for restore. */
-  tablesToRestore?: string[];
-}
-
 /** Specific Databases to restore. */
 export interface DatabaseRestoreResource {
   /** The name of the database available for restore. */
@@ -171,6 +155,14 @@ export interface GremlinDatabaseRestoreResource {
   databaseName?: string;
   /** The names of the graphs available for restore. */
   graphNames?: string[];
+}
+
+/** Parameters to indicate the information about the restore. */
+export interface RestoreParametersBase {
+  /** The id of the restorable database account from which the restore has to be initiated. For example: /subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{restorableDatabaseAccountName} */
+  restoreSource?: string;
+  /** Time to which the account has to be restored (ISO-8601 format). */
+  restoreTimestampInUtc?: Date;
 }
 
 /** The object representing the policy for taking backups on an account. */
@@ -219,14 +211,26 @@ export interface Capacity {
 
 /** The metadata related to each access key for the given Cosmos DB database account. */
 export interface DatabaseAccountKeysMetadata {
-  /** The metadata related to the Primary Read-Write Key for the given Cosmos DB database account. */
-  primaryMasterKey?: AccountKeyMetadata;
-  /** The metadata related to the Secondary Read-Write Key for the given Cosmos DB database account. */
-  secondaryMasterKey?: AccountKeyMetadata;
-  /** The metadata related to the Primary Read-Only Key for the given Cosmos DB database account. */
-  primaryReadonlyMasterKey?: AccountKeyMetadata;
-  /** The metadata related to the Secondary Read-Only Key for the given Cosmos DB database account. */
-  secondaryReadonlyMasterKey?: AccountKeyMetadata;
+  /**
+   * The metadata related to the Primary Read-Write Key for the given Cosmos DB database account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primaryMasterKey?: AccountKeyMetadata;
+  /**
+   * The metadata related to the Secondary Read-Write Key for the given Cosmos DB database account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secondaryMasterKey?: AccountKeyMetadata;
+  /**
+   * The metadata related to the Primary Read-Only Key for the given Cosmos DB database account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primaryReadonlyMasterKey?: AccountKeyMetadata;
+  /**
+   * The metadata related to the Secondary Read-Only Key for the given Cosmos DB database account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secondaryReadonlyMasterKey?: AccountKeyMetadata;
 }
 
 /** The metadata related to an access key for a given database account. */
@@ -372,8 +376,13 @@ export interface DatabaseAccountUpdateParameters {
   capacity?: Capacity;
   /** Flag to indicate whether to enable MaterializedViews on the Cosmos DB account */
   enableMaterializedViews?: boolean;
-  /** This property is ignored during the update operation, as the metadata is read-only. The object represents the metadata for the Account Keys of the Cosmos DB account. */
-  keysMetadata?: DatabaseAccountKeysMetadata;
+  /**
+   * This property is ignored during the update operation, as the metadata is read-only. The object represents the metadata for the Account Keys of the Cosmos DB account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keysMetadata?: DatabaseAccountKeysMetadata;
+  /** Flag to indicate enabling/disabling of Partition Merge feature on the account */
+  enablePartitionMerge?: boolean;
 }
 
 /** The list of new failover policies for the failover priority change. */
@@ -764,6 +773,10 @@ export interface SqlDatabaseListResult {
 export interface SqlDatabaseResource {
   /** Name of the Cosmos DB SQL database */
   id: string;
+  /** Parameters to indicate the information about the restore */
+  restoreParameters?: ResourceRestoreParameters;
+  /** Enum to indicate the mode of resource creation. */
+  createMode?: CreateMode;
 }
 
 /** The system generated resource properties associated with SQL databases, SQL containers, Gremlin databases and Gremlin graphs. */
@@ -921,6 +934,10 @@ export interface SqlContainerResource {
   clientEncryptionPolicy?: ClientEncryptionPolicy;
   /** Analytical TTL. */
   analyticalStorageTtl?: number;
+  /** Parameters to indicate the information about the restore */
+  restoreParameters?: ResourceRestoreParameters;
+  /** Enum to indicate the mode of resource creation. */
+  createMode?: CreateMode;
 }
 
 /** Cosmos DB indexing policy */
@@ -1166,6 +1183,10 @@ export interface MongoDBDatabaseListResult {
 export interface MongoDBDatabaseResource {
   /** Name of the Cosmos DB MongoDB database */
   id: string;
+  /** Parameters to indicate the information about the restore */
+  restoreParameters?: ResourceRestoreParameters;
+  /** Enum to indicate the mode of resource creation. */
+  createMode?: CreateMode;
 }
 
 /** The List operation response, that contains the MongoDB collections and their properties. */
@@ -1187,6 +1208,10 @@ export interface MongoDBCollectionResource {
   indexes?: MongoIndex[];
   /** Analytical TTL. */
   analyticalStorageTtl?: number;
+  /** Parameters to indicate the information about the restore */
+  restoreParameters?: ResourceRestoreParameters;
+  /** Enum to indicate the mode of resource creation. */
+  createMode?: CreateMode;
 }
 
 /** Cosmos DB MongoDB collection index key */
@@ -2605,6 +2630,21 @@ export interface MaterializedViewsBuilderServiceResource {
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
+/** Parameters to indicate the information about the restore. */
+export interface RestoreParameters extends RestoreParametersBase {
+  /** Describes the mode of the restore. */
+  restoreMode?: RestoreMode;
+  /** List of specific databases available for restore. */
+  databasesToRestore?: DatabaseRestoreResource[];
+  /** List of specific gremlin databases available for restore. */
+  gremlinDatabasesToRestore?: GremlinDatabaseRestoreResource[];
+  /** List of specific tables available for restore. */
+  tablesToRestore?: string[];
+}
+
+/** Parameters to indicate the information about the restore. */
+export interface ResourceRestoreParameters extends RestoreParametersBase {}
+
 /** The object representing periodic mode backup policy. */
 export interface PeriodicModeBackupPolicy extends BackupPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -2729,8 +2769,13 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
   capacity?: Capacity;
   /** Flag to indicate whether to enable MaterializedViews on the Cosmos DB account */
   enableMaterializedViews?: boolean;
-  /** The object that represents the metadata for the Account Keys of the Cosmos DB account. */
-  keysMetadata?: DatabaseAccountKeysMetadata;
+  /**
+   * The object that represents the metadata for the Account Keys of the Cosmos DB account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keysMetadata?: DatabaseAccountKeysMetadata;
+  /** Flag to indicate enabling/disabling of Partition Merge feature on the account */
+  enablePartitionMerge?: boolean;
 }
 
 /** Parameters to create and update Cosmos DB database accounts. */
@@ -2796,8 +2841,13 @@ export interface DatabaseAccountCreateUpdateParameters
   capacity?: Capacity;
   /** Flag to indicate whether to enable MaterializedViews on the Cosmos DB account */
   enableMaterializedViews?: boolean;
-  /** This property is ignored during the update/create operation, as the metadata is read-only. The object represents the metadata for the Account Keys of the Cosmos DB account. */
-  keysMetadata?: DatabaseAccountKeysMetadata;
+  /**
+   * This property is ignored during the update/create operation, as the metadata is read-only. The object represents the metadata for the Account Keys of the Cosmos DB account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keysMetadata?: DatabaseAccountKeysMetadata;
+  /** Flag to indicate enabling/disabling of Partition Merge feature on the account */
+  enablePartitionMerge?: boolean;
 }
 
 /** An Azure Cosmos DB Graph resource. */
@@ -4258,6 +4308,8 @@ export enum KnownOperationType {
   Replace = "Replace",
   /** Delete */
   Delete = "Delete",
+  /** Recreate */
+  Recreate = "Recreate",
   /** SystemOperation */
   SystemOperation = "SystemOperation"
 }
@@ -4270,6 +4322,7 @@ export enum KnownOperationType {
  * **Create** \
  * **Replace** \
  * **Delete** \
+ * **Recreate** \
  * **SystemOperation**
  */
 export type OperationType = string;
@@ -4922,6 +4975,30 @@ export interface SqlResourcesMigrateSqlContainerToManualThroughputOptionalParams
 export type SqlResourcesMigrateSqlContainerToManualThroughputResponse = ThroughputSettingsGetResults;
 
 /** Optional parameters. */
+export interface SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the sqlDatabaseRetrieveThroughputDistribution operation. */
+export type SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse = PhysicalPartitionThroughputInfoResult;
+
+/** Optional parameters. */
+export interface SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the sqlDatabaseRedistributeThroughput operation. */
+export type SqlResourcesSqlDatabaseRedistributeThroughputResponse = PhysicalPartitionThroughputInfoResult;
+
+/** Optional parameters. */
 export interface SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -5209,6 +5286,30 @@ export interface MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptiona
 
 /** Contains response data for the migrateMongoDBDatabaseToManualThroughput operation. */
 export type MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse = ThroughputSettingsGetResults;
+
+/** Optional parameters. */
+export interface MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the mongoDBDatabaseRetrieveThroughputDistribution operation. */
+export type MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse = PhysicalPartitionThroughputInfoResult;
+
+/** Optional parameters. */
+export interface MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the mongoDBDatabaseRedistributeThroughput operation. */
+export type MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse = PhysicalPartitionThroughputInfoResult;
 
 /** Optional parameters. */
 export interface MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams

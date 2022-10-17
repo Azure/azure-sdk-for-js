@@ -12,8 +12,7 @@ import {
   getLogsIngestionEndpoint,
   loggerForTest,
 } from "./shared/testShared";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/core-util";
+import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 function createFailedPolicies(failedInterval: { isFailed: boolean }): AdditionalPolicyConfig[] {
@@ -39,7 +38,6 @@ describe("LogsIngestionClient live tests", function () {
   let recordedClient: RecorderAndLogsClient;
   let client: LogsIngestionClient;
   beforeEach(async function (this: Context) {
-    if (isPlaybackMode() && isNode) this.skip();
     loggerForTest.verbose(`Recorder: starting...`);
     recorder = new Recorder(this.currentTest);
     recordedClient = await createClientAndStartRecorder(recorder);
@@ -54,7 +52,7 @@ describe("LogsIngestionClient live tests", function () {
 
   it("sends empty data", async function () {
     const result = await client.upload(getDcrId(), "Custom-MyTableRawData", []);
-    assert.equal(result.uploadStatus, "Success");
+    assert.equal(result.status, "Success");
   });
 
   it("sends basic data", async function () {
@@ -76,7 +74,7 @@ describe("LogsIngestionClient live tests", function () {
         },
       },
     ]);
-    assert.equal(result.uploadStatus, "Success");
+    assert.equal(result.status, "Success");
   });
 
   it("Success Test - divides huge data into chunks", async function () {
@@ -84,11 +82,11 @@ describe("LogsIngestionClient live tests", function () {
       maxConcurrency: 3,
     });
 
-    assert.equal(result.uploadStatus, "Success");
+    assert.equal(result.status, "Success");
   });
 
   it("Partial Fail Test - when dcr id is incorrect for alternate requests", async function () {
-    const noOfElements = 50000;
+    const noOfElements = 25000;
     const logData = getObjects(noOfElements);
     const additionalPolicies = createFailedPolicies({ isFailed: false });
     client = new LogsIngestionClient(
@@ -102,11 +100,11 @@ describe("LogsIngestionClient live tests", function () {
     const result = await client.upload(getDcrId(), "Custom-MyTableRawData", logData, {
       maxConcurrency: 3,
     });
-    assert.equal(result.uploadStatus, "PartialFailure");
-    if (result.uploadStatus !== "Success") {
+    assert.equal(result.status, "PartialFailure");
+    if (result.status !== "Success") {
       result.errors.forEach((err) => {
         assert.equal(
-          err.responseError.message,
+          err.cause.message,
           `Data collection rule with immutable Id 'fake-id' not found.`
         );
       });
@@ -123,16 +121,16 @@ describe("LogsIngestionClient live tests", function () {
   });
 
   it("Throws error when all logs fail", async function () {
-    const noOfElements = 50000;
+    const noOfElements = 25000;
     const logData = getObjects(noOfElements);
     const result = await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
       maxConcurrency: 3,
     });
-    assert.equal(result.uploadStatus, "Failure");
-    if (result.uploadStatus !== "Success") {
+    assert.equal(result.status, "Failure");
+    if (result.status !== "Success") {
       result.errors.forEach((err) => {
         assert.equal(
-          err.responseError.message,
+          err.cause.message,
           `Data collection rule with immutable Id 'immutable-id-123' not found.`
         );
       });

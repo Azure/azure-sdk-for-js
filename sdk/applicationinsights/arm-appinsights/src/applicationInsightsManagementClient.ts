@@ -84,7 +84,7 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appinsights/5.0.0-beta.5`;
+    const packageDetails = `azsdk-js-arm-appinsights/5.0.0-beta.7`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

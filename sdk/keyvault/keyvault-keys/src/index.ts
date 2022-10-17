@@ -239,7 +239,7 @@ export class KeyClient {
    *
    * let client = new KeyClient(vaultUrl, credentials);
    * ```
-   * @param vaultUrl - the URL of the Key Vault. It should have this shape: `https://${your-key-vault-name}.vault.azure.net`
+   * @param vaultUrl - the URL of the Key Vault. It should have this shape: `https://${your-key-vault-name}.vault.azure.net`. You should validate that this URL references a valid Key Vault or Managed HSM resource. See https://aka.ms/azsdk/blog/vault-uri for details.
    * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
    * @param pipelineOptions - Pipeline options used to configure Key Vault API requests. Omit this parameter to use the default pipeline configuration.
    */
@@ -264,7 +264,7 @@ export class KeyClient {
     const authPolicy = bearerTokenAuthenticationPolicy({
       credential,
       scopes: [], // Scopes are going to be defined by the challenge callbacks.
-      challengeCallbacks: createChallengeCallbacks(),
+      challengeCallbacks: createChallengeCallbacks(pipelineOptions),
     });
 
     const internalPipelineOptions = {

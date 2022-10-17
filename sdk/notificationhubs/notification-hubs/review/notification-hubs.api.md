@@ -6,7 +6,9 @@
 
 import { CommonClientOptions } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AdmInstallation extends DeviceTokenInstallation {
@@ -213,7 +215,7 @@ export function buildAppleNativeMessage(nativeMessage: AppleNativeMessage, addit
 export function buildBaiduNativeMessage(nativeMessage: BaiduNativeMessage, additionalProperties?: Record<string, any>): BaiduNotification;
 
 // @public
-export function buildFirebaseLegacyNativeMessage(nativeMessage: FirebaseLegacyNativeMessage): FirebaseLegacyNotification;
+export function buildFirebaseLegacyNativeMessage(nativeMessage: FirebaseLegacyNativeMessage): FcmLegacyNotification;
 
 // @public
 export function buildWindowsBadgeNativeMessage(nativeMessage: WindowsBadgeNativeMessage): WindowsNotification;
@@ -267,28 +269,16 @@ export function createBrowserRegistrationDescription(description: Omit<BrowserRe
 export function createBrowserTemplateRegistrationDescription(description: Omit<BrowserTemplateRegistrationDescription, "type">): BrowserTemplateRegistrationDescription;
 
 // @public
-export function createFcmRegistrationDescription(description: Omit<FcmRegistrationDescription, "type">): FcmRegistrationDescription;
+export function createFcmLegacyInstallation(installation: Omit<FcmLegacyInstallation, "platform">): FcmLegacyInstallation;
 
 // @public
-export function createFcmTemplateRegistrationDescription(description: Omit<FcmTemplateRegistrationDescription, "type">): FcmTemplateRegistrationDescription;
+export function createFcmLegacyNotification(notification: Omit<FcmLegacyNotification, "platform" | "contentType">): FcmLegacyNotification;
 
 // @public
-export function createFirebaseLegacyInstallation(installation: Omit<FirebaseLegacyInstallation, "platform">): FirebaseLegacyInstallation;
+export function createFcmLegacyRegistrationDescription(description: Omit<GcmRegistrationDescription, "type">): GcmRegistrationDescription;
 
 // @public
-export function createFirebaseLegacyNotification(notification: Omit<FirebaseLegacyNotification, "platform" | "contentType">): FirebaseLegacyNotification;
-
-// @public @deprecated (undocumented)
-export function createGcmRegistrationDescription(description: Omit<GcmRegistrationDescription, "type">): GcmRegistrationDescription;
-
-// @public @deprecated (undocumented)
-export function createGcmTemplateRegistrationDescription(description: Omit<GcmTemplateRegistrationDescription, "type">): GcmTemplateRegistrationDescription;
-
-// @public @deprecated (undocumented)
-export function createMpnsRegistrationDescription(description: Omit<MpnsRegistrationDescription, "type">): MpnsRegistrationDescription;
-
-// @public @deprecated (undocumented)
-export function createMpnsTemplateRegistrationDescription(description: Omit<MpnsTemplateRegistrationDescription, "type">): MpnsTemplateRegistrationDescription;
+export function createFcmLegacyTemplateRegistrationDescription(description: Omit<GcmTemplateRegistrationDescription, "type">): GcmTemplateRegistrationDescription;
 
 // @public
 export function createTemplateNotification(notification: Omit<TemplateNotification, "platform" | "contentType">): TemplateNotification;
@@ -320,19 +310,23 @@ export interface DeviceTokenInstallation extends InstallationCommon {
 }
 
 // @public
+export interface DirectSendNotificationOptions extends OperationOptions {
+    deviceHandle: string | BrowserPushChannel | string[];
+}
+
+// @public
 export interface EntityOperationOptions extends OperationOptions {
     etag?: string;
 }
 
 // @public
-export interface FcmRegistrationDescription extends RegistrationDescriptionCommon {
-    fcmRegistrationId: string;
-    type: "Fcm";
+export interface FcmLegacyInstallation extends DeviceTokenInstallation {
+    platform: "gcm";
 }
 
 // @public
-export interface FcmTemplateRegistrationDescription extends Omit<FcmRegistrationDescription, "type">, TemplateRegistrationDescription {
-    type: "FcmTemplate";
+export interface FcmLegacyNotification extends JsonNotification {
+    platform: "gcm";
 }
 
 // @public
@@ -366,11 +360,6 @@ export interface FirebaseLegacyAppleNativePayload {
 }
 
 // @public
-export interface FirebaseLegacyInstallation extends DeviceTokenInstallation {
-    platform: "gcm";
-}
-
-// @public
 export interface FirebaseLegacyNativeMessage {
     collapseKey?: string;
     condition?: string;
@@ -387,11 +376,6 @@ export interface FirebaseLegacyNativeMessage {
 }
 
 // @public
-export interface FirebaseLegacyNotification extends JsonNotification {
-    platform: "gcm";
-}
-
-// @public
 export interface FirebaseLegacyWebNativePayload {
     body?: string;
     clickAction?: string;
@@ -399,19 +383,19 @@ export interface FirebaseLegacyWebNativePayload {
     title?: string;
 }
 
-// @public @deprecated
+// @public
 export interface GcmRegistrationDescription extends RegistrationDescriptionCommon {
     gcmRegistrationId: string;
     type: "Gcm";
 }
 
-// @public @deprecated (undocumented)
+// @public
 export interface GcmTemplateRegistrationDescription extends Omit<GcmRegistrationDescription, "type">, TemplateRegistrationDescription {
     type: "GcmTemplate";
 }
 
 // @public
-export type Installation = AppleInstallation | AdmInstallation | BaiduInstallation | BrowserInstallation | FirebaseLegacyInstallation | WindowsInstallation;
+export type Installation = AppleInstallation | AdmInstallation | BaiduInstallation | BrowserInstallation | FcmLegacyInstallation | WindowsInstallation;
 
 // @public
 export interface InstallationCommon {
@@ -459,7 +443,7 @@ export interface MpnsTemplateRegistrationDescription extends Omit<MpnsRegistrati
 }
 
 // @public
-export type Notification = AppleNotification | AdmNotification | BaiduNotification | BrowserNotification | FirebaseLegacyNotification | WindowsNotification | TemplateNotification;
+export type Notification = AppleNotification | AdmNotification | BaiduNotification | BrowserNotification | FcmLegacyNotification | WindowsNotification | TemplateNotification;
 
 // @public
 export interface NotificationCommon {
@@ -505,6 +489,9 @@ export interface NotificationHubJob {
     type: NotificationHubJobType;
     updatedAt?: Date;
 }
+
+// @public
+export type NotificationHubJobPoller = SimplePollerLike<OperationState<NotificationHubJob>, NotificationHubJob>;
 
 // @public
 export type NotificationHubJobStatus =
@@ -556,7 +543,11 @@ export interface NotificationHubsClientOptions extends CommonClientOptions {
 
 // @public
 export interface NotificationHubsMessageResponse extends NotificationHubsResponse {
+    failure: number;
     notificationId?: string;
+    results: RegistrationResult[];
+    state: NotificationOutcomeState;
+    success: number;
 }
 
 // @public
@@ -569,12 +560,14 @@ export interface NotificationHubsResponse {
 // @public
 export class NotificationHubsServiceClient {
     constructor(connectionString: string, hubName: string, options?: NotificationHubsClientOptions);
+    beginSubmitNotificationHubJob(notificationHubJob: NotificationHubJob, options?: PolledOperationOptions): Promise<NotificationHubJobPoller>;
     cancelScheduledNotification(notificationId: string, options?: OperationOptions): Promise<NotificationHubsResponse>;
     createOrUpdateInstallation(installation: Installation, options?: OperationOptions): Promise<NotificationHubsResponse>;
     createOrUpdateRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
     createRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
     createRegistrationId(options?: OperationOptions): Promise<string>;
     deleteInstallation(installationId: string, options?: OperationOptions): Promise<NotificationHubsResponse>;
+    deleteRegistration(registrationId: string, options?: EntityOperationOptions): Promise<NotificationHubsResponse>;
     getFeedbackContainerUrl(options?: OperationOptions): Promise<string>;
     getInstallation(installationId: string, options?: OperationOptions): Promise<Installation>;
     getNotificationHubJob(jobId: string, options?: OperationOptions): Promise<NotificationHubJob>;
@@ -583,11 +576,8 @@ export class NotificationHubsServiceClient {
     listNotificationHubJobs(options?: OperationOptions): Promise<NotificationHubJob[]>;
     listRegistrations(options?: RegistrationQueryOptions): PagedAsyncIterableIterator<RegistrationDescription>;
     listRegistrationsByTag(tag: string, options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
-    scheduleBroadcastNotification(scheduledTime: Date, notification: Notification, options?: OperationOptions): Promise<NotificationHubsMessageResponse>;
-    scheduleNotification(scheduledTime: Date, tags: string[] | string, notification: Notification, options?: OperationOptions): Promise<NotificationHubsMessageResponse>;
-    sendBroadcastNotification(notification: Notification, options?: SendOperationOptions): Promise<NotificationHubsMessageResponse>;
-    sendDirectNotification(pushHandle: PushHandle, notification: Notification, options?: SendOperationOptions): Promise<NotificationHubsMessageResponse>;
-    sendNotification(tags: string[] | string, notification: Notification, options?: SendOperationOptions): Promise<NotificationHubsMessageResponse>;
+    scheduleNotification(scheduledTime: Date, notification: Notification, options?: ScheduleNotificationOptions): Promise<NotificationHubsMessageResponse>;
+    sendNotification(notification: Notification, options?: DirectSendNotificationOptions | SendNotificationOptions): Promise<NotificationHubsMessageResponse>;
     submitNotificationHubJob(job: NotificationHubJob, options?: OperationOptions): Promise<NotificationHubJob>;
     updateInstallation(installationId: string, patches: JsonPatch[], options?: OperationOptions): Promise<NotificationHubsResponse>;
     updateRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
@@ -603,10 +593,15 @@ export interface NotificationOutcomeCollectionItem {
 export type NotificationOutcomeState = "Enqueued" | "DetailedStateAvailable" | "Processing" | "Completed" | "Abandoned" | "Unknown" | "NoTargetFound" | "Cancelled";
 
 // @public
+export interface PolledOperationOptions extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export type PushHandle = BrowserPushChannel | string;
 
 // @public
-export type RegistrationDescription = AdmRegistrationDescription | AdmTemplateRegistrationDescription | AppleRegistrationDescription | AppleTemplateRegistrationDescription | BaiduRegistrationDescription | BaiduTemplateRegistrationDescription | BrowserRegistrationDescription | BrowserTemplateRegistrationDescription | GcmRegistrationDescription | GcmTemplateRegistrationDescription | FcmRegistrationDescription | FcmTemplateRegistrationDescription | MpnsRegistrationDescription | MpnsTemplateRegistrationDescription | WindowsRegistrationDescription | WindowsTemplateRegistrationDescription;
+export type RegistrationDescription = AdmRegistrationDescription | AdmTemplateRegistrationDescription | AppleRegistrationDescription | AppleTemplateRegistrationDescription | BaiduRegistrationDescription | BaiduTemplateRegistrationDescription | BrowserRegistrationDescription | BrowserTemplateRegistrationDescription | GcmRegistrationDescription | GcmTemplateRegistrationDescription | MpnsRegistrationDescription | MpnsTemplateRegistrationDescription | WindowsRegistrationDescription | WindowsTemplateRegistrationDescription;
 
 // @public
 export interface RegistrationDescriptionCommon {
@@ -635,11 +630,25 @@ export interface RegistrationQueryResponse {
 }
 
 // @public
-export type RegistrationType = "Adm" | "AdmTemplate" | "Apple" | "AppleTemplate" | "Baidu" | "BaiduTemplate" | "Browser" | "BrowserTemplate" | "Gcm" | "GcmTemplate" | "Fcm" | "FcmTemplate" | "Mpns" | "MpnsTemplate" | "Windows" | "WindowsTemplate";
+export interface RegistrationResult {
+    applicationPlatform: string;
+    outcome: string;
+    pnsHandle: string;
+    registrationId: string;
+}
 
 // @public
-export interface SendOperationOptions extends OperationOptions {
+export type RegistrationType = "Adm" | "AdmTemplate" | "Apple" | "AppleTemplate" | "Baidu" | "BaiduTemplate" | "Browser" | "BrowserTemplate" | "Gcm" | "GcmTemplate" | "Mpns" | "MpnsTemplate" | "Windows" | "WindowsTemplate";
+
+// @public
+export interface ScheduleNotificationOptions extends OperationOptions {
+    tags?: string | string[];
+}
+
+// @public
+export interface SendNotificationOptions extends OperationOptions {
     enableTestSend?: boolean;
+    tags?: string | string[];
 }
 
 // @public

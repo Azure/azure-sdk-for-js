@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Retrieves the usages (most recent data) for the given database account.
  *
  * @summary Retrieves the usages (most recent data) for the given database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBDatabaseAccountGetUsages.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBDatabaseAccountGetUsages.json
  */
 async function cosmosDbDatabaseAccountGetUsages() {
   const subscriptionId = "subid";

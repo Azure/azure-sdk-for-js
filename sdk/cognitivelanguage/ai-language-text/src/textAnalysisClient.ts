@@ -5,27 +5,21 @@ import {
   AnalyzeActionName,
   AnalyzeActionParameters,
   AnalyzeBatchAction,
-  AnalyzeBatchOperationState,
   AnalyzeBatchPoller,
   AnalyzeResult,
   BeginAnalyzeBatchOptions,
-  PagedAnalyzeBatchResult,
   RestoreAnalyzeBatchPollerOptions,
   TextAnalysisClientOptions,
   TextAnalysisOperationOptions,
 } from "./models";
 import {
   AnalyzeBatchActionUnion,
+  GeneratedClientOptionalParams,
   LanguageDetectionInput,
   TextDocumentInput,
 } from "./generated/models";
 import { DEFAULT_COGNITIVE_SCOPE, SDK_VERSION } from "./constants";
-import {
-  InternalPipelineOptions,
-  bearerTokenAuthenticationPolicy,
-} from "@azure/core-rest-pipeline";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { LongRunningOperation, LroEngine } from "@azure/core-lro";
 import { TracingClient, createTracingClient } from "@azure/core-tracing";
 import {
   convertToLanguageDetectionInput,
@@ -35,14 +29,16 @@ import {
 } from "./util";
 import {
   createAnalyzeBatchLro,
-  createCancelOperation,
   createCreateAnalyzeBatchPollerLro,
+  createPollerWithCancellation,
   createUpdateAnalyzeState,
-  getDocsFromState,
+  getDocIDsFromState,
   processAnalyzeResult,
 } from "./lro";
 import { throwError, transformActionResult } from "./transforms";
 import { GeneratedClient } from "./generated/generatedClient";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { createHttpPoller } from "@azure/core-lro";
 import { logger } from "./logger";
 import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 
@@ -150,11 +146,16 @@ export class TextAnalysisClient {
     credential: TokenCredential | KeyCredential,
     options: TextAnalysisClientOptions = {}
   ) {
-    const { defaultCountryHint = "us", defaultLanguage = "en", ...pipelineOptions } = options;
+    const {
+      defaultCountryHint = "us",
+      defaultLanguage = "en",
+      serviceVersion,
+      ...pipelineOptions
+    } = options;
     this.defaultCountryHint = defaultCountryHint;
     this.defaultLanguage = defaultLanguage;
 
-    const internalPipelineOptions: InternalPipelineOptions = {
+    const internalPipelineOptions: GeneratedClientOptionalParams = {
       ...pipelineOptions,
       ...{
         loggingOptions: {
@@ -162,6 +163,7 @@ export class TextAnalysisClient {
           additionalAllowedHeaderNames: ["x-ms-correlation-request-id", "x-ms-request-id"],
         },
       },
+      apiVersion: serviceVersion,
     };
 
     this._client = new GeneratedClient(endpointUrl, internalPipelineOptions);
@@ -509,7 +511,11 @@ export class TextAnalysisClient {
             )
             .then(
               (result) =>
-                transformActionResult(actionName, realInputs, result) as AnalyzeResult<ActionName>
+                transformActionResult(
+                  actionName,
+                  realInputs.map(({ id }) => id),
+                  result
+                ) as AnalyzeResult<ActionName>
             )
         )
     );
@@ -673,27 +679,34 @@ export class TextAnalysisClient {
       tracing: this._tracing,
     });
 
-    const poller = new LroEngine<PagedAnalyzeBatchResult, AnalyzeBatchOperationState>(
-      lro as LongRunningOperation<PagedAnalyzeBatchResult>,
-      {
-        intervalInMs: updateIntervalInMs,
-        processResult: processAnalyzeResult({
-          client: this._client,
-          tracing: this._tracing,
-          documents: realInputs,
-          opOptions: { ...rest, includeStatistics },
-        }),
-        updateState: createUpdateAnalyzeState(realInputs),
-        cancel: createCancelOperation({
-          client: this._client,
-          tracing: this._tracing,
-          options: rest,
-        }),
-      }
-    );
+    const docIds = realInputs.map(({ id }) => id);
+
+    const state = { continuationToken: "" };
+
+    const poller = await createHttpPoller(lro, {
+      intervalInMs: updateIntervalInMs,
+      processResult: processAnalyzeResult({
+        client: this._client,
+        tracing: this._tracing,
+        docIds,
+        opOptions: { ...rest, includeStatistics },
+        state,
+      }),
+      updateState: createUpdateAnalyzeState(docIds),
+      withOperationLocation(operationLocation: string) {
+        state.continuationToken = operationLocation;
+      },
+    });
 
     await poller.poll();
-    return poller;
+    const id = poller.getOperationState().id;
+    return createPollerWithCancellation({
+      id,
+      client: this._client,
+      options,
+      poller,
+      tracing: this._tracing,
+    });
   }
 
   /**
@@ -726,34 +739,39 @@ export class TextAnalysisClient {
     options: RestoreAnalyzeBatchPollerOptions = {}
   ): Promise<AnalyzeBatchPoller> {
     const { includeStatistics, updateIntervalInMs, ...rest } = options;
-    const documents = getDocsFromState(serializedState);
+    const docIds = getDocIDsFromState(serializedState);
     const lro = createCreateAnalyzeBatchPollerLro({
       client: this._client,
       options: { ...rest, includeStatistics },
       tracing: this._tracing,
     });
 
-    const poller = new LroEngine<PagedAnalyzeBatchResult, AnalyzeBatchOperationState>(
-      lro as LongRunningOperation<PagedAnalyzeBatchResult>,
-      {
-        intervalInMs: updateIntervalInMs,
-        resumeFrom: serializedState,
-        processResult: processAnalyzeResult({
-          client: this._client,
-          tracing: this._tracing,
-          documents,
-          opOptions: { ...rest, includeStatistics },
-        }),
-        updateState: createUpdateAnalyzeState(),
-        cancel: createCancelOperation({
-          client: this._client,
-          tracing: this._tracing,
-          options: rest,
-        }),
-      }
-    );
+    const state = { continuationToken: "" };
+
+    const poller = await createHttpPoller(lro, {
+      intervalInMs: updateIntervalInMs,
+      restoreFrom: serializedState,
+      processResult: processAnalyzeResult({
+        client: this._client,
+        tracing: this._tracing,
+        docIds,
+        opOptions: { ...rest, includeStatistics },
+        state,
+      }),
+      updateState: createUpdateAnalyzeState(),
+      withOperationLocation(operationLocation: string) {
+        state.continuationToken = operationLocation;
+      },
+    });
 
     await poller.poll();
-    return poller;
+    const id = poller.getOperationState().id;
+    return createPollerWithCancellation({
+      id,
+      client: this._client,
+      options,
+      poller,
+      tracing: this._tracing,
+    });
   }
 }

@@ -21,7 +21,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-03-01/examples/GetReservations.json
  */
 async function catalog() {
-  const filter = "(properties/archived eq false)";
+  const filter = "(properties%2farchived+eq+false)";
   const orderby = "properties/displayName asc";
   const skiptoken = 50;
   const take = 1;

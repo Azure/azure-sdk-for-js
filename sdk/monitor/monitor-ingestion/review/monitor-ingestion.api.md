@@ -10,7 +10,7 @@ import { TokenCredential } from '@azure/core-auth';
 // @public
 export class LogsIngestionClient {
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: LogsIngestionClientOptions);
-    upload(ruleId: string, streamName: string, logs: Record<string, unknown>[], options?: UploadOptions): Promise<UploadResult>;
+    upload(ruleId: string, streamName: string, logs: Record<string, unknown>[], options?: UploadLogsOptions): Promise<UploadLogsResult>;
 }
 
 // @public
@@ -20,25 +20,25 @@ export interface LogsIngestionClientOptions extends CommonClientOptions {
 
 // @public
 export interface UploadLogsError {
+    cause: Error;
     failedLogs: Record<string, unknown>[];
-    responseError: Error;
 }
 
 // @public
-export interface UploadOptions {
+export interface UploadLogsOptions {
     maxConcurrency?: number;
 }
 
 // @public
-export type UploadResult = {
+export type UploadLogsResult = {
     errors: Array<UploadLogsError>;
-    uploadStatus: "Failure" | "PartialFailure";
+    status: "Failure" | "PartialFailure";
 } | {
-    uploadStatus: "Success";
+    status: "Success";
 };
 
 // @public
-export type UploadStatus =
+export type UploadLogsStatus =
 /** Represents Complete Failure scenario where all logs have failed for processing and the list of logs that failed to upload are returned */
 "Failure"
 /** Represents Partial Failure scenario where partial logs have failed for processing and the list of logs that failed to upload are returned */

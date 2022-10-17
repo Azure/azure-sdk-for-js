@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-util",
-  "version": "1.0.1",
+  "version": "1.1.2",
   "description": "Core library for shared utility methods",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -63,24 +63,25 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-util/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
+    "@azure/abort-controller": "^1.0.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
-    "@microsoft/api-extractor": "7.18.11",
+    "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^12.0.0",
+    "@types/node": "^14.0.0",
     "@types/sinon": "^9.0.4",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "chai": "^4.2.0",
-    "downlevel-dts": "^0.8.0",
+    "downlevel-dts": "^0.10.0",
     "cross-env": "^7.0.2",
     "eslint": "^8.0.0",
     "inherits": "^2.0.3",

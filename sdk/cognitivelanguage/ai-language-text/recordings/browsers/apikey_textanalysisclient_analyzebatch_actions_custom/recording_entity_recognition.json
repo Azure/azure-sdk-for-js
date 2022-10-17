@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs?api-version=2022-05-01",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -19,8 +19,8 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "2a2e196a-4de8-43da-b483-12b49701282b",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.0-beta.1 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
+        "x-ms-client-request-id": "5b4bb9a8-ac08-4191-868a-9cd93c332bd2",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
       },
       "RequestBody": {
         "analysisInput": {
@@ -44,21 +44,18 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "60591691-bbd6-4685-aa88-316a759bd30c",
+        "apim-request-id": "5f2a284f-70a4-4a4d-a53d-b5c9656b8200",
         "Content-Length": "0",
-        "Date": "Fri, 15 Jul 2022 14:42:45 GMT",
-        "operation-location": "https://endpoint/language/analyze-text/jobs/60427ba5-2514-4006-8d89-6a006894b520?api-version=2022-04-01-preview",
+        "Date": "Sat, 15 Oct 2022 02:26:38 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/c7cc2231-dbff-4538-9421-c31d833a0e34?api-version=2022-05-01",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "warn-agent": "-",
-        "warn-code": "299",
-        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "127"
+        "x-envoy-upstream-service-time": "417"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/60427ba5-2514-4006-8d89-6a006894b520?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/c7cc2231-dbff-4538-9421-c31d833a0e34?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -74,28 +71,25 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "0c7cb40c-ff8f-4fe3-8a1a-4b4116313ca0",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.0-beta.1 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
+        "x-ms-client-request-id": "f89c87fe-c469-4b1d-a2aa-6414614a4360",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "7677693a-4ce6-46ca-89ef-f7e705b53847",
-        "Content-Length": "282",
+        "apim-request-id": "1f20dee3-9fee-419f-b546-2d7d0e0822d9",
+        "Content-Length": "283",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 15 Jul 2022 14:42:46 GMT",
+        "Date": "Sat, 15 Oct 2022 02:26:38 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "warn-agent": "-",
-        "warn-code": "299",
-        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "10"
+        "x-envoy-upstream-service-time": "5"
       },
       "ResponseBody": {
-        "jobId": "60427ba5-2514-4006-8d89-6a006894b520",
-        "lastUpdateDateTime": "2022-07-15T14:42:46Z",
-        "createdDateTime": "2022-07-15T14:42:46Z",
-        "expirationDateTime": "2022-07-16T14:42:46Z",
+        "jobId": "c7cc2231-dbff-4538-9421-c31d833a0e34",
+        "lastUpdatedDateTime": "2022-10-15T02:26:39Z",
+        "createdDateTime": "2022-10-15T02:26:39Z",
+        "expirationDateTime": "2022-10-16T02:26:39Z",
         "status": "notStarted",
         "errors": [],
         "tasks": {
@@ -108,7 +102,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/60427ba5-2514-4006-8d89-6a006894b520?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/c7cc2231-dbff-4538-9421-c31d833a0e34?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -124,29 +118,26 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "24bfc688-a001-4664-bf2e-c97a9d5b89bc",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.0-beta.1 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
+        "x-ms-client-request-id": "ca8852b1-d2dc-4862-bf1d-8f8c4ac1d083",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "09cba690-aeb5-4a9f-9e72-feb1da976d58",
-        "Content-Length": "279",
+        "apim-request-id": "2c5807d3-6bec-4a9a-affe-a55c1624d269",
+        "Content-Length": "283",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 15 Jul 2022 14:42:46 GMT",
+        "Date": "Sat, 15 Oct 2022 02:26:38 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "warn-agent": "-",
-        "warn-code": "299",
-        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "9"
+        "x-envoy-upstream-service-time": "7"
       },
       "ResponseBody": {
-        "jobId": "60427ba5-2514-4006-8d89-6a006894b520",
-        "lastUpdateDateTime": "2022-07-15T14:42:47Z",
-        "createdDateTime": "2022-07-15T14:42:46Z",
-        "expirationDateTime": "2022-07-16T14:42:46Z",
-        "status": "running",
+        "jobId": "c7cc2231-dbff-4538-9421-c31d833a0e34",
+        "lastUpdatedDateTime": "2022-10-15T02:26:39Z",
+        "createdDateTime": "2022-10-15T02:26:39Z",
+        "expirationDateTime": "2022-10-16T02:26:39Z",
+        "status": "notStarted",
         "errors": [],
         "tasks": {
           "completed": 0,
@@ -158,7 +149,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/60427ba5-2514-4006-8d89-6a006894b520?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/c7cc2231-dbff-4538-9421-c31d833a0e34?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -174,28 +165,25 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "a930676c-10b2-4eb6-b737-8b0b8f2877b7",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.0-beta.1 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
+        "x-ms-client-request-id": "c69b8d15-45bf-45df-87a1-d952209b8ec9",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "ebf0e4ad-51e8-48b1-a831-426433b24796",
-        "Content-Length": "1969",
+        "apim-request-id": "a73c737f-998b-427e-96e9-b8383cbf71bd",
+        "Content-Length": "1970",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 15 Jul 2022 14:42:48 GMT",
+        "Date": "Sat, 15 Oct 2022 02:26:40 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "warn-agent": "-",
-        "warn-code": "299",
-        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "37"
+        "x-envoy-upstream-service-time": "27"
       },
       "ResponseBody": {
-        "jobId": "60427ba5-2514-4006-8d89-6a006894b520",
-        "lastUpdateDateTime": "2022-07-15T14:42:47Z",
-        "createdDateTime": "2022-07-15T14:42:46Z",
-        "expirationDateTime": "2022-07-16T14:42:46Z",
+        "jobId": "c7cc2231-dbff-4538-9421-c31d833a0e34",
+        "lastUpdatedDateTime": "2022-10-15T02:26:40Z",
+        "createdDateTime": "2022-10-15T02:26:39Z",
+        "expirationDateTime": "2022-10-16T02:26:39Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -206,7 +194,7 @@
           "items": [
             {
               "kind": "CustomEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-07-15T14:42:47.2420953Z",
+              "lastUpdateDateTime": "2022-10-15T02:26:40.2362115Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -339,7 +327,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/60427ba5-2514-4006-8d89-6a006894b520?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/c7cc2231-dbff-4538-9421-c31d833a0e34?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -355,28 +343,25 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "5c6468b0-af63-49d5-8ffb-25c4b35a7d69",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.0-beta.1 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
+        "x-ms-client-request-id": "4cb5f33d-4c71-4650-b6bf-d060c1f815ae",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "a2a08582-a291-42ed-b98c-9c07fb37b6b1",
-        "Content-Length": "1969",
+        "apim-request-id": "0ff5aca2-e9c5-4dc1-aa7d-b31c9787a574",
+        "Content-Length": "1970",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 15 Jul 2022 14:42:49 GMT",
+        "Date": "Sat, 15 Oct 2022 02:26:40 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "warn-agent": "-",
-        "warn-code": "299",
-        "warn-text": "Microsoft Cognitive Services Language APIs version 2022-04-01-preview is retired and will be removed by Dec 1, 2022. The latest supported version is 2022-05-01. For more information please check http://aka.ms/language-api-versions.",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "29"
+        "x-envoy-upstream-service-time": "26"
       },
       "ResponseBody": {
-        "jobId": "60427ba5-2514-4006-8d89-6a006894b520",
-        "lastUpdateDateTime": "2022-07-15T14:42:47Z",
-        "createdDateTime": "2022-07-15T14:42:46Z",
-        "expirationDateTime": "2022-07-16T14:42:46Z",
+        "jobId": "c7cc2231-dbff-4538-9421-c31d833a0e34",
+        "lastUpdatedDateTime": "2022-10-15T02:26:40Z",
+        "createdDateTime": "2022-10-15T02:26:39Z",
+        "expirationDateTime": "2022-10-16T02:26:39Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -387,7 +372,7 @@
           "items": [
             {
               "kind": "CustomEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-07-15T14:42:47.2420953Z",
+              "lastUpdateDateTime": "2022-10-15T02:26:40.2362115Z",
               "status": "succeeded",
               "results": {
                 "documents": [
