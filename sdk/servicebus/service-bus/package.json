@@ -25,6 +25,10 @@
     "buffer": "buffer",
     "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js"
   },
+  "react-native": {
+    "./dist/index.js": "dist-esm/src/index.js",
+    "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.native.js"
+  },
   "types": "./types/latest/service-bus.d.ts",
   "typesVersions": {
     "<3.6": {
@@ -34,7 +38,7 @@
     }
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "files": [
     "dist/",
@@ -135,7 +139,7 @@
     "@types/chai-as-promised": "^7.1.0",
     "@types/debug": "^4.1.4",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^12.0.0",
+    "@types/node": "^14.0.0",
     "@types/uuid": "^8.0.0",
     "@types/ws": "^7.2.4",
     "chai": "^4.2.0",

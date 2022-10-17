@@ -474,7 +474,7 @@ export interface AlertSyncSettings extends Setting {
 
 // @public
 export interface AllowedConnections {
-    get(resourceGroupName: string, ascLocation: string, connectionType: ConnectionType_2, options?: AllowedConnectionsGetOptionalParams): Promise<AllowedConnectionsGetResponse>;
+    get(resourceGroupName: string, ascLocation: string, connectionType: ConnectionType, options?: AllowedConnectionsGetOptionalParams): Promise<AllowedConnectionsGetResponse>;
     list(options?: AllowedConnectionsListOptionalParams): PagedAsyncIterableIterator<AllowedConnectionsResource>;
     listByHomeRegion(ascLocation: string, options?: AllowedConnectionsListByHomeRegionOptionalParams): PagedAsyncIterableIterator<AllowedConnectionsResource>;
 }
@@ -1248,8 +1248,7 @@ export interface ConnectionToIpNotAllowed extends AllowlistCustomAlertRule {
 }
 
 // @public
-type ConnectionType_2 = string;
-export { ConnectionType_2 as ConnectionType }
+export type ConnectionType = string;
 
 // @public
 export interface Connectors {
