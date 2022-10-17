@@ -233,7 +233,6 @@ export class StatsbeatMetrics {
   }
 
   private _failureCallback(observableResult: BatchObservableResult) {
-    // TODO: Include statusCode - implement the batched observable callback. Example at:
     // https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/opentelemetry-sdk-metrics
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
 

@@ -98,12 +98,6 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
 // Test _computeMetadata
 
-// Test non_EU connection string (reference distro)
-
-// Test EU connection string (reference distro)
-
-// Test shortHost (reference distro)
-
 // Test the resourceProvider property (reference distro)
 
 // Create a base exporter here (this will initialize a StatsbeatExporter) within this test each of the counts
