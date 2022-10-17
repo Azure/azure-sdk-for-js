@@ -3,4 +3,4 @@
 
 export * from "./geojsons";
 export * from "./models";
-export * from "./pollers";
+export * from "./lro";

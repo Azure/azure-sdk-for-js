@@ -9,29 +9,29 @@
         "Connection": "keep-alive",
         "subscription-key": "azure_maps_subscription_key",
         "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
-        "x-ms-client-request-id": "85da6998-9b58-444b-a47c-a4299e86a6a6"
+        "x-ms-client-request-id": "33dc56c8-c70c-4fd8-86f9-ef9a9c9785a9"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "11168",
+        "Content-Length": "11169",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 16 Sep 2022 10:55:45 GMT",
+        "Date": "Thu, 06 Oct 2022 02:38:22 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: 8232CCBA405443E290EEB8608E1E4F0E Ref B: SGEEDGE0617 Ref C: 2022-09-16T10:55:45Z"
+        "X-MSEdge-Ref": "Ref A: 19CC98E152424F65B1B67296A3A2AB37 Ref B: SG2EDGE3221 Ref C: 2022-10-06T02:38:22Z"
       },
       "ResponseBody": {
         "summary": {
           "query": "juice bars",
           "queryType": "NON_NEAR",
-          "queryTime": 66,
+          "queryTime": 192,
           "numResults": 10,
           "offset": 0,
-          "totalResults": 82611,
+          "totalResults": 82612,
           "fuzzyLevel": 1,
           "geoBias": {
             "lat": 47.606038,
@@ -64,11 +64,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "yogurt/juice bar"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "yogurt/juice bar"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -139,11 +139,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "yogurt/juice bar"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "yogurt/juice bar"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -214,11 +214,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "yogurt/juice bar"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "yogurt/juice bar"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -288,11 +288,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "yogurt/juice bar"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "yogurt/juice bar"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -361,11 +361,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "yogurt/juice bar"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "yogurt/juice bar"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -440,11 +440,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "yogurt/juice bar"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "yogurt/juice bar"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -522,11 +522,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "yogurt/juice bar"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "yogurt/juice bar"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -600,11 +600,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "yogurt/juice bar"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "yogurt/juice bar"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -673,11 +673,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "yogurt/juice bar"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "yogurt/juice bar"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -753,11 +753,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "yogurt/juice bar"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "yogurt/juice bar"
+                      "name": "restaurant"
                     }
                   ]
                 }

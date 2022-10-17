@@ -388,12 +388,12 @@ export const expectation9: AnalyzeBatchResult[] = [
         id: "0",
         warnings: [],
         sentiment: "negative",
-        confidenceScores: { positive: 0, neutral: 0, negative: 0.99 },
+        confidenceScores: { positive: 0, neutral: 0, negative: 1 },
         sentences: [
           {
             text: "The food was unacceptable",
             sentiment: "negative",
-            confidenceScores: { positive: 0, neutral: 0, negative: 0.99 },
+            confidenceScores: { positive: 0, neutral: 0, negative: 1 },
             offset: 0,
             length: 25,
             opinions: [
@@ -424,12 +424,12 @@ export const expectation9: AnalyzeBatchResult[] = [
         id: "1",
         warnings: [],
         sentiment: "positive",
-        confidenceScores: { positive: 0.99, neutral: 0, negative: 0 },
+        confidenceScores: { positive: 0.99, neutral: 0.01, negative: 0 },
         sentences: [
           {
             text: "The rooms were beautiful. ",
             sentiment: "positive",
-            confidenceScores: { positive: 0.99, neutral: 0, negative: 0 },
+            confidenceScores: { positive: 1, neutral: 0, negative: 0 },
             offset: 0,
             length: 26,
             opinions: [
@@ -457,7 +457,7 @@ export const expectation9: AnalyzeBatchResult[] = [
           {
             text: "The AC was good and quiet.",
             sentiment: "positive",
-            confidenceScores: { positive: 0.99, neutral: 0, negative: 0 },
+            confidenceScores: { positive: 0.99, neutral: 0.01, negative: 0 },
             offset: 26,
             length: 26,
             opinions: [
@@ -496,12 +496,12 @@ export const expectation9: AnalyzeBatchResult[] = [
         id: "2",
         warnings: [],
         sentiment: "negative",
-        confidenceScores: { positive: 0.03, neutral: 0, negative: 0.97 },
+        confidenceScores: { positive: 0, neutral: 0, negative: 0.99 },
         sentences: [
           {
             text: "The breakfast was good, but the toilet was smelly.",
             sentiment: "negative",
-            confidenceScores: { positive: 0.03, neutral: 0, negative: 0.97 },
+            confidenceScores: { positive: 0, neutral: 0, negative: 0.99 },
             offset: 0,
             length: 50,
             opinions: [
@@ -652,12 +652,12 @@ export const expectation9: AnalyzeBatchResult[] = [
         id: "4",
         warnings: [],
         sentiment: "positive",
-        confidenceScores: { positive: 1, neutral: 0, negative: 0 },
+        confidenceScores: { positive: 0.92, neutral: 0.07, negative: 0.01 },
         sentences: [
           {
             text: "I had a great unobstructed view of the Microsoft campus.",
             sentiment: "positive",
-            confidenceScores: { positive: 1, neutral: 0, negative: 0 },
+            confidenceScores: { positive: 0.92, neutral: 0.07, negative: 0.01 },
             offset: 0,
             length: 56,
             opinions: [
@@ -696,12 +696,12 @@ export const expectation9: AnalyzeBatchResult[] = [
         id: "5",
         warnings: [],
         sentiment: "negative",
-        confidenceScores: { positive: 0.09, neutral: 0, negative: 0.91 },
+        confidenceScores: { positive: 0.04, neutral: 0, negative: 0.96 },
         sentences: [
           {
             text: "Nice rooms but bathrooms were old and the toilet was dirty when we arrived.",
             sentiment: "negative",
-            confidenceScores: { positive: 0.09, neutral: 0, negative: 0.91 },
+            confidenceScores: { positive: 0.04, neutral: 0, negative: 0.96 },
             offset: 0,
             length: 75,
             opinions: [
@@ -770,12 +770,12 @@ export const expectation9: AnalyzeBatchResult[] = [
         id: "6",
         warnings: [],
         sentiment: "negative",
-        confidenceScores: { positive: 0.02, neutral: 0.09, negative: 0.88 },
+        confidenceScores: { positive: 0, neutral: 0.02, negative: 0.98 },
         sentences: [
           {
             text: "The toilet smelled.",
             sentiment: "negative",
-            confidenceScores: { positive: 0.02, neutral: 0.09, negative: 0.88 },
+            confidenceScores: { positive: 0, neutral: 0.02, negative: 0.98 },
             offset: 0,
             length: 19,
             opinions: [
@@ -818,7 +818,7 @@ export const expectation10: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+            "Invalid language code 'english'. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
         },
       },
       {
@@ -848,7 +848,7 @@ export const expectation10: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+            "Invalid language code 'english'. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
         },
       },
       {
@@ -870,7 +870,7 @@ export const expectation10: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
+            "Invalid language code 'english'. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
         },
       },
       { id: "3", warnings: [], keyPhrases: ["good food", "restaurant"] },
@@ -890,13 +890,13 @@ export const expectation11: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+            "Invalid language code 'english'. Supported languages: ar,cs,da,fi,hu,nl,no,pl,ru,sv,tr,ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
         },
       },
       { id: "3", error: { code: "InvalidDocument", message: "Document text is empty." } },
     ],
-    modelVersion,
     completedOn,
+    modelVersion,
   },
   {
     kind: "PiiEntityRecognition",
@@ -907,13 +907,13 @@ export const expectation11: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+            "Invalid language code 'english'. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
         },
       },
       { id: "3", error: { code: "InvalidDocument", message: "Document text is empty." } },
     ],
-    modelVersion,
     completedOn,
+    modelVersion,
   },
   {
     kind: "KeyPhraseExtraction",
@@ -924,13 +924,13 @@ export const expectation11: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
+            "Invalid language code 'english'. Supported languages: de,en,es,fr,it,pt-BR,pt-PT,af,am,ar,as,az,be,bg,bn,br,bs,ca,cs,cy,da,el,eo,et,eu,fa,fi,fil,fy,ga,gd,gl,gu,ha,he,hi,hr,hu,hy,id,ja,jv,ka,kk,km,kn,ko,ku,ky,la,lo,lt,lv,mg,mk,ml,mn,mr,ms,my,ne,nl,no,om,or,pa,pl,ps,ro,ru,sa,sd,si,sk,sl,so,sq,sr,su,sv,sw,ta,te,th,tr,ug,uk,ur,uz,vi,xh,yi,zh-Hans,zh-Hant. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
         },
       },
       { id: "3", error: { code: "InvalidDocument", message: "Document text is empty." } },
     ],
-    modelVersion,
     completedOn,
+    modelVersion,
   },
 ];
 
@@ -1209,12 +1209,12 @@ export const expectation16: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+            "Invalid language code 'notalanguage'. Supported languages: ar,cs,da,fi,hu,nl,no,pl,ru,sv,tr,ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
         },
       },
     ],
-    modelVersion,
     completedOn,
+    modelVersion,
   },
   {
     kind: "PiiEntityRecognition",
@@ -1224,12 +1224,12 @@ export const expectation16: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+            "Invalid language code 'notalanguage'. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
         },
       },
     ],
-    modelVersion,
     completedOn,
+    modelVersion,
   },
   {
     kind: "KeyPhraseExtraction",
@@ -1239,12 +1239,12 @@ export const expectation16: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
+            "Invalid language code 'notalanguage'. Supported languages: de,en,es,fr,it,pt-BR,pt-PT,af,am,ar,as,az,be,bg,bn,br,bs,ca,cs,cy,da,el,eo,et,eu,fa,fi,fil,fy,ga,gd,gl,gu,ha,he,hi,hr,hu,hy,id,ja,jv,ka,kk,km,kn,ko,ku,ky,la,lo,lt,lv,mg,mk,ml,mn,mr,ms,my,ne,nl,no,om,or,pa,pl,ps,ro,ru,sa,sd,si,sk,sl,so,sq,sr,su,sv,sw,ta,te,th,tr,ug,uk,ur,uz,vi,xh,yi,zh-Hans,zh-Hant. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
         },
       },
     ],
-    modelVersion,
     completedOn,
+    modelVersion,
   },
 ];
 
@@ -2418,12 +2418,12 @@ export const expectation26: AnalyzeBatchResult[] = [
         id: "0",
         warnings: [],
         sentiment: "neutral",
-        confidenceScores: { positive: 0.04, neutral: 0.76, negative: 0.2 },
+        confidenceScores: { positive: 0.46, neutral: 0.5, negative: 0.05 },
         sentences: [
           {
             text: "Patient does not suffer from high blood pressure.",
             sentiment: "neutral",
-            confidenceScores: { positive: 0.04, neutral: 0.76, negative: 0.2 },
+            confidenceScores: { positive: 0.46, neutral: 0.5, negative: 0.05 },
             offset: 0,
             length: 49,
             opinions: [],
@@ -2434,12 +2434,12 @@ export const expectation26: AnalyzeBatchResult[] = [
         id: "1",
         warnings: [],
         sentiment: "neutral",
-        confidenceScores: { positive: 0, neutral: 0.99, negative: 0.01 },
+        confidenceScores: { positive: 0.01, neutral: 0.99, negative: 0 },
         sentences: [
           {
             text: "Prescribed 100mg ibuprofen, taken twice daily.",
             sentiment: "neutral",
-            confidenceScores: { positive: 0, neutral: 0.99, negative: 0.01 },
+            confidenceScores: { positive: 0.01, neutral: 0.99, negative: 0 },
             offset: 0,
             length: 46,
             opinions: [],

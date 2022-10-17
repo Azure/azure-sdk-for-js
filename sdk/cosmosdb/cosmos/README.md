@@ -228,6 +228,39 @@ While working with Cosmos DB, you might encounter transient failures caused by [
 - Changing Database/Container throughput settings
 - Multi Region Write Operations
 
+### Limitations 
+
+Currently the features below are **not supported**. For alternatives options, check the **Workarounds** section below.
+
+### Data Plane Limitations:
+
+* Queries with COUNT from a DISTINCT subquery​
+* Direct TCP Mode access​
+* Continuation token for cross partitions queries
+* Change Feed: Processor
+* Change Feed: Read multiple partitions key values
+* Change Feed: Read specific time
+* Change Feed: Read from the beginning
+* Change Feed: Pull model
+* Cross-partition ORDER BY for mixed types
+
+### Control Plane Limitations:
+
+* Get CollectionSizeUsage, DatabaseUsage, and DocumentUsage metrics​
+* Create Geospatial Index
+* Update Autoscale throughput
+
+## Workarounds
+
+### Continuation token for cross partitions queries
+You can achieve cross partition queries with continuation token support by using
+[Side car pattern](https://github.com/Azure-Samples/Cosmosdb-query-sidecar).
+This pattern can also enable applications to be composed of heterogeneous components and technologies.
+
+### Control Plane operations
+Typically, you can use [Azure Portal](https://portal.azure.com/), [Azure Cosmos DB Resource Provider REST API](https://docs.microsoft.com/rest/api/cosmos-db-resource-provider), [Azure CLI](https://docs.microsoft.com/cli/azure/azure-cli-reference-for-cosmos-db) or [PowerShell](https://docs.microsoft.com/azure/cosmos-db/manage-with-powershell) for the control plane unsupported limitations.
+
+
 ### Additional documentation
 
 For more extensive documentation on the Cosmos DB service, see the [Azure Cosmos DB documentation][cosmos_docs] on docs.microsoft.com.

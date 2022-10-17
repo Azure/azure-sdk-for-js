@@ -21,7 +21,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-ms-client-request-id',
   'sanitized',
   'api-supported-versions',
-  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01',
+  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01, 2022-10-01',
   'X-Processing-Time',
   '23ms',
   'X-Cache',

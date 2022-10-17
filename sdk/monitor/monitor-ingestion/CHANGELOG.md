@@ -1,8 +1,6 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
-
-### Features Added
+## 1.0.0-beta.3 (2022-10-13)
 
 ### Breaking Changes
 
@@ -13,9 +11,10 @@
 - The `uploadStatus` property on the previous `UploadResult` type (now `UploadLogsResult`) has been renamed to `status`.
 - The `responseError` property on `UploadLogsError` has been renamed to `cause`.
 
-### Bugs Fixed
-
 ### Other Changes
+
+- Increased the default maximum number of concurrent requests to 5 when uploading in batches. The level of concurrency can
+  be customized using the `maxConcurrency` option passed to the `upload` method.
 
 ## 1.0.0-beta.2 (2022-08-22)
 

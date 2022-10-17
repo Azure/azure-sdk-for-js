@@ -25,15 +25,14 @@ export interface AutoShutdownProfile {
 
 // @public
 export interface ConnectionProfile {
-    clientRdpAccess?: ConnectionType_2;
-    clientSshAccess?: ConnectionType_2;
-    webRdpAccess?: ConnectionType_2;
-    webSshAccess?: ConnectionType_2;
+    clientRdpAccess?: ConnectionType;
+    clientSshAccess?: ConnectionType;
+    webRdpAccess?: ConnectionType;
+    webSshAccess?: ConnectionType;
 }
 
 // @public
-type ConnectionType_2 = "Public" | "Private" | "None";
-export { ConnectionType_2 as ConnectionType }
+export type ConnectionType = "Public" | "Private" | "None";
 
 // @public
 export type CreatedByType = string;
