@@ -1,0 +1,69 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://2cb8a478-4e54-4216-9aba-5cd0e68c7551.eus.cnt-prod.loadtesting.azure.com/appcomponents/appcomp123?api-version=2022-06-01-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "424",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "2d777a3e-dee5-4aaf-98ae-90d9b2f5245d",
+        "x-ms-useragent": "azsdk-js-load-testing-rest/1.0.0-beta.1 core-rest-pipeline/1.9.2 OS/Win32"
+      },
+      "RequestBody": {
+        "name": "app_component",
+        "testId": "abc",
+        "value": {
+          "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo": {
+            "resourceId": "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo",
+            "resourceName": "App-Service-Sample-Demo",
+            "resourceType": "Microsoft.Web/sites",
+            "subscriptionId": ""
+          }
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview",
+        "Connection": "keep-alive",
+        "Content-Length": "683",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 17 Oct 2022 18:47:34 GMT",
+        "mise-correlation-id": "952f24a6-8359-4b36-9b54-74eaa4fc6663",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "c9ab8edf-5bdd-4af0-acf4-b963366ab815"
+      },
+      "ResponseBody": {
+        "resourceId": "/subscriptions/7c71b563-0dc0-4bc0-bcf6-06f8f0516c7a/resourcegroups/mrinal/providers/microsoft.loadtestservice/loadtests/mrgautam-auseast",
+        "testId": "abc",
+        "testRunId": null,
+        "name": "appcomp123",
+        "value": {
+          "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo": {
+            "resourceId": "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo",
+            "resourceName": "App-Service-Sample-Demo",
+            "resourceType": "Microsoft.Web/sites",
+            "displayName": null,
+            "resourceGroup": "App-Service-Sample-Demo-rg",
+            "subscriptionId": "{SUBSCRIPTION_ID}",
+            "kind": null
+          }
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

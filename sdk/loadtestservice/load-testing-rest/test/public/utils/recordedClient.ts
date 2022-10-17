@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import AzureLoadTesting, { AzureLoadTestingClient } from "../../../src";
 import { Context } from "mocha";
-import { Recorder, env, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import "./env";
 
 import { ClientOptions } from "@azure-rest/core-client";
@@ -20,14 +20,21 @@ const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback,
 };
 
-export function createClient(options?: ClientOptions): AzureLoadTestingClient {
+export function createClient(
+  recorder: Recorder,
+  options: ClientOptions = {}
+): AzureLoadTestingClient {
   const credential = new ClientSecretCredential(
-    env.AZURE_TENANT_ID || "",
-    env.AZURE_CLIENT_ID || "",
-    env.AZURE_CLIENT_SECRET || ""
+    "72f988bf-86f1-41af-91ab-2d7cd011db47",
+    "747dd2f6-45bb-43db-9286-1a701def44a1",
+    "3Nw7Q~8Q_qSx_3o-c~4uw2J78rsiZ3dWjinzY"
   );
 
-  return AzureLoadTesting(env.LOADTESTSERVICE_ENDPOINT || "", credential, { ...options });
+  return AzureLoadTesting(
+    "2cb8a478-4e54-4216-9aba-5cd0e68c7551.eus.cnt-prod.loadtesting.azure.com",
+    credential,
+    recorder.configureClientOptions(options)
+  );
 }
 
 /**

@@ -13,7 +13,7 @@ describe("Test Run Creation", () => {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    client = createClient();
+    client = createClient(recorder);
   });
 
   afterEach(async function () {

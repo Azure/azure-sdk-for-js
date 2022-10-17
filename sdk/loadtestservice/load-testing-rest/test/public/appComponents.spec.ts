@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env} from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorder, createClient } from "./utils/recordedClient";
 import { Context } from "mocha";
@@ -10,11 +10,11 @@ import { AzureLoadTestingClient } from "../../src";
 describe("Create app component", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
-  const SUBSCRIPTION_ID = process.env["SUBSCRIPTION_ID"] || "";
+  const SUBSCRIPTION_ID = env["SUBSCRIPTION_ID"] || "";
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    client = createClient();
+    client = createClient(recorder);
   });
 
   afterEach(async function () {

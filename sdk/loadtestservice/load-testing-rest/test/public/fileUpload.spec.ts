@@ -6,16 +6,21 @@ import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { AzureLoadTestingClient } from "../../src";
-let fs = require("fs");
+import * as fs from "fs";
+import { isNode } from "@azure/core-util";
 
 describe("File Upload", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
-  const readStream = fs.createReadStream("./test/public/sample.jmx");
+  let readStream: fs.ReadStream;
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    client = createClient();
+    if (!isNode) {
+      this.skip();
+    }
+    client = createClient(recorder);
+    readStream = fs.createReadStream("./test/public/sample.jmx");
   });
 
   afterEach(async function () {

@@ -5,13 +5,22 @@
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "106",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v14.15.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "6640db0c-61c2-47b1-be15-9fa34fdbd369"
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "42dda509-5104-472f-99af-2100f47cb9bf",
+        "x-ms-useragent": "azsdk-js-load-testing-rest/1.0.0-beta.1 core-rest-pipeline/1.9.2 OS/Win32"
       },
       "RequestBody": {
         "displayName": "sample_test",
@@ -25,13 +34,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview",
         "Connection": "keep-alive",
-        "Content-Length": "1062",
+        "Content-Length": "1064",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 17 Oct 2022 17:21:59 GMT",
-        "mise-correlation-id": "39457877-108e-4a6a-9869-c531c96b996f",
+        "Date": "Mon, 17 Oct 2022 18:47:38 GMT",
+        "mise-correlation-id": "7b56a369-3663-4970-bc0e-1448a049ba65",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "73b483a3-2e5f-4302-bf8e-70d3c8214720"
+        "x-ms-correlation-request-id": "60de7905-f29e-452c-a322-cda3ff7885fd"
       },
       "ResponseBody": {
         "testId": "abc",
@@ -50,12 +59,12 @@
         "inputArtifacts": {
           "configUrl": null,
           "testScriptUrl": {
-            "url": "https://stcntproddataeus.blob.core.windows.net/e7c26d4d-e99d-40d9-89cf-c68b4410c5ef/xyz12365?sv=2020-04-08\u0026se=2022-10-17T18%3A21%3A59Z\u0026sr=b\u0026sp=r\u0026sig=%2BhlPJ2qBcYZnGUgv72Xd9QuvZ0xEeJf9MD03d9ug%2FbU%3D",
+            "url": "https://stcntproddataeus.blob.core.windows.net/e7c26d4d-e99d-40d9-89cf-c68b4410c5ef/xyz12365?sv=2020-04-08\u0026se=2022-10-17T19%3A47%3A38Z\u0026sr=b\u0026sp=r\u0026sig=W8rrjp6HOYacnEFHxUgxdT37%2FZNu%2Fy5R%2B56gQ%2FM2Yds%3D",
             "fileId": "xyz12365",
             "filename": "sample.jmx",
             "fileType": 0,
-            "expireTime": "2022-10-17T17:31:59.6545603\u002B00:00",
-            "validationStatus": "VALIDATION_INITIATED"
+            "expireTime": "2022-10-17T18:57:38.9791035\u002B00:00",
+            "validationStatus": "VALIDATION_SUCCESS"
           },
           "userPropUrl": null,
           "inputArtifactsZipFileurl": null,
