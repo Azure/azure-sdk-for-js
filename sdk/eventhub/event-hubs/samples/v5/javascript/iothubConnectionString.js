@@ -17,6 +17,7 @@ const { Buffer } = require("buffer");
 const { Connection, ReceiverEvents, parseConnectionString } = require("rhea-promise");
 const rheaPromise = require("rhea-promise");
 const { EventHubConsumerClient, earliestEventPosition } = require("@azure/event-hubs");
+const { ErrorNameConditionMapper: AMQPError } = require("@azure/core-amqp");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -98,8 +99,9 @@ async function convertIotHubToEventHubsConnectionString(connectionString) {
   return new Promise((resolve, reject) => {
     receiver.on(ReceiverEvents.receiverError, (context) => {
       const error = context.receiver && context.receiver.error;
-      if (isAmqpError(error) && error.condition === "amqp:link:redirect" && error.info) {
+      if (isAmqpError(error) && error.condition === AMQPError.LinkRedirectError && error.info) {
         const hostname = error.info.hostname;
+        // an example: "amqps://iothub.test-1234.servicebus.windows.net:5671/hub-name/$management"
         const iotAddress = error.info.address;
         const regex = /:\d+\/(.*)\/\$management/i;
         const regexResults = regex.exec(iotAddress);
