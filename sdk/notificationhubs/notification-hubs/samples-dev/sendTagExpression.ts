@@ -14,6 +14,7 @@
  * @azsdk-weight 100
  */
 
+import * as dotenv from "dotenv";
 import {
   NotificationDetails,
   NotificationOutcomeState,
@@ -22,14 +23,13 @@ import {
   NotificationHubsClientContext,
   createClientContext,
 } from "@azure/notification-hubs/client";
-import { SendOperationOptions } from "@azure/notification-hubs/models/options";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
 import { delay } from "@azure/core-util";
 import { getNotificationOutcomeDetails } from "@azure/notification-hubs/client/getNotificationOutcomeDetails";
+import { isRestError } from "@azure/core-rest-pipeline";
 import { sendNotification } from "@azure/notification-hubs/client/sendNotification";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and hub name
@@ -50,9 +50,11 @@ async function main() {
     },
   });
 
-  // Not required but can set test send to true for debugging purposes.
-  const sendOptions: SendOperationOptions = { enableTestSend: false };
-  const result = await sendNotification(context, tagExpression, notification, sendOptions);
+  // Can set enableTestSend to true for debugging purposes
+  const result = await sendNotification(context, notification, {
+    enableTestSend: false,
+    tags: tagExpression,
+  });
 
   console.log(`Tag Expression send Tracking ID: ${result.trackingId}`);
   console.log(`Tag Expression Correlation ID: ${result.correlationId}`);
@@ -81,6 +83,11 @@ async function getNotificationDetails(
       state = result.state!;
     } catch (e) {
       // Possible to get 404 for when it doesn't exist yet.
+      if (isRestError(e) && e.statusCode === 404) {
+        continue;
+      } else {
+        throw e;
+      }
     }
 
     await delay(1000);

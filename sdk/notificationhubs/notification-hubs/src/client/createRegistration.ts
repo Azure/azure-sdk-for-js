@@ -24,7 +24,7 @@ export function createRegistration(
   options: OperationOptions = {}
 ): Promise<RegistrationDescription> {
   return tracingClient.withSpan(
-    `NotificationHubsClientContext-${OPERATION_NAME}`,
+    `NotificationHubsClientContext.${OPERATION_NAME}`,
     options,
     async (updatedOptions) => {
       if (registration.registrationId) {
