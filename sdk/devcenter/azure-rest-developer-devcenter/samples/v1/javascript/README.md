@@ -45,8 +45,8 @@ npx cross-env AZURE_TENANT_ID="<azure tenant id>" AZURE_DEVCENTER_NAME="<azure d
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[samplecreatedevbox]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devcenter/azure-rest-developer-devcenter/samples/v1/javascript/sampleCreateDevBox.js
-[samplecreateenvironment]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devcenter/azure-rest-developer-devcenter/samples/v1/javascript/sampleCreateEnvironment.js
+[samplecreatedevbox]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devcenter/developer-devcenter-rest/samples/v1/javascript/sampleCreateDevBox.js
+[samplecreateenvironment]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devcenter/developer-devcenter-rest/samples/v1/javascript/sampleCreateEnvironment.js
 [apiref]: https://learn.microsoft.com/azure/dev-box/
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devcenter/azure-rest-developer-devcenter/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devcenter/developer-devcenter-rest/README.md
