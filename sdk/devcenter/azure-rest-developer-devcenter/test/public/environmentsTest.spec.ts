@@ -10,6 +10,7 @@ import {
   EnvironmentsCreateOrUpdateEnvironmentParameters,
   getLongRunningPoller,
   isUnexpected,
+  paginate,
 } from "../../src/index";
 
 describe("DevCenter Environments Operations Test", () => {
@@ -54,7 +55,7 @@ describe("DevCenter Environments Operations Test", () => {
       },
     };
 
-    // Provision a dev box
+    // Provision an environment
     const environmentCreateResponse = await client
       .path(
         "/projects/{projectName}/users/{userId}/environments/{environmentName}",
@@ -64,20 +65,27 @@ describe("DevCenter Environments Operations Test", () => {
       )
       .put(environmentsCreateParameters);
     console.log("Sent create");
-    assert.equal(
-      environmentCreateResponse.status,
-      "201",
-      "Environment creation should return 201 created."
-    );
     if (isUnexpected(environmentCreateResponse)) {
       throw new Error(
         `Creation failed with message ${environmentCreateResponse.body?.error.message}`
       );
     }
 
+    assert.equal(
+      environmentCreateResponse.status,
+      "201",
+      "Environment creation should return 201 created."
+    );
+
     const environmentCreatePoller = getLongRunningPoller(client, environmentCreateResponse);
     const environmentCreateResult = await environmentCreatePoller.pollUntilDone();
 
+    if (isUnexpected(environmentCreateResult)) {
+      throw new Error(`Creation failed with message ${environmentCreateResult.body?.error.message}`);
+    }
+
+    assert.equal(environmentCreateResult.status, "200", "Create environment polling should return 200 OK.");
+    assert.equal(environmentCreateResult.body.name, environmentName);
     assert.equal(environmentCreateResult.body.provisioningState, "Succeeded");
     console.log(
       `Provisioned environment with state ${environmentCreateResult.body.provisioningState}.`
@@ -92,10 +100,21 @@ describe("DevCenter Environments Operations Test", () => {
         environmentName
       )
       .get();
-    assert.equal(artifactListResult.status, "200", "Artifact listing should return 200 OK.");
+
     if (isUnexpected(artifactListResult)) {
       throw new Error(artifactListResult.body?.error.message);
     }
+
+    assert.equal(artifactListResult.status, "200", "Artifact listing should return 200 OK.");
+
+    // Get the all results by helper function paginate
+    const pageData = paginate(client, artifactListResult);
+    const result = [];
+    for await (const item of pageData) {
+      result.push(item);
+    }
+
+    assert.equal(result.length, 2, "Get all artifact data");
 
     console.log("Retrieved deployment artifacts:");
     console.log(artifactListResult.body.value);
@@ -109,17 +128,30 @@ describe("DevCenter Environments Operations Test", () => {
         environmentName
       )
       .delete();
+
+    if (isUnexpected(environmentDeleteResponse)) {
+      throw new Error(environmentDeleteResponse.body?.error.message);
+    }
+
     assert.equal(
       environmentDeleteResponse.status,
       "202",
       "Environment delete should return 202 accepted."
     );
-    if (isUnexpected(environmentDeleteResponse)) {
-      throw new Error(environmentDeleteResponse.body?.error.message);
-    }
 
     const environmentDeletePoller = getLongRunningPoller(client, environmentDeleteResponse);
-    await environmentDeletePoller.pollUntilDone();
+    const environmentDeleteResult = await environmentDeletePoller.pollUntilDone();
+
+    if (isUnexpected(environmentDeleteResult)) {
+      throw new Error(environmentDeleteResult.body?.error.message);
+    }
+
+    assert.equal(
+      environmentDeleteResult.status,
+      "200",
+      "Environment delete long-running operation should return 200 OK."
+    );
+
     console.log("Cleaned up environment successfully.");
   });
 });

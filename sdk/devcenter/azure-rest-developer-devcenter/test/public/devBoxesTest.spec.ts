@@ -56,16 +56,23 @@ describe("DevCenter Dev Boxes Operations Test", () => {
         devBoxName
       )
       .put(devBoxCreateParameters);
-    assert.equal(devBoxCreateResponse.status, "201", "Dev Box creation should return 201 Created.");
 
     if (isUnexpected(devBoxCreateResponse)) {
       console.log(`Unexpected ${JSON.stringify(devBoxCreateResponse)}`);
       throw new Error(devBoxCreateResponse.body?.error.message);
     }
 
+    assert.equal(devBoxCreateResponse.status, "201", "Dev Box creation should return 201 Created.");
+
     const devBoxCreatePoller = getLongRunningPoller(client, devBoxCreateResponse);
     const devBoxCreateResult = await devBoxCreatePoller.pollUntilDone();
 
+    if (isUnexpected(devBoxCreateResult)) {
+      throw new Error(devBoxCreateResult.body?.error.message);
+    }
+
+    assert.equal(devBoxCreateResult.status, "200", "Dev box creation long-running operation should return 200 OK.");
+    assert.equal(devBoxCreateResult.body.name, devBoxName);
     console.log(`Provisioned dev box with state ${devBoxCreateResult.body.provisioningState}.`);
 
     // Tear down the machine when finished
@@ -77,13 +84,26 @@ describe("DevCenter Dev Boxes Operations Test", () => {
         devBoxName
       )
       .delete();
-    assert.equal(devBoxDeleteResponse.status, "202", "Delete Dev Box should return 202 Accepted.");
+
     if (isUnexpected(devBoxDeleteResponse)) {
       throw new Error(devBoxDeleteResponse.body?.error.message);
     }
 
+    assert.equal(devBoxDeleteResponse.status, "202", "Delete Dev Box should return 202 Accepted.");
+
     const devBoxDeletePoller = getLongRunningPoller(client, devBoxDeleteResponse);
-    await devBoxDeletePoller.pollUntilDone();
+    const devBoxDeleteResult = await devBoxDeletePoller.pollUntilDone();
+
+    if (isUnexpected(devBoxDeleteResult)) {
+      throw new Error(devBoxDeleteResult.body?.error.message);
+    }
+
+    assert.equal(
+      devBoxDeleteResult.status,
+      "200",
+      "Dev box delete long-running operation should return 200 OK."
+    );
+
     console.log(`Cleaned up dev box successfully.`);
   });
 });

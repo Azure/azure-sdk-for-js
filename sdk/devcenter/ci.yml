@@ -8,7 +8,7 @@ trigger:
       - hotfix/*
   paths:
     include:
-      - sdk/devcenter/developer-devcenter-rest
+      - sdk/devcenter/azure-rest-developer-devcenter
       - sdk/devcenter/ci.yml
 
 pr:
@@ -22,7 +22,7 @@ pr:
       - feature/v4
   paths:
     include:
-      - sdk/devcenter/developer-devcenter-rest
+      - sdk/devcenter/azure-rest-developer-devcenter
       - sdk/devcenter/ci.yml
 
 extends:
@@ -30,6 +30,5 @@ extends:
   parameters:
     ServiceDirectory: devcenter
     Artifacts:
-      - name: developer-devcenter-rest
-        safeName: developerdevcenterrest
-        
+      - name: azure-rest-developer-devcenter
+        safeName: azurerestdeveloperdevcenter

@@ -5,6 +5,7 @@ import {
   PoolOutput,
   DevBoxesCreateDevBoxParameters,
   getLongRunningPoller,
+  paginate,
 } from "@azure-rest/developer-devcenter";
 import createClient from "@azure-rest/developer-devcenter";
 
@@ -17,33 +18,65 @@ async function createDevBox() {
   const devCenter = process.env.AZURE_DEVCENTER_NAME || "<devcenter name>";
   const client = createClient(tenantId, devCenter, new DefaultAzureCredential());
 
+  // Get all projects
   const projectList = await client.path("/projects").get();
+  const projects: ProjectOutput[] = [];
   if (isUnexpected(projectList)) {
     throw projectList.body.error;
   }
 
-  let project: ProjectOutput = projectList.body.value[0];
-  if (project === undefined || project.name === undefined) {
+  console.log('Iterating through project results:');
+
+  for await (const project of paginate(client, projectList)) {
+    const { name } = project;
+    console.log(`Received project "${name}"`);
+    projects.push(project);
+  }
+
+  if (projects.length < 1) {
     throw "No projects found.";
   }
-  const projectName: string = project.name;
 
+  const firstProject = projects[0];
+
+  if (!firstProject?.name) {
+    throw "Project is missing name";
+  }
+
+  const projectName: string = firstProject.name;
+
+  // Get all pools for the first project
   const poolList = await client.path("/projects/{projectName}/pools", projectName).get();
+  const pools: PoolOutput[] = [];
+
   if (isUnexpected(poolList)) {
     throw poolList.body.error;
   }
 
-  let pool: PoolOutput = poolList.body.value[0];
-  if (pool === undefined || pool.name === undefined) {
+  console.log('Iterating through pool results:');
+
+  for await (const pool of paginate(client, poolList)) {
+    const { name } = pool;
+    console.log(`Received pool "${name}"`);
+    pools.push(pool);
+  }
+
+  if (pools.length < 1) {
     throw "No pools found.";
   }
 
+  const firstPool = pools[0];
+
+  if (!firstPool?.name) {
+    throw "Pool is missing name";
+  }
+
+  // Create a dev box with the first pool
   const devBoxCreateParameters: DevBoxesCreateDevBoxParameters = {
     contentType: "application/json",
-    body: { poolName: pool.name },
+    body: { poolName: firstPool.name },
   };
 
-  // Provision a dev box
   const devBoxCreateResponse = await client
     .path(
       "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}",
@@ -52,6 +85,7 @@ async function createDevBox() {
       "TestDevBox"
     )
     .put(devBoxCreateParameters);
+
   if (isUnexpected(devBoxCreateResponse)) {
     throw new Error(devBoxCreateResponse.body.error.message);
   }
