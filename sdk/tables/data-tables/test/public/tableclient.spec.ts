@@ -1,14 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Edm, TableClient, TableEntity, TableEntityResult, odata } from "../../src";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import {
+  Edm,
+  TableClient,
+  TableEntity,
+  TableEntityResult,
+  TableServiceClient,
+  odata,
+} from "../../src";
+import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { createTableClient, createTableServiceClient } from "./utils/recordedClient";
 import { isNode, isNode8 } from "@azure/test-utils";
 import { Context } from "mocha";
 import { FullOperationResponse } from "@azure/core-client";
 import { SendRequest } from "@azure/core-rest-pipeline";
 import { assert } from "@azure/test-utils";
-import { createTableClient } from "./utils/recordedClient";
 import { getSecondaryUrlFromPrimary } from "../../src/secondaryEndpointPolicy";
 import sinon from "sinon";
 
@@ -697,11 +704,8 @@ describe(`TableClient`, () => {
 });
 
 describe("regional failover", () => {
-  let client: TableClient;
-  let unRecordedClient: TableClient;
-  let recorder: Recorder;
-  const suffix = isNode ? "node" : "browser";
-  const tableName = `RegionalFailover${suffix}`;
+  const tableNameSuffix = isNode ? "node" : "browser";
+  const tableName = `RegionalFailover${tableNameSuffix}`;
   function stubRetryPolicy(tableClient: TableClient) {
     const retryPolicy = tableClient.pipeline
       .getOrderedPolicies()
@@ -727,50 +731,145 @@ describe("regional failover", () => {
     return stub;
   }
 
-  async function createFailoverClient(rec?: Recorder) {
-    const tempClient = await createTableClient(tableName, "SASConnectionString");
-    const secondaryUrl = getSecondaryUrlFromPrimary(tempClient.url);
-    return createTableClient(tableName, "SASConnectionString", rec, {
-      readFailoverHosts: [secondaryUrl],
+  function listReplicaHosts(baseUrl: string, regions: string[]): string[] {
+    return regions.map((region) => {
+      const url = new URL(baseUrl);
+      const suffix = region.toLowerCase().replace(/\s+/g, "");
+      const splitHostname = url.hostname.split(".");
+      if (splitHostname.length > 1) {
+        splitHostname[0] = `${splitHostname[0]}-${suffix}`;
+      }
+      url.hostname = splitHostname.join(".");
+      return url.toString();
     });
   }
 
-  before(async () => {
-    if (!isPlaybackMode()) {
-      unRecordedClient = await createFailoverClient();
-      await unRecordedClient.createTable();
+  async function createFailoverClient(
+    service: "Cosmos" | "Storage",
+    rec?: Recorder
+  ): Promise<TableClient> {
+    if (service === "Storage") {
+      const tempClient = await createTableClient(tableName, "SASConnectionString");
+      const secondaryUrl = getSecondaryUrlFromPrimary(tempClient.url);
+      return createTableClient(tableName, "SASConnectionString", rec, {
+        readFailoverHosts: [secondaryUrl],
+      });
+    } else {
+      const tempClient = await createTableClient(tableName, "CosmosKey");
+      const hosts = listReplicaHosts(tempClient.url, [
+        env.COSMOS_PRIMARY_LOCATION!,
+        env.COSMOS_SECONDARY_LOCATION!,
+      ]);
+      return createTableClient(tableName, "CosmosKey", rec, {
+        readFailoverHosts: hosts,
+        writeFailoverHosts: hosts,
+      });
     }
-  });
+  }
+  /**
+   * Waits for the secondary table to catch up to writes to the primary at or before `creationTime`.
+   * Returns false if failed or timed out
+   */
+  async function syncSecondary(sc: TableServiceClient, creationTime: Date): Promise<boolean> {
+    // Azure Storage typically has, but does not guarantee, a propagation delay of less than 15 minutes
+    const fifteenMinutesInMs = 15 * 60 * 1000;
+    const timeout = 1.1 * fifteenMinutesInMs;
 
-  after(async () => {
-    if (!isPlaybackMode()) {
-      unRecordedClient = await createFailoverClient();
-      await unRecordedClient.deleteTable();
+    let statistics = await sc.getStatistics();
+    if (statistics.geoReplication?.status !== "live") {
+      return false;
     }
+
+    while (Date.now() < creationTime.valueOf() + timeout) {
+      await new Promise((resolve) => setTimeout(resolve, 60 * 1000));
+      statistics = await sc.getStatistics();
+      const lastSyncTime = statistics.geoReplication?.lastSyncTime;
+      if (lastSyncTime && creationTime < lastSyncTime) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function failoverTest(service: "Storage" | "Cosmos") {
+    // TODO: Figure out Cosmos auth in browser
+    if (service === "Cosmos" && !isNode) {
+      return;
+    }
+
+    let client: TableClient;
+    let unRecordedClient: TableClient;
+    let recorder: Recorder;
+    let serviceClient: TableServiceClient;
+
+    before(async () => {
+      if (!isPlaybackMode()) {
+        unRecordedClient = await createFailoverClient(service);
+        await unRecordedClient.createTable();
+      }
+    });
+
+    after(async () => {
+      if (!isPlaybackMode()) {
+        unRecordedClient = await createFailoverClient(service);
+        await unRecordedClient.deleteTable();
+      }
+    });
+
+    beforeEach(async function (this: Context) {
+      recorder = new Recorder(this.currentTest);
+      // todo: test with every auth mode
+      client = await createFailoverClient(service, recorder);
+      if (service === "Storage") {
+        serviceClient = await createTableServiceClient("SASConnectionString");
+      }
+    });
+
+    afterEach(async function () {
+      await recorder.stop();
+    });
+
+    it("should support regional failover", async () => {
+      type TestEntityType = TableEntity<{ data: string }>;
+      const testEntity: TestEntityType = {
+        partitionKey: "p1",
+        rowKey: "r1",
+        data: "data",
+      };
+      try {
+        const createdAt = (await client.createEntity(testEntity)).date;
+        if (!createdAt) {
+          assert.fail("Entity creation failed");
+        }
+        if (
+          service === "Storage" &&
+          !(isPlaybackMode() || (await syncSecondary(serviceClient, createdAt)))
+        ) {
+          assert.fail(
+            "Storage either is not configured with RA-GRS or is taking too long to propagate this entity."
+          );
+        }
+
+        const stub = stubRetryPolicy(client);
+        const expectEntity: TestEntityType = await client.getEntity(
+          testEntity.partitionKey,
+          testEntity.rowKey
+        );
+
+        stub.restore();
+
+        assert.deepEqual(expectEntity, { ...expectEntity, ...testEntity });
+      } finally {
+        await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey);
+      }
+    });
+  }
+
+  describe("storage", async () => {
+    failoverTest("Storage");
   });
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    // todo: test with every auth mode
-    client = await createFailoverClient(recorder);
-  });
-
-  afterEach(async function () {
-    await recorder.stop();
-  });
-
-  it("should support regional failover", async () => {
-    const testEntity: TestEntityType = {
-      partitionKey: "p1",
-      rowKey: "r1",
-      data: "data",
-    };
-    await client.createEntity(testEntity);
-    const stub = stubRetryPolicy(client);
-    type TestEntityType = TableEntity<{ data: string }>;
-    const expectEntity: TestEntityType = await client.getEntity("p1", "r1");
-    await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey);
-    stub.restore();
-    assert.deepEqual(expectEntity, { ...expectEntity, ...testEntity });
+  describe("cosmos", async () => {
+    failoverTest("Cosmos");
   });
 });

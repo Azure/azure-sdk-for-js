@@ -67,6 +67,10 @@ module.exports = function (config) {
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
       "RECORDINGS_RELATIVE_PATH",
+      "COSMOS_KEY",
+      "COSMOS_ENDPOINT",
+      "COSMOS_PRIMARY_LOCATION",
+      "COSMOS_SECONDARY_LOCATION",
     ],
 
     // test results reporter to use

@@ -1,0 +1,88 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakeaccountname.table.cosmos.azure.com/RegionalFailovernode",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json;odata=minimalmetadata",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Content-Length": "49",
+        "Content-Type": "application/json;odata=nometadata",
+        "DataServiceVersion": "3.0",
+        "Prefer": "return-no-content",
+        "User-Agent": "azsdk-js-data-tables/13.1.2 core-rest-pipeline/1.10.0 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
+        "x-ms-client-request-id": "aefd878e-93ef-415b-aea8-32e0cab9d574",
+        "x-ms-date": "Tue, 18 Oct 2022 16:45:04 GMT",
+        "x-ms-version": "2019-02-02"
+      },
+      "RequestBody": {
+        "PartitionKey": "p1",
+        "RowKey": "r1",
+        "data": "data"
+      },
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Content-Type": "application/json",
+        "Date": "Tue, 18 Oct 2022 16:45:05 GMT",
+        "ETag": "W/\u0022datetime\u00272022-10-18T16%3A45%3A06.1481479Z\u0027\u0022",
+        "Location": "https://fakeaccountname.table.cosmos.azure.com/RegionalFailovernode(PartitionKey=\u0027p1\u0027,RowKey=\u0027r1\u0027)",
+        "Preference-Applied": "return-no-content"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://fakeaccountname.table.cosmos.azure.com/RegionalFailovernode(PartitionKey=\u0027p1\u0027,RowKey=\u0027r1\u0027)",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json;odata=minimalmetadata",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "DataServiceVersion": "3.0",
+        "User-Agent": "azsdk-js-data-tables/13.1.2 core-rest-pipeline/1.10.0 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
+        "x-ms-client-request-id": "c6015fac-73ca-4836-b57b-fca2b01ed0e4",
+        "x-ms-date": "Tue, 18 Oct 2022 16:45:06 GMT",
+        "x-ms-version": "2019-02-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "Date": "Tue, 18 Oct 2022 16:45:05 GMT",
+        "ETag": "W/\u0022datetime\u00272022-10-18T16%3A45%3A06.1481479Z\u0027\u0022",
+        "Transfer-Encoding": "chunked"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://fakeaccountname.table.cosmos.azure.com/RegionalFailovernode/$metadata#RegionalFailovernode/@Element",
+        "odata.etag": "W/\u0022datetime\u00272022-10-18T16%3A45%3A06.1481479Z\u0027\u0022",
+        "PartitionKey": "p1",
+        "RowKey": "r1",
+        "data": "data",
+        "Timestamp": "2022-10-18T16:45:06.1481479Z"
+      }
+    },
+    {
+      "RequestUri": "https://fakeaccountname.table.cosmos.azure.com/RegionalFailovernode(PartitionKey=\u0027p1\u0027,RowKey=\u0027r1\u0027)",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json;odata=minimalmetadata",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "DataServiceVersion": "3.0",
+        "If-Match": "*",
+        "User-Agent": "azsdk-js-data-tables/13.1.2 core-rest-pipeline/1.10.0 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
+        "x-ms-client-request-id": "530334f0-5122-4a1e-8640-ba3c78cda8fc",
+        "x-ms-date": "Tue, 18 Oct 2022 16:45:06 GMT",
+        "x-ms-version": "2019-02-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Content-Type": "application/json",
+        "Date": "Tue, 18 Oct 2022 16:45:05 GMT"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}

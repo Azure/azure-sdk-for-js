@@ -35,19 +35,23 @@
   },
   "variables": {
     "storageApiVersion": "2019-06-01",
+    "cosmosApiVersion": "2022-08-15",
     "authorizationApiVersion": "2018-09-01-preview",
     "blobDataContributorRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/0a9a7e1f-b9d0-4cc4-a60d-0319b160aaa3')]",
     "location": "[resourceGroup().location]",
-    "accountName": "[parameters('baseName')]",
+    "storageAccountName": "[concat(parameters('baseName'), 'storage')]",
+    "cosmosAccountName": "[concat(parameters('baseName'), 'cosmos')]",
     "resourceGroupName": "resourceGroup().name",
-    "accountNameTidy": "[toLower(trim(variables('accountName')))]",
+    "storageAccountNameTidy": "[toLower(trim(variables('storageAccountName')))]",
     "accountSasProperties": {
       "signedServices": "bfqt",
       "signedPermission": "rwdlacup",
       "signedResourceTypes": "sco",
       "keyToSign": "key2",
       "signedExpiry": "[dateTimeAdd(parameters('baseTime'), 'PT2H')]"
-    }
+    },
+    "cosmosPrimaryLocation": "West US",
+    "cosmosSecondaryLocation": "East US"
   },
   "resources": [
     {
@@ -62,7 +66,7 @@
     {
       "type": "Microsoft.Storage/storageAccounts",
       "apiVersion": "[variables('storageApiVersion')]",
-      "name": "[variables('accountName')]",
+      "name": "[variables('storageAccountName')]",
       "location": "[variables('location')]",
       "sku": {
         "name": "Standard_RAGRS",
@@ -90,6 +94,66 @@
         },
         "accessTier": "Hot"
       }
+    },
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts",
+      "apiVersion": "[variables('cosmosApiVersion')]",
+      "name": "[variables('cosmosAccountName')]",
+      "location": "[variables('cosmosPrimaryLocation')]",
+      "tags": {
+        "defaultExperience": "Azure Table",
+        "hidden-cosmos-mmspecial": ""
+      },
+      "kind": "GlobalDocumentDB",
+      "identity": {
+        "type": "None"
+      },
+      "properties": {
+        "publicNetworkAccess": "Enabled",
+        "enableAutomaticFailover": false,
+        "enableMultipleWriteLocations": true,
+        "isVirtualNetworkFilterEnabled": false,
+        "virtualNetworkRules": [],
+        "disableKeyBasedMetadataWriteAccess": false,
+        "enableFreeTier": false,
+        "enableAnalyticalStorage": false,
+        "analyticalStorageConfiguration": {
+          "schemaType": "WellDefined"
+        },
+        "databaseAccountOfferType": "Standard",
+        "defaultIdentity": "FirstPartyIdentity",
+        "networkAclBypass": "None",
+        "disableLocalAuth": false,
+        "enablePartitionMerge": false,
+        "consistencyPolicy": {
+          "defaultConsistencyLevel": "BoundedStaleness",
+          "maxIntervalInSeconds": 86400,
+          "maxStalenessPrefix": 1000000
+        },
+        "locations": [
+          {
+            "locationName": "[variables('cosmosPrimaryLocation')]",
+            "provisioningState": "Succeeded",
+            "failoverPriority": 0,
+            "isZoneRedundant": false
+          },
+          {
+            "locationName": "[variables('cosmosSecondaryLocation')]",
+            "provisioningState": "Succeeded",
+            "failoverPriority": 1,
+            "isZoneRedundant": false
+          }
+        ],
+        "cors": [],
+        "capabilities": [
+          {
+            "name": "EnableTable"
+          }
+        ],
+        "ipRules": [],
+        "networkAclBypassResourceIds": [],
+        "keysMetadata": {}
+      }
     }
   ],
   "outputs": {
@@ -99,23 +163,27 @@
     },
     "ACCOUNT_NAME": {
       "type": "string",
-      "value": "[variables('accountName')]"
+      "value": "[variables('storageAccountName')]"
     },
     "ACCOUNT_KEY": {
       "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('accountName')), variables('storageApiVersion')).keys[0].value]"
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('storageApiVersion')).keys[0].value]"
     },
     "SAS_TOKEN": {
       "type": "string",
-      "value": "[concat('?', listAccountSas(variables('accountNameTidy'), variables('storageApiVersion'), variables('accountSasProperties')).accountSasToken)]"
+      "value": "[concat('?', listAccountSas(variables('storageAccountNameTidy'), variables('storageApiVersion'), variables('accountSasProperties')).accountSasToken)]"
     },
     "SAS_CONNECTION_STRING": {
       "type": "string",
-      "value": "[concat('TableEndpoint=https://', variables('accountName'), '.table.', parameters('storageEndpointSuffix'), '/;', 'SharedAccessSignature=', listAccountSas(variables('accountNameTidy'), variables('storageApiVersion'), variables('accountSasProperties')).accountSasToken)]"
+      "value": "[concat('TableEndpoint=https://', variables('storageAccountName'), '.table.', parameters('storageEndpointSuffix'), '/;', 'SharedAccessSignature=', listAccountSas(variables('storageAccountNameTidy'), variables('storageApiVersion'), variables('accountSasProperties')).accountSasToken)]"
     },
     "ACCOUNT_CONNECTION_STRING": {
       "type": "string",
-      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('accountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('accountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', parameters('storageEndpointSuffix'))]"
+      "value": "[concat('DefaultEndpointsProtocol=https;storageAccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', parameters('storageEndpointSuffix'))]"
+    },
+    "COSMOS_ACCOUNT_CONNECTION_STRING": {
+      "type": "string",
+      "value": "[concat('DefaultEndpointsProtocol=https;storageAccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.DocumentDB/databaseAccounts', variables('storageAccountName')), variables('cosmosApiVersion')).keys[0].value, ';TableEndpoint=https://', variables('storageAccountName'), '.table.cosmos.azure.com:443/;'"
     },
     "AZURE_TENANT_ID": {
       "type": "string",
@@ -123,7 +191,15 @@
     },
     "TABLES_URL": {
       "type": "string",
-      "value": "[concat('https://', variables('accountName'), '.table.', parameters('storageEndpointSuffix'))]"
+      "value": "[concat('https://', variables('storageAccountName'), '.table.', parameters('storageEndpointSuffix'))]"
+    },
+    "COSMOS_PRIMARY_LOCATION": {
+      "type": "string",
+      "value": "[variables('cosmosPrimaryLocation')]"
+    },
+    "COSMOS_SECONDARY_LOCATION": {
+      "type": "string",
+      "value": "[variables('cosmosSecondaryLocation')]"
     }
   }
 }
