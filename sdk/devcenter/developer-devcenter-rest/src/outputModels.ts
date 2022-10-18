@@ -140,12 +140,7 @@ export interface DevBoxOutput {
   /** The current action state of the Dev Box. This is state is based on previous action performed by user. */
   actionState?: string;
   /** The current power state of the Dev Box. */
-  powerState?:
-    | "Unknown"
-    | "Deallocated"
-    | "PoweredOff"
-    | "Running"
-    | "Hibernated";
+  powerState?: "Unknown" | "Deallocated" | "PoweredOff" | "Running" | "Hibernated";
   /** A unique identifier for the Dev Box. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000). */
   uniqueId?: string;
   /** Provisioning or action error details. Populated only for error states. */
@@ -325,14 +320,7 @@ export interface CatalogItemParameterOutput {
   /** Default value of the parameter */
   default?: Record<string, unknown>;
   /** A string of one of the basic JSON types (number, integer, null, array, object, boolean, string) */
-  type?:
-    | "array"
-    | "boolean"
-    | "integer"
-    | "null"
-    | "number"
-    | "object"
-    | "string";
+  type?: "array" | "boolean" | "integer" | "null" | "number" | "object" | "string";
   /** Whether or not this parameter is read-only.  If true, default should have a value. */
   readOnly?: boolean;
   /** Whether or not this parameter is required */

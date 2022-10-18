@@ -21,7 +21,7 @@ import {
   CatalogItemOutput,
   CatalogItemVersionListResultOutput,
   CatalogItemVersionOutput,
-  EnvironmentTypeListResultOutput
+  EnvironmentTypeListResultOutput,
 } from "./outputModels";
 
 /** Lists all projects. */
@@ -67,8 +67,7 @@ export interface DevCenterListAllDevBoxesDefaultResponse extends HttpResponse {
 }
 
 /** Lists Dev Boxes in the Dev Center for a particular user. */
-export interface DevCenterListAllDevBoxesByUser200Response
-  extends HttpResponse {
+export interface DevCenterListAllDevBoxesByUser200Response extends HttpResponse {
   status: "200";
   body: DevBoxListResultOutput;
 }
@@ -79,8 +78,7 @@ export interface DevCenterListAllDevBoxesByUserDefaultHeaders {
 }
 
 /** Lists Dev Boxes in the Dev Center for a particular user. */
-export interface DevCenterListAllDevBoxesByUserDefaultResponse
-  extends HttpResponse {
+export interface DevCenterListAllDevBoxesByUserDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
   headers: RawHttpHeaders & DevCenterListAllDevBoxesByUserDefaultHeaders;
@@ -134,8 +132,7 @@ export interface DevBoxesListSchedulesByPoolDefaultHeaders {
 }
 
 /** Lists available schedules for a pool. */
-export interface DevBoxesListSchedulesByPoolDefaultResponse
-  extends HttpResponse {
+export interface DevBoxesListSchedulesByPoolDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
   headers: RawHttpHeaders & DevBoxesListSchedulesByPoolDefaultHeaders;
@@ -171,8 +168,7 @@ export interface DevBoxesListDevBoxesByUserDefaultHeaders {
 }
 
 /** Lists Dev Boxes in the project for a particular user. */
-export interface DevBoxesListDevBoxesByUserDefaultResponse
-  extends HttpResponse {
+export interface DevBoxesListDevBoxesByUserDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
   headers: RawHttpHeaders & DevBoxesListDevBoxesByUserDefaultHeaders;
@@ -328,8 +324,7 @@ export interface DevBoxesGetRemoteConnectionDefaultHeaders {
 }
 
 /** Gets RDP Connection info */
-export interface DevBoxesGetRemoteConnectionDefaultResponse
-  extends HttpResponse {
+export interface DevBoxesGetRemoteConnectionDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
   headers: RawHttpHeaders & DevBoxesGetRemoteConnectionDefaultHeaders;
@@ -347,16 +342,14 @@ export interface EnvironmentsListEnvironmentsDefaultHeaders {
 }
 
 /** Lists the environments for a project. */
-export interface EnvironmentsListEnvironmentsDefaultResponse
-  extends HttpResponse {
+export interface EnvironmentsListEnvironmentsDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
   headers: RawHttpHeaders & EnvironmentsListEnvironmentsDefaultHeaders;
 }
 
 /** Lists the environments for a project and user. */
-export interface EnvironmentsListEnvironmentsByUser200Response
-  extends HttpResponse {
+export interface EnvironmentsListEnvironmentsByUser200Response extends HttpResponse {
   status: "200";
   body: EnvironmentListResultOutput;
 }
@@ -367,16 +360,14 @@ export interface EnvironmentsListEnvironmentsByUserDefaultHeaders {
 }
 
 /** Lists the environments for a project and user. */
-export interface EnvironmentsListEnvironmentsByUserDefaultResponse
-  extends HttpResponse {
+export interface EnvironmentsListEnvironmentsByUserDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
   headers: RawHttpHeaders & EnvironmentsListEnvironmentsByUserDefaultHeaders;
 }
 
 /** Gets an environment */
-export interface EnvironmentsGetEnvironmentByUser200Response
-  extends HttpResponse {
+export interface EnvironmentsGetEnvironmentByUser200Response extends HttpResponse {
   status: "200";
   body: EnvironmentOutput;
 }
@@ -387,16 +378,14 @@ export interface EnvironmentsGetEnvironmentByUserDefaultHeaders {
 }
 
 /** Gets an environment */
-export interface EnvironmentsGetEnvironmentByUserDefaultResponse
-  extends HttpResponse {
+export interface EnvironmentsGetEnvironmentByUserDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
   headers: RawHttpHeaders & EnvironmentsGetEnvironmentByUserDefaultHeaders;
 }
 
 /** Creates or updates an environment. */
-export interface EnvironmentsCreateOrUpdateEnvironment200Response
-  extends HttpResponse {
+export interface EnvironmentsCreateOrUpdateEnvironment200Response extends HttpResponse {
   status: "200";
   body: EnvironmentOutput;
 }
@@ -407,8 +396,7 @@ export interface EnvironmentsCreateOrUpdateEnvironment201Headers {
 }
 
 /** Creates or updates an environment. */
-export interface EnvironmentsCreateOrUpdateEnvironment201Response
-  extends HttpResponse {
+export interface EnvironmentsCreateOrUpdateEnvironment201Response extends HttpResponse {
   status: "201";
   body: EnvironmentOutput;
   headers: RawHttpHeaders & EnvironmentsCreateOrUpdateEnvironment201Headers;
@@ -420,8 +408,7 @@ export interface EnvironmentsCreateOrUpdateEnvironmentDefaultHeaders {
 }
 
 /** Creates or updates an environment. */
-export interface EnvironmentsCreateOrUpdateEnvironmentDefaultResponse
-  extends HttpResponse {
+export interface EnvironmentsCreateOrUpdateEnvironmentDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
   headers: RawHttpHeaders & EnvironmentsCreateOrUpdateEnvironmentDefaultHeaders;
@@ -439,8 +426,7 @@ export interface EnvironmentsUpdateEnvironmentDefaultHeaders {
 }
 
 /** Partially updates an environment */
-export interface EnvironmentsUpdateEnvironmentDefaultResponse
-  extends HttpResponse {
+export interface EnvironmentsUpdateEnvironmentDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
   headers: RawHttpHeaders & EnvironmentsUpdateEnvironmentDefaultHeaders;
@@ -476,16 +462,14 @@ export interface EnvironmentsDeleteEnvironmentDefaultHeaders {
 }
 
 /** Deletes an environment and all it's associated resources */
-export interface EnvironmentsDeleteEnvironmentDefaultResponse
-  extends HttpResponse {
+export interface EnvironmentsDeleteEnvironmentDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
   headers: RawHttpHeaders & EnvironmentsDeleteEnvironmentDefaultHeaders;
 }
 
 /** Executes a deploy action */
-export interface EnvironmentsDeployEnvironmentAction200Response
-  extends HttpResponse {
+export interface EnvironmentsDeployEnvironmentAction200Response extends HttpResponse {
   status: "200";
   body: Record<string, unknown>;
 }
@@ -496,8 +480,7 @@ export interface EnvironmentsDeployEnvironmentAction202Headers {
 }
 
 /** Executes a deploy action */
-export interface EnvironmentsDeployEnvironmentAction202Response
-  extends HttpResponse {
+export interface EnvironmentsDeployEnvironmentAction202Response extends HttpResponse {
   status: "202";
   body: Record<string, unknown>;
   headers: RawHttpHeaders & EnvironmentsDeployEnvironmentAction202Headers;
@@ -509,16 +492,14 @@ export interface EnvironmentsDeployEnvironmentActionDefaultHeaders {
 }
 
 /** Executes a deploy action */
-export interface EnvironmentsDeployEnvironmentActionDefaultResponse
-  extends HttpResponse {
+export interface EnvironmentsDeployEnvironmentActionDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
   headers: RawHttpHeaders & EnvironmentsDeployEnvironmentActionDefaultHeaders;
 }
 
 /** Executes a delete action */
-export interface EnvironmentsDeleteEnvironmentAction200Response
-  extends HttpResponse {
+export interface EnvironmentsDeleteEnvironmentAction200Response extends HttpResponse {
   status: "200";
   body: Record<string, unknown>;
 }
@@ -529,8 +510,7 @@ export interface EnvironmentsDeleteEnvironmentAction202Headers {
 }
 
 /** Executes a delete action */
-export interface EnvironmentsDeleteEnvironmentAction202Response
-  extends HttpResponse {
+export interface EnvironmentsDeleteEnvironmentAction202Response extends HttpResponse {
   status: "202";
   body: Record<string, unknown>;
   headers: RawHttpHeaders & EnvironmentsDeleteEnvironmentAction202Headers;
@@ -542,16 +522,14 @@ export interface EnvironmentsDeleteEnvironmentActionDefaultHeaders {
 }
 
 /** Executes a delete action */
-export interface EnvironmentsDeleteEnvironmentActionDefaultResponse
-  extends HttpResponse {
+export interface EnvironmentsDeleteEnvironmentActionDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
   headers: RawHttpHeaders & EnvironmentsDeleteEnvironmentActionDefaultHeaders;
 }
 
 /** Executes a custom action */
-export interface EnvironmentsCustomEnvironmentAction200Response
-  extends HttpResponse {
+export interface EnvironmentsCustomEnvironmentAction200Response extends HttpResponse {
   status: "200";
   body: Record<string, unknown>;
 }
@@ -562,8 +540,7 @@ export interface EnvironmentsCustomEnvironmentAction202Headers {
 }
 
 /** Executes a custom action */
-export interface EnvironmentsCustomEnvironmentAction202Response
-  extends HttpResponse {
+export interface EnvironmentsCustomEnvironmentAction202Response extends HttpResponse {
   status: "202";
   body: Record<string, unknown>;
   headers: RawHttpHeaders & EnvironmentsCustomEnvironmentAction202Headers;
@@ -575,16 +552,14 @@ export interface EnvironmentsCustomEnvironmentActionDefaultHeaders {
 }
 
 /** Executes a custom action */
-export interface EnvironmentsCustomEnvironmentActionDefaultResponse
-  extends HttpResponse {
+export interface EnvironmentsCustomEnvironmentActionDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
   headers: RawHttpHeaders & EnvironmentsCustomEnvironmentActionDefaultHeaders;
 }
 
 /** Lists the artifacts for an environment */
-export interface EnvironmentsListArtifactsByEnvironment200Response
-  extends HttpResponse {
+export interface EnvironmentsListArtifactsByEnvironment200Response extends HttpResponse {
   status: "200";
   body: ArtifactListResultOutput;
 }
@@ -595,17 +570,14 @@ export interface EnvironmentsListArtifactsByEnvironmentDefaultHeaders {
 }
 
 /** Lists the artifacts for an environment */
-export interface EnvironmentsListArtifactsByEnvironmentDefaultResponse
-  extends HttpResponse {
+export interface EnvironmentsListArtifactsByEnvironmentDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders &
-    EnvironmentsListArtifactsByEnvironmentDefaultHeaders;
+  headers: RawHttpHeaders & EnvironmentsListArtifactsByEnvironmentDefaultHeaders;
 }
 
 /** Lists the artifacts for an environment at a specified path, or returns the file at the path. */
-export interface EnvironmentsListArtifactsByEnvironmentAndPath200Response
-  extends HttpResponse {
+export interface EnvironmentsListArtifactsByEnvironmentAndPath200Response extends HttpResponse {
   status: "200";
   body: ArtifactListResultOutput;
 }
@@ -616,12 +588,10 @@ export interface EnvironmentsListArtifactsByEnvironmentAndPathDefaultHeaders {
 }
 
 /** Lists the artifacts for an environment at a specified path, or returns the file at the path. */
-export interface EnvironmentsListArtifactsByEnvironmentAndPathDefaultResponse
-  extends HttpResponse {
+export interface EnvironmentsListArtifactsByEnvironmentAndPathDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
-  headers: RawHttpHeaders &
-    EnvironmentsListArtifactsByEnvironmentAndPathDefaultHeaders;
+  headers: RawHttpHeaders & EnvironmentsListArtifactsByEnvironmentAndPathDefaultHeaders;
 }
 
 /** Lists latest version of all catalog items available for a project. */
@@ -636,8 +606,7 @@ export interface EnvironmentsListCatalogItemsDefaultHeaders {
 }
 
 /** Lists latest version of all catalog items available for a project. */
-export interface EnvironmentsListCatalogItemsDefaultResponse
-  extends HttpResponse {
+export interface EnvironmentsListCatalogItemsDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
   headers: RawHttpHeaders & EnvironmentsListCatalogItemsDefaultHeaders;
@@ -655,16 +624,14 @@ export interface EnvironmentsGetCatalogItemDefaultHeaders {
 }
 
 /** Get a catalog item from a project. */
-export interface EnvironmentsGetCatalogItemDefaultResponse
-  extends HttpResponse {
+export interface EnvironmentsGetCatalogItemDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
   headers: RawHttpHeaders & EnvironmentsGetCatalogItemDefaultHeaders;
 }
 
 /** List all versions of a catalog item from a project. */
-export interface EnvironmentsListCatalogItemVersions200Response
-  extends HttpResponse {
+export interface EnvironmentsListCatalogItemVersions200Response extends HttpResponse {
   status: "200";
   body: CatalogItemVersionListResultOutput;
 }
@@ -675,16 +642,14 @@ export interface EnvironmentsListCatalogItemVersionsDefaultHeaders {
 }
 
 /** List all versions of a catalog item from a project. */
-export interface EnvironmentsListCatalogItemVersionsDefaultResponse
-  extends HttpResponse {
+export interface EnvironmentsListCatalogItemVersionsDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
   headers: RawHttpHeaders & EnvironmentsListCatalogItemVersionsDefaultHeaders;
 }
 
 /** Get a specific catalog item version from a project. */
-export interface EnvironmentsGetCatalogItemVersion200Response
-  extends HttpResponse {
+export interface EnvironmentsGetCatalogItemVersion200Response extends HttpResponse {
   status: "200";
   body: CatalogItemVersionOutput;
 }
@@ -695,16 +660,14 @@ export interface EnvironmentsGetCatalogItemVersionDefaultHeaders {
 }
 
 /** Get a specific catalog item version from a project. */
-export interface EnvironmentsGetCatalogItemVersionDefaultResponse
-  extends HttpResponse {
+export interface EnvironmentsGetCatalogItemVersionDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
   headers: RawHttpHeaders & EnvironmentsGetCatalogItemVersionDefaultHeaders;
 }
 
 /** Lists all environment types configured for a project. */
-export interface EnvironmentsListEnvironmentTypes200Response
-  extends HttpResponse {
+export interface EnvironmentsListEnvironmentTypes200Response extends HttpResponse {
   status: "200";
   body: EnvironmentTypeListResultOutput;
 }
@@ -715,8 +678,7 @@ export interface EnvironmentsListEnvironmentTypesDefaultHeaders {
 }
 
 /** Lists all environment types configured for a project. */
-export interface EnvironmentsListEnvironmentTypesDefaultResponse
-  extends HttpResponse {
+export interface EnvironmentsListEnvironmentTypesDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
   headers: RawHttpHeaders & EnvironmentsListEnvironmentTypesDefaultHeaders;
