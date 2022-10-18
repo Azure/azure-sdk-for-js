@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { TokenCredential, KeyCredential } from "@azure/core-auth";
+import { KeyCredential } from "@azure/core-auth";
 import { MapsRouteClient } from "./clientDefinitions";
 
 export default function createClient(
-  credentials: TokenCredential | KeyCredential,
+  credentials: KeyCredential,
   options: ClientOptions = {}
 ): MapsRouteClient {
   const baseUrl = options.baseUrl ?? "https://atlas.microsoft.com";
@@ -14,8 +14,7 @@ export default function createClient(
   options = {
     ...options,
     credentials: {
-      scopes: ["https://atlas.microsoft.com/.default"],
-      apiKeyHeaderName: "Authorization"
+      apiKeyHeaderName: "subscription-key"
     }
   };
 
