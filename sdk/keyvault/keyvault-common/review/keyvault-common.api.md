@@ -22,19 +22,7 @@ export interface ParsedKeyVaultEntityIdentifier {
 }
 
 // @public
-export interface ParsedWWWAuthenticate {
-    authorization?: string;
-    authorization_url?: string;
-    resource?: string;
-    scope?: string;
-    tenantId?: string;
-}
-
-// @public
-export function parseKeyvaultIdentifier(collection: string, identifier: string | undefined): ParsedKeyVaultEntityIdentifier;
-
-// @public
-export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenticate;
+export function parseKeyVaultIdentifier(collection: string, identifier: string | undefined): ParsedKeyVaultEntityIdentifier;
 
 // (No @packageDocumentation comment for this package)
 
