@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
 /** The request of entire or last anomaly detection. */
 export interface DetectRequest {
@@ -184,6 +184,35 @@ export interface VariableState {
   endTime?: Date;
 }
 
+/** Response of listing models. */
+export interface ModelList {
+  /** List of models */
+  models: ModelSnapshot[];
+  /** Current count of trained multivariate models. */
+  currentCount: number;
+  /** Max number of models that can be trained for this subscription. */
+  maxCount: number;
+  /** The link to fetch more models. */
+  nextLink?: string;
+}
+
+export interface ModelSnapshot {
+  /** Model identifier. */
+  modelId: string;
+  /** Date and time (UTC) when the model was created. */
+  createdTime: Date;
+  /** Date and time (UTC) when the model was last updated. */
+  lastUpdatedTime: Date;
+  /**
+   * Model training status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status: ModelStatus;
+  displayName?: string;
+  /** Total number of variables. */
+  variablesCount: number;
+}
+
 /** Response of getting a model. */
 export interface Model {
   /** Model identifier. */
@@ -282,307 +311,6 @@ export interface AnomalyDetectorDetectEntireSeriesExceptionHeaders {
   xMsErrorCode?: string;
 }
 
-/** Response of listing models. */
-export interface ModelList {
-  /** List of models */
-  models: ModelSnapshot[];
-  /** Current count of trained multivariate models. */
-  currentCount: number;
-  /** Max number of models that can be trained for this subscription. */
-  maxCount: number;
-  /** The link to fetch more models. */
-  nextLink?: string;
-}
-
-export interface ModelSnapshot {
-  /** Model identifier. */
-  modelId: string;
-  /** Date and time (UTC) when the model was created. */
-  createdTime: Date;
-  /** Date and time (UTC) when the model was last updated. */
-  lastUpdatedTime: Date;
-  /**
-   * Model training status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status: ModelStatus;
-  displayName?: string;
-  /** Total number of variables. */
-  variablesCount: number;
-}
-
-/** Defines headers for AnomalyDetector_trainMultivariateModel operation. */
-export interface AnomalyDetectorTrainMultivariateModelHeaders {
-  /** Location and ID of the model. */
-  location?: string;
-}
-
-/** Defines headers for AnomalyDetector_detectAnomaly operation. */
-export interface AnomalyDetectorDetectAnomalyHeaders {
-  /** Location and ID of the detection result. */
-  location?: string;
-}
-
-/** Known values of {@link AnomalyDetectorErrorCodes} that the service accepts. */
-export const enum KnownAnomalyDetectorErrorCodes {
-  InvalidCustomInterval = "InvalidCustomInterval",
-  BadArgument = "BadArgument",
-  InvalidGranularity = "InvalidGranularity",
-  InvalidPeriod = "InvalidPeriod",
-  InvalidModelArgument = "InvalidModelArgument",
-  InvalidSeries = "InvalidSeries",
-  InvalidJsonFormat = "InvalidJsonFormat",
-  RequiredGranularity = "RequiredGranularity",
-  RequiredSeries = "RequiredSeries",
-  InvalidImputeMode = "InvalidImputeMode",
-  InvalidImputeFixedValue = "InvalidImputeFixedValue"
-}
-
-/**
- * Defines values for AnomalyDetectorErrorCodes. \
- * {@link KnownAnomalyDetectorErrorCodes} can be used interchangeably with AnomalyDetectorErrorCodes,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **InvalidCustomInterval** \
- * **BadArgument** \
- * **InvalidGranularity** \
- * **InvalidPeriod** \
- * **InvalidModelArgument** \
- * **InvalidSeries** \
- * **InvalidJsonFormat** \
- * **RequiredGranularity** \
- * **RequiredSeries** \
- * **InvalidImputeMode** \
- * **InvalidImputeFixedValue**
- */
-export type AnomalyDetectorErrorCodes = string;
-/** Defines values for TimeGranularity. */
-export type TimeGranularity =
-  | "yearly"
-  | "monthly"
-  | "weekly"
-  | "daily"
-  | "hourly"
-  | "minutely"
-  | "secondly"
-  | "microsecond"
-  | "none";
-/** Defines values for AlignMode. */
-export type AlignMode = "Inner" | "Outer";
-/** Known values of {@link FillNAMethod} that the service accepts. */
-export const enum KnownFillNAMethod {
-  Previous = "Previous",
-  Subsequent = "Subsequent",
-  Linear = "Linear",
-  Zero = "Zero",
-  Fixed = "Fixed",
-  NotFill = "NotFill"
-}
-
-/**
- * Defines values for FillNAMethod. \
- * {@link KnownFillNAMethod} can be used interchangeably with FillNAMethod,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Previous** \
- * **Subsequent** \
- * **Linear** \
- * **Zero** \
- * **Fixed** \
- * **NotFill**
- */
-export type FillNAMethod = string;
-/** Defines values for ModelStatus. */
-export type ModelStatus = "CREATED" | "RUNNING" | "READY" | "FAILED";
-/** Defines values for DetectionStatus. */
-export type DetectionStatus = "CREATED" | "RUNNING" | "READY" | "FAILED";
-
-/** Contains response data for the detectEntireSeries operation. */
-export type AnomalyDetectorDetectEntireSeriesResponse = DetectEntireResponse & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DetectEntireResponse;
-  };
-};
-
-/** Contains response data for the detectLastPoint operation. */
-export type AnomalyDetectorDetectLastPointResponse = DetectLastPointResponse & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DetectLastPointResponse;
-  };
-};
-
-/** Contains response data for the detectChangePoint operation. */
-export type AnomalyDetectorDetectChangePointResponse = DetectChangePointResponse & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DetectChangePointResponse;
-  };
-};
-
-/** Contains response data for the trainMultivariateModel operation. */
-export type AnomalyDetectorTrainMultivariateModelResponse = AnomalyDetectorTrainMultivariateModelHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: AnomalyDetectorTrainMultivariateModelHeaders;
-  };
-};
-
-/** Contains response data for the getMultivariateModel operation. */
-export type AnomalyDetectorGetMultivariateModelResponse = Model & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: Model;
-  };
-};
-
-/** Contains response data for the detectAnomaly operation. */
-export type AnomalyDetectorDetectAnomalyResponse = AnomalyDetectorDetectAnomalyHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: AnomalyDetectorDetectAnomalyHeaders;
-  };
-};
-
-/** Contains response data for the getDetectionResult operation. */
-export type AnomalyDetectorGetDetectionResultResponse = DetectionResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DetectionResult;
-  };
-};
-
-/** Contains response data for the exportModel operation. */
-export type AnomalyDetectorExportModelResponse = {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always `undefined` in node.js.
-   */
-  blobBody?: Promise<Blob>;
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always `undefined` in the browser.
-   */
-  readableStreamBody?: NodeJS.ReadableStream;
-
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse;
-};
-
-/** Optional parameters. */
-export interface AnomalyDetectorListMultivariateModelOptionalParams
-  extends coreHttp.OperationOptions {
-  /** $skip indicates how many models will be skipped. */
-  skip?: number;
-  /** $top indicates how many models will be fetched. */
-  top?: number;
-}
-
-/** Contains response data for the listMultivariateModel operation. */
-export type AnomalyDetectorListMultivariateModelResponse = ModelList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ModelList;
-  };
-};
-
-/** Contains response data for the lastDetectAnomaly operation. */
-export type AnomalyDetectorLastDetectAnomalyResponse = LastDetectionResult & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: LastDetectionResult;
-  };
-};
-
-/** Optional parameters. */
-export interface AnomalyDetectorListMultivariateModelNextOptionalParams
-  extends coreHttp.OperationOptions {
-  /** $skip indicates how many models will be skipped. */
-  skip?: number;
-  /** $top indicates how many models will be fetched. */
-  top?: number;
-}
-
-/** Contains response data for the listMultivariateModelNext operation. */
-export type AnomalyDetectorListMultivariateModelNextResponse = ModelList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ModelList;
-  };
-};
-
-/** Optional parameters. */
-export interface AnomalyDetectorOptionalParams
-  extends coreHttp.ServiceClientOptions {
-  /** Anomaly Detector API version (for example, v1.0). */
-  apiVersion?: string;
-  /** Overrides client endpoint. */
-  endpoint?: string;
-}
-
-/** Known values of {@link ImputeMode} that the service accepts. */
-export const enum KnownImputeMode {
-  Auto = "auto",
-  Previous = "previous",
-  Linear = "linear",
-  Fixed = "fixed",
-  Zero = "zero",
-  NotFill = "notFill"
-}
-
-/**
- * Defines values for ImputeMode. \
- * {@link KnownImputeMode} can be used interchangeably with ImputeMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **auto** \
- * **previous** \
- * **linear** \
- * **fixed** \
- * **zero** \
- * **notFill**
- */
-export type ImputeMode = string;
-
 /** Defines headers for AnomalyDetector_detectLastPoint operation. */
 export interface AnomalyDetectorDetectLastPointExceptionHeaders {
   /** error code */
@@ -593,6 +321,12 @@ export interface AnomalyDetectorDetectLastPointExceptionHeaders {
 export interface AnomalyDetectorDetectChangePointExceptionHeaders {
   /** error code */
   xMsErrorCode?: string;
+}
+
+/** Defines headers for AnomalyDetector_trainMultivariateModel operation. */
+export interface AnomalyDetectorTrainMultivariateModelHeaders {
+  /** Location and ID of the model. */
+  location?: string;
 }
 
 /** Defines headers for AnomalyDetector_trainMultivariateModel operation. */
@@ -620,6 +354,12 @@ export interface AnomalyDetectorDeleteMultivariateModelExceptionHeaders {
 }
 
 /** Defines headers for AnomalyDetector_detectAnomaly operation. */
+export interface AnomalyDetectorDetectAnomalyHeaders {
+  /** Location and ID of the detection result. */
+  location?: string;
+}
+
+/** Defines headers for AnomalyDetector_detectAnomaly operation. */
 export interface AnomalyDetectorDetectAnomalyExceptionHeaders {
   /** error code */
   xMsErrorCode?: string;
@@ -630,6 +370,7 @@ export interface AnomalyDetectorGetDetectionResultExceptionHeaders {
   /** error code */
   xMsErrorCode?: string;
 }
+
 /** Defines headers for AnomalyDetector_exportModel operation. */
 export interface AnomalyDetectorExportModelExceptionHeaders {
   /** error code */
@@ -648,42 +389,239 @@ export interface AnomalyDetectorListMultivariateModelNextExceptionHeaders {
   xMsErrorCode?: string;
 }
 
-/** Optional parameters. */
-export interface AnomalyDetectorDetectEntireSeriesOptionalParams
-  extends coreHttp.OperationOptions {}
-  
-/** Optional parameters. */
-export interface AnomalyDetectorDetectLastPointOptionalParams
-  extends coreHttp.OperationOptions {}
+/** Known values of {@link ImputeMode} that the service accepts. */
+export enum KnownImputeMode {
+  /** Auto */
+  Auto = "auto",
+  /** Previous */
+  Previous = "previous",
+  /** Linear */
+  Linear = "linear",
+  /** Fixed */
+  Fixed = "fixed",
+  /** Zero */
+  Zero = "zero",
+  /** NotFill */
+  NotFill = "notFill"
+}
+
+/**
+ * Defines values for ImputeMode. \
+ * {@link KnownImputeMode} can be used interchangeably with ImputeMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **auto** \
+ * **previous** \
+ * **linear** \
+ * **fixed** \
+ * **zero** \
+ * **notFill**
+ */
+export type ImputeMode = string;
+
+/** Known values of {@link AnomalyDetectorErrorCodes} that the service accepts. */
+export enum KnownAnomalyDetectorErrorCodes {
+  /** InvalidCustomInterval */
+  InvalidCustomInterval = "InvalidCustomInterval",
+  /** BadArgument */
+  BadArgument = "BadArgument",
+  /** InvalidGranularity */
+  InvalidGranularity = "InvalidGranularity",
+  /** InvalidPeriod */
+  InvalidPeriod = "InvalidPeriod",
+  /** InvalidModelArgument */
+  InvalidModelArgument = "InvalidModelArgument",
+  /** InvalidSeries */
+  InvalidSeries = "InvalidSeries",
+  /** InvalidJsonFormat */
+  InvalidJsonFormat = "InvalidJsonFormat",
+  /** RequiredGranularity */
+  RequiredGranularity = "RequiredGranularity",
+  /** RequiredSeries */
+  RequiredSeries = "RequiredSeries",
+  /** InvalidImputeMode */
+  InvalidImputeMode = "InvalidImputeMode",
+  /** InvalidImputeFixedValue */
+  InvalidImputeFixedValue = "InvalidImputeFixedValue"
+}
+
+/**
+ * Defines values for AnomalyDetectorErrorCodes. \
+ * {@link KnownAnomalyDetectorErrorCodes} can be used interchangeably with AnomalyDetectorErrorCodes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InvalidCustomInterval** \
+ * **BadArgument** \
+ * **InvalidGranularity** \
+ * **InvalidPeriod** \
+ * **InvalidModelArgument** \
+ * **InvalidSeries** \
+ * **InvalidJsonFormat** \
+ * **RequiredGranularity** \
+ * **RequiredSeries** \
+ * **InvalidImputeMode** \
+ * **InvalidImputeFixedValue**
+ */
+export type AnomalyDetectorErrorCodes = string;
+
+/** Known values of {@link FillNAMethod} that the service accepts. */
+export enum KnownFillNAMethod {
+  /** Previous */
+  Previous = "Previous",
+  /** Subsequent */
+  Subsequent = "Subsequent",
+  /** Linear */
+  Linear = "Linear",
+  /** Zero */
+  Zero = "Zero",
+  /** Fixed */
+  Fixed = "Fixed",
+  /** NotFill */
+  NotFill = "NotFill"
+}
+
+/**
+ * Defines values for FillNAMethod. \
+ * {@link KnownFillNAMethod} can be used interchangeably with FillNAMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Previous** \
+ * **Subsequent** \
+ * **Linear** \
+ * **Zero** \
+ * **Fixed** \
+ * **NotFill**
+ */
+export type FillNAMethod = string;
+/** Defines values for TimeGranularity. */
+export type TimeGranularity =
+  | "yearly"
+  | "monthly"
+  | "weekly"
+  | "daily"
+  | "hourly"
+  | "minutely"
+  | "secondly"
+  | "microsecond"
+  | "none";
+/** Defines values for AlignMode. */
+export type AlignMode = "Inner" | "Outer";
+/** Defines values for ModelStatus. */
+export type ModelStatus = "CREATED" | "RUNNING" | "READY" | "FAILED";
+/** Defines values for DetectionStatus. */
+export type DetectionStatus = "CREATED" | "RUNNING" | "READY" | "FAILED";
 
 /** Optional parameters. */
-export interface AnomalyDetectorDetectChangePointOptionalParams
-  extends coreHttp.OperationOptions {}
+export interface DetectEntireSeriesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the detectEntireSeries operation. */
+export type DetectEntireSeriesResponse = DetectEntireResponse;
 
 /** Optional parameters. */
-export interface AnomalyDetectorTrainMultivariateModelOptionalParams
-  extends coreHttp.OperationOptions {}
+export interface DetectLastPointOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the detectLastPoint operation. */
+export type DetectLastPointOperationResponse = DetectLastPointResponse;
 
 /** Optional parameters. */
-export interface AnomalyDetectorGetMultivariateModelOptionalParams
-  extends coreHttp.OperationOptions {}
+export interface DetectChangePointOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the detectChangePoint operation. */
+export type DetectChangePointOperationResponse = DetectChangePointResponse;
 
 /** Optional parameters. */
-export interface AnomalyDetectorDeleteMultivariateModelOptionalParams
-  extends coreHttp.OperationOptions {}
+export interface TrainMultivariateModelOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the trainMultivariateModel operation. */
+export type TrainMultivariateModelResponse = AnomalyDetectorTrainMultivariateModelHeaders;
 
 /** Optional parameters. */
-export interface AnomalyDetectorDetectAnomalyOptionalParams
-  extends coreHttp.OperationOptions {}
-  
-/** Optional parameters. */
-export interface AnomalyDetectorGetDetectionResultOptionalParams
-  extends coreHttp.OperationOptions {}
+export interface ListMultivariateModelOptionalParams
+  extends coreClient.OperationOptions {
+  /** $skip indicates how many models will be skipped. */
+  skip?: number;
+  /** $top indicates how many models will be fetched. */
+  top?: number;
+}
+
+/** Contains response data for the listMultivariateModel operation. */
+export type ListMultivariateModelResponse = ModelList;
 
 /** Optional parameters. */
-export interface AnomalyDetectorExportModelOptionalParams
-  extends coreHttp.OperationOptions {}
+export interface GetMultivariateModelOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getMultivariateModel operation. */
+export type GetMultivariateModelResponse = Model;
 
 /** Optional parameters. */
-export interface AnomalyDetectorLastDetectAnomalyOptionalParams
-  extends coreHttp.OperationOptions {}
+export interface DeleteMultivariateModelOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface DetectAnomalyOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the detectAnomaly operation. */
+export type DetectAnomalyResponse = AnomalyDetectorDetectAnomalyHeaders;
+
+/** Optional parameters. */
+export interface GetDetectionResultOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDetectionResult operation. */
+export type GetDetectionResultResponse = DetectionResult;
+
+/** Optional parameters. */
+export interface ExportModelOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the exportModel operation. */
+export type ExportModelResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+};
+
+/** Optional parameters. */
+export interface LastDetectAnomalyOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the lastDetectAnomaly operation. */
+export type LastDetectAnomalyResponse = LastDetectionResult;
+
+/** Optional parameters. */
+export interface ListMultivariateModelNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** $skip indicates how many models will be skipped. */
+  skip?: number;
+  /** $top indicates how many models will be fetched. */
+  top?: number;
+}
+
+/** Contains response data for the listMultivariateModelNext operation. */
+export type ListMultivariateModelNextResponse = ModelList;
+
+/** Optional parameters. */
+export interface AnomalyDetectorOptionalParams
+  extends coreClient.ServiceClientOptions {
+  /** Anomaly Detector API version (for example, v1.0). */
+  apiVersion?: string;
+  /** Overrides client endpoint. */
+  endpoint?: string;
+}

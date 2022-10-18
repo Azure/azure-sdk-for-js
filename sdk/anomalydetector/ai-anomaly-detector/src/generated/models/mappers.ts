@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-export const DetectRequest: coreHttp.CompositeMapper = {
+export const DetectRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DetectRequest",
@@ -83,7 +83,7 @@ export const DetectRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const TimeSeriesPoint: coreHttp.CompositeMapper = {
+export const TimeSeriesPoint: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TimeSeriesPoint",
@@ -105,7 +105,7 @@ export const TimeSeriesPoint: coreHttp.CompositeMapper = {
   }
 };
 
-export const DetectEntireResponse: coreHttp.CompositeMapper = {
+export const DetectEntireResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DetectEntireResponse",
@@ -204,7 +204,7 @@ export const DetectEntireResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const AnomalyDetectorError: coreHttp.CompositeMapper = {
+export const AnomalyDetectorError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AnomalyDetectorError",
@@ -225,7 +225,7 @@ export const AnomalyDetectorError: coreHttp.CompositeMapper = {
   }
 };
 
-export const DetectLastPointResponse: coreHttp.CompositeMapper = {
+export const DetectLastPointResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DetectLastPointResponse",
@@ -296,7 +296,7 @@ export const DetectLastPointResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const DetectChangePointRequest: coreHttp.CompositeMapper = {
+export const DetectChangePointRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DetectChangePointRequest",
@@ -360,7 +360,7 @@ export const DetectChangePointRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const DetectChangePointResponse: coreHttp.CompositeMapper = {
+export const DetectChangePointResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DetectChangePointResponse",
@@ -398,7 +398,7 @@ export const DetectChangePointResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const ModelInfo: coreHttp.CompositeMapper = {
+export const ModelInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ModelInfo",
@@ -478,7 +478,7 @@ export const ModelInfo: coreHttp.CompositeMapper = {
   }
 };
 
-export const AlignPolicy: coreHttp.CompositeMapper = {
+export const AlignPolicy: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AlignPolicy",
@@ -506,7 +506,7 @@ export const AlignPolicy: coreHttp.CompositeMapper = {
   }
 };
 
-export const ErrorResponse: coreHttp.CompositeMapper = {
+export const ErrorResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ErrorResponse",
@@ -529,7 +529,7 @@ export const ErrorResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const DiagnosticsInfo: coreHttp.CompositeMapper = {
+export const DiagnosticsInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DiagnosticsInfo",
@@ -557,7 +557,7 @@ export const DiagnosticsInfo: coreHttp.CompositeMapper = {
   }
 };
 
-export const ModelState: coreHttp.CompositeMapper = {
+export const ModelState: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ModelState",
@@ -610,7 +610,7 @@ export const ModelState: coreHttp.CompositeMapper = {
   }
 };
 
-export const VariableState: coreHttp.CompositeMapper = {
+export const VariableState: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "VariableState",
@@ -653,7 +653,7 @@ export const VariableState: coreHttp.CompositeMapper = {
   }
 };
 
-export const ModelList: coreHttp.CompositeMapper = {
+export const ModelList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ModelList",
@@ -695,7 +695,7 @@ export const ModelList: coreHttp.CompositeMapper = {
   }
 };
 
-export const ModelSnapshot: coreHttp.CompositeMapper = {
+export const ModelSnapshot: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ModelSnapshot",
@@ -747,7 +747,7 @@ export const ModelSnapshot: coreHttp.CompositeMapper = {
   }
 };
 
-export const Model: coreHttp.CompositeMapper = {
+export const Model: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Model",
@@ -784,7 +784,7 @@ export const Model: coreHttp.CompositeMapper = {
   }
 };
 
-export const DetectionRequest: coreHttp.CompositeMapper = {
+export const DetectionRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DetectionRequest",
@@ -814,7 +814,7 @@ export const DetectionRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const DetectionResult: coreHttp.CompositeMapper = {
+export const DetectionResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DetectionResult",
@@ -850,7 +850,7 @@ export const DetectionResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const DetectionResultSummary: coreHttp.CompositeMapper = {
+export const DetectionResultSummary: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DetectionResultSummary",
@@ -898,7 +898,7 @@ export const DetectionResultSummary: coreHttp.CompositeMapper = {
   }
 };
 
-export const AnomalyState: coreHttp.CompositeMapper = {
+export const AnomalyState: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AnomalyState",
@@ -933,7 +933,7 @@ export const AnomalyState: coreHttp.CompositeMapper = {
   }
 };
 
-export const AnomalyValue: coreHttp.CompositeMapper = {
+export const AnomalyValue: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AnomalyValue",
@@ -983,7 +983,7 @@ export const AnomalyValue: coreHttp.CompositeMapper = {
   }
 };
 
-export const AnomalyInterpretation: coreHttp.CompositeMapper = {
+export const AnomalyInterpretation: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AnomalyInterpretation",
@@ -1011,7 +1011,7 @@ export const AnomalyInterpretation: coreHttp.CompositeMapper = {
   }
 };
 
-export const CorrelationChanges: coreHttp.CompositeMapper = {
+export const CorrelationChanges: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CorrelationChanges",
@@ -1042,7 +1042,7 @@ export const CorrelationChanges: coreHttp.CompositeMapper = {
   }
 };
 
-export const LastDetectionRequest: coreHttp.CompositeMapper = {
+export const LastDetectionRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LastDetectionRequest",
@@ -1071,7 +1071,7 @@ export const LastDetectionRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const VariableValues: coreHttp.CompositeMapper = {
+export const VariableValues: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "VariableValues",
@@ -1111,7 +1111,7 @@ export const VariableValues: coreHttp.CompositeMapper = {
   }
 };
 
-export const LastDetectionResult: coreHttp.CompositeMapper = {
+export const LastDetectionResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LastDetectionResult",
@@ -1144,7 +1144,7 @@ export const LastDetectionResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const AnomalyDetectorDetectEntireSeriesExceptionHeaders: coreHttp.CompositeMapper = {
+export const AnomalyDetectorDetectEntireSeriesExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AnomalyDetectorDetectEntireSeriesExceptionHeaders",
@@ -1159,7 +1159,7 @@ export const AnomalyDetectorDetectEntireSeriesExceptionHeaders: coreHttp.Composi
   }
 };
 
-export const AnomalyDetectorDetectLastPointExceptionHeaders: coreHttp.CompositeMapper = {
+export const AnomalyDetectorDetectLastPointExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AnomalyDetectorDetectLastPointExceptionHeaders",
@@ -1174,7 +1174,7 @@ export const AnomalyDetectorDetectLastPointExceptionHeaders: coreHttp.CompositeM
   }
 };
 
-export const AnomalyDetectorDetectChangePointExceptionHeaders: coreHttp.CompositeMapper = {
+export const AnomalyDetectorDetectChangePointExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AnomalyDetectorDetectChangePointExceptionHeaders",
@@ -1189,7 +1189,7 @@ export const AnomalyDetectorDetectChangePointExceptionHeaders: coreHttp.Composit
   }
 };
 
-export const AnomalyDetectorTrainMultivariateModelHeaders: coreHttp.CompositeMapper = {
+export const AnomalyDetectorTrainMultivariateModelHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AnomalyDetectorTrainMultivariateModelHeaders",
@@ -1204,7 +1204,7 @@ export const AnomalyDetectorTrainMultivariateModelHeaders: coreHttp.CompositeMap
   }
 };
 
-export const AnomalyDetectorTrainMultivariateModelExceptionHeaders: coreHttp.CompositeMapper = {
+export const AnomalyDetectorTrainMultivariateModelExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AnomalyDetectorTrainMultivariateModelExceptionHeaders",
@@ -1219,7 +1219,7 @@ export const AnomalyDetectorTrainMultivariateModelExceptionHeaders: coreHttp.Com
   }
 };
 
-export const AnomalyDetectorListMultivariateModelExceptionHeaders: coreHttp.CompositeMapper = {
+export const AnomalyDetectorListMultivariateModelExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AnomalyDetectorListMultivariateModelExceptionHeaders",
@@ -1234,7 +1234,7 @@ export const AnomalyDetectorListMultivariateModelExceptionHeaders: coreHttp.Comp
   }
 };
 
-export const AnomalyDetectorGetMultivariateModelExceptionHeaders: coreHttp.CompositeMapper = {
+export const AnomalyDetectorGetMultivariateModelExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AnomalyDetectorGetMultivariateModelExceptionHeaders",
@@ -1249,7 +1249,7 @@ export const AnomalyDetectorGetMultivariateModelExceptionHeaders: coreHttp.Compo
   }
 };
 
-export const AnomalyDetectorDeleteMultivariateModelExceptionHeaders: coreHttp.CompositeMapper = {
+export const AnomalyDetectorDeleteMultivariateModelExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AnomalyDetectorDeleteMultivariateModelExceptionHeaders",
@@ -1264,7 +1264,7 @@ export const AnomalyDetectorDeleteMultivariateModelExceptionHeaders: coreHttp.Co
   }
 };
 
-export const AnomalyDetectorDetectAnomalyHeaders: coreHttp.CompositeMapper = {
+export const AnomalyDetectorDetectAnomalyHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AnomalyDetectorDetectAnomalyHeaders",
@@ -1279,7 +1279,7 @@ export const AnomalyDetectorDetectAnomalyHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const AnomalyDetectorDetectAnomalyExceptionHeaders: coreHttp.CompositeMapper = {
+export const AnomalyDetectorDetectAnomalyExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AnomalyDetectorDetectAnomalyExceptionHeaders",
@@ -1294,7 +1294,7 @@ export const AnomalyDetectorDetectAnomalyExceptionHeaders: coreHttp.CompositeMap
   }
 };
 
-export const AnomalyDetectorGetDetectionResultExceptionHeaders: coreHttp.CompositeMapper = {
+export const AnomalyDetectorGetDetectionResultExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AnomalyDetectorGetDetectionResultExceptionHeaders",
@@ -1309,7 +1309,7 @@ export const AnomalyDetectorGetDetectionResultExceptionHeaders: coreHttp.Composi
   }
 };
 
-export const AnomalyDetectorExportModelExceptionHeaders: coreHttp.CompositeMapper = {
+export const AnomalyDetectorExportModelExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AnomalyDetectorExportModelExceptionHeaders",
@@ -1324,7 +1324,7 @@ export const AnomalyDetectorExportModelExceptionHeaders: coreHttp.CompositeMappe
   }
 };
 
-export const AnomalyDetectorLastDetectAnomalyExceptionHeaders: coreHttp.CompositeMapper = {
+export const AnomalyDetectorLastDetectAnomalyExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AnomalyDetectorLastDetectAnomalyExceptionHeaders",
@@ -1339,7 +1339,7 @@ export const AnomalyDetectorLastDetectAnomalyExceptionHeaders: coreHttp.Composit
   }
 };
 
-export const AnomalyDetectorListMultivariateModelNextExceptionHeaders: coreHttp.CompositeMapper = {
+export const AnomalyDetectorListMultivariateModelNextExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AnomalyDetectorListMultivariateModelNextExceptionHeaders",

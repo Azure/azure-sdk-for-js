@@ -9,4 +9,3 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { AnomalyDetector } from "./anomalyDetector";
-export { AnomalyDetectorContext } from "./anomalyDetectorContext";

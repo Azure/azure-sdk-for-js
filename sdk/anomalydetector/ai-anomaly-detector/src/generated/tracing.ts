@@ -6,9 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpanFunction } from "@azure/core-tracing";
+import { createTracingClient } from "@azure/core-tracing";
 
-export const createSpan = createSpanFunction({
+export const tracingClient = createTracingClient({
   namespace: "Microsoft.CognitiveServices",
-  packagePrefix: "Azure.CognitiveServices.AnomalyDetector"
+  packageName: "@azure/ai-form-recognizer",
+  packageVersion: "3.0.0-beta.4"
 });

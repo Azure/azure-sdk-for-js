@@ -6,49 +6,49 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
-import "@azure/core-paging";
+import * as coreClient from "@azure/core-client";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import * as coreTracing from "@azure/core-tracing";
-import { createSpan } from "./tracing";
+import { tracingClient } from "./tracing";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
-import { AnomalyDetectorContext } from "./anomalyDetectorContext";
 import {
   AnomalyDetectorOptionalParams,
   ModelSnapshot,
-  AnomalyDetectorListMultivariateModelNextOptionalParams,
-  AnomalyDetectorListMultivariateModelOptionalParams,
+  ListMultivariateModelNextOptionalParams,
+  ListMultivariateModelOptionalParams,
   DetectRequest,
-  AnomalyDetectorDetectEntireSeriesOptionalParams,
-  AnomalyDetectorDetectEntireSeriesResponse,
-  AnomalyDetectorDetectLastPointOptionalParams,
-  AnomalyDetectorDetectLastPointResponse,
+  DetectEntireSeriesOptionalParams,
+  DetectEntireSeriesResponse,
+  DetectLastPointOptionalParams,
+  DetectLastPointOperationResponse,
   DetectChangePointRequest,
-  AnomalyDetectorDetectChangePointOptionalParams,
-  AnomalyDetectorDetectChangePointResponse,
+  DetectChangePointOptionalParams,
+  DetectChangePointOperationResponse,
   ModelInfo,
-  AnomalyDetectorTrainMultivariateModelOptionalParams,
-  AnomalyDetectorTrainMultivariateModelResponse,
-  AnomalyDetectorListMultivariateModelResponse,
-  AnomalyDetectorGetMultivariateModelOptionalParams,
-  AnomalyDetectorGetMultivariateModelResponse,
-  AnomalyDetectorDeleteMultivariateModelOptionalParams,
+  TrainMultivariateModelOptionalParams,
+  TrainMultivariateModelResponse,
+  ListMultivariateModelResponse,
+  GetMultivariateModelOptionalParams,
+  GetMultivariateModelResponse,
+  DeleteMultivariateModelOptionalParams,
   DetectionRequest,
-  AnomalyDetectorDetectAnomalyOptionalParams,
-  AnomalyDetectorDetectAnomalyResponse,
-  AnomalyDetectorGetDetectionResultOptionalParams,
-  AnomalyDetectorGetDetectionResultResponse,
-  AnomalyDetectorExportModelOptionalParams,
-  AnomalyDetectorExportModelResponse,
+  DetectAnomalyOptionalParams,
+  DetectAnomalyResponse,
+  GetDetectionResultOptionalParams,
+  GetDetectionResultResponse,
+  ExportModelOptionalParams,
+  ExportModelResponse,
   LastDetectionRequest,
-  AnomalyDetectorLastDetectAnomalyOptionalParams,
-  AnomalyDetectorLastDetectAnomalyResponse,
-  AnomalyDetectorListMultivariateModelNextResponse
+  LastDetectAnomalyOptionalParams,
+  LastDetectAnomalyResponse,
+  ListMultivariateModelNextResponse
 } from "./models";
 
 /// <reference lib="esnext.asynciterable" />
-export class AnomalyDetector extends AnomalyDetectorContext {
+export class AnomalyDetector extends coreClient.ServiceClient {
+  endpoint: string;
+  apiVersion: string;
+
   /**
    * Initializes a new instance of the AnomalyDetector class.
    * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for example:
@@ -56,7 +56,41 @@ export class AnomalyDetector extends AnomalyDetectorContext {
    * @param options The parameter options
    */
   constructor(endpoint: string, options?: AnomalyDetectorOptionalParams) {
-    super(endpoint, options);
+    if (endpoint === undefined) {
+      throw new Error("'endpoint' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: AnomalyDetectorOptionalParams = {
+      requestContentType: "application/json; charset=utf-8"
+    };
+
+    const packageDetails = `azsdk-js-ai-form-recognizer/3.0.0-beta.4`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri:
+        options.endpoint ??
+        options.baseUri ??
+        "{Endpoint}/anomalydetector/{ApiVersion}"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.endpoint = endpoint;
+
+    // Assigning values to Constant parameters
+    this.apiVersion = options.apiVersion || "v1.1-preview.1";
   }
 
   /**
@@ -64,7 +98,7 @@ export class AnomalyDetector extends AnomalyDetectorContext {
    * @param options The options parameters.
    */
   public listMultivariateModel(
-    options?: AnomalyDetectorListMultivariateModelOptionalParams
+    options?: ListMultivariateModelOptionalParams
   ): PagedAsyncIterableIterator<ModelSnapshot> {
     const iter = this.listMultivariateModelPagingAll(options);
     return {
@@ -81,7 +115,7 @@ export class AnomalyDetector extends AnomalyDetectorContext {
   }
 
   private async *listMultivariateModelPagingPage(
-    options?: AnomalyDetectorListMultivariateModelOptionalParams
+    options?: ListMultivariateModelOptionalParams
   ): AsyncIterableIterator<ModelSnapshot[]> {
     let result = await this._listMultivariateModel(options);
     yield result.models || [];
@@ -97,7 +131,7 @@ export class AnomalyDetector extends AnomalyDetectorContext {
   }
 
   private async *listMultivariateModelPagingAll(
-    options?: AnomalyDetectorListMultivariateModelOptionalParams
+    options?: ListMultivariateModelOptionalParams
   ): AsyncIterableIterator<ModelSnapshot> {
     for await (const page of this.listMultivariateModelPagingPage(options)) {
       yield* page;
@@ -114,31 +148,18 @@ export class AnomalyDetector extends AnomalyDetectorContext {
    */
   async detectEntireSeries(
     body: DetectRequest,
-    options?: AnomalyDetectorDetectEntireSeriesOptionalParams
-  ): Promise<AnomalyDetectorDetectEntireSeriesResponse> {
-    const { span } = createSpan(
-      "AnomalyDetector-detectEntireSeries",
-      options || {}
+    options?: DetectEntireSeriesOptionalParams
+  ): Promise<DetectEntireSeriesResponse> {
+    return tracingClient.withSpan(
+      "AnomalyDetector.detectEntireSeries",
+      options ?? {},
+      async (options) => {
+        return this.sendOperationRequest(
+          { body, options },
+          detectEntireSeriesOperationSpec
+        ) as Promise<DetectEntireSeriesResponse>;
+      }
     );
-    const operationArguments: coreHttp.OperationArguments = {
-      body,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    try {
-      const result = await this.sendOperationRequest(
-        operationArguments,
-        detectEntireSeriesOperationSpec
-      );
-      return result as AnomalyDetectorDetectEntireSeriesResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -151,31 +172,18 @@ export class AnomalyDetector extends AnomalyDetectorContext {
    */
   async detectLastPoint(
     body: DetectRequest,
-    options?: AnomalyDetectorDetectLastPointOptionalParams
-  ): Promise<AnomalyDetectorDetectLastPointResponse> {
-    const { span } = createSpan(
-      "AnomalyDetector-detectLastPoint",
-      options || {}
+    options?: DetectLastPointOptionalParams
+  ): Promise<DetectLastPointOperationResponse> {
+    return tracingClient.withSpan(
+      "AnomalyDetector.detectLastPoint",
+      options ?? {},
+      async (options) => {
+        return this.sendOperationRequest(
+          { body, options },
+          detectLastPointOperationSpec
+        ) as Promise<DetectLastPointOperationResponse>;
+      }
     );
-    const operationArguments: coreHttp.OperationArguments = {
-      body,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    try {
-      const result = await this.sendOperationRequest(
-        operationArguments,
-        detectLastPointOperationSpec
-      );
-      return result as AnomalyDetectorDetectLastPointResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -186,31 +194,18 @@ export class AnomalyDetector extends AnomalyDetectorContext {
    */
   async detectChangePoint(
     body: DetectChangePointRequest,
-    options?: AnomalyDetectorDetectChangePointOptionalParams
-  ): Promise<AnomalyDetectorDetectChangePointResponse> {
-    const { span } = createSpan(
-      "AnomalyDetector-detectChangePoint",
-      options || {}
+    options?: DetectChangePointOptionalParams
+  ): Promise<DetectChangePointOperationResponse> {
+    return tracingClient.withSpan(
+      "AnomalyDetector.detectChangePoint",
+      options ?? {},
+      async (options) => {
+        return this.sendOperationRequest(
+          { body, options },
+          detectChangePointOperationSpec
+        ) as Promise<DetectChangePointOperationResponse>;
+      }
     );
-    const operationArguments: coreHttp.OperationArguments = {
-      body,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    try {
-      const result = await this.sendOperationRequest(
-        operationArguments,
-        detectChangePointOperationSpec
-      );
-      return result as AnomalyDetectorDetectChangePointResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -223,31 +218,18 @@ export class AnomalyDetector extends AnomalyDetectorContext {
    */
   async trainMultivariateModel(
     body: ModelInfo,
-    options?: AnomalyDetectorTrainMultivariateModelOptionalParams
-  ): Promise<AnomalyDetectorTrainMultivariateModelResponse> {
-    const { span } = createSpan(
-      "AnomalyDetector-trainMultivariateModel",
-      options || {}
+    options?: TrainMultivariateModelOptionalParams
+  ): Promise<TrainMultivariateModelResponse> {
+    return tracingClient.withSpan(
+      "AnomalyDetector.trainMultivariateModel",
+      options ?? {},
+      async (options) => {
+        return this.sendOperationRequest(
+          { body, options },
+          trainMultivariateModelOperationSpec
+        ) as Promise<TrainMultivariateModelResponse>;
+      }
     );
-    const operationArguments: coreHttp.OperationArguments = {
-      body,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    try {
-      const result = await this.sendOperationRequest(
-        operationArguments,
-        trainMultivariateModelOperationSpec
-      );
-      return result as AnomalyDetectorTrainMultivariateModelResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -255,30 +237,18 @@ export class AnomalyDetector extends AnomalyDetectorContext {
    * @param options The options parameters.
    */
   private async _listMultivariateModel(
-    options?: AnomalyDetectorListMultivariateModelOptionalParams
-  ): Promise<AnomalyDetectorListMultivariateModelResponse> {
-    const { span } = createSpan(
-      "AnomalyDetector-_listMultivariateModel",
-      options || {}
+    options?: ListMultivariateModelOptionalParams
+  ): Promise<ListMultivariateModelResponse> {
+    return tracingClient.withSpan(
+      "AnomalyDetector._listMultivariateModel",
+      options ?? {},
+      async (options) => {
+        return this.sendOperationRequest(
+          { options },
+          listMultivariateModelOperationSpec
+        ) as Promise<ListMultivariateModelResponse>;
+      }
     );
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    try {
-      const result = await this.sendOperationRequest(
-        operationArguments,
-        listMultivariateModelOperationSpec
-      );
-      return result as AnomalyDetectorListMultivariateModelResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -289,31 +259,18 @@ export class AnomalyDetector extends AnomalyDetectorContext {
    */
   async getMultivariateModel(
     modelId: string,
-    options?: AnomalyDetectorGetMultivariateModelOptionalParams
-  ): Promise<AnomalyDetectorGetMultivariateModelResponse> {
-    const { span } = createSpan(
-      "AnomalyDetector-getMultivariateModel",
-      options || {}
+    options?: GetMultivariateModelOptionalParams
+  ): Promise<GetMultivariateModelResponse> {
+    return tracingClient.withSpan(
+      "AnomalyDetector.getMultivariateModel",
+      options ?? {},
+      async (options) => {
+        return this.sendOperationRequest(
+          { modelId, options },
+          getMultivariateModelOperationSpec
+        ) as Promise<GetMultivariateModelResponse>;
+      }
     );
-    const operationArguments: coreHttp.OperationArguments = {
-      modelId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    try {
-      const result = await this.sendOperationRequest(
-        operationArguments,
-        getMultivariateModelOperationSpec
-      );
-      return result as AnomalyDetectorGetMultivariateModelResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -323,31 +280,18 @@ export class AnomalyDetector extends AnomalyDetectorContext {
    */
   async deleteMultivariateModel(
     modelId: string,
-    options?: AnomalyDetectorDeleteMultivariateModelOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const { span } = createSpan(
-      "AnomalyDetector-deleteMultivariateModel",
-      options || {}
+    options?: DeleteMultivariateModelOptionalParams
+  ): Promise<void> {
+    return tracingClient.withSpan(
+      "AnomalyDetector.deleteMultivariateModel",
+      options ?? {},
+      async (options) => {
+        return this.sendOperationRequest(
+          { modelId, options },
+          deleteMultivariateModelOperationSpec
+        ) as Promise<void>;
+      }
     );
-    const operationArguments: coreHttp.OperationArguments = {
-      modelId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    try {
-      const result = await this.sendOperationRequest(
-        operationArguments,
-        deleteMultivariateModelOperationSpec
-      );
-      return result as coreHttp.RestResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -364,29 +308,18 @@ export class AnomalyDetector extends AnomalyDetectorContext {
   async detectAnomaly(
     modelId: string,
     body: DetectionRequest,
-    options?: AnomalyDetectorDetectAnomalyOptionalParams
-  ): Promise<AnomalyDetectorDetectAnomalyResponse> {
-    const { span } = createSpan("AnomalyDetector-detectAnomaly", options || {});
-    const operationArguments: coreHttp.OperationArguments = {
-      modelId,
-      body,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    try {
-      const result = await this.sendOperationRequest(
-        operationArguments,
-        detectAnomalyOperationSpec
-      );
-      return result as AnomalyDetectorDetectAnomalyResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    options?: DetectAnomalyOptionalParams
+  ): Promise<DetectAnomalyResponse> {
+    return tracingClient.withSpan(
+      "AnomalyDetector.detectAnomaly",
+      options ?? {},
+      async (options) => {
+        return this.sendOperationRequest(
+          { modelId, body, options },
+          detectAnomalyOperationSpec
+        ) as Promise<DetectAnomalyResponse>;
+      }
+    );
   }
 
   /**
@@ -396,31 +329,18 @@ export class AnomalyDetector extends AnomalyDetectorContext {
    */
   async getDetectionResult(
     resultId: string,
-    options?: AnomalyDetectorGetDetectionResultOptionalParams
-  ): Promise<AnomalyDetectorGetDetectionResultResponse> {
-    const { span } = createSpan(
-      "AnomalyDetector-getDetectionResult",
-      options || {}
+    options?: GetDetectionResultOptionalParams
+  ): Promise<GetDetectionResultResponse> {
+    return tracingClient.withSpan(
+      "AnomalyDetector.getDetectionResult",
+      options ?? {},
+      async (options) => {
+        return this.sendOperationRequest(
+          { resultId, options },
+          getDetectionResultOperationSpec
+        ) as Promise<GetDetectionResultResponse>;
+      }
     );
-    const operationArguments: coreHttp.OperationArguments = {
-      resultId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    try {
-      const result = await this.sendOperationRequest(
-        operationArguments,
-        getDetectionResultOperationSpec
-      );
-      return result as AnomalyDetectorGetDetectionResultResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -430,28 +350,18 @@ export class AnomalyDetector extends AnomalyDetectorContext {
    */
   async exportModel(
     modelId: string,
-    options?: AnomalyDetectorExportModelOptionalParams
-  ): Promise<AnomalyDetectorExportModelResponse> {
-    const { span } = createSpan("AnomalyDetector-exportModel", options || {});
-    const operationArguments: coreHttp.OperationArguments = {
-      modelId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    try {
-      const result = await this.sendOperationRequest(
-        operationArguments,
-        exportModelOperationSpec
-      );
-      return result as AnomalyDetectorExportModelResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    options?: ExportModelOptionalParams
+  ): Promise<ExportModelResponse> {
+    return tracingClient.withSpan(
+      "AnomalyDetector.exportModel",
+      options ?? {},
+      async (options) => {
+        return this.sendOperationRequest(
+          { modelId, options },
+          exportModelOperationSpec
+        ) as Promise<ExportModelResponse>;
+      }
+    );
   }
 
   /**
@@ -463,32 +373,18 @@ export class AnomalyDetector extends AnomalyDetectorContext {
   async lastDetectAnomaly(
     modelId: string,
     body: LastDetectionRequest,
-    options?: AnomalyDetectorLastDetectAnomalyOptionalParams
-  ): Promise<AnomalyDetectorLastDetectAnomalyResponse> {
-    const { span } = createSpan(
-      "AnomalyDetector-lastDetectAnomaly",
-      options || {}
+    options?: LastDetectAnomalyOptionalParams
+  ): Promise<LastDetectAnomalyResponse> {
+    return tracingClient.withSpan(
+      "AnomalyDetector.lastDetectAnomaly",
+      options ?? {},
+      async (options) => {
+        return this.sendOperationRequest(
+          { modelId, body, options },
+          lastDetectAnomalyOperationSpec
+        ) as Promise<LastDetectAnomalyResponse>;
+      }
     );
-    const operationArguments: coreHttp.OperationArguments = {
-      modelId,
-      body,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    try {
-      const result = await this.sendOperationRequest(
-        operationArguments,
-        lastDetectAnomalyOperationSpec
-      );
-      return result as AnomalyDetectorLastDetectAnomalyResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -498,37 +394,24 @@ export class AnomalyDetector extends AnomalyDetectorContext {
    */
   private async _listMultivariateModelNext(
     nextLink: string,
-    options?: AnomalyDetectorListMultivariateModelNextOptionalParams
-  ): Promise<AnomalyDetectorListMultivariateModelNextResponse> {
-    const { span } = createSpan(
-      "AnomalyDetector-_listMultivariateModelNext",
-      options || {}
+    options?: ListMultivariateModelNextOptionalParams
+  ): Promise<ListMultivariateModelNextResponse> {
+    return tracingClient.withSpan(
+      "AnomalyDetector._listMultivariateModelNext",
+      options ?? {},
+      async (options) => {
+        return this.sendOperationRequest(
+          { nextLink, options },
+          listMultivariateModelNextOperationSpec
+        ) as Promise<ListMultivariateModelNextResponse>;
+      }
     );
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    try {
-      const result = await this.sendOperationRequest(
-        operationArguments,
-        listMultivariateModelNextOperationSpec
-      );
-      return result as AnomalyDetectorListMultivariateModelNextResponse;
-    } catch (error: any) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const detectEntireSeriesOperationSpec: coreHttp.OperationSpec = {
+const detectEntireSeriesOperationSpec: coreClient.OperationSpec = {
   path: "/timeseries/entire/detect",
   httpMethod: "POST",
   responses: {
@@ -546,7 +429,7 @@ const detectEntireSeriesOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const detectLastPointOperationSpec: coreHttp.OperationSpec = {
+const detectLastPointOperationSpec: coreClient.OperationSpec = {
   path: "/timeseries/last/detect",
   httpMethod: "POST",
   responses: {
@@ -564,7 +447,7 @@ const detectLastPointOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const detectChangePointOperationSpec: coreHttp.OperationSpec = {
+const detectChangePointOperationSpec: coreClient.OperationSpec = {
   path: "/timeseries/changepoint/detect",
   httpMethod: "POST",
   responses: {
@@ -582,7 +465,7 @@ const detectChangePointOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const trainMultivariateModelOperationSpec: coreHttp.OperationSpec = {
+const trainMultivariateModelOperationSpec: coreClient.OperationSpec = {
   path: "/multivariate/models",
   httpMethod: "POST",
   responses: {
@@ -601,7 +484,7 @@ const trainMultivariateModelOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listMultivariateModelOperationSpec: coreHttp.OperationSpec = {
+const listMultivariateModelOperationSpec: coreClient.OperationSpec = {
   path: "/multivariate/models",
   httpMethod: "GET",
   responses: {
@@ -619,7 +502,7 @@ const listMultivariateModelOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getMultivariateModelOperationSpec: coreHttp.OperationSpec = {
+const getMultivariateModelOperationSpec: coreClient.OperationSpec = {
   path: "/multivariate/models/{modelId}",
   httpMethod: "GET",
   responses: {
@@ -639,7 +522,7 @@ const getMultivariateModelOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const deleteMultivariateModelOperationSpec: coreHttp.OperationSpec = {
+const deleteMultivariateModelOperationSpec: coreClient.OperationSpec = {
   path: "/multivariate/models/{modelId}",
   httpMethod: "DELETE",
   responses: {
@@ -658,7 +541,7 @@ const deleteMultivariateModelOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const detectAnomalyOperationSpec: coreHttp.OperationSpec = {
+const detectAnomalyOperationSpec: coreClient.OperationSpec = {
   path: "/multivariate/models/{modelId}/detect",
   httpMethod: "POST",
   responses: {
@@ -680,7 +563,7 @@ const detectAnomalyOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const getDetectionResultOperationSpec: coreHttp.OperationSpec = {
+const getDetectionResultOperationSpec: coreClient.OperationSpec = {
   path: "/multivariate/results/{resultId}",
   httpMethod: "GET",
   responses: {
@@ -700,7 +583,7 @@ const getDetectionResultOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const exportModelOperationSpec: coreHttp.OperationSpec = {
+const exportModelOperationSpec: coreClient.OperationSpec = {
   path: "/multivariate/models/{modelId}/export",
   httpMethod: "GET",
   responses: {
@@ -720,7 +603,7 @@ const exportModelOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept1],
   serializer
 };
-const lastDetectAnomalyOperationSpec: coreHttp.OperationSpec = {
+const lastDetectAnomalyOperationSpec: coreClient.OperationSpec = {
   path: "/multivariate/models/{modelId}/last/detect",
   httpMethod: "POST",
   responses: {
@@ -742,7 +625,7 @@ const lastDetectAnomalyOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listMultivariateModelNextOperationSpec: coreHttp.OperationSpec = {
+const listMultivariateModelNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

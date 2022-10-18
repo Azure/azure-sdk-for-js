@@ -22,7 +22,6 @@ tracing-info:
 hide-clients: false
 use-extension:
   "@autorest/typescript": "latest"
-v3: true
 ```
 
 ```yaml
