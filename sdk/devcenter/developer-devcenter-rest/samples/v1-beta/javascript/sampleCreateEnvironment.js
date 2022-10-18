@@ -1,15 +1,6 @@
-import { DefaultAzureCredential } from "@azure/identity";
-import {
-  ProjectOutput,
-  isUnexpected,
-  CatalogItemOutput,
-  EnvironmentTypeOutput,
-  EnvironmentsCreateOrUpdateEnvironmentParameters,
-  getLongRunningPoller,
-  paginate,
-  ArtifactOutput,
-} from "@azure-rest/developer-devcenter";
-import createClient from "@azure-rest/developer-devcenter";
+const { DefaultAzureCredential } = require("@azure/identity");
+const { isUnexpected, getLongRunningPoller, paginate } = require("@azure-rest/developer-devcenter");
+const createClient = require("@azure-rest/developer-devcenter").default;
 
 /**
  * @summary Demonstrates creating, fetching outputs from, and deleting an Environment
@@ -22,7 +13,7 @@ async function createEnvironment() {
 
   // Get all projects
   const projectList = await client.path("/projects").get();
-  const projects: ProjectOutput[] = [];
+  const projects = [];
   if (isUnexpected(projectList)) {
     throw projectList.body.error;
   }
@@ -45,13 +36,13 @@ async function createEnvironment() {
     throw "Project is missing name";
   }
 
-  const projectName: string = firstProject.name;
+  const projectName = firstProject.name;
 
   // Get all catalog items for the first project
   const catalogItemList = await client
     .path("/projects/{projectName}/catalogItems", projectName)
     .get();
-  const catalogItems: CatalogItemOutput[] = [];
+  const catalogItems = [];
 
   if (isUnexpected(catalogItemList)) {
     throw new Error(catalogItemList.body.error.message);
@@ -83,7 +74,7 @@ async function createEnvironment() {
   const environmentTypeList = await client
     .path("/projects/{projectName}/environmentTypes", projectName)
     .get();
-  const environmentTypes: EnvironmentTypeOutput[] = [];
+  const environmentTypes = [];
 
   if (isUnexpected(environmentTypeList)) {
     throw new Error(environmentTypeList.body.error.message);
@@ -108,7 +99,7 @@ async function createEnvironment() {
   }
 
   // Create an environment with the first catalog item and environment type
-  const environmentsCreateParameters: EnvironmentsCreateOrUpdateEnvironmentParameters = {
+  const environmentsCreateParameters = {
     contentType: "application/json",
     body: {
       catalogItemName: firstCatalogItem.name,
@@ -148,7 +139,7 @@ async function createEnvironment() {
       environmentName
     )
     .get();
-  const artifacts: ArtifactOutput[] = [];
+  const artifacts = [];
 
   if (isUnexpected(artifactListResult)) {
     throw new Error(artifactListResult.body.error.message);

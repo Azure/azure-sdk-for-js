@@ -1,13 +1,6 @@
-import { DefaultAzureCredential } from "@azure/identity";
-import {
-  ProjectOutput,
-  isUnexpected,
-  PoolOutput,
-  DevBoxesCreateDevBoxParameters,
-  getLongRunningPoller,
-  paginate,
-} from "@azure-rest/developer-devcenter";
-import createClient from "@azure-rest/developer-devcenter";
+const { DefaultAzureCredential } = require("@azure/identity");
+const { isUnexpected, getLongRunningPoller, paginate } = require("@azure-rest/developer-devcenter");
+const createClient = require("@azure-rest/developer-devcenter").default;
 
 /**
  * @summary Demonstrates creating, accessing, and deleting a Dev Box
@@ -20,7 +13,7 @@ async function createDevBox() {
 
   // Get all projects
   const projectList = await client.path("/projects").get();
-  const projects: ProjectOutput[] = [];
+  const projects = [];
   if (isUnexpected(projectList)) {
     throw projectList.body.error;
   }
@@ -43,11 +36,11 @@ async function createDevBox() {
     throw "Project is missing name";
   }
 
-  const projectName: string = firstProject.name;
+  const projectName = firstProject.name;
 
   // Get all pools for the first project
   const poolList = await client.path("/projects/{projectName}/pools", projectName).get();
-  const pools: PoolOutput[] = [];
+  const pools = [];
 
   if (isUnexpected(poolList)) {
     throw poolList.body.error;
@@ -72,7 +65,7 @@ async function createDevBox() {
   }
 
   // Create a dev box with the first pool
-  const devBoxCreateParameters: DevBoxesCreateDevBoxParameters = {
+  const devBoxCreateParameters = {
     contentType: "application/json",
     body: { poolName: firstPool.name },
   };
