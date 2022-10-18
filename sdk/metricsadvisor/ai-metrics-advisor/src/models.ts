@@ -2,16 +2,16 @@
 // Licensed under the MIT license.
 
 import {
-  SuppressCondition,
-  SmartDetectionCondition,
+  EntityStatus as DataFeedDetailStatus,
   EmailHookParameter,
-  WebhookHookParameter,
-  TopNGroupScope,
+  IngestionStatusType,
+  AlertSnoozeCondition as MetricAnomalyAlertSnoozeCondition,
   Severity,
   SeverityCondition,
-  AlertSnoozeCondition as MetricAnomalyAlertSnoozeCondition,
-  IngestionStatusType,
-  EntityStatus as DataFeedDetailStatus,
+  SmartDetectionCondition,
+  SuppressCondition,
+  TopNGroupScope,
+  WebhookHookParameter,
 } from "./generated/models";
 import { FullOperationResponse } from "@azure/core-client";
 export {

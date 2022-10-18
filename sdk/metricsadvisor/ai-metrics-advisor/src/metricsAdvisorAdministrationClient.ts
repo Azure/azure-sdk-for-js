@@ -4,62 +4,62 @@
 /// <reference lib="esnext.asynciterable" />
 
 import {
-  bearerTokenAuthenticationPolicy,
   InternalPipelineOptions,
+  bearerTokenAuthenticationPolicy,
 } from "@azure/core-rest-pipeline";
 import { FullOperationResponse, OperationOptions } from "@azure/core-client";
-import { isTokenCredential, TokenCredential } from "@azure/core-auth";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import "@azure/core-paging";
 import { logger } from "./logger";
 import {
-  createMetricsAdvisorKeyCredentialPolicy,
   MetricsAdvisorKeyCredential,
+  createMetricsAdvisorKeyCredentialPolicy,
 } from "./metricsAdvisorKeyCredentialPolicy";
 import { GeneratedClient } from "./generated/generatedClient";
 import {
-  IngestionStatus,
-  DataFeedGranularity,
-  MetricsAdvisorDataFeed,
-  DataFeedPatch,
-  WebNotificationHook,
-  EmailNotificationHook,
-  WebNotificationHookPatch,
-  EmailNotificationHookPatch,
+  AlertConfigurationsPageResponse,
+  AnomalyAlertConfiguration,
   AnomalyDetectionConfiguration,
   AnomalyDetectionConfigurationPatch,
-  NotificationHookUnion,
+  CredentialsPageResponse,
   DataFeedAutoRollupMethod,
-  DataFeedsPageResponse,
-  IngestionStatusPageResponse,
-  AlertConfigurationsPageResponse,
-  DetectionConfigurationsPageResponse,
-  HooksPageResponse,
+  DataFeedGranularity,
+  DataFeedPatch,
   DataFeedStatus,
-  GetIngestionProgressResponse,
-  AnomalyAlertConfiguration,
+  DataFeedsPageResponse,
   DataSourceCredentialEntityUnion,
   DataSourceCredentialPatch,
-  CredentialsPageResponse,
+  DetectionConfigurationsPageResponse,
+  EmailNotificationHook,
+  EmailNotificationHookPatch,
+  GetIngestionProgressResponse,
+  HooksPageResponse,
+  IngestionStatus,
+  IngestionStatusPageResponse,
+  MetricsAdvisorDataFeed,
+  NotificationHookUnion,
   RestResponse,
+  WebNotificationHook,
+  WebNotificationHookPatch,
 } from "./models";
 import { DataSourceType, HookInfoUnion, NeedRollupEnum } from "./generated/models";
 import {
+  fromServiceAlertConfiguration,
   fromServiceAnomalyDetectionConfiguration,
+  fromServiceCredential,
   fromServiceDataFeedDetailUnion,
   fromServiceHookInfoUnion,
-  fromServiceAlertConfiguration,
-  toServiceRollupSettings,
-  toServiceAnomalyDetectionConfiguration,
-  toServiceAnomalyDetectionConfigurationPatch,
   toServiceAlertConfiguration,
   toServiceAlertConfigurationPatch,
-  toServiceGranularity,
-  toServiceCredentialPatch,
+  toServiceAnomalyDetectionConfiguration,
+  toServiceAnomalyDetectionConfigurationPatch,
   toServiceCredential,
-  fromServiceCredential,
+  toServiceCredentialPatch,
   toServiceDataFeedSource,
   toServiceDataFeedSourcePatch,
+  toServiceGranularity,
+  toServiceRollupSettings,
 } from "./transforms";
 import {
   DEFAULT_COGNITIVE_SCOPE,
@@ -207,81 +207,86 @@ export class MetricsAdvisorAdministrationClient {
     feed: DataFeedDescriptor,
     operationOptions: CreateDataFeedOptions = {}
   ): Promise<MetricsAdvisorDataFeed> {
-    return tracingClient.withSpan("MetricsAdvisorAdministrationClient-createDataFeed", operationOptions, async (finalOptions) => {
-      const {
-        name,
-        granularity,
-        source,
-        schema,
-        ingestionSettings,
-        rollupSettings,
-        missingDataPointFillSettings,
-        accessMode,
-        admins,
-        viewers,
-        description,
-      } = feed;
+    return tracingClient.withSpan(
+      "MetricsAdvisorAdministrationClient-createDataFeed",
+      operationOptions,
+      async (finalOptions) => {
+        const {
+          name,
+          granularity,
+          source,
+          schema,
+          ingestionSettings,
+          rollupSettings,
+          missingDataPointFillSettings,
+          accessMode,
+          admins,
+          viewers,
+          description,
+        } = feed;
 
-      if (source.dataSourceType === "Unknown") {
-        throw new Error("Cannot create a data feed with the Unknown source type.");
+        if (source.dataSourceType === "Unknown") {
+          throw new Error("Cannot create a data feed with the Unknown source type.");
+        }
+
+        const needRollup: NeedRollupEnum | undefined =
+          rollupSettings?.rollupType === "AutoRollup"
+            ? "NeedRollup"
+            : rollupSettings?.rollupType === "AlreadyRollup"
+            ? "AlreadyRollup"
+            : rollupSettings?.rollupType === "NoRollup"
+            ? "NoRollup"
+            : undefined;
+        const rollUpColumns: string[] | undefined =
+          rollupSettings?.rollupType === "AutoRollup"
+            ? rollupSettings.autoRollupGroupByColumnNames
+            : undefined;
+        const allUpIdentification: string | undefined =
+          rollupSettings?.rollupType === "AutoRollup" ||
+          rollupSettings?.rollupType === "AlreadyRollup"
+            ? rollupSettings.rollupIdentificationValue
+            : undefined;
+        const rollUpMethod: DataFeedAutoRollupMethod | undefined =
+          rollupSettings?.rollupType === "AutoRollup" ? rollupSettings.rollupMethod : undefined;
+        const fillMissingPointType = missingDataPointFillSettings?.fillType;
+        const fillMissingPointValue =
+          missingDataPointFillSettings?.fillType === "CustomValue"
+            ? missingDataPointFillSettings.customFillValue
+            : undefined;
+
+        const body = {
+          dataFeedName: name,
+          ...toServiceGranularity(granularity),
+          ...toServiceDataFeedSource(source),
+          metrics: schema.metrics,
+          dimension: schema.dimensions,
+          timestampColumn: schema.timestampColumn,
+          dataStartFrom: ingestionSettings.ingestionStartTime,
+          startOffsetInSeconds: ingestionSettings.ingestionStartOffsetInSeconds,
+          maxConcurrency: ingestionSettings.dataSourceRequestConcurrency,
+          minRetryIntervalInSeconds: ingestionSettings.ingestionRetryDelayInSeconds,
+          stopRetryAfterInSeconds: ingestionSettings.stopRetryAfterInSeconds,
+          needRollup,
+          rollUpColumns,
+          allUpIdentification,
+          rollUpMethod,
+          fillMissingPointType,
+          fillMissingPointValue,
+          viewMode: accessMode,
+          admins: admins,
+          viewers: viewers,
+          dataFeedDescription: description,
+          ...finalOptions,
+        };
+        const result = await this.client.createDataFeed(body, finalOptions);
+        if (!result.location) {
+          throw new Error("Expected a valid location to retrieve the created configuration");
+        }
+        const lastSlashIndex = result.location.lastIndexOf("/");
+        const feedId = result.location.substring(lastSlashIndex + 1);
+        return this.getDataFeed(feedId);
       }
-
-      const needRollup: NeedRollupEnum | undefined =
-        rollupSettings?.rollupType === "AutoRollup"
-          ? "NeedRollup"
-          : rollupSettings?.rollupType === "AlreadyRollup"
-          ? "AlreadyRollup"
-          : rollupSettings?.rollupType === "NoRollup"
-          ? "NoRollup"
-          : undefined;
-      const rollUpColumns: string[] | undefined =
-        rollupSettings?.rollupType === "AutoRollup"
-          ? rollupSettings.autoRollupGroupByColumnNames
-          : undefined;
-      const allUpIdentification: string | undefined =
-        rollupSettings?.rollupType === "AutoRollup" || rollupSettings?.rollupType === "AlreadyRollup"
-          ? rollupSettings.rollupIdentificationValue
-          : undefined;
-      const rollUpMethod: DataFeedAutoRollupMethod | undefined =
-        rollupSettings?.rollupType === "AutoRollup" ? rollupSettings.rollupMethod : undefined;
-      const fillMissingPointType = missingDataPointFillSettings?.fillType;
-      const fillMissingPointValue =
-        missingDataPointFillSettings?.fillType === "CustomValue"
-          ? missingDataPointFillSettings.customFillValue
-          : undefined;
-
-      const body = {
-        dataFeedName: name,
-        ...toServiceGranularity(granularity),
-        ...toServiceDataFeedSource(source),
-        metrics: schema.metrics,
-        dimension: schema.dimensions,
-        timestampColumn: schema.timestampColumn,
-        dataStartFrom: ingestionSettings.ingestionStartTime,
-        startOffsetInSeconds: ingestionSettings.ingestionStartOffsetInSeconds,
-        maxConcurrency: ingestionSettings.dataSourceRequestConcurrency,
-        minRetryIntervalInSeconds: ingestionSettings.ingestionRetryDelayInSeconds,
-        stopRetryAfterInSeconds: ingestionSettings.stopRetryAfterInSeconds,
-        needRollup,
-        rollUpColumns,
-        allUpIdentification,
-        rollUpMethod,
-        fillMissingPointType,
-        fillMissingPointValue,
-        viewMode: accessMode,
-        admins: admins,
-        viewers: viewers,
-        dataFeedDescription: description,
-        ...finalOptions,
-      };
-      const result = await this.client.createDataFeed(body, finalOptions);
-      if (!result.location) {
-        throw new Error("Expected a valid location to retrieve the created configuration");
-      }
-      const lastSlashIndex = result.location.lastIndexOf("/");
-      const feedId = result.location.substring(lastSlashIndex + 1);
-      return this.getDataFeed(feedId);
-    });
+    );
   }
 
   /**
@@ -293,11 +298,15 @@ export class MetricsAdvisorAdministrationClient {
     id: string,
     options: OperationOptions = {}
   ): Promise<MetricsAdvisorDataFeed> {
-    return tracingClient.withSpan("MetricsAdvisorAdministrationClient-getDataFeed", options, async (finalOptions) => {
-      const result = await this.client.getDataFeedById(id, finalOptions);
-      const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
-      return resultDataFeed;
-    });
+    return tracingClient.withSpan(
+      "MetricsAdvisorAdministrationClient-getDataFeed",
+      options,
+      async (finalOptions) => {
+        const result = await this.client.getDataFeedById(id, finalOptions);
+        const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
+        return resultDataFeed;
+      }
+    );
   }
 
   /**
@@ -447,44 +456,48 @@ export class MetricsAdvisorAdministrationClient {
     patch: DataFeedPatch,
     options: OperationOptions = {}
   ): Promise<MetricsAdvisorDataFeed> {
-    return tracingClient.withSpan("MetricsAdvisorAdministrationClient-updateDataFeed", options, async (finalOptions) => {
-      if (patch.source.dataSourceType === "Unknown") {
-        throw new Error("Cannot update a data feed to have the Unknown source type.");
-      }
+    return tracingClient.withSpan(
+      "MetricsAdvisorAdministrationClient-updateDataFeed",
+      options,
+      async (finalOptions) => {
+        if (patch.source.dataSourceType === "Unknown") {
+          throw new Error("Cannot update a data feed to have the Unknown source type.");
+        }
 
-      const patchBody = {
-        // source
-        ...toServiceDataFeedSourcePatch(patch.source),
-        // name and description
-        dataFeedName: patch.name,
-        dataFeedDescription: patch.description,
-        // schema
-        timestampColumn: patch.schema?.timestampColumn,
-        // ingestion settings
-        dataStartFrom: patch.ingestionSettings?.ingestionStartTime,
-        startOffsetInSeconds: patch.ingestionSettings?.ingestionStartOffsetInSeconds,
-        maxConcurrency: patch.ingestionSettings?.dataSourceRequestConcurrency,
-        minRetryIntervalInSeconds: patch.ingestionSettings?.ingestionRetryDelayInSeconds,
-        stopRetryAfterInSeconds: patch.ingestionSettings?.stopRetryAfterInSeconds,
-        // rollup settings
-        ...toServiceRollupSettings(patch.rollupSettings),
-        // missing point filling settings
-        fillMissingPointType: patch.missingDataPointFillSettings?.fillType,
-        fillMissingPointValue:
-          patch.missingDataPointFillSettings?.fillType === "CustomValue"
-            ? patch.missingDataPointFillSettings.customFillValue
-            : undefined,
-        // other options
-        viewMode: patch.accessMode,
-        admins: patch.admins,
-        viewers: patch.viewers,
-        status: patch.status,
-        actionLinkTemplate: patch.actionLinkTemplate,
-      };
-      const result = await this.client.updateDataFeed(dataFeedId, patchBody, finalOptions);
-      const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
-      return resultDataFeed;
-    });
+        const patchBody = {
+          // source
+          ...toServiceDataFeedSourcePatch(patch.source),
+          // name and description
+          dataFeedName: patch.name,
+          dataFeedDescription: patch.description,
+          // schema
+          timestampColumn: patch.schema?.timestampColumn,
+          // ingestion settings
+          dataStartFrom: patch.ingestionSettings?.ingestionStartTime,
+          startOffsetInSeconds: patch.ingestionSettings?.ingestionStartOffsetInSeconds,
+          maxConcurrency: patch.ingestionSettings?.dataSourceRequestConcurrency,
+          minRetryIntervalInSeconds: patch.ingestionSettings?.ingestionRetryDelayInSeconds,
+          stopRetryAfterInSeconds: patch.ingestionSettings?.stopRetryAfterInSeconds,
+          // rollup settings
+          ...toServiceRollupSettings(patch.rollupSettings),
+          // missing point filling settings
+          fillMissingPointType: patch.missingDataPointFillSettings?.fillType,
+          fillMissingPointValue:
+            patch.missingDataPointFillSettings?.fillType === "CustomValue"
+              ? patch.missingDataPointFillSettings.customFillValue
+              : undefined,
+          // other options
+          viewMode: patch.accessMode,
+          admins: patch.admins,
+          viewers: patch.viewers,
+          status: patch.status,
+          actionLinkTemplate: patch.actionLinkTemplate,
+        };
+        const result = await this.client.updateDataFeed(dataFeedId, patchBody, finalOptions);
+        const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
+        return resultDataFeed;
+      }
+    );
   }
 
   /**
@@ -494,12 +507,16 @@ export class MetricsAdvisorAdministrationClient {
    */
 
   public async deleteDataFeed(id: string, options: OperationOptions = {}): Promise<RestResponse> {
-    return tracingClient.withSpan("MetricsAdvisorAdministrationClient-deleteDataFeed", options, async (finalOptions) => {
-      const response = await getRawResponse(() => this.client.deleteDataFeed(id, finalOptions), {
-        ...options,
-      });
-      return { _response: response.rawResponse };
-    });
+    return tracingClient.withSpan(
+      "MetricsAdvisorAdministrationClient-deleteDataFeed",
+      options,
+      async (finalOptions) => {
+        const response = await getRawResponse(() => this.client.deleteDataFeed(id, finalOptions), {
+          ...options,
+        });
+        return { _response: response.rawResponse };
+      }
+    );
   }
 
   /**
@@ -512,19 +529,23 @@ export class MetricsAdvisorAdministrationClient {
     config: Omit<AnomalyDetectionConfiguration, "id">,
     options: OperationOptions = {}
   ): Promise<AnomalyDetectionConfiguration> {
-    return tracingClient.withSpan("MetricsAdvisorAdministrationClient-createDetectionConfig", options, async (finalOptions) => {
-      const transformed = toServiceAnomalyDetectionConfiguration(config);
-      const result = await this.client.createAnomalyDetectionConfiguration(
-        transformed,
-        finalOptions
-      );
-      if (!result.location) {
-        throw new Error("Expected a valid location to retrieve the created configuration");
+    return tracingClient.withSpan(
+      "MetricsAdvisorAdministrationClient-createDetectionConfig",
+      options,
+      async (finalOptions) => {
+        const transformed = toServiceAnomalyDetectionConfiguration(config);
+        const result = await this.client.createAnomalyDetectionConfiguration(
+          transformed,
+          finalOptions
+        );
+        if (!result.location) {
+          throw new Error("Expected a valid location to retrieve the created configuration");
+        }
+        const lastSlashIndex = result.location.lastIndexOf("/");
+        const configId = result.location.substring(lastSlashIndex + 1);
+        return this.getDetectionConfig(configId);
       }
-      const lastSlashIndex = result.location.lastIndexOf("/");
-      const configId = result.location.substring(lastSlashIndex + 1);
-      return this.getDetectionConfig(configId);
-    });
+    );
   }
 
   /**
@@ -537,10 +558,14 @@ export class MetricsAdvisorAdministrationClient {
     id: string,
     options: OperationOptions = {}
   ): Promise<AnomalyDetectionConfiguration> {
-    return tracingClient.withSpan("MetricsAdvisorAdministrationClient-getDetectionConfig", options, async (finalOptions) => {
-      const result = await this.client.getAnomalyDetectionConfiguration(id, finalOptions);
-      return fromServiceAnomalyDetectionConfiguration(result);
-    });
+    return tracingClient.withSpan(
+      "MetricsAdvisorAdministrationClient-getDetectionConfig",
+      options,
+      async (finalOptions) => {
+        const result = await this.client.getAnomalyDetectionConfiguration(id, finalOptions);
+        return fromServiceAnomalyDetectionConfiguration(result);
+      }
+    );
   }
 
   /**
@@ -555,15 +580,19 @@ export class MetricsAdvisorAdministrationClient {
     patch: AnomalyDetectionConfigurationPatch,
     options: OperationOptions = {}
   ): Promise<AnomalyDetectionConfiguration> {
-    return tracingClient.withSpan("MetricsAdvisorAdministrationClient-updateDetectionConfig", options, async (finalOptions) => {
-      const transformed = toServiceAnomalyDetectionConfigurationPatch(patch);
-      const result = await this.client.updateAnomalyDetectionConfiguration(
-        id,
-        transformed,
-        finalOptions
-      );
-      return fromServiceAnomalyDetectionConfiguration(result);
-    });
+    return tracingClient.withSpan(
+      "MetricsAdvisorAdministrationClient-updateDetectionConfig",
+      options,
+      async (finalOptions) => {
+        const transformed = toServiceAnomalyDetectionConfigurationPatch(patch);
+        const result = await this.client.updateAnomalyDetectionConfiguration(
+          id,
+          transformed,
+          finalOptions
+        );
+        return fromServiceAnomalyDetectionConfiguration(result);
+      }
+    );
   }
 
   /**
@@ -576,15 +605,19 @@ export class MetricsAdvisorAdministrationClient {
     id: string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
-    return tracingClient.withSpan("MetricsAdvisorAdministrationClient-deleteDetectionConfig", options, async (finalOptions) => {
-      const response = await getRawResponse(
-        () => this.client.deleteAnomalyDetectionConfiguration(id, finalOptions),
-        {
-          ...options,
-        }
-      );
-      return { _response: response.rawResponse };
-    });
+    return tracingClient.withSpan(
+      "MetricsAdvisorAdministrationClient-deleteDetectionConfig",
+      options,
+      async (finalOptions) => {
+        const response = await getRawResponse(
+          () => this.client.deleteAnomalyDetectionConfiguration(id, finalOptions),
+          {
+            ...options,
+          }
+        );
+        return { _response: response.rawResponse };
+      }
+    );
   }
 
   /**
@@ -596,19 +629,23 @@ export class MetricsAdvisorAdministrationClient {
     config: Omit<AnomalyAlertConfiguration, "id">,
     options: OperationOptions = {}
   ): Promise<AnomalyAlertConfiguration> {
-    return tracingClient.withSpan("MetricsAdvisorAdministrationClient-createAlertConfig", options, async (finalOptions) => {
-      const transformed = toServiceAlertConfiguration(config);
-      const result = await this.client.createAnomalyAlertingConfiguration(
-        transformed,
-        finalOptions
-      );
-      if (!result.location) {
-        throw new Error("Expected a valid location to retrieve the created configuration");
+    return tracingClient.withSpan(
+      "MetricsAdvisorAdministrationClient-createAlertConfig",
+      options,
+      async (finalOptions) => {
+        const transformed = toServiceAlertConfiguration(config);
+        const result = await this.client.createAnomalyAlertingConfiguration(
+          transformed,
+          finalOptions
+        );
+        if (!result.location) {
+          throw new Error("Expected a valid location to retrieve the created configuration");
+        }
+        const lastSlashIndex = result.location.lastIndexOf("/");
+        const configId = result.location.substring(lastSlashIndex + 1);
+        return this.getAlertConfig(configId);
       }
-      const lastSlashIndex = result.location.lastIndexOf("/");
-      const configId = result.location.substring(lastSlashIndex + 1);
-      return this.getAlertConfig(configId);
-    });
+    );
   }
 
   /**
@@ -622,15 +659,19 @@ export class MetricsAdvisorAdministrationClient {
     patch: Partial<Omit<AnomalyAlertConfiguration, "id">>,
     options: OperationOptions = {}
   ): Promise<AnomalyAlertConfiguration> {
-    return tracingClient.withSpan("MetricsAdvisorAdministrationClient-updateAlertConfig", options, async (finalOptions) => {
-      const transformed = toServiceAlertConfigurationPatch(patch);
-      const result = await this.client.updateAnomalyAlertingConfiguration(
-        id,
-        transformed,
-        finalOptions
-      );
-      return fromServiceAlertConfiguration(result);
-    });
+    return tracingClient.withSpan(
+      "MetricsAdvisorAdministrationClient-updateAlertConfig",
+      options,
+      async (finalOptions) => {
+        const transformed = toServiceAlertConfigurationPatch(patch);
+        const result = await this.client.updateAnomalyAlertingConfiguration(
+          id,
+          transformed,
+          finalOptions
+        );
+        return fromServiceAlertConfiguration(result);
+      }
+    );
   }
 
   /**
@@ -643,10 +684,14 @@ export class MetricsAdvisorAdministrationClient {
     id: string,
     options: OperationOptions = {}
   ): Promise<AnomalyAlertConfiguration> {
-    return tracingClient.withSpan("MetricsAdvisorAdministrationClient-getAlertConfig", options, async (finalOptions) => {
-      const result = await this.client.getAnomalyAlertingConfiguration(id, finalOptions);
-      return fromServiceAlertConfiguration(result);
-    });
+    return tracingClient.withSpan(
+      "MetricsAdvisorAdministrationClient-getAlertConfig",
+      options,
+      async (finalOptions) => {
+        const result = await this.client.getAnomalyAlertingConfiguration(id, finalOptions);
+        return fromServiceAlertConfiguration(result);
+      }
+    );
   }
 
   /**
@@ -659,15 +704,19 @@ export class MetricsAdvisorAdministrationClient {
     id: string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
-    return tracingClient.withSpan("MetricsAdvisorAdministrationClient-deleteAlertConfig", options, async (finalOptions) => {
-      const response = await getRawResponse(
-        () => this.client.deleteAnomalyAlertingConfiguration(id, finalOptions),
-        {
-          ...options,
-        }
-      );
-      return { _response: response.rawResponse };
-    });
+    return tracingClient.withSpan(
+      "MetricsAdvisorAdministrationClient-deleteAlertConfig",
+      options,
+      async (finalOptions) => {
+        const response = await getRawResponse(
+          () => this.client.deleteAnomalyAlertingConfiguration(id, finalOptions),
+          {
+            ...options,
+          }
+        );
+        return { _response: response.rawResponse };
+      }
+    );
   }
 
   private async *listSegmentsOfAlertingConfigurations(
@@ -794,26 +843,30 @@ export class MetricsAdvisorAdministrationClient {
     hookInfo: EmailNotificationHook | WebNotificationHook,
     options: OperationOptions = {}
   ): Promise<NotificationHookUnion> {
-    return tracingClient.withSpan("MetricsAdvisorAdministrationClient-createHook", options, async (finalOptions) => {
-      const { hookType, name, description, externalLink, admins, hookParameter } = hookInfo;
-      const result = await this.client.createHook(
-        {
-          hookType,
-          name,
-          description,
-          externalLink,
-          admins,
-          hookParameter,
-        } as HookInfoUnion,
-        finalOptions
-      );
-      if (!result.location) {
-        throw new Error("Expected a valid location to retrieve the created configuration");
+    return tracingClient.withSpan(
+      "MetricsAdvisorAdministrationClient-createHook",
+      options,
+      async (finalOptions) => {
+        const { hookType, name, description, externalLink, admins, hookParameter } = hookInfo;
+        const result = await this.client.createHook(
+          {
+            hookType,
+            name,
+            description,
+            externalLink,
+            admins,
+            hookParameter,
+          } as HookInfoUnion,
+          finalOptions
+        );
+        if (!result.location) {
+          throw new Error("Expected a valid location to retrieve the created configuration");
+        }
+        const lastSlashIndex = result.location.lastIndexOf("/");
+        const hookId = result.location.substring(lastSlashIndex + 1);
+        return this.getHook(hookId);
       }
-      const lastSlashIndex = result.location.lastIndexOf("/");
-      const hookId = result.location.substring(lastSlashIndex + 1);
-      return this.getHook(hookId);
-    });
+    );
   }
 
   /**
@@ -823,11 +876,15 @@ export class MetricsAdvisorAdministrationClient {
    */
 
   public async getHook(id: string, options: OperationOptions = {}): Promise<NotificationHookUnion> {
-    return tracingClient.withSpan("MetricsAdvisorAdministrationClient-getHook", options, async (finalOptions) => {
-      const result = await this.client.getHook(id, finalOptions);
-      const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(result);
-      return resultHookResponse;
-    });
+    return tracingClient.withSpan(
+      "MetricsAdvisorAdministrationClient-getHook",
+      options,
+      async (finalOptions) => {
+        const result = await this.client.getHook(id, finalOptions);
+        const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(result);
+        return resultHookResponse;
+      }
+    );
   }
 
   private async *listSegmentOfHooks(
@@ -959,11 +1016,15 @@ export class MetricsAdvisorAdministrationClient {
     patch: EmailNotificationHookPatch | WebNotificationHookPatch,
     options: OperationOptions = {}
   ): Promise<NotificationHookUnion> {
-    return tracingClient.withSpan("MetricsAdvisorAdministrationClient-updateHook", options, async (finalOptions) => {
-      const result = await this.client.updateHook(id, patch, finalOptions);
-      const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(result);
-      return resultHookResponse;
-    });
+    return tracingClient.withSpan(
+      "MetricsAdvisorAdministrationClient-updateHook",
+      options,
+      async (finalOptions) => {
+        const result = await this.client.updateHook(id, patch, finalOptions);
+        const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(result);
+        return resultHookResponse;
+      }
+    );
   }
 
   /**
@@ -972,12 +1033,16 @@ export class MetricsAdvisorAdministrationClient {
    * @param options - The options parameter
    */
   public async deleteHook(id: string, options: OperationOptions = {}): Promise<RestResponse> {
-    return tracingClient.withSpan("MetricsAdvisorAdministrationClient-deleteHook", options, async (finalOptions) => {
-      const response = await getRawResponse(() => this.client.deleteHook(id, finalOptions), {
-        ...options,
-      });
-      return { _response: response.rawResponse };
-    });
+    return tracingClient.withSpan(
+      "MetricsAdvisorAdministrationClient-deleteHook",
+      options,
+      async (finalOptions) => {
+        const response = await getRawResponse(() => this.client.deleteHook(id, finalOptions), {
+          ...options,
+        });
+        return { _response: response.rawResponse };
+      }
+    );
   }
 
   private async *listSegmentsOfDetectionConfigurations(
@@ -1101,13 +1166,17 @@ export class MetricsAdvisorAdministrationClient {
     dataFeedId: string,
     options = {}
   ): Promise<GetIngestionProgressResponse> {
-    return tracingClient.withSpan("MetricsAdvisorAdministrationClient-getDataFeedIngestionProgress", options, async (finalOptions) => {
-      const response = await this.client.getIngestionProgress(dataFeedId, finalOptions);
-      return {
-        latestActiveTimestamp: response.latestActiveTimestamp?.getTime(),
-        latestSuccessTimestamp: response.latestSuccessTimestamp?.getTime(),
-      };
-    });
+    return tracingClient.withSpan(
+      "MetricsAdvisorAdministrationClient-getDataFeedIngestionProgress",
+      options,
+      async (finalOptions) => {
+        const response = await this.client.getIngestionProgress(dataFeedId, finalOptions);
+        return {
+          latestActiveTimestamp: response.latestActiveTimestamp?.getTime(),
+          latestSuccessTimestamp: response.latestSuccessTimestamp?.getTime(),
+        };
+      }
+    );
   }
 
   private async *listSegmentOfIngestionStatus(
@@ -1310,24 +1379,28 @@ export class MetricsAdvisorAdministrationClient {
     endTime: Date | string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
-    return tracingClient.withSpan("MetricsAdvisorAdministrationClient-refreshDataFeedIngestion", options, async (finalOptions) => {
-      const response = await getRawResponse(
-        () =>
-          this.client.resetDataFeedIngestionStatus(
-            dataFeedId,
-            {
-              startTime: typeof startTime === "string" ? new Date(startTime) : startTime,
-              endTime: typeof endTime === "string" ? new Date(endTime) : endTime,
-            },
-            finalOptions
-          ),
-        {
-          ...options,
-        }
-      );
-      logger.info(response);
-      return { _response: response.rawResponse };
-    });
+    return tracingClient.withSpan(
+      "MetricsAdvisorAdministrationClient-refreshDataFeedIngestion",
+      options,
+      async (finalOptions) => {
+        const response = await getRawResponse(
+          () =>
+            this.client.resetDataFeedIngestionStatus(
+              dataFeedId,
+              {
+                startTime: typeof startTime === "string" ? new Date(startTime) : startTime,
+                endTime: typeof endTime === "string" ? new Date(endTime) : endTime,
+              },
+              finalOptions
+            ),
+          {
+            ...options,
+          }
+        );
+        logger.info(response);
+        return { _response: response.rawResponse };
+      }
+    );
   }
 
   /**
@@ -1339,17 +1412,21 @@ export class MetricsAdvisorAdministrationClient {
     dataSourceCredential: DataSourceCredentialEntityUnion,
     options: OperationOptions = {}
   ): Promise<DataSourceCredentialEntityUnion> {
-    return tracingClient.withSpan("MetricsAdvisorAdministrationClient-createDataSourceCredential", options, async (finalOptions) => {
-      // transformation
-      const transformedCred = toServiceCredential(dataSourceCredential);
-      const result = await this.client.createCredential(transformedCred, finalOptions);
-      if (!result.location) {
-        throw new Error("Expected a valid location to retrieve the created credential entity");
+    return tracingClient.withSpan(
+      "MetricsAdvisorAdministrationClient-createDataSourceCredential",
+      options,
+      async (finalOptions) => {
+        // transformation
+        const transformedCred = toServiceCredential(dataSourceCredential);
+        const result = await this.client.createCredential(transformedCred, finalOptions);
+        if (!result.location) {
+          throw new Error("Expected a valid location to retrieve the created credential entity");
+        }
+        const lastSlashIndex = result.location.lastIndexOf("/");
+        const credEntityId = result.location.substring(lastSlashIndex + 1);
+        return this.getDataSourceCredential(credEntityId);
       }
-      const lastSlashIndex = result.location.lastIndexOf("/");
-      const credEntityId = result.location.substring(lastSlashIndex + 1);
-      return this.getDataSourceCredential(credEntityId);
-    });
+    );
   }
 
   /**
@@ -1362,11 +1439,15 @@ export class MetricsAdvisorAdministrationClient {
     id: string,
     options: OperationOptions = {}
   ): Promise<DataSourceCredentialEntityUnion> {
-    return tracingClient.withSpan("MetricsAdvisorAdministrationClient-getDataSourceCredential", options, async (finalOptions) => {
-      const result = await this.client.getCredential(id, finalOptions);
-      const resultCred = fromServiceCredential(result);
-      return resultCred;
-    });
+    return tracingClient.withSpan(
+      "MetricsAdvisorAdministrationClient-getDataSourceCredential",
+      options,
+      async (finalOptions) => {
+        const result = await this.client.getCredential(id, finalOptions);
+        const resultCred = fromServiceCredential(result);
+        return resultCred;
+      }
+    );
   }
 
   /**
@@ -1507,15 +1588,19 @@ export class MetricsAdvisorAdministrationClient {
     patch: DataSourceCredentialPatch,
     options: OperationOptions = {}
   ): Promise<DataSourceCredentialEntityUnion> {
-    return tracingClient.withSpan("MetricsAdvisorAdministrationClient-updateDataSourceCredential", options, async (finalOptions) => {
-      const result = await this.client.updateCredential(
-        id,
-        toServiceCredentialPatch(patch),
-        finalOptions
-      );
-      const resultCred = fromServiceCredential(result);
-      return resultCred;
-    });
+    return tracingClient.withSpan(
+      "MetricsAdvisorAdministrationClient-updateDataSourceCredential",
+      options,
+      async (finalOptions) => {
+        const result = await this.client.updateCredential(
+          id,
+          toServiceCredentialPatch(patch),
+          finalOptions
+        );
+        const resultCred = fromServiceCredential(result);
+        return resultCred;
+      }
+    );
   }
 
   /**
@@ -1527,12 +1612,19 @@ export class MetricsAdvisorAdministrationClient {
     id: string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
-    return tracingClient.withSpan("MetricsAdvisorAdministrationClient-deleteDataSourceCredential", options, async (finalOptions) => {
-      const response = await getRawResponse(() => this.client.deleteCredential(id, finalOptions), {
-        ...options,
-      });
-      return { _response: response.rawResponse };
-    });
+    return tracingClient.withSpan(
+      "MetricsAdvisorAdministrationClient-deleteDataSourceCredential",
+      options,
+      async (finalOptions) => {
+        const response = await getRawResponse(
+          () => this.client.deleteCredential(id, finalOptions),
+          {
+            ...options,
+          }
+        );
+        return { _response: response.rawResponse };
+      }
+    );
   }
 }
 interface ReturnType<T> {
