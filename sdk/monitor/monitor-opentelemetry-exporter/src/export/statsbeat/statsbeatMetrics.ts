@@ -136,6 +136,7 @@ export class StatsbeatMetrics {
     }
   }
 
+  // TODO: Debug tests and determining if the resourceProvider is an Azure VM
   private _getAzureComputeMetadata(): boolean {
     const serviceClient = new ServiceClient();
     const headers = createHttpHeaders({ MetaData: "True" });
@@ -147,6 +148,7 @@ export class StatsbeatMetrics {
       method: "GET",
       withCredentials: false,
       requestId: "azure-metadata-request",
+      allowInsecureConnection: true,
     };
 
     serviceClient
