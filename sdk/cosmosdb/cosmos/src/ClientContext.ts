@@ -24,7 +24,7 @@ import { FeedOptions, RequestOptions, Response } from "./request";
 import { PartitionedQueryExecutionInfo } from "./request/ErrorResponse";
 import { getHeaders } from "./request/request";
 import { RequestContext } from "./request/RequestContext";
-import { request as executeRequest } from "./request/RequestHandler";
+import { RequestHandler } from "./request/RequestHandler";
 import { SessionContainer } from "./session/sessionContainer";
 import { SessionContext } from "./session/SessionContext";
 import { BulkOptions } from "./utils/batch";
@@ -111,7 +111,7 @@ export class ClientContext {
         request.resourceType,
         request.operationType
       );
-      const response = await executePlugins(request, executeRequest, PluginOn.operation);
+      const response = await executePlugins(request, RequestHandler.request, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Read, response.headers);
       return response;
     } catch (err: any) {
@@ -184,7 +184,7 @@ export class ClientContext {
     );
     logger.verbose(request);
     const start = Date.now();
-    const response = await executeRequest(request);
+    const response = await RequestHandler.request(request);
     logger.info("query " + requestId + " finished - " + (Date.now() - start) + "ms");
     this.captureSessionToken(undefined, path, OperationType.Query, response.headers);
     return this.processQueryFeedResponse(response, !!query, resultFn);
@@ -228,7 +228,7 @@ export class ClientContext {
     }
 
     this.applySessionToken(request);
-    const response = await executeRequest(request);
+    const response = await RequestHandler.request(request);
     this.captureSessionToken(undefined, path, OperationType.Query, response.headers);
     return response as any;
   }
@@ -290,7 +290,7 @@ export class ClientContext {
         request.resourceType,
         request.operationType
       );
-      const response = await executePlugins(request, executeRequest, PluginOn.operation);
+      const response = await executePlugins(request, RequestHandler.request, PluginOn.operation);
       if (parseLink(path).type !== "colls") {
         this.captureSessionToken(undefined, path, OperationType.Delete, response.headers);
       } else {
@@ -333,6 +333,7 @@ export class ClientContext {
         options,
         plugins: this.cosmosClientOptions.plugins,
         partitionKey,
+        pipeline: this.pipeline,
       };
 
       request.headers = await this.buildHeaders(request);
@@ -343,7 +344,7 @@ export class ClientContext {
         request.resourceType,
         request.operationType
       );
-      const response = await executePlugins(request, executeRequest, PluginOn.operation);
+      const response = await executePlugins(request, RequestHandler.request, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Patch, response.headers);
       return response;
     } catch (err: any) {
@@ -393,7 +394,7 @@ export class ClientContext {
         request.resourceType,
         request.operationType
       );
-      const response = await executePlugins(request, executeRequest, PluginOn.operation);
+      const response = await executePlugins(request, RequestHandler.request, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Create, response.headers);
       return response;
     } catch (err: any) {
@@ -482,7 +483,7 @@ export class ClientContext {
         request.resourceType,
         request.operationType
       );
-      const response = await executePlugins(request, executeRequest, PluginOn.operation);
+      const response = await executePlugins(request, RequestHandler.request, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Replace, response.headers);
       return response;
     } catch (err: any) {
@@ -533,7 +534,7 @@ export class ClientContext {
         request.resourceType,
         request.operationType
       );
-      const response = await executePlugins(request, executeRequest, PluginOn.operation);
+      const response = await executePlugins(request, RequestHandler.request, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Upsert, response.headers);
       return response;
     } catch (err: any) {
@@ -584,7 +585,7 @@ export class ClientContext {
       request.resourceType,
       request.operationType
     );
-    return executePlugins(request, executeRequest, PluginOn.operation);
+    return executePlugins(request, RequestHandler.request, PluginOn.operation);
   }
 
   /**
@@ -613,7 +614,11 @@ export class ClientContext {
 
     request.headers = await this.buildHeaders(request);
     // await options.beforeOperation({ endpoint, request, headers: requestHeaders });
-    const { result, headers } = await executePlugins(request, executeRequest, PluginOn.operation);
+    const { result, headers } = await executePlugins(
+      request,
+      RequestHandler.request,
+      PluginOn.operation
+    );
 
     const databaseAccount = new DatabaseAccount(result, headers);
 
@@ -677,7 +682,7 @@ export class ClientContext {
         request.resourceType,
         request.operationType
       );
-      const response = await executePlugins(request, executeRequest, PluginOn.operation);
+      const response = await executePlugins(request, RequestHandler.request, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Batch, response.headers);
       return response;
     } catch (err: any) {
@@ -731,7 +736,7 @@ export class ClientContext {
         request.resourceType,
         request.operationType
       );
-      const response = await executePlugins(request, executeRequest, PluginOn.operation);
+      const response = await executePlugins(request, RequestHandler.request, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Batch, response.headers);
       return response;
     } catch (err: any) {
