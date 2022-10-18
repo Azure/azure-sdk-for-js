@@ -545,6 +545,261 @@ export const DateTimeInterval: coreClient.CompositeMapper = {
   }
 };
 
+export const ResourceChangesRequestParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceChangesRequestParameters",
+    modelProperties: {
+      resourceIds: {
+        serializedName: "resourceIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        type: {
+          name: "String"
+        }
+      },
+      interval: {
+        serializedName: "interval",
+        type: {
+          name: "Composite",
+          className: "ResourceChangesRequestParametersInterval"
+        }
+      },
+      skipToken: {
+        serializedName: "$skipToken",
+        type: {
+          name: "String"
+        }
+      },
+      top: {
+        constraints: {
+          InclusiveMaximum: 1000,
+          InclusiveMinimum: 1
+        },
+        serializedName: "$top",
+        type: {
+          name: "Number"
+        }
+      },
+      table: {
+        serializedName: "table",
+        type: {
+          name: "String"
+        }
+      },
+      fetchPropertyChanges: {
+        serializedName: "fetchPropertyChanges",
+        type: {
+          name: "Boolean"
+        }
+      },
+      fetchSnapshots: {
+        serializedName: "fetchSnapshots",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceChangeList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceChangeList",
+    modelProperties: {
+      changes: {
+        serializedName: "changes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceChangeData"
+            }
+          }
+        }
+      },
+      skipToken: {
+        serializedName: "$skipToken",
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceChangeData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceChangeData",
+    modelProperties: {
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String"
+        }
+      },
+      changeId: {
+        serializedName: "changeId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      beforeSnapshot: {
+        serializedName: "beforeSnapshot",
+        type: {
+          name: "Composite",
+          className: "ResourceChangeDataBeforeSnapshot"
+        }
+      },
+      afterSnapshot: {
+        serializedName: "afterSnapshot",
+        type: {
+          name: "Composite",
+          className: "ResourceChangeDataAfterSnapshot"
+        }
+      },
+      changeType: {
+        serializedName: "changeType",
+        type: {
+          name: "Enum",
+          allowedValues: ["Create", "Update", "Delete"]
+        }
+      },
+      propertyChanges: {
+        serializedName: "propertyChanges",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourcePropertyChange"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ResourceSnapshotData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceSnapshotData",
+    modelProperties: {
+      snapshotId: {
+        serializedName: "snapshotId",
+        type: {
+          name: "String"
+        }
+      },
+      timestamp: {
+        serializedName: "timestamp",
+        required: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      content: {
+        serializedName: "content",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const ResourcePropertyChange: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourcePropertyChange",
+    modelProperties: {
+      propertyName: {
+        serializedName: "propertyName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      beforeValue: {
+        serializedName: "beforeValue",
+        type: {
+          name: "String"
+        }
+      },
+      afterValue: {
+        serializedName: "afterValue",
+        type: {
+          name: "String"
+        }
+      },
+      changeCategory: {
+        serializedName: "changeCategory",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["User", "System"]
+        }
+      },
+      propertyChangeType: {
+        serializedName: "propertyChangeType",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["Insert", "Update", "Remove"]
+        }
+      }
+    }
+  }
+};
+
+export const ResourceChangeDetailsRequestParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceChangeDetailsRequestParameters",
+    modelProperties: {
+      resourceIds: {
+        serializedName: "resourceIds",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      changeIds: {
+        serializedName: "changeIds",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const Table: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -673,6 +928,36 @@ export const FacetError: coreClient.CompositeMapper = {
           }
         }
       }
+    }
+  }
+};
+
+export const ResourceChangesRequestParametersInterval: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceChangesRequestParametersInterval",
+    modelProperties: {
+      ...DateTimeInterval.type.modelProperties
+    }
+  }
+};
+
+export const ResourceChangeDataBeforeSnapshot: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceChangeDataBeforeSnapshot",
+    modelProperties: {
+      ...ResourceSnapshotData.type.modelProperties
+    }
+  }
+};
+
+export const ResourceChangeDataAfterSnapshot: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceChangeDataAfterSnapshot",
+    modelProperties: {
+      ...ResourceSnapshotData.type.modelProperties
     }
   }
 };

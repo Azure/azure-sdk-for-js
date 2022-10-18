@@ -13,7 +13,9 @@ import {
 } from "@azure/core-client";
 import {
   QueryRequest as QueryRequestMapper,
-  ResourcesHistoryRequest as ResourcesHistoryRequestMapper
+  ResourcesHistoryRequest as ResourcesHistoryRequestMapper,
+  ResourceChangesRequestParameters as ResourceChangesRequestParametersMapper,
+  ResourceChangeDetailsRequestParameters as ResourceChangeDetailsRequestParametersMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -60,7 +62,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-06-01-preview",
+    defaultValue: "2022-10-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -72,4 +74,38 @@ export const apiVersion: OperationQueryParameter = {
 export const request: OperationParameter = {
   parameterPath: "request",
   mapper: ResourcesHistoryRequestMapper
+};
+
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2021-06-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ResourceChangesRequestParametersMapper
+};
+
+export const apiVersion2: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2020-09-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters1: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ResourceChangeDetailsRequestParametersMapper
 };

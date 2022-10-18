@@ -12,6 +12,12 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 export type AuthorizationScopeFilter = "AtScopeAndBelow" | "AtScopeAndAbove" | "AtScopeExact" | "AtScopeAboveAndBelow";
 
 // @public
+export type ChangeCategory = "User" | "System";
+
+// @public
+export type ChangeType = "Create" | "Update" | "Delete";
+
+// @public
 export interface Column {
     name: string;
     type: ColumnDataType;
@@ -52,10 +58,10 @@ export interface Facet {
 }
 
 // @public
-export type FacetError = Facet & {
-    resultType: "FacetError";
+export interface FacetError extends Facet {
     errors: ErrorDetails[];
-};
+    resultType: "FacetError";
+}
 
 // @public
 export interface FacetRequest {
@@ -72,12 +78,12 @@ export interface FacetRequestOptions {
 }
 
 // @public
-export type FacetResult = Facet & {
-    resultType: "FacetResult";
-    totalRecords: number;
+export interface FacetResult extends Facet {
     count: number;
     data: Record<string, unknown>;
-};
+    resultType: "FacetResult";
+    totalRecords: number;
+}
 
 // @public
 export type FacetSortOrder = "asc" | "desc";
@@ -118,6 +124,9 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
+export type PropertyChangeType = "Insert" | "Update" | "Remove";
+
+// @public
 export interface QueryRequest {
     facets?: FacetRequest[];
     managementGroups?: string[];
@@ -146,15 +155,75 @@ export interface QueryResponse {
     totalRecords: number;
 }
 
+// @public
+export interface ResourceChangeData {
+    afterSnapshot: ResourceChangeDataAfterSnapshot;
+    beforeSnapshot: ResourceChangeDataBeforeSnapshot;
+    changeId: string;
+    changeType?: ChangeType;
+    propertyChanges?: ResourcePropertyChange[];
+    resourceId?: string;
+}
+
+// @public
+export interface ResourceChangeDataAfterSnapshot extends ResourceSnapshotData {
+}
+
+// @public
+export interface ResourceChangeDataBeforeSnapshot extends ResourceSnapshotData {
+}
+
+// @public
+export interface ResourceChangeDetailsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ResourceChangeDetailsRequestParameters {
+    changeIds: string[];
+    resourceIds: string[];
+}
+
+// @public
+export type ResourceChangeDetailsResponse = ResourceChangeData[];
+
+// @public
+export interface ResourceChangeList {
+    changes?: ResourceChangeData[];
+    skipToken?: any;
+}
+
+// @public
+export interface ResourceChangesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ResourceChangesRequestParameters {
+    fetchPropertyChanges?: boolean;
+    fetchSnapshots?: boolean;
+    interval: ResourceChangesRequestParametersInterval;
+    resourceIds?: string[];
+    skipToken?: string;
+    subscriptionId?: string;
+    table?: string;
+    top?: number;
+}
+
+// @public
+export interface ResourceChangesRequestParametersInterval extends DateTimeInterval {
+}
+
+// @public
+export type ResourceChangesResponse = ResourceChangeList;
+
 // @public (undocumented)
 export class ResourceGraphClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, options?: ResourceGraphClientOptionalParams);
     // (undocumented)
-    apiVersion: string;
-    // (undocumented)
     operations: Operations;
+    resourceChangeDetails(parameters: ResourceChangeDetailsRequestParameters, options?: ResourceChangeDetailsOptionalParams): Promise<ResourceChangeDetailsResponse>;
+    resourceChanges(parameters: ResourceChangesRequestParameters, options?: ResourceChangesOptionalParams): Promise<ResourceChangesResponse>;
     resources(query: QueryRequest, options?: ResourcesOptionalParams): Promise<ResourcesResponse>;
     resourcesHistory(request: ResourcesHistoryRequest, options?: ResourcesHistoryOptionalParams): Promise<ResourcesHistoryResponse>;
 }
@@ -162,8 +231,16 @@ export class ResourceGraphClient extends coreClient.ServiceClient {
 // @public
 export interface ResourceGraphClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
-    apiVersion?: string;
     endpoint?: string;
+}
+
+// @public
+export interface ResourcePropertyChange {
+    afterValue?: string;
+    beforeValue?: string;
+    changeCategory: ChangeCategory;
+    propertyChangeType: PropertyChangeType;
+    propertyName: string;
 }
 
 // @public
@@ -189,6 +266,13 @@ export interface ResourcesHistoryRequestOptions {
 
 // @public
 export type ResourcesHistoryResponse = Record<string, unknown>;
+
+// @public
+export interface ResourceSnapshotData {
+    content?: Record<string, unknown>;
+    snapshotId?: string;
+    timestamp: Date;
+}
 
 // @public
 export interface ResourcesOptionalParams extends coreClient.OperationOptions {
