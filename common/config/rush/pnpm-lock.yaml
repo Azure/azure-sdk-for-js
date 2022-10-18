@@ -11778,7 +11778,7 @@ packages:
     dev: false
 
   file:projects/arm-devhub.tgz:
-    resolution: {integrity: sha512-byhaxMdC7nnMRfoycl2DoSuyb5r9f68X3+uUWy7kfQKzfdSohSWP4v4hfk7ANu64qxzBLj599PCvjoGG4wzi5g==, tarball: file:projects/arm-devhub.tgz}
+    resolution: {integrity: sha512-24gOR9GRJsvhBH/A9WPsDIGQb0CoeWMkrCxqZBwi7DO2oM1qJbaBZmS84KRwTfEfPZ4GtJKkNQwEvMYitN0rzA==, tarball: file:projects/arm-devhub.tgz}
     name: '@rush-temp/arm-devhub'
     version: 0.0.0
     dependencies:
@@ -11789,18 +11789,18 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.3
+      '@types/node': 14.18.32
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_c164e18ebb1175294129df0cff345d2e
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.17.2
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
