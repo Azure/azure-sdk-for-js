@@ -4,7 +4,7 @@
 /**
  * Parameters parsed out of the WWW-Authenticate header value by the parseWWWAuthenticate function.
  */
-export interface ParsedWWWAuthenticate {
+export interface WWWAuthenticate {
   /**
    * The authorization parameter, if present.
    */
@@ -31,7 +31,7 @@ export interface ParsedWWWAuthenticate {
   tenantId?: string;
 }
 
-const validParsedWWWAuthenticateProperties: readonly (keyof ParsedWWWAuthenticate)[] = [
+const validWWWAuthenticateProperties: readonly (keyof WWWAuthenticate)[] = [
   "authorization",
   "authorization_url",
   "resource",
@@ -47,13 +47,13 @@ const validParsedWWWAuthenticateProperties: readonly (keyof ParsedWWWAuthenticat
  * `{ authorization: "https://some.url/tenantId", resource: "https://some.url" }`
  * @param headerValue - String value in the WWW-Authenticate header
  */
-export function parseWWWAuthenticateHeader(headerValue: string): ParsedWWWAuthenticate {
+export function parseWWWAuthenticateHeader(headerValue: string): WWWAuthenticate {
   const pairDelimiter = /,? +/;
-  const parsed = headerValue.split(pairDelimiter).reduce<ParsedWWWAuthenticate>((kvPairs, p) => {
+  const parsed = headerValue.split(pairDelimiter).reduce<WWWAuthenticate>((kvPairs, p) => {
     if (p.match(/\w="/)) {
       // 'sampleKey="sample_value"' -> [sampleKey, "sample_value"] -> { sampleKey: sample_value }
       const [key, value] = p.split("=");
-      if (validParsedWWWAuthenticateProperties.includes(key as keyof ParsedWWWAuthenticate)) {
+      if (validWWWAuthenticateProperties.includes(key as keyof WWWAuthenticate)) {
         // The values will be wrapped in quotes, which need to be stripped out.
         return { ...kvPairs, [key]: value.slice(1, -1) };
       }

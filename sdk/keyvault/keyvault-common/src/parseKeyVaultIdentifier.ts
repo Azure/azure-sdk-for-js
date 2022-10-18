@@ -6,7 +6,7 @@ import * as url from "url";
 /**
  * The parsed components of a Key Vault entity identifier.
  */
-export interface ParsedKeyVaultEntityIdentifier {
+export interface KeyVaultEntityIdentifier {
   /**
    * The vault URI.
    */
@@ -30,7 +30,7 @@ export interface ParsedKeyVaultEntityIdentifier {
 export function parseKeyVaultIdentifier(
   collection: string,
   identifier: string | undefined
-): ParsedKeyVaultEntityIdentifier {
+): KeyVaultEntityIdentifier {
   if (typeof collection !== "string" || !(collection = collection.trim())) {
     throw new Error("Invalid collection argument");
   }

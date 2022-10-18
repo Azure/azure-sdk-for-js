@@ -15,14 +15,14 @@ export interface CreateChallengeCallbacksOptions {
 export function createKeyVaultChallengeCallbacks(options?: CreateChallengeCallbacksOptions): ChallengeCallbacks;
 
 // @public
-export interface ParsedKeyVaultEntityIdentifier {
+export interface KeyVaultEntityIdentifier {
     name: string;
     vaultUrl: string;
     version?: string;
 }
 
 // @public
-export function parseKeyVaultIdentifier(collection: string, identifier: string | undefined): ParsedKeyVaultEntityIdentifier;
+export function parseKeyVaultIdentifier(collection: string, identifier: string | undefined): KeyVaultEntityIdentifier;
 
 // (No @packageDocumentation comment for this package)
 

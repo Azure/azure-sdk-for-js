@@ -8,7 +8,7 @@ import {
   PipelineRequest,
   RequestBodyType,
 } from "@azure/core-rest-pipeline";
-import { ParsedWWWAuthenticate, parseWWWAuthenticateHeader } from "./parseWWWAuthenticate";
+import { WWWAuthenticate, parseWWWAuthenticateHeader } from "./parseWWWAuthenticate";
 
 import { GetTokenOptions } from "@azure/core-auth";
 
@@ -140,7 +140,7 @@ export function createKeyVaultChallengeCallbacks(
     if (!challenge) {
       throw new Error("Missing challenge.");
     }
-    const parsedChallenge: ParsedWWWAuthenticate = parseWWWAuthenticateHeader(challenge) || {};
+    const parsedChallenge: WWWAuthenticate = parseWWWAuthenticateHeader(challenge) || {};
 
     const scope = parsedChallenge.resource
       ? parsedChallenge.resource + "/.default"
