@@ -129,7 +129,7 @@ If used from Node.js, the `DefaultAzureCredential` will attempt to authenticate 
 
 #### Note about `VisualStudioCodeCredential`
 
-Due to a [known issue](https://github.com/Azure/azure-sdk-for-js/issues/20500), `VisualStudioCodeCredential` has been removed from the `DefaultAzureCredential` token chain. When the issue is resolved in a future release it will return.
+Due to a [known issue](https://github.com/Azure/azure-sdk-for-js/issues/20500), `VisualStudioCodeCredential` has been removed from the `DefaultAzureCredential` token chain. When the issue is resolved in a future release, this change will be reverted.
 
 ## Plugins
 
@@ -138,35 +138,6 @@ Azure Identity for JavaScript provides a plugin API that allows us to provide ce
 - [`@azure/identity-cache-persistence`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-cache-persistence), which provides persistent token caching in Node.js using a native secure storage system provided by your operating system. This plugin allows cached `access_token` values to persist across sessions, meaning that an interactive login flow does not need to be repeated as long as a cached token is available.
 - [`@azure/identity-vscode`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-vscode), which provides the dependencies of `VisualStudioCodeCredential` and enables it. Without this plugin, the `VisualStudioCodeCredential` in this package will throw a `CredentialUnavailableError`. The plugin provides the underlying implementation of this credential, enabling it for use both on its own and as part of the `DefaultAzureCredential` described above.
 
-## Environment Variables
-
-`DefaultAzureCredential` and `EnvironmentCredential` can be configured with environment variables. Each type of authentication requires values for specific variables:
-
-#### Service principal with secret
-
-| variable name         | value                                                 |
-| --------------------- | ----------------------------------------------------- |
-| `AZURE_CLIENT_ID`     | id of an Azure Active Directory application           |
-| `AZURE_TENANT_ID`     | id of the application's Azure Active Directory tenant |
-| `AZURE_CLIENT_SECRET` | one of the application's client secrets               |
-
-#### Service principal with certificate
-
-| variable name                   | value                                                                                      |
-| ------------------------------- | ------------------------------------------------------------------------------------------ |
-| `AZURE_CLIENT_ID`               | id of an Azure Active Directory application                                                |
-| `AZURE_TENANT_ID`               | id of the application's Azure Active Directory tenant                                      |
-| `AZURE_CLIENT_CERTIFICATE_PATH` | path to a PEM-encoded certificate file including private key (without password protection) |
-
-#### Username and password
-
-| variable name     | value                                       |
-| ----------------- | ------------------------------------------- |
-| `AZURE_CLIENT_ID` | id of an Azure Active Directory application |
-| `AZURE_USERNAME`  | a username (usually an email address)       |
-| `AZURE_PASSWORD`  | that user's password                        |
-
-Configuration is attempted in the above order. For example, if values for a client secret and certificate are both present, the client secret will be used.
 
 ## Examples
 
@@ -281,6 +252,37 @@ Not all credentials require this configuration. Credentials that authenticate th
 | ----------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
 | [`AzureCliCredential`](https://docs.microsoft.com/javascript/api/@azure/identity/azureclicredential?view=azure-node-latest)               | Authenticate in a development environment with the Azure CLI.     | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-with-azure-cli)        | [Azure CLI authentication](https://docs.microsoft.com/cli/azure/authenticate-azure-cli)             |
 | [`AzurePowerShellCredential`](https://docs.microsoft.com/javascript/api/@azure/identity/azurepowershellcredential?view=azure-node-latest) | Authenticate in a development environment using Azure PowerShell. | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-with-azure-powershell) | [Azure PowerShell authentication](https://docs.microsoft.com/powershell/azure/authenticate-azureps) |
+
+## Environment Variables
+
+`DefaultAzureCredential` and `EnvironmentCredential` can be configured with environment variables. Each type of authentication requires values for specific variables:
+
+#### Service principal with secret
+
+| variable name         | value                                                 |
+| --------------------- | ----------------------------------------------------- |
+| `AZURE_CLIENT_ID`     | id of an Azure Active Directory application           |
+| `AZURE_TENANT_ID`     | id of the application's Azure Active Directory tenant |
+| `AZURE_CLIENT_SECRET` | one of the application's client secrets               |
+
+#### Service principal with certificate
+
+| variable name                   | value                                                                                      |
+| ------------------------------- | ------------------------------------------------------------------------------------------ |
+| `AZURE_CLIENT_ID`               | id of an Azure Active Directory application                                                |
+| `AZURE_TENANT_ID`               | id of the application's Azure Active Directory tenant                                      |
+| `AZURE_CLIENT_CERTIFICATE_PATH` | path to a PEM-encoded certificate file including private key |
+| `AZURE_CLIENT_CERTIFICATE_PASSWORD` | password of the certificate file, if any |
+
+#### Username and password
+
+| variable name     | value                                       |
+| ----------------- | ------------------------------------------- |
+| `AZURE_CLIENT_ID` | id of an Azure Active Directory application |
+| `AZURE_USERNAME`  | a username (usually an email address)       |
+| `AZURE_PASSWORD`  | that user's password                        |
+
+Configuration is attempted in the above order. For example, if values for a client secret and certificate are both present, the client secret will be used.
 
 ## Troubleshooting
 
