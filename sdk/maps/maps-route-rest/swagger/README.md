@@ -227,6 +227,82 @@ directive:
       if ($["name"] == "timeBudgetInSec") {
         $["x-ms-client-name"] = "timeBudgetInSeconds";
       };
+  - from: swagger-document
+    where: $.parameters.ComputeTravelTime
+    transform: >
+      $.name = "computeTravelTime";
+  - from: swagger-document
+    where: $.parameters.SectionType
+    transform: >
+      $.name = "filterSectionType";
+  - from: swagger-document
+    where: $.parameters.VehicleAxleWeight
+    transform: >
+      $.name = "vehicleAxleWeightInKg";
+  - from: swagger-document
+    where: $.parameters.VehicleLength
+    transform: >
+      $.name = "vehicleLengthInMeters";
+  - from: swagger-document
+    where: $.parameters.VehicleWidth
+    transform: >
+      $.name = "vehicleWidthInMeters";
+  - from: swagger-document
+    where: $.parameters.VehicleHeight
+    transform: >
+      $.name = "vehicleHeightInMeters";
+  - from: swagger-document
+    where: $.parameters.VehicleMaxSpeed
+    transform: >
+      $.name = "vehicleMaxSpeedInKmPerHour";
+  - from: swagger-document
+    where: $.parameters.VehicleWeight
+    transform: >
+      $.name = "vehicleWeightInKg";
+  - from: swagger-document
+    where: $.parameters.VehicleWeightMatrix
+    transform: >
+      $.name = "vehicleWeightInKg";
+  - from: swagger-document
+    where: $.parameters.InclineLevel
+    transform: >
+      $.name = "inclineLevel";
+  - from: swagger-document
+    where: $.parameters.Traffic
+    transform: >
+      $.name = "useTrafficData";
+  - from: swagger-document
+    where: $.paths["/route/directions/{format}"].get.parameters[6]
+    transform: >
+      $.name = "minDeviationDistanceInMeters";
+  - from: swagger-document
+    where: $.paths["/route/directions/{format}"].post.parameters[6]
+    transform: >
+      $.name = "minDeviationDistanceInMeters";
+  - from: swagger-document
+    where: $.parameters.RouteRepresentationForBestOrder
+    transform: >
+      $.name = "routeRepresentationForBestOrder";
+  - from: swagger-document
+    where: $.parameters.VehicleCommercial
+    transform: >
+      $.name = "isCommercialVehicle";
+  - from: swagger-document
+    where: $.parameters.CurrentChargeInkWh
+    transform: >
+      $.name = "currentChargeInKwH";
+  - from: swagger-document
+    where: $.parameters.MaxChargeInkWh
+    transform: >
+      $.name = "maxChargeInKwH";
+  - from: swagger-document
+    where: $.parameters.AuxiliaryPowerInkW
+    transform: >
+      $.name = "auxiliaryPowerInKw";
+  - from: swagger-document
+    where: $.paths["/route/range/{format}"].get.parameters[5]
+    transform: >
+      $.name = "energyBudgetInKwH";
 ```
 
 ### Model Fixes
