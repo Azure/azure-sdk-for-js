@@ -412,7 +412,7 @@ function geParametrizedPathSuccess(method: string, path: string): string[] {
     if (
       candidateParts.length === pathParts.length &&
       hasParametrizedPath(key) &&
-      method == candidateMethod
+      method === candidateMethod
     ) {
       // track if we have found a match to return the values found.
       let found = true;
