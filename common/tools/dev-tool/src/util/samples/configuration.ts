@@ -7,7 +7,7 @@ import { FileInfo } from "../findMatchingFiles";
  * The oldest Node version that we guarantee sample programs will support.
  * Samples may support older versions, but must support at least this version.
  */
-export const MIN_SUPPORTED_NODE_VERSION = "12.0.0";
+export const MIN_SUPPORTED_NODE_VERSION = "14.0.0";
 
 /**
  * An interface for the sample configuration metadata within an Azure SDK for
