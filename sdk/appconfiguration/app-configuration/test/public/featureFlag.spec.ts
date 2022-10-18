@@ -57,7 +57,10 @@ describe("AppConfigurationClient - FeatureFlag", () => {
           displayName: "for display",
         },
         isReadOnly: false,
-        key: `${featureFlagPrefix + recorder.variable("name-1", `name-1${Math.floor(Math.random() * 1000)}`)}`,
+        key: `${
+          featureFlagPrefix +
+          recorder.variable("name-1", `name-1${Math.floor(Math.random() * 1000)}`)
+        }`,
         contentType: featureFlagContentType,
         label: "label-1",
       };
@@ -195,7 +198,10 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
       featureFlag = {
         contentType: featureFlagContentType,
-        key: `${featureFlagPrefix}${recorder.variable("name-1", `name-1${Math.floor(Math.random() * 1000)}`)}`,
+        key: `${featureFlagPrefix}${recorder.variable(
+          "name-1",
+          `name-1${Math.floor(Math.random() * 1000)}`
+        )}`,
         isReadOnly: false,
         value: { conditions: { clientFilters: [] }, enabled: true },
       };

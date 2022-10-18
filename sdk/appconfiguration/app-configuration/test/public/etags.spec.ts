@@ -83,7 +83,7 @@ describe("etags", () => {
     // so now this update (with the original etag) will throw.
     await assertThrowsRestError(
       () =>
-        client.setConfigurationSetting(addedSetting,{
+        client.setConfigurationSetting(addedSetting, {
           onlyIfUnchanged: true,
         }),
       412,
@@ -98,7 +98,7 @@ describe("etags", () => {
     });
 
     // only get the setting if it changed (it hasn't)
-    const response = await client.getConfigurationSetting(originalSetting,{
+    const response = await client.getConfigurationSetting(originalSetting, {
       onlyIfChanged: true,
     });
 
@@ -167,7 +167,7 @@ describe("etags", () => {
     // now let's try to clear it (using a bogus etag so it won't match)
     await assertThrowsRestError(
       () =>
-        client.setReadOnly(badEtagSetting, false,{
+        client.setReadOnly(badEtagSetting, false, {
           onlyIfUnchanged: true,
         }),
       412

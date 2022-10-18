@@ -21,13 +21,16 @@ describe("supports tracing", () => {
   });
 
   it("can trace through the various options", async function () {
-    const key = recorder.variable("noLabelTests", `noLabelTests${Math.floor(Math.random() * 1000)}`);
+    const key = recorder.variable(
+      "noLabelTests",
+      `noLabelTests${Math.floor(Math.random() * 1000)}`
+    );
     await assert.supportsTracing(
       async (options) => {
         const promises: Promise<any>[] = [
-          client.addConfigurationSetting({ key },options),
+          client.addConfigurationSetting({ key }, options),
           client.getConfigurationSetting({ key }, options),
-          client.setConfigurationSetting({ key, value: "new-value" },options),
+          client.setConfigurationSetting({ key, value: "new-value" }, options),
           client.setReadOnly({ key }, true, options),
           client.deleteConfigurationSetting({ key }, options),
         ];

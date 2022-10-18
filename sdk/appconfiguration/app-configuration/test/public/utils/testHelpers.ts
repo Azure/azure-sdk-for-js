@@ -7,15 +7,10 @@ import {
   ListConfigurationSettingPage,
   ListRevisionsPage,
 } from "../../../src";
-import { TokenCredential } from "@azure/identity";
-import {
-  Recorder,
-  env,
-  isPlaybackMode,
-  RecorderStartOptions
-} from "@azure-tools/test-recorder";
+import { Recorder, RecorderStartOptions, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RestError } from "@azure/core-rest-pipeline";
+import { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
 import { createTestCredential } from "@azure-tools/test-credential";
 
@@ -36,9 +31,9 @@ export async function startRecorder(that: Mocha.Context): Promise<Recorder> {
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_TENANT_ID: "azuretenantid",
-    }
+    },
   };
-  
+
   const recorder = new Recorder(that.currentTest);
   await recorder.start(recorderStartOptions);
   return recorder;
@@ -61,8 +56,7 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint {
         console.log("Functional tests not running - set client identity variables to activate");
       }
 
-      throw new Error("Invalid value for " + name);
-
+      throw new Error("Invalid value for requiredEnvironmentVariables");
     }
   }
 
@@ -84,7 +78,7 @@ export function createAppConfigurationClientForTests<
         "Functional tests not running - set APPCONFIG_CONNECTION_STRING to a valid AppConfig connection string to activate"
       );
     }
-    throw new Error("Invalid APPCONFIG_CONNECTION_STRING")
+    throw new Error("Invalid value for APPCONFIG_CONNECTION_STRING");
   }
 
   return new AppConfigurationClient(connectionString, options);

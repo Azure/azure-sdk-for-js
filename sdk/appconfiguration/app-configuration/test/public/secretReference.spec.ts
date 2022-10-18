@@ -33,7 +33,8 @@ describe("AppConfigurationClient - SecretReference", () => {
       return {
         value: {
           secretId: `https://vault_name.vault.azure.net/secrets/${recorder.variable(
-            "name-2", `name-2${Math.floor(Math.random() * 1000)}`
+            "name-2",
+            `name-2${Math.floor(Math.random() * 1000)}`
           )}`,
         },
         isReadOnly: false,
@@ -90,7 +91,8 @@ describe("AppConfigurationClient - SecretReference", () => {
         label: baseSetting.label,
       });
       const newSecretId = `https://vault_name.vault.azure.net/secrets/${recorder.variable(
-        "name-4", `name-4${Math.floor(Math.random() * 1000)}`
+        "name-4",
+        `name-4${Math.floor(Math.random() * 1000)}`
       )}`;
 
       assertSecretReferenceProps(getResponse, baseSetting);
@@ -119,7 +121,8 @@ describe("AppConfigurationClient - SecretReference", () => {
         key: `${baseSetting.key}-2`,
       };
       const newSecretId = `https://vault_name.vault.azure.net/secrets/${recorder.variable(
-        "name-5", `name-5${Math.floor(Math.random() * 1000)}`
+        "name-5",
+        `name-5${Math.floor(Math.random() * 1000)}`
       )}`;
       await client.addConfigurationSetting(secondSetting);
 

@@ -83,7 +83,8 @@ describe("http request related tests", function () {
 
     beforeEach(async function (this: Context) {
       recorder = await startRecorder(this);
-      client = createAppConfigurationClientForTests(recorder.configureClientOptions({})) || this.skip();
+      client =
+        createAppConfigurationClientForTests(recorder.configureClientOptions({})) || this.skip();
     });
 
     afterEach(async function () {
