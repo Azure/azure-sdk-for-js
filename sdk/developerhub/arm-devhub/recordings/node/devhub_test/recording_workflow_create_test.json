@@ -1,0 +1,81 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DevHub/workflows/workflow1?api-version=2022-04-01-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "779",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-devhub/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "02ba10d5-1c07-418c-8ca5-59acde2ccff4"
+      },
+      "RequestBody": {
+        "tags": {
+          "appname": "testApp"
+        },
+        "location": "eastus",
+        "properties": {
+          "githubWorkflowProfile": {
+            "repositoryOwner": "owner1",
+            "repositoryName": "repo1",
+            "branchName": "branch1",
+            "dockerfile": "repo1/images/Dockerfile",
+            "dockerBuildContext": "repo1/src/",
+            "deploymentProperties": {
+              "manifestType": "kube",
+              "kubeManifestLocations": [
+                "/src/manifests/"
+              ],
+              "overrides": {
+                "key1": "value1"
+              }
+            },
+            "namespace": "Kubernetestest",
+            "acr": {
+              "acrSubscriptionId": "azure_subscription_id",
+              "acrResourceGroup": "myjstest",
+              "acrRegistryName": "registry1",
+              "acrRepositoryName": "repo1"
+            },
+            "oidcCredentials": {
+              "azureClientId": "azure_client_id",
+              "azureTenantId": "88888888-8888-8888-8888-888888888888"
+            },
+            "aksResourceId": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/cluster1"
+          }
+        }
+      },
+      "StatusCode": 401,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Headers": "*",
+        "Access-Control-Allow-Origin": "*",
+        "Cache-Control": "no-cache",
+        "Connection": "close",
+        "Content-Length": "62",
+        "Content-Type": "application/json",
+        "Date": "Tue, 18 Oct 2022 06:50:53 GMT",
+        "Expires": "-1",
+        "grpc-metadata-content-type": "application/grpc",
+        "grpc-metadata-x-ms-request-id": "02ba10d5-1c07-418c-8ca5-59acde2ccff4",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "WWW-Authenticate": "github token is invalid",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "b613c0d5-39eb-4f9b-8ba7-4663b6395cbd",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "b613c0d5-39eb-4f9b-8ba7-4663b6395cbd",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221018T065054Z:b613c0d5-39eb-4f9b-8ba7-4663b6395cbd"
+      },
+      "ResponseBody": {
+        "code": 16,
+        "message": "github token is invalid",
+        "details": []
+      }
+    }
+  ],
+  "Variables": {}
+}
