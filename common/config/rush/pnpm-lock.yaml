@@ -654,22 +654,6 @@ packages:
       - supports-color
     dev: false
 
-  /@azure-tools/test-recorder/1.0.0:
-    resolution: {integrity: sha512-nPVUUHUSlyHMajSkNyV7F4S65M4pPESZbIOHzhcaNpXjnKuy2rR9UhbmaLY/JCM5GNr3ILkl8DMIrPRfaUulCg==}
-    engines: {node: '>=12.0.0'}
-    dependencies:
-      '@azure/core-http': 2.2.7
-      '@azure/core-tracing': 1.0.0-preview.13
-      fs-extra: 8.1.0
-      md5: 2.3.0
-      nise: 4.1.0
-      nock: 12.0.3
-      tslib: 2.4.0
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-    dev: false
-
   /@azure-tools/test-recorder/1.0.2:
     resolution: {integrity: sha512-s29YTbvD6Pr2sTgRLHXXs8zJZmFnGO0n0F1UICxYMmf8hItgXvSa9DwTx/qg7j3v65hrFn+gx9IedI7YkLE5KA==}
     engines: {node: '>=12.0.0'}
@@ -2530,10 +2514,6 @@ packages:
     resolution: {integrity: sha512-yxDeaQIAJlMav7fH5AQqPH1u8YIuhYJXYBzxaQ4PifsU0GDO38MSdmEDeRlIxrKbC6NbEaaEHDanWb+y30U8SQ==}
     dev: false
 
-  /@types/node/12.20.55:
-    resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
-    dev: false
-
   /@types/node/16.11.63:
     resolution: {integrity: sha512-3OxnrEQLBz8EIIaHpg3CibmTAEGkDBcHY4fL5cnBwg2vd2yvHrUDGWxK+MlYPeXWWIoJJW79dGtU+oeBr6166Q==}
     dev: false
@@ -3979,7 +3959,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20221017
+      typescript: 4.9.0-dev.20221018
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -7851,7 +7831,7 @@ packages:
       source-map-resolve: 0.5.3
     dev: false
 
-  /rollup-plugin-sourcemaps/0.6.3_d5cdf4085e8d861e18b050352f98f0b9:
+  /rollup-plugin-sourcemaps/0.6.3_28b51786089a6c60d90478560efa32fa:
     resolution: {integrity: sha512-paFu+nT1xvuO1tPFYXGe+XnQvg4Hjqv/eIhG8i5EspfYYPBKL57X7iVbfv55aNVASg3dzWvES9dmWsL2KhfByw==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
@@ -7862,7 +7842,7 @@ packages:
         optional: true
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.79.1
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       rollup: 2.79.1
       source-map-resolve: 0.6.0
     dev: false
@@ -8676,6 +8656,37 @@ packages:
     hasBin: true
     dev: false
 
+  /ts-node/10.9.1_28f165cb8e82bb49e51c2463f5cff351:
+    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.3
+      '@types/node': 12.20.24
+      acorn: 8.8.0
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 4.8.4
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: false
+
   /ts-node/10.9.1_58215dfbed9856019847b52698b53c56:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
@@ -8707,7 +8718,7 @@ packages:
       yn: 3.1.1
     dev: false
 
-  /ts-node/10.9.1_8a48dd0e78344f824d84cc558db9572d:
+  /ts-node/10.9.1_75e14d22e8599d6a99e9b2b090c8e6eb:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -8726,7 +8737,7 @@ packages:
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.3
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       acorn: 8.8.0
       acorn-walk: 8.2.0
       arg: 4.1.3
@@ -8738,7 +8749,7 @@ packages:
       yn: 3.1.1
     dev: false
 
-  /ts-node/10.9.1_9474fcf7c17ec3eee4ea31b791d4bc6e:
+  /ts-node/10.9.1_c4df58cde868390b07e351f745ee8a9e:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -8757,38 +8768,7 @@ packages:
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.3
-      '@types/node': 12.20.55
-      acorn: 8.8.0
-      acorn-walk: 8.2.0
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 4.8.4
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-    dev: false
-
-  /ts-node/10.9.1_b5bd4a8e238709e15d0171692055b18b:
-    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.9
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.3
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       acorn: 8.8.0
       acorn-walk: 8.2.0
       arg: 4.1.3
@@ -8976,8 +8956,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20221017:
-    resolution: {integrity: sha512-Aae7UmEtGS1U+pAvYpx8a466hlcXBX3moIdQ93lEAwriqrjidTeEP4JZ7UblTJWYZAlLu9g6LKfSe9X+6XR6GA==}
+  /typescript/4.9.0-dev.20221018:
+    resolution: {integrity: sha512-jHigCAzVp9JXy+t9J854z8ooZTtc1luK25iKKFF48w/AfRfTbypn8HkOGWDmb7x7RuAcZxo1zYcYDk4OaUFKjw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9552,7 +9532,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       chai: 4.3.6
       cross-env: 7.0.3
       downlevel-dts: 0.10.1
@@ -9573,7 +9553,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
     transitivePeerDependencies:
@@ -9595,7 +9575,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -9642,7 +9622,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       chai: 4.3.6
       cross-env: 7.0.3
       csv-parse: 5.3.0
@@ -9685,7 +9665,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -9729,7 +9709,7 @@ packages:
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.75.7
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/prettier': 2.6.4
       '@types/sinon': 9.0.11
       chai: 4.3.6
@@ -9781,7 +9761,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
@@ -9807,10 +9787,10 @@ packages:
       prettier: 2.7.1
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_d5cdf4085e8d861e18b050352f98f0b9
+      rollup-plugin-sourcemaps: 0.6.3_28b51786089a6c60d90478560efa32fa
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.9.1_8a48dd0e78344f824d84cc558db9572d
+      ts-node: 10.9.1_75e14d22e8599d6a99e9b2b090c8e6eb
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.17.2
@@ -9833,7 +9813,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
@@ -9859,7 +9839,7 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
     transitivePeerDependencies:
@@ -9882,7 +9862,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
@@ -9909,7 +9889,7 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
     transitivePeerDependencies:
@@ -9930,7 +9910,7 @@ packages:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       autorest: 3.6.2
       chai: 4.3.6
       cross-env: 7.0.3
@@ -9974,7 +9954,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
@@ -10000,7 +9980,7 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
     transitivePeerDependencies:
@@ -10024,7 +10004,7 @@ packages:
       '@types/inquirer': 8.2.4
       '@types/mocha': 7.0.2
       '@types/mustache': 4.2.1
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/yargs': 17.0.13
       '@types/yargs-parser': 21.0.0
@@ -10066,7 +10046,7 @@ packages:
       '@types/mime': 3.0.1
       '@types/mocha': 7.0.2
       '@types/mustache': 4.2.1
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/yargs': 17.0.13
       '@types/yargs-parser': 21.0.0
@@ -10117,7 +10097,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
       chai: 4.3.6
@@ -10143,7 +10123,7 @@ packages:
       prettier: 2.7.1
       rimraf: 3.0.2
       sinon: 9.2.4
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.17.2
@@ -10463,7 +10443,7 @@ packages:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       autorest: 3.6.2
       chai: 4.3.6
       cross-env: 7.0.3
@@ -11122,7 +11102,7 @@ packages:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.3
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       autorest: 3.6.2
       chai: 4.3.6
       cross-env: 7.0.3
@@ -11354,7 +11334,7 @@ packages:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       autorest: 3.6.2
       chai: 4.3.6
       cross-env: 7.0.3
@@ -12483,14 +12463,14 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.3
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_d5cdf4085e8d861e18b050352f98f0b9
+      rollup-plugin-sourcemaps: 0.6.3_28b51786089a6c60d90478560efa32fa
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.17.2
@@ -13455,7 +13435,7 @@ packages:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       autorest: 3.6.2
       chai: 4.3.6
       cross-env: 7.0.3
@@ -14605,7 +14585,7 @@ packages:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       autorest: 3.6.2
       chai: 4.3.6
       cross-env: 7.0.3
@@ -15402,7 +15382,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       buffer: 6.0.3
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
@@ -15434,7 +15414,7 @@ packages:
       rimraf: 3.0.2
       safe-buffer: 5.2.1
       source-map-support: 0.5.21
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       util: 0.12.4
@@ -15456,7 +15436,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.6
       cross-env: 7.0.3
@@ -15498,7 +15478,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
       chai: 4.3.6
@@ -15547,7 +15527,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
@@ -15591,7 +15571,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.4
       chai: 4.3.6
       dotenv: 8.6.0
@@ -15634,7 +15614,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.6
       cross-env: 7.0.3
@@ -15678,7 +15658,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
       chai: 4.3.6
@@ -15736,7 +15716,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@2.79.1
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.6
       cross-env: 7.0.3
@@ -15764,7 +15744,7 @@ packages:
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.6.3_d5cdf4085e8d861e18b050352f98f0b9
+      rollup-plugin-sourcemaps: 0.6.3_28b51786089a6c60d90478560efa32fa
       rollup-plugin-terser: 5.3.1_rollup@2.79.1
       rollup-plugin-visualizer: 5.8.2_rollup@2.79.1
       sinon: 9.2.4
@@ -15786,7 +15766,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.6
       cross-env: 7.0.3
@@ -15864,7 +15844,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.6
       cross-env: 7.0.3
@@ -15907,7 +15887,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
       chai: 4.3.6
@@ -15954,7 +15934,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       autorest: 3.6.2
       chai: 4.3.6
       cross-env: 7.0.3
@@ -16000,7 +15980,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
@@ -16048,7 +16028,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/debug': 4.1.7
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/ws': 7.4.7
       buffer: 6.0.3
@@ -16073,10 +16053,10 @@ packages:
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.6.3_d5cdf4085e8d861e18b050352f98f0b9
+      rollup-plugin-sourcemaps: 0.6.3_28b51786089a6c60d90478560efa32fa
       rollup-plugin-terser: 5.3.1_rollup@2.79.1
       sinon: 9.2.4
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       url: 0.11.0
@@ -16099,7 +16079,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       chai: 4.3.6
       cross-env: 7.0.3
       downlevel-dts: 0.10.1
@@ -16124,7 +16104,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.6
       cross-env: 7.0.3
@@ -16147,7 +16127,7 @@ packages:
       prettier: 2.7.1
       rimraf: 3.0.2
       sinon: 9.2.4
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       util: 0.12.4
@@ -16168,7 +16148,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.6
       cross-env: 7.0.3
@@ -16229,7 +16209,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/express': 4.17.14
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/node-fetch': 2.6.2
       '@types/sinon': 9.0.11
       '@types/tough-cookie': 4.0.2
@@ -16264,7 +16244,7 @@ packages:
       shx: 0.3.4
       sinon: 9.2.4
       tough-cookie: 4.1.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       tunnel: 0.0.6
       typescript: 4.6.4
@@ -16289,7 +16269,7 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.32.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       cross-env: 7.0.3
       eslint: 8.24.0
       karma: 6.4.1
@@ -16308,7 +16288,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
     transitivePeerDependencies:
@@ -16328,7 +16308,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       chai: 4.3.6
       downlevel-dts: 0.10.1
       eslint: 8.24.0
@@ -16366,7 +16346,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
       chai: 4.3.6
@@ -16416,7 +16396,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.6
       cross-env: 7.0.3
@@ -16456,7 +16436,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.6
       cross-env: 7.0.3
@@ -16497,7 +16477,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/trusted-types': 2.0.2
       chai: 4.3.6
@@ -16541,7 +16521,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/debug': 4.1.7
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/priorityqueuejs': 1.0.1
       '@types/semaphore': 1.1.1
       '@types/sinon': 9.0.11
@@ -16566,7 +16546,7 @@ packages:
       semaphore: 1.1.0
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       universal-user-agent: 6.0.0
@@ -16586,7 +16566,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
       chai: 4.3.6
@@ -16612,7 +16592,7 @@ packages:
       prettier: 2.7.1
       rimraf: 3.0.2
       sinon: 9.2.4
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       util: 0.12.4
@@ -16640,7 +16620,7 @@ packages:
       '@types/fs-extra': 9.0.13
       '@types/minimist': 1.2.2
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/prettier': 2.7.1
       builtin-modules: 3.3.0
       chai: 4.3.6
@@ -16656,9 +16636,9 @@ packages:
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-polyfill-node: 0.8.0_rollup@2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_d5cdf4085e8d861e18b050352f98f0b9
+      rollup-plugin-sourcemaps: 0.6.3_28b51786089a6c60d90478560efa32fa
       rollup-plugin-visualizer: 5.8.2_rollup@2.79.1
-      ts-node: 10.9.1_9474fcf7c17ec3eee4ea31b791d4bc6e
+      ts-node: 10.9.1_28f165cb8e82bb49e51c2463f5cff351
       tslib: 2.4.0
       typescript: 4.8.4
       yaml: 1.10.2
@@ -16678,7 +16658,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
       chai: 4.3.6
@@ -16731,7 +16711,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
@@ -16756,7 +16736,7 @@ packages:
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_d5cdf4085e8d861e18b050352f98f0b9
+      rollup-plugin-sourcemaps: 0.6.3_28b51786089a6c60d90478560efa32fa
       rollup-plugin-terser: 5.3.1_rollup@2.79.1
       rollup-plugin-visualizer: 5.8.2_rollup@2.79.1
       sinon: 9.2.4
@@ -16783,7 +16763,7 @@ packages:
       '@types/glob': 7.2.0
       '@types/json-schema': 7.0.11
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@typescript-eslint/eslint-plugin': 5.38.1_17e047bdec5ec7c01e9d134b6813cb9c
       '@typescript-eslint/experimental-utils': 5.38.1_eslint@8.24.0+typescript@4.8.4
       '@typescript-eslint/parser': 5.38.1_eslint@8.24.0+typescript@4.8.4
@@ -16828,7 +16808,7 @@ packages:
       '@types/chai-string': 1.4.2
       '@types/debug': 4.1.7
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
       '@types/ws': 7.4.7
@@ -16869,10 +16849,10 @@ packages:
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.6.3_d5cdf4085e8d861e18b050352f98f0b9
+      rollup-plugin-sourcemaps: 0.6.3_28b51786089a6c60d90478560efa32fa
       rollup-plugin-terser: 5.3.1_rollup@2.79.1
       sinon: 9.2.4
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       uuid: 8.3.2
@@ -16895,7 +16875,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
       chai: 4.3.6
@@ -16921,7 +16901,7 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       uuid: 8.3.2
@@ -16946,7 +16926,7 @@ packages:
       '@types/chai-string': 1.4.2
       '@types/debug': 4.1.7
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
       chai-string: 1.5.0_chai@4.3.6
@@ -16974,7 +16954,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       util: 0.12.4
@@ -16998,7 +16978,7 @@ packages:
       '@types/chai-string': 1.4.2
       '@types/debug': 4.1.7
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
       chai-string: 1.5.0_chai@4.3.6
@@ -17025,7 +17005,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       util: 0.12.4
@@ -17047,7 +17027,7 @@ packages:
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -17094,7 +17074,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/jws': 3.2.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/qs': 6.9.7
       '@types/sinon': 9.0.11
       cross-env: 7.0.3
@@ -17127,7 +17107,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/jws': 3.2.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/qs': 6.9.7
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
@@ -17167,7 +17147,7 @@ packages:
       '@types/jws': 3.2.4
       '@types/mocha': 7.0.2
       '@types/ms': 0.7.31
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/stoppable': 1.1.1
       '@types/uuid': 8.3.4
@@ -17218,7 +17198,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.4
       chai: 4.3.6
       dotenv: 8.6.0
@@ -17261,7 +17241,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.6
       cross-env: 7.0.3
@@ -17286,7 +17266,7 @@ packages:
       prettier: 2.7.1
       rimraf: 3.0.2
       sinon: 9.2.4
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       util: 0.12.4
@@ -17308,7 +17288,7 @@ packages:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.32.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
       cross-env: 7.0.3
@@ -17338,7 +17318,7 @@ packages:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.32.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -17398,7 +17378,7 @@ packages:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.32.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       cross-env: 7.0.3
       dayjs: 1.11.5
@@ -17446,7 +17426,7 @@ packages:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.32.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -17485,16 +17465,15 @@ packages:
     dev: false
 
   file:projects/load-testing.tgz:
-    resolution: {integrity: sha512-Mh38PHSbzluNvutfg2juslLHuESgrFqCqeeF6hlG7TshRNsM/b0wUsbj3UlpWnt5ElQfaxpa3FXDlYF5fiLajA==, tarball: file:projects/load-testing.tgz}
+    resolution: {integrity: sha512-d9BXqjYDTZ3X9CXr54Fk+hR27T9OcLWOoAFG1oq7jqzmjDScV7dKiLGmKPCrafw5HoKlSI3RkvP8G5xJ4apvmw==, tarball: file:projects/load-testing.tgz}
     name: '@rush-temp/load-testing'
     version: 0.0.0
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.10
-      '@azure-tools/test-recorder': 1.0.0
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.3
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       autorest: 3.6.2
       chai: 4.3.6
       cross-env: 7.0.3
@@ -17517,6 +17496,7 @@ packages:
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       nyc: 14.1.1
       prettier: 2.2.1
+      process: 0.11.10
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.4.0
@@ -17537,7 +17517,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.6
       cross-env: 7.0.3
@@ -17561,7 +17541,7 @@ packages:
       puppeteer: 14.4.1
       rimraf: 3.0.2
       sinon: 9.2.4
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
     transitivePeerDependencies:
@@ -17600,7 +17580,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
@@ -17648,7 +17628,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
@@ -17695,7 +17675,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.4
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
@@ -17736,7 +17716,7 @@ packages:
     name: '@rush-temp/mock-hub'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       dotenv: 8.6.0
       eslint: 8.24.0
       prettier: 2.7.1
@@ -17758,7 +17738,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/pako': 2.0.0
       chai: 4.3.6
       cross-env: 7.0.3
@@ -17813,7 +17793,7 @@ packages:
       '@opentelemetry/sdk-trace-node': 1.7.0_@opentelemetry+api@1.2.0
       '@opentelemetry/semantic-conventions': 1.7.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       dotenv: 8.6.0
       eslint: 8.24.0
       eslint-plugin-node: 11.1.0_eslint@8.24.0
@@ -17823,7 +17803,7 @@ packages:
       prettier: 2.7.1
       rimraf: 3.0.2
       sinon: 9.2.4
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
     transitivePeerDependencies:
@@ -17846,7 +17826,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
@@ -17889,7 +17869,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 9.1.1
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.4
       chai: 4.3.6
       cross-env: 7.0.3
@@ -17914,7 +17894,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_9474fcf7c17ec3eee4ea31b791d4bc6e
+      ts-node: 10.9.1_28f165cb8e82bb49e51c2463f5cff351
       tslib: 2.4.0
       typescript: 4.8.4
       util: 0.12.4
@@ -17942,7 +17922,7 @@ packages:
       '@opentelemetry/sdk-trace-node': 1.7.0_@opentelemetry+api@1.2.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 10.0.13
       chai: 4.3.6
       cross-env: 7.0.3
@@ -17988,12 +17968,12 @@ packages:
     dependencies:
       '@azure/ai-form-recognizer': 3.1.0-beta.3
       '@azure/identity': 2.1.0
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       dotenv: 8.6.0
       eslint: 8.24.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
     transitivePeerDependencies:
@@ -18009,12 +17989,12 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       dotenv: 8.6.0
       eslint: 8.24.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
     transitivePeerDependencies:
@@ -18029,12 +18009,12 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/ai-metrics-advisor': 1.0.0-beta.3
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       dotenv: 8.6.0
       eslint: 8.24.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
     transitivePeerDependencies:
@@ -18050,12 +18030,12 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       dotenv: 8.6.0
       eslint: 8.24.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
     transitivePeerDependencies:
@@ -18070,13 +18050,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/app-configuration': 1.3.1
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
       eslint: 8.24.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       uuid: 8.3.2
@@ -18092,7 +18072,7 @@ packages:
     name: '@rush-temp/perf-container-registry'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       dotenv: 8.6.0
       eslint: 8.24.0
       prettier: 2.7.1
@@ -18134,13 +18114,13 @@ packages:
     name: '@rush-temp/perf-data-tables'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
       eslint: 8.24.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       uuid: 8.3.2
@@ -18155,14 +18135,14 @@ packages:
     name: '@rush-temp/perf-event-hubs'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
       eslint: 8.24.0
       moment: 2.29.4
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       uuid: 8.3.2
@@ -18177,12 +18157,12 @@ packages:
     name: '@rush-temp/perf-eventgrid'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       dotenv: 8.6.0
       eslint: 8.24.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
     transitivePeerDependencies:
@@ -18197,13 +18177,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
       eslint: 8.24.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
     transitivePeerDependencies:
@@ -18218,13 +18198,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
       eslint: 8.24.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       uuid: 8.3.2
@@ -18240,13 +18220,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
       eslint: 8.24.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       uuid: 8.3.2
@@ -18262,13 +18242,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
       eslint: 8.24.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       uuid: 8.3.2
@@ -18284,12 +18264,12 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       dotenv: 8.6.0
       eslint: 8.24.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
     transitivePeerDependencies:
@@ -18304,12 +18284,12 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       dotenv: 8.6.0
       eslint: 8.24.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
     transitivePeerDependencies:
@@ -18325,12 +18305,12 @@ packages:
     dependencies:
       '@azure/identity': 2.1.0
       '@azure/search-documents': 11.3.0-beta.7
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       dotenv: 8.6.0
       eslint: 8.24.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
     transitivePeerDependencies:
@@ -18344,13 +18324,13 @@ packages:
     name: '@rush-temp/perf-service-bus'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
       eslint: 8.24.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       uuid: 8.3.2
@@ -18365,7 +18345,7 @@ packages:
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/node-fetch': 2.6.2
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
@@ -18373,7 +18353,7 @@ packages:
       node-fetch: 2.6.7
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       uuid: 8.3.2
@@ -18389,13 +18369,13 @@ packages:
     name: '@rush-temp/perf-storage-file-datalake'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
       eslint: 8.24.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       uuid: 8.3.2
@@ -18410,13 +18390,13 @@ packages:
     name: '@rush-temp/perf-storage-file-share'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
       eslint: 8.24.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       uuid: 8.3.2
@@ -18433,13 +18413,13 @@ packages:
     dependencies:
       '@azure/app-configuration': 1.3.1
       '@azure/identity': 2.1.0
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
       eslint: 8.24.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       uuid: 8.3.2
@@ -18459,7 +18439,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -18501,7 +18481,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -18543,7 +18523,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -18587,7 +18567,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.6
       cross-env: 7.0.3
@@ -18692,7 +18672,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
@@ -18734,7 +18714,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.6
       cross-env: 7.0.3
@@ -18761,7 +18741,7 @@ packages:
       prettier: 2.7.1
       rimraf: 3.0.2
       sinon: 9.2.4
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       util: 0.12.4
@@ -18786,7 +18766,7 @@ packages:
       '@types/debug': 4.1.7
       '@types/is-buffer': 2.0.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
       '@types/ws': 7.4.7
@@ -18828,7 +18808,7 @@ packages:
       rimraf: 3.0.2
       rollup: 2.79.1
       sinon: 9.2.4
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       uuid: 8.3.2
@@ -18853,7 +18833,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.6
       cross-env: 7.0.3
@@ -18885,7 +18865,7 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       util: 0.12.4
@@ -18910,7 +18890,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/node-fetch': 2.6.2
       chai: 4.3.6
       cross-env: 7.0.3
@@ -18941,7 +18921,7 @@ packages:
       puppeteer: 14.4.1
       rimraf: 3.0.2
       source-map-support: 0.5.21
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       util: 0.12.4
@@ -18966,7 +18946,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -18997,7 +18977,7 @@ packages:
       puppeteer: 14.4.1
       rimraf: 3.0.2
       source-map-support: 0.5.21
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       util: 0.12.4
@@ -19022,7 +19002,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -19052,7 +19032,7 @@ packages:
       puppeteer: 14.4.1
       rimraf: 3.0.2
       source-map-support: 0.5.21
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       util: 0.12.4
@@ -19075,7 +19055,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       chai: 4.3.6
       dotenv: 8.6.0
       downlevel-dts: 0.10.1
@@ -19103,7 +19083,7 @@ packages:
       puppeteer: 14.4.1
       rimraf: 3.0.2
       source-map-support: 0.5.21
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       util: 0.12.4
@@ -19128,7 +19108,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -19157,7 +19137,7 @@ packages:
       puppeteer: 14.4.1
       rimraf: 3.0.2
       source-map-support: 0.5.21
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       util: 0.12.4
@@ -19182,7 +19162,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
@@ -19210,7 +19190,7 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.17.2
@@ -19235,7 +19215,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
       chai: 4.3.6
@@ -19264,7 +19244,7 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.17.2
@@ -19288,7 +19268,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
@@ -19316,7 +19296,7 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.9.1_b5bd4a8e238709e15d0171692055b18b
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.17.2
@@ -19451,7 +19431,7 @@ packages:
       '@microsoft/api-extractor': 7.32.0
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -19494,7 +19474,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       eslint: 8.24.0
       prettier: 2.7.1
       rimraf: 3.0.2
@@ -19513,7 +19493,7 @@ packages:
       '@types/express': 4.17.14
       '@types/fs-extra': 8.1.2
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.4
       chai: 4.3.6
       concurrently: 7.4.0
@@ -19554,7 +19534,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/minimist': 1.2.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/node-fetch': 2.6.2
       eslint: 8.24.0
       karma: 6.4.1
@@ -19587,7 +19567,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
@@ -19624,7 +19604,7 @@ packages:
       '@types/mock-fs': 4.13.1
       '@types/mock-require': 2.0.1
       '@types/nise': 1.4.0
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/uuid': 8.3.4
       chai: 4.3.6
       dotenv: 8.6.0
@@ -19670,7 +19650,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       azure-iothub: 1.15.0
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
@@ -19718,7 +19698,7 @@ packages:
       '@types/express-serve-static-core': 4.17.31
       '@types/jsonwebtoken': 8.5.9
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       chai: 4.3.6
       cross-env: 7.0.3
@@ -19766,7 +19746,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/jsonwebtoken': 8.5.9
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 12.20.24
       '@types/sinon': 9.0.11
       '@types/ws': 8.5.3
       chai: 4.3.6
