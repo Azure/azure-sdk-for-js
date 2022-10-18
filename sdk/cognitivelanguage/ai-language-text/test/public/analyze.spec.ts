@@ -755,7 +755,7 @@ matrix([FIXME1] as const, async (authMethod: AuthMethod) => {
       });
 
       matrix([classificationTypeList], async (classificationType: string) => {
-        describe.only(`#Dynamic Classification [${classificationType}]`, function () {
+        describe(`#Dynamic Classification [${classificationType}]`, function () {
           it("client throws on empty list", async function () {
             return assert.isRejected(
               client.analyze(AnalyzeActionNames.DynamicClassification, []),
@@ -777,7 +777,7 @@ matrix([FIXME1] as const, async (authMethod: AuthMethod) => {
             assertAllSuccess(results);
           });
 
-          it.only("client accepts string[] with no language", async function () {
+          it("client accepts string[] with no language", async function () {
             const enInputs = testDataEn.map(
               (text): LanguageDetectionInput => ({
                 id: getId(),
