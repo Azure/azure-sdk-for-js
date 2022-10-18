@@ -81,10 +81,16 @@ describe("DevCenter Environments Operations Test", () => {
     const environmentCreateResult = await environmentCreatePoller.pollUntilDone();
 
     if (isUnexpected(environmentCreateResult)) {
-      throw new Error(`Creation failed with message ${environmentCreateResult.body?.error.message}`);
+      throw new Error(
+        `Creation failed with message ${environmentCreateResult.body?.error.message}`
+      );
     }
 
-    assert.equal(environmentCreateResult.status, "200", "Create environment polling should return 200 OK.");
+    assert.equal(
+      environmentCreateResult.status,
+      "200",
+      "Create environment polling should return 200 OK."
+    );
     assert.equal(environmentCreateResult.body.name, environmentName);
     assert.equal(environmentCreateResult.body.provisioningState, "Succeeded");
     console.log(

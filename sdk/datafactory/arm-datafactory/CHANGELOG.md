@@ -1,15 +1,15 @@
 # Release History
+    
+## 10.9.0 (2022-10-17)
+    
+**Features**
 
-## 10.8.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AzureSynapseArtifactsLinkedService has a new optional parameter workspaceResourceId
+  - Interface FactoryRepoConfiguration has a new optional parameter disablePublish
+  - Interface SynapseSparkJobDefinitionActivity has a new optional parameter filesV2
+  - Interface SynapseSparkJobDefinitionActivity has a new optional parameter pythonCodeReference
+    
+    
 ## 10.8.0 (2022-09-07)
     
 **Features**

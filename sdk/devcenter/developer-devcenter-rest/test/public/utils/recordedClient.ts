@@ -9,6 +9,7 @@ import createClient from "../../../src/azureDevCenter";
 
 import "./env";
 import { ClientOptions } from "@azure-rest/core-client";
+import { AzureDevCenterClient } from "../../../src";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",
@@ -41,7 +42,7 @@ export function createRecordedClient(
   devCenter: string,
   options: ClientOptions = {},
   devCenterDnsSuffix: string = "devcenter.azure.com"
-) {
+): AzureDevCenterClient {
   // We need to use a user-persona, so the clientSecretCredential that createTestCredential uses in live/record modes is not sufficient
   const credential = isPlaybackMode() ? createTestCredential() : new DefaultAzureCredential();
   return createClient(

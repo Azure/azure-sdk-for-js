@@ -8,9 +8,9 @@ import {
   deleteKeyCompletely,
   startRecorder,
 } from "./utils/testHelpers";
-import { assert } from "chai";
-import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
 
 // There's been discussion on other teams about what errors are thrown when. This
 // is the file where I've documented the throws/notThrows cases to make coordination

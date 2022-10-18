@@ -71,7 +71,11 @@ describe("DevCenter Dev Boxes Operations Test", () => {
       throw new Error(devBoxCreateResult.body?.error.message);
     }
 
-    assert.equal(devBoxCreateResult.status, "200", "Dev box creation long-running operation should return 200 OK.");
+    assert.equal(
+      devBoxCreateResult.status,
+      "200",
+      "Dev box creation long-running operation should return 200 OK."
+    );
     assert.equal(devBoxCreateResult.body.name, devBoxName);
     console.log(`Provisioned dev box with state ${devBoxCreateResult.body.provisioningState}.`);
 

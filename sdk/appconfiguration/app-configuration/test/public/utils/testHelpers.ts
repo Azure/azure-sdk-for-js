@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import { AppConfigurationClient, AppConfigurationClientOptions } from "../../../src";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ConfigurationSetting,
   ListConfigurationSettingPage,
   ListRevisionsPage,
 } from "../../../src";
+import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import {
   Recorder,
   RecorderEnvironmentSetup,
@@ -15,10 +15,9 @@ import {
   isPlaybackMode,
   record,
 } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-
-import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RestError } from "@azure/core-rest-pipeline";
+import { assert } from "chai";
 
 let connectionStringNotPresentWarning = false;
 let tokenCredentialsNotPresentWarning = false;
