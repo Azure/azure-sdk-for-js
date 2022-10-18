@@ -1,16 +1,10 @@
 # Release History
 
-# 3.1.0-beta.1 (Unreleased)
+## 3.1.0-beta.1 (2022-10-13)
 
 ### Features Added
 
 - Added Token Caching support to Managed Identity Credential
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
 ## 3.0.0 (2022-09-19)
 
 ### Features Added

@@ -19,8 +19,8 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "9e75f177-e7f5-42ae-b627-ead6bab5490c",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.0 core-rest-pipeline/1.9.2 OS/Linuxx86_64"
+        "x-ms-client-request-id": "78444545-df3d-42c3-b420-4ae7dcf798c3",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
       },
       "RequestBody": {
         "analysisInput": {
@@ -2536,13 +2536,13 @@
       },
       "StatusCode": 413,
       "ResponseHeaders": {
-        "apim-request-id": "44e94068-5ad3-4113-a398-baf0e5dc8fb5",
+        "apim-request-id": "4f04da7c-0b10-4eb2-ac3d-d5f974b03ca7",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 07 Sep 2022 04:23:23 GMT",
+        "Date": "Sat, 15 Oct 2022 02:28:09 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "31"
+        "x-envoy-upstream-service-time": "17"
       },
       "ResponseBody": {
         "error": {

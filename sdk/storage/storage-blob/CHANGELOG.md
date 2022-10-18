@@ -1,14 +1,14 @@
 # Release History
 
-## 12.12.0-beta.2 (Unreleased)
+## 12.12.0 (2022-10-14)
 
 ### Features Added
 
-### Breaking Changes
+- Includes all features released in 12.12.0-beta.1.
 
 ### Bugs Fixed
 
-### Other Changes
+- Fixed an issue of escaping slashes in blob name unnecessarily.
 
 ## 12.12.0-beta.1 (2022-08-26)
 

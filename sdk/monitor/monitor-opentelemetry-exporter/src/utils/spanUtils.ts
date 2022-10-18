@@ -11,7 +11,7 @@ import { createTagsFromResource } from "./resourceUtils";
 import { Tags, Properties, MSLink, Measurements } from "../types";
 import { msToTimeSpan } from "./breezeUtils";
 import { parseEventHubSpan } from "./eventhub";
-import { DependencyTypes, MS_LINKS } from "./constants/applicationinsights";
+import { AzureMonitorSampleRate, DependencyTypes, MS_LINKS } from "./constants/applicationinsights";
 import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes";
 import {
   TelemetryExceptionData,
@@ -93,7 +93,8 @@ function createPropertiesFromSpanAttributes(attributes?: SpanAttributes): {
           key.startsWith("exception.") ||
           key.startsWith("thread.") ||
           key.startsWith("faas.") ||
-          key.startsWith("code.")
+          key.startsWith("code.") ||
+          key.startsWith("_MS.")
         )
       ) {
         properties[key] = attributes[key] as string;
@@ -315,7 +316,6 @@ function createRequestData(span: ReadableSpan): RequestData {
 export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelope {
   let name: string;
   let baseType: "RemoteDependencyData" | "RequestData";
-  const sampleRate = 100;
   let baseData: RemoteDependencyData | RequestData;
 
   const time = new Date(hrTimeToMilliseconds(span.startTime));
@@ -341,6 +341,11 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
       // never
       diag.error(`Unsupported span kind ${span.kind}`);
       throw new Error(`Unsupported span kind ${span.kind}`);
+  }
+
+  let sampleRate = 100;
+  if (span.attributes[AzureMonitorSampleRate]) {
+    sampleRate = Number(span.attributes[AzureMonitorSampleRate]);
   }
 
   // Azure SDK
@@ -380,7 +385,6 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
   if (span.events) {
     span.events.forEach((event: TimedEvent) => {
       let baseType: "ExceptionData" | "MessageData";
-      const sampleRate = 100;
       let time = new Date(hrTimeToMilliseconds(event.time));
       let name = "";
       let baseData: TelemetryExceptionData | MessageData;
@@ -430,6 +434,10 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
           properties: properties,
         };
         baseData = messageData;
+      }
+      let sampleRate = 100;
+      if (span.attributes[AzureMonitorSampleRate]) {
+        sampleRate = Number(span.attributes[AzureMonitorSampleRate]);
       }
       let env: Envelope = {
         name: name,
