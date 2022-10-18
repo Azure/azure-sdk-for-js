@@ -1885,6 +1885,11 @@
       "packageName": "@azure/arm-securitydevops",
       "projectFolder": "sdk/securitydevops/arm-securitydevops",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-devhub",
+      "projectFolder": "sdk/devhub/arm-devhub",
+      "versionPolicyName": "management"
     }
   ]
 }
