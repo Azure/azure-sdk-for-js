@@ -55,6 +55,7 @@ import {
   BlobNameToString,
   ConvertInternalResponseOfListBlobFlat,
   ConvertInternalResponseOfListBlobHierarchy,
+  EscapePath,
   extractConnectionStringParts,
   isIpEndpointStyle,
   parseObjectReplicationRecord,
@@ -893,7 +894,7 @@ export class ContainerClient extends StorageClient {
    * @returns A new BlobClient object for the given blob name.
    */
   public getBlobClient(blobName: string): BlobClient {
-    return new BlobClient(appendToURLPath(this.url, this.escapePath(blobName)), this.pipeline);
+    return new BlobClient(appendToURLPath(this.url, EscapePath(blobName)), this.pipeline);
   }
 
   /**
@@ -902,10 +903,7 @@ export class ContainerClient extends StorageClient {
    * @param blobName - An append blob name
    */
   public getAppendBlobClient(blobName: string): AppendBlobClient {
-    return new AppendBlobClient(
-      appendToURLPath(this.url, this.escapePath(blobName)),
-      this.pipeline
-    );
+    return new AppendBlobClient(appendToURLPath(this.url, EscapePath(blobName)), this.pipeline);
   }
 
   /**
@@ -924,7 +922,7 @@ export class ContainerClient extends StorageClient {
    * ```
    */
   public getBlockBlobClient(blobName: string): BlockBlobClient {
-    return new BlockBlobClient(appendToURLPath(this.url, this.escapePath(blobName)), this.pipeline);
+    return new BlockBlobClient(appendToURLPath(this.url, EscapePath(blobName)), this.pipeline);
   }
 
   /**
@@ -933,18 +931,7 @@ export class ContainerClient extends StorageClient {
    * @param blobName - A page blob name
    */
   public getPageBlobClient(blobName: string): PageBlobClient {
-    return new PageBlobClient(appendToURLPath(this.url, this.escapePath(blobName)), this.pipeline);
-  }
-
-  /**
-   * Escape the blobName but keep path separator ('/'). Exactly like in the dotnet SDK client.
-   */
-  private escapePath(blobName: string): string {
-    const split = blobName.split("/");
-    for (let i = 0; i < split.length; i++) {
-      split[i] = encodeURIComponent(split[i]);
-    }
-    return split.join("/");
+    return new PageBlobClient(appendToURLPath(this.url, EscapePath(blobName)), this.pipeline);
   }
 
   /**

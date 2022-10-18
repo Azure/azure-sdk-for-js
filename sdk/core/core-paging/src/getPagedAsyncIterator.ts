@@ -77,9 +77,15 @@ async function* getPageAsyncIterator<TPage, TLink, TPageSettings>(
 ): AsyncIterableIterator<TPage> {
   const { pageLink, maxPageSize } = options;
   let response = await pagedResult.getPage(pageLink ?? pagedResult.firstPageLink, maxPageSize);
+  if (!response) {
+    return;
+  }
   yield response.page;
   while (response.nextPageLink) {
     response = await pagedResult.getPage(response.nextPageLink, maxPageSize);
+    if (!response) {
+      return;
+    }
     yield response.page;
   }
 }

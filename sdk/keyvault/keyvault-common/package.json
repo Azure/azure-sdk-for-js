@@ -41,7 +41,7 @@
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "keywords": [
     "azure",
@@ -54,6 +54,42 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-common/README.md",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "main": "./src/index.ts",
+  "module": "dist-esm/index.js",
+  "types": "./types/index.d.ts",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "scripts": {
+    "audit": "echo skipped",
+    "build:samples": "echo skipped",
+    "build:es6": "tsc -p tsconfig.json",
+    "build:nodebrowser": "echo skipped",
+    "build:test": "echo skipped",
+    "build": "npm run clean && npm run extract-api && npm run build:es6 && npm run build:nodebrowser",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist-esm dist-test types *.tgz *.log samples/typescript/dist",
+    "execute:js-samples": "echo skipped",
+    "execute:ts-samples": "echo skipped",
+    "execute:samples": "npm run build:samples && npm run execute:js-samples && npm run execute:ts-samples",
+    "extract-api": "echo skipped",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
+    "integration-test:node:no-timeout": "echo skipped",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "lint:fix": "eslint package.json src --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json src --ext .ts",
+    "pack": "npm pack 2>&1",
+    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
+    "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
+    "test": "npm run clean && npm run build:test && npm run unit-test",
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "echo skipped",
+    "unit-test:node:no-timeout": "echo skipped",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "docs": "echo Skipped."
+  },
   "dependencies": {
     "@azure/core-client": "^1.5.0",
     "@azure/core-rest-pipeline": "^1.8.0",

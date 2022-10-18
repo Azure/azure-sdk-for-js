@@ -32,6 +32,8 @@ import {
   ContainerAppsListCustomHostNameAnalysisResponse,
   ContainerAppsListSecretsOptionalParams,
   ContainerAppsListSecretsResponse,
+  ContainerAppsGetAuthTokenOptionalParams,
+  ContainerAppsGetAuthTokenResponse,
   ContainerAppsListBySubscriptionNextResponse,
   ContainerAppsListByResourceGroupNextResponse
 } from "../models";
@@ -485,6 +487,23 @@ export class ContainerAppsImpl implements ContainerApps {
   }
 
   /**
+   * Get auth token for a container app
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param containerAppName Name of the Container App.
+   * @param options The options parameters.
+   */
+  getAuthToken(
+    resourceGroupName: string,
+    containerAppName: string,
+    options?: ContainerAppsGetAuthTokenOptionalParams
+  ): Promise<ContainerAppsGetAuthTokenResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, containerAppName, options },
+      getAuthTokenOperationSpec
+    );
+  }
+
+  /**
    * ListBySubscriptionNext
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
@@ -691,6 +710,31 @@ const listSecretsOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.SecretsCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.containerAppName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getAuthTokenOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/getAuthtoken",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ContainerAppAuthToken
+    },
+    404: {
+      isError: true
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse

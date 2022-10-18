@@ -101,6 +101,8 @@ let { token } = await client.getToken(user, ["chat"]);
 
 ### Creating a user token with custom expiration
 
+It's also possible to create a Communication Identity access token by customizing the expiration time. Validity period of the token must be within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used.
+
 ```typescript
 const tokenOptions: GetTokenOptions = { tokenExpiresInMinutes: 60 };
 let { token } = await client.getToken(user, ["chat"], tokenOptions);
@@ -115,6 +117,8 @@ let { user, token } = await client.createUserAndToken(["chat"]);
 ```
 
 ### Creating a user and a token with custom expiration in a single request
+
+It's also possible to create a Communication Identity access token by customizing the expiration time. Validity period of the token must be within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used.
 
 ```typescript
 const userAndTokenOptions: CreateUserAndTokenOptions = { tokenExpiresInMinutes: 60 };

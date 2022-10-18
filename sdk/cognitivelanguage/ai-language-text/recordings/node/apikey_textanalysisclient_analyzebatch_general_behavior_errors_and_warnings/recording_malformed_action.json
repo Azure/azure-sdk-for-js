@@ -10,8 +10,8 @@
         "Content-Length": "170",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.0 core-rest-pipeline/1.9.2 Node/v18.6.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "599a1347-80cd-4400-8865-4089a0744689"
+        "User-Agent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "1a33e121-48f5-4bd7-a7c2-4f1d5d9bb216"
       },
       "RequestBody": {
         "analysisInput": {
@@ -34,18 +34,27 @@
       },
       "StatusCode": 400,
       "ResponseHeaders": {
-        "apim-request-id": "31d5738a-76bf-423c-b8d0-4248266ec9de",
+        "apim-request-id": "df68207c-da12-4266-afd5-c0939ad3725b",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 07 Sep 2022 03:52:24 GMT",
+        "Date": "Sat, 15 Oct 2022 02:22:51 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "6"
+        "x-envoy-upstream-service-time": "7"
       },
       "ResponseBody": {
         "error": {
           "code": "InvalidRequest",
-          "details": [],
+          "details": [
+            {
+              "code": "InvalidRequest",
+              "message": "Invalid Request.",
+              "innererror": {
+                "code": "InvalidParameterValue",
+                "message": "Job task parameter value \u0027bad\u0027 is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest, 2020-07-01, 2021-01-15."
+              }
+            }
+          ],
           "message": "Invalid Request.",
           "innererror": {
             "code": "InvalidParameterValue",

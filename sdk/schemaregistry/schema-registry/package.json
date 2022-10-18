@@ -1,6 +1,6 @@
 {
   "name": "@azure/schema-registry",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Schema Registry Library with typescript type definitions for node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -68,7 +68,7 @@
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "keywords": [
     "azure",
@@ -101,7 +101,7 @@
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^12.0.0",
+    "@types/node": "^14.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.2",
