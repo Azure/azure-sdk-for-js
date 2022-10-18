@@ -1,8 +1,6 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
-
-### Features Added
+## 1.0.0-beta.3 (2022-10-13)
 
 ### Breaking Changes
 
@@ -12,8 +10,6 @@
   - `UploadStatus` to `UploadLogsStatus`
 - The `uploadStatus` property on the previous `UploadResult` type (now `UploadLogsResult`) has been renamed to `status`.
 - The `responseError` property on `UploadLogsError` has been renamed to `cause`.
-
-### Bugs Fixed
 
 ### Other Changes
 

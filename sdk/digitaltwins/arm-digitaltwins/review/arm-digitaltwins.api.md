@@ -91,8 +91,7 @@ export interface ConnectionState {
 }
 
 // @public
-type ConnectionType_2 = string;
-export { ConnectionType_2 as ConnectionType }
+export type ConnectionType = string;
 
 // @public
 export type CreatedByType = string;
