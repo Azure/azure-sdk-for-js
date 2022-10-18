@@ -1,0 +1,58 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-10-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "206",
+        "Content-Type": "application/json",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
+        "x-ms-client-request-id": "e70560cb-2c8a-47c7-9012-4e1f790dd202"
+      },
+      "RequestBody": {
+        "kind": "DynamicClassification",
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "0",
+              "text": "This is some text, but it doesn\u0027t matter.",
+              "language": "en"
+            }
+          ]
+        },
+        "parameters": {
+          "classificationType": "single",
+          "categories": [
+            "A"
+          ]
+        }
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "apim-request-id": "2d81cc37-9309-406e-b605-b22562bfd7e2",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 18 Oct 2022 21:44:45 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "10",
+        "x-ms-region": "West Europe"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidRequest",
+          "message": "Invalid parameter in request",
+          "innererror": {
+            "code": "InvalidParameterValue",
+            "message": "Parameter \u0027categories\u0027 cannot be empty or contain less than 2 categories"
+          }
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

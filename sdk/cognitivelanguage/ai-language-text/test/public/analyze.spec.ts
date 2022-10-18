@@ -763,21 +763,23 @@ matrix([FIXME1] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          it("client accepts string[] and language", async function () {
+          /** TODO, unskip when hear back from service team */
+          it.skip("client accepts string[] and language", async function () {
             const results = await client.analyze(
               AnalyzeActionNames.DynamicClassification,
               testDataEn,
               "en",
               {
                 categories: ["Travel", "Weather", "Location"],
-                classificationType: classificationType,
+                classificationType,
               }
             );
             assert.equal(results.length, testDataEn.length);
             assertAllSuccess(results);
           });
 
-          it("client accepts string[] with no language", async function () {
+          /** TODO, unskip when hear back from service team */
+          it.skip("client accepts string[] with no language", async function () {
             const enInputs = testDataEn.map(
               (text): LanguageDetectionInput => ({
                 id: getId(),
@@ -789,7 +791,7 @@ matrix([FIXME1] as const, async (authMethod: AuthMethod) => {
               enInputs,
               {
                 categories: ["Travel", "Weather", "Location"],
-                classificationType: classificationType,
+                classificationType,
               }
             );
             assert.equal(results.length, testDataEn.length);
@@ -803,7 +805,7 @@ matrix([FIXME1] as const, async (authMethod: AuthMethod) => {
               "notalanguage",
               {
                 categories: ["Travel", "Weather", "Location"],
-                classificationType: classificationType,
+                classificationType,
               }
             );
 
@@ -821,7 +823,7 @@ matrix([FIXME1] as const, async (authMethod: AuthMethod) => {
                 "en",
                 {
                   categories: ["A"],
-                  classificationType: classificationType,
+                  classificationType,
                 }
               ),
               {
