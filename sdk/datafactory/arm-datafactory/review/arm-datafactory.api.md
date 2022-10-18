@@ -174,9 +174,7 @@ export interface AmazonRdsForSqlServerSource extends TabularSource {
     produceAdditionalTypes?: any;
     sqlReaderQuery?: any;
     sqlReaderStoredProcedureName?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     type: "AmazonRdsForSqlServerSource";
 }
 
@@ -1001,9 +999,7 @@ export interface AzureSqlSink extends CopySink {
     sqlWriterStoredProcedureName?: any;
     sqlWriterTableType?: any;
     sqlWriterUseTableLock?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     storedProcedureTableTypeParameterName?: any;
     tableOption?: any;
     type: "AzureSqlSink";
@@ -1018,9 +1014,7 @@ export interface AzureSqlSource extends TabularSource {
     produceAdditionalTypes?: any;
     sqlReaderQuery?: any;
     sqlReaderStoredProcedureName?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     type: "AzureSqlSource";
 }
 
@@ -1047,6 +1041,7 @@ export interface AzureSynapseArtifactsLinkedService extends LinkedService {
     authentication?: any;
     endpoint: any;
     type: "AzureSynapseArtifacts";
+    workspaceResourceId?: any;
 }
 
 // @public
@@ -2729,6 +2724,7 @@ export interface FactoryListResponse {
 export interface FactoryRepoConfiguration {
     accountName: string;
     collaborationBranch: string;
+    disablePublish?: boolean;
     lastCommitId?: string;
     repositoryName: string;
     rootFolder: string;
@@ -7240,9 +7236,7 @@ export interface SqlMISink extends CopySink {
     sqlWriterStoredProcedureName?: any;
     sqlWriterTableType?: any;
     sqlWriterUseTableLock?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     storedProcedureTableTypeParameterName?: any;
     tableOption?: any;
     type: "SqlMISink";
@@ -7257,9 +7251,7 @@ export interface SqlMISource extends TabularSource {
     produceAdditionalTypes?: any;
     sqlReaderQuery?: any;
     sqlReaderStoredProcedureName?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     type: "SqlMISource";
 }
 
@@ -7289,9 +7281,7 @@ export interface SqlServerSink extends CopySink {
     sqlWriterStoredProcedureName?: any;
     sqlWriterTableType?: any;
     sqlWriterUseTableLock?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     storedProcedureTableTypeParameterName?: any;
     tableOption?: any;
     type: "SqlServerSink";
@@ -7306,9 +7296,7 @@ export interface SqlServerSource extends TabularSource {
     produceAdditionalTypes?: any;
     sqlReaderQuery?: any;
     sqlReaderStoredProcedureName?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     type: "SqlServerSource";
 }
 
@@ -7333,9 +7321,7 @@ export interface SqlSink extends CopySink {
     sqlWriterStoredProcedureName?: any;
     sqlWriterTableType?: any;
     sqlWriterUseTableLock?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     storedProcedureTableTypeParameterName?: any;
     tableOption?: any;
     type: "SqlSink";
@@ -7350,9 +7336,7 @@ export interface SqlSource extends TabularSource {
     partitionSettings?: SqlPartitionSettings;
     sqlReaderQuery?: any;
     sqlReaderStoredProcedureName?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     type: "SqlSource";
 }
 
@@ -7669,7 +7653,9 @@ export interface SynapseSparkJobDefinitionActivity extends ExecutionActivity {
     executorSize?: any;
     file?: any;
     files?: any[];
+    filesV2?: any[];
     numExecutors?: number;
+    pythonCodeReference?: any[];
     sparkJob: SynapseSparkJobReference;
     targetBigDataPool?: BigDataPoolParametrizationReference;
     type: "SparkJob";
@@ -7677,7 +7663,7 @@ export interface SynapseSparkJobDefinitionActivity extends ExecutionActivity {
 
 // @public
 export interface SynapseSparkJobReference {
-    referenceName: string;
+    referenceName: any;
     type: SparkJobReferenceType;
 }
 
