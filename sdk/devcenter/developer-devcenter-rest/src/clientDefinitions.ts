@@ -32,82 +32,82 @@ import {
   EnvironmentsGetCatalogItemParameters,
   EnvironmentsListCatalogItemVersionsParameters,
   EnvironmentsGetCatalogItemVersionParameters,
-  EnvironmentsListEnvironmentTypesParameters,
+  EnvironmentsListEnvironmentTypesParameters
 } from "./parameters";
 import {
   DevCenterListProjects200Response,
-  DevCenterListProjectsdefaultResponse,
+  DevCenterListProjectsDefaultResponse,
   DevCenterGetProject200Response,
-  DevCenterGetProjectdefaultResponse,
+  DevCenterGetProjectDefaultResponse,
   DevCenterListAllDevBoxes200Response,
-  DevCenterListAllDevBoxesdefaultResponse,
+  DevCenterListAllDevBoxesDefaultResponse,
   DevCenterListAllDevBoxesByUser200Response,
-  DevCenterListAllDevBoxesByUserdefaultResponse,
+  DevCenterListAllDevBoxesByUserDefaultResponse,
   DevBoxesListPools200Response,
-  DevBoxesListPoolsdefaultResponse,
+  DevBoxesListPoolsDefaultResponse,
   DevBoxesGetPool200Response,
-  DevBoxesGetPooldefaultResponse,
+  DevBoxesGetPoolDefaultResponse,
   DevBoxesListSchedulesByPool200Response,
-  DevBoxesListSchedulesByPooldefaultResponse,
+  DevBoxesListSchedulesByPoolDefaultResponse,
   DevBoxesGetScheduleByPool200Response,
-  DevBoxesGetScheduleByPooldefaultResponse,
+  DevBoxesGetScheduleByPoolDefaultResponse,
   DevBoxesListDevBoxesByUser200Response,
-  DevBoxesListDevBoxesByUserdefaultResponse,
+  DevBoxesListDevBoxesByUserDefaultResponse,
   DevBoxesGetDevBoxByUser200Response,
-  DevBoxesGetDevBoxByUserdefaultResponse,
+  DevBoxesGetDevBoxByUserDefaultResponse,
   DevBoxesCreateDevBox200Response,
   DevBoxesCreateDevBox201Response,
-  DevBoxesCreateDevBoxdefaultResponse,
+  DevBoxesCreateDevBoxDefaultResponse,
   DevBoxesDeleteDevBox200Response,
   DevBoxesDeleteDevBox202Response,
   DevBoxesDeleteDevBox204Response,
-  DevBoxesDeleteDevBoxdefaultResponse,
+  DevBoxesDeleteDevBoxDefaultResponse,
   DevBoxesStartDevBox200Response,
   DevBoxesStartDevBox202Response,
-  DevBoxesStartDevBoxdefaultResponse,
+  DevBoxesStartDevBoxDefaultResponse,
   DevBoxesStopDevBox200Response,
   DevBoxesStopDevBox202Response,
-  DevBoxesStopDevBoxdefaultResponse,
+  DevBoxesStopDevBoxDefaultResponse,
   DevBoxesGetRemoteConnection200Response,
-  DevBoxesGetRemoteConnectiondefaultResponse,
+  DevBoxesGetRemoteConnectionDefaultResponse,
   EnvironmentsListEnvironments200Response,
-  EnvironmentsListEnvironmentsdefaultResponse,
+  EnvironmentsListEnvironmentsDefaultResponse,
   EnvironmentsListEnvironmentsByUser200Response,
-  EnvironmentsListEnvironmentsByUserdefaultResponse,
+  EnvironmentsListEnvironmentsByUserDefaultResponse,
   EnvironmentsGetEnvironmentByUser200Response,
-  EnvironmentsGetEnvironmentByUserdefaultResponse,
+  EnvironmentsGetEnvironmentByUserDefaultResponse,
   EnvironmentsCreateOrUpdateEnvironment200Response,
   EnvironmentsCreateOrUpdateEnvironment201Response,
-  EnvironmentsCreateOrUpdateEnvironmentdefaultResponse,
+  EnvironmentsCreateOrUpdateEnvironmentDefaultResponse,
   EnvironmentsUpdateEnvironment200Response,
-  EnvironmentsUpdateEnvironmentdefaultResponse,
+  EnvironmentsUpdateEnvironmentDefaultResponse,
   EnvironmentsDeleteEnvironment200Response,
   EnvironmentsDeleteEnvironment202Response,
   EnvironmentsDeleteEnvironment204Response,
-  EnvironmentsDeleteEnvironmentdefaultResponse,
+  EnvironmentsDeleteEnvironmentDefaultResponse,
   EnvironmentsDeployEnvironmentAction200Response,
   EnvironmentsDeployEnvironmentAction202Response,
-  EnvironmentsDeployEnvironmentActiondefaultResponse,
+  EnvironmentsDeployEnvironmentActionDefaultResponse,
   EnvironmentsDeleteEnvironmentAction200Response,
   EnvironmentsDeleteEnvironmentAction202Response,
-  EnvironmentsDeleteEnvironmentActiondefaultResponse,
+  EnvironmentsDeleteEnvironmentActionDefaultResponse,
   EnvironmentsCustomEnvironmentAction200Response,
   EnvironmentsCustomEnvironmentAction202Response,
-  EnvironmentsCustomEnvironmentActiondefaultResponse,
+  EnvironmentsCustomEnvironmentActionDefaultResponse,
   EnvironmentsListArtifactsByEnvironment200Response,
-  EnvironmentsListArtifactsByEnvironmentdefaultResponse,
+  EnvironmentsListArtifactsByEnvironmentDefaultResponse,
   EnvironmentsListArtifactsByEnvironmentAndPath200Response,
-  EnvironmentsListArtifactsByEnvironmentAndPathdefaultResponse,
+  EnvironmentsListArtifactsByEnvironmentAndPathDefaultResponse,
   EnvironmentsListCatalogItems200Response,
-  EnvironmentsListCatalogItemsdefaultResponse,
+  EnvironmentsListCatalogItemsDefaultResponse,
   EnvironmentsGetCatalogItem200Response,
-  EnvironmentsGetCatalogItemdefaultResponse,
+  EnvironmentsGetCatalogItemDefaultResponse,
   EnvironmentsListCatalogItemVersions200Response,
-  EnvironmentsListCatalogItemVersionsdefaultResponse,
+  EnvironmentsListCatalogItemVersionsDefaultResponse,
   EnvironmentsGetCatalogItemVersion200Response,
-  EnvironmentsGetCatalogItemVersiondefaultResponse,
+  EnvironmentsGetCatalogItemVersionDefaultResponse,
   EnvironmentsListEnvironmentTypes200Response,
-  EnvironmentsListEnvironmentTypesdefaultResponse,
+  EnvironmentsListEnvironmentTypesDefaultResponse
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -115,14 +115,18 @@ export interface DevCenterListProjects {
   /** Lists all projects. */
   get(
     options?: DevCenterListProjectsParameters
-  ): StreamableMethod<DevCenterListProjects200Response | DevCenterListProjectsdefaultResponse>;
+  ): StreamableMethod<
+    DevCenterListProjects200Response | DevCenterListProjectsDefaultResponse
+  >;
 }
 
 export interface DevCenterGetProject {
   /** Gets a project. */
   get(
     options?: DevCenterGetProjectParameters
-  ): StreamableMethod<DevCenterGetProject200Response | DevCenterGetProjectdefaultResponse>;
+  ): StreamableMethod<
+    DevCenterGetProject200Response | DevCenterGetProjectDefaultResponse
+  >;
 }
 
 export interface DevCenterListAllDevBoxes {
@@ -130,7 +134,8 @@ export interface DevCenterListAllDevBoxes {
   get(
     options?: DevCenterListAllDevBoxesParameters
   ): StreamableMethod<
-    DevCenterListAllDevBoxes200Response | DevCenterListAllDevBoxesdefaultResponse
+    | DevCenterListAllDevBoxes200Response
+    | DevCenterListAllDevBoxesDefaultResponse
   >;
 }
 
@@ -139,7 +144,8 @@ export interface DevCenterListAllDevBoxesByUser {
   get(
     options?: DevCenterListAllDevBoxesByUserParameters
   ): StreamableMethod<
-    DevCenterListAllDevBoxesByUser200Response | DevCenterListAllDevBoxesByUserdefaultResponse
+    | DevCenterListAllDevBoxesByUser200Response
+    | DevCenterListAllDevBoxesByUserDefaultResponse
   >;
 }
 
@@ -147,14 +153,18 @@ export interface DevBoxesListPools {
   /** Lists available pools */
   get(
     options?: DevBoxesListPoolsParameters
-  ): StreamableMethod<DevBoxesListPools200Response | DevBoxesListPoolsdefaultResponse>;
+  ): StreamableMethod<
+    DevBoxesListPools200Response | DevBoxesListPoolsDefaultResponse
+  >;
 }
 
 export interface DevBoxesGetPool {
   /** Gets a pool */
   get(
     options?: DevBoxesGetPoolParameters
-  ): StreamableMethod<DevBoxesGetPool200Response | DevBoxesGetPooldefaultResponse>;
+  ): StreamableMethod<
+    DevBoxesGetPool200Response | DevBoxesGetPoolDefaultResponse
+  >;
 }
 
 export interface DevBoxesListSchedulesByPool {
@@ -162,7 +172,8 @@ export interface DevBoxesListSchedulesByPool {
   get(
     options?: DevBoxesListSchedulesByPoolParameters
   ): StreamableMethod<
-    DevBoxesListSchedulesByPool200Response | DevBoxesListSchedulesByPooldefaultResponse
+    | DevBoxesListSchedulesByPool200Response
+    | DevBoxesListSchedulesByPoolDefaultResponse
   >;
 }
 
@@ -171,7 +182,8 @@ export interface DevBoxesGetScheduleByPool {
   get(
     options?: DevBoxesGetScheduleByPoolParameters
   ): StreamableMethod<
-    DevBoxesGetScheduleByPool200Response | DevBoxesGetScheduleByPooldefaultResponse
+    | DevBoxesGetScheduleByPool200Response
+    | DevBoxesGetScheduleByPoolDefaultResponse
   >;
 }
 
@@ -180,7 +192,8 @@ export interface DevBoxesListDevBoxesByUser {
   get(
     options?: DevBoxesListDevBoxesByUserParameters
   ): StreamableMethod<
-    DevBoxesListDevBoxesByUser200Response | DevBoxesListDevBoxesByUserdefaultResponse
+    | DevBoxesListDevBoxesByUser200Response
+    | DevBoxesListDevBoxesByUserDefaultResponse
   >;
 }
 
@@ -188,14 +201,16 @@ export interface DevBoxesGetDevBoxByUser {
   /** Gets a Dev Box */
   get(
     options?: DevBoxesGetDevBoxByUserParameters
-  ): StreamableMethod<DevBoxesGetDevBoxByUser200Response | DevBoxesGetDevBoxByUserdefaultResponse>;
+  ): StreamableMethod<
+    DevBoxesGetDevBoxByUser200Response | DevBoxesGetDevBoxByUserDefaultResponse
+  >;
   /** Creates or updates a Dev Box. */
   put(
     options: DevBoxesCreateDevBoxParameters
   ): StreamableMethod<
     | DevBoxesCreateDevBox200Response
     | DevBoxesCreateDevBox201Response
-    | DevBoxesCreateDevBoxdefaultResponse
+    | DevBoxesCreateDevBoxDefaultResponse
   >;
   /** Deletes a Dev Box. */
   delete(
@@ -204,7 +219,7 @@ export interface DevBoxesGetDevBoxByUser {
     | DevBoxesDeleteDevBox200Response
     | DevBoxesDeleteDevBox202Response
     | DevBoxesDeleteDevBox204Response
-    | DevBoxesDeleteDevBoxdefaultResponse
+    | DevBoxesDeleteDevBoxDefaultResponse
   >;
 }
 
@@ -215,7 +230,7 @@ export interface DevBoxesStartDevBox {
   ): StreamableMethod<
     | DevBoxesStartDevBox200Response
     | DevBoxesStartDevBox202Response
-    | DevBoxesStartDevBoxdefaultResponse
+    | DevBoxesStartDevBoxDefaultResponse
   >;
 }
 
@@ -226,7 +241,7 @@ export interface DevBoxesStopDevBox {
   ): StreamableMethod<
     | DevBoxesStopDevBox200Response
     | DevBoxesStopDevBox202Response
-    | DevBoxesStopDevBoxdefaultResponse
+    | DevBoxesStopDevBoxDefaultResponse
   >;
 }
 
@@ -235,7 +250,8 @@ export interface DevBoxesGetRemoteConnection {
   get(
     options?: DevBoxesGetRemoteConnectionParameters
   ): StreamableMethod<
-    DevBoxesGetRemoteConnection200Response | DevBoxesGetRemoteConnectiondefaultResponse
+    | DevBoxesGetRemoteConnection200Response
+    | DevBoxesGetRemoteConnectionDefaultResponse
   >;
 }
 
@@ -244,7 +260,8 @@ export interface EnvironmentsListEnvironments {
   get(
     options?: EnvironmentsListEnvironmentsParameters
   ): StreamableMethod<
-    EnvironmentsListEnvironments200Response | EnvironmentsListEnvironmentsdefaultResponse
+    | EnvironmentsListEnvironments200Response
+    | EnvironmentsListEnvironmentsDefaultResponse
   >;
 }
 
@@ -254,7 +271,7 @@ export interface EnvironmentsListEnvironmentsByUser {
     options?: EnvironmentsListEnvironmentsByUserParameters
   ): StreamableMethod<
     | EnvironmentsListEnvironmentsByUser200Response
-    | EnvironmentsListEnvironmentsByUserdefaultResponse
+    | EnvironmentsListEnvironmentsByUserDefaultResponse
   >;
 }
 
@@ -263,7 +280,8 @@ export interface EnvironmentsGetEnvironmentByUser {
   get(
     options?: EnvironmentsGetEnvironmentByUserParameters
   ): StreamableMethod<
-    EnvironmentsGetEnvironmentByUser200Response | EnvironmentsGetEnvironmentByUserdefaultResponse
+    | EnvironmentsGetEnvironmentByUser200Response
+    | EnvironmentsGetEnvironmentByUserDefaultResponse
   >;
   /** Creates or updates an environment. */
   put(
@@ -271,13 +289,14 @@ export interface EnvironmentsGetEnvironmentByUser {
   ): StreamableMethod<
     | EnvironmentsCreateOrUpdateEnvironment200Response
     | EnvironmentsCreateOrUpdateEnvironment201Response
-    | EnvironmentsCreateOrUpdateEnvironmentdefaultResponse
+    | EnvironmentsCreateOrUpdateEnvironmentDefaultResponse
   >;
   /** Partially updates an environment */
   patch(
     options: EnvironmentsUpdateEnvironmentParameters
   ): StreamableMethod<
-    EnvironmentsUpdateEnvironment200Response | EnvironmentsUpdateEnvironmentdefaultResponse
+    | EnvironmentsUpdateEnvironment200Response
+    | EnvironmentsUpdateEnvironmentDefaultResponse
   >;
   /** Deletes an environment and all it's associated resources */
   delete(
@@ -286,7 +305,7 @@ export interface EnvironmentsGetEnvironmentByUser {
     | EnvironmentsDeleteEnvironment200Response
     | EnvironmentsDeleteEnvironment202Response
     | EnvironmentsDeleteEnvironment204Response
-    | EnvironmentsDeleteEnvironmentdefaultResponse
+    | EnvironmentsDeleteEnvironmentDefaultResponse
   >;
 }
 
@@ -297,7 +316,7 @@ export interface EnvironmentsDeployEnvironmentAction {
   ): StreamableMethod<
     | EnvironmentsDeployEnvironmentAction200Response
     | EnvironmentsDeployEnvironmentAction202Response
-    | EnvironmentsDeployEnvironmentActiondefaultResponse
+    | EnvironmentsDeployEnvironmentActionDefaultResponse
   >;
 }
 
@@ -308,7 +327,7 @@ export interface EnvironmentsDeleteEnvironmentAction {
   ): StreamableMethod<
     | EnvironmentsDeleteEnvironmentAction200Response
     | EnvironmentsDeleteEnvironmentAction202Response
-    | EnvironmentsDeleteEnvironmentActiondefaultResponse
+    | EnvironmentsDeleteEnvironmentActionDefaultResponse
   >;
 }
 
@@ -319,7 +338,7 @@ export interface EnvironmentsCustomEnvironmentAction {
   ): StreamableMethod<
     | EnvironmentsCustomEnvironmentAction200Response
     | EnvironmentsCustomEnvironmentAction202Response
-    | EnvironmentsCustomEnvironmentActiondefaultResponse
+    | EnvironmentsCustomEnvironmentActionDefaultResponse
   >;
 }
 
@@ -329,7 +348,7 @@ export interface EnvironmentsListArtifactsByEnvironment {
     options?: EnvironmentsListArtifactsByEnvironmentParameters
   ): StreamableMethod<
     | EnvironmentsListArtifactsByEnvironment200Response
-    | EnvironmentsListArtifactsByEnvironmentdefaultResponse
+    | EnvironmentsListArtifactsByEnvironmentDefaultResponse
   >;
 }
 
@@ -339,7 +358,7 @@ export interface EnvironmentsListArtifactsByEnvironmentAndPath {
     options?: EnvironmentsListArtifactsByEnvironmentAndPathParameters
   ): StreamableMethod<
     | EnvironmentsListArtifactsByEnvironmentAndPath200Response
-    | EnvironmentsListArtifactsByEnvironmentAndPathdefaultResponse
+    | EnvironmentsListArtifactsByEnvironmentAndPathDefaultResponse
   >;
 }
 
@@ -348,7 +367,8 @@ export interface EnvironmentsListCatalogItems {
   get(
     options?: EnvironmentsListCatalogItemsParameters
   ): StreamableMethod<
-    EnvironmentsListCatalogItems200Response | EnvironmentsListCatalogItemsdefaultResponse
+    | EnvironmentsListCatalogItems200Response
+    | EnvironmentsListCatalogItemsDefaultResponse
   >;
 }
 
@@ -357,7 +377,8 @@ export interface EnvironmentsGetCatalogItem {
   get(
     options?: EnvironmentsGetCatalogItemParameters
   ): StreamableMethod<
-    EnvironmentsGetCatalogItem200Response | EnvironmentsGetCatalogItemdefaultResponse
+    | EnvironmentsGetCatalogItem200Response
+    | EnvironmentsGetCatalogItemDefaultResponse
   >;
 }
 
@@ -367,7 +388,7 @@ export interface EnvironmentsListCatalogItemVersions {
     options?: EnvironmentsListCatalogItemVersionsParameters
   ): StreamableMethod<
     | EnvironmentsListCatalogItemVersions200Response
-    | EnvironmentsListCatalogItemVersionsdefaultResponse
+    | EnvironmentsListCatalogItemVersionsDefaultResponse
   >;
 }
 
@@ -376,7 +397,8 @@ export interface EnvironmentsGetCatalogItemVersion {
   get(
     options?: EnvironmentsGetCatalogItemVersionParameters
   ): StreamableMethod<
-    EnvironmentsGetCatalogItemVersion200Response | EnvironmentsGetCatalogItemVersiondefaultResponse
+    | EnvironmentsGetCatalogItemVersion200Response
+    | EnvironmentsGetCatalogItemVersionDefaultResponse
   >;
 }
 
@@ -385,7 +407,8 @@ export interface EnvironmentsListEnvironmentTypes {
   get(
     options?: EnvironmentsListEnvironmentTypesParameters
   ): StreamableMethod<
-    EnvironmentsListEnvironmentTypes200Response | EnvironmentsListEnvironmentTypesdefaultResponse
+    | EnvironmentsListEnvironmentTypes200Response
+    | EnvironmentsListEnvironmentTypesDefaultResponse
   >;
 }
 
@@ -397,9 +420,15 @@ export interface Routes {
   /** Resource for '/devboxes' has methods for the following verbs: get */
   (path: "/devboxes"): DevCenterListAllDevBoxes;
   /** Resource for '/users/\{userId\}/devboxes' has methods for the following verbs: get */
-  (path: "/users/{userId}/devboxes", userId: string): DevCenterListAllDevBoxesByUser;
+  (
+    path: "/users/{userId}/devboxes",
+    userId: string
+  ): DevCenterListAllDevBoxesByUser;
   /** Resource for '/projects/\{projectName\}/pools' has methods for the following verbs: get */
-  (path: "/projects/{projectName}/pools", projectName: string): DevBoxesListPools;
+  (
+    path: "/projects/{projectName}/pools",
+    projectName: string
+  ): DevBoxesListPools;
   /** Resource for '/projects/\{projectName\}/pools/\{poolName\}' has methods for the following verbs: get */
   (
     path: "/projects/{projectName}/pools/{poolName}",
@@ -454,7 +483,10 @@ export interface Routes {
     devBoxName: string
   ): DevBoxesGetRemoteConnection;
   /** Resource for '/projects/\{projectName\}/environments' has methods for the following verbs: get */
-  (path: "/projects/{projectName}/environments", projectName: string): EnvironmentsListEnvironments;
+  (
+    path: "/projects/{projectName}/environments",
+    projectName: string
+  ): EnvironmentsListEnvironments;
   /** Resource for '/projects/\{projectName\}/users/\{userId\}/environments' has methods for the following verbs: get */
   (
     path: "/projects/{projectName}/users/{userId}/environments",
@@ -505,7 +537,10 @@ export interface Routes {
     artifactPath: string
   ): EnvironmentsListArtifactsByEnvironmentAndPath;
   /** Resource for '/projects/\{projectName\}/catalogItems' has methods for the following verbs: get */
-  (path: "/projects/{projectName}/catalogItems", projectName: string): EnvironmentsListCatalogItems;
+  (
+    path: "/projects/{projectName}/catalogItems",
+    projectName: string
+  ): EnvironmentsListCatalogItems;
   /** Resource for '/projects/\{projectName\}/catalogItems/\{catalogItemId\}' has methods for the following verbs: get */
   (
     path: "/projects/{projectName}/catalogItems/{catalogItemId}",

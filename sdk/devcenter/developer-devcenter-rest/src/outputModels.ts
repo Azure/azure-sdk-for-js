@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/** Results of the project list operation. */
 export interface ProjectListResultOutput {
   /** Current page of results. */
   value: Array<ProjectOutput>;
@@ -8,6 +9,7 @@ export interface ProjectListResultOutput {
   nextLink?: string;
 }
 
+/** Project details. */
 export interface ProjectOutput {
   /** Name of the project */
   name?: string;
@@ -15,11 +17,13 @@ export interface ProjectOutput {
   description?: string;
 }
 
+/** An error response from the service. */
 export interface CloudErrorOutput {
   /** Error body */
   error: CloudErrorBodyOutput;
 }
 
+/** An error response from the service. */
 export interface CloudErrorBodyOutput {
   /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
   code: string;
@@ -31,6 +35,7 @@ export interface CloudErrorBodyOutput {
   details?: Array<CloudErrorBodyOutput>;
 }
 
+/** The Pool list result */
 export interface PoolListResultOutput {
   /** Current page of results */
   value: Array<PoolOutput>;
@@ -38,6 +43,7 @@ export interface PoolListResultOutput {
   nextLink?: string;
 }
 
+/** A pool of Dev Boxes. */
 export interface PoolOutput {
   /** Pool name */
   name?: string;
@@ -55,6 +61,7 @@ export interface PoolOutput {
   localAdministrator?: "Enabled" | "Disabled";
 }
 
+/** Hardware specifications for the Dev Box. */
 export interface HardwareProfileOutput {
   /** The name of the SKU */
   skuName?: string;
@@ -64,16 +71,19 @@ export interface HardwareProfileOutput {
   memoryGB?: number;
 }
 
+/** Storage settings for the Dev Box's disks */
 export interface StorageProfileOutput {
   /** Settings for the operating system disk. */
   osDisk?: OSDiskOutput;
 }
 
+/** Settings for the operating system disk. */
 export interface OSDiskOutput {
   /** The size of the OS Disk in gigabytes. */
   diskSizeGB?: number;
 }
 
+/** Specifies information about the image used */
 export interface ImageReferenceOutput {
   /** The name of the image used. */
   name?: string;
@@ -87,6 +97,7 @@ export interface ImageReferenceOutput {
   publishedDate?: string;
 }
 
+/** The Schedule list result */
 export interface ScheduleListResultOutput {
   /** Current page of results */
   value: Array<ScheduleOutput>;
@@ -94,6 +105,7 @@ export interface ScheduleListResultOutput {
   nextLink?: string;
 }
 
+/** A Schedule to execute action. */
 export interface ScheduleOutput {
   /** Display name for the Schedule */
   name?: string;
@@ -107,6 +119,7 @@ export interface ScheduleOutput {
   timeZone?: string;
 }
 
+/** The Dev Box list result */
 export interface DevBoxListResultOutput {
   /** The list of DevBox Dev Boxes */
   value: Array<DevBoxOutput>;
@@ -114,6 +127,7 @@ export interface DevBoxListResultOutput {
   nextLink?: string;
 }
 
+/** A DevBox Dev Box */
 export interface DevBoxOutput {
   /** Display name for the Dev Box */
   name?: string;
@@ -126,7 +140,12 @@ export interface DevBoxOutput {
   /** The current action state of the Dev Box. This is state is based on previous action performed by user. */
   actionState?: string;
   /** The current power state of the Dev Box. */
-  powerState?: "Unknown" | "Deallocated" | "PoweredOff" | "Running" | "Hibernated";
+  powerState?:
+    | "Unknown"
+    | "Deallocated"
+    | "PoweredOff"
+    | "Running"
+    | "Hibernated";
   /** A unique identifier for the Dev Box. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000). */
   uniqueId?: string;
   /** Provisioning or action error details. Populated only for error states. */
@@ -149,6 +168,7 @@ export interface DevBoxOutput {
   localAdministrator?: "Enabled" | "Disabled";
 }
 
+/** Error details */
 export interface ProvisioningErrorOutput {
   /** The error code. */
   code?: string;
@@ -156,6 +176,7 @@ export interface ProvisioningErrorOutput {
   message?: string;
 }
 
+/** Provides RDP connection information */
 export interface RemoteConnectionOutput {
   /** URL to open a browser based RDP session */
   webUrl?: string;
@@ -163,6 +184,7 @@ export interface RemoteConnectionOutput {
   rdpConnectionUrl?: string;
 }
 
+/** Results of the environment list operation. */
 export interface EnvironmentListResultOutput {
   /** Current page of results. */
   value: Array<EnvironmentOutput>;
@@ -170,6 +192,7 @@ export interface EnvironmentListResultOutput {
   nextLink?: string;
 }
 
+/** Properties of an environment. */
 export interface EnvironmentOutput extends EnvironmentUpdatePropertiesOutput {
   /** Environment name. */
   name?: string;
@@ -183,6 +206,7 @@ export interface EnvironmentOutput extends EnvironmentUpdatePropertiesOutput {
   resourceGroupId?: string;
 }
 
+/** Properties of an environment. These properties can be updated after the resource has been created. */
 export interface EnvironmentUpdatePropertiesOutput {
   /** Description of the Environment. */
   description?: string;
@@ -198,6 +222,7 @@ export interface EnvironmentUpdatePropertiesOutput {
   tags?: Record<string, string>;
 }
 
+/** Scheduled task to auto-expire an environment. */
 export interface ScheduledTaskOutput {
   /** Supported type this scheduled task represents. */
   type: "AutoExpire";
@@ -207,6 +232,7 @@ export interface ScheduledTaskOutput {
   startTime: string;
 }
 
+/** Results of the artifact list operation. */
 export interface ArtifactListResultOutput {
   /** Current page of results. */
   value: Array<ArtifactOutput>;
@@ -214,6 +240,7 @@ export interface ArtifactListResultOutput {
   nextLink?: string;
 }
 
+/** Properties of an Artifact */
 export interface ArtifactOutput {
   /** Artifact identifier */
   id?: string;
@@ -231,6 +258,7 @@ export interface ArtifactOutput {
   lastModifiedTime?: string;
 }
 
+/** Results of the catalog item list operation. */
 export interface CatalogItemListResultOutput {
   /** Current page of results. */
   value: Array<CatalogItemOutput>;
@@ -238,6 +266,7 @@ export interface CatalogItemListResultOutput {
   nextLink?: string;
 }
 
+/** A catalog item. */
 export interface CatalogItemOutput {
   /** Unique identifier of the catalog item. */
   id?: string;
@@ -247,6 +276,7 @@ export interface CatalogItemOutput {
   catalogName?: string;
 }
 
+/** Results of the catalog item list operation. */
 export interface CatalogItemVersionListResultOutput {
   /** Current page of results. */
   value: Array<CatalogItemVersionOutput>;
@@ -254,6 +284,7 @@ export interface CatalogItemVersionListResultOutput {
   nextLink?: string;
 }
 
+/** A catalog item version. */
 export interface CatalogItemVersionOutput {
   /** Unique identifier of the catalog item. */
   catalogItemId?: string;
@@ -283,6 +314,7 @@ export interface CatalogItemVersionOutput {
   eligibleForLatestVersion?: boolean;
 }
 
+/** Properties of an Catalog Item parameter */
 export interface CatalogItemParameterOutput {
   /** Unique ID of the parameter */
   id?: string;
@@ -293,7 +325,14 @@ export interface CatalogItemParameterOutput {
   /** Default value of the parameter */
   default?: Record<string, unknown>;
   /** A string of one of the basic JSON types (number, integer, null, array, object, boolean, string) */
-  type?: "array" | "boolean" | "integer" | "null" | "number" | "object" | "string";
+  type?:
+    | "array"
+    | "boolean"
+    | "integer"
+    | "null"
+    | "number"
+    | "object"
+    | "string";
   /** Whether or not this parameter is read-only.  If true, default should have a value. */
   readOnly?: boolean;
   /** Whether or not this parameter is required */
@@ -302,6 +341,7 @@ export interface CatalogItemParameterOutput {
   allowed?: Array<Record<string, unknown>>;
 }
 
+/** An action that can be taken on a catalog item. */
 export interface CatalogItemActionOutput {
   /** Unique identifier of the action */
   id?: string;
@@ -321,6 +361,7 @@ export interface CatalogItemActionOutput {
   runner?: string;
 }
 
+/** Result of the environment type list operation. */
 export interface EnvironmentTypeListResultOutput {
   /** Current page of results. */
   value: Array<EnvironmentTypeOutput>;
@@ -328,6 +369,7 @@ export interface EnvironmentTypeListResultOutput {
   nextLink?: string;
 }
 
+/** Properties of an environment type. */
 export interface EnvironmentTypeOutput {
   /** Name of the environment type */
   name?: string;
