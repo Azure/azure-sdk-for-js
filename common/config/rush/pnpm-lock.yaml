@@ -73,6 +73,7 @@ specifiers:
   '@rush-temp/arm-deploymentmanager': file:./projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:./projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-devcenter': file:./projects/arm-devcenter.tgz
+  '@rush-temp/arm-devhub': file:./projects/arm-devhub.tgz
   '@rush-temp/arm-deviceprovisioningservices': file:./projects/arm-deviceprovisioningservices.tgz
   '@rush-temp/arm-deviceupdate': file:./projects/arm-deviceupdate.tgz
   '@rush-temp/arm-devspaces': file:./projects/arm-devspaces.tgz
@@ -388,6 +389,7 @@ dependencies:
   '@rush-temp/arm-deploymentmanager': file:projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-devcenter': file:projects/arm-devcenter.tgz
+  '@rush-temp/arm-devhub': file:projects/arm-devhub.tgz
   '@rush-temp/arm-deviceprovisioningservices': file:projects/arm-deviceprovisioningservices.tgz
   '@rush-temp/arm-deviceupdate': file:projects/arm-deviceupdate.tgz
   '@rush-temp/arm-devspaces': file:projects/arm-devspaces.tgz
@@ -3961,7 +3963,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20221016
+      typescript: 4.9.0-dev.20221018
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8958,8 +8960,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20221016:
-    resolution: {integrity: sha512-5ewJzFqYCUKUku9SdWIURLJW3PlkthY8C+HDu7kfWggpUJj3Ei7XrvMa32tMdl4a4H7k90m0xHRyoiCAH7wO2A==}
+  /typescript/4.9.0-dev.20221018:
+    resolution: {integrity: sha512-jHigCAzVp9JXy+t9J854z8ooZTtc1luK25iKKFF48w/AfRfTbypn8HkOGWDmb7x7RuAcZxo1zYcYDk4OaUFKjw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11772,6 +11774,33 @@ packages:
       uglify-js: 3.17.2
     transitivePeerDependencies:
       - '@types/node'
+      - supports-color
+    dev: false
+
+  file:projects/arm-devhub.tgz:
+    resolution: {integrity: sha512-24gOR9GRJsvhBH/A9WPsDIGQb0CoeWMkrCxqZBwi7DO2oM1qJbaBZmS84KRwTfEfPZ4GtJKkNQwEvMYitN0rzA==, tarball: file:projects/arm-devhub.tgz}
+    name: '@rush-temp/arm-devhub'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.32.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      '@types/node': 14.18.32
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_c164e18ebb1175294129df0cff345d2e
+      tslib: 2.4.0
+      typescript: 4.6.4
+      uglify-js: 3.17.2
+    transitivePeerDependencies:
       - supports-color
     dev: false
 
@@ -17420,7 +17449,7 @@ packages:
     dev: false
 
   file:projects/keyvault-secrets.tgz:
-    resolution: {integrity: sha512-naBuklZ7AHmeVLo/R/ej1xsyI0Re5E6eQKusaUVJQtnZ9aazrtLeVDI6kVdT+oYtk2eS/injmQzwzx68yLDjUg==, tarball: file:projects/keyvault-secrets.tgz}
+    resolution: {integrity: sha512-glu2elfF+vMdKRUZllcVwLZrRooMSgc17x12lcYQZkksNvDvlXOJAbFP3sVdp77S6VhH5U4FBG2aSNRIwHV9CA==, tarball: file:projects/keyvault-secrets.tgz}
     name: '@rush-temp/keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -17622,7 +17651,7 @@ packages:
     dev: false
 
   file:projects/mixed-reality-remote-rendering.tgz:
-    resolution: {integrity: sha512-KLnDms6nk+EnBMcLlr3nwdhzi9NBLHo8NLR/J0pzEMJG1JtxkozXvku2pLsUf78oYUwlCzbAtJIH1j1O7FbH1Q==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
+    resolution: {integrity: sha512-c+DeluRNwjQYq5UZMvSO/87WTaN/FjPKt77w4m64+5NStzY4sa8ock8tyfNEDWPts8V7mLarnIMiVDSS1JfOCA==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
     name: '@rush-temp/mixed-reality-remote-rendering'
     version: 0.0.0
     dependencies:
@@ -19598,7 +19627,7 @@ packages:
     dev: false
 
   file:projects/video-analyzer-edge.tgz:
-    resolution: {integrity: sha512-khmGlWMF87TB6iTydsWU2lJr6mQb/nlRjYJBPZKVHl1NxGjd7bO9KYXXkLm3smdUy1zHKLAG0+8Imc483bc9zg==, tarball: file:projects/video-analyzer-edge.tgz}
+    resolution: {integrity: sha512-ev9PjvfbH+H1BE1EQYL/+kTzu/utd8oJTuXQ3s1g/eN5ArVxEEmt5UXz2fbkgUsSAEo4n4llhnPVZEOBKn0mHA==, tarball: file:projects/video-analyzer-edge.tgz}
     name: '@rush-temp/video-analyzer-edge'
     version: 0.0.0
     dependencies:
