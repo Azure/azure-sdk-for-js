@@ -9,6 +9,7 @@ import createClient from "../../../src/azureDevCenter";
 
 import "./env";
 import { ClientOptions } from "@azure-rest/core-client";
+import { AzureDevCenterClient } from "../../../src";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",

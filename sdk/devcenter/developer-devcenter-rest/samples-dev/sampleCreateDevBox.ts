@@ -25,7 +25,7 @@ async function createDevBox() {
     throw projectList.body.error;
   }
 
-  console.log('Iterating through project results:');
+  console.log("Iterating through project results:");
 
   for await (const project of paginate(client, projectList)) {
     const { name } = project;
@@ -53,7 +53,7 @@ async function createDevBox() {
     throw poolList.body.error;
   }
 
-  console.log('Iterating through pool results:');
+  console.log("Iterating through pool results:");
 
   for await (const pool of paginate(client, poolList)) {
     const { name } = pool;

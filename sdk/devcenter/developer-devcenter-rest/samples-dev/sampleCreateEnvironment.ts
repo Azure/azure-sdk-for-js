@@ -27,7 +27,7 @@ async function createEnvironment() {
     throw projectList.body.error;
   }
 
-  console.log('Iterating through project results:');
+  console.log("Iterating through project results:");
 
   for await (const project of paginate(client, projectList)) {
     const { name } = project;
@@ -57,7 +57,7 @@ async function createEnvironment() {
     throw new Error(catalogItemList.body.error.message);
   }
 
-  console.log('Iterating through pool results:');
+  console.log("Iterating through pool results:");
 
   for await (const catalogItem of paginate(client, catalogItemList)) {
     const { catalogName, name } = catalogItem;
@@ -89,7 +89,7 @@ async function createEnvironment() {
     throw new Error(environmentTypeList.body.error.message);
   }
 
-  console.log('Iterating through catalog item results:');
+  console.log("Iterating through catalog item results:");
 
   for await (const environmentType of paginate(client, environmentTypeList)) {
     const { name } = environmentType;

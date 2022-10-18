@@ -2518,6 +2518,10 @@ packages:
     resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
     dev: false
 
+  /@types/node/14.18.32:
+    resolution: {integrity: sha512-Y6S38pFr04yb13qqHf8uk1nHE3lXgQ30WZbv1mLliV9pt0NjvqdWttLcrOYLnXbOafknVYRHZGoMSpR9UwfYow==}
+    dev: false
+
   /@types/node/16.11.63:
     resolution: {integrity: sha512-3OxnrEQLBz8EIIaHpg3CibmTAEGkDBcHY4fL5cnBwg2vd2yvHrUDGWxK+MlYPeXWWIoJJW79dGtU+oeBr6166Q==}
     dev: false
@@ -3963,7 +3967,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20221012
+      typescript: 4.9.0-dev.20221017
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8960,8 +8964,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20221012:
-    resolution: {integrity: sha512-EqJR8s/4zlC8nKMNB3ImSY/lv0bKnEJ2H4UPHzDC306qKgIRexh2Q/446811kG++20Q4TiFhV7LjLSBtgA3OrA==}
+  /typescript/4.9.0-dev.20221017:
+    resolution: {integrity: sha512-Aae7UmEtGS1U+pAvYpx8a466hlcXBX3moIdQ93lEAwriqrjidTeEP4JZ7UblTJWYZAlLu9g6LKfSe9X+6XR6GA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -16654,7 +16658,7 @@ packages:
     dev: false
 
   file:projects/developer-devcenter.tgz:
-    resolution: {integrity: sha512-Xc1OZZbNLLTy7BengKpT1bNm33sunCM6W+VKqrxf5RHxXD61SUN0R6WdZ6RRowTgFYEYX0+G5yll2E6oASuKMg==, tarball: file:projects/developer-devcenter.tgz}
+    resolution: {integrity: sha512-Dol9HCFhWacXZj88B/EjE0LvZZL0TroCDUrkkOC2VzW/kolnANuM3N7g5+dk/2/IPnfPN3KYiAbXTPLQqOn5hw==, tarball: file:projects/developer-devcenter.tgz}
     name: '@rush-temp/developer-devcenter'
     version: 0.0.0
     dependencies:
@@ -16662,7 +16666,7 @@ packages:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.3
-      '@types/node': 12.20.55
+      '@types/node': 14.18.32
       autorest: 3.6.2
       chai: 4.3.6
       cross-env: 7.0.3
@@ -17866,7 +17870,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-NF3pWFm+ODKaJQc7MMoI4Hukq5DOvBI6oQqiKD2gmpLB/ZVR0WNg18qXL6/lDFezbEs10C9zt1NGwedJs4MIow==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-v3glHx0xQIrA2MuKdkiOj3A4teHM1h05OC94rPJ6qNCwRGiIMzSUVx33YKVza11yocKJGrdU4+I3LH5XYEmIbA==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
@@ -18759,7 +18763,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-3tvMIhTyvuOTgKK9O8L0ohZnspDLQ9sJZZxk8pbqqf+2qGbEvN2CT/VdM/Lh2d4HuFhxSkeVbJgnk9KAr99PpQ==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-FlPn+HxK47mnvSCUz513u4gm5jfgfRmy1dRwKkdWCGiRIZ4VjCYC2JxCTEd6FAA/OhEgMBcY1xm0LAYqoTiFgg==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
