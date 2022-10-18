@@ -8,7 +8,7 @@ import {
   PipelineRequest,
   RequestBodyType,
 } from "@azure/core-rest-pipeline";
-import { ParsedWWWAuthenticate, parseWWWAuthenticate } from "./parseWWWAuthenticate";
+import { ParsedWWWAuthenticate, parseWWWAuthenticateHeader } from "./parseWWWAuthenticate";
 
 import { GetTokenOptions } from "@azure/core-auth";
 
@@ -79,7 +79,7 @@ function verifyChallengeResource(scope: string, request: PipelineRequest): void 
  * if possible.
  *
  */
-export function createChallengeCallbacks(
+export function createKeyVaultChallengeCallbacks(
   options: CreateChallengeCallbacksOptions = {}
 ): ChallengeCallbacks {
   const { disableChallengeResourceVerification } = options;
@@ -140,7 +140,7 @@ export function createChallengeCallbacks(
     if (!challenge) {
       throw new Error("Missing challenge.");
     }
-    const parsedChallenge: ParsedWWWAuthenticate = parseWWWAuthenticate(challenge) || {};
+    const parsedChallenge: ParsedWWWAuthenticate = parseWWWAuthenticateHeader(challenge) || {};
 
     const scope = parsedChallenge.resource
       ? parsedChallenge.resource + "/.default"

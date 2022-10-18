@@ -23,8 +23,11 @@ export interface ParsedKeyVaultEntityIdentifier {
 
 /**
  * Parses a Key Vault identifier into its components.
+ *
+ * @param collection - The collection of the Key Vault identifier.
+ * @param identifier - The Key Vault identifier to be parsed.
  */
-export function parseKeyvaultIdentifier(
+export function parseKeyVaultIdentifier(
   collection: string,
   identifier: string | undefined
 ): ParsedKeyVaultEntityIdentifier {

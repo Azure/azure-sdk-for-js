@@ -40,28 +40,26 @@ const validParsedWWWAuthenticateProperties: readonly (keyof ParsedWWWAuthenticat
 ] as const;
 
 /**
- * Parses an WWW-Authenticate response.
+ * Parses an WWW-Authenticate response header.
  * This transforms a string value like:
  * `Bearer authorization="https://some.url/tenantId", resource="https://some.url"`
  * into an object like:
  * `{ authorization: "https://some.url/tenantId", resource: "https://some.url" }`
- * @param wwwAuthenticate - String value in the WWW-Authenticate header
+ * @param headerValue - String value in the WWW-Authenticate header
  */
-export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenticate {
+export function parseWWWAuthenticateHeader(headerValue: string): ParsedWWWAuthenticate {
   const pairDelimiter = /,? +/;
-  const parsed = wwwAuthenticate
-    .split(pairDelimiter)
-    .reduce<ParsedWWWAuthenticate>((kvPairs, p) => {
-      if (p.match(/\w="/)) {
-        // 'sampleKey="sample_value"' -> [sampleKey, "sample_value"] -> { sampleKey: sample_value }
-        const [key, value] = p.split("=");
-        if (validParsedWWWAuthenticateProperties.includes(key as keyof ParsedWWWAuthenticate)) {
-          // The values will be wrapped in quotes, which need to be stripped out.
-          return { ...kvPairs, [key]: value.slice(1, -1) };
-        }
+  const parsed = headerValue.split(pairDelimiter).reduce<ParsedWWWAuthenticate>((kvPairs, p) => {
+    if (p.match(/\w="/)) {
+      // 'sampleKey="sample_value"' -> [sampleKey, "sample_value"] -> { sampleKey: sample_value }
+      const [key, value] = p.split("=");
+      if (validParsedWWWAuthenticateProperties.includes(key as keyof ParsedWWWAuthenticate)) {
+        // The values will be wrapped in quotes, which need to be stripped out.
+        return { ...kvPairs, [key]: value.slice(1, -1) };
       }
-      return kvPairs;
-    }, {});
+    }
+    return kvPairs;
+  }, {});
 
   // Finally, we pull the tenantId from the authorization header to support multi-tenant authentication.
   if (parsed.authorization) {

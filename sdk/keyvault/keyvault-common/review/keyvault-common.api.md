@@ -7,12 +7,12 @@
 import { ChallengeCallbacks } from '@azure/core-rest-pipeline';
 
 // @public
-export function createChallengeCallbacks(options?: CreateChallengeCallbacksOptions): ChallengeCallbacks;
-
-// @public
 export interface CreateChallengeCallbacksOptions {
     disableChallengeResourceVerification?: boolean;
 }
+
+// @public
+export function createKeyVaultChallengeCallbacks(options?: CreateChallengeCallbacksOptions): ChallengeCallbacks;
 
 // @public
 export interface ParsedKeyVaultEntityIdentifier {
