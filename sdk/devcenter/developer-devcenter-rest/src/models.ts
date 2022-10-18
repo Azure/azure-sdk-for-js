@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/** Hardware specifications for the Dev Box. */
 export interface HardwareProfile {
   /** The name of the SKU */
   skuName?: string;
@@ -10,16 +11,19 @@ export interface HardwareProfile {
   memoryGB?: number;
 }
 
+/** Storage settings for the Dev Box's disks */
 export interface StorageProfile {
   /** Settings for the operating system disk. */
   osDisk?: OSDisk;
 }
 
+/** Settings for the operating system disk. */
 export interface OSDisk {
   /** The size of the OS Disk in gigabytes. */
   diskSizeGB?: number;
 }
 
+/** Specifies information about the image used */
 export interface ImageReference {
   /** The name of the image used. */
   name?: string;
@@ -33,6 +37,7 @@ export interface ImageReference {
   publishedDate?: Date | string;
 }
 
+/** A DevBox Dev Box */
 export interface DevBox {
   /** Display name for the Dev Box */
   name?: string;
@@ -45,7 +50,12 @@ export interface DevBox {
   /** The current action state of the Dev Box. This is state is based on previous action performed by user. */
   actionState?: string;
   /** The current power state of the Dev Box. */
-  powerState?: "Unknown" | "Deallocated" | "PoweredOff" | "Running" | "Hibernated";
+  powerState?:
+    | "Unknown"
+    | "Deallocated"
+    | "PoweredOff"
+    | "Running"
+    | "Hibernated";
   /** A unique identifier for the Dev Box. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000). */
   uniqueId?: string;
   /** Provisioning or action error details. Populated only for error states. */
@@ -68,6 +78,7 @@ export interface DevBox {
   localAdministrator?: "Enabled" | "Disabled";
 }
 
+/** Error details */
 export interface ProvisioningError {
   /** The error code. */
   code?: string;
@@ -75,6 +86,7 @@ export interface ProvisioningError {
   message?: string;
 }
 
+/** Properties of an environment. */
 export interface Environment extends EnvironmentUpdateProperties {
   /** Environment name. */
   name?: string;
@@ -88,6 +100,7 @@ export interface Environment extends EnvironmentUpdateProperties {
   resourceGroupId?: string;
 }
 
+/** Properties of an environment. These properties can be updated after the resource has been created. */
 export interface EnvironmentUpdateProperties {
   /** Description of the Environment. */
   description?: string;
@@ -103,6 +116,7 @@ export interface EnvironmentUpdateProperties {
   tags?: Record<string, string>;
 }
 
+/** Scheduled task to auto-expire an environment. */
 export interface ScheduledTask {
   /** Supported type this scheduled task represents. */
   type: "AutoExpire";
@@ -112,6 +126,7 @@ export interface ScheduledTask {
   startTime: Date | string;
 }
 
+/** Action request */
 export interface ActionRequest {
   /** The Catalog Item action id to execute */
   actionId: string;

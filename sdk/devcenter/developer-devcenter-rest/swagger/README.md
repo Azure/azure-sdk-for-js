@@ -16,12 +16,12 @@ rest-level-client: true
 security: AADToken
 security-scopes: https://devcenter.azure.com/.default
 use-extension:
-  "@autorest/typescript": "6.0.0-rc.1"
+  "@autorest/typescript": "6.0.0-rc.2"
 
 input-file:
-  - https://github.com/Azure/azure-rest-api-specs/blob/5a024c0e76424caaca36166ba41cee6f3f1f8add/specification/devcenter/data-plane/Microsoft.DevCenter/preview/2022-03-01-preview/devcenter.json
-  - https://github.com/Azure/azure-rest-api-specs/blob/5a024c0e76424caaca36166ba41cee6f3f1f8add/specification/devcenter/data-plane/Microsoft.DevCenter/preview/2022-03-01-preview/devbox.json
-  - https://github.com/Azure/azure-rest-api-specs/blob/5a024c0e76424caaca36166ba41cee6f3f1f8add/specification/devcenter/data-plane/Microsoft.DevCenter/preview/2022-03-01-preview/environments.json
+  - https://github.com/Azure/azure-rest-api-specs/blob/75a8d8dcc9f6d0ec626bdeb32f5154f20c8c61cd/specification/devcenter/data-plane/Microsoft.DevCenter/preview/2022-03-01-preview/devcenter.json
+  - https://github.com/Azure/azure-rest-api-specs/blob/75a8d8dcc9f6d0ec626bdeb32f5154f20c8c61cd/specification/devcenter/data-plane/Microsoft.DevCenter/preview/2022-03-01-preview/devbox.json
+  - https://github.com/Azure/azure-rest-api-specs/blob/75a8d8dcc9f6d0ec626bdeb32f5154f20c8c61cd/specification/devcenter/data-plane/Microsoft.DevCenter/preview/2022-03-01-preview/environments.json
 
 public-clients: true
 ```
