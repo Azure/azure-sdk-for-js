@@ -20,7 +20,9 @@ tracing-info:
   namespace: "Microsoft.CognitiveServices"
   packagePrefix: "Azure.CognitiveServices.AnomalyDetector"
 hide-clients: false
-use-core-v2: false
+use-extension:
+  "@autorest/typescript": "latest"
+v3: true
 ```
 
 ```yaml
