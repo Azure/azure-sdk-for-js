@@ -77,8 +77,10 @@ async function main() {
     },
   });
 
-  // Checking the test run status 
-  await client.path("/testruns/{testRunId}", testRunId).get();
+  // Checking the test run status and printing metrics
+  var result = await client.path("/testruns/{testRunId}", testRunId).get();
+  console.log(result);
+
 }
 
 main().catch(console.error);

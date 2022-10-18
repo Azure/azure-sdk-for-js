@@ -21,6 +21,7 @@ async function main() {
   const displayName = "some-load-test";
   const SUBSCRIPTION_ID = process.env["SUBSCRIPTION_ID"] || "";
   const testId = uuidv4(); // ID to be assigned to a test
+  const fileId = uuidv4(); // ID to be assigned to the file being uploaded
   const testRunId = uuidv4(); // ID to be assigned to a testRun
   const appComponentId = uuidv4(); // ID of the app componeents
 
@@ -34,14 +35,13 @@ async function main() {
       displayName: displayName,
       description: "",
       loadTestConfig: {
-        engineInstances: 1,
-        splitAllCSVs: false,
+        engineInstances: 1, // number of engine instances to run test
       },
     },
   });
 
   // Uploading .jmx file to a test
-  await client.path("/loadtests/{testId}/files/{fileId}", "abc", "xyz12365").put({
+  await client.path("/loadtests/{testId}/files/{fileId}", testId, fileId).put({
     contentType: "multipart/form-data",
     body: {
       file: readStream,
@@ -77,8 +77,9 @@ async function main() {
     },
   });
 
-  // checking the test run status and printing metrics
-  await client.path("/testruns/{testRunId}", testRunId).get();
+  // Checking the test run status and printing metrics
+  var result = await client.path("/testruns/{testRunId}", testRunId).get();
+  console.log(result);
 }
 
 main().catch(console.error);
