@@ -66,6 +66,7 @@ async function getChecks(dir: string) {
     checks.packageName = packageJson.name;
   } catch (e) {
     // ignore missing package.json
+    console.info(`No package.json found inside ${dir}`);
   }
 
   return checks;
@@ -120,7 +121,7 @@ async function main() {
     .options({
       serviceDir: {
         type: "string",
-        describe: "service directory to generate packages for",
+        describe: "name of service directory to generate package docs",
         demandOption: true,
       },
     })
