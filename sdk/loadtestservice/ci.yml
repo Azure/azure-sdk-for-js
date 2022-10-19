@@ -30,5 +30,5 @@ extends:
   parameters:
     ServiceDirectory: loadtestservice
     Artifacts:
-      - name: azure-rest-loadtesting
+      - name: azure-rest-load-testing
         safeName: azurerestloadtesting
