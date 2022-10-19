@@ -10,7 +10,6 @@ import { AzureLoadTestingClient } from "../../src";
 describe("Create app component", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
-  const SUBSCRIPTION_ID = env["SUBSCRIPTION_ID"] || "";
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
@@ -22,6 +21,7 @@ describe("Create app component", () => {
   });
 
   it("should create the app components", async () => {
+    const SUBSCRIPTION_ID = env["SUBSCRIPTION_ID"] || "";
     const result = await client.path("/appcomponents/{name}", "appcomp123").patch({
       contentType: "application/merge-patch+json",
       body: {

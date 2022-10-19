@@ -11,7 +11,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 const credential = createTestCredential();
 
 const envSetupForPlayback: Record<string, string> = {
-  LOADTESTSERVICE_ENDPOINT: "https://endpoint",
+  LOADTESTSERVICE_ENDPOINT: "endpoint",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
@@ -20,6 +20,18 @@ const envSetupForPlayback: Record<string, string> = {
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback,
+  sanitizerOptions: {
+    generalSanitizers: [
+      {
+        regex: true,
+        target: 'https://\\w+\\.blob\\.core\\.windows\\.net/[^"]+',
+        value: "https://storageurl.com/",
+      },
+      { regex: true, target: '"secrets": [^,]+', value: '"secrets": null' },
+      { regex: true, target: '"credentials": [^,]+', value: '"credentials": null' },
+      { regex: true, target: '"credentials": [^,]+', value: '"credentials": null' }
+    ],
+  },
 };
 
 export function createClient(

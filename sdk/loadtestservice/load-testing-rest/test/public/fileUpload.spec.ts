@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
@@ -16,7 +16,7 @@ describe("File Upload", () => {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    if (!isNode) {
+    if (!isNode || isPlaybackMode()) {
       this.skip();
     }
     client = createClient(recorder);

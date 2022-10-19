@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://https://endpoint/appcomponents/appcomp123?api-version=2022-06-01-preview",
+      "RequestUri": "https://endpoint/appcomponents/appcomp123?api-version=2022-06-01-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -11,7 +11,7 @@
         "Content-Length": "445",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v16.18.0 OS/(x64-Windows_NT-10.0.19043)",
-        "x-ms-client-request-id": "ccc0a0ac-db87-4372-9d5c-91bedde6dbd3"
+        "x-ms-client-request-id": "7990c3f4-7709-42f5-a432-866c5c3f23b1"
       },
       "RequestBody": {
         "name": "app_component",
@@ -31,11 +31,11 @@
         "Connection": "keep-alive",
         "Content-Length": "668",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 19 Oct 2022 20:25:16 GMT",
-        "mise-correlation-id": "2e2b7511-01db-486b-a88a-49bd9eeee784",
+        "Date": "Wed, 19 Oct 2022 21:57:54 GMT",
+        "mise-correlation-id": "55b22e21-6755-4f73-b2c5-443482fcebfb",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "947e79eb-3d2b-4fd2-b56e-a82600f94eeb"
+        "x-ms-correlation-request-id": "0f4bf3d6-7f18-4f1e-9421-24be05526c0d"
       },
       "ResponseBody": {
         "resourceId": "/subscriptions/azure_subscription_id/resourcegroups/mrinal/providers/microsoft.loadtestservice/loadtests/mrgautam-auseast",

@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://https://endpoint/loadtests/abc?api-version=2022-06-01-preview",
+      "RequestUri": "https://endpoint/loadtests/abc?api-version=2022-06-01-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -11,7 +11,7 @@
         "Content-Length": "106",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v16.18.0 OS/(x64-Windows_NT-10.0.19043)",
-        "x-ms-client-request-id": "839bf68c-3544-4ced-8baf-4b57457ba48d"
+        "x-ms-client-request-id": "53c020f1-1847-4f87-844a-d3d27f309e60"
       },
       "RequestBody": {
         "displayName": "sample_test",
@@ -25,13 +25,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview",
         "Connection": "keep-alive",
-        "Content-Length": "1047",
+        "Content-Length": "871",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 19 Oct 2022 20:25:18 GMT",
-        "mise-correlation-id": "fdc90be1-9102-4a21-b924-6a12bb0a9d04",
+        "Date": "Wed, 19 Oct 2022 21:57:56 GMT",
+        "mise-correlation-id": "9696c41b-bd86-44e0-8f33-651e0312cdf9",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "a9ce93f5-3051-4ef1-a5c1-82528129d40e"
+        "x-ms-correlation-request-id": "d1cd023c-0ad3-4b9b-96ff-2a4cf2f18a17"
       },
       "ResponseBody": {
         "testId": "abc",
@@ -50,11 +50,11 @@
         "inputArtifacts": {
           "configUrl": null,
           "testScriptUrl": {
-            "url": "https://stcntproddataeus.blob.core.windows.net/e7c26d4d-e99d-40d9-89cf-c68b4410c5ef/xyz12365?sv=2020-04-08\u0026se=2022-10-19T21%3A25%3A18Z\u0026sr=b\u0026sp=r\u0026sig=WVxDOuc2UqDnChU6DiGKKMbwCoqivaWT7z6tpm%2FZY%2BU%3D",
+            "url": "https://storageurl.com/",
             "fileId": "xyz12365",
             "filename": "sample.jmx",
             "fileType": 0,
-            "expireTime": "2022-10-19T20:35:18.4335434\u002B00:00",
+            "expireTime": "2022-10-19T22:07:56.2396891\u002B00:00",
             "validationStatus": "VALIDATION_INITIATED"
           },
           "userPropUrl": null,
