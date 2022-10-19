@@ -106,7 +106,7 @@ If this is your first time using `@azure/identity` or the Microsoft identity pla
 
 ### Credentials
 
-A credential is a class which contains or can obtain the data needed for a service client to authenticate requests. Service clients across Azure SDK accept credentials when they are constructed, and service clients use those credentials to authenticate requests to the service.
+A credential is a class which contains or can obtain the data needed for a service client to authenticate requests. Service clients across the Azure SDK accept credentials when they're constructed. Service clients use those credentials to authenticate requests to the service.
 
 The Azure Identity library focuses on OAuth authentication with Azure AD, and it offers a variety of credential classes capable of acquiring an Azure AD token to authenticate service requests. All of the credential classes in this library are implementations of the [TokenCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-auth/src/tokenCredential.ts) abstract class, and any of them can be used by to construct service clients capable of authenticating with a TokenCredential.
 
@@ -138,7 +138,6 @@ Azure Identity for JavaScript provides a plugin API that allows us to provide ce
 - [`@azure/identity-cache-persistence`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-cache-persistence), which provides persistent token caching in Node.js using a native secure storage system provided by your operating system. This plugin allows cached `access_token` values to persist across sessions, meaning that an interactive login flow does not need to be repeated as long as a cached token is available.
 - [`@azure/identity-vscode`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-vscode), which provides the dependencies of `VisualStudioCodeCredential` and enables it. Without this plugin, the `VisualStudioCodeCredential` in this package will throw a `CredentialUnavailableError`. The plugin provides the underlying implementation of this credential, enabling it for use both on its own and as part of the `DefaultAzureCredential` described above.
 
-
 ## Examples
 
 You can find more examples of using various credentials in [Azure Identity Examples Page](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md)
@@ -164,9 +163,9 @@ const credential = new DefaultAzureCredential();
 const client = new KeyClient(vaultUrl, credential);
 ```
 
-### Specify a user assigned managed identity with the `DefaultAzureCredential`
+### Specify a user-assigned managed identity with the `DefaultAzureCredential`
 
-A relatively common scenario involves authenticating using a user assigned managed identity for an Azure resource. Explore the [example on Authenticating a user assigned managed identity with DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-assigned-managed-identity-with-defaultazurecredential) to see how this is made a relatively straightforward task that can be configured using environment variables or in code.
+A relatively common scenario involves authenticating using a user-assigned managed identity for an Azure resource. Explore the [example on Authenticating a user-assigned managed identity with DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-assigned-managed-identity-with-defaultazurecredential) to see how this is made a relatively straightforward task that can be configured using environment variables or in code.
 
 ### Define a custom authentication flow with the `ChainedTokenCredential`
 
@@ -188,7 +187,7 @@ const client = new KeyClient(vaultUrl, credentialChain);
 
 ## Managed identity support
 
-The [Managed identity authentication](https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview) is supported via either the `DefaultAzureCredential` or the `ManagedIdentityCredential` credential classes directly for the following Azure hosts:
+The [Managed identity authentication](https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview) is supported via either the `DefaultAzureCredential` or the `ManagedIdentityCredential` credential classes directly for the following Azure services:
 
 - [Azure App Service and Azure Functions](https://learn.microsoft.com/azure/app-service/overview-managed-identity)
 - [Azure Arc](https://learn.microsoft.com/azure/azure-arc/servers/managed-identity-authentication)
@@ -352,7 +351,9 @@ Client and management libraries listed on the [Azure SDK releases page](https://
 
 #### Azure AD B2C support
 
-This library does not support the [Azure AD B2C](https://learn.microsoft.com/azure/active-directory-b2c/overview) service.
+This library doesn't support the [Azure AD B2C](https://learn.microsoft.com/azure/active-directory-b2c/overview) service.
+
+For other open issues, refer to the library's [GitHub repository](https://github.com/Azure/azure-sdk-for-js/issues?q=is%3Aopen+is%3Aissue+label%3AAzure.Identity).
 
 ### Provide feedback
 

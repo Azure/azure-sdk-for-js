@@ -341,7 +341,7 @@ You can manually verify that the Azure CLI is properly authenticated and can obt
 az account show
 ```
 
-Once you've verified the Azure CLI is using the correct account, you can validate it's able to obtain tokens for this account.
+Once you've verified the Azure CLI is using the correct account, validate that it's able to obtain tokens for this account:
 
 ```azurecli
 az account get-access-token --output json --resource https://management.core.windows.net
@@ -369,7 +369,7 @@ Name                                     Account             SubscriptionName   
 Subscription1 (xxxxxxxx-xxxx-xxxx-xxx... test@outlook.com    Subscription1       AzureCloud          xxxxxxxx-x...
 ```
 
-Once you've verified Azure PowerShell is using the correct account, you can validate that it's able to obtain tokens for this account.
+Once you've verified Azure PowerShell is using the correct account, validate that it's able to obtain tokens for this account:
 
 ```powershell
 Get-AzAccessToken -ResourceUrl "https://management.core.windows.net"
