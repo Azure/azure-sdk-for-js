@@ -119,7 +119,6 @@ const { setLogLevel } = require("@azure/logger");
 setLogLevel("info");
 ```
 
-When logging the body of request and response, please ensure that they do not contain confidential information.
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
