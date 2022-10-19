@@ -7,7 +7,7 @@
  * @summary creates and run a loadtest
  */
 
-import AzureLoadTesting from "@azure-rest/load-testing";
+import AzureLoadTesting, { isUnexpected } from "@azure-rest/load-testing";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 import createReadStream from "fs";
@@ -29,7 +29,7 @@ async function main() {
   const client = AzureLoadTesting(endpoint, new DefaultAzureCredential());
 
   // Creating a load test
-   const testCreationResult : any = await client.path("/loadtests/{testId}", testId).patch({
+  const testCreationResult: any = await client.path("/loadtests/{testId}", testId).patch({
     contentType: "application/merge-patch+json",
     body: {
       displayName: displayName,
@@ -40,46 +40,50 @@ async function main() {
     },
   });
 
-  if (testCreationResult.status !== "200" && testCreationResult.status !== "201") {
+  if (isUnexpected(testCreationResult)) {
     throw testCreationResult.body.error;
   }
 
   // Uploading .jmx file to a test
-  const fileUploadResult : any = await client.path("/loadtests/{testId}/files/{fileId}", testId, fileId).put({
-    contentType: "multipart/form-data",
-    body: {
-      file: readStream,
-    },
-  });
+  const fileUploadResult = await client
+    .path("/loadtests/{testId}/files/{fileId}", testId, fileId)
+    .put({
+      contentType: "multipart/form-data",
+      body: {
+        file: readStream,
+      },
+    });
 
-  if (fileUploadResult.status !== "201") {
+  if (isUnexpected(fileUploadResult)) {
     throw fileUploadResult.body.error;
   }
 
   // Creating app component
-  const appComponentCreationResult : any = await client.path("/appcomponents/{name}", appComponentId).patch({
-    contentType: "application/merge-patch+json",
-    body: {
-      name: "app_component",
-      testId: testId,
-      value: {
-        "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo": {
-          resourceId:
-            "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo",
-          resourceName: "App-Service-Sample-Demo",
-          resourceType: "Microsoft.Web/sites",
-          subscriptionId: SUBSCRIPTION_ID,
+  const appComponentCreationResult = await client
+    .path("/appcomponents/{name}", appComponentId)
+    .patch({
+      contentType: "application/merge-patch+json",
+      body: {
+        name: "app_component",
+        testId: testId,
+        value: {
+          "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo": {
+            resourceId:
+              "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo",
+            resourceName: "App-Service-Sample-Demo",
+            resourceType: "Microsoft.Web/sites",
+            subscriptionId: SUBSCRIPTION_ID,
+          },
         },
       },
-    },
-  });
+    });
 
-  if (appComponentCreationResult.status !== "200" && appComponentCreationResult.status !== "201") {
+  if (isUnexpected(appComponentCreationResult)) {
     throw appComponentCreationResult.body.error;
   }
 
   // Creating the test run
-  const testRunCreationResult : any = await client.path("/testruns/{testRunId}", testRunId).patch({
+  const testRunCreationResult = await client.path("/testruns/{testRunId}", testRunId).patch({
     contentType: "application/merge-patch+json",
     body: {
       testId: testId,
@@ -88,17 +92,18 @@ async function main() {
     },
   });
 
-  if (testRunCreationResult.status !== "200") {
+  if (isUnexpected(testRunCreationResult)) {
     throw testRunCreationResult.body.error;
   }
 
   // Checking the test run status and printing metrics
-  const getTestRunResult : any = await client.path("/testruns/{testRunId}", testRunId).get();
-  console.log(testRunCreationResult);
+  const getTestRunResult = await client.path("/testruns/{testRunId}", testRunId).get();
 
-  if (getTestRunResult.status !== "200") {
+  if (isUnexpected(getTestRunResult)) {
     throw getTestRunResult.body.error;
   }
+
+  console.log(getTestRunResult);
 }
 
 main().catch(console.error);

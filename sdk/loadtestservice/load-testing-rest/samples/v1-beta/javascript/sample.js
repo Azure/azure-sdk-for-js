@@ -7,7 +7,8 @@
  * @summary creates and run a loadtest
  */
 
-const AzureLoadTesting = require("@azure-rest/load-testing").default;
+const AzureLoadTesting = require("@azure-rest/load-testing").default,
+  { isUnexpected } = require("@azure-rest/load-testing");
 const { DefaultAzureCredential } = require("@azure/identity");
 const dotenv = require("dotenv");
 const createReadStream = require("fs");
@@ -40,7 +41,7 @@ async function main() {
     },
   });
 
-  if (testCreationResult.status !== "200" && testCreationResult.status !== "201") {
+  if (isUnexpected(testCreationResult)) {
     throw testCreationResult.body.error;
   }
 
@@ -54,7 +55,7 @@ async function main() {
       },
     });
 
-  if (fileUploadResult.status !== "201") {
+  if (isUnexpected(fileUploadResult)) {
     throw fileUploadResult.body.error;
   }
 
@@ -79,7 +80,7 @@ async function main() {
       },
     });
 
-  if (appComponentCreationResult.status !== "200" && appComponentCreationResult.status !== "201") {
+  if (isUnexpected(appComponentCreationResult)) {
     throw appComponentCreationResult.body.error;
   }
 
@@ -93,17 +94,18 @@ async function main() {
     },
   });
 
-  if (testRunCreationResult.status !== "200") {
+  if (isUnexpected(testRunCreationResult)) {
     throw testRunCreationResult.body.error;
   }
 
   // Checking the test run status and printing metrics
   const getTestRunResult = await client.path("/testruns/{testRunId}", testRunId).get();
-  console.log(testRunCreationResult);
 
-  if (getTestRunResult.status !== "200") {
+  if (isUnexpected(getTestRunResult)) {
     throw getTestRunResult.body.error;
   }
+
+  console.log(getTestRunResult);
 }
 
 main().catch(console.error);
