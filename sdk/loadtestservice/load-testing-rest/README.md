@@ -21,7 +21,7 @@ Various documentation is available to help you get started
 
 ### Prerequisites
 
-- You must have an [Azure subscription](https://azure.microsoft.com/free/) and [Azure Load Test Service Resource](https://learn.microsoft.com/en-us/azure/load-testing/) to use this package.
+- You must have an [Azure subscription](https://azure.microsoft.com/free/) and [Azure Load Test Service Resource](https://learn.microsoft.com/azure/load-testing/) to use this package.
 
 ### Install the `@azure-rest/load-testing` package
 
