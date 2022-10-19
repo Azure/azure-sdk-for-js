@@ -1,4 +1,4 @@
-# Azure Developer LoadTesting client library for JavaScript
+# Azure Load Testing client library for JavaScript
 
 Azure Load Testing provides client library in JavaScript to the user by which they can interact natively with Azure Load Testing service. Azure Load Testing is a fully managed load-testing service that enables you to generate high-scale load. The service simulates traffic for your applications, regardless of where they're hosted. Developers, testers, and quality assurance (QA) engineers can use it to optimize application performance, scalability, or capacity.
 
@@ -9,6 +9,7 @@ Azure Load Testing provides client library in JavaScript to the user by which th
 Various documentation is available to help you get started
 
 <!-- - [Source code][source_code] -->
+
 - [API reference documentation][api_reference_doc]
 - [Product Documentation][product_documentation]
 
@@ -30,7 +31,7 @@ Install the AzureLoadTesting client REST client library for JavaScript with `npm
 npm install @azure-rest/load-testing
 ```
 
-### Create and authenticate a `AzureLoadTesting`
+### Create and authenticate a `AzureLoadTesting` client
 
 To use an [Azure Active Directory (AAD) token credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token),
 provide an instance of the desired credential type obtained from the
@@ -79,7 +80,7 @@ Data-plane of Azure Load Testing resources is addressable using the following UR
 
 `00000000-0000-0000-0000-000000000000.aaa.cnt-prod.loadtesting.azure.com`
 
-The first GUID `00000000-0000-0000-0000-000000000000` is the unique identifier used for accessing the Azure Load Testing resource. This is followed by  `aaa` which is the Azure region of the resource.
+The first GUID `00000000-0000-0000-0000-000000000000` is the unique identifier used for accessing the Azure Load Testing resource. This is followed by `aaa` which is the Azure region of the resource.
 
 The data-plane endpoint is obtained from Control Plane APIs.
 
@@ -109,6 +110,9 @@ await Client.path("/loadtests/{testId}", TEST_ID).patch({
       engineInstances: 1,
       splitAllCSVs: false,
     },
+    secrets: {},
+    environmentVariables: {},
+    passFailCriteria: { passFailMetrics: {} },
   },
 });
 ```
@@ -146,13 +150,16 @@ var DISPLAY_NAME = "my-load-test-run";
 
 const Client: AzureLoadTestingClient = AzureLoadTesting(Endpoint, new DefaultAzureCredential());
 
-await Client.path("/testruns/{testRunId}", "abcde").patch({
+await Client.path("/testruns/{testRunId}", TEST_RUN_ID).patch({
   contentType: "application/merge-patch+json",
   body: {
     testId: TEST_ID,
     displayName: DISPLAY_NAME,
   },
 });
+
+var result = await client.path("/testruns/{testRunId}", TEST_RUN_ID).get();
+console.log(result);
 ```
 
 ## Troubleshooting
@@ -172,6 +179,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 ## Next steps
 
 Azure Loading Testing JavaScript SDK samples are available to you in the SDK's GitHub repository. These samples provide example code for additional scenarios commonly encountered.
+
 <!-- See [Azure Load Testing samples][sample_code]. -->
 
 ## Contributing
@@ -187,6 +195,7 @@ For details on contributing to this repository, see the [contributing guide](htt
 <!-- LINKS -->
 <!-- [source_code]: https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/loadtesting/azure-developer-loadtesting/src -->
 <!-- [sample_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtestservice/load-testing-rest/samples/v1-beta -->
+
 [api_reference_doc]: https://docs.microsoft.com/rest/api/loadtesting/
 [product_documentation]: https://azure.microsoft.com/services/load-testing/
 [azure_subscription]: https://azure.microsoft.com/free/
