@@ -4,7 +4,6 @@ languages:
   - typescript
 products:
   - azure
-  - azure-load-testing
 urlFragment: load-testing-typescript-beta
 ---
 

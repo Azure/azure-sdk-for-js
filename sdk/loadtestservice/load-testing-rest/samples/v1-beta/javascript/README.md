@@ -4,7 +4,6 @@ languages:
   - javascript
 products:
   - azure
-  - azure-load-testing
 urlFragment: load-testing-javascript-beta
 ---
 
