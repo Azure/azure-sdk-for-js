@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../tsconfig.package",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "lib": ["ES6", "ESNext.AsyncIterable"],
+    "outDir": "./dist-esm"
+  },
+  "compileOnSave": true,
+  "include": ["./test/**/*.ts"]
+}
