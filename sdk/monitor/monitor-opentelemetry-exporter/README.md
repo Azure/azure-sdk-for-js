@@ -92,7 +92,7 @@ const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
 const { BatchSpanProcessor } = require("@opentelemetry/sdk-trace-base");
 
 // Sampler expects a sample rate of between 0 and 1 inclusive
-// A rate of 0.75 means approximately 75 % of your telemetry will be sent
+// A rate of 0.75 means approximately 75 % of your traces will be sent
 const aiSampler = new ApplicationInsightsSampler(0.75);
 const provider = new NodeTracerProvider({
   sampler: aiSampler,

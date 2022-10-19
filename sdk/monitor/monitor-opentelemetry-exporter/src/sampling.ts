@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { Link, Attributes, SpanKind, Context, diag } from "@opentelemetry/api";
+import { Link, Attributes, SpanKind, Context } from "@opentelemetry/api";
 import { Sampler, SamplingDecision, SamplingResult } from "@opentelemetry/sdk-trace-base";
 import { AzureMonitorSampleRate } from "./utils/constants/applicationinsights";
 
 export class ApplicationInsightsSampler implements Sampler {
-  private readonly _samplingPercentage: number;
+  private readonly _sampleRate: number;
+  private readonly _samplingRatio: number;
 
-  constructor(samplingRate: number = 1) {
-    if (samplingRate > 1) {
-      diag.warn("Wrong sampling rate, data will not be sampled out");
-      samplingRate = 1;
+  constructor(samplingRatio: number = 1) {
+    this._samplingRatio = samplingRatio;
+    if (this._samplingRatio > 1) {
+      throw new Error("Wrong sampling rate, data will not be sampled out");
     }
-    this._samplingPercentage = Math.round(samplingRate * 100);
+    this._sampleRate = Math.round(this._samplingRatio * 100);
   }
 
   public shouldSample(
@@ -28,27 +29,23 @@ export class ApplicationInsightsSampler implements Sampler {
     links: Link[]
   ): SamplingResult {
     let isSampledIn = false;
-    if (this._samplingPercentage == 100) {
+    if (this._sampleRate == 100) {
       isSampledIn = true;
-    } else if (this._samplingPercentage == 0) {
+    } else if (this._sampleRate == 0) {
       isSampledIn = false;
     } else {
-      if (!traceId) {
-        isSampledIn = Math.random() * 100 < this._samplingPercentage;
-      } else {
-        isSampledIn = this._getSamplingHashCode(traceId) < this._samplingPercentage;
-      }
+      isSampledIn = this._getSamplingHashCode(traceId) < this._sampleRate;
     }
     // Add sample rate as span attribute
     attributes = attributes || {};
-    attributes[AzureMonitorSampleRate] = this._samplingPercentage;
+    attributes[AzureMonitorSampleRate] = this._sampleRate;
     return isSampledIn
       ? { decision: SamplingDecision.RECORD_AND_SAMPLED, attributes: attributes }
       : { decision: SamplingDecision.NOT_RECORD, attributes: attributes };
   }
 
   public toString(): string {
-    return "ApplicationInsightsSampler";
+    return `ApplicationInsightsSampler{${this._samplingRatio}}`;
   }
 
   private _getSamplingHashCode(input: string): number {
