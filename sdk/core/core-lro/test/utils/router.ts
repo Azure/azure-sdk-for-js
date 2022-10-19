@@ -92,9 +92,18 @@ function createClient(inputs: {
         }
         return response;
       }
-      throw new RestError(`Route for ${method} request to ${path} was not found`, {
-        statusCode: 404,
-      });
+      const message = `Route for ${method} request to ${path} was not found`;
+      if (throwOnNon2xxResponse) {
+        throw new RestError(message, {
+          statusCode: 404,
+        });
+      }
+      return {
+        bodyAsText: JSON.stringify({ message }),
+        status: 404,
+        request,
+        headers: createHttpHeaders(),
+      };
     },
   };
 }
@@ -158,6 +167,7 @@ export function createTestPoller(settings: {
         updateState: updateState as
           | ((state: any, lastResponse: LroResponse<unknown>) => void)
           | undefined,
+        resolveOnUnsuccessful: !throwOnNon2xxResponse,
       });
     }
     case "LroEngine": {
@@ -168,6 +178,7 @@ export function createTestPoller(settings: {
           processResult,
           updateState: (state, rawResponse) =>
             updateState?.(state, { rawResponse, flatResponse: undefined as any }),
+          resolveOnUnsuccessful: !throwOnNon2xxResponse,
         })
       );
     }

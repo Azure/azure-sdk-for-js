@@ -7,9 +7,9 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
-import { ApplicationInsightsClientContext } from "./applicationInsightsClientContext";
 import {
   ApplicationInsightsClientOptionalParams,
   TelemetryItem,
@@ -17,13 +17,63 @@ import {
   TrackOperationResponse
 } from "./models";
 
-export class ApplicationInsightsClient extends ApplicationInsightsClientContext {
+export class ApplicationInsightsClient extends coreClient.ServiceClient {
+  host: string;
+
   /**
    * Initializes a new instance of the ApplicationInsightsClient class.
    * @param options The parameter options
    */
   constructor(options?: ApplicationInsightsClientOptionalParams) {
-    super(options);
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: ApplicationInsightsClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8"
+    };
+
+    const packageDetails = `azsdk-js-monitor-opentelemetry-exporter/1.0.0-beta.9`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint ?? options.baseUri ?? "{Host}/v2.1"
+    };
+    super(optionsWithDefaults);
+
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
+    }
+
+    // Assigning values to Constant parameters
+    this.host = options.host || "https://dc.services.visualstudio.com";
   }
 
   /**
