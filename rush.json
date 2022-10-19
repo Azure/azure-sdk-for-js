@@ -1882,6 +1882,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/developer-devcenter",
+      "projectFolder": "sdk/devcenter/developer-devcenter-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-securitydevops",
       "projectFolder": "sdk/securitydevops/arm-securitydevops",
       "versionPolicyName": "management"
