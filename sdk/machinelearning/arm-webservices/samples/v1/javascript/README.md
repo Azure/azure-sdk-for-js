@@ -59,6 +59,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [webserviceslistkeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/machinelearning/arm-webservices/samples/v1/javascript/webServicesListKeysSample.js
 [webservicespatchsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/machinelearning/arm-webservices/samples/v1/javascript/webServicesPatchSample.js
 [webservicesremovesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/machinelearning/arm-webservices/samples/v1/javascript/webServicesRemoveSample.js
-[apiref]: https://learn.microsoft.com/en-us/javascript/api/@azure/arm-webservices/?view=azure-node-latest&viewFallbackFrom=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-webservices/?view=azure-node-latest
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/machinelearning/arm-webservices/README.md
