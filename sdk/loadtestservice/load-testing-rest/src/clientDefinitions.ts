@@ -27,7 +27,7 @@ import {
   TestRunListTestRunsParameters,
   TestRunStopTestRunParameters,
   TestRunGetTestRunClientMetricsParameters,
-  TestRunGetTestRunClientMetricsFiltersParameters
+  TestRunGetTestRunClientMetricsFiltersParameters,
 } from "./parameters";
 import {
   AppComponentCreateOrUpdateAppComponents200Response,
@@ -84,7 +84,7 @@ import {
   TestRunGetTestRunClientMetrics200Response,
   TestRunGetTestRunClientMetricsdefaultResponse,
   TestRunGetTestRunClientMetricsFilters200Response,
-  TestRunGetTestRunClientMetricsFiltersdefaultResponse
+  TestRunGetTestRunClientMetricsFiltersdefaultResponse,
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -101,15 +101,13 @@ export interface AppComponentCreateOrUpdateAppComponents {
   delete(
     options?: AppComponentDeleteAppComponentsParameters
   ): StreamableMethod<
-    | AppComponentDeleteAppComponents204Response
-    | AppComponentDeleteAppComponentsdefaultResponse
+    AppComponentDeleteAppComponents204Response | AppComponentDeleteAppComponentsdefaultResponse
   >;
   /** Get App Component details by App Component name. */
   get(
     options?: AppComponentGetAppComponentByNameParameters
   ): StreamableMethod<
-    | AppComponentGetAppComponentByName200Response
-    | AppComponentGetAppComponentByNamedefaultResponse
+    AppComponentGetAppComponentByName200Response | AppComponentGetAppComponentByNamedefaultResponse
   >;
 }
 
@@ -118,8 +116,7 @@ export interface AppComponentGetAppComponent {
   get(
     options?: AppComponentGetAppComponentParameters
   ): StreamableMethod<
-    | AppComponentGetAppComponent200Response
-    | AppComponentGetAppComponentdefaultResponse
+    AppComponentGetAppComponent200Response | AppComponentGetAppComponentdefaultResponse
   >;
 }
 
@@ -190,103 +187,78 @@ export interface TestCreateOrUpdateTest {
   /** Delete a test by its name. */
   delete(
     options?: TestDeleteLoadTestParameters
-  ): StreamableMethod<
-    TestDeleteLoadTest204Response | TestDeleteLoadTestdefaultResponse
-  >;
+  ): StreamableMethod<TestDeleteLoadTest204Response | TestDeleteLoadTestdefaultResponse>;
   /** Get load test details by test name */
   get(
     options?: TestGetLoadTestParameters
-  ): StreamableMethod<
-    TestGetLoadTest200Response | TestGetLoadTestdefaultResponse
-  >;
+  ): StreamableMethod<TestGetLoadTest200Response | TestGetLoadTestdefaultResponse>;
 }
 
 export interface TestListLoadTestSearch {
   /** Get all load tests by the fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}. */
   get(
     options?: TestListLoadTestSearchParameters
-  ): StreamableMethod<
-    TestListLoadTestSearch200Response | TestListLoadTestSearchdefaultResponse
-  >;
+  ): StreamableMethod<TestListLoadTestSearch200Response | TestListLoadTestSearchdefaultResponse>;
 }
 
 export interface TestUploadTestFile {
   /** Upload input file for a given test name. File size can't be more than 50 MB. Existing file with same name for the given test will be overwritten. File should be provided in the request body as multipart/form-data. */
   put(
     options: TestUploadTestFileParameters
-  ): StreamableMethod<
-    TestUploadTestFile201Response | TestUploadTestFiledefaultResponse
-  >;
+  ): StreamableMethod<TestUploadTestFile201Response | TestUploadTestFiledefaultResponse>;
   /** Get test file by the file name. */
   get(
     options?: TestGetTestFileParameters
-  ): StreamableMethod<
-    TestGetTestFile200Response | TestGetTestFiledefaultResponse
-  >;
+  ): StreamableMethod<TestGetTestFile200Response | TestGetTestFiledefaultResponse>;
   /** Delete file by the file name for a test. */
   delete(
     options?: TestDeleteTestFileParameters
-  ): StreamableMethod<
-    TestDeleteTestFile204Response | TestDeleteTestFiledefaultResponse
-  >;
+  ): StreamableMethod<TestDeleteTestFile204Response | TestDeleteTestFiledefaultResponse>;
 }
 
 export interface TestListTestFiles {
   /** Get all test files. */
   get(
     options?: TestListTestFilesParameters
-  ): StreamableMethod<
-    TestListTestFiles200Response | TestListTestFilesdefaultResponse
-  >;
+  ): StreamableMethod<TestListTestFiles200Response | TestListTestFilesdefaultResponse>;
 }
 
 export interface TestRunDeleteTestRun {
   /** Delete a test run by its name. */
   delete(
     options?: TestRunDeleteTestRunParameters
-  ): StreamableMethod<
-    TestRunDeleteTestRun204Response | TestRunDeleteTestRundefaultResponse
-  >;
+  ): StreamableMethod<TestRunDeleteTestRun204Response | TestRunDeleteTestRundefaultResponse>;
   /** Create and start a new test run with the given name. */
   patch(
     options: TestRunCreateOrUpdateTestRunParameters
   ): StreamableMethod<
-    | TestRunCreateOrUpdateTestRun200Response
-    | TestRunCreateOrUpdateTestRundefaultResponse
+    TestRunCreateOrUpdateTestRun200Response | TestRunCreateOrUpdateTestRundefaultResponse
   >;
   /** Get test run details by name. */
   get(
     options?: TestRunGetTestRunParameters
-  ): StreamableMethod<
-    TestRunGetTestRun200Response | TestRunGetTestRundefaultResponse
-  >;
+  ): StreamableMethod<TestRunGetTestRun200Response | TestRunGetTestRundefaultResponse>;
 }
 
 export interface TestRunGetTestRunFile {
   /** Get test run file by file name. */
   get(
     options?: TestRunGetTestRunFileParameters
-  ): StreamableMethod<
-    TestRunGetTestRunFile200Response | TestRunGetTestRunFiledefaultResponse
-  >;
+  ): StreamableMethod<TestRunGetTestRunFile200Response | TestRunGetTestRunFiledefaultResponse>;
 }
 
 export interface TestRunListTestRuns {
   /** Get all test runs with given filters */
   get(
     options?: TestRunListTestRunsParameters
-  ): StreamableMethod<
-    TestRunListTestRuns200Response | TestRunListTestRunsdefaultResponse
-  >;
+  ): StreamableMethod<TestRunListTestRuns200Response | TestRunListTestRunsdefaultResponse>;
 }
 
 export interface TestRunStopTestRun {
   /** Stop test run by name. */
   post(
     options?: TestRunStopTestRunParameters
-  ): StreamableMethod<
-    TestRunStopTestRun200Response | TestRunStopTestRundefaultResponse
-  >;
+  ): StreamableMethod<TestRunStopTestRun200Response | TestRunStopTestRundefaultResponse>;
 }
 
 export interface TestRunGetTestRunClientMetrics {
@@ -294,8 +266,7 @@ export interface TestRunGetTestRunClientMetrics {
   post(
     options: TestRunGetTestRunClientMetricsParameters
   ): StreamableMethod<
-    | TestRunGetTestRunClientMetrics200Response
-    | TestRunGetTestRunClientMetricsdefaultResponse
+    TestRunGetTestRunClientMetrics200Response | TestRunGetTestRunClientMetricsdefaultResponse
   >;
 }
 
@@ -311,10 +282,7 @@ export interface TestRunGetTestRunClientMetricsFilters {
 
 export interface Routes {
   /** Resource for '/appcomponents/\{name\}' has methods for the following verbs: patch, delete, get */
-  (
-    path: "/appcomponents/{name}",
-    name: string
-  ): AppComponentCreateOrUpdateAppComponents;
+  (path: "/appcomponents/{name}", name: string): AppComponentCreateOrUpdateAppComponents;
   /** Resource for '/appcomponents' has methods for the following verbs: get */
   (path: "/appcomponents"): AppComponentGetAppComponent;
   /** Resource for '/serverMetricsConfig/\{name\}' has methods for the following verbs: patch, get, delete */
@@ -325,23 +293,15 @@ export interface Routes {
   /** Resource for '/serverMetricsConfig' has methods for the following verbs: get */
   (path: "/serverMetricsConfig"): ServerMetricsGetServerMetricsConfig;
   /** Resource for '/serverMetricsConfig/default' has methods for the following verbs: get */
-  (
-    path: "/serverMetricsConfig/default"
-  ): ServerMetricsGetServerDefaultMetricsConfig;
+  (path: "/serverMetricsConfig/default"): ServerMetricsGetServerDefaultMetricsConfig;
   /** Resource for '/serverMetricsConfig/supportedResourceTypes' has methods for the following verbs: get */
-  (
-    path: "/serverMetricsConfig/supportedResourceTypes"
-  ): ServerMetricsListSupportedResourceTypes;
+  (path: "/serverMetricsConfig/supportedResourceTypes"): ServerMetricsListSupportedResourceTypes;
   /** Resource for '/loadtests/\{testId\}' has methods for the following verbs: patch, delete, get */
   (path: "/loadtests/{testId}", testId: string): TestCreateOrUpdateTest;
   /** Resource for '/loadtests/sortAndFilter' has methods for the following verbs: get */
   (path: "/loadtests/sortAndFilter"): TestListLoadTestSearch;
   /** Resource for '/loadtests/\{testId\}/files/\{fileId\}' has methods for the following verbs: put, get, delete */
-  (
-    path: "/loadtests/{testId}/files/{fileId}",
-    testId: string,
-    fileId: string
-  ): TestUploadTestFile;
+  (path: "/loadtests/{testId}/files/{fileId}", testId: string, fileId: string): TestUploadTestFile;
   /** Resource for '/loadtests/\{testId\}/files' has methods for the following verbs: get */
   (path: "/loadtests/{testId}/files", testId: string): TestListTestFiles;
   /** Resource for '/testruns/\{testRunId\}' has methods for the following verbs: delete, patch, get */
@@ -357,10 +317,7 @@ export interface Routes {
   /** Resource for '/testruns/\{testRunId\}:stop' has methods for the following verbs: post */
   (path: "/testruns/{testRunId}:stop", testRunId: string): TestRunStopTestRun;
   /** Resource for '/testruns/\{testRunId\}/clientMetrics' has methods for the following verbs: post */
-  (
-    path: "/testruns/{testRunId}/clientMetrics",
-    testRunId: string
-  ): TestRunGetTestRunClientMetrics;
+  (path: "/testruns/{testRunId}/clientMetrics", testRunId: string): TestRunGetTestRunClientMetrics;
   /** Resource for '/testruns/\{testRunId\}/clientMetricsFilters' has methods for the following verbs: get */
   (
     path: "/testruns/{testRunId}/clientMetricsFilters",

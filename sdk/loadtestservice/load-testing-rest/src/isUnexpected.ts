@@ -56,7 +56,7 @@ import {
   TestRunGetTestRunClientMetrics200Response,
   TestRunGetTestRunClientMetricsdefaultResponse,
   TestRunGetTestRunClientMetricsFilters200Response,
-  TestRunGetTestRunClientMetricsFiltersdefaultResponse
+  TestRunGetTestRunClientMetricsFiltersdefaultResponse,
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
@@ -85,7 +85,7 @@ const responseMap: Record<string, string[]> = {
   "GET /testruns/sortAndFilter": ["200"],
   "POST /testruns/{testRunId}:stop": ["200"],
   "POST /testruns/{testRunId}/clientMetrics": ["200"],
-  "GET /testruns/{testRunId}/clientMetricsFilters": ["200"]
+  "GET /testruns/{testRunId}/clientMetricsFilters": ["200"],
 };
 
 export function isUnexpected(
@@ -105,9 +105,7 @@ export function isUnexpected(
     | AppComponentGetAppComponentByNamedefaultResponse
 ): response is AppComponentGetAppComponentByNamedefaultResponse;
 export function isUnexpected(
-  response:
-    | AppComponentGetAppComponent200Response
-    | AppComponentGetAppComponentdefaultResponse
+  response: AppComponentGetAppComponent200Response | AppComponentGetAppComponentdefaultResponse
 ): response is AppComponentGetAppComponentdefaultResponse;
 export function isUnexpected(
   response:
@@ -153,9 +151,7 @@ export function isUnexpected(
   response: TestGetLoadTest200Response | TestGetLoadTestdefaultResponse
 ): response is TestGetLoadTestdefaultResponse;
 export function isUnexpected(
-  response:
-    | TestListLoadTestSearch200Response
-    | TestListLoadTestSearchdefaultResponse
+  response: TestListLoadTestSearch200Response | TestListLoadTestSearchdefaultResponse
 ): response is TestListLoadTestSearchdefaultResponse;
 export function isUnexpected(
   response: TestUploadTestFile201Response | TestUploadTestFiledefaultResponse
@@ -170,22 +166,16 @@ export function isUnexpected(
   response: TestListTestFiles200Response | TestListTestFilesdefaultResponse
 ): response is TestListTestFilesdefaultResponse;
 export function isUnexpected(
-  response:
-    | TestRunDeleteTestRun204Response
-    | TestRunDeleteTestRundefaultResponse
+  response: TestRunDeleteTestRun204Response | TestRunDeleteTestRundefaultResponse
 ): response is TestRunDeleteTestRundefaultResponse;
 export function isUnexpected(
-  response:
-    | TestRunCreateOrUpdateTestRun200Response
-    | TestRunCreateOrUpdateTestRundefaultResponse
+  response: TestRunCreateOrUpdateTestRun200Response | TestRunCreateOrUpdateTestRundefaultResponse
 ): response is TestRunCreateOrUpdateTestRundefaultResponse;
 export function isUnexpected(
   response: TestRunGetTestRun200Response | TestRunGetTestRundefaultResponse
 ): response is TestRunGetTestRundefaultResponse;
 export function isUnexpected(
-  response:
-    | TestRunGetTestRunFile200Response
-    | TestRunGetTestRunFiledefaultResponse
+  response: TestRunGetTestRunFile200Response | TestRunGetTestRunFiledefaultResponse
 ): response is TestRunGetTestRunFiledefaultResponse;
 export function isUnexpected(
   response: TestRunListTestRuns200Response | TestRunListTestRunsdefaultResponse
@@ -310,17 +300,11 @@ function geParametrizedPathSuccess(path: string): string[] {
 
     // If the candidate and actual paths don't match in size
     // we move on to the next candidate path
-    if (
-      candidateParts.length === pathParts.length &&
-      hasParametrizedPath(key)
-    ) {
+    if (candidateParts.length === pathParts.length && hasParametrizedPath(key)) {
       // track if we have found a match to return the values found.
       let found = true;
       for (let i = 0; i < candidateParts.length; i++) {
-        if (
-          candidateParts[i].startsWith("{") &&
-          candidateParts[i].endsWith("}")
-        ) {
+        if (candidateParts[i].startsWith("{") && candidateParts[i].endsWith("}")) {
           // If the current part of the candidate is a "template" part
           // it is a match with the actual path part on hand
           // skip as the parameterized part can match anything

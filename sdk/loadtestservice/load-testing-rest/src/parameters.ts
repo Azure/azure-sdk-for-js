@@ -7,7 +7,7 @@ import {
   ServerMetricsModel,
   TestModel,
   TestRunModel,
-  ClientMetricsRequestModel
+  ClientMetricsRequestModel,
 } from "./models";
 
 export interface AppComponentCreateOrUpdateAppComponentsBodyParam {
@@ -107,8 +107,7 @@ export interface TestListLoadTestSearchQueryParam {
   queryParameters?: TestListLoadTestSearchQueryParamProperties;
 }
 
-export type TestListLoadTestSearchParameters = TestListLoadTestSearchQueryParam &
-  RequestParameters;
+export type TestListLoadTestSearchParameters = TestListLoadTestSearchQueryParam & RequestParameters;
 
 export interface TestUploadTestFileBodyParam {
   body: TestUploadTestFileFormBody;
@@ -120,11 +119,7 @@ export interface TestUploadTestFileFormBody {
    *
    * Value may contain any sequence of octets
    */
-  file:
-    | string
-    | Uint8Array
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream;
+  file: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
 }
 
 export interface TestUploadTestFileQueryParamProperties {
@@ -157,8 +152,7 @@ export interface TestListTestFilesQueryParam {
   queryParameters?: TestListTestFilesQueryParamProperties;
 }
 
-export type TestListTestFilesParameters = TestListTestFilesQueryParam &
-  RequestParameters;
+export type TestListTestFilesParameters = TestListTestFilesQueryParam & RequestParameters;
 export type TestRunDeleteTestRunParameters = RequestParameters;
 
 export interface TestRunCreateOrUpdateTestRunBodyParam {
@@ -213,8 +207,7 @@ export interface TestRunListTestRunsQueryParam {
   queryParameters?: TestRunListTestRunsQueryParamProperties;
 }
 
-export type TestRunListTestRunsParameters = TestRunListTestRunsQueryParam &
-  RequestParameters;
+export type TestRunListTestRunsParameters = TestRunListTestRunsQueryParam & RequestParameters;
 export type TestRunStopTestRunParameters = RequestParameters;
 
 export interface TestRunGetTestRunClientMetricsBodyParam {
