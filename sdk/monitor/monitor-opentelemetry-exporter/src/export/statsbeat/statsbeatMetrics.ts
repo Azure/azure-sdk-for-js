@@ -28,7 +28,6 @@ const NON_EU_CONNECTION_STRING =
   "InstrumentationKey=c4a29126-a7cb-47e5-b348-11414998b11e;IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com";
 const EU_CONNECTION_STRING =
   "InstrumentationKey=7dc56bab-3c0c-4e9f-9ebb-d1acadee8d0f;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com";
-const STATS_COLLECTION_SHORT_INTERVAL: number = 900000; // 15 minutes
 const EU_ENDPOINTS = [
   "westeurope",
   "northeurope",
@@ -59,6 +58,7 @@ export class StatsbeatMetrics {
   private _meterProvider: MeterProvider;
   private _azureExporter: AzureMonitorMetricExporter;
   private _metricReader: PeriodicExportingMetricReader;
+  private _statsCollectionShortInterval: number = 900000; // 15 minutes
 
   // Custom dimensions
   private _resourceProvider: string = StatsbeatResourceProvider.unknown;
@@ -95,7 +95,7 @@ export class StatsbeatMetrics {
 
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter as any,
-      exportIntervalMillis: STATS_COLLECTION_SHORT_INTERVAL, // 15 minutes
+      exportIntervalMillis: this._statsCollectionShortInterval, // 15 minutes
     };
 
     // Exports Network Statsbeat every 15 minutes

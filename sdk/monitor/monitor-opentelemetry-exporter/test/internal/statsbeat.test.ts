@@ -64,17 +64,17 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       it("should use non EU connection string", () => {
-        let statsbeat = new StatsbeatMetrics("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;", "IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com");
+        const statsbeat = new StatsbeatMetrics("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;", "IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com");
         assert.strictEqual(statsbeat["_host"], "IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com");
       });
 
       it("should use EU connection string", () => {
-        let statsbeat = new StatsbeatMetrics("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;", "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
+        const statsbeat = new StatsbeatMetrics("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;", "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
         assert.strictEqual(statsbeat["_host"], "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
       });
 
       it("_getShortHost", () => {
-        let statsbeat = new StatsbeatMetrics("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;", "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
+        const statsbeat = new StatsbeatMetrics("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;", "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
         assert.strictEqual(statsbeat["_getShortHost"]("http://westus02-1.in.applicationinsights.azure.com"), "westus02");
         assert.strictEqual(statsbeat["_getShortHost"]("https://westus02-1.in.applicationinsights.azure.com"), "westus02");
         assert.strictEqual(statsbeat["_getShortHost"]("https://dc.services.visualstudio.com"), "dc");
@@ -83,7 +83,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
     });
 
     describe("Resource provider function", () => {
-      let statsbeat = new StatsbeatMetrics("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;", "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
+      const statsbeat = new StatsbeatMetrics("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;", "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
       it("unknown resource provider", (done) => {
         //let statsbeat = new StatsbeatMetrics("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;", "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
         statsbeat["_getResourceProvider"]().then(() => {
@@ -119,7 +119,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         //let statsbeat = new StatsbeatMetrics("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;", "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
         statsbeat["_getResourceProvider"]().then(() => {
           process.env = originalEnv;
-          assert.equal(statsbeat["_resourceProvider"], "functions");
+          assert.strictEqual(statsbeat["_resourceProvider"], "functions");
           done();
         }).catch((error) => { 
           done(error); 
@@ -152,24 +152,91 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       */
     });
 
-    // TODO: Figure out how to view statsbeat failures
-    it("should turn off statsbeat after max failures", async () => {
-      const exporter = new TestExporter();
-      const response = failedBreezeResponse(4, 400);
-      scope.reply(400, JSON.stringify(response));
+    describe("Track statsbeats", () => {
+      it("should add correct network properites to the custom metric", (done) => {
+        const statsbeat = new StatsbeatMetrics("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;", "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
+        statsbeat["_statsCollectionShortInterval"];
+        statsbeat.enable(true);
+        statsbeat.countSuccess(100);
+        let metric = statsbeat["_networkStatsbeatCollection"][0];
+        assert.strictEqual(metric.intervalRequestExecutionTime, 100);
+        
+        // Ensure network statsbeat attributes are populated
+        assert.strictEqual(statsbeat["_attach"], "sdk");
+        assert.strictEqual(statsbeat["_cikey"], "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;");
+        assert.strictEqual(statsbeat["_language"], "node");
+        assert.strictEqual(statsbeat["_resourceProvider"], "unknown");
+        assert.strictEqual(statsbeat["_endpointUrl"], "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
+        assert.ok(statsbeat["_os"]);
+        assert.ok(statsbeat["_runtimeVersion"]);
+        assert.ok(statsbeat["_version"]);
+        
+        done();
+      });
 
-      const result = await exporter.exportEnvelopesPrivate([envelope]);
-      assert.strictEqual(result.code, ExportResultCode.FAILED);
-      // assert.strictEqual(exporter["_statsbeatFailureCount"], 4);
+      it("should track duration", () => {
+        const statsbeat = new StatsbeatMetrics("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;", "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
+        statsbeat["_statsCollectionShortInterval"] = 0;
+        statsbeat.enable(true);
+        statsbeat.countSuccess(100);
+        statsbeat.countSuccess(200);
+        statsbeat.countFailure(100, 400);
+        statsbeat.countFailure(500, 400);
+        statsbeat.countAverageDuration();
+
+        let metric = statsbeat["_networkStatsbeatCollection"][0];
+        assert.strictEqual(metric.averageRequestExecutionTime, 225);
+      });
+
+      it("should track statsbeat counts", () => {
+        const statsbeat = new StatsbeatMetrics("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;", "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
+        statsbeat["_statsCollectionShortInterval"] = 0;
+        statsbeat.enable(true);
+        statsbeat.countSuccess(100);
+        statsbeat.countSuccess(100);
+        statsbeat.countSuccess(100);
+        statsbeat.countSuccess(100);
+        statsbeat.countFailure(200, 500);
+        statsbeat.countFailure(100, 500);
+        statsbeat.countFailure(200, 501);
+        statsbeat.countFailure(200, 502);
+        statsbeat.countRetry(206);
+        statsbeat.countRetry(206);
+        statsbeat.countRetry(204);
+        statsbeat.countThrottle(402);
+        statsbeat.countThrottle(439);
+        statsbeat.countException({ name: "Statsbeat", message: "Statsbeat Exception" });
+        statsbeat.countException({ name: "Statsbeat2", message: "Second Statsbeat Exception" });
+        statsbeat.countAverageDuration();
+
+        let metric = statsbeat["_networkStatsbeatCollection"][0];
+
+        assert.ok(metric, "Statsbeat metrics not properly initialized");
+        assert.strictEqual(metric.totalRequestCount, 8);
+
+        assert.strictEqual(metric.totalSuccesfulRequestCount, 4);
+
+        assert.strictEqual(metric.totalFailedRequestCount.length, 3);
+        assert.strictEqual(metric.totalFailedRequestCount.find(failedRequest => failedRequest.statusCode === 500)?.count, 2);
+        assert.strictEqual(metric.totalFailedRequestCount.find(failedRequest => failedRequest.statusCode === 501)?.count, 1);
+
+        assert.strictEqual(metric.retryCount.length, 2);
+        assert.strictEqual(metric.retryCount.find(retryRequest => retryRequest.statusCode === 206)?.count, 2);
+
+        assert.strictEqual(metric.exceptionCount.find(exceptionRequest => exceptionRequest.exceptionType === "Statsbeat")?.count, 1);
+        assert.strictEqual(metric.throttleCount.find(throttledRequest => throttledRequest.statusCode === 439)?.count, 1);
+      });
+
+      it("should turn off statsbeat after max failures", async () => {
+        const exporter = new TestExporter();
+        const response = failedBreezeResponse(1, 200);
+        scope.reply(200, JSON.stringify(response), );
+        exporter["_statsbeatFailureCount"] = 4;
+
+        const result = await exporter["_exportEnvelopes"]([envelope]);
+        assert.strictEqual(result.code, ExportResultCode.SUCCESS);
+        assert.strictEqual(exporter["_statsbeatMetrics"]?.isEnabled(), false);
+      });
     });
-  })
+  });
 });
-
-// Test _computeMetadata
-
-// Test the resourceProvider property (reference distro)
-
-// Create a base exporter here (this will initialize a StatsbeatExporter) within this test each of the counts
-// Make sure to test that the output covers multiple statusCodes/exceptionTypes
-
-// Test statsbeat shutdown after 3 failed attempts
