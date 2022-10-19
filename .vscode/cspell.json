@@ -49,6 +49,8 @@
     "CONTOSO",
     "deps",
     "deserialization",
+    "devboxes",
+    "devcenter",
     "devdeps",
     "dotenv",
     "DTDL",

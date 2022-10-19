@@ -3,7 +3,10 @@
 
 import * as url from "url";
 
-export interface ParsedKeyVaultEntityIdentifier {
+/**
+ * The parsed components of a Key Vault entity identifier.
+ */
+export interface KeyVaultEntityIdentifier {
   /**
    * The vault URI.
    */
@@ -17,10 +20,17 @@ export interface ParsedKeyVaultEntityIdentifier {
    */
   name: string;
 }
-export function parseKeyvaultIdentifier(
+
+/**
+ * Parses a Key Vault identifier into its components.
+ *
+ * @param collection - The collection of the Key Vault identifier.
+ * @param identifier - The Key Vault identifier to be parsed.
+ */
+export function parseKeyVaultIdentifier(
   collection: string,
   identifier: string | undefined
-): ParsedKeyVaultEntityIdentifier {
+): KeyVaultEntityIdentifier {
   if (typeof collection !== "string" || !(collection = collection.trim())) {
     throw new Error("Invalid collection argument");
   }

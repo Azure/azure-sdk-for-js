@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
-import { createChallengeCallbacks } from "../../../keyvault-common/src/";
 import {
   AuthorizeRequestOptions,
   ChallengeCallbacks,
+  PipelineRequest,
   createHttpHeaders,
   createPipelineRequest,
-  PipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { parseWWWAuthenticate } from "../../../keyvault-common/src";
+import { assert } from "@azure/test-utils";
+import { createKeyVaultChallengeCallbacks } from "../../src";
+import { parseWWWAuthenticateHeader } from "../../src/parseWWWAuthenticate";
 
 describe("Challenge based authentication tests", function () {
   let request: PipelineRequest;
@@ -18,7 +18,7 @@ describe("Challenge based authentication tests", function () {
 
   beforeEach(() => {
     request = createPipelineRequest({ url: "https://myvault.vault.azure.net" });
-    challengeCallbacks = createChallengeCallbacks();
+    challengeCallbacks = createKeyVaultChallengeCallbacks();
   });
 
   describe("authorizeRequest", () => {
@@ -199,7 +199,9 @@ describe("Challenge based authentication tests", function () {
     });
 
     it("does not throw if the resource URI host does not match the request but verifyChallengeResource is false", async () => {
-      challengeCallbacks = createChallengeCallbacks({ disableChallengeResourceVerification: true });
+      challengeCallbacks = createKeyVaultChallengeCallbacks({
+        disableChallengeResourceVerification: true,
+      });
       await challengeCallbacks.authorizeRequestOnChallenge!({
         getAccessToken: () => Promise.resolve(null),
         request: createPipelineRequest({ url: "https://foo.bar" }),
@@ -275,17 +277,17 @@ describe("Challenge based authentication tests", function () {
     });
   });
 
-  describe("parseWWWAuthenticate tests", () => {
+  describe("parseWWWAuthenticateHeader tests", () => {
     it("Should work for known shapes of the WWW-Authenticate header", () => {
       const wwwAuthenticate1 = `Bearer authorization="https://login.windows.net", resource="https://some.url"`;
-      const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
+      const parsed1 = parseWWWAuthenticateHeader(wwwAuthenticate1);
       assert.deepEqual(parsed1, {
         authorization: "https://login.windows.net",
         resource: "https://some.url",
       });
 
       const wwwAuthenticate2 = `Bearer authorization="https://login.windows.net/", scope="https://some.url"`;
-      const parsed2 = parseWWWAuthenticate(wwwAuthenticate2);
+      const parsed2 = parseWWWAuthenticateHeader(wwwAuthenticate2);
       assert.deepEqual(parsed2, {
         authorization: "https://login.windows.net/",
         scope: "https://some.url",
@@ -294,7 +296,7 @@ describe("Challenge based authentication tests", function () {
 
     it("Should ignore unknown values in the WWW-Authenticate header", () => {
       const wwwAuthenticate1 = `Bearer authorization="https://login.windows.net", resource="https://some.url" scope="scope", a="a", b="b"`;
-      const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
+      const parsed1 = parseWWWAuthenticateHeader(wwwAuthenticate1);
       assert.deepEqual(parsed1, {
         authorization: "https://login.windows.net",
         resource: "https://some.url",
@@ -304,7 +306,7 @@ describe("Challenge based authentication tests", function () {
 
     it("should include the tenantId when present", () => {
       const wwwAuthenticate1 = `Bearer authorization="https://login.windows.net/9999", resource="https://some.url"`;
-      const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
+      const parsed1 = parseWWWAuthenticateHeader(wwwAuthenticate1);
       assert.deepEqual(parsed1, {
         authorization: "https://login.windows.net/9999",
         resource: "https://some.url",

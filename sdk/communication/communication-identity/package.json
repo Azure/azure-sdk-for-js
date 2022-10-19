@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-identity",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "SDK for Azure Communication service which facilitates user token administration.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -39,7 +39,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/src/identityRestClientContext.ts",
+        "path": "src/generated/src/identityRestClient.ts",
         "prefix": "packageDetails"
       },
       {
