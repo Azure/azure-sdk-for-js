@@ -4,27 +4,27 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import {
-  DataFeedGranularity,
-  DataFeedIngestionSettings,
-  DataFeedPatch,
-  DataFeedSchema,
-  DataFeedSource,
-  DataFeedDimension,
-  DataFeedMetric,
-  MetricsAdvisorAdministrationClient,
-  UnknownDataFeedSource,
-  DataFeedDescriptor,
-  DataFeedRollupSettings,
   AzureBlobDataFeedSource,
-  DataFeedAccessMode,
-  MongoDbDataFeedSource,
   AzureDataLakeStorageGen2DataFeedSource,
   AzureEventHubsDataFeedSource,
   AzureLogAnalyticsDataFeedSource,
+  DataFeedAccessMode,
+  DataFeedDescriptor,
+  DataFeedDimension,
+  DataFeedGranularity,
+  DataFeedIngestionSettings,
+  DataFeedMetric,
+  DataFeedPatch,
+  DataFeedRollupSettings,
+  DataFeedSchema,
+  DataFeedSource,
+  MetricsAdvisorAdministrationClient,
+  MongoDbDataFeedSource,
+  UnknownDataFeedSource,
 } from "../../src";
-import { createRecordedAdminClient, testEnv, makeCredential } from "./util/recordedClients";
+import { createRecordedAdminClient, makeCredential, testEnv } from "./util/recordedClients";
 import { Recorder } from "@azure-tools/test-recorder";
-import { matrix, getYieldedValue, fakeTestSecretPlaceholder } from "@azure/test-utils";
+import { fakeTestSecretPlaceholder, getYieldedValue, matrix } from "@azure/test-utils";
 
 matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}]`, () => {

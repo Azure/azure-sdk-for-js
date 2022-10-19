@@ -73,6 +73,7 @@ specifiers:
   '@rush-temp/arm-deploymentmanager': file:./projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:./projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-devcenter': file:./projects/arm-devcenter.tgz
+  '@rush-temp/arm-devhub': file:./projects/arm-devhub.tgz
   '@rush-temp/arm-deviceprovisioningservices': file:./projects/arm-deviceprovisioningservices.tgz
   '@rush-temp/arm-deviceupdate': file:./projects/arm-deviceupdate.tgz
   '@rush-temp/arm-devspaces': file:./projects/arm-devspaces.tgz
@@ -234,6 +235,7 @@ specifiers:
   '@rush-temp/cosmos': file:./projects/cosmos.tgz
   '@rush-temp/data-tables': file:./projects/data-tables.tgz
   '@rush-temp/dev-tool': file:./projects/dev-tool.tgz
+  '@rush-temp/developer-devcenter': file:./projects/developer-devcenter.tgz
   '@rush-temp/digital-twins-core': file:./projects/digital-twins-core.tgz
   '@rush-temp/dtdl-parser': file:./projects/dtdl-parser.tgz
   '@rush-temp/eslint-plugin-azure-sdk': file:./projects/eslint-plugin-azure-sdk.tgz
@@ -389,6 +391,7 @@ dependencies:
   '@rush-temp/arm-deploymentmanager': file:projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-devcenter': file:projects/arm-devcenter.tgz
+  '@rush-temp/arm-devhub': file:projects/arm-devhub.tgz
   '@rush-temp/arm-deviceprovisioningservices': file:projects/arm-deviceprovisioningservices.tgz
   '@rush-temp/arm-deviceupdate': file:projects/arm-deviceupdate.tgz
   '@rush-temp/arm-devspaces': file:projects/arm-devspaces.tgz
@@ -550,6 +553,7 @@ dependencies:
   '@rush-temp/cosmos': file:projects/cosmos.tgz
   '@rush-temp/data-tables': file:projects/data-tables.tgz
   '@rush-temp/dev-tool': file:projects/dev-tool.tgz
+  '@rush-temp/developer-devcenter': file:projects/developer-devcenter.tgz
   '@rush-temp/digital-twins-core': file:projects/digital-twins-core.tgz
   '@rush-temp/dtdl-parser': file:projects/dtdl-parser.tgz
   '@rush-temp/eslint-plugin-azure-sdk': file:projects/eslint-plugin-azure-sdk.tgz
@@ -9857,7 +9861,7 @@ packages:
     dev: false
 
   file:projects/ai-metrics-advisor.tgz:
-    resolution: {integrity: sha512-qmgqqgLNuhP4fosQBrAhMDAVLMuaVq6U14dwTFkO9scjJCeQ2Oz2AQVnHY0MpGI00LdcsE3id3kTOJcm1rI2XQ==, tarball: file:projects/ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-NiqVwk8rscFQJOyV1k4GTmjYs1/uotj4p/u2qkUheBYf5WXoMriqGUxmac2z+XO7hESdCBIlH0TFDp4+pxFZsw==, tarball: file:projects/ai-metrics-advisor.tgz}
     name: '@rush-temp/ai-metrics-advisor'
     version: 0.0.0
     dependencies:
@@ -11775,6 +11779,33 @@ packages:
       uglify-js: 3.17.2
     transitivePeerDependencies:
       - '@types/node'
+      - supports-color
+    dev: false
+
+  file:projects/arm-devhub.tgz:
+    resolution: {integrity: sha512-24gOR9GRJsvhBH/A9WPsDIGQb0CoeWMkrCxqZBwi7DO2oM1qJbaBZmS84KRwTfEfPZ4GtJKkNQwEvMYitN0rzA==, tarball: file:projects/arm-devhub.tgz}
+    name: '@rush-temp/arm-devhub'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.32.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      '@types/node': 14.18.32
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_c164e18ebb1175294129df0cff345d2e
+      tslib: 2.4.0
+      typescript: 4.6.4
+      uglify-js: 3.17.2
+    transitivePeerDependencies:
       - supports-color
     dev: false
 
@@ -16653,6 +16684,49 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/developer-devcenter.tgz:
+    resolution: {integrity: sha512-Dol9HCFhWacXZj88B/EjE0LvZZL0TroCDUrkkOC2VzW/kolnANuM3N7g5+dk/2/IPnfPN3KYiAbXTPLQqOn5hw==, tarball: file:projects/developer-devcenter.tgz}
+    name: '@rush-temp/developer-devcenter'
+    version: 0.0.0
+    dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.10
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@types/chai': 4.3.3
+      '@types/node': 14.18.32
+      autorest: 3.6.2
+      chai: 4.3.6
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 7.32.0
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.1
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 2.2.1
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.4.0
+      typescript: 4.2.4
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   file:projects/digital-twins-core.tgz:
     resolution: {integrity: sha512-ud2zCq6XTa/p+Lsjw0S/NdsZ54rIInw7rDCq2yUG23a2PuOK1WJaIWYHm6JQBToVALV5fyaH5jF9goIU198Dug==, tarball: file:projects/digital-twins-core.tgz}
     name: '@rush-temp/digital-twins-core'
@@ -17362,17 +17436,29 @@ packages:
     dev: false
 
   file:projects/keyvault-common.tgz:
-    resolution: {integrity: sha512-hZAm0bQoRO+7kRxQpO6U5Sraze0Y7MiXOQTGj3y+goLkry41BZpV7ephTj1Z47LW1hg3hU93RX+RcNZxA3D5BQ==, tarball: file:projects/keyvault-common.tgz}
+    resolution: {integrity: sha512-bJ8C+jdvvroCbt0SNEFtiBqUtN3yqBj9eeQRK+7ByT5GgvoI5aJjR9Vst2RyZcERI4L/crFIafw8+XioDBxCCw==, tarball: file:projects/keyvault-common.tgz}
     name: '@rush-temp/keyvault-common'
     version: 0.0.0
     dependencies:
+      '@microsoft/api-extractor': 7.32.0
+      cross-env: 7.0.3
       eslint: 8.24.0
+      esm: 3.2.25
+      mocha: 7.2.0
+      mocha-junit-reporter: 2.1.0_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 2.7.1
+      puppeteer: 14.4.1
       rimraf: 3.0.2
+      sinon: 9.2.4
+      source-map-support: 0.5.21
       tslib: 2.4.0
       typescript: 4.6.4
     transitivePeerDependencies:
+      - bufferutil
+      - encoding
       - supports-color
+      - utf-8-validate
     dev: false
 
   file:projects/keyvault-keys.tgz:
