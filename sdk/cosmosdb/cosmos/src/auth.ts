@@ -125,7 +125,7 @@ export function getAuthorizationTokenUsingResourceTokens(
         return resourceTokens[containerPath];
       }
     }
-
+    console.log("This is a dummy change");
     // TODO remove in v4: This is legacy behavior that lets someone use a resource token pointing ONLY at an ID
     // It was used when _rid was exposed by the SDK, but now that we are using user provided ids it is not needed
     // However removing it now would be a breaking change
