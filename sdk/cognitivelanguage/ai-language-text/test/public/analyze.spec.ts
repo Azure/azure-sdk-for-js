@@ -763,8 +763,7 @@ matrix([FIXME1] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          /** TODO, unskip when hear back from service team */
-          it.skip("client accepts string[] and language", async function () {
+          it("client accepts string[] and language", async function () {
             const results = await client.analyze(
               AnalyzeActionNames.DynamicClassification,
               testDataEn,
@@ -778,8 +777,7 @@ matrix([FIXME1] as const, async (authMethod: AuthMethod) => {
             assertAllSuccess(results);
           });
 
-          /** TODO, unskip when hear back from service team */
-          it.skip("client accepts string[] with no language", async function () {
+          it("client accepts string[] with no language", async function () {
             const enInputs = testDataEn.map(
               (text): LanguageDetectionInput => ({
                 id: getId(),

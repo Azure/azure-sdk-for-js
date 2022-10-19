@@ -19,7 +19,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "eed23777-25fe-4f8b-be66-61648a9d261f",
+        "x-ms-client-request-id": "c05be242-f0e8-4b56-9ac6-e80380c83235",
         "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
       },
       "RequestBody": {
@@ -44,15 +44,17 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "b7d85767-d02e-458e-9717-f2fdb21ea9dc",
+        "apim-request-id": "c56f17c7-4ab4-47b3-9d00-2281e6617ce4",
         "Content-Length": "391",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 18 Oct 2022 21:44:59 GMT",
+        "Date": "Wed, 19 Oct 2022 22:49:21 GMT",
+        "Server": "istio-envoy",
         "Set-Cookie": ".AspNetCore.Mvc.CookieTempDataProvider=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; samesite=lax; httponly",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "2",
-        "x-ms-region": "West Europe"
+        "x-envoy-upstream-service-time": "4",
+        "x-http2-stream-id": "39",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
         "kind": "DynamicClassificationResults",
