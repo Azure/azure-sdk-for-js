@@ -648,7 +648,7 @@ packages:
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-rest-pipeline': 1.9.2
-      '@azure/core-util': 1.1.0
+      '@azure/core-util': 1.1.1
       tslib: 2.4.0
     transitivePeerDependencies:
       - supports-color
@@ -845,7 +845,7 @@ packages:
       '@azure/core-auth': 1.4.0
       '@azure/core-rest-pipeline': 1.9.2
       '@azure/core-tracing': 1.0.1
-      '@azure/core-util': 1.1.0
+      '@azure/core-util': 1.1.1
       '@azure/logger': 1.0.3
       tslib: 2.4.0
     transitivePeerDependencies:
@@ -905,7 +905,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.4.0
       '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/core-util': 1.1.0
+      '@azure/core-util': 1.1.1
       '@azure/logger': 1.0.3
       '@types/node-fetch': 2.6.2
       '@types/tunnel': 0.0.3
@@ -957,7 +957,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.4.0
       '@azure/core-tracing': 1.0.1
-      '@azure/core-util': 1.1.0
+      '@azure/core-util': 1.1.1
       '@azure/logger': 1.0.3
       form-data: 4.0.0
       http-proxy-agent: 5.0.0
@@ -1008,10 +1008,11 @@ packages:
       tslib: 2.4.0
     dev: false
 
-  /@azure/core-util/1.1.0:
-    resolution: {integrity: sha512-+i93lNJNA3Pl3KSuC6xKP2jTL4YFeDfO6VNOaYdk0cppZcLCxt811gS878VsqsCisaltdhl9lhMzK5kbxCiF4w==}
+  /@azure/core-util/1.1.1:
+    resolution: {integrity: sha512-A4TBYVQCtHOigFb2ETiiKFDocBoI1Zk2Ui1KpI42aJSIDexF7DHQFpnjonltXAIU/ceH+1fsZAWWgvX6/AKzog==}
     engines: {node: '>=12.0.0'}
     dependencies:
+      '@azure/abort-controller': 1.1.0
       tslib: 2.4.0
     dev: false
 
@@ -1095,7 +1096,7 @@ packages:
       '@azure/core-client': 1.6.1
       '@azure/core-rest-pipeline': 1.9.2
       '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/core-util': 1.1.0
+      '@azure/core-util': 1.1.1
       '@azure/logger': 1.0.3
       '@azure/msal-browser': 2.28.3
       '@azure/msal-common': 4.5.1
@@ -1119,7 +1120,7 @@ packages:
       '@azure/core-client': 1.6.1
       '@azure/core-rest-pipeline': 1.9.2
       '@azure/core-tracing': 1.0.1
-      '@azure/core-util': 1.1.0
+      '@azure/core-util': 1.1.1
       '@azure/logger': 1.0.3
       '@azure/msal-browser': 2.28.3
       '@azure/msal-common': 7.4.1
@@ -17469,15 +17470,17 @@ packages:
     dev: false
 
   file:projects/load-testing.tgz:
-    resolution: {integrity: sha512-d9BXqjYDTZ3X9CXr54Fk+hR27T9OcLWOoAFG1oq7jqzmjDScV7dKiLGmKPCrafw5HoKlSI3RkvP8G5xJ4apvmw==, tarball: file:projects/load-testing.tgz}
+    resolution: {integrity: sha512-nkdUDkvbFt8euqMofdwr5b1GYeNsazXnWZ0mK0p/zRetc7I2JzTerdCJmeESvSlfW4UWPj1gdnHCLIYUwPRxCA==, tarball: file:projects/load-testing.tgz}
     name: '@rush-temp/load-testing'
     version: 0.0.0
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.10
+      '@azure/core-util': 1.1.1
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.3
       '@types/node': 12.20.24
+      '@types/uuid': 8.3.4
       autorest: 3.6.2
       chai: 4.3.6
       cross-env: 7.0.3

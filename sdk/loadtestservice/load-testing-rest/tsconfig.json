@@ -8,7 +8,8 @@
     "paths": {
       "@azure-rest/load-testing": ["./src/index"]
     },
-    "types": []
+    "types": [],
+    "lib": ["DOM"]
   },
   "include": ["src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
 }
