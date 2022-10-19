@@ -1,0 +1,100 @@
+Found configuration in /workspaces/azure-sdk-for-js/rush.json
+
+[1mRush Multi-Project Build Tool 5.63.0[22m - Node.js 16.14.2 (LTS)
+> "dev-tool run test:node-ts-input -- --timeout 1200000 \"test/**/*.spec.ts\""
+
+[test-info] ===TEST_MODE="live"===
+[node-tests] 
+[node-tests] 
+[node-tests]   [APIKey] TextAnalysisClient
+[node-tests]     analyzeBatch
+[node-tests]       actions
+[node-tests]         prebuilt
+[node-tests] [{"kind":"ExtractiveSummarization","results":[{"id":"0","warnings":[],"sentences":[{"text":"Windows 365 is a new virtualization technology for Windows that is easy to set up and deploy for today’s login-from-anywhere, mobile and elastic workforces.","rankScore":1,"offset":2610,"length":156},{"text":"Windows is already accessible in the cloud via Azure Virtual Desktop, which offers customers flexibility to create and run their own virtualization service.","rankScore":0.43,"offset":2453,"length":156},{"text":"With Windows 365, she added, IT admins can manage and deploy Cloud PCs using the same tools they use today to manage physical PCs.","rankScore":0.25,"offset":3161,"length":130}]},{"id":"1","warnings":[],"sentences":[{"text":"The ability to login to a Cloud PC from anywhere on any device is part of Microsoft’s larger strategy around tailoring products such as Microsoft Teams and Microsoft 365 for the post-pandemic hybrid workforce of the future, she added.","rankScore":1,"offset":1102,"length":234},{"text":"In this new world of Windows 365, remote workers flip the lid on their laptop, bootup the family workstation or clip a keyboard onto a tablet, launch a native app or modern web browser and login to their Windows 365 account.","rankScore":0.84,"offset":479,"length":224},{"text":"Windows 365 was in the works before COVID-19 sent companies around the world on a scramble to secure solutions to support employees suddenly forced to work from home, but “what really put the firecracker behind it was the pandemic, it accelerated everything,” McKelvey said.","rankScore":0.79,"offset":10,"length":274}]}],"completedOn":"2022-10-19T23:02:35.945Z","modelVersion":"latest"}]
+[node-tests]           1) extractive summarization with orderBy
+[node-tests] 
+[node-tests] 
+[node-tests]   0 passing (8s)
+[node-tests]   1 failing
+[node-tests] 
+[node-tests]   1) [APIKey] TextAnalysisClient
+[node-tests]        analyzeBatch
+[node-tests]          actions
+[node-tests]            prebuilt
+[node-tests]              extractive summarization with orderBy:
+[node-tests] 
+[node-tests]       AssertionError: expected { ...(2) } to deeply equal { ...(2) }
+[node-tests]       + expected - actual
+[node-tests] 
+[node-tests]              "id": "0"
+[node-tests]              "sentences": [
+[node-tests]                {
+[node-tests]                  "length": 156
+[node-tests]       +          "offset": 2453
+[node-tests]       +          "rankScore": 0.43
+[node-tests]       +          "text": "Windows is already accessible in the cloud via Azure Virtual Desktop, which offers customers flexibility to create and run their own virtualization service."
+[node-tests]       +        }
+[node-tests]       +        {
+[node-tests]       +          "length": 156
+[node-tests]                  "offset": 2610
+[node-tests]                  "rankScore": 1
+[node-tests]                  "text": "Windows 365 is a new virtualization technology for Windows that is easy to set up and deploy for today’s login-from-anywhere, mobile and elastic workforces."
+[node-tests]                }
+[node-tests]                {
+[node-tests]       -          "length": 156
+[node-tests]       -          "offset": 2453
+[node-tests]       -          "rankScore": 0.43
+[node-tests]       -          "text": "Windows is already accessible in the cloud via Azure Virtual Desktop, which offers customers flexibility to create and run their own virtualization service."
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]                  "length": 130
+[node-tests]                  "offset": 3161
+[node-tests]                  "rankScore": 0.25
+[node-tests]                  "text": "With Windows 365, she added, IT admins can manage and deploy Cloud PCs using the same tools they use today to manage physical PCs."
+[node-tests] --
+[node-tests]            {
+[node-tests]              "id": "1"
+[node-tests]              "sentences": [
+[node-tests]                {
+[node-tests]       -          "length": 234
+[node-tests]       -          "offset": 1102
+[node-tests]       -          "rankScore": 1
+[node-tests]       -          "text": "The ability to login to a Cloud PC from anywhere on any device is part of Microsoft’s larger strategy around tailoring products such as Microsoft Teams and Microsoft 365 for the post-pandemic hybrid workforce of the future, she added."
+[node-tests]       +          "length": 274
+[node-tests]       +          "offset": 10
+[node-tests]       +          "rankScore": 0.79
+[node-tests]       +          "text": "Windows 365 was in the works before COVID-19 sent companies around the world on a scramble to secure solutions to support employees suddenly forced to work from home, but “what really put the firecracker behind it was the pandemic, it accelerated everything,” McKelvey said."
+[node-tests]                }
+[node-tests]                {
+[node-tests]                  "length": 224
+[node-tests]                  "offset": 479
+[node-tests]                  "rankScore": 0.84
+[node-tests]                  "text": "In this new world of Windows 365, remote workers flip the lid on their laptop, bootup the family workstation or clip a keyboard onto a tablet, launch a native app or modern web browser and login to their Windows 365 account."
+[node-tests]                }
+[node-tests]                {
+[node-tests]       -          "length": 274
+[node-tests]       -          "offset": 10
+[node-tests]       -          "rankScore": 0.79
+[node-tests]       -          "text": "Windows 365 was in the works before COVID-19 sent companies around the world on a scramble to secure solutions to support employees suddenly forced to work from home, but “what really put the firecracker behind it was the pandemic, it accelerated everything,” McKelvey said."
+[node-tests]       +          "length": 234
+[node-tests]       +          "offset": 1102
+[node-tests]       +          "rankScore": 1
+[node-tests]       +          "text": "The ability to login to a Cloud PC from anywhere on any device is part of Microsoft’s larger strategy around tailoring products such as Microsoft Teams and Microsoft 365 for the post-pandemic hybrid workforce of the future, she added."
+[node-tests]                }
+[node-tests]              ]
+[node-tests]              "warnings": []
+[node-tests]            }
+[node-tests]       
+[node-tests]       at Function.<anonymous> (/workspaces/azure-sdk-for-js/common/temp/node_modules/.pnpm/chai-exclude@2.1.0_chai@4.3.6/node_modules/chai-exclude/chai-exclude.js:142:66)
+[node-tests]       at Function.methodWrapper (/workspaces/azure-sdk-for-js/common/temp/node_modules/.pnpm/chai@4.3.6/node_modules/chai/lib/chai/utils/addMethod.js:57:25)
+[node-tests]       at assertActionResults (/workspaces/azure-sdk-for-js/sdk/cognitivelanguage/ai-language-text/test/public/utils/resultHelper.ts:31:24)
+[node-tests]       at processTicksAndRejections (node:internal/process/task_queues:96:5)
+[node-tests]       at async Context.<anonymous> (/workspaces/azure-sdk-for-js/sdk/cognitivelanguage/ai-language-text/test/public/analyzeBatch.spec.ts:236:25)
+[node-tests] 
+[node-tests] 
+[node-tests] 
+[node-tests] mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace --timeout 1200000 "test/**/*.spec.ts" exited with code 1
+Trace: [Internal Error] 
+    at /workspaces/azure-sdk-for-js/common/tools/dev-tool/src/index.ts:10:11
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+[31mThe script failed with exit code 1[39m
