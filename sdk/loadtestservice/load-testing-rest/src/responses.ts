@@ -16,19 +16,17 @@ import {
   TestRunModelOutput,
   TestRunModelResourceListOutput,
   ClientMetricsResultsOutput,
-  ClientMetricsFiltersOutput
+  ClientMetricsFiltersOutput,
 } from "./outputModels";
 
 /** Associate an App Component (Azure resource) to a test or test run. */
-export interface AppComponentCreateOrUpdateAppComponents200Response
-  extends HttpResponse {
+export interface AppComponentCreateOrUpdateAppComponents200Response extends HttpResponse {
   status: "200";
   body: AppComponentsMapOutput;
 }
 
 /** Associate an App Component (Azure resource) to a test or test run. */
-export interface AppComponentCreateOrUpdateAppComponents201Response
-  extends HttpResponse {
+export interface AppComponentCreateOrUpdateAppComponents201Response extends HttpResponse {
   status: "201";
   body: AppComponentsMapOutput;
 }
@@ -39,17 +37,14 @@ export interface AppComponentCreateOrUpdateAppComponentsdefaultHeaders {
 }
 
 /** Associate an App Component (Azure resource) to a test or test run. */
-export interface AppComponentCreateOrUpdateAppComponentsdefaultResponse
-  extends HttpResponse {
+export interface AppComponentCreateOrUpdateAppComponentsdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
-  headers: RawHttpHeaders &
-    AppComponentCreateOrUpdateAppComponentsdefaultHeaders;
+  headers: RawHttpHeaders & AppComponentCreateOrUpdateAppComponentsdefaultHeaders;
 }
 
 /** Delete an App Component. */
-export interface AppComponentDeleteAppComponents204Response
-  extends HttpResponse {
+export interface AppComponentDeleteAppComponents204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
@@ -60,16 +55,14 @@ export interface AppComponentDeleteAppComponentsdefaultHeaders {
 }
 
 /** Delete an App Component. */
-export interface AppComponentDeleteAppComponentsdefaultResponse
-  extends HttpResponse {
+export interface AppComponentDeleteAppComponentsdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders & AppComponentDeleteAppComponentsdefaultHeaders;
 }
 
 /** Get App Component details by App Component name. */
-export interface AppComponentGetAppComponentByName200Response
-  extends HttpResponse {
+export interface AppComponentGetAppComponentByName200Response extends HttpResponse {
   status: "200";
   body: AppComponentsMapOutput;
 }
@@ -80,8 +73,7 @@ export interface AppComponentGetAppComponentByNamedefaultHeaders {
 }
 
 /** Get App Component details by App Component name. */
-export interface AppComponentGetAppComponentByNamedefaultResponse
-  extends HttpResponse {
+export interface AppComponentGetAppComponentByNamedefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders & AppComponentGetAppComponentByNamedefaultHeaders;
@@ -99,23 +91,20 @@ export interface AppComponentGetAppComponentdefaultHeaders {
 }
 
 /** Get App Components for a test or a test run by its name. */
-export interface AppComponentGetAppComponentdefaultResponse
-  extends HttpResponse {
+export interface AppComponentGetAppComponentdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders & AppComponentGetAppComponentdefaultHeaders;
 }
 
 /** Configure server metrics for a test or test run */
-export interface ServerMetricsCreateOrUpdateServerMetricsConfig200Response
-  extends HttpResponse {
+export interface ServerMetricsCreateOrUpdateServerMetricsConfig200Response extends HttpResponse {
   status: "200";
   body: ServerMetricsModelOutput;
 }
 
 /** Configure server metrics for a test or test run */
-export interface ServerMetricsCreateOrUpdateServerMetricsConfig201Response
-  extends HttpResponse {
+export interface ServerMetricsCreateOrUpdateServerMetricsConfig201Response extends HttpResponse {
   status: "201";
   body: ServerMetricsModelOutput;
 }
@@ -130,13 +119,11 @@ export interface ServerMetricsCreateOrUpdateServerMetricsConfigdefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
-  headers: RawHttpHeaders &
-    ServerMetricsCreateOrUpdateServerMetricsConfigdefaultHeaders;
+  headers: RawHttpHeaders & ServerMetricsCreateOrUpdateServerMetricsConfigdefaultHeaders;
 }
 
 /** Get server metrics configuration by its name. */
-export interface ServerMetricsGetServerMetricsConfigByName200Response
-  extends HttpResponse {
+export interface ServerMetricsGetServerMetricsConfigByName200Response extends HttpResponse {
   status: "200";
   body: ServerMetricsModelOutput;
 }
@@ -147,17 +134,14 @@ export interface ServerMetricsGetServerMetricsConfigByNamedefaultHeaders {
 }
 
 /** Get server metrics configuration by its name. */
-export interface ServerMetricsGetServerMetricsConfigByNamedefaultResponse
-  extends HttpResponse {
+export interface ServerMetricsGetServerMetricsConfigByNamedefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
-  headers: RawHttpHeaders &
-    ServerMetricsGetServerMetricsConfigByNamedefaultHeaders;
+  headers: RawHttpHeaders & ServerMetricsGetServerMetricsConfigByNamedefaultHeaders;
 }
 
 /** Delete server metrics configuration by its name */
-export interface ServerMetricsDeleteServerMetricsConfig204Response
-  extends HttpResponse {
+export interface ServerMetricsDeleteServerMetricsConfig204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
@@ -168,17 +152,14 @@ export interface ServerMetricsDeleteServerMetricsConfigdefaultHeaders {
 }
 
 /** Delete server metrics configuration by its name */
-export interface ServerMetricsDeleteServerMetricsConfigdefaultResponse
-  extends HttpResponse {
+export interface ServerMetricsDeleteServerMetricsConfigdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
-  headers: RawHttpHeaders &
-    ServerMetricsDeleteServerMetricsConfigdefaultHeaders;
+  headers: RawHttpHeaders & ServerMetricsDeleteServerMetricsConfigdefaultHeaders;
 }
 
 /** Get server metrics configuration for a test or test run by its name. */
-export interface ServerMetricsGetServerMetricsConfig200Response
-  extends HttpResponse {
+export interface ServerMetricsGetServerMetricsConfig200Response extends HttpResponse {
   status: "200";
   body: ServerMetricsModelOutput;
 }
@@ -189,16 +170,14 @@ export interface ServerMetricsGetServerMetricsConfigdefaultHeaders {
 }
 
 /** Get server metrics configuration for a test or test run by its name. */
-export interface ServerMetricsGetServerMetricsConfigdefaultResponse
-  extends HttpResponse {
+export interface ServerMetricsGetServerMetricsConfigdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders & ServerMetricsGetServerMetricsConfigdefaultHeaders;
 }
 
 /** Get all default server metrics configuration for supported resource types. */
-export interface ServerMetricsGetServerDefaultMetricsConfig200Response
-  extends HttpResponse {
+export interface ServerMetricsGetServerDefaultMetricsConfig200Response extends HttpResponse {
   status: "200";
   body: DefaultServerMetricsConfigListModelOutput;
 }
@@ -209,17 +188,14 @@ export interface ServerMetricsGetServerDefaultMetricsConfigdefaultHeaders {
 }
 
 /** Get all default server metrics configuration for supported resource types. */
-export interface ServerMetricsGetServerDefaultMetricsConfigdefaultResponse
-  extends HttpResponse {
+export interface ServerMetricsGetServerDefaultMetricsConfigdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
-  headers: RawHttpHeaders &
-    ServerMetricsGetServerDefaultMetricsConfigdefaultHeaders;
+  headers: RawHttpHeaders & ServerMetricsGetServerDefaultMetricsConfigdefaultHeaders;
 }
 
 /** Get all supported resource types for App Components(Azure resource types). */
-export interface ServerMetricsListSupportedResourceTypes200Response
-  extends HttpResponse {
+export interface ServerMetricsListSupportedResourceTypes200Response extends HttpResponse {
   status: "200";
   body: SupportedResourceTypeOutput;
 }
@@ -230,12 +206,10 @@ export interface ServerMetricsListSupportedResourceTypesdefaultHeaders {
 }
 
 /** Get all supported resource types for App Components(Azure resource types). */
-export interface ServerMetricsListSupportedResourceTypesdefaultResponse
-  extends HttpResponse {
+export interface ServerMetricsListSupportedResourceTypesdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
-  headers: RawHttpHeaders &
-    ServerMetricsListSupportedResourceTypesdefaultHeaders;
+  headers: RawHttpHeaders & ServerMetricsListSupportedResourceTypesdefaultHeaders;
 }
 
 /** Create a new test or Update an existing test. */
@@ -418,8 +392,7 @@ export interface TestRunCreateOrUpdateTestRundefaultHeaders {
 }
 
 /** Create and start a new test run with the given name. */
-export interface TestRunCreateOrUpdateTestRundefaultResponse
-  extends HttpResponse {
+export interface TestRunCreateOrUpdateTestRundefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders & TestRunCreateOrUpdateTestRundefaultHeaders;
@@ -498,8 +471,7 @@ export interface TestRunStopTestRundefaultResponse extends HttpResponse {
 }
 
 /** Get all client metrics for a load test run. */
-export interface TestRunGetTestRunClientMetrics200Response
-  extends HttpResponse {
+export interface TestRunGetTestRunClientMetrics200Response extends HttpResponse {
   status: "200";
   body: ClientMetricsResultsOutput;
 }
@@ -510,16 +482,14 @@ export interface TestRunGetTestRunClientMetricsdefaultHeaders {
 }
 
 /** Get all client metrics for a load test run. */
-export interface TestRunGetTestRunClientMetricsdefaultResponse
-  extends HttpResponse {
+export interface TestRunGetTestRunClientMetricsdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders & TestRunGetTestRunClientMetricsdefaultHeaders;
 }
 
 /** Get all filters that are supported for client metrics for a given load test run */
-export interface TestRunGetTestRunClientMetricsFilters200Response
-  extends HttpResponse {
+export interface TestRunGetTestRunClientMetricsFilters200Response extends HttpResponse {
   status: "200";
   body: ClientMetricsFiltersOutput;
 }
@@ -530,8 +500,7 @@ export interface TestRunGetTestRunClientMetricsFiltersdefaultHeaders {
 }
 
 /** Get all filters that are supported for client metrics for a given load test run */
-export interface TestRunGetTestRunClientMetricsFiltersdefaultResponse
-  extends HttpResponse {
+export interface TestRunGetTestRunClientMetricsFiltersdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders & TestRunGetTestRunClientMetricsFiltersdefaultHeaders;
