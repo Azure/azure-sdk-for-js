@@ -46,7 +46,6 @@ export async function assertActionResults(
   const { maxPageSize, excludedAdditionalProps = [] } = options;
   let actionIndex = 0;
   for await (const page of actions.byPage(maxPageSize !== undefined ? { maxPageSize } : {})) {
-    console.log(JSON.stringify(page));
     for (const action of page) {
       assert.deepEqualExcludingEvery(action, expectations[actionIndex++], [
         "completedOn",
