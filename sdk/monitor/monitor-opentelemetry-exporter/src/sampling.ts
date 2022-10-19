@@ -4,6 +4,12 @@ import { Link, Attributes, SpanKind, Context } from "@opentelemetry/api";
 import { Sampler, SamplingDecision, SamplingResult } from "@opentelemetry/sdk-trace-base";
 import { AzureMonitorSampleRate } from "./utils/constants/applicationinsights";
 
+/**
+ * ApplicationInsightsSampler is responsible for the following:
+ * Implements same trace id hashing algorithm so that traces are sampled the same across multiple nodes
+ * Adds item count to span attribute if span is sampled (needed for ingestion service)
+ * @param samplingRatio - 0 to 1 value.
+ */
 export class ApplicationInsightsSampler implements Sampler {
   private readonly _sampleRate: number;
   private readonly _samplingRatio: number;
@@ -16,6 +22,20 @@ export class ApplicationInsightsSampler implements Sampler {
     this._sampleRate = Math.round(this._samplingRatio * 100);
   }
 
+  /**
+   * Checks whether span needs to be created and tracked.
+   *
+   * @param context Parent Context which may contain a span.
+   * @param traceId of the span to be created. It can be different from the
+   *     traceId in the {@link SpanContext}. Typically in situations when the
+   *     span to be created starts a new trace.
+   * @param spanName of the span to be created.
+   * @param spanKind of the span to be created.
+   * @param attributes Initial set of SpanAttributes for the Span being constructed.
+   * @param links Collection of links that will be associated with the Span to
+   *     be created. Typically useful for batch operations.
+   * @returns a {@link SamplingResult}.
+   */
   public shouldSample(
     // @ts-ignore
     context: Context,
@@ -44,6 +64,9 @@ export class ApplicationInsightsSampler implements Sampler {
       : { decision: SamplingDecision.NOT_RECORD, attributes: attributes };
   }
 
+  /**
+   * Return Sampler description
+   */
   public toString(): string {
     return `ApplicationInsightsSampler{${this._samplingRatio}}`;
   }
