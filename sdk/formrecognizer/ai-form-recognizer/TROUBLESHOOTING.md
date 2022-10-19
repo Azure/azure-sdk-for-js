@@ -25,8 +25,7 @@ This error information can be found in the `RestError#message` property.
 
 ### Build model error
 
-Build model errors usually occur when trying to build a custom model. The most common scenarios when this might occur is, if you are building the model with an
-[Invalid data set](#invalid-training-data-set) or an [Invalid SAS Url](#invalid-sas-url).
+When building a model, the most common errors are caused by an [invalid data set](#invalid-training-data-set) or an [invalid SAS Url](#invalid-sas-url).
 
 #### Invalid training data set
 
