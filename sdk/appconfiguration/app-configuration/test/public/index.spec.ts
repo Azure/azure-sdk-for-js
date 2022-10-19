@@ -161,6 +161,7 @@ describe("AppConfigurationClient", () => {
       );
       const label = "test";
       const value = "foo";
+      // Skip the test for playback mode
       if (!isPlaybackMode) {
         await assertThrowsAbortError(async () => {
           await client.addConfigurationSetting(
@@ -1224,7 +1225,7 @@ describe("AppConfigurationClient", () => {
       );
       const label = "test";
       const value = "foo";
-      // Only run test in record and live mode
+      // Skip timeout test for playback mode
       if (!isPlaybackMode()) {
         await assertThrowsAbortError(async () => {
           await client.setConfigurationSetting(
