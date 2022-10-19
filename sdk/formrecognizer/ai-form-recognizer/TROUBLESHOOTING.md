@@ -1,6 +1,6 @@
 # Troubleshoot Azure Form Recognizer client library issues
 
-This troubleshooting guide contains instructions to diagnose frequently encountered issues while using the Azure Form Recognizer client library for Javascript.
+This troubleshooting guide contains information to help diagnose frequently encountered issues while using the Azure Form Recognizer client library for JavaScript.
 
 ## Table of Contents
 
