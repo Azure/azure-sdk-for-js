@@ -7,6 +7,7 @@ import "./env";
 
 import { ClientOptions } from "@azure-rest/core-client";
 import { ClientSecretCredential } from "@azure/identity";
+import { env } from "process";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",
@@ -25,13 +26,13 @@ export function createClient(
   options: ClientOptions = {}
 ): AzureLoadTestingClient {
   const credential = new ClientSecretCredential(
-    "72f988bf-86f1-41af-91ab-2d7cd011db47",
-    "747dd2f6-45bb-43db-9286-1a701def44a1",
-    "3Nw7Q~8Q_qSx_3o-c~4uw2J78rsiZ3dWjinzY"
+    env.AZURE_TENANT_ID || "",
+    env.AZURE_CLIENT_ID || "",
+    env.AZURE_CLIENT_SECRET || ""
   );
 
   return AzureLoadTesting(
-    "2cb8a478-4e54-4216-9aba-5cd0e68c7551.eus.cnt-prod.loadtesting.azure.com",
+    env.LOADTESTSERVICE_ENDPOINT || "",
     credential,
     recorder.configureClientOptions(options)
   );
