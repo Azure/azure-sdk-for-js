@@ -26,12 +26,10 @@ export interface ApplicationInsightsClientOptionalParams extends coreClient.Serv
     host?: string;
 }
 
-// @public (undocumented)
+// @public
 export class ApplicationInsightsSampler implements Sampler {
-    constructor(samplingRate?: number);
-    // (undocumented)
+    constructor(samplingRatio?: number);
     shouldSample(context: Context, traceId: string, spanName: string, spanKind: SpanKind, attributes: Attributes, links: Link[]): SamplingResult;
-    // (undocumented)
     toString(): string;
 }
 
