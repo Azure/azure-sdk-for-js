@@ -1,0 +1,61 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-10-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "211",
+        "Content-Type": "application/json",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
+        "x-ms-client-request-id": "544e73a2-3c46-4b82-a277-e8608e762aa1"
+      },
+      "RequestBody": {
+        "kind": "DynamicClassification",
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "0",
+              "text": "This is some text, but it doesn\u0027t matter.",
+              "language": "en"
+            }
+          ]
+        },
+        "parameters": {
+          "classificationType": "singleA",
+          "categories": [
+            "A",
+            "B"
+          ]
+        }
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "apim-request-id": "dde88da9-83cb-4456-ba19-caab7aced566",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 19 Oct 2022 22:49:08 GMT",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "6",
+        "x-http2-stream-id": "37",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidRequest",
+          "message": "Invalid parameter in request",
+          "innererror": {
+            "code": "InvalidParameterValue",
+            "message": "Invalid value for parameter \u0027classificationType\u0027"
+          }
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

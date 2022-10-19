@@ -450,6 +450,7 @@ async function main() {
   ];
   const poller = await client.beginAnalyzeBatch(actions, documents, "en");
   const results = await poller.pollUntilDone();
+
   for await (const actionResult of results) {
     if (actionResult.kind !== "Healthcare") {
       throw new Error(`Expected a healthcare results but got: ${actionResult.kind}`);
@@ -500,6 +501,7 @@ async function main() {
   ];
   const poller = await client.beginAnalyzeBatch(actions, documents, "en");
   const results = await poller.pollUntilDone();
+
   for await (const actionResult of results) {
     if (actionResult.kind !== "ExtractiveSummarization") {
       throw new Error(`Expected extractive summarization results but got: ${actionResult.kind}`);
@@ -541,6 +543,7 @@ async function main() {
   ];
   const poller = await client.beginAnalyzeBatch(actions, documents, "en");
   const results = await poller.pollUntilDone();
+
   for await (const actionResult of results) {
     if (actionResult.kind !== "AbstractiveSummarization") {
       throw new Error(`Expected abstractive summarization results but got: ${actionResult.kind}`);
@@ -588,6 +591,8 @@ async function main() {
     },
   ];
   const poller = await client.beginAnalyzeBatch(actions, documents, "en");
+  const results = await poller.pollUntilDone();
+  
   for await (const actionResult of results) {
     if (actionResult.kind !== "CustomEntityRecognition") {
       throw new Error(`Expected a CustomEntityRecognition results but got: ${actionResult.kind}`);
@@ -745,6 +750,7 @@ async function main() {
   ];
   const poller = await client.beginAnalyzeBatch(actions, documents, "en");
   const actionResults = await poller.pollUntilDone();
+
   for await (const actionResult of actionResults) {
     if (actionResult.error) {
       const { code, message } = actionResult.error;

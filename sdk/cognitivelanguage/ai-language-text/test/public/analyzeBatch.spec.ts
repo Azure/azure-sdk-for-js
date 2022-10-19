@@ -49,8 +49,8 @@ import {
   expectation8,
   expectation9,
 } from "./expectations";
-import { getDocIDsFromState } from "../../src/lro";
 import { windows365ArticlePart1, windows365ArticlePart2 } from "./inputs";
+import { getDocIDsFromState } from "../../src/lro";
 
 const FIXME1 = {
   // FIXME: remove this check when the service updates its message
