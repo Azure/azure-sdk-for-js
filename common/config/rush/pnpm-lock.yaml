@@ -3965,7 +3965,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20221018
+      typescript: 4.9.0-dev.20221019
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8962,8 +8962,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20221018:
-    resolution: {integrity: sha512-jHigCAzVp9JXy+t9J854z8ooZTtc1luK25iKKFF48w/AfRfTbypn8HkOGWDmb7x7RuAcZxo1zYcYDk4OaUFKjw==}
+  /typescript/4.9.0-dev.20221019:
+    resolution: {integrity: sha512-FgRBDKHZQAbayBvRcfFpjtmztLCobGom2k5W5nFqCXDb/XKYn0oG/8s6O9le3lGIt3+1FC7FYMmqvR5qRW50AA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10881,7 +10881,7 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-coVlRjdx8RDzEXluiY0GXqLbreUKl9e/F36lKaj0xGO8keaNa5ryH7nWX19p8jkxlTl0qEHMr2j3Me1StKaGKQ==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-5PDAxWyvP+f7NdVgUpaU48hcLq4JHi5wgTpbI3WFbBQmpAcYWjixz0+Iazyj2WztNW3klU8xtbsv7CZsPXejDg==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
@@ -10893,18 +10893,18 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.3
+      '@types/node': 14.18.32
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_c164e18ebb1175294129df0cff345d2e
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.17.2
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
