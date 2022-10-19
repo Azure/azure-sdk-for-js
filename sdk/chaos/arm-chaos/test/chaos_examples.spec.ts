@@ -102,7 +102,7 @@ describe("Chaos test", () => {
       cosmosdbName,
       targetName,
       {
-        location: location,
+        location,
         properties: {
           identities: [
             { type: "CertificateSubjectIssuer", subject: "CN=example.subject" }
