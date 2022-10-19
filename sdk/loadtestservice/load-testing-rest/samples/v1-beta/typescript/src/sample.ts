@@ -29,7 +29,7 @@ async function main() {
   const client = AzureLoadTesting(endpoint, new DefaultAzureCredential());
 
   // Creating a load test
-  await client.path("/loadtests/{testId}", testId).patch({
+   const testCreationResult : any = await client.path("/loadtests/{testId}", testId).patch({
     contentType: "application/merge-patch+json",
     body: {
       displayName: displayName,
@@ -40,16 +40,24 @@ async function main() {
     },
   });
 
+  if (testCreationResult.status !== "200" && testCreationResult.status !== "201") {
+    throw testCreationResult.body.error;
+  }
+
   // Uploading .jmx file to a test
-  await client.path("/loadtests/{testId}/files/{fileId}", testId, fileId).put({
+  const fileUploadResult : any = await client.path("/loadtests/{testId}/files/{fileId}", testId, fileId).put({
     contentType: "multipart/form-data",
     body: {
       file: readStream,
     },
   });
 
+  if (fileUploadResult.status !== "201") {
+    throw fileUploadResult.body.error;
+  }
+
   // Creating app component
-  await client.path("/appcomponents/{name}", appComponentId).patch({
+  const appComponentCreationResult : any = await client.path("/appcomponents/{name}", appComponentId).patch({
     contentType: "application/merge-patch+json",
     body: {
       name: "app_component",
@@ -66,8 +74,12 @@ async function main() {
     },
   });
 
+  if (appComponentCreationResult.status !== "200" && appComponentCreationResult.status !== "201") {
+    throw appComponentCreationResult.body.error;
+  }
+
   // Creating the test run
-  await client.path("/testruns/{testRunId}", testRunId).patch({
+  const testRunCreationResult : any = await client.path("/testruns/{testRunId}", testRunId).patch({
     contentType: "application/merge-patch+json",
     body: {
       testId: testId,
@@ -76,10 +88,17 @@ async function main() {
     },
   });
 
-  // Checking the test run status and printing metrics
-  var result = await client.path("/testruns/{testRunId}", testRunId).get();
-  console.log(result);
+  if (testRunCreationResult.status !== "200") {
+    throw testRunCreationResult.body.error;
+  }
 
+  // Checking the test run status and printing metrics
+  const getTestRunResult : any = await client.path("/testruns/{testRunId}", testRunId).get();
+  console.log(testRunCreationResult);
+
+  if (getTestRunResult.status !== "200") {
+    throw getTestRunResult.body.error;
+  }
 }
 
 main().catch(console.error);

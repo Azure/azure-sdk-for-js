@@ -17,7 +17,7 @@ input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specificatio
 package-version: 1.0.0-beta.1
 rest-level-client: true
 security: AADToken
-security-scopes: https://loadtestservice.azure.net/.default
+security-scopes: "https://cnt-prod.loadtesting.azure.com/.default"
 use-extension:
   "@autorest/typescript": "6.0.0-rc.1"
 directive:
