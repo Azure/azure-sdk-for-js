@@ -154,27 +154,25 @@ describe("AppConfigurationClient", () => {
       await client.deleteConfigurationSetting({ key, label });
     });
 
-    it("accepts operation options", async () => {
+    it("accepts operation options", async function () {
+      if (isPlaybackMode()) this.skip();
       const key = recorder.variable(
         "addConfigTestTwice",
         `addConfigTestTwice${Math.floor(Math.random() * 1000)}`
       );
       const label = "test";
       const value = "foo";
-      // Skip the test for playback mode
-      if (!isPlaybackMode) {
-        await assertThrowsAbortError(async () => {
-          await client.addConfigurationSetting(
-            { key, label, value },
+      await assertThrowsAbortError(async () => {
+        await client.addConfigurationSetting(
+          { key, label, value },
 
-            {
-              requestOptions: {
-                timeout: 1,
-              },
-            }
-          );
-        });
-      }
+          {
+            requestOptions: {
+              timeout: 1,
+            },
+          }
+        );
+      });
     });
   });
 
@@ -1218,26 +1216,24 @@ describe("AppConfigurationClient", () => {
       );
     });
 
-    it("accepts operation options", async () => {
+    it("accepts operation options", async function () {
+      if (isPlaybackMode()) this.skip();
       const key = recorder.variable(
         `setConfigTestNA`,
         `setConfigTestNA${Math.floor(Math.random() * 1000)}`
       );
       const label = "test";
       const value = "foo";
-      // Skip timeout test for playback mode
-      if (!isPlaybackMode()) {
-        await assertThrowsAbortError(async () => {
-          await client.setConfigurationSetting(
-            { key, label, value: value },
-            {
-              requestOptions: {
-                timeout: 1,
-              },
-            }
-          );
-        });
-      }
+      await assertThrowsAbortError(async () => {
+        await client.setConfigurationSetting(
+          { key, label, value: value },
+          {
+            requestOptions: {
+              timeout: 1,
+            },
+          }
+        );
+      });
     });
   });
 });
