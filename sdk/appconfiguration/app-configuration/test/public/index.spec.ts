@@ -161,17 +161,19 @@ describe("AppConfigurationClient", () => {
       );
       const label = "test";
       const value = "foo";
-      await assertThrowsAbortError(async () => {
-        await client.addConfigurationSetting(
-          { key, label, value },
+      if (!isPlaybackMode) {
+        await assertThrowsAbortError(async () => {
+          await client.addConfigurationSetting(
+            { key, label, value },
 
-          {
-            requestOptions: {
-              timeout: 1,
-            },
-          }
-        );
-      });
+            {
+              requestOptions: {
+                timeout: 1,
+              },
+            }
+          );
+        });
+      }
     });
   });
 
@@ -1222,16 +1224,19 @@ describe("AppConfigurationClient", () => {
       );
       const label = "test";
       const value = "foo";
-      await assertThrowsAbortError(async () => {
-        await client.setConfigurationSetting(
-          { key, label, value: value },
-          {
-            requestOptions: {
-              timeout: 1,
-            },
-          }
-        );
-      });
+      // Only run test in record and live mode
+      if (!isPlaybackMode()) {
+        await assertThrowsAbortError(async () => {
+          await client.setConfigurationSetting(
+            { key, label, value: value },
+            {
+              requestOptions: {
+                timeout: 1,
+              },
+            }
+          );
+        });
+      }
     });
   });
 });
