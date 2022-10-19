@@ -23,7 +23,8 @@ module.exports = function(config) {
       "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
-      "karma-junit-reporter"
+      "karma-junit-reporter",
+      "karma-json-preprocessor"
     ],
 
     // list of files / patterns to load in the browser
