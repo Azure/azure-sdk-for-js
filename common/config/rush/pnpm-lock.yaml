@@ -3965,7 +3965,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20221018
+      typescript: 4.9.0-dev.20221019
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8962,8 +8962,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20221018:
-    resolution: {integrity: sha512-jHigCAzVp9JXy+t9J854z8ooZTtc1luK25iKKFF48w/AfRfTbypn8HkOGWDmb7x7RuAcZxo1zYcYDk4OaUFKjw==}
+  /typescript/4.9.0-dev.20221019:
+    resolution: {integrity: sha512-FgRBDKHZQAbayBvRcfFpjtmztLCobGom2k5W5nFqCXDb/XKYn0oG/8s6O9le3lGIt3+1FC7FYMmqvR5qRW50AA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -14734,7 +14734,7 @@ packages:
     dev: false
 
   file:projects/arm-signalr.tgz:
-    resolution: {integrity: sha512-+R4rYmIABTVnyra21b6JF5WA5/9DpXLbvVcut5bJ0cRUfjzeT17xHkaZdoAJGLgbG0xuQPGS5TCyMdHbTC3a8Q==, tarball: file:projects/arm-signalr.tgz}
+    resolution: {integrity: sha512-7cQwjrcrp87dKB3t5lMC4imoeUJWpv5GIx+4hWQiRzBpCKfUhSafDVkM/teljryv6nVuBk1yf2uV3yCyu8F1/A==, tarball: file:projects/arm-signalr.tgz}
     name: '@rush-temp/arm-signalr'
     version: 0.0.0
     dependencies:
@@ -14745,6 +14745,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -14752,11 +14754,10 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
