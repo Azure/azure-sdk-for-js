@@ -1,34 +1,34 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://2cb8a478-4e54-4216-9aba-5cd0e68c7551.eus.cnt-prod.loadtesting.azure.com/testruns/abcde?api-version=2022-06-01-preview",
+      "RequestUri": "https://https://endpoint/testruns/abcde?api-version=2022-06-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v14.15.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "0955038e-ff8a-4830-95af-c6b9f8bce862"
+        "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v16.18.0 OS/(x64-Windows_NT-10.0.19043)",
+        "x-ms-client-request-id": "47c791ee-43df-4972-b3af-d17071e83c1a"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview",
         "Connection": "keep-alive",
-        "Content-Length": "4688",
+        "Content-Length": "4652",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 17 Oct 2022 17:22:01 GMT",
-        "mise-correlation-id": "959e9ec0-b1bb-4779-8742-de825c6eb5b4",
+        "Date": "Wed, 19 Oct 2022 20:25:20 GMT",
+        "mise-correlation-id": "8c2c2987-5140-4d14-ab4b-019186a4ab3c",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "714d399f-6e95-4ced-a567-d836efb3c4e3"
+        "x-ms-correlation-request-id": "f8864e7b-01de-416b-a1a5-a780d23e2769"
       },
       "ResponseBody": {
         "testRunId": "abcde",
         "displayName": "sample_testrun",
         "testId": "abc",
-        "resourceId": "/subscriptions/7c71b563-0dc0-4bc0-bcf6-06f8f0516c7a/resourcegroups/mrinal/providers/microsoft.loadtestservice/loadtests/mrgautam-auseast",
+        "resourceId": "/subscriptions/azure_subscription_id/resourcegroups/mrinal/providers/microsoft.loadtestservice/loadtests/mrgautam-auseast",
         "description": null,
         "status": "DONE",
         "startDateTime": "2022-09-22T14:17:59Z",
@@ -42,47 +42,47 @@
         "testArtifacts": {
           "inputArtifacts": {
             "configUrl": {
-              "url": "https://stcntproddataeus.blob.core.windows.net/e7c26d4d-e99d-40d9-89cf-c68b4410c5ef/fb4ae40e-4259-4d13-bb74-54c1e17b0556?sv=2020-04-08\u0026se=2022-10-17T18%3A22%3A01Z\u0026sr=b\u0026sp=r\u0026sig=YiSJvriBH27Bn0hUnY1b4VwN7lHT4WhibyXYX7Z4O8c%3D",
+              "url": "https://stcntproddataeus.blob.core.windows.net/e7c26d4d-e99d-40d9-89cf-c68b4410c5ef/fb4ae40e-4259-4d13-bb74-54c1e17b0556?sv=2020-04-08\u0026se=2022-10-19T21%3A25%3A20Z\u0026sr=b\u0026sp=r\u0026sig=LqB2M8Gurb7I%2BFcemY04I0LFbQ7Qg%2FltN5PRsso4IX4%3D",
               "fileId": "fb4ae40e-4259-4d13-bb74-54c1e17b0556",
               "filename": "config.yaml",
               "fileType": 2,
-              "expireTime": "2022-10-17T17:32:01.6800841\u002B00:00",
+              "expireTime": "2022-10-19T20:35:20.0868842\u002B00:00",
               "validationStatus": ""
             },
             "testScriptUrl": {
-              "url": "https://stcntproddataeus.blob.core.windows.net/e7c26d4d-e99d-40d9-89cf-c68b4410c5ef/xyz12365?sv=2020-04-08\u0026se=2022-10-17T18%3A22%3A01Z\u0026sr=b\u0026sp=r\u0026sig=QNRgYrLsZm48RMwzzCwz2%2BThq8uq000db7d4MB8DOEk%3D",
+              "url": "https://stcntproddataeus.blob.core.windows.net/e7c26d4d-e99d-40d9-89cf-c68b4410c5ef/xyz12365?sv=2020-04-08\u0026se=2022-10-19T21%3A25%3A20Z\u0026sr=b\u0026sp=r\u0026sig=ADCW2T4O38IhKGZBWFCqmarv8uVYCzVSru7e9JlEFnY%3D",
               "fileId": "xyz12365",
               "filename": "sample.jmx",
               "fileType": 0,
-              "expireTime": "2022-10-17T17:32:01.6800841\u002B00:00",
+              "expireTime": "2022-10-19T20:35:20.0868842\u002B00:00",
               "validationStatus": "VALIDATION_SUCCESS"
             },
             "userPropUrl": null,
             "inputArtifactsZipFileurl": {
-              "url": "https://stcntproddataeus.blob.core.windows.net/e7c26d4d-e99d-40d9-89cf-c68b4410c5ef/0936295d-f3f1-47ae-8326-6c67f1dcf6cb?sv=2020-04-08\u0026se=2022-10-17T18%3A22%3A01Z\u0026sr=b\u0026sp=r\u0026sig=Q1z3g2d%2FrK0%2BoAHNPxva1k%2Fns4mTIJNn0PZYNDXzKU4%3D",
+              "url": "https://stcntproddataeus.blob.core.windows.net/e7c26d4d-e99d-40d9-89cf-c68b4410c5ef/0936295d-f3f1-47ae-8326-6c67f1dcf6cb?sv=2020-04-08\u0026se=2022-10-19T21%3A25%3A20Z\u0026sr=b\u0026sp=r\u0026sig=KFiflJXWtMicHz6r7D4L1WzW%2BopB8YlovYOx0b1w8xw%3D",
               "fileId": "0936295d-f3f1-47ae-8326-6c67f1dcf6cb",
               "filename": "inputartifacts.zip",
               "fileType": 2,
-              "expireTime": "2022-10-17T17:32:01.6800841\u002B00:00",
+              "expireTime": "2022-10-19T20:35:20.0868842\u002B00:00",
               "validationStatus": ""
             },
             "additionalUrls": []
           },
           "outputArtifacts": {
             "resultUrl": {
-              "url": "https://stcntproddataeus.blob.core.windows.net/e7c26d4d-e99d-40d9-89cf-c68b4410c5ef/b69a180e-307f-4c8b-a4db-615e40c2d001_results.zip?sv=2020-04-08\u0026se=2022-10-17T18%3A22%3A01Z\u0026sr=b\u0026sp=r\u0026sig=u%2F08fxAU%2Fk6%2FrXXBykl9AuoOfnF7Tyu6wybV1UYrXz0%3D",
+              "url": "https://stcntproddataeus.blob.core.windows.net/e7c26d4d-e99d-40d9-89cf-c68b4410c5ef/b69a180e-307f-4c8b-a4db-615e40c2d001_results.zip?sv=2020-04-08\u0026se=2022-10-19T21%3A25%3A20Z\u0026sr=b\u0026sp=r\u0026sig=yE7zb2acSIiGvaHAdoa%2B38MPaHhfTNvyJatdd3ul8Sg%3D",
               "fileId": "c550376b-8dbf-4944-9b0e-953588129f2c",
               "filename": "csv.zip",
               "fileType": 2,
-              "expireTime": "2022-10-17T17:32:01.6800841\u002B00:00",
+              "expireTime": "2022-10-19T20:35:20.0868842\u002B00:00",
               "validationStatus": ""
             },
             "logsUrl": {
-              "url": "https://stcntproddataeus.blob.core.windows.net/e7c26d4d-e99d-40d9-89cf-c68b4410c5ef/b69a180e-307f-4c8b-a4db-615e40c2d001_logs.zip?sv=2020-04-08\u0026se=2022-10-17T18%3A22%3A01Z\u0026sr=b\u0026sp=r\u0026sig=JwI1KwrlesYTv7O2imbzUAUUvqA9dH6be3o2VL70ldI%3D",
+              "url": "https://stcntproddataeus.blob.core.windows.net/e7c26d4d-e99d-40d9-89cf-c68b4410c5ef/b69a180e-307f-4c8b-a4db-615e40c2d001_logs.zip?sv=2020-04-08\u0026se=2022-10-19T21%3A25%3A20Z\u0026sr=b\u0026sp=r\u0026sig=qv1SPYurLpYGmHLBkvygnHXya0u6WCuKrdafi7UtuWI%3D",
               "fileId": "0c898fbf-cada-4f94-9038-36d2cf00744f",
               "filename": "logs.zip",
               "fileType": 2,
-              "expireTime": "2022-10-17T17:32:01.6800841\u002B00:00",
+              "expireTime": "2022-10-19T20:35:20.0868842\u002B00:00",
               "validationStatus": ""
             }
           }
@@ -175,7 +175,7 @@
         "createdBy": null,
         "lastModifiedDateTime": "2022-09-22T14:17:23.648Z",
         "lastModifiedBy": null,
-        "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2f7c71b563-0dc0-4bc0-bcf6-06f8f0516c7a%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
+        "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
         "secrets": null,
         "certificate": null,
         "environmentVariables": null,

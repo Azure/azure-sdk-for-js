@@ -2,11 +2,10 @@
 // Licensed under the MIT license.
 import AzureLoadTesting, { AzureLoadTestingClient } from "../../../src";
 import { Context } from "mocha";
-import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { Recorder, env, RecorderStartOptions } from "@azure-tools/test-recorder";
 import "./env";
 
 import { ClientOptions } from "@azure-rest/core-client";
-import { env } from "process";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 const credential = createTestCredential();

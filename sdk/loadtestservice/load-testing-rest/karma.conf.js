@@ -55,7 +55,7 @@ module.exports = function (config) {
 
     envPreprocessor: [
       "TEST_MODE",
-      "ENDPOINT",
+      "LOADTESTSERVICE_ENDPOINT",
       "AZURE_CLIENT_SECRET",
       "AZURE_CLIENT_ID",
       "AZURE_TENANT_ID",
