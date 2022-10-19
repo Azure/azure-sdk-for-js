@@ -119,6 +119,7 @@ function Get-ChangeLogEntryAsString {
   )
 
   $changeLogEntry = Get-ChangeLogEntry -ChangeLogLocation $ChangeLogLocation -VersionString $VersionString
+  LogDebug "Debugging the log entry [${changeLogEntry}]."
   return ChangeLogEntryAsString $changeLogEntry
 }
 
