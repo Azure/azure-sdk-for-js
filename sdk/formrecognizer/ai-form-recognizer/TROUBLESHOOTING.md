@@ -104,10 +104,11 @@ Training(`DocumentModelAdministrationClient#beginBuildDocumentModel()`) with the
 
 For simpler use-cases, you can use the `template` build mode which uses a different model building algorithm that takes less time. Neural models are trained using deep learning, so they are more computationally intensive to train and use. More information about the `template` and neural build modes and the characteristics of models created using each can be found at the following Microsoft Learn pages:
 
-- [DocumentModelBuildMode](https://docs.microsoft.com/javascript/api/@azure/ai-form-recognizer/documentmodelbuildmode)
+
 - [Custom template models](https://aka.ms/custom-template-models)
 - [Custom neural models](https://aka.ms/custom-neural-models)
 
+_See also_: [`DocumentModelBuildMode` reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-form-recognizer/documentmodelbuildmode).
 ### Form Recognizer errors
 
 For information about the error messages and codes produced by the Form Recognizer service, please refer to [the service's error documentation][fr-errors].
