@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Lists the current usages and limits in this location for the provided subscription.
  *
  * @summary Lists the current usages and limits in this location for the provided subscription.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-08-01-preview/examples/Usages_ListByLocation.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/Usages_ListByLocation.json
  */
 async function listUsages() {
   const subscriptionId = "{subscriptionId}";

@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "151",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.0 core-rest-pipeline/1.9.2 Node/v18.6.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "7be57bf4-fb6f-424e-9aef-8abae776e4e2"
+        "User-Agent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "d22568f3-dd31-4cb7-b8d4-019f9555998d"
       },
       "RequestBody": {
         "kind": "SentimentAnalysis",
@@ -30,14 +30,15 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "706cbace-5ca6-4abf-b4ee-8b45b03a1119",
-        "Content-Length": "405",
+        "apim-request-id": "cb8abcce-bdb3-4db4-a817-7724900ec480",
+        "Content-Length": "403",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-        "Date": "Wed, 07 Sep 2022 03:49:55 GMT",
+        "Date": "Sat, 15 Oct 2022 02:20:53 GMT",
+        "Set-Cookie": ".AspNetCore.Mvc.CookieTempDataProvider=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; samesite=lax; httponly",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "38"
+        "x-envoy-upstream-service-time": "17"
       },
       "ResponseBody": {
         "kind": "SentimentAnalysisResults",
@@ -45,19 +46,19 @@
           "documents": [
             {
               "id": "0",
-              "sentiment": "positive",
+              "sentiment": "neutral",
               "confidenceScores": {
-                "positive": 0.58,
-                "neutral": 0.34,
-                "negative": 0.08
+                "positive": 0.17,
+                "neutral": 0.81,
+                "negative": 0.01
               },
               "sentences": [
                 {
-                  "sentiment": "positive",
+                  "sentiment": "neutral",
                   "confidenceScores": {
-                    "positive": 0.58,
-                    "neutral": 0.34,
-                    "negative": 0.08
+                    "positive": 0.17,
+                    "neutral": 0.81,
+                    "negative": 0.01
                   },
                   "offset": 0,
                   "length": 18,
@@ -70,7 +71,7 @@
             }
           ],
           "errors": [],
-          "modelVersion": "2022-06-01"
+          "modelVersion": "2022-10-01"
         }
       }
     }
