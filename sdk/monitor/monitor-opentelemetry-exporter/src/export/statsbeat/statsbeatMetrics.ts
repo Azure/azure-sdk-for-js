@@ -166,6 +166,36 @@ export class StatsbeatMetrics {
     return false;
   }
 
+  /*
+  private _getAzureComputeMetadata(): boolean {
+    const httpClient = createDefaultHttpClient();
+    const headers = createHttpHeaders({ MetaData: "True" });
+
+    const request: PipelineRequest = {
+      url: `${AIMS_URI}?${AIMS_API_VERSION}&${AIMS_FORMAT}`,
+      headers: headers,
+      timeout: 5000, // 5 seconds
+      method: "GET",
+      withCredentials: false,
+      requestId: "azure-metadata-request",
+      allowInsecureConnection: true,
+    };
+
+    httpClient.sendRequest(request)
+      .then((res: any) => {
+        if (res.status === 200) {
+          return true;
+        } else {
+          return false;
+        }
+      }).catch((error) => {
+        console.log(error);
+        return false;
+      });
+      return false;
+  }
+  */
+
   public isInitialized() {
     return this._isInitialized;
   }

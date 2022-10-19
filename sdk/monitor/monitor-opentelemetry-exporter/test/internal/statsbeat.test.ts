@@ -94,7 +94,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         });
       });
 
-      it("app service", (done) => {
+      it("it should determine if the rp is an app service", (done) => {
         let newEnv = <{ [id: string]: string }>{};
         newEnv["WEBSITE_SITE_NAME"] = "Test Website";
         newEnv["WEBSITE_HOME_STAMPNAME"] = "test_home";
@@ -110,7 +110,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         });
       });
 
-      it("Azure Function", (done) => {
+      it("should determine if the rp is an Azure Function", (done) => {
         let newEnv = <{ [id: string]: string }>{};
         newEnv["FUNCTIONS_WORKER_RUNTIME"] = "test";
         newEnv["WEBSITE_HOSTNAME"] = "test_host";
@@ -126,17 +126,16 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         });
       });
 
-      /* Need to debug the Azure VM test - getting Nock: Disallowed net connect errors on localhost and 
-         the Azure metadata endpoint.
-      it("Azure VM", (done) => {
+      // Need to debug the Azure VM test - getting Nock: Disallowed net connect errors on localhost and the Azure metadata endpoint.
+      it("should determine if the rp is an Azure VM", (done) => {
         let newEnv = <{ [id: string]: string }>{};
         let originalEnv = process.env;
         process.env = newEnv;
-        let interceptor = nock("http://localhost:3000")
-          // @ts-ignore
-          .get("/", (body: string) => {
-            return true;
-          });
+        let interceptor: nock.Interceptor = nock("http://localhost:3000", {
+          reqheaders: {
+            MetaData: "True",
+          },
+        }).get("/");
         interceptor.reply(200, {
           "vmId": "testId",
           "subscriptionId": "testsubscriptionId",
@@ -149,7 +148,6 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           done();
         }).catch((error) => { done(error); });
       });
-      */
     });
 
     describe("Track statsbeats", () => {

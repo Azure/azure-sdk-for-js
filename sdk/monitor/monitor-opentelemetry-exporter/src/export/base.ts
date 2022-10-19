@@ -177,7 +177,6 @@ export abstract class AzureMonitorBaseExporter {
       } else {
         // Failed -- not retriable
         if (!this._isStatsbeatExporter && this._statsbeatMetrics) {
-          // TODO: Determine the process if statusCode is undefined. Should I make statusCode optional and allow undefined -> count statsbeat counts?
           if (statusCode) {
             this._statsbeatMetrics.countFailure(endTime - startTime, statusCode);
           }
@@ -228,7 +227,6 @@ export abstract class AzureMonitorBaseExporter {
       }
       if (this._isNetworkError(restError)) {
         if (!this._isStatsbeatExporter) {
-          // TODO: How robust should we make counting this retry? If there's no statusCode present is counting the retry some other way worth it?
           if (restError.statusCode && this._statsbeatMetrics) {
             this._statsbeatMetrics.countRetry(restError.statusCode);
           }
