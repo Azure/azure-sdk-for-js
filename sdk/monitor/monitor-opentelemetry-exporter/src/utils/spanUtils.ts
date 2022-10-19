@@ -23,7 +23,7 @@ import {
   TelemetryExceptionDetails,
 } from "../generated";
 
-function createGenericTagsFromSpan(span: ReadableSpan): Tags {
+function createTagsFromSpan(span: ReadableSpan): Tags {
   const tags: Tags = createTagsFromResource(span.resource);
   tags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
   if (span.parentSpanId) {
@@ -34,11 +34,6 @@ function createGenericTagsFromSpan(span: ReadableSpan): Tags {
     // TODO: Not exposed in Swagger, need to update def
     tags["ai.user.userAgent"] = String(httpUserAgent);
   }
-  return tags;
-}
-
-function createTagsFromSpan(span: ReadableSpan): Tags {
-  const tags: Tags = createGenericTagsFromSpan(span);
   if (span.kind === SpanKind.SERVER) {
     const httpMethod = span.attributes[SemanticAttributes.HTTP_METHOD];
     const httpClientIp = span.attributes[SemanticAttributes.HTTP_CLIENT_IP];
@@ -389,9 +384,16 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
       let name = "";
       let baseData: TelemetryExceptionData | MessageData;
       const properties = createPropertiesFromSpanAttributes(event.attributes);
-      const tags: Tags = createGenericTagsFromSpan(span);
 
-      if (event.name == "exception") {
+      let tags: Tags = createTagsFromResource(span.resource);
+      tags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
+      let spanId = span.spanContext()?.spanId;
+      if (spanId) {
+        tags[KnownContextTagKeys.AiOperationParentId] = spanId;
+      }
+
+      // Only generate exception telemetry for incoming requests
+      if (event.name == "exception" && span.kind == SpanKind.SERVER) {
         name = "Microsoft.ApplicationInsights.Exception";
         baseType = "ExceptionData";
         let typeName = "";
