@@ -103,7 +103,10 @@ Invalid model created with ID=<model ID>
 
 Training(`DocumentModelAdministrationClient#beginBuildDocumentModel()`) with the "neural" build mode typically takes significantly longer than the "template" mode.
 
-For simpler use-cases, you can use `template` build mode which uses a different model building algorithm that takes less time. See more about `template` custom models [here](https://aka.ms/custom-template-models). To see more information about `neural` custom models (these models use deep learning to train and build), see documentation [here](https://aka.ms/custom-neural-models).
+For simpler use-cases, you can use the `template` build mode which uses a different model building algorithm that takes less time. Neural models are trained using deep learning, so they are more computationally intensive to train and use. More information about the `template` and neural build modes and the characteristics of models created using each can be found at the following Microsoft Learn pages:
+
+- [Custom template models](https://aka.ms/custom-template-models)
+- [Custom neural models](https://aka.ms/custom-neural-models)
 
 ### Form Recognizer errors
 
