@@ -24,7 +24,7 @@ async function main() {
   const testId = uuidv4(); // ID to be assigned to a test
   const fileId = uuidv4(); // ID to be assigned to the file being uploaded
   const testRunId = uuidv4(); // ID to be assigned to a testRun
-  const appComponentId = uuidv4(); // ID of the app componeents
+  const appComponentId = uuidv4(); // ID of the app components
 
   // Build a client through AAD
   const client = AzureLoadTesting(endpoint, new DefaultAzureCredential());
