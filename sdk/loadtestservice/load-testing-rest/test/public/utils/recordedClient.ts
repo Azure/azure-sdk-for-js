@@ -29,7 +29,7 @@ const recorderEnvSetup: RecorderStartOptions = {
       },
       { regex: true, target: '"secrets": [^,]+', value: '"secrets": null' },
       { regex: true, target: '"credentials": [^,]+', value: '"credentials": null' },
-      { regex: true, target: '"credentials": [^,]+', value: '"credentials": null' }
+      { regex: true, target: '"credentials": [^,]+', value: '"credentials": null' },
     ],
   },
 };
