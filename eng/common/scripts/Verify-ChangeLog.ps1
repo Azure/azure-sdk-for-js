@@ -21,7 +21,7 @@ else
   $PackageProp = Get-PkgProperties -PackageName $PackageName -ServiceDirectory $ServiceDirectory
   LogDebug "Debugging [${PackageName}]."
   LogDebug "Debugging [${ServiceDirectory}]."
-   LogDebug "Debugging [${PackageProp}]."
+  LogDebug "Debugging [${PackageProp}]."
   $validChangeLog = Confirm-ChangeLogEntry -ChangeLogLocation $PackageProp.ChangeLogPath -VersionString $PackageProp.Version -ForRelease $ForRelease
 }
 
