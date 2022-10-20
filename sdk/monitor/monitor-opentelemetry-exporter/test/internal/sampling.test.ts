@@ -2,11 +2,13 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { SamplingDecision } from "@opentelemetry/sdk-trace-base";
+import { RandomIdGenerator, SamplingDecision } from "@opentelemetry/sdk-trace-base";
 import { ApplicationInsightsSampler } from "../../src/sampling";
 import { context, SpanKind } from "@opentelemetry/api";
 
 describe("Library/ApplicationInsightsSampler", () => {
+  let idGenerator = new RandomIdGenerator();
+
   describe("#shouldSample()", () => {
     it("will not send data on 0% sampling", () => {
       let sampler = new ApplicationInsightsSampler(0);
@@ -20,7 +22,7 @@ describe("Library/ApplicationInsightsSampler", () => {
       let sampler = new ApplicationInsightsSampler(0.33);
 
       for (var i = 0; i < iterations; i++) {
-        let result = sampler.shouldSample(context.active(), "", "", SpanKind.INTERNAL, {}, []);
+        let result = sampler.shouldSample(context.active(), idGenerator.generateTraceId(), "", SpanKind.INTERNAL, {}, []);
         if (result.decision === SamplingDecision.RECORD_AND_SAMPLED) accepted++;
       }
 
@@ -34,7 +36,7 @@ describe("Library/ApplicationInsightsSampler", () => {
       let sampler = new ApplicationInsightsSampler(0.5);
 
       for (var i = 0; i < iterations; i++) {
-        let result = sampler.shouldSample(context.active(), "", "", SpanKind.INTERNAL, {}, []);
+        let result = sampler.shouldSample(context.active(), idGenerator.generateTraceId(), "", SpanKind.INTERNAL, {}, []);
         if (result.decision === SamplingDecision.RECORD_AND_SAMPLED) accepted++;
       }
 
@@ -48,7 +50,7 @@ describe("Library/ApplicationInsightsSampler", () => {
       let sampler = new ApplicationInsightsSampler(1);
 
       for (var i = 0; i < iterations; i++) {
-        let result = sampler.shouldSample(context.active(), "", "", SpanKind.INTERNAL, {}, []);
+        let result = sampler.shouldSample(context.active(), idGenerator.generateTraceId(), "", SpanKind.INTERNAL, {}, []);
         if (result.decision === SamplingDecision.RECORD_AND_SAMPLED) accepted++;
       }
 
