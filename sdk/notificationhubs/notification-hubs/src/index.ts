@@ -10,3 +10,4 @@ export * from "./models/notificationHubJob.js";
 export * from "./models/options.js";
 export * from "./models/registration.js";
 export * from "./models/response.js";
+export * from "./models/tagExpressionBuilder.js";
