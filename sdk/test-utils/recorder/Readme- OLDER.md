@@ -1,53 +1,58 @@
+# Azure @azure-tools/test-recorder library for JavaScript
 
-**Note: In case you're depending on `@azure-tools/test-recorder@1.x.y` and have not migrated your tests to version 2 of `@azure-tools/test-recorder`, follow the [migration guide to recorder v2 from v1](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md)**
+The Azure SDK for JavaScript is composed of a multitude of libraries that attempt to deliver a common, homogenous SDK to make use of all of the services that Azure can provide. Among the challenges of such a goal, we have some that are specific to tests, some of which we can summarize in the following questions:
 
+- How to write live tests that can work as unit tests?
+- How to ensure that tests are as fast as they can be?
+- How to avoid writing mocked versions of our HTTP API?
+- How to protect sensitive data from our live tests?
+- How to write tests that support parallelism?
+- How to write isomorphic tests for NodeJS and the Browsers?
+- How to test the Azure SDKs(published to npm) in the development phase of user applications with minimal live Azure resources?
 
+Our recorder tool package `@azure-tools/test-recorder` attempts to provide an answer for these questions.
+
+By leveraging the unified out-of-process test proxy server, this library gives the recording and playback capabilities by providing interfaces and helper methods to
+
+- equip the SDKs(tests spcifically) in the `azure-sdk-for-js` repo, it targets HTTP requests in both Node.js and the Browsers.
+- attempt allowing developers depending on the Azure SDKs(published to npm) for JS/TS to test the (Azure SDK) clients in their applications with minimal live Azure resources.
+
+`@azure-tools/test-recorder`, as part of the Test Utils available in the `azure-sdk-for-js` repository
+
+- If it is being used inside the `azure-sdk-for-js` repo, it is supposed to be added only as a devDependency and should be used only for the tests of an sdk.
+
+## Index
+
+- [Key concepts](#key-concepts)
+- [Getting started](#getting-started)
+  - [TEST_MODE](#test_mode)
+- [Using the `Recorder`](#using-the-recorder)
+  - [Recorder#variable()](#recordervariable)
+  - [Environment Variables](#environment-variables)
+  - [`@azure-tools/test-credential` package and the NoOpCredential](#azure-toolstest-credential-package-and-the-noopcredential)
+  - [karma.conf - for the browser tests](#karmaconf---for-the-browser-tests)
+- [Examples](#examples)
+  - [How to record](#how-to-record)
+  - [How to playback](#how-to-playback)
+  - [Update existing recordings](#update-existing-recordings)
+  - [Skipping tests](#skipping-tests)
+  - [Securing sensitive data](#securing-sensitive-data)
+  - [Supporting parallelism](#supporting-parallelism)
+  - [Isomorphic tests](#isomorphic-tests)
+  - [Many ways to run the test-proxy tool](#many-ways-to-run-the-test-proxy-tool)
+- [Troubleshooting](#troubleshooting)
+- [Next steps](#next-steps)
+- [Contributing](#contributing)
+
+## Key concepts
 
 - To **record** means to intercept any HTTP request, store it in a file, then store the response received from the live resource that was originally targeted. We leverage the unified out-of-process test proxy server that is built for this use case.
-  - If being used inside the `azure-sdk-for-js` repo for SDK tests, the output files are stored in `recordings/node/*` and in `recordings/browsers/*`, which are relative to the root of the project you're working on.
 - To **playback** means to intercept any HTTP request and to respond it with the stored response of a previously recorded matching request.
 - **Sensitive information** means content that should not be shared publicly. Content like passwords, unique identifiers or personal information should be cleaned up from the recordings. Some functionality is provided to fix this problem. You can read more at [securing sensitive data](#securing-sensitive-data).
 
-
 ## Getting started
 
-We're about to go through how to set up your project to use the `@azure-tools/test-recorder` package.
-
-**_Note: If you're new to the `azure-sdk-for-js` repository, follow the [ContributingGuide.md](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn how to setup/build the repo and to create/test an SDK in the [Azure/azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repository._**
-
-### Installing the package
-
-From this point forward, we'll assume that you're developing (perhaps contributing!) to one of the azure-sdk-for-js's libraries. So, your next step is to change directory to the path relevant to your project. Let's say you want to add the `@azure-tools/test-recorder` package to `@azure/data-tables` (it already uses test-recorder, but bear with us), you'll be doing the following to install the package:
-
-```bash
-cd sdk/tables/data-tables
-rush add -p @azure-tools/test-recorder@^2.0.0 --dev
-```
-
-If you are using `@azure/identity` in your tests, also install `"@azure-tools/test-credential"` package.
-
-```bash
-rush add -p @azure-tools/test-credential@^1.0.0 --dev
-```
-
-With a following `rush update`, you may see something like below.
-
-```json
-{
-  // ... your package.json properties
-  "devDependencies": {
-    // ... your devDependencies
-    "@azure-tools/test-credential": "^1.0.0", // If you are using `@azure/identity` in your tests
-    "@azure-tools/test-recorder": "^2.0.0"
-    // ... more of your devDependencies
-  }
-  // ... more of your package.json properties
-}
-```
-
-And you're ready! 
-Now you can use the test recorder in your code.
-Create a new `<file-name>.spec.ts` under `sdk/<service-folder>/<package-folder>/test` and import recorder as shown below:
+You can use the test recorder in your code, as shown below:
 
 ```typescript
 import { Recorder } from "@azure-tools/test-recorder";
@@ -59,49 +64,11 @@ Or, if you know what you want to import, you can also do the following:
 import { Recorder, RecorderStartOptions, env, SanitizerOptions } from "@azure-tools/test-recorder";
 ```
 
-### Configuring your project
+Having the recorder as a devDependency means that you'll be able to start recording tests right away by using the `Recorder` class.
 
 The test-recorder provides the `Recorder` class that deals with recording and playing back the network requests, depending on the value assigned to the `TEST_MODE` environment variable.
 
-- If `TEST_MODE` equals to `record`, it will automatically store network requests in a plain text file in the folder `recordings` at the root of your library (it is `sdk/tables/data-tables` in our example).
-- This package assumes that the tests in the sdk are leveraging
-  [mocha](https://mochajs.org/) and [rollup](https://rollupjs.org/guide/en/)
-  (and [karma](https://karma-runner.github.io/latest/index.html) test runner for browser tests) as suggested by the [template](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template) package in the repo.
-
-#### package.json scripts
-
-For the recorder client to work, the [test proxy server](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy) must be active while you are running your tests. Helpers have been added to the `dev-tool` package which manage starting and stopping the test proxy server before and after your tests are run.
-
-Your test scripts (in `package.json`) should be based on the following examples:
-
-| script name                | command                                                                                                          |
-| :------------------------- | :--------------------------------------------------------------------------------------------------------------- |
-| `unit-test:browser`        | `dev-tool run test:browser`                                                                                      |
-| `unit-test:node`           | `dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'` |
-| `integration-test:browser` | `dev-tool run test:browser`                                                                                      |
-| `integration-test:node`    | `dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'`                              |
-
-Note the difference between the dev-tool `node-ts-input` and `node-js-input` commands:
-
-- `node-ts-input` runs the tests using `ts-node`, without code coverage.
-- `node-js-input` runs the tests using the built JavaScript output, and generates coverage reporting using `nyc`.
-
-Read more at [dev-tool commands #usage](https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/dev-tool/README.md#usage)
-
-The above `dev-tool` commands run the tests with the default configs and concurrently starts(runs) the test-proxy tool in a detached process in the background in record/playback modes if it is not already active. Additionally, more options can be passed to override the default configs.
-
-The test-proxy tool is run at ports 5000(for HTTP) and 5001(for HTTPS) unless you specify `TEST_PROXY_HTTP_PORT` as an environment variable, in which case that will be picked.
-
-Test scripts
-
-```json
-{
-  // ... your package.json scripts section
-  "integration-test:node": "...",
-  "unit-test:node": "..."
-  // ... more of your package.json scripts
-}
-```
+- If `TEST_MODE` equals to `record`, it will automatically store network requests in a plain text file.
 
 #### Prerequisites
 
@@ -113,7 +80,6 @@ For WSL 2, running `sudo service docker start` and `sudo usermod -aG docker $USE
 
 If for some reason, you have trouble running the test-proxy tool in your environment using the `dev-tool` commands as suggested above, please read [many ways to run the test-proxy tool](#many-ways-to-run-the-test-proxy-tool) to unblock yourself sooner.
 
-
 ### TEST_MODE
 
 By using recorder with your clients, the requests are redirected to the test-proxy tool to either save them or replay them.
@@ -124,8 +90,6 @@ Interactions with the test-proxy tool vary based on what the `TEST_MODE` environ
 | `record`   | Stores network requests with the help of test-proxy tool in a plain text file in the folder `recordings` at the root of your repository (example: root of the `sdk/tables/data-tables` project) |
 | `playback` | Stored requests/responses are utilized by the test-proxy tool when the requests are redirected to it instead of reaching the service                                                            |
 | `live`     | Recorder and its methods are no-ops here, requests directly reach the service instead of being redirected at the test-proxy tool layer                                                          |
-
-
 
 ## Using the `Recorder`
 
@@ -514,3 +478,5 @@ If you'd like to contribute to this library, please read the [contributing guide
 ### Logging
 
 Enabling logging may help uncover useful information about failures. In order to see logs from the recorder client, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling the `setLogLevel` function in the `@azure/logger` package.
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ftest-utils%2Frecorder%2FREADME.png)
