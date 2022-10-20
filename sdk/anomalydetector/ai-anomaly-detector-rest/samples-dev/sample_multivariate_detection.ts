@@ -7,12 +7,11 @@
  * @summary detect multivaariate anomalies.
  */
 
-import createAnomalyDetectorRestClient, {
+import AnomalyDetector, {
   BatchDetectAnomalyParameters,
   CreateMultivariateModelParameters,
-  DetectionResultOutput,
+  isUnexpected,
   ListMultivariateModelParameters,
-  ModelOutput,
   paginate,
 } from "@azure-rest/ai-anomaly-detector";
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -35,7 +34,7 @@ function sleep(time: number): Promise<NodeJS.Timer> {
 export async function main() {
   // create client
   const credential = new AzureKeyCredential(apiKey);
-  const client = createAnomalyDetectorRestClient(endpoint, apiVersion, credential);
+  const client = AnomalyDetector(endpoint, apiVersion, credential);
 
   // Already available models
   const options: ListMultivariateModelParameters = {
@@ -72,7 +71,7 @@ export async function main() {
     .path("/multivariate/models")
     .post(createMultivariateModelParameters)
     .then((res) => {
-      if (!("modelId" in res.body)) {
+      if (isUnexpected(res)) {
         throw res.body;
       }
       return res.body;
@@ -85,11 +84,12 @@ export async function main() {
     .path("/multivariate/models/{modelId}", modelId)
     .get()
     .then((res) => {
-      if (!("modelInfo" in res.body)) {
+      if (isUnexpected(res)) {
         throw res.body;
       }
       return res.body;
     });
+
   console.log(modelResponse);
   let modelStatus = modelResponse.modelInfo && modelResponse.modelInfo.status;
 
@@ -99,7 +99,7 @@ export async function main() {
       .path("/multivariate/models/{modelId}", modelId)
       .get()
       .then((res) => {
-        if (!("modelInfo" in res.body)) {
+        if (isUnexpected(res)) {
           throw res.body;
         }
         return res.body;
@@ -109,7 +109,7 @@ export async function main() {
 
   if (modelStatus == "FAILED") {
     console.log("Training failed.\nErrors:");
-    for (let error of (modelResponse.modelInfo && modelResponse.modelInfo.errors) || []) {
+    for (const error of (modelResponse.modelInfo && modelResponse.modelInfo.errors) || []) {
       console.log("Error code: " + error.code + ". Message: " + error.message);
     }
     return;
@@ -132,14 +132,14 @@ export async function main() {
     .path("/multivariate/models/{modelId}:detect-batch", modelId)
     .post(batchDetectAnomalyParameters)
     .then((res) => {
-      if (!("resultId" in res.body)) {
+      if (isUnexpected(res)) {
         throw res.body;
       }
       return res.body;
     });
 
   const resultId = batchDetectionResponse.resultId;
-  var getDetectionResultResponse = await client
+  let getDetectionResultResponse = await client
     .path("/multivariate/detect-batch/{resultId}", resultId)
     .get()
     .then((res) => {

@@ -7,7 +7,7 @@
  * @summary detects change points.
  */
 
-import createAnomalyDetectorRestClient, {
+import AnomalyDetector, {
   ChangePointDetectResponseOutput,
   DetectChangePointParameters,
   TimeSeriesPoint,
@@ -40,7 +40,7 @@ function read_series_from_file(path: string): Array<TimeSeriesPoint> {
 
 export async function main() {
   const credential = new AzureKeyCredential(apiKey);
-  const client = createAnomalyDetectorRestClient(endpoint, apiVersion, credential);
+  const client = AnomalyDetector(endpoint, apiVersion, credential);
   const options: DetectChangePointParameters = {
     body: {
       granularity: "daily",

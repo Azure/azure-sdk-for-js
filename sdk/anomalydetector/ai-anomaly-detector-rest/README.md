@@ -29,7 +29,7 @@ Install the Azure AnomalyDetectorRest client REST client library for JavaScript 
 npm install @azure-rest/ai-anomaly-detector
 ```
 
-### Create and authenticate an `AnomalyDetectorRest`
+### Create and authenticate an `AnomalyDetector`
 
 To create a client object to access the Anomaly Detector API, you will need the `endpoint` of your Anomaly Detector resource and a `credential`. The Anomaly Detector client can use either Azure Active Directory credentials or an API key credential to authenticate.
 
