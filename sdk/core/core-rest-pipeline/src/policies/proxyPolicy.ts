@@ -1,13 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as http from "http";
-import * as https from "https";
-import { HttpsProxyAgent, HttpsProxyAgentOptions } from "https-proxy-agent";
-import { HttpProxyAgent, HttpProxyAgentOptions } from "http-proxy-agent";
-import { PipelineRequest, PipelineResponse, ProxySettings, SendRequest } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
-import { logger } from "../log";
+import http from "http";
+import https from "https";
+import httpsPA from "https-proxy-agent";
+const { HttpsProxyAgent } = httpsPA;
+import httpPA from "http-proxy-agent";
+const { HttpProxyAgent } = httpPA;
+import { PipelineRequest, PipelineResponse, ProxySettings, SendRequest } from "../interfaces.js";
+import { PipelinePolicy } from "../pipeline.js";
+import { logger } from "../log.js";
 
 const HTTPS_PROXY = "HTTPS_PROXY";
 const HTTP_PROXY = "HTTP_PROXY";
@@ -132,7 +134,7 @@ export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | unde
 export function getProxyAgentOptions(
   proxySettings: ProxySettings,
   { headers, tlsSettings }: PipelineRequest
-): HttpProxyAgentOptions {
+): httpPA.HttpProxyAgentOptions {
   let parsedProxyUrl: URL;
   try {
     parsedProxyUrl = new URL(proxySettings.host);
@@ -148,7 +150,7 @@ export function getProxyAgentOptions(
     );
   }
 
-  const proxyAgentOptions: HttpsProxyAgentOptions = {
+  const proxyAgentOptions: httpsPA.HttpsProxyAgentOptions = {
     hostname: parsedProxyUrl.hostname,
     port: proxySettings.port,
     protocol: parsedProxyUrl.protocol,

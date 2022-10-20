@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { AppConfigurationClient, ConfigurationSetting, ConfigurationSettingParam } from "../../src";
+import { Recorder, delay, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   assertEqualSettings,
   assertThrowsAbortError,
@@ -11,9 +12,8 @@ import {
   startRecorder,
   toSortedArray,
 } from "./utils/testHelpers";
-import { AppConfigurationClient, ConfigurationSetting, ConfigurationSettingParam } from "../../src";
-import { Recorder, delay, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { assert } from "chai";
 
 describe("AppConfigurationClient", () => {
   let client: AppConfigurationClient;
@@ -714,7 +714,6 @@ describe("AppConfigurationClient", () => {
 
       const settings = await toSortedArray(byKeyIterator);
       let foundMyExactSettingToo = false;
-
       // all settings returned should be the same date or as old as my setting
       for (const setting of settings) {
         assert.ok(setting.lastModified);

@@ -4,18 +4,18 @@
 import { Context } from "mocha";
 
 import {
-  env,
   Recorder,
-  record,
   RecorderEnvironmentSetup,
+  env,
   isLiveMode,
+  record,
 } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { TokenCredential } from "@azure/core-auth";
 import {
-  MetricsAdvisorKeyCredential,
-  MetricsAdvisorClient,
   MetricsAdvisorAdministrationClient,
+  MetricsAdvisorClient,
+  MetricsAdvisorKeyCredential,
 } from "../../../src";
 import * as dotenv from "dotenv";
 import { createXhrHttpClient } from "@azure/test-utils";

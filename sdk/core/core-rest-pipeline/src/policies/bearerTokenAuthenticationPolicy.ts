@@ -3,10 +3,10 @@
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { AzureLogger } from "@azure/logger";
-import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
-import { createTokenCycler } from "../util/tokenCycler";
-import { logger as coreLogger } from "../log";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+import { PipelinePolicy } from "../pipeline.js";
+import { createTokenCycler } from "../util/tokenCycler.js";
+import { logger as coreLogger } from "../log.js";
 
 /**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.

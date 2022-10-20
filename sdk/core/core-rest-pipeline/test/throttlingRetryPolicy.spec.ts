@@ -5,16 +5,16 @@ import { assert, use as chaiUse } from "chai";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 import { Context } from "mocha";
-import * as sinon from "sinon";
+import sinon from "sinon";
 import {
   PipelineResponse,
   SendRequest,
   createHttpHeaders,
   createPipelineRequest,
   throttlingRetryPolicy,
-} from "../src";
+} from "../src/index.js";
 import { AbortController } from "@azure/abort-controller";
-import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
 
 describe("throttlingRetryPolicy", function () {
   afterEach(function () {

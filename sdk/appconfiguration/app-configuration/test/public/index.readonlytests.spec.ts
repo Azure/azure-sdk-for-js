@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   assertThrowsAbortError,
   assertThrowsRestError,
@@ -9,9 +10,8 @@ import {
   startRecorder,
 } from "./utils/testHelpers";
 import { AppConfigurationClient } from "../../src";
-import { assert } from "chai";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { assert } from "chai";
 
 describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   let client: AppConfigurationClient;

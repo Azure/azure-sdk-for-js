@@ -20,14 +20,13 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function queryAtResourceGroupScope() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName = "myResourceGroup";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForResourceGroup(
     policyEventsResource,
-    subscriptionId2,
+    subscriptionId,
     resourceGroupName
   )) {
     resArray.push(item);
@@ -46,7 +45,6 @@ queryAtResourceGroupScope().catch(console.error);
 async function queryAtResourceGroupScopeWithNextLink() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName = "myResourceGroup";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options = {
@@ -57,7 +55,7 @@ async function queryAtResourceGroupScopeWithNextLink() {
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForResourceGroup(
     policyEventsResource,
-    subscriptionId2,
+    subscriptionId,
     resourceGroupName,
     options
   )) {
