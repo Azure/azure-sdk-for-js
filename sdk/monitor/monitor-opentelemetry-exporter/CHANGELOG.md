@@ -19,8 +19,6 @@
 - Suppress tracing while exporting metrics.
 - Envelopes not populating sampleRate correctly.
 
-### Other Changes
-
 ## 1.0.0-beta.8 (2022-07-07)
 
 ### Features Added
