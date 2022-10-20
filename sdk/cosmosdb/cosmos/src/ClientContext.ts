@@ -3,19 +3,19 @@
 import { v4 } from "uuid";
 const uuid = v4;
 import {
+  Pipeline,
   bearerTokenAuthenticationPolicy,
   createEmptyPipeline,
-  Pipeline,
 } from "@azure/core-rest-pipeline";
 import { PartitionKeyRange } from "./client/Container/PartitionKeyRange";
 import { Resource } from "./client/Resource";
 import { Constants, HTTPMethod, OperationType, ResourceType } from "./common/constants";
 import { getIdFromLink, getPathFromLink, parseLink } from "./common/helper";
 import { StatusCodes, SubStatusCodes } from "./common/statusCodes";
-import { CosmosClientOptions } from "./CosmosClientOptions";
+import { Agent, CosmosClientOptions } from "./CosmosClientOptions";
 import { ConnectionPolicy, ConsistencyLevel, DatabaseAccount, PartitionKey } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
-import { executePlugins, PluginOn } from "./plugins/Plugin";
+import { PluginConfig, PluginOn, executePlugins } from "./plugins/Plugin";
 import { FetchFunctionCallback, SqlQuerySpec } from "./queryExecutionContext";
 import { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
 import { QueryIterator } from "./queryIterator";
@@ -88,19 +88,14 @@ export class ClientContext {
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
-        globalEndpointManager: this.globalEndpointManager,
-        requestAgent: this.cosmosClientOptions.agent,
-        connectionPolicy: this.connectionPolicy,
+        ...this.getContextDerivedPropsForRequestCreation(),
         method: HTTPMethod.get,
         path,
         operationType: OperationType.Read,
-        client: this,
         resourceId,
         options,
         resourceType,
-        plugins: this.cosmosClientOptions.plugins,
         partitionKey,
-        pipeline: this.pipeline,
       };
 
       request.headers = await this.buildHeaders(request);
@@ -143,21 +138,16 @@ export class ClientContext {
     // GET(for queryFeed) and POST(for regular query operations)
 
     const request: RequestContext = {
-      globalEndpointManager: this.globalEndpointManager,
-      requestAgent: this.cosmosClientOptions.agent,
-      connectionPolicy: this.connectionPolicy,
+      ...this.getContextDerivedPropsForRequestCreation(),
       method: HTTPMethod.get,
       path,
       operationType: OperationType.Query,
-      client: this,
       partitionKeyRangeId,
       resourceId,
       resourceType,
       options,
       body: query,
-      plugins: this.cosmosClientOptions.plugins,
       partitionKey,
-      pipeline: this.pipeline,
     };
     const requestId = uuid();
     if (query !== undefined) {
@@ -198,19 +188,14 @@ export class ClientContext {
     options: FeedOptions = {}
   ): Promise<Response<PartitionedQueryExecutionInfo>> {
     const request: RequestContext = {
-      globalEndpointManager: this.globalEndpointManager,
-      requestAgent: this.cosmosClientOptions.agent,
-      connectionPolicy: this.connectionPolicy,
+      ...this.getContextDerivedPropsForRequestCreation(),
       method: HTTPMethod.post,
       path,
       operationType: OperationType.Read,
-      client: this,
       resourceId,
       resourceType,
       options,
       body: query,
-      plugins: this.cosmosClientOptions.plugins,
-      pipeline: this.pipeline,
     };
 
     request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
@@ -268,19 +253,14 @@ export class ClientContext {
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
-        globalEndpointManager: this.globalEndpointManager,
-        requestAgent: this.cosmosClientOptions.agent,
-        connectionPolicy: this.connectionPolicy,
+        ...this.getContextDerivedPropsForRequestCreation(),
         method: HTTPMethod.delete,
-        client: this,
         operationType: OperationType.Delete,
         path,
         resourceType,
         options,
         resourceId,
-        plugins: this.cosmosClientOptions.plugins,
         partitionKey,
-        pipeline: this.pipeline,
       };
 
       request.headers = await this.buildHeaders(request);
@@ -320,20 +300,15 @@ export class ClientContext {
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
-        globalEndpointManager: this.globalEndpointManager,
-        requestAgent: this.cosmosClientOptions.agent,
-        connectionPolicy: this.connectionPolicy,
+        ...this.getContextDerivedPropsForRequestCreation(),
         method: HTTPMethod.patch,
-        client: this,
         operationType: OperationType.Patch,
         path,
         resourceType,
         body,
         resourceId,
         options,
-        plugins: this.cosmosClientOptions.plugins,
         partitionKey,
-        pipeline: this.pipeline,
       };
 
       request.headers = await this.buildHeaders(request);
@@ -370,20 +345,15 @@ export class ClientContext {
   }): Promise<Response<T & U & Resource>> {
     try {
       const request: RequestContext = {
-        globalEndpointManager: this.globalEndpointManager,
-        requestAgent: this.cosmosClientOptions.agent,
-        connectionPolicy: this.connectionPolicy,
+        ...this.getContextDerivedPropsForRequestCreation(),
         method: HTTPMethod.post,
-        client: this,
         operationType: OperationType.Create,
         path,
         resourceType,
         resourceId,
         body,
         options,
-        plugins: this.cosmosClientOptions.plugins,
         partitionKey,
-        pipeline: this.pipeline,
       };
 
       request.headers = await this.buildHeaders(request);
@@ -459,20 +429,15 @@ export class ClientContext {
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
-        globalEndpointManager: this.globalEndpointManager,
-        requestAgent: this.cosmosClientOptions.agent,
-        connectionPolicy: this.connectionPolicy,
+        ...this.getContextDerivedPropsForRequestCreation(),
         method: HTTPMethod.put,
-        client: this,
         operationType: OperationType.Replace,
         path,
         resourceType,
         body,
         resourceId,
         options,
-        plugins: this.cosmosClientOptions.plugins,
         partitionKey,
-        pipeline: this.pipeline,
       };
 
       request.headers = await this.buildHeaders(request);
@@ -509,20 +474,15 @@ export class ClientContext {
   }): Promise<Response<T & U & Resource>> {
     try {
       const request: RequestContext = {
-        globalEndpointManager: this.globalEndpointManager,
-        requestAgent: this.cosmosClientOptions.agent,
-        connectionPolicy: this.connectionPolicy,
+        ...this.getContextDerivedPropsForRequestCreation(),
         method: HTTPMethod.post,
-        client: this,
         operationType: OperationType.Upsert,
         path,
         resourceType,
         body,
         resourceId,
         options,
-        plugins: this.cosmosClientOptions.plugins,
         partitionKey,
-        pipeline: this.pipeline,
       };
 
       request.headers = await this.buildHeaders(request);
@@ -563,20 +523,15 @@ export class ClientContext {
     const id = getIdFromLink(sprocLink);
 
     const request: RequestContext = {
-      globalEndpointManager: this.globalEndpointManager,
-      requestAgent: this.cosmosClientOptions.agent,
-      connectionPolicy: this.connectionPolicy,
+      ...this.getContextDerivedPropsForRequestCreation(),
       method: HTTPMethod.post,
-      client: this,
       operationType: OperationType.Execute,
       path,
       resourceType: ResourceType.sproc,
       options,
       resourceId: id,
       body: params,
-      plugins: this.cosmosClientOptions.plugins,
       partitionKey,
-      pipeline: this.pipeline,
     };
 
     request.headers = await this.buildHeaders(request);
@@ -598,18 +553,13 @@ export class ClientContext {
   ): Promise<Response<DatabaseAccount>> {
     const endpoint = options.urlConnection || this.cosmosClientOptions.endpoint;
     const request: RequestContext = {
+      ...this.getContextDerivedPropsForRequestCreation(),
       endpoint,
-      globalEndpointManager: this.globalEndpointManager,
-      requestAgent: this.cosmosClientOptions.agent,
-      connectionPolicy: this.connectionPolicy,
       method: HTTPMethod.get,
-      client: this,
       operationType: OperationType.Read,
       path: "",
       resourceType: ResourceType.none,
       options,
-      plugins: this.cosmosClientOptions.plugins,
-      pipeline: this.pipeline,
     };
 
     request.headers = await this.buildHeaders(request);
@@ -656,19 +606,14 @@ export class ClientContext {
   }): Promise<Response<any>> {
     try {
       const request: RequestContext = {
-        globalEndpointManager: this.globalEndpointManager,
-        requestAgent: this.cosmosClientOptions.agent,
-        connectionPolicy: this.connectionPolicy,
+        ...this.getContextDerivedPropsForRequestCreation(),
         method: HTTPMethod.post,
-        client: this,
         operationType: OperationType.Batch,
         path,
         body,
         resourceType: ResourceType.item,
         resourceId,
-        plugins: this.cosmosClientOptions.plugins,
         options,
-        pipeline: this.pipeline,
         partitionKey,
       };
 
@@ -708,19 +653,14 @@ export class ClientContext {
   }): Promise<Response<any>> {
     try {
       const request: RequestContext = {
-        globalEndpointManager: this.globalEndpointManager,
-        requestAgent: this.cosmosClientOptions.agent,
-        connectionPolicy: this.connectionPolicy,
+        ...this.getContextDerivedPropsForRequestCreation(),
         method: HTTPMethod.post,
-        client: this,
         operationType: OperationType.Batch,
         path,
         body,
         resourceType: ResourceType.item,
         resourceId,
-        plugins: this.cosmosClientOptions.plugins,
         options,
-        pipeline: this.pipeline,
       };
 
       request.headers = await this.buildHeaders(request);
@@ -819,5 +759,27 @@ export class ClientContext {
       useMultipleWriteLocations: this.connectionPolicy.useMultipleWriteLocations,
       partitionKey: requestContext.partitionKey,
     });
+  }
+
+  /**
+   * Returns collection of properties which are derived from the context for Request Creation
+   * @returns
+   */
+  private getContextDerivedPropsForRequestCreation(): {
+    globalEndpointManager: GlobalEndpointManager;
+    connectionPolicy: ConnectionPolicy;
+    requestAgent: Agent;
+    client?: ClientContext;
+    pipeline?: Pipeline;
+    plugins: PluginConfig[];
+  } {
+    return {
+      globalEndpointManager: this.globalEndpointManager,
+      requestAgent: this.cosmosClientOptions.agent,
+      connectionPolicy: this.connectionPolicy,
+      client: this,
+      plugins: this.cosmosClientOptions.plugins,
+      pipeline: this.pipeline,
+    };
   }
 }
