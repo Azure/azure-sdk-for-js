@@ -5,16 +5,15 @@
  * @summary Demonstrates how to manipulate batch requests.
  */
 
-import { AzureKeyCredential } from "@azure/core-auth";
+const { AzureKeyCredential } = require("@azure/core-auth");
 // import { DefaultAzureCredential } from "@azure/identity";
-import createMapsRouteClient, {
-  createRouteDirectionsBatchRequest,
-  getLongRunningPoller,
-  toColonDelimitedLatLonString,
-} from "@azure-rest/maps-route";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const createMapsRouteClient = require("@azure-rest/maps-route").default,
+  {
+    createRouteDirectionsBatchRequest,
+    getLongRunningPoller,
+    toColonDelimitedLatLonString,
+  } = require("@azure-rest/maps-route");
+require("dotenv").config();
 
 /**
  * We use "/route/directions/batch/" in this example.
