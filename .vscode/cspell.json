@@ -265,6 +265,10 @@
     {
       "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/api-management-custom-widgets-scaffolder.api.md",
       "words": ["scaffolder", "APIM"]
+    },
+    {
+      "filename": "sdk/loadtestservice/load-testing-rest/review/load-testing.api.md",
+      "words": ["vusers"]
     }
   ]
 }

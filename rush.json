@@ -897,6 +897,11 @@
       "versionPolicyName": "test"
     },
     {
+      "packageName": "@azure-tests/perf-monitor-ingestion",
+      "projectFolder": "sdk/monitor/perf-tests/monitor-ingestion",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure-tests/perf-template",
       "projectFolder": "sdk/template/perf-tests/template",
       "versionPolicyName": "test"
@@ -1900,6 +1905,11 @@
       "packageName": "@azure/arm-devhub",
       "projectFolder": "sdk/devhub/arm-devhub",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/load-testing",
+      "projectFolder": "sdk/loadtestservice/load-testing-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
