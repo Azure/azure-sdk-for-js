@@ -3,7 +3,7 @@
 
 "use strict";
 
-import * as msRest from "../../../../src/coreHttp";
+import * as msRest from "../../../../src";
 import { Mappers } from "./models/mappers";
 
 class TestClient extends msRest.ServiceClient {
