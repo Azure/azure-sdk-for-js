@@ -20,6 +20,10 @@ export interface AccessControlClientOptions extends CommonClientOptions {
 }
 
 // @public
+export interface CreateOrUpdateSettingOptions extends OperationOptions {
+}
+
+// @public
 export interface CreateRoleAssignmentOptions extends OperationOptions {
 }
 
@@ -37,6 +41,14 @@ export interface GetRoleAssignmentOptions extends OperationOptions {
 
 // @public
 export interface GetRoleDefinitionOptions extends OperationOptions {
+}
+
+// @public
+export interface GetSettingOptions extends OperationOptions {
+}
+
+// @public
+export interface GetSettingsOptions extends OperationOptions {
 }
 
 // @public
@@ -167,6 +179,34 @@ export interface KeyVaultSelectiveKeyRestoreResult {
 }
 
 // @public
+export interface KeyVaultSetting {
+    name: string;
+    type?: KeyVaultSettingType;
+    value: string;
+}
+
+// @public (undocumented)
+export class KeyVaultSettingsClient {
+    constructor(vaultUrl: string, credential: TokenCredential, options?: KeyVaultSettingsClientOptions);
+    // (undocumented)
+    createOrUpdateSetting(settingName: string, value: string, options: CreateOrUpdateSettingOptions): Promise<KeyVaultSetting>;
+    // (undocumented)
+    getSetting(settingName: string, options: GetSettingOptions): Promise<KeyVaultSetting>;
+    // (undocumented)
+    getSettings(options: GetSettingsOptions): Promise<KeyVaultSetting[]>;
+    readonly vaultUrl: string;
+}
+
+// @public
+export interface KeyVaultSettingsClientOptions extends CommonClientOptions {
+    disableChallengeResourceVerification?: boolean;
+    serviceVersion?: SUPPORTED_API_VERSIONS;
+}
+
+// @public
+export type KeyVaultSettingType = string;
+
+// @public
 export enum KnownKeyVaultDataAction {
     BackupHsmKeys = "Microsoft.KeyVault/managedHsm/keys/backup/action",
     CreateHsmKey = "Microsoft.KeyVault/managedHsm/keys/create",
@@ -211,7 +251,12 @@ export enum KnownKeyVaultRoleScope {
 }
 
 // @public
-export const LATEST_API_VERSION = "7.3";
+export enum KnownKeyVaultSettingType {
+    Boolean = "boolean"
+}
+
+// @public
+export const LATEST_API_VERSION = "7.4-preview.1";
 
 // @public
 export interface ListRoleAssignmentsOptions extends OperationOptions {
@@ -244,7 +289,7 @@ export interface SetRoleDefinitionOptions extends OperationOptions {
 }
 
 // @public
-export type SUPPORTED_API_VERSIONS = "7.2" | "7.3";
+export type SUPPORTED_API_VERSIONS = "7.2" | "7.3" | "7.4-preview.1";
 
 // (No @packageDocumentation comment for this package)
 
