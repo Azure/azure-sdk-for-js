@@ -39,7 +39,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-10",
+    defaultValue: "2022-10",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -51,7 +51,8 @@ export const apiVersion: OperationQueryParameter = {
 export const accept1: OperationParameter = {
   parameterPath: "accept",
   mapper: {
-    defaultValue: "application/json; serialization=Avro",
+    defaultValue:
+      "application/json; serialization=Avro, application/schema+json, application/octet-stream",
     isConstant: true,
     serializedName: "Accept",
     type: {

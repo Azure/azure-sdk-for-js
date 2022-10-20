@@ -208,7 +208,7 @@ const getSchemaVersionOperationSpec: coreClient.OperationSpec = {
     Parameters.schemaName,
     Parameters.schemaVersion
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const queryIdByContentOperationSpec: coreClient.OperationSpec = {
