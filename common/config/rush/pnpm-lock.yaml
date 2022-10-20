@@ -73,6 +73,7 @@ specifiers:
   '@rush-temp/arm-deploymentmanager': file:./projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:./projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-devcenter': file:./projects/arm-devcenter.tgz
+  '@rush-temp/arm-devhub': file:./projects/arm-devhub.tgz
   '@rush-temp/arm-deviceprovisioningservices': file:./projects/arm-deviceprovisioningservices.tgz
   '@rush-temp/arm-deviceupdate': file:./projects/arm-deviceupdate.tgz
   '@rush-temp/arm-devspaces': file:./projects/arm-devspaces.tgz
@@ -234,6 +235,7 @@ specifiers:
   '@rush-temp/cosmos': file:./projects/cosmos.tgz
   '@rush-temp/data-tables': file:./projects/data-tables.tgz
   '@rush-temp/dev-tool': file:./projects/dev-tool.tgz
+  '@rush-temp/developer-devcenter': file:./projects/developer-devcenter.tgz
   '@rush-temp/digital-twins-core': file:./projects/digital-twins-core.tgz
   '@rush-temp/dtdl-parser': file:./projects/dtdl-parser.tgz
   '@rush-temp/eslint-plugin-azure-sdk': file:./projects/eslint-plugin-azure-sdk.tgz
@@ -252,6 +254,7 @@ specifiers:
   '@rush-temp/keyvault-common': file:./projects/keyvault-common.tgz
   '@rush-temp/keyvault-keys': file:./projects/keyvault-keys.tgz
   '@rush-temp/keyvault-secrets': file:./projects/keyvault-secrets.tgz
+  '@rush-temp/load-testing': file:./projects/load-testing.tgz
   '@rush-temp/logger': file:./projects/logger.tgz
   '@rush-temp/maps-common': file:./projects/maps-common.tgz
   '@rush-temp/maps-search': file:./projects/maps-search.tgz
@@ -277,6 +280,7 @@ specifiers:
   '@rush-temp/perf-keyvault-certificates': file:./projects/perf-keyvault-certificates.tgz
   '@rush-temp/perf-keyvault-keys': file:./projects/perf-keyvault-keys.tgz
   '@rush-temp/perf-keyvault-secrets': file:./projects/perf-keyvault-secrets.tgz
+  '@rush-temp/perf-monitor-ingestion': file:./projects/perf-monitor-ingestion.tgz
   '@rush-temp/perf-monitor-query': file:./projects/perf-monitor-query.tgz
   '@rush-temp/perf-schema-registry-avro': file:./projects/perf-schema-registry-avro.tgz
   '@rush-temp/perf-search-documents': file:./projects/perf-search-documents.tgz
@@ -388,6 +392,7 @@ dependencies:
   '@rush-temp/arm-deploymentmanager': file:projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-devcenter': file:projects/arm-devcenter.tgz
+  '@rush-temp/arm-devhub': file:projects/arm-devhub.tgz
   '@rush-temp/arm-deviceprovisioningservices': file:projects/arm-deviceprovisioningservices.tgz
   '@rush-temp/arm-deviceupdate': file:projects/arm-deviceupdate.tgz
   '@rush-temp/arm-devspaces': file:projects/arm-devspaces.tgz
@@ -549,6 +554,7 @@ dependencies:
   '@rush-temp/cosmos': file:projects/cosmos.tgz
   '@rush-temp/data-tables': file:projects/data-tables.tgz
   '@rush-temp/dev-tool': file:projects/dev-tool.tgz
+  '@rush-temp/developer-devcenter': file:projects/developer-devcenter.tgz
   '@rush-temp/digital-twins-core': file:projects/digital-twins-core.tgz
   '@rush-temp/dtdl-parser': file:projects/dtdl-parser.tgz
   '@rush-temp/eslint-plugin-azure-sdk': file:projects/eslint-plugin-azure-sdk.tgz
@@ -567,6 +573,7 @@ dependencies:
   '@rush-temp/keyvault-common': file:projects/keyvault-common.tgz
   '@rush-temp/keyvault-keys': file:projects/keyvault-keys.tgz
   '@rush-temp/keyvault-secrets': file:projects/keyvault-secrets.tgz
+  '@rush-temp/load-testing': file:projects/load-testing.tgz
   '@rush-temp/logger': file:projects/logger.tgz
   '@rush-temp/maps-common': file:projects/maps-common.tgz
   '@rush-temp/maps-search': file:projects/maps-search.tgz
@@ -592,6 +599,7 @@ dependencies:
   '@rush-temp/perf-keyvault-certificates': file:projects/perf-keyvault-certificates.tgz
   '@rush-temp/perf-keyvault-keys': file:projects/perf-keyvault-keys.tgz
   '@rush-temp/perf-keyvault-secrets': file:projects/perf-keyvault-secrets.tgz
+  '@rush-temp/perf-monitor-ingestion': file:projects/perf-monitor-ingestion.tgz
   '@rush-temp/perf-monitor-query': file:projects/perf-monitor-query.tgz
   '@rush-temp/perf-schema-registry-avro': file:projects/perf-schema-registry-avro.tgz
   '@rush-temp/perf-search-documents': file:projects/perf-search-documents.tgz
@@ -646,7 +654,7 @@ packages:
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-rest-pipeline': 1.9.2
-      '@azure/core-util': 1.1.0
+      '@azure/core-util': 1.1.1
       tslib: 2.4.0
     transitivePeerDependencies:
       - supports-color
@@ -843,7 +851,7 @@ packages:
       '@azure/core-auth': 1.4.0
       '@azure/core-rest-pipeline': 1.9.2
       '@azure/core-tracing': 1.0.1
-      '@azure/core-util': 1.1.0
+      '@azure/core-util': 1.1.1
       '@azure/logger': 1.0.3
       tslib: 2.4.0
     transitivePeerDependencies:
@@ -903,7 +911,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.4.0
       '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/core-util': 1.1.0
+      '@azure/core-util': 1.1.1
       '@azure/logger': 1.0.3
       '@types/node-fetch': 2.6.2
       '@types/tunnel': 0.0.3
@@ -955,7 +963,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.4.0
       '@azure/core-tracing': 1.0.1
-      '@azure/core-util': 1.1.0
+      '@azure/core-util': 1.1.1
       '@azure/logger': 1.0.3
       form-data: 4.0.0
       http-proxy-agent: 5.0.0
@@ -1006,10 +1014,11 @@ packages:
       tslib: 2.4.0
     dev: false
 
-  /@azure/core-util/1.1.0:
-    resolution: {integrity: sha512-+i93lNJNA3Pl3KSuC6xKP2jTL4YFeDfO6VNOaYdk0cppZcLCxt811gS878VsqsCisaltdhl9lhMzK5kbxCiF4w==}
+  /@azure/core-util/1.1.1:
+    resolution: {integrity: sha512-A4TBYVQCtHOigFb2ETiiKFDocBoI1Zk2Ui1KpI42aJSIDexF7DHQFpnjonltXAIU/ceH+1fsZAWWgvX6/AKzog==}
     engines: {node: '>=12.0.0'}
     dependencies:
+      '@azure/abort-controller': 1.1.0
       tslib: 2.4.0
     dev: false
 
@@ -1093,7 +1102,7 @@ packages:
       '@azure/core-client': 1.6.1
       '@azure/core-rest-pipeline': 1.9.2
       '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/core-util': 1.1.0
+      '@azure/core-util': 1.1.1
       '@azure/logger': 1.0.3
       '@azure/msal-browser': 2.28.3
       '@azure/msal-common': 4.5.1
@@ -1117,7 +1126,7 @@ packages:
       '@azure/core-client': 1.6.1
       '@azure/core-rest-pipeline': 1.9.2
       '@azure/core-tracing': 1.0.1
-      '@azure/core-util': 1.1.0
+      '@azure/core-util': 1.1.1
       '@azure/logger': 1.0.3
       '@azure/msal-browser': 2.28.3
       '@azure/msal-common': 7.4.1
@@ -1158,6 +1167,21 @@ packages:
     engines: {node: '>=12.0.0'}
     dependencies:
       tslib: 2.4.0
+    dev: false
+
+  /@azure/monitor-ingestion/1.0.0-beta.2:
+    resolution: {integrity: sha512-yuZ16qaPKDlVj+2hJcwUGvD0d495knIqP5w4bY2gDQMeuiFQV+VBNVoADR9a2IP6XsgxUyOBnMriIKk63ohvAw==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.4.0
+      '@azure/core-client': 1.6.1
+      '@azure/core-rest-pipeline': 1.9.2
+      '@azure/core-tracing': 1.0.1
+      '@azure/logger': 1.0.3
+      pako: 2.0.4
+      tslib: 2.4.0
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@azure/monitor-opentelemetry-exporter/1.0.0-beta.4:
@@ -3961,7 +3985,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20221017
+      typescript: 4.9.0-dev.20221020
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8782,6 +8806,37 @@ packages:
       yn: 3.1.1
     dev: false
 
+  /ts-node/10.9.1_c4df58cde868390b07e351f745ee8a9e:
+    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.3
+      '@types/node': 12.20.24
+      acorn: 8.8.0
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 4.6.4
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: false
+
   /ts-node/10.9.1_f56df34907649d74b9fd3e03df02d27b:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
@@ -8995,8 +9050,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20221017:
-    resolution: {integrity: sha512-Aae7UmEtGS1U+pAvYpx8a466hlcXBX3moIdQ93lEAwriqrjidTeEP4JZ7UblTJWYZAlLu9g6LKfSe9X+6XR6GA==}
+  /typescript/4.9.0-dev.20221020:
+    resolution: {integrity: sha512-m2FnohhzIqj1gqqbkPw1pv/294cE9hGaYLZS7Zt3rpUP36Nr3w/C+LZU2eUuId+DAe7ZWVUrMUAfLvmtr165cw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9891,7 +9946,7 @@ packages:
     dev: false
 
   file:projects/ai-metrics-advisor.tgz:
-    resolution: {integrity: sha512-qmgqqgLNuhP4fosQBrAhMDAVLMuaVq6U14dwTFkO9scjJCeQ2Oz2AQVnHY0MpGI00LdcsE3id3kTOJcm1rI2XQ==, tarball: file:projects/ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-NiqVwk8rscFQJOyV1k4GTmjYs1/uotj4p/u2qkUheBYf5WXoMriqGUxmac2z+XO7hESdCBIlH0TFDp4+pxFZsw==, tarball: file:projects/ai-metrics-advisor.tgz}
     name: '@rush-temp/ai-metrics-advisor'
     version: 0.0.0
     dependencies:
@@ -10914,7 +10969,7 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-coVlRjdx8RDzEXluiY0GXqLbreUKl9e/F36lKaj0xGO8keaNa5ryH7nWX19p8jkxlTl0qEHMr2j3Me1StKaGKQ==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-5PDAxWyvP+f7NdVgUpaU48hcLq4JHi5wgTpbI3WFbBQmpAcYWjixz0+Iazyj2WztNW3klU8xtbsv7CZsPXejDg==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
@@ -10926,18 +10981,18 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.3
+      '@types/node': 14.18.32
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_c164e18ebb1175294129df0cff345d2e
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.17.2
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -11809,6 +11864,33 @@ packages:
       uglify-js: 3.17.2
     transitivePeerDependencies:
       - '@types/node'
+      - supports-color
+    dev: false
+
+  file:projects/arm-devhub.tgz:
+    resolution: {integrity: sha512-24gOR9GRJsvhBH/A9WPsDIGQb0CoeWMkrCxqZBwi7DO2oM1qJbaBZmS84KRwTfEfPZ4GtJKkNQwEvMYitN0rzA==, tarball: file:projects/arm-devhub.tgz}
+    name: '@rush-temp/arm-devhub'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.32.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      '@types/node': 14.18.32
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_c164e18ebb1175294129df0cff345d2e
+      tslib: 2.4.0
+      typescript: 4.6.4
+      uglify-js: 3.17.2
+    transitivePeerDependencies:
       - supports-color
     dev: false
 
@@ -13779,7 +13861,7 @@ packages:
     dev: false
 
   file:projects/arm-policyinsights.tgz:
-    resolution: {integrity: sha512-dByhV2Yd60m158bMSEktDcv2/O9EdnO8cfbP3vii8iuys8lOU6zAK8epOtWsV0n/40gProVOSCAiVnn1AeGG0A==, tarball: file:projects/arm-policyinsights.tgz}
+    resolution: {integrity: sha512-ru4lDBnj+5+U+Mj5VHYhYB8BT5R6V77lJPlVAkoSOMAPZ9/X7+rQnV2MrbeVGswJ9K0Y3YawS4A5EwOeA/MCag==, tarball: file:projects/arm-policyinsights.tgz}
     name: '@rush-temp/arm-policyinsights'
     version: 0.0.0
     dependencies:
@@ -13790,18 +13872,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      '@types/node': 14.18.32
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_c164e18ebb1175294129df0cff345d2e
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.2
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -15689,7 +15772,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-tq1y2fIgi1y040Xw8MtF5Ut5mAYz0UfmJrZksqCqxizgc5mzQdMcR233Fw9TgyEaofmbGdcMjVBncqmEHjbGQA==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-UQIAjzokL3UPlFW+cKP3w0BnUIoku1Tix+cx0F0pxR6E7CS4u/fudugSdM7J+Ph6OGRAPLj/V1qHAhKw31vHGg==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
@@ -16690,6 +16773,49 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/developer-devcenter.tgz:
+    resolution: {integrity: sha512-Dol9HCFhWacXZj88B/EjE0LvZZL0TroCDUrkkOC2VzW/kolnANuM3N7g5+dk/2/IPnfPN3KYiAbXTPLQqOn5hw==, tarball: file:projects/developer-devcenter.tgz}
+    name: '@rush-temp/developer-devcenter'
+    version: 0.0.0
+    dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.10
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@types/chai': 4.3.3
+      '@types/node': 14.18.32
+      autorest: 3.6.2
+      chai: 4.3.6
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 7.32.0
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.1
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 2.2.1
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.4.0
+      typescript: 4.2.4
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   file:projects/digital-twins-core.tgz:
     resolution: {integrity: sha512-ud2zCq6XTa/p+Lsjw0S/NdsZ54rIInw7rDCq2yUG23a2PuOK1WJaIWYHm6JQBToVALV5fyaH5jF9goIU198Dug==, tarball: file:projects/digital-twins-core.tgz}
     name: '@rush-temp/digital-twins-core'
@@ -17399,17 +17525,29 @@ packages:
     dev: false
 
   file:projects/keyvault-common.tgz:
-    resolution: {integrity: sha512-hZAm0bQoRO+7kRxQpO6U5Sraze0Y7MiXOQTGj3y+goLkry41BZpV7ephTj1Z47LW1hg3hU93RX+RcNZxA3D5BQ==, tarball: file:projects/keyvault-common.tgz}
+    resolution: {integrity: sha512-bJ8C+jdvvroCbt0SNEFtiBqUtN3yqBj9eeQRK+7ByT5GgvoI5aJjR9Vst2RyZcERI4L/crFIafw8+XioDBxCCw==, tarball: file:projects/keyvault-common.tgz}
     name: '@rush-temp/keyvault-common'
     version: 0.0.0
     dependencies:
+      '@microsoft/api-extractor': 7.32.0
+      cross-env: 7.0.3
       eslint: 8.24.0
+      esm: 3.2.25
+      mocha: 7.2.0
+      mocha-junit-reporter: 2.1.0_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 2.7.1
+      puppeteer: 14.4.1
       rimraf: 3.0.2
+      sinon: 9.2.4
+      source-map-support: 0.5.21
       tslib: 2.4.0
       typescript: 4.6.4
     transitivePeerDependencies:
+      - bufferutil
+      - encoding
       - supports-color
+      - utf-8-validate
     dev: false
 
   file:projects/keyvault-keys.tgz:
@@ -17502,6 +17640,53 @@ packages:
       - bufferutil
       - debug
       - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/load-testing.tgz:
+    resolution: {integrity: sha512-nkdUDkvbFt8euqMofdwr5b1GYeNsazXnWZ0mK0p/zRetc7I2JzTerdCJmeESvSlfW4UWPj1gdnHCLIYUwPRxCA==, tarball: file:projects/load-testing.tgz}
+    name: '@rush-temp/load-testing'
+    version: 0.0.0
+    dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.10
+      '@azure/core-util': 1.1.1
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@types/chai': 4.3.3
+      '@types/node': 12.20.24
+      '@types/uuid': 8.3.4
+      autorest: 3.6.2
+      chai: 4.3.6
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 7.32.0
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.1
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 2.2.1
+      process: 0.11.10
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uuid: 9.0.0
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
       - supports-color
       - utf-8-validate
     dev: false
@@ -17662,7 +17847,7 @@ packages:
     dev: false
 
   file:projects/mixed-reality-remote-rendering.tgz:
-    resolution: {integrity: sha512-KLnDms6nk+EnBMcLlr3nwdhzi9NBLHo8NLR/J0pzEMJG1JtxkozXvku2pLsUf78oYUwlCzbAtJIH1j1O7FbH1Q==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
+    resolution: {integrity: sha512-c+DeluRNwjQYq5UZMvSO/87WTaN/FjPKt77w4m64+5NStzY4sa8ock8tyfNEDWPts8V7mLarnIMiVDSS1JfOCA==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
     name: '@rush-temp/mixed-reality-remote-rendering'
     version: 0.0.0
     dependencies:
@@ -18255,6 +18440,27 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/perf-monitor-ingestion.tgz:
+    resolution: {integrity: sha512-/IvW7Y7tnj4cAikmih4oSacYEpIQF5Aw4c5A4uE7vHx50jnzoOP18AhB7a2+bGACf6W58VLoSOOhwNve05cLlg==, tarball: file:projects/perf-monitor-ingestion.tgz}
+    name: '@rush-temp/perf-monitor-ingestion'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@azure/monitor-ingestion': 1.0.0-beta.2
+      '@types/node': 12.20.24
+      dotenv: 8.6.0
+      eslint: 8.24.0
+      prettier: 2.7.1
+      rimraf: 3.0.2
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
+      tslib: 2.4.0
+      typescript: 4.6.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
   file:projects/perf-monitor-query.tgz:
     resolution: {integrity: sha512-Y4oItG+cPyd6p5gw6gMCG27YwLwakB+VF0lkciDzt6w5a3NakBbDOu0VEDflUqu3eKcI5xubKRkvjA7e7YiZPw==, tarball: file:projects/perf-monitor-query.tgz}
     name: '@rush-temp/perf-monitor-query'
@@ -18752,7 +18958,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-+mEBtT4ZtJbjN7TBwmuFKuK3U0/I8XkxXVPPox138JskqAjcK6qocjTg3xbmbkRHiFpIwbSsop8Wc8/sfbKCDA==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-4zcmjvPogb67MUSz60n54Z1iFbDUoiiuEPlgx0Z1cH16EF7qF8Lgd0TgWO5PPQayZBOHcEHucgnSA1LRgsEXkA==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
@@ -19638,7 +19844,7 @@ packages:
     dev: false
 
   file:projects/video-analyzer-edge.tgz:
-    resolution: {integrity: sha512-khmGlWMF87TB6iTydsWU2lJr6mQb/nlRjYJBPZKVHl1NxGjd7bO9KYXXkLm3smdUy1zHKLAG0+8Imc483bc9zg==, tarball: file:projects/video-analyzer-edge.tgz}
+    resolution: {integrity: sha512-ev9PjvfbH+H1BE1EQYL/+kTzu/utd8oJTuXQ3s1g/eN5ArVxEEmt5UXz2fbkgUsSAEo4n4llhnPVZEOBKn0mHA==, tarball: file:projects/video-analyzer-edge.tgz}
     name: '@rush-temp/video-analyzer-edge'
     version: 0.0.0
     dependencies:
