@@ -71,7 +71,7 @@ export async function main() {
     .path("/multivariate/models")
     .post(createMultivariateModelParameters)
     .then((res) => {
-      if (isUnexpected(res)) {
+      if (!("modelId" in res.body)) {
         throw res.body;
       }
       return res.body;
@@ -84,12 +84,11 @@ export async function main() {
     .path("/multivariate/models/{modelId}", modelId)
     .get()
     .then((res) => {
-      if (isUnexpected(res)) {
+      if (!("modelInfo" in res.body)) {
         throw res.body;
       }
       return res.body;
     });
-
   console.log(modelResponse);
   let modelStatus = modelResponse.modelInfo && modelResponse.modelInfo.status;
 
@@ -99,7 +98,7 @@ export async function main() {
       .path("/multivariate/models/{modelId}", modelId)
       .get()
       .then((res) => {
-        if (isUnexpected(res)) {
+        if (!("modelInfo" in res.body)) {
           throw res.body;
         }
         return res.body;
@@ -132,7 +131,7 @@ export async function main() {
     .path("/multivariate/models/{modelId}:detect-batch", modelId)
     .post(batchDetectAnomalyParameters)
     .then((res) => {
-      if (isUnexpected(res)) {
+      if (!("resultId" in res.body)) {
         throw res.body;
       }
       return res.body;
