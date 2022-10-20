@@ -10,12 +10,10 @@
 
 import AzureLoadTesting, { isUnexpected } from "@azure-rest/load-testing";
 import { DefaultAzureCredential } from "@azure/identity";
-import dotenv from "dotenv";
-import createReadStream from "fs";
+import { createReadStream } from "fs";
 import { v4 as uuidv4 } from "uuid";
 
-const readStream = createReadStream.readFileSync("./sample.jmx");
-dotenv.config();
+const readStream = createReadStream("./sample.jmx");
 
 async function main() {
   const endpoint = process.env["LOADTESTSERVICE_ENDPOINT"] || "";
@@ -40,14 +38,17 @@ async function main() {
       },
     },
   });
-
+  // Checking for error response
   if (isUnexpected(testCreationResult)) {
     throw testCreationResult.body.error;
   }
 
+  if (testCreationResult.body.testId === undefined)
+    throw new Error("Test ID returned as undefined.");
+
   // Uploading .jmx file to a test
   const fileUploadResult = await client
-    .path("/loadtests/{testId}/files/{fileId}", testId, fileId)
+    .path("/loadtests/{testId}/files/{fileId}", testCreationResult.body.testId, fileId)
     .put({
       contentType: "multipart/form-data",
       body: {
@@ -66,7 +67,7 @@ async function main() {
       contentType: "application/merge-patch+json",
       body: {
         name: "app_component",
-        testId: testId,
+        testId: testCreationResult.body.testId,
         value: {
           "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo": {
             resourceId:
@@ -87,7 +88,7 @@ async function main() {
   const testRunCreationResult = await client.path("/testruns/{testRunId}", testRunId).patch({
     contentType: "application/merge-patch+json",
     body: {
-      testId: testId,
+      testId: testCreationResult.body.testId,
       displayName: displayName,
       vusers: 10,
     },
@@ -97,11 +98,29 @@ async function main() {
     throw testRunCreationResult.body.error;
   }
 
-  // Checking the test run status and printing metrics
-  const getTestRunResult = await client.path("/testruns/{testRunId}", testRunId).get();
+  if (testRunCreationResult.body.testRunId === undefined)
+    throw new Error("Test Run ID returned as undefined.");
 
-  if (isUnexpected(getTestRunResult)) {
-    throw getTestRunResult.body.error;
+  // Checking the test run status and printing metrics
+  var testStatus = null;
+  var getTestRunResult = null;
+  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+  //wait for terminal state
+  while (
+    testStatus == null ||
+    (testStatus != "DONE" && testStatus != "CANCELLED" && testStatus != "FAILED")
+  ) {
+    getTestRunResult = await client
+      .path("/testruns/{testRunId}", testRunCreationResult.body.testRunId)
+      .get();
+    if (isUnexpected(getTestRunResult)) {
+      throw getTestRunResult.body.error;
+    }
+    testStatus = getTestRunResult.body.status;
+
+    //Check test status after every 5 seconds
+    sleep(5000);
   }
 
   console.log(getTestRunResult);
