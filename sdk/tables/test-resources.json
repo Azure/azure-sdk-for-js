@@ -195,7 +195,7 @@
     },
     "COSMOS_KEY": {
       "type": "string",
-      "value": "[concat('https://', variables('cosmosAccountName'), '.table.cosmos.azure.com:443/)]"
+      "value": "[concat('https://', variables('cosmosAccountName'), '.table.cosmos.azure.com:443/')]"
     },
     "COSMOS_PRIMARY_LOCATION": {
       "type": "string",
