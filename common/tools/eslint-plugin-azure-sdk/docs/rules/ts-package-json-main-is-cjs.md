@@ -1,6 +1,6 @@
 # ts-package-json-main-is-cjs
 
-Requires `main` in `package.json` to be point to a CommonJS or UMD module. In this case, its assumed that it points to `"dist/index.js"`.
+Requires `main` in `package.json` to be point to a CommonJS or UMD module. In this case, its assumed that it points to `"dist/index.js"` or `"dist/index.cjs"`.
 
 This rule is fixable using the `--fix` option.
 
@@ -11,6 +11,14 @@ This rule is fixable using the `--fix` option.
 ```json
 {
   "main": "dist/index.js"
+}
+```
+
+### Good
+
+```json
+{
+  "main": "dist/index.cjs"
 }
 ```
 
