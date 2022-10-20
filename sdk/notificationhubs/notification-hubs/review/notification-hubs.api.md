@@ -642,13 +642,13 @@ export type RegistrationType = "Adm" | "AdmTemplate" | "Apple" | "AppleTemplate"
 
 // @public
 export interface ScheduleNotificationOptions extends OperationOptions {
-    tags?: string | string[];
+    tagExpression?: string;
 }
 
 // @public
 export interface SendNotificationOptions extends OperationOptions {
     enableTestSend?: boolean;
-    tags?: string | string[];
+    tagExpression?: string;
 }
 
 // @public
