@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to detect change points on entire series.
+ * Demonstrates how to detect anomaly points on entire series.
  *
- * @summary detects change points.
+ * @summary detects anomaly points on entire series.
  */
 
 import createAnomalyDetectorRestClient, {
-  ChangePointDetectResponseOutput,
-  DetectChangePointParameters,
+  DetectEntireSeriesParameters,
+  EntireDetectResponseOutput,
   TimeSeriesPoint,
 } from "@azure-rest/ai-anomaly-detector";
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -22,11 +22,10 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
-
-const apiKey = process.env["API_KEY"] || "";
-const endpoint = process.env["ENDPOINT"] || "";
+const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
+const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
 const apiVersion = "v1.1";
-const timeSeriesDataPath = "./example-data/request-data.csv";
+const timeSeriesDataPath = "./samples-dev/example-data/request-data.csv";
 
 function read_series_from_file(path: string): Array<TimeSeriesPoint> {
   let result = Array<TimeSeriesPoint>();
@@ -39,39 +38,34 @@ function read_series_from_file(path: string): Array<TimeSeriesPoint> {
 }
 
 export async function main() {
+  // create client
   const credential = new AzureKeyCredential(apiKey);
   const client = createAnomalyDetectorRestClient(endpoint, apiVersion, credential);
-  const options: DetectChangePointParameters = {
+
+  // construct request
+  const options: DetectEntireSeriesParameters = {
     body: {
       granularity: "daily",
+      imputeMode: "auto",
+      maxAnomalyRatio: 0.25,
+      sensitivity: 95,
       series: read_series_from_file(timeSeriesDataPath),
     },
     headers: { "Content-Type": "application/json" },
   };
-  const result = await client.path("/timeseries/changepoint/detect").post(options);
-  console.log(result);
 
-  if (
-    (result.body as ChangePointDetectResponseOutput).isChangePoint!.some(function (changePoint) {
-      return changePoint === true;
-    })
-  ) {
-    console.log("Change points were detected from the series at index:");
-    (result.body as ChangePointDetectResponseOutput).isChangePoint!.forEach(function (
-      changePoint,
-      index
-    ) {
-      if (changePoint === true) console.log(index);
-    });
+  // get last detect result
+  const result = await client.path("/timeseries/entire/detect").post(options);
+
+  if ((result.body as EntireDetectResponseOutput).isAnomaly) {
+    console.log("The latest point is detected as anomaly.");
   } else {
-    console.log("There is no change point detected from the series.");
+    console.log("The latest point is not detected as anomaly.");
   }
-
-  // output:
-  // Change points were detected from the series at index:
-  // 20
-  // 27
+  // output
+  // The latest point is not detected as anomaly.
 }
+
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });

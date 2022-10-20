@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to detect anomaly for the last point on the series.
+ * Demonstrates how to detect anomaly points on entire series.
  *
- * @summary detects anomaly for the last point on the series.
+ * @summary detects anomaly points on entire series.
  */
 
 import createAnomalyDetectorRestClient, {
-  DetectLastPointParameters,
-  LastDetectResponseOutput,
+  DetectEntireSeriesParameters,
+  EntireDetectResponseOutput,
   TimeSeriesPoint,
 } from "@azure-rest/ai-anomaly-detector";
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -22,10 +22,10 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
-const apiKey = process.env["API_KEY"] || "";
-const endpoint = process.env["ENDPOINT"] || "";
+const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
+const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
 const apiVersion = "v1.1";
-const timeSeriesDataPath = "./example-data/request-data.csv";
+const timeSeriesDataPath = "./samples-dev/example-data/request-data.csv";
 
 function read_series_from_file(path: string): Array<TimeSeriesPoint> {
   let result = Array<TimeSeriesPoint>();
@@ -43,11 +43,10 @@ export async function main() {
   const client = createAnomalyDetectorRestClient(endpoint, apiVersion, credential);
 
   // construct request
-  const options: DetectLastPointParameters = {
+  const options: DetectEntireSeriesParameters = {
     body: {
       granularity: "daily",
-      imputeFixedValue: 800,
-      imputeMode: "fixed",
+      imputeMode: "auto",
       maxAnomalyRatio: 0.25,
       sensitivity: 95,
       series: read_series_from_file(timeSeriesDataPath),
@@ -56,9 +55,9 @@ export async function main() {
   };
 
   // get last detect result
-  const result = await client.path("/timeseries/last/detect").post(options);
+  const result = await client.path("/timeseries/entire/detect").post(options);
 
-  if ((result.body as LastDetectResponseOutput).isAnomaly) {
+  if ((result.body as EntireDetectResponseOutput).isAnomaly) {
     console.log("The latest point is detected as anomaly.");
   } else {
     console.log("The latest point is not detected as anomaly.");

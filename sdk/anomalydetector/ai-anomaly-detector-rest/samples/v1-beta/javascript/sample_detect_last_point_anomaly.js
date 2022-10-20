@@ -2,51 +2,47 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to detect anomaly points on entire series.
+ * Demonstrates how to detect anomaly for the last point on the series.
  *
- * @summary detects anomaly points on entire series.
+ * @summary detects anomaly for the last point on the series.
  */
 
-import createAnomalyDetectorRestClient, {
-  DetectEntireSeriesParameters,
-  EntireDetectResponseOutput,
-  TimeSeriesPoint,
-} from "@azure-rest/ai-anomaly-detector";
-import { AzureKeyCredential } from "@azure/core-auth";
+const createAnomalyDetectorRestClient = require("@azure-rest/ai-anomaly-detector").default;
+const { AzureKeyCredential } = require("@azure/core-auth");
 
-import parse from "csv-parse/lib/sync";
-import * as fs from "fs";
+const parse = require("csv-parse/lib/sync");
+const fs = require("fs");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 // You will need to set this environment variables or edit the following values
-const apiKey = process.env["API_KEY"] || "";
-const endpoint = process.env["ENDPOINT"] || "";
+const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
+const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
 const apiVersion = "v1.1";
-const timeSeriesDataPath = "./example-data/request-data.csv";
+const timeSeriesDataPath = "./samples-dev/example-data/request-data.csv";
 
-function read_series_from_file(path: string): Array<TimeSeriesPoint> {
-  let result = Array<TimeSeriesPoint>();
+function read_series_from_file(path) {
+  let result = Array();
   let input = fs.readFileSync(path).toString();
   let parsed = parse(input, { skip_empty_lines: true });
-  parsed.forEach(function (e: Array<string>) {
+  parsed.forEach(function (e) {
     result.push({ timestamp: new Date(e[0]), value: Number(e[1]) });
   });
   return result;
 }
 
-export async function main() {
+async function main() {
   // create client
   const credential = new AzureKeyCredential(apiKey);
   const client = createAnomalyDetectorRestClient(endpoint, apiVersion, credential);
 
   // construct request
-  const options: DetectEntireSeriesParameters = {
+  const options = {
     body: {
       granularity: "daily",
-      imputeMode: "auto",
+      imputeFixedValue: 800,
+      imputeMode: "fixed",
       maxAnomalyRatio: 0.25,
       sensitivity: 95,
       series: read_series_from_file(timeSeriesDataPath),
@@ -55,9 +51,9 @@ export async function main() {
   };
 
   // get last detect result
-  const result = await client.path("/timeseries/entire/detect").post(options);
+  const result = await client.path("/timeseries/last/detect").post(options);
 
-  if ((result.body as EntireDetectResponseOutput).isAnomaly) {
+  if (result.body.isAnomaly) {
     console.log("The latest point is detected as anomaly.");
   } else {
     console.log("The latest point is not detected as anomaly.");
@@ -69,3 +65,5 @@ export async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

@@ -22,13 +22,11 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
-
-const apiKey = process.env["API_KEY"] || "";
-const endpoint = process.env["ENDPOINT"] || "";
+const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
+const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
 const apiVersion = "v1.1";
 
-const dataSource =
-  "https://mvaddataset.blob.core.windows.net/sample-multitable/sample_data_20_3000";
+const dataSource = "<your data source>";
 
 function sleep(time: number): Promise<NodeJS.Timer> {
   return new Promise((resolve) => setTimeout(resolve, time));
@@ -62,9 +60,9 @@ export async function main() {
       dataSchema: "MultiTable",
       dataSource: dataSource,
       displayName: "Devops-MultiAD",
-      endTime: new Date("2021-01-02T05:00:00Z"),
+      endTime: "2021-01-02T05:00:00Z",
       slidingWindow: 200,
-      startTime: new Date("2021-01-02T00:00:00Z"),
+      startTime: "2021-01-02T00:00:00Z",
     },
     headers: { "Content-Type": "application/json" },
   };
@@ -72,24 +70,46 @@ export async function main() {
   // train model
   const createModelResult = await client
     .path("/multivariate/models")
-    .post(createMultivariateModelParameters);
+    .post(createMultivariateModelParameters)
+    .then((res) => {
+      if (!("modelId" in res.body)) {
+        throw res.body;
+      }
+      return res.body;
+    });
   console.log(createModelResult);
 
   // get model status
-  const modelId = (createModelResult.body as ModelOutput).modelId;
-  var modelResponse = await client.path("/multivariate/models/{modelId}", modelId).get();
+  const modelId = createModelResult.modelId;
+  let modelResponse = await client
+    .path("/multivariate/models/{modelId}", modelId)
+    .get()
+    .then((res) => {
+      if (!("modelInfo" in res.body)) {
+        throw res.body;
+      }
+      return res.body;
+    });
   console.log(modelResponse);
-  var modelStatus = (modelResponse.body as ModelOutput)?.modelInfo?.status;
+  let modelStatus = modelResponse.modelInfo && modelResponse.modelInfo.status;
 
   while (modelStatus != "READY" && modelStatus != "FAILED") {
     await sleep(2000).then(() => {});
-    modelResponse = await client.path("/multivariate/models/{modelId}", modelId).get();
-    modelStatus = (modelResponse.body as ModelOutput)?.modelInfo?.status;
+    modelResponse = await client
+      .path("/multivariate/models/{modelId}", modelId)
+      .get()
+      .then((res) => {
+        if (!("modelInfo" in res.body)) {
+          throw res.body;
+        }
+        return res.body;
+      });
+    modelStatus = modelResponse.modelInfo && modelResponse.modelInfo.status;
   }
 
   if (modelStatus == "FAILED") {
     console.log("Training failed.\nErrors:");
-    for (let error of (modelResponse.body as ModelOutput).modelInfo?.errors ?? []) {
+    for (let error of (modelResponse.modelInfo && modelResponse.modelInfo.errors) || []) {
       console.log("Error code: " + error.code + ". Message: " + error.message);
     }
     return;
@@ -102,36 +122,52 @@ export async function main() {
   const batchDetectAnomalyParameters: BatchDetectAnomalyParameters = {
     body: {
       dataSource: dataSource,
-      endTime: new Date("2021-01-02T05:00:00Z"),
-      startTime: new Date("2021-01-02T00:00:00Z"),
+      endTime: "2021-01-02T05:00:00Z",
+      startTime: "2021-01-02T00:00:00Z",
       topContributorCount: 10,
     },
     headers: { "Content-Type": "application/json" },
   };
   const batchDetectionResponse = await client
     .path("/multivariate/models/{modelId}:detect-batch", modelId)
-    .post(batchDetectAnomalyParameters);
+    .post(batchDetectAnomalyParameters)
+    .then((res) => {
+      if (!("resultId" in res.body)) {
+        throw res.body;
+      }
+      return res.body;
+    });
 
-  const resultId = (batchDetectionResponse.body as DetectionResultOutput).resultId;
+  const resultId = batchDetectionResponse.resultId;
   var getDetectionResultResponse = await client
     .path("/multivariate/detect-batch/{resultId}", resultId)
-    .get();
-  var detectionResultOutput = getDetectionResultResponse.body as DetectionResultOutput;
-  var resultStatus = detectionResultOutput.summary.status;
+    .get()
+    .then((res) => {
+      if (!("summary" in res.body)) {
+        throw res.body;
+      }
+      return res.body;
+    });
+  let resultStatus = getDetectionResultResponse.summary.status;
 
   while (resultStatus != "READY" && resultStatus != "FAILED") {
     await sleep(1000).then(() => {});
     getDetectionResultResponse = await client
       .path("/multivariate/detect-batch/{resultId}", resultId)
-      .get();
-    detectionResultOutput = getDetectionResultResponse.body as DetectionResultOutput;
-    resultStatus = detectionResultOutput.summary.status;
+      .get()
+      .then((res) => {
+        if (!("summary" in res.body)) {
+          throw res.body;
+        }
+        return res.body;
+      });
+    resultStatus = getDetectionResultResponse.summary.status;
   }
 
   if (resultStatus == "FAILED") {
     console.log("Detection failed.");
     console.log("Errors:");
-    for (let error of detectionResultOutput.summary.errors ?? []) {
+    for (let error of getDetectionResultResponse.summary.errors || []) {
       console.log("Error code: " + error.code + ". Message: " + error.message);
     }
     return;
@@ -139,7 +175,7 @@ export async function main() {
 
   // if result status is "READY"
   console.log("Result status: " + resultStatus);
-  console.log("Result Id: " + detectionResultOutput.resultId);
+  console.log("Result Id: " + getDetectionResultResponse.resultId);
 
   // delete model
   const deleteResult = await client.path("/multivariate/models/{modelId}", modelId).delete();

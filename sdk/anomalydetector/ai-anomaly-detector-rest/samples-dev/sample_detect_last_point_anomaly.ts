@@ -7,27 +7,31 @@
  * @summary detects anomaly for the last point on the series.
  */
 
-const createAnomalyDetectorRestClient = require("@azure-rest/ai-anomaly-detector");
-const { AzureKeyCredential } = require("@azure/core-auth");
+import createAnomalyDetectorRestClient, {
+  DetectLastPointParameters,
+  LastDetectResponseOutput,
+  TimeSeriesPoint,
+} from "@azure-rest/ai-anomaly-detector";
+import { AzureKeyCredential } from "@azure/core-auth";
 
-const fs = require("fs");
-const parse = require("csv-parse/lib/sync");
+import parse from "csv-parse/lib/sync";
+import * as fs from "fs";
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
+import * as dotenv from "dotenv";
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
-const apiKey = process.env["API_KEY"] || "";
-const endpoint = process.env["ENDPOINT"] || "";
+const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
+const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
 const apiVersion = "v1.1";
-const timeSeriesDataPath = "./example-data/request-data.csv";
+const timeSeriesDataPath = "./samples-dev/example-data/request-data.csv";
 
-function read_series_from_file(path) {
-  let result = Array();
+function read_series_from_file(path: string): Array<TimeSeriesPoint> {
+  let result = Array<TimeSeriesPoint>();
   let input = fs.readFileSync(path).toString();
   let parsed = parse(input, { skip_empty_lines: true });
-  parsed.forEach(function (e) {
+  parsed.forEach(function (e: Array<string>) {
     result.push({ timestamp: new Date(e[0]), value: Number(e[1]) });
   });
   return result;
@@ -39,7 +43,7 @@ export async function main() {
   const client = createAnomalyDetectorRestClient(endpoint, apiVersion, credential);
 
   // construct request
-  const options = {
+  const options: DetectLastPointParameters = {
     body: {
       granularity: "daily",
       imputeFixedValue: 800,
@@ -54,7 +58,7 @@ export async function main() {
   // get last detect result
   const result = await client.path("/timeseries/last/detect").post(options);
 
-  if (result.body.isAnomaly) {
+  if ((result.body as LastDetectResponseOutput).isAnomaly) {
     console.log("The latest point is detected as anomaly.");
   } else {
     console.log("The latest point is not detected as anomaly.");

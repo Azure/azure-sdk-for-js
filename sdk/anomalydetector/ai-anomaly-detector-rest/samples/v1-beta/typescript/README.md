@@ -1,17 +1,6 @@
----
-page_type: sample
-languages:
-  - typescript
-products:
-  - azure
-  - azure-cognitive-services
-  - azure-anomaly-detector
-urlFragment: ai-anomaly-detector-typescript
----
+# client library samples for TypeScript (Beta)
 
-# Azure Anomaly Detector client library samples for TypeScript
-
-These sample programs show how to use the TypeScript client libraries for Azure Anomaly Detector in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for in some common scenarios.
 
 | **File Name**                                                                 | **Description**                                   |
 | ----------------------------------------------------------------------------- | ------------------------------------------------- |
@@ -30,9 +19,7 @@ Before running the samples in Node, they must be compiled to JavaScript using th
 npm install -g typescript
 ```
 
-You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
-
-- [Azure Anomaly Detector instance][createinstance_azureanomalydetectorinstance]
+You need [an Azure subscription][freesub] to run these sample programs.
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
@@ -65,19 +52,18 @@ node dist/sample_detect_change_point.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env API_KEY="<api key>" ENDPOINT="<endpoint>" node dist/sample_detect_change_point.js
+npx cross-env ANOMALY_DETECTOR_API_KEY="<anomaly detector api key>" ANOMALY_DETECTOR_ENDPOINT="<anomaly detector endpoint>" node dist/sample_detect_change_point.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[sample_detect_change_point]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector/samples/v3/typescript/src/sample_detect_change_point.ts
-[sample_detect_entire_series_anomaly]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector/samples/v3/typescript/src/sample_detect_entire_series_anomaly.ts
-[sample_detect_last_point_anomaly]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector/samples/v3/typescript/src/sample_detect_last_point_anomaly.ts
-[sample_multivariate_detection]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector/samples/v3/typescript/src/sample_multivariate_detection.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-anomaly-detector
+[sample_detect_change_point]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1-beta/typescript/src/sample_detect_change_point.ts
+[sample_detect_entire_series_anomaly]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1-beta/typescript/src/sample_detect_entire_series_anomaly.ts
+[sample_detect_last_point_anomaly]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1-beta/typescript/src/sample_detect_last_point_anomaly.ts
+[sample_multivariate_detection]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1-beta/typescript/src/sample_multivariate_detection.ts
+[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/ai-anomaly-detector?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureanomalydetectorinstance]: https://docs.microsoft.com/azure/cognitive-services/anomaly-detector/quickstarts/client-libraries?tabs=windows&pivots=programming-language-javascript
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/anomalydetector/ai-anomaly-detector/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/anomalydetector/ai-anomaly-detector-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

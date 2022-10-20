@@ -7,28 +7,32 @@
  * @summary detects change points.
  */
 
-const createAnomalyDetectorRestClient = require("@azure-rest/ai-anomaly-detector");
-const { AzureKeyCredential } = require("@azure/core-auth");
+import createAnomalyDetectorRestClient, {
+  ChangePointDetectResponseOutput,
+  DetectChangePointParameters,
+  TimeSeriesPoint,
+} from "@azure-rest/ai-anomaly-detector";
+import { AzureKeyCredential } from "@azure/core-auth";
 
-const fs = require("fs");
-const parse = require("csv-parse/lib/sync");
+import parse from "csv-parse/lib/sync";
+import * as fs from "fs";
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
+import * as dotenv from "dotenv";
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
 
-const apiKey = process.env["API_KEY"] || "";
-const endpoint = process.env["ENDPOINT"] || "";
+const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
+const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
 const apiVersion = "v1.1";
-const timeSeriesDataPath = "./example-data/request-data.csv";
+const timeSeriesDataPath = "./samples-dev/example-data/request-data.csv";
 
-function read_series_from_file(path) {
+function read_series_from_file(path: string): Array<TimeSeriesPoint> {
   let result = Array<TimeSeriesPoint>();
   let input = fs.readFileSync(path).toString();
   let parsed = parse(input, { skip_empty_lines: true });
-  parsed.forEach(function (e) {
+  parsed.forEach(function (e: Array<string>) {
     result.push({ timestamp: new Date(e[0]), value: Number(e[1]) });
   });
   return result;
@@ -37,7 +41,7 @@ function read_series_from_file(path) {
 export async function main() {
   const credential = new AzureKeyCredential(apiKey);
   const client = createAnomalyDetectorRestClient(endpoint, apiVersion, credential);
-  const options = {
+  const options: DetectChangePointParameters = {
     body: {
       granularity: "daily",
       series: read_series_from_file(timeSeriesDataPath),
@@ -48,12 +52,12 @@ export async function main() {
   console.log(result);
 
   if (
-    result.body.isChangePoint.some(function (changePoint) {
+    (result.body as ChangePointDetectResponseOutput).isChangePoint!.some(function (changePoint) {
       return changePoint === true;
     })
   ) {
     console.log("Change points were detected from the series at index:");
-    result.body.isChangePoint.forEach(function (
+    (result.body as ChangePointDetectResponseOutput).isChangePoint!.forEach(function (
       changePoint,
       index
     ) {
