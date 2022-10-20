@@ -1,0 +1,36 @@
+{
+  "name": "@azure-samples/opentelemetry-instrumentation-azure-sdk-js",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Instrumentation client for the Azure SDK JavaScript Samples",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/instrumentation/opentelemetry-instrumentation-azure-sdk"
+  },
+  "keywords": [
+    "azure",
+    "cloud",
+    "tracing",
+    "samples"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/instrumentation/opentelemetry-instrumentation-azure-sdk",
+  "dependencies": {
+    "@azure/identity": "^3.0.0",
+    "@azure/keyvault-keys": "^4.6.0",
+    "@azure/opentelemetry-instrumentation-azure-sdk": "next",
+    "@opentelemetry/api": "^1.2.0",
+    "@opentelemetry/instrumentation": "^0.33.0",
+    "@opentelemetry/sdk-trace-node": "^1.7.0",
+    "@opentelemetry/sdk-trace-base": "^1.7.0",
+    "dotenv": "latest"
+  }
+}
