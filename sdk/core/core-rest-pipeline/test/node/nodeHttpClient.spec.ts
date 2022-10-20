@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as sinon from "sinon";
+import sinon from "sinon";
 import { PassThrough, Writable } from "stream";
 import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
-import * as https from "https";
-import * as http from "http";
+import https from "https";
+import http from "http";
 import { AbortController } from "@azure/abort-controller";
-import { createDefaultHttpClient, createPipelineRequest } from "../../src";
+import { createDefaultHttpClient, createPipelineRequest } from "../../src/index.js";
 
 class FakeResponse extends PassThrough {
   public statusCode?: number;
