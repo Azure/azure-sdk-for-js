@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ServiceClient } from "@azure/core-client";
-import { createHttpHeaders, PipelineRequest } from "@azure/core-rest-pipeline";
+import { createDefaultHttpClient, createPipelineRequest, HttpMethods } from "@azure/core-rest-pipeline";
 import { diag } from "@opentelemetry/api";
 import {
   BatchObservableResult,
@@ -129,59 +128,26 @@ export class StatsbeatMetrics {
     } else if (process.env.FUNCTIONS_WORKER_RUNTIME) {
       // Function apps
       this._resourceProvider = StatsbeatResourceProvider.functions;
-    } else if (this._getAzureComputeMetadata()) {
+    } else if (await this._getAzureComputeMetadata()) {
       this._resourceProvider = StatsbeatResourceProvider.vm;
     } else {
       this._resourceProvider = StatsbeatResourceProvider.unknown;
     }
   }
 
-  // TODO: Debug tests and determining if the resourceProvider is an Azure VM
-  private _getAzureComputeMetadata(): boolean {
-    const serviceClient = new ServiceClient();
-    const headers = createHttpHeaders({ MetaData: "True" });
-
-    const request: PipelineRequest = {
-      url: `${AIMS_URI}?${AIMS_API_VERSION}&${AIMS_FORMAT}`,
-      headers: headers,
-      timeout: 5000, // 5 seconds
-      method: "GET",
-      withCredentials: false,
-      requestId: "azure-metadata-request",
-      allowInsecureConnection: true,
-    };
-
-    serviceClient
-      .sendRequest(request)
-      .then((res: any) => {
-        if (res.status === 200) {
-          return true;
-        } else {
-          return false;
-        }
-      })
-      .catch(() => {
-        return false;
-      });
-    return false;
-  }
-
-  /*
-  private _getAzureComputeMetadata(): boolean {
+  private async _getAzureComputeMetadata(): Promise<boolean> {
     const httpClient = createDefaultHttpClient();
-    const headers = createHttpHeaders({ MetaData: "True" });
+    const method: HttpMethods = "GET";
 
-    const request: PipelineRequest = {
+    const options = {
       url: `${AIMS_URI}?${AIMS_API_VERSION}&${AIMS_FORMAT}`,
-      headers: headers,
       timeout: 5000, // 5 seconds
-      method: "GET",
-      withCredentials: false,
-      requestId: "azure-metadata-request",
-      allowInsecureConnection: true,
+      method: method,
+      allowInsecureConnection: true
     };
+    const request = createPipelineRequest(options);
 
-    httpClient.sendRequest(request)
+    await httpClient.sendRequest(request)
       .then((res: any) => {
         if (res.status === 200) {
           return true;
@@ -194,7 +160,6 @@ export class StatsbeatMetrics {
       });
       return false;
   }
-  */
 
   public isInitialized() {
     return this._isInitialized;
