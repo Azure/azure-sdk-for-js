@@ -281,6 +281,9 @@ export function createFcmLegacyRegistrationDescription(description: Omit<GcmRegi
 export function createFcmLegacyTemplateRegistrationDescription(description: Omit<GcmTemplateRegistrationDescription, "type">): GcmTemplateRegistrationDescription;
 
 // @public
+export function createTagExpression(tags: string[]): string;
+
+// @public
 export function createTemplateNotification(notification: Omit<TemplateNotification, "platform" | "contentType">): TemplateNotification;
 
 // @public
