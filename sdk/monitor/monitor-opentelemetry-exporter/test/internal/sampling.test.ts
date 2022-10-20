@@ -22,7 +22,14 @@ describe("Library/ApplicationInsightsSampler", () => {
       let sampler = new ApplicationInsightsSampler(0.33);
 
       for (var i = 0; i < iterations; i++) {
-        let result = sampler.shouldSample(context.active(), idGenerator.generateTraceId(), "", SpanKind.INTERNAL, {}, []);
+        let result = sampler.shouldSample(
+          context.active(),
+          idGenerator.generateTraceId(),
+          "",
+          SpanKind.INTERNAL,
+          {},
+          []
+        );
         if (result.decision === SamplingDecision.RECORD_AND_SAMPLED) accepted++;
       }
 
@@ -36,7 +43,14 @@ describe("Library/ApplicationInsightsSampler", () => {
       let sampler = new ApplicationInsightsSampler(0.5);
 
       for (var i = 0; i < iterations; i++) {
-        let result = sampler.shouldSample(context.active(), idGenerator.generateTraceId(), "", SpanKind.INTERNAL, {}, []);
+        let result = sampler.shouldSample(
+          context.active(),
+          idGenerator.generateTraceId(),
+          "",
+          SpanKind.INTERNAL,
+          {},
+          []
+        );
         if (result.decision === SamplingDecision.RECORD_AND_SAMPLED) accepted++;
       }
 
@@ -50,7 +64,14 @@ describe("Library/ApplicationInsightsSampler", () => {
       let sampler = new ApplicationInsightsSampler(1);
 
       for (var i = 0; i < iterations; i++) {
-        let result = sampler.shouldSample(context.active(), idGenerator.generateTraceId(), "", SpanKind.INTERNAL, {}, []);
+        let result = sampler.shouldSample(
+          context.active(),
+          idGenerator.generateTraceId(),
+          "",
+          SpanKind.INTERNAL,
+          {},
+          []
+        );
         if (result.decision === SamplingDecision.RECORD_AND_SAMPLED) accepted++;
       }
 
