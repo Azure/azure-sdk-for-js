@@ -57,42 +57,12 @@ describe("avs test", () => {
     await recorder.stop();
   });
 
-  it("xxx create test", async function () {
-    const res = await client.privateClouds.beginCreateOrUpdateAndWait(
-      resourceGroup,
-      privateCloudName,
-      {
-        identity: { type: "SystemAssigned" },
-        location: "eastus2",
-        managementCluster: { clusterSize: 4 },
-        networkBlock: "192.168.48.0/22",
-        sku: { name: "AV36" },
-        tags: {}
-      },
-      testPollingOptions
-    );
-    assert.equal(res.name, privateCloudName);
-  });
-
-  it("xxx get test", async function () {
-    const res = await client.privateClouds.get(resourceGroup, privateCloudName);
-    assert.equal(res.name, privateCloudName);
-  });
-
-  it("xxx list test", async function () {
+  it("privateClouds list test", async function () {
     const resArray = new Array();
-    for await (let item of client.privateClouds.listInSubscription()) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 1);
-  });
-
-  it("xxx delete test", async function () {
-    const resArray = new Array();
-    const res = await client.privateClouds.beginDeleteAndWait(resourceGroup, privateCloudName)
     for await (let item of client.privateClouds.listInSubscription()) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
+
 })
