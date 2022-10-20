@@ -1900,6 +1900,11 @@
       "packageName": "@azure/arm-devhub",
       "projectFolder": "sdk/devhub/arm-devhub",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/load-testing",
+      "projectFolder": "sdk/loadtestservice/load-testing-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
