@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { DirectSendNotificationOptions, SendNotificationOptions } from "../models/options.js";
-import { createMultipartDirectNotification, normalizeTags } from "../utils/notificationUtils.js";
 import { createRequest, parseNotificationSendResponse, sendRequest } from "./internal/_client.js";
 import {
   isDirectSendNotificationOptions,
@@ -12,6 +11,7 @@ import { BrowserPushChannel } from "../models/installation.js";
 import { Notification } from "../models/notification.js";
 import { NotificationHubsClientContext } from "./index.js";
 import { NotificationHubsMessageResponse } from "../models/notificationDetails.js";
+import { createMultipartDirectNotification } from "../utils/notificationUtils.js";
 import { tracingClient } from "../utils/tracing.js";
 import { v4 as uuid } from "uuid";
 
@@ -68,8 +68,8 @@ export function sendNotification(
           headers.set("ServiceBusNotification-DeviceHandle", options.deviceHandle as string);
         }
       } else if (isSendNotificationOptions(options)) {
-        if (options.tags) {
-          headers.set("ServiceBusNotification-Tags", normalizeTags(options.tags));
+        if (options.tagExpression) {
+          headers.set("ServiceBusNotification-Tags", options.tagExpression);
         }
       }
 

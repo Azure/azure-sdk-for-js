@@ -4,11 +4,11 @@
 
 ### Features Added
 
+- Added a tag expression builder from arrays with `createTagExpression` from the `@azure/notification-hubs/models/tagExpressionBuilder` modular import or regular `@azure/notification-hubs` top level import.
+
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
+- `sendNotification` and `scheduleNotification` options no longer accept a string array for `tags`.  This has been changed to `tagExpression`.  If you need to create a tag expression, use the`createTagExpression`from the`@azure/notification-hubs/models/tagExpressionBuilder`modular import or regular`@azure/notification-hubs` top level import.
 
 ## 1.0.0-beta.6 (2022-10-12)
 

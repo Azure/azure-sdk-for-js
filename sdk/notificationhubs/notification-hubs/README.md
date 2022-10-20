@@ -517,6 +517,24 @@ if (result.notificationId) {
 
 In addition to targeting a single device, a user can target multiple devices using tags.  These tags can be supplied as a list of tags, which then creates a tag expression to match registered devices, or via a tag expression which can then use Boolean logic to target the right audience.  For more information about tags and tags expressions, see [Routing and Tag Expressions](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-tags-segment-push-message).
 
+If you wish to create a tag expression from an array of tags, there is a Tag Expression Builder available with the `createTagExpression` method which is exposed at the top level import or `@azure/notification-hubs/models/tagExpressionBuilder` modular import which creates an "or tag expression" from the tags.
+
+```typescript
+// Top level import
+import { createTagExpression } from "@azure/notification-hubs";
+
+// Modular import
+import { createTagExpression } from "@azure/notification-hubs/models/tagExpressionBuilder";
+
+const tags = ["likes_football", "likes_hockey"];
+const tagExpression = createTagExpression(tags);
+
+console.log(tagExpression);
+// likes_football||likes_hockey
+```
+
+Tag expression messages can be sent using the following code:
+
 ```typescript
 import {
   NotificationHubServiceClient,
@@ -536,7 +554,7 @@ const notification = createAppleNotification({
   },
 });
 
-const result = await client.sendNotification(notification, { tags: tagExpression });
+const result = await client.sendNotification(notification, { tagExpression });
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -567,7 +585,7 @@ const notification = createAppleNotification({
   },
 });
 
-const result = await sendNotification(context, notification, { tags: tagExpression });
+const result = await sendNotification(context, notification, { tagExpression });
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -604,7 +622,7 @@ const message = createAppleNotification({
   },
 });
 
-const result = await client.scheduleNotification(scheduledTime, message, { tags: tagExpression });
+const result = await client.scheduleNotification(scheduledTime, message, { tagExpression });
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -636,7 +654,7 @@ const message = createAppleNotification({
   },
 });
 
-const result = await scheduleNotification(context, scheduledTime, message, { tags: tagExpression });
+const result = await scheduleNotification(context, scheduledTime, message, { tagExpression });
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);

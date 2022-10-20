@@ -45,7 +45,7 @@ async function main() {
   const scheduledTime = new Date(Date.now() + 8 * 60 * 60 * 1000);
 
   const result = await scheduleNotification(context, scheduledTime, notification, {
-    tags: tagExpression,
+    tagExpression,
   });
 
   console.log(`Scheduled send Tracking ID: ${result.trackingId}`);

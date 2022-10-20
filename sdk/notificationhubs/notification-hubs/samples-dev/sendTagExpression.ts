@@ -53,7 +53,7 @@ async function main() {
   // Can set enableTestSend to true for debugging purposes
   const result = await sendNotification(context, notification, {
     enableTestSend: false,
-    tags: tagExpression,
+    tagExpression,
   });
 
   console.log(`Tag Expression send Tracking ID: ${result.trackingId}`);

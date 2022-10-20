@@ -23,8 +23,8 @@ import {
   NotificationHubsClientContext,
   createClientContext,
 } from "@azure/notification-hubs/client";
-import { SendNotificationOptions } from "@azure/notification-hubs/models/options";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
+import { createTagExpression } from "@azure/notification-hubs/models/tagExpressionBuilder";
 import { delay } from "@azure/core-util";
 import { getNotificationOutcomeDetails } from "@azure/notification-hubs/client/getNotificationOutcomeDetails";
 import { isRestError } from "@azure/core-rest-pipeline";
@@ -41,7 +41,7 @@ async function main() {
   const context = createClientContext(connectionString, hubName);
 
   const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
-  const tags = ["likes_hockey", "likes_football"];
+  const tagExpression = createTagExpression(["likes_hockey", "likes_football"]);
 
   const notification = createAppleNotification({
     body: messageBody,
@@ -51,9 +51,10 @@ async function main() {
     },
   });
 
-  // Not required but can set test send to true for debugging purposes.
-  const sendOptions: SendNotificationOptions = { enableTestSend: false, tags };
-  const result = await sendNotification(context, notification, sendOptions);
+  const result = await sendNotification(context, notification, {
+    enableTestSend: false,
+    tagExpression,
+  });
 
   console.log(`Tag List send Tracking ID: ${result.trackingId}`);
   console.log(`Tag List Correlation ID: ${result.correlationId}`);
