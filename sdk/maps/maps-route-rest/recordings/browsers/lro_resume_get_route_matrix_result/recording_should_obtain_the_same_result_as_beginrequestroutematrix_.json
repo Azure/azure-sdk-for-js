@@ -1,0 +1,171 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://atlas.microsoft.com/route/matrix/json?api-version=1.0",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Content-Length": "179",
+        "Content-Type": "application/json; charset=UTF-8",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "subscription-key": "FlEIfedJiCE9pnEXvoU6-HWVxB1SP-ddYhEBfV5K3xo",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "c9fa9a06-feec-4ae5-b339-dc59db32b3c4",
+        "x-ms-useragent": "azsdk-js-maps-route-rest/1.0.0-beta.1 core-rest-pipeline/1.9.0 OS/Linuxx86_64"
+      },
+      "RequestBody": {
+        "origins": {
+          "type": "MultiPoint",
+          "coordinates": [
+            [
+              4.85106,
+              52.36006
+            ],
+            [
+              4.85056,
+              52.36187
+            ]
+          ]
+        },
+        "destinations": {
+          "type": "MultiPoint",
+          "coordinates": [
+            [
+              4.85003,
+              52.36241
+            ],
+            [
+              13.42937,
+              52.50931
+            ]
+          ]
+        }
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Content-Type": "application/json",
+        "Date": "Thu, 20 Oct 2022 07:18:08 GMT",
+        "Location": "https://atlas.microsoft.com/route/matrix/4f7245fa-1343-4cca-81dc-cd73738d65e1?api-version=1.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-azuremaps-region": "West Europe",
+        "X-MSEdge-Ref": "Ref A: 6B35CFA4CDFC4DC894E0C65EBAC6EC47 Ref B: SIN30EDGE0122 Ref C: 2022-10-20T07:18:08Z"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://atlas.microsoft.com/route/matrix/4f7245fa-1343-4cca-81dc-cd73738d65e1?api-version=1.0\u0026api-version=1.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "subscription-key": "FlEIfedJiCE9pnEXvoU6-HWVxB1SP-ddYhEBfV5K3xo",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "891772cc-a8cc-47ca-b52a-d9ccad0c3644",
+        "x-ms-useragent": "azsdk-js-maps-route-rest/1.0.0-beta.1 core-rest-pipeline/1.9.0 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "1047",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 20 Oct 2022 07:18:09 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": [
+          "Accept-Encoding",
+          "User-Agent"
+        ],
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-azuremaps-region": "West Europe",
+        "X-MSEdge-Ref": "Ref A: E5275D711DC94301AD7FA31A1930E678 Ref B: SIN30EDGE0122 Ref C: 2022-10-20T07:18:08Z"
+      },
+      "ResponseBody": {
+        "formatVersion": "0.0.1",
+        "matrix": [
+          [
+            {
+              "statusCode": 200,
+              "response": {
+                "routeSummary": {
+                  "lengthInMeters": 495,
+                  "travelTimeInSeconds": 122,
+                  "trafficDelayInSeconds": 0,
+                  "trafficLengthInMeters": 0,
+                  "departureTime": "2022-10-20T09:18:09\u002B02:00",
+                  "arrivalTime": "2022-10-20T09:20:10\u002B02:00"
+                }
+              }
+            },
+            {
+              "statusCode": 200,
+              "response": {
+                "routeSummary": {
+                  "lengthInMeters": 666616,
+                  "travelTimeInSeconds": 22867,
+                  "trafficDelayInSeconds": 450,
+                  "trafficLengthInMeters": 26413,
+                  "departureTime": "2022-10-20T09:18:09\u002B02:00",
+                  "arrivalTime": "2022-10-20T15:39:15\u002B02:00"
+                }
+              }
+            }
+          ],
+          [
+            {
+              "statusCode": 200,
+              "response": {
+                "routeSummary": {
+                  "lengthInMeters": 338,
+                  "travelTimeInSeconds": 104,
+                  "trafficDelayInSeconds": 0,
+                  "trafficLengthInMeters": 0,
+                  "departureTime": "2022-10-20T09:18:09\u002B02:00",
+                  "arrivalTime": "2022-10-20T09:19:53\u002B02:00"
+                }
+              }
+            },
+            {
+              "statusCode": 200,
+              "response": {
+                "routeSummary": {
+                  "lengthInMeters": 666459,
+                  "travelTimeInSeconds": 22824,
+                  "trafficDelayInSeconds": 450,
+                  "trafficLengthInMeters": 26413,
+                  "departureTime": "2022-10-20T09:18:09\u002B02:00",
+                  "arrivalTime": "2022-10-20T15:38:33\u002B02:00"
+                }
+              }
+            }
+          ]
+        ],
+        "summary": {
+          "successfulRoutes": 4,
+          "totalRoutes": 4
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
