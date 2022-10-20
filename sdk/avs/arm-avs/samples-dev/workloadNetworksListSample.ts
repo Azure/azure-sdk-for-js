@@ -12,20 +12,25 @@ import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Lists all of the available operations
+ * This sample demonstrates how to List of workload networks in a private cloud.
  *
- * @summary Lists all of the available operations
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/Operations_List.json
+ * @summary List of workload networks in a private cloud.
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/WorkloadNetworks_List.json
  */
-async function operationsList() {
+async function workloadNetworksList() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = "group1";
+  const privateCloudName = "cloud1";
   const credential = new DefaultAzureCredential();
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.operations.list()) {
+  for await (let item of client.workloadNetworks.list(
+    resourceGroupName,
+    privateCloudName
+  )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-operationsList().catch(console.error);
+workloadNetworksList().catch(console.error);

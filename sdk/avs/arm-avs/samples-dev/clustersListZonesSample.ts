@@ -12,43 +12,47 @@ import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Get a private cloud
+ * This sample demonstrates how to List hosts by zone in a cluster
  *
- * @summary Get a private cloud
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/PrivateClouds_Get.json
+ * @summary List hosts by zone in a cluster
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/Clusters_ListZones.json
  */
-async function privateCloudsGet() {
+async function clustersListZoneData() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "group1";
   const privateCloudName = "cloud1";
+  const clusterName = "cluster1";
   const credential = new DefaultAzureCredential();
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-  const result = await client.privateClouds.get(
+  const result = await client.clusters.listZones(
     resourceGroupName,
-    privateCloudName
+    privateCloudName,
+    clusterName
   );
   console.log(result);
 }
 
-privateCloudsGet().catch(console.error);
+clustersListZoneData().catch(console.error);
 
 /**
- * This sample demonstrates how to Get a private cloud
+ * This sample demonstrates how to List hosts by zone in a cluster
  *
- * @summary Get a private cloud
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/PrivateClouds_Get_Stretched.json
+ * @summary List hosts by zone in a cluster
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/Clusters_ListZones_Stretched.json
  */
-async function privateCloudsGetStretched() {
+async function clustersListZoneDataStretched() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "group1";
   const privateCloudName = "cloud1";
+  const clusterName = "cluster1";
   const credential = new DefaultAzureCredential();
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-  const result = await client.privateClouds.get(
+  const result = await client.clusters.listZones(
     resourceGroupName,
-    privateCloudName
+    privateCloudName,
+    clusterName
   );
   console.log(result);
 }
 
-privateCloudsGetStretched().catch(console.error);
+clustersListZoneDataStretched().catch(console.error);

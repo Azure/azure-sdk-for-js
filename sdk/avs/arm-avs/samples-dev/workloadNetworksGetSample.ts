@@ -12,24 +12,24 @@ import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Delete a DNS zone by id in a private cloud workload network.
+ * This sample demonstrates how to Get a private cloud workload network.
  *
- * @summary Delete a DNS zone by id in a private cloud workload network.
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/WorkloadNetworks_DeleteDnsZones.json
+ * @summary Get a private cloud workload network.
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/WorkloadNetworks_Get.json
  */
-async function workloadNetworksDeleteDnsZone() {
-  const subscriptionId = "{subscription-id}";
+async function workloadNetworksGet() {
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "group1";
-  const dnsZoneId = "dnsZone1";
   const privateCloudName = "cloud1";
+  const workloadNetworkName = "default";
   const credential = new DefaultAzureCredential();
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-  const result = await client.workloadNetworks.beginDeleteDnsZoneAndWait(
+  const result = await client.workloadNetworks.get(
     resourceGroupName,
-    dnsZoneId,
-    privateCloudName
+    privateCloudName,
+    workloadNetworkName
   );
   console.log(result);
 }
 
-workloadNetworksDeleteDnsZone().catch(console.error);
+workloadNetworksGet().catch(console.error);
