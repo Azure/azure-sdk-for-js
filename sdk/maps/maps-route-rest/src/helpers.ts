@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { LatLon } from "@azure/maps-common";
-import { BatchRequest, GetRouteDirectionsQueryParamProperties } from "./generated";
+import { BatchRequest, RouteGetRouteDirectionsQueryParamProperties } from "./generated";
 
 function toLatLonString(coordinates: LatLon): string {
   return `${coordinates[0]},${coordinates[1]}`;
@@ -42,7 +42,7 @@ const clientToServiceNames: Readonly<Record<string, string>> = {
  * @returns The composed batch request.
  */
 export function createRouteDirectionsBatchRequest(
-  queryParamProperties: GetRouteDirectionsQueryParamProperties[]
+  queryParamProperties: RouteGetRouteDirectionsQueryParamProperties[]
 ): BatchRequest {
   return {
     batchItems: queryParamProperties.map((queryParam) => ({

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/** This object is returned from a successful Route Matrix call. For ex, if 2 origins and 3 destinations are provided, there are going to 2 arrays with 3 elements in each. Each element's content depends on the options provided in the query. */
 export interface RouteMatrixResultOutput {
   /** Format Version property */
   formatVersion?: string;
@@ -10,6 +11,7 @@ export interface RouteMatrixResultOutput {
   summary: RouteMatrixSummaryOutput;
 }
 
+/** Matrix result object */
 export interface RouteMatrixOutput {
   /** StatusCode property for the current cell in the input matrix. */
   statusCode: number;
@@ -17,11 +19,13 @@ export interface RouteMatrixOutput {
   response?: RouteMatrixResultResponseOutput;
 }
 
+/** Response object of the current cell in the input matrix. */
 export interface RouteMatrixResultResponseOutput {
   /** Summary object */
   routeSummary?: RouteSummaryOutput;
 }
 
+/** Summary object */
 export interface RouteSummaryOutput {
   /** Length In Meters property */
   lengthInMeters: number;
@@ -35,6 +39,7 @@ export interface RouteSummaryOutput {
   arrivalTime: string;
 }
 
+/** Summary object */
 export interface RouteMatrixSummaryOutput {
   /** Number of successful routes in the response. */
   successfulRoutes: number;
@@ -42,11 +47,13 @@ export interface RouteMatrixSummaryOutput {
   totalRoutes: number;
 }
 
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
 export interface ErrorResponseOutput {
   /** The error object. */
   error?: ErrorDetailOutput;
 }
 
+/** The error detail. */
 export interface ErrorDetailOutput {
   /** The error code. */
   code?: string;
@@ -54,6 +61,7 @@ export interface ErrorDetailOutput {
   message?: string;
 }
 
+/** This object is returned from a successful Route Directions call */
 export interface RouteDirectionsOutput {
   /** Format Version property */
   formatVersion?: string;
@@ -88,6 +96,7 @@ export interface RouteOutput {
   guidance?: RouteGuidanceOutput;
 }
 
+/** A description of a part of a route, comprised of a list of points. Each additional waypoint provided in the request will result in an additional leg in the returned route. */
 export interface RouteLegOutput {
   /** Summary object */
   summary: RouteSummaryOutput;
@@ -95,6 +104,7 @@ export interface RouteLegOutput {
   points: Array<LatLongPairOutput>;
 }
 
+/** A location represented as a latitude and longitude. */
 export interface LatLongPairOutput {
   /** Latitude property */
   latitude: number;
@@ -102,6 +112,7 @@ export interface LatLongPairOutput {
   longitude: number;
 }
 
+/** Route sections contain additional information about parts of a route. Each section contains at least the elements `startPointIndex`, `endPointIndex`, and `sectionType`. */
 export interface RouteSectionOutput {
   /** Index of the first point (offset 0) in the route this section applies to. */
   startPointIndex: number;
@@ -144,6 +155,7 @@ export interface RouteSectionOutput {
   tec?: RouteSectionTecOutput;
 }
 
+/** Details of the traffic event, using definitions in the [TPEG2-TEC](https://www.iso.org/standard/63116.html) standard. Can contain effectCode and causes elements. */
 export interface RouteSectionTecOutput {
   /** The effect on the traffic flow. Contains a value in the tec001:EffectCode table, as defined in the [TPEG2-TEC](https://www.iso.org/standard/63116.html) standard. Can be used to color-code traffic events according to severity. */
   effectCode?: number;
@@ -151,6 +163,7 @@ export interface RouteSectionTecOutput {
   causes?: Array<RouteSectionTecCauseOutput>;
 }
 
+/** The cause of the traffic event. Can contain mainCauseCode and subCauseCode elements. Can be used to define iconography and descriptions. */
 export interface RouteSectionTecCauseOutput {
   /** The main cause of the traffic event. Contains a value in the tec002:CauseCode table, as defined in the [TPEG2-TEC](https://www.iso.org/standard/63116.html) standard. */
   mainCauseCode?: number;
@@ -158,6 +171,7 @@ export interface RouteSectionTecCauseOutput {
   subCauseCode?: number;
 }
 
+/** Contains guidance related elements. This field is present only when guidance was requested and is available. */
 export interface RouteGuidanceOutput {
   /** A list of instructions describing maneuvers. */
   instructions: Array<RouteInstructionOutput>;
@@ -165,6 +179,7 @@ export interface RouteGuidanceOutput {
   instructionGroups: Array<RouteInstructionGroupOutput>;
 }
 
+/** A set of attributes describing a maneuver, e.g. 'Turn right', 'Keep left', 'Take the ferry', 'Take the motorway', 'Arrive'. */
 export interface RouteInstructionOutput {
   /** Distance from the start of the route to the point of the instruction. */
   routeOffsetInMeters?: number;
@@ -271,6 +286,7 @@ export interface RouteInstructionOutput {
   combinedMessage?: string;
 }
 
+/** Groups a sequence of instruction elements which are related to each other. The sequence range is constrained with firstInstructionIndex and lastInstructionIndex. When human-readable text messages are requested for guidance (instructionType=text or tagged), then the instructionGroup has a summary message returned when available. */
 export interface RouteInstructionGroupOutput {
   /** Index of the first instruction in the instructions and belonging to this group. */
   firstInstructionIndex?: number;
@@ -282,6 +298,7 @@ export interface RouteInstructionGroupOutput {
   groupMessage?: string;
 }
 
+/** Optimized way point object. */
 export interface RouteOptimizedWaypointOutput {
   /** Way point index provided by the user. */
   providedIndex: number;
@@ -289,11 +306,13 @@ export interface RouteOptimizedWaypointOutput {
   optimizedIndex: number;
 }
 
+/** Reports the effective settings used in the current call. */
 export interface RouteReportOutput {
   /** Effective parameters or data used when calling this Route API. */
   effectiveSettings: Array<EffectiveSettingOutput>;
 }
 
+/** Effective parameter or data used when calling this Route API. */
 export interface EffectiveSettingOutput {
   /** Name of the parameter used. */
   key: string;
@@ -301,6 +320,7 @@ export interface EffectiveSettingOutput {
   value: string;
 }
 
+/** This object is returned from a successful Route Reachable Range call */
 export interface RouteRangeResultOutput {
   /** Format Version property */
   formatVersion?: string;
@@ -310,6 +330,7 @@ export interface RouteRangeResultOutput {
   report?: RouteReportOutput;
 }
 
+/** Reachable Range */
 export interface RouteRangeOutput {
   /** Center point of the reachable range */
   center: LatLongPairOutput;
@@ -317,30 +338,36 @@ export interface RouteRangeOutput {
   boundary: Array<LatLongPairOutput>;
 }
 
+/** This object is returned from a successful Route Directions Batch service call. */
 export interface RouteDirectionsBatchResultOutput extends BatchResultOutput {
   /** Array containing the batch results. */
   batchItems: Array<RouteDirectionsBatchItemOutput>;
 }
 
+/** An item returned from Route Directions Batch service call. */
 export interface RouteDirectionsBatchItemOutput extends BatchResultItemOutput {
   /** The result of the query. RouteDirections if the query completed successfully, ErrorResponse otherwise. */
   response: RouteDirectionsBatchItemResponseOutput;
 }
 
+/** The result of the query. RouteDirections if the query completed successfully, ErrorResponse otherwise. */
 export interface RouteDirectionsBatchItemResponseOutput
   extends RouteDirectionsOutput,
     ErrorResponseOutput {}
 
+/** An item returned from Batch API. Extend with 'response' property. */
 export interface BatchResultItemOutput {
   /** HTTP request status code. */
   statusCode: number;
 }
 
+/** This object is returned from a successful Batch service call. Extend with 'batchItems' property. */
 export interface BatchResultOutput {
   /** Summary of the results for the batch request */
   summary: BatchResultSummaryOutput;
 }
 
+/** Summary of the results for the batch request */
 export interface BatchResultSummaryOutput {
   /** Number of successful requests in the batch */
   successfulRequests: number;

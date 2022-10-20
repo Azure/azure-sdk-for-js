@@ -8,12 +8,12 @@ import {
   BatchRequest
 } from "./models";
 
-export interface RequestRouteMatrixBodyParam {
+export interface RouteRequestRouteMatrixBodyParam {
   /** The matrix of origin and destination coordinates to compute the route distance, travel time and other summary for each cell of the matrix based on the input parameters. The minimum and the maximum cell count supported are 1 and **700** for async and **100** for sync respectively. For example, it can be 35 origins and 20 destinations or 25 origins and 25 destinations for async API. */
   body: RouteMatrixQuery;
 }
 
-export interface RequestRouteMatrixQueryParamProperties {
+export interface RouteRequestRouteMatrixQueryParamProperties {
   /** Boolean to indicate whether to execute the request synchronously. If set to true, user will get a 200 response if the request is finished under 120 seconds. Otherwise, user will get a 202 response right away. Please refer to the API description for more details on 202 response. **Supported only for async request**. */
   waitForResults?: boolean;
   /** Specifies whether to return additional travel times using different types of traffic information (none, historic, live) as well as the default best-estimate travel time. */
@@ -103,27 +103,27 @@ export interface RequestRouteMatrixQueryParamProperties {
     | "otherHazmatHarmfulToWater";
 }
 
-export interface RequestRouteMatrixQueryParam {
-  queryParameters?: RequestRouteMatrixQueryParamProperties;
+export interface RouteRequestRouteMatrixQueryParam {
+  queryParameters?: RouteRequestRouteMatrixQueryParamProperties;
 }
 
-export interface RequestRouteMatrixMediaTypesParam {
+export interface RouteRequestRouteMatrixMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type RequestRouteMatrixParameters = RequestRouteMatrixQueryParam &
-  RequestRouteMatrixMediaTypesParam &
-  RequestRouteMatrixBodyParam &
+export type RouteRequestRouteMatrixParameters = RouteRequestRouteMatrixQueryParam &
+  RouteRequestRouteMatrixMediaTypesParam &
+  RouteRequestRouteMatrixBodyParam &
   RequestParameters;
-export type GetRouteMatrixParameters = RequestParameters;
+export type RouteGetRouteMatrixParameters = RequestParameters;
 
-export interface RequestRouteMatrixSyncBodyParam {
+export interface RouteRequestRouteMatrixSyncBodyParam {
   /** The matrix of origin and destination coordinates to compute the route distance, travel time and other summary for each cell of the matrix based on the input parameters. The minimum and the maximum cell count supported are 1 and **700** for async and **100** for sync respectively. For example, it can be 35 origins and 20 destinations or 25 origins and 25 destinations for async API. */
   body: RouteMatrixQuery;
 }
 
-export interface RequestRouteMatrixSyncQueryParamProperties {
+export interface RouteRequestRouteMatrixSyncQueryParamProperties {
   /** Boolean to indicate whether to execute the request synchronously. If set to true, user will get a 200 response if the request is finished under 120 seconds. Otherwise, user will get a 202 response right away. Please refer to the API description for more details on 202 response. **Supported only for async request**. */
   waitForResults?: boolean;
   /** Specifies whether to return additional travel times using different types of traffic information (none, historic, live) as well as the default best-estimate travel time. */
@@ -213,21 +213,21 @@ export interface RequestRouteMatrixSyncQueryParamProperties {
     | "otherHazmatHarmfulToWater";
 }
 
-export interface RequestRouteMatrixSyncQueryParam {
-  queryParameters?: RequestRouteMatrixSyncQueryParamProperties;
+export interface RouteRequestRouteMatrixSyncQueryParam {
+  queryParameters?: RouteRequestRouteMatrixSyncQueryParamProperties;
 }
 
-export interface RequestRouteMatrixSyncMediaTypesParam {
+export interface RouteRequestRouteMatrixSyncMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type RequestRouteMatrixSyncParameters = RequestRouteMatrixSyncQueryParam &
-  RequestRouteMatrixSyncMediaTypesParam &
-  RequestRouteMatrixSyncBodyParam &
+export type RouteRequestRouteMatrixSyncParameters = RouteRequestRouteMatrixSyncQueryParam &
+  RouteRequestRouteMatrixSyncMediaTypesParam &
+  RouteRequestRouteMatrixSyncBodyParam &
   RequestParameters;
 
-export interface GetRouteDirectionsQueryParamProperties {
+export interface RouteGetRouteDirectionsQueryParamProperties {
   /** The Coordinates through which the route is calculated, delimited by a colon.  A minimum of two coordinates is required.  The first one is the origin and the last is the destination of the route. Optional coordinates in-between act as WayPoints in the route.  You can pass up to 150 WayPoints. */
   query: string;
   /** Number of desired alternative routes to be calculated. Default: 0, minimum: 0 and maximum: 5 */
@@ -509,14 +509,14 @@ export interface GetRouteDirectionsQueryParamProperties {
   auxiliaryPowerInKw?: number;
 }
 
-export interface GetRouteDirectionsQueryParam {
-  queryParameters: GetRouteDirectionsQueryParamProperties;
+export interface RouteGetRouteDirectionsQueryParam {
+  queryParameters: RouteGetRouteDirectionsQueryParamProperties;
 }
 
-export type GetRouteDirectionsParameters = GetRouteDirectionsQueryParam &
+export type RouteGetRouteDirectionsParameters = RouteGetRouteDirectionsQueryParam &
   RequestParameters;
 
-export interface GetRouteDirectionsWithAdditionalParametersBodyParam {
+export interface RouteGetRouteDirectionsWithAdditionalParametersBodyParam {
   /**
    * Used for reconstructing a route and for calculating zero or more alternative routes to this reference route.  The provided sequence of coordinates is used as input for route reconstruction. The alternative routes  are calculated between the origin and destination points specified in the base path parameter locations.  If both minDeviationDistance and minDeviationTime are set to zero, then these origin and destination points  are expected to be at (or very near) the beginning and end of the reference route, respectively. Intermediate  locations (waypoints) are not supported when using supportingPoints.
    *
@@ -531,7 +531,7 @@ export interface GetRouteDirectionsWithAdditionalParametersBodyParam {
   body: RouteDirectionParameters;
 }
 
-export interface GetRouteDirectionsWithAdditionalParametersQueryParamProperties {
+export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProperties {
   /** The Coordinates through which the route is calculated, delimited by a colon.  A minimum of two coordinates is required.  The first one is the origin and the last is the destination of the route. Optional coordinates in-between act as WayPoints in the route.  You can pass up to 150 WayPoints. */
   query: string;
   /** Number of desired alternative routes to be calculated. Default: 0, minimum: 0 and maximum: 5 */
@@ -809,21 +809,21 @@ export interface GetRouteDirectionsWithAdditionalParametersQueryParamProperties 
   auxiliaryPowerInKw?: number;
 }
 
-export interface GetRouteDirectionsWithAdditionalParametersQueryParam {
-  queryParameters: GetRouteDirectionsWithAdditionalParametersQueryParamProperties;
+export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParam {
+  queryParameters: RouteGetRouteDirectionsWithAdditionalParametersQueryParamProperties;
 }
 
-export interface GetRouteDirectionsWithAdditionalParametersMediaTypesParam {
+export interface RouteGetRouteDirectionsWithAdditionalParametersMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type GetRouteDirectionsWithAdditionalParametersParameters = GetRouteDirectionsWithAdditionalParametersQueryParam &
-  GetRouteDirectionsWithAdditionalParametersMediaTypesParam &
-  GetRouteDirectionsWithAdditionalParametersBodyParam &
+export type RouteGetRouteDirectionsWithAdditionalParametersParameters = RouteGetRouteDirectionsWithAdditionalParametersQueryParam &
+  RouteGetRouteDirectionsWithAdditionalParametersMediaTypesParam &
+  RouteGetRouteDirectionsWithAdditionalParametersBodyParam &
   RequestParameters;
 
-export interface GetRouteRangeQueryParamProperties {
+export interface RouteGetRouteRangeQueryParamProperties {
   /** The Coordinate from which the range calculation should start. */
   query: Array<number>;
   /** Fuel budget in liters that determines maximal range which can be travelled using the specified Combustion Consumption Model.<br> When fuelBudgetInLiters is used, it is mandatory to specify a detailed  Combustion Consumption Model.<br> Exactly one budget (fuelBudgetInLiters, energyBudgetInkWh, timeBudgetInSec, or distanceBudgetInMeters) must be used. */
@@ -1054,38 +1054,38 @@ export interface GetRouteRangeQueryParamProperties {
   auxiliaryPowerInKw?: number;
 }
 
-export interface GetRouteRangeQueryParam {
-  queryParameters: GetRouteRangeQueryParamProperties;
+export interface RouteGetRouteRangeQueryParam {
+  queryParameters: RouteGetRouteRangeQueryParamProperties;
 }
 
-export type GetRouteRangeParameters = GetRouteRangeQueryParam &
+export type RouteGetRouteRangeParameters = RouteGetRouteRangeQueryParam &
   RequestParameters;
 
-export interface RequestRouteDirectionsBatchBodyParam {
+export interface RouteRequestRouteDirectionsBatchBodyParam {
   /** The list of route directions queries/requests to process. The list can contain a max of 700 queries for async and 100 queries for sync version and must contain at least 1 query. */
   body: BatchRequest;
 }
 
-export interface RequestRouteDirectionsBatchMediaTypesParam {
+export interface RouteRequestRouteDirectionsBatchMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type RequestRouteDirectionsBatchParameters = RequestRouteDirectionsBatchMediaTypesParam &
-  RequestRouteDirectionsBatchBodyParam &
+export type RouteRequestRouteDirectionsBatchParameters = RouteRequestRouteDirectionsBatchMediaTypesParam &
+  RouteRequestRouteDirectionsBatchBodyParam &
   RequestParameters;
-export type GetRouteDirectionsBatchParameters = RequestParameters;
+export type RouteGetRouteDirectionsBatchParameters = RequestParameters;
 
-export interface RequestRouteDirectionsBatchSyncBodyParam {
+export interface RouteRequestRouteDirectionsBatchSyncBodyParam {
   /** The list of route directions queries/requests to process. The list can contain  a max of 700 queries for async and 100 queries for sync version and must contain at least 1 query. */
   body: BatchRequest;
 }
 
-export interface RequestRouteDirectionsBatchSyncMediaTypesParam {
+export interface RouteRequestRouteDirectionsBatchSyncMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type RequestRouteDirectionsBatchSyncParameters = RequestRouteDirectionsBatchSyncMediaTypesParam &
-  RequestRouteDirectionsBatchSyncBodyParam &
+export type RouteRequestRouteDirectionsBatchSyncParameters = RouteRequestRouteDirectionsBatchSyncMediaTypesParam &
+  RouteRequestRouteDirectionsBatchSyncBodyParam &
   RequestParameters;

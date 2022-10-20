@@ -10,8 +10,8 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import MapsRouteClient, {
   createRouteDirectionsBatchRequest,
   getLongRunningPoller,
-  GetRouteDirectionsBatch200Response,
-  GetRouteMatrix200Response,
+  RouteGetRouteDirectionsBatch200Response,
+  RouteGetRouteMatrix200Response,
   isUnexpected,
   toColonDelimitedLatLonString,
 } from "@azure-rest/maps-route";
@@ -163,7 +163,7 @@ async function main() {
     });
 
   const routeDirectionBatchPoller = getLongRunningPoller(client, routeDirectionBatchInitRes);
-  const routeDirectionsBatchResults = (await routeDirectionBatchPoller.pollUntilDone()) as GetRouteDirectionsBatch200Response;
+  const routeDirectionsBatchResults = (await routeDirectionBatchPoller.pollUntilDone()) as RouteGetRouteDirectionsBatch200Response;
   routeDirectionsBatchResults.body.batchItems.map((item, idx) => {
     console.log(`${idx}:`);
     console.log(item.response);
@@ -197,7 +197,7 @@ async function main() {
   });
 
   const routeMatrixPoller = getLongRunningPoller(client, routeMatrixInitRes);
-  const routeMatrixResult = (await routeMatrixPoller.pollUntilDone()) as GetRouteMatrix200Response;
+  const routeMatrixResult = (await routeMatrixPoller.pollUntilDone()) as RouteGetRouteMatrix200Response;
   console.log(routeMatrixResult.body.matrix);
 }
 

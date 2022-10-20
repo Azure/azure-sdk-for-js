@@ -13,9 +13,9 @@ import { assert } from "chai";
 import { createClient, createRecorder, testLogger } from "./utils/recordedClient";
 import {
   getLongRunningPoller,
-  GetRouteDirectionsBatch200Response,
-  GetRouteDirectionsQueryParamProperties,
-  GetRouteMatrix200Response,
+  RouteGetRouteDirectionsBatch200Response,
+  RouteGetRouteDirectionsQueryParamProperties,
+  RouteGetRouteMatrix200Response,
   isUnexpected,
   MapsRouteClient,
 } from "../../src/generated";
@@ -197,7 +197,7 @@ describe("LRO", function (this: Suite) {
 
   describe("Begin Request Route Directions Batch", function () {
     it("could take an array of route directions requests as input", async function () {
-      const batchRequests: GetRouteDirectionsQueryParamProperties[] = [
+      const batchRequests: RouteGetRouteDirectionsQueryParamProperties[] = [
         {
           query: toColonDelimitedLatLonString([
             [47.639987, -122.128384],
@@ -233,7 +233,7 @@ describe("LRO", function (this: Suite) {
         intervalInMs: pollingInterval,
       });
 
-      const batchResult = (await poller.pollUntilDone()) as GetRouteDirectionsBatch200Response;
+      const batchResult = (await poller.pollUntilDone()) as RouteGetRouteDirectionsBatch200Response;
 
       assert.equal(batchResult.body.summary.totalRequests, batchRequests.length);
       assert.equal(batchResult.body.batchItems.length, batchRequests.length);
@@ -242,7 +242,7 @@ describe("LRO", function (this: Suite) {
 
   describe("Resume Route Directions Batch Result", function () {
     it("should be able to resume the previous request", async function () {
-      const batchRequests: GetRouteDirectionsQueryParamProperties[] = [
+      const batchRequests: RouteGetRouteDirectionsQueryParamProperties[] = [
         {
           query: toColonDelimitedLatLonString([
             [47.639987, -122.128384],
@@ -286,14 +286,14 @@ describe("LRO", function (this: Suite) {
         resumeFrom: serializedState,
         intervalInMs: pollingInterval,
       });
-      const batchResult = (await rehydratedPoller.pollUntilDone()) as GetRouteDirectionsBatch200Response;
+      const batchResult = (await rehydratedPoller.pollUntilDone()) as RouteGetRouteDirectionsBatch200Response;
 
       assert.equal(batchResult.body.summary.totalRequests, batchRequests.length);
       assert.equal(batchResult.body.batchItems.length, batchRequests.length);
     });
 
     it("should obtain the same result from the rehydrated poller after the lro is finished", async function () {
-      const batchRequests: GetRouteDirectionsQueryParamProperties[] = [
+      const batchRequests: RouteGetRouteDirectionsQueryParamProperties[] = [
         {
           query: toColonDelimitedLatLonString([
             [47.639987, -122.128384],
@@ -369,7 +369,7 @@ describe("LRO", function (this: Suite) {
       const poller = getLongRunningPoller(client, initialResponse, {
         intervalInMs: pollingInterval,
       });
-      const routeMatrixResult = (await poller.pollUntilDone()) as GetRouteMatrix200Response;
+      const routeMatrixResult = (await poller.pollUntilDone()) as RouteGetRouteMatrix200Response;
 
       assert.isNotEmpty(routeMatrixResult.body.matrix);
       assert.isNotEmpty(routeMatrixResult.body.summary);
@@ -410,7 +410,7 @@ describe("LRO", function (this: Suite) {
         intervalInMs: pollingInterval,
         resumeFrom: serializedState,
       });
-      const routeMatrixResult = (await rehydratedPoller.pollUntilDone()) as GetRouteMatrix200Response;
+      const routeMatrixResult = (await rehydratedPoller.pollUntilDone()) as RouteGetRouteMatrix200Response;
 
       assert.isNotEmpty(routeMatrixResult.body.matrix);
       assert.isNotEmpty(routeMatrixResult.body.summary);

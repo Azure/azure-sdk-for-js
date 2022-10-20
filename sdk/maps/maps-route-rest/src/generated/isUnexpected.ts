@@ -2,18 +2,18 @@
 // Licensed under the MIT license.
 
 import {
-  RequestRouteMatrixSync200Response,
-  RequestRouteMatrixSync408Response,
-  RequestRouteMatrixSyncdefaultResponse,
-  GetRouteDirections200Response,
-  GetRouteDirectionsdefaultResponse,
-  GetRouteDirectionsWithAdditionalParameters200Response,
-  GetRouteDirectionsWithAdditionalParametersdefaultResponse,
-  GetRouteRange200Response,
-  GetRouteRangedefaultResponse,
-  RequestRouteDirectionsBatchSync200Response,
-  RequestRouteDirectionsBatchSync408Response,
-  RequestRouteDirectionsBatchSyncdefaultResponse
+  RouteRequestRouteMatrixSync200Response,
+  RouteRequestRouteMatrixSync408Response,
+  RouteRequestRouteMatrixSyncDefaultResponse,
+  RouteGetRouteDirections200Response,
+  RouteGetRouteDirectionsDefaultResponse,
+  RouteGetRouteDirectionsWithAdditionalParameters200Response,
+  RouteGetRouteDirectionsWithAdditionalParametersDefaultResponse,
+  RouteGetRouteRange200Response,
+  RouteGetRouteRangeDefaultResponse,
+  RouteRequestRouteDirectionsBatchSync200Response,
+  RouteRequestRouteDirectionsBatchSync408Response,
+  RouteRequestRouteDirectionsBatchSyncDefaultResponse
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
@@ -30,66 +30,71 @@ const responseMap: Record<string, string[]> = {
 
 export function isUnexpected(
   response:
-    | RequestRouteMatrixSync200Response
-    | RequestRouteMatrixSync408Response
-    | RequestRouteMatrixSyncdefaultResponse
-): response is RequestRouteMatrixSync408Response;
-export function isUnexpected(
-  response: GetRouteDirections200Response | GetRouteDirectionsdefaultResponse
-): response is GetRouteDirectionsdefaultResponse;
+    | RouteRequestRouteMatrixSync200Response
+    | RouteRequestRouteMatrixSync408Response
+    | RouteRequestRouteMatrixSyncDefaultResponse
+): response is RouteRequestRouteMatrixSync408Response;
 export function isUnexpected(
   response:
-    | GetRouteDirectionsWithAdditionalParameters200Response
-    | GetRouteDirectionsWithAdditionalParametersdefaultResponse
-): response is GetRouteDirectionsWithAdditionalParametersdefaultResponse;
-export function isUnexpected(
-  response: GetRouteRange200Response | GetRouteRangedefaultResponse
-): response is GetRouteRangedefaultResponse;
+    | RouteGetRouteDirections200Response
+    | RouteGetRouteDirectionsDefaultResponse
+): response is RouteGetRouteDirectionsDefaultResponse;
 export function isUnexpected(
   response:
-    | RequestRouteDirectionsBatchSync200Response
-    | RequestRouteDirectionsBatchSync408Response
-    | RequestRouteDirectionsBatchSyncdefaultResponse
-): response is RequestRouteDirectionsBatchSync408Response;
+    | RouteGetRouteDirectionsWithAdditionalParameters200Response
+    | RouteGetRouteDirectionsWithAdditionalParametersDefaultResponse
+): response is RouteGetRouteDirectionsWithAdditionalParametersDefaultResponse;
+export function isUnexpected(
+  response: RouteGetRouteRange200Response | RouteGetRouteRangeDefaultResponse
+): response is RouteGetRouteRangeDefaultResponse;
 export function isUnexpected(
   response:
-    | RequestRouteMatrixSync200Response
-    | RequestRouteMatrixSync408Response
-    | RequestRouteMatrixSyncdefaultResponse
-    | GetRouteDirections200Response
-    | GetRouteDirectionsdefaultResponse
-    | GetRouteDirectionsWithAdditionalParameters200Response
-    | GetRouteDirectionsWithAdditionalParametersdefaultResponse
-    | GetRouteRange200Response
-    | GetRouteRangedefaultResponse
-    | RequestRouteDirectionsBatchSync200Response
-    | RequestRouteDirectionsBatchSync408Response
-    | RequestRouteDirectionsBatchSyncdefaultResponse
+    | RouteRequestRouteDirectionsBatchSync200Response
+    | RouteRequestRouteDirectionsBatchSync408Response
+    | RouteRequestRouteDirectionsBatchSyncDefaultResponse
+): response is RouteRequestRouteDirectionsBatchSync408Response;
+export function isUnexpected(
+  response:
+    | RouteRequestRouteMatrixSync200Response
+    | RouteRequestRouteMatrixSync408Response
+    | RouteRequestRouteMatrixSyncDefaultResponse
+    | RouteGetRouteDirections200Response
+    | RouteGetRouteDirectionsDefaultResponse
+    | RouteGetRouteDirectionsWithAdditionalParameters200Response
+    | RouteGetRouteDirectionsWithAdditionalParametersDefaultResponse
+    | RouteGetRouteRange200Response
+    | RouteGetRouteRangeDefaultResponse
+    | RouteRequestRouteDirectionsBatchSync200Response
+    | RouteRequestRouteDirectionsBatchSync408Response
+    | RouteRequestRouteDirectionsBatchSyncDefaultResponse
 ): response is
-  | RequestRouteMatrixSync408Response
-  | RequestRouteMatrixSyncdefaultResponse
-  | GetRouteDirectionsdefaultResponse
-  | GetRouteDirectionsWithAdditionalParametersdefaultResponse
-  | GetRouteRangedefaultResponse
-  | RequestRouteDirectionsBatchSync408Response
-  | RequestRouteDirectionsBatchSyncdefaultResponse {
+  | RouteRequestRouteMatrixSync408Response
+  | RouteRequestRouteMatrixSyncDefaultResponse
+  | RouteGetRouteDirectionsDefaultResponse
+  | RouteGetRouteDirectionsWithAdditionalParametersDefaultResponse
+  | RouteGetRouteRangeDefaultResponse
+  | RouteRequestRouteDirectionsBatchSync408Response
+  | RouteRequestRouteDirectionsBatchSyncDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
   let pathDetails = responseMap[`${method} ${url.pathname}`];
   if (!pathDetails) {
-    pathDetails = geParametrizedPathSuccess(url.pathname);
+    pathDetails = geParametrizedPathSuccess(method, url.pathname);
   }
   return !pathDetails.includes(response.status);
 }
 
-function geParametrizedPathSuccess(path: string): string[] {
+function geParametrizedPathSuccess(method: string, path: string): string[] {
   const pathParts = path.split("/");
 
   // Iterate the responseMap to find a match
   for (const [key, value] of Object.entries(responseMap)) {
     // Extracting the path from the map key which is in format
     // GET /path/foo
+    if (!key.startsWith(method)) {
+      continue;
+    }
     const candidatePath = getPathFromMapKey(key);
     // Get each part of the url path
     const candidateParts = candidatePath.split("/");
@@ -104,8 +109,8 @@ function geParametrizedPathSuccess(path: string): string[] {
       let found = true;
       for (let i = 0; i < candidateParts.length; i++) {
         if (
-          candidateParts[i].startsWith("{") &&
-          candidateParts[i].endsWith("}")
+          candidateParts[i]?.startsWith("{") &&
+          candidateParts[i]?.endsWith("}")
         ) {
           // If the current part of the candidate is a "template" part
           // it is a match with the actual path part on hand

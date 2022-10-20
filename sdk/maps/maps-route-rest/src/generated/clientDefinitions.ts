@@ -2,37 +2,37 @@
 // Licensed under the MIT license.
 
 import {
-  RequestRouteMatrixParameters,
-  GetRouteMatrixParameters,
-  RequestRouteMatrixSyncParameters,
-  GetRouteDirectionsParameters,
-  GetRouteDirectionsWithAdditionalParametersParameters,
-  GetRouteRangeParameters,
-  RequestRouteDirectionsBatchParameters,
-  GetRouteDirectionsBatchParameters,
-  RequestRouteDirectionsBatchSyncParameters
+  RouteRequestRouteMatrixParameters,
+  RouteGetRouteMatrixParameters,
+  RouteRequestRouteMatrixSyncParameters,
+  RouteGetRouteDirectionsParameters,
+  RouteGetRouteDirectionsWithAdditionalParametersParameters,
+  RouteGetRouteRangeParameters,
+  RouteRequestRouteDirectionsBatchParameters,
+  RouteGetRouteDirectionsBatchParameters,
+  RouteRequestRouteDirectionsBatchSyncParameters
 } from "./parameters";
 import {
-  RequestRouteMatrix200Response,
-  RequestRouteMatrix202Response,
-  GetRouteMatrix200Response,
-  GetRouteMatrix202Response,
-  RequestRouteMatrixSync200Response,
-  RequestRouteMatrixSync408Response,
-  RequestRouteMatrixSyncdefaultResponse,
-  GetRouteDirections200Response,
-  GetRouteDirectionsdefaultResponse,
-  GetRouteDirectionsWithAdditionalParameters200Response,
-  GetRouteDirectionsWithAdditionalParametersdefaultResponse,
-  GetRouteRange200Response,
-  GetRouteRangedefaultResponse,
-  RequestRouteDirectionsBatch200Response,
-  RequestRouteDirectionsBatch202Response,
-  GetRouteDirectionsBatch200Response,
-  GetRouteDirectionsBatch202Response,
-  RequestRouteDirectionsBatchSync200Response,
-  RequestRouteDirectionsBatchSync408Response,
-  RequestRouteDirectionsBatchSyncdefaultResponse
+  RouteRequestRouteMatrix200Response,
+  RouteRequestRouteMatrix202Response,
+  RouteGetRouteMatrix200Response,
+  RouteGetRouteMatrix202Response,
+  RouteRequestRouteMatrixSync200Response,
+  RouteRequestRouteMatrixSync408Response,
+  RouteRequestRouteMatrixSyncDefaultResponse,
+  RouteGetRouteDirections200Response,
+  RouteGetRouteDirectionsDefaultResponse,
+  RouteGetRouteDirectionsWithAdditionalParameters200Response,
+  RouteGetRouteDirectionsWithAdditionalParametersDefaultResponse,
+  RouteGetRouteRange200Response,
+  RouteGetRouteRangeDefaultResponse,
+  RouteRequestRouteDirectionsBatch200Response,
+  RouteRequestRouteDirectionsBatch202Response,
+  RouteGetRouteDirectionsBatch200Response,
+  RouteGetRouteDirectionsBatch202Response,
+  RouteRequestRouteDirectionsBatchSync200Response,
+  RouteRequestRouteDirectionsBatchSync408Response,
+  RouteRequestRouteDirectionsBatchSyncDefaultResponse
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -109,9 +109,9 @@ export interface RequestRouteMatrix {
    *   > HTTP `200 OK` - Matrix request successfully processed. The response body contains all of the results.
    */
   post(
-    options: RequestRouteMatrixParameters
+    options: RouteRequestRouteMatrixParameters
   ): StreamableMethod<
-    RequestRouteMatrix200Response | RequestRouteMatrix202Response
+    RouteRequestRouteMatrix200Response | RouteRequestRouteMatrix202Response
   >;
   /**
    * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
@@ -141,8 +141,10 @@ export interface RequestRouteMatrix {
    *   > HTTP `200 OK` - Matrix request successfully processed. The response body contains all of the results.
    */
   get(
-    options?: GetRouteMatrixParameters
-  ): StreamableMethod<GetRouteMatrix200Response | GetRouteMatrix202Response>;
+    options?: RouteGetRouteMatrixParameters
+  ): StreamableMethod<
+    RouteGetRouteMatrix200Response | RouteGetRouteMatrix202Response
+  >;
 }
 
 export interface RequestRouteMatrixSync {
@@ -218,11 +220,11 @@ export interface RequestRouteMatrixSync {
    *   > HTTP `200 OK` - Matrix request successfully processed. The response body contains all of the results.
    */
   post(
-    options: RequestRouteMatrixSyncParameters
+    options: RouteRequestRouteMatrixSyncParameters
   ): StreamableMethod<
-    | RequestRouteMatrixSync200Response
-    | RequestRouteMatrixSync408Response
-    | RequestRouteMatrixSyncdefaultResponse
+    | RouteRequestRouteMatrixSync200Response
+    | RouteRequestRouteMatrixSync408Response
+    | RouteRequestRouteMatrixSyncDefaultResponse
   >;
 }
 
@@ -238,9 +240,9 @@ export interface GetRouteDirections {
    * Routing service provides a set of parameters for a detailed description of vehicle-specific Consumption Model. Please check [Consumption Model](https://docs.microsoft.com/azure/azure-maps/consumption-model) for detailed explanation of the concepts and parameters involved.
    */
   get(
-    options: GetRouteDirectionsParameters
+    options: RouteGetRouteDirectionsParameters
   ): StreamableMethod<
-    GetRouteDirections200Response | GetRouteDirectionsdefaultResponse
+    RouteGetRouteDirections200Response | RouteGetRouteDirectionsDefaultResponse
   >;
   /**
    * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
@@ -253,10 +255,10 @@ export interface GetRouteDirections {
    * Routing service provides a set of parameters for a detailed description of a vehicle-specific Consumption Model. Please check [Consumption Model](https://docs.microsoft.com/azure/azure-maps/consumption-model) for detailed explanation of the concepts and parameters involved.
    */
   post(
-    options: GetRouteDirectionsWithAdditionalParametersParameters
+    options: RouteGetRouteDirectionsWithAdditionalParametersParameters
   ): StreamableMethod<
-    | GetRouteDirectionsWithAdditionalParameters200Response
-    | GetRouteDirectionsWithAdditionalParametersdefaultResponse
+    | RouteGetRouteDirectionsWithAdditionalParameters200Response
+    | RouteGetRouteDirectionsWithAdditionalParametersDefaultResponse
   >;
 }
 
@@ -272,8 +274,10 @@ export interface GetRouteRange {
    * The returned polygon can be used for further processing such as  [Search Inside Geometry](https://docs.microsoft.com/rest/api/maps/search/postsearchinsidegeometry) to  search for POIs within the provided Isochrone.
    */
   get(
-    options: GetRouteRangeParameters
-  ): StreamableMethod<GetRouteRange200Response | GetRouteRangedefaultResponse>;
+    options: RouteGetRouteRangeParameters
+  ): StreamableMethod<
+    RouteGetRouteRange200Response | RouteGetRouteRangeDefaultResponse
+  >;
 }
 
 export interface RequestRouteDirectionsBatch {
@@ -429,10 +433,10 @@ export interface RequestRouteDirectionsBatch {
    * ```
    */
   post(
-    options: RequestRouteDirectionsBatchParameters
+    options: RouteRequestRouteDirectionsBatchParameters
   ): StreamableMethod<
-    | RequestRouteDirectionsBatch200Response
-    | RequestRouteDirectionsBatch202Response
+    | RouteRequestRouteDirectionsBatch200Response
+    | RouteRequestRouteDirectionsBatch202Response
   >;
   /**
    * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
@@ -536,9 +540,10 @@ export interface RequestRouteDirectionsBatch {
    * ```
    */
   get(
-    options?: GetRouteDirectionsBatchParameters
+    options?: RouteGetRouteDirectionsBatchParameters
   ): StreamableMethod<
-    GetRouteDirectionsBatch200Response | GetRouteDirectionsBatch202Response
+    | RouteGetRouteDirectionsBatch200Response
+    | RouteGetRouteDirectionsBatch202Response
   >;
 }
 
@@ -640,11 +645,11 @@ export interface RequestRouteDirectionsBatchSync {
    * ```
    */
   post(
-    options: RequestRouteDirectionsBatchSyncParameters
+    options: RouteRequestRouteDirectionsBatchSyncParameters
   ): StreamableMethod<
-    | RequestRouteDirectionsBatchSync200Response
-    | RequestRouteDirectionsBatchSync408Response
-    | RequestRouteDirectionsBatchSyncdefaultResponse
+    | RouteRequestRouteDirectionsBatchSync200Response
+    | RouteRequestRouteDirectionsBatchSync408Response
+    | RouteRequestRouteDirectionsBatchSyncDefaultResponse
   >;
 }
 

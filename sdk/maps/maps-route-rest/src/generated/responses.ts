@@ -82,12 +82,12 @@ import {
  *
  *   > HTTP `200 OK` - Matrix request successfully processed. The response body contains all of the results.
  */
-export interface RequestRouteMatrix200Response extends HttpResponse {
+export interface RouteRequestRouteMatrix200Response extends HttpResponse {
   status: "200";
   body: RouteMatrixResultOutput;
 }
 
-export interface RequestRouteMatrix202Headers {
+export interface RouteRequestRouteMatrix202Headers {
   /** New URL to check for the results of the long running process. */
   location?: string;
 }
@@ -163,10 +163,10 @@ export interface RequestRouteMatrix202Headers {
  *
  *   > HTTP `200 OK` - Matrix request successfully processed. The response body contains all of the results.
  */
-export interface RequestRouteMatrix202Response extends HttpResponse {
+export interface RouteRequestRouteMatrix202Response extends HttpResponse {
   status: "202";
   body: Record<string, unknown>;
-  headers: RawHttpHeaders & RequestRouteMatrix202Headers;
+  headers: RawHttpHeaders & RouteRequestRouteMatrix202Headers;
 }
 
 /**
@@ -196,12 +196,12 @@ export interface RequestRouteMatrix202Response extends HttpResponse {
  *
  *   > HTTP `200 OK` - Matrix request successfully processed. The response body contains all of the results.
  */
-export interface GetRouteMatrix200Response extends HttpResponse {
+export interface RouteGetRouteMatrix200Response extends HttpResponse {
   status: "200";
   body: RouteMatrixResultOutput;
 }
 
-export interface GetRouteMatrix202Headers {
+export interface RouteGetRouteMatrix202Headers {
   /** New URL to check for the results of the long running process. */
   location?: string;
 }
@@ -233,10 +233,10 @@ export interface GetRouteMatrix202Headers {
  *
  *   > HTTP `200 OK` - Matrix request successfully processed. The response body contains all of the results.
  */
-export interface GetRouteMatrix202Response extends HttpResponse {
+export interface RouteGetRouteMatrix202Response extends HttpResponse {
   status: "202";
   body: Record<string, unknown>;
-  headers: RawHttpHeaders & GetRouteMatrix202Headers;
+  headers: RawHttpHeaders & RouteGetRouteMatrix202Headers;
 }
 
 /**
@@ -310,7 +310,7 @@ export interface GetRouteMatrix202Response extends HttpResponse {
  *
  *   > HTTP `200 OK` - Matrix request successfully processed. The response body contains all of the results.
  */
-export interface RequestRouteMatrixSync200Response extends HttpResponse {
+export interface RouteRequestRouteMatrixSync200Response extends HttpResponse {
   status: "200";
   body: RouteMatrixResultOutput;
 }
@@ -386,7 +386,7 @@ export interface RequestRouteMatrixSync200Response extends HttpResponse {
  *
  *   > HTTP `200 OK` - Matrix request successfully processed. The response body contains all of the results.
  */
-export interface RequestRouteMatrixSync408Response extends HttpResponse {
+export interface RouteRequestRouteMatrixSync408Response extends HttpResponse {
   status: "408";
   body: ErrorResponseOutput;
 }
@@ -462,7 +462,8 @@ export interface RequestRouteMatrixSync408Response extends HttpResponse {
  *
  *   > HTTP `200 OK` - Matrix request successfully processed. The response body contains all of the results.
  */
-export interface RequestRouteMatrixSyncdefaultResponse extends HttpResponse {
+export interface RouteRequestRouteMatrixSyncDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -477,7 +478,7 @@ export interface RequestRouteMatrixSyncdefaultResponse extends HttpResponse {
  *
  * Routing service provides a set of parameters for a detailed description of vehicle-specific Consumption Model. Please check [Consumption Model](https://docs.microsoft.com/azure/azure-maps/consumption-model) for detailed explanation of the concepts and parameters involved.
  */
-export interface GetRouteDirections200Response extends HttpResponse {
+export interface RouteGetRouteDirections200Response extends HttpResponse {
   status: "200";
   body: RouteDirectionsOutput;
 }
@@ -492,7 +493,7 @@ export interface GetRouteDirections200Response extends HttpResponse {
  *
  * Routing service provides a set of parameters for a detailed description of vehicle-specific Consumption Model. Please check [Consumption Model](https://docs.microsoft.com/azure/azure-maps/consumption-model) for detailed explanation of the concepts and parameters involved.
  */
-export interface GetRouteDirectionsdefaultResponse extends HttpResponse {
+export interface RouteGetRouteDirectionsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -507,7 +508,7 @@ export interface GetRouteDirectionsdefaultResponse extends HttpResponse {
  *
  * Routing service provides a set of parameters for a detailed description of a vehicle-specific Consumption Model. Please check [Consumption Model](https://docs.microsoft.com/azure/azure-maps/consumption-model) for detailed explanation of the concepts and parameters involved.
  */
-export interface GetRouteDirectionsWithAdditionalParameters200Response
+export interface RouteGetRouteDirectionsWithAdditionalParameters200Response
   extends HttpResponse {
   status: "200";
   body: RouteDirectionsOutput;
@@ -523,7 +524,7 @@ export interface GetRouteDirectionsWithAdditionalParameters200Response
  *
  * Routing service provides a set of parameters for a detailed description of a vehicle-specific Consumption Model. Please check [Consumption Model](https://docs.microsoft.com/azure/azure-maps/consumption-model) for detailed explanation of the concepts and parameters involved.
  */
-export interface GetRouteDirectionsWithAdditionalParametersdefaultResponse
+export interface RouteGetRouteDirectionsWithAdditionalParametersDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
@@ -539,7 +540,7 @@ export interface GetRouteDirectionsWithAdditionalParametersdefaultResponse
  *
  * The returned polygon can be used for further processing such as  [Search Inside Geometry](https://docs.microsoft.com/rest/api/maps/search/postsearchinsidegeometry) to  search for POIs within the provided Isochrone.
  */
-export interface GetRouteRange200Response extends HttpResponse {
+export interface RouteGetRouteRange200Response extends HttpResponse {
   status: "200";
   body: RouteRangeResultOutput;
 }
@@ -554,7 +555,7 @@ export interface GetRouteRange200Response extends HttpResponse {
  *
  * The returned polygon can be used for further processing such as  [Search Inside Geometry](https://docs.microsoft.com/rest/api/maps/search/postsearchinsidegeometry) to  search for POIs within the provided Isochrone.
  */
-export interface GetRouteRangedefaultResponse extends HttpResponse {
+export interface RouteGetRouteRangeDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -710,12 +711,13 @@ export interface GetRouteRangedefaultResponse extends HttpResponse {
  * }
  * ```
  */
-export interface RequestRouteDirectionsBatch200Response extends HttpResponse {
+export interface RouteRequestRouteDirectionsBatch200Response
+  extends HttpResponse {
   status: "200";
   body: RouteDirectionsBatchResultOutput;
 }
 
-export interface RequestRouteDirectionsBatch202Headers {
+export interface RouteRequestRouteDirectionsBatch202Headers {
   /** New URL to check for the results of the long running process. */
   location?: string;
 }
@@ -871,10 +873,11 @@ export interface RequestRouteDirectionsBatch202Headers {
  * }
  * ```
  */
-export interface RequestRouteDirectionsBatch202Response extends HttpResponse {
+export interface RouteRequestRouteDirectionsBatch202Response
+  extends HttpResponse {
   status: "202";
   body: Record<string, unknown>;
-  headers: RawHttpHeaders & RequestRouteDirectionsBatch202Headers;
+  headers: RawHttpHeaders & RouteRequestRouteDirectionsBatch202Headers;
 }
 
 /**
@@ -978,12 +981,12 @@ export interface RequestRouteDirectionsBatch202Response extends HttpResponse {
  * }
  * ```
  */
-export interface GetRouteDirectionsBatch200Response extends HttpResponse {
+export interface RouteGetRouteDirectionsBatch200Response extends HttpResponse {
   status: "200";
   body: RouteDirectionsBatchResultOutput;
 }
 
-export interface GetRouteDirectionsBatch202Headers {
+export interface RouteGetRouteDirectionsBatch202Headers {
   /** New URL to check for the results of the long running process. */
   location?: string;
 }
@@ -1089,10 +1092,10 @@ export interface GetRouteDirectionsBatch202Headers {
  * }
  * ```
  */
-export interface GetRouteDirectionsBatch202Response extends HttpResponse {
+export interface RouteGetRouteDirectionsBatch202Response extends HttpResponse {
   status: "202";
   body: Record<string, unknown>;
-  headers: RawHttpHeaders & GetRouteDirectionsBatch202Headers;
+  headers: RawHttpHeaders & RouteGetRouteDirectionsBatch202Headers;
 }
 
 /**
@@ -1191,7 +1194,7 @@ export interface GetRouteDirectionsBatch202Response extends HttpResponse {
  * }
  * ```
  */
-export interface RequestRouteDirectionsBatchSync200Response
+export interface RouteRequestRouteDirectionsBatchSync200Response
   extends HttpResponse {
   status: "200";
   body: RouteDirectionsBatchResultOutput;
@@ -1293,7 +1296,7 @@ export interface RequestRouteDirectionsBatchSync200Response
  * }
  * ```
  */
-export interface RequestRouteDirectionsBatchSync408Response
+export interface RouteRequestRouteDirectionsBatchSync408Response
   extends HttpResponse {
   status: "408";
   body: ErrorResponseOutput;
@@ -1395,7 +1398,7 @@ export interface RequestRouteDirectionsBatchSync408Response
  * }
  * ```
  */
-export interface RequestRouteDirectionsBatchSyncdefaultResponse
+export interface RouteRequestRouteDirectionsBatchSyncDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;

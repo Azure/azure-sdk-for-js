@@ -17,27 +17,27 @@ import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
-// @public (undocumented)
+// @public
 export interface BatchRequest {
     batchItems?: Array<BatchRequestItem>;
 }
 
-// @public (undocumented)
+// @public
 export interface BatchRequestItem {
     query?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface BatchResultItemOutput {
     statusCode: number;
 }
 
-// @public (undocumented)
+// @public
 export interface BatchResultOutput {
     summary: BatchResultSummaryOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface BatchResultSummaryOutput {
     successfulRequests: number;
     totalRequests: number;
@@ -51,33 +51,33 @@ function createMapsRouteClient(credential: TokenCredential, mapsAccountClientId:
 export default createMapsRouteClient;
 
 // @public
-export function createRouteDirectionsBatchRequest(queryParamProperties: GetRouteDirectionsQueryParamProperties[]): BatchRequest;
+export function createRouteDirectionsBatchRequest(queryParamProperties: RouteGetRouteDirectionsQueryParamProperties[]): BatchRequest;
 
-// @public (undocumented)
+// @public
 export interface EffectiveSettingOutput {
     key: string;
     value: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ErrorDetailOutput {
     code?: string;
     message?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ErrorResponseOutput {
     error?: ErrorDetailOutput;
 }
 
-// @public (undocumented)
-export interface GeoJsonFeature extends GeoJsonObjectBase, GeoJsonFeatureData {
+// @public
+export interface GeoJsonFeature extends GeoJsonObjectParent, GeoJsonFeatureData {
     // (undocumented)
     type: "Feature";
 }
 
-// @public (undocumented)
-export interface GeoJsonFeatureCollection extends GeoJsonObjectBase, GeoJsonFeatureCollectionData {
+// @public
+export interface GeoJsonFeatureCollection extends GeoJsonObjectParent, GeoJsonFeatureCollectionData {
     // (undocumented)
     type: "FeatureCollection";
 }
@@ -95,17 +95,11 @@ export interface GeoJsonFeatureData {
     properties?: Record<string, unknown>;
 }
 
-// @public (undocumented)
-export type GeoJsonGeometry = GeoJsonGeometryBase | GeoJsonMultiPoint | GeoJsonMultiPolygon | GeoJsonPoint | GeoJsonLineString | GeoJsonMultiLineString | GeoJsonPolygon | GeoJsonGeometryCollection;
+// @public
+export type GeoJsonGeometry = GeoJsonGeometryParent | GeoJsonMultiPoint | GeoJsonMultiPolygon | GeoJsonPoint | GeoJsonLineString | GeoJsonMultiLineString | GeoJsonPolygon | GeoJsonGeometryCollection;
 
-// @public (undocumented)
-export interface GeoJsonGeometryBase extends GeoJsonObjectBase {
-    // (undocumented)
-    type: "GeoJsonGeometry" | "MultiPoint" | "MultiPolygon" | "Point" | "LineString" | "MultiLineString" | "Polygon" | "GeometryCollection";
-}
-
-// @public (undocumented)
-export interface GeoJsonGeometryCollection extends GeoJsonGeometryBase, GeoJsonGeometryCollectionData {
+// @public
+export interface GeoJsonGeometryCollection extends GeoJsonGeometryParent, GeoJsonGeometryCollectionData {
     // (undocumented)
     type: "GeometryCollection";
 }
@@ -115,8 +109,14 @@ export interface GeoJsonGeometryCollectionData {
     geometries: Array<GeoJsonGeometry>;
 }
 
-// @public (undocumented)
-export interface GeoJsonLineString extends GeoJsonGeometryBase, GeoJsonLineStringData {
+// @public
+export interface GeoJsonGeometryParent extends GeoJsonObjectParent {
+    // (undocumented)
+    type: "GeoJsonGeometry" | "MultiPoint" | "MultiPolygon" | "Point" | "LineString" | "MultiLineString" | "Polygon" | "GeometryCollection";
+}
+
+// @public
+export interface GeoJsonLineString extends GeoJsonGeometryParent, GeoJsonLineStringData {
     // (undocumented)
     type: "LineString";
 }
@@ -126,8 +126,8 @@ export interface GeoJsonLineStringData {
     coordinates: Array<Array<number>>;
 }
 
-// @public (undocumented)
-export interface GeoJsonMultiLineString extends GeoJsonGeometryBase, GeoJsonMultiLineStringData {
+// @public
+export interface GeoJsonMultiLineString extends GeoJsonGeometryParent, GeoJsonMultiLineStringData {
     // (undocumented)
     type: "MultiLineString";
 }
@@ -137,19 +137,19 @@ export interface GeoJsonMultiLineStringData {
     coordinates: Array<Array<Array<number>>>;
 }
 
-// @public (undocumented)
-export interface GeoJsonMultiPoint extends GeoJsonGeometryBase, GeoJsonMultiPointData {
+// @public
+export interface GeoJsonMultiPoint extends GeoJsonGeometryParent, GeoJsonMultiPointData {
     // (undocumented)
     type: "MultiPoint";
 }
 
-// @public (undocumented)
+// @public
 export interface GeoJsonMultiPointData {
     coordinates: Array<Array<number>>;
 }
 
-// @public (undocumented)
-export interface GeoJsonMultiPolygon extends GeoJsonGeometryBase, GeoJsonMultiPolygonData {
+// @public
+export interface GeoJsonMultiPolygon extends GeoJsonGeometryParent, GeoJsonMultiPolygonData {
     // (undocumented)
     type: "MultiPolygon";
 }
@@ -159,28 +159,28 @@ export interface GeoJsonMultiPolygonData {
     coordinates: Array<Array<Array<Array<number>>>>;
 }
 
-// @public (undocumented)
+// @public
 export type GeoJsonObject = GeoJsonGeometry | GeoJsonMultiPoint | GeoJsonMultiPolygon | GeoJsonPoint | GeoJsonLineString | GeoJsonMultiLineString | GeoJsonPolygon | GeoJsonGeometryCollection | GeoJsonFeature | GeoJsonFeatureCollection;
 
-// @public (undocumented)
-export interface GeoJsonObjectBase {
+// @public
+export interface GeoJsonObjectParent {
     // (undocumented)
     type: "GeoJsonObject" | "GeoJsonGeometry" | "MultiPoint" | "MultiPolygon" | "Point" | "LineString" | "MultiLineString" | "Polygon" | "GeometryCollection" | "Feature" | "FeatureCollection";
 }
 
-// @public (undocumented)
-export interface GeoJsonPoint extends GeoJsonGeometryBase, GeoJsonPointData {
+// @public
+export interface GeoJsonPoint extends GeoJsonGeometryParent, GeoJsonPointData {
     // (undocumented)
     type: "Point";
 }
 
-// @public (undocumented)
+// @public
 export interface GeoJsonPointData {
     coordinates: Array<number>;
 }
 
-// @public (undocumented)
-export interface GeoJsonPolygon extends GeoJsonGeometryBase, GeoJsonPolygonData {
+// @public
+export interface GeoJsonPolygon extends GeoJsonGeometryParent, GeoJsonPolygonData {
     // (undocumented)
     type: "Polygon";
 }
@@ -195,12 +195,95 @@ export function getLongRunningPoller<TResult extends HttpResponse>(client: Clien
 
 // @public (undocumented)
 export interface GetRouteDirections {
-    get(options: GetRouteDirectionsParameters): StreamableMethod<GetRouteDirections200Response | GetRouteDirectionsdefaultResponse>;
-    post(options: GetRouteDirectionsWithAdditionalParametersParameters): StreamableMethod<GetRouteDirectionsWithAdditionalParameters200Response | GetRouteDirectionsWithAdditionalParametersdefaultResponse>;
+    get(options: RouteGetRouteDirectionsParameters): StreamableMethod<RouteGetRouteDirections200Response | RouteGetRouteDirectionsDefaultResponse>;
+    post(options: RouteGetRouteDirectionsWithAdditionalParametersParameters): StreamableMethod<RouteGetRouteDirectionsWithAdditionalParameters200Response | RouteGetRouteDirectionsWithAdditionalParametersDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface GetRouteRange {
+    get(options: RouteGetRouteRangeParameters): StreamableMethod<RouteGetRouteRange200Response | RouteGetRouteRangeDefaultResponse>;
+}
+
+// @public (undocumented)
+export function isUnexpected(response: RouteRequestRouteMatrixSync200Response | RouteRequestRouteMatrixSync408Response | RouteRequestRouteMatrixSyncDefaultResponse): response is RouteRequestRouteMatrixSync408Response;
+
+// @public (undocumented)
+export function isUnexpected(response: RouteGetRouteDirections200Response | RouteGetRouteDirectionsDefaultResponse): response is RouteGetRouteDirectionsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: RouteGetRouteDirectionsWithAdditionalParameters200Response | RouteGetRouteDirectionsWithAdditionalParametersDefaultResponse): response is RouteGetRouteDirectionsWithAdditionalParametersDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: RouteGetRouteRange200Response | RouteGetRouteRangeDefaultResponse): response is RouteGetRouteRangeDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: RouteRequestRouteDirectionsBatchSync200Response | RouteRequestRouteDirectionsBatchSync408Response | RouteRequestRouteDirectionsBatchSyncDefaultResponse): response is RouteRequestRouteDirectionsBatchSync408Response;
+
+// @public
+export interface LatLongPairOutput {
+    latitude: number;
+    longitude: number;
+}
+
+// @public (undocumented)
+export type MapsRouteClient = Client & {
+    path: Routes;
+};
+
+// @public (undocumented)
+export interface RequestRouteDirectionsBatch {
+    get(options?: RouteGetRouteDirectionsBatchParameters): StreamableMethod<RouteGetRouteDirectionsBatch200Response | RouteGetRouteDirectionsBatch202Response>;
+    post(options: RouteRequestRouteDirectionsBatchParameters): StreamableMethod<RouteRequestRouteDirectionsBatch200Response | RouteRequestRouteDirectionsBatch202Response>;
+}
+
+// @public (undocumented)
+export interface RequestRouteDirectionsBatchSync {
+    post(options: RouteRequestRouteDirectionsBatchSyncParameters): StreamableMethod<RouteRequestRouteDirectionsBatchSync200Response | RouteRequestRouteDirectionsBatchSync408Response | RouteRequestRouteDirectionsBatchSyncDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface RequestRouteMatrix {
+    get(options?: RouteGetRouteMatrixParameters): StreamableMethod<RouteGetRouteMatrix200Response | RouteGetRouteMatrix202Response>;
+    post(options: RouteRequestRouteMatrixParameters): StreamableMethod<RouteRequestRouteMatrix200Response | RouteRequestRouteMatrix202Response>;
+}
+
+// @public (undocumented)
+export interface RequestRouteMatrixSync {
+    post(options: RouteRequestRouteMatrixSyncParameters): StreamableMethod<RouteRequestRouteMatrixSync200Response | RouteRequestRouteMatrixSync408Response | RouteRequestRouteMatrixSyncDefaultResponse>;
 }
 
 // @public
-export interface GetRouteDirections200Response extends HttpResponse {
+export interface RouteDirectionParameters {
+    allowVignette?: Array<string>;
+    avoidAreas?: GeoJsonMultiPolygon;
+    avoidVignette?: Array<string>;
+    supportingPoints?: Record<string, unknown>;
+}
+
+// @public
+export interface RouteDirectionsBatchItemOutput extends BatchResultItemOutput {
+    response: RouteDirectionsBatchItemResponseOutput;
+}
+
+// @public
+export interface RouteDirectionsBatchItemResponseOutput extends RouteDirectionsOutput, ErrorResponseOutput {
+}
+
+// @public
+export interface RouteDirectionsBatchResultOutput extends BatchResultOutput {
+    batchItems: Array<RouteDirectionsBatchItemOutput>;
+}
+
+// @public
+export interface RouteDirectionsOutput {
+    formatVersion?: string;
+    optimizedWaypoints?: Array<RouteOptimizedWaypointOutput>;
+    report?: RouteReportOutput;
+    routes: Array<RouteOutput>;
+}
+
+// @public
+export interface RouteGetRouteDirections200Response extends HttpResponse {
     // (undocumented)
     body: RouteDirectionsOutput;
     // (undocumented)
@@ -208,7 +291,7 @@ export interface GetRouteDirections200Response extends HttpResponse {
 }
 
 // @public
-export interface GetRouteDirectionsBatch200Response extends HttpResponse {
+export interface RouteGetRouteDirectionsBatch200Response extends HttpResponse {
     // (undocumented)
     body: RouteDirectionsBatchResultOutput;
     // (undocumented)
@@ -216,25 +299,25 @@ export interface GetRouteDirectionsBatch200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface GetRouteDirectionsBatch202Headers {
+export interface RouteGetRouteDirectionsBatch202Headers {
     location?: string;
 }
 
 // @public
-export interface GetRouteDirectionsBatch202Response extends HttpResponse {
+export interface RouteGetRouteDirectionsBatch202Response extends HttpResponse {
     // (undocumented)
     body: Record<string, unknown>;
     // (undocumented)
-    headers: RawHttpHeaders & GetRouteDirectionsBatch202Headers;
+    headers: RawHttpHeaders & RouteGetRouteDirectionsBatch202Headers;
     // (undocumented)
     status: "202";
 }
 
 // @public (undocumented)
-export type GetRouteDirectionsBatchParameters = RequestParameters;
+export type RouteGetRouteDirectionsBatchParameters = RequestParameters;
 
 // @public
-export interface GetRouteDirectionsdefaultResponse extends HttpResponse {
+export interface RouteGetRouteDirectionsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
@@ -242,16 +325,16 @@ export interface GetRouteDirectionsdefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type GetRouteDirectionsParameters = GetRouteDirectionsQueryParam & RequestParameters;
+export type RouteGetRouteDirectionsParameters = RouteGetRouteDirectionsQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface GetRouteDirectionsQueryParam {
+export interface RouteGetRouteDirectionsQueryParam {
     // (undocumented)
-    queryParameters: GetRouteDirectionsQueryParamProperties;
+    queryParameters: RouteGetRouteDirectionsQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface GetRouteDirectionsQueryParamProperties {
+export interface RouteGetRouteDirectionsQueryParamProperties {
     accelerationEfficiency?: number;
     alternativeType?: "anyRoute" | "betterRoute";
     arriveAt?: Date | string;
@@ -297,7 +380,7 @@ export interface GetRouteDirectionsQueryParamProperties {
 }
 
 // @public
-export interface GetRouteDirectionsWithAdditionalParameters200Response extends HttpResponse {
+export interface RouteGetRouteDirectionsWithAdditionalParameters200Response extends HttpResponse {
     // (undocumented)
     body: RouteDirectionsOutput;
     // (undocumented)
@@ -305,12 +388,12 @@ export interface GetRouteDirectionsWithAdditionalParameters200Response extends H
 }
 
 // @public (undocumented)
-export interface GetRouteDirectionsWithAdditionalParametersBodyParam {
+export interface RouteGetRouteDirectionsWithAdditionalParametersBodyParam {
     body: RouteDirectionParameters;
 }
 
 // @public
-export interface GetRouteDirectionsWithAdditionalParametersdefaultResponse extends HttpResponse {
+export interface RouteGetRouteDirectionsWithAdditionalParametersDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
@@ -318,21 +401,21 @@ export interface GetRouteDirectionsWithAdditionalParametersdefaultResponse exten
 }
 
 // @public (undocumented)
-export interface GetRouteDirectionsWithAdditionalParametersMediaTypesParam {
+export interface RouteGetRouteDirectionsWithAdditionalParametersMediaTypesParam {
     contentType?: "application/json";
 }
 
 // @public (undocumented)
-export type GetRouteDirectionsWithAdditionalParametersParameters = GetRouteDirectionsWithAdditionalParametersQueryParam & GetRouteDirectionsWithAdditionalParametersMediaTypesParam & GetRouteDirectionsWithAdditionalParametersBodyParam & RequestParameters;
+export type RouteGetRouteDirectionsWithAdditionalParametersParameters = RouteGetRouteDirectionsWithAdditionalParametersQueryParam & RouteGetRouteDirectionsWithAdditionalParametersMediaTypesParam & RouteGetRouteDirectionsWithAdditionalParametersBodyParam & RequestParameters;
 
 // @public (undocumented)
-export interface GetRouteDirectionsWithAdditionalParametersQueryParam {
+export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParam {
     // (undocumented)
-    queryParameters: GetRouteDirectionsWithAdditionalParametersQueryParamProperties;
+    queryParameters: RouteGetRouteDirectionsWithAdditionalParametersQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface GetRouteDirectionsWithAdditionalParametersQueryParamProperties {
+export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProperties {
     accelerationEfficiency?: number;
     alternativeType?: "anyRoute" | "betterRoute";
     arriveAt?: Date | string;
@@ -378,7 +461,7 @@ export interface GetRouteDirectionsWithAdditionalParametersQueryParamProperties 
 }
 
 // @public
-export interface GetRouteMatrix200Response extends HttpResponse {
+export interface RouteGetRouteMatrix200Response extends HttpResponse {
     // (undocumented)
     body: RouteMatrixResultOutput;
     // (undocumented)
@@ -386,30 +469,25 @@ export interface GetRouteMatrix200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface GetRouteMatrix202Headers {
+export interface RouteGetRouteMatrix202Headers {
     location?: string;
 }
 
 // @public
-export interface GetRouteMatrix202Response extends HttpResponse {
+export interface RouteGetRouteMatrix202Response extends HttpResponse {
     // (undocumented)
     body: Record<string, unknown>;
     // (undocumented)
-    headers: RawHttpHeaders & GetRouteMatrix202Headers;
+    headers: RawHttpHeaders & RouteGetRouteMatrix202Headers;
     // (undocumented)
     status: "202";
 }
 
 // @public (undocumented)
-export type GetRouteMatrixParameters = RequestParameters;
-
-// @public (undocumented)
-export interface GetRouteRange {
-    get(options: GetRouteRangeParameters): StreamableMethod<GetRouteRange200Response | GetRouteRangedefaultResponse>;
-}
+export type RouteGetRouteMatrixParameters = RequestParameters;
 
 // @public
-export interface GetRouteRange200Response extends HttpResponse {
+export interface RouteGetRouteRange200Response extends HttpResponse {
     // (undocumented)
     body: RouteRangeResultOutput;
     // (undocumented)
@@ -417,7 +495,7 @@ export interface GetRouteRange200Response extends HttpResponse {
 }
 
 // @public
-export interface GetRouteRangedefaultResponse extends HttpResponse {
+export interface RouteGetRouteRangeDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
@@ -425,16 +503,16 @@ export interface GetRouteRangedefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type GetRouteRangeParameters = GetRouteRangeQueryParam & RequestParameters;
+export type RouteGetRouteRangeParameters = RouteGetRouteRangeQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface GetRouteRangeQueryParam {
+export interface RouteGetRouteRangeQueryParam {
     // (undocumented)
-    queryParameters: GetRouteRangeQueryParamProperties;
+    queryParameters: RouteGetRouteRangeQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface GetRouteRangeQueryParamProperties {
+export interface RouteGetRouteRangeQueryParamProperties {
     accelerationEfficiency?: number;
     auxiliaryPowerInKw?: number;
     auxiliaryPowerInLitersPerHour?: number;
@@ -470,293 +548,13 @@ export interface GetRouteRangeQueryParamProperties {
     windingness?: "low" | "normal" | "high";
 }
 
-// @public (undocumented)
-export function isUnexpected(response: RequestRouteMatrixSync200Response | RequestRouteMatrixSync408Response | RequestRouteMatrixSyncdefaultResponse): response is RequestRouteMatrixSync408Response;
-
-// @public (undocumented)
-export function isUnexpected(response: GetRouteDirections200Response | GetRouteDirectionsdefaultResponse): response is GetRouteDirectionsdefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: GetRouteDirectionsWithAdditionalParameters200Response | GetRouteDirectionsWithAdditionalParametersdefaultResponse): response is GetRouteDirectionsWithAdditionalParametersdefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: GetRouteRange200Response | GetRouteRangedefaultResponse): response is GetRouteRangedefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: RequestRouteDirectionsBatchSync200Response | RequestRouteDirectionsBatchSync408Response | RequestRouteDirectionsBatchSyncdefaultResponse): response is RequestRouteDirectionsBatchSync408Response;
-
-// @public (undocumented)
-export interface LatLongPairOutput {
-    latitude: number;
-    longitude: number;
-}
-
-// @public (undocumented)
-export type MapsRouteClient = Client & {
-    path: Routes;
-};
-
-// @public (undocumented)
-export interface RequestRouteDirectionsBatch {
-    get(options?: GetRouteDirectionsBatchParameters): StreamableMethod<GetRouteDirectionsBatch200Response | GetRouteDirectionsBatch202Response>;
-    post(options: RequestRouteDirectionsBatchParameters): StreamableMethod<RequestRouteDirectionsBatch200Response | RequestRouteDirectionsBatch202Response>;
-}
-
 // @public
-export interface RequestRouteDirectionsBatch200Response extends HttpResponse {
-    // (undocumented)
-    body: RouteDirectionsBatchResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface RequestRouteDirectionsBatch202Headers {
-    location?: string;
-}
-
-// @public
-export interface RequestRouteDirectionsBatch202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    headers: RawHttpHeaders & RequestRouteDirectionsBatch202Headers;
-    // (undocumented)
-    status: "202";
-}
-
-// @public (undocumented)
-export interface RequestRouteDirectionsBatchBodyParam {
-    body: BatchRequest;
-}
-
-// @public (undocumented)
-export interface RequestRouteDirectionsBatchMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type RequestRouteDirectionsBatchParameters = RequestRouteDirectionsBatchMediaTypesParam & RequestRouteDirectionsBatchBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface RequestRouteDirectionsBatchSync {
-    post(options: RequestRouteDirectionsBatchSyncParameters): StreamableMethod<RequestRouteDirectionsBatchSync200Response | RequestRouteDirectionsBatchSync408Response | RequestRouteDirectionsBatchSyncdefaultResponse>;
-}
-
-// @public
-export interface RequestRouteDirectionsBatchSync200Response extends HttpResponse {
-    // (undocumented)
-    body: RouteDirectionsBatchResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface RequestRouteDirectionsBatchSync408Response extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: "408";
-}
-
-// @public (undocumented)
-export interface RequestRouteDirectionsBatchSyncBodyParam {
-    body: BatchRequest;
-}
-
-// @public
-export interface RequestRouteDirectionsBatchSyncdefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface RequestRouteDirectionsBatchSyncMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type RequestRouteDirectionsBatchSyncParameters = RequestRouteDirectionsBatchSyncMediaTypesParam & RequestRouteDirectionsBatchSyncBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface RequestRouteMatrix {
-    get(options?: GetRouteMatrixParameters): StreamableMethod<GetRouteMatrix200Response | GetRouteMatrix202Response>;
-    post(options: RequestRouteMatrixParameters): StreamableMethod<RequestRouteMatrix200Response | RequestRouteMatrix202Response>;
-}
-
-// @public
-export interface RequestRouteMatrix200Response extends HttpResponse {
-    // (undocumented)
-    body: RouteMatrixResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface RequestRouteMatrix202Headers {
-    location?: string;
-}
-
-// @public
-export interface RequestRouteMatrix202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    headers: RawHttpHeaders & RequestRouteMatrix202Headers;
-    // (undocumented)
-    status: "202";
-}
-
-// @public (undocumented)
-export interface RequestRouteMatrixBodyParam {
-    body: RouteMatrixQuery;
-}
-
-// @public (undocumented)
-export interface RequestRouteMatrixMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type RequestRouteMatrixParameters = RequestRouteMatrixQueryParam & RequestRouteMatrixMediaTypesParam & RequestRouteMatrixBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface RequestRouteMatrixQueryParam {
-    // (undocumented)
-    queryParameters?: RequestRouteMatrixQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface RequestRouteMatrixQueryParamProperties {
-    arriveAt?: Date | string;
-    avoid?: Array<"tollRoads" | "motorways" | "ferries" | "unpavedRoads" | "carpools" | "alreadyUsedRoads" | "borderCrossings">;
-    computeTravelTime?: "none" | "all";
-    departAt?: Date | string;
-    filterSectionType?: "carTrain" | "country" | "ferry" | "motorway" | "pedestrian" | "tollRoad" | "tollVignette" | "traffic" | "travelMode" | "tunnel" | "carpool" | "urban";
-    inclineLevel?: "low" | "normal" | "high";
-    routeType?: "fastest" | "shortest" | "eco" | "thrilling";
-    travelMode?: "car" | "truck" | "taxi" | "bus" | "van" | "motorcycle" | "bicycle" | "pedestrian";
-    useTrafficData?: boolean;
-    vehicleAxleWeightInKg?: number;
-    vehicleHeightInMeters?: number;
-    vehicleLengthInMeters?: number;
-    vehicleLoadType?: "USHazmatClass1" | "USHazmatClass2" | "USHazmatClass3" | "USHazmatClass4" | "USHazmatClass5" | "USHazmatClass6" | "USHazmatClass7" | "USHazmatClass8" | "USHazmatClass9" | "otherHazmatExplosive" | "otherHazmatGeneral" | "otherHazmatHarmfulToWater";
-    vehicleMaxSpeedInKmPerHour?: number;
-    vehicleWeightInKg?: number;
-    vehicleWidthInMeters?: number;
-    waitForResults?: boolean;
-    windingness?: "low" | "normal" | "high";
-}
-
-// @public (undocumented)
-export interface RequestRouteMatrixSync {
-    post(options: RequestRouteMatrixSyncParameters): StreamableMethod<RequestRouteMatrixSync200Response | RequestRouteMatrixSync408Response | RequestRouteMatrixSyncdefaultResponse>;
-}
-
-// @public
-export interface RequestRouteMatrixSync200Response extends HttpResponse {
-    // (undocumented)
-    body: RouteMatrixResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface RequestRouteMatrixSync408Response extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: "408";
-}
-
-// @public (undocumented)
-export interface RequestRouteMatrixSyncBodyParam {
-    body: RouteMatrixQuery;
-}
-
-// @public
-export interface RequestRouteMatrixSyncdefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface RequestRouteMatrixSyncMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type RequestRouteMatrixSyncParameters = RequestRouteMatrixSyncQueryParam & RequestRouteMatrixSyncMediaTypesParam & RequestRouteMatrixSyncBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface RequestRouteMatrixSyncQueryParam {
-    // (undocumented)
-    queryParameters?: RequestRouteMatrixSyncQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface RequestRouteMatrixSyncQueryParamProperties {
-    arriveAt?: Date | string;
-    avoid?: Array<"tollRoads" | "motorways" | "ferries" | "unpavedRoads" | "carpools" | "alreadyUsedRoads" | "borderCrossings">;
-    computeTravelTime?: "none" | "all";
-    departAt?: Date | string;
-    filterSectionType?: "carTrain" | "country" | "ferry" | "motorway" | "pedestrian" | "tollRoad" | "tollVignette" | "traffic" | "travelMode" | "tunnel" | "carpool" | "urban";
-    inclineLevel?: "low" | "normal" | "high";
-    routeType?: "fastest" | "shortest" | "eco" | "thrilling";
-    travelMode?: "car" | "truck" | "taxi" | "bus" | "van" | "motorcycle" | "bicycle" | "pedestrian";
-    useTrafficData?: boolean;
-    vehicleAxleWeightInKg?: number;
-    vehicleHeightInMeters?: number;
-    vehicleLengthInMeters?: number;
-    vehicleLoadType?: "USHazmatClass1" | "USHazmatClass2" | "USHazmatClass3" | "USHazmatClass4" | "USHazmatClass5" | "USHazmatClass6" | "USHazmatClass7" | "USHazmatClass8" | "USHazmatClass9" | "otherHazmatExplosive" | "otherHazmatGeneral" | "otherHazmatHarmfulToWater";
-    vehicleMaxSpeedInKmPerHour?: number;
-    vehicleWeightInKg?: number;
-    vehicleWidthInMeters?: number;
-    waitForResults?: boolean;
-    windingness?: "low" | "normal" | "high";
-}
-
-// @public (undocumented)
-export interface RouteDirectionParameters {
-    allowVignette?: Array<string>;
-    avoidAreas?: GeoJsonMultiPolygon;
-    avoidVignette?: Array<string>;
-    supportingPoints?: Record<string, unknown>;
-}
-
-// @public (undocumented)
-export interface RouteDirectionsBatchItemOutput extends BatchResultItemOutput {
-    response: RouteDirectionsBatchItemResponseOutput;
-}
-
-// @public (undocumented)
-export interface RouteDirectionsBatchItemResponseOutput extends RouteDirectionsOutput, ErrorResponseOutput {
-}
-
-// @public (undocumented)
-export interface RouteDirectionsBatchResultOutput extends BatchResultOutput {
-    batchItems: Array<RouteDirectionsBatchItemOutput>;
-}
-
-// @public (undocumented)
-export interface RouteDirectionsOutput {
-    formatVersion?: string;
-    optimizedWaypoints?: Array<RouteOptimizedWaypointOutput>;
-    report?: RouteReportOutput;
-    routes: Array<RouteOutput>;
-}
-
-// @public (undocumented)
 export interface RouteGuidanceOutput {
     instructionGroups: Array<RouteInstructionGroupOutput>;
     instructions: Array<RouteInstructionOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface RouteInstructionGroupOutput {
     firstInstructionIndex?: number;
     groupLengthInMeters?: number;
@@ -764,7 +562,7 @@ export interface RouteInstructionGroupOutput {
     lastInstructionIndex?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface RouteInstructionOutput {
     combinedMessage?: string;
     countryCode?: string;
@@ -787,43 +585,43 @@ export interface RouteInstructionOutput {
     turnAngleInDecimalDegrees?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface RouteLegOutput {
     points: Array<LatLongPairOutput>;
     summary: RouteSummaryOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface RouteMatrixOutput {
     response?: RouteMatrixResultResponseOutput;
     statusCode: number;
 }
 
-// @public (undocumented)
+// @public
 export interface RouteMatrixQuery {
     destinations: GeoJsonMultiPoint;
     origins: GeoJsonMultiPoint;
 }
 
-// @public (undocumented)
+// @public
 export interface RouteMatrixResultOutput {
     formatVersion?: string;
     matrix: Array<Array<RouteMatrixOutput>>;
     summary: RouteMatrixSummaryOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface RouteMatrixResultResponseOutput {
     routeSummary?: RouteSummaryOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface RouteMatrixSummaryOutput {
     successfulRoutes: number;
     totalRoutes: number;
 }
 
-// @public (undocumented)
+// @public
 export interface RouteOptimizedWaypointOutput {
     optimizedIndex: number;
     providedIndex: number;
@@ -837,22 +635,224 @@ export interface RouteOutput {
     summary: RouteSummaryOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface RouteRangeOutput {
     boundary: Array<LatLongPairOutput>;
     center: LatLongPairOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface RouteRangeResultOutput {
     formatVersion?: string;
     reachableRange: RouteRangeOutput;
     report?: RouteReportOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface RouteReportOutput {
     effectiveSettings: Array<EffectiveSettingOutput>;
+}
+
+// @public
+export interface RouteRequestRouteDirectionsBatch200Response extends HttpResponse {
+    // (undocumented)
+    body: RouteDirectionsBatchResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface RouteRequestRouteDirectionsBatch202Headers {
+    location?: string;
+}
+
+// @public
+export interface RouteRequestRouteDirectionsBatch202Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    headers: RawHttpHeaders & RouteRequestRouteDirectionsBatch202Headers;
+    // (undocumented)
+    status: "202";
+}
+
+// @public (undocumented)
+export interface RouteRequestRouteDirectionsBatchBodyParam {
+    body: BatchRequest;
+}
+
+// @public (undocumented)
+export interface RouteRequestRouteDirectionsBatchMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type RouteRequestRouteDirectionsBatchParameters = RouteRequestRouteDirectionsBatchMediaTypesParam & RouteRequestRouteDirectionsBatchBodyParam & RequestParameters;
+
+// @public
+export interface RouteRequestRouteDirectionsBatchSync200Response extends HttpResponse {
+    // (undocumented)
+    body: RouteDirectionsBatchResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface RouteRequestRouteDirectionsBatchSync408Response extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: "408";
+}
+
+// @public (undocumented)
+export interface RouteRequestRouteDirectionsBatchSyncBodyParam {
+    body: BatchRequest;
+}
+
+// @public
+export interface RouteRequestRouteDirectionsBatchSyncDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface RouteRequestRouteDirectionsBatchSyncMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type RouteRequestRouteDirectionsBatchSyncParameters = RouteRequestRouteDirectionsBatchSyncMediaTypesParam & RouteRequestRouteDirectionsBatchSyncBodyParam & RequestParameters;
+
+// @public
+export interface RouteRequestRouteMatrix200Response extends HttpResponse {
+    // (undocumented)
+    body: RouteMatrixResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface RouteRequestRouteMatrix202Headers {
+    location?: string;
+}
+
+// @public
+export interface RouteRequestRouteMatrix202Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    headers: RawHttpHeaders & RouteRequestRouteMatrix202Headers;
+    // (undocumented)
+    status: "202";
+}
+
+// @public (undocumented)
+export interface RouteRequestRouteMatrixBodyParam {
+    body: RouteMatrixQuery;
+}
+
+// @public (undocumented)
+export interface RouteRequestRouteMatrixMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type RouteRequestRouteMatrixParameters = RouteRequestRouteMatrixQueryParam & RouteRequestRouteMatrixMediaTypesParam & RouteRequestRouteMatrixBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface RouteRequestRouteMatrixQueryParam {
+    // (undocumented)
+    queryParameters?: RouteRequestRouteMatrixQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface RouteRequestRouteMatrixQueryParamProperties {
+    arriveAt?: Date | string;
+    avoid?: Array<"tollRoads" | "motorways" | "ferries" | "unpavedRoads" | "carpools" | "alreadyUsedRoads" | "borderCrossings">;
+    computeTravelTime?: "none" | "all";
+    departAt?: Date | string;
+    filterSectionType?: "carTrain" | "country" | "ferry" | "motorway" | "pedestrian" | "tollRoad" | "tollVignette" | "traffic" | "travelMode" | "tunnel" | "carpool" | "urban";
+    inclineLevel?: "low" | "normal" | "high";
+    routeType?: "fastest" | "shortest" | "eco" | "thrilling";
+    travelMode?: "car" | "truck" | "taxi" | "bus" | "van" | "motorcycle" | "bicycle" | "pedestrian";
+    useTrafficData?: boolean;
+    vehicleAxleWeightInKg?: number;
+    vehicleHeightInMeters?: number;
+    vehicleLengthInMeters?: number;
+    vehicleLoadType?: "USHazmatClass1" | "USHazmatClass2" | "USHazmatClass3" | "USHazmatClass4" | "USHazmatClass5" | "USHazmatClass6" | "USHazmatClass7" | "USHazmatClass8" | "USHazmatClass9" | "otherHazmatExplosive" | "otherHazmatGeneral" | "otherHazmatHarmfulToWater";
+    vehicleMaxSpeedInKmPerHour?: number;
+    vehicleWeightInKg?: number;
+    vehicleWidthInMeters?: number;
+    waitForResults?: boolean;
+    windingness?: "low" | "normal" | "high";
+}
+
+// @public
+export interface RouteRequestRouteMatrixSync200Response extends HttpResponse {
+    // (undocumented)
+    body: RouteMatrixResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface RouteRequestRouteMatrixSync408Response extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: "408";
+}
+
+// @public (undocumented)
+export interface RouteRequestRouteMatrixSyncBodyParam {
+    body: RouteMatrixQuery;
+}
+
+// @public
+export interface RouteRequestRouteMatrixSyncDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface RouteRequestRouteMatrixSyncMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type RouteRequestRouteMatrixSyncParameters = RouteRequestRouteMatrixSyncQueryParam & RouteRequestRouteMatrixSyncMediaTypesParam & RouteRequestRouteMatrixSyncBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface RouteRequestRouteMatrixSyncQueryParam {
+    // (undocumented)
+    queryParameters?: RouteRequestRouteMatrixSyncQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface RouteRequestRouteMatrixSyncQueryParamProperties {
+    arriveAt?: Date | string;
+    avoid?: Array<"tollRoads" | "motorways" | "ferries" | "unpavedRoads" | "carpools" | "alreadyUsedRoads" | "borderCrossings">;
+    computeTravelTime?: "none" | "all";
+    departAt?: Date | string;
+    filterSectionType?: "carTrain" | "country" | "ferry" | "motorway" | "pedestrian" | "tollRoad" | "tollVignette" | "traffic" | "travelMode" | "tunnel" | "carpool" | "urban";
+    inclineLevel?: "low" | "normal" | "high";
+    routeType?: "fastest" | "shortest" | "eco" | "thrilling";
+    travelMode?: "car" | "truck" | "taxi" | "bus" | "van" | "motorcycle" | "bicycle" | "pedestrian";
+    useTrafficData?: boolean;
+    vehicleAxleWeightInKg?: number;
+    vehicleHeightInMeters?: number;
+    vehicleLengthInMeters?: number;
+    vehicleLoadType?: "USHazmatClass1" | "USHazmatClass2" | "USHazmatClass3" | "USHazmatClass4" | "USHazmatClass5" | "USHazmatClass6" | "USHazmatClass7" | "USHazmatClass8" | "USHazmatClass9" | "otherHazmatExplosive" | "otherHazmatGeneral" | "otherHazmatHarmfulToWater";
+    vehicleMaxSpeedInKmPerHour?: number;
+    vehicleWeightInKg?: number;
+    vehicleWidthInMeters?: number;
+    waitForResults?: boolean;
+    windingness?: "low" | "normal" | "high";
 }
 
 // @public (undocumented)
@@ -865,7 +865,7 @@ export interface Routes {
     (path: "/route/directions/batch/sync/{format}", format: "json"): RequestRouteDirectionsBatchSync;
 }
 
-// @public (undocumented)
+// @public
 export interface RouteSectionOutput {
     delayInSeconds?: number;
     effectiveSpeedInKmh?: number;
@@ -878,19 +878,19 @@ export interface RouteSectionOutput {
     travelMode?: "car" | "truck" | "taxi" | "bus" | "van" | "motorcycle" | "bicycle" | "pedestrian" | "other";
 }
 
-// @public (undocumented)
+// @public
 export interface RouteSectionTecCauseOutput {
     mainCauseCode?: number;
     subCauseCode?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface RouteSectionTecOutput {
     causes?: Array<RouteSectionTecCauseOutput>;
     effectCode?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface RouteSummaryOutput {
     arrivalTime: string;
     departureTime: string;

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/** An object with a matrix of coordinates. */
 export interface RouteMatrixQuery {
   /** A valid `GeoJSON MultiPoint` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.3) for details. */
   origins: GeoJsonMultiPoint;
@@ -8,13 +9,15 @@ export interface RouteMatrixQuery {
   destinations: GeoJsonMultiPoint;
 }
 
+/** A valid `GeoJSON MultiPoint` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.3) for details. */
 export interface GeoJsonMultiPoint
-  extends GeoJsonGeometryBase,
+  extends GeoJsonGeometryParent,
     GeoJsonMultiPointData {
   type: "MultiPoint";
 }
 
-export interface GeoJsonGeometryBase extends GeoJsonObjectBase {
+/** A valid `GeoJSON` geometry object. The type must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1) for details. */
+export interface GeoJsonGeometryParent extends GeoJsonObjectParent {
   type:
     | "GeoJsonGeometry"
     | "MultiPoint"
@@ -26,7 +29,8 @@ export interface GeoJsonGeometryBase extends GeoJsonObjectBase {
     | "GeometryCollection";
 }
 
-export interface GeoJsonObjectBase {
+/** A valid `GeoJSON` object. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3) for details. */
+export interface GeoJsonObjectParent {
   type:
     | "GeoJsonObject"
     | "GeoJsonGeometry"
@@ -41,11 +45,13 @@ export interface GeoJsonObjectBase {
     | "FeatureCollection";
 }
 
+/** Data contained by a `GeoJson MultiPoint`. */
 export interface GeoJsonMultiPointData {
   /** Coordinates for the `GeoJson MultiPoint` geometry. */
   coordinates: Array<Array<number>>;
 }
 
+/** Post body parameters for Route directions. */
 export interface RouteDirectionParameters {
   /**
    * A GeoJSON Geometry collection representing sequence of coordinates used as input for route reconstruction and for calculating zero or more alternative routes to this reference route.
@@ -66,8 +72,9 @@ export interface RouteDirectionParameters {
   avoidAreas?: GeoJsonMultiPolygon;
 }
 
+/** A valid `GeoJSON MultiPolygon` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.7) for details. */
 export interface GeoJsonMultiPolygon
-  extends GeoJsonGeometryBase,
+  extends GeoJsonGeometryParent,
     GeoJsonMultiPolygonData {
   type: "MultiPolygon";
 }
@@ -77,27 +84,32 @@ export interface GeoJsonMultiPolygonData {
   coordinates: Array<Array<Array<Array<number>>>>;
 }
 
+/** This type represents the request body for the Batch service. */
 export interface BatchRequest {
   /** The list of queries to process. */
   batchItems?: Array<BatchRequestItem>;
 }
 
+/** Batch request object */
 export interface BatchRequestItem {
   /** This parameter contains a query string used to perform an unstructured geocoding operation. The query string will be passed verbatim to the search API for processing. */
   query?: string;
 }
 
-export interface GeoJsonPoint extends GeoJsonGeometryBase, GeoJsonPointData {
+/** A valid `GeoJSON Point` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.2) for details. */
+export interface GeoJsonPoint extends GeoJsonGeometryParent, GeoJsonPointData {
   type: "Point";
 }
 
+/** Data contained by a `GeoJson Point`. */
 export interface GeoJsonPointData {
   /** A `Position` is an array of numbers with two or more elements. The first two elements are _longitude_ and _latitude_, precisely in that order. _Altitude/Elevation_ is an optional third element. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.1) for details. */
   coordinates: Array<number>;
 }
 
+/** A valid `GeoJSON LineString` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.4) for details. */
 export interface GeoJsonLineString
-  extends GeoJsonGeometryBase,
+  extends GeoJsonGeometryParent,
     GeoJsonLineStringData {
   type: "LineString";
 }
@@ -107,8 +119,9 @@ export interface GeoJsonLineStringData {
   coordinates: Array<Array<number>>;
 }
 
+/** A valid `GeoJSON MultiLineString` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.5) for details. */
 export interface GeoJsonMultiLineString
-  extends GeoJsonGeometryBase,
+  extends GeoJsonGeometryParent,
     GeoJsonMultiLineStringData {
   type: "MultiLineString";
 }
@@ -118,8 +131,9 @@ export interface GeoJsonMultiLineStringData {
   coordinates: Array<Array<Array<number>>>;
 }
 
+/** A valid `GeoJSON Polygon` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.6) for details. */
 export interface GeoJsonPolygon
-  extends GeoJsonGeometryBase,
+  extends GeoJsonGeometryParent,
     GeoJsonPolygonData {
   type: "Polygon";
 }
@@ -129,8 +143,9 @@ export interface GeoJsonPolygonData {
   coordinates: Array<Array<Array<number>>>;
 }
 
+/** A valid `GeoJSON GeometryCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.8) for details. */
 export interface GeoJsonGeometryCollection
-  extends GeoJsonGeometryBase,
+  extends GeoJsonGeometryParent,
     GeoJsonGeometryCollectionData {
   type: "GeometryCollection";
 }
@@ -140,7 +155,10 @@ export interface GeoJsonGeometryCollectionData {
   geometries: Array<GeoJsonGeometry>;
 }
 
-export interface GeoJsonFeature extends GeoJsonObjectBase, GeoJsonFeatureData {
+/** A valid `GeoJSON Feature` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.2) for details. */
+export interface GeoJsonFeature
+  extends GeoJsonObjectParent,
+    GeoJsonFeatureData {
   type: "Feature";
 }
 
@@ -155,8 +173,9 @@ export interface GeoJsonFeatureData {
   featureType?: string;
 }
 
+/** A valid `GeoJSON FeatureCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details. */
 export interface GeoJsonFeatureCollection
-  extends GeoJsonObjectBase,
+  extends GeoJsonObjectParent,
     GeoJsonFeatureCollectionData {
   type: "FeatureCollection";
 }
@@ -166,8 +185,9 @@ export interface GeoJsonFeatureCollectionData {
   features: Array<GeoJsonFeature>;
 }
 
+/** A valid `GeoJSON` geometry object. The type must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1) for details. */
 export type GeoJsonGeometry =
-  | GeoJsonGeometryBase
+  | GeoJsonGeometryParent
   | GeoJsonMultiPoint
   | GeoJsonMultiPolygon
   | GeoJsonPoint
@@ -175,6 +195,7 @@ export type GeoJsonGeometry =
   | GeoJsonMultiLineString
   | GeoJsonPolygon
   | GeoJsonGeometryCollection;
+/** A valid `GeoJSON` object. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3) for details. */
 export type GeoJsonObject =
   | GeoJsonGeometry
   | GeoJsonMultiPoint
