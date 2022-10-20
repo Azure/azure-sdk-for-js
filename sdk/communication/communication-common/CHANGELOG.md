@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added support for an optional `kind` property for `deserializeCommunicationIdentifier`.
+
 ### Breaking Changes
 
 ### Bugs Fixed

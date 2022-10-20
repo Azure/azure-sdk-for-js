@@ -154,6 +154,24 @@ export const serializeCommunicationIdentifier = (
   }
 };
 
+const getKind = (
+  serializedIdentifier: SerializedCommunicationIdentifier
+): String => {
+  if (serializedIdentifier.communicationUser) {
+    return "communicationUser";
+  }
+  
+  if (serializedIdentifier.phoneNumber) {
+    return "phoneNumber"
+  }
+
+  if (serializedIdentifier.microsoftTeamsUser) {
+    return "microsoftTeamsUser"
+  }
+
+  return "unknown";
+}
+
 /**
  * @hidden
  * Translates the serialized format of a communication identifier to CommunicationIdentifier.
@@ -164,50 +182,23 @@ export const deserializeCommunicationIdentifier = (
 ): CommunicationIdentifierKind => {
   assertMaximumOneNestedModel(serializedIdentifier);
 
-  const { communicationUser, microsoftTeamsUser, phoneNumber, kind } = serializedIdentifier;
-  if (kind != null) {
-    if (kind === "communicationUser" && communicationUser) {
-      return {
-        kind: "communicationUser",
-        communicationUserId: assertNotNullOrUndefined({ communicationUser }, "id"),
-      };
-    }
-    if (kind === "phoneNumber" && phoneNumber) {
-      return {
-        kind: "phoneNumber",
-        phoneNumber: assertNotNullOrUndefined({ phoneNumber }, "value"),
-        rawId: assertNotNullOrUndefined({ phoneNumber: serializedIdentifier }, "rawId"),
-      };
-    }
-    if (kind === "microsoftTeamsUser" && microsoftTeamsUser) {
-      return {
-        kind: "microsoftTeamsUser",
-        microsoftTeamsUserId: assertNotNullOrUndefined({ microsoftTeamsUser }, "userId"),
-        isAnonymous: assertNotNullOrUndefined({ microsoftTeamsUser }, "isAnonymous"),
-        cloud: assertNotNullOrUndefined({ microsoftTeamsUser }, "cloud"),
-        rawId: assertNotNullOrUndefined({ microsoftTeamsUser: serializedIdentifier }, "rawId"),
-      };
-    }
-    return {
-      kind: "unknown",
-      id: assertNotNullOrUndefined({ unknown: serializedIdentifier }, "rawId"),
-    };
-  }
+  const { communicationUser, microsoftTeamsUser, phoneNumber } = serializedIdentifier;
+  const kind = serializedIdentifier.kind ?? getKind(serializedIdentifier);
 
-  if (communicationUser) {
+  if (kind === "communicationUser" && communicationUser) {
     return {
       kind: "communicationUser",
       communicationUserId: assertNotNullOrUndefined({ communicationUser }, "id"),
     };
   }
-  if (phoneNumber) {
+  if (kind === "phoneNumber" && phoneNumber) {
     return {
       kind: "phoneNumber",
       phoneNumber: assertNotNullOrUndefined({ phoneNumber }, "value"),
       rawId: assertNotNullOrUndefined({ phoneNumber: serializedIdentifier }, "rawId"),
     };
   }
-  if (microsoftTeamsUser) {
+  if (kind === "microsoftTeamsUser" && microsoftTeamsUser) {
     return {
       kind: "microsoftTeamsUser",
       microsoftTeamsUserId: assertNotNullOrUndefined({ microsoftTeamsUser }, "userId"),
