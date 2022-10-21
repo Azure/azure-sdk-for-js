@@ -83,7 +83,6 @@ export class StatsbeatMetrics {
 
   constructor(instrumentationKey: string, endpointUrl: string) {
     this._connectionString = this._getConnectionString(endpointUrl);
-    // this._connectionString = "InstrumentationKey=54091394-e60a-4f99-8888-d5cc6c995bfb;IngestionEndpoint=https://eastus2-3.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus2.livediagnostics.monitor.azure.com/";
     this._meterProvider = new MeterProvider();
 
     const exporterConfig: AzureMonitorExporterOptions = {
