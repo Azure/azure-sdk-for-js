@@ -45,19 +45,12 @@ Now the application should be bundled and ready to run on device, emulators, or 
 
 ### Add a button and a list box to the app
 
-They will be used to choose a testing scenario and run it.  Open App.tsx and replace the content with following code
+They will be used to choose a testing scenario and run it. Open App.tsx and replace the content with following code
 
 ```ts
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import {
-  Button,
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
+import { Button, StyleSheet, Text, View, FlatList, TouchableOpacity } from "react-native";
 
 import { testSDK } from "./src/testSDK";
 
@@ -127,9 +120,11 @@ const styles = StyleSheet.create({
   },
 });
 ```
+
 ### Add testing code
 
 Add a `src` directory at the root of the project and add the following files
+
 - testSDK.ts
 - ehSendEvents.ts
 - ehReceiveEvents.ts
@@ -137,3 +132,110 @@ Add a `src` directory at the root of the project and add the following files
 - sbReceiveMessages.ts
 - wsWrapper.ts
 
+### Add dependencies
+
+We need to add dependency to the JavaScript Client SDK libraries for Event Hubs and Service Bus.
+We use `@babel/plugin-proposal-async-generator-functions` to help transform async iterator usage in our sample.
+We also use `babel-plugin-inline-dotenv` to help load secrets from our `.env` file while developing.
+
+```shell
+yarn add @azure/event-hubs@dev @azure/service-bus@dev
+yarn add --dev babel-plugin-inline-dotenv @babel/plugin-proposal-async-generator-functions
+```
+
+Then add the following into `babel.config.js` to enable the plugin
+
+```diff
+    presets: ["babel-preset-expo"],
++    plugins: [
++      "@babel/plugin-proposal-async-generator-functions",
++      ["inline-dotenv", { unsafe: true }],
++    ],
+```
+
+### Add connection strings to .env file
+
+Create a `.env` file in the project directory. Retrieve your connection strings from Azure portal and add them to the `.env` file. Since this file contains secrets you need to add it to the ignore list if your code is committed to a repository. We also add variables for messaging entity names.
+
+**Note** We use connection string directly here for testing purpose. You should consider the trade-off between security and convenience and better use a backend to dynamically provide secrets to only authenticated users.
+
+```
+# Service Bus
+SERVICEBUS_CONNECTION_STRING=
+QUEUE_NAME=
+
+# Event Hub
+EVENTHUB_CONNECTION_STRING=
+EVENTHUB_NAME=
+CONSUMER_GROUP_NAME=
+```
+
+**Note**: if you update the .env file again, you would need to clear expo cache and rebuild. It can be done by passing `-c` to the start command, for example, in `package.json`
+
+```diff
+-    "android": "expo start --android",
++    "android": "expo start --android -c",
+```
+
+### Add polyfills for NodeJS modules
+
+Our dependency `rhea` depends a few NodeJS modules. We need to provide polyfills for them. In this sample, We will be using `node-libs-react-native` and `react-native-get-random-values`. **Note** that it may be possible to slim the polyfills further as the SDK really only needs `process`, `Buffer` at runtime.
+
+```bash
+yarn add node-libs-react-native react-native-get-random-values
+```
+
+Add a `metro.config.js` to the root of the project with content of
+
+```js
+module.exports = {
+  resolver: {
+    extraNodeModules: require("node-libs-react-native"),
+  },
+};
+```
+
+In `App.tsx` we need to import the polyfills at the top, before importing any Azure SDK module.
+
+```diff
++import "node-libs-react-native/globals";
++import "react-native-get-random-values";
+
+ import { testSDK } from "./src/testSDK";
+```
+
+### Add a WebSocket wrapper
+
+The implementation of `WebSocket` on React-Native doesn't follow the standard, which is causing problem for `rhea` when receiving binary data. We need to add a wrapper around `WebSocket` to fix it.
+
+Add the following to `src/wsWrapper.ts`
+
+```ts
+export class WebSocketWrapper {
+  constructor(...args) {
+    const instance = new globalThis.WebSocket(...args);
+    instance.binaryType = "blob";
+    return instance;
+  }
+}
+```
+
+Then update our testing code to pass the `webSocketOptions` via the client options when creating clients:
+
+```diff
+-import { ServiceBusClient, ServiceBusMessage, ServiceBusMessageBatch } from "@azure/service-bus";
++import { ServiceBusClient, ServiceBusMessage, ServiceBusMessageBatch, WebSocketImpl } from "@azure/service-bus";
++import { WebSocketWrapper } from "./wsWrapper";
+
+// ...
+
+ export async function main() {
+-  const sbClient = new ServiceBusClient(connectionString);
++  const sbClient = new ServiceBusClient(connectionString, {
++    webSocketOptions: {
++      webSocket: WebSocketWrapper as WebSocketImpl,
++    },
++  });
+```
+
+Now the application should work as expected, sending and receiving Event Hub Events/Service Bus messages.

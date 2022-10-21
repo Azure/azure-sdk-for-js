@@ -13,7 +13,13 @@
  * @summary Demonstrates how to send messages to Service Bus Queue/Topic
  */
 
-import { ServiceBusClient, ServiceBusMessage, ServiceBusMessageBatch } from "@azure/service-bus";
+import {
+  ServiceBusClient,
+  ServiceBusMessage,
+  ServiceBusMessageBatch,
+  WebSocketImpl,
+} from "@azure/service-bus";
+import { WebSocketWrapper } from "./wsWrapper";
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
@@ -24,7 +30,7 @@ const firstSetOfMessages: ServiceBusMessage[] = [
   { body: "Werner Heisenberg" },
   { body: "Marie Curie" },
   { body: "Steven Hawking" },
-  { body: "Isaac Newton" }
+  { body: "Isaac Newton" },
 ];
 
 const secondSetOfMessages: ServiceBusMessage[] = [
@@ -32,11 +38,15 @@ const secondSetOfMessages: ServiceBusMessage[] = [
   { body: "Michael Faraday" },
   { body: "Galileo Galilei" },
   { body: "Johannes Kepler" },
-  { body: "Nikolaus Kopernikus" }
+  { body: "Nikolaus Kopernikus" },
 ];
 
 export async function main() {
-  const sbClient = new ServiceBusClient(connectionString);
+  const sbClient = new ServiceBusClient(connectionString, {
+    webSocketOptions: {
+      webSocket: WebSocketWrapper as WebSocketImpl,
+    },
+  });
 
   // createSender() can also be used to create a sender for a topic.
   const sender = sbClient.createSender(queueName);
@@ -71,7 +81,7 @@ export async function main() {
       contentType: "application/json",
       subject: "Scientist",
       body: { firstName: "Albert", lastName: "Einstein" },
-      timeToLive: 2 * 60 * 1000 // message expires in 2 minutes
+      timeToLive: 2 * 60 * 1000, // message expires in 2 minutes
     };
     await sender.sendMessages(message);
 

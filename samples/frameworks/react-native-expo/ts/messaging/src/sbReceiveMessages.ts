@@ -10,14 +10,19 @@
  * @summary Demonstrates how to receive Service Bus messages in a loop
  */
 
-import { ServiceBusClient } from "@azure/service-bus";
+import { ServiceBusClient, WebSocketImpl } from "@azure/service-bus";
+import { WebSocketWrapper } from "./wsWrapper";
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 export async function main() {
-  const sbClient = new ServiceBusClient(connectionString);
+  const sbClient = new ServiceBusClient(connectionString, {
+    webSocketOptions: {
+      webSocket: WebSocketWrapper as WebSocketImpl,
+    },
+  });
 
   // If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload
   // instead.
@@ -34,7 +39,7 @@ export async function main() {
       // NOTE: asking for 10 messages does not guarantee that we will return
       // all 10 at once so we must loop until we get all the messages we expected.
       const messages = await queueReceiver.receiveMessages(10, {
-        maxWaitTimeInMs: 60 * 1000
+        maxWaitTimeInMs: 60 * 1000,
       });
 
       if (!messages.length) {

@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT Licence.
 
-import { EventHubProducerClient } from "@azure/event-hubs";
+import { EventHubProducerClient, WebSocketImpl } from "@azure/event-hubs";
+import { WebSocketWrapper } from "./wsWrapper";
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
@@ -10,7 +11,11 @@ const eventHubName = process.env["EVENTHUB_NAME"] || "";
 export async function main(): Promise<void> {
   console.log(`Running sendEvents sample`);
 
-  const producer = new EventHubProducerClient(connectionString, eventHubName);
+  const producer = new EventHubProducerClient(connectionString, eventHubName, {
+    webSocketOptions: {
+      webSocket: WebSocketWrapper as WebSocketImpl,
+    },
+  });
 
   console.log("Creating and sending a batch of events...");
 
