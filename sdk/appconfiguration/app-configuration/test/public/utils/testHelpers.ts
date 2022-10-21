@@ -53,7 +53,6 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint {
     if (value == null) {
       if (tokenCredentialsNotPresentWarning) {
         tokenCredentialsNotPresentWarning = true;
-        console.log("Functional tests not running - set client identity variables to activate");
       }
 
       throw new Error("Invalid value for requiredEnvironmentVariables");
@@ -74,9 +73,6 @@ export function createAppConfigurationClientForTests<
   if (connectionString == null) {
     if (!connectionStringNotPresentWarning) {
       connectionStringNotPresentWarning = true;
-      console.log(
-        "Functional tests not running - set APPCONFIG_CONNECTION_STRING to a valid AppConfig connection string to activate"
-      );
     }
     throw new Error("Invalid value for APPCONFIG_CONNECTION_STRING");
   }
