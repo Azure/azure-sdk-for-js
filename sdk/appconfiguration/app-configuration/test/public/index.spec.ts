@@ -809,7 +809,7 @@ describe("AppConfigurationClient", () => {
           })
         );
 
-        if (i !== 0 && i % 10 === 0) {
+        if (i !== 0 && i % 2 === 0) {
           await Promise.all(addSettingPromises);
           addSettingPromises = [];
         }
