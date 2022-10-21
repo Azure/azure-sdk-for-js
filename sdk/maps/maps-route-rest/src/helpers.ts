@@ -59,6 +59,7 @@ export function createRouteDirectionsBatchRequest(
               return `${k}=${v.toISOString()}`;
             return `${k}=${v}`;
           })
+          .filter((s) => s !== "")
           .join("&"),
     })),
   };
