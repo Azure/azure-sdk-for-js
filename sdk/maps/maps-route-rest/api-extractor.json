@@ -6,7 +6,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/maps-route.d.ts"
+    "publicTrimmedFilePath": "./types/maps-route-rest.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": { "default": { "logLevel": "none" } },

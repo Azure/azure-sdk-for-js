@@ -7,7 +7,8 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 // import { DefaultAzureCredential } from "@azure/identity";
-import MapsRouteClient, {
+import {
+  createMapsRouteClient,
   createRouteDirectionsBatchRequest,
   getLongRunningPoller,
   RouteGetRouteDirectionsBatch200Response,
@@ -34,12 +35,12 @@ async function main() {
   /** Shared Key authentication (subscription-key) */
   const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
   const credential = new AzureKeyCredential(subscriptionKey);
-  const client = MapsRouteClient(credential);
+  const client = createMapsRouteClient(credential);
 
   /** Azure Active Directory (Azure AD) authentication */
   // const credential = new DefaultAzureCredential();
   // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
-  // const client = MapsRouteClient(credential, mapsClientId);
+  // const client = createMapsRouteClient(credential, mapsClientId);
 
   console.log(" --- Get route directions:");
   const getRouteDirectionsResult = await client.path("/route/directions/{format}", "json").get({

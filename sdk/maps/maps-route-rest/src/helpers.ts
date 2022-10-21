@@ -10,9 +10,9 @@ function toLatLonString(coordinates: LatLon): string {
 
 /**
  * Transform an array of [Latitude, Longtitute] to a string in the following format:
- * "<Latitude_1>,<Longtitute_1>:<Latitude_2>,<Longtitute_2>:..."
+ * "Latitude_1,Longtitute_1:Latitude_2,Longtitute_2:..."
  *
- * @param coordinates An array of Latitude/Longtitute pair to transform.
+ * @param coordinates - An array of Latitude/Longtitute pair to transform.
  * @returns The transformed string.
  */
 export function toColonDelimitedLatLonString(coordinates: LatLon[]): string {
@@ -38,7 +38,7 @@ const clientToServiceNames: Readonly<Record<string, string>> = {
 /**
  * Create a batch request body of a bunch of route direction requests.
  *
- * @param queryParamProperties An object of the query parameters for a route direction request
+ * @param queryParamProperties - An object of the query parameters for a route direction request
  * @returns The composed batch request.
  */
 export function createRouteDirectionsBatchRequest(
@@ -51,12 +51,17 @@ export function createRouteDirectionsBatchRequest(
         Object.entries(queryParam)
           .map(([k, v]) => {
             // Skip if no value
-            if (typeof v === "undefined" || v === null) return "";
+            if (typeof v === "undefined" || v === null) {
+              return "";
+            }
             // Check name mappings: primitive values
-            if (k in clientToServiceNames) return `${clientToServiceNames[k]}=${v}`;
+            if (k in clientToServiceNames) {
+              return `${clientToServiceNames[k]}=${v}`;
+            }
             // Check name mappings: Array values
-            if ((k === "departAt" || k === "arriveAt") && v instanceof Date)
+            if ((k === "departAt" || k === "arriveAt") && v instanceof Date) {
               return `${k}=${v.toISOString()}`;
+            }
             return `${k}=${v}`;
           })
           .filter((s) => s !== "")

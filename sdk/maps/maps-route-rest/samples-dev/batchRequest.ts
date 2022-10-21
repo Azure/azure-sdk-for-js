@@ -7,7 +7,8 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 // import { DefaultAzureCredential } from "@azure/identity";
-import createMapsRouteClient, {
+import {
+  createMapsRouteClient,
   createRouteDirectionsBatchRequest,
   getLongRunningPoller,
   toColonDelimitedLatLonString,

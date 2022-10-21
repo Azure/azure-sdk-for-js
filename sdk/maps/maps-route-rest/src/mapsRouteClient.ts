@@ -1,5 +1,8 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { ClientOptions } from "@azure-rest/core-client";
-import { AzureKeyCredential, isTokenCredential, TokenCredential } from "@azure/core-auth";
+import { AzureKeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { createMapsClientIdPolicy } from "@azure/maps-common";
 import { MapsRouteClient } from "./generated";
 import createClient from "./generated";

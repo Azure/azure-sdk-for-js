@@ -3,8 +3,8 @@
 
 import {
   BatchRequest,
-  createRouteDirectionsBatchRequest,
   RouteGetRouteDirectionsQueryParamProperties,
+  createRouteDirectionsBatchRequest,
   toColonDelimitedLatLonString,
 } from "../../src";
 import { assert } from "chai";

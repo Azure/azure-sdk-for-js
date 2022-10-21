@@ -44,11 +44,10 @@ export interface BatchResultSummaryOutput {
 }
 
 // @public
-function createMapsRouteClient(credential: AzureKeyCredential, options?: ClientOptions): MapsRouteClient;
+export function createMapsRouteClient(credential: AzureKeyCredential, options?: ClientOptions): MapsRouteClient;
 
 // @public
-function createMapsRouteClient(credential: TokenCredential, mapsAccountClientId: string, options?: ClientOptions): MapsRouteClient;
-export default createMapsRouteClient;
+export function createMapsRouteClient(credential: TokenCredential, mapsAccountClientId: string, options?: ClientOptions): MapsRouteClient;
 
 // @public
 export function createRouteDirectionsBatchRequest(queryParamProperties: RouteGetRouteDirectionsQueryParamProperties[]): BatchRequest;
@@ -343,15 +342,15 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
     avoid?: Array<"tollRoads" | "motorways" | "ferries" | "unpavedRoads" | "carpools" | "alreadyUsedRoads" | "borderCrossings">;
     computeBestWaypointOrder?: boolean;
     computeTravelTime?: "none" | "all";
-    constantSpeedConsumptionInkWhPerHundredkm?: string;
-    constantSpeedConsumptionInLitersPerHundredkm?: string;
+    constantSpeedConsumptionInKwHPerHundredKm?: string;
+    constantSpeedConsumptionInLitersPerHundredKm?: string;
     currentChargeInKwH?: number;
     currentFuelInLiters?: number;
     decelerationEfficiency?: number;
     departAt?: Date | string;
     downhillEfficiency?: number;
     filterSectionType?: "carTrain" | "country" | "ferry" | "motorway" | "pedestrian" | "tollRoad" | "tollVignette" | "traffic" | "travelMode" | "tunnel" | "carpool" | "urban";
-    fuelEnergyDensityInMJoulesPerLiter?: number;
+    fuelEnergyDensityInMegajoulesPerLiter?: number;
     inclineLevel?: "low" | "normal" | "high";
     instructionsType?: "coded" | "text" | "tagged";
     isCommercialVehicle?: boolean;
@@ -424,15 +423,15 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProper
     avoid?: Array<"tollRoads" | "motorways" | "ferries" | "unpavedRoads" | "carpools" | "alreadyUsedRoads" | "borderCrossings">;
     computeBestWaypointOrder?: boolean;
     computeTravelTime?: "none" | "all";
-    constantSpeedConsumptionInkWhPerHundredkm?: string;
-    constantSpeedConsumptionInLitersPerHundredkm?: string;
+    constantSpeedConsumptionInKwHPerHundredKm?: string;
+    constantSpeedConsumptionInLitersPerHundredKm?: string;
     currentChargeInKwH?: number;
     currentFuelInLiters?: number;
     decelerationEfficiency?: number;
     departAt?: Date | string;
     downhillEfficiency?: number;
     filterSectionType?: "carTrain" | "country" | "ferry" | "motorway" | "pedestrian" | "tollRoad" | "tollVignette" | "traffic" | "travelMode" | "tunnel" | "carpool" | "urban";
-    fuelEnergyDensityInMJoulesPerLiter?: number;
+    fuelEnergyDensityInMegajoulesPerLiter?: number;
     inclineLevel?: "low" | "normal" | "high";
     instructionsType?: "coded" | "text" | "tagged";
     isCommercialVehicle?: boolean;
@@ -517,8 +516,8 @@ export interface RouteGetRouteRangeQueryParamProperties {
     auxiliaryPowerInKw?: number;
     auxiliaryPowerInLitersPerHour?: number;
     avoid?: Array<"tollRoads" | "motorways" | "ferries" | "unpavedRoads" | "carpools" | "alreadyUsedRoads" | "borderCrossings">;
-    constantSpeedConsumptionInkWhPerHundredkm?: string;
-    constantSpeedConsumptionInLitersPerHundredkm?: string;
+    constantSpeedConsumptionInKwHPerHundredKm?: string;
+    constantSpeedConsumptionInLitersPerHundredKm?: string;
     currentChargeInKwH?: number;
     currentFuelInLiters?: number;
     decelerationEfficiency?: number;
@@ -527,7 +526,7 @@ export interface RouteGetRouteRangeQueryParamProperties {
     downhillEfficiency?: number;
     energyBudgetInKwH?: number;
     fuelBudgetInLiters?: number;
-    fuelEnergyDensityInMJoulesPerLiter?: number;
+    fuelEnergyDensityInMegajoulesPerLiter?: number;
     inclineLevel?: "low" | "normal" | "high";
     isCommercialVehicle?: boolean;
     maxChargeInKwH?: number;
