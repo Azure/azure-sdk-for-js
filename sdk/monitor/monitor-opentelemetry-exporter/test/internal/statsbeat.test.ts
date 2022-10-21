@@ -12,6 +12,7 @@ import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
 import { TelemetryItem as Envelope } from "../../src/generated";
 import nock from "nock";
 import { StatsbeatMetrics } from "../../src/export/statsbeat/statsbeatMetrics";
+// @ts-ignore Need to ignore this while we do not import types
 import sinon from "sinon";
 
 describe("#AzureMonitorStatsbeatExporter", () => {
@@ -84,7 +85,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
     });
 
     describe("Resource provider function", () => {
-      let sandbox: sinon.SinonSandbox;
+      let sandbox: any;
 
       before(() => {
         sandbox = sinon.createSandbox();
