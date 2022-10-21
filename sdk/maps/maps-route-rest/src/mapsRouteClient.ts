@@ -13,7 +13,8 @@ import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
  *
  * @example
  * ```ts
- * import { MapsRouteClient, AzureKeyCredential } from "@azure/maps-route";
+ * import { createMapsRouteClient } from "@azure-rest/maps-route";
+ * import { AzureKeyCredential } from "@azure/core-auth";
  *
  * const credential = new AzureKeyCredential("<subscription-key>");
  * const client = createMapsRouteClient(credential);
