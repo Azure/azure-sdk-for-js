@@ -156,11 +156,11 @@ export const serializeCommunicationIdentifier = (
 
 const getKind = (
   serializedIdentifier: SerializedCommunicationIdentifier
-): String => {
+): string => {
   if (serializedIdentifier.communicationUser) {
     return "communicationUser";
   }
-  
+
   if (serializedIdentifier.phoneNumber) {
     return "phoneNumber"
   }
