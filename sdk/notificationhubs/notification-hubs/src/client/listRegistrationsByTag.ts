@@ -25,7 +25,7 @@ export function listRegistrationsByTag(
   options: RegistrationQueryLimitOptions = {}
 ): PagedAsyncIterableIterator<RegistrationDescription> {
   const { span, updatedOptions } = tracingClient.startSpan(
-    `NotificationHubsClientContext-${OPERATION_NAME}`,
+    `NotificationHubsClientContext.${OPERATION_NAME}`,
     options
   );
   try {

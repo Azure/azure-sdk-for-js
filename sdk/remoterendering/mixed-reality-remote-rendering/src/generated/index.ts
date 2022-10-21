@@ -8,5 +8,4 @@
 
 export * from "./models";
 export { RemoteRenderingRestClient } from "./remoteRenderingRestClient";
-export { RemoteRenderingRestClientContext } from "./remoteRenderingRestClientContext";
 export * from "./operationsInterfaces";

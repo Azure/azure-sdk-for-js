@@ -19,7 +19,7 @@ import {
   TokenCredential,
   deserializationPolicy,
   isNode,
-} from "../src/coreHttp";
+} from "../src";
 import {
   ServiceClient,
   getOperationArgumentValueFromParameterPath,

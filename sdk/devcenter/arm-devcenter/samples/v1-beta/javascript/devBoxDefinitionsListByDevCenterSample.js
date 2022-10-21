@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to List Dev Box definitions for a devcenter.
  *
  * @summary List Dev Box definitions for a devcenter.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-08-01-preview/examples/DevBoxDefinitions_ListByDevCenter.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/DevBoxDefinitions_ListByDevCenter.json
  */
 async function devBoxDefinitionsListByDevCenter() {
   const subscriptionId = "{subscriptionId}";
