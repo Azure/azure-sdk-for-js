@@ -228,12 +228,13 @@ export class StatsbeatMetrics {
   }
 
   private _failureCallback(observableResult: BatchObservableResult) {
-    // https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/opentelemetry-sdk-metrics
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
 
-    // Takes the failureCountGauge, value (of the counter), and attributes
-    // create a unqiue counter based on statusCode as well
-    // append statusCode to attributes so the newly created attributes are unique.
+    /*
+      Takes the failureCountGauge, value (of the counter), and attributes
+      create a unqiue counter based on statusCode as well
+      append statusCode to attributes so the newly created attributes are unique.
+    */
     let attributes = { ...this._networkProperties, ...this._commonProperties, statusCode: 0 };
 
     // For each { statusCode -> count } mapping, call observe, passing the count and attributes that include the statusCode
