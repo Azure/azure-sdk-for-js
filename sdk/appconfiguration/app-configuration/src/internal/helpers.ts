@@ -12,8 +12,8 @@ import {
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
 } from "../models";
-import { GetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
 import { FeatureFlagHelper, FeatureFlagValue, featureFlagContentType } from "../featureFlag";
+import { GetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
 import {
   SecretReferenceHelper,
   SecretReferenceValue,

@@ -14,6 +14,7 @@ export * from "./images";
 export * from "./imageVersions";
 export * from "./catalogs";
 export * from "./environmentTypes";
+export * from "./projectAllowedEnvironmentTypes";
 export * from "./projectEnvironmentTypes";
 export * from "./devBoxDefinitions";
 export * from "./operations";

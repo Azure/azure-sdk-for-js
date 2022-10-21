@@ -104,7 +104,7 @@ export abstract class AzureMonitorBaseExporter {
    */
   protected async _exportEnvelopes(envelopes: Envelope[]): Promise<ExportResult> {
     diag.info(`Exporting ${envelopes.length} envelope(s)`);
-
+    
     // Shutdown statsbeat if the maximum number of failures is exceeded
     if (
       this._statsbeatFailureCount > MAX_STATSBEAT_FAILURES &&
@@ -114,7 +114,11 @@ export abstract class AzureMonitorBaseExporter {
       this._statsbeatMetrics.enable(false);
       this._statsbeatMetrics.shutdown();
     }
-
+    
+    if (envelopes.length < 1) {
+      return { code: ExportResultCode.SUCCESS };
+    }
+    
     try {
       const startTime = Number(new Date().getTime());
       const { result, statusCode } = await this._sender.send(envelopes);

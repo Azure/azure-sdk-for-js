@@ -7,8 +7,8 @@
  */
 
 export * from "./capabilities";
+export * from "./capabilityTypes";
 export * from "./experiments";
 export * from "./operations";
-export * from "./targets";
 export * from "./targetTypes";
-export * from "./capabilityTypes";
+export * from "./targets";

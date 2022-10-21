@@ -20,7 +20,6 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function summarizeAtPolicySetDefinitionScope() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyStatesSummaryResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const policySetDefinitionName = "3e3807c1-65c9-49e0-a406-82d8ae3e338c";
   const top = 1;
   const fromParam = new Date("2019-10-05T18:00:00Z");
@@ -33,7 +32,7 @@ async function summarizeAtPolicySetDefinitionScope() {
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const result = await client.policyStates.summarizeForPolicySetDefinition(
     policyStatesSummaryResource,
-    subscriptionId2,
+    subscriptionId,
     policySetDefinitionName,
     options
   );

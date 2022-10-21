@@ -1,15 +1,17 @@
 # Release History
+    
+## 7.1.0 (2022-10-21)
+    
+**Features**
 
-## 7.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface RedisLinkedServerCreateParameters has a new optional parameter geoReplicatedPrimaryHostName
+  - Interface RedisLinkedServerCreateParameters has a new optional parameter primaryHostName
+  - Interface RedisLinkedServerCreateProperties has a new optional parameter geoReplicatedPrimaryHostName
+  - Interface RedisLinkedServerCreateProperties has a new optional parameter primaryHostName
+  - Interface RedisLinkedServerWithProperties has a new optional parameter geoReplicatedPrimaryHostName
+  - Interface RedisLinkedServerWithProperties has a new optional parameter primaryHostName
+    
+    
 ## 7.0.0 (2022-09-05)
     
 **Features**

@@ -892,6 +892,11 @@
       "versionPolicyName": "test"
     },
     {
+      "packageName": "@azure-tests/perf-monitor-ingestion",
+      "projectFolder": "sdk/monitor/perf-tests/monitor-ingestion",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure-tests/perf-template",
       "projectFolder": "sdk/template/perf-tests/template",
       "versionPolicyName": "test"
@@ -1880,6 +1885,31 @@
       "packageName": "@azure/functions-authentication-events",
       "projectFolder": "sdk/entra/functions-authentication-events",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/developer-devcenter",
+      "projectFolder": "sdk/devcenter/developer-devcenter-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-securitydevops",
+      "projectFolder": "sdk/securitydevops/arm-securitydevops",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-devhub",
+      "projectFolder": "sdk/devhub/arm-devhub",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/load-testing",
+      "projectFolder": "sdk/loadtestservice/load-testing-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-elasticsan",
+      "projectFolder": "sdk/elasticsans/arm-elasticsan",
+      "versionPolicyName": "management"
     }
   ]
 }

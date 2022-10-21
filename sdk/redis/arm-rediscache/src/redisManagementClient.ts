@@ -69,7 +69,7 @@ export class RedisManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-rediscache/7.0.1`;
+    const packageDetails = `azsdk-js-arm-rediscache/7.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -123,7 +123,7 @@ export class RedisManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-05-01";
+    this.apiVersion = options.apiVersion || "2022-06-01";
     this.operations = new OperationsImpl(this);
     this.redis = new RedisImpl(this);
     this.firewallRules = new FirewallRulesImpl(this);
