@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createDefaultHttpClient, createPipelineRequest, HttpMethods } from "@azure/core-rest-pipeline";
+import {
+  createDefaultHttpClient,
+  createPipelineRequest,
+  HttpMethods,
+} from "@azure/core-rest-pipeline";
 import { diag } from "@opentelemetry/api";
 import {
   BatchObservableResult,
@@ -142,21 +146,23 @@ export class StatsbeatMetrics {
       url: `${AIMS_URI}?${AIMS_API_VERSION}&${AIMS_FORMAT}`,
       timeout: 5000, // 5 seconds
       method: method,
-      allowInsecureConnection: true
+      allowInsecureConnection: true,
     };
     const request = createPipelineRequest(options);
 
-    await httpClient.sendRequest(request)
+    await httpClient
+      .sendRequest(request)
       .then((res: any) => {
         if (res.status === 200) {
           return true;
         } else {
           return false;
         }
-      }).catch(() => {
+      })
+      .catch(() => {
         return false;
       });
-      return false;
+    return false;
   }
 
   public isInitialized() {
@@ -222,7 +228,7 @@ export class StatsbeatMetrics {
   // Observable gauge callbacks
   private _successCallback(observableResult: ObservableResult) {
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
-    let attributes = { ...this._commonProperties, ...this._networkProperties }
+    let attributes = { ...this._commonProperties, ...this._networkProperties };
     observableResult.observe(counter.totalSuccesfulRequestCount, attributes);
     counter.totalSuccesfulRequestCount = 0;
   }
@@ -251,7 +257,7 @@ export class StatsbeatMetrics {
 
   private _retryCallback(observableResult: BatchObservableResult) {
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
-    let attributes = { ...this._networkProperties, ...this._commonProperties, statusCode: 0 }
+    let attributes = { ...this._networkProperties, ...this._commonProperties, statusCode: 0 };
 
     for (let i = 0; i < counter.retryCount.length; i++) {
       attributes.statusCode = counter.retryCount[i].statusCode;
@@ -262,7 +268,7 @@ export class StatsbeatMetrics {
 
   private _throttleCallback(observableResult: BatchObservableResult) {
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
-    let attributes = {...this._networkProperties, ...this._commonProperties, statusCode: 0 }
+    let attributes = { ...this._networkProperties, ...this._commonProperties, statusCode: 0 };
 
     for (let i = 0; i < counter.throttleCount.length; i++) {
       attributes.statusCode = counter.throttleCount[i].statusCode;
@@ -277,7 +283,7 @@ export class StatsbeatMetrics {
 
   private _exceptionCallback(observableResult: BatchObservableResult) {
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
-    let attributes = { ...this._networkProperties, ...this._commonProperties, exceptionType: "" }
+    let attributes = { ...this._networkProperties, ...this._commonProperties, exceptionType: "" };
 
     for (let i = 0; i < counter.exceptionCount.length; i++) {
       attributes.exceptionType = counter.exceptionCount[i].exceptionType;

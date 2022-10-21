@@ -3,10 +3,7 @@
 
 import * as assert from "assert";
 import { ExportResult, ExportResultCode } from "@opentelemetry/core";
-import {
-  failedBreezeResponse,
-  successfulBreezeResponse
-} from "../utils/breezeTestUtils";
+import { failedBreezeResponse, successfulBreezeResponse } from "../utils/breezeTestUtils";
 import { AzureMonitorBaseExporter } from "../../src/index";
 import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
 import { TelemetryItem as Envelope } from "../../src/generated";
@@ -38,7 +35,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
     let scope: nock.Interceptor;
     const envelope = {
       name: "Name",
-      time: new Date()
+      time: new Date(),
     };
 
     before(() => {
@@ -66,20 +63,44 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       it("should use non EU connection string", () => {
-        const statsbeat = new StatsbeatMetrics("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;", "IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com");
-        assert.strictEqual(statsbeat["_host"], "IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com");
+        const statsbeat = new StatsbeatMetrics(
+          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;",
+          "IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com"
+        );
+        assert.strictEqual(
+          statsbeat["_host"],
+          "IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com"
+        );
       });
 
       it("should use EU connection string", () => {
-        const statsbeat = new StatsbeatMetrics("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;", "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
-        assert.strictEqual(statsbeat["_host"], "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
+        const statsbeat = new StatsbeatMetrics(
+          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;",
+          "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com"
+        );
+        assert.strictEqual(
+          statsbeat["_host"],
+          "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com"
+        );
       });
 
       it("_getShortHost", () => {
-        const statsbeat = new StatsbeatMetrics("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;", "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
-        assert.strictEqual(statsbeat["_getShortHost"]("http://westus02-1.in.applicationinsights.azure.com"), "westus02");
-        assert.strictEqual(statsbeat["_getShortHost"]("https://westus02-1.in.applicationinsights.azure.com"), "westus02");
-        assert.strictEqual(statsbeat["_getShortHost"]("https://dc.services.visualstudio.com"), "dc");
+        const statsbeat = new StatsbeatMetrics(
+          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;",
+          "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com"
+        );
+        assert.strictEqual(
+          statsbeat["_getShortHost"]("http://westus02-1.in.applicationinsights.azure.com"),
+          "westus02"
+        );
+        assert.strictEqual(
+          statsbeat["_getShortHost"]("https://westus02-1.in.applicationinsights.azure.com"),
+          "westus02"
+        );
+        assert.strictEqual(
+          statsbeat["_getShortHost"]("https://dc.services.visualstudio.com"),
+          "dc"
+        );
         assert.strictEqual(statsbeat["_getShortHost"]("https://www.test.com"), "test");
       });
     });
@@ -95,15 +116,20 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         sandbox.restore();
       });
 
-      const statsbeat = new StatsbeatMetrics("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;", "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
+      const statsbeat = new StatsbeatMetrics(
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;",
+        "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com"
+      );
 
       it("it should determine if the rp is unknown", (done) => {
-        statsbeat["_getResourceProvider"]().then(() => {
+        statsbeat["_getResourceProvider"]()
+          .then(() => {
             assert.strictEqual(statsbeat["_resourceProvider"], "unknown");
             done();
-        }).catch((error) => {
-          done(error); 
-        });
+          })
+          .catch((error) => {
+            done(error);
+          });
       });
 
       it("it should determine if the rp is an app service", (done) => {
@@ -112,13 +138,15 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         newEnv["WEBSITE_HOME_STAMPNAME"] = "test_home";
         let originalEnv = process.env;
         process.env = newEnv;
-        statsbeat["_getResourceProvider"]().then(() => {
-          process.env = originalEnv;
-          assert.strictEqual(statsbeat["_resourceProvider"], "appsvc");
-          done();
-        }).catch((error) => { 
-          done(error); 
-        });
+        statsbeat["_getResourceProvider"]()
+          .then(() => {
+            process.env = originalEnv;
+            assert.strictEqual(statsbeat["_resourceProvider"], "appsvc");
+            done();
+          })
+          .catch((error) => {
+            done(error);
+          });
       });
 
       it("should determine if the rp is an Azure Function", (done) => {
@@ -127,13 +155,15 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         newEnv["WEBSITE_HOSTNAME"] = "test_host";
         let originalEnv = process.env;
         process.env = newEnv;
-        statsbeat["_getResourceProvider"]().then(() => {
-          process.env = originalEnv;
-          assert.strictEqual(statsbeat["_resourceProvider"], "functions");
-          done();
-        }).catch((error) => { 
-          done(error); 
-        });
+        statsbeat["_getResourceProvider"]()
+          .then(() => {
+            process.env = originalEnv;
+            assert.strictEqual(statsbeat["_resourceProvider"], "functions");
+            done();
+          })
+          .catch((error) => {
+            done(error);
+          });
       });
 
       it("should determine if the rp is an Azure VM", (done) => {
@@ -144,40 +174,54 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         let originalEnv = process.env;
         process.env = newEnv;
 
-        statsbeat["_getResourceProvider"]().then(() => {
-          process.env = originalEnv;
-          assert.strictEqual(statsbeat["_resourceProvider"], "vm");
-          done();
-        }).catch((error) => {
-          done(error); 
-        });
+        statsbeat["_getResourceProvider"]()
+          .then(() => {
+            process.env = originalEnv;
+            assert.strictEqual(statsbeat["_resourceProvider"], "vm");
+            done();
+          })
+          .catch((error) => {
+            done(error);
+          });
       });
     });
 
     describe("Track statsbeats", () => {
       it("should add correct network properites to the custom metric", (done) => {
-        const statsbeat = new StatsbeatMetrics("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;", "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
+        const statsbeat = new StatsbeatMetrics(
+          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;",
+          "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com"
+        );
         statsbeat["_statsCollectionShortInterval"];
         statsbeat.enable(true);
         statsbeat.countSuccess(100);
         let metric = statsbeat["_networkStatsbeatCollection"][0];
         assert.strictEqual(metric.intervalRequestExecutionTime, 100);
-        
+
         // Ensure network statsbeat attributes are populated
         assert.strictEqual(statsbeat["_attach"], "sdk");
-        assert.strictEqual(statsbeat["_cikey"], "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;");
+        assert.strictEqual(
+          statsbeat["_cikey"],
+          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;"
+        );
         assert.strictEqual(statsbeat["_language"], "node");
         assert.strictEqual(statsbeat["_resourceProvider"], "unknown");
-        assert.strictEqual(statsbeat["_endpointUrl"], "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
+        assert.strictEqual(
+          statsbeat["_endpointUrl"],
+          "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com"
+        );
         assert.ok(statsbeat["_os"]);
         assert.ok(statsbeat["_runtimeVersion"]);
         assert.ok(statsbeat["_version"]);
-        
+
         done();
       });
 
       it("should track duration", () => {
-        const statsbeat = new StatsbeatMetrics("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;", "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
+        const statsbeat = new StatsbeatMetrics(
+          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;",
+          "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com"
+        );
         statsbeat["_statsCollectionShortInterval"] = 0;
         statsbeat.enable(true);
         statsbeat.countSuccess(100);
@@ -191,7 +235,10 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       it("should track statsbeat counts", () => {
-        const statsbeat = new StatsbeatMetrics("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;", "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
+        const statsbeat = new StatsbeatMetrics(
+          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;",
+          "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com"
+        );
         statsbeat["_statsCollectionShortInterval"] = 0;
         statsbeat.enable(true);
         statsbeat.countSuccess(100);
@@ -219,20 +266,40 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.strictEqual(metric.totalSuccesfulRequestCount, 4);
 
         assert.strictEqual(metric.totalFailedRequestCount.length, 3);
-        assert.strictEqual(metric.totalFailedRequestCount.find(failedRequest => failedRequest.statusCode === 500)?.count, 2);
-        assert.strictEqual(metric.totalFailedRequestCount.find(failedRequest => failedRequest.statusCode === 501)?.count, 1);
+        assert.strictEqual(
+          metric.totalFailedRequestCount.find((failedRequest) => failedRequest.statusCode === 500)
+            ?.count,
+          2
+        );
+        assert.strictEqual(
+          metric.totalFailedRequestCount.find((failedRequest) => failedRequest.statusCode === 501)
+            ?.count,
+          1
+        );
 
         assert.strictEqual(metric.retryCount.length, 2);
-        assert.strictEqual(metric.retryCount.find(retryRequest => retryRequest.statusCode === 206)?.count, 2);
+        assert.strictEqual(
+          metric.retryCount.find((retryRequest) => retryRequest.statusCode === 206)?.count,
+          2
+        );
 
-        assert.strictEqual(metric.exceptionCount.find(exceptionRequest => exceptionRequest.exceptionType === "Statsbeat")?.count, 1);
-        assert.strictEqual(metric.throttleCount.find(throttledRequest => throttledRequest.statusCode === 439)?.count, 1);
+        assert.strictEqual(
+          metric.exceptionCount.find(
+            (exceptionRequest) => exceptionRequest.exceptionType === "Statsbeat"
+          )?.count,
+          1
+        );
+        assert.strictEqual(
+          metric.throttleCount.find((throttledRequest) => throttledRequest.statusCode === 439)
+            ?.count,
+          1
+        );
       });
 
       it("should turn off statsbeat after max failures", async () => {
         const exporter = new TestExporter();
         const response = failedBreezeResponse(1, 200);
-        scope.reply(200, JSON.stringify(response), );
+        scope.reply(200, JSON.stringify(response));
         exporter["_statsbeatFailureCount"] = 4;
 
         const result = await exporter["_exportEnvelopes"]([envelope]);
