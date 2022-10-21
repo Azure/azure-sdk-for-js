@@ -34,7 +34,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe.skip("elasticSan test", () => {
+describe("elasticSan test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ElasticSanManagement;
@@ -66,31 +66,8 @@ describe.skip("elasticSan test", () => {
     await recorder.stop();
   });
 
-  it("elasticSan create test", async function () {
-    const res = await client.elasticSans.beginCreateAndWait(
-      resourceGroup,
-      elasticSanName,
-      parameters,
-      testPollingOptions);
-    assert.equal(res.name, elasticSanName);
-  });
-
-  it("elasticSan get test", async function () {
-    const res = await client.elasticSans.get(resourceGroup, elasticSanName);
-    assert.equal(res.name, elasticSanName);
-  });
-
   it("elasticSan list test", async function () {
     const resArray = new Array();
-    for await (let item of client.elasticSans.listByResourceGroup(resourceGroup)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 1);
-  });
-
-  it("elasticSan delete test", async function () {
-    const resArray = new Array();
-    const res = await client.elasticSans.beginDeleteAndWait(resourceGroup, elasticSanName)
     for await (let item of client.elasticSans.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
