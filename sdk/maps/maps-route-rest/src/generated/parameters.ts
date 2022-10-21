@@ -268,7 +268,7 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
    */
   language?: string;
   /** Re-order the route waypoints using a fast heuristic algorithm to reduce the route length. Yields best results when used in conjunction with routeType _shortest_. Notice that origin and destination are excluded from the optimized waypoint indices. To include origin and destination in the response, please increase all the indices by 1 to account for the origin, and then add the destination as the final index. Possible values are true or false. True computes a better order if possible, but is not allowed to be used in conjunction with maxAlternatives value greater than 0 or in conjunction with circle waypoints. False will use the locations in the given order and not allowed to be used in conjunction with routeRepresentation _none_. */
-  computeBestOrder?: boolean;
+  computeBestWaypointOrder?: boolean;
   /** Specifies the representation of the set of routes provided as response. This parameter value can only be used in conjunction with computeBestOrder=true. */
   routeRepresentationForBestOrder?: "polyline" | "summaryOnly" | "none";
   /** Specifies whether to return additional travel times using different types of traffic information (none, historic, live) as well as the default best-estimate travel time. */
@@ -564,7 +564,7 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProper
   /** The language parameter determines the language of the guidance messages. It does not affect proper nouns (the names of streets, plazas, etc.) It has no effect when instructionsType=coded. Allowed values are (a subset of) the IETF language tags described */
   language?: string;
   /** Re-order the route waypoints using a fast heuristic algorithm to reduce the route length. Yields best results when used in conjunction with routeType _shortest_. Notice that origin and destination are excluded from the optimized waypoint indices. To include origin and destination in the response, please increase all the indices by 1 to account for the origin, and then add the destination as the final index. Possible values are true or false. True computes a better order if possible, but is not allowed to be used in conjunction with maxAlternatives value greater than 0 or in conjunction with circle waypoints. False will use the locations in the given order and not allowed to be used in conjunction with routeRepresentation _none_. */
-  computeBestOrder?: boolean;
+  computeBestWaypointOrder?: boolean;
   /** Specifies the representation of the set of routes provided as response. This parameter value can only be used in conjunction with computeBestOrder=true. */
   routeRepresentationForBestOrder?: "polyline" | "summaryOnly" | "none";
   /** Specifies whether to return additional travel times using different types of traffic information (none, historic, live) as well as the default best-estimate travel time. */

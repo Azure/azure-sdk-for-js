@@ -341,7 +341,7 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
     auxiliaryPowerInKw?: number;
     auxiliaryPowerInLitersPerHour?: number;
     avoid?: Array<"tollRoads" | "motorways" | "ferries" | "unpavedRoads" | "carpools" | "alreadyUsedRoads" | "borderCrossings">;
-    computeBestOrder?: boolean;
+    computeBestWaypointOrder?: boolean;
     computeTravelTime?: "none" | "all";
     constantSpeedConsumptionInkWhPerHundredkm?: string;
     constantSpeedConsumptionInLitersPerHundredkm?: string;
@@ -422,7 +422,7 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProper
     auxiliaryPowerInKw?: number;
     auxiliaryPowerInLitersPerHour?: number;
     avoid?: Array<"tollRoads" | "motorways" | "ferries" | "unpavedRoads" | "carpools" | "alreadyUsedRoads" | "borderCrossings">;
-    computeBestOrder?: boolean;
+    computeBestWaypointOrder?: boolean;
     computeTravelTime?: "none" | "all";
     constantSpeedConsumptionInkWhPerHundredkm?: string;
     constantSpeedConsumptionInLitersPerHundredkm?: string;

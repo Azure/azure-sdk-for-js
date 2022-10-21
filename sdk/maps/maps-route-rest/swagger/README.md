@@ -303,6 +303,10 @@ directive:
     where: $.paths["/route/range/{format}"].get.parameters[5]
     transform: >
       $.name = "energyBudgetInKwH";
+  - from: swagger-document
+    where: $.parameters.ComputeBestOrder
+    transform: >
+      $.name = "computeBestWaypointOrder";
 ```
 
 ### Model Fixes
