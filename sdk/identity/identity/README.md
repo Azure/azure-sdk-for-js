@@ -353,7 +353,7 @@ Client and management libraries listed on the [Azure SDK releases page](https://
 
 This library doesn't support the [Azure AD B2C](https://learn.microsoft.com/azure/active-directory-b2c/overview) service.
 
-For other open issues, refer to the library's [GitHub repository](https://github.com/Azure/azure-sdk-for-js/issues?q=is%3Aopen+is%3Aissue+label%3AAzure.Identity).
+For other open issues, see the library's [GitHub repository](https://github.com/Azure/azure-sdk-for-js/issues?q=is%3Aopen+is%3Aissue+label%3AAzure.Identity).
 
 ### Provide feedback
 
