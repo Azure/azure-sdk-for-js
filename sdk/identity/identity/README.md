@@ -256,7 +256,7 @@ Not all credentials require this configuration. Credentials that authenticate th
 
 ## Environment variables
 
-`DefaultAzureCredential` and `EnvironmentCredential` can be configured with environment variables. Each type of authentication requires values for specific variables:
+`DefaultAzureCredential` and `EnvironmentCredential` can be configured with environment variables. Each type of authentication requires values for specific variables.
 
 #### Service principal with secret
 
