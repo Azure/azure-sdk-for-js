@@ -154,23 +154,21 @@ export const serializeCommunicationIdentifier = (
   }
 };
 
-const getKind = (
-  serializedIdentifier: SerializedCommunicationIdentifier
-): string => {
+const getKind = (serializedIdentifier: SerializedCommunicationIdentifier): string => {
   if (serializedIdentifier.communicationUser) {
     return "communicationUser";
   }
 
   if (serializedIdentifier.phoneNumber) {
-    return "phoneNumber"
+    return "phoneNumber";
   }
 
   if (serializedIdentifier.microsoftTeamsUser) {
-    return "microsoftTeamsUser"
+    return "microsoftTeamsUser";
   }
 
   return "unknown";
-}
+};
 
 /**
  * @hidden
