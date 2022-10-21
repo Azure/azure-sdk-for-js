@@ -322,7 +322,7 @@ export interface OperationStatusResult {
 
 // @public
 export interface PatchSchedules {
-    createOrUpdate(resourceGroupName: string, name: string, parameters: RedisPatchSchedule, defaultParam: DefaultName, options?: PatchSchedulesCreateOrUpdateOptionalParams): Promise<PatchSchedulesCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, name: string, defaultParam: DefaultName, parameters: RedisPatchSchedule, options?: PatchSchedulesCreateOrUpdateOptionalParams): Promise<PatchSchedulesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, name: string, defaultParam: DefaultName, options?: PatchSchedulesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, name: string, defaultParam: DefaultName, options?: PatchSchedulesGetOptionalParams): Promise<PatchSchedulesGetResponse>;
     listByRedisResource(resourceGroupName: string, cacheName: string, options?: PatchSchedulesListByRedisResourceOptionalParams): PagedAsyncIterableIterator<RedisPatchSchedule>;

@@ -1,6 +1,6 @@
 # Release History
     
-## 8.0.0 (2022-10-21)
+## 7.1.0 (2022-10-21)
     
 **Features**
 
@@ -10,10 +10,6 @@
   - Interface RedisLinkedServerCreateProperties has a new optional parameter primaryHostName
   - Interface RedisLinkedServerWithProperties has a new optional parameter geoReplicatedPrimaryHostName
   - Interface RedisLinkedServerWithProperties has a new optional parameter primaryHostName
-
-**Breaking Changes**
-
-  - Operation PatchSchedules.createOrUpdate has a new signature
     
     
 ## 7.0.0 (2022-09-05)
