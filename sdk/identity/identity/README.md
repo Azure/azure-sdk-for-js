@@ -98,7 +98,7 @@ It's a [known issue](https://github.com/Azure/azure-sdk-for-js/issues/20500) tha
 
 ### Authenticate the client in browsers
 
-To authenticate Azure SDKs within web browsers, we currently offer the `InteractiveBrowserCredential`, which can be set to use redirection or popups to complete the authentication flow. It is necessary to [create an Azure App Registration](https://learn.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) in the portal for your web application first.
+To authenticate Azure SDK clients within web browsers, we offer the `InteractiveBrowserCredential`, which can be set to use redirection or popups to complete the authentication flow. It's necessary to [create an Azure App Registration](https://learn.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) in the Azure portal for your web application first.
 
 ## Key concepts
 
