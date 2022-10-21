@@ -30,9 +30,9 @@ async function main() {
   // The logs will be split into multiple batches and uploaded concurrently. By default,
   // the maximum number of concurrent uploads is 5.
   const result = await client.upload(ruleId, streamName, logs);
-  if (result.status !== "Success") {
-    console.log("Some logs have failed to complete ingestion. Upload status=", result.status);
-    for (const errors of result.errors) {
+  if (result.length > 0) {
+    console.log("Some logs have failed to complete ingestion. Number of error batches=", result.length);
+    for (const errors of result) {
       console.log(`Error - ${JSON.stringify(errors.cause)}`);
       console.log(`Log - ${JSON.stringify(errors.failedLogs)}`);
     }
