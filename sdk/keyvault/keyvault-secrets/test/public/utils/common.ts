@@ -21,18 +21,26 @@ export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<vo
     throw new Error("Expected cb to throw an AbortError");
   }
 }
+
+type ServiceVersion = SecretClientOptions["serviceVersion"];
+
 /**
  * The known API versions that we support.
  */
-export const serviceVersions = ["7.0", "7.1", "7.2", "7.3"] as const;
+export const serviceVersions: readonly NonNullable<ServiceVersion>[] = [
+  "7.0",
+  "7.1",
+  "7.2",
+  "7.3",
+] as const;
 
 /**
  * Fetches the service version to test against. This version could be configured as part of CI
  * and then passed through the environment in order to support testing prior service versions.
  * @returns - The service version to test
  */
-export function getServiceVersion(): NonNullable<SecretClientOptions["serviceVersion"]> {
-  return env.SERVICE_VERSION || serviceVersions[serviceVersions.length - 1];
+export function getServiceVersion(): NonNullable<ServiceVersion> {
+  return (env.SERVICE_VERSION as ServiceVersion) || serviceVersions[serviceVersions.length - 1];
 }
 
 /**
@@ -44,7 +52,7 @@ export function getServiceVersion(): NonNullable<SecretClientOptions["serviceVer
  */
 export function onVersions(
   supportedVersions: SupportedVersions,
-  serviceVersion?: SecretClientOptions["serviceVersion"]
+  serviceVersion?: ServiceVersion
 ): TestFunctionWrapper {
   return supports(serviceVersion || getServiceVersion(), supportedVersions, serviceVersions);
 }

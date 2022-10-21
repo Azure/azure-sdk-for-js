@@ -440,6 +440,17 @@ export interface ExperimentStatusListResult {
 }
 
 // @public
+export interface Filter {
+    type: "Simple";
+}
+
+// @public
+export type FilterType = string;
+
+// @public (undocumented)
+export type FilterUnion = Filter | SimpleFilter;
+
+// @public
 export interface KeyValuePair {
     key: string;
     value: string;
@@ -456,6 +467,11 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownFilterType {
+    Simple = "Simple"
 }
 
 // @public
@@ -529,6 +545,7 @@ export type ResourceIdentityType = "None" | "SystemAssigned";
 
 // @public
 export interface Selector {
+    filter?: FilterUnion;
     id: string;
     targets: TargetReference[];
     type: SelectorType;
@@ -536,6 +553,17 @@ export interface Selector {
 
 // @public
 export type SelectorType = "Percent" | "Random" | "Tag" | "List";
+
+// @public
+export interface SimpleFilter extends Filter {
+    parameters?: SimpleFilterParameters;
+    type: "Simple";
+}
+
+// @public
+export interface SimpleFilterParameters {
+    zones?: string[];
+}
 
 // @public
 export interface Step {

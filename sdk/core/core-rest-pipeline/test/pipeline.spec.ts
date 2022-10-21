@@ -9,7 +9,7 @@ import {
   createHttpHeaders,
   createPipelineFromOptions,
   createPipelineRequest,
-} from "../src";
+} from "../src/index.js";
 
 describe("HttpsPipeline", function () {
   it("Newly created pipeline has no policies", function () {

@@ -8,9 +8,9 @@ import {
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
-} from "./interfaces";
-import { RestError } from "./restError";
-import { createHttpHeaders } from "./httpHeaders";
+} from "./interfaces.js";
+import { RestError } from "./restError.js";
+import { createHttpHeaders } from "./httpHeaders.js";
 
 /**
  * Checks if the body is a NodeReadable stream which is not supported in Browsers

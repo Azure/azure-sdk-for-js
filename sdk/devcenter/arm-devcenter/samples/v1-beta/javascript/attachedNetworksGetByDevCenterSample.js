@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets an attached NetworkConnection.
  *
  * @summary Gets an attached NetworkConnection.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-08-01-preview/examples/AttachedNetworks_GetByDevCenter.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/AttachedNetworks_GetByDevCenter.json
  */
 async function attachedNetworksGetByDevCenter() {
   const subscriptionId = "{subscriptionId}";

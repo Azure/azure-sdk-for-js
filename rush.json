@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -889,6 +889,11 @@
     {
       "packageName": "@azure-tests/perf-monitor-query",
       "projectFolder": "sdk/monitor/perf-tests/monitor-query",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-monitor-ingestion",
+      "projectFolder": "sdk/monitor/perf-tests/monitor-ingestion",
       "versionPolicyName": "test"
     },
     {
@@ -1879,6 +1884,26 @@
     {
       "packageName": "@azure/functions-authentication-events",
       "projectFolder": "sdk/entra/functions-authentication-events",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/developer-devcenter",
+      "projectFolder": "sdk/devcenter/developer-devcenter-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-securitydevops",
+      "projectFolder": "sdk/securitydevops/arm-securitydevops",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-devhub",
+      "projectFolder": "sdk/devhub/arm-devhub",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/load-testing",
+      "projectFolder": "sdk/loadtestservice/load-testing-rest",
       "versionPolicyName": "client"
     },
     {
