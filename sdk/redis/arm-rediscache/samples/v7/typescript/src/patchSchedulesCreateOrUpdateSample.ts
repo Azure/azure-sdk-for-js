@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or replace the patching schedule for Redis cache.
  *
  * @summary Create or replace the patching schedule for Redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-05-01/examples/RedisCachePatchSchedulesCreateOrUpdate.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCachePatchSchedulesCreateOrUpdate.json
  */
 async function redisCachePatchSchedulesCreateOrUpdate() {
   const subscriptionId = "subid";
