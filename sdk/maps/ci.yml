@@ -32,7 +32,7 @@ extends:
     Artifacts:
       - name: azure-maps-search
         safeName: azuremapssearch
-      - name: azure-maps-route
-        safeName: azuremapsroute
+      - name: azure-rest-maps-route
+        safeName: azurerestmapsroute
       - name: azure-maps-common
         safeName: azuremapscommon
