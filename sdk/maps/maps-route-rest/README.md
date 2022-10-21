@@ -6,9 +6,9 @@ The Route Directions and Route Matrix APIs in Azure Maps Route Service can be us
 
 Key links:
 
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest)
-- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/maps-route)
-<!-- - [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/maps-route?view=azure-node-preview) -->
+- [Source code][source_code]
+- [Package (NPM)][npm_link]
+- [API reference documentation][api_ref]
 - [Product Information](https://docs.microsoft.com/rest/api/maps/route)
 
 ## Getting started
@@ -65,7 +65,8 @@ const client = createMapsRouteClient(credential, "<maps-account-client-id>");
 You can authenticate with your Azure Maps Subscription Key.
 
 ```javascript
-const { MapsRouteClient, AzureKeyCredential } = require("@azure/maps-route");
+const { createMapsRouteClient } = require("@azure-rest/maps-route");
+const { AzureKeyCredential } = require("@azure-core-auth");
 
 const credential = new AzureKeyCredential("<subscription-key>");
 const client = createMapsRouteClient(credential);
@@ -88,6 +89,14 @@ To retrieve the route direction, you need to pass in the parameters the coordina
 By default, the Route service will return an array of coordinates. The response will contain the coordinates that make up the path in a list named points. Route response also includes the distance from the start of the route and the estimated elapsed time. These values can be used to calculate the average speed for the entire route.
 
 ```javascript
+const routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
+  queryParameters: {
+    query: "51.368752,-0.118332:41.385426,-0.128929]",
+  },
+});
+
+// You can use the helper function `toColonDelimitedLatLonString` to compose the query string.
+import { toColonDelimitedLatLonString } from "@azure-rest/maps-route";
 const routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
   queryParameters: {
     query: toColonDelimitedLatLonString([
@@ -136,7 +145,7 @@ const routeDirectionsResult = await client.path("/route/directions/{format}", "j
       [51.368752, -0.118332],
       [41.385426, -0.128929],
     ]),
-    computeBestOrder: true,
+    computeBestWaypointOrder: true,
   },
 });
 ```
@@ -168,6 +177,10 @@ If you'd like to contribute to this library, please read the [contributing guide
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fmaps%2Fmaps-route%2FREADME.png)
+
+<!-- [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest -->
+<!-- [npm_link]: https://www.npmjs.com/package/@azure-rest/maps-route -->
+<!-- [api_ref]: https://docs.microsoft.com/javascript/api/@azure-rest/maps-route?view=azure-node-preview -->
 
 [azure_cli]: https://docs.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
