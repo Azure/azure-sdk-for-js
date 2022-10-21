@@ -394,7 +394,7 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
    *
    * **Note** : This parameter is required for **The Combustion Consumption Model**.
    */
-  constantSpeedConsumptionInLitersPerHundredkm?: string;
+  constantSpeedConsumptionInLitersPerHundredKm?: string;
   /**
    * Specifies the current supply of fuel in liters.
    *
@@ -416,7 +416,7 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
    *
    * Sensible Values : 34.2
    */
-  fuelEnergyDensityInMJoulesPerLiter?: number;
+  fuelEnergyDensityInMegajoulesPerLiter?: number;
   /**
    * Specifies the efficiency of converting chemical energy stored in fuel to kinetic energy when the vehicle accelerates _(i.e. KineticEnergyGained/ChemicalEnergyConsumed). ChemicalEnergyConsumed_ is obtained by converting consumed fuel to chemical energy using **fuelEnergyDensityInMJoulesPerLiter**.
    *
@@ -478,7 +478,7 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
    *
    * This parameter is required for **Electric consumption model**.
    */
-  constantSpeedConsumptionInkWhPerHundredkm?: string;
+  constantSpeedConsumptionInKwHPerHundredKm?: string;
   /**
    * Specifies the current electric energy supply in kilowatt hours (kWh).
    *
@@ -694,7 +694,7 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProper
    *
    * **Note** : This parameter is required for **The Combustion Consumption Model**.
    */
-  constantSpeedConsumptionInLitersPerHundredkm?: string;
+  constantSpeedConsumptionInLitersPerHundredKm?: string;
   /**
    * Specifies the current supply of fuel in liters.
    *
@@ -716,7 +716,7 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProper
    *
    * Sensible Values : 34.2
    */
-  fuelEnergyDensityInMJoulesPerLiter?: number;
+  fuelEnergyDensityInMegajoulesPerLiter?: number;
   /**
    * Specifies the efficiency of converting chemical energy stored in fuel to kinetic energy when the vehicle accelerates _(i.e. KineticEnergyGained/ChemicalEnergyConsumed). ChemicalEnergyConsumed_ is obtained by converting consumed fuel to chemical energy using **fuelEnergyDensityInMJoulesPerLiter**.
    *
@@ -778,7 +778,7 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProper
    *
    * This parameter is required for **Electric consumption model**.
    */
-  constantSpeedConsumptionInkWhPerHundredkm?: string;
+  constantSpeedConsumptionInKwHPerHundredKm?: string;
   /**
    * Specifies the current electric energy supply in kilowatt hours (kWh).
    *
@@ -939,7 +939,7 @@ export interface RouteGetRouteRangeQueryParamProperties {
    *
    * **Note** : This parameter is required for **The Combustion Consumption Model**.
    */
-  constantSpeedConsumptionInLitersPerHundredkm?: string;
+  constantSpeedConsumptionInLitersPerHundredKm?: string;
   /**
    * Specifies the current supply of fuel in liters.
    *
@@ -961,7 +961,7 @@ export interface RouteGetRouteRangeQueryParamProperties {
    *
    * Sensible Values : 34.2
    */
-  fuelEnergyDensityInMJoulesPerLiter?: number;
+  fuelEnergyDensityInMegajoulesPerLiter?: number;
   /**
    * Specifies the efficiency of converting chemical energy stored in fuel to kinetic energy when the vehicle accelerates _(i.e. KineticEnergyGained/ChemicalEnergyConsumed). ChemicalEnergyConsumed_ is obtained by converting consumed fuel to chemical energy using **fuelEnergyDensityInMJoulesPerLiter**.
    *
@@ -1023,7 +1023,7 @@ export interface RouteGetRouteRangeQueryParamProperties {
    *
    * This parameter is required for **Electric consumption model**.
    */
-  constantSpeedConsumptionInkWhPerHundredkm?: string;
+  constantSpeedConsumptionInKwHPerHundredKm?: string;
   /**
    * Specifies the current electric energy supply in kilowatt hours (kWh).
    *

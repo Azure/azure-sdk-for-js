@@ -307,6 +307,18 @@ directive:
     where: $.parameters.ComputeBestOrder
     transform: >
       $.name = "computeBestWaypointOrder";
+  - from: swagger-document
+    where: $.parameters.ConstantSpeedConsumptionInLitersPerHundredkm
+    transform: >
+      $.name = "constantSpeedConsumptionInLitersPerHundredKm"
+  - from: swagger-document
+    where: $.parameters.FuelEnergyDensityInMJoulesPerLiter
+    transform: >
+      $.name = "fuelEnergyDensityInMegajoulesPerLiter"
+  - from: swagger-document
+    where: $.parameters.ConstantSpeedConsumptionInkWhPerHundredkm
+    transform: >
+      $.name = "constantSpeedConsumptionInKwHPerHundredKm"
 ```
 
 ### Model Fixes
