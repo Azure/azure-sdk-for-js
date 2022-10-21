@@ -128,14 +128,14 @@ export class StatsbeatMetrics {
     } else if (process.env.FUNCTIONS_WORKER_RUNTIME) {
       // Function apps
       this._resourceProvider = StatsbeatResourceProvider.functions;
-    } else if (await this._getAzureComputeMetadata()) {
+    } else if (await this.getAzureComputeMetadata()) {
       this._resourceProvider = StatsbeatResourceProvider.vm;
     } else {
       this._resourceProvider = StatsbeatResourceProvider.unknown;
     }
   }
 
-  private async _getAzureComputeMetadata(): Promise<boolean> {
+  public async getAzureComputeMetadata(): Promise<boolean> {
     const httpClient = createDefaultHttpClient();
     const method: HttpMethods = "GET";
 
@@ -154,8 +154,7 @@ export class StatsbeatMetrics {
         } else {
           return false;
         }
-      }).catch((error) => {
-        console.log(error);
+      }).catch(() => {
         return false;
       });
       return false;

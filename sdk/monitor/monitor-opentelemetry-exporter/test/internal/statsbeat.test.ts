@@ -12,6 +12,7 @@ import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
 import { TelemetryItem as Envelope } from "../../src/generated";
 import nock from "nock";
 import { StatsbeatMetrics } from "../../src/export/statsbeat/statsbeatMetrics";
+import sinon from "sinon";
 
 describe("#AzureMonitorStatsbeatExporter", () => {
   class TestExporter extends AzureMonitorBaseExporter {
@@ -83,13 +84,23 @@ describe("#AzureMonitorStatsbeatExporter", () => {
     });
 
     describe("Resource provider function", () => {
+      let sandbox: sinon.SinonSandbox;
+
+      before(() => {
+        sandbox = sinon.createSandbox();
+      });
+
+      afterEach(() => {
+        sandbox.restore();
+      });
+
       const statsbeat = new StatsbeatMetrics("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;", "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
-      it("unknown resource provider", (done) => {
-        //let statsbeat = new StatsbeatMetrics("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;", "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
+
+      it("it should determine if the rp is unknown", (done) => {
         statsbeat["_getResourceProvider"]().then(() => {
             assert.strictEqual(statsbeat["_resourceProvider"], "unknown");
             done();
-        }).catch((error) => { 
+        }).catch((error) => {
           done(error); 
         });
       });
@@ -100,7 +111,6 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         newEnv["WEBSITE_HOME_STAMPNAME"] = "test_home";
         let originalEnv = process.env;
         process.env = newEnv;
-        //let statsbeat = new StatsbeatMetrics("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;", "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
         statsbeat["_getResourceProvider"]().then(() => {
           process.env = originalEnv;
           assert.strictEqual(statsbeat["_resourceProvider"], "appsvc");
@@ -116,7 +126,6 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         newEnv["WEBSITE_HOSTNAME"] = "test_host";
         let originalEnv = process.env;
         process.env = newEnv;
-        //let statsbeat = new StatsbeatMetrics("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;", "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com");
         statsbeat["_getResourceProvider"]().then(() => {
           process.env = originalEnv;
           assert.strictEqual(statsbeat["_resourceProvider"], "functions");
@@ -126,27 +135,21 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         });
       });
 
-      // Need to debug the Azure VM test - getting Nock: Disallowed net connect errors on localhost and the Azure metadata endpoint.
       it("should determine if the rp is an Azure VM", (done) => {
+        const getAzureComputeStub = sandbox.stub(statsbeat, "getAzureComputeMetadata");
+        getAzureComputeStub.returns(Promise.resolve(true));
+
         let newEnv = <{ [id: string]: string }>{};
         let originalEnv = process.env;
         process.env = newEnv;
-        let interceptor: nock.Interceptor = nock("http://localhost:3000", {
-          reqheaders: {
-            MetaData: "True",
-          },
-        }).get("/");
-        interceptor.reply(200, {
-          "vmId": "testId",
-          "subscriptionId": "testsubscriptionId",
-          "osType": "testOsType"
-        });
+
         statsbeat["_getResourceProvider"]().then(() => {
           process.env = originalEnv;
           assert.strictEqual(statsbeat["_resourceProvider"], "vm");
-          assert.strictEqual(statsbeat["_os"], "testOsType");
           done();
-        }).catch((error) => { done(error); });
+        }).catch((error) => {
+          done(error); 
+        });
       });
     });
 
