@@ -1,13 +1,9 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import {
-  Button,
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
+import { Button, StyleSheet, Text, View, FlatList, TouchableOpacity } from "react-native";
+
+import "node-libs-react-native/globals";
+import "react-native-get-random-values";
 
 import { testSDK } from "./src/testSDK";
 

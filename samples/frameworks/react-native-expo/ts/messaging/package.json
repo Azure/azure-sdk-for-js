@@ -9,16 +9,23 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@azure/core-amqp": "^3.1.2-alpha.20221020.2",
+    "@azure/event-hubs": "^5.8.1-alpha.20221020.1",
+    "@azure/service-bus": "^7.7.3-alpha.20221019.2",
     "@types/react": "~18.0.0",
     "@types/react-native": "~0.69.1",
     "expo": "~46.0.16",
     "expo-status-bar": "~1.4.0",
+    "node-libs-react-native": "^1.2.1",
     "react": "18.0.0",
     "react-native": "0.69.6",
+    "react-native-get-random-values": "^1.8.0",
     "typescript": "^4.6.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9"
+    "@babel/core": "^7.12.9",
+    "@babel/plugin-proposal-async-generator-functions": "^7.19.1",
+    "babel-plugin-inline-dotenv": "^1.7.0"
   },
   "private": true
 }
