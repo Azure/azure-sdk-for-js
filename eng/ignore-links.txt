@@ -27,3 +27,6 @@ https://docs.microsoft.com/javascript/api/@azure/arm-chaos?view=azure-node-previ
 https://docs.microsoft.com/javascript/api/@azure-rest/arm-compute?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure-rest/arm-network?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-securitydevops?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-devhub?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure-rest/load-testing
+https://docs.microsoft.com/javascript/api/@azure/arm-elasticsan?view=azure-node-preview

@@ -697,6 +697,8 @@ export interface FactoryRepoConfiguration {
   rootFolder: string;
   /** Last commit id. */
   lastCommitId?: string;
+  /** Disable manual publish operation in ADF studio to favor automated publish. */
+  disablePublish?: boolean;
 }
 
 /** Definition of a single parameter for an entity. */
@@ -3208,14 +3210,6 @@ export interface SapTablePartitionSettings {
   maxPartitionsNumber?: any;
 }
 
-/** SQL stored procedure parameter. */
-export interface StoredProcedureParameter {
-  /** Stored procedure parameter value. Type: string (or Expression with resultType string). */
-  value?: any;
-  /** Stored procedure parameter type. */
-  type?: StoredProcedureParameterType;
-}
-
 /** The settings that will be leveraged for Sql source partitioning. */
 export interface SqlPartitionSettings {
   /** The name of the column in integer or datetime type that will be used for proceeding partitioning. If not specified, the primary key of the table is auto-detected and used as the partition column. Type: string (or Expression with resultType string). */
@@ -3306,6 +3300,14 @@ export interface ImportSettings {
   type: "AzureDatabricksDeltaLakeImportCommand" | "SnowflakeImportCopyCommand";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
+}
+
+/** SQL stored procedure parameter. */
+export interface StoredProcedureParameter {
+  /** Stored procedure parameter value. Type: string (or Expression with resultType string). */
+  value?: any;
+  /** Stored procedure parameter type. */
+  type?: StoredProcedureParameterType;
 }
 
 /** Specify the name and value of custom metadata item. */
@@ -3624,8 +3626,8 @@ export interface NotebookParameter {
 export interface SynapseSparkJobReference {
   /** Synapse spark job reference type. */
   type: SparkJobReferenceType;
-  /** Reference spark job name. */
-  referenceName: string;
+  /** Reference spark job name. Expression with resultType string. */
+  referenceName: any;
 }
 
 /** The workflow trigger recurrence. */
@@ -6327,6 +6329,8 @@ export interface AzureSynapseArtifactsLinkedService extends LinkedService {
   endpoint: any;
   /** Required to specify MSI, if using system assigned managed identity as authentication method. Type: string (or Expression with resultType string). */
   authentication?: any;
+  /** The resource ID of the Synapse workspace. The format should be: /subscriptions/{subscriptionID}/resourceGroups/{resourceGroup}/providers/Microsoft.Synapse/workspaces/{workspaceName}. Type: string (or Expression with resultType string). */
+  workspaceResourceId?: any;
 }
 
 /** A single Amazon Simple Storage Service (S3) object or a set of S3 objects. */
@@ -9013,9 +9017,7 @@ export interface SqlSink extends CopySink {
   /** SQL pre-copy script. Type: string (or Expression with resultType string). */
   preCopyScript?: any;
   /** SQL stored procedure parameters. */
-  storedProcedureParameters?: {
-    [propertyName: string]: StoredProcedureParameter;
-  };
+  storedProcedureParameters?: any;
   /** The stored procedure parameter name of the table type. Type: string (or Expression with resultType string). */
   storedProcedureTableTypeParameterName?: any;
   /** The option to handle sink table, such as autoCreate. For now only 'autoCreate' value is supported. Type: string (or Expression with resultType string). */
@@ -9039,9 +9041,7 @@ export interface SqlServerSink extends CopySink {
   /** SQL pre-copy script. Type: string (or Expression with resultType string). */
   preCopyScript?: any;
   /** SQL stored procedure parameters. */
-  storedProcedureParameters?: {
-    [propertyName: string]: StoredProcedureParameter;
-  };
+  storedProcedureParameters?: any;
   /** The stored procedure parameter name of the table type. Type: string (or Expression with resultType string). */
   storedProcedureTableTypeParameterName?: any;
   /** The option to handle sink table, such as autoCreate. For now only 'autoCreate' value is supported. Type: string (or Expression with resultType string). */
@@ -9065,9 +9065,7 @@ export interface AzureSqlSink extends CopySink {
   /** SQL pre-copy script. Type: string (or Expression with resultType string). */
   preCopyScript?: any;
   /** SQL stored procedure parameters. */
-  storedProcedureParameters?: {
-    [propertyName: string]: StoredProcedureParameter;
-  };
+  storedProcedureParameters?: any;
   /** The stored procedure parameter name of the table type. Type: string (or Expression with resultType string). */
   storedProcedureTableTypeParameterName?: any;
   /** The option to handle sink table, such as autoCreate. For now only 'autoCreate' value is supported. Type: string (or Expression with resultType string). */
@@ -9091,9 +9089,7 @@ export interface SqlMISink extends CopySink {
   /** SQL pre-copy script. Type: string (or Expression with resultType string). */
   preCopyScript?: any;
   /** SQL stored procedure parameters. */
-  storedProcedureParameters?: {
-    [propertyName: string]: StoredProcedureParameter;
-  };
+  storedProcedureParameters?: any;
   /** The stored procedure parameter name of the table type. Type: string (or Expression with resultType string). */
   storedProcedureTableTypeParameterName?: any;
   /** The option to handle sink table, such as autoCreate. For now only 'autoCreate' value is supported. Type: string (or Expression with resultType string). */
@@ -10010,8 +10006,12 @@ export interface SynapseSparkJobDefinitionActivity extends ExecutionActivity {
   file?: any;
   /** The fully-qualified identifier or the main class that is in the main definition file, which will override the 'className' of the spark job definition you provide. Type: string (or Expression with resultType string). */
   className?: any;
-  /** Additional files used for reference in the main definition file, which will override the 'files' of the spark job definition you provide. */
+  /** (Deprecated. Please use pythonCodeReference and filesV2) Additional files used for reference in the main definition file, which will override the 'files' of the spark job definition you provide. */
   files?: any[];
+  /** Additional python code files used for reference in the main definition file, which will override the 'pyFiles' of the spark job definition you provide. */
+  pythonCodeReference?: any[];
+  /** Additional files used for reference in the main definition file, which will override the 'jars' and 'files' of the spark job definition you provide. */
+  filesV2?: any[];
   /** The name of the big data pool which will be used to execute the spark batch job, which will override the 'targetBigDataPool' of the spark job definition you provide. */
   targetBigDataPool?: BigDataPoolParametrizationReference;
   /** Number of core and memory to be used for executors allocated in the specified Spark pool for the job, which will be used for overriding 'executorCores' and 'executorMemory' of the spark job definition you provide. Type: string (or Expression with resultType string). */
@@ -10257,9 +10257,7 @@ export interface SqlSource extends TabularSource {
   /** Name of the stored procedure for a SQL Database source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string). */
   sqlReaderStoredProcedureName?: any;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
-  storedProcedureParameters?: {
-    [propertyName: string]: StoredProcedureParameter;
-  };
+  storedProcedureParameters?: any;
   /** Specifies the transaction locking behavior for the SQL source. Allowed values: ReadCommitted/ReadUncommitted/RepeatableRead/Serializable/Snapshot. The default value is ReadCommitted. Type: string (or Expression with resultType string). */
   isolationLevel?: any;
   /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
@@ -10277,9 +10275,7 @@ export interface SqlServerSource extends TabularSource {
   /** Name of the stored procedure for a SQL Database source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string). */
   sqlReaderStoredProcedureName?: any;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
-  storedProcedureParameters?: {
-    [propertyName: string]: StoredProcedureParameter;
-  };
+  storedProcedureParameters?: any;
   /** Which additional types to produce. */
   produceAdditionalTypes?: any;
   /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
@@ -10297,9 +10293,7 @@ export interface AmazonRdsForSqlServerSource extends TabularSource {
   /** Name of the stored procedure for a SQL Database source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string). */
   sqlReaderStoredProcedureName?: any;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
-  storedProcedureParameters?: {
-    [propertyName: string]: StoredProcedureParameter;
-  };
+  storedProcedureParameters?: any;
   /** Which additional types to produce. */
   produceAdditionalTypes?: any;
   /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
@@ -10317,9 +10311,7 @@ export interface AzureSqlSource extends TabularSource {
   /** Name of the stored procedure for a SQL Database source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string). */
   sqlReaderStoredProcedureName?: any;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
-  storedProcedureParameters?: {
-    [propertyName: string]: StoredProcedureParameter;
-  };
+  storedProcedureParameters?: any;
   /** Which additional types to produce. */
   produceAdditionalTypes?: any;
   /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
@@ -10337,9 +10329,7 @@ export interface SqlMISource extends TabularSource {
   /** Name of the stored procedure for a Azure SQL Managed Instance source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string). */
   sqlReaderStoredProcedureName?: any;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
-  storedProcedureParameters?: {
-    [propertyName: string]: StoredProcedureParameter;
-  };
+  storedProcedureParameters?: any;
   /** Which additional types to produce. */
   produceAdditionalTypes?: any;
   /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
@@ -12070,39 +12060,6 @@ export enum KnownSalesforceSourceReadBehavior {
  */
 export type SalesforceSourceReadBehavior = string;
 
-/** Known values of {@link StoredProcedureParameterType} that the service accepts. */
-export enum KnownStoredProcedureParameterType {
-  /** String */
-  String = "String",
-  /** Int */
-  Int = "Int",
-  /** Int64 */
-  Int64 = "Int64",
-  /** Decimal */
-  Decimal = "Decimal",
-  /** Guid */
-  Guid = "Guid",
-  /** Boolean */
-  Boolean = "Boolean",
-  /** Date */
-  Date = "Date"
-}
-
-/**
- * Defines values for StoredProcedureParameterType. \
- * {@link KnownStoredProcedureParameterType} can be used interchangeably with StoredProcedureParameterType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **String** \
- * **Int** \
- * **Int64** \
- * **Decimal** \
- * **Guid** \
- * **Boolean** \
- * **Date**
- */
-export type StoredProcedureParameterType = string;
-
 /** Known values of {@link CassandraSourceReadConsistencyLevels} that the service accepts. */
 export enum KnownCassandraSourceReadConsistencyLevels {
   /** ALL */
@@ -12144,6 +12101,39 @@ export enum KnownCassandraSourceReadConsistencyLevels {
  * **LOCAL_SERIAL**
  */
 export type CassandraSourceReadConsistencyLevels = string;
+
+/** Known values of {@link StoredProcedureParameterType} that the service accepts. */
+export enum KnownStoredProcedureParameterType {
+  /** String */
+  String = "String",
+  /** Int */
+  Int = "Int",
+  /** Int64 */
+  Int64 = "Int64",
+  /** Decimal */
+  Decimal = "Decimal",
+  /** Guid */
+  Guid = "Guid",
+  /** Boolean */
+  Boolean = "Boolean",
+  /** Date */
+  Date = "Date"
+}
+
+/**
+ * Defines values for StoredProcedureParameterType. \
+ * {@link KnownStoredProcedureParameterType} can be used interchangeably with StoredProcedureParameterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **String** \
+ * **Int** \
+ * **Int64** \
+ * **Decimal** \
+ * **Guid** \
+ * **Boolean** \
+ * **Date**
+ */
+export type StoredProcedureParameterType = string;
 
 /** Known values of {@link SapCloudForCustomerSinkWriteBehavior} that the service accepts. */
 export enum KnownSapCloudForCustomerSinkWriteBehavior {

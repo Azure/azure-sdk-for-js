@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { diag } from "@opentelemetry/api";
+import { context, diag } from "@opentelemetry/api";
 import {
   AggregationTemporality,
   InstrumentType,
   PushMetricExporter,
   ResourceMetrics,
 } from "@opentelemetry/sdk-metrics";
-import { ExportResult, ExportResultCode } from "@opentelemetry/core";
+import { ExportResult, ExportResultCode, suppressTracing } from "@opentelemetry/core";
 import { AzureMonitorBaseExporter } from "./base";
 import { AzureMonitorExporterOptions } from "../config";
 import { TelemetryItem as Envelope } from "../generated";
@@ -56,7 +56,10 @@ export class AzureMonitorMetricExporter
     diag.info(`Exporting ${metrics.scopeMetrics.length} metrics(s). Converting to envelopes...`);
 
     let envelopes: Envelope[] = resourceMetricsToEnvelope(metrics, this._instrumentationKey);
-    resultCallback(await this._exportEnvelopes(envelopes));
+    // Supress tracing until OpenTelemetry Metrics SDK support it
+    context.with(suppressTracing(context.active()), async () => {
+      resultCallback(await this._exportEnvelopes(envelopes));
+    });
   }
 
   /**

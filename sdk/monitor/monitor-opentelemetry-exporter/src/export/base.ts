@@ -93,7 +93,9 @@ export abstract class AzureMonitorBaseExporter {
    */
   protected async _exportEnvelopes(envelopes: Envelope[]): Promise<ExportResult> {
     diag.info(`Exporting ${envelopes.length} envelope(s)`);
-
+    if (envelopes.length < 1) {
+      return { code: ExportResultCode.SUCCESS };
+    }
     try {
       const { result, statusCode } = await this._sender.send(envelopes);
       this._numConsecutiveRedirects = 0;

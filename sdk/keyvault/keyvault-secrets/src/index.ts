@@ -19,7 +19,7 @@ import {
   SecretBundle,
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
-import { createChallengeCallbacks } from "../../keyvault-common/src";
+import { createKeyVaultChallengeCallbacks } from "../../keyvault-common/src";
 
 import { DeleteSecretPoller } from "./lro/delete/poller";
 import { RecoverDeletedSecretPoller } from "./lro/recover/poller";
@@ -123,7 +123,7 @@ export class SecretClient {
     const authPolicy = bearerTokenAuthenticationPolicy({
       credential,
       scopes: [],
-      challengeCallbacks: createChallengeCallbacks(pipelineOptions),
+      challengeCallbacks: createKeyVaultChallengeCallbacks(pipelineOptions),
     });
 
     const internalPipelineOptions = {

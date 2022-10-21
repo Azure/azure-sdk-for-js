@@ -47,6 +47,12 @@ export class TraceBasicScenario implements Scenario {
         foo: "bar",
       },
     });
+    root.recordException({
+      code: "TestExceptionCode",
+      message: "TestExceptionMessage",
+      name: "TestExceptionName",
+      stack: "TestExceptionStack",
+    });
 
     const ctx = opentelemetry.trace.setSpan(opentelemetry.context.active(), root);
     const child1 = tracer.startSpan(
@@ -60,31 +66,11 @@ export class TraceBasicScenario implements Scenario {
       },
       ctx
     );
-    const child2 = tracer.startSpan(
-      `${this.constructor.name}.Child.2`,
-      {
-        startTime: 0,
-        kind: opentelemetry.SpanKind.CLIENT,
-        attributes: {
-          numbers: "1234",
-        },
-      },
-      ctx
-    );
-    child1.setStatus({ code: SpanStatusCode.OK });
-    child2.recordException({
-      code: "TestExceptionCode",
-      message: "TestExceptionMessage",
-      name: "TestExceptionName",
-      stack: "TestExceptionStack",
-    });
     let eventAttributes: any = {};
     eventAttributes["SomeAttribute"] = "Test";
-    child2.addEvent("TestEvent", eventAttributes);
+    child1.addEvent("TestEvent", eventAttributes);
     child1.end(100);
     await delay(0);
-    child2.setStatus({ code: SpanStatusCode.OK });
-    child2.end(100);
     root.setStatus({ code: SpanStatusCode.OK });
     root.end(600);
   }
@@ -131,40 +117,23 @@ export class TraceBasicScenario implements Scenario {
               },
             } as any,
           },
-          children: [],
-        },
-        {
-          name: "Microsoft.ApplicationInsights.RemoteDependency",
-          ...COMMON_ENVELOPE_PARAMS,
-          data: {
-            baseType: "RemoteDependencyData",
-            baseData: {
-              version: 2,
-              name: "TraceBasicScenario.Child.2",
-              duration: msToTimeSpan(100),
-              success: true,
-              resultCode: "0",
-              properties: {
-                numbers: "1234",
+          children: [
+            {
+              name: "Microsoft.ApplicationInsights.Message",
+              ...COMMON_ENVELOPE_PARAMS,
+              data: {
+                baseType: "MessageData",
+                baseData: {
+                  version: 2,
+                  message: "TestEvent",
+                  properties: {
+                    SomeAttribute: "Test",
+                  },
+                } as any,
               },
-            } as any,
-          },
-          children: [],
-        },
-        {
-          name: "Microsoft.ApplicationInsights.Message",
-          ...COMMON_ENVELOPE_PARAMS,
-          data: {
-            baseType: "MessageData",
-            baseData: {
-              version: 2,
-              message: "TestEvent",
-              properties: {
-                SomeAttribute: "Test",
-              },
-            } as any,
-          },
-          children: [],
+              children: [],
+            },
+          ],
         },
         {
           name: "Microsoft.ApplicationInsights.Exception",

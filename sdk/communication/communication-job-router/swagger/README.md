@@ -21,7 +21,10 @@ azure-arm: false
 add-credentials: false
 v3: true
 use-extension:
-  "@autorest/typescript": "6.0.0-rc.1"
+  "@autorest/typescript": "latest"
+tracing-info:
+  namespace: "Microsoft.Communication"
+  packagePrefix: "Microsoft.Communication"
 ```
 
 # Remove "x-ms-parameterized-host" section when copying swagger.json

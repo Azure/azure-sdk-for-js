@@ -120,7 +120,7 @@ describe("Identifier model serializer", () => {
     assertSerialize(
       { phoneNumber: "+12345556789" },
       {
-        rawId: "4:12345556789",
+        rawId: "4:+12345556789",
         phoneNumber: {
           value: "+12345556789",
         },

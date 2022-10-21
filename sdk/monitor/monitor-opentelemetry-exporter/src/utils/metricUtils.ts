@@ -58,7 +58,7 @@ export function resourceMetricsToEnvelope(metrics: ResourceMetrics, ikey: string
         let envelope: Envelope = {
           name: "Microsoft.ApplicationInsights.Metric",
           time: time,
-          sampleRate: 100,
+          sampleRate: 100, // Metrics are never sampled
           instrumentationKey: instrumentationKey,
           tags: tags,
           version: 1,
