@@ -11,11 +11,11 @@ import { ClientOptions } from "@azure-rest/core-client";
 import { MapsRouteClient } from "../../../src/generated";
 
 const envSetupForPlayback: Record<string, string> = {
-  ENDPOINT: "https://endpoint",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id",
+  MAPS_CLIENT_ID: "azure_maps_client_id",
+  MAPS_SUBSCRIPTION_KEY: "azure_maps_subscription_key",
 };
 
 const recorderEnvSetup: RecorderStartOptions = {

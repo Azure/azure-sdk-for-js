@@ -7,24 +7,24 @@
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
-        "subscription-key": "FlEIfedJiCE9pnEXvoU6-HWVxB1SP-ddYhEBfV5K3xo",
+        "subscription-key": "azure_maps_subscription_key",
         "User-Agent": "azsdk-js-maps-route-rest/1.0.0-beta.1 core-rest-pipeline/1.9.0 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
-        "x-ms-client-request-id": "40d1fca8-ead0-4f15-80f3-e631bb85af9d"
+        "x-ms-client-request-id": "18dbf997-624c-44c8-bd89-6add84bb4682"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-transform, no-cache",
-        "Content-Length": "1796",
+        "Content-Length": "1802",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 20 Oct 2022 07:17:47 GMT",
+        "Date": "Fri, 21 Oct 2022 13:56:22 GMT",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: AD115D4E6A624D2EA6374A086C650B49 Ref B: SG1EDGE0315 Ref C: 2022-10-20T07:17:48Z"
+        "X-MSEdge-Ref": "Ref A: 604008C0310242EA8F937F001A1E02B3 Ref B: SGEEDGE0417 Ref C: 2022-10-21T13:56:22Z"
       },
       "ResponseBody": {
         "formatVersion": "0.0.12",
@@ -32,21 +32,21 @@
           {
             "summary": {
               "lengthInMeters": 1147,
-              "travelTimeInSeconds": 167,
-              "trafficDelayInSeconds": 0,
-              "trafficLengthInMeters": 0,
-              "departureTime": "2022-10-20T09:17:48\u002B02:00",
-              "arrivalTime": "2022-10-20T09:20:35\u002B02:00"
+              "travelTimeInSeconds": 218,
+              "trafficDelayInSeconds": 51,
+              "trafficLengthInMeters": 159,
+              "departureTime": "2022-10-21T15:56:23\u002B02:00",
+              "arrivalTime": "2022-10-21T16:00:00\u002B02:00"
             },
             "legs": [
               {
                 "summary": {
                   "lengthInMeters": 1147,
-                  "travelTimeInSeconds": 167,
-                  "trafficDelayInSeconds": 0,
-                  "trafficLengthInMeters": 0,
-                  "departureTime": "2022-10-20T09:17:48\u002B02:00",
-                  "arrivalTime": "2022-10-20T09:20:35\u002B02:00"
+                  "travelTimeInSeconds": 218,
+                  "trafficDelayInSeconds": 51,
+                  "trafficLengthInMeters": 159,
+                  "departureTime": "2022-10-21T15:56:23\u002B02:00",
+                  "arrivalTime": "2022-10-21T16:00:00\u002B02:00"
                 },
                 "points": [
                   {

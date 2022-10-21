@@ -149,8 +149,8 @@
       "path": "sdk/maps/maps-search"
     },
     {
-      "name": "maps-route",
-      "path": "sdk/maps/maps-route"
+      "name": "maps-route-rest",
+      "path": "sdk/maps/maps-route-rest"
     },
     {
       "name": "metrics-advisor",

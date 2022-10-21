@@ -84,7 +84,7 @@ The following sections provide several code snippets covering some of the most c
 
 By default, the Route service assumes the traveling mode is a car and the departure time is now. It returns route based on real-time traffic conditions unless a route calculation request specifies otherwise.
 
-To retrieve the route direction, you need to pass in the parameters the coordinates through which the route is calculated, delimited by a colon. A minimum of two coordinates is required. The first one is the origin and the last is the destination of the route.
+To retrieve the route direction, you need to pass in the parameters the coordinates through which the route is calculated, delimited by a colon. A minimum of two coordinates are required. The first one is the origin and the last is the destination of the route.
 
 By default, the Route service will return an array of coordinates. The response will contain the coordinates that make up the path in a list named points. Route response also includes the distance from the start of the route and the estimated elapsed time. These values can be used to calculate the average speed for the entire route.
 
@@ -166,7 +166,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route/samples) directory for detailed examples on how to use this library.
+Please take a look at the [samples][samples] directory for detailed examples on how to use this library.
 
 ## Contributing
 
@@ -176,11 +176,12 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fmaps%2Fmaps-route%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fmaps%2Fmaps-route-rest%2FREADME.png)
 
 <!-- [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest -->
 <!-- [npm_link]: https://www.npmjs.com/package/@azure-rest/maps-route -->
 <!-- [api_ref]: https://docs.microsoft.com/javascript/api/@azure-rest/maps-route?view=azure-node-preview -->
+<!-- [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/samples  -->
 
 [azure_cli]: https://docs.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
