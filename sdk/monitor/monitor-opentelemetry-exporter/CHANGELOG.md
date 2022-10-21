@@ -8,7 +8,7 @@
 - Added retriable behavior for 502, 503 and 504 status codes.
 - Export Metric attributes and Histogram Min/Max values.
 - Added new config options disableOfflineStorage, storageDirectory and exposed ApplicationInsightsClientOptionalParams for HTTP client extra configuration.
-- Added short interval statsbeat metrics exporting.
+- Added Network Statsbeat Metrics.
 
 ### Breaking Changes
 
