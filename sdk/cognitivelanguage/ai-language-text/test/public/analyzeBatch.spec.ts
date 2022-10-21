@@ -44,6 +44,7 @@ import {
   expectation30,
   expectation31,
   expectation32,
+  expectation33,
   expectation4,
   expectation5,
   expectation6,
@@ -116,6 +117,35 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
             );
 
             await assertActionResults(await poller.pollUntilDone(), expectation3);
+          });
+
+          it("entity recognition with resolution", async function () {
+            const docs = [
+              {
+                id: "1",
+                language: "en",
+                text: "Average price of sneaker is 120 EUR",
+              },
+              {
+                id: "2",
+                language: "es",
+                text: "Bill Gates is 66 years old in 2022",
+              },
+            ];
+            const poller = await client.beginAnalyzeBatch(
+              [
+                {
+                  kind: AnalyzeBatchActionNames.EntityRecognition,
+                  modelVersion: "2022-10-01-preview",
+                },
+              ],
+              docs,
+              {
+                updateIntervalInMs: pollingInterval,
+              }
+            );
+
+            await assertActionResults(await poller.pollUntilDone(), expectation33);
           });
 
           it("key phrase extraction", async function () {

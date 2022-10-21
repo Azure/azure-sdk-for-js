@@ -6786,3 +6786,57 @@ export const expectation32: AnalyzeBatchResult[] = [
     modelVersion,
   },
 ];
+
+export const expectation33: AnalyzeBatchResult[] = [
+  {
+    kind: "EntityRecognition",
+    results: [
+      {
+        id: "1",
+        warnings: [],
+        entities: [
+          { text: "sneaker", category: "Product", offset: 17, length: 7, confidenceScore: 0.87 },
+          {
+            text: "120 EUR",
+            category: "Quantity",
+            subCategory: "Currency",
+            offset: 28,
+            length: 7,
+            confidenceScore: 1,
+            resolutions: [
+              { resolutionKind: "CurrencyResolution", value: 120, unit: "Euro", iso4217: "EUR" },
+            ],
+          },
+        ],
+      },
+      {
+        id: "2",
+        warnings: [],
+        entities: [
+          { text: "Bill Gates", category: "Person", offset: 0, length: 10, confidenceScore: 0.98 },
+          {
+            text: "66 years old",
+            category: "Quantity",
+            subCategory: "Age",
+            offset: 14,
+            length: 12,
+            confidenceScore: 0.96,
+          },
+          {
+            text: "2022",
+            category: "DateTime",
+            subCategory: "DateRange",
+            offset: 30,
+            length: 4,
+            confidenceScore: 0.97,
+            resolutions: [
+              { resolutionKind: "TemporalSpanResolution", begin: "2022-01-01", end: "2023-01-01" },
+            ],
+          },
+        ],
+      },
+    ],
+    completedOn,
+    modelVersion: "2022-10-01-preview",
+  },
+];
