@@ -3,6 +3,7 @@
 
 import {
   AnalyzeBatchActionNames,
+  KnownDocumentType,
   KnownExtractiveSummarizationOrderingCriteria,
   KnownFhirVersion,
   KnownPiiEntityCategory,
@@ -42,6 +43,7 @@ import {
   expectation3,
   expectation30,
   expectation31,
+  expectation32,
   expectation4,
   expectation5,
   expectation6,
@@ -299,6 +301,34 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
               }
             );
             await assertActionResults(await poller.pollUntilDone(), expectation25, {
+              excludedAdditionalProps: ["reference", "id", "fullUrl", "value", "date", "period"],
+            });
+          });
+
+          it("healthcare with known documents type", async function () {
+            const docs = [
+              "The patient is a 54-year-old gentleman with a history of progressive angina over the past several months.",
+              "Prescribed 100mg ibuprofen, taken twice daily.",
+              "Patient does not suffer from high blood pressure.",
+            ];
+            const poller = await client.beginAnalyzeBatch(
+              [
+                {
+                  kind: AnalyzeBatchActionNames.Healthcare,
+                  fhirVersion: KnownFhirVersion["4.0.1"],
+                  documentType: KnownDocumentType.DischargeSummary,
+                },
+              ],
+              docs,
+              "en",
+              {
+                updateIntervalInMs: pollingInterval,
+              }
+            );
+            await poller.pollUntilDone();
+
+            const results = await poller.pollUntilDone();
+            await assertActionResults(results, expectation32, {
               excludedAdditionalProps: ["reference", "id", "fullUrl", "value", "date", "period"],
             });
           });
