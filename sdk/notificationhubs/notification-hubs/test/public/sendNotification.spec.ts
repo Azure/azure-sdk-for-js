@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SendOperationOptions } from "../../src/models/options.js";
+import { SendNotificationOptions } from "../../src/models/options.js";
 import { assert } from "@azure/test-utils";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
 import { createClientContext } from "@azure/notification-hubs/client";
@@ -22,7 +22,6 @@ describe("sendDirectNotification()", () => {
     const context = createClientContext(connectionString, hubName);
 
     const tags = ["likes_hockey", "likes_football"];
-
     const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 
     const notification = createAppleNotification({
@@ -34,8 +33,8 @@ describe("sendDirectNotification()", () => {
     });
 
     // Not required but can set test send to true for debugging purposes.
-    const sendOptions: SendOperationOptions = { enableTestSend: false };
-    const result = await sendNotification(context, tags, notification, sendOptions);
+    const sendOptions: SendNotificationOptions = { enableTestSend: false, tags };
+    const result = await sendNotification(context, notification, sendOptions);
 
     assert.isDefined(result.trackingId);
     assert.isDefined(result.correlationId);
@@ -57,8 +56,8 @@ describe("sendDirectNotification()", () => {
     });
 
     // Not required but can set test send to true for debugging purposes.
-    const sendOptions: SendOperationOptions = { enableTestSend: false };
-    const result = await sendNotification(context, tagExpression, notification, sendOptions);
+    const sendOptions: SendNotificationOptions = { enableTestSend: false, tags: tagExpression };
+    const result = await sendNotification(context, notification, sendOptions);
 
     assert.isDefined(result.trackingId);
     assert.isDefined(result.correlationId);

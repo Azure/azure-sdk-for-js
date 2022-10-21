@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or update a Experiment resource.
  *
  * @summary Create or update a Experiment resource.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-07-01-preview/examples/CreateOrUpdateAExperiment.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-10-01-preview/examples/CreateOrUpdateAExperiment.json
  */
 async function createOrUpdateAExperimentInAResourceGroup() {
   const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";
@@ -23,7 +23,7 @@ async function createOrUpdateAExperimentInAResourceGroup() {
   const experimentName = "exampleExperiment";
   const experiment: Experiment = {
     identity: { type: "SystemAssigned" },
-    location: "centraluseuap",
+    location: "eastus2euap",
     selectors: [
       {
         type: "List",
@@ -45,7 +45,7 @@ async function createOrUpdateAExperimentInAResourceGroup() {
             name: "branch1",
             actions: [
               {
-                name: "urn:csci:provider:providername:Shutdown/1.0",
+                name: "urn:csci:microsoft:virtualMachine:shutdown/1.0",
                 type: "continuous",
                 duration: "PT10M",
                 parameters: [{ key: "abruptShutdown", value: "false" }],

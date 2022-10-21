@@ -223,6 +223,10 @@ main().catch((err) => {
 module.exports = { main };
 ```
 
+### Retrieve logs
+
+Logs uploaded using the Monitor Ingestion client library can be retrieved using the [Monitor Query client library][monitor_query].
+
 ## Troubleshooting
 
 ### Logging
@@ -250,5 +254,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_monitor_overview]: https://docs.microsoft.com/azure/azure-monitor/overview
 [data_collection_endpoint]: https://docs.microsoft.com/azure/azure-monitor/essentials/data-collection-endpoint-overview
 [data_collection_rule]: https://docs.microsoft.com/azure/azure-monitor/essentials/data-collection-rule-overview
+[monitor_query]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-query
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/monitor/monitor-ingestion/README.png)

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Delete a Target resource that extends a tracked regional resource.
  *
  * @summary Delete a Target resource that extends a tracked regional resource.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-07-01-preview/examples/DeleteATarget.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-10-01-preview/examples/DeleteATarget.json
  */
 async function deleteATargetThatExtendsAVirtualMachineResource() {
   const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";

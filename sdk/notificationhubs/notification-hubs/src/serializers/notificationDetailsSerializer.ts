@@ -62,9 +62,12 @@ export async function parseNotificationDetails(bodyText: string): Promise<Notifi
   };
 }
 
-function parseOutcomeCounts(counts: Record<string, any>[]): NotificationOutcomeCollectionItem[] {
+function parseOutcomeCounts(
+  counts: Record<string, any>[] | Record<string, any>
+): NotificationOutcomeCollectionItem[] {
+  const items = Array.isArray(counts) ? counts : [counts];
   const results: NotificationOutcomeCollectionItem[] = [];
-  for (const item of counts) {
+  for (const item of items) {
     results.push({ state: item["Name"], count: getInteger(item["Count"], "Count") });
   }
 

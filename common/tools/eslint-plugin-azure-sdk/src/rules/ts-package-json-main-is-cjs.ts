@@ -45,10 +45,10 @@ export = {
             const nodeValue = node.value as Literal;
             const main = nodeValue.value as string;
 
-            if (!/^(\.\/)?dist\/index\.js$/.test(main)) {
+            if (!/^(\.\/)?dist\/index\.(c)?js$/.test(main)) {
               context.report({
                 node: nodeValue,
-                message: `main is set to ${main} when it should be set to dist/index.js`,
+                message: `main is set to ${main} when it should be set to dist/index.js or dist/index.cjs`,
                 fix: (fixer: Rule.RuleFixer): Rule.Fix =>
                   fixer.replaceText(nodeValue, `"dist/index.js"`),
               });

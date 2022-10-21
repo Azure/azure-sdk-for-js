@@ -5,19 +5,32 @@
 ```ts
 
 import { AggregationTemporality } from '@opentelemetry/sdk-metrics';
+import { Attributes } from '@opentelemetry/api';
+import { Context } from '@opentelemetry/api';
 import * as coreClient from '@azure/core-client';
 import { ExportResult } from '@opentelemetry/core';
 import { InstrumentType } from '@opentelemetry/sdk-metrics';
+import { Link } from '@opentelemetry/api';
 import { PushMetricExporter } from '@opentelemetry/sdk-metrics';
 import { ReadableSpan } from '@opentelemetry/sdk-trace-base';
 import { ResourceMetrics } from '@opentelemetry/sdk-metrics';
+import { Sampler } from '@opentelemetry/sdk-trace-base';
+import { SamplingResult } from '@opentelemetry/sdk-trace-base';
 import { SpanExporter } from '@opentelemetry/sdk-trace-base';
+import { SpanKind } from '@opentelemetry/api';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface ApplicationInsightsClientOptionalParams extends coreClient.ServiceClientOptions {
     endpoint?: string;
     host?: string;
+}
+
+// @public
+export class ApplicationInsightsSampler implements Sampler {
+    constructor(samplingRatio?: number);
+    shouldSample(context: Context, traceId: string, spanName: string, spanKind: SpanKind, attributes: Attributes, links: Link[]): SamplingResult;
+    toString(): string;
 }
 
 // @public

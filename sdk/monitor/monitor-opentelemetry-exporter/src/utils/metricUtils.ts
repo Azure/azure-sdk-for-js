@@ -69,7 +69,7 @@ export function resourceMetricsToEnvelope(
         let envelope: Envelope = {
           name: envelopeName,
           time: time,
-          sampleRate: 100,
+          sampleRate: 100, // Metrics are never sampled
           instrumentationKey: instrumentationKey,
           tags: tags,
           version: 1,

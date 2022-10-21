@@ -20,64 +20,72 @@ export {
   SendRequest,
   TlsSettings,
   TransferProgressEvent,
-} from "./interfaces";
+} from "./interfaces.js";
 export {
   AddPolicyOptions as AddPipelineOptions,
   PipelinePhase,
   PipelinePolicy,
   Pipeline,
   createEmptyPipeline,
-} from "./pipeline";
+} from "./pipeline.js";
 export {
   createPipelineFromOptions,
   InternalPipelineOptions,
   PipelineOptions,
-} from "./createPipelineFromOptions";
-export { createDefaultHttpClient } from "./defaultHttpClient";
-export { createHttpHeaders } from "./httpHeaders";
-export { createPipelineRequest, PipelineRequestOptions } from "./pipelineRequest";
-export { RestError, RestErrorOptions, isRestError } from "./restError";
+} from "./createPipelineFromOptions.js";
+export { createDefaultHttpClient } from "./defaultHttpClient.js";
+export { createHttpHeaders } from "./httpHeaders.js";
+export { createPipelineRequest, PipelineRequestOptions } from "./pipelineRequest.js";
+export { RestError, RestErrorOptions, isRestError } from "./restError.js";
 export {
   decompressResponsePolicy,
   decompressResponsePolicyName,
-} from "./policies/decompressResponsePolicy";
+} from "./policies/decompressResponsePolicy.js";
 export {
   exponentialRetryPolicy,
   ExponentialRetryPolicyOptions,
   exponentialRetryPolicyName,
-} from "./policies/exponentialRetryPolicy";
+} from "./policies/exponentialRetryPolicy.js";
 export {
   setClientRequestIdPolicy,
   setClientRequestIdPolicyName,
-} from "./policies/setClientRequestIdPolicy";
-export { logPolicy, logPolicyName, LogPolicyOptions } from "./policies/logPolicy";
-export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy";
+} from "./policies/setClientRequestIdPolicy.js";
+export { logPolicy, logPolicyName, LogPolicyOptions } from "./policies/logPolicy.js";
+export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy.js";
 export {
   redirectPolicy,
   redirectPolicyName,
   RedirectPolicyOptions,
-} from "./policies/redirectPolicy";
+} from "./policies/redirectPolicy.js";
 export {
   systemErrorRetryPolicy,
   SystemErrorRetryPolicyOptions,
   systemErrorRetryPolicyName,
-} from "./policies/systemErrorRetryPolicy";
+} from "./policies/systemErrorRetryPolicy.js";
 export {
   throttlingRetryPolicy,
   throttlingRetryPolicyName,
   ThrottlingRetryPolicyOptions,
-} from "./policies/throttlingRetryPolicy";
-export { retryPolicy, RetryPolicyOptions } from "./policies/retryPolicy";
-export { RetryStrategy, RetryInformation, RetryModifiers } from "./retryStrategies/retryStrategy";
-export { tracingPolicy, tracingPolicyName, TracingPolicyOptions } from "./policies/tracingPolicy";
-export { defaultRetryPolicy, DefaultRetryPolicyOptions } from "./policies/defaultRetryPolicy";
+} from "./policies/throttlingRetryPolicy.js";
+export { retryPolicy, RetryPolicyOptions } from "./policies/retryPolicy.js";
+export {
+  RetryStrategy,
+  RetryInformation,
+  RetryModifiers,
+} from "./retryStrategies/retryStrategy.js";
+export {
+  tracingPolicy,
+  tracingPolicyName,
+  TracingPolicyOptions,
+} from "./policies/tracingPolicy.js";
+export { defaultRetryPolicy, DefaultRetryPolicyOptions } from "./policies/defaultRetryPolicy.js";
 export {
   userAgentPolicy,
   userAgentPolicyName,
   UserAgentPolicyOptions,
-} from "./policies/userAgentPolicy";
-export { tlsPolicy, tlsPolicyName } from "./policies/tlsPolicy";
-export { formDataPolicy, formDataPolicyName } from "./policies/formDataPolicy";
+} from "./policies/userAgentPolicy.js";
+export { tlsPolicy, tlsPolicyName } from "./policies/tlsPolicy.js";
+export { formDataPolicy, formDataPolicyName } from "./policies/formDataPolicy.js";
 export {
   bearerTokenAuthenticationPolicy,
   BearerTokenAuthenticationPolicyOptions,
@@ -85,5 +93,5 @@ export {
   ChallengeCallbacks,
   AuthorizeRequestOptions,
   AuthorizeRequestOnChallengeOptions,
-} from "./policies/bearerTokenAuthenticationPolicy";
-export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";
+} from "./policies/bearerTokenAuthenticationPolicy.js";
+export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy.js";

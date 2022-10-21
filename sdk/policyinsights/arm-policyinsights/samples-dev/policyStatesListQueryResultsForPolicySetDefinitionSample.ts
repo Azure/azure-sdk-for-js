@@ -23,14 +23,13 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function queryLatestAtSubscriptionLevelPolicySetDefinitionScope() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const policySetDefinitionName = "3e3807c1-65c9-49e0-a406-82d8ae3e338c";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForPolicySetDefinition(
     policyStatesResource,
-    subscriptionId2,
+    subscriptionId,
     policySetDefinitionName
   )) {
     resArray.push(item);
@@ -49,7 +48,6 @@ queryLatestAtSubscriptionLevelPolicySetDefinitionScope().catch(console.error);
 async function queryLatestAtSubscriptionLevelPolicySetDefinitionScopeWithNextLink() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const policySetDefinitionName = "3e3807c1-65c9-49e0-a406-82d8ae3e338c";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options: PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams = {
@@ -60,7 +58,7 @@ async function queryLatestAtSubscriptionLevelPolicySetDefinitionScopeWithNextLin
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForPolicySetDefinition(
     policyStatesResource,
-    subscriptionId2,
+    subscriptionId,
     policySetDefinitionName,
     options
   )) {
