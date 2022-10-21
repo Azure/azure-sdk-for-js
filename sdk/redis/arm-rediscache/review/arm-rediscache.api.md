@@ -322,7 +322,7 @@ export interface OperationStatusResult {
 
 // @public
 export interface PatchSchedules {
-    createOrUpdate(resourceGroupName: string, name: string, defaultParam: DefaultName, parameters: RedisPatchSchedule, options?: PatchSchedulesCreateOrUpdateOptionalParams): Promise<PatchSchedulesCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, name: string, parameters: RedisPatchSchedule, defaultParam: DefaultName, options?: PatchSchedulesCreateOrUpdateOptionalParams): Promise<PatchSchedulesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, name: string, defaultParam: DefaultName, options?: PatchSchedulesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, name: string, defaultParam: DefaultName, options?: PatchSchedulesGetOptionalParams): Promise<PatchSchedulesGetResponse>;
     listByRedisResource(resourceGroupName: string, cacheName: string, options?: PatchSchedulesListByRedisResourceOptionalParams): PagedAsyncIterableIterator<RedisPatchSchedule>;
@@ -644,15 +644,19 @@ export interface RedisLinkedServer {
 
 // @public
 export interface RedisLinkedServerCreateParameters {
+    readonly geoReplicatedPrimaryHostName?: string;
     linkedRedisCacheId: string;
     linkedRedisCacheLocation: string;
+    readonly primaryHostName?: string;
     serverRole: ReplicationRole;
 }
 
 // @public
 export interface RedisLinkedServerCreateProperties {
+    readonly geoReplicatedPrimaryHostName?: string;
     linkedRedisCacheId: string;
     linkedRedisCacheLocation: string;
+    readonly primaryHostName?: string;
     serverRole: ReplicationRole;
 }
 
@@ -663,8 +667,10 @@ export interface RedisLinkedServerProperties extends RedisLinkedServerCreateProp
 
 // @public
 export interface RedisLinkedServerWithProperties extends ProxyResource {
+    readonly geoReplicatedPrimaryHostName?: string;
     linkedRedisCacheId?: string;
     linkedRedisCacheLocation?: string;
+    readonly primaryHostName?: string;
     readonly provisioningState?: string;
     serverRole?: ReplicationRole;
 }
