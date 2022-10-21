@@ -4,7 +4,7 @@
 import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions } from "@azure/core-client";
 import { GeneratedMonitorIngestionClient } from "./generated";
-import { UploadLogsError, UploadLogsOptions, UploadLogsResult } from "./models";
+import { UploadLogsError, UploadLogsOptions } from "./models";
 import { GZippingPolicy } from "./gZippingPolicy";
 import { concurrentRun } from "./utils/concurrentPoolHelper";
 import { splitDataToChunks } from "./utils/splitDataToChunksHelper";
@@ -62,12 +62,11 @@ export class LogsIngestionClient {
     logs: Record<string, unknown>[],
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: UploadLogsOptions
-  ): Promise<UploadLogsResult> {
+  ): Promise<Array<UploadLogsError>> {
     // TODO: Do we need to worry about memory issues when loading data for 100GB ?? JS max allocation is 1 or 2GB
 
     // This splits logs into 1MB chunks
     const chunkArray = splitDataToChunks(logs);
-    const noOfChunks = chunkArray.length;
     const concurrency = Math.max(options?.maxConcurrency ?? DEFAULT_MAX_CONCURRENCY, 1);
 
     const uploadResultErrors: Array<UploadLogsError> = [];
@@ -85,19 +84,9 @@ export class LogsIngestionClient {
     });
 
     if (uploadResultErrors.length === 0) {
-      return {
-        status: "Success",
-      };
-    } else if (uploadResultErrors.length < noOfChunks && uploadResultErrors.length > 0) {
-      return {
-        errors: uploadResultErrors,
-        status: "PartialFailure",
-      };
+      return [];
     } else {
-      return {
-        errors: uploadResultErrors,
-        status: "Failure",
-      };
+      return uploadResultErrors;
     }
   }
 }

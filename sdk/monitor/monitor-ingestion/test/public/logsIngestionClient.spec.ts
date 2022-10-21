@@ -52,7 +52,7 @@ describe("LogsIngestionClient live tests", function () {
 
   it("sends empty data", async function () {
     const result = await client.upload(getDcrId(), "Custom-MyTableRawData", []);
-    assert.equal(result.status, "Success");
+    assert.equal(result,[]);
   });
 
   it("sends basic data", async function () {
@@ -74,7 +74,7 @@ describe("LogsIngestionClient live tests", function () {
         },
       },
     ]);
-    assert.equal(result.status, "Success");
+    assert.equal(result,[]);
   });
 
   it("Success Test - divides huge data into chunks", async function () {
@@ -82,7 +82,7 @@ describe("LogsIngestionClient live tests", function () {
       maxConcurrency: 3,
     });
 
-    assert.equal(result.status, "Success");
+    assert.equal(result, []);
   });
 
   it("Partial Fail Test - when dcr id is incorrect for alternate requests", async function () {
@@ -100,9 +100,8 @@ describe("LogsIngestionClient live tests", function () {
     const result = await client.upload(getDcrId(), "Custom-MyTableRawData", logData, {
       maxConcurrency: 3,
     });
-    assert.equal(result.status, "PartialFailure");
-    if (result.status !== "Success") {
-      result.errors.forEach((err) => {
+    if (result.length > 0) {
+      result.forEach((err) => {
         assert.equal(
           err.cause.message,
           `Data collection rule with immutable Id 'fake-id' not found.`
@@ -112,10 +111,10 @@ describe("LogsIngestionClient live tests", function () {
       const chunkArraySize = getChunkArraylength(noOfElements);
       assert.isAbove(chunkArraySize, 1);
       if (chunkArraySize % 2 === 0) {
-        assert.equal(result.errors.length, chunkArraySize / 2);
+        assert.equal(result.length, chunkArraySize / 2);
       }
       if (chunkArraySize % 2 === 1) {
-        assert.equal(result.errors.length, (chunkArraySize - 1) / 2);
+        assert.equal(result.length, (chunkArraySize - 1) / 2);
       }
     }
   });
@@ -126,9 +125,8 @@ describe("LogsIngestionClient live tests", function () {
     const result = await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
       maxConcurrency: 3,
     });
-    assert.equal(result.status, "Failure");
-    if (result.status !== "Success") {
-      result.errors.forEach((err) => {
+    if (result.length > 0) {
+      result.forEach((err) => {
         assert.equal(
           err.cause.message,
           `Data collection rule with immutable Id 'immutable-id-123' not found.`
@@ -136,7 +134,7 @@ describe("LogsIngestionClient live tests", function () {
       });
       const chunkArraySize = getChunkArraylength(noOfElements);
       assert.isAbove(chunkArraySize, 1);
-      assert.equal(chunkArraySize, result.errors.length);
+      assert.equal(chunkArraySize, result.length);
     }
   });
 });

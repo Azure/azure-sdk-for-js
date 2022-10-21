@@ -13,16 +13,6 @@ export interface UploadLogsOptions {
 }
 
 /**
- * Result type for upload operation
- */
-export type UploadLogsResult =
-  | {
-      errors: Array<UploadLogsError>;
-      status: "Failure" | "PartialFailure";
-    }
-  | { status: "Success" };
-
-/**
  * Error for each log upload request
  */
 export interface UploadLogsError {
