@@ -1,7 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AnalyzeBatchResult } from "../../src/";
+import {
+  AnalyzeBatchResult,
+  EntityLinkingResult,
+  EntityRecognitionResult,
+  KeyPhraseExtractionResult,
+  LanguageDetectionResult,
+  PiiEntityRecognitionResult,
+  PiiEntityRecognitionSuccessResult,
+  SentimentAnalysisResult,
+} from "../../src/";
 
 const modelVersion = undefined as any;
 const completedOn = undefined as any;
@@ -2450,4 +2459,1557 @@ export const expectation26: AnalyzeBatchResult[] = [
     completedOn,
     modelVersion,
   },
+];
+
+export const expectation30: SentimentAnalysisResult[] = [
+  {
+    id: "0",
+    warnings: [],
+    sentiment: "positive",
+    confidenceScores: { positive: 1, neutral: 0, negative: 0 },
+    sentences: [
+      {
+        text: "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
+        sentiment: "positive",
+        confidenceScores: { positive: 1, neutral: 0, negative: 0 },
+        offset: 0,
+        length: 86,
+        opinions: [],
+      },
+    ],
+  },
+  {
+    id: "1",
+    warnings: [],
+    sentiment: "negative",
+    confidenceScores: { positive: 0, neutral: 0.01, negative: 0.99 },
+    sentences: [
+      {
+        text: "Unfortunately, it rained during my entire trip to Seattle. ",
+        sentiment: "negative",
+        confidenceScores: { positive: 0, neutral: 0.01, negative: 0.99 },
+        offset: 0,
+        length: 59,
+        opinions: [],
+      },
+      {
+        text: "I didn't even get to visit the Space Needle",
+        sentiment: "neutral",
+        confidenceScores: { positive: 0.03, neutral: 0.58, negative: 0.39 },
+        offset: 59,
+        length: 43,
+        opinions: [],
+      },
+    ],
+  },
+  {
+    id: "2",
+    warnings: [],
+    sentiment: "positive",
+    confidenceScores: { positive: 0.71, neutral: 0.06, negative: 0.23 },
+    sentences: [
+      {
+        text: "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
+        sentiment: "positive",
+        confidenceScores: { positive: 0.71, neutral: 0.06, negative: 0.23 },
+        offset: 0,
+        length: 101,
+        opinions: [],
+      },
+    ],
+  },
+  {
+    id: "3",
+    warnings: [],
+    sentiment: "negative",
+    confidenceScores: { positive: 0.01, neutral: 0.01, negative: 0.99 },
+    sentences: [
+      {
+        text: "I didn't like the last book I read at all.",
+        sentiment: "negative",
+        confidenceScores: { positive: 0.01, neutral: 0.01, negative: 0.99 },
+        offset: 0,
+        length: 42,
+        opinions: [],
+      },
+    ],
+  },
+];
+
+export const expectation31: SentimentAnalysisResult[] = [
+  {
+    id: "0",
+    error: {
+      code: "UnsupportedLanguageCode",
+      message:
+        "Invalid language code. Supported languages: ar,da,de,el,en,es,fi,fr,hi,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv,tr,zh-Hans,zh-Hant. For additional details see https://aka.ms/text-analytics/language-support?tabs=sentiment-analysis",
+    },
+  },
+];
+
+export const expectation32: SentimentAnalysisResult[] = [
+  {
+    id: "0",
+    warnings: [],
+    sentiment: "negative",
+    confidenceScores: { positive: 0, neutral: 0, negative: 0.99 },
+    sentences: [
+      {
+        text: "The food was unacceptable",
+        sentiment: "negative",
+        confidenceScores: { positive: 0, neutral: 0, negative: 0.99 },
+        offset: 0,
+        length: 25,
+        opinions: [
+          {
+            target: {
+              sentiment: "negative",
+              confidenceScores: { positive: 0, negative: 1 },
+              offset: 4,
+              length: 4,
+              text: "food",
+            },
+            assessments: [
+              {
+                sentiment: "negative",
+                confidenceScores: { positive: 0, negative: 1 },
+                offset: 13,
+                length: 12,
+                text: "unacceptable",
+                isNegated: false,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "1",
+    warnings: [],
+    sentiment: "positive",
+    confidenceScores: { positive: 0.99, neutral: 0, negative: 0 },
+    sentences: [
+      {
+        text: "The rooms were beautiful. ",
+        sentiment: "positive",
+        confidenceScores: { positive: 0.99, neutral: 0, negative: 0 },
+        offset: 0,
+        length: 26,
+        opinions: [
+          {
+            target: {
+              sentiment: "positive",
+              confidenceScores: { positive: 1, negative: 0 },
+              offset: 4,
+              length: 5,
+              text: "rooms",
+            },
+            assessments: [
+              {
+                sentiment: "positive",
+                confidenceScores: { positive: 1, negative: 0 },
+                offset: 15,
+                length: 9,
+                text: "beautiful",
+                isNegated: false,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        text: "The AC was good and quiet.",
+        sentiment: "positive",
+        confidenceScores: { positive: 0.99, neutral: 0, negative: 0 },
+        offset: 26,
+        length: 26,
+        opinions: [
+          {
+            target: {
+              sentiment: "positive",
+              confidenceScores: { positive: 1, negative: 0 },
+              offset: 30,
+              length: 2,
+              text: "AC",
+            },
+            assessments: [
+              {
+                sentiment: "positive",
+                confidenceScores: { positive: 1, negative: 0 },
+                offset: 37,
+                length: 4,
+                text: "good",
+                isNegated: false,
+              },
+              {
+                sentiment: "positive",
+                confidenceScores: { positive: 1, negative: 0 },
+                offset: 46,
+                length: 5,
+                text: "quiet",
+                isNegated: false,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "2",
+    warnings: [],
+    sentiment: "negative",
+    confidenceScores: { positive: 0.03, neutral: 0, negative: 0.97 },
+    sentences: [
+      {
+        text: "The breakfast was good, but the toilet was smelly.",
+        sentiment: "negative",
+        confidenceScores: { positive: 0.03, neutral: 0, negative: 0.97 },
+        offset: 0,
+        length: 50,
+        opinions: [
+          {
+            target: {
+              sentiment: "positive",
+              confidenceScores: { positive: 1, negative: 0 },
+              offset: 4,
+              length: 9,
+              text: "breakfast",
+            },
+            assessments: [
+              {
+                sentiment: "positive",
+                confidenceScores: { positive: 1, negative: 0 },
+                offset: 18,
+                length: 4,
+                text: "good",
+                isNegated: false,
+              },
+            ],
+          },
+          {
+            target: {
+              sentiment: "negative",
+              confidenceScores: { positive: 0, negative: 1 },
+              offset: 32,
+              length: 6,
+              text: "toilet",
+            },
+            assessments: [
+              {
+                sentiment: "negative",
+                confidenceScores: { positive: 0, negative: 1 },
+                offset: 43,
+                length: 6,
+                text: "smelly",
+                isNegated: false,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "3",
+    warnings: [],
+    sentiment: "positive",
+    confidenceScores: { positive: 1, neutral: 0, negative: 0 },
+    sentences: [
+      {
+        text: "Loved this hotel - good breakfast - nice shuttle service - clean rooms.",
+        sentiment: "positive",
+        confidenceScores: { positive: 1, neutral: 0, negative: 0 },
+        offset: 0,
+        length: 71,
+        opinions: [
+          {
+            target: {
+              sentiment: "positive",
+              confidenceScores: { positive: 1, negative: 0 },
+              offset: 11,
+              length: 5,
+              text: "hotel",
+            },
+            assessments: [
+              {
+                sentiment: "positive",
+                confidenceScores: { positive: 1, negative: 0 },
+                offset: 0,
+                length: 5,
+                text: "Loved",
+                isNegated: false,
+              },
+            ],
+          },
+          {
+            target: {
+              sentiment: "positive",
+              confidenceScores: { positive: 1, negative: 0 },
+              offset: 24,
+              length: 9,
+              text: "breakfast",
+            },
+            assessments: [
+              {
+                sentiment: "positive",
+                confidenceScores: { positive: 1, negative: 0 },
+                offset: 19,
+                length: 4,
+                text: "good",
+                isNegated: false,
+              },
+            ],
+          },
+          {
+            target: {
+              sentiment: "positive",
+              confidenceScores: { positive: 1, negative: 0 },
+              offset: 41,
+              length: 15,
+              text: "shuttle service",
+            },
+            assessments: [
+              {
+                sentiment: "positive",
+                confidenceScores: { positive: 1, negative: 0 },
+                offset: 36,
+                length: 4,
+                text: "nice",
+                isNegated: false,
+              },
+              {
+                sentiment: "positive",
+                confidenceScores: { positive: 1, negative: 0 },
+                offset: 59,
+                length: 5,
+                text: "clean",
+                isNegated: false,
+              },
+            ],
+          },
+          {
+            target: {
+              sentiment: "positive",
+              confidenceScores: { positive: 1, negative: 0 },
+              offset: 65,
+              length: 5,
+              text: "rooms",
+            },
+            assessments: [
+              {
+                sentiment: "positive",
+                confidenceScores: { positive: 1, negative: 0 },
+                offset: 59,
+                length: 5,
+                text: "clean",
+                isNegated: false,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "4",
+    warnings: [],
+    sentiment: "positive",
+    confidenceScores: { positive: 1, neutral: 0, negative: 0 },
+    sentences: [
+      {
+        text: "I had a great unobstructed view of the Microsoft campus.",
+        sentiment: "positive",
+        confidenceScores: { positive: 1, neutral: 0, negative: 0 },
+        offset: 0,
+        length: 56,
+        opinions: [
+          {
+            target: {
+              sentiment: "positive",
+              confidenceScores: { positive: 1, negative: 0 },
+              offset: 27,
+              length: 4,
+              text: "view",
+            },
+            assessments: [
+              {
+                sentiment: "positive",
+                confidenceScores: { positive: 1, negative: 0 },
+                offset: 8,
+                length: 5,
+                text: "great",
+                isNegated: false,
+              },
+              {
+                sentiment: "positive",
+                confidenceScores: { positive: 0.99, negative: 0.01 },
+                offset: 14,
+                length: 12,
+                text: "unobstructed",
+                isNegated: false,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "5",
+    warnings: [],
+    sentiment: "negative",
+    confidenceScores: { positive: 0.09, neutral: 0, negative: 0.91 },
+    sentences: [
+      {
+        text: "Nice rooms but bathrooms were old and the toilet was dirty when we arrived.",
+        sentiment: "negative",
+        confidenceScores: { positive: 0.09, neutral: 0, negative: 0.91 },
+        offset: 0,
+        length: 75,
+        opinions: [
+          {
+            target: {
+              sentiment: "positive",
+              confidenceScores: { positive: 1, negative: 0 },
+              offset: 5,
+              length: 5,
+              text: "rooms",
+            },
+            assessments: [
+              {
+                sentiment: "positive",
+                confidenceScores: { positive: 1, negative: 0 },
+                offset: 0,
+                length: 4,
+                text: "Nice",
+                isNegated: false,
+              },
+            ],
+          },
+          {
+            target: {
+              sentiment: "negative",
+              confidenceScores: { positive: 0, negative: 1 },
+              offset: 15,
+              length: 9,
+              text: "bathrooms",
+            },
+            assessments: [
+              {
+                sentiment: "negative",
+                confidenceScores: { positive: 0, negative: 1 },
+                offset: 30,
+                length: 3,
+                text: "old",
+                isNegated: false,
+              },
+            ],
+          },
+          {
+            target: {
+              sentiment: "negative",
+              confidenceScores: { positive: 0, negative: 1 },
+              offset: 42,
+              length: 6,
+              text: "toilet",
+            },
+            assessments: [
+              {
+                sentiment: "negative",
+                confidenceScores: { positive: 0, negative: 1 },
+                offset: 53,
+                length: 5,
+                text: "dirty",
+                isNegated: false,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "6",
+    warnings: [],
+    sentiment: "negative",
+    confidenceScores: { positive: 0.02, neutral: 0.09, negative: 0.88 },
+    sentences: [
+      {
+        text: "The toilet smelled.",
+        sentiment: "negative",
+        confidenceScores: { positive: 0.02, neutral: 0.09, negative: 0.88 },
+        offset: 0,
+        length: 19,
+        opinions: [
+          {
+            target: {
+              sentiment: "negative",
+              confidenceScores: { positive: 0, negative: 1 },
+              offset: 4,
+              length: 6,
+              text: "toilet",
+            },
+            assessments: [
+              {
+                sentiment: "negative",
+                confidenceScores: { positive: 0, negative: 1 },
+                offset: 11,
+                length: 7,
+                text: "smelled",
+                isNegated: false,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const expectation33: SentimentAnalysisResult[] = [
+  {
+    id: "0",
+    warnings: [],
+    sentiment: "positive",
+    confidenceScores: { positive: 1, neutral: 0, negative: 0 },
+    sentences: [
+      {
+        text: "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
+        sentiment: "positive",
+        confidenceScores: { positive: 1, neutral: 0, negative: 0 },
+        offset: 0,
+        length: 86,
+        opinions: [],
+      },
+    ],
+  },
+  { id: "1", error: { code: "InvalidDocument", message: "Document text is empty." } },
+  {
+    id: "2",
+    warnings: [],
+    sentiment: "negative",
+    confidenceScores: { positive: 0, neutral: 0.01, negative: 0.99 },
+    sentences: [
+      {
+        text: "Unfortunately, it rained during my entire trip to Seattle. ",
+        sentiment: "negative",
+        confidenceScores: { positive: 0, neutral: 0.01, negative: 0.99 },
+        offset: 0,
+        length: 59,
+        opinions: [],
+      },
+      {
+        text: "I didn't even get to visit the Space Needle",
+        sentiment: "neutral",
+        confidenceScores: { positive: 0.03, neutral: 0.58, negative: 0.39 },
+        offset: 59,
+        length: 43,
+        opinions: [],
+      },
+    ],
+  },
+  {
+    id: "3",
+    warnings: [],
+    sentiment: "positive",
+    confidenceScores: { positive: 0.71, neutral: 0.06, negative: 0.23 },
+    sentences: [
+      {
+        text: "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
+        sentiment: "positive",
+        confidenceScores: { positive: 0.71, neutral: 0.06, negative: 0.23 },
+        offset: 0,
+        length: 101,
+        opinions: [],
+      },
+    ],
+  },
+  {
+    id: "4",
+    warnings: [],
+    sentiment: "negative",
+    confidenceScores: { positive: 0.01, neutral: 0.01, negative: 0.99 },
+    sentences: [
+      {
+        text: "I didn't like the last book I read at all.",
+        sentiment: "negative",
+        confidenceScores: { positive: 0.01, neutral: 0.01, negative: 0.99 },
+        offset: 0,
+        length: 42,
+        opinions: [],
+      },
+    ],
+  },
+];
+
+export const expectation34: SentimentAnalysisResult[] = [
+  {
+    id: "1",
+    warnings: [],
+    sentiment: "positive",
+    confidenceScores: { positive: 1, neutral: 0, negative: 0 },
+    sentences: [
+      {
+        text: "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
+        sentiment: "positive",
+        confidenceScores: { positive: 1, neutral: 0, negative: 0 },
+        offset: 0,
+        length: 86,
+        opinions: [],
+      },
+    ],
+  },
+  {
+    id: "2",
+    warnings: [],
+    sentiment: "negative",
+    confidenceScores: { positive: 0, neutral: 0.01, negative: 0.99 },
+    sentences: [
+      {
+        text: "Unfortunately, it rained during my entire trip to Seattle. ",
+        sentiment: "negative",
+        confidenceScores: { positive: 0, neutral: 0.01, negative: 0.99 },
+        offset: 0,
+        length: 59,
+        opinions: [],
+      },
+      {
+        text: "I didn't even get to visit the Space Needle",
+        sentiment: "neutral",
+        confidenceScores: { positive: 0.03, neutral: 0.58, negative: 0.39 },
+        offset: 59,
+        length: 43,
+        opinions: [],
+      },
+    ],
+  },
+  {
+    id: "3",
+    warnings: [],
+    sentiment: "positive",
+    confidenceScores: { positive: 0.71, neutral: 0.06, negative: 0.23 },
+    sentences: [
+      {
+        text: "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
+        sentiment: "positive",
+        confidenceScores: { positive: 0.71, neutral: 0.06, negative: 0.23 },
+        offset: 0,
+        length: 101,
+        opinions: [],
+      },
+    ],
+  },
+  {
+    id: "4",
+    warnings: [],
+    sentiment: "negative",
+    confidenceScores: { positive: 0.01, neutral: 0.01, negative: 0.99 },
+    sentences: [
+      {
+        text: "I didn't like the last book I read at all.",
+        sentiment: "negative",
+        confidenceScores: { positive: 0.01, neutral: 0.01, negative: 0.99 },
+        offset: 0,
+        length: 42,
+        opinions: [],
+      },
+    ],
+  },
+  {
+    id: "5",
+    warnings: [],
+    sentiment: "positive",
+    confidenceScores: { positive: 0.99, neutral: 0.01, negative: 0.01 },
+    sentences: [
+      {
+        text: "Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.",
+        sentiment: "positive",
+        confidenceScores: { positive: 0.99, neutral: 0.01, negative: 0.01 },
+        offset: 0,
+        length: 73,
+        opinions: [],
+      },
+    ],
+  },
+  {
+    id: "6",
+    warnings: [],
+    sentiment: "negative",
+    confidenceScores: { positive: 0.07, neutral: 0.15, negative: 0.78 },
+    sentences: [
+      {
+        text: "La carretera estaba atascada. ",
+        sentiment: "negative",
+        confidenceScores: { positive: 0.01, neutral: 0.05, negative: 0.94 },
+        offset: 0,
+        length: 30,
+        opinions: [],
+      },
+      {
+        text: "Había mucho tráfico el día de ayer.",
+        sentiment: "negative",
+        confidenceScores: { positive: 0.12, neutral: 0.26, negative: 0.62 },
+        offset: 30,
+        length: 35,
+        opinions: [],
+      },
+    ],
+  },
+];
+
+export const expectation35: SentimentAnalysisResult[] = [
+  {
+    id: "0",
+    warnings: [],
+    sentiment: "positive",
+    confidenceScores: { positive: 0.99, neutral: 0.01, negative: 0 },
+    sentences: [
+      {
+        text: "It has a sleek premium aluminum design that makes it beautiful to look at.",
+        sentiment: "positive",
+        confidenceScores: { positive: 0.99, neutral: 0.01, negative: 0 },
+        offset: 0,
+        length: 74,
+        opinions: [
+          {
+            target: {
+              sentiment: "positive",
+              confidenceScores: { positive: 1, negative: 0 },
+              offset: 32,
+              length: 6,
+              text: "design",
+            },
+            assessments: [
+              {
+                sentiment: "positive",
+                confidenceScores: { positive: 1, negative: 0 },
+                offset: 9,
+                length: 5,
+                text: "sleek",
+                isNegated: false,
+              },
+              {
+                sentiment: "positive",
+                confidenceScores: { positive: 1, negative: 0 },
+                offset: 53,
+                length: 9,
+                text: "beautiful",
+                isNegated: false,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const expectation36: SentimentAnalysisResult[] = [
+  {
+    id: "0",
+    warnings: [],
+    sentiment: "negative",
+    confidenceScores: { positive: 0.01, neutral: 0, negative: 0.99 },
+    sentences: [
+      {
+        text: "The food and service are not good",
+        sentiment: "negative",
+        confidenceScores: { positive: 0.01, neutral: 0, negative: 0.99 },
+        offset: 0,
+        length: 33,
+        opinions: [
+          {
+            target: {
+              sentiment: "negative",
+              confidenceScores: { positive: 0, negative: 1 },
+              offset: 4,
+              length: 4,
+              text: "food",
+            },
+            assessments: [
+              {
+                sentiment: "negative",
+                confidenceScores: { positive: 0, negative: 1 },
+                offset: 29,
+                length: 4,
+                text: "good",
+                isNegated: true,
+              },
+            ],
+          },
+          {
+            target: {
+              sentiment: "positive",
+              confidenceScores: { positive: 1, negative: 0 },
+              offset: 13,
+              length: 7,
+              text: "service",
+            },
+            assessments: [
+              {
+                sentiment: "negative",
+                confidenceScores: { positive: 0, negative: 1 },
+                offset: 29,
+                length: 4,
+                text: "good",
+                isNegated: true,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const expectation37: SentimentAnalysisResult[] = [
+  {
+    id: "0",
+    warnings: [],
+    sentiment: "positive",
+    confidenceScores: { positive: 0.58, neutral: 0.34, negative: 0.08 },
+    sentences: [
+      {
+        text: "today is a hot day",
+        sentiment: "positive",
+        confidenceScores: { positive: 0.58, neutral: 0.34, negative: 0.08 },
+        offset: 0,
+        length: 18,
+        opinions: [],
+      },
+    ],
+  },
+];
+
+export const expectation38: LanguageDetectionResult[] = [
+  {
+    primaryLanguage: { name: "English", iso6391Name: "en", confidenceScore: 1 },
+    id: "0",
+    warnings: [],
+  },
+  {
+    primaryLanguage: { name: "English", iso6391Name: "en", confidenceScore: 1 },
+    id: "1",
+    warnings: [],
+  },
+  {
+    primaryLanguage: { name: "English", iso6391Name: "en", confidenceScore: 1 },
+    id: "2",
+    warnings: [],
+  },
+  {
+    primaryLanguage: { name: "English", iso6391Name: "en", confidenceScore: 1 },
+    id: "3",
+    warnings: [],
+  },
+];
+
+export const expectation39: LanguageDetectionResult[] = [
+  {
+    primaryLanguage: { name: "French", iso6391Name: "fr", confidenceScore: 1 },
+    id: "0",
+    warnings: [],
+  },
+];
+
+export const expectation40: LanguageDetectionResult[] = [
+  {
+    primaryLanguage: { name: "English", iso6391Name: "en", confidenceScore: 0.95 },
+    id: "0",
+    warnings: [],
+  },
+];
+
+export const expectation41: LanguageDetectionResult[] = [
+  {
+    primaryLanguage: { name: "English", iso6391Name: "en", confidenceScore: 1 },
+    id: "1",
+    warnings: [],
+  },
+  {
+    primaryLanguage: { name: "English", iso6391Name: "en", confidenceScore: 1 },
+    id: "2",
+    warnings: [],
+  },
+  {
+    primaryLanguage: { name: "English", iso6391Name: "en", confidenceScore: 1 },
+    id: "3",
+    warnings: [],
+  },
+  {
+    primaryLanguage: { name: "English", iso6391Name: "en", confidenceScore: 1 },
+    id: "4",
+    warnings: [],
+  },
+  {
+    primaryLanguage: { name: "Spanish", iso6391Name: "es", confidenceScore: 0.99 },
+    id: "5",
+    warnings: [],
+  },
+  {
+    primaryLanguage: { name: "Spanish", iso6391Name: "es", confidenceScore: 1 },
+    id: "6",
+    warnings: [],
+  },
+];
+
+export const expectation42: LanguageDetectionResult[] = [
+  {
+    id: "0",
+    error: {
+      code: "InvalidCountryHint",
+      message:
+        "Country hint is not valid. Please specify an ISO 3166-1 alpha-2 two letter country code.",
+    },
+  },
+];
+
+export const expectation43: LanguageDetectionResult[] = [
+  {
+    primaryLanguage: { name: "English", iso6391Name: "en", confidenceScore: 1 },
+    id: "1",
+    warnings: [],
+  },
+  {
+    primaryLanguage: { name: "English", iso6391Name: "en", confidenceScore: 1 },
+    id: "2",
+    warnings: [],
+  },
+  {
+    primaryLanguage: { name: "English", iso6391Name: "en", confidenceScore: 1 },
+    id: "3",
+    warnings: [],
+  },
+  {
+    primaryLanguage: { name: "English", iso6391Name: "en", confidenceScore: 1 },
+    id: "4",
+    warnings: [],
+  },
+  {
+    primaryLanguage: { name: "Spanish", iso6391Name: "es", confidenceScore: 0.99 },
+    id: "5",
+    warnings: [],
+  },
+  {
+    primaryLanguage: { name: "Spanish", iso6391Name: "es", confidenceScore: 1 },
+    id: "6",
+    warnings: [],
+  },
+];
+
+export const expectation44: EntityRecognitionResult[] = [
+  {
+    id: "0",
+    warnings: [],
+    entities: [
+      { text: "trip", category: "Event", offset: 18, length: 4, confidenceScore: 0.61 },
+      {
+        text: "Seattle",
+        category: "Location",
+        subCategory: "GPE",
+        offset: 26,
+        length: 7,
+        confidenceScore: 1,
+      },
+      {
+        text: "last week",
+        category: "DateTime",
+        subCategory: "DateRange",
+        offset: 34,
+        length: 9,
+        confidenceScore: 0.8,
+      },
+      { text: "Space Needle", category: "Location", offset: 65, length: 12, confidenceScore: 0.96 },
+      {
+        text: "2",
+        category: "Quantity",
+        subCategory: "Number",
+        offset: 78,
+        length: 1,
+        confidenceScore: 0.8,
+      },
+    ],
+  },
+  {
+    id: "1",
+    warnings: [],
+    entities: [
+      { text: "trip", category: "Event", offset: 42, length: 4, confidenceScore: 0.82 },
+      {
+        text: "Seattle",
+        category: "Location",
+        subCategory: "GPE",
+        offset: 50,
+        length: 7,
+        confidenceScore: 1,
+      },
+      { text: "Space Needle", category: "Location", offset: 90, length: 12, confidenceScore: 0.92 },
+    ],
+  },
+  {
+    id: "2",
+    warnings: [],
+    entities: [
+      {
+        text: "Saturday",
+        category: "DateTime",
+        subCategory: "Date",
+        offset: 25,
+        length: 8,
+        confidenceScore: 0.8,
+      },
+    ],
+  },
+  {
+    id: "3",
+    warnings: [],
+    entities: [{ text: "book", category: "Product", offset: 23, length: 4, confidenceScore: 0.92 }],
+  },
+];
+
+export const expectation45: EntityRecognitionResult[] = [
+  {
+    id: "0",
+    warnings: [],
+    entities: [
+      { text: "trip", category: "Event", offset: 18, length: 4, confidenceScore: 0.61 },
+      {
+        text: "Seattle",
+        category: "Location",
+        subCategory: "GPE",
+        offset: 26,
+        length: 7,
+        confidenceScore: 1,
+      },
+      {
+        text: "last week",
+        category: "DateTime",
+        subCategory: "DateRange",
+        offset: 34,
+        length: 9,
+        confidenceScore: 0.8,
+      },
+      { text: "Space Needle", category: "Location", offset: 65, length: 12, confidenceScore: 0.96 },
+      {
+        text: "2",
+        category: "Quantity",
+        subCategory: "Number",
+        offset: 78,
+        length: 1,
+        confidenceScore: 0.8,
+      },
+    ],
+  },
+  {
+    id: "1",
+    warnings: [],
+    entities: [
+      { text: "trip", category: "Event", offset: 42, length: 4, confidenceScore: 0.82 },
+      {
+        text: "Seattle",
+        category: "Location",
+        subCategory: "GPE",
+        offset: 50,
+        length: 7,
+        confidenceScore: 1,
+      },
+      { text: "Space Needle", category: "Location", offset: 90, length: 12, confidenceScore: 0.92 },
+    ],
+  },
+  {
+    id: "2",
+    warnings: [],
+    entities: [
+      {
+        text: "Saturday",
+        category: "DateTime",
+        subCategory: "Date",
+        offset: 25,
+        length: 8,
+        confidenceScore: 0.8,
+      },
+    ],
+  },
+  {
+    id: "3",
+    warnings: [],
+    entities: [{ text: "book", category: "Product", offset: 23, length: 4, confidenceScore: 0.92 }],
+  },
+];
+
+export const expectation46: EntityRecognitionResult[] = [
+  {
+    id: "0",
+    error: {
+      code: "UnsupportedLanguageCode",
+      message:
+        "Invalid language code. Supported languages: ar,cs,da,de,en,es,fi,fr,hu,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv,tr,zh-Hans. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+    },
+  },
+];
+
+export const expectation47: EntityRecognitionResult[] = [
+  {
+    id: "1",
+    warnings: [],
+    entities: [
+      { text: "trip", category: "Event", offset: 18, length: 4, confidenceScore: 0.61 },
+      {
+        text: "Seattle",
+        category: "Location",
+        subCategory: "GPE",
+        offset: 26,
+        length: 7,
+        confidenceScore: 1,
+      },
+      {
+        text: "last week",
+        category: "DateTime",
+        subCategory: "DateRange",
+        offset: 34,
+        length: 9,
+        confidenceScore: 0.8,
+      },
+      { text: "Space Needle", category: "Location", offset: 65, length: 12, confidenceScore: 0.96 },
+      {
+        text: "2",
+        category: "Quantity",
+        subCategory: "Number",
+        offset: 78,
+        length: 1,
+        confidenceScore: 0.8,
+      },
+    ],
+  },
+  {
+    id: "2",
+    warnings: [],
+    entities: [
+      { text: "trip", category: "Event", offset: 42, length: 4, confidenceScore: 0.82 },
+      {
+        text: "Seattle",
+        category: "Location",
+        subCategory: "GPE",
+        offset: 50,
+        length: 7,
+        confidenceScore: 1,
+      },
+      { text: "Space Needle", category: "Location", offset: 90, length: 12, confidenceScore: 0.92 },
+    ],
+  },
+  {
+    id: "3",
+    warnings: [],
+    entities: [
+      {
+        text: "Saturday",
+        category: "DateTime",
+        subCategory: "Date",
+        offset: 25,
+        length: 8,
+        confidenceScore: 0.8,
+      },
+    ],
+  },
+  {
+    id: "4",
+    warnings: [],
+    entities: [
+      {
+        text: "Monte Rainier",
+        category: "Location",
+        offset: 29,
+        length: 13,
+        confidenceScore: 0.85,
+      },
+    ],
+  },
+  {
+    id: "5",
+    warnings: [],
+    entities: [
+      { text: "carretera", category: "Location", offset: 3, length: 9, confidenceScore: 0.81 },
+      {
+        text: "ayer",
+        category: "DateTime",
+        subCategory: "Date",
+        offset: 60,
+        length: 4,
+        confidenceScore: 0.8,
+      },
+    ],
+  },
+];
+
+export const expectation48: KeyPhraseExtractionResult[] = [
+  { id: "0", warnings: [], keyPhrases: ["wonderful trip", "Space Needle", "Seattle"] },
+  { id: "1", warnings: [], keyPhrases: ["entire trip", "Space Needle", "Seattle"] },
+  { id: "2", warnings: [], keyPhrases: ["movie", "Saturday"] },
+  { id: "3", warnings: [], keyPhrases: ["last book"] },
+];
+
+export const expectation49: KeyPhraseExtractionResult[] = [
+  { id: "0", warnings: [], keyPhrases: ["wonderful trip", "Space Needle", "Seattle"] },
+  { id: "1", warnings: [], keyPhrases: ["entire trip", "Space Needle", "Seattle"] },
+  { id: "2", warnings: [], keyPhrases: ["movie", "Saturday"] },
+  { id: "3", warnings: [], keyPhrases: ["last book"] },
+];
+
+export const expectation50: KeyPhraseExtractionResult[] = [
+  {
+    id: "0",
+    error: {
+      code: "UnsupportedLanguageCode",
+      message:
+        "Invalid language code. Supported languages: af,bg,ca,da,de,el,en,es,et,fi,fr,hr,hu,id,it,ja,ko,lv,nl,no,pl,pt-BR,pt-PT,ro,ru,sk,sl,sv,tr,zh-Hans. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
+    },
+  },
+];
+
+export const expectation51: KeyPhraseExtractionResult[] = [
+  { id: "1", warnings: [], keyPhrases: ["wonderful trip", "Space Needle", "Seattle"] },
+  { id: "2", warnings: [], keyPhrases: ["entire trip", "Space Needle", "Seattle"] },
+  { id: "3", warnings: [], keyPhrases: ["movie", "Saturday"] },
+  { id: "4", warnings: [], keyPhrases: ["last book"] },
+  { id: "5", warnings: [], keyPhrases: ["Monte Rainier", "caminos"] },
+  { id: "6", warnings: [], keyPhrases: ["mucho tráfico", "día", "carretera", "ayer"] },
+];
+
+export const expectation52: PiiEntityRecognitionResult[] = [
+  {
+    id: "0",
+    warnings: [],
+    redactedText:
+      "I had a wonderful trip to Seattle ********* and even visited the Space Needle 2 times!",
+    entities: [
+      {
+        text: "last week",
+        category: "DateTime",
+        subCategory: "DateRange",
+        offset: 34,
+        length: 9,
+        confidenceScore: 0.8,
+      },
+    ],
+  },
+  {
+    id: "1",
+    warnings: [],
+    redactedText:
+      "Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle",
+    entities: [],
+  },
+  {
+    id: "2",
+    warnings: [],
+    redactedText:
+      "I went to see a movie on ******** and it was perfectly average, nothing more or less than I expected.",
+    entities: [
+      {
+        text: "Saturday",
+        category: "DateTime",
+        subCategory: "Date",
+        offset: 25,
+        length: 8,
+        confidenceScore: 0.8,
+      },
+    ],
+  },
+  {
+    id: "3",
+    warnings: [],
+    redactedText: "I didn't like the last book I read at all.",
+    entities: [],
+  },
+];
+
+export const expectation53: PiiEntityRecognitionResult[] = [
+  {
+    id: "0",
+    warnings: [],
+    redactedText:
+      "I had a wonderful trip to Seattle ********* and even visited the Space Needle 2 times!",
+    entities: [
+      {
+        text: "last week",
+        category: "DateTime",
+        subCategory: "DateRange",
+        offset: 34,
+        length: 9,
+        confidenceScore: 0.8,
+      },
+    ],
+  },
+  {
+    id: "1",
+    warnings: [],
+    redactedText:
+      "Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle",
+    entities: [],
+  },
+  {
+    id: "2",
+    warnings: [],
+    redactedText:
+      "I went to see a movie on ******** and it was perfectly average, nothing more or less than I expected.",
+    entities: [
+      {
+        text: "Saturday",
+        category: "DateTime",
+        subCategory: "Date",
+        offset: 25,
+        length: 8,
+        confidenceScore: 0.8,
+      },
+    ],
+  },
+  {
+    id: "3",
+    warnings: [],
+    redactedText: "I didn't like the last book I read at all.",
+    entities: [],
+  },
+];
+
+export const expectation54: PiiEntityRecognitionResult[] = [
+  {
+    id: "0",
+    warnings: [],
+    redactedText: "Your Social Security Number is ***********.",
+    entities: [
+      {
+        text: "859-98-0987",
+        category: "USSocialSecurityNumber",
+        offset: 31,
+        length: 11,
+        confidenceScore: 0.65,
+      },
+    ],
+  },
+];
+
+export const expectation55: PiiEntityRecognitionResult[] = [
+  {
+    id: "0",
+    error: {
+      code: "UnsupportedLanguageCode",
+      message:
+        "Invalid language code. Supported languages: de,en,es,fr,it,ja,ko,pt-BR,pt-PT,zh-Hans. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+    },
+  },
+];
+
+export const expectation56: PiiEntityRecognitionResult[] = [
+  {
+    id: "1",
+    warnings: [],
+    redactedText:
+      "I had a wonderful trip to Seattle ********* and even visited the Space Needle 2 times!",
+    entities: [
+      {
+        text: "last week",
+        category: "DateTime",
+        subCategory: "DateRange",
+        offset: 34,
+        length: 9,
+        confidenceScore: 0.8,
+      },
+    ],
+  },
+  {
+    id: "2",
+    warnings: [],
+    redactedText:
+      "Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle",
+    entities: [],
+  },
+  {
+    id: "3",
+    warnings: [],
+    redactedText:
+      "I went to see a movie on ******** and it was perfectly average, nothing more or less than I expected.",
+    entities: [
+      {
+        text: "Saturday",
+        category: "DateTime",
+        subCategory: "Date",
+        offset: 25,
+        length: 8,
+        confidenceScore: 0.8,
+      },
+    ],
+  },
+  {
+    id: "4",
+    warnings: [],
+    redactedText: "Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.",
+    entities: [],
+  },
+  {
+    id: "5",
+    warnings: [],
+    redactedText: "La carretera estaba atascada. Había mucho tráfico el día de ****.",
+    entities: [
+      {
+        text: "ayer",
+        category: "DateTime",
+        subCategory: "Date",
+        offset: 60,
+        length: 4,
+        confidenceScore: 0.8,
+      },
+    ],
+  },
+];
+
+export const expectation57: PiiEntityRecognitionResult[] = [
+  {
+    id: "0",
+    warnings: [],
+    redactedText: "I work at ********* and my phone number is ************",
+    entities: [
+      { text: "Microsoft", category: "Organization", offset: 10, length: 9, confidenceScore: 0.94 },
+      {
+        text: "333-333-3333",
+        category: "PhoneNumber",
+        offset: 43,
+        length: 12,
+        confidenceScore: 0.8,
+      },
+    ],
+  },
+];
+
+export const expectation58: PiiEntityRecognitionResult[] = [
+  {
+    id: "0",
+    warnings: [],
+    redactedText: "Patient name is Joe and SSN is ***********",
+    entities: [
+      {
+        text: "859-98-0987",
+        category: "USSocialSecurityNumber",
+        offset: 31,
+        length: 11,
+        confidenceScore: 0.65,
+      },
+    ],
+  },
+];
+
+export const expectation59: PiiEntityRecognitionSuccessResult[] = [
+  {
+    id: "0",
+    warnings: [],
+    redactedText: "Patient name is *** and SSN is ***********",
+    entities: [
+      { text: "Joe", category: "Person", offset: 16, length: 3, confidenceScore: 0.78 },
+      {
+        text: "859-98-0987",
+        category: "USSocialSecurityNumber",
+        offset: 31,
+        length: 11,
+        confidenceScore: 0.65,
+      },
+    ],
+  },
+];
+
+export const expectation60: EntityLinkingResult[] = [
+  {
+    id: "0",
+    warnings: [],
+    entities: [
+      {
+        name: "Seattle",
+        matches: [{ confidenceScore: 0.21, text: "Seattle", offset: 26, length: 7 }],
+        language: "en",
+        dataSourceEntityId: "Seattle",
+        url: "https://en.wikipedia.org/wiki/Seattle",
+        dataSource: "Wikipedia",
+        bingEntitySearchApiId: "5fbba6b8-85e1-4d41-9444-d9055436e473",
+      },
+      {
+        name: "Space Needle",
+        matches: [{ confidenceScore: 0.42, text: "Space Needle", offset: 65, length: 12 }],
+        language: "en",
+        dataSourceEntityId: "Space Needle",
+        url: "https://en.wikipedia.org/wiki/Space_Needle",
+        dataSource: "Wikipedia",
+        bingEntitySearchApiId: "f8dd5b08-206d-2554-6e4a-893f51f4de7e",
+      },
+    ],
+  },
+  {
+    id: "1",
+    warnings: [],
+    entities: [
+      {
+        name: "Seattle",
+        matches: [{ confidenceScore: 0.2, text: "Seattle", offset: 50, length: 7 }],
+        language: "en",
+        dataSourceEntityId: "Seattle",
+        url: "https://en.wikipedia.org/wiki/Seattle",
+        dataSource: "Wikipedia",
+        bingEntitySearchApiId: "5fbba6b8-85e1-4d41-9444-d9055436e473",
+      },
+      {
+        name: "Space Needle",
+        matches: [{ confidenceScore: 0.36, text: "Space Needle", offset: 90, length: 12 }],
+        language: "en",
+        dataSourceEntityId: "Space Needle",
+        url: "https://en.wikipedia.org/wiki/Space_Needle",
+        dataSource: "Wikipedia",
+        bingEntitySearchApiId: "f8dd5b08-206d-2554-6e4a-893f51f4de7e",
+      },
+    ],
+  },
+  {
+    id: "2",
+    warnings: [],
+    entities: [
+      {
+        name: "Saturday",
+        matches: [{ confidenceScore: 0.05, text: "Saturday", offset: 25, length: 8 }],
+        language: "en",
+        dataSourceEntityId: "Saturday",
+        url: "https://en.wikipedia.org/wiki/Saturday",
+        dataSource: "Wikipedia",
+        bingEntitySearchApiId: "296617ab-4ddb-cc10-beba-56e0f42af76b",
+      },
+    ],
+  },
+  { id: "3", warnings: [], entities: [] },
+];
+
+export const expectation61: EntityLinkingResult[] = [
+  {
+    id: "0",
+    error: {
+      code: "UnsupportedLanguageCode",
+      message:
+        "Invalid language code 'notalanguage'. Supported languages: en,es. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+    },
+  },
+];
+
+export const expectation62: EntityLinkingResult[] = [
+  {
+    id: "1",
+    warnings: [],
+    entities: [
+      {
+        name: "Saturday",
+        matches: [{ confidenceScore: 0.05, text: "Saturday", offset: 25, length: 8 }],
+        language: "en",
+        dataSourceEntityId: "Saturday",
+        url: "https://en.wikipedia.org/wiki/Saturday",
+        dataSource: "Wikipedia",
+        bingEntitySearchApiId: "296617ab-4ddb-cc10-beba-56e0f42af76b",
+      },
+    ],
+  },
+  { id: "2", warnings: [], entities: [] },
 ];
