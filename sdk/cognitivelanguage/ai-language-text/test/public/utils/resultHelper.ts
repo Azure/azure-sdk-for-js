@@ -69,6 +69,5 @@ export function assertActionResults<T>(
   } = {}
 ): void {
   const { excludedAdditionalProps = [] } = options;
-  console.log(JSON.stringify(result));
   assert.deepEqualExcludingEvery(result, expectation, excludedAdditionalProps as any);
 }

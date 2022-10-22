@@ -2495,7 +2495,7 @@ export const expectation30: SentimentAnalysisResult[] = [
       {
         text: "I didn't even get to visit the Space Needle",
         sentiment: "neutral",
-        confidenceScores: { positive: 0.03, neutral: 0.58, negative: 0.39 },
+        confidenceScores: { positive: 0, neutral: 0.92, negative: 0.08 },
         offset: 59,
         length: 43,
         opinions: [],
@@ -2505,13 +2505,13 @@ export const expectation30: SentimentAnalysisResult[] = [
   {
     id: "2",
     warnings: [],
-    sentiment: "positive",
-    confidenceScores: { positive: 0.71, neutral: 0.06, negative: 0.23 },
+    sentiment: "negative",
+    confidenceScores: { positive: 0.19, neutral: 0.28, negative: 0.53 },
     sentences: [
       {
         text: "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
-        sentiment: "positive",
-        confidenceScores: { positive: 0.71, neutral: 0.06, negative: 0.23 },
+        sentiment: "negative",
+        confidenceScores: { positive: 0.19, neutral: 0.28, negative: 0.53 },
         offset: 0,
         length: 101,
         opinions: [],
@@ -2522,12 +2522,12 @@ export const expectation30: SentimentAnalysisResult[] = [
     id: "3",
     warnings: [],
     sentiment: "negative",
-    confidenceScores: { positive: 0.01, neutral: 0.01, negative: 0.99 },
+    confidenceScores: { positive: 0, neutral: 0.01, negative: 0.99 },
     sentences: [
       {
         text: "I didn't like the last book I read at all.",
         sentiment: "negative",
-        confidenceScores: { positive: 0.01, neutral: 0.01, negative: 0.99 },
+        confidenceScores: { positive: 0, neutral: 0.01, negative: 0.99 },
         offset: 0,
         length: 42,
         opinions: [],
@@ -2542,7 +2542,7 @@ export const expectation31: SentimentAnalysisResult[] = [
     error: {
       code: "UnsupportedLanguageCode",
       message:
-        "Invalid language code. Supported languages: ar,da,de,el,en,es,fi,fr,hi,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv,tr,zh-Hans,zh-Hant. For additional details see https://aka.ms/text-analytics/language-support?tabs=sentiment-analysis",
+        "Invalid language code 'notalanguage'. Supported languages: af,am,ar,as,az,be,bg,bn,br,bs,ca,cs,cy,da,de,el,en,eo,es,et,eu,fa,fi,fil,fr,fy,ga,gd,gl,gu,ha,he,hi,hr,hu,hy,id,it,ja,jv,ka,kk,km,kn,ko,ku,ky,la,lo,lt,lv,mg,mk,ml,mn,mr,ms,my,ne,nl,no,om,or,pa,pl,ps,pt-BR,pt-PT,ro,ru,sa,sd,si,sk,sl,so,sq,sr,su,sv,sw,ta,te,th,tr,ug,uk,ur,uz,vi,xh,yi,zh-Hans,zh-Hant. For additional details see https://aka.ms/text-analytics/language-support?tabs=sentiment-analysis",
     },
   },
 ];
@@ -2552,12 +2552,12 @@ export const expectation32: SentimentAnalysisResult[] = [
     id: "0",
     warnings: [],
     sentiment: "negative",
-    confidenceScores: { positive: 0, neutral: 0, negative: 0.99 },
+    confidenceScores: { positive: 0, neutral: 0, negative: 1 },
     sentences: [
       {
         text: "The food was unacceptable",
         sentiment: "negative",
-        confidenceScores: { positive: 0, neutral: 0, negative: 0.99 },
+        confidenceScores: { positive: 0, neutral: 0, negative: 1 },
         offset: 0,
         length: 25,
         opinions: [
@@ -2588,12 +2588,12 @@ export const expectation32: SentimentAnalysisResult[] = [
     id: "1",
     warnings: [],
     sentiment: "positive",
-    confidenceScores: { positive: 0.99, neutral: 0, negative: 0 },
+    confidenceScores: { positive: 0.99, neutral: 0.01, negative: 0 },
     sentences: [
       {
         text: "The rooms were beautiful. ",
         sentiment: "positive",
-        confidenceScores: { positive: 0.99, neutral: 0, negative: 0 },
+        confidenceScores: { positive: 1, neutral: 0, negative: 0 },
         offset: 0,
         length: 26,
         opinions: [
@@ -2621,7 +2621,7 @@ export const expectation32: SentimentAnalysisResult[] = [
       {
         text: "The AC was good and quiet.",
         sentiment: "positive",
-        confidenceScores: { positive: 0.99, neutral: 0, negative: 0 },
+        confidenceScores: { positive: 0.99, neutral: 0.01, negative: 0 },
         offset: 26,
         length: 26,
         opinions: [
@@ -2660,12 +2660,12 @@ export const expectation32: SentimentAnalysisResult[] = [
     id: "2",
     warnings: [],
     sentiment: "negative",
-    confidenceScores: { positive: 0.03, neutral: 0, negative: 0.97 },
+    confidenceScores: { positive: 0, neutral: 0, negative: 0.99 },
     sentences: [
       {
         text: "The breakfast was good, but the toilet was smelly.",
         sentiment: "negative",
-        confidenceScores: { positive: 0.03, neutral: 0, negative: 0.97 },
+        confidenceScores: { positive: 0, neutral: 0, negative: 0.99 },
         offset: 0,
         length: 50,
         opinions: [
@@ -2816,12 +2816,12 @@ export const expectation32: SentimentAnalysisResult[] = [
     id: "4",
     warnings: [],
     sentiment: "positive",
-    confidenceScores: { positive: 1, neutral: 0, negative: 0 },
+    confidenceScores: { positive: 0.92, neutral: 0.07, negative: 0.01 },
     sentences: [
       {
         text: "I had a great unobstructed view of the Microsoft campus.",
         sentiment: "positive",
-        confidenceScores: { positive: 1, neutral: 0, negative: 0 },
+        confidenceScores: { positive: 0.92, neutral: 0.07, negative: 0.01 },
         offset: 0,
         length: 56,
         opinions: [
@@ -2860,12 +2860,12 @@ export const expectation32: SentimentAnalysisResult[] = [
     id: "5",
     warnings: [],
     sentiment: "negative",
-    confidenceScores: { positive: 0.09, neutral: 0, negative: 0.91 },
+    confidenceScores: { positive: 0.04, neutral: 0, negative: 0.96 },
     sentences: [
       {
         text: "Nice rooms but bathrooms were old and the toilet was dirty when we arrived.",
         sentiment: "negative",
-        confidenceScores: { positive: 0.09, neutral: 0, negative: 0.91 },
+        confidenceScores: { positive: 0.04, neutral: 0, negative: 0.96 },
         offset: 0,
         length: 75,
         opinions: [
@@ -2934,12 +2934,12 @@ export const expectation32: SentimentAnalysisResult[] = [
     id: "6",
     warnings: [],
     sentiment: "negative",
-    confidenceScores: { positive: 0.02, neutral: 0.09, negative: 0.88 },
+    confidenceScores: { positive: 0, neutral: 0.02, negative: 0.98 },
     sentences: [
       {
         text: "The toilet smelled.",
         sentiment: "negative",
-        confidenceScores: { positive: 0.02, neutral: 0.09, negative: 0.88 },
+        confidenceScores: { positive: 0, neutral: 0.02, negative: 0.98 },
         offset: 0,
         length: 19,
         opinions: [
@@ -3003,7 +3003,7 @@ export const expectation33: SentimentAnalysisResult[] = [
       {
         text: "I didn't even get to visit the Space Needle",
         sentiment: "neutral",
-        confidenceScores: { positive: 0.03, neutral: 0.58, negative: 0.39 },
+        confidenceScores: { positive: 0, neutral: 0.92, negative: 0.08 },
         offset: 59,
         length: 43,
         opinions: [],
@@ -3013,13 +3013,13 @@ export const expectation33: SentimentAnalysisResult[] = [
   {
     id: "3",
     warnings: [],
-    sentiment: "positive",
-    confidenceScores: { positive: 0.71, neutral: 0.06, negative: 0.23 },
+    sentiment: "negative",
+    confidenceScores: { positive: 0.19, neutral: 0.28, negative: 0.53 },
     sentences: [
       {
         text: "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
-        sentiment: "positive",
-        confidenceScores: { positive: 0.71, neutral: 0.06, negative: 0.23 },
+        sentiment: "negative",
+        confidenceScores: { positive: 0.19, neutral: 0.28, negative: 0.53 },
         offset: 0,
         length: 101,
         opinions: [],
@@ -3030,12 +3030,12 @@ export const expectation33: SentimentAnalysisResult[] = [
     id: "4",
     warnings: [],
     sentiment: "negative",
-    confidenceScores: { positive: 0.01, neutral: 0.01, negative: 0.99 },
+    confidenceScores: { positive: 0, neutral: 0.01, negative: 0.99 },
     sentences: [
       {
         text: "I didn't like the last book I read at all.",
         sentiment: "negative",
-        confidenceScores: { positive: 0.01, neutral: 0.01, negative: 0.99 },
+        confidenceScores: { positive: 0, neutral: 0.01, negative: 0.99 },
         offset: 0,
         length: 42,
         opinions: [],
@@ -3078,7 +3078,7 @@ export const expectation34: SentimentAnalysisResult[] = [
       {
         text: "I didn't even get to visit the Space Needle",
         sentiment: "neutral",
-        confidenceScores: { positive: 0.03, neutral: 0.58, negative: 0.39 },
+        confidenceScores: { positive: 0, neutral: 0.92, negative: 0.08 },
         offset: 59,
         length: 43,
         opinions: [],
@@ -3088,13 +3088,13 @@ export const expectation34: SentimentAnalysisResult[] = [
   {
     id: "3",
     warnings: [],
-    sentiment: "positive",
-    confidenceScores: { positive: 0.71, neutral: 0.06, negative: 0.23 },
+    sentiment: "negative",
+    confidenceScores: { positive: 0.19, neutral: 0.28, negative: 0.53 },
     sentences: [
       {
         text: "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
-        sentiment: "positive",
-        confidenceScores: { positive: 0.71, neutral: 0.06, negative: 0.23 },
+        sentiment: "negative",
+        confidenceScores: { positive: 0.19, neutral: 0.28, negative: 0.53 },
         offset: 0,
         length: 101,
         opinions: [],
@@ -3105,12 +3105,12 @@ export const expectation34: SentimentAnalysisResult[] = [
     id: "4",
     warnings: [],
     sentiment: "negative",
-    confidenceScores: { positive: 0.01, neutral: 0.01, negative: 0.99 },
+    confidenceScores: { positive: 0, neutral: 0.01, negative: 0.99 },
     sentences: [
       {
         text: "I didn't like the last book I read at all.",
         sentiment: "negative",
-        confidenceScores: { positive: 0.01, neutral: 0.01, negative: 0.99 },
+        confidenceScores: { positive: 0, neutral: 0.01, negative: 0.99 },
         offset: 0,
         length: 42,
         opinions: [],
@@ -3121,12 +3121,12 @@ export const expectation34: SentimentAnalysisResult[] = [
     id: "5",
     warnings: [],
     sentiment: "positive",
-    confidenceScores: { positive: 0.99, neutral: 0.01, negative: 0.01 },
+    confidenceScores: { positive: 1, neutral: 0, negative: 0 },
     sentences: [
       {
         text: "Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.",
         sentiment: "positive",
-        confidenceScores: { positive: 0.99, neutral: 0.01, negative: 0.01 },
+        confidenceScores: { positive: 1, neutral: 0, negative: 0 },
         offset: 0,
         length: 73,
         opinions: [],
@@ -3137,20 +3137,20 @@ export const expectation34: SentimentAnalysisResult[] = [
     id: "6",
     warnings: [],
     sentiment: "negative",
-    confidenceScores: { positive: 0.07, neutral: 0.15, negative: 0.78 },
+    confidenceScores: { positive: 0, neutral: 0.03, negative: 0.97 },
     sentences: [
       {
         text: "La carretera estaba atascada. ",
         sentiment: "negative",
-        confidenceScores: { positive: 0.01, neutral: 0.05, negative: 0.94 },
+        confidenceScores: { positive: 0, neutral: 0.03, negative: 0.97 },
         offset: 0,
         length: 30,
         opinions: [],
       },
       {
         text: "Había mucho tráfico el día de ayer.",
-        sentiment: "negative",
-        confidenceScores: { positive: 0.12, neutral: 0.26, negative: 0.62 },
+        sentiment: "neutral",
+        confidenceScores: { positive: 0.03, neutral: 0.93, negative: 0.04 },
         offset: 30,
         length: 35,
         opinions: [],
@@ -3211,12 +3211,12 @@ export const expectation36: SentimentAnalysisResult[] = [
     id: "0",
     warnings: [],
     sentiment: "negative",
-    confidenceScores: { positive: 0.01, neutral: 0, negative: 0.99 },
+    confidenceScores: { positive: 0, neutral: 0, negative: 1 },
     sentences: [
       {
         text: "The food and service are not good",
         sentiment: "negative",
-        confidenceScores: { positive: 0.01, neutral: 0, negative: 0.99 },
+        confidenceScores: { positive: 0, neutral: 0, negative: 1 },
         offset: 0,
         length: 33,
         opinions: [
@@ -3268,13 +3268,13 @@ export const expectation37: SentimentAnalysisResult[] = [
   {
     id: "0",
     warnings: [],
-    sentiment: "positive",
-    confidenceScores: { positive: 0.58, neutral: 0.34, negative: 0.08 },
+    sentiment: "neutral",
+    confidenceScores: { positive: 0.17, neutral: 0.81, negative: 0.01 },
     sentences: [
       {
         text: "today is a hot day",
-        sentiment: "positive",
-        confidenceScores: { positive: 0.58, neutral: 0.34, negative: 0.08 },
+        sentiment: "neutral",
+        confidenceScores: { positive: 0.17, neutral: 0.81, negative: 0.01 },
         offset: 0,
         length: 18,
         opinions: [],
@@ -3545,7 +3545,7 @@ export const expectation46: EntityRecognitionResult[] = [
     error: {
       code: "UnsupportedLanguageCode",
       message:
-        "Invalid language code. Supported languages: ar,cs,da,de,en,es,fi,fr,hu,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv,tr,zh-Hans. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+        "Invalid language code 'notalanguage'. Supported languages: ar,cs,da,de,en,es,fi,fr,hu,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv,tr,zh-Hans. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
     },
   },
 ];
@@ -3663,7 +3663,7 @@ export const expectation50: KeyPhraseExtractionResult[] = [
     error: {
       code: "UnsupportedLanguageCode",
       message:
-        "Invalid language code. Supported languages: af,bg,ca,da,de,el,en,es,et,fi,fr,hr,hu,id,it,ja,ko,lv,nl,no,pl,pt-BR,pt-PT,ro,ru,sk,sl,sv,tr,zh-Hans. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
+        "Invalid language code 'notalanguage'. Supported languages: af,am,ar,as,az,be,bg,bn,br,bs,ca,cs,cy,da,de,el,en,eo,es,et,eu,fa,fi,fil,fr,fy,ga,gd,gl,gu,ha,he,hi,hr,hu,hy,id,it,ja,jv,ka,kk,km,kn,ko,ku,ky,la,lo,lt,lv,mg,mk,ml,mn,mr,ms,my,ne,nl,no,om,or,pa,pl,ps,pt-BR,pt-PT,ro,ru,sa,sd,si,sk,sl,so,sq,sr,su,sv,sw,ta,te,th,tr,ug,uk,ur,uz,vi,xh,yi,zh-Hans,zh-Hant. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
     },
   },
 ];
@@ -3796,7 +3796,7 @@ export const expectation55: PiiEntityRecognitionResult[] = [
     error: {
       code: "UnsupportedLanguageCode",
       message:
-        "Invalid language code. Supported languages: de,en,es,fr,it,ja,ko,pt-BR,pt-PT,zh-Hans. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+        "Invalid language code 'notalanguage'. Supported languages: de,en,es,fr,it,ja,ko,pt-BR,pt-PT,zh-Hans. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
     },
   },
 ];
