@@ -6792,7 +6792,7 @@ export const expectation33: AnalyzeBatchResult[] = [
     kind: "EntityRecognition",
     results: [
       {
-        id: "1",
+        id: "0",
         warnings: [],
         entities: [
           { text: "sneaker", category: "Product", offset: 17, length: 7, confidenceScore: 0.87 },
@@ -6810,7 +6810,7 @@ export const expectation33: AnalyzeBatchResult[] = [
         ],
       },
       {
-        id: "2",
+        id: "1",
         warnings: [],
         entities: [
           { text: "Bill Gates", category: "Person", offset: 0, length: 10, confidenceScore: 0.98 },
@@ -6821,6 +6821,7 @@ export const expectation33: AnalyzeBatchResult[] = [
             offset: 14,
             length: 12,
             confidenceScore: 0.96,
+            resolutions: [{ resolutionKind: "AgeResolution", value: 66, unit: "Year" }],
           },
           {
             text: "2022",

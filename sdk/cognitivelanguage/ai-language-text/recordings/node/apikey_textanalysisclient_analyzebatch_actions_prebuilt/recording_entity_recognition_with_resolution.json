@@ -11,20 +11,20 @@
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
-        "x-ms-client-request-id": "48e7f877-96e3-4927-b1c2-9ebd6ec73ec0"
+        "x-ms-client-request-id": "c1a6d70e-4d40-4f99-bca1-c89c603f8840"
       },
       "RequestBody": {
         "analysisInput": {
           "documents": [
             {
-              "id": "1",
+              "id": "0",
               "text": "Average price of sneaker is 120 EUR",
               "language": "en"
             },
             {
-              "id": "2",
+              "id": "1",
               "text": "Bill Gates is 66 years old in 2022",
-              "language": "es"
+              "language": "en"
             }
           ]
         },
@@ -39,21 +39,21 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "a7627d81-6af4-4ed1-bcc0-492bdb3e9de4",
+        "apim-request-id": "88d76d45-8212-4bdb-b94c-1d03a9e2551f",
         "Content-Length": "0",
-        "Date": "Fri, 21 Oct 2022 17:54:11 GMT",
-        "operation-location": "https://endpoint/language/analyze-text/jobs/5a1fa1ff-07a5-4962-833c-948e0b8f2d97?api-version=2022-10-01-preview",
+        "Date": "Mon, 24 Oct 2022 18:19:39 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/5af6d04c-5ef9-4030-8183-db6f5f2f2f06?api-version=2022-10-01-preview",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "227",
+        "x-envoy-upstream-service-time": "394",
         "x-http2-stream-id": "3",
         "x-ms-region": "East US"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/5a1fa1ff-07a5-4962-833c-948e0b8f2d97?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/5af6d04c-5ef9-4030-8183-db6f5f2f2f06?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -61,27 +61,27 @@
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
-        "x-ms-client-request-id": "8a95276c-71a7-4fe5-96c5-ec0d835a8dde"
+        "x-ms-client-request-id": "0d99a18b-124d-47ca-b69f-4cee78dd1333"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "366ccda7-ff5b-4f92-93d6-43863b4103a3",
-        "Content-Length": "282",
+        "apim-request-id": "0dddbc41-5ea3-4350-a04c-4c77b71f9cc3",
+        "Content-Length": "283",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 21 Oct 2022 17:54:11 GMT",
+        "Date": "Mon, 24 Oct 2022 18:19:40 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "16",
-        "x-http2-stream-id": "31",
+        "x-envoy-upstream-service-time": "130",
+        "x-http2-stream-id": "3",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "5a1fa1ff-07a5-4962-833c-948e0b8f2d97",
-        "lastUpdateDateTime": "2022-10-21T17:54:11Z",
-        "createdDateTime": "2022-10-21T17:54:11Z",
-        "expirationDateTime": "2022-10-22T17:54:11Z",
+        "jobId": "5af6d04c-5ef9-4030-8183-db6f5f2f2f06",
+        "lastUpdatedDateTime": "2022-10-24T18:19:40Z",
+        "createdDateTime": "2022-10-24T18:19:40Z",
+        "expirationDateTime": "2022-10-25T18:19:40Z",
         "status": "notStarted",
         "errors": [],
         "tasks": {
@@ -94,7 +94,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/5a1fa1ff-07a5-4962-833c-948e0b8f2d97?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/5af6d04c-5ef9-4030-8183-db6f5f2f2f06?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -102,68 +102,27 @@
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
-        "x-ms-client-request-id": "1601f17e-73ba-4771-8e2b-9ed456c55e2f"
+        "x-ms-client-request-id": "da23d7ed-d5d8-47c4-8f7e-b519d7ce89c0"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "b4defcfd-1eaf-4239-b7c6-12bd010c88d1",
-        "Content-Length": "282",
+        "apim-request-id": "57dcd658-ca7a-4963-921c-9be1e75a94a7",
+        "Content-Length": "280",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 21 Oct 2022 17:54:11 GMT",
+        "Date": "Mon, 24 Oct 2022 18:19:40 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "11",
-        "x-http2-stream-id": "39",
+        "x-envoy-upstream-service-time": "28",
+        "x-http2-stream-id": "3",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "5a1fa1ff-07a5-4962-833c-948e0b8f2d97",
-        "lastUpdateDateTime": "2022-10-21T17:54:11Z",
-        "createdDateTime": "2022-10-21T17:54:11Z",
-        "expirationDateTime": "2022-10-22T17:54:11Z",
-        "status": "notStarted",
-        "errors": [],
-        "tasks": {
-          "completed": 0,
-          "failed": 0,
-          "inProgress": 1,
-          "total": 1,
-          "items": []
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/5a1fa1ff-07a5-4962-833c-948e0b8f2d97?api-version=2022-10-01-preview",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Connection": "keep-alive",
-        "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
-        "x-ms-client-request-id": "ee9f3eed-decd-4001-b767-f7188e098008"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "b235e370-fc3b-4362-b5ee-36fce31d7805",
-        "Content-Length": "279",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 21 Oct 2022 17:54:13 GMT",
-        "Server": "istio-envoy",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "9",
-        "x-http2-stream-id": "33",
-        "x-ms-region": "East US"
-      },
-      "ResponseBody": {
-        "jobId": "5a1fa1ff-07a5-4962-833c-948e0b8f2d97",
-        "lastUpdateDateTime": "2022-10-21T17:54:12Z",
-        "createdDateTime": "2022-10-21T17:54:11Z",
-        "expirationDateTime": "2022-10-22T17:54:11Z",
+        "jobId": "5af6d04c-5ef9-4030-8183-db6f5f2f2f06",
+        "lastUpdatedDateTime": "2022-10-24T18:19:41Z",
+        "createdDateTime": "2022-10-24T18:19:40Z",
+        "expirationDateTime": "2022-10-25T18:19:40Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -176,7 +135,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/5a1fa1ff-07a5-4962-833c-948e0b8f2d97?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/5af6d04c-5ef9-4030-8183-db6f5f2f2f06?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -184,27 +143,27 @@
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
-        "x-ms-client-request-id": "e9fef5f0-1b72-486b-8c11-5ad3edefc1a2"
+        "x-ms-client-request-id": "981c882a-a918-4dbf-a889-e89081d2d0bc"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "5ae3ff53-7449-48b7-9fef-ef41e604e535",
-        "Content-Length": "1250",
+        "apim-request-id": "07c0af0c-c49b-4831-abde-537307fcf1f5",
+        "Content-Length": "1329",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 21 Oct 2022 17:54:16 GMT",
+        "Date": "Mon, 24 Oct 2022 18:19:42 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "116",
+        "x-envoy-upstream-service-time": "161",
         "x-http2-stream-id": "3",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "5a1fa1ff-07a5-4962-833c-948e0b8f2d97",
-        "lastUpdateDateTime": "2022-10-21T17:54:15Z",
-        "createdDateTime": "2022-10-21T17:54:11Z",
-        "expirationDateTime": "2022-10-22T17:54:11Z",
+        "jobId": "5af6d04c-5ef9-4030-8183-db6f5f2f2f06",
+        "lastUpdatedDateTime": "2022-10-24T18:19:43Z",
+        "createdDateTime": "2022-10-24T18:19:40Z",
+        "expirationDateTime": "2022-10-25T18:19:40Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -215,12 +174,12 @@
           "items": [
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-10-21T17:54:15.2842584Z",
+              "lastUpdateDateTime": "2022-10-24T18:19:43.1319217Z",
               "status": "succeeded",
               "results": {
                 "documents": [
                   {
-                    "id": "1",
+                    "id": "0",
                     "entities": [
                       {
                         "text": "sneaker",
@@ -249,7 +208,7 @@
                     "warnings": []
                   },
                   {
-                    "id": "2",
+                    "id": "1",
                     "entities": [
                       {
                         "text": "Bill Gates",
@@ -264,7 +223,14 @@
                         "subcategory": "Age",
                         "offset": 14,
                         "length": 12,
-                        "confidenceScore": 0.96
+                        "confidenceScore": 0.96,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "AgeResolution",
+                            "unit": "Year",
+                            "value": 66.0
+                          }
+                        ]
                       },
                       {
                         "text": "2022",
@@ -294,7 +260,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/5a1fa1ff-07a5-4962-833c-948e0b8f2d97?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/5af6d04c-5ef9-4030-8183-db6f5f2f2f06?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -302,27 +268,27 @@
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
-        "x-ms-client-request-id": "dd3aca25-9a03-4f01-b68b-71d50444dd01"
+        "x-ms-client-request-id": "cc755e3b-bbaa-4529-9b21-8a76128b8f95"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "c7854ef0-1ef5-42a9-84f2-7a0421bc6ee7",
-        "Content-Length": "1250",
+        "apim-request-id": "fd11bba5-7b8d-4bca-994d-ad752ac93888",
+        "Content-Length": "1329",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 21 Oct 2022 17:54:16 GMT",
+        "Date": "Mon, 24 Oct 2022 18:19:43 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "148",
-        "x-http2-stream-id": "3",
+        "x-envoy-upstream-service-time": "67",
+        "x-http2-stream-id": "5",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "5a1fa1ff-07a5-4962-833c-948e0b8f2d97",
-        "lastUpdateDateTime": "2022-10-21T17:54:15Z",
-        "createdDateTime": "2022-10-21T17:54:11Z",
-        "expirationDateTime": "2022-10-22T17:54:11Z",
+        "jobId": "5af6d04c-5ef9-4030-8183-db6f5f2f2f06",
+        "lastUpdatedDateTime": "2022-10-24T18:19:43Z",
+        "createdDateTime": "2022-10-24T18:19:40Z",
+        "expirationDateTime": "2022-10-25T18:19:40Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -333,12 +299,12 @@
           "items": [
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-10-21T17:54:15.2842584Z",
+              "lastUpdateDateTime": "2022-10-24T18:19:43.1319217Z",
               "status": "succeeded",
               "results": {
                 "documents": [
                   {
-                    "id": "1",
+                    "id": "0",
                     "entities": [
                       {
                         "text": "sneaker",
@@ -367,7 +333,7 @@
                     "warnings": []
                   },
                   {
-                    "id": "2",
+                    "id": "1",
                     "entities": [
                       {
                         "text": "Bill Gates",
@@ -382,7 +348,14 @@
                         "subcategory": "Age",
                         "offset": 14,
                         "length": 12,
-                        "confidenceScore": 0.96
+                        "confidenceScore": 0.96,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "AgeResolution",
+                            "unit": "Year",
+                            "value": 66.0
+                          }
+                        ]
                       },
                       {
                         "text": "2022",
