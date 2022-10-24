@@ -6837,6 +6837,6 @@ export const expectation33: AnalyzeBatchResult[] = [
       },
     ],
     completedOn,
-    modelVersion: "2022-10-01-preview",
+    modelVersion,
   },
 ];

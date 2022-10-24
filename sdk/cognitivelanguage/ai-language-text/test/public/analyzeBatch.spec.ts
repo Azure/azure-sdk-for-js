@@ -68,6 +68,8 @@ const FIXME2 = {
 // FIXME: add AAD
 const FIXME3: AuthMethod[] = ["APIKey"];
 
+const healthcareProperty = ["reference", "id", "fullUrl", "value", "date", "period"];
+
 matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
     let recorder: Recorder;
@@ -120,18 +122,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
           });
 
           it("entity recognition with resolution", async function () {
-            const docs = [
-              {
-                id: "1",
-                language: "en",
-                text: "Average price of sneaker is 120 EUR",
-              },
-              {
-                id: "2",
-                language: "es",
-                text: "Bill Gates is 66 years old in 2022",
-              },
-            ];
+            const docs = ["Average price of sneaker is 120 EUR", "Bill Gates is 66 years old in 2022"];
             const poller = await client.beginAnalyzeBatch(
               [
                 {
@@ -140,6 +131,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 },
               ],
               docs,
+              "en",
               {
                 updateIntervalInMs: pollingInterval,
               }
@@ -331,7 +323,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
               }
             );
             await assertActionResults(await poller.pollUntilDone(), expectation25, {
-              excludedAdditionalProps: ["reference", "id", "fullUrl", "value", "date", "period"],
+              excludedAdditionalProps: healthcareProperty,
             });
           });
 
@@ -359,7 +351,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
 
             const results = await poller.pollUntilDone();
             await assertActionResults(results, expectation32, {
-              excludedAdditionalProps: ["reference", "id", "fullUrl", "value", "date", "period"],
+              excludedAdditionalProps: healthcareProperty,
             });
           });
 
