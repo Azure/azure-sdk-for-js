@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineRequest } from "../interfaces";
-import { RetryInformation, RetryModifiers, RetryStrategy } from "./retryStrategy";
-import { DEFAULT_CLIENT_MAX_RETRY_INTERVAL, DEFAULT_CLIENT_RETRY_INTERVAL } from "../constants";
-import { DefaultRetryPolicyOptions } from "../policies/defaultRetryPolicy";
-import * as retryAfterUtil from "../util/retryAfter";
+import { PipelineRequest } from "../interfaces.js";
+import { RetryInformation, RetryModifiers, RetryStrategy } from "./retryStrategy.js";
+import { DEFAULT_CLIENT_MAX_RETRY_INTERVAL, DEFAULT_CLIENT_RETRY_INTERVAL } from "../constants.js";
+import { DefaultRetryPolicyOptions } from "../policies/defaultRetryPolicy.js";
+import * as retryAfterUtil from "../util/retryAfter.js";
 
 // Workaround for module imports being non-configurable in browser
 // Allows for sinon to stub the delay function and remove jitter

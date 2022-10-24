@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineRequest, PipelineResponse } from "../src/interfaces";
-import { createHttpHeaders } from "../src/httpHeaders";
+import { PipelineRequest, PipelineResponse } from "../src/interfaces.js";
+import { createHttpHeaders } from "../src/httpHeaders.js";
 import { assert } from "chai";
 import {
   _retryAfterUtil,
   failoverRetryStrategy,
   readWriteFailoverHostDelegate,
-} from "../src/retryStrategies/failoverRetryStrategy";
-import { DefaultRetryPolicyOptions } from "../src/policies/defaultRetryPolicy";
+} from "../src/retryStrategies/failoverRetryStrategy.js";
+import { DefaultRetryPolicyOptions } from "../src/policies/defaultRetryPolicy.js";
 import sinon from "sinon";
 
 describe(`failoverRetryStrategy`, () => {
