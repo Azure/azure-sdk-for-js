@@ -7,13 +7,13 @@
 
 const { AzureKeyCredential } = require("@azure/core-auth");
 // import { DefaultAzureCredential } from "@azure/identity";
-const MapsRouteClient = require("@azure-rest/maps-route").default,
-  {
-    createRouteDirectionsBatchRequest,
-    getLongRunningPoller,
-    isUnexpected,
-    toColonDelimitedLatLonString,
-  } = require("@azure-rest/maps-route");
+const {
+  createMapsRouteClient,
+  createRouteDirectionsBatchRequest,
+  getLongRunningPoller,
+  isUnexpected,
+  toColonDelimitedLatLonString,
+} = require("@azure-rest/maps-route");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -32,12 +32,12 @@ async function main() {
   /** Shared Key authentication (subscription-key) */
   const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
   const credential = new AzureKeyCredential(subscriptionKey);
-  const client = MapsRouteClient(credential);
+  const client = createMapsRouteClient(credential);
 
   /** Azure Active Directory (Azure AD) authentication */
   // const credential = new DefaultAzureCredential();
   // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
-  // const client = MapsRouteClient(credential, mapsClientId);
+  // const client = createMapsRouteClient(credential, mapsClientId);
 
   console.log(" --- Get route directions:");
   const getRouteDirectionsResult = await client.path("/route/directions/{format}", "json").get({

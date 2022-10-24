@@ -7,12 +7,12 @@
 
 const { AzureKeyCredential } = require("@azure/core-auth");
 // import { DefaultAzureCredential } from "@azure/identity";
-const createMapsRouteClient = require("@azure-rest/maps-route").default,
-  {
-    createRouteDirectionsBatchRequest,
-    getLongRunningPoller,
-    toColonDelimitedLatLonString,
-  } = require("@azure-rest/maps-route");
+const {
+  createMapsRouteClient,
+  createRouteDirectionsBatchRequest,
+  getLongRunningPoller,
+  toColonDelimitedLatLonString,
+} = require("@azure-rest/maps-route");
 require("dotenv").config();
 
 /**
