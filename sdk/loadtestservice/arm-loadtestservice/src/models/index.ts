@@ -121,28 +121,18 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** List of resources page result. */
-export interface LoadTestResourcePageList {
-  /** List of resources in current page. */
-  value?: LoadTestResource[];
-  /** Link to next page of resources. */
-  nextLink?: string;
-}
-
-/** Managed service identity (either system assigned, or none) */
-export interface SystemAssignedServiceIdentity {
+/** List of quota bucket objects. It contains a URL link to get the next set of results. */
+export interface QuotaResourceList {
   /**
-   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * List of quota bucket objects provided by the loadtestservice.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly principalId?: string;
+  readonly value?: QuotaResource[];
   /**
-   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * URL to get the next set of quota bucket objects results (if there are any).
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly tenantId?: string;
-  /** Type of managed service identity (either system assigned, or none). */
-  type: SystemAssignedServiceIdentityType;
+  readonly nextLink?: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -185,34 +175,180 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
+/** Dimensions for new quota request. */
+export interface QuotaBucketRequestPropertiesDimensions {
+  /** Subscription Id dimension for new quota request of the quota bucket. */
+  subscriptionId?: string;
+  /** Location dimension for new quota request of the quota bucket. */
+  location?: string;
+}
+
+/** List of resources page result. */
+export interface LoadTestResourcePageList {
+  /** List of resources in current page. */
+  value?: LoadTestResource[];
+  /** Link to next page of resources. */
+  nextLink?: string;
+}
+
+/** Key and identity details for Customer Managed Key encryption of load test resource */
+export interface EncryptionProperties {
+  /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
+  identity?: EncryptionPropertiesIdentity;
+  /** key encryption key Url, versioned. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or https://contosovault.vault.azure.net/keys/contosokek. */
+  keyUrl?: string;
+}
+
+/** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
+export interface EncryptionPropertiesIdentity {
+  /** Managed identity type to use for accessing encryption key Url */
+  type?: Type;
+  /** user assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId */
+  resourceId?: string;
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
 /** LoadTest resource patch request body. */
 export interface LoadTestResourcePatchRequestBody {
   /** Resource tags. */
   tags?: Record<string, unknown>;
   /** The type of identity used for the resource. */
-  identity?: SystemAssignedServiceIdentity;
-  /** Load Test resource properties */
-  properties?: LoadTestResourcePatchRequestBodyProperties;
-}
-
-/** Load Test resource properties */
-export interface LoadTestResourcePatchRequestBodyProperties {
+  identity?: ManagedServiceIdentity;
   /** Description of the resource. */
   description?: string;
+  /** CMK Encryption property. */
+  encryption?: EncryptionProperties;
+}
+
+/** Values returned by the List operation. */
+export interface OutboundEnvironmentEndpointCollection {
+  /**
+   * The collection of outbound network dependency endpoints returned by the listing operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: OutboundEnvironmentEndpoint[];
+  /** The continuation token. */
+  nextLink?: string;
+}
+
+/** A collection of related endpoints from the same service for which the Batch service requires outbound access. */
+export interface OutboundEnvironmentEndpoint {
+  /**
+   * The type of service that Azure Load Testing connects to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly category?: string;
+  /**
+   * The endpoints for this service to which the Batch service makes outbound calls.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpoints?: EndpointDependency[];
+}
+
+/** A domain name and connection details used to access a dependency. */
+export interface EndpointDependency {
+  /**
+   * The domain name of the dependency. Domain names may be fully qualified or may contain a * wildcard.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly domainName?: string;
+  /**
+   * Human-readable supplemental information about the dependency and when it is applicable.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * The list of connection details for this endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpointDetails?: EndpointDetail[];
+}
+
+/** Details about the connection between the Batch service and the endpoint. */
+export interface EndpointDetail {
+  /**
+   * The port an endpoint is connected to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly port?: number;
+}
+
+/** Quota bucket details object. */
+export interface QuotaResource extends Resource {
+  /** Current quota limit of the quota bucket. */
+  limit?: number;
+  /** Current quota usage of the quota bucket. */
+  usage?: number;
+  /**
+   * Resource provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ResourceState;
+}
+
+/** Request object of new quota for a quota bucket. */
+export interface QuotaBucketRequest extends Resource {
+  /** Current quota usage of the quota bucket. */
+  currentUsage?: number;
+  /** Current quota limit of the quota bucket. */
+  currentQuota?: number;
+  /** New quota limit of the quota bucket. */
+  newQuota?: number;
+  /** Dimensions for new quota request. */
+  dimensions?: QuotaBucketRequestPropertiesDimensions;
+}
+
+/** Check quota availability response object. */
+export interface CheckQuotaAvailabilityResponse extends Resource {
+  /** True/False indicating whether the quota request be granted based on availability. */
+  isAvailable?: boolean;
+  /** Message indicating additional details to add to quota support request. */
+  availabilityStatus?: string;
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** LoadTest details */
-export type LoadTestResource = TrackedResource & {
+export interface LoadTestResource extends TrackedResource {
   /** The type of identity used for the resource. */
-  identity?: SystemAssignedServiceIdentity;
+  identity?: ManagedServiceIdentity;
   /** Description of the resource. */
   description?: string;
   /**
@@ -225,12 +361,17 @@ export type LoadTestResource = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly dataPlaneURI?: string;
-};
+  /** CMK Encryption property. */
+  encryption?: EncryptionProperties;
+}
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
+  /** User */
   User = "user",
+  /** System */
   System = "system",
+  /** UserSystem */
   UserSystem = "user,system"
 }
 
@@ -247,6 +388,7 @@ export type Origin = string;
 
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
+  /** Internal */
   Internal = "Internal"
 }
 
@@ -261,9 +403,13 @@ export type ActionType = string;
 
 /** Known values of {@link ResourceState} that the service accepts. */
 export enum KnownResourceState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Deleted */
   Deleted = "Deleted"
 }
 
@@ -279,27 +425,15 @@ export enum KnownResourceState {
  */
 export type ResourceState = string;
 
-/** Known values of {@link SystemAssignedServiceIdentityType} that the service accepts. */
-export enum KnownSystemAssignedServiceIdentityType {
-  None = "None",
-  SystemAssigned = "SystemAssigned"
-}
-
-/**
- * Defines values for SystemAssignedServiceIdentityType. \
- * {@link KnownSystemAssignedServiceIdentityType} can be used interchangeably with SystemAssignedServiceIdentityType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **SystemAssigned**
- */
-export type SystemAssignedServiceIdentityType = string;
-
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -315,6 +449,48 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned"
+}
+
+/**
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned** \
+ * **UserAssigned**
+ */
+export type Type = string;
+
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
+
 /** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
@@ -328,6 +504,32 @@ export interface OperationsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface QuotasListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type QuotasListResponse = QuotaResourceList;
+
+/** Optional parameters. */
+export interface QuotasGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type QuotasGetResponse = QuotaResource;
+
+/** Optional parameters. */
+export interface QuotasCheckAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkAvailability operation. */
+export type QuotasCheckAvailabilityResponse = CheckQuotaAvailabilityResponse;
+
+/** Optional parameters. */
+export interface QuotasListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type QuotasListNextResponse = QuotaResourceList;
 
 /** Optional parameters. */
 export interface LoadTestsListBySubscriptionOptionalParams
@@ -352,14 +554,24 @@ export type LoadTestsGetResponse = LoadTestResource;
 
 /** Optional parameters. */
 export interface LoadTestsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the createOrUpdate operation. */
 export type LoadTestsCreateOrUpdateResponse = LoadTestResource;
 
 /** Optional parameters. */
 export interface LoadTestsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the update operation. */
 export type LoadTestsUpdateResponse = LoadTestResource;
@@ -374,6 +586,13 @@ export interface LoadTestsDeleteOptionalParams
 }
 
 /** Optional parameters. */
+export interface LoadTestsListOutboundNetworkDependenciesEndpointsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listOutboundNetworkDependenciesEndpoints operation. */
+export type LoadTestsListOutboundNetworkDependenciesEndpointsResponse = OutboundEnvironmentEndpointCollection;
+
+/** Optional parameters. */
 export interface LoadTestsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -386,6 +605,13 @@ export interface LoadTestsListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type LoadTestsListByResourceGroupNextResponse = LoadTestResourcePageList;
+
+/** Optional parameters. */
+export interface LoadTestsListOutboundNetworkDependenciesEndpointsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listOutboundNetworkDependenciesEndpointsNext operation. */
+export type LoadTestsListOutboundNetworkDependenciesEndpointsNextResponse = OutboundEnvironmentEndpointCollection;
 
 /** Optional parameters. */
 export interface LoadTestClientOptionalParams
