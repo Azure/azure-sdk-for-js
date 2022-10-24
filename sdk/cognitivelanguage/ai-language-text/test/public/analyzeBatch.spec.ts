@@ -68,7 +68,7 @@ const FIXME2 = {
 // FIXME: add AAD
 const FIXME3: AuthMethod[] = ["APIKey"];
 
-const healthcareProperty = ["reference", "id", "fullUrl", "value", "date", "period"];
+const excludedFHIRProperties = ["reference", "id", "fullUrl", "value", "date", "period"];
 
 matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
@@ -326,7 +326,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
               }
             );
             await assertActionResults(await poller.pollUntilDone(), expectation25, {
-              excludedAdditionalProps: healthcareProperty,
+              excludedAdditionalProps: excludedFHIRProperties,
             });
           });
 
@@ -354,7 +354,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
 
             const results = await poller.pollUntilDone();
             await assertActionResults(results, expectation32, {
-              excludedAdditionalProps: healthcareProperty,
+              excludedAdditionalProps: excludedFHIRProperties,
             });
           });
 
