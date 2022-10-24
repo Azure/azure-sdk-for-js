@@ -27,7 +27,8 @@ export interface NginxCertificate {
 }
 
 export interface NginxCertificateProperties {
-  provisioningState?: ProvisioningState;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: ProvisioningState;
   keyVirtualPath?: string;
   certificateVirtualPath?: string;
   keyVaultSecretId?: string;
@@ -92,8 +93,10 @@ export interface NginxConfiguration {
 }
 
 export interface NginxConfigurationProperties {
-  provisioningState?: ProvisioningState;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: ProvisioningState;
   files?: NginxConfigurationFile[];
+  protectedFiles?: NginxConfigurationFile[];
   package?: NginxConfigurationPackage;
   rootFile?: string;
 }
@@ -145,7 +148,8 @@ export interface UserIdentityProperties {
 }
 
 export interface NginxDeploymentProperties {
-  provisioningState?: ProvisioningState;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: ProvisioningState;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly nginxVersion?: string;
   /** The managed resource group to deploy VNet injection related network resources. */
@@ -360,7 +364,7 @@ export interface CertificatesGetOptionalParams
 export type CertificatesGetResponse = NginxCertificate;
 
 /** Optional parameters. */
-export interface CertificatesCreateOptionalParams
+export interface CertificatesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** The certificate */
   body?: NginxCertificate;
@@ -370,8 +374,8 @@ export interface CertificatesCreateOptionalParams
   resumeFrom?: string;
 }
 
-/** Contains response data for the create operation. */
-export type CertificatesCreateResponse = NginxCertificate;
+/** Contains response data for the createOrUpdate operation. */
+export type CertificatesCreateOrUpdateResponse = NginxCertificate;
 
 /** Optional parameters. */
 export interface CertificatesDeleteOptionalParams
@@ -448,7 +452,7 @@ export interface DeploymentsGetOptionalParams
 export type DeploymentsGetResponse = NginxDeployment;
 
 /** Optional parameters. */
-export interface DeploymentsCreateOptionalParams
+export interface DeploymentsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
   body?: NginxDeployment;
   /** Delay to wait until next poll, in milliseconds. */
@@ -457,8 +461,8 @@ export interface DeploymentsCreateOptionalParams
   resumeFrom?: string;
 }
 
-/** Contains response data for the create operation. */
-export type DeploymentsCreateResponse = NginxDeployment;
+/** Contains response data for the createOrUpdate operation. */
+export type DeploymentsCreateOrUpdateResponse = NginxDeployment;
 
 /** Optional parameters. */
 export interface DeploymentsUpdateOptionalParams
