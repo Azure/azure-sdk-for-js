@@ -67,8 +67,8 @@ describe("Network test", () => {
     const credential = createTestCredential();
     client = createTestNetworkManagementClient(recorder, credential);
     location = "eastus";
-    resourceGroupName = "myjstest";
-    virtualNetworkName = "virtualnetworkzzz";
+    resourceGroupName = env.RESOURCE_GROUP_NAME || "";
+    virtualNetworkName = recorder.variable("virtual-network-name", "virtualnetworkzzz-" + Math.ceil(100 + Math.random() * 1000));
     subnet_name = "subnetnamexx";
     ipGroupName = "ipgroupyyy";
   });
