@@ -23,8 +23,9 @@ const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  COSMOS_ENDPOINT: "https://fakeaccountname.table.cosmos.azure.com:443/",
-  COSMOS_KEY: mockAccountKey,
+  COSMOS_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName};AccountKey=${mockAccountKey};TableEndpoint=https://${mockAccountName}.table.cosmos.azure.com:443/;`,
+  COSMOS_PRIMARY_LOCATION: "primary",
+  COSMOS_SECONDARY_LOCATION: "secondary",
 };
 
 const sanitizerOptions: SanitizerOptions = {
@@ -36,7 +37,22 @@ const sanitizerOptions: SanitizerOptions = {
     },
   ],
   generalSanitizers: [
-    { target: new URL(env.COSMOS_ENDPOINT!).hostname.split(".")[0], value: mockAccountName },
+    {
+      target: env.COSMOS_CONNECTION_STRING!.match(/TableEndpoint=.*:\/\/(.*?)\./)![1],
+      value: mockAccountName,
+    },
+    {
+      target: env.SAS_CONNECTION_STRING!.match(/TableEndpoint=.*:\/\/(.*?)\./)![1],
+      value: mockAccountName,
+    },
+    {
+      target: env.COSMOS_PRIMARY_LOCATION!.toLowerCase().replace(/\s+/g, ""),
+      value: "primary",
+    },
+    {
+      target: env.COSMOS_SECONDARY_LOCATION!.toLowerCase().replace(/\s+/g, ""),
+      value: "secondary",
+    },
   ],
 };
 
@@ -47,7 +63,7 @@ const recorderOptions: RecorderStartOptions = {
 
 export type CreateClientMode =
   | "SASConnectionString"
-  | "CosmosKey"
+  | "CosmosConnectionString"
   | "SASToken"
   | "AccountKey"
   | "AccountConnectionString"
@@ -77,24 +93,18 @@ export async function createTableClient(
       client = TableClient.fromConnectionString(env.SAS_CONNECTION_STRING, tableName, options);
       break;
 
-    case "CosmosKey":
+    case "CosmosConnectionString":
       if (
-        !env.COSMOS_KEY ||
-        !env.COSMOS_ENDPOINT ||
+        !env.COSMOS_CONNECTION_STRING ||
         !env.COSMOS_PRIMARY_LOCATION ||
         !env.COSMOS_SECONDARY_LOCATION
       ) {
         throw new Error(
-          "The Cosmos endpoint, Cosmos key and both test regions must be defined. Make sure to define COSMOS_KEY, COSMOS_ENDPOINT, COSMOS_PRIMARY_LOCATION, and COSMOS_SECONDARY_LOCATION in the environment"
+          "The Cosmos connection string and both test regions must be defined. Make sure to define COSMOS_KEY, COSMOS_ENDPOINT, COSMOS_PRIMARY_LOCATION, and COSMOS_SECONDARY_LOCATION in the environment"
         );
       }
 
-      client = new TableClient(
-        env.COSMOS_ENDPOINT,
-        tableName,
-        new AzureNamedKeyCredential("CosmosKey", env.COSMOS_KEY),
-        options
-      );
+      client = TableClient.fromConnectionString(env.COSMOS_CONNECTION_STRING, tableName, options);
       break;
 
     case "SASToken":

@@ -19,7 +19,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "b2585c6b-0cbc-46f1-9cca-eec2fd9ea2fb",
+        "x-ms-client-request-id": "75852a8d-7eea-4921-8d8b-a15dbe7786e4",
         "x-ms-useragent": "azsdk-js-data-tables/13.1.2 core-rest-pipeline/1.10.0 OS/Linuxx86_64",
         "x-ms-version": "2019-02-02"
       },
@@ -33,8 +33,8 @@
         "Cache-Control": "no-cache",
         "Content-Length": "0",
         "DataServiceId": "https://fakeaccountname.table.core.windows.net/RegionalFailoverbrowser(PartitionKey=\u0027p1\u0027,RowKey=\u0027r1\u0027)",
-        "Date": "Tue, 18 Oct 2022 16:45:23 GMT",
-        "ETag": "W/\u0022datetime\u00272022-10-18T16%3A45%3A23.1920976Z\u0027\u0022",
+        "Date": "Mon, 24 Oct 2022 20:35:27 GMT",
+        "ETag": "W/\u0022datetime\u00272022-10-24T20%3A35%3A27.7213612Z\u0027\u0022",
         "Location": "https://fakeaccountname.table.core.windows.net/RegionalFailoverbrowser(PartitionKey=\u0027p1\u0027,RowKey=\u0027r1\u0027)",
         "Preference-Applied": "return-no-content",
         "Server": [
@@ -42,14 +42,14 @@
           "Microsoft-HTTPAPI/2.0"
         ],
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "b2585c6b-0cbc-46f1-9cca-eec2fd9ea2fb",
-        "x-ms-request-id": "96751d31-a002-0115-5011-e3733f000000",
+        "x-ms-client-request-id": "75852a8d-7eea-4921-8d8b-a15dbe7786e4",
+        "x-ms-request-id": "843649c5-e002-00ff-02e8-e7aa1c000000",
         "x-ms-version": "2019-02-02"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://fakeaccountname.table.core.windows.net/RegionalFailoverbrowser(PartitionKey=\u0027p1\u0027,RowKey=\u0027r1\u0027)?st=2021-08-03T08:52:15Z\u0026spr=https\u0026sig=fakesigval",
+      "RequestUri": "https://fakeaccountname-secondary.table.core.windows.net/RegionalFailoverbrowser(PartitionKey=\u0027p1\u0027,RowKey=\u0027r1\u0027)?st=2021-08-03T08:52:15Z\u0026spr=https\u0026sig=fakesigval",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json;odata=minimalmetadata",
@@ -64,7 +64,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "efc2caad-4426-4ba2-b2ea-cd012f90280f",
+        "x-ms-client-request-id": "b8c9d1f6-dbb2-4759-b64c-3711c8361fbc",
         "x-ms-useragent": "azsdk-js-data-tables/13.1.2 core-rest-pipeline/1.10.0 OS/Linuxx86_64",
         "x-ms-version": "2019-02-02"
       },
@@ -73,24 +73,24 @@
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
         "Content-Type": "application/json; odata=minimalmetadata; streaming=true; charset=utf-8",
-        "Date": "Tue, 18 Oct 2022 16:49:22 GMT",
-        "ETag": "W/\u0022datetime\u00272022-10-18T16%3A45%3A23.1920976Z\u0027\u0022",
+        "Date": "Mon, 24 Oct 2022 20:39:27 GMT",
+        "ETag": "W/\u0022datetime\u00272022-10-24T20%3A35%3A27.7213612Z\u0027\u0022",
         "Server": [
           "Windows-Azure-Table/1.0",
           "Microsoft-HTTPAPI/2.0"
         ],
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "efc2caad-4426-4ba2-b2ea-cd012f90280f",
-        "x-ms-request-id": "c30bd050-5002-00b7-6311-e3b72b000000",
+        "x-ms-client-request-id": "b8c9d1f6-dbb2-4759-b64c-3711c8361fbc",
+        "x-ms-request-id": "809e8a6e-d002-007e-75e8-e7f8b8000000",
         "x-ms-version": "2019-02-02"
       },
       "ResponseBody": {
-        "odata.metadata": "https://fakeaccountname.table.core.windows.net/$metadata#RegionalFailoverbrowser/@Element",
-        "odata.etag": "W/\u0022datetime\u00272022-10-18T16%3A45%3A23.1920976Z\u0027\u0022",
+        "odata.metadata": "https://fakeaccountname-secondary.table.core.windows.net/$metadata#RegionalFailoverbrowser/@Element",
+        "odata.etag": "W/\u0022datetime\u00272022-10-24T20%3A35%3A27.7213612Z\u0027\u0022",
         "PartitionKey": "p1",
         "RowKey": "r1",
-        "Timestamp": "2022-10-18T16:45:23.1920976Z",
+        "Timestamp": "2022-10-24T20:35:27.7213612Z",
         "data": "data"
       }
     },
@@ -111,7 +111,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "c31af039-c5a5-485c-867d-c1ff054e8c8d",
+        "x-ms-client-request-id": "d1cfef43-433d-43c4-be8f-85f339485588",
         "x-ms-useragent": "azsdk-js-data-tables/13.1.2 core-rest-pipeline/1.10.0 OS/Linuxx86_64",
         "x-ms-version": "2019-02-02"
       },
@@ -120,14 +120,14 @@
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
         "Content-Length": "0",
-        "Date": "Tue, 18 Oct 2022 16:49:22 GMT",
+        "Date": "Mon, 24 Oct 2022 20:39:28 GMT",
         "Server": [
           "Windows-Azure-Table/1.0",
           "Microsoft-HTTPAPI/2.0"
         ],
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "c31af039-c5a5-485c-867d-c1ff054e8c8d",
-        "x-ms-request-id": "c30bd055-5002-00b7-6611-e3b72b000000",
+        "x-ms-client-request-id": "d1cfef43-433d-43c4-be8f-85f339485588",
+        "x-ms-request-id": "1083ecb4-f002-005a-60e8-e7fc66000000",
         "x-ms-version": "2019-02-02"
       },
       "ResponseBody": null

@@ -14,7 +14,7 @@ import { createTableClient, createTableServiceClient } from "./utils/recordedCli
 import { isNode, isNode8 } from "@azure/test-utils";
 import { Context } from "mocha";
 import { FullOperationResponse } from "@azure/core-client";
-import { SendRequest } from "@azure/core-rest-pipeline";
+import { createHttpHeaders, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import { assert } from "@azure/test-utils";
 import { getSecondaryUrlFromPrimary } from "../../src/secondaryEndpointPolicy";
 import sinon from "sinon";
@@ -711,19 +711,24 @@ describe("regional failover", () => {
       .getOrderedPolicies()
       .find((policy) => policy.name.toLowerCase().includes("retrypolicy"));
     if (!retryPolicy) {
-      throw Error("Retry policy is not defined or has unknown name.");
+      throw Error("The policy with failover is not defined or has an unknown name.");
     }
 
     const stub = sinon.stub(retryPolicy, "sendRequest").callsFake(async (request, next) => {
       const nextWithFailingPrimary: SendRequest = async (req) => {
-        const response = await next(req);
-        const initialOrigin = new URL(req.url).origin;
-        const currentOrigin = new URL(tableClient.url).origin;
+        const initialOrigin = new URL(tableClient.url).origin;
+        const currentOrigin = new URL(req.headers.get("x-recording-upstream-base-uri") || req.url)
+          .origin;
         const isSafeMethod = ["GET", "HEAD", "OPTIONS"].includes(req.method);
         if (initialOrigin === currentOrigin && isSafeMethod) {
-          response.status = 500;
+          const response: PipelineResponse = {
+            headers: createHttpHeaders(),
+            request: req,
+            status: 500,
+          };
+          return response;
         }
-        return response;
+        return next(req);
       };
       return stub.wrappedMethod(request, nextWithFailingPrimary);
     });
@@ -755,12 +760,12 @@ describe("regional failover", () => {
         readFailoverHosts: [secondaryUrl],
       });
     } else {
-      const tempClient = await createTableClient(tableName, "CosmosKey");
+      const tempClient = await createTableClient(tableName, "CosmosConnectionString");
       const hosts = listReplicaHosts(tempClient.url, [
         env.COSMOS_PRIMARY_LOCATION!,
         env.COSMOS_SECONDARY_LOCATION!,
       ]);
-      return createTableClient(tableName, "CosmosKey", rec, {
+      return createTableClient(tableName, "CosmosConnectionString", rec, {
         readFailoverHosts: hosts,
         writeFailoverHosts: hosts,
       });
@@ -792,7 +797,7 @@ describe("regional failover", () => {
   }
 
   function failoverTest(service: "Storage" | "Cosmos") {
-    // TODO: Figure out Cosmos auth in browser
+    // Cosmos auth is not supported in browser
     if (service === "Cosmos" && !isNode) {
       return;
     }

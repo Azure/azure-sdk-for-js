@@ -12,8 +12,8 @@
         "DataServiceVersion": "3.0",
         "Prefer": "return-no-content",
         "User-Agent": "azsdk-js-data-tables/13.1.2 core-rest-pipeline/1.10.0 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
-        "x-ms-client-request-id": "aefd878e-93ef-415b-aea8-32e0cab9d574",
-        "x-ms-date": "Tue, 18 Oct 2022 16:45:04 GMT",
+        "x-ms-client-request-id": "6100e280-99e6-4efe-bdb7-73e26ab70288",
+        "x-ms-date": "Mon, 24 Oct 2022 20:35:23 GMT",
         "x-ms-version": "2019-02-02"
       },
       "RequestBody": {
@@ -24,15 +24,15 @@
       "StatusCode": 204,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Tue, 18 Oct 2022 16:45:05 GMT",
-        "ETag": "W/\u0022datetime\u00272022-10-18T16%3A45%3A06.1481479Z\u0027\u0022",
+        "Date": "Mon, 24 Oct 2022 20:35:23 GMT",
+        "ETag": "W/\u0022datetime\u00272022-10-24T20%3A35%3A23.3015815Z\u0027\u0022",
         "Location": "https://fakeaccountname.table.cosmos.azure.com/RegionalFailovernode(PartitionKey=\u0027p1\u0027,RowKey=\u0027r1\u0027)",
         "Preference-Applied": "return-no-content"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://fakeaccountname.table.cosmos.azure.com/RegionalFailovernode(PartitionKey=\u0027p1\u0027,RowKey=\u0027r1\u0027)",
+      "RequestUri": "https://fakeaccountname-primary.table.cosmos.azure.com/RegionalFailovernode(PartitionKey=\u0027p1\u0027,RowKey=\u0027r1\u0027)",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json;odata=minimalmetadata",
@@ -40,25 +40,25 @@
         "Authorization": "Sanitized",
         "DataServiceVersion": "3.0",
         "User-Agent": "azsdk-js-data-tables/13.1.2 core-rest-pipeline/1.10.0 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
-        "x-ms-client-request-id": "c6015fac-73ca-4836-b57b-fca2b01ed0e4",
-        "x-ms-date": "Tue, 18 Oct 2022 16:45:06 GMT",
+        "x-ms-client-request-id": "112d8aa0-32fa-4022-a724-72d735218e91",
+        "x-ms-date": "Mon, 24 Oct 2022 20:35:23 GMT",
         "x-ms-version": "2019-02-02"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Type": "application/json; odata=minimalmetadata",
-        "Date": "Tue, 18 Oct 2022 16:45:05 GMT",
-        "ETag": "W/\u0022datetime\u00272022-10-18T16%3A45%3A06.1481479Z\u0027\u0022",
+        "Date": "Mon, 24 Oct 2022 20:35:23 GMT",
+        "ETag": "W/\u0022datetime\u00272022-10-24T20%3A35%3A23.3015815Z\u0027\u0022",
         "Transfer-Encoding": "chunked"
       },
       "ResponseBody": {
-        "odata.metadata": "https://fakeaccountname.table.cosmos.azure.com/RegionalFailovernode/$metadata#RegionalFailovernode/@Element",
-        "odata.etag": "W/\u0022datetime\u00272022-10-18T16%3A45%3A06.1481479Z\u0027\u0022",
+        "odata.metadata": "https://fakeaccountname-primary.table.cosmos.azure.com/RegionalFailovernode/$metadata#RegionalFailovernode/@Element",
+        "odata.etag": "W/\u0022datetime\u00272022-10-24T20%3A35%3A23.3015815Z\u0027\u0022",
         "PartitionKey": "p1",
         "RowKey": "r1",
         "data": "data",
-        "Timestamp": "2022-10-18T16:45:06.1481479Z"
+        "Timestamp": "2022-10-24T20:35:23.3015815Z"
       }
     },
     {
@@ -71,15 +71,15 @@
         "DataServiceVersion": "3.0",
         "If-Match": "*",
         "User-Agent": "azsdk-js-data-tables/13.1.2 core-rest-pipeline/1.10.0 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
-        "x-ms-client-request-id": "530334f0-5122-4a1e-8640-ba3c78cda8fc",
-        "x-ms-date": "Tue, 18 Oct 2022 16:45:06 GMT",
+        "x-ms-client-request-id": "1451b881-5b20-44ce-85f6-b89a1cd5c143",
+        "x-ms-date": "Mon, 24 Oct 2022 20:35:23 GMT",
         "x-ms-version": "2019-02-02"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Tue, 18 Oct 2022 16:45:05 GMT"
+        "Date": "Mon, 24 Oct 2022 20:35:23 GMT"
       },
       "ResponseBody": null
     }
