@@ -8,23 +8,21 @@ import { AnomalyDetectorRestClient } from "./clientDefinitions";
 /**
  * Initialize a new instance of the class AnomalyDetectorRestClient class.
  * @param Endpoint type: string Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus2.api.cognitive.microsoft.com).
- * @param ApiVersion type: string Anomaly Detector API version (for example, v1.1).
  * @param credentials type: KeyCredential
  */
 export default function createClient(
   Endpoint: string,
-  ApiVersion: string,
   credentials: KeyCredential,
-  options: ClientOptions = {}
+  options: ClientOptions & { apiVersion?: string } = {}
 ): AnomalyDetectorRestClient {
-  const baseUrl =
-    options.baseUrl ?? `${Endpoint}/anomalydetector/${ApiVersion}`;
+  const apiVersion = options.apiVersion ?? "v1.1";
+  const baseUrl = options.baseUrl ?? `${Endpoint}/anomalydetector/${apiVersion}`;
 
   options = {
     ...options,
     credentials: {
-      apiKeyHeaderName: "Ocp-Apim-Subscription-Key"
-    }
+      apiKeyHeaderName: "Ocp-Apim-Subscription-Key",
+    },
   };
 
   const userAgentInfo = `azsdk-js-ai-anomaly-detector-rest/1.0.0-beta.1`;
@@ -35,15 +33,11 @@ export default function createClient(
   options = {
     ...options,
     userAgentOptions: {
-      userAgentPrefix
-    }
+      userAgentPrefix,
+    },
   };
 
-  const client = getClient(
-    baseUrl,
-    credentials,
-    options
-  ) as AnomalyDetectorRestClient;
+  const client = getClient(baseUrl, credentials, options) as AnomalyDetectorRestClient;
 
   return client;
 }
