@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/azsdk_js_test2?api-version=2021-10",
+      "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/azsdk_js_test2?api-version=2022-10",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -18,9 +18,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "27319ae0-7ac1-40fd-a2c4-297ff11a64fe",
-        "x-ms-useragent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "34169717-f79c-4376-af7a-4053b6fd019f",
+        "x-ms-useragent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": {
         "type": "record",
@@ -37,24 +37,24 @@
       "StatusCode": 204,
       "ResponseHeaders": {
         "Content-Length": "0",
-        "Date": "Mon, 14 Feb 2022 23:10:40 GMT",
-        "Location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test2/versions/1?api-version=2021-10",
+        "Date": "Mon, 24 Oct 2022 05:31:26 GMT",
+        "Location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test2/versions/1?api-version=2022-10",
         "Schema-Group-Name": "group-1",
-        "Schema-Id": "24972ebfc1bf46a1a6e29f1845794f85",
-        "Schema-Id-Location": "https://endpoint:443/$schemagroups/$schemas/24972ebfc1bf46a1a6e29f1845794f85?api-version=2021-10",
+        "Schema-Id": "d703448ef4d648e78a04c746295e9686",
+        "Schema-Id-Location": "https://endpoint:443/$schemagroups/$schemas/d703448ef4d648e78a04c746295e9686?api-version=2022-10",
         "Schema-Name": "azsdk_js_test2",
         "Schema-Version": "1",
-        "Schema-Versions-Location": "https://endpoint:443/$schemagroups/group-1/schemas/azsdk_js_test2/versions?api-version=2021-10",
+        "Schema-Versions-Location": "https://endpoint:443/$schemagroups/group-1/schemas/azsdk_js_test2/versions?api-version=2022-10",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/$schemaGroups/$schemas/24972ebfc1bf46a1a6e29f1845794f85?api-version=2021-10",
+      "RequestUri": "https://endpoint/$schemaGroups/$schemas/d703448ef4d648e78a04c746295e9686?api-version=2022-10",
       "RequestMethod": "GET",
       "RequestHeaders": {
-        "Accept": "application/json; serialization=Avro",
+        "Accept": "application/json; serialization=Avro, application/schema\u002Bjson, application/octet-stream",
         "Accept-Encoding": "gzip, deflate, br",
         "Accept-Language": "en-US",
         "Authorization": "Sanitized",
@@ -66,22 +66,22 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "0d5e4f60-a5c5-4ea1-91e1-820bde56ac0c",
-        "x-ms-useragent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "1078d149-921c-4948-8ff8-625a88548b0d",
+        "x-ms-useragent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Type": "application/json; serialization=Avro",
-        "Date": "Mon, 14 Feb 2022 23:10:41 GMT",
-        "Location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test2/versions/1?api-version=2021-10",
+        "Date": "Mon, 24 Oct 2022 05:31:27 GMT",
+        "Location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test2/versions/1?api-version=2022-10",
         "Schema-Group-Name": "group-1",
-        "Schema-Id": "24972ebfc1bf46a1a6e29f1845794f85",
-        "Schema-Id-Location": "https://endpoint:443/$schemagroups/$schemas/24972ebfc1bf46a1a6e29f1845794f85?api-version=2021-10",
+        "Schema-Id": "d703448ef4d648e78a04c746295e9686",
+        "Schema-Id-Location": "https://endpoint:443/$schemagroups/$schemas/d703448ef4d648e78a04c746295e9686?api-version=2022-10",
         "Schema-Name": "azsdk_js_test2",
         "Schema-Version": "1",
-        "Schema-Versions-Location": "https://endpoint:443/$schemagroups/group-1/schemas/azsdk_js_test2/versions?api-version=2021-10",
+        "Schema-Versions-Location": "https://endpoint:443/$schemagroups/group-1/schemas/azsdk_js_test2/versions?api-version=2022-10",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000",
         "Transfer-Encoding": "chunked"
@@ -100,7 +100,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/azsdk_js_test2:get-id?api-version=2021-10",
+      "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/azsdk_js_test2:get-id?api-version=2022-10",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -117,9 +117,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "8e60d9bb-b38d-4e9a-931a-1bd519f6342a",
-        "x-ms-useragent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "7a8cdf6c-e153-4e6d-9288-4d5265fbc072",
+        "x-ms-useragent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": {
         "type": "record",
@@ -136,14 +136,14 @@
       "StatusCode": 204,
       "ResponseHeaders": {
         "Content-Length": "0",
-        "Date": "Mon, 14 Feb 2022 23:10:42 GMT",
-        "Location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test2/versions/1?api-version=2021-10",
+        "Date": "Mon, 24 Oct 2022 05:31:27 GMT",
+        "Location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test2/versions/1?api-version=2022-10",
         "Schema-Group-Name": "group-1",
-        "Schema-Id": "24972ebfc1bf46a1a6e29f1845794f85",
-        "Schema-Id-Location": "https://endpoint:443/$schemagroups/$schemas/24972ebfc1bf46a1a6e29f1845794f85?api-version=2021-10",
+        "Schema-Id": "d703448ef4d648e78a04c746295e9686",
+        "Schema-Id-Location": "https://endpoint:443/$schemagroups/$schemas/d703448ef4d648e78a04c746295e9686?api-version=2022-10",
         "Schema-Name": "azsdk_js_test2",
         "Schema-Version": "1",
-        "Schema-Versions-Location": "https://endpoint:443/$schemagroups/group-1/schemas/azsdk_js_test2/versions?api-version=2021-10",
+        "Schema-Versions-Location": "https://endpoint:443/$schemagroups/group-1/schemas/azsdk_js_test2/versions?api-version=2022-10",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000"
       },

@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/azsdk_js_test?api-version=2021-10",
+      "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/azsdk_js_test?api-version=2022-10",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "160",
         "Content-Type": "application/json; serialization=null",
-        "User-Agent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "9265d83c-ac8d-40d7-93fc-cff59f5b420b"
+        "User-Agent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "bcb0c55e-e8f3-4ac2-a438-efb71e0ba3af"
       },
       "RequestBody": {
         "type": "record",
@@ -31,7 +31,7 @@
       "StatusCode": 415,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Mon, 14 Feb 2022 23:07:55 GMT",
+        "Date": "Mon, 24 Oct 2022 05:30:41 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000",
         "Transfer-Encoding": "chunked",
@@ -40,12 +40,12 @@
       "ResponseBody": {
         "error": {
           "code": "InvalidSchemaType",
-          "message": "Invalid schema type for PUT request. \u0027null\u0027 is not supported. TrackingId:3eed76d6-f9aa-43ef-a1c9-c7bc23dc1d74_G26, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups/group-1/schemas/azsdk_js_test, Timestamp:2022-02-14T23:07:55"
+          "message": "Invalid schema type for PUT request. \u0027null\u0027 is not supported. TrackingId:6fcdd8d7-7e16-4848-8820-7304c0c4547d_G19, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups/group-1/schemas/azsdk_js_test, Timestamp:2022-10-24T05:30:41"
         }
       }
     },
     {
-      "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/azsdk_js_test?api-version=2021-10",
+      "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/azsdk_js_test?api-version=2022-10",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -54,8 +54,8 @@
         "Connection": "keep-alive",
         "Content-Length": "160",
         "Content-Type": "application/json; serialization=not-valid",
-        "User-Agent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "cec92791-8ac2-4c2b-a53e-4270a56206cd"
+        "User-Agent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "4f554cc9-1702-4f6b-a775-98352918b282"
       },
       "RequestBody": {
         "type": "record",
@@ -75,7 +75,7 @@
       "StatusCode": 415,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Mon, 14 Feb 2022 23:07:55 GMT",
+        "Date": "Mon, 24 Oct 2022 05:30:41 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000",
         "Transfer-Encoding": "chunked",
@@ -84,7 +84,7 @@
       "ResponseBody": {
         "error": {
           "code": "InvalidSchemaType",
-          "message": "Invalid schema type for PUT request. \u0027not-valid\u0027 is not supported. TrackingId:0a43df8f-1327-42b8-96cd-0e58be70f757_G26, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups/group-1/schemas/azsdk_js_test, Timestamp:2022-02-14T23:07:55"
+          "message": "Invalid schema type for PUT request. \u0027not-valid\u0027 is not supported. TrackingId:41d02c8e-1206-4ffa-9626-c33fda8328f6_G19, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups/group-1/schemas/azsdk_js_test, Timestamp:2022-10-24T05:30:41"
         }
       }
     }
