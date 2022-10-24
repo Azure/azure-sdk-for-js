@@ -91,7 +91,7 @@ By default, the Route service will return an array of coordinates. The response 
 ```javascript
 const routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
   queryParameters: {
-    query: "51.368752,-0.118332:41.385426,-0.128929]",
+    query: "51.368752,-0.118332:41.385426,-0.128929",
   },
 });
 
@@ -100,10 +100,32 @@ const { toColonDelimitedLatLonString } = require("@azure-rest/maps-route");
 const routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
   queryParameters: {
     query: toColonDelimitedLatLonString([
+      // Origin:
       [51.368752, -0.118332],
+      // Waypoints (Optional):
+      [45.49735, 9.182435],
+      [48.886128, 2.329742],
+      [48.159642, 11.518011],
+      // Destination:
       [41.385426, -0.128929],
     ]),
   },
+});
+
+// Handle the error if the request failed
+if (isUnexpected(routeDirectionsResult)) {
+  throw routeDirectionsResult.body.error;
+}
+
+const { summary, legs } = routeDirectionsResult.body.routes;
+console.log(
+  `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`
+);
+
+legs.points.forEach(({ summary: { travelTimeInSeconds }, points }, idx) => {
+  console.log(`${idx + 1}th leg takes ${travelTimeInSeconds} seconds to travel, and the path is: `);
+  points.points.forEach(({ latitude, longitude }, idx) =>
+  console.log(`${idx}: (${latitude}, ${longitude})`)
 });
 ```
 
@@ -115,7 +137,13 @@ The service supports commercial vehicle routing, covering commercial trucks rout
 const routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
   queryParameters: {
     query: toColonDelimitedLatLonString([
+      // Origin
       [51.368752, -0.118332],
+      // Waypoints (Optional):
+      [45.49735, 9.182435],
+      [48.886128, 2.329742],
+      [48.159642, 11.518011],
+      // Destination:
       [41.385426, -0.128929],
     ]),
     vehicleWidthInMeters: 2,
@@ -124,6 +152,21 @@ const routeDirectionsResult = await client.path("/route/directions/{format}", "j
     travelMode: "truck",
     isCommercialVehicle: true,
   },
+});
+
+if (isUnexpected(routeDirectionsResult)) {
+  throw routeDirectionsResult.body.error;
+}
+
+const { summary, legs } = routeDirectionsResult.body.routes;
+console.log(
+  `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`
+);
+
+legs.points.forEach(({ summary: { travelTimeInSeconds }, points }, idx) => {
+  console.log(`${idx + 1}th leg takes ${travelTimeInSeconds} seconds to travel, and the path is: `);
+  points.points.forEach(({ latitude, longitude }, idx) =>
+  console.log(`${idx}: (${latitude}, ${longitude})`)
 });
 ```
 
@@ -142,12 +185,32 @@ If you want to optimize the best order to visit the given waypoints, then you ne
 const routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
   queryParameters: {
     query: toColonDelimitedLatLonString([
+      // Origin:
       [51.368752, -0.118332],
+      // Waypoints:
+      [45.49735, 9.182435],
+      [48.886128, 2.329742],
+      [48.159642, 11.518011],
+      // Destination:
       [41.385426, -0.128929],
     ]),
     computeBestWaypointOrder: true,
+    routeType: "shortest",
   },
 });
+
+if (isUnexpected(routeDirectionsResult)) {
+  throw routeDirectionsResult.body.error;
+}
+
+const { summary } = routeDirectionsResult.body.routes;
+console.log(
+  `The optimized distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`
+);
+console.log("The route is optimized by: ");
+routeDirectionsResult.body.routes.optimizedWaypoints.forEach(
+  ({ providedIndex, optimizedIndex }) => `Moving index ${providedIndex} to ${optimizedIndex}`
+);
 ```
 
 ## Troubleshooting
