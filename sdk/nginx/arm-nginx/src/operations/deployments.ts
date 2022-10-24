@@ -22,8 +22,8 @@ import {
   DeploymentsListByResourceGroupOptionalParams,
   DeploymentsGetOptionalParams,
   DeploymentsGetResponse,
-  DeploymentsCreateOptionalParams,
-  DeploymentsCreateResponse,
+  DeploymentsCreateOrUpdateOptionalParams,
+  DeploymentsCreateOrUpdateResponse,
   DeploymentsUpdateOptionalParams,
   DeploymentsUpdateResponse,
   DeploymentsDeleteOptionalParams,
@@ -164,20 +164,20 @@ export class DeploymentsImpl implements Deployments {
    * @param deploymentName The name of targeted Nginx deployment
    * @param options The options parameters.
    */
-  async beginCreate(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsCreateOptionalParams
+    options?: DeploymentsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<DeploymentsCreateResponse>,
-      DeploymentsCreateResponse
+      PollOperationState<DeploymentsCreateOrUpdateResponse>,
+      DeploymentsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<DeploymentsCreateResponse> => {
+    ): Promise<DeploymentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -216,7 +216,7 @@ export class DeploymentsImpl implements Deployments {
     const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, deploymentName, options },
-      createOperationSpec
+      createOrUpdateOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
@@ -233,12 +233,12 @@ export class DeploymentsImpl implements Deployments {
    * @param deploymentName The name of targeted Nginx deployment
    * @param options The options parameters.
    */
-  async beginCreateAndWait(
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsCreateOptionalParams
-  ): Promise<DeploymentsCreateResponse> {
-    const poller = await this.beginCreate(
+    options?: DeploymentsCreateOrUpdateOptionalParams
+  ): Promise<DeploymentsCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       deploymentName,
       options
@@ -487,6 +487,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
     }
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -496,7 +497,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const createOperationSpec: coreClient.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}",
   httpMethod: "PUT",
@@ -518,6 +519,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.body2,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -550,6 +552,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.body3,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -573,6 +576,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
     }
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -594,6 +598,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
     }
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -610,6 +615,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
     }
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -629,6 +635,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
     }
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -648,6 +655,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
     }
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

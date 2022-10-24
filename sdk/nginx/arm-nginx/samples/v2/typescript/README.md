@@ -4,7 +4,7 @@ These sample programs show how to use the TypeScript client libraries for in som
 
 | **File Name**                                                                   | **Description**                                                                                                                                                                                            |
 | ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [certificatesCreateSample.ts][certificatescreatesample]                         | Create or update the Nginx certificates for given Nginx deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Certificates_CreateOrUpdate.json    |
+| [certificatesCreateOrUpdateSample.ts][certificatescreateorupdatesample]         | Create or update the Nginx certificates for given Nginx deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Certificates_CreateOrUpdate.json    |
 | [certificatesDeleteSample.ts][certificatesdeletesample]                         | Deletes a certificate from the nginx deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Certificates_Delete.json                               |
 | [certificatesGetSample.ts][certificatesgetsample]                               | Get a certificate of given Nginx deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Certificates_Get.json                                      |
 | [certificatesListSample.ts][certificateslistsample]                             | List all certificates of given Nginx deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Certificates_List.json                                 |
@@ -12,7 +12,7 @@ These sample programs show how to use the TypeScript client libraries for in som
 | [configurationsDeleteSample.ts][configurationsdeletesample]                     | Reset the Nginx configuration of given Nginx deployment to default x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Configurations_Delete.json          |
 | [configurationsGetSample.ts][configurationsgetsample]                           | Get the Nginx configuration of given Nginx deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Configurations_Get.json                          |
 | [configurationsListSample.ts][configurationslistsample]                         | List the Nginx configuration of given Nginx deployment. x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Configurations_List.json                       |
-| [deploymentsCreateSample.ts][deploymentscreatesample]                           | Create or update the Nginx deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Deployments_Create.json                                          |
+| [deploymentsCreateOrUpdateSample.ts][deploymentscreateorupdatesample]           | Create or update the Nginx deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Deployments_Create.json                                          |
 | [deploymentsDeleteSample.ts][deploymentsdeletesample]                           | Delete the Nginx deployment resource x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Deployments_Delete.json                                           |
 | [deploymentsGetSample.ts][deploymentsgetsample]                                 | Get the Nginx deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Deployments_Get.json                                                          |
 | [deploymentsListByResourceGroupSample.ts][deploymentslistbyresourcegroupsample] | List all Nginx deployments under the specified resource group. x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Deployments_ListByResourceGroup.json    |
@@ -57,34 +57,34 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/certificatesCreateSample.js
+node dist/certificatesCreateOrUpdateSample.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/certificatesCreateSample.js
+npx cross-env  node dist/certificatesCreateOrUpdateSample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[certificatescreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/typescript/src/certificatesCreateSample.ts
-[certificatesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/typescript/src/certificatesDeleteSample.ts
-[certificatesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/typescript/src/certificatesGetSample.ts
-[certificateslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/typescript/src/certificatesListSample.ts
-[configurationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/typescript/src/configurationsCreateOrUpdateSample.ts
-[configurationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/typescript/src/configurationsDeleteSample.ts
-[configurationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/typescript/src/configurationsGetSample.ts
-[configurationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/typescript/src/configurationsListSample.ts
-[deploymentscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/typescript/src/deploymentsCreateSample.ts
-[deploymentsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/typescript/src/deploymentsDeleteSample.ts
-[deploymentsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/typescript/src/deploymentsGetSample.ts
-[deploymentslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/typescript/src/deploymentsListByResourceGroupSample.ts
-[deploymentslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/typescript/src/deploymentsListSample.ts
-[deploymentsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/typescript/src/deploymentsUpdateSample.ts
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/typescript/src/operationsListSample.ts
+[certificatescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/typescript/src/certificatesCreateOrUpdateSample.ts
+[certificatesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/typescript/src/certificatesDeleteSample.ts
+[certificatesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/typescript/src/certificatesGetSample.ts
+[certificateslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/typescript/src/certificatesListSample.ts
+[configurationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/typescript/src/configurationsCreateOrUpdateSample.ts
+[configurationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/typescript/src/configurationsDeleteSample.ts
+[configurationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/typescript/src/configurationsGetSample.ts
+[configurationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/typescript/src/configurationsListSample.ts
+[deploymentscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/typescript/src/deploymentsCreateOrUpdateSample.ts
+[deploymentsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/typescript/src/deploymentsDeleteSample.ts
+[deploymentsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/typescript/src/deploymentsGetSample.ts
+[deploymentslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/typescript/src/deploymentsListByResourceGroupSample.ts
+[deploymentslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/typescript/src/deploymentsListSample.ts
+[deploymentsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/typescript/src/deploymentsUpdateSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/typescript/src/operationsListSample.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-nginx?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/nginx/arm-nginx/README.md
