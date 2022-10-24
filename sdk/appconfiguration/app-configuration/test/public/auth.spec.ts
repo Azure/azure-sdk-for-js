@@ -28,7 +28,7 @@ describe("Authentication", () => {
     // **TODO: Fail because of rest error**
     if (!isNode) {
       this.skip();
-    };
+    }
     const client = new AppConfigurationClient(
       credsAndEndpoint.endpoint,
       credsAndEndpoint.credential,

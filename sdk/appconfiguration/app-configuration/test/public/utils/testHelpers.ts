@@ -106,7 +106,7 @@ export async function deleteEverySetting(): Promise<void> {
     await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
     console.log(`  Deleted key: ${setting.key}, label: ${setting.label}`);
   }
-};
+}
 
 export async function toSortedArray(
   pagedIterator: PagedAsyncIterableIterator<

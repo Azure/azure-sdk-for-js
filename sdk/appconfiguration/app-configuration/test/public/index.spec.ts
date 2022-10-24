@@ -14,6 +14,31 @@ import {
 } from "./utils/testHelpers";
 import { Context } from "mocha";
 import { assert } from "chai";
+// describe("AppConfigurationClient", () => {
+//   let client: AppConfigurationClient;
+//   let recorder: Recorder;
+
+//   beforeEach(async function (this: Context) {
+//     recorder = await startRecorder(this);
+//     client = createAppConfigurationClientForTests();
+//   });
+
+//   afterEach(async function (this: Context) {
+//     await recorder.stop();
+//   });
+//   describe("delete", () => {
+//     it("exact match on label", async () => {
+//       const settingsList = client.listConfigurationSettings({});
+
+//       for await (const setting of settingsList) {
+//         await client.setReadOnly({ key: setting.key, label: setting.label }, false);
+//         await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
+//         console.log(`  Deleted key: ${setting.key}, label: ${setting.label}`);
+//       }
+
+//     });
+//   });
+// })
 
 describe("AppConfigurationClient", () => {
   let client: AppConfigurationClient;

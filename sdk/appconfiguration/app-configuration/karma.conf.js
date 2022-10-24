@@ -54,8 +54,8 @@ module.exports = function (config) {
       "AZURE_TENANT_ID",
       "AZ_CONFIG_ENDPOINT",
       "TEST_MODE",
-      "RECORDINGS_RELATIVE_PATH", 
-      "TEST_PROXY_HTTP_PORT", 
+      "RECORDINGS_RELATIVE_PATH",
+      "TEST_PROXY_HTTP_PORT",
     ],
 
     // test results reporter to use
