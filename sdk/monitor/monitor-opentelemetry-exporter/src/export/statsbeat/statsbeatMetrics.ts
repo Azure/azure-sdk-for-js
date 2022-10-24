@@ -20,42 +20,27 @@ import {
 } from "@opentelemetry/sdk-metrics";
 import { AzureMonitorExporterOptions, AzureMonitorMetricExporter } from "../../index";
 import * as ai from "../../utils/constants/applicationinsights";
-import { StatsbeatCounter, StatsbeatResourceProvider, STATSBEAT_LANGUAGE } from "../constants";
-import { NetworkStatsbeat } from "./types";
+import {
+  StatsbeatCounter,
+  StatsbeatResourceProvider,
+  STATSBEAT_LANGUAGE,
+  NetworkStatsbeat,
+  AIMS_URI,
+  AIMS_API_VERSION,
+  AIMS_FORMAT,
+  EU_CONNECTION_STRING,
+  EU_ENDPOINTS,
+  NON_EU_CONNECTION_STRING,
+  CommonStatsbeatProperties,
+  NetworkStatsbeatProperties,
+} from "./types";
 
-var os = require("os");
-const AIMS_URI = "http://169.254.169.254/metadata/instance/compute";
-const AIMS_API_VERSION = "api-version=2017-12-01";
-const AIMS_FORMAT = "format=json";
-const NON_EU_CONNECTION_STRING =
-  "InstrumentationKey=c4a29126-a7cb-47e5-b348-11414998b11e;IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com";
-const EU_CONNECTION_STRING =
-  "InstrumentationKey=7dc56bab-3c0c-4e9f-9ebb-d1acadee8d0f;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com";
-const EU_ENDPOINTS = [
-  "westeurope",
-  "northeurope",
-  "francecentral",
-  "francesouth",
-  "germanywestcentral",
-  "norwayeast",
-  "norwaywest",
-  "swedencentral",
-  "switzerlandnorth",
-  "switzerlandwest",
-];
-
-export interface IVirtualMachineInfo {
-  isVM?: boolean;
-  id?: string;
-  subscriptionId?: string;
-  osType?: string;
-}
+const os = require("os");
 
 export class StatsbeatMetrics {
-  private _commonProperties = {};
-  private _networkProperties = {};
+  private _commonProperties: CommonStatsbeatProperties;
+  private _networkProperties: NetworkStatsbeatProperties;
   private _meter: Meter;
-  private _isEnabled: boolean = false;
   private _isInitialized: boolean = false;
   private _networkStatsbeatCollection: Array<NetworkStatsbeat> = [];
   private _meterProvider: MeterProvider;
@@ -69,7 +54,7 @@ export class StatsbeatMetrics {
   private _cikey: string;
   private _runtimeVersion: string;
   private _language: string;
-  private _version: string | null;
+  private _version: string;
   private _attach: string = "sdk";
 
   // Observable Gauges
@@ -96,14 +81,14 @@ export class StatsbeatMetrics {
     this._azureExporter = new AzureMonitorMetricExporter(exporterConfig, true);
 
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
-      exporter: this._azureExporter as any,
+      exporter: this._azureExporter,
       exportIntervalMillis: this._statsCollectionShortInterval, // 15 minutes
     };
 
     // Exports Network Statsbeat every 15 minutes
     this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
     this._meterProvider.addMetricReader(this._metricReader);
-    this._meter = this._meterProvider.getMeter("NetworkStatsbeat");
+    this._meter = this._meterProvider.getMeter("Azure Monitor NetworkStatsbeat");
 
     this._endpointUrl = endpointUrl;
     this._runtimeVersion = process.version;
@@ -120,6 +105,24 @@ export class StatsbeatMetrics {
     this._averageDurationGauge = this._meter.createObservableGauge(
       StatsbeatCounter.AVERAGE_DURATION
     );
+
+    this._commonProperties = {
+      os: this._os,
+      rp: this._resourceProvider,
+      cikey: this._cikey,
+      runtimeVersion: this._runtimeVersion,
+      language: this._language,
+      version: this._version,
+      attach: this._attach,
+    };
+
+    this._networkProperties = {
+      endpoint: this._endpointUrl,
+      host: this._host,
+    };
+
+    this._isInitialized = true;
+    this._initialize();
   }
 
   private async _getResourceProvider(): Promise<void> {
@@ -169,41 +172,13 @@ export class StatsbeatMetrics {
     return this._isInitialized;
   }
 
-  public isEnabled() {
-    return this._isEnabled;
-  }
-
   public shutdown() {
     this._meterProvider.shutdown();
-  }
-
-  // Start instance of metrics.
-  public enable(isEnabled: boolean): void {
-    this._isEnabled = isEnabled;
-
-    if (this._isEnabled && !this._isInitialized) {
-      this._isInitialized = true;
-      this._initialize();
-    }
   }
 
   private async _initialize() {
     try {
       await this._getResourceProvider();
-      this._commonProperties = {
-        os: this._os,
-        rp: this._resourceProvider,
-        cikey: this._cikey,
-        runtimeVersion: this._runtimeVersion,
-        language: this._language,
-        version: this._version,
-        attach: this._attach,
-      };
-
-      this._networkProperties = {
-        endpoint: this._endpointUrl,
-        host: this._host,
-      };
 
       // Add observable callbacks
       this._successCountGauge.addCallback(this._successCallback.bind(this));
@@ -305,7 +280,7 @@ export class StatsbeatMetrics {
 
   // Public methods to increase counters
   public countSuccess(duration: number) {
-    if (!this.isEnabled()) {
+    if (!this._isInitialized) {
       return;
     }
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
@@ -315,7 +290,7 @@ export class StatsbeatMetrics {
   }
 
   public countFailure(duration: number, statusCode: number) {
-    if (!this.isEnabled) {
+    if (!this._isInitialized) {
       return;
     }
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
@@ -334,7 +309,7 @@ export class StatsbeatMetrics {
   }
 
   public countRetry(statusCode: number) {
-    if (!this.isEnabled) {
+    if (!this._isInitialized) {
       return;
     }
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
@@ -350,7 +325,7 @@ export class StatsbeatMetrics {
   }
 
   public countThrottle(statusCode: number) {
-    if (!this.isEnabled) {
+    if (!this._isInitialized) {
       return;
     }
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
@@ -366,7 +341,7 @@ export class StatsbeatMetrics {
   }
 
   public countException(exceptionType: Error) {
-    if (!this.isEnabled) {
+    if (!this._isInitialized) {
       return;
     }
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);

@@ -193,7 +193,6 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com"
         );
         statsbeat["_statsCollectionShortInterval"];
-        statsbeat.enable(true);
         statsbeat.countSuccess(100);
         let metric = statsbeat["_networkStatsbeatCollection"][0];
         assert.strictEqual(metric.intervalRequestExecutionTime, 100);
@@ -223,7 +222,6 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com"
         );
         statsbeat["_statsCollectionShortInterval"] = 0;
-        statsbeat.enable(true);
         statsbeat.countSuccess(100);
         statsbeat.countSuccess(200);
         statsbeat.countFailure(100, 400);
@@ -240,7 +238,6 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com"
         );
         statsbeat["_statsCollectionShortInterval"] = 0;
-        statsbeat.enable(true);
         statsbeat.countSuccess(100);
         statsbeat.countSuccess(100);
         statsbeat.countSuccess(100);
@@ -304,7 +301,6 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
         const result = await exporter["_exportEnvelopes"]([envelope]);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-        assert.strictEqual(exporter["_statsbeatMetrics"]?.isEnabled(), false);
       });
     });
   });

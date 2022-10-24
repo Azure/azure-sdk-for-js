@@ -12,7 +12,7 @@ import { isRetriable, BreezeResponse } from "../utils/breezeUtils";
 import { DEFAULT_BREEZE_ENDPOINT, ENV_CONNECTION_STRING } from "../Declarations/Constants";
 import { TelemetryItem as Envelope } from "../generated";
 import { StatsbeatMetrics } from "./statsbeat/statsbeatMetrics";
-import { MAX_STATSBEAT_FAILURES } from "./constants";
+import { MAX_STATSBEAT_FAILURES } from "./statsbeat/types";
 
 const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
 /**
@@ -67,9 +67,8 @@ export abstract class AzureMonitorBaseExporter {
     this._persister = new FileSystemPersist(this._instrumentationKey, this._options);
 
     if (!isStatsbeatExporter) {
+      // Initialize statsbeatMetrics
       this._statsbeatMetrics = new StatsbeatMetrics(this._instrumentationKey, this._endpointUrl);
-      // Enable by default -- shut off if three failures occur
-      this._statsbeatMetrics.enable(true);
     }
     this._retryTimer = null;
     diag.debug("AzureMonitorExporter was successfully setup");
@@ -107,11 +106,10 @@ export abstract class AzureMonitorBaseExporter {
 
     // Shutdown statsbeat if the maximum number of failures is exceeded
     if (
+      this._isStatsbeatExporter &&
       this._statsbeatFailureCount > MAX_STATSBEAT_FAILURES &&
-      this._statsbeatMetrics &&
-      this._statsbeatMetrics.isEnabled()
+      this._statsbeatMetrics
     ) {
-      this._statsbeatMetrics.enable(false);
       this._statsbeatMetrics.shutdown();
     }
 
@@ -120,7 +118,7 @@ export abstract class AzureMonitorBaseExporter {
     }
 
     try {
-      const startTime = Number(new Date().getTime());
+      const startTime = new Date().getTime();
       const { result, statusCode } = await this._sender.send(envelopes);
       const endTime = Number(new Date().getTime());
       this._numConsecutiveRedirects = 0;
