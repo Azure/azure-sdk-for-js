@@ -32,6 +32,7 @@ export abstract class AzureMonitorBaseExporter {
   private _isStatsbeatExporter: boolean;
   private _statsbeatFailureCount: number = 0;
   private _batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
+  private _isStatsbeatDisabled: boolean = false;
   /**
    * Exporter internal configuration
    */
@@ -104,15 +105,6 @@ export abstract class AzureMonitorBaseExporter {
   protected async _exportEnvelopes(envelopes: Envelope[]): Promise<ExportResult> {
     diag.info(`Exporting ${envelopes.length} envelope(s)`);
 
-    // Shutdown statsbeat if the maximum number of failures is exceeded
-    if (
-      this._isStatsbeatExporter &&
-      this._statsbeatFailureCount > MAX_STATSBEAT_FAILURES &&
-      this._statsbeatMetrics
-    ) {
-      this._statsbeatMetrics.shutdown();
-    }
-
     if (envelopes.length < 1) {
       return { code: ExportResultCode.SUCCESS };
     }
@@ -131,14 +123,15 @@ export abstract class AzureMonitorBaseExporter {
           }, this._batchSendRetryIntervalMs);
           this._retryTimer.unref();
         }
-        if (!this._isStatsbeatExporter && this._statsbeatMetrics) {
-          this._statsbeatMetrics.countSuccess(endTime - startTime);
+        // If we are not exportings statsbeat and statsbeat is not disabled -- count success
+        if (!this._isStatsbeatExporter && !this._isStatsbeatDisabled) {
+          this._statsbeatMetrics?.countSuccess(endTime - startTime);
         }
         return { code: ExportResultCode.SUCCESS };
       } else if (statusCode && isRetriable(statusCode)) {
         // Failed -- persist failed data
-        if (statusCode === 429 && !this._isStatsbeatExporter && this._statsbeatMetrics) {
-          this._statsbeatMetrics.countThrottle(statusCode);
+        if (statusCode === 429 && !this._isStatsbeatExporter && !this._isStatsbeatDisabled) {
+          this._statsbeatMetrics?.countThrottle(statusCode);
         }
         if (result) {
           diag.info(result);
@@ -152,18 +145,18 @@ export abstract class AzureMonitorBaseExporter {
             });
           }
           if (filteredEnvelopes.length > 0) {
-            if (!this._isStatsbeatExporter && this._statsbeatMetrics) {
-              this._statsbeatMetrics.countRetry(statusCode);
+            if (!this._isStatsbeatExporter && !this._isStatsbeatDisabled) {
+              this._statsbeatMetrics?.countRetry(statusCode);
             }
             // calls resultCallback(ExportResult) based on result of persister.push
             return await this._persist(filteredEnvelopes);
           }
           // Failed -- not retriable
           if (this._isStatsbeatExporter) {
-            this._statsbeatFailureCount++;
+            this._incrementStatsbeatFailure();
           } else {
-            if (this._statsbeatMetrics) {
-              this._statsbeatMetrics.countFailure(endTime - startTime, statusCode);
+            if (!this._isStatsbeatDisabled) {
+              this._statsbeatMetrics?.countFailure(endTime - startTime, statusCode);
             }
           }
           return {
@@ -171,20 +164,20 @@ export abstract class AzureMonitorBaseExporter {
           };
         } else {
           // calls resultCallback(ExportResult) based on result of persister.push
-          if (!this._isStatsbeatExporter && this._statsbeatMetrics) {
-            this._statsbeatMetrics.countRetry(statusCode);
+          if (!this._isStatsbeatExporter && !this._isStatsbeatDisabled) {
+            this._statsbeatMetrics?.countRetry(statusCode);
           }
           return await this._persist(envelopes);
         }
       } else {
         // Failed -- not retriable
-        if (!this._isStatsbeatExporter && this._statsbeatMetrics) {
+        if (!this._isStatsbeatDisabled) {
           if (statusCode) {
-            this._statsbeatMetrics.countFailure(endTime - startTime, statusCode);
+            this._statsbeatMetrics?.countFailure(endTime - startTime, statusCode);
           }
         }
         if (this._isStatsbeatExporter) {
-          this._statsbeatFailureCount++;
+          this._incrementStatsbeatFailure();
         }
         return {
           code: ExportResultCode.FAILED,
@@ -213,24 +206,24 @@ export abstract class AzureMonitorBaseExporter {
         } else {
           let redirectError = new Error("Circular redirect");
           if (this._isStatsbeatExporter) {
-            this._statsbeatFailureCount++;
+            this._incrementStatsbeatFailure();
           } else {
-            if (this._statsbeatMetrics) {
-              this._statsbeatMetrics.countException(redirectError);
+            if (!this._isStatsbeatDisabled) {
+              this._statsbeatMetrics?.countException(redirectError);
             }
           }
           return { code: ExportResultCode.FAILED, error: redirectError };
         }
       } else if (restError.statusCode && isRetriable(restError.statusCode)) {
-        if (!this._isStatsbeatExporter && this._statsbeatMetrics) {
-          this._statsbeatMetrics.countRetry(restError.statusCode);
+        if (!this._isStatsbeatExporter && !this._isStatsbeatDisabled) {
+          this._statsbeatMetrics?.countRetry(restError.statusCode);
         }
         return await this._persist(envelopes);
       }
       if (this._isNetworkError(restError)) {
         if (!this._isStatsbeatExporter) {
-          if (restError.statusCode && this._statsbeatMetrics) {
-            this._statsbeatMetrics.countRetry(restError.statusCode);
+          if (restError.statusCode && !this._isStatsbeatDisabled) {
+            this._statsbeatMetrics?.countRetry(restError.statusCode);
           }
         }
         diag.error(
@@ -240,14 +233,24 @@ export abstract class AzureMonitorBaseExporter {
         return await this._persist(envelopes);
       }
 
-      if (!this._isStatsbeatExporter && this._statsbeatMetrics) {
-        this._statsbeatMetrics.countException(restError);
+      if (!this._isStatsbeatExporter && !this._isStatsbeatDisabled) {
+        this._statsbeatMetrics?.countException(restError);
       }
       diag.error(
         "Envelopes could not be exported and are not retriable. Error message:",
         restError.message
       );
       return { code: ExportResultCode.FAILED, error: restError };
+    }
+  }
+
+  // Disable collection of statsbeat metrics after max failures
+  private _incrementStatsbeatFailure() {
+    this._statsbeatFailureCount++;
+    if (this._statsbeatFailureCount > MAX_STATSBEAT_FAILURES) {
+      this._isStatsbeatDisabled = true;
+      this._statsbeatMetrics?.shutdown();
+      this._statsbeatFailureCount = 0;
     }
   }
 
