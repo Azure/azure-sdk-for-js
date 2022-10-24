@@ -28,4 +28,5 @@ https://docs.microsoft.com/javascript/api/@azure-rest/arm-compute?view=azure-nod
 https://docs.microsoft.com/javascript/api/@azure-rest/arm-network?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-securitydevops?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-devhub?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure-rest/load-testing
 https://docs.microsoft.com/javascript/api/@azure-rest/ai-anomaly-detector?view=azure-node-preview

@@ -255,6 +255,7 @@ specifiers:
   '@rush-temp/keyvault-common': file:./projects/keyvault-common.tgz
   '@rush-temp/keyvault-keys': file:./projects/keyvault-keys.tgz
   '@rush-temp/keyvault-secrets': file:./projects/keyvault-secrets.tgz
+  '@rush-temp/load-testing': file:./projects/load-testing.tgz
   '@rush-temp/logger': file:./projects/logger.tgz
   '@rush-temp/maps-common': file:./projects/maps-common.tgz
   '@rush-temp/maps-search': file:./projects/maps-search.tgz
@@ -280,6 +281,7 @@ specifiers:
   '@rush-temp/perf-keyvault-certificates': file:./projects/perf-keyvault-certificates.tgz
   '@rush-temp/perf-keyvault-keys': file:./projects/perf-keyvault-keys.tgz
   '@rush-temp/perf-keyvault-secrets': file:./projects/perf-keyvault-secrets.tgz
+  '@rush-temp/perf-monitor-ingestion': file:./projects/perf-monitor-ingestion.tgz
   '@rush-temp/perf-monitor-query': file:./projects/perf-monitor-query.tgz
   '@rush-temp/perf-schema-registry-avro': file:./projects/perf-schema-registry-avro.tgz
   '@rush-temp/perf-search-documents': file:./projects/perf-search-documents.tgz
@@ -573,6 +575,7 @@ dependencies:
   '@rush-temp/keyvault-common': file:projects/keyvault-common.tgz
   '@rush-temp/keyvault-keys': file:projects/keyvault-keys.tgz
   '@rush-temp/keyvault-secrets': file:projects/keyvault-secrets.tgz
+  '@rush-temp/load-testing': file:projects/load-testing.tgz
   '@rush-temp/logger': file:projects/logger.tgz
   '@rush-temp/maps-common': file:projects/maps-common.tgz
   '@rush-temp/maps-search': file:projects/maps-search.tgz
@@ -598,6 +601,7 @@ dependencies:
   '@rush-temp/perf-keyvault-certificates': file:projects/perf-keyvault-certificates.tgz
   '@rush-temp/perf-keyvault-keys': file:projects/perf-keyvault-keys.tgz
   '@rush-temp/perf-keyvault-secrets': file:projects/perf-keyvault-secrets.tgz
+  '@rush-temp/perf-monitor-ingestion': file:projects/perf-monitor-ingestion.tgz
   '@rush-temp/perf-monitor-query': file:projects/perf-monitor-query.tgz
   '@rush-temp/perf-schema-registry-avro': file:projects/perf-schema-registry-avro.tgz
   '@rush-temp/perf-search-documents': file:projects/perf-search-documents.tgz
@@ -1115,6 +1119,21 @@ packages:
     engines: {node: '>=12.0.0'}
     dependencies:
       tslib: 2.4.0
+    dev: false
+
+  /@azure/monitor-ingestion/1.0.0-beta.2:
+    resolution: {integrity: sha512-yuZ16qaPKDlVj+2hJcwUGvD0d495knIqP5w4bY2gDQMeuiFQV+VBNVoADR9a2IP6XsgxUyOBnMriIKk63ohvAw==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.4.0
+      '@azure/core-client': 1.6.1
+      '@azure/core-rest-pipeline': 1.9.2
+      '@azure/core-tracing': 1.0.1
+      '@azure/logger': 1.0.3
+      pako: 2.0.4
+      tslib: 2.4.0
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@azure/monitor-opentelemetry-exporter/1.0.0-beta.4:
@@ -2905,7 +2924,7 @@ packages:
     dev: false
 
   /array-flatten/1.1.1:
-    resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
+    resolution: {integrity: sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=}
     dev: false
 
   /array-includes/3.1.5:
@@ -3152,7 +3171,7 @@ packages:
     dev: false
 
   /buffer-equal-constant-time/1.0.1:
-    resolution: {integrity: sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==}
+    resolution: {integrity: sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=}
     dev: false
 
   /buffer-from/1.1.2:
@@ -3309,7 +3328,7 @@ packages:
     dev: false
 
   /charenc/0.0.2:
-    resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
+    resolution: {integrity: sha1-wKHS86cJLgN3S/qD8UwPxXkKhmc=}
     dev: false
 
   /check-error/1.0.2:
@@ -3452,7 +3471,7 @@ packages:
     dev: false
 
   /concat-map/0.0.1:
-    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
+    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
     dev: false
 
   /concurrently/6.5.1:
@@ -3513,7 +3532,7 @@ packages:
     dev: false
 
   /cookie-signature/1.0.6:
-    resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==}
+    resolution: {integrity: sha1-4wOogrNCzD7oylE6eZmXNNqzriw=}
     dev: false
 
   /cookie/0.4.2:
@@ -3615,7 +3634,7 @@ packages:
     dev: false
 
   /crypt/0.0.2:
-    resolution: {integrity: sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==}
+    resolution: {integrity: sha1-iNf/fsDfuG9xPch7u0LQRNPmxBs=}
     dev: false
 
   /csv-parse/4.16.3:
@@ -3892,11 +3911,11 @@ packages:
     dev: false
 
   /edge-launcher/1.2.2:
-    resolution: {integrity: sha512-JcD5WBi3BHZXXVSSeEhl6sYO8g5cuynk/hifBzds2Bp4JdzCGLNMHgMCKu5DvrO1yatMgF0goFsxXRGus0yh1g==}
+    resolution: {integrity: sha1-60Cq+9Bnpup27/+rBke81VCbN7I=}
     dev: false
 
   /ee-first/1.1.1:
-    resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
+    resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: false
 
   /electron-to-chromium/1.4.284:
@@ -4780,7 +4799,7 @@ packages:
     dev: false
 
   /fresh/0.5.2:
-    resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
+    resolution: {integrity: sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -4920,7 +4939,7 @@ packages:
     dev: false
 
   /github-from-package/0.0.0:
-    resolution: {integrity: sha512-SyHy3T1v2NUXn29OsWdxmK6RwHD+vkj3v8en8AOBZ1wBQ/hCAQ5bAQTD02kW4W9tUp/3Qh6J8r9EvntiyCmOOw==}
+    resolution: {integrity: sha1-l/tdlr/eiXMxPyDoKI75oWf6ZM4=}
     dev: false
 
   /glob-parent/5.1.2:
@@ -6317,7 +6336,7 @@ packages:
     dev: false
 
   /media-typer/0.3.0:
-    resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
+    resolution: {integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -6327,7 +6346,7 @@ packages:
     dev: false
 
   /merge-descriptors/1.0.1:
-    resolution: {integrity: sha512-cCi6g3/Zr1iqQi6ySbseM1Xvooa98N0w31jzUYrXPX2xqObmFGHJ0tQ5u74H3mVh7wLouTseZyYIq39g8cNp1w==}
+    resolution: {integrity: sha1-sAqqVW3YtEVoFQ7J0blT8/kMu2E=}
     dev: false
 
   /merge-source-map/1.1.0:
@@ -6740,7 +6759,7 @@ packages:
     dev: false
 
   /noms/0.0.0:
-    resolution: {integrity: sha512-lNDU9VJaOPxUmXcLb+HQFeUgQQPtMI24Gt6hgfuMHRJgMRHMF/qZ4HJD3GDru4sSw9IQl2jPjAYnQrdIeLbwow==}
+    resolution: {integrity: sha1-2o69nzr51nYJGbJ9nNyAkqczKFk=}
     dependencies:
       inherits: 2.0.4
       readable-stream: 1.0.34
@@ -8615,6 +8634,37 @@ packages:
       yn: 3.1.1
     dev: false
 
+  /ts-node/10.9.1_c4df58cde868390b07e351f745ee8a9e:
+    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.3
+      '@types/node': 12.20.24
+      acorn: 8.8.0
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 4.6.4
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: false
+
   /ts-node/10.9.1_f56df34907649d74b9fd3e03df02d27b:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
@@ -8913,7 +8963,7 @@ packages:
     dev: false
 
   /utils-merge/1.0.1:
-    resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
+    resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=}
     engines: {node: '>= 0.4.0'}
     dev: false
 
@@ -10743,7 +10793,7 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-coVlRjdx8RDzEXluiY0GXqLbreUKl9e/F36lKaj0xGO8keaNa5ryH7nWX19p8jkxlTl0qEHMr2j3Me1StKaGKQ==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-5PDAxWyvP+f7NdVgUpaU48hcLq4JHi5wgTpbI3WFbBQmpAcYWjixz0+Iazyj2WztNW3klU8xtbsv7CZsPXejDg==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
@@ -10755,18 +10805,18 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.3
+      '@types/node': 14.18.32
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_c164e18ebb1175294129df0cff345d2e
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.17.3
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -17411,6 +17461,53 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/load-testing.tgz:
+    resolution: {integrity: sha512-nkdUDkvbFt8euqMofdwr5b1GYeNsazXnWZ0mK0p/zRetc7I2JzTerdCJmeESvSlfW4UWPj1gdnHCLIYUwPRxCA==, tarball: file:projects/load-testing.tgz}
+    name: '@rush-temp/load-testing'
+    version: 0.0.0
+    dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.10
+      '@azure/core-util': 1.1.1
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@types/chai': 4.3.3
+      '@types/node': 12.20.24
+      '@types/uuid': 8.3.4
+      autorest: 3.6.2
+      chai: 4.3.6
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 7.32.0
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.1
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 2.2.1
+      process: 0.11.10
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uuid: 9.0.0
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   file:projects/logger.tgz:
     resolution: {integrity: sha512-1vw4Yu9tbtUua8BPIlaP6f7Sg5RiuysrM4mtc5U52ZEXGJ8OMBAb5H5xNkwKrssvo6M4EZ/wAQA4n2fGi7b1/w==, tarball: file:projects/logger.tgz}
     name: '@rush-temp/logger'
@@ -18157,6 +18254,27 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/perf-monitor-ingestion.tgz:
+    resolution: {integrity: sha512-/IvW7Y7tnj4cAikmih4oSacYEpIQF5Aw4c5A4uE7vHx50jnzoOP18AhB7a2+bGACf6W58VLoSOOhwNve05cLlg==, tarball: file:projects/perf-monitor-ingestion.tgz}
+    name: '@rush-temp/perf-monitor-ingestion'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@azure/monitor-ingestion': 1.0.0-beta.2
+      '@types/node': 12.20.24
+      dotenv: 8.6.0
+      eslint: 8.24.0
+      prettier: 2.7.1
+      rimraf: 3.0.2
+      ts-node: 10.9.1_c4df58cde868390b07e351f745ee8a9e
+      tslib: 2.4.0
+      typescript: 4.6.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
   file:projects/perf-monitor-query.tgz:
     resolution: {integrity: sha512-Y4oItG+cPyd6p5gw6gMCG27YwLwakB+VF0lkciDzt6w5a3NakBbDOu0VEDflUqu3eKcI5xubKRkvjA7e7YiZPw==, tarball: file:projects/perf-monitor-query.tgz}
     name: '@rush-temp/perf-monitor-query'
@@ -18653,7 +18771,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-+mEBtT4ZtJbjN7TBwmuFKuK3U0/I8XkxXVPPox138JskqAjcK6qocjTg3xbmbkRHiFpIwbSsop8Wc8/sfbKCDA==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-4zcmjvPogb67MUSz60n54Z1iFbDUoiiuEPlgx0Z1cH16EF7qF8Lgd0TgWO5PPQayZBOHcEHucgnSA1LRgsEXkA==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:

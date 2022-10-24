@@ -12,7 +12,8 @@
         "secret: SecretFragment,",
         "password: fakeTestSecretPlaceholder",
         "\\\"password\\\":\\\"SecretPlaceholder\\\"",
-        "azure_client_secret&scope=https%3A%2F%2Fsanitized%2F"
+        "azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+        "secrets:"
       ],
       "_justification": "Secret used by test code, it is fake and for testing purpose."
     },
