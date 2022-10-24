@@ -1,23 +1,23 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/availabilitySets/availabilitySets123?api-version=2022-03-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/availabilitySets/availabilitySets123?api-version=2022-08-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-compute/19.1.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "fe7ae5d5-1df0-4298-ac2c-01ac5645437f"
+        "User-Agent": "azsdk-js-arm-compute/19.2.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "946bd525-b6a0-46b2-984d-198ce60baf5b"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Encoding": "gzip",
+        "Content-Length": "416",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 27 Jun 2022 07:39:50 GMT",
+        "Date": "Wed, 21 Sep 2022 06:52:32 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": [
@@ -25,14 +25,12 @@
           "Microsoft-HTTPAPI/2.0"
         ],
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "9ee7289d-eedc-47a2-9316-d1abdce623f3",
-        "x-ms-ratelimit-remaining-resource": "Microsoft.Compute/LowCostGet3Min;3999,Microsoft.Compute/LowCostGet30Min;31991",
+        "x-ms-correlation-request-id": "396346b3-c529-4f20-b8e0-6c048faf6cfb",
+        "x-ms-ratelimit-remaining-resource": "Microsoft.Compute/LowCostGet3Min;3999,Microsoft.Compute/LowCostGet30Min;31999",
         "x-ms-ratelimit-remaining-subscription-reads": "11999",
-        "x-ms-request-id": "9b02292a-2d5a-4978-816b-1132bd69e50f",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220627T073950Z:9ee7289d-eedc-47a2-9316-d1abdce623f3"
+        "x-ms-request-id": "74209f1f-2073-421c-9e51-195bf93e10f3",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220921T065232Z:396346b3-c529-4f20-b8e0-6c048faf6cfb"
       },
       "ResponseBody": {
         "name": "availabilitySets123",

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as sinon from "sinon";
+import sinon from "sinon";
 import {
   PipelineResponse,
   RestError,
@@ -10,8 +10,8 @@ import {
   createHttpHeaders,
   createPipelineRequest,
   systemErrorRetryPolicy,
-} from "../src";
-import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
+} from "../src/index.js";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
 
 describe("systemErrorRetryPolicy", function () {
   afterEach(function () {

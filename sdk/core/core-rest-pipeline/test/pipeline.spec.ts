@@ -9,7 +9,7 @@ import {
   createHttpHeaders,
   createPipelineFromOptions,
   createPipelineRequest,
-} from "../src";
+} from "../src/index.js";
 
 describe("HttpsPipeline", function () {
   it("Newly created pipeline has no policies", function () {
@@ -305,8 +305,6 @@ describe("HttpsPipeline", function () {
 
     const pipeline2 = pipeline.clone();
 
-    pipeline.removePolicy({ name: testPolicy.name });
-
     const testPolicy2: PipelinePolicy = {
       sendRequest: (request, next) => next(request),
       name: "test2",
@@ -319,6 +317,8 @@ describe("HttpsPipeline", function () {
     };
 
     pipeline2.addPolicy(testPolicy3);
+
+    pipeline.removePolicy({ name: testPolicy.name });
 
     const policies = pipeline.getOrderedPolicies();
     assert.strictEqual(policies.length, 1);

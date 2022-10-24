@@ -19,7 +19,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Restarts one or more role instances in a cloud service.
  *
  * @summary Restarts one or more role instances in a cloud service.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudServiceRoleInstance_Restart_ByCloudService.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudServiceRoleInstance_Restart_ByCloudService.json
  */
 async function restartCloudServiceRoleInstancesInACloudService() {
   const subscriptionId = "{subscription-id}";

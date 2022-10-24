@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.0-beta.3 (Unreleased)
+## 3.0.0-beta.5 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,18 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 3.0.0-beta.4 (2022-10-08)
+
+**Bugs Fixed**
+
+  -  revert credential scopes
+
+## 3.0.0-beta.3 (2022-09-30)
+
+**Bugs Fixed**
+
+  -  fix better user experience of credential scopes in government cloud
 
 ## 3.0.0-beta.2 (2022-04-11)
 

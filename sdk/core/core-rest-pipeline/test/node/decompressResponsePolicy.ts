@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as sinon from "sinon";
-import { SendRequest, createPipelineRequest, decompressResponsePolicy } from "../../src";
+import sinon from "sinon";
+import { SendRequest, createPipelineRequest, decompressResponsePolicy } from "../../src/index.js";
 
 describe("decompressResponsePolicy (node)", function () {
   it("Sets the expected flag on the request", function () {

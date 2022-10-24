@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
  *
  * @summary Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-05-01/examples/RedisCacheCreate.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheCreate.json
  */
 async function redisCacheCreate() {
   const subscriptionId = "subid";
@@ -54,7 +54,7 @@ redisCacheCreate().catch(console.error);
  * This sample demonstrates how to Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
  *
  * @summary Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-05-01/examples/RedisCacheCreateDefaultVersion.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheCreateDefaultVersion.json
  */
 async function redisCacheCreateDefaultVersion() {
   const subscriptionId = "subid";
@@ -89,7 +89,7 @@ redisCacheCreateDefaultVersion().catch(console.error);
  * This sample demonstrates how to Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
  *
  * @summary Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-05-01/examples/RedisCacheCreateLatestVersion.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheCreateLatestVersion.json
  */
 async function redisCacheCreateLatestVersion() {
   const subscriptionId = "subid";

@@ -12,7 +12,7 @@
   "include": [
     "./src/**/*.ts",
     "./test/**/*.ts",
-    "../keyvault-common/**/*.ts",
+    "../keyvault-common/src/**/*.ts",
     "samples-dev/**/*.ts"
   ]
 }

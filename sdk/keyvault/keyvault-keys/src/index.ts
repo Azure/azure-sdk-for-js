@@ -20,7 +20,7 @@ import {
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
-import { createChallengeCallbacks } from "../../keyvault-common/src";
+import { createKeyVaultChallengeCallbacks } from "../../keyvault-common/src";
 
 import { DeleteKeyPoller } from "./lro/delete/poller";
 import { RecoverDeletedKeyPoller } from "./lro/recover/poller";
@@ -264,7 +264,7 @@ export class KeyClient {
     const authPolicy = bearerTokenAuthenticationPolicy({
       credential,
       scopes: [], // Scopes are going to be defined by the challenge callbacks.
-      challengeCallbacks: createChallengeCallbacks(pipelineOptions),
+      challengeCallbacks: createKeyVaultChallengeCallbacks(pipelineOptions),
     });
 
     const internalPipelineOptions = {

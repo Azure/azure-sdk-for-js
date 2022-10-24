@@ -6,7 +6,6 @@ import {
   Recorder,
   RecorderStartOptions,
   assertEnvironmentVariable,
-  env,
 } from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { Test } from "mocha";
@@ -35,7 +34,7 @@ export function createClient(options: {
   clientOptions?: ConversationAnalysisOptions;
 }): ConversationAnalysisClient {
   const { authMethod, recorder, clientOptions = {} } = options;
-  const endpoint = env.ENDPOINT || "https://dummy.cognitiveservices.azure.com/";
+  const endpoint = assertEnvironmentVariable("ENDPOINT");
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
 
   switch (authMethod) {

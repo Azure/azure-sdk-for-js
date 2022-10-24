@@ -13,6 +13,7 @@ import {
   SqlVirtualMachinesListBySqlVmGroupOptionalParams,
   SqlVirtualMachinesListOptionalParams,
   SqlVirtualMachinesListByResourceGroupOptionalParams,
+  SqlVirtualMachinesStartAssessmentOptionalParams,
   SqlVirtualMachinesRedeployOptionalParams,
   SqlVirtualMachinesGetOptionalParams,
   SqlVirtualMachinesGetResponse,
@@ -21,8 +22,7 @@ import {
   SqlVirtualMachinesDeleteOptionalParams,
   SqlVirtualMachineUpdate,
   SqlVirtualMachinesUpdateOptionalParams,
-  SqlVirtualMachinesUpdateResponse,
-  SqlVirtualMachinesStartAssessmentOptionalParams
+  SqlVirtualMachinesUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,6 +57,30 @@ export interface SqlVirtualMachines {
     resourceGroupName: string,
     options?: SqlVirtualMachinesListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<SqlVirtualMachine>;
+  /**
+   * Starts Assessment on SQL virtual machine.
+   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
+   *                          value from the Azure Resource Manager API or the portal.
+   * @param sqlVirtualMachineName Name of the SQL virtual machine.
+   * @param options The options parameters.
+   */
+  beginStartAssessment(
+    resourceGroupName: string,
+    sqlVirtualMachineName: string,
+    options?: SqlVirtualMachinesStartAssessmentOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Starts Assessment on SQL virtual machine.
+   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
+   *                          value from the Azure Resource Manager API or the portal.
+   * @param sqlVirtualMachineName Name of the SQL virtual machine.
+   * @param options The options parameters.
+   */
+  beginStartAssessmentAndWait(
+    resourceGroupName: string,
+    sqlVirtualMachineName: string,
+    options?: SqlVirtualMachinesStartAssessmentOptionalParams
+  ): Promise<void>;
   /**
    * Uninstalls and reinstalls the SQL Iaas Extension.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
@@ -183,28 +207,4 @@ export interface SqlVirtualMachines {
     parameters: SqlVirtualMachineUpdate,
     options?: SqlVirtualMachinesUpdateOptionalParams
   ): Promise<SqlVirtualMachinesUpdateResponse>;
-  /**
-   * Starts Assessment on SQL virtual machine.
-   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
-   *                          value from the Azure Resource Manager API or the portal.
-   * @param sqlVirtualMachineName Name of the SQL virtual machine.
-   * @param options The options parameters.
-   */
-  beginStartAssessment(
-    resourceGroupName: string,
-    sqlVirtualMachineName: string,
-    options?: SqlVirtualMachinesStartAssessmentOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Starts Assessment on SQL virtual machine.
-   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
-   *                          value from the Azure Resource Manager API or the portal.
-   * @param sqlVirtualMachineName Name of the SQL virtual machine.
-   * @param options The options parameters.
-   */
-  beginStartAssessmentAndWait(
-    resourceGroupName: string,
-    sqlVirtualMachineName: string,
-    options?: SqlVirtualMachinesStartAssessmentOptionalParams
-  ): Promise<void>;
 }

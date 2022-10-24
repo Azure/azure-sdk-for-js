@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets the specified managed cluster agent pool.
  *
  * @summary Gets the specified managed cluster agent pool.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-08-02-preview/examples/AgentPoolsGet.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-08-03-preview/examples/AgentPoolsGet.json
  */
 async function getAgentPool() {
   const subscriptionId = "subid1";

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Retrieves information about an availability set.
  *
  * @summary Retrieves information about an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/availabilitySetExamples/AvailabilitySets_Get_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/availabilitySetExamples/AvailabilitySets_Get_MaximumSet_Gen.json
  */
 async function availabilitySetsGetMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -33,7 +33,7 @@ availabilitySetsGetMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Retrieves information about an availability set.
  *
  * @summary Retrieves information about an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/availabilitySetExamples/AvailabilitySets_Get_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/availabilitySetExamples/AvailabilitySets_Get_MinimumSet_Gen.json
  */
 async function availabilitySetsGetMinimumSetGen() {
   const subscriptionId = "{subscription-id}";

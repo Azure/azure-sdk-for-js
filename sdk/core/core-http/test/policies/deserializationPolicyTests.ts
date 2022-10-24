@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CompositeMapper, HttpClient, OperationSpec, Serializer } from "../../src/coreHttp";
+import { CompositeMapper, HttpClient, OperationSpec, Serializer } from "../../src";
 import {
   DeserializationPolicy,
   deserializationPolicy as createDeserializationPolicy,

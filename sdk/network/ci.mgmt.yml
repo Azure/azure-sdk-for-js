@@ -11,6 +11,7 @@ trigger:
       - sdk/network/ci.mgmt.yml
       - sdk/network/arm-network-profile-2020-09-01-hybrid
       - sdk/network/arm-network
+      - sdk/network/arm-network-rest
 pr:
   branches:
     include:
@@ -25,6 +26,7 @@ pr:
       - sdk/network/ci.mgmt.yml
       - sdk/network/arm-network-profile-2020-09-01-hybrid
       - sdk/network/arm-network
+      - sdk/network/arm-network-rest
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -34,3 +36,5 @@ extends:
         safeName: azurearmnetwork
       - name: azure-arm-network-profile-2020-09-01-hybrid
         safeName: azurearmnetworkprofile20200901hybrid
+      - name: azure-rest-arm-network
+        safeName: azurerestarmnetwork
