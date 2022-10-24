@@ -148,7 +148,8 @@ export interface AnomalyValueOutput {
 }
 
 /** Interpretation contains more details of the anomaly, which will help with root cause analysis. */
-export interface AnomalyValueInterpretationItemOutput extends AnomalyInterpretationOutput {}
+export interface AnomalyValueInterpretationItemOutput
+  extends AnomalyInterpretationOutput {}
 
 export interface AnomalyInterpretationOutput {
   /** Variable. */

@@ -3,109 +3,110 @@
 
 import { RequestParameters } from "@azure-rest/core-client";
 import {
-  ChangePointDetectRequest,
   DetectRequest,
-  DetectionRequest,
-  LastDetectionRequest,
+  ChangePointDetectRequest,
   ModelInfo,
+  DetectionRequest,
+  LastDetectionRequest
 } from "./models";
 
-export interface DetectEntireSeriesBodyParam {
+export interface DetectUnivariateEntireSeriesBodyParam {
   /** Time series points and period if needed. Advanced model parameters can also be set in the request. */
   body: DetectRequest;
 }
 
-export interface DetectEntireSeriesMediaTypesParam {
+export interface DetectUnivariateEntireSeriesMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type DetectEntireSeriesParameters = DetectEntireSeriesMediaTypesParam &
-  DetectEntireSeriesBodyParam &
+export type DetectUnivariateEntireSeriesParameters = DetectUnivariateEntireSeriesMediaTypesParam &
+  DetectUnivariateEntireSeriesBodyParam &
   RequestParameters;
 
-export interface DetectLastPointBodyParam {
+export interface DetectUnivariateLastPointBodyParam {
   /** Time series points and period if needed. Advanced model parameters can also be set in the request. */
   body: DetectRequest;
 }
 
-export interface DetectLastPointMediaTypesParam {
+export interface DetectUnivariateLastPointMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type DetectLastPointParameters = DetectLastPointMediaTypesParam &
-  DetectLastPointBodyParam &
+export type DetectUnivariateLastPointParameters = DetectUnivariateLastPointMediaTypesParam &
+  DetectUnivariateLastPointBodyParam &
   RequestParameters;
 
-export interface DetectChangePointBodyParam {
+export interface DetectUnivariateChangePointBodyParam {
   /** Time series points and granularity is needed. Advanced model parameters can also be set in the request if needed. */
   body: ChangePointDetectRequest;
 }
 
-export interface DetectChangePointMediaTypesParam {
+export interface DetectUnivariateChangePointMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type DetectChangePointParameters = DetectChangePointMediaTypesParam &
-  DetectChangePointBodyParam &
+export type DetectUnivariateChangePointParameters = DetectUnivariateChangePointMediaTypesParam &
+  DetectUnivariateChangePointBodyParam &
   RequestParameters;
-export type GetBatchDetectionResultParameters = RequestParameters;
+export type GetMultivariateBatchDetectionResultParameters = RequestParameters;
 
-export interface CreateMultivariateModelBodyParam {
+export interface CreateAndTrainMultivariateModelBodyParam {
   /** Training request */
   body: ModelInfo;
 }
 
-export interface CreateMultivariateModelMediaTypesParam {
+export interface CreateAndTrainMultivariateModelMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type CreateMultivariateModelParameters = CreateMultivariateModelMediaTypesParam &
-  CreateMultivariateModelBodyParam &
+export type CreateAndTrainMultivariateModelParameters = CreateAndTrainMultivariateModelMediaTypesParam &
+  CreateAndTrainMultivariateModelBodyParam &
   RequestParameters;
 
-export interface ListMultivariateModelQueryParamProperties {
+export interface ListMultivariateModelsQueryParamProperties {
   /** Skip indicates how many models will be skipped. */
   skip?: number;
   /** Top indicates how many models will be fetched. */
   top?: number;
 }
 
-export interface ListMultivariateModelQueryParam {
-  queryParameters?: ListMultivariateModelQueryParamProperties;
+export interface ListMultivariateModelsQueryParam {
+  queryParameters?: ListMultivariateModelsQueryParamProperties;
 }
 
-export type ListMultivariateModelParameters = ListMultivariateModelQueryParam & RequestParameters;
+export type ListMultivariateModelsParameters = ListMultivariateModelsQueryParam &
+  RequestParameters;
 export type DeleteMultivariateModelParameters = RequestParameters;
 export type GetMultivariateModelParameters = RequestParameters;
 
-export interface BatchDetectAnomalyBodyParam {
+export interface DetectMultivariateBatchAnomalyBodyParam {
   /** Detect anomaly request */
   body: DetectionRequest;
 }
 
-export interface BatchDetectAnomalyMediaTypesParam {
+export interface DetectMultivariateBatchAnomalyMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type BatchDetectAnomalyParameters = BatchDetectAnomalyMediaTypesParam &
-  BatchDetectAnomalyBodyParam &
+export type DetectMultivariateBatchAnomalyParameters = DetectMultivariateBatchAnomalyMediaTypesParam &
+  DetectMultivariateBatchAnomalyBodyParam &
   RequestParameters;
 
-export interface LastDetectAnomalyBodyParam {
+export interface DetectMultivariateLastAnomalyBodyParam {
   /** Request for last detection */
   body: LastDetectionRequest;
 }
 
-export interface LastDetectAnomalyMediaTypesParam {
+export interface DetectMultivariateLastAnomalyMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type LastDetectAnomalyParameters = LastDetectAnomalyMediaTypesParam &
-  LastDetectAnomalyBodyParam &
+export type DetectMultivariateLastAnomalyParameters = DetectMultivariateLastAnomalyMediaTypesParam &
+  DetectMultivariateLastAnomalyBodyParam &
   RequestParameters;

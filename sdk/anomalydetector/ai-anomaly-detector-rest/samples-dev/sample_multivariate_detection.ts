@@ -8,10 +8,9 @@
  */
 
 import AnomalyDetector, {
-  BatchDetectAnomalyParameters,
-  CreateMultivariateModelParameters,
-  isUnexpected,
-  ListMultivariateModelParameters,
+  DetectMultivariateBatchAnomalyParameters,
+  CreateAndTrainMultivariateModelParameters,
+  ListMultivariateModelsParameters,
   paginate,
 } from "@azure-rest/ai-anomaly-detector";
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -25,7 +24,9 @@ const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
 const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
 const apiVersion = "v1.1";
 
-const dataSource = "<your data source>";
+// const dataSource = "<your data source>";
+const dataSource =
+  "https://mvaddataset.blob.core.windows.net/sample-multitable/sample_data_20_3000";
 
 function sleep(time: number): Promise<NodeJS.Timer> {
   return new Promise((resolve) => setTimeout(resolve, time));
@@ -34,13 +35,13 @@ function sleep(time: number): Promise<NodeJS.Timer> {
 export async function main() {
   // create client
   const credential = new AzureKeyCredential(apiKey);
-  const client = AnomalyDetector(endpoint, apiVersion, credential);
+  const client = AnomalyDetector(endpoint, credential);
 
   // Already available models
-  const options: ListMultivariateModelParameters = {
+  const options: ListMultivariateModelsParameters = {
     queryParameters: { skip: 0, top: 10 },
   };
-  const initialResponse = await client.path("/multivariate/models").get(options);
+  const initialResponse = await client.path(`/{ApiVersion}/multivariate/models`).get(options);
   const pageData = paginate(client, initialResponse);
   const listModelsResult = [];
   for await (const item of pageData) {
@@ -49,7 +50,7 @@ export async function main() {
   console.log(listModelsResult);
 
   // construct model request (notice that the start and end time are local time and may not align with your data source)
-  const createMultivariateModelParameters: CreateMultivariateModelParameters = {
+  const createMultivariateModelParameters: CreateAndTrainMultivariateModelParameters = {
     body: {
       alignPolicy: {
         alignMode: "Outer",
@@ -68,7 +69,7 @@ export async function main() {
 
   // train model
   const createModelResult = await client
-    .path("/multivariate/models")
+    .path("/{ApiVersion}/multivariate/models")
     .post(createMultivariateModelParameters)
     .then((res) => {
       if (!("modelId" in res.body)) {
@@ -81,7 +82,7 @@ export async function main() {
   // get model status
   const modelId = createModelResult.modelId;
   let modelResponse = await client
-    .path("/multivariate/models/{modelId}", modelId)
+    .path("/{ApiVersion}/multivariate/models/{modelId}", modelId)
     .get()
     .then((res) => {
       if (!("modelInfo" in res.body)) {
@@ -95,7 +96,7 @@ export async function main() {
   while (modelStatus != "READY" && modelStatus != "FAILED") {
     await sleep(2000).then(() => {});
     modelResponse = await client
-      .path("/multivariate/models/{modelId}", modelId)
+      .path("/{ApiVersion}/multivariate/models/{modelId}", modelId)
       .get()
       .then((res) => {
         if (!("modelInfo" in res.body)) {
@@ -118,7 +119,7 @@ export async function main() {
   console.log("TRAINING FINISHED.");
 
   // get result
-  const batchDetectAnomalyParameters: BatchDetectAnomalyParameters = {
+  const batchDetectAnomalyParameters: DetectMultivariateBatchAnomalyParameters = {
     body: {
       dataSource: dataSource,
       endTime: "2021-01-02T05:00:00Z",
@@ -128,7 +129,7 @@ export async function main() {
     headers: { "Content-Type": "application/json" },
   };
   const batchDetectionResponse = await client
-    .path("/multivariate/models/{modelId}:detect-batch", modelId)
+    .path("/{ApiVersion}/multivariate/models/{modelId}:detect-batch", modelId)
     .post(batchDetectAnomalyParameters)
     .then((res) => {
       if (!("resultId" in res.body)) {
@@ -139,7 +140,7 @@ export async function main() {
 
   const resultId = batchDetectionResponse.resultId;
   let getDetectionResultResponse = await client
-    .path("/multivariate/detect-batch/{resultId}", resultId)
+    .path("/{ApiVersion}/multivariate/detect-batch/{resultId}", resultId)
     .get()
     .then((res) => {
       if (!("summary" in res.body)) {
@@ -152,7 +153,7 @@ export async function main() {
   while (resultStatus != "READY" && resultStatus != "FAILED") {
     await sleep(1000).then(() => {});
     getDetectionResultResponse = await client
-      .path("/multivariate/detect-batch/{resultId}", resultId)
+      .path("/{ApiVersion}/multivariate/detect-batch/{resultId}", resultId)
       .get()
       .then((res) => {
         if (!("summary" in res.body)) {
@@ -177,7 +178,9 @@ export async function main() {
   console.log("Result Id: " + getDetectionResultResponse.resultId);
 
   // delete model
-  const deleteResult = await client.path("/multivariate/models/{modelId}", modelId).delete();
+  const deleteResult = await client
+    .path("/{ApiVersion}/multivariate/models/{modelId}", modelId)
+    .delete();
 
   if (deleteResult.status == "204") {
     console.log("New model has been deleted.");

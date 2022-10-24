@@ -11,7 +11,7 @@ description: AnomalyDetector Rest Client
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/feature/cognitiveservices/anomalydetector/mvad/specification/cognitiveservices/data-plane/AnomalyDetector/readme.md
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/cognitiveservices/data-plane/AnomalyDetector/readme.md
 generate-metadata: true
 generate-sample: true
 add-credentials: true
