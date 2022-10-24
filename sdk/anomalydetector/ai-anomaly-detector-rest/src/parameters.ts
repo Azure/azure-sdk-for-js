@@ -7,7 +7,7 @@ import {
   ChangePointDetectRequest,
   ModelInfo,
   DetectionRequest,
-  LastDetectionRequest
+  LastDetectionRequest,
 } from "./models";
 
 export interface DetectUnivariateEntireSeriesBodyParam {
@@ -78,8 +78,7 @@ export interface ListMultivariateModelsQueryParam {
   queryParameters?: ListMultivariateModelsQueryParamProperties;
 }
 
-export type ListMultivariateModelsParameters = ListMultivariateModelsQueryParam &
-  RequestParameters;
+export type ListMultivariateModelsParameters = ListMultivariateModelsQueryParam & RequestParameters;
 export type DeleteMultivariateModelParameters = RequestParameters;
 export type GetMultivariateModelParameters = RequestParameters;
 

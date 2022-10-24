@@ -13,15 +13,16 @@ import { AnomalyDetectorRestClient } from "./clientDefinitions";
 export default function createClient(
   Endpoint: string,
   credentials: KeyCredential,
-  options: ClientOptions = {}
+  options: ClientOptions & { apiVersion?: string } = {}
 ): AnomalyDetectorRestClient {
-  const baseUrl = options.baseUrl ?? `${Endpoint}/anomalydetector`;
+  const apiVersion = options.apiVersion ?? "v1.1";
+  const baseUrl = options.baseUrl ?? `${Endpoint}/anomalydetector/${apiVersion}`;
 
   options = {
     ...options,
     credentials: {
-      apiKeyHeaderName: "Ocp-Apim-Subscription-Key"
-    }
+      apiKeyHeaderName: "Ocp-Apim-Subscription-Key",
+    },
   };
 
   const userAgentInfo = `azsdk-js-ai-anomaly-detector-rest/1.0.0-beta.1`;
@@ -32,15 +33,11 @@ export default function createClient(
   options = {
     ...options,
     userAgentOptions: {
-      userAgentPrefix
-    }
+      userAgentPrefix,
+    },
   };
 
-  const client = getClient(
-    baseUrl,
-    credentials,
-    options
-  ) as AnomalyDetectorRestClient;
+  const client = getClient(baseUrl, credentials, options) as AnomalyDetectorRestClient;
 
   return client;
 }
