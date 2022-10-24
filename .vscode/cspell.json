@@ -33,6 +33,7 @@
     "sdk/purview/purview-scanning-rest/review/*.md",
     "sdk/quantum/quantum-jobs/review/*.md",
     "sdk/synapse/synapse-access-control/review/*.md",
+    "sdk/synapse/synapse-access-control-rest/review/*.md",
     "sdk/synapse/synapse-artifacts/review/*.md",
     "sdk/synapse/synapse-managed-private-endpoints/review/*.md",
     "sdk/synapse/synapse-monitoring/review/*.md",
@@ -161,7 +162,8 @@
         "reranker",
         "Rslp",
         "sorani",
-        "Sorani"
+        "Sorani",
+        "beider"
       ]
     },
     {
