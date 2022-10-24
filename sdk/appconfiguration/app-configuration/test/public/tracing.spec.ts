@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers";
 import { AppConfigurationClient } from "../../src/appConfigurationClient";
 import { Context } from "mocha";
-import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "@azure/test-utils";
 
 describe("supports tracing", () => {
@@ -30,8 +30,8 @@ describe("supports tracing", () => {
         await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
       }
     }
-  })
-  
+  });
+
   it("can trace through the various options", async function () {
     const key = recorder.variable(
       "noLabelTests",

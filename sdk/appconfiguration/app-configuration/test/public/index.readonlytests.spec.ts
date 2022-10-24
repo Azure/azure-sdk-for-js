@@ -49,7 +49,7 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
       }
     }
   });
-  
+
   it("basic", async function () {
     let storedSetting = await client.getConfigurationSetting({
       key: testConfigSetting.key,

@@ -29,7 +29,7 @@ describe("AppConfigurationClient", () => {
   });
 
   after(async function (this: Context) {
-    if (!isPlaybackMode()){
+    if (!isPlaybackMode()) {
       client = createAppConfigurationClientForTests();
       const settingsList = client.listConfigurationSettings({});
 
@@ -38,7 +38,7 @@ describe("AppConfigurationClient", () => {
         await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
       }
     }
-  })
+  });
 
   describe("simple usages", () => {
     it("Add and query a setting without a label", async () => {

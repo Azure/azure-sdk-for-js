@@ -2,21 +2,20 @@
 // Licensed under the MIT license.
 
 import {
-  createAppConfigurationClientForTests,
   CredsAndEndpoint,
+  createAppConfigurationClientForTests,
   getTokenAuthenticationCredential,
   startRecorder,
 } from "./utils/testHelpers";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { AppConfigurationClient } from "../../src";
 import { Context } from "mocha";
-import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { isNode } from "@azure/core-util";
 
 describe("Authentication", () => {
   let credsAndEndpoint: CredsAndEndpoint;
   let recorder: Recorder;
-  let client: AppConfigurationClient;
 
   beforeEach(async function (this: Context) {
     recorder = await startRecorder(this);
@@ -29,7 +28,7 @@ describe("Authentication", () => {
 
   after(async function (this: Context) {
     if (!isPlaybackMode()) {
-      client = createAppConfigurationClientForTests();
+      const client = createAppConfigurationClientForTests();
       const settingsList = client.listConfigurationSettings({});
 
       for await (const setting of settingsList) {
@@ -38,7 +37,7 @@ describe("Authentication", () => {
       }
     }
   });
-  
+
   it("token authentication works", async function () {
     // **TODO: Fail because of rest error**
     if (!isNode) {

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { AppConfigurationClient, ConfigurationSetting } from "../../src";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   assertThrowsRestError,
   createAppConfigurationClientForTests,
@@ -9,7 +10,6 @@ import {
   startRecorder,
 } from "./utils/testHelpers";
 import { Context } from "mocha";
-import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 
 // There's been discussion on other teams about what errors are thrown when. This
@@ -40,7 +40,7 @@ describe("Various error cases", () => {
         await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
       }
     }
-  })
+  });
 
   describe("throws", () => {
     let addedSetting: ConfigurationSetting;

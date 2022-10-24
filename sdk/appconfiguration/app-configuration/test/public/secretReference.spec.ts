@@ -10,9 +10,9 @@ import {
   parseSecretReference,
   secretReferenceContentType,
 } from "../../src";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers";
 import { Context } from "mocha";
-import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 
 describe("AppConfigurationClient - SecretReference", () => {
@@ -38,7 +38,7 @@ describe("AppConfigurationClient - SecretReference", () => {
         await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
       }
     }
-  })
+  });
   describe("SecretReference configuration setting", () => {
     const getBaseSetting = (): ConfigurationSetting<SecretReferenceValue> => {
       return {

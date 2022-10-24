@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   assertThrowsRestError,
   createAppConfigurationClientForTests,
@@ -9,7 +10,6 @@ import {
 } from "./utils/testHelpers";
 import { AppConfigurationClient } from "../../src";
 import { Context } from "mocha";
-import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 
 describe("etags", () => {

@@ -9,9 +9,9 @@ import {
   featureFlagPrefix,
 } from "../../src";
 import { FeatureFlagValue, isFeatureFlag, parseFeatureFlag } from "../../src/featureFlag";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers";
 import { Context } from "mocha";
-import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 
 describe("AppConfigurationClient - FeatureFlag", () => {
