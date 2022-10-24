@@ -8,24 +8,24 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { LoadTestClient } from "@azure/arm-loadtestservice";
-import { DefaultAzureCredential } from "@azure/identity";
+const { LoadTestClient } = require("@azure/arm-loadtestservice");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Lists all the available API operations for Load Test Resource.
+ * This sample demonstrates how to Lists loadtests resources in a subscription.
  *
- * @summary Lists all the available API operations for Load Test Resource.
- * x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/Operations_List.json
+ * @summary Lists loadtests resources in a subscription.
+ * x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/LoadTests_ListBySubscription.json
  */
-async function operationsList() {
+async function loadTestsListBySubscription() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new LoadTestClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.operations.list()) {
+  for await (let item of client.loadTests.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-operationsList().catch(console.error);
+loadTestsListBySubscription().catch(console.error);

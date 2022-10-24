@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { LoadTestClient } from "@azure/arm-loadtestservice";
-import { DefaultAzureCredential } from "@azure/identity";
+const { LoadTestClient } = require("@azure/arm-loadtestservice");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Get a LoadTest resource.

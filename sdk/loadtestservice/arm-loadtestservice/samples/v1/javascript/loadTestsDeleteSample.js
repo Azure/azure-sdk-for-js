@@ -8,23 +8,23 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { LoadTestClient } from "@azure/arm-loadtestservice";
-import { DefaultAzureCredential } from "@azure/identity";
+const { LoadTestClient } = require("@azure/arm-loadtestservice");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Get a LoadTest resource.
+ * This sample demonstrates how to Delete a LoadTest resource.
  *
- * @summary Get a LoadTest resource.
- * x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/LoadTests_Get.json
+ * @summary Delete a LoadTest resource.
+ * x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/LoadTests_Delete.json
  */
-async function loadTestsGet() {
+async function loadTestsDelete() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "dummyrg";
   const loadTestName = "myLoadTest";
   const credential = new DefaultAzureCredential();
   const client = new LoadTestClient(credential, subscriptionId);
-  const result = await client.loadTests.get(resourceGroupName, loadTestName);
+  const result = await client.loadTests.beginDeleteAndWait(resourceGroupName, loadTestName);
   console.log(result);
 }
 
-loadTestsGet().catch(console.error);
+loadTestsDelete().catch(console.error);

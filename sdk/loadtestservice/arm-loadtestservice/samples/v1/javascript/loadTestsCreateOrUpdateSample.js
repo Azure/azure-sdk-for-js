@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { LoadTestResource, LoadTestClient } from "@azure/arm-loadtestservice";
-import { DefaultAzureCredential } from "@azure/identity";
+const { LoadTestClient } = require("@azure/arm-loadtestservice");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Create or update LoadTest resource.
@@ -21,24 +21,25 @@ async function loadTestsCreateOrUpdate() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "dummyrg";
   const loadTestName = "myLoadTest";
-  const loadTestResource: LoadTestResource = {
+  const loadTestResource = {
     description: "This is new load test resource",
     encryption: {
       identity: {
         type: "UserAssigned",
         resourceId:
-          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/dummyrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1"
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/dummyrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
       },
-      keyUrl: "https://dummy.vault.azure.net/keys/dummykey1"
+      keyUrl: "https://dummy.vault.azure.net/keys/dummykey1",
     },
     identity: {
       type: "SystemAssigned,UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/00000000000000000000000000000000/resourceGroups/dummyrg/providers/MicrosoftManagedIdentity/userAssignedIdentities/id1": {}
-      }
+        "/subscriptions/00000000000000000000000000000000/resourceGroups/dummyrg/providers/MicrosoftManagedIdentity/userAssignedIdentities/id1":
+          {},
+      },
     },
     location: "westus",
-    tags: { team: "Dev Exp" }
+    tags: { team: "Dev Exp" },
   };
   const credential = new DefaultAzureCredential();
   const client = new LoadTestClient(credential, subscriptionId);
