@@ -55,6 +55,9 @@ export function isSqlDB(dbSystem: string) {
 }
 
 export function getUrl(attributes: Attributes): string {
+  if (!attributes) {
+    return "";
+  }
   const httpMethod = attributes[SemanticAttributes.HTTP_METHOD];
   if (httpMethod) {
     const httpUrl = attributes[SemanticAttributes.HTTP_URL];
@@ -88,6 +91,9 @@ export function getUrl(attributes: Attributes): string {
 }
 
 export function getDependencyTarget(attributes: Attributes): string {
+  if (!attributes) {
+    return "";
+  }
   const peerService = attributes[SemanticAttributes.PEER_SERVICE];
   const httpHost = attributes[SemanticAttributes.HTTP_HOST];
   const httpUrl = attributes[SemanticAttributes.HTTP_URL];
