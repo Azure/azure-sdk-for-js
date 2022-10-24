@@ -12,20 +12,19 @@ import { LoadTestClient } from "@azure/arm-loadtestservice";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Lists all the available API operations for Load Test Resource.
+ * This sample demonstrates how to Get the available quota for a quota bucket per region per subscription.
  *
- * @summary Lists all the available API operations for Load Test Resource.
- * x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/Operations_List.json
+ * @summary Get the available quota for a quota bucket per region per subscription.
+ * x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/Quotas_Get.json
  */
-async function operationsList() {
+async function quotasGet() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const location = "westus";
+  const quotaBucketName = "testQuotaBucket";
   const credential = new DefaultAzureCredential();
   const client = new LoadTestClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.operations.list()) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  const result = await client.quotas.get(location, quotaBucketName);
+  console.log(result);
 }
 
-operationsList().catch(console.error);
+quotasGet().catch(console.error);
