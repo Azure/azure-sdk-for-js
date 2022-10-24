@@ -4,7 +4,7 @@ These sample programs show how to use the JavaScript client libraries for in som
 
 | **File Name**                                                                   | **Description**                                                                                                                                                                                            |
 | ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [certificatesCreateSample.js][certificatescreatesample]                         | Create or update the Nginx certificates for given Nginx deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Certificates_CreateOrUpdate.json    |
+| [certificatesCreateOrUpdateSample.js][certificatescreateorupdatesample]         | Create or update the Nginx certificates for given Nginx deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Certificates_CreateOrUpdate.json    |
 | [certificatesDeleteSample.js][certificatesdeletesample]                         | Deletes a certificate from the nginx deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Certificates_Delete.json                               |
 | [certificatesGetSample.js][certificatesgetsample]                               | Get a certificate of given Nginx deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Certificates_Get.json                                      |
 | [certificatesListSample.js][certificateslistsample]                             | List all certificates of given Nginx deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Certificates_List.json                                 |
@@ -12,7 +12,7 @@ These sample programs show how to use the JavaScript client libraries for in som
 | [configurationsDeleteSample.js][configurationsdeletesample]                     | Reset the Nginx configuration of given Nginx deployment to default x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Configurations_Delete.json          |
 | [configurationsGetSample.js][configurationsgetsample]                           | Get the Nginx configuration of given Nginx deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Configurations_Get.json                          |
 | [configurationsListSample.js][configurationslistsample]                         | List the Nginx configuration of given Nginx deployment. x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Configurations_List.json                       |
-| [deploymentsCreateSample.js][deploymentscreatesample]                           | Create or update the Nginx deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Deployments_Create.json                                          |
+| [deploymentsCreateOrUpdateSample.js][deploymentscreateorupdatesample]           | Create or update the Nginx deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Deployments_Create.json                                          |
 | [deploymentsDeleteSample.js][deploymentsdeletesample]                           | Delete the Nginx deployment resource x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Deployments_Delete.json                                           |
 | [deploymentsGetSample.js][deploymentsgetsample]                                 | Get the Nginx deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Deployments_Get.json                                                          |
 | [deploymentsListByResourceGroupSample.js][deploymentslistbyresourcegroupsample] | List all Nginx deployments under the specified resource group. x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Deployments_ListByResourceGroup.json    |
@@ -45,34 +45,34 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node certificatesCreateSample.js
+node certificatesCreateOrUpdateSample.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node certificatesCreateSample.js
+npx cross-env  node certificatesCreateOrUpdateSample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[certificatescreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/javascript/certificatesCreateSample.js
-[certificatesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/javascript/certificatesDeleteSample.js
-[certificatesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/javascript/certificatesGetSample.js
-[certificateslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/javascript/certificatesListSample.js
-[configurationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/javascript/configurationsCreateOrUpdateSample.js
-[configurationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/javascript/configurationsDeleteSample.js
-[configurationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/javascript/configurationsGetSample.js
-[configurationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/javascript/configurationsListSample.js
-[deploymentscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/javascript/deploymentsCreateSample.js
-[deploymentsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/javascript/deploymentsDeleteSample.js
-[deploymentsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/javascript/deploymentsGetSample.js
-[deploymentslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/javascript/deploymentsListByResourceGroupSample.js
-[deploymentslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/javascript/deploymentsListSample.js
-[deploymentsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/javascript/deploymentsUpdateSample.js
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v1/javascript/operationsListSample.js
+[certificatescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/javascript/certificatesCreateOrUpdateSample.js
+[certificatesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/javascript/certificatesDeleteSample.js
+[certificatesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/javascript/certificatesGetSample.js
+[certificateslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/javascript/certificatesListSample.js
+[configurationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/javascript/configurationsCreateOrUpdateSample.js
+[configurationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/javascript/configurationsDeleteSample.js
+[configurationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/javascript/configurationsGetSample.js
+[configurationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/javascript/configurationsListSample.js
+[deploymentscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/javascript/deploymentsCreateOrUpdateSample.js
+[deploymentsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/javascript/deploymentsDeleteSample.js
+[deploymentsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/javascript/deploymentsGetSample.js
+[deploymentslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/javascript/deploymentsListByResourceGroupSample.js
+[deploymentslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/javascript/deploymentsListSample.js
+[deploymentsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/javascript/deploymentsUpdateSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v2/javascript/operationsListSample.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-nginx?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/nginx/arm-nginx/README.md

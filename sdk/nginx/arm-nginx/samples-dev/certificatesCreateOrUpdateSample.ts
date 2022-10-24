@@ -12,22 +12,24 @@ import { NginxManagementClient } from "@azure/arm-nginx";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Create or update the Nginx deployment
+ * This sample demonstrates how to Create or update the Nginx certificates for given Nginx deployment
  *
- * @summary Create or update the Nginx deployment
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Deployments_Create.json
+ * @summary Create or update the Nginx certificates for given Nginx deployment
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Certificates_CreateOrUpdate.json
  */
-async function deploymentsCreate() {
+async function certificatesCreateOrUpdate() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";
   const deploymentName = "myDeployment";
+  const certificateName = "default";
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
-  const result = await client.deployments.beginCreateAndWait(
+  const result = await client.certificates.beginCreateOrUpdateAndWait(
     resourceGroupName,
-    deploymentName
+    deploymentName,
+    certificateName
   );
   console.log(result);
 }
 
-deploymentsCreate().catch(console.error);
+certificatesCreateOrUpdate().catch(console.error);
