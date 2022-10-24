@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse } from "../coreHttp";
+import { HttpOperationResponse } from "..";
 
 export const DEFAULT_CLIENT_RETRY_COUNT = 3;
 // intervals are in ms

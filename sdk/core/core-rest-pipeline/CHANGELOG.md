@@ -5,6 +5,7 @@
 ### Features Added
 
 - Add retry strategy for regional failover. [#23269](https://github.com/Azure/azure-sdk-for-js/pull/23269)
+- Added conditional exports for CommonJS and ESM. [#22804](https://github.com/Azure/azure-sdk-for-js/pull/22804)
 
 ### Breaking Changes
 

@@ -7,7 +7,7 @@ import {
   disableResponseDecompressionPolicy,
 } from "../../src/policies/disableResponseDecompressionPolicy";
 import { HttpHeaders } from "../../src/httpHeaders";
-import { HttpOperationResponse } from "../../src/coreHttp";
+import { HttpOperationResponse } from "../../src";
 import { RequestPolicyOptions } from "../../src/policies/requestPolicy";
 import { WebResource } from "../../src/webResource";
 

@@ -2589,6 +2589,19 @@ export const Attestation: coreClient.CompositeMapper = {
         type: {
           name: "DateTime"
         }
+      },
+      assessmentDate: {
+        serializedName: "properties.assessmentDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      metadata: {
+        serializedName: "properties.metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
       }
     }
   }

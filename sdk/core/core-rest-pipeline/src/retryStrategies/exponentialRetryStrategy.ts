@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse } from "../interfaces";
-import { RestError } from "../restError";
-import { RetryStrategy } from "./retryStrategy";
-import { isThrottlingRetryResponse } from "./throttlingRetryStrategy";
-import { DEFAULT_CLIENT_MAX_RETRY_INTERVAL, DEFAULT_CLIENT_RETRY_INTERVAL } from "../constants";
-import { exponentialDelayInMs } from "../util/retryAfter";
+import { PipelineResponse } from "../interfaces.js";
+import { RestError } from "../restError.js";
+import { RetryStrategy } from "./retryStrategy.js";
+import { exponentialDelayInMs } from "../util/retryAfter.js";
+import { isThrottlingRetryResponse } from "./throttlingRetryStrategy.js";
+import { DEFAULT_CLIENT_MAX_RETRY_INTERVAL, DEFAULT_CLIENT_RETRY_INTERVAL } from "../constants.js";
 
 /**
  * A retry strategy that retries with an exponentially increasing delay in these two cases:

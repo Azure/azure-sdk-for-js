@@ -12,6 +12,8 @@ import {
   LoadTestResource,
   LoadTestsListBySubscriptionOptionalParams,
   LoadTestsListByResourceGroupOptionalParams,
+  OutboundEnvironmentEndpoint,
+  LoadTestsListOutboundNetworkDependenciesEndpointsOptionalParams,
   LoadTestsGetOptionalParams,
   LoadTestsGetResponse,
   LoadTestsCreateOrUpdateOptionalParams,
@@ -42,6 +44,17 @@ export interface LoadTests {
     options?: LoadTestsListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<LoadTestResource>;
   /**
+   * Lists the endpoints that agents may call as part of load testing.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param loadTestName Load Test name.
+   * @param options The options parameters.
+   */
+  listOutboundNetworkDependenciesEndpoints(
+    resourceGroupName: string,
+    loadTestName: string,
+    options?: LoadTestsListOutboundNetworkDependenciesEndpointsOptionalParams
+  ): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
+  /**
    * Get a LoadTest resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param loadTestName Load Test name.
@@ -59,7 +72,25 @@ export interface LoadTests {
    * @param loadTestResource LoadTest resource data
    * @param options The options parameters.
    */
-  createOrUpdate(
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    loadTestName: string,
+    loadTestResource: LoadTestResource,
+    options?: LoadTestsCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<LoadTestsCreateOrUpdateResponse>,
+      LoadTestsCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Create or update LoadTest resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param loadTestName Load Test name.
+   * @param loadTestResource LoadTest resource data
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     loadTestName: string,
     loadTestResource: LoadTestResource,
@@ -72,7 +103,25 @@ export interface LoadTests {
    * @param loadTestResourcePatchRequestBody LoadTest resource update data
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
+    resourceGroupName: string,
+    loadTestName: string,
+    loadTestResourcePatchRequestBody: LoadTestResourcePatchRequestBody,
+    options?: LoadTestsUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<LoadTestsUpdateResponse>,
+      LoadTestsUpdateResponse
+    >
+  >;
+  /**
+   * Update a loadtest resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param loadTestName Load Test name.
+   * @param loadTestResourcePatchRequestBody LoadTest resource update data
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
     resourceGroupName: string,
     loadTestName: string,
     loadTestResourcePatchRequestBody: LoadTestResourcePatchRequestBody,
