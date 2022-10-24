@@ -1,0 +1,484 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs?api-version=2022-10-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Content-Length": "266",
+        "Content-Type": "application/json",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "8d6ab139-96dc-485e-92e5-eb38d646f6f5",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+      },
+      "RequestBody": {
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "0",
+              "text": "Average price of sneaker is 120 EUR",
+              "language": "en"
+            },
+            {
+              "id": "1",
+              "text": "Bill Gates is 66 years old in 2022",
+              "language": "en"
+            }
+          ]
+        },
+        "tasks": [
+          {
+            "kind": "EntityRecognition",
+            "parameters": {
+              "modelVersion": "2022-10-01-preview"
+            }
+          }
+        ]
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "apim-request-id": "60676948-51a4-4237-93b1-3a10628dbf2b",
+        "Content-Length": "0",
+        "Date": "Mon, 24 Oct 2022 18:19:45 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/07a684c2-c176-4686-81d9-931b0813893e?api-version=2022-10-01-preview",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "147",
+        "x-http2-stream-id": "3",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/07a684c2-c176-4686-81d9-931b0813893e?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "9236e849-5ef9-49ba-972c-0bf585647e21",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "72c0d87f-7f58-4fdf-84dd-a47cd29f401f",
+        "Content-Length": "283",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 24 Oct 2022 18:19:45 GMT",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "18",
+        "x-http2-stream-id": "3",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "07a684c2-c176-4686-81d9-931b0813893e",
+        "lastUpdatedDateTime": "2022-10-24T18:19:46Z",
+        "createdDateTime": "2022-10-24T18:19:46Z",
+        "expirationDateTime": "2022-10-25T18:19:46Z",
+        "status": "notStarted",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/07a684c2-c176-4686-81d9-931b0813893e?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "50bbc650-ace6-4a71-9256-8e54c8e68ab2",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "e652fb65-0c54-472c-b5a2-cc36bfd3993c",
+        "Content-Length": "283",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 24 Oct 2022 18:19:45 GMT",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "15",
+        "x-http2-stream-id": "3",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "07a684c2-c176-4686-81d9-931b0813893e",
+        "lastUpdatedDateTime": "2022-10-24T18:19:46Z",
+        "createdDateTime": "2022-10-24T18:19:46Z",
+        "expirationDateTime": "2022-10-25T18:19:46Z",
+        "status": "notStarted",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/07a684c2-c176-4686-81d9-931b0813893e?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "87009e91-5b6b-47e4-807e-897b1af83f56",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "7ffc9753-b49b-44af-93ac-217d06f73280",
+        "Content-Length": "280",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 24 Oct 2022 18:19:48 GMT",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "17",
+        "x-http2-stream-id": "3",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "07a684c2-c176-4686-81d9-931b0813893e",
+        "lastUpdatedDateTime": "2022-10-24T18:19:47Z",
+        "createdDateTime": "2022-10-24T18:19:46Z",
+        "expirationDateTime": "2022-10-25T18:19:46Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/07a684c2-c176-4686-81d9-931b0813893e?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "558f3b99-b647-4d2a-accc-858866ff3b4d",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "2e9a585f-8703-45bf-80c3-104ff708c3d2",
+        "Content-Length": "1329",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 24 Oct 2022 18:19:50 GMT",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "162",
+        "x-http2-stream-id": "3",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "07a684c2-c176-4686-81d9-931b0813893e",
+        "lastUpdatedDateTime": "2022-10-24T18:19:49Z",
+        "createdDateTime": "2022-10-24T18:19:46Z",
+        "expirationDateTime": "2022-10-25T18:19:46Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "items": [
+            {
+              "kind": "EntityRecognitionLROResults",
+              "lastUpdateDateTime": "2022-10-24T18:19:49.1874774Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "entities": [
+                      {
+                        "text": "sneaker",
+                        "category": "Product",
+                        "offset": 17,
+                        "length": 7,
+                        "confidenceScore": 0.87
+                      },
+                      {
+                        "text": "120 EUR",
+                        "category": "Quantity",
+                        "subcategory": "Currency",
+                        "offset": 28,
+                        "length": 7,
+                        "confidenceScore": 1.0,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "CurrencyResolution",
+                            "unit": "Euro",
+                            "iso4217": "EUR",
+                            "value": 120.0
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "Bill Gates",
+                        "category": "Person",
+                        "offset": 0,
+                        "length": 10,
+                        "confidenceScore": 0.98
+                      },
+                      {
+                        "text": "66 years old",
+                        "category": "Quantity",
+                        "subcategory": "Age",
+                        "offset": 14,
+                        "length": 12,
+                        "confidenceScore": 0.96,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "AgeResolution",
+                            "unit": "Year",
+                            "value": 66.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "2022",
+                        "category": "DateTime",
+                        "subcategory": "DateRange",
+                        "offset": 30,
+                        "length": 4,
+                        "confidenceScore": 0.97,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "TemporalSpanResolution",
+                            "begin": "2022-01-01",
+                            "end": "2023-01-01"
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2022-10-01-preview"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/07a684c2-c176-4686-81d9-931b0813893e?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "31ed2d78-dc5e-4acf-bb8b-95eb9fe67589",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "3346bed9-58d0-4ea5-88f2-5294c2964539",
+        "Content-Length": "1329",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 24 Oct 2022 18:19:51 GMT",
+        "Server": "istio-envoy",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "99",
+        "x-http2-stream-id": "5",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "07a684c2-c176-4686-81d9-931b0813893e",
+        "lastUpdatedDateTime": "2022-10-24T18:19:49Z",
+        "createdDateTime": "2022-10-24T18:19:46Z",
+        "expirationDateTime": "2022-10-25T18:19:46Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "items": [
+            {
+              "kind": "EntityRecognitionLROResults",
+              "lastUpdateDateTime": "2022-10-24T18:19:49.1874774Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "entities": [
+                      {
+                        "text": "sneaker",
+                        "category": "Product",
+                        "offset": 17,
+                        "length": 7,
+                        "confidenceScore": 0.87
+                      },
+                      {
+                        "text": "120 EUR",
+                        "category": "Quantity",
+                        "subcategory": "Currency",
+                        "offset": 28,
+                        "length": 7,
+                        "confidenceScore": 1.0,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "CurrencyResolution",
+                            "unit": "Euro",
+                            "iso4217": "EUR",
+                            "value": 120.0
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "Bill Gates",
+                        "category": "Person",
+                        "offset": 0,
+                        "length": 10,
+                        "confidenceScore": 0.98
+                      },
+                      {
+                        "text": "66 years old",
+                        "category": "Quantity",
+                        "subcategory": "Age",
+                        "offset": 14,
+                        "length": 12,
+                        "confidenceScore": 0.96,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "AgeResolution",
+                            "unit": "Year",
+                            "value": 66.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "2022",
+                        "category": "DateTime",
+                        "subcategory": "DateRange",
+                        "offset": 30,
+                        "length": 4,
+                        "confidenceScore": 0.97,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "TemporalSpanResolution",
+                            "begin": "2022-01-01",
+                            "end": "2023-01-01"
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2022-10-01-preview"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

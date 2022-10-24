@@ -3,6 +3,7 @@
 
 import {
   AnalyzeBatchActionNames,
+  KnownDocumentType,
   KnownExtractiveSummarizationOrderingCriteria,
   KnownFhirVersion,
   KnownPiiEntityCategory,
@@ -42,6 +43,8 @@ import {
   expectation3,
   expectation30,
   expectation31,
+  expectation32,
+  expectation33,
   expectation4,
   expectation5,
   expectation6,
@@ -64,6 +67,8 @@ const FIXME2 = {
 
 // FIXME: add AAD
 const FIXME3: AuthMethod[] = ["APIKey"];
+
+const excludedFHIRProperties = ["reference", "id", "fullUrl", "value", "date", "period"];
 
 matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
@@ -114,6 +119,28 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
             );
 
             await assertActionResults(await poller.pollUntilDone(), expectation3);
+          });
+
+          it("entity recognition with resolution", async function () {
+            const docs = [
+              "Average price of sneaker is 120 EUR",
+              "Bill Gates is 66 years old in 2022",
+            ];
+            const poller = await client.beginAnalyzeBatch(
+              [
+                {
+                  kind: AnalyzeBatchActionNames.EntityRecognition,
+                  modelVersion: "2022-10-01-preview",
+                },
+              ],
+              docs,
+              "en",
+              {
+                updateIntervalInMs: pollingInterval,
+              }
+            );
+
+            await assertActionResults(await poller.pollUntilDone(), expectation33);
           });
 
           it("key phrase extraction", async function () {
@@ -299,7 +326,35 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
               }
             );
             await assertActionResults(await poller.pollUntilDone(), expectation25, {
-              excludedAdditionalProps: ["reference", "id", "fullUrl", "value", "date", "period"],
+              excludedAdditionalProps: excludedFHIRProperties,
+            });
+          });
+
+          it("healthcare with known documents type", async function () {
+            const docs = [
+              "The patient is a 54-year-old gentleman with a history of progressive angina over the past several months.",
+              "Prescribed 100mg ibuprofen, taken twice daily.",
+              "Patient does not suffer from high blood pressure.",
+            ];
+            const poller = await client.beginAnalyzeBatch(
+              [
+                {
+                  kind: AnalyzeBatchActionNames.Healthcare,
+                  fhirVersion: KnownFhirVersion["4.0.1"],
+                  documentType: KnownDocumentType.DischargeSummary,
+                },
+              ],
+              docs,
+              "en",
+              {
+                updateIntervalInMs: pollingInterval,
+              }
+            );
+            await poller.pollUntilDone();
+
+            const results = await poller.pollUntilDone();
+            await assertActionResults(results, expectation32, {
+              excludedAdditionalProps: excludedFHIRProperties,
             });
           });
 
