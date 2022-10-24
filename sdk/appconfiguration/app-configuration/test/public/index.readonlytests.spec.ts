@@ -38,6 +38,18 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     await recorder.stop();
   });
 
+  after(async function (this: Context) {
+    if (!isPlaybackMode()) {
+      client = createAppConfigurationClientForTests();
+      const settingsList = client.listConfigurationSettings({});
+
+      for await (const setting of settingsList) {
+        await client.setReadOnly({ key: setting.key, label: setting.label }, false);
+        await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
+      }
+    }
+  });
+  
   it("basic", async function () {
     let storedSetting = await client.getConfigurationSetting({
       key: testConfigSetting.key,

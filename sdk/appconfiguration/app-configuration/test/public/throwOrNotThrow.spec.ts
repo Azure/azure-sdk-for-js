@@ -9,7 +9,7 @@ import {
   startRecorder,
 } from "./utils/testHelpers";
 import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 
 // There's been discussion on other teams about what errors are thrown when. This
@@ -29,6 +29,18 @@ describe("Various error cases", () => {
   afterEach(async function () {
     await recorder.stop();
   });
+
+  after(async function (this: Context) {
+    if (!isPlaybackMode()) {
+      client = createAppConfigurationClientForTests();
+      const settingsList = client.listConfigurationSettings({});
+
+      for await (const setting of settingsList) {
+        await client.setReadOnly({ key: setting.key, label: setting.label }, false);
+        await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
+      }
+    }
+  })
 
   describe("throws", () => {
     let addedSetting: ConfigurationSetting;
