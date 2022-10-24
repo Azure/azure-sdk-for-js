@@ -122,7 +122,10 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
           });
 
           it("entity recognition with resolution", async function () {
-            const docs = ["Average price of sneaker is 120 EUR", "Bill Gates is 66 years old in 2022"];
+            const docs = [
+              "Average price of sneaker is 120 EUR",
+              "Bill Gates is 66 years old in 2022",
+            ];
             const poller = await client.beginAnalyzeBatch(
               [
                 {
