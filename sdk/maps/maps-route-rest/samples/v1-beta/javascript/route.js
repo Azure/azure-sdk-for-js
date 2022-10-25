@@ -40,12 +40,20 @@ async function main() {
   // const client = createMapsRouteClient(credential, mapsClientId);
 
   console.log(" --- Get route directions:");
+  /**
+   * Should provide at least two coordinates, origin and destination to the query.
+   */
   const getRouteDirectionsResult = await client.path("/route/directions/{format}", "json").get({
     queryParameters: {
       query: toColonDelimitedLatLonString([
-        [51.368752, -0.118332],
-        [41.385426, -0.128929],
+        // Origin
+        [47.644702, -122.130137],
+        // Destination
+        [47.61397, -122.3352],
       ]),
+      /**
+       * Could also provide additional conditions to the query.
+       */
       vehicleWidthInMeters: 2,
       vehicleHeightInMeters: 2,
       vehicleLoadType: "USHazmatClass1",
@@ -54,10 +62,26 @@ async function main() {
     },
   });
 
+  /**
+   * Handle the error when there's an exception
+   */
   if (isUnexpected(getRouteDirectionsResult)) {
     throw getRouteDirectionsResult.body.error;
   }
-  console.log(getRouteDirectionsResult.body);
+
+  getRouteDirectionsResult.body.routes.forEach(({ summary, legs }) => {
+    console.log(
+      `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`
+    );
+    legs.forEach(({ summary, points }, idx) => {
+      console.log(
+        `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${
+          summary.travelTimeInSeconds
+        } seconds. Followings are the first 10 points: `
+      );
+      console.table(points.slice(0, 10));
+    });
+  });
 
   console.log(" --- Get route directions with additional parameters:");
   const routeDirectionsWithParamResult = await client
@@ -113,7 +137,20 @@ async function main() {
   if (isUnexpected(routeDirectionsWithParamResult)) {
     throw routeDirectionsWithParamResult.body.error;
   }
-  console.log(routeDirectionsWithParamResult.body);
+
+  getRouteDirectionsResult.body.routes.forEach(({ summary, legs }) => {
+    console.log(
+      `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`
+    );
+    legs.forEach(({ summary, points }, idx) => {
+      console.log(
+        `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${
+          summary.travelTimeInSeconds
+        } seconds. Followings are the first 10 points: `
+      );
+      console.table(points.slice(0, 10));
+    });
+  });
 
   console.log(" --- Get route range:");
   const routeRangeResult = await client
@@ -123,7 +160,12 @@ async function main() {
   if (isUnexpected(routeRangeResult)) {
     throw routeRangeResult.body.error;
   }
-  console.log(routeRangeResult.body);
+
+  const {
+    reachableRange: { center, boundary },
+  } = routeRangeResult.body;
+  console.log(`For the center (${center.latitude}, ${center.longitude}), the reachable range is:`);
+  console.table(boundary);
 
   console.log(" --- Request route directions batch:");
   const routeDirectionBatchInitRes = await client
@@ -196,7 +238,15 @@ async function main() {
 
   const routeMatrixPoller = getLongRunningPoller(client, routeMatrixInitRes);
   const routeMatrixResult = await routeMatrixPoller.pollUntilDone();
-  console.log(routeMatrixResult.body.matrix);
+  const { summary, matrix } = routeMatrixResult.body;
+  console.log(
+    `${summary.successfulRoutes}/${summary.totalRoutes} routes are successfully calculated. Following is the detailed info:`
+  );
+  matrix.forEach((row) => {
+    row.forEach((cell) => {
+      cell.response && console.dir(cell.response.routeSummary);
+    });
+  });
 }
 
 main().catch((err) => {
