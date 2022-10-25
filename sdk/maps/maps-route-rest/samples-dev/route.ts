@@ -3,6 +3,7 @@
 
 /**
  * @summary Demonstrates the use of a MapsRouteClient to retrieve a setting value.
+ * @azsdk-weight 100
  */
 
 import { AzureKeyCredential } from "@azure/core-auth";

@@ -12,10 +12,11 @@ urlFragment: maps-route-javascript-beta
 
 These sample programs show how to use the JavaScript client libraries for Azure Maps Route in some common scenarios.
 
-| **File Name**                   | **Description**                                                        |
-| ------------------------------- | ---------------------------------------------------------------------- |
-| [batchRequest.js][batchrequest] | Demonstrates how to manipulate batch requests.                         |
-| [route.js][route]               | Demonstrates the use of a MapsRouteClient to retrieve a setting value. |
+| **File Name**             | **Description**                                                        |
+| ------------------------- | ---------------------------------------------------------------------- |
+| [route.js][route]         | Demonstrates the use of a MapsRouteClient to retrieve a setting value. |
+| [lro.js][lro]             | Demonstrates how to manipulate a long running request.                 |
+| [resumeLro.js][resumelro] | Demonstrates how to resume a long running request.                     |
 
 ## Prerequisites
 
@@ -44,21 +45,22 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node batchRequest.js
+node route.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env MAPS_SUBSCRIPTION_KEY="<maps subscription key>" node batchRequest.js
+npx cross-env MAPS_SUBSCRIPTION_KEY="<maps subscription key>" node route.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[batchrequest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-route-rest/samples/v1-beta/javascript/batchRequest.js
 [route]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-route-rest/samples/v1-beta/javascript/route.js
+[lro]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-route-rest/samples/v1-beta/javascript/lro.js
+[resumelro]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-route-rest/samples/v1-beta/javascript/resumeLro.js
 
 <!-- [apiref]: https://docs.microsoft.com/javascript/api/@azure/maps-route -->
 

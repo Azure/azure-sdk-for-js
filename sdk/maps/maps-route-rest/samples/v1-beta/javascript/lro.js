@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates how to manipulate batch requests.
+ * @summary Demonstrates how to manipulate a long running request.
  */
 
 const { AzureKeyCredential } = require("@azure/core-auth");
@@ -31,7 +31,7 @@ async function main() {
   // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
   // const client = new MapsRouteClient(credential, mapsClientId);
 
-  const routeDirectionRequests = createRouteDirectionsBatchRequest([
+  const request = createRouteDirectionsBatchRequest([
     {
       query: toColonDelimitedLatLonString([
         [47.639987, -122.128384],
@@ -42,9 +42,10 @@ async function main() {
       travelMode: "car",
       maxAlternatives: 5,
     },
+    // This is a failed example, the longitude is out of range.
     {
       query: toColonDelimitedLatLonString([
-        [47.620659, -122.348934],
+        [47.620659, -922.348934],
         [47.610101, -122.342015],
       ]),
       routeType: "eco",
@@ -61,38 +62,49 @@ async function main() {
     },
   ]);
 
-  const routeDirectionBatchInitRes1 = await client
-    .path("/route/directions/batch/{format}", "json")
-    .post({
-      body: routeDirectionRequests,
-    });
-
-  const routeDirectionsPoller1 = getLongRunningPoller(client, routeDirectionBatchInitRes1);
-  /* We can get a partial of the results first */
-  await routeDirectionsPoller1.poll();
-  /** And get the results we have right now */
-  const result1 = await routeDirectionsPoller1.getResult();
-  console.log(result1 && result1.body);
-  /** Or simply wait until the total request is done */
-  console.log(await (await routeDirectionsPoller1.pollUntilDone()).body);
-
-  /** We can also start it, then serialize it, and start with another poller */
-  const routeDirectionsInitRes2 = await client
-    .path("/route/directions/batch/{format}", "json")
-    .post({
-      body: routeDirectionRequests,
-    });
-  const routeDirectionsPoller2 = getLongRunningPoller(client, routeDirectionsInitRes2);
-  await routeDirectionsPoller2.poll();
-  const result2 = await routeDirectionsPoller2.getResult();
-  console.log(result2 && result2.body);
-  /** Serialized the current operation for future poller */
-  const serializedState = routeDirectionsPoller2.toString();
-  /** Use resume*Batch method to rehydrate the previous operation */
-  const rehydratedFuzzySearchPoller = getLongRunningPoller(client, routeDirectionsInitRes2, {
-    resumeFrom: serializedState,
+  const response = await client.path("/route/directions/batch/{format}", "json").post({
+    body: request,
   });
-  console.log(await (await rehydratedFuzzySearchPoller.pollUntilDone()).body);
+
+  const poller = getLongRunningPoller(client, response);
+  /* We can get a partial of the results first */
+  await poller.poll();
+  /** And get the results we have right now */
+  const partialResult = await poller.getResult();
+  while (!partialResult) {
+    console.log("Waiting for the result...");
+    await poller.poll();
+  }
+  logBatchResponse(partialResult);
+
+  /** Or simply wait until the total request is done */
+  const finalResult = await poller.pollUntilDone();
+  logBatchResponse(finalResult);
+}
+
+function logBatchResponse(result) {
+  const { summary, batchItems } = result.body;
+  console.log(`${summary.successfulRequests}/${summary.totalRequests} requests succeeded.`);
+  batchItems.forEach((item, index) => {
+    if (item.response.error) {
+      console.error(`Request ${index} failed with error: ${item.response.error.message}`);
+    } else {
+      console.log(`Request ${index} success!`);
+      item.response.routes.forEach(({ summary, legs }) => {
+        console.log(
+          `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`
+        );
+        legs.forEach(({ summary, points }, idx) => {
+          console.log(
+            `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${
+              summary.travelTimeInSeconds
+            } seconds. Followings are the first 10 points: `
+          );
+          console.table(points.slice(0, 10));
+        });
+      });
+    }
+  });
 }
 
 main().catch((e) => console.error(e));
