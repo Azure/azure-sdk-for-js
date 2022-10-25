@@ -179,7 +179,7 @@
     },
     "ACCOUNT_CONNECTION_STRING": {
       "type": "string",
-      "value": "[concat('DefaultEndpointsProtocol=https;storageAccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', parameters('storageEndpointSuffix'))]"
+      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', parameters('storageEndpointSuffix'))]"
     },
     "AZURE_TENANT_ID": {
       "type": "string",
