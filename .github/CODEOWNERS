@@ -43,6 +43,9 @@
 # PRLabel: %Batch
 /sdk/batch/ @dpwatrous @paterasMSFT @zfengms @deyaaeldeen
 
+# PRLabel: %Communication
+/sdk/communication/ @petrsvihlik @AikoBB @maximrytych-ms
+
 # PRLabel: %Communication - Identity
 /sdk/communication/communication-identity/ @petrsvihlik @AikoBB @maximrytych-ms @ostoliarova-msft
 
@@ -63,9 +66,6 @@
 
 # PRLabel: %Communication - Common
 /sdk/communication/communication-common/ @petrsvihlik @AikoBB @maximrytych-ms @ostoliarova-msft
-
-# PRLabel: %Communication
-/sdk/communication/communication/ @petrsvihlik @AikoBB @maximrytych-ms
 
 # PRLabel: %Container Registry
 /sdk/containerregistry/ @jeremymeng @timovv
