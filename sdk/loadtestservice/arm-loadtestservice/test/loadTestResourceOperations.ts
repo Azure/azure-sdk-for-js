@@ -8,33 +8,31 @@
 
 import {
   env,
-  record,
-  RecorderEnvironmentSetup,
-  Recorder
+  RecorderStartOptions ,
+  Recorder,
 } from "@azure-tools/test-recorder";
-import * as assert from "assert";
+import { assert } from "chai";
+import { Context } from "mocha";
 import { LoadTestClient } from "../src/loadTestClient";
-import { delay } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { LoadTestResource, LoadTestResourcePatchRequestBody } from "../src/models";
-const recorderEnvSetup: RecorderEnvironmentSetup = {
-  replaceableVariables: {
+import { 
+  LoadTestResource, 
+  LoadTestResourcePatchRequestBody, 
+  QuotaBucketRequest,
+  QuotaBucketRequestPropertiesDimensions } from "../src/models";
+
+const replaceableVariables: Record<string, string> = {
     AZURE_CLIENT_ID: "azure_client_id",
     AZURE_CLIENT_SECRET: "azure_client_secret",
     AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-    SUBSCRIPTION_ID: "azure_subscription_id"
-  },
-  customizationsOnRecordings: [
-    (recording: any): any =>
-      recording.replace(
-        /"access_token":"[^"]*"/g,
-        `"access_token":"access_token"`
-      )
-  ],
-  queryParametersToSkip: []
+    SUBSCRIPTION_ID: "00000000-0000-0000-0000-000000000000",
 };
 
-describe("Load Test Resource Operation", () => {
+const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback: replaceableVariables   
+};
+
+describe("Load Tests Operations", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: LoadTestClient;
@@ -43,28 +41,44 @@ describe("Load Test Resource Operation", () => {
   let loadTestResourceName: string;
   let loadTestResourceCreatePayload : LoadTestResource;
   let loadTestResourcePatchPayload : LoadTestResourcePatchRequestBody;
+  let quotaBucketRequestPayload : QuotaBucketRequest;
+  let quotaBucketRequestDimensions : QuotaBucketRequestPropertiesDimensions;
+  let quotaBucketName: string;
 
   before(function(){
+    // Load test resource create payload
     loadTestResourceCreatePayload = {
-      description: "New Load test resource from SDK tests.",
+      description: "New Load test resource from SDK.",
       location: "westus2",
-      tags: { team: "SDK Developers" },
+      tags: { team: "Azure Load Testing SDK" },
     };
 
+    // Load test resource patch payload
     loadTestResourcePatchPayload = {
       identity : {
         type : 'SystemAssigned'
       }
     };
-  })
-  beforeEach(async function() {
-    recorder = record(this, recorderEnvSetup);
+
+    // Quota bucket request payload
+    quotaBucketRequestDimensions = {
+      location: location,
+      subscriptionId: subscriptionId
+    };
+
+    // Set the global variables to be used in the tests
     subscriptionId = env.SUBSCRIPTION_ID || '';
-    location = "westus2";
-    resourceGroupName = "rg-sdktests";
-    loadTestResourceName = "sdk-malt-js-resource";
+    location = env.LOCATION || "westus2";
+    resourceGroupName = env.RESOURCE_GROUP || "js-sdk-test-rg";
+    loadTestResourceName = "sdk-malt-js-resource-"+Math.floor(Math.random() * 1000000);
+    quotaBucketName = "maxEngineInstancesPerTestRun";
+  })
+
+  beforeEach(async function(this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderOptions);
     const credential = createTestCredential();
-    client = new LoadTestClient(credential, subscriptionId);
+    client = new LoadTestClient(credential, subscriptionId, recorder.configureClientOptions({}));
   });
 
   afterEach(async function() {
@@ -73,54 +87,122 @@ describe("Load Test Resource Operation", () => {
 
 
   it("create resource", async function() {
-    
-    const result = await client.loadTests.createOrUpdate(
+    // Create a load test resource
+    const resource = await client.loadTests.beginCreateOrUpdateAndWait(
       resourceGroupName,
       loadTestResourceName,
       loadTestResourceCreatePayload
     );
-    
-    // Delay for 10 seconds to complete LRO
-    delay(10000);
-    assert.strictEqual(loadTestResourceName, result.name);
-    assert.strictEqual(location, result.location);
-    assert.strictEqual('None', result.identity?.type);
 
+    // Verify the response
+    assert.equal(resource.provisioningState, "Succeeded");
+    assert.equal(resource.name, loadTestResourceName);
+    assert.equal(resource.location, location);
+    assert.equal(resource.tags?.team, loadTestResourceCreatePayload.tags?.team);
+    assert.equal(resource.description, loadTestResourceCreatePayload.description);
+    assert.equal(resource.identity?.type, "None");
   });
 
   it("get resource", async function() {
-    const result = await client.loadTests.get(
+    // Get the load test resource
+    const resource = await client.loadTests.get(
       resourceGroupName,
       loadTestResourceName
     );
 
-    assert.strictEqual(loadTestResourceName, result.name);
-    assert.strictEqual(location, result.location);
-    assert.strictEqual('None', result.identity?.type);
+    // Verify the response
+    assert.equal(resource.provisioningState, "Succeeded");
+    assert.equal(resource.name, loadTestResourceName);
+    assert.equal(resource.location, location);
+    assert.equal(resource.tags?.team, loadTestResourceCreatePayload.tags?.team);
+    assert.equal(resource.description, loadTestResourceCreatePayload.description);
+    assert.equal(resource.identity?.type, "None");
   });
 
   it("patch resource", async function() {
-    
-    const result = await client.loadTests.update(
+    // Patch the load test resource
+    const result = await client.loadTests.beginUpdateAndWait(
       resourceGroupName,
       loadTestResourceName,
       loadTestResourcePatchPayload
     );
     
-    // Delay for 10 seconds to complete LRO
-    delay(10000);
-    assert.strictEqual(loadTestResourceName, result.name);
-    assert.strictEqual(location, result.location);
-    assert.strictEqual(loadTestResourcePatchPayload.identity?.type, result.identity?.type);
+    // Get the load test resource
+    const patchedResource = await client.loadTests.get(
+      resourceGroupName,
+      loadTestResourceName
+    );
 
+    // Verify the response
+    assert.equal(patchedResource.provisioningState, "Succeeded");
+    assert.equal(patchedResource.name, loadTestResourceName);
+    assert.equal(patchedResource.location, location);
+    assert.equal(patchedResource.tags?.team, loadTestResourceCreatePayload.tags?.team);
+    assert.equal(patchedResource.description, loadTestResourceCreatePayload.description);
+    assert.equal(patchedResource.identity?.type, loadTestResourcePatchPayload.identity?.type);
   });
   
   it("delete resource", async function() {
+    // Delete the load test resource
     const result = await client.loadTests.beginDelete(
       resourceGroupName,
       loadTestResourceName
     );
-    delay(10000);
   });
 
+  
+  it("list quota buckets", async function() {
+    // Get the quota bucket
+    const result = client.quotas.list(location);
+
+    // Verify the response
+    for await (const quotaBucket of result) {
+      assert.isNotNull(quotaBucket.name);
+      assert.isNotNull(quotaBucket.id);
+      assert.isNotNull(quotaBucket.type);
+      assert.isNotNull(quotaBucket.limit);
+      assert.isNotNull(quotaBucket.usage);
+    }
+  });
+
+  it("get quota bucket", async function() {
+    // Get the quota bucket
+    const result = await client.quotas.get(location, quotaBucketName);
+
+    // Verify the response
+    assert.equal(result.name, quotaBucketName);
+    assert.isNotNull(result.id);
+    assert.isNotNull(result.type);
+    assert.isNotNull(result.limit);
+    assert.isNotNull(result.usage);
+  });
+
+  it("check quota bucket availability", async function() {
+    // Get the quota bucket
+    const result = await client.quotas.get(location, quotaBucketName);
+
+    // Verify the response
+    assert.equal(result.name, quotaBucketName);
+    assert.isNotNull(result.id);
+    assert.isNotNull(result.type);
+    assert.isNotNull(result.limit);
+    assert.isNotNull(result.usage);
+
+    // Quota bucket check availability request payload
+    quotaBucketRequestPayload = {
+      currentQuota : result.limit,
+      currentUsage : result.usage,
+      newQuota : result.limit,
+      dimensions : quotaBucketRequestDimensions      
+    };
+
+    // Check the quota bucket availability
+    const availability = await client.quotas.checkAvailability(location, quotaBucketName, quotaBucketRequestPayload);
+
+    // Verify the response
+    assert.equal(availability.name, quotaBucketName);
+    assert.isNotNull(availability.id);
+    assert.isNotNull(availability.type);
+    assert.isBoolean(availability.isAvailable);
+  });
 });

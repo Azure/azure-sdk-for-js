@@ -1,0 +1,75 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/js-sdk-test-rg/providers/Microsoft.LoadTestService/loadTests/sdk-malt-js-resource-614767?api-version=2022-12-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-loadtestservice/1.0.0 core-rest-pipeline/1.10.0 Node/v18.7.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "e8eb1bae-8370-4ae5-a50f-5bb7aaddfd90"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/WESTUS2/operationStatuses/f5378438-5d1c-484a-8714-96852403801e*A11077D76DD78A949C517D534A9226F3B715166BD3C45FAF39C8F5504F5EA891?api-version=2022-12-01",
+        "Cache-Control": "no-cache",
+        "Content-Length": "4",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 25 Oct 2022 08:02:43 GMT",
+        "ETag": "\u0022a9006b64-0000-0800-0000-635798230000\u0022",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/WESTUS2/operationStatuses/f5378438-5d1c-484a-8714-96852403801e*A11077D76DD78A949C517D534A9226F3B715166BD3C45FAF39C8F5504F5EA891?api-version=2022-12-01",
+        "mise-correlation-id": "dc967e97-be1d-4f76-98b4-9919da8e2f72",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "efe8af5b-36cf-4c2a-814b-6e8c248c96a0",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14997",
+        "x-ms-request-id": "f5378438-5d1c-484a-8714-96852403801e",
+        "x-ms-routing-request-id": "SOUTHINDIA:20221025T080243Z:efe8af5b-36cf-4c2a-814b-6e8c248c96a0"
+      },
+      "ResponseBody": "null"
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/WESTUS2/operationStatuses/f5378438-5d1c-484a-8714-96852403801e*A11077D76DD78A949C517D534A9226F3B715166BD3C45FAF39C8F5504F5EA891?api-version=2022-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-loadtestservice/1.0.0 core-rest-pipeline/1.10.0 Node/v18.7.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "032b733e-cb2a-44c1-a49c-e6910ada655a"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "579",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 25 Oct 2022 08:02:43 GMT",
+        "ETag": "\u0022cd00e7c6-0000-0800-0000-635798230000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "c148bc34-5549-4b3f-9e9f-fedce73850c1",
+        "x-ms-ratelimit-remaining-subscription-reads": "11973",
+        "x-ms-request-id": "c99e0dce-c32e-4bdd-9871-a5698a8c3704",
+        "x-ms-routing-request-id": "SOUTHINDIA:20221025T080243Z:c148bc34-5549-4b3f-9e9f-fedce73850c1"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/WESTUS2/operationStatuses/f5378438-5d1c-484a-8714-96852403801e*A11077D76DD78A949C517D534A9226F3B715166BD3C45FAF39C8F5504F5EA891",
+        "name": "f5378438-5d1c-484a-8714-96852403801e*A11077D76DD78A949C517D534A9226F3B715166BD3C45FAF39C8F5504F5EA891",
+        "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/js-sdk-test-rg/providers/Microsoft.LoadTestService/loadTests/sdk-malt-js-resource-614767",
+        "status": "Deleting",
+        "startTime": "2022-10-25T08:02:43.3272168Z"
+      }
+    }
+  ],
+  "Variables": {}
+}
