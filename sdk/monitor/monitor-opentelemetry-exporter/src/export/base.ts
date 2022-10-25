@@ -155,7 +155,7 @@ export abstract class AzureMonitorBaseExporter {
           if (this._isStatsbeatExporter) {
             this._incrementStatsbeatFailure();
           } else {
-              this._statsbeatMetrics?.countFailure(endTime - startTime, statusCode);
+            this._statsbeatMetrics?.countFailure(endTime - startTime, statusCode);
           }
           return {
             code: ExportResultCode.FAILED,
