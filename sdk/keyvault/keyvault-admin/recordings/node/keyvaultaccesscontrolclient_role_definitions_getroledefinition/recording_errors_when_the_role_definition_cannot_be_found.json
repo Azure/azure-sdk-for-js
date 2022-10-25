@@ -1,4 +1,66 @@
 {
-  "Entries": [],
-  "Variables": {}
+  "Entries": [
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/providers/Microsoft.Authorization/roleDefinitions/does_not_exist?api-version=7.3",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-keyvault-admin/4.3.1 core-rest-pipeline/1.9.3 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "51a43188-6a40-4646-b019-6a104ebef4b8"
+      },
+      "RequestBody": null,
+      "StatusCode": 401,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "2",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "WWW-Authenticate": "Bearer authorization=\u0022https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012\u0022, resource=\u0022https://managedhsm.azure.net\u0022",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-build-version": "1.0.20221011-1-b82851ba-develop",
+        "x-ms-request-id": "58b460d8-53ef-11ed-9a57-0022488d29c2",
+        "x-ms-server-latency": "1"
+      },
+      "ResponseBody": "OK"
+    },
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/providers/Microsoft.Authorization/roleDefinitions/does_not_exist?api-version=7.3",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-keyvault-admin/4.3.1 core-rest-pipeline/1.9.3 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "51a43188-6a40-4646-b019-6a104ebef4b8"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "143",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-build-version": "1.0.20221011-1-b82851ba-develop",
+        "x-ms-request-id": "58ffeb0c-53ef-11ed-9a57-0022488d29c2",
+        "x-ms-server-latency": "2"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "RoleDefinitionNotFound",
+          "message": "Requested role definition not found (Activity ID: 58ffeb0c-53ef-11ed-9a57-0022488d29c2)"
+        }
+      }
+    }
+  ],
+  "Variables": {
+    "suffix": "suffix-901369"
+  }
 }

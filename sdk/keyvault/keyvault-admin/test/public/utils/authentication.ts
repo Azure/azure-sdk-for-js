@@ -8,7 +8,6 @@ import { v4 as uuidv4 } from "uuid";
 import { Context } from "mocha";
 
 import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "../../../src";
-import { uniqueString } from "./recorder";
 import { getEnvironmentVariable, getServiceVersion } from "./common";
 
 export async function authenticate(
@@ -17,11 +16,11 @@ export async function authenticate(
 ): Promise<any> {
   const recorder = new Recorder(that.currentTest);
   let generatedUUIDs = 0;
+
   function generateFakeUUID(): string {
     return recorder.variable(`uuid-${++generatedUUIDs}`, uuidv4());
   }
 
-  const suffix = uniqueString();
   const recorderStartOptions: RecorderStartOptions = {
     envSetupForPlayback: {
       AZURE_MANAGEDHSM_URI: "https://azure_managedhsm.managedhsm.azure.net/",
@@ -46,12 +45,17 @@ export async function authenticate(
           regex: true,
           value: `keyvault_name.managedhsm.azure.net`,
         },
-        ...(suffix === "" ? [] : [{ target: `"${suffix}"`, value: "" }]),
+        {
+          target: `[a-z-]+\.blob\.core\.windows\.net`,
+          regex: true,
+          value: `uri.blob.core.windows.net`,
+        },
       ],
     },
   };
 
   await recorder.start(recorderStartOptions);
+  const suffix = recorder.variable("suffix", `suffix-${Math.floor(Math.random() * 1000000)}`);
 
   const credential = createTestCredential({
     authorityHost: env.AZURE_AUTHORITY_HOST, // undefined by default is expected
@@ -59,11 +63,24 @@ export async function authenticate(
 
   const keyVaultHsmUrl = getEnvironmentVariable("AZURE_MANAGEDHSM_URI");
 
-  const accessControlClient = new KeyVaultAccessControlClient(keyVaultHsmUrl, credential, {
-    serviceVersion,
-  });
-  const keyClient = new KeyClient(keyVaultHsmUrl, credential, { serviceVersion });
-  const backupClient = new KeyVaultBackupClient(keyVaultHsmUrl, credential, { serviceVersion });
+  const accessControlClient = new KeyVaultAccessControlClient(
+    keyVaultHsmUrl,
+    credential,
+    recorder.configureClientOptions({
+      serviceVersion,
+      disableChallengeResourceVerification: true,
+    })
+  );
+  const keyClient = new KeyClient(
+    keyVaultHsmUrl,
+    credential,
+    recorder.configureClientOptions({ serviceVersion, disableChallengeResourceVerification: true })
+  );
+  const backupClient = new KeyVaultBackupClient(
+    keyVaultHsmUrl,
+    credential,
+    recorder.configureClientOptions({ serviceVersion, disableChallengeResourceVerification: true })
+  );
 
   return { recorder, accessControlClient, backupClient, keyClient, suffix, generateFakeUUID };
 }

@@ -66,7 +66,13 @@ export function getRequestUrl(
 function replaceAll(input: string, replacements: Map<string, string>): string {
   let result = input;
   for (const [searchValue, replaceValue] of replacements) {
-    result = result.split(searchValue).join(replaceValue);
+    const split = result.split(searchValue);
+    if (split[0] === "/" && replaceValue === "/") {
+      split.shift();
+      result = split.join(replaceValue);
+    } else {
+      result = result.split(searchValue).join(replaceValue);
+    }
   }
   return result;
 }
