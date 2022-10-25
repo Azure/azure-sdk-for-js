@@ -28,6 +28,36 @@ const replaceableVariables: { [k: string]: string } = {
   COSMOS_SECONDARY_LOCATION: "secondary",
 };
 
+const generalSanitizers = [];
+
+if (env.COSMOS_CONNECTION_STRING) {
+  generalSanitizers.push({
+    target: env.COSMOS_CONNECTION_STRING.match(/TableEndpoint=.*:\/\/(.*?)\./)![1],
+    value: mockAccountName,
+  });
+}
+
+if (env.SAS_CONNECTION_STRING) {
+  generalSanitizers.push({
+    target: env.SAS_CONNECTION_STRING.match(/TableEndpoint=.*:\/\/(.*?)\./)![1],
+    value: mockAccountName,
+  });
+}
+
+if (env.COSMOS_PRIMARY_LOCATION) {
+  generalSanitizers.push({
+    target: env.COSMOS_PRIMARY_LOCATION.toLowerCase().replace(/\s+/g, ""),
+    value: "primary",
+  });
+}
+
+if (env.COSMOS_SECONDARY_LOCATION) {
+  generalSanitizers.push({
+    target: env.COSMOS_SECONDARY_LOCATION.toLowerCase().replace(/\s+/g, ""),
+    value: "secondary",
+  });
+}
+
 const sanitizerOptions: SanitizerOptions = {
   removeHeaderSanitizer: { headersForRemoval: ["Connection", "Accept-Charset"] },
   connectionStringSanitizers: [
@@ -36,24 +66,7 @@ const sanitizerOptions: SanitizerOptions = {
       fakeConnString: fakeConnString,
     },
   ],
-  generalSanitizers: [
-    {
-      target: env.COSMOS_CONNECTION_STRING!.match(/TableEndpoint=.*:\/\/(.*?)\./)![1],
-      value: mockAccountName,
-    },
-    {
-      target: env.SAS_CONNECTION_STRING!.match(/TableEndpoint=.*:\/\/(.*?)\./)![1],
-      value: mockAccountName,
-    },
-    {
-      target: env.COSMOS_PRIMARY_LOCATION!.toLowerCase().replace(/\s+/g, ""),
-      value: "primary",
-    },
-    {
-      target: env.COSMOS_SECONDARY_LOCATION!.toLowerCase().replace(/\s+/g, ""),
-      value: "secondary",
-    },
-  ],
+  generalSanitizers,
 };
 
 const recorderOptions: RecorderStartOptions = {
