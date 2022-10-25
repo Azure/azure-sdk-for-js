@@ -124,13 +124,13 @@ export abstract class AzureMonitorBaseExporter {
           this._retryTimer.unref();
         }
         // If we are not exportings statsbeat and statsbeat is not disabled -- count success
-        if (!this._isStatsbeatExporter && !this._isStatsbeatDisabled) {
+        if (!this._isStatsbeatExporter) {
           this._statsbeatMetrics?.countSuccess(endTime - startTime);
         }
         return { code: ExportResultCode.SUCCESS };
       } else if (statusCode && isRetriable(statusCode)) {
         // Failed -- persist failed data
-        if (statusCode === 429 && !this._isStatsbeatExporter && !this._isStatsbeatDisabled) {
+        if (!this._isStatsbeatExporter && statusCode === 429) {
           this._statsbeatMetrics?.countThrottle(statusCode);
         }
         if (result) {
@@ -145,7 +145,7 @@ export abstract class AzureMonitorBaseExporter {
             });
           }
           if (filteredEnvelopes.length > 0) {
-            if (!this._isStatsbeatExporter && !this._isStatsbeatDisabled) {
+            if (!this._isStatsbeatExporter) {
               this._statsbeatMetrics?.countRetry(statusCode);
             }
             // calls resultCallback(ExportResult) based on result of persister.push
@@ -155,9 +155,7 @@ export abstract class AzureMonitorBaseExporter {
           if (this._isStatsbeatExporter) {
             this._incrementStatsbeatFailure();
           } else {
-            if (!this._isStatsbeatDisabled) {
               this._statsbeatMetrics?.countFailure(endTime - startTime, statusCode);
-            }
           }
           return {
             code: ExportResultCode.FAILED,
@@ -171,12 +169,11 @@ export abstract class AzureMonitorBaseExporter {
         }
       } else {
         // Failed -- not retriable
-        if (!this._isStatsbeatDisabled) {
+        if (!this._isStatsbeatExporter) {
           if (statusCode) {
             this._statsbeatMetrics?.countFailure(endTime - startTime, statusCode);
           }
-        }
-        if (this._isStatsbeatExporter) {
+        } else {
           this._incrementStatsbeatFailure();
         }
         return {
@@ -205,26 +202,22 @@ export abstract class AzureMonitorBaseExporter {
           }
         } else {
           let redirectError = new Error("Circular redirect");
-          if (this._isStatsbeatExporter) {
-            this._incrementStatsbeatFailure();
+          if (!this._isStatsbeatExporter) {
+            this._statsbeatMetrics?.countException(redirectError);
           } else {
-            if (!this._isStatsbeatDisabled) {
-              this._statsbeatMetrics?.countException(redirectError);
-            }
+            this._incrementStatsbeatFailure();
           }
           return { code: ExportResultCode.FAILED, error: redirectError };
         }
       } else if (restError.statusCode && isRetriable(restError.statusCode)) {
-        if (!this._isStatsbeatExporter && !this._isStatsbeatDisabled) {
+        if (!this._isStatsbeatExporter) {
           this._statsbeatMetrics?.countRetry(restError.statusCode);
         }
         return await this._persist(envelopes);
       }
       if (this._isNetworkError(restError)) {
-        if (!this._isStatsbeatExporter) {
-          if (restError.statusCode && !this._isStatsbeatDisabled) {
-            this._statsbeatMetrics?.countRetry(restError.statusCode);
-          }
+        if (!this._isStatsbeatExporter && restError.statusCode) {
+          this._statsbeatMetrics?.countRetry(restError.statusCode);
         }
         diag.error(
           "Retrying due to transient client side error. Error message:",
@@ -233,7 +226,7 @@ export abstract class AzureMonitorBaseExporter {
         return await this._persist(envelopes);
       }
 
-      if (!this._isStatsbeatExporter && !this._isStatsbeatDisabled) {
+      if (!this._isStatsbeatExporter) {
         this._statsbeatMetrics?.countException(restError);
       }
       diag.error(
@@ -248,8 +241,9 @@ export abstract class AzureMonitorBaseExporter {
   private _incrementStatsbeatFailure() {
     this._statsbeatFailureCount++;
     if (this._statsbeatFailureCount > MAX_STATSBEAT_FAILURES) {
-      this._isStatsbeatDisabled = true;
+      this._isStatsbeatExporter = false;
       this._statsbeatMetrics?.shutdown();
+      this._statsbeatMetrics = undefined;
       this._statsbeatFailureCount = 0;
     }
   }
