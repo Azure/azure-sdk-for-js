@@ -8,6 +8,8 @@
 
 ### Breaking Changes
 
+- Update `SearchIndexerDataNoneIdentity.odatatype`. [#23495](https://github.com/Azure/azure-sdk-for-js/pull/23495)
+
 ### Bugs Fixed
 
 ### Other Changes
