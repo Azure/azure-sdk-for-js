@@ -38,6 +38,8 @@ const responseMap: Record<string, string[]> = {
   "POST /multivariate/models/{modelId}:detect-last": ["200"],
 };
 
+const urlRegex = /(.*):(.*)/gm;
+
 export function isUnexpected(
   response: DetectUnivariateEntireSeries200Response | DetectUnivariateEntireSeriesDefaultResponse
 ): response is DetectUnivariateEntireSeriesDefaultResponse;
@@ -118,8 +120,8 @@ export function isUnexpected(
 }
 
 function geParametrizedPathSuccess(method: string, path: string): string[] {
-  const pathParts = path.split("/");
-
+  // trucate the path with anomalydetector/{apiVersion} removed
+  const pathParts = path.split("/").slice(3);
   // Iterate the responseMap to find a match
   for (const [key, value] of Object.entries(responseMap)) {
     // Extracting the path from the map key which is in format
@@ -127,13 +129,25 @@ function geParametrizedPathSuccess(method: string, path: string): string[] {
     if (!key.startsWith(method)) {
       continue;
     }
+
     const candidatePath = getPathFromMapKey(key);
     // Get each part of the url path
-    const candidateParts = candidatePath.split("/");
+    // there is always a empty string at index 0
+    const candidateParts = candidatePath.split("/").slice(1);
+    // check if path is equal
+    if (candidateParts.length !== pathParts.length) continue;
     // track if we have found a match to return the values found.
     let found = true;
     for (let i = candidateParts.length - 1; i >= 0; i--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.endsWith("}")) {
+      if (candidateParts[i]?.startsWith("{") || candidateParts[i]?.endsWith("}")) {
+        // considering this pattern {modelId}:detect-batch, changed && => ||
+        // logic to handle {modelId}:detect-batch
+        if (urlRegex.test(pathParts[i]) && urlRegex.test(candidateParts[i])) {
+          const res =
+            /(.*):(.*)/gm.exec(pathParts[i])?.[1] === /(.*):(.*)/gm.exec(candidateParts[i])?.[1];
+          if (res === false) break;
+        }
+
         // If the current part of the candidate is a "template" part
         // it is a match with the actual path part on hand
         // skip as the parameterized part can match anything

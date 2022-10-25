@@ -73,7 +73,7 @@ export async function main() {
     .post(createMultivariateModelParameters);
 
   if (isUnexpected(createModelResult)) {
-    throw createModelResult.body;
+    throw createModelResult;
   }
 
   console.log(createModelResult);
@@ -82,7 +82,7 @@ export async function main() {
   const modelId = createModelResult.body.modelId;
   let modelResponse = await client.path("/multivariate/models/{modelId}", modelId).get();
   if (isUnexpected(modelResponse)) {
-    throw modelResponse.body;
+    throw modelResponse;
   }
 
   console.log(modelResponse);
