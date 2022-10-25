@@ -3,21 +3,21 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
+import * as fs from "fs";
+import * as jwt from "jsonwebtoken";
+import * as net from "net";
+import * as path from "path";
+import * as tls from "tls";
+import * as uuid from "uuid";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
+import { ClientAssertionCredential } from "../../../src";
+import { ConfidentialClientApplication } from "@azure/msal-node";
+import { Context } from "mocha";
+import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
+import Sinon from "sinon";
 import { assert } from "chai";
 import { env } from "@azure-tools/test-recorder";
-import { ClientAssertionCredential } from "../../../src";
-import { Context } from "mocha";
-import Sinon from "sinon";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
-import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
-import { ConfidentialClientApplication } from "@azure/msal-node";
-import * as tls from "tls";
-import * as net from "net";
-import * as fs from "fs";
-import * as uuid from "uuid";
-import * as jwt from "jsonwebtoken";
 import ms from "ms";
-import * as path from "path";
 
 describe("ClientAssertionCredential (internal)", function () {
   let cleanup: MsalTestCleanup;

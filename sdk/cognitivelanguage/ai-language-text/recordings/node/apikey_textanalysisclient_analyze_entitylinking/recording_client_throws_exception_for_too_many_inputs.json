@@ -10,8 +10,8 @@
         "Content-Length": "770",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "d44e51c0-2eb3-4770-8a6d-4193b10cdceb"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "24c86a7a-55c9-44e0-ac97-3db84f6f25b7"
       },
       "RequestBody": {
         "kind": "EntityRecognition",
@@ -53,13 +53,16 @@
       },
       "StatusCode": 400,
       "ResponseHeaders": {
-        "apim-request-id": "d7a268f1-fed1-4b19-a382-1f9b56ce913c",
+        "apim-request-id": "979e2cef-6669-4c07-b412-a1f3d135764f",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 14 Oct 2022 02:24:11 GMT",
+        "Date": "Tue, 25 Oct 2022 21:27:12 GMT",
+        "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "10"
+        "x-envoy-upstream-service-time": "17",
+        "x-http2-stream-id": "5",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
         "error": {

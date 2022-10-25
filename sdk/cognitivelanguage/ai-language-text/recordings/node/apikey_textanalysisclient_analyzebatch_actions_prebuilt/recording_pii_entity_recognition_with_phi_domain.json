@@ -10,8 +10,8 @@
         "Content-Length": "439",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "db3eaf22-8594-4b96-a21e-726e54567653"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "79f161d0-c3ce-4815-97c8-6a64f25fd9e4"
       },
       "RequestBody": {
         "analysisInput": {
@@ -40,44 +40,50 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "ccfa3e21-da16-477a-a71d-976946bfc296",
+        "apim-request-id": "a5d77623-66fa-496d-9cf1-84252513ba67",
         "Content-Length": "0",
-        "Date": "Fri, 14 Oct 2022 02:24:49 GMT",
-        "operation-location": "https://endpoint/language/analyze-text/jobs/c83e4c87-0550-452f-a62b-1fd2d017b98e?api-version=2022-10-01-preview",
+        "Date": "Tue, 25 Oct 2022 21:27:50 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/861a0acc-fe96-4105-b4eb-7a447a644c0e?api-version=2022-10-01-preview",
+        "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "154"
+        "x-envoy-upstream-service-time": "175",
+        "x-http2-stream-id": "15",
+        "x-ms-region": "East US"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/c83e4c87-0550-452f-a62b-1fd2d017b98e?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/861a0acc-fe96-4105-b4eb-7a447a644c0e?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "201931f0-bea3-4f68-b22f-21aaa10e9ddf"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "4bfa3bbe-2189-4b49-8396-3ee6f630cb1a"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "b52c0694-0148-4ab9-a529-b1938ff743fa",
-        "Content-Length": "279",
+        "apim-request-id": "c4c81e99-1769-4d56-9986-aa2633a73340",
+        "Content-Length": "283",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 14 Oct 2022 02:24:49 GMT",
+        "Date": "Tue, 25 Oct 2022 21:27:51 GMT",
+        "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "14"
+        "x-envoy-upstream-service-time": "9",
+        "x-http2-stream-id": "15",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "c83e4c87-0550-452f-a62b-1fd2d017b98e",
-        "lastUpdateDateTime": "2022-10-14T02:24:49Z",
-        "createdDateTime": "2022-10-14T02:24:49Z",
-        "expirationDateTime": "2022-10-15T02:24:49Z",
-        "status": "running",
+        "jobId": "861a0acc-fe96-4105-b4eb-7a447a644c0e",
+        "lastUpdatedDateTime": "2022-10-25T21:27:51Z",
+        "createdDateTime": "2022-10-25T21:27:51Z",
+        "expirationDateTime": "2022-10-26T21:27:51Z",
+        "status": "notStarted",
         "errors": [],
         "tasks": {
           "completed": 0,
@@ -89,33 +95,36 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/c83e4c87-0550-452f-a62b-1fd2d017b98e?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/861a0acc-fe96-4105-b4eb-7a447a644c0e?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "930d06d1-eef7-480a-918a-e4521adad4c4"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "5156fa11-f7ed-4a1f-9d6a-9d378d65b412"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "840c3b21-eb6b-4e3b-9d0c-0f5e3abff8a8",
-        "Content-Length": "279",
+        "apim-request-id": "84986186-52b9-4e11-a5ad-fddb9e353181",
+        "Content-Length": "283",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 14 Oct 2022 02:24:50 GMT",
+        "Date": "Tue, 25 Oct 2022 21:27:50 GMT",
+        "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "9"
+        "x-envoy-upstream-service-time": "18",
+        "x-http2-stream-id": "15",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "c83e4c87-0550-452f-a62b-1fd2d017b98e",
-        "lastUpdateDateTime": "2022-10-14T02:24:49Z",
-        "createdDateTime": "2022-10-14T02:24:49Z",
-        "expirationDateTime": "2022-10-15T02:24:49Z",
-        "status": "running",
+        "jobId": "861a0acc-fe96-4105-b4eb-7a447a644c0e",
+        "lastUpdatedDateTime": "2022-10-25T21:27:51Z",
+        "createdDateTime": "2022-10-25T21:27:51Z",
+        "expirationDateTime": "2022-10-26T21:27:51Z",
+        "status": "notStarted",
         "errors": [],
         "tasks": {
           "completed": 0,
@@ -127,32 +136,35 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/c83e4c87-0550-452f-a62b-1fd2d017b98e?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/861a0acc-fe96-4105-b4eb-7a447a644c0e?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "99fdb9b3-1282-428b-9d58-22d240d3c748"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "b3f41581-a75e-46c0-b149-04afc6a084fe"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "ad76932f-b54d-4927-8a77-9d66c4e744bf",
-        "Content-Length": "1495",
+        "apim-request-id": "11ab78bd-d171-47c3-af01-c10f9fea2ac6",
+        "Content-Length": "1496",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 14 Oct 2022 02:24:52 GMT",
+        "Date": "Tue, 25 Oct 2022 21:27:52 GMT",
+        "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "50"
+        "x-envoy-upstream-service-time": "69",
+        "x-http2-stream-id": "17",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "c83e4c87-0550-452f-a62b-1fd2d017b98e",
-        "lastUpdateDateTime": "2022-10-14T02:24:52Z",
-        "createdDateTime": "2022-10-14T02:24:49Z",
-        "expirationDateTime": "2022-10-15T02:24:49Z",
+        "jobId": "861a0acc-fe96-4105-b4eb-7a447a644c0e",
+        "lastUpdatedDateTime": "2022-10-25T21:27:53Z",
+        "createdDateTime": "2022-10-25T21:27:51Z",
+        "expirationDateTime": "2022-10-26T21:27:51Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -163,7 +175,7 @@
           "items": [
             {
               "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-10-14T02:24:52.0974472Z",
+              "lastUpdateDateTime": "2022-10-25T21:27:53.0722715Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -240,32 +252,35 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/c83e4c87-0550-452f-a62b-1fd2d017b98e?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/861a0acc-fe96-4105-b4eb-7a447a644c0e?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "8472d344-5d9b-498f-92e6-565a0b93113b"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "2284ed91-28d1-4b3a-afe4-c5d050a17d63"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "45e5dd54-6f8c-4430-950f-63f95916ccaa",
-        "Content-Length": "1495",
+        "apim-request-id": "e9a156f4-83f3-42ba-b16c-7cc83d5e82b6",
+        "Content-Length": "1496",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 14 Oct 2022 02:24:52 GMT",
+        "Date": "Tue, 25 Oct 2022 21:27:53 GMT",
+        "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "40"
+        "x-envoy-upstream-service-time": "44",
+        "x-http2-stream-id": "15",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "c83e4c87-0550-452f-a62b-1fd2d017b98e",
-        "lastUpdateDateTime": "2022-10-14T02:24:52Z",
-        "createdDateTime": "2022-10-14T02:24:49Z",
-        "expirationDateTime": "2022-10-15T02:24:49Z",
+        "jobId": "861a0acc-fe96-4105-b4eb-7a447a644c0e",
+        "lastUpdatedDateTime": "2022-10-25T21:27:53Z",
+        "createdDateTime": "2022-10-25T21:27:51Z",
+        "expirationDateTime": "2022-10-26T21:27:51Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -276,7 +291,7 @@
           "items": [
             {
               "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-10-14T02:24:52.0974472Z",
+              "lastUpdateDateTime": "2022-10-25T21:27:53.0722715Z",
               "status": "succeeded",
               "results": {
                 "documents": [

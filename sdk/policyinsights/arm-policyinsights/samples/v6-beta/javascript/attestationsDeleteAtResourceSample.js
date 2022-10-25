@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Deletes an existing attestation at individual resource scope.
  *
  * @summary Deletes an existing attestation at individual resource scope.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-01-01/examples/Attestations_DeleteResourceScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2022-09-01/examples/Attestations_DeleteResourceScope.json
  */
 async function deleteAttestationAtIndividualResourceScope() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

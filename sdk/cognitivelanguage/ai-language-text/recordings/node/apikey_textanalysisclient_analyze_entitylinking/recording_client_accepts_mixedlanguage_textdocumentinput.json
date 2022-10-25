@@ -7,11 +7,11 @@
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
-        "Content-Length": "687",
+        "Content-Length": "289",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "29f1fe57-9523-430d-9b79-1fbb7a4431a8"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "84f458aa-f1a6-4082-a556-b045b5a40e0c"
       },
       "RequestBody": {
         "kind": "EntityLinking",
@@ -19,28 +19,13 @@
           "documents": [
             {
               "id": "1",
-              "text": "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
-              "language": "en"
-            },
-            {
-              "id": "2",
-              "text": "Unfortunately, it rained during my entire trip to Seattle. I didn\u0027t even get to visit the Space Needle",
-              "language": "en"
-            },
-            {
-              "id": "3",
               "text": "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
               "language": "en"
             },
             {
-              "id": "4",
-              "text": "Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.",
-              "language": "es"
-            },
-            {
-              "id": "5",
-              "text": "La carretera estaba atascada. Hab\u00EDa mucho tr\u00E1fico el d\u00EDa de ayer.",
-              "language": "es"
+              "id": "2",
+              "text": "I didn\u0027t like the last book I read at all.",
+              "language": "en"
             }
           ]
         },
@@ -48,15 +33,18 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "af569668-a998-430a-a113-6388ac77e10d",
-        "Content-Length": "1834",
+        "apim-request-id": "8cfbdeec-2080-4671-b417-b93780440b16",
+        "Content-Length": "424",
         "Content-Type": "application/json; charset=utf-8",
-        "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=5,CognitiveServices.TextAnalytics.TextRecords=5",
-        "Date": "Fri, 14 Oct 2022 02:24:10 GMT",
+        "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=2,CognitiveServices.TextAnalytics.TextRecords=2",
+        "Date": "Tue, 25 Oct 2022 21:27:12 GMT",
+        "Server": "istio-envoy",
         "Set-Cookie": ".AspNetCore.Mvc.CookieTempDataProvider=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; samesite=lax; httponly",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "107"
+        "x-envoy-upstream-service-time": "26",
+        "x-http2-stream-id": "7",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
         "kind": "EntityLinkingResults",
@@ -64,82 +52,6 @@
           "documents": [
             {
               "id": "1",
-              "entities": [
-                {
-                  "bingId": "5fbba6b8-85e1-4d41-9444-d9055436e473",
-                  "name": "Seattle",
-                  "matches": [
-                    {
-                      "text": "Seattle",
-                      "offset": 26,
-                      "length": 7,
-                      "confidenceScore": 0.21
-                    }
-                  ],
-                  "language": "en",
-                  "id": "Seattle",
-                  "url": "https://en.wikipedia.org/wiki/Seattle",
-                  "dataSource": "Wikipedia"
-                },
-                {
-                  "bingId": "f8dd5b08-206d-2554-6e4a-893f51f4de7e",
-                  "name": "Space Needle",
-                  "matches": [
-                    {
-                      "text": "Space Needle",
-                      "offset": 65,
-                      "length": 12,
-                      "confidenceScore": 0.42
-                    }
-                  ],
-                  "language": "en",
-                  "id": "Space Needle",
-                  "url": "https://en.wikipedia.org/wiki/Space_Needle",
-                  "dataSource": "Wikipedia"
-                }
-              ],
-              "warnings": []
-            },
-            {
-              "id": "2",
-              "entities": [
-                {
-                  "bingId": "5fbba6b8-85e1-4d41-9444-d9055436e473",
-                  "name": "Seattle",
-                  "matches": [
-                    {
-                      "text": "Seattle",
-                      "offset": 50,
-                      "length": 7,
-                      "confidenceScore": 0.2
-                    }
-                  ],
-                  "language": "en",
-                  "id": "Seattle",
-                  "url": "https://en.wikipedia.org/wiki/Seattle",
-                  "dataSource": "Wikipedia"
-                },
-                {
-                  "bingId": "f8dd5b08-206d-2554-6e4a-893f51f4de7e",
-                  "name": "Space Needle",
-                  "matches": [
-                    {
-                      "text": "Space Needle",
-                      "offset": 90,
-                      "length": 12,
-                      "confidenceScore": 0.36
-                    }
-                  ],
-                  "language": "en",
-                  "id": "Space Needle",
-                  "url": "https://en.wikipedia.org/wiki/Space_Needle",
-                  "dataSource": "Wikipedia"
-                }
-              ],
-              "warnings": []
-            },
-            {
-              "id": "3",
               "entities": [
                 {
                   "bingId": "296617ab-4ddb-cc10-beba-56e0f42af76b",
@@ -161,29 +73,7 @@
               "warnings": []
             },
             {
-              "id": "4",
-              "entities": [
-                {
-                  "bingId": "9ae3e6ca-81ea-6fa1-ffa0-42e1d7890906",
-                  "name": "Monte Rainier",
-                  "matches": [
-                    {
-                      "text": "Monte Rainier",
-                      "offset": 29,
-                      "length": 13,
-                      "confidenceScore": 0.81
-                    }
-                  ],
-                  "language": "es",
-                  "id": "Monte Rainier",
-                  "url": "https://es.wikipedia.org/wiki/Monte_Rainier",
-                  "dataSource": "Wikipedia"
-                }
-              ],
-              "warnings": []
-            },
-            {
-              "id": "5",
+              "id": "2",
               "entities": [],
               "warnings": []
             }

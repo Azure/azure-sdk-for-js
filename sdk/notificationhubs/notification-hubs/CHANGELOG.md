@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.5 (Unreleased)
+## 1.0.0-beta.7 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,27 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.0.0-beta.6 (2022-10-12)
+
+### Features Added
+
+- Added support for direct batch send for multiple device handles
+- Collapsed `sendDirectNotification` and `sendBroadcastNotification` into `sendNotification` with options for tags and device handles.
+- Collapsed `scheduleBroadcastNotification` into `scheduleNotification` with options for tags.
+- Add a polled `beginSubmitNotificationHubJob` which submits a notification hub job and then can be polled to completion.
+
+### Breaking Changes
+
+- Removed `sendDirectNotification` and `sendBroadcastNotification` in favor of `sendNotification` with `DirectSendNotificationOptions` options for a single or multiple device handles, or `SendNotificationOptions` options for tag based send or null/undefined/empty options for a broadcast notification.
+- Removed `scheduleBroadcastNotification` in favor of `scheduleNotification` with `ScheduleNotificationOptions` options for tag based send or null/undefined/empty option for a scheduled broadcast notification.
+
+## 1.0.0-beta.5 (2022-09-16)
+
+### Bugs Fixed
+
+- #23222 - `deleteRegistration` not exported on service client.
+- #23218 - single item on registration feed causes error.
 
 ## 1.0.0-beta.4 (2022-09-09)
 

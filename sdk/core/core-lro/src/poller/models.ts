@@ -79,10 +79,11 @@ export interface BuildCreatePollerOptions<TResponse, TState> {
    * operation was initialized. Note that the operation could be already in
    * a terminal state at this time.
    */
-  getStatusFromInitialResponse: (
-    response: TResponse,
-    state: RestorableOperationState<TState>
-  ) => OperationStatus;
+  getStatusFromInitialResponse: (inputs: {
+    response: TResponse;
+    state: RestorableOperationState<TState>;
+    operationLocation?: string;
+  }) => OperationStatus;
   /**
    * Gets the status of the operation from a response received when the
    * operation was polled.
@@ -110,6 +111,10 @@ export interface BuildCreatePollerOptions<TResponse, TState> {
    * wait before sending the next polling request.
    */
   getPollingInterval?: (response: TResponse) => number | undefined;
+  /**
+   * Control whether to throw an exception if the operation failed or was canceled.
+   */
+  resolveOnUnsuccessful: boolean;
 }
 
 /**

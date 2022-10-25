@@ -208,6 +208,11 @@ async function run() {
         path: "/address/zip",
         value: 5,
       },
+      {
+        op: "move",
+        from: "/address/zip",
+        path: "/zip",
+      },
     ];
     const { resource: patchSource2 } = await container.item(patchId).patch(multipleOperations);
     if (patchSource2) {

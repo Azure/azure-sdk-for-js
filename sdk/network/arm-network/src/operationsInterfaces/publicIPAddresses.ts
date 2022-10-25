@@ -26,6 +26,8 @@ import {
   TagsObject,
   PublicIPAddressesUpdateTagsOptionalParams,
   PublicIPAddressesUpdateTagsResponse,
+  PublicIPAddressesDdosProtectionStatusOptionalParams,
+  PublicIPAddressesDdosProtectionStatusResponse,
   PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams,
   PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse
 } from "../models";
@@ -203,6 +205,33 @@ export interface PublicIPAddresses {
     parameters: TagsObject,
     options?: PublicIPAddressesUpdateTagsOptionalParams
   ): Promise<PublicIPAddressesUpdateTagsResponse>;
+  /**
+   * Gets the Ddos Protection Status of a Public IP Address
+   * @param resourceGroupName The name of the resource group.
+   * @param publicIpAddressName The name of the public IP address.
+   * @param options The options parameters.
+   */
+  beginDdosProtectionStatus(
+    resourceGroupName: string,
+    publicIpAddressName: string,
+    options?: PublicIPAddressesDdosProtectionStatusOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<PublicIPAddressesDdosProtectionStatusResponse>,
+      PublicIPAddressesDdosProtectionStatusResponse
+    >
+  >;
+  /**
+   * Gets the Ddos Protection Status of a Public IP Address
+   * @param resourceGroupName The name of the resource group.
+   * @param publicIpAddressName The name of the public IP address.
+   * @param options The options parameters.
+   */
+  beginDdosProtectionStatusAndWait(
+    resourceGroupName: string,
+    publicIpAddressName: string,
+    options?: PublicIPAddressesDdosProtectionStatusOptionalParams
+  ): Promise<PublicIPAddressesDdosProtectionStatusResponse>;
   /**
    * Get the specified public IP address in a virtual machine scale set.
    * @param resourceGroupName The name of the resource group.

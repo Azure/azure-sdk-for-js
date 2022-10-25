@@ -12,7 +12,7 @@ This exporter package assumes your application is [already instrumented](https:/
 
 ### Currently supported environments
 
-- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - Latest versions of Safari, Chrome, Edge, and Firefox.
 
 See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
@@ -31,14 +31,11 @@ const { AzureMonitorTraceExporter } = require("@azure/monitor-opentelemetry-expo
 const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
 const { BatchSpanProcessor } = require("@opentelemetry/sdk-trace-base");
 
-// Use your existing provider
+
 const provider = new NodeTracerProvider({
-  plugins: {
-    https: {
-      // Ignore Application Insights Ingestion Server
-      ignoreOutgoingUrls: [new RegExp(/dc.services.visualstudio.com/i)]
-    }
-  }
+  resource: new Resource({
+    [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+  }),
 });
 provider.register();
 
@@ -62,7 +59,7 @@ provider.addSpanProcessor(
 Add the exporter to your existing OpenTelemetry tracer provider (`NodeTracerProvider` / `BasicTracerProvider`)
 
 ```js
-const { MeterProvider, PeriodicExportingMetricReader } = require("@opentelemetry/sdk-metrics-base");
+const { MeterProvider, PeriodicExportingMetricReader } = require("@opentelemetry/sdk-metrics");
 const { Resource } = require("@opentelemetry/resources");
 const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions");
 const { AzureMonitorMetricExporter } = require("@azure/monitor-opentelemetry-exporter");
@@ -84,6 +81,27 @@ provider.addMetricReader(metricReader);
 ### Logs
 
 Coming Soon
+
+### Sampling
+
+You can enable sampling to limit the amount of telemetry records you receive. In order to enable correct sampling in Application Insights, use the `ApplicationInsightsSampler` as shown below.
+
+```js
+const { ApplicationInsightsSampler } = require("@azure/monitor-opentelemetry-exporter");
+const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
+const { BatchSpanProcessor } = require("@opentelemetry/sdk-trace-base");
+
+// Sampler expects a sample rate of between 0 and 1 inclusive
+// A rate of 0.75 means approximately 75 % of your traces will be sent
+const aiSampler = new ApplicationInsightsSampler(0.75);
+const provider = new NodeTracerProvider({
+  sampler: aiSampler,
+  resource: new Resource({
+    [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+  }),
+});
+provider.register();
+```
 
 ## Examples
 

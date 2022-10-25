@@ -543,7 +543,7 @@ export interface CosmosClientOptions {
     agent?: Agent;
     connectionPolicy?: ConnectionPolicy;
     consistencyLevel?: keyof typeof ConsistencyLevel;
-    // Warning: (ae-forgotten-export) The symbol "CosmosHeaders" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "CosmosHeaders_2" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
     defaultHeaders?: CosmosHeaders_2;
@@ -945,6 +945,13 @@ interface Location_2 {
 }
 export { Location_2 as Location }
 
+// @public (undocumented)
+export type MoveOperation = {
+    op: keyof typeof PatchOperationType;
+    from: string;
+    path: string;
+};
+
 // @public
 export type Next<T> = (context: RequestContext) => Promise<Response_2<T>>;
 
@@ -1110,7 +1117,7 @@ export interface PartitionKeyRangePropertiesNames {
 }
 
 // @public (undocumented)
-export type PatchOperation = ExistingKeyOperation | RemoveOperation;
+export type PatchOperation = ExistingKeyOperation | RemoveOperation | MoveOperation;
 
 // @public (undocumented)
 export interface PatchOperationInput {
@@ -1135,6 +1142,7 @@ export const PatchOperationType: {
     readonly remove: "remove";
     readonly set: "set";
     readonly incr: "incr";
+    readonly move: "move";
 };
 
 // @public (undocumented)

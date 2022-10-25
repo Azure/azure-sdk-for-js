@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as dotenv from "dotenv";
 import Sinon, { createSandbox } from "sinon";
 import { MsalBaseUtilities } from "../src/msal/utils";
-import { isNode } from "@azure/core-util";
-import * as dotenv from "dotenv";
 import { Recorder } from "@azure-tools/test-recorder";
+import { isNode } from "@azure/core-util";
 
 // Browser tests fail if dotenv.config is called in that environment.
 if (isNode) {

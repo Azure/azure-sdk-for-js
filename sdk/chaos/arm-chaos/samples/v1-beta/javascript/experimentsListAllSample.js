@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Get a list of Experiment resources in a subscription.
  *
  * @summary Get a list of Experiment resources in a subscription.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-07-01-preview/examples/ListExperimentsInASubscription.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-10-01-preview/examples/ListExperimentsInASubscription.json
  */
 async function listAllExperimentsInASubscription() {
   const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";

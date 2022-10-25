@@ -12,6 +12,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityCenter } from "../securityCenter";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   Alert,
   AlertsListNextOptionalParams,
@@ -33,9 +35,11 @@ import {
   AlertsUpdateSubscriptionLevelStateToDismissOptionalParams,
   AlertsUpdateSubscriptionLevelStateToResolveOptionalParams,
   AlertsUpdateSubscriptionLevelStateToActivateOptionalParams,
+  AlertsUpdateSubscriptionLevelStateToInProgressOptionalParams,
   AlertsUpdateResourceGroupLevelStateToResolveOptionalParams,
   AlertsUpdateResourceGroupLevelStateToDismissOptionalParams,
   AlertsUpdateResourceGroupLevelStateToActivateOptionalParams,
+  AlertsUpdateResourceGroupLevelStateToInProgressOptionalParams,
   AlertSimulatorRequestBody,
   AlertsSimulateOptionalParams,
   AlertsListNextResponse,
@@ -372,21 +376,21 @@ export class AlertsImpl implements Alerts {
 
   /**
    * Get an alert that is associated a resource group or a resource in a resource group
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
    * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
    *                    Get locations
    * @param alertName Name of the alert object
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
    * @param options The options parameters.
    */
   getResourceGroupLevel(
+    resourceGroupName: string,
     ascLocation: string,
     alertName: string,
-    resourceGroupName: string,
     options?: AlertsGetResourceGroupLevelOptionalParams
   ): Promise<AlertsGetResourceGroupLevelResponse> {
     return this.client.sendOperationRequest(
-      { ascLocation, alertName, resourceGroupName, options },
+      { resourceGroupName, ascLocation, alertName, options },
       getResourceGroupLevelOperationSpec
     );
   }
@@ -450,61 +454,100 @@ export class AlertsImpl implements Alerts {
    * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
    *                    Get locations
    * @param alertName Name of the alert object
+   * @param options The options parameters.
+   */
+  updateSubscriptionLevelStateToInProgress(
+    ascLocation: string,
+    alertName: string,
+    options?: AlertsUpdateSubscriptionLevelStateToInProgressOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { ascLocation, alertName, options },
+      updateSubscriptionLevelStateToInProgressOperationSpec
+    );
+  }
+
+  /**
+   * Update the alert's state
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
+   * @param alertName Name of the alert object
    * @param options The options parameters.
    */
   updateResourceGroupLevelStateToResolve(
+    resourceGroupName: string,
     ascLocation: string,
     alertName: string,
-    resourceGroupName: string,
     options?: AlertsUpdateResourceGroupLevelStateToResolveOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { ascLocation, alertName, resourceGroupName, options },
+      { resourceGroupName, ascLocation, alertName, options },
       updateResourceGroupLevelStateToResolveOperationSpec
     );
   }
 
   /**
    * Update the alert's state
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
    * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
    *                    Get locations
    * @param alertName Name of the alert object
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
    * @param options The options parameters.
    */
   updateResourceGroupLevelStateToDismiss(
+    resourceGroupName: string,
     ascLocation: string,
     alertName: string,
-    resourceGroupName: string,
     options?: AlertsUpdateResourceGroupLevelStateToDismissOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { ascLocation, alertName, resourceGroupName, options },
+      { resourceGroupName, ascLocation, alertName, options },
       updateResourceGroupLevelStateToDismissOperationSpec
     );
   }
 
   /**
    * Update the alert's state
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
    * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
    *                    Get locations
    * @param alertName Name of the alert object
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
    * @param options The options parameters.
    */
   updateResourceGroupLevelStateToActivate(
+    resourceGroupName: string,
     ascLocation: string,
     alertName: string,
-    resourceGroupName: string,
     options?: AlertsUpdateResourceGroupLevelStateToActivateOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { ascLocation, alertName, resourceGroupName, options },
+      { resourceGroupName, ascLocation, alertName, options },
       updateResourceGroupLevelStateToActivateOperationSpec
+    );
+  }
+
+  /**
+   * Update the alert's state
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
+   * @param alertName Name of the alert object
+   * @param options The options parameters.
+   */
+  updateResourceGroupLevelStateToInProgress(
+    resourceGroupName: string,
+    ascLocation: string,
+    alertName: string,
+    options?: AlertsUpdateResourceGroupLevelStateToInProgressOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, ascLocation, alertName, options },
+      updateResourceGroupLevelStateToInProgressOperationSpec
     );
   }
 
@@ -515,15 +558,82 @@ export class AlertsImpl implements Alerts {
    * @param alertSimulatorRequestBody Alert Simulator Request Properties
    * @param options The options parameters.
    */
-  simulate(
+  async beginSimulate(
+    ascLocation: string,
+    alertSimulatorRequestBody: AlertSimulatorRequestBody,
+    options?: AlertsSimulateOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { ascLocation, alertSimulatorRequestBody, options },
+      simulateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "original-uri"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Simulate security alerts
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
+   * @param alertSimulatorRequestBody Alert Simulator Request Properties
+   * @param options The options parameters.
+   */
+  async beginSimulateAndWait(
     ascLocation: string,
     alertSimulatorRequestBody: AlertSimulatorRequestBody,
     options?: AlertsSimulateOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { ascLocation, alertSimulatorRequestBody, options },
-      simulateOperationSpec
+    const poller = await this.beginSimulate(
+      ascLocation,
+      alertSimulatorRequestBody,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -788,6 +898,26 @@ const updateSubscriptionLevelStateToActivateOperationSpec: coreClient.OperationS
   headerParameters: [Parameters.accept],
   serializer
 };
+const updateSubscriptionLevelStateToInProgressOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/inProgress",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion13],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.ascLocation,
+    Parameters.alertName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const updateResourceGroupLevelStateToResolveOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/resolve",
@@ -851,11 +981,35 @@ const updateResourceGroupLevelStateToActivateOperationSpec: coreClient.Operation
   headerParameters: [Parameters.accept],
   serializer
 };
+const updateResourceGroupLevelStateToInProgressOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/inProgress",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion13],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.ascLocation,
+    Parameters.alertName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const simulateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/alerts/default/simulate",
   httpMethod: "POST",
   responses: {
+    200: {},
+    201: {},
+    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.CloudError

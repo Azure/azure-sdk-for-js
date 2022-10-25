@@ -19,8 +19,8 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "0488c6c8-cca2-4e6b-8bee-72461a90ae40",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+        "x-ms-client-request-id": "770a4173-e627-4e98-81ec-d77a2d441802",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": {
         "analysisInput": {
@@ -54,21 +54,21 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "90e497b3-a8fd-4d60-8137-20d80fb121fe",
+        "apim-request-id": "dd6ae928-ee40-4cfd-8a6c-9923be2b0132",
         "Content-Length": "0",
-        "Date": "Fri, 21 Oct 2022 17:51:03 GMT",
-        "operation-location": "https://endpoint/language/analyze-text/jobs/ad62a310-faf9-40b9-bb1f-b486d2a2e85f?api-version=2022-10-01-preview",
+        "Date": "Tue, 25 Oct 2022 21:31:38 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/8a1307f4-385d-49ca-9acb-f166279eb4f7?api-version=2022-10-01-preview",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "158",
-        "x-http2-stream-id": "37",
+        "x-envoy-upstream-service-time": "151",
+        "x-http2-stream-id": "15",
         "x-ms-region": "East US"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/ad62a310-faf9-40b9-bb1f-b486d2a2e85f?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/8a1307f4-385d-49ca-9acb-f166279eb4f7?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -84,28 +84,28 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "06fbea20-e41e-4b75-b465-be6db7332a31",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+        "x-ms-client-request-id": "427b0cd5-885f-4a69-a84c-8364dbf8078d",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "3bff3e00-0a7b-49a2-9bfa-3554f1618c91",
-        "Content-Length": "282",
+        "apim-request-id": "b67c27cb-d411-42a0-aff9-93a14f858b8a",
+        "Content-Length": "283",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 21 Oct 2022 17:51:03 GMT",
+        "Date": "Tue, 25 Oct 2022 21:31:37 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "7",
-        "x-http2-stream-id": "29",
+        "x-envoy-upstream-service-time": "9",
+        "x-http2-stream-id": "17",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "ad62a310-faf9-40b9-bb1f-b486d2a2e85f",
-        "lastUpdateDateTime": "2022-10-21T17:51:04Z",
-        "createdDateTime": "2022-10-21T17:51:04Z",
-        "expirationDateTime": "2022-10-22T17:51:04Z",
+        "jobId": "8a1307f4-385d-49ca-9acb-f166279eb4f7",
+        "lastUpdatedDateTime": "2022-10-25T21:31:38Z",
+        "createdDateTime": "2022-10-25T21:31:38Z",
+        "expirationDateTime": "2022-10-26T21:31:38Z",
         "status": "notStarted",
         "errors": [],
         "tasks": {
@@ -118,7 +118,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/ad62a310-faf9-40b9-bb1f-b486d2a2e85f?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/8a1307f4-385d-49ca-9acb-f166279eb4f7?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -134,28 +134,28 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "28622c37-ea0a-4ed6-8602-df3d1d356013",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+        "x-ms-client-request-id": "52c7083b-1fcd-4e2c-a1a1-200b1c401aff",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "93e57968-2bda-4123-be90-c3e7483a1daa",
-        "Content-Length": "279",
+        "apim-request-id": "8b144659-96b6-4741-b03e-ecfa0d3f6feb",
+        "Content-Length": "280",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 21 Oct 2022 17:51:04 GMT",
+        "Date": "Tue, 25 Oct 2022 21:31:37 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "13",
-        "x-http2-stream-id": "39",
+        "x-envoy-upstream-service-time": "11",
+        "x-http2-stream-id": "17",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "ad62a310-faf9-40b9-bb1f-b486d2a2e85f",
-        "lastUpdateDateTime": "2022-10-21T17:51:04Z",
-        "createdDateTime": "2022-10-21T17:51:04Z",
-        "expirationDateTime": "2022-10-22T17:51:04Z",
+        "jobId": "8a1307f4-385d-49ca-9acb-f166279eb4f7",
+        "lastUpdatedDateTime": "2022-10-25T21:31:38Z",
+        "createdDateTime": "2022-10-25T21:31:38Z",
+        "expirationDateTime": "2022-10-26T21:31:38Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -168,7 +168,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/ad62a310-faf9-40b9-bb1f-b486d2a2e85f?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/8a1307f4-385d-49ca-9acb-f166279eb4f7?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -184,78 +184,28 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "7e187fcf-cc28-44a7-9b97-49bd02acc423",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+        "x-ms-client-request-id": "ed3107d9-9ce7-480f-b226-7c0b66aa135a",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "2f787a8b-4624-44ed-baaa-880193c545cd",
-        "Content-Length": "279",
+        "apim-request-id": "d76e1c5c-e71d-4125-9937-6d2a72c21f19",
+        "Content-Length": "26854",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 21 Oct 2022 17:51:06 GMT",
+        "Date": "Tue, 25 Oct 2022 21:31:40 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "8",
-        "x-http2-stream-id": "37",
+        "x-envoy-upstream-service-time": "81",
+        "x-http2-stream-id": "19",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "ad62a310-faf9-40b9-bb1f-b486d2a2e85f",
-        "lastUpdateDateTime": "2022-10-21T17:51:04Z",
-        "createdDateTime": "2022-10-21T17:51:04Z",
-        "expirationDateTime": "2022-10-22T17:51:04Z",
-        "status": "running",
-        "errors": [],
-        "tasks": {
-          "completed": 0,
-          "failed": 0,
-          "inProgress": 1,
-          "total": 1,
-          "items": []
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/ad62a310-faf9-40b9-bb1f-b486d2a2e85f?api-version=2022-10-01-preview",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Connection": "keep-alive",
-        "ocp-apim-subscription-key": "api_key",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "c4c24276-a633-4dc6-bf80-bd105d8bcea2",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "b36b14db-a9ed-4518-a268-fee984f9fd48",
-        "Content-Length": "26852",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 21 Oct 2022 17:51:08 GMT",
-        "Server": "istio-envoy",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "67",
-        "x-http2-stream-id": "21",
-        "x-ms-region": "East US"
-      },
-      "ResponseBody": {
-        "jobId": "ad62a310-faf9-40b9-bb1f-b486d2a2e85f",
-        "lastUpdateDateTime": "2022-10-21T17:51:07Z",
-        "createdDateTime": "2022-10-21T17:51:04Z",
-        "expirationDateTime": "2022-10-22T17:51:04Z",
+        "jobId": "8a1307f4-385d-49ca-9acb-f166279eb4f7",
+        "lastUpdatedDateTime": "2022-10-25T21:31:40Z",
+        "createdDateTime": "2022-10-25T21:31:38Z",
+        "expirationDateTime": "2022-10-26T21:31:38Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -266,7 +216,7 @@
           "items": [
             {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2022-10-21T17:51:07.638212Z",
+              "lastUpdateDateTime": "2022-10-25T21:31:40.2243772Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -568,7 +518,7 @@
                     "warnings": [],
                     "fhirBundle": {
                       "resourceType": "Bundle",
-                      "id": "a4a4bbb7-7209-49d6-85a9-ea26855c4eaa",
+                      "id": "56c98f3f-c9b8-426f-8041-db6ddae042bc",
                       "meta": {
                         "profile": [
                           "http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"
@@ -576,15 +526,15 @@
                       },
                       "identifier": {
                         "system": "urn:ietf:rfc:3986",
-                        "value": "urn:uuid:a4a4bbb7-7209-49d6-85a9-ea26855c4eaa"
+                        "value": "urn:uuid:56c98f3f-c9b8-426f-8041-db6ddae042bc"
                       },
                       "type": "document",
                       "entry": [
                         {
-                          "fullUrl": "Composition/cdc77362-0219-4438-bc22-407f96e9fa53",
+                          "fullUrl": "Composition/6dd6e0bf-5468-4668-bc52-2579e9a434d1",
                           "resource": {
                             "resourceType": "Composition",
-                            "id": "cdc77362-0219-4438-bc22-407f96e9fa53",
+                            "id": "6dd6e0bf-5468-4668-bc52-2579e9a434d1",
                             "status": "final",
                             "type": {
                               "coding": [
@@ -597,18 +547,18 @@
                               "text": "History and physical note"
                             },
                             "subject": {
-                              "reference": "Patient/0cd4c056-2f9b-4759-b411-265b9ca04d6b",
+                              "reference": "Patient/1daf6af4-81d1-4c04-ab8e-4be188835b13",
                               "type": "Patient"
                             },
                             "encounter": {
-                              "reference": "Encounter/8680cd98-8d8e-4c49-98fc-578cb9175c85",
+                              "reference": "Encounter/e5d2335c-0f47-4ca3-a3fa-536fa3fbb843",
                               "type": "Encounter",
                               "display": "unknown"
                             },
-                            "date": "2022-10-21",
+                            "date": "2022-10-25",
                             "author": [
                               {
-                                "reference": "Practitioner/a3bed281-6434-4437-85d7-ab4feb1f4f13",
+                                "reference": "Practitioner/02f02522-f200-412f-b465-7926d2aa0e79",
                                 "type": "Practitioner",
                                 "display": "Unknown"
                               }
@@ -632,7 +582,7 @@
                                 },
                                 "entry": [
                                   {
-                                    "reference": "List/bae81889-17a2-4f85-a82c-3dc2be348d2b",
+                                    "reference": "List/bdf2cffa-1b0c-4842-953b-e3acca58703e",
                                     "type": "List",
                                     "display": "General"
                                   }
@@ -642,10 +592,10 @@
                           }
                         },
                         {
-                          "fullUrl": "Practitioner/a3bed281-6434-4437-85d7-ab4feb1f4f13",
+                          "fullUrl": "Practitioner/02f02522-f200-412f-b465-7926d2aa0e79",
                           "resource": {
                             "resourceType": "Practitioner",
-                            "id": "a3bed281-6434-4437-85d7-ab4feb1f4f13",
+                            "id": "02f02522-f200-412f-b465-7926d2aa0e79",
                             "name": [
                               {
                                 "text": "Unknown",
@@ -655,18 +605,18 @@
                           }
                         },
                         {
-                          "fullUrl": "Patient/0cd4c056-2f9b-4759-b411-265b9ca04d6b",
+                          "fullUrl": "Patient/1daf6af4-81d1-4c04-ab8e-4be188835b13",
                           "resource": {
                             "resourceType": "Patient",
-                            "id": "0cd4c056-2f9b-4759-b411-265b9ca04d6b",
+                            "id": "1daf6af4-81d1-4c04-ab8e-4be188835b13",
                             "gender": "unknown"
                           }
                         },
                         {
-                          "fullUrl": "Encounter/8680cd98-8d8e-4c49-98fc-578cb9175c85",
+                          "fullUrl": "Encounter/e5d2335c-0f47-4ca3-a3fa-536fa3fbb843",
                           "resource": {
                             "resourceType": "Encounter",
-                            "id": "8680cd98-8d8e-4c49-98fc-578cb9175c85",
+                            "id": "e5d2335c-0f47-4ca3-a3fa-536fa3fbb843",
                             "meta": {
                               "profile": [
                                 "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
@@ -678,20 +628,20 @@
                               "display": "unknown"
                             },
                             "subject": {
-                              "reference": "Patient/0cd4c056-2f9b-4759-b411-265b9ca04d6b",
+                              "reference": "Patient/1daf6af4-81d1-4c04-ab8e-4be188835b13",
                               "type": "Patient"
                             },
                             "period": {
-                              "start": "2022-10-21",
-                              "end": "2022-10-21"
+                              "start": "2022-10-25",
+                              "end": "2022-10-25"
                             }
                           }
                         },
                         {
-                          "fullUrl": "Observation/39a194fc-7cb9-4eb2-8326-4abf2b06f2c4",
+                          "fullUrl": "Observation/393c783f-f465-4cbc-a623-b35096aeebc7",
                           "resource": {
                             "resourceType": "Observation",
-                            "id": "39a194fc-7cb9-4eb2-8326-4abf2b06f2c4",
+                            "id": "393c783f-f465-4cbc-a623-b35096aeebc7",
                             "extension": [
                               {
                                 "extension": [
@@ -907,11 +857,11 @@
                               "text": "angina"
                             },
                             "subject": {
-                              "reference": "Patient/0cd4c056-2f9b-4759-b411-265b9ca04d6b",
+                              "reference": "Patient/1daf6af4-81d1-4c04-ab8e-4be188835b13",
                               "type": "Patient"
                             },
                             "encounter": {
-                              "reference": "Encounter/8680cd98-8d8e-4c49-98fc-578cb9175c85",
+                              "reference": "Encounter/e5d2335c-0f47-4ca3-a3fa-536fa3fbb843",
                               "type": "Encounter",
                               "display": "unknown"
                             },
@@ -957,26 +907,26 @@
                           }
                         },
                         {
-                          "fullUrl": "List/bae81889-17a2-4f85-a82c-3dc2be348d2b",
+                          "fullUrl": "List/bdf2cffa-1b0c-4842-953b-e3acca58703e",
                           "resource": {
                             "resourceType": "List",
-                            "id": "bae81889-17a2-4f85-a82c-3dc2be348d2b",
+                            "id": "bdf2cffa-1b0c-4842-953b-e3acca58703e",
                             "status": "current",
                             "mode": "snapshot",
                             "title": "General",
                             "subject": {
-                              "reference": "Patient/0cd4c056-2f9b-4759-b411-265b9ca04d6b",
+                              "reference": "Patient/1daf6af4-81d1-4c04-ab8e-4be188835b13",
                               "type": "Patient"
                             },
                             "encounter": {
-                              "reference": "Encounter/8680cd98-8d8e-4c49-98fc-578cb9175c85",
+                              "reference": "Encounter/e5d2335c-0f47-4ca3-a3fa-536fa3fbb843",
                               "type": "Encounter",
                               "display": "unknown"
                             },
                             "entry": [
                               {
                                 "item": {
-                                  "reference": "Observation/39a194fc-7cb9-4eb2-8326-4abf2b06f2c4",
+                                  "reference": "Observation/393c783f-f465-4cbc-a623-b35096aeebc7",
                                   "type": "Observation",
                                   "display": "angina"
                                 }
@@ -1168,7 +1118,7 @@
                     "warnings": [],
                     "fhirBundle": {
                       "resourceType": "Bundle",
-                      "id": "5973bacb-3311-4ee3-a9e1-9cf6cfee5a48",
+                      "id": "1b4e48c7-3193-4e4c-9a67-d85dc4590ca4",
                       "meta": {
                         "profile": [
                           "http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"
@@ -1176,15 +1126,15 @@
                       },
                       "identifier": {
                         "system": "urn:ietf:rfc:3986",
-                        "value": "urn:uuid:5973bacb-3311-4ee3-a9e1-9cf6cfee5a48"
+                        "value": "urn:uuid:1b4e48c7-3193-4e4c-9a67-d85dc4590ca4"
                       },
                       "type": "document",
                       "entry": [
                         {
-                          "fullUrl": "Composition/64db7b61-a22c-41e2-a96d-b799c0f75899",
+                          "fullUrl": "Composition/6487b183-8299-4b15-bc63-25af7f4067f0",
                           "resource": {
                             "resourceType": "Composition",
-                            "id": "64db7b61-a22c-41e2-a96d-b799c0f75899",
+                            "id": "6487b183-8299-4b15-bc63-25af7f4067f0",
                             "status": "final",
                             "type": {
                               "coding": [
@@ -1197,18 +1147,18 @@
                               "text": "Pathology study"
                             },
                             "subject": {
-                              "reference": "Patient/17dc4eec-de15-47d7-898b-90c8db2ac9cf",
+                              "reference": "Patient/b8b45e52-fb27-4de9-8498-a0c4541ee263",
                               "type": "Patient"
                             },
                             "encounter": {
-                              "reference": "Encounter/b1ad0f04-31d8-4f11-83e8-f9a3d085032c",
+                              "reference": "Encounter/95fefc01-dbbd-4290-8ba1-c25a6c20ff83",
                               "type": "Encounter",
                               "display": "unknown"
                             },
-                            "date": "2022-10-21",
+                            "date": "2022-10-25",
                             "author": [
                               {
-                                "reference": "Practitioner/4aa22a12-4d81-42d9-ae69-5ff7b4be8022",
+                                "reference": "Practitioner/a8a3610e-9b97-4b73-af97-03d3f5b80f03",
                                 "type": "Practitioner",
                                 "display": "Unknown"
                               }
@@ -1232,7 +1182,7 @@
                                 },
                                 "entry": [
                                   {
-                                    "reference": "List/191f150f-4169-4b1a-a914-e38284a8e441",
+                                    "reference": "List/840ccdeb-64cc-46e4-98f6-2bdce2e13f9c",
                                     "type": "List",
                                     "display": "General"
                                   }
@@ -1242,10 +1192,10 @@
                           }
                         },
                         {
-                          "fullUrl": "Practitioner/4aa22a12-4d81-42d9-ae69-5ff7b4be8022",
+                          "fullUrl": "Practitioner/a8a3610e-9b97-4b73-af97-03d3f5b80f03",
                           "resource": {
                             "resourceType": "Practitioner",
-                            "id": "4aa22a12-4d81-42d9-ae69-5ff7b4be8022",
+                            "id": "a8a3610e-9b97-4b73-af97-03d3f5b80f03",
                             "name": [
                               {
                                 "text": "Unknown",
@@ -1255,18 +1205,18 @@
                           }
                         },
                         {
-                          "fullUrl": "Patient/17dc4eec-de15-47d7-898b-90c8db2ac9cf",
+                          "fullUrl": "Patient/b8b45e52-fb27-4de9-8498-a0c4541ee263",
                           "resource": {
                             "resourceType": "Patient",
-                            "id": "17dc4eec-de15-47d7-898b-90c8db2ac9cf",
+                            "id": "b8b45e52-fb27-4de9-8498-a0c4541ee263",
                             "gender": "unknown"
                           }
                         },
                         {
-                          "fullUrl": "Encounter/b1ad0f04-31d8-4f11-83e8-f9a3d085032c",
+                          "fullUrl": "Encounter/95fefc01-dbbd-4290-8ba1-c25a6c20ff83",
                           "resource": {
                             "resourceType": "Encounter",
-                            "id": "b1ad0f04-31d8-4f11-83e8-f9a3d085032c",
+                            "id": "95fefc01-dbbd-4290-8ba1-c25a6c20ff83",
                             "meta": {
                               "profile": [
                                 "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
@@ -1278,20 +1228,20 @@
                               "display": "unknown"
                             },
                             "subject": {
-                              "reference": "Patient/17dc4eec-de15-47d7-898b-90c8db2ac9cf",
+                              "reference": "Patient/b8b45e52-fb27-4de9-8498-a0c4541ee263",
                               "type": "Patient"
                             },
                             "period": {
-                              "start": "2022-10-21",
-                              "end": "2022-10-21"
+                              "start": "2022-10-25",
+                              "end": "2022-10-25"
                             }
                           }
                         },
                         {
-                          "fullUrl": "MedicationStatement/a6676124-7725-46c7-b51e-5e571bf55ca8",
+                          "fullUrl": "MedicationStatement/717882d5-705b-41ea-8999-30b7b4bd501f",
                           "resource": {
                             "resourceType": "MedicationStatement",
-                            "id": "a6676124-7725-46c7-b51e-5e571bf55ca8",
+                            "id": "717882d5-705b-41ea-8999-30b7b4bd501f",
                             "extension": [
                               {
                                 "extension": [
@@ -1435,11 +1385,11 @@
                               "text": "ibuprofen"
                             },
                             "subject": {
-                              "reference": "Patient/17dc4eec-de15-47d7-898b-90c8db2ac9cf",
+                              "reference": "Patient/b8b45e52-fb27-4de9-8498-a0c4541ee263",
                               "type": "Patient"
                             },
                             "context": {
-                              "reference": "Encounter/b1ad0f04-31d8-4f11-83e8-f9a3d085032c",
+                              "reference": "Encounter/95fefc01-dbbd-4290-8ba1-c25a6c20ff83",
                               "type": "Encounter",
                               "display": "unknown"
                             },
@@ -1468,26 +1418,26 @@
                           }
                         },
                         {
-                          "fullUrl": "List/191f150f-4169-4b1a-a914-e38284a8e441",
+                          "fullUrl": "List/840ccdeb-64cc-46e4-98f6-2bdce2e13f9c",
                           "resource": {
                             "resourceType": "List",
-                            "id": "191f150f-4169-4b1a-a914-e38284a8e441",
+                            "id": "840ccdeb-64cc-46e4-98f6-2bdce2e13f9c",
                             "status": "current",
                             "mode": "snapshot",
                             "title": "General",
                             "subject": {
-                              "reference": "Patient/17dc4eec-de15-47d7-898b-90c8db2ac9cf",
+                              "reference": "Patient/b8b45e52-fb27-4de9-8498-a0c4541ee263",
                               "type": "Patient"
                             },
                             "encounter": {
-                              "reference": "Encounter/b1ad0f04-31d8-4f11-83e8-f9a3d085032c",
+                              "reference": "Encounter/95fefc01-dbbd-4290-8ba1-c25a6c20ff83",
                               "type": "Encounter",
                               "display": "unknown"
                             },
                             "entry": [
                               {
                                 "item": {
-                                  "reference": "MedicationStatement/a6676124-7725-46c7-b51e-5e571bf55ca8",
+                                  "reference": "MedicationStatement/717882d5-705b-41ea-8999-30b7b4bd501f",
                                   "type": "MedicationStatement",
                                   "display": "ibuprofen"
                                 }
@@ -1703,7 +1653,7 @@
                     "warnings": [],
                     "fhirBundle": {
                       "resourceType": "Bundle",
-                      "id": "7bbc81a3-92ce-4587-a010-b8237b18a8f7",
+                      "id": "291f0d49-f3e5-4b76-be5a-a286c12c83da",
                       "meta": {
                         "profile": [
                           "http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"
@@ -1711,15 +1661,15 @@
                       },
                       "identifier": {
                         "system": "urn:ietf:rfc:3986",
-                        "value": "urn:uuid:7bbc81a3-92ce-4587-a010-b8237b18a8f7"
+                        "value": "urn:uuid:291f0d49-f3e5-4b76-be5a-a286c12c83da"
                       },
                       "type": "document",
                       "entry": [
                         {
-                          "fullUrl": "Composition/c84e9acb-33b3-4e8f-9f40-21fc7ac101d7",
+                          "fullUrl": "Composition/71f7e16e-8f6d-4b11-97c4-7d793b3a3b99",
                           "resource": {
                             "resourceType": "Composition",
-                            "id": "c84e9acb-33b3-4e8f-9f40-21fc7ac101d7",
+                            "id": "71f7e16e-8f6d-4b11-97c4-7d793b3a3b99",
                             "status": "final",
                             "type": {
                               "coding": [
@@ -1732,18 +1682,18 @@
                               "text": "Pathology study"
                             },
                             "subject": {
-                              "reference": "Patient/885bdcec-b7bf-40ae-8e7d-7f49a2da2d5c",
+                              "reference": "Patient/62582e22-ad10-4539-9126-18318cad524b",
                               "type": "Patient"
                             },
                             "encounter": {
-                              "reference": "Encounter/5a42aedc-e3d9-4c70-afbd-691d7b25204d",
+                              "reference": "Encounter/5f4c4671-c31f-45a6-a6d7-bd916cea3323",
                               "type": "Encounter",
                               "display": "unknown"
                             },
-                            "date": "2022-10-21",
+                            "date": "2022-10-25",
                             "author": [
                               {
-                                "reference": "Practitioner/22bc3e8c-8868-4d53-a09f-e42051d63762",
+                                "reference": "Practitioner/b283f456-be22-4a86-a941-789bdcd5b1b3",
                                 "type": "Practitioner",
                                 "display": "Unknown"
                               }
@@ -1767,7 +1717,7 @@
                                 },
                                 "entry": [
                                   {
-                                    "reference": "List/e06328e8-012f-4e71-9107-7aa5682b424f",
+                                    "reference": "List/b01a18eb-75ce-4f84-b4b9-d34674cf566c",
                                     "type": "List",
                                     "display": "General"
                                   }
@@ -1777,10 +1727,10 @@
                           }
                         },
                         {
-                          "fullUrl": "Practitioner/22bc3e8c-8868-4d53-a09f-e42051d63762",
+                          "fullUrl": "Practitioner/b283f456-be22-4a86-a941-789bdcd5b1b3",
                           "resource": {
                             "resourceType": "Practitioner",
-                            "id": "22bc3e8c-8868-4d53-a09f-e42051d63762",
+                            "id": "b283f456-be22-4a86-a941-789bdcd5b1b3",
                             "name": [
                               {
                                 "text": "Unknown",
@@ -1790,18 +1740,18 @@
                           }
                         },
                         {
-                          "fullUrl": "Patient/885bdcec-b7bf-40ae-8e7d-7f49a2da2d5c",
+                          "fullUrl": "Patient/62582e22-ad10-4539-9126-18318cad524b",
                           "resource": {
                             "resourceType": "Patient",
-                            "id": "885bdcec-b7bf-40ae-8e7d-7f49a2da2d5c",
+                            "id": "62582e22-ad10-4539-9126-18318cad524b",
                             "gender": "unknown"
                           }
                         },
                         {
-                          "fullUrl": "Encounter/5a42aedc-e3d9-4c70-afbd-691d7b25204d",
+                          "fullUrl": "Encounter/5f4c4671-c31f-45a6-a6d7-bd916cea3323",
                           "resource": {
                             "resourceType": "Encounter",
-                            "id": "5a42aedc-e3d9-4c70-afbd-691d7b25204d",
+                            "id": "5f4c4671-c31f-45a6-a6d7-bd916cea3323",
                             "meta": {
                               "profile": [
                                 "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
@@ -1813,20 +1763,20 @@
                               "display": "unknown"
                             },
                             "subject": {
-                              "reference": "Patient/885bdcec-b7bf-40ae-8e7d-7f49a2da2d5c",
+                              "reference": "Patient/62582e22-ad10-4539-9126-18318cad524b",
                               "type": "Patient"
                             },
                             "period": {
-                              "start": "2022-10-21",
-                              "end": "2022-10-21"
+                              "start": "2022-10-25",
+                              "end": "2022-10-25"
                             }
                           }
                         },
                         {
-                          "fullUrl": "Observation/64ec0241-f901-405c-a378-b85f9e064a2e",
+                          "fullUrl": "Observation/b0c37823-db6c-4dbd-84ac-9beee82dde19",
                           "resource": {
                             "resourceType": "Observation",
-                            "id": "64ec0241-f901-405c-a378-b85f9e064a2e",
+                            "id": "b0c37823-db6c-4dbd-84ac-9beee82dde19",
                             "extension": [
                               {
                                 "extension": [
@@ -2046,11 +1996,11 @@
                               "text": "high blood pressure"
                             },
                             "subject": {
-                              "reference": "Patient/885bdcec-b7bf-40ae-8e7d-7f49a2da2d5c",
+                              "reference": "Patient/62582e22-ad10-4539-9126-18318cad524b",
                               "type": "Patient"
                             },
                             "encounter": {
-                              "reference": "Encounter/5a42aedc-e3d9-4c70-afbd-691d7b25204d",
+                              "reference": "Encounter/5f4c4671-c31f-45a6-a6d7-bd916cea3323",
                               "type": "Encounter",
                               "display": "unknown"
                             },
@@ -2069,26 +2019,26 @@
                           }
                         },
                         {
-                          "fullUrl": "List/e06328e8-012f-4e71-9107-7aa5682b424f",
+                          "fullUrl": "List/b01a18eb-75ce-4f84-b4b9-d34674cf566c",
                           "resource": {
                             "resourceType": "List",
-                            "id": "e06328e8-012f-4e71-9107-7aa5682b424f",
+                            "id": "b01a18eb-75ce-4f84-b4b9-d34674cf566c",
                             "status": "current",
                             "mode": "snapshot",
                             "title": "General",
                             "subject": {
-                              "reference": "Patient/885bdcec-b7bf-40ae-8e7d-7f49a2da2d5c",
+                              "reference": "Patient/62582e22-ad10-4539-9126-18318cad524b",
                               "type": "Patient"
                             },
                             "encounter": {
-                              "reference": "Encounter/5a42aedc-e3d9-4c70-afbd-691d7b25204d",
+                              "reference": "Encounter/5f4c4671-c31f-45a6-a6d7-bd916cea3323",
                               "type": "Encounter",
                               "display": "unknown"
                             },
                             "entry": [
                               {
                                 "item": {
-                                  "reference": "Observation/64ec0241-f901-405c-a378-b85f9e064a2e",
+                                  "reference": "Observation/b0c37823-db6c-4dbd-84ac-9beee82dde19",
                                   "type": "Observation",
                                   "display": "high blood pressure"
                                 }
@@ -2109,7 +2059,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/ad62a310-faf9-40b9-bb1f-b486d2a2e85f?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/8a1307f4-385d-49ca-9acb-f166279eb4f7?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2125,28 +2075,28 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "20e43193-df2b-41a1-83e4-efe60033bf81",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+        "x-ms-client-request-id": "bce1abf4-6192-4631-92ed-c502432afb71",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "655928bb-7d71-4898-88cb-6c87fae4707e",
-        "Content-Length": "26852",
+        "apim-request-id": "f2499261-570c-44e9-ba62-1da0e444490c",
+        "Content-Length": "26854",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 21 Oct 2022 17:51:08 GMT",
+        "Date": "Tue, 25 Oct 2022 21:31:40 GMT",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "147",
-        "x-http2-stream-id": "39",
+        "x-envoy-upstream-service-time": "93",
+        "x-http2-stream-id": "19",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "ad62a310-faf9-40b9-bb1f-b486d2a2e85f",
-        "lastUpdateDateTime": "2022-10-21T17:51:07Z",
-        "createdDateTime": "2022-10-21T17:51:04Z",
-        "expirationDateTime": "2022-10-22T17:51:04Z",
+        "jobId": "8a1307f4-385d-49ca-9acb-f166279eb4f7",
+        "lastUpdatedDateTime": "2022-10-25T21:31:40Z",
+        "createdDateTime": "2022-10-25T21:31:38Z",
+        "expirationDateTime": "2022-10-26T21:31:38Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -2157,7 +2107,7 @@
           "items": [
             {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2022-10-21T17:51:07.638212Z",
+              "lastUpdateDateTime": "2022-10-25T21:31:40.2243772Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -2459,7 +2409,7 @@
                     "warnings": [],
                     "fhirBundle": {
                       "resourceType": "Bundle",
-                      "id": "a4a4bbb7-7209-49d6-85a9-ea26855c4eaa",
+                      "id": "56c98f3f-c9b8-426f-8041-db6ddae042bc",
                       "meta": {
                         "profile": [
                           "http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"
@@ -2467,15 +2417,15 @@
                       },
                       "identifier": {
                         "system": "urn:ietf:rfc:3986",
-                        "value": "urn:uuid:a4a4bbb7-7209-49d6-85a9-ea26855c4eaa"
+                        "value": "urn:uuid:56c98f3f-c9b8-426f-8041-db6ddae042bc"
                       },
                       "type": "document",
                       "entry": [
                         {
-                          "fullUrl": "Composition/cdc77362-0219-4438-bc22-407f96e9fa53",
+                          "fullUrl": "Composition/6dd6e0bf-5468-4668-bc52-2579e9a434d1",
                           "resource": {
                             "resourceType": "Composition",
-                            "id": "cdc77362-0219-4438-bc22-407f96e9fa53",
+                            "id": "6dd6e0bf-5468-4668-bc52-2579e9a434d1",
                             "status": "final",
                             "type": {
                               "coding": [
@@ -2488,18 +2438,18 @@
                               "text": "History and physical note"
                             },
                             "subject": {
-                              "reference": "Patient/0cd4c056-2f9b-4759-b411-265b9ca04d6b",
+                              "reference": "Patient/1daf6af4-81d1-4c04-ab8e-4be188835b13",
                               "type": "Patient"
                             },
                             "encounter": {
-                              "reference": "Encounter/8680cd98-8d8e-4c49-98fc-578cb9175c85",
+                              "reference": "Encounter/e5d2335c-0f47-4ca3-a3fa-536fa3fbb843",
                               "type": "Encounter",
                               "display": "unknown"
                             },
-                            "date": "2022-10-21",
+                            "date": "2022-10-25",
                             "author": [
                               {
-                                "reference": "Practitioner/a3bed281-6434-4437-85d7-ab4feb1f4f13",
+                                "reference": "Practitioner/02f02522-f200-412f-b465-7926d2aa0e79",
                                 "type": "Practitioner",
                                 "display": "Unknown"
                               }
@@ -2523,7 +2473,7 @@
                                 },
                                 "entry": [
                                   {
-                                    "reference": "List/bae81889-17a2-4f85-a82c-3dc2be348d2b",
+                                    "reference": "List/bdf2cffa-1b0c-4842-953b-e3acca58703e",
                                     "type": "List",
                                     "display": "General"
                                   }
@@ -2533,10 +2483,10 @@
                           }
                         },
                         {
-                          "fullUrl": "Practitioner/a3bed281-6434-4437-85d7-ab4feb1f4f13",
+                          "fullUrl": "Practitioner/02f02522-f200-412f-b465-7926d2aa0e79",
                           "resource": {
                             "resourceType": "Practitioner",
-                            "id": "a3bed281-6434-4437-85d7-ab4feb1f4f13",
+                            "id": "02f02522-f200-412f-b465-7926d2aa0e79",
                             "name": [
                               {
                                 "text": "Unknown",
@@ -2546,18 +2496,18 @@
                           }
                         },
                         {
-                          "fullUrl": "Patient/0cd4c056-2f9b-4759-b411-265b9ca04d6b",
+                          "fullUrl": "Patient/1daf6af4-81d1-4c04-ab8e-4be188835b13",
                           "resource": {
                             "resourceType": "Patient",
-                            "id": "0cd4c056-2f9b-4759-b411-265b9ca04d6b",
+                            "id": "1daf6af4-81d1-4c04-ab8e-4be188835b13",
                             "gender": "unknown"
                           }
                         },
                         {
-                          "fullUrl": "Encounter/8680cd98-8d8e-4c49-98fc-578cb9175c85",
+                          "fullUrl": "Encounter/e5d2335c-0f47-4ca3-a3fa-536fa3fbb843",
                           "resource": {
                             "resourceType": "Encounter",
-                            "id": "8680cd98-8d8e-4c49-98fc-578cb9175c85",
+                            "id": "e5d2335c-0f47-4ca3-a3fa-536fa3fbb843",
                             "meta": {
                               "profile": [
                                 "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
@@ -2569,20 +2519,20 @@
                               "display": "unknown"
                             },
                             "subject": {
-                              "reference": "Patient/0cd4c056-2f9b-4759-b411-265b9ca04d6b",
+                              "reference": "Patient/1daf6af4-81d1-4c04-ab8e-4be188835b13",
                               "type": "Patient"
                             },
                             "period": {
-                              "start": "2022-10-21",
-                              "end": "2022-10-21"
+                              "start": "2022-10-25",
+                              "end": "2022-10-25"
                             }
                           }
                         },
                         {
-                          "fullUrl": "Observation/39a194fc-7cb9-4eb2-8326-4abf2b06f2c4",
+                          "fullUrl": "Observation/393c783f-f465-4cbc-a623-b35096aeebc7",
                           "resource": {
                             "resourceType": "Observation",
-                            "id": "39a194fc-7cb9-4eb2-8326-4abf2b06f2c4",
+                            "id": "393c783f-f465-4cbc-a623-b35096aeebc7",
                             "extension": [
                               {
                                 "extension": [
@@ -2798,11 +2748,11 @@
                               "text": "angina"
                             },
                             "subject": {
-                              "reference": "Patient/0cd4c056-2f9b-4759-b411-265b9ca04d6b",
+                              "reference": "Patient/1daf6af4-81d1-4c04-ab8e-4be188835b13",
                               "type": "Patient"
                             },
                             "encounter": {
-                              "reference": "Encounter/8680cd98-8d8e-4c49-98fc-578cb9175c85",
+                              "reference": "Encounter/e5d2335c-0f47-4ca3-a3fa-536fa3fbb843",
                               "type": "Encounter",
                               "display": "unknown"
                             },
@@ -2848,26 +2798,26 @@
                           }
                         },
                         {
-                          "fullUrl": "List/bae81889-17a2-4f85-a82c-3dc2be348d2b",
+                          "fullUrl": "List/bdf2cffa-1b0c-4842-953b-e3acca58703e",
                           "resource": {
                             "resourceType": "List",
-                            "id": "bae81889-17a2-4f85-a82c-3dc2be348d2b",
+                            "id": "bdf2cffa-1b0c-4842-953b-e3acca58703e",
                             "status": "current",
                             "mode": "snapshot",
                             "title": "General",
                             "subject": {
-                              "reference": "Patient/0cd4c056-2f9b-4759-b411-265b9ca04d6b",
+                              "reference": "Patient/1daf6af4-81d1-4c04-ab8e-4be188835b13",
                               "type": "Patient"
                             },
                             "encounter": {
-                              "reference": "Encounter/8680cd98-8d8e-4c49-98fc-578cb9175c85",
+                              "reference": "Encounter/e5d2335c-0f47-4ca3-a3fa-536fa3fbb843",
                               "type": "Encounter",
                               "display": "unknown"
                             },
                             "entry": [
                               {
                                 "item": {
-                                  "reference": "Observation/39a194fc-7cb9-4eb2-8326-4abf2b06f2c4",
+                                  "reference": "Observation/393c783f-f465-4cbc-a623-b35096aeebc7",
                                   "type": "Observation",
                                   "display": "angina"
                                 }
@@ -3059,7 +3009,7 @@
                     "warnings": [],
                     "fhirBundle": {
                       "resourceType": "Bundle",
-                      "id": "5973bacb-3311-4ee3-a9e1-9cf6cfee5a48",
+                      "id": "1b4e48c7-3193-4e4c-9a67-d85dc4590ca4",
                       "meta": {
                         "profile": [
                           "http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"
@@ -3067,15 +3017,15 @@
                       },
                       "identifier": {
                         "system": "urn:ietf:rfc:3986",
-                        "value": "urn:uuid:5973bacb-3311-4ee3-a9e1-9cf6cfee5a48"
+                        "value": "urn:uuid:1b4e48c7-3193-4e4c-9a67-d85dc4590ca4"
                       },
                       "type": "document",
                       "entry": [
                         {
-                          "fullUrl": "Composition/64db7b61-a22c-41e2-a96d-b799c0f75899",
+                          "fullUrl": "Composition/6487b183-8299-4b15-bc63-25af7f4067f0",
                           "resource": {
                             "resourceType": "Composition",
-                            "id": "64db7b61-a22c-41e2-a96d-b799c0f75899",
+                            "id": "6487b183-8299-4b15-bc63-25af7f4067f0",
                             "status": "final",
                             "type": {
                               "coding": [
@@ -3088,18 +3038,18 @@
                               "text": "Pathology study"
                             },
                             "subject": {
-                              "reference": "Patient/17dc4eec-de15-47d7-898b-90c8db2ac9cf",
+                              "reference": "Patient/b8b45e52-fb27-4de9-8498-a0c4541ee263",
                               "type": "Patient"
                             },
                             "encounter": {
-                              "reference": "Encounter/b1ad0f04-31d8-4f11-83e8-f9a3d085032c",
+                              "reference": "Encounter/95fefc01-dbbd-4290-8ba1-c25a6c20ff83",
                               "type": "Encounter",
                               "display": "unknown"
                             },
-                            "date": "2022-10-21",
+                            "date": "2022-10-25",
                             "author": [
                               {
-                                "reference": "Practitioner/4aa22a12-4d81-42d9-ae69-5ff7b4be8022",
+                                "reference": "Practitioner/a8a3610e-9b97-4b73-af97-03d3f5b80f03",
                                 "type": "Practitioner",
                                 "display": "Unknown"
                               }
@@ -3123,7 +3073,7 @@
                                 },
                                 "entry": [
                                   {
-                                    "reference": "List/191f150f-4169-4b1a-a914-e38284a8e441",
+                                    "reference": "List/840ccdeb-64cc-46e4-98f6-2bdce2e13f9c",
                                     "type": "List",
                                     "display": "General"
                                   }
@@ -3133,10 +3083,10 @@
                           }
                         },
                         {
-                          "fullUrl": "Practitioner/4aa22a12-4d81-42d9-ae69-5ff7b4be8022",
+                          "fullUrl": "Practitioner/a8a3610e-9b97-4b73-af97-03d3f5b80f03",
                           "resource": {
                             "resourceType": "Practitioner",
-                            "id": "4aa22a12-4d81-42d9-ae69-5ff7b4be8022",
+                            "id": "a8a3610e-9b97-4b73-af97-03d3f5b80f03",
                             "name": [
                               {
                                 "text": "Unknown",
@@ -3146,18 +3096,18 @@
                           }
                         },
                         {
-                          "fullUrl": "Patient/17dc4eec-de15-47d7-898b-90c8db2ac9cf",
+                          "fullUrl": "Patient/b8b45e52-fb27-4de9-8498-a0c4541ee263",
                           "resource": {
                             "resourceType": "Patient",
-                            "id": "17dc4eec-de15-47d7-898b-90c8db2ac9cf",
+                            "id": "b8b45e52-fb27-4de9-8498-a0c4541ee263",
                             "gender": "unknown"
                           }
                         },
                         {
-                          "fullUrl": "Encounter/b1ad0f04-31d8-4f11-83e8-f9a3d085032c",
+                          "fullUrl": "Encounter/95fefc01-dbbd-4290-8ba1-c25a6c20ff83",
                           "resource": {
                             "resourceType": "Encounter",
-                            "id": "b1ad0f04-31d8-4f11-83e8-f9a3d085032c",
+                            "id": "95fefc01-dbbd-4290-8ba1-c25a6c20ff83",
                             "meta": {
                               "profile": [
                                 "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
@@ -3169,20 +3119,20 @@
                               "display": "unknown"
                             },
                             "subject": {
-                              "reference": "Patient/17dc4eec-de15-47d7-898b-90c8db2ac9cf",
+                              "reference": "Patient/b8b45e52-fb27-4de9-8498-a0c4541ee263",
                               "type": "Patient"
                             },
                             "period": {
-                              "start": "2022-10-21",
-                              "end": "2022-10-21"
+                              "start": "2022-10-25",
+                              "end": "2022-10-25"
                             }
                           }
                         },
                         {
-                          "fullUrl": "MedicationStatement/a6676124-7725-46c7-b51e-5e571bf55ca8",
+                          "fullUrl": "MedicationStatement/717882d5-705b-41ea-8999-30b7b4bd501f",
                           "resource": {
                             "resourceType": "MedicationStatement",
-                            "id": "a6676124-7725-46c7-b51e-5e571bf55ca8",
+                            "id": "717882d5-705b-41ea-8999-30b7b4bd501f",
                             "extension": [
                               {
                                 "extension": [
@@ -3326,11 +3276,11 @@
                               "text": "ibuprofen"
                             },
                             "subject": {
-                              "reference": "Patient/17dc4eec-de15-47d7-898b-90c8db2ac9cf",
+                              "reference": "Patient/b8b45e52-fb27-4de9-8498-a0c4541ee263",
                               "type": "Patient"
                             },
                             "context": {
-                              "reference": "Encounter/b1ad0f04-31d8-4f11-83e8-f9a3d085032c",
+                              "reference": "Encounter/95fefc01-dbbd-4290-8ba1-c25a6c20ff83",
                               "type": "Encounter",
                               "display": "unknown"
                             },
@@ -3359,26 +3309,26 @@
                           }
                         },
                         {
-                          "fullUrl": "List/191f150f-4169-4b1a-a914-e38284a8e441",
+                          "fullUrl": "List/840ccdeb-64cc-46e4-98f6-2bdce2e13f9c",
                           "resource": {
                             "resourceType": "List",
-                            "id": "191f150f-4169-4b1a-a914-e38284a8e441",
+                            "id": "840ccdeb-64cc-46e4-98f6-2bdce2e13f9c",
                             "status": "current",
                             "mode": "snapshot",
                             "title": "General",
                             "subject": {
-                              "reference": "Patient/17dc4eec-de15-47d7-898b-90c8db2ac9cf",
+                              "reference": "Patient/b8b45e52-fb27-4de9-8498-a0c4541ee263",
                               "type": "Patient"
                             },
                             "encounter": {
-                              "reference": "Encounter/b1ad0f04-31d8-4f11-83e8-f9a3d085032c",
+                              "reference": "Encounter/95fefc01-dbbd-4290-8ba1-c25a6c20ff83",
                               "type": "Encounter",
                               "display": "unknown"
                             },
                             "entry": [
                               {
                                 "item": {
-                                  "reference": "MedicationStatement/a6676124-7725-46c7-b51e-5e571bf55ca8",
+                                  "reference": "MedicationStatement/717882d5-705b-41ea-8999-30b7b4bd501f",
                                   "type": "MedicationStatement",
                                   "display": "ibuprofen"
                                 }
@@ -3594,7 +3544,7 @@
                     "warnings": [],
                     "fhirBundle": {
                       "resourceType": "Bundle",
-                      "id": "7bbc81a3-92ce-4587-a010-b8237b18a8f7",
+                      "id": "291f0d49-f3e5-4b76-be5a-a286c12c83da",
                       "meta": {
                         "profile": [
                           "http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"
@@ -3602,15 +3552,15 @@
                       },
                       "identifier": {
                         "system": "urn:ietf:rfc:3986",
-                        "value": "urn:uuid:7bbc81a3-92ce-4587-a010-b8237b18a8f7"
+                        "value": "urn:uuid:291f0d49-f3e5-4b76-be5a-a286c12c83da"
                       },
                       "type": "document",
                       "entry": [
                         {
-                          "fullUrl": "Composition/c84e9acb-33b3-4e8f-9f40-21fc7ac101d7",
+                          "fullUrl": "Composition/71f7e16e-8f6d-4b11-97c4-7d793b3a3b99",
                           "resource": {
                             "resourceType": "Composition",
-                            "id": "c84e9acb-33b3-4e8f-9f40-21fc7ac101d7",
+                            "id": "71f7e16e-8f6d-4b11-97c4-7d793b3a3b99",
                             "status": "final",
                             "type": {
                               "coding": [
@@ -3623,18 +3573,18 @@
                               "text": "Pathology study"
                             },
                             "subject": {
-                              "reference": "Patient/885bdcec-b7bf-40ae-8e7d-7f49a2da2d5c",
+                              "reference": "Patient/62582e22-ad10-4539-9126-18318cad524b",
                               "type": "Patient"
                             },
                             "encounter": {
-                              "reference": "Encounter/5a42aedc-e3d9-4c70-afbd-691d7b25204d",
+                              "reference": "Encounter/5f4c4671-c31f-45a6-a6d7-bd916cea3323",
                               "type": "Encounter",
                               "display": "unknown"
                             },
-                            "date": "2022-10-21",
+                            "date": "2022-10-25",
                             "author": [
                               {
-                                "reference": "Practitioner/22bc3e8c-8868-4d53-a09f-e42051d63762",
+                                "reference": "Practitioner/b283f456-be22-4a86-a941-789bdcd5b1b3",
                                 "type": "Practitioner",
                                 "display": "Unknown"
                               }
@@ -3658,7 +3608,7 @@
                                 },
                                 "entry": [
                                   {
-                                    "reference": "List/e06328e8-012f-4e71-9107-7aa5682b424f",
+                                    "reference": "List/b01a18eb-75ce-4f84-b4b9-d34674cf566c",
                                     "type": "List",
                                     "display": "General"
                                   }
@@ -3668,10 +3618,10 @@
                           }
                         },
                         {
-                          "fullUrl": "Practitioner/22bc3e8c-8868-4d53-a09f-e42051d63762",
+                          "fullUrl": "Practitioner/b283f456-be22-4a86-a941-789bdcd5b1b3",
                           "resource": {
                             "resourceType": "Practitioner",
-                            "id": "22bc3e8c-8868-4d53-a09f-e42051d63762",
+                            "id": "b283f456-be22-4a86-a941-789bdcd5b1b3",
                             "name": [
                               {
                                 "text": "Unknown",
@@ -3681,18 +3631,18 @@
                           }
                         },
                         {
-                          "fullUrl": "Patient/885bdcec-b7bf-40ae-8e7d-7f49a2da2d5c",
+                          "fullUrl": "Patient/62582e22-ad10-4539-9126-18318cad524b",
                           "resource": {
                             "resourceType": "Patient",
-                            "id": "885bdcec-b7bf-40ae-8e7d-7f49a2da2d5c",
+                            "id": "62582e22-ad10-4539-9126-18318cad524b",
                             "gender": "unknown"
                           }
                         },
                         {
-                          "fullUrl": "Encounter/5a42aedc-e3d9-4c70-afbd-691d7b25204d",
+                          "fullUrl": "Encounter/5f4c4671-c31f-45a6-a6d7-bd916cea3323",
                           "resource": {
                             "resourceType": "Encounter",
-                            "id": "5a42aedc-e3d9-4c70-afbd-691d7b25204d",
+                            "id": "5f4c4671-c31f-45a6-a6d7-bd916cea3323",
                             "meta": {
                               "profile": [
                                 "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
@@ -3704,20 +3654,20 @@
                               "display": "unknown"
                             },
                             "subject": {
-                              "reference": "Patient/885bdcec-b7bf-40ae-8e7d-7f49a2da2d5c",
+                              "reference": "Patient/62582e22-ad10-4539-9126-18318cad524b",
                               "type": "Patient"
                             },
                             "period": {
-                              "start": "2022-10-21",
-                              "end": "2022-10-21"
+                              "start": "2022-10-25",
+                              "end": "2022-10-25"
                             }
                           }
                         },
                         {
-                          "fullUrl": "Observation/64ec0241-f901-405c-a378-b85f9e064a2e",
+                          "fullUrl": "Observation/b0c37823-db6c-4dbd-84ac-9beee82dde19",
                           "resource": {
                             "resourceType": "Observation",
-                            "id": "64ec0241-f901-405c-a378-b85f9e064a2e",
+                            "id": "b0c37823-db6c-4dbd-84ac-9beee82dde19",
                             "extension": [
                               {
                                 "extension": [
@@ -3937,11 +3887,11 @@
                               "text": "high blood pressure"
                             },
                             "subject": {
-                              "reference": "Patient/885bdcec-b7bf-40ae-8e7d-7f49a2da2d5c",
+                              "reference": "Patient/62582e22-ad10-4539-9126-18318cad524b",
                               "type": "Patient"
                             },
                             "encounter": {
-                              "reference": "Encounter/5a42aedc-e3d9-4c70-afbd-691d7b25204d",
+                              "reference": "Encounter/5f4c4671-c31f-45a6-a6d7-bd916cea3323",
                               "type": "Encounter",
                               "display": "unknown"
                             },
@@ -3960,26 +3910,26 @@
                           }
                         },
                         {
-                          "fullUrl": "List/e06328e8-012f-4e71-9107-7aa5682b424f",
+                          "fullUrl": "List/b01a18eb-75ce-4f84-b4b9-d34674cf566c",
                           "resource": {
                             "resourceType": "List",
-                            "id": "e06328e8-012f-4e71-9107-7aa5682b424f",
+                            "id": "b01a18eb-75ce-4f84-b4b9-d34674cf566c",
                             "status": "current",
                             "mode": "snapshot",
                             "title": "General",
                             "subject": {
-                              "reference": "Patient/885bdcec-b7bf-40ae-8e7d-7f49a2da2d5c",
+                              "reference": "Patient/62582e22-ad10-4539-9126-18318cad524b",
                               "type": "Patient"
                             },
                             "encounter": {
-                              "reference": "Encounter/5a42aedc-e3d9-4c70-afbd-691d7b25204d",
+                              "reference": "Encounter/5f4c4671-c31f-45a6-a6d7-bd916cea3323",
                               "type": "Encounter",
                               "display": "unknown"
                             },
                             "entry": [
                               {
                                 "item": {
-                                  "reference": "Observation/64ec0241-f901-405c-a378-b85f9e064a2e",
+                                  "reference": "Observation/b0c37823-db6c-4dbd-84ac-9beee82dde19",
                                   "type": "Observation",
                                   "display": "high blood pressure"
                                 }

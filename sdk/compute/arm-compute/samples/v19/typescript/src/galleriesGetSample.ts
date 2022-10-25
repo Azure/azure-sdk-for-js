@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Retrieves information about a Shared Image Gallery.
  *
  * @summary Retrieves information about a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/CommunityGallery_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/CommunityGallery_Get.json
  */
 async function getACommunityGallery() {
   const subscriptionId = "{subscription-id}";
@@ -36,7 +36,7 @@ getACommunityGallery().catch(console.error);
  * This sample demonstrates how to Retrieves information about a Shared Image Gallery.
  *
  * @summary Retrieves information about a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/Gallery_Get_WithExpandSharingProfileGroups.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_Get_WithExpandSharingProfileGroups.json
  */
 async function getAGalleryWithExpandSharingProfileGroups() {
   const subscriptionId = "{subscription-id}";
@@ -60,7 +60,7 @@ getAGalleryWithExpandSharingProfileGroups().catch(console.error);
  * This sample demonstrates how to Retrieves information about a Shared Image Gallery.
  *
  * @summary Retrieves information about a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/Gallery_Get_WithSelectPermissions.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_Get_WithSelectPermissions.json
  */
 async function getAGalleryWithSelectPermissions() {
   const subscriptionId = "{subscription-id}";
@@ -84,7 +84,7 @@ getAGalleryWithSelectPermissions().catch(console.error);
  * This sample demonstrates how to Retrieves information about a Shared Image Gallery.
  *
  * @summary Retrieves information about a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/Gallery_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_Get.json
  */
 async function getAGallery() {
   const subscriptionId = "{subscription-id}";

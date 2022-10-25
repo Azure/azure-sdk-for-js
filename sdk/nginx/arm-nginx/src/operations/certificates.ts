@@ -20,8 +20,8 @@ import {
   CertificatesListOptionalParams,
   CertificatesGetOptionalParams,
   CertificatesGetResponse,
-  CertificatesCreateOptionalParams,
-  CertificatesCreateResponse,
+  CertificatesCreateOrUpdateOptionalParams,
+  CertificatesCreateOrUpdateResponse,
   CertificatesDeleteOptionalParams,
   CertificatesListResponse,
   CertificatesListNextResponse
@@ -125,21 +125,21 @@ export class CertificatesImpl implements Certificates {
    * @param certificateName The name of certificate
    * @param options The options parameters.
    */
-  async beginCreate(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     deploymentName: string,
     certificateName: string,
-    options?: CertificatesCreateOptionalParams
+    options?: CertificatesCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<CertificatesCreateResponse>,
-      CertificatesCreateResponse
+      PollOperationState<CertificatesCreateOrUpdateResponse>,
+      CertificatesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<CertificatesCreateResponse> => {
+    ): Promise<CertificatesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -178,7 +178,7 @@ export class CertificatesImpl implements Certificates {
     const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, deploymentName, certificateName, options },
-      createOperationSpec
+      createOrUpdateOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
@@ -196,13 +196,13 @@ export class CertificatesImpl implements Certificates {
    * @param certificateName The name of certificate
    * @param options The options parameters.
    */
-  async beginCreateAndWait(
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     deploymentName: string,
     certificateName: string,
-    options?: CertificatesCreateOptionalParams
-  ): Promise<CertificatesCreateResponse> {
-    const poller = await this.beginCreate(
+    options?: CertificatesCreateOrUpdateOptionalParams
+  ): Promise<CertificatesCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       deploymentName,
       certificateName,
@@ -349,6 +349,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
     }
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -359,7 +360,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const createOperationSpec: coreClient.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/certificates/{certificateName}",
   httpMethod: "PUT",
@@ -381,6 +382,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.body,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -405,6 +407,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
     }
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

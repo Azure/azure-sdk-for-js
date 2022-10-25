@@ -16,7 +16,7 @@ import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient"
 import { Context, Suite } from "mocha";
 import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert, matrix } from "@azure/test-utils";
-import { assertActionResults, assertRestError } from "./utils/resultHelper";
+import { assertActionsResults, assertRestError } from "./utils/resultHelper";
 import {
   expectation1,
   expectation10,
@@ -41,16 +41,16 @@ import {
   expectation28,
   expectation29,
   expectation3,
-  expectation30,
-  expectation31,
-  expectation32,
-  expectation33,
   expectation4,
   expectation5,
   expectation6,
   expectation7,
   expectation8,
   expectation9,
+  expectation33,
+  expectation32,
+  expectation30,
+  expectation31,
 } from "./expectations";
 import { windows365ArticlePart1, windows365ArticlePart2 } from "./inputs";
 import { getDocIDsFromState } from "../../src/lro";
@@ -118,7 +118,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
               }
             );
 
-            await assertActionResults(await poller.pollUntilDone(), expectation3);
+            await assertActionsResults(await poller.pollUntilDone(), expectation3);
           });
 
           it("entity recognition with resolution", async function () {
@@ -140,7 +140,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
               }
             );
 
-            await assertActionResults(await poller.pollUntilDone(), expectation33);
+            await assertActionsResults(await poller.pollUntilDone(), expectation33);
           });
 
           it("key phrase extraction", async function () {
@@ -168,7 +168,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation5);
+            await assertActionsResults(await poller.pollUntilDone(), expectation5);
           });
 
           it("entity linking", async function () {
@@ -189,7 +189,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation6);
+            await assertActionsResults(await poller.pollUntilDone(), expectation6);
           });
 
           it("pii entity recognition", async function () {
@@ -211,7 +211,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation7);
+            await assertActionsResults(await poller.pollUntilDone(), expectation7);
           });
 
           it("pii entity recognition with filtered categories", async function () {
@@ -233,7 +233,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation8);
+            await assertActionsResults(await poller.pollUntilDone(), expectation8);
           });
 
           it("pii entity recognition with phi domain", async function () {
@@ -255,7 +255,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation24);
+            await assertActionsResults(await poller.pollUntilDone(), expectation24);
           });
 
           it("sentiment analysis with opinion mining", async function () {
@@ -282,7 +282,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation9);
+            await assertActionsResults(await poller.pollUntilDone(), expectation9);
           });
 
           it("healthcare", async function () {
@@ -303,7 +303,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation20);
+            await assertActionsResults(await poller.pollUntilDone(), expectation20);
           });
 
           it("healthcare with fhir", async function () {
@@ -325,7 +325,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation25, {
+            await assertActionsResults(await poller.pollUntilDone(), expectation25, {
               excludedAdditionalProps: excludedFHIRProperties,
             });
           });
@@ -350,10 +350,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await poller.pollUntilDone();
-
-            const results = await poller.pollUntilDone();
-            await assertActionResults(results, expectation32, {
+            await assertActionsResults(await poller.pollUntilDone(), expectation32, {
               excludedAdditionalProps: excludedFHIRProperties,
             });
           });
@@ -372,7 +369,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation27);
+            await assertActionsResults(await poller.pollUntilDone(), expectation27);
           });
 
           it("extractive summarization with maxSentenceCount", async function () {
@@ -390,7 +387,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation28);
+            await assertActionsResults(await poller.pollUntilDone(), expectation28);
           });
 
           it("extractive summarization with orderBy", async function () {
@@ -408,7 +405,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation29);
+            await assertActionsResults(await poller.pollUntilDone(), expectation29);
           });
 
           it("abstractive summarization", async function () {
@@ -425,7 +422,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation30, FIXME2);
+            await assertActionsResults(await poller.pollUntilDone(), expectation30, FIXME2);
           });
 
           it("abstractive summarization with maxSentenceCont", async function () {
@@ -443,7 +440,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation31, FIXME2);
+            await assertActionsResults(await poller.pollUntilDone(), expectation31, FIXME2);
           });
         });
 
@@ -471,7 +468,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation1);
+            await assertActionsResults(await poller.pollUntilDone(), expectation1);
           });
 
           it("single label classification action", async function () {
@@ -496,7 +493,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation2);
+            await assertActionsResults(await poller.pollUntilDone(), expectation2);
           });
 
           it("multi label classification action", async function () {
@@ -521,7 +518,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation4);
+            await assertActionsResults(await poller.pollUntilDone(), expectation4);
           });
         });
       });
@@ -673,7 +670,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation21, FIXME1);
+            await assertActionsResults(await poller.pollUntilDone(), expectation21, FIXME1);
           });
         });
 
@@ -696,7 +693,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionResults(await poller.pollUntilDone(), expectation19);
+          await assertActionsResults(await poller.pollUntilDone(), expectation19);
         });
 
         it("some documents with errors and multiple actions", async function () {
@@ -730,7 +727,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionResults(await poller.pollUntilDone(), expectation10, FIXME1);
+          await assertActionsResults(await poller.pollUntilDone(), expectation10, FIXME1);
         });
 
         it("all documents with errors and multiple actions", async function () {
@@ -764,7 +761,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionResults(await poller.pollUntilDone(), expectation11, FIXME1);
+          await assertActionsResults(await poller.pollUntilDone(), expectation11, FIXME1);
         });
 
         it("output order is same as the input's one with multiple actions", async function () {
@@ -792,7 +789,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionResults(await poller.pollUntilDone(), expectation12);
+          await assertActionsResults(await poller.pollUntilDone(), expectation12);
         });
 
         it("out of order input IDs with multiple actions", async function () {
@@ -820,7 +817,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionResults(await poller.pollUntilDone(), expectation13);
+          await assertActionsResults(await poller.pollUntilDone(), expectation13);
         });
 
         it("statistics", async function () {
@@ -890,7 +887,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionResults(await poller.pollUntilDone(), expectation14);
+          await assertActionsResults(await poller.pollUntilDone(), expectation14);
         });
 
         it("whole batch with no language hint", async function () {
@@ -917,7 +914,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionResults(await poller.pollUntilDone(), expectation14);
+          await assertActionsResults(await poller.pollUntilDone(), expectation14);
         });
 
         it("whole batch input with a language hint", async function () {
@@ -943,7 +940,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionResults(await poller.pollUntilDone(), expectation15);
+          await assertActionsResults(await poller.pollUntilDone(), expectation15);
         });
 
         it("invalid language hint", async function () {
@@ -966,7 +963,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionResults(await poller.pollUntilDone(), expectation16, FIXME1);
+          await assertActionsResults(await poller.pollUntilDone(), expectation16, FIXME1);
         });
 
         it("paged results with custom page size", async function () {
@@ -988,7 +985,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionResults(await poller.pollUntilDone(), expectation17, {
+          await assertActionsResults(await poller.pollUntilDone(), expectation17, {
             maxPageSize: 10,
           });
         });
@@ -1023,7 +1020,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
           await poller.pollUntilDone();
         });
 
-        it("cancel after progress", async function () {
+        it.skip("cancel after progress", async function () {
           const docs = [
             "Patient does not suffer from high blood pressure.",
             "Prescribed 100mg ibuprofen, taken twice daily.",
@@ -1105,8 +1102,8 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
           const rehydratedPoller = await client.restoreAnalyzeBatchPoller(serializedState, {
             updateIntervalInMs: pollingInterval,
           });
-          await assertActionResults(await rehydratedPoller.pollUntilDone(), expectation26);
-          await assertActionResults(await originalPoller.pollUntilDone(), expectation26);
+          await assertActionsResults(await rehydratedPoller.pollUntilDone(), expectation26);
+          await assertActionsResults(await originalPoller.pollUntilDone(), expectation26);
         });
 
         describe("stringIndexType", function () {
@@ -1125,7 +1122,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation18);
+            await assertActionsResults(await poller.pollUntilDone(), expectation18);
           });
 
           it("family emoji wit skin tone modifier with Utf16CodeUnit", async function () {
@@ -1143,7 +1140,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation22);
+            await assertActionsResults(await poller.pollUntilDone(), expectation22);
           });
 
           it("family emoji wit skin tone modifier with UnicodeCodePoint", async function () {
@@ -1161,7 +1158,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation23);
+            await assertActionsResults(await poller.pollUntilDone(), expectation23);
           });
         });
       });

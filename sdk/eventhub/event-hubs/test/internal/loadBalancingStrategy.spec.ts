@@ -37,7 +37,7 @@ testWithServiceTypes(() => {
         const m = new Map<string, PartitionOwnership>();
         const lb = new UnbalancedLoadBalancingStrategy();
 
-        lb.getPartitionsToCliam("ownerId", m, ["1", "2", "3"]).should.deep.eq(["1", "2", "3"]);
+        lb.getPartitionsToClaim("ownerId", m, ["1", "2", "3"]).should.deep.eq(["1", "2", "3"]);
         should.equal(m.size, 0);
       });
 
@@ -66,7 +66,7 @@ testWithServiceTypes(() => {
 
         const lb = new UnbalancedLoadBalancingStrategy();
 
-        lb.getPartitionsToCliam("ownerId", m, ["1", "2", "3"]).should.deep.eq(["1", "2", "3"]);
+        lb.getPartitionsToClaim("ownerId", m, ["1", "2", "3"]).should.deep.eq(["1", "2", "3"]);
       });
     });
 
@@ -78,7 +78,7 @@ testWithServiceTypes(() => {
 
         // at this point 'a' has it's fair share of partitions (there are 3 total)
         // and it's okay to have 1 extra.
-        let partitionsToOwn = lb.getPartitionsToCliam(
+        let partitionsToOwn = lb.getPartitionsToClaim(
           "a",
           createOwnershipMap({
             "1": "b",
@@ -95,7 +95,7 @@ testWithServiceTypes(() => {
 
         // now the other side of this is when we're fighting for the ownership of an
         // extra partition
-        partitionsToOwn = lb.getPartitionsToCliam(
+        partitionsToOwn = lb.getPartitionsToClaim(
           "a",
           createOwnershipMap({
             "1": "b",
@@ -115,7 +115,7 @@ testWithServiceTypes(() => {
 
         // at this point 'a' has it's fair share of partitions (there are 4 total)
         // so it'll stop claiming additional partitions.
-        let partitionsToOwn = lb.getPartitionsToCliam(
+        let partitionsToOwn = lb.getPartitionsToClaim(
           "a",
           createOwnershipMap({
             "1": "b",
@@ -130,7 +130,7 @@ testWithServiceTypes(() => {
           "we've gotten our fair share, shouldn't claim anything new"
         );
 
-        partitionsToOwn = lb.getPartitionsToCliam(
+        partitionsToOwn = lb.getPartitionsToClaim(
           "a",
           createOwnershipMap({
             "0": "b",
@@ -153,7 +153,7 @@ testWithServiceTypes(() => {
       it("stealing", () => {
         // something like this could happen if 'a' were just the only processor
         // and now we're spinning up 'b'
-        let partitionsToOwn = lb.getPartitionsToCliam(
+        let partitionsToOwn = lb.getPartitionsToClaim(
           "b",
           createOwnershipMap({
             "0": "a",
@@ -170,7 +170,7 @@ testWithServiceTypes(() => {
         );
 
         // and now the same case as above, but with an even number of partitions per processor.
-        partitionsToOwn = lb.getPartitionsToCliam(
+        partitionsToOwn = lb.getPartitionsToClaim(
           "b",
           createOwnershipMap({
             "0": "a",
@@ -225,7 +225,7 @@ testWithServiceTypes(() => {
           "9": "d",
         });
 
-        const requestedPartitions = lbs.getPartitionsToCliam("c", initialOwnershipMap, partitions);
+        const requestedPartitions = lbs.getPartitionsToClaim("c", initialOwnershipMap, partitions);
         requestedPartitions.sort();
 
         requestedPartitions.should.deep.equal(
@@ -238,7 +238,7 @@ testWithServiceTypes(() => {
         // this is a case where we shouldn't steal - we have
         // the minimum number of partitions and stealing at this
         // point will just keep thrashing both processors.
-        const partitionsToOwn = lb.getPartitionsToCliam(
+        const partitionsToOwn = lb.getPartitionsToClaim(
           "b",
           createOwnershipMap({
             "0": "a",
@@ -256,11 +256,11 @@ testWithServiceTypes(() => {
         const allPartitions = ["0", "1", "2", "3"];
 
         // in the presence of no owners we claim a random partition
-        let partitionsToOwn = lb.getPartitionsToCliam("a", createOwnershipMap({}), allPartitions);
+        let partitionsToOwn = lb.getPartitionsToClaim("a", createOwnershipMap({}), allPartitions);
         partitionsToOwn.length.should.be.equal(1, "nothing is owned, claim one");
 
         // if there are other owners we should claim up to #partitions/#owners
-        partitionsToOwn = lb.getPartitionsToCliam(
+        partitionsToOwn = lb.getPartitionsToClaim(
           "a",
           createOwnershipMap({
             "1": "b",
@@ -273,7 +273,7 @@ testWithServiceTypes(() => {
         partitionsToOwn.filter((p) => p === "1").length.should.equal(0);
 
         // 'b' should claim the last unowned partition
-        partitionsToOwn = lb.getPartitionsToCliam(
+        partitionsToOwn = lb.getPartitionsToClaim(
           "b",
           createOwnershipMap({
             "1": "b",
@@ -286,7 +286,7 @@ testWithServiceTypes(() => {
         partitionsToOwn.should.be.deep.equal(["0"], "b grabbed the last available partition");
 
         // we're balanced - processors now only grab the partitions that they own
-        partitionsToOwn = lb.getPartitionsToCliam(
+        partitionsToOwn = lb.getPartitionsToClaim(
           "b",
           createOwnershipMap({
             "0": "b",
@@ -310,14 +310,14 @@ testWithServiceTypes(() => {
         });
 
         // At this point, 'a' has its fair share of partitions, and none should be returned.
-        let partitionsToOwn = lbs.getPartitionsToCliam("a", ownershipMap, allPartitions);
+        let partitionsToOwn = lbs.getPartitionsToClaim("a", ownershipMap, allPartitions);
         partitionsToOwn.length.should.equal(0, "Expected to not claim any new partitions.");
 
         // Change the ownership of partition "0" so it is older than the interval.
         const ownership = ownershipMap.get("0")!;
         ownership.lastModifiedTimeInMs = Date.now() - (intervalInMs + 1); // Add 1 to the interval to ensure it has just expired.
 
-        partitionsToOwn = lbs.getPartitionsToCliam("a", ownershipMap, allPartitions);
+        partitionsToOwn = lbs.getPartitionsToClaim("a", ownershipMap, allPartitions);
         partitionsToOwn.should.deep.equal(["0"]);
       });
     });
@@ -330,7 +330,7 @@ testWithServiceTypes(() => {
 
         // at this point 'a' has it's fair share of partitions (there are 3 total)
         // and it's okay to have 1 extra.
-        let partitionsToOwn = lb.getPartitionsToCliam(
+        let partitionsToOwn = lb.getPartitionsToClaim(
           "a",
           createOwnershipMap({
             "1": "b",
@@ -347,7 +347,7 @@ testWithServiceTypes(() => {
 
         // now the other side of this is when we're fighting for the ownership of an
         // extra partition
-        partitionsToOwn = lb.getPartitionsToCliam(
+        partitionsToOwn = lb.getPartitionsToClaim(
           "a",
           createOwnershipMap({
             "1": "b",
@@ -367,7 +367,7 @@ testWithServiceTypes(() => {
 
         // at this point 'a' has it's fair share of partitions (there are 4 total)
         // so it'll stop claiming additional partitions.
-        let partitionsToOwn = lb.getPartitionsToCliam(
+        let partitionsToOwn = lb.getPartitionsToClaim(
           "a",
           createOwnershipMap({
             "1": "b",
@@ -382,7 +382,7 @@ testWithServiceTypes(() => {
           "we've gotten our fair share, shouldn't claim anything new"
         );
 
-        partitionsToOwn = lb.getPartitionsToCliam(
+        partitionsToOwn = lb.getPartitionsToClaim(
           "a",
           createOwnershipMap({
             "0": "b",
@@ -405,7 +405,7 @@ testWithServiceTypes(() => {
       it("stealing", () => {
         // something like this could happen if 'a' were just the only processor
         // and now we're spinning up 'b'
-        let partitionsToOwn = lb.getPartitionsToCliam(
+        let partitionsToOwn = lb.getPartitionsToClaim(
           "b",
           createOwnershipMap({
             "0": "a",
@@ -422,7 +422,7 @@ testWithServiceTypes(() => {
         );
 
         // and now the same case as above, but with an even number of partitions per processor.
-        partitionsToOwn = lb.getPartitionsToCliam(
+        partitionsToOwn = lb.getPartitionsToClaim(
           "b",
           createOwnershipMap({
             "0": "a",
@@ -446,7 +446,7 @@ testWithServiceTypes(() => {
           allPartitions.push(`${i}`);
         }
 
-        const partitionsToOwn = lb.getPartitionsToCliam(
+        const partitionsToOwn = lb.getPartitionsToClaim(
           "a",
           createOwnershipMap({
             "0": "",
@@ -505,7 +505,7 @@ testWithServiceTypes(() => {
           "9": "d",
         });
 
-        const requestedPartitions = lbs.getPartitionsToCliam("c", initialOwnershipMap, partitions);
+        const requestedPartitions = lbs.getPartitionsToClaim("c", initialOwnershipMap, partitions);
         requestedPartitions.sort();
 
         requestedPartitions.should.deep.equal(
@@ -518,7 +518,7 @@ testWithServiceTypes(() => {
         // this is a case where we shouldn't steal - we have
         // the minimum number of partitions and stealing at this
         // point will just keep thrashing both processors.
-        const partitionsToOwn = lb.getPartitionsToCliam(
+        const partitionsToOwn = lb.getPartitionsToClaim(
           "b",
           createOwnershipMap({
             "0": "a",
@@ -536,11 +536,11 @@ testWithServiceTypes(() => {
         const allPartitions = ["0", "1", "2", "3"];
 
         // in the presence of no owners we claim a random partition
-        let partitionsToOwn = lb.getPartitionsToCliam("a", createOwnershipMap({}), allPartitions);
+        let partitionsToOwn = lb.getPartitionsToClaim("a", createOwnershipMap({}), allPartitions);
         partitionsToOwn.length.should.be.equal(4, "nothing is owned, claim all");
 
         // if there are other owners we should claim up to #partitions/#owners
-        partitionsToOwn = lb.getPartitionsToCliam(
+        partitionsToOwn = lb.getPartitionsToClaim(
           "a",
           createOwnershipMap({
             "1": "b",
@@ -553,7 +553,7 @@ testWithServiceTypes(() => {
         partitionsToOwn.filter((p) => p === "1").length.should.equal(0);
 
         // 'b' should claim the last unowned partition
-        partitionsToOwn = lb.getPartitionsToCliam(
+        partitionsToOwn = lb.getPartitionsToClaim(
           "b",
           createOwnershipMap({
             "1": "b",
@@ -566,7 +566,7 @@ testWithServiceTypes(() => {
         partitionsToOwn.should.be.deep.equal(["0"], "b grabbed the last available partition");
 
         // we're balanced - processors now only grab the partitions that they own
-        partitionsToOwn = lb.getPartitionsToCliam(
+        partitionsToOwn = lb.getPartitionsToClaim(
           "b",
           createOwnershipMap({
             "0": "b",
@@ -590,7 +590,7 @@ testWithServiceTypes(() => {
         });
 
         // At this point, "a" should only grab 1 partition since both "a" and "b" should end up with 2 partitions each.
-        let partitionsToOwn = lbs.getPartitionsToCliam("a", ownershipMap, allPartitions);
+        let partitionsToOwn = lbs.getPartitionsToClaim("a", ownershipMap, allPartitions);
         partitionsToOwn.length.should.equal(1, "Expected to claim 1 new partitions.");
 
         // Change the ownership of partition "0" so it is older than the interval.
@@ -600,7 +600,7 @@ testWithServiceTypes(() => {
         // At this point, "a" should grab partitions 0, 2, and 3.
         // This is because "b" only owned 1 partition and that claim is expired,
         // so "a" as treated as if it is the only owner.
-        partitionsToOwn = lbs.getPartitionsToCliam("a", ownershipMap, allPartitions);
+        partitionsToOwn = lbs.getPartitionsToClaim("a", ownershipMap, allPartitions);
         partitionsToOwn.sort();
         partitionsToOwn.should.deep.equal(["0", "2", "3"]);
       });
