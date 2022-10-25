@@ -5467,15 +5467,15 @@ export const expectation29: AnalyzeBatchResult[] = [
         warnings: [],
         sentences: [
           {
-            text: "Windows is already accessible in the cloud via Azure Virtual Desktop, which offers customers flexibility to create and run their own virtualization service.",
-            rankScore: 0.43,
-            offset: 2453,
-            length: 156,
-          },
-          {
             text: "Windows 365 is a new virtualization technology for Windows that is easy to set up and deploy for today’s login-from-anywhere, mobile and elastic workforces.",
             rankScore: 1,
             offset: 2610,
+            length: 156,
+          },
+          {
+            text: "Windows is already accessible in the cloud via Azure Virtual Desktop, which offers customers flexibility to create and run their own virtualization service.",
+            rankScore: 0.43,
+            offset: 2453,
             length: 156,
           },
           {
@@ -5491,10 +5491,10 @@ export const expectation29: AnalyzeBatchResult[] = [
         warnings: [],
         sentences: [
           {
-            text: "Windows 365 was in the works before COVID-19 sent companies around the world on a scramble to secure solutions to support employees suddenly forced to work from home, but “what really put the firecracker behind it was the pandemic, it accelerated everything,” McKelvey said.",
-            rankScore: 0.79,
-            offset: 10,
-            length: 274,
+            text: "The ability to login to a Cloud PC from anywhere on any device is part of Microsoft’s larger strategy around tailoring products such as Microsoft Teams and Microsoft 365 for the post-pandemic hybrid workforce of the future, she added.",
+            rankScore: 1,
+            offset: 1102,
+            length: 234,
           },
           {
             text: "In this new world of Windows 365, remote workers flip the lid on their laptop, bootup the family workstation or clip a keyboard onto a tablet, launch a native app or modern web browser and login to their Windows 365 account.",
@@ -5503,10 +5503,10 @@ export const expectation29: AnalyzeBatchResult[] = [
             length: 224,
           },
           {
-            text: "The ability to login to a Cloud PC from anywhere on any device is part of Microsoft’s larger strategy around tailoring products such as Microsoft Teams and Microsoft 365 for the post-pandemic hybrid workforce of the future, she added.",
-            rankScore: 1,
-            offset: 1102,
-            length: 234,
+            text: "Windows 365 was in the works before COVID-19 sent companies around the world on a scramble to secure solutions to support employees suddenly forced to work from home, but “what really put the firecracker behind it was the pandemic, it accelerated everything,” McKelvey said.",
+            rankScore: 0.79,
+            offset: 10,
+            length: 274,
           },
         ],
       },
