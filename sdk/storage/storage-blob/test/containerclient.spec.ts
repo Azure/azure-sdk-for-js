@@ -657,6 +657,7 @@ describe("ContainerClient", () => {
           includeDeleted: true,
           includeMetadata: true,
           includeUncommitedBlobs: true,
+          includeVersions: true,
           prefix,
         })
         .byPage({ maxPageSize: 1 })
@@ -676,6 +677,7 @@ describe("ContainerClient", () => {
           includeDeleted: true,
           includeMetadata: true,
           includeUncommitedBlobs: true,
+          includeVersions: true,
           prefix,
         })
         .byPage({ continuationToken: result.continuationToken, maxPageSize: 2 })
@@ -695,6 +697,7 @@ describe("ContainerClient", () => {
           includeDeleted: true,
           includeMetadata: true,
           includeUncommitedBlobs: true,
+          includeVersions: true,
           prefix: `${prefix}0${delimiter}`,
         })
         .byPage({ maxPageSize: 2 })
@@ -707,6 +710,7 @@ describe("ContainerClient", () => {
     assert.deepStrictEqual(result3.delimiter, delimiter);
     assert.deepStrictEqual(result3.segment.blobItems!.length, 1);
     assert.ok(isSuperSet(result3.segment.blobItems![0].metadata, metadata));
+    assert.ok(result3.segment.blobItems![0].versionId);
     assert.ok(blobClients[0].url.indexOf(result3.segment.blobItems![0].name));
 
     for (const blob of blobClients) {
