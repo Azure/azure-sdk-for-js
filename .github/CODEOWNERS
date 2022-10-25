@@ -44,7 +44,7 @@
 /sdk/batch/ @dpwatrous @paterasMSFT @zfengms @deyaaeldeen
 
 # PRLabel: %Communication - Identity
-/sdk/communication/communication-identity/ @petrsvihlik @AikoBB @maximrytych-ms
+/sdk/communication/communication-identity/ @petrsvihlik @AikoBB @maximrytych-ms @ostoliarova-msft
 
 # PRLabel: %Communication - Chat
 /sdk/communication/communication-chat/ @LuChen-Microsoft
@@ -62,7 +62,7 @@
 /sdk/communication/communication-short-codes/ @guilhermeluizsp @danielav7
 
 # PRLabel: %Communication - Common
-/sdk/communication/communication-common/ @petrsvihlik @AikoBB @maximrytych-ms
+/sdk/communication/communication-common/ @petrsvihlik @AikoBB @maximrytych-ms @ostoliarova-msft
 
 # PRLabel: %Communication
 /sdk/communication/communication/ @petrsvihlik @AikoBB @maximrytych-ms
