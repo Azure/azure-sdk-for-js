@@ -24,8 +24,7 @@ import {
 const replaceableVariables: Record<string, string> = {
     AZURE_CLIENT_ID: "azure_client_id",
     AZURE_CLIENT_SECRET: "azure_client_secret",
-    AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-    SUBSCRIPTION_ID: "00000000-0000-0000-0000-000000000000",
+    AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888"
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -70,7 +69,7 @@ describe("Load Tests Operations", () => {
     subscriptionId = env.SUBSCRIPTION_ID || '';
     location = env.LOCATION || "westus2";
     resourceGroupName = env.RESOURCE_GROUP || "js-sdk-test-rg";
-    loadTestResourceName = "sdk-malt-js-resource-"+Math.floor(Math.random() * 1000000);
+    loadTestResourceName = "loadtestsResource";
     quotaBucketName = "maxEngineInstancesPerTestRun";
   })
 
