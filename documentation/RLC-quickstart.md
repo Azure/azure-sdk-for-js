@@ -53,7 +53,9 @@ We are working on to automatically generate everything right now, but currently 
     ---
     **NOTE**
 
-    It's always recommended to replace the version of code generator @autorest/typescript with the latest version you can find in [npmjs.com](https://www.npmjs.com/package/@autorest/typescript) in latest tag.  
+    It's always recommended to replace the version of code generator @autorest/typescript with the latest version you can find in [npmjs.com](https://www.npmjs.com/package/@autorest/typescript) in latest tag. 
+
+    If the `input-file` is followed by an `. md` file, you need to replace the `input-file` with `require`. If it is a `JSON` file, do not change it 
 
     **After the first generation, you need to switch `generate-metadata: false`  as we have some manual changes in this file and don't want them get overwrite by generated ones.**
 

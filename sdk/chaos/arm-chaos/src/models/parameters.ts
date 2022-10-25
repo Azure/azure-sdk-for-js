@@ -44,7 +44,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-07-01-preview",
+    defaultValue: "2022-10-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -192,6 +192,48 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true
 };
 
+export const locationName: OperationURLParameter = {
+  parameterPath: "locationName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9_\\-\\.]+$")
+    },
+    serializedName: "locationName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const targetTypeName: OperationURLParameter = {
+  parameterPath: "targetTypeName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9_\\-\\.]+$")
+    },
+    serializedName: "targetTypeName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const capabilityTypeName: OperationURLParameter = {
+  parameterPath: "capabilityTypeName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9\\-\\.]+-\\d\\.\\d$")
+    },
+    serializedName: "capabilityTypeName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const running: OperationQueryParameter = {
   parameterPath: ["options", "running"],
   mapper: {
@@ -257,46 +299,4 @@ export const executionDetailsId: OperationURLParameter = {
 export const target: OperationParameter = {
   parameterPath: "target",
   mapper: TargetMapper
-};
-
-export const locationName: OperationURLParameter = {
-  parameterPath: "locationName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9_\\-\\.]+$")
-    },
-    serializedName: "locationName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const targetTypeName: OperationURLParameter = {
-  parameterPath: "targetTypeName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9_\\-\\.]+$")
-    },
-    serializedName: "targetTypeName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const capabilityTypeName: OperationURLParameter = {
-  parameterPath: "capabilityTypeName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9\\-\\.]+-\\d\\.\\d$")
-    },
-    serializedName: "capabilityTypeName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
 };

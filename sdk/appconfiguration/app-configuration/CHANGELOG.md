@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Update `@azure/core-paging` dependency to the latest version (1.4.0). Notable changes include using the `getPagedAsyncIterator` method. [#23479](https://github.com/Azure/azure-sdk-for-js/pull/23479)
+
 ## 1.4.0-beta.1 (2022-05-10)
 
 ### Features Added

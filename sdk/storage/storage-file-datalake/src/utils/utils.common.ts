@@ -620,3 +620,14 @@ export function ToBlobContainerEncryptionScope(
     preventEncryptionScopeOverride: true,
   };
 }
+
+/**
+ * Escape the file or directory name but keep path separator ('/').
+ */
+export function EscapePath(pathName: string): string {
+  const split = pathName.split("/");
+  for (let i = 0; i < split.length; i++) {
+    split[i] = encodeURIComponent(split[i]);
+  }
+  return split.join("/");
+}

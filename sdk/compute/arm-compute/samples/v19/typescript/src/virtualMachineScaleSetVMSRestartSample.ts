@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Restarts a virtual machine in a VM scale set.
  *
  * @summary Restarts a virtual machine in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Restart_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Restart_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSRestartMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -38,7 +38,7 @@ virtualMachineScaleSetVMSRestartMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Restarts a virtual machine in a VM scale set.
  *
  * @summary Restarts a virtual machine in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Restart_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Restart_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSRestartMinimumSetGen() {
   const subscriptionId = "{subscription-id}";

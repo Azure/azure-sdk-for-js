@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpClient, PipelineRequest, PipelineResponse, SendRequest } from "./interfaces";
+import { HttpClient, PipelineRequest, PipelineResponse, SendRequest } from "./interfaces.js";
 
 /**
  * Policies are executed in phases.
@@ -120,8 +120,8 @@ class HttpPipeline implements Pipeline {
   private _policies: PipelineDescriptor[] = [];
   private _orderedPolicies?: PipelinePolicy[];
 
-  private constructor(policies: PipelineDescriptor[] = []) {
-    this._policies = policies;
+  private constructor(policies?: PipelineDescriptor[]) {
+    this._policies = policies?.slice(0) ?? [];
     this._orderedPolicies = undefined;
   }
 

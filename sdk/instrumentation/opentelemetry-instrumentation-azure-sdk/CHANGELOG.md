@@ -1,15 +1,11 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0-beta.2 (2022-10-22)
 
 ### Features Added
 
 - Added the ability to disable Azure SDK Spans from being recorded by setting the `AZURE_TRACING_DISABLED` environment variable to true.
-- Added support for `AZURE_HTTP_TRACING_DISABLED` environment variable which allows disabling all children of our core HTTP spans from being recorded.
-
-### Breaking Changes
-
-### Bugs Fixed
+- Added support for `AZURE_HTTP_TRACING_CHILDREN_DISABLED` environment variable which allows disabling all children of our core HTTP spans from being recorded.
 
 ### Other Changes
 

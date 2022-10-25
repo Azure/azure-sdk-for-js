@@ -115,9 +115,9 @@ export interface WorkflowParameter {
   /** The type. */
   type?: ParameterType;
   /** The value. */
-  value?: Record<string, unknown>;
+  value?: any;
   /** The metadata. */
-  metadata?: Record<string, unknown>;
+  metadata?: any;
   /** The description. */
   description?: string;
 }
@@ -367,7 +367,7 @@ export interface ContentLink {
    * The metadata.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly metadata?: Record<string, unknown>;
+  readonly metadata?: any;
 }
 
 /** The content hash. */
@@ -397,7 +397,7 @@ export interface WorkflowRunTrigger {
    * Gets the inputs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly inputs?: Record<string, unknown>;
+  readonly inputs?: any;
   /**
    * Gets the link to inputs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -407,7 +407,7 @@ export interface WorkflowRunTrigger {
    * Gets the outputs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly outputs?: Record<string, unknown>;
+  readonly outputs?: any;
   /**
    * Gets the link to outputs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -449,12 +449,12 @@ export interface WorkflowRunTrigger {
    * Gets the error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly error?: Record<string, unknown>;
+  readonly error?: any;
   /**
    * Gets the tracked properties.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly trackedProperties?: Record<string, unknown>;
+  readonly trackedProperties?: any;
 }
 
 /** The list of workflow run actions. */
@@ -566,7 +566,7 @@ export interface RequestHistoryProperties {
 /** A request. */
 export interface Request {
   /** A list of all the headers attached to the request. */
-  headers?: Record<string, unknown>;
+  headers?: any;
   /** The destination for the request. */
   uri?: string;
   /** The HTTP method used for the request. */
@@ -576,7 +576,7 @@ export interface Request {
 /** A response. */
 export interface Response {
   /** A list of all the headers attached to the response. */
-  headers?: Record<string, unknown>;
+  headers?: any;
   /** The status code of the response. */
   statusCode?: number;
   /** Details on the location of the body content. */
@@ -686,7 +686,7 @@ export interface TrackingEvent {
   /** The record type. */
   recordType: TrackingRecordType;
   /** The record. */
-  record?: Record<string, unknown>;
+  record?: any;
   /** The error. */
   error?: TrackingEventErrorInfo;
 }
@@ -1729,7 +1729,7 @@ export interface ExtendedErrorInfo {
   /** The error message details. */
   details?: ExtendedErrorInfo[];
   /** The inner error. */
-  innerError?: Record<string, unknown>;
+  innerError?: any;
 }
 
 /** The list of integration service environment managed APIs. */
@@ -1757,9 +1757,7 @@ export interface ApiResourceProperties {
    * The connection parameters.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly connectionParameters?: {
-    [propertyName: string]: Record<string, unknown>;
-  };
+  readonly connectionParameters?: { [propertyName: string]: any };
   /**
    * The metadata.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1965,7 +1963,7 @@ export interface SwaggerSchema {
   /** The object properties */
   properties?: { [propertyName: string]: SwaggerSchema };
   /** The additional properties. */
-  additionalProperties?: Record<string, unknown>;
+  additionalProperties?: any;
   /** The object required properties. */
   required?: string[];
   /** The maximum number of allowed properties. */
@@ -1983,7 +1981,7 @@ export interface SwaggerSchema {
   /** The external documentation. */
   externalDocs?: SwaggerExternalDocumentation;
   /** The example value. */
-  example?: Record<string, unknown>;
+  example?: any;
   /** Indicates the notification url extension. If this is set, the property's value should be a callback url for a webhook. */
   notificationUrlExtension?: boolean;
   /** The dynamic schema configuration. */
@@ -2009,7 +2007,7 @@ export interface SwaggerXml {
   /** Indicates whether the array elements are wrapped in a container element. */
   wrapped?: boolean;
   /** The vendor extensions. */
-  extensions?: { [propertyName: string]: Record<string, unknown> };
+  extensions?: { [propertyName: string]: any };
 }
 
 /** The swagger external documentation */
@@ -2019,7 +2017,7 @@ export interface SwaggerExternalDocumentation {
   /** The documentation Uri. */
   uri?: string;
   /** The vendor extensions. */
-  extensions?: { [propertyName: string]: Record<string, unknown> };
+  extensions?: { [propertyName: string]: any };
 }
 
 /** The swagger custom dynamic schema. */
@@ -2029,7 +2027,7 @@ export interface SwaggerCustomDynamicSchema {
   /** Json pointer to the dynamic schema on the response body. */
   valuePath?: string;
   /** The operation parameters. */
-  parameters?: { [propertyName: string]: Record<string, unknown> };
+  parameters?: { [propertyName: string]: any };
 }
 
 /** The swagger custom dynamic properties. */
@@ -2101,7 +2099,7 @@ export interface SwaggerCustomDynamicTreeParameter {
   /** Gets or sets a path to a property in the currently selected item to pass as a value to a parameter for the given operation. */
   selectedItemValuePath?: string;
   /** The parameter value. */
-  value?: Record<string, unknown>;
+  value?: any;
   /** The parameter reference. */
   parameterReference?: string;
   /** Indicates whether the parameter is required. */
@@ -2125,7 +2123,7 @@ export interface Operation {
   /** The object that represents the operation. */
   display?: OperationDisplay;
   /** The properties. */
-  properties?: Record<string, unknown>;
+  properties?: any;
 }
 
 /** The object that represents the operation. */
@@ -2209,21 +2207,21 @@ export interface IntegrationAccountSessionFilter {
 }
 
 /** The workflow reference. */
-export type WorkflowReference = ResourceReference & {};
+export interface WorkflowReference extends ResourceReference {}
 
 /** The workflow trigger reference. */
-export type WorkflowTriggerReference = ResourceReference & {
+export interface WorkflowTriggerReference extends ResourceReference {
   /** The workflow name. */
   flowName?: string;
   /** The workflow trigger name. */
   triggerName?: string;
-};
+}
 
 /** The key vault reference. */
-export type KeyVaultReference = ResourceReference & {};
+export interface KeyVaultReference extends ResourceReference {}
 
 /** The Api reference. */
-export type ApiReference = ResourceReference & {
+export interface ApiReference extends ResourceReference {
   /** The display name of the api. */
   displayName?: string;
   /** The description of the api. */
@@ -2231,26 +2229,26 @@ export type ApiReference = ResourceReference & {
   /** The icon uri of the api. */
   iconUri?: string;
   /** The swagger of the api. */
-  swagger?: Record<string, unknown>;
+  swagger?: any;
   /** The brand color of the api. */
   brandColor?: string;
   /** The tier. */
   category?: ApiTier;
   /** The integration service environment reference. */
   integrationServiceEnvironment?: ResourceReference;
-};
+}
 
 /** The workflow output parameter. */
-export type WorkflowOutputParameter = WorkflowParameter & {
+export interface WorkflowOutputParameter extends WorkflowParameter {
   /**
    * Gets the error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly error?: Record<string, unknown>;
-};
+  readonly error?: any;
+}
 
 /** The workflow type. */
-export type Workflow = Resource & {
+export interface Workflow extends Resource {
   /** Managed service identity properties. */
   identity?: ManagedServiceIdentity;
   /**
@@ -2294,13 +2292,13 @@ export type Workflow = Resource & {
   /** The integration service environment. */
   integrationServiceEnvironment?: ResourceReference;
   /** The definition. */
-  definition?: Record<string, unknown>;
+  definition?: any;
   /** The parameters. */
   parameters?: { [propertyName: string]: WorkflowParameter };
-};
+}
 
 /** The workflow version. */
-export type WorkflowVersion = Resource & {
+export interface WorkflowVersion extends Resource {
   /**
    * The provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2340,13 +2338,13 @@ export type WorkflowVersion = Resource & {
   /** The integration account. */
   integrationAccount?: ResourceReference;
   /** The definition. */
-  definition?: Record<string, unknown>;
+  definition?: any;
   /** The parameters. */
   parameters?: { [propertyName: string]: WorkflowParameter };
-};
+}
 
 /** The workflow run action repetition definition. */
-export type WorkflowRunActionRepetitionDefinition = Resource & {
+export interface WorkflowRunActionRepetitionDefinition extends Resource {
   /** The start time of the workflow scope repetition. */
   startTime?: Date;
   /** The end time of the workflow scope repetition. */
@@ -2368,7 +2366,7 @@ export type WorkflowRunActionRepetitionDefinition = Resource & {
    * Gets the inputs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly inputs?: Record<string, unknown>;
+  readonly inputs?: any;
   /**
    * Gets the link to inputs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2378,7 +2376,7 @@ export type WorkflowRunActionRepetitionDefinition = Resource & {
    * Gets the outputs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly outputs?: Record<string, unknown>;
+  readonly outputs?: any;
   /**
    * Gets the link to outputs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2388,44 +2386,44 @@ export type WorkflowRunActionRepetitionDefinition = Resource & {
    * Gets the tracked properties.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly trackedProperties?: Record<string, unknown>;
+  readonly trackedProperties?: any;
   /** Gets the retry histories. */
   retryHistory?: RetryHistory[];
   iterationCount?: number;
   /** The repetition indexes. */
   repetitionIndexes?: RepetitionIndex[];
-};
+}
 
 /** The request history. */
-export type RequestHistory = Resource & {
+export interface RequestHistory extends Resource {
   /** The request history properties. */
   properties?: RequestHistoryProperties;
-};
+}
 
 /** The integration account. */
-export type IntegrationAccount = Resource & {
+export interface IntegrationAccount extends Resource {
   /** The sku. */
   sku?: IntegrationAccountSku;
   /** The integration service environment. */
   integrationServiceEnvironment?: ResourceReference;
   /** The workflow state. */
   state?: WorkflowState;
-};
+}
 
 /** The assembly definition. */
-export type AssemblyDefinition = Resource & {
+export interface AssemblyDefinition extends Resource {
   /** The assembly properties. */
   properties: AssemblyProperties;
-};
+}
 
 /** The batch configuration resource definition. */
-export type BatchConfiguration = Resource & {
+export interface BatchConfiguration extends Resource {
   /** The batch configuration properties. */
   properties: BatchConfigurationProperties;
-};
+}
 
 /** The integration account schema. */
-export type IntegrationAccountSchema = Resource & {
+export interface IntegrationAccountSchema extends Resource {
   /** The schema type. */
   schemaType: SchemaType;
   /** The target namespace of the schema. */
@@ -2445,7 +2443,7 @@ export type IntegrationAccountSchema = Resource & {
    */
   readonly changedTime?: Date;
   /** The metadata. */
-  metadata?: Record<string, unknown>;
+  metadata?: any;
   /** The content. */
   content?: string;
   /** The content type. */
@@ -2455,10 +2453,10 @@ export type IntegrationAccountSchema = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly contentLink?: ContentLink;
-};
+}
 
 /** The integration account map. */
-export type IntegrationAccountMap = Resource & {
+export interface IntegrationAccountMap extends Resource {
   /** The map type. */
   mapType: MapType;
   /** The parameters schema of integration account map. */
@@ -2483,11 +2481,11 @@ export type IntegrationAccountMap = Resource & {
    */
   readonly contentLink?: ContentLink;
   /** The metadata. */
-  metadata?: Record<string, unknown>;
-};
+  metadata?: any;
+}
 
 /** The integration account partner. */
-export type IntegrationAccountPartner = Resource & {
+export interface IntegrationAccountPartner extends Resource {
   /** The partner type. */
   partnerType: PartnerType;
   /**
@@ -2501,13 +2499,13 @@ export type IntegrationAccountPartner = Resource & {
    */
   readonly changedTime?: Date;
   /** The metadata. */
-  metadata?: Record<string, unknown>;
+  metadata?: any;
   /** The partner content. */
   content: PartnerContent;
-};
+}
 
 /** The integration account agreement. */
-export type IntegrationAccountAgreement = Resource & {
+export interface IntegrationAccountAgreement extends Resource {
   /**
    * The created time.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2519,7 +2517,7 @@ export type IntegrationAccountAgreement = Resource & {
    */
   readonly changedTime?: Date;
   /** The metadata. */
-  metadata?: Record<string, unknown>;
+  metadata?: any;
   /** The agreement type. */
   agreementType: AgreementType;
   /** The integration account partner that is set as host partner for this agreement. */
@@ -2532,10 +2530,10 @@ export type IntegrationAccountAgreement = Resource & {
   guestIdentity: BusinessIdentity;
   /** The agreement content. */
   content: AgreementContent;
-};
+}
 
 /** The integration account certificate. */
-export type IntegrationAccountCertificate = Resource & {
+export interface IntegrationAccountCertificate extends Resource {
   /**
    * The created time.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2547,15 +2545,15 @@ export type IntegrationAccountCertificate = Resource & {
    */
   readonly changedTime?: Date;
   /** The metadata. */
-  metadata?: Record<string, unknown>;
+  metadata?: any;
   /** The key details in the key vault. */
   key?: KeyVaultKeyReference;
   /** The public certificate. */
   publicCertificate?: string;
-};
+}
 
 /** The integration account session. */
-export type IntegrationAccountSession = Resource & {
+export interface IntegrationAccountSession extends Resource {
   /**
    * The created time.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2567,21 +2565,21 @@ export type IntegrationAccountSession = Resource & {
    */
   readonly changedTime?: Date;
   /** The session content. */
-  content?: Record<string, unknown>;
-};
+  content?: any;
+}
 
 /** The integration service environment. */
-export type IntegrationServiceEnvironment = Resource & {
+export interface IntegrationServiceEnvironment extends Resource {
   /** The integration service environment properties. */
   properties?: IntegrationServiceEnvironmentProperties;
   /** The sku. */
   sku?: IntegrationServiceEnvironmentSku;
   /** Managed service identity properties. */
   identity?: ManagedServiceIdentity;
-};
+}
 
 /** The integration service environment managed api. */
-export type IntegrationServiceEnvironmentManagedApi = Resource & {
+export interface IntegrationServiceEnvironmentManagedApi extends Resource {
   /**
    * The name
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2591,9 +2589,7 @@ export type IntegrationServiceEnvironmentManagedApi = Resource & {
    * The connection parameters.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly connectionParameters?: {
-    [propertyName: string]: Record<string, unknown>;
-  };
+  readonly connectionParameters?: { [propertyName: string]: any };
   /**
    * The metadata.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2648,22 +2644,22 @@ export type IntegrationServiceEnvironmentManagedApi = Resource & {
   readonly category?: ApiTier;
   /** The integration service environment managed api deployment parameters. */
   deploymentParameters?: IntegrationServiceEnvironmentManagedApiDeploymentParameters;
-};
+}
 
 /** The api operation. */
-export type ApiOperation = Resource & {
+export interface ApiOperation extends Resource {
   /** The api operations properties */
   properties?: ApiOperationPropertiesDefinition;
-};
+}
 
 /** The managed api definition. */
-export type ManagedApi = Resource & {
+export interface ManagedApi extends Resource {
   /** The api resource properties. */
   properties?: ApiResourceProperties;
-};
+}
 
 /** The workflow trigger. */
-export type WorkflowTrigger = SubResource & {
+export interface WorkflowTrigger extends SubResource {
   /**
    * Gets the workflow trigger name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2719,10 +2715,10 @@ export type WorkflowTrigger = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly workflow?: ResourceReference;
-};
+}
 
 /** The workflow trigger history. */
-export type WorkflowTriggerHistory = SubResource & {
+export interface WorkflowTriggerHistory extends SubResource {
   /**
    * Gets the workflow trigger history name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2762,7 +2758,7 @@ export type WorkflowTriggerHistory = SubResource & {
    * Gets the error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly error?: Record<string, unknown>;
+  readonly error?: any;
   /**
    * Gets the tracking id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2790,10 +2786,10 @@ export type WorkflowTriggerHistory = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly run?: ResourceReference;
-};
+}
 
 /** The workflow run. */
-export type WorkflowRun = SubResource & {
+export interface WorkflowRun extends SubResource {
   /**
    * Gets the workflow run name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2833,7 +2829,7 @@ export type WorkflowRun = SubResource & {
    * Gets the error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly error?: Record<string, unknown>;
+  readonly error?: any;
   /**
    * Gets the correlation id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2861,10 +2857,10 @@ export type WorkflowRun = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly response?: WorkflowRunTrigger;
-};
+}
 
 /** The workflow run action. */
-export type WorkflowRunAction = SubResource & {
+export interface WorkflowRunAction extends SubResource {
   /**
    * Gets the workflow run action name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2899,7 +2895,7 @@ export type WorkflowRunAction = SubResource & {
    * Gets the error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly error?: Record<string, unknown>;
+  readonly error?: any;
   /**
    * Gets the tracking id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2921,33 +2917,33 @@ export type WorkflowRunAction = SubResource & {
    * Gets the tracked properties.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly trackedProperties?: Record<string, unknown>;
+  readonly trackedProperties?: any;
   /** Gets the retry histories. */
   retryHistory?: RetryHistory[];
-};
+}
 
 /** The workflow run action correlation properties. */
-export type RunActionCorrelation = RunCorrelation & {
+export interface RunActionCorrelation extends RunCorrelation {
   /** The action tracking identifier. */
   actionTrackingId?: string;
-};
+}
 
 /** The expression root. */
-export type ExpressionRoot = Expression & {
+export interface ExpressionRoot extends Expression {
   /** The path. */
   path?: string;
-};
+}
 
 /** The azure resource error info. */
-export type AzureResourceErrorInfo = ErrorInfo & {
+export interface AzureResourceErrorInfo extends ErrorInfo {
   /** The error message. */
   message: string;
   /** The error details. */
   details?: AzureResourceErrorInfo[];
-};
+}
 
 /** The operation result definition. */
-export type OperationResult = OperationResultProperties & {
+export interface OperationResult extends OperationResultProperties {
   /**
    * Gets the tracking id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2957,7 +2953,7 @@ export type OperationResult = OperationResultProperties & {
    * Gets the inputs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly inputs?: Record<string, unknown>;
+  readonly inputs?: any;
   /**
    * Gets the link to inputs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2967,7 +2963,7 @@ export type OperationResult = OperationResultProperties & {
    * Gets the outputs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly outputs?: Record<string, unknown>;
+  readonly outputs?: any;
   /**
    * Gets the link to outputs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2977,44 +2973,47 @@ export type OperationResult = OperationResultProperties & {
    * Gets the tracked properties.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly trackedProperties?: Record<string, unknown>;
+  readonly trackedProperties?: any;
   /** Gets the retry histories. */
   retryHistory?: RetryHistory[];
   iterationCount?: number;
-};
+}
 
 /** The artifact content properties definition. */
-export type ArtifactContentPropertiesDefinition = ArtifactProperties & {
+export interface ArtifactContentPropertiesDefinition
+  extends ArtifactProperties {
   /** Anything */
   content?: any;
   /** The content type. */
   contentType?: string;
   /** The content link. */
   contentLink?: ContentLink;
-};
+}
 
 /** The batch configuration properties definition. */
-export type BatchConfigurationProperties = ArtifactProperties & {
+export interface BatchConfigurationProperties extends ArtifactProperties {
   /** The name of the batch group. */
   batchGroupName: string;
   /** The batch release criteria. */
   releaseCriteria: BatchReleaseCriteria;
-};
+}
 
 /** The integration service environment managed api properties. */
-export type IntegrationServiceEnvironmentManagedApiProperties = ApiResourceProperties & {
+export interface IntegrationServiceEnvironmentManagedApiProperties
+  extends ApiResourceProperties {
   /** The integration service environment managed api deployment parameters. */
   deploymentParameters?: IntegrationServiceEnvironmentManagedApiDeploymentParameters;
-};
+}
 
 /** The workflow run action repetition properties definition. */
-export type WorkflowRunActionRepetitionProperties = OperationResult & {
+export interface WorkflowRunActionRepetitionProperties extends OperationResult {
   /** The repetition indexes. */
   repetitionIndexes?: RepetitionIndex[];
-};
+}
 
 /** The assembly properties definition. */
-export type AssemblyProperties = ArtifactContentPropertiesDefinition & {
+export interface AssemblyProperties
+  extends ArtifactContentPropertiesDefinition {
   /** The assembly name. */
   assemblyName: string;
   /** The assembly version. */
@@ -3023,31 +3022,53 @@ export type AssemblyProperties = ArtifactContentPropertiesDefinition & {
   assemblyCulture?: string;
   /** The assembly public key token. */
   assemblyPublicKeyToken?: string;
-};
+}
 
 /** Known values of {@link WorkflowProvisioningState} that the service accepts. */
 export enum KnownWorkflowProvisioningState {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Accepted */
   Accepted = "Accepted",
+  /** Running */
   Running = "Running",
+  /** Ready */
   Ready = "Ready",
+  /** Creating */
   Creating = "Creating",
+  /** Created */
   Created = "Created",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Deleted */
   Deleted = "Deleted",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Moving */
   Moving = "Moving",
+  /** Updating */
   Updating = "Updating",
+  /** Registering */
   Registering = "Registering",
+  /** Registered */
   Registered = "Registered",
+  /** Unregistering */
   Unregistering = "Unregistering",
+  /** Unregistered */
   Unregistered = "Unregistered",
+  /** Completed */
   Completed = "Completed",
+  /** Renewing */
   Renewing = "Renewing",
+  /** Pending */
   Pending = "Pending",
+  /** Waiting */
   Waiting = "Waiting",
+  /** InProgress */
   InProgress = "InProgress"
 }
 
@@ -3083,11 +3104,17 @@ export type WorkflowProvisioningState = string;
 
 /** Known values of {@link WorkflowState} that the service accepts. */
 export enum KnownWorkflowState {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Completed */
   Completed = "Completed",
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled",
+  /** Deleted */
   Deleted = "Deleted",
+  /** Suspended */
   Suspended = "Suspended"
 }
 
@@ -3107,6 +3134,7 @@ export type WorkflowState = string;
 
 /** Known values of {@link OpenAuthenticationProviderType} that the service accepts. */
 export enum KnownOpenAuthenticationProviderType {
+  /** AAD */
   AAD = "AAD"
 }
 
@@ -3121,11 +3149,17 @@ export type OpenAuthenticationProviderType = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Free */
   Free = "Free",
+  /** Shared */
   Shared = "Shared",
+  /** Basic */
   Basic = "Basic",
+  /** Standard */
   Standard = "Standard",
+  /** Premium */
   Premium = "Premium"
 }
 
@@ -3145,14 +3179,23 @@ export type SkuName = string;
 
 /** Known values of {@link ParameterType} that the service accepts. */
 export enum KnownParameterType {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** String */
   String = "String",
+  /** SecureString */
   SecureString = "SecureString",
+  /** Int */
   Int = "Int",
+  /** Float */
   Float = "Float",
+  /** Bool */
   Bool = "Bool",
+  /** Array */
   Array = "Array",
+  /** Object */
   Object = "Object",
+  /** SecureObject */
   SecureObject = "SecureObject"
 }
 
@@ -3175,8 +3218,11 @@ export type ParameterType = string;
 
 /** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
 export enum KnownManagedServiceIdentityType {
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
   UserAssigned = "UserAssigned",
+  /** None */
   None = "None"
 }
 
@@ -3193,8 +3239,11 @@ export type ManagedServiceIdentityType = string;
 
 /** Known values of {@link KeyType} that the service accepts. */
 export enum KnownKeyType {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Primary */
   Primary = "Primary",
+  /** Secondary */
   Secondary = "Secondary"
 }
 
@@ -3211,23 +3260,41 @@ export type KeyType = string;
 
 /** Known values of {@link WorkflowTriggerProvisioningState} that the service accepts. */
 export enum KnownWorkflowTriggerProvisioningState {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Accepted */
   Accepted = "Accepted",
+  /** Running */
   Running = "Running",
+  /** Ready */
   Ready = "Ready",
+  /** Creating */
   Creating = "Creating",
+  /** Created */
   Created = "Created",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Deleted */
   Deleted = "Deleted",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Moving */
   Moving = "Moving",
+  /** Updating */
   Updating = "Updating",
+  /** Registering */
   Registering = "Registering",
+  /** Registered */
   Registered = "Registered",
+  /** Unregistering */
   Unregistering = "Unregistering",
+  /** Unregistered */
   Unregistered = "Unregistered",
+  /** Completed */
   Completed = "Completed"
 }
 
@@ -3259,18 +3326,31 @@ export type WorkflowTriggerProvisioningState = string;
 
 /** Known values of {@link WorkflowStatus} that the service accepts. */
 export enum KnownWorkflowStatus {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Paused */
   Paused = "Paused",
+  /** Running */
   Running = "Running",
+  /** Waiting */
   Waiting = "Waiting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Skipped */
   Skipped = "Skipped",
+  /** Suspended */
   Suspended = "Suspended",
+  /** Cancelled */
   Cancelled = "Cancelled",
+  /** Failed */
   Failed = "Failed",
+  /** Faulted */
   Faulted = "Faulted",
+  /** TimedOut */
   TimedOut = "TimedOut",
+  /** Aborted */
   Aborted = "Aborted",
+  /** Ignored */
   Ignored = "Ignored"
 }
 
@@ -3297,13 +3377,21 @@ export type WorkflowStatus = string;
 
 /** Known values of {@link RecurrenceFrequency} that the service accepts. */
 export enum KnownRecurrenceFrequency {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Second */
   Second = "Second",
+  /** Minute */
   Minute = "Minute",
+  /** Hour */
   Hour = "Hour",
+  /** Day */
   Day = "Day",
+  /** Week */
   Week = "Week",
+  /** Month */
   Month = "Month",
+  /** Year */
   Year = "Year"
 }
 
@@ -3325,9 +3413,13 @@ export type RecurrenceFrequency = string;
 
 /** Known values of {@link IntegrationAccountSkuName} that the service accepts. */
 export enum KnownIntegrationAccountSkuName {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Free */
   Free = "Free",
+  /** Basic */
   Basic = "Basic",
+  /** Standard */
   Standard = "Standard"
 }
 
@@ -3345,7 +3437,9 @@ export type IntegrationAccountSkuName = string;
 
 /** Known values of {@link TrackEventsOperationOptions} that the service accepts. */
 export enum KnownTrackEventsOperationOptions {
+  /** None */
   None = "None",
+  /** DisableSourceInfoEnrich */
   DisableSourceInfoEnrich = "DisableSourceInfoEnrich"
 }
 
@@ -3361,21 +3455,37 @@ export type TrackEventsOperationOptions = string;
 
 /** Known values of {@link TrackingRecordType} that the service accepts. */
 export enum KnownTrackingRecordType {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Custom */
   Custom = "Custom",
+  /** AS2Message */
   AS2Message = "AS2Message",
+  /** AS2MDN */
   AS2MDN = "AS2MDN",
+  /** X12Interchange */
   X12Interchange = "X12Interchange",
+  /** X12FunctionalGroup */
   X12FunctionalGroup = "X12FunctionalGroup",
+  /** X12TransactionSet */
   X12TransactionSet = "X12TransactionSet",
+  /** X12InterchangeAcknowledgment */
   X12InterchangeAcknowledgment = "X12InterchangeAcknowledgment",
+  /** X12FunctionalGroupAcknowledgment */
   X12FunctionalGroupAcknowledgment = "X12FunctionalGroupAcknowledgment",
+  /** X12TransactionSetAcknowledgment */
   X12TransactionSetAcknowledgment = "X12TransactionSetAcknowledgment",
+  /** EdifactInterchange */
   EdifactInterchange = "EdifactInterchange",
+  /** EdifactFunctionalGroup */
   EdifactFunctionalGroup = "EdifactFunctionalGroup",
+  /** EdifactTransactionSet */
   EdifactTransactionSet = "EdifactTransactionSet",
+  /** EdifactInterchangeAcknowledgment */
   EdifactInterchangeAcknowledgment = "EdifactInterchangeAcknowledgment",
+  /** EdifactFunctionalGroupAcknowledgment */
   EdifactFunctionalGroupAcknowledgment = "EdifactFunctionalGroupAcknowledgment",
+  /** EdifactTransactionSetAcknowledgment */
   EdifactTransactionSetAcknowledgment = "EdifactTransactionSetAcknowledgment"
 }
 
@@ -3405,7 +3515,9 @@ export type TrackingRecordType = string;
 
 /** Known values of {@link SchemaType} that the service accepts. */
 export enum KnownSchemaType {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Xml */
   Xml = "Xml"
 }
 
@@ -3421,10 +3533,15 @@ export type SchemaType = string;
 
 /** Known values of {@link MapType} that the service accepts. */
 export enum KnownMapType {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Xslt */
   Xslt = "Xslt",
+  /** Xslt20 */
   Xslt20 = "Xslt20",
+  /** Xslt30 */
   Xslt30 = "Xslt30",
+  /** Liquid */
   Liquid = "Liquid"
 }
 
@@ -3443,7 +3560,9 @@ export type MapType = string;
 
 /** Known values of {@link PartnerType} that the service accepts. */
 export enum KnownPartnerType {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** B2B */
   B2B = "B2B"
 }
 
@@ -3459,12 +3578,19 @@ export type PartnerType = string;
 
 /** Known values of {@link HashingAlgorithm} that the service accepts. */
 export enum KnownHashingAlgorithm {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** None */
   None = "None",
+  /** MD5 */
   MD5 = "MD5",
+  /** SHA1 */
   SHA1 = "SHA1",
+  /** SHA2256 */
   SHA2256 = "SHA2256",
+  /** SHA2384 */
   SHA2384 = "SHA2384",
+  /** SHA2512 */
   SHA2512 = "SHA2512"
 }
 
@@ -3485,12 +3611,19 @@ export type HashingAlgorithm = string;
 
 /** Known values of {@link EncryptionAlgorithm} that the service accepts. */
 export enum KnownEncryptionAlgorithm {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** None */
   None = "None",
+  /** DES3 */
   DES3 = "DES3",
+  /** RC2 */
   RC2 = "RC2",
+  /** AES128 */
   AES128 = "AES128",
+  /** AES192 */
   AES192 = "AES192",
+  /** AES256 */
   AES256 = "AES256"
 }
 
@@ -3511,11 +3644,17 @@ export type EncryptionAlgorithm = string;
 
 /** Known values of {@link SigningAlgorithm} that the service accepts. */
 export enum KnownSigningAlgorithm {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Default */
   Default = "Default",
+  /** SHA1 */
   SHA1 = "SHA1",
+  /** SHA2256 */
   SHA2256 = "SHA2256",
+  /** SHA2384 */
   SHA2384 = "SHA2384",
+  /** SHA2512 */
   SHA2512 = "SHA2512"
 }
 
@@ -3535,9 +3674,13 @@ export type SigningAlgorithm = string;
 
 /** Known values of {@link TrailingSeparatorPolicy} that the service accepts. */
 export enum KnownTrailingSeparatorPolicy {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** NotAllowed */
   NotAllowed = "NotAllowed",
+  /** Optional */
   Optional = "Optional",
+  /** Mandatory */
   Mandatory = "Mandatory"
 }
 
@@ -3555,9 +3698,13 @@ export type TrailingSeparatorPolicy = string;
 
 /** Known values of {@link X12CharacterSet} that the service accepts. */
 export enum KnownX12CharacterSet {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Basic */
   Basic = "Basic",
+  /** Extended */
   Extended = "Extended",
+  /** UTF8 */
   UTF8 = "UTF8"
 }
 
@@ -3575,8 +3722,11 @@ export type X12CharacterSet = string;
 
 /** Known values of {@link X12DateFormat} that the service accepts. */
 export enum KnownX12DateFormat {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Ccyymmdd */
   Ccyymmdd = "CCYYMMDD",
+  /** Yymmdd */
   Yymmdd = "YYMMDD"
 }
 
@@ -3593,10 +3743,15 @@ export type X12DateFormat = string;
 
 /** Known values of {@link X12TimeFormat} that the service accepts. */
 export enum KnownX12TimeFormat {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Hhmm */
   Hhmm = "HHMM",
+  /** Hhmmss */
   Hhmmss = "HHMMSS",
+  /** HhmmsSdd */
   HhmmsSdd = "HHMMSSdd",
+  /** HhmmsSd */
   HhmmsSd = "HHMMSSd"
 }
 
@@ -3615,9 +3770,13 @@ export type X12TimeFormat = string;
 
 /** Known values of {@link UsageIndicator} that the service accepts. */
 export enum KnownUsageIndicator {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Test */
   Test = "Test",
+  /** Information */
   Information = "Information",
+  /** Production */
   Production = "Production"
 }
 
@@ -3635,8 +3794,11 @@ export type UsageIndicator = string;
 
 /** Known values of {@link MessageFilterType} that the service accepts. */
 export enum KnownMessageFilterType {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Include */
   Include = "Include",
+  /** Exclude */
   Exclude = "Exclude"
 }
 
@@ -3653,20 +3815,35 @@ export type MessageFilterType = string;
 
 /** Known values of {@link EdifactCharacterSet} that the service accepts. */
 export enum KnownEdifactCharacterSet {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Unob */
   Unob = "UNOB",
+  /** Unoa */
   Unoa = "UNOA",
+  /** Unoc */
   Unoc = "UNOC",
+  /** Unod */
   Unod = "UNOD",
+  /** Unoe */
   Unoe = "UNOE",
+  /** Unof */
   Unof = "UNOF",
+  /** Unog */
   Unog = "UNOG",
+  /** Unoh */
   Unoh = "UNOH",
+  /** Unoi */
   Unoi = "UNOI",
+  /** Unoj */
   Unoj = "UNOJ",
+  /** Unok */
   Unok = "UNOK",
+  /** Unox */
   Unox = "UNOX",
+  /** Unoy */
   Unoy = "UNOY",
+  /** Keca */
   Keca = "KECA"
 }
 
@@ -3695,8 +3872,11 @@ export type EdifactCharacterSet = string;
 
 /** Known values of {@link IntegrationServiceEnvironmentAccessEndpointType} that the service accepts. */
 export enum KnownIntegrationServiceEnvironmentAccessEndpointType {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** External */
   External = "External",
+  /** Internal */
   Internal = "Internal"
 }
 
@@ -3713,8 +3893,11 @@ export type IntegrationServiceEnvironmentAccessEndpointType = string;
 
 /** Known values of {@link IntegrationServiceEnvironmentSkuName} that the service accepts. */
 export enum KnownIntegrationServiceEnvironmentSkuName {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Premium */
   Premium = "Premium",
+  /** Developer */
   Developer = "Developer"
 }
 
@@ -3731,8 +3914,11 @@ export type IntegrationServiceEnvironmentSkuName = string;
 
 /** Known values of {@link IntegrationServiceEnvironmentSkuScaleType} that the service accepts. */
 export enum KnownIntegrationServiceEnvironmentSkuScaleType {
+  /** Manual */
   Manual = "Manual",
+  /** Automatic */
   Automatic = "Automatic",
+  /** None */
   None = "None"
 }
 
@@ -3749,17 +3935,29 @@ export type IntegrationServiceEnvironmentSkuScaleType = string;
 
 /** Known values of {@link IntegrationServiceEnvironmentNetworkDependencyCategoryType} that the service accepts. */
 export enum KnownIntegrationServiceEnvironmentNetworkDependencyCategoryType {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** AzureStorage */
   AzureStorage = "AzureStorage",
+  /** AzureManagement */
   AzureManagement = "AzureManagement",
+  /** AzureActiveDirectory */
   AzureActiveDirectory = "AzureActiveDirectory",
+  /** SSLCertificateVerification */
   SSLCertificateVerification = "SSLCertificateVerification",
+  /** DiagnosticLogsAndMetrics */
   DiagnosticLogsAndMetrics = "DiagnosticLogsAndMetrics",
+  /** IntegrationServiceEnvironmentConnectors */
   IntegrationServiceEnvironmentConnectors = "IntegrationServiceEnvironmentConnectors",
+  /** RedisCache */
   RedisCache = "RedisCache",
+  /** AccessEndpoints */
   AccessEndpoints = "AccessEndpoints",
+  /** RecoveryService */
   RecoveryService = "RecoveryService",
+  /** SQL */
   SQL = "SQL",
+  /** RegionalService */
   RegionalService = "RegionalService"
 }
 
@@ -3785,9 +3983,13 @@ export type IntegrationServiceEnvironmentNetworkDependencyCategoryType = string;
 
 /** Known values of {@link IntegrationServiceEnvironmentNetworkEndPointAccessibilityState} that the service accepts. */
 export enum KnownIntegrationServiceEnvironmentNetworkEndPointAccessibilityState {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Unknown */
   Unknown = "Unknown",
+  /** Available */
   Available = "Available",
+  /** NotAvailable */
   NotAvailable = "NotAvailable"
 }
 
@@ -3805,9 +4007,13 @@ export type IntegrationServiceEnvironmentNetworkEndPointAccessibilityState = str
 
 /** Known values of {@link ErrorResponseCode} that the service accepts. */
 export enum KnownErrorResponseCode {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** IntegrationServiceEnvironmentNotFound */
   IntegrationServiceEnvironmentNotFound = "IntegrationServiceEnvironmentNotFound",
+  /** InternalServerError */
   InternalServerError = "InternalServerError",
+  /** InvalidOperationId */
   InvalidOperationId = "InvalidOperationId"
 }
 
@@ -3825,9 +4031,13 @@ export type ErrorResponseCode = string;
 
 /** Known values of {@link IntegrationServiceEnvironmentNetworkDependencyHealthState} that the service accepts. */
 export enum KnownIntegrationServiceEnvironmentNetworkDependencyHealthState {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Healthy */
   Healthy = "Healthy",
+  /** Unhealthy */
   Unhealthy = "Unhealthy",
+  /** Unknown */
   Unknown = "Unknown"
 }
 
@@ -3845,8 +4055,11 @@ export type IntegrationServiceEnvironmentNetworkDependencyHealthState = string;
 
 /** Known values of {@link ApiType} that the service accepts. */
 export enum KnownApiType {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Rest */
   Rest = "Rest",
+  /** Soap */
   Soap = "Soap"
 }
 
@@ -3863,8 +4076,11 @@ export type ApiType = string;
 
 /** Known values of {@link WsdlImportMethod} that the service accepts. */
 export enum KnownWsdlImportMethod {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** SoapToRest */
   SoapToRest = "SoapToRest",
+  /** SoapPassThrough */
   SoapPassThrough = "SoapPassThrough"
 }
 
@@ -3881,8 +4097,11 @@ export type WsdlImportMethod = string;
 
 /** Known values of {@link ApiDeploymentParameterVisibility} that the service accepts. */
 export enum KnownApiDeploymentParameterVisibility {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Default */
   Default = "Default",
+  /** Internal */
   Internal = "Internal"
 }
 
@@ -3899,9 +4118,13 @@ export type ApiDeploymentParameterVisibility = string;
 
 /** Known values of {@link ApiTier} that the service accepts. */
 export enum KnownApiTier {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Enterprise */
   Enterprise = "Enterprise",
+  /** Standard */
   Standard = "Standard",
+  /** Premium */
   Premium = "Premium"
 }
 
@@ -3919,8 +4142,11 @@ export type ApiTier = string;
 
 /** Known values of {@link StatusAnnotation} that the service accepts. */
 export enum KnownStatusAnnotation {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Preview */
   Preview = "Preview",
+  /** Production */
   Production = "Production"
 }
 
@@ -3937,13 +4163,21 @@ export type StatusAnnotation = string;
 
 /** Known values of {@link SwaggerSchemaType} that the service accepts. */
 export enum KnownSwaggerSchemaType {
+  /** String */
   String = "String",
+  /** Number */
   Number = "Number",
+  /** Integer */
   Integer = "Integer",
+  /** Boolean */
   Boolean = "Boolean",
+  /** Array */
   Array = "Array",
+  /** File */
   File = "File",
+  /** Object */
   Object = "Object",
+  /** Null */
   Null = "Null"
 }
 
@@ -3965,9 +4199,13 @@ export type SwaggerSchemaType = string;
 
 /** Known values of {@link AzureAsyncOperationState} that the service accepts. */
 export enum KnownAzureAsyncOperationState {
+  /** Failed */
   Failed = "Failed",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Pending */
   Pending = "Pending",
+  /** Canceled */
   Canceled = "Canceled"
 }
 
@@ -4082,10 +4320,10 @@ export interface WorkflowsGenerateUpgradedDefinitionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the generateUpgradedDefinition operation. */
-export type WorkflowsGenerateUpgradedDefinitionResponse = Record<
-  string,
-  unknown
->;
+export type WorkflowsGenerateUpgradedDefinitionResponse = {
+  /** The parsed response body. */
+  body: any;
+};
 
 /** Optional parameters. */
 export interface WorkflowsListCallbackUrlOptionalParams
@@ -4099,7 +4337,10 @@ export interface WorkflowsListSwaggerOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSwagger operation. */
-export type WorkflowsListSwaggerResponse = Record<string, unknown>;
+export type WorkflowsListSwaggerResponse = {
+  /** The parsed response body. */
+  body: any;
+};
 
 /** Optional parameters. */
 export interface WorkflowsMoveOptionalParams

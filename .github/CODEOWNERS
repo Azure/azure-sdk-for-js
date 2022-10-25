@@ -915,7 +915,7 @@ sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 #/<NotInRepo>/          @assafi
 
 # ServiceLabel: %Cognitive - Form Recognizer %Service Attention
-#/<NotInRepo>/          @ctstone @anrothMSFT
+#/<NotInRepo>/          @ctstone @vkurpad
 
 # ServiceLabel: %Cognitive - Anomaly Detector %Service Attention
 #/<NotInRepo>/          @yingqunpku @bowgong
@@ -1210,7 +1210,7 @@ sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 #/<NotInRepo>/          @sunilagarwal @lfittl-msft @sr-msft @niklarin
 
 # ServiceLabel: %Recovery Services Backup %Service Attention
-#/<NotInRepo>/          @pvrk @adityabalaji-msft
+#/<NotInRepo>/          @pvrk @adityabalaji-msft @Daya-Patil
 
 # ServiceLabel: %Recovery Services Site-Recovery %Service Attention
 #/<NotInRepo>/          @Sharmistha-Rai
