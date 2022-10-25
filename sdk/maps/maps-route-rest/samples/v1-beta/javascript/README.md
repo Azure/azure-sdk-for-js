@@ -12,11 +12,13 @@ urlFragment: maps-route-javascript-beta
 
 These sample programs show how to use the JavaScript client libraries for Azure Maps Route in some common scenarios.
 
-| **File Name**             | **Description**                                                        |
-| ------------------------- | ---------------------------------------------------------------------- |
-| [route.js][route]         | Demonstrates the use of a MapsRouteClient to retrieve a setting value. |
-| [lro.js][lro]             | Demonstrates how to manipulate a long running request.                 |
-| [resumeLro.js][resumelro] | Demonstrates how to resume a long running request.                     |
+| **File Name**               | **Description**                                                        |
+| --------------------------- | ---------------------------------------------------------------------- |
+| [directions.js][directions] | Demonstrates the use of a MapsRouteClient to calculate routes.         |
+| [lro.js][lro]               | Demonstrates how to manipulate a long running request.                 |
+| [matrix.js][matrix]         | Demonstrates the use of a MapsRouteClient to retrieve a setting value. |
+| [range.js][range]           | Demonstrates the use of a MapsRouteClient to retrieve a route range.   |
+| [resumeLro.js][resumelro]   | Demonstrates how to resume a long running request.                     |
 
 ## Prerequisites
 
@@ -45,21 +47,23 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node route.js
+node directions.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env MAPS_SUBSCRIPTION_KEY="<maps subscription key>" node route.js
+npx cross-env MAPS_SUBSCRIPTION_KEY="<maps subscription key>" node directions.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[route]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-route-rest/samples/v1-beta/javascript/route.js
+[directions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-route-rest/samples/v1-beta/javascript/directions.js
 [lro]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-route-rest/samples/v1-beta/javascript/lro.js
+[matrix]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-route-rest/samples/v1-beta/javascript/matrix.js
+[range]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-route-rest/samples/v1-beta/javascript/range.js
 [resumelro]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-route-rest/samples/v1-beta/javascript/resumeLro.js
 
 <!-- [apiref]: https://docs.microsoft.com/javascript/api/@azure/maps-route -->
