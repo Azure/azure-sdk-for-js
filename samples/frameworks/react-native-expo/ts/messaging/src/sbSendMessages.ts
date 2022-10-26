@@ -1,17 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT Licence.
-
-/**
- * This sample demonstrates how the sendMessages() method can be used to send messages to Service Bus
- * Queue/Topic. You can send all messages at once with risk of the operation failing if they don't fit
- * in a batch or you can use one or batch objects directly to safely send all your messages.
- *
- * See https://docs.microsoft.com/azure/service-bus-messaging/service-bus-queues-topics-subscriptions
- * to learn about Queues, Topics and Subscriptions.
- *
- *
- * @summary Demonstrates how to send messages to Service Bus Queue/Topic
- */
+// Licensed under the MIT License.
 
 import {
   ServiceBusClient,

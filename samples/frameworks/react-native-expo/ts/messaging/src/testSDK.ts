@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT Licence.
+
 import { main as sendMessages } from "./sbSendMessages";
 import { main as sendEvents } from "./ehSendEvents";
 import { main as sbReceiveMessages } from "./sbReceiveMessages";

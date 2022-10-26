@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT Licence.
+// Licensed under the MIT License.
+
 import { EventHubConsumerClient, earliestEventPosition, WebSocketImpl } from "@azure/event-hubs";
 import { WebSocketWrapper } from "./wsWrapper";
 
@@ -18,14 +19,7 @@ export async function main() {
 
   const subscription = consumerClient.subscribe(
     {
-      // The callback where you add your code to process incoming events
       processEvents: async (events, context) => {
-        // Note: It is possible for `events` to be an empty array.
-        // This can happen if there were no new events to receive
-        // in the `maxWaitTimeInSeconds`, which is defaulted to
-        // 60 seconds.
-        // The `maxWaitTimeInSeconds` can be changed by setting
-        // it in the `options` passed to `subscribe()`.
         for (const event of events) {
           console.log(
             `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`

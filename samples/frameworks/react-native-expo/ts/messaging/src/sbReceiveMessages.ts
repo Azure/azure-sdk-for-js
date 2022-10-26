@@ -1,14 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT Licence.
-
-/**
- * This sample demonstrates how the receiveMessages() function can be used to receive Service Bus
- * messages in a loop.
- *
- * Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
- *
- * @summary Demonstrates how to receive Service Bus messages in a loop
- */
+// Licensed under the MIT License.
 
 import { ServiceBusClient, WebSocketImpl } from "@azure/service-bus";
 import { WebSocketWrapper } from "./wsWrapper";
@@ -24,12 +15,8 @@ export async function main() {
     },
   });
 
-  // If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload
-  // instead.
   const queueReceiver = sbClient.createReceiver(queueName);
 
-  // To receive messages from sessions, use getSessionReceiver instead of getReceiver or look at
-  // the sample in sessions.ts file
   try {
     let allMessages = [];
 
