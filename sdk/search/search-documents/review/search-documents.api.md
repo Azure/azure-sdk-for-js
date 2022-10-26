@@ -71,16 +71,16 @@ export interface AutocompleteItem {
 export type AutocompleteMode = "oneTerm" | "twoTerms" | "oneTermWithContext";
 
 // @public
-export type AutocompleteOptions<Fields> = OperationOptions & AutocompleteRequest<Fields>;
+export type AutocompleteOptions<T extends object> = OperationOptions & AutocompleteRequest<T>;
 
 // @public
-export interface AutocompleteRequest<Fields> {
+export interface AutocompleteRequest<T extends object> {
     autocompleteMode?: AutocompleteMode;
     filter?: string;
     highlightPostTag?: string;
     highlightPreTag?: string;
     minimumCoverage?: number;
-    searchFields?: Fields[];
+    searchFields?: SelectFields<T>[];
     top?: number;
     useFuzzyMatching?: boolean;
 }
@@ -530,6 +530,9 @@ export type EntityRecognitionSkillV3 = BaseSearchIndexerSkill & {
     modelVersion?: string;
 };
 
+// @public (undocumented)
+export type ExcludedODataTypes = Date;
+
 // @public
 export interface FacetResult {
     [property: string]: any;
@@ -645,7 +648,7 @@ export class IndexDocumentsBatch<T> {
 }
 
 // @public
-export interface IndexDocumentsClient<T> {
+export interface IndexDocumentsClient<T extends object> {
     indexDocuments(batch: IndexDocumentsBatch<T>, options: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
 }
 
@@ -1846,11 +1849,11 @@ export interface SearchAlias {
 }
 
 // @public
-export class SearchClient<T> implements IndexDocumentsClient<T> {
+export class SearchClient<T extends object> implements IndexDocumentsClient<T> {
     constructor(endpoint: string, indexName: string, credential: KeyCredential | TokenCredential, options?: SearchClientOptions);
     // @deprecated
     readonly apiVersion: string;
-    autocomplete<Fields extends keyof T>(searchText: string, suggesterName: string, options?: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
+    autocomplete<Fields extends SelectFields<T>>(searchText: string, suggesterName: string, options?: AutocompleteOptions<SearchPick<T, Fields>>): Promise<AutocompleteResult>;
     deleteDocuments(documents: T[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     deleteDocuments(keyName: keyof T, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
@@ -1860,9 +1863,9 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     readonly indexName: string;
     mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
     mergeOrUploadDocuments(documents: T[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
-    search<Fields extends keyof T>(searchText?: string, options?: SearchOptions<Fields>): Promise<SearchDocumentsResult<Pick<T, Fields>>>;
+    search<Fields extends SelectFields<T>>(searchText?: string, options?: SearchOptions<T, Fields>): Promise<SearchDocumentsResult<SearchPick<T, Fields>>>;
     readonly serviceVersion: string;
-    suggest<Fields extends keyof T = never>(searchText: string, suggesterName: string, options?: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
+    suggest<Fields extends SelectFields<T> = never>(searchText: string, suggesterName: string, options?: SuggestOptions<T, Fields>): Promise<SuggestDocumentsResult<SearchPick<T, Fields>>>;
     uploadDocuments(documents: T[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
 }
 
@@ -1875,13 +1878,13 @@ export interface SearchClientOptions extends ExtendedCommonClientOptions {
 }
 
 // @public
-export interface SearchDocumentsPageResult<T> extends SearchDocumentsResultBase {
+export interface SearchDocumentsPageResult<T extends object> extends SearchDocumentsResultBase {
     continuationToken?: string;
     readonly results: SearchResult<T>[];
 }
 
 // @public
-export interface SearchDocumentsResult<T> extends SearchDocumentsResultBase {
+export interface SearchDocumentsResult<T extends object> extends SearchDocumentsResultBase {
     readonly results: SearchIterator<T>;
 }
 
@@ -1942,7 +1945,7 @@ export class SearchIndexClient {
     getAlias(aliasName: string, options?: GetAliasOptions): Promise<SearchIndexAlias>;
     getIndex(indexName: string, options?: GetIndexOptions): Promise<SearchIndex>;
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<SearchIndexStatistics>;
-    getSearchClient<T>(indexName: string, options?: SearchClientOptions): SearchClient<T>;
+    getSearchClient<T extends object>(indexName: string, options?: SearchClientOptions): SearchClient<T>;
     getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<SearchServiceStatistics>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
     listAliases(options?: ListAliasesOptions): AliasIterator;
@@ -2148,7 +2151,7 @@ export interface SearchIndexerWarning {
 }
 
 // @public
-export class SearchIndexingBufferedSender<T> {
+export class SearchIndexingBufferedSender<T extends object> {
     constructor(client: IndexDocumentsClient<T>, documentKeyRetriever: (document: T) => string, options?: SearchIndexingBufferedSenderOptions);
     deleteDocuments(documents: T[], options?: SearchIndexingBufferedSenderDeleteDocumentsOptions): Promise<void>;
     dispose(): Promise<void>;
@@ -2204,13 +2207,20 @@ export interface SearchIndexStatistics {
 }
 
 // @public
-export type SearchIterator<Fields> = PagedAsyncIterableIterator<SearchResult<Fields>, SearchDocumentsPageResult<Fields>, ListSearchResultsPageSettings>;
+export type SearchIterator<T extends object> = PagedAsyncIterableIterator<SearchResult<T>, SearchDocumentsPageResult<T>, ListSearchResultsPageSettings>;
 
 // @public
 export type SearchMode = "any" | "all";
 
 // @public
-export type SearchOptions<Fields> = OperationOptions & SearchRequestOptions<Fields>;
+export type SearchOptions<T extends object, Fields extends SelectFields<T>> = OperationOptions & SearchRequestOptions<T, Fields>;
+
+// @public
+export type SearchPick<T extends object, Paths extends SelectFields<T>> = UnionToIntersection<Paths extends `${infer FieldName extends Exclude<keyof T, symbol | number>}/${infer RestPaths}` ? T[FieldName] extends object ? RestPaths extends SelectFields<T[FieldName]> ? {
+    [K in FieldName]: SearchPick<T[FieldName], RestPaths>;
+} : never : never : Paths extends keyof T ? {
+    [K in Paths]: T[K];
+} : never> & {};
 
 // @public
 export interface SearchRequest {
@@ -2242,7 +2252,7 @@ export interface SearchRequest {
 }
 
 // @public
-export interface SearchRequestOptions<Fields> {
+export interface SearchRequestOptions<T extends object, Fields extends SelectFields<T>> {
     answers?: Answers;
     captions?: Captions;
     facets?: string[];
@@ -2258,7 +2268,7 @@ export interface SearchRequestOptions<Fields> {
     scoringParameters?: string[];
     scoringProfile?: string;
     scoringStatistics?: ScoringStatistics;
-    searchFields?: Fields[];
+    searchFields?: SelectFields<T>[];
     searchMode?: SearchMode;
     select?: Fields[];
     semanticFields?: string[];
@@ -2279,11 +2289,11 @@ export interface SearchResourceEncryptionKey {
 }
 
 // @public
-export type SearchResult<T> = {
+export type SearchResult<T extends object> = {
     readonly score: number;
     readonly rerankerScore?: number;
     readonly highlights?: {
-        [k in keyof T]?: string[];
+        [k in SelectFields<T>]?: string[];
     };
     readonly captions?: CaptionResult[];
     document: T;
@@ -2301,6 +2311,12 @@ export interface SearchSuggester {
     searchMode: "analyzingInfixMatching";
     sourceFields: string[];
 }
+
+// @public
+export type SelectFields<T extends object> = T extends unknown[] ? never : {
+    [K in Exclude<keyof T, symbol | number>]: NonNullable<T[K]> extends object ? NonNullable<T[K]> extends ExcludedODataTypes ? K : SelectFields<NonNullable<T[K]>> extends infer NextPaths extends string ? // Union this key with all the next paths separated with '/'
+    K | `${K}/${NextPaths}` : K : K;
+}[Exclude<keyof T, symbol | number>];
 
 // @public
 export interface SemanticConfiguration {
@@ -2472,16 +2488,16 @@ export interface SuggestDocumentsResult<T> {
 }
 
 // @public
-export type SuggestOptions<Fields> = OperationOptions & SuggestRequest<Fields>;
+export type SuggestOptions<T extends object, Fields extends SelectFields<T>> = OperationOptions & SuggestRequest<T, Fields>;
 
 // @public
-export interface SuggestRequest<Fields> {
+export interface SuggestRequest<T extends object, Fields extends SelectFields<T>> {
     filter?: string;
     highlightPostTag?: string;
     highlightPreTag?: string;
     minimumCoverage?: number;
     orderBy?: string[];
-    searchFields?: Fields[];
+    searchFields?: SelectFields<T>[];
     select?: Fields[];
     top?: number;
     useFuzzyMatching?: boolean;
@@ -2561,6 +2577,9 @@ export type UaxUrlEmailTokenizer = BaseLexicalTokenizer & {
     odatatype: "#Microsoft.Azure.Search.UaxUrlEmailTokenizer";
     maxTokenLength?: number;
 };
+
+// @public (undocumented)
+export type UnionToIntersection<U> = (U extends unknown ? (_: U) => unknown : never) extends (_: infer I) => unknown ? I : never;
 
 // @public
 export type UniqueTokenFilter = BaseTokenFilter & {

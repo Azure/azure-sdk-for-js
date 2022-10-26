@@ -25,18 +25,6 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
  * Options for performing the count operation on the index.
  */
 export type CountDocumentsOptions = OperationOptions;
-/**
- * Options for retrieving completion text for a partial searchText.
- */
-export type AutocompleteOptions<Fields> = OperationOptions & AutocompleteRequest<Fields>;
-/**
- * Options for committing a full search request.
- */
-export type SearchOptions<Fields> = OperationOptions & SearchRequestOptions<Fields>;
-/**
- * Options for retrieving suggestions based on the searchText.
- */
-export type SuggestOptions<Fields> = OperationOptions & SuggestRequest<Fields>;
 
 /**
  * Options for SearchIndexingBufferedSender.
@@ -148,22 +136,37 @@ export interface ListSearchResultsPageSettings {
   continuationToken?: string;
 }
 
-/**
- * An iterator for search results of a paticular query. Will make requests
- * as needed during iteration. Use .byPage() to make one request to the server
- * per iteration.
- */
-export type SearchIterator<Fields> = PagedAsyncIterableIterator<
-  SearchResult<Fields>,
-  SearchDocumentsPageResult<Fields>,
-  ListSearchResultsPageSettings
->;
-
 // BEGIN manually modified generated interfaces
 //
 // This section is for places where we have to manually fix issues
 // with interfaces from the generated code.
 // Mostly this is to allow modeling additionalProperties:true as generics.
+
+/**
+ * Options for retrieving completion text for a partial searchText.
+ */
+export type AutocompleteOptions<T extends object> = OperationOptions & AutocompleteRequest<T>;
+/**
+ * Options for committing a full search request.
+ */
+export type SearchOptions<T extends object, Fields extends SelectFields<T>> = OperationOptions &
+  SearchRequestOptions<T, Fields>;
+/**
+ * Options for retrieving suggestions based on the searchText.
+ */
+export type SuggestOptions<T extends object, Fields extends SelectFields<T>> = OperationOptions &
+  SuggestRequest<T, Fields>;
+
+/**
+ * An iterator for search results of a paticular query. Will make requests
+ * as needed during iteration. Use .byPage() to make one request to the server
+ * per iteration.
+ */
+export type SearchIterator<T extends object> = PagedAsyncIterableIterator<
+  SearchResult<T>,
+  SearchDocumentsPageResult<T>,
+  ListSearchResultsPageSettings
+>;
 
 /**
  * Parameters for filtering, sorting, faceting, paging, and other search query behaviors.
@@ -311,7 +314,7 @@ export interface SearchRequest {
 /**
  * Parameters for filtering, sorting, faceting, paging, and other search query behaviors.
  */
-export interface SearchRequestOptions<Fields> {
+export interface SearchRequestOptions<T extends object, Fields extends SelectFields<T>> {
   /**
    * A value that specifies whether to fetch the total count of results. Default is false. Setting
    * this value to true may have a performance impact. Note that the count returned is an
@@ -379,7 +382,7 @@ export interface SearchRequestOptions<Fields> {
    * fielded search (fieldName:searchExpression) in a full Lucene query, the field names of each
    * fielded search expression take precedence over any field names listed in this parameter.
    */
-  searchFields?: Fields[];
+  searchFields?: SelectFields<T>[];
   /**
    * The language of the query.
    */
@@ -448,7 +451,7 @@ export interface SearchRequestOptions<Fields> {
 /**
  * Contains a document found by a search query, plus associated metadata.
  */
-export type SearchResult<T> = {
+export type SearchResult<T extends object> = {
   /**
    * The relevance score of the document compared to other documents returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -464,7 +467,7 @@ export type SearchResult<T> = {
    * applicable field; null if hit highlighting was not enabled for the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly highlights?: { [k in keyof T]?: string[] };
+  readonly highlights?: { [k in SelectFields<T>]?: string[] };
   /**
    * Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type 'semantic'.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -509,7 +512,7 @@ export interface SearchDocumentsResultBase {
 /**
  * Response containing search results from an index.
  */
-export interface SearchDocumentsResult<T> extends SearchDocumentsResultBase {
+export interface SearchDocumentsResult<T extends object> extends SearchDocumentsResultBase {
   /**
    * The sequence of results returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -520,7 +523,7 @@ export interface SearchDocumentsResult<T> extends SearchDocumentsResultBase {
 /**
  * Response containing search page results from an index.
  */
-export interface SearchDocumentsPageResult<T> extends SearchDocumentsResultBase {
+export interface SearchDocumentsPageResult<T extends object> extends SearchDocumentsResultBase {
   /**
    * The sequence of results returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -536,7 +539,7 @@ export interface SearchDocumentsPageResult<T> extends SearchDocumentsResultBase 
 /**
  * Parameters for filtering, sorting, fuzzy matching, and other suggestions query behaviors.
  */
-export interface SuggestRequest<Fields> {
+export interface SuggestRequest<T extends object, Fields extends SelectFields<T>> {
   /**
    * An OData expression that filters the documents considered for suggestions.
    */
@@ -579,7 +582,7 @@ export interface SuggestRequest<Fields> {
    * The comma-separated list of field names to search for the specified search text. Target fields
    * must be included in the specified suggester.
    */
-  searchFields?: Fields[];
+  searchFields?: SelectFields<T>[];
   /**
    * The list of fields to retrieve. If unspecified, only the key field will be
    * included in the results.
@@ -624,7 +627,7 @@ export interface SuggestDocumentsResult<T> {
 /**
  * Parameters for fuzzy matching, and other autocomplete query behaviors.
  */
-export interface AutocompleteRequest<Fields> {
+export interface AutocompleteRequest<T extends object> {
   /**
    * Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles
    * and 'oneTermWithContext' to use the current context while producing auto-completed terms.
@@ -665,7 +668,7 @@ export interface AutocompleteRequest<Fields> {
    * The comma-separated list of field names to consider when querying for auto-completed terms.
    * Target fields must be included in the specified suggester.
    */
-  searchFields?: Fields[];
+  searchFields?: SelectFields<T>[];
   /**
    * The number of auto-completed terms to retrieve. This must be a value between 1 and 100. The
    * default is 5.
@@ -685,3 +688,70 @@ export type IndexDocumentsAction<T> = {
 } & Partial<T>;
 
 // END manually modified generated interfaces
+
+// Utility types
+
+export type UnionToIntersection<U> =
+  // Distribute members of U into parameter position of a union of functions
+  (
+    U extends unknown ? (_: U) => unknown : never
+  ) extends // Infer the intersection of the members of U as a single intersected parameter type
+  (_: infer I) => unknown
+    ? I
+    : never;
+
+// Types that should not be included in SelectPaths recursion
+export type ExcludedODataTypes = Date;
+
+/**
+ * Produces a union of valid Cognitive Search OData $select paths for T
+ * using a post-order traversal of the field tree rooted at T.
+ */
+export type SelectFields<T extends object> = T extends unknown[]
+  ? // Don't recur on arrays
+    never
+  : {
+      // Only consider string keys
+      [K in Exclude<keyof T, symbol | number>]: NonNullable<T[K]> extends object
+        ? NonNullable<T[K]> extends ExcludedODataTypes
+          ? // Excluded, so don't recur
+            K
+          : SelectFields<NonNullable<T[K]>> extends infer NextPaths extends string
+          ? // Union this key with all the next paths separated with '/'
+            K | `${K}/${NextPaths}`
+          : // We didn't infer any nested paths, so just use this key
+            K
+        : // Not an object, so can't recur
+          K;
+    }[Exclude<keyof T, symbol | number>];
+
+/**
+ * Deeply pick fields of T using valid Cognitive Search OData $select
+ * paths.
+ */
+export type SearchPick<T extends object, Paths extends SelectFields<T>> =
+  // We're going to get a union of individual interfaces for each field in T that's selected, so convert that to an intersection.
+  UnionToIntersection<
+    // Paths is a union or single string type, so if it's a union it will be _distributed_ over this conditional.
+    // Fortunately, template literal types are not greedy, so we can infer the field name easily.
+    Paths extends `${infer FieldName extends Exclude<keyof T, symbol | number>}/${infer RestPaths}`
+      ? T[FieldName] extends object
+        ? // Extends clause is necessary to refine the constraint of RestPaths
+          RestPaths extends SelectFields<T[FieldName]>
+          ? // Recur :)
+            { [K in FieldName]: SearchPick<T[FieldName], RestPaths> }
+          : // Unreachable by construction
+            never
+        : // Unreachable by construction
+          never
+      : // Otherwise, capture the paths that are simple keys of T itself
+      Paths extends keyof T
+      ? { [K in Paths]: T[K] }
+      : // Unreachable by construction
+        never
+  > & {
+    // This useless intersection actually prevents the TypeScript language server from
+    // expanding the definition of SearchPick<T, Paths> in IntelliSense. Since we're
+    // sure the type always yields an object, this intersection does not alter the type
+    // at all, only the display string of the type.
+  };

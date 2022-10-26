@@ -460,7 +460,7 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
   };
 }
 
-export function generatedSearchResultToPublicSearchResult<T>(
+export function generatedSearchResultToPublicSearchResult<T extends object>(
   results: GeneratedSearchResult[]
 ): SearchResult<T>[] {
   const returnValues: SearchResult<T>[] = results.map<SearchResult<T>>((result) => {

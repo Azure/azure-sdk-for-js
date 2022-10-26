@@ -37,6 +37,10 @@ export {
   SearchIndexingBufferedSenderMergeDocumentsOptions,
   SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
   SearchIndexingBufferedSenderUploadDocumentsOptions,
+  SearchPick,
+  SelectFields,
+  UnionToIntersection,
+  ExcludedODataTypes,
 } from "./indexModels";
 export { SearchIndexingBufferedSender, IndexDocumentsClient } from "./searchIndexingBufferedSender";
 export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";

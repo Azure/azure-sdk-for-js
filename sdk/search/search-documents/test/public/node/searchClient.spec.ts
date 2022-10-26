@@ -15,6 +15,7 @@ import {
   KnownSpeller,
   KnownQueryLanguage,
   AzureKeyCredential,
+  SelectFields,
 } from "../../../src";
 import { Hotel } from "../utils/interfaces";
 import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup";
@@ -77,6 +78,44 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         includeTotalCount: true,
       });
       assert.equal(searchResults.count, 6);
+    });
+
+    it("search narrows the result type", async function () {
+      const hotelKeys: (keyof Hotel)[] = [
+        "address",
+        "category",
+        "description",
+        "descriptionFr",
+        "hotelId",
+        "hotelName",
+        "lastRenovationDate",
+        "location",
+        "parkingIncluded",
+        "rating",
+        "rooms",
+        "smokingAllowed",
+        "tags",
+      ];
+      const selectFields: SelectFields<Hotel>[] = ["hotelId", "address"];
+      const selectResults = await searchClient.search("New", { select: selectFields });
+      for await (const result of selectResults.results) {
+        assert.doesNotHaveAnyKeys(
+          result.document,
+          hotelKeys.filter((key) => !selectFields.includes(key))
+        );
+        break;
+      }
+      const searchFieldsResults = await searchClient.search("New", {
+        searchFields: ["address/city"],
+      });
+      for await (const result of searchFieldsResults.results) {
+        const city = result.document.address?.city;
+        if (!city) {
+          assert.fail();
+        }
+        assert.match(city, /New York/);
+        assert.hasAllKeys(result.document, hotelKeys);
+      }
     });
 
     it("search returns zero results for invalid query", async function () {
