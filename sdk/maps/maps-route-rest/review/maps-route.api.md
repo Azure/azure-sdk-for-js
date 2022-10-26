@@ -44,12 +44,6 @@ export interface BatchResultSummaryOutput {
 }
 
 // @public
-export function createMapsRouteClient(credential: AzureKeyCredential, options?: ClientOptions): MapsRouteClient;
-
-// @public
-export function createMapsRouteClient(credential: TokenCredential, mapsAccountClientId: string, options?: ClientOptions): MapsRouteClient;
-
-// @public
 export function createRouteDirectionsBatchRequest(queryParamProperties: RouteGetRouteDirectionsQueryParamProperties[]): BatchRequest;
 
 // @public
@@ -223,6 +217,13 @@ export interface LatLongPairOutput {
     latitude: number;
     longitude: number;
 }
+
+// @public
+function MapsRoute(credential: AzureKeyCredential, options?: ClientOptions): MapsRouteClient;
+
+// @public
+function MapsRoute(credential: TokenCredential, mapsAccountClientId: string, options?: ClientOptions): MapsRouteClient;
+export default MapsRoute;
 
 // @public (undocumented)
 export type MapsRouteClient = Client & {

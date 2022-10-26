@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import createMapsRouteClient from "./mapsRouteClient";
+import MapsRoute from "./mapsRoute";
 
 export * from "./generated";
 export * from "./helpers";
 
-export { createMapsRouteClient };
+export default MapsRoute;

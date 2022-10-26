@@ -23,7 +23,7 @@ import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
  * @param credential - An AzureKeyCredential instance used to authenticate requests to the service
  * @param options - Options used to configure the Route Client
  */
-export default function createMapsRouteClient(
+export default function MapsRoute(
   credential: AzureKeyCredential,
   options?: ClientOptions
 ): MapsRouteClient;
@@ -43,12 +43,12 @@ export default function createMapsRouteClient(
  * @param mapsAccountClientId - The Azure Maps client id of a specific map resource
  * @param options - Options used to configure the Route Client
  */
-export default function createMapsRouteClient(
+export default function MapsRoute(
   credential: TokenCredential,
   mapsAccountClientId: string,
   options?: ClientOptions
 ): MapsRouteClient;
-export default function createMapsRouteClient(
+export default function MapsRoute(
   credential: TokenCredential | AzureKeyCredential,
   clientIdOrOptions: string | ClientOptions = {},
   maybeOptions: ClientOptions = {}

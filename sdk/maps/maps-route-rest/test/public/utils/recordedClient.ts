@@ -6,7 +6,7 @@ import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder"
 import "./env";
 import { createClientLogger } from "@azure/logger";
 import { AzureKeyCredential } from "@azure/core-auth";
-import createMapsRouteClient from "../../../src/mapsRouteClient";
+import MapsRoute from "../../../src/mapsRoute";
 import { ClientOptions } from "@azure-rest/core-client";
 import { MapsRouteClient } from "../../../src/generated";
 
@@ -37,5 +37,5 @@ export const testLogger = createClientLogger("route-test");
 
 export function createClient(options?: ClientOptions): MapsRouteClient {
   const credential = new AzureKeyCredential(env["MAPS_SUBSCRIPTION_KEY"] ?? "");
-  return createMapsRouteClient(credential, options);
+  return MapsRoute(credential, options);
 }

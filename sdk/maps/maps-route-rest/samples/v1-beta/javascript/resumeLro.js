@@ -7,12 +7,12 @@
 
 const { AzureKeyCredential } = require("@azure/core-auth");
 // import { DefaultAzureCredential } from "@azure/identity";
-const {
-  createMapsRouteClient,
-  createRouteDirectionsBatchRequest,
-  getLongRunningPoller,
-  toColonDelimitedLatLonString,
-} = require("@azure-rest/maps-route");
+const MapsRoute = require("@azure-rest/maps-route").default,
+  {
+    createRouteDirectionsBatchRequest,
+    getLongRunningPoller,
+    toColonDelimitedLatLonString,
+  } = require("@azure-rest/maps-route");
 require("dotenv").config();
 
 /**
@@ -27,7 +27,7 @@ async function main() {
   /** Use subscription key authentication */
   const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
   const credential = new AzureKeyCredential(subscriptionKey);
-  const client = createMapsRouteClient(credential);
+  const client = MapsRoute(credential);
 
   /** Or use Azure AD authentication */
   // const credential = new DefaultAzureCredential();

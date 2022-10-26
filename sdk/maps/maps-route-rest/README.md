@@ -53,11 +53,11 @@ You will also need to specify the Azure Maps resource you intend to use by speci
 The Azure Maps resource client id can be found in the Authentication sections in the Azure Maps resource. Please refer to the [documentation](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication#view-authentication-details) on how to find it.
 
 ```javascript
-const { createMapsRouteClient } = require("@azure-rest/maps-route");
+const MapsRoute = require("@azure-rest/maps-route").default;
 const { DefaultAzureCredential } = require("@azure/identity");
 
 const credential = new DefaultAzureCredential();
-const client = createMapsRouteClient(credential, "<maps-account-client-id>");
+const client = MapsRoute(credential, "<maps-account-client-id>");
 ```
 
 #### Using a Subscription Key Credential
@@ -65,11 +65,11 @@ const client = createMapsRouteClient(credential, "<maps-account-client-id>");
 You can authenticate with your Azure Maps Subscription Key.
 
 ```javascript
-const { createMapsRouteClient } = require("@azure-rest/maps-route");
+const MapsRoute = require("@azure-rest/maps-route").default;
 const { AzureKeyCredential } = require("@azure-core-auth");
 
 const credential = new AzureKeyCredential("<subscription-key>");
-const client = createMapsRouteClient(credential);
+const client = MapsRoute(credential);
 ```
 
 ## Examples

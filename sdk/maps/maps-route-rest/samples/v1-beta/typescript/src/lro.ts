@@ -7,8 +7,7 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 // import { DefaultAzureCredential } from "@azure/identity";
-import {
-  createMapsRouteClient,
+import MapsRoute, {
   createRouteDirectionsBatchRequest,
   getLongRunningPoller,
   RouteGetRouteDirectionsBatch200Response,
@@ -27,7 +26,7 @@ async function main() {
   /** Use subscription key authentication */
   const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
   const credential = new AzureKeyCredential(subscriptionKey);
-  const client = createMapsRouteClient(credential);
+  const client = MapsRoute(credential);
 
   /** Or use Azure AD authentication */
   // const credential = new DefaultAzureCredential();

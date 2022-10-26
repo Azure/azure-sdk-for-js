@@ -7,7 +7,7 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 // import { DefaultAzureCredential } from "@azure/identity";
-import { createMapsRouteClient, isUnexpected } from "@azure-rest/maps-route";
+import MapsRoute, { isUnexpected } from "@azure-rest/maps-route";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -27,7 +27,7 @@ async function main() {
   /** Shared Key authentication (subscription-key) */
   const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
   const credential = new AzureKeyCredential(subscriptionKey);
-  const client = createMapsRouteClient(credential);
+  const client = MapsRoute(credential);
 
   /** Azure Active Directory (Azure AD) authentication */
   // const credential = new DefaultAzureCredential();
