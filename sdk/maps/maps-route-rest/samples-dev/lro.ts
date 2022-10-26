@@ -31,7 +31,7 @@ async function main() {
   /** Or use Azure AD authentication */
   // const credential = new DefaultAzureCredential();
   // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
-  // const client = new MapsRouteClient(credential, mapsClientId);
+  // const client = new MapsRoute(credential, mapsClientId);
 
   const request = createRouteDirectionsBatchRequest([
     {

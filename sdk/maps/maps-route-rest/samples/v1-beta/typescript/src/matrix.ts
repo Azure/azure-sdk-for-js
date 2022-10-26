@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of a MapsRouteClient to retrieve a setting value.
+ * @summary Demonstrates the use of a MapsRoute to retrieve a setting value.
  */
 
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -32,7 +32,7 @@ async function main() {
   /** Azure Active Directory (Azure AD) authentication */
   // const credential = new DefaultAzureCredential();
   // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
-  // const client = createMapsRouteClient(credential, mapsClientId);
+  // const client = MapsRoute(credential, mapsClientId);
 
   /**
    * Calculate route matrix in synchronous way.
@@ -40,11 +40,11 @@ async function main() {
    */
   const routeMatrixResult = await client.path("/route/matrix/sync/{format}", "json").post({
     queryParameters: {
-      vehicleWidthInMeters: 2,
-      vehicleHeightInMeters: 2,
+      vehicleWidth: 2,
+      vehicleHeight: 2,
       vehicleLoadType: "USHazmatClass1",
       travelMode: "truck",
-      isCommercialVehicle: true,
+      vehicleCommercial: true,
     },
     body: {
       origins: {

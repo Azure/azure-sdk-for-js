@@ -12,13 +12,13 @@ urlFragment: maps-route-typescript-beta
 
 These sample programs show how to use the TypeScript client libraries for Azure Maps Route in some common scenarios.
 
-| **File Name**               | **Description**                                                        |
-| --------------------------- | ---------------------------------------------------------------------- |
-| [directions.ts][directions] | Demonstrates the use of a MapsRouteClient to calculate routes.         |
-| [lro.ts][lro]               | Demonstrates how to manipulate a long running request.                 |
-| [matrix.ts][matrix]         | Demonstrates the use of a MapsRouteClient to retrieve a setting value. |
-| [range.ts][range]           | Demonstrates the use of a MapsRouteClient to retrieve a route range.   |
-| [resumeLro.ts][resumelro]   | Demonstrates how to resume a long running request.                     |
+| **File Name**               | **Description**                                                  |
+| --------------------------- | ---------------------------------------------------------------- |
+| [directions.ts][directions] | Demonstrates the use of a MapsRoute to calculate routes.         |
+| [lro.ts][lro]               | Demonstrates how to manipulate a long running request.           |
+| [matrix.ts][matrix]         | Demonstrates the use of a MapsRoute to retrieve a setting value. |
+| [range.ts][range]           | Demonstrates the use of a MapsRoute to retrieve a route range.   |
+| [resumeLro.ts][resumelro]   | Demonstrates how to resume a long running request.               |
 
 ## Prerequisites
 
