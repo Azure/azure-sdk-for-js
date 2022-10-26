@@ -19,63 +19,8 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "0eec9c65-00e8-4832-9fdc-4e144fbe9fff",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
-      },
-      "RequestBody": {
-        "kind": "PiiEntityRecognition",
-        "analysisInput": {
-          "documents": [
-            {
-              "id": "0",
-              "text": "\uD83D\uDC69\uD83C\uDFFB\u200D\uD83D\uDC69\uD83C\uDFFD\u200D\uD83D\uDC67\uD83C\uDFFE\u200D\uD83D\uDC66\uD83C\uDFFF SSN: 859-98-0987",
-              "language": "en"
-            }
-          ]
-        },
-        "parameters": {
-          "stringIndexType": "TextElements_v8"
-        }
-      },
-      "StatusCode": 429,
-      "ResponseHeaders": {
-        "apim-request-id": "e5ffcc3c-61df-4920-848d-31231c30d121",
-        "Content-Length": "85",
-        "Content-Type": "application/json",
-        "Date": "Sat, 15 Oct 2022 02:26:05 GMT",
-        "policy-id": "ResourceRateLimitBy1s",
-        "Retry-After": "1",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff"
-      },
-      "ResponseBody": {
-        "error": {
-          "code": "429",
-          "message": "Rate limit is exceeded. Try again in 1 seconds."
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-05-01",
-      "RequestMethod": "POST",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "Content-Length": "209",
-        "Content-Type": "application/json",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "0eec9c65-00e8-4832-9fdc-4e144fbe9fff",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+        "x-ms-client-request-id": "04f55d7a-b406-4936-a409-8f869f40cde0",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": {
         "kind": "PiiEntityRecognition",
@@ -94,15 +39,16 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "000bfa40-349a-4f6f-b755-e63ac8ccde1e",
+        "apim-request-id": "47facdab-9858-4cfa-91c0-27b5ba37bc77",
         "Content-Length": "324",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-        "Date": "Sat, 15 Oct 2022 02:26:06 GMT",
+        "Date": "Mon, 24 Oct 2022 05:17:49 GMT",
         "Set-Cookie": ".AspNetCore.Mvc.CookieTempDataProvider=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; samesite=lax; httponly",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "33"
+        "x-envoy-upstream-service-time": "30",
+        "x-ms-region": "West US 2"
       },
       "ResponseBody": {
         "kind": "PiiEntityRecognitionResults",

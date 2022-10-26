@@ -1161,7 +1161,7 @@ packages:
       '@azure/core-util': 1.1.1
       '@azure/logger': 1.0.3
       '@azure/msal-browser': 2.28.0
-      '@azure/msal-common': 7.2.0
+      '@azure/msal-common': 7.6.0
       '@azure/msal-node': 1.14.2
       events: 3.3.0
       jws: 4.0.0
@@ -1336,11 +1336,6 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/msal-common/7.2.0:
-    resolution: {integrity: sha512-+Oz8LKTOACDHqDmv+MZy/z+DZRH8RZbMjhadmvp0scQ0R75OrzZro+HkxifWhtDG8l1ViYkvV9NHb4pEZyajAQ==}
-    engines: {node: '>=0.8.0'}
-    dev: false
-
   /@azure/msal-common/7.6.0:
     resolution: {integrity: sha512-XqfbglUTVLdkHQ8F9UQJtKseRr3sSnr9ysboxtoswvaMVaEfvyLtMoHv9XdKUfOc0qKGzNgRFd9yRjIWVepl6Q==}
     engines: {node: '>=0.8.0'}
@@ -1369,15 +1364,6 @@ packages:
     transitivePeerDependencies:
       - debug
       - supports-color
-    dev: false
-
-  /@azure/msal-node/1.12.0:
-    resolution: {integrity: sha512-bNJe5xx3YXj7lrj9wUYl7HX4g1Be7s8VHjDhKPzOnlI54JnRKI+nQ95EmFBs3ckUYM9u82HUsHumDcB21YIC9w==}
-    engines: {node: 10 || 12 || 14 || 16 || 18}
-    dependencies:
-      '@azure/msal-common': 7.2.0
-      jsonwebtoken: 8.5.1
-      uuid: 8.3.2
     dev: false
 
   /@azure/msal-node/1.14.2:
@@ -4146,7 +4132,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20221021
+      typescript: 4.9.0-dev.20221025
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -9223,8 +9209,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20221021:
-    resolution: {integrity: sha512-mtZjgf8EniRs+UtP08fC7kqPgjskImiUXAi19X4eSUfn0HHRBXx0cKnE+mjjNKkQ5R1zC5/hXYWhXheXn+WR1A==}
+  /typescript/4.9.0-dev.20221025:
+    resolution: {integrity: sha512-3TZlt+3jGBjPRVFcNX6BmlajqwNExRm4rhG4llSH5WSMX/eQ54PSueTJ5UhLn9+6/byL31/WRmJJ/7W0j+gCtQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10883,7 +10869,7 @@ packages:
     dev: false
 
   file:projects/arm-avs.tgz:
-    resolution: {integrity: sha512-Op8kg2e1KYlwTKB2CDu300yWnCmZ7kTBqWtbQ9vZnS0F3N9FECekBdZe+q0IuNluZNJn9rIh6l8G43bu6nzBPw==, tarball: file:projects/arm-avs.tgz}
+    resolution: {integrity: sha512-vGIIXQI8KrD9IqHLmxrzYzaAiKpQITySh0vDFhTXpnzRj5GhTV9IzPlVEsgLfLZvTNhgnbYGJFxxLK9KSUZx5w==, tarball: file:projects/arm-avs.tgz}
     name: '@rush-temp/arm-avs'
     version: 0.0.0
     dependencies:
@@ -10895,18 +10881,18 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
       '@types/chai': 4.3.1
+      '@types/node': 14.18.32
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
+      rollup-plugin-sourcemaps: 0.6.3_c7db7d5b071236050b16f8e8aba5b37f
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -11382,7 +11368,7 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-RBqZNtjflAnDfnRWclbeCyprmnBP9oHzdL4mpzLAq2MN6HEDb2Mb3bvh1SeVO5nV0ds2NDDLLC/9PECT62tqsw==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-v29ouVDwbjd+xijYqkHmvlnD+lasuXQJoQ1GGlQLHR6KrPxZfVV9QWSmtRhaQ/SQn4onQfiJ9m/rpN+PImKx3g==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
@@ -11390,7 +11376,7 @@ packages:
       '@azure/arm-network': 26.0.0
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.18.11
+      '@microsoft/api-extractor': 7.31.2
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.0
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
@@ -13127,7 +13113,7 @@ packages:
     dev: false
 
   file:projects/arm-loadtestservice.tgz:
-    resolution: {integrity: sha512-qxs7+yOzEIoACzajyRFSYucff3NJOdgHrO8cT4g/PJzzWTiHffccGQx8xosAdUNa7xQgJbSDOoe0Sc0BoKt8kw==, tarball: file:projects/arm-loadtestservice.tgz}
+    resolution: {integrity: sha512-8HYp1wE5Y3FNh1hevfskvAzQByfj9uQ4EmrzUaWEeKniiQgr6LTdYlb7itWzsHs9Of+5L2/gQT18JSowiaa96w==, tarball: file:projects/arm-loadtestservice.tgz}
     name: '@rush-temp/arm-loadtestservice'
     version: 0.0.0
     dependencies:
@@ -13139,18 +13125,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.1
+      '@types/node': 14.18.32
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
+      rollup-plugin-sourcemaps: 0.6.3_c7db7d5b071236050b16f8e8aba5b37f
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -13929,7 +13916,7 @@ packages:
     dev: false
 
   file:projects/arm-nginx.tgz:
-    resolution: {integrity: sha512-POa90EYmGy76H5wr9zbPYBjWQDD1KCGROSvUIVi/CY8AQSbdlB/f3oinljfzs4RGVXTd0ww0YRtnwM+lnuAc0w==, tarball: file:projects/arm-nginx.tgz}
+    resolution: {integrity: sha512-gXyvzQA6bOGuXWxfKbaykuHGbIX9Up5bcdPpVS/63ztTXOabTdWKwZv8u6R0aFabJVi9NJ4Pni7pSk2P4Enesg==, tarball: file:projects/arm-nginx.tgz}
     name: '@rush-temp/arm-nginx'
     version: 0.0.0
     dependencies:
@@ -13940,18 +13927,18 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
       '@types/chai': 4.3.1
+      '@types/node': 14.18.32
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
+      rollup-plugin-sourcemaps: 0.6.3_c7db7d5b071236050b16f8e8aba5b37f
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -16103,7 +16090,7 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.1.0
-      '@azure/msal-node': 1.12.0
+      '@azure/msal-node': 1.14.2
       '@microsoft/api-extractor': 7.31.2
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
@@ -17161,13 +17148,13 @@ packages:
     dev: false
 
   file:projects/developer-devcenter.tgz:
-    resolution: {integrity: sha512-Dol9HCFhWacXZj88B/EjE0LvZZL0TroCDUrkkOC2VzW/kolnANuM3N7g5+dk/2/IPnfPN3KYiAbXTPLQqOn5hw==, tarball: file:projects/developer-devcenter.tgz}
+    resolution: {integrity: sha512-onFm8U1COM07Fm/tHDgij56AUouHioZhhP+EfFVjsm1GypkFnWrzGxmSipigLVdOWHYcdB7A3HiiQNGBy0GbiQ==, tarball: file:projects/developer-devcenter.tgz}
     name: '@rush-temp/developer-devcenter'
     version: 0.0.0
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.10
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.18.11
+      '@microsoft/api-extractor': 7.31.2
       '@types/chai': 4.3.1
       '@types/node': 14.18.32
       autorest: 3.6.2
@@ -17574,13 +17561,13 @@ packages:
     dev: false
 
   file:projects/functions-authentication-events.tgz:
-    resolution: {integrity: sha512-ZopxsBULGwGojg7FnsTE97u1JwtlnQxu70yWR/+cMR1hzqHd5CTvuVnLG/5eodB4mrW2HbzO1xeTGhIJiFTKxw==, tarball: file:projects/functions-authentication-events.tgz}
+    resolution: {integrity: sha512-84sT4dBYKEOeBclZE459guIWTmltT03smo/F8MJjbyaB7qEEGDnCD0gJOnnJdK4j7DqD0KSBkrRbzKQRZZCEQg==, tarball: file:projects/functions-authentication-events.tgz}
     name: '@rush-temp/functions-authentication-events'
     version: 0.0.0
     dependencies:
       '@azure/functions': 3.2.0
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.18.11
+      '@microsoft/api-extractor': 7.31.2
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 14.18.32
@@ -17695,7 +17682,7 @@ packages:
     dependencies:
       '@azure/keyvault-keys': 4.2.0
       '@azure/msal-browser': 2.28.0
-      '@azure/msal-common': 7.2.0
+      '@azure/msal-common': 7.6.0
       '@azure/msal-node': 1.14.2
       '@microsoft/api-extractor': 7.31.2
       '@types/chai': 4.3.1
@@ -18042,14 +18029,14 @@ packages:
     dev: false
 
   file:projects/load-testing.tgz:
-    resolution: {integrity: sha512-nkdUDkvbFt8euqMofdwr5b1GYeNsazXnWZ0mK0p/zRetc7I2JzTerdCJmeESvSlfW4UWPj1gdnHCLIYUwPRxCA==, tarball: file:projects/load-testing.tgz}
+    resolution: {integrity: sha512-hHCT/2nQlq6qIKIBbQydd3BvJBkWGtQPRLS8hBPw69H/U8gna01Evc8SY2BAfzNGI8aiBj0ZPyVbuJ6A1asMOA==, tarball: file:projects/load-testing.tgz}
     name: '@rush-temp/load-testing'
     version: 0.0.0
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.10
       '@azure/core-util': 1.1.1
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.18.11
+      '@microsoft/api-extractor': 7.31.2
       '@types/chai': 4.3.1
       '@types/node': 12.20.55
       '@types/uuid': 8.3.4
@@ -18134,12 +18121,12 @@ packages:
     dev: false
 
   file:projects/maps-common.tgz:
-    resolution: {integrity: sha512-SqlN7V5PxJsIXBXFsV/oSQWX6ojSoxn3Kbwxc9qR4cUXQHkIO5gNwV/Ps/abLrR97YtzMGpCpMG713fDQwFjBA==, tarball: file:projects/maps-common.tgz}
+    resolution: {integrity: sha512-4hSyGqD7RxdoTAereF+hVxbbG24dhY611ssSQE3r41sZ60yvodEh206tRZJGPbDYBRgpo/thbt+OYThEYJfXKw==, tarball: file:projects/maps-common.tgz}
     name: '@rush-temp/maps-common'
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
-      '@microsoft/api-extractor': 7.18.11
+      '@microsoft/api-extractor': 7.31.2
       '@types/chai': 4.3.1
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -18179,7 +18166,7 @@ packages:
     dev: false
 
   file:projects/maps-route.tgz:
-    resolution: {integrity: sha512-ORR/9OguVfIAnYWtjWkVaMtk538lJqkCrm3lgojrdJNy7zdv857u+CxHbNvnTtfcTKVIcwCGpS4Lz83r2lP7pQ==, tarball: file:projects/maps-route.tgz}
+    resolution: {integrity: sha512-fo6IAgBZUR4eDWTDd4z7/3ML7gtx1H6UNQBxgGiioO5s8aWWL+LunLkM4vLdrQ0i/MungDJnh1d4MfLwsdpMeg==, tarball: file:projects/maps-route.tgz}
     name: '@rush-temp/maps-route'
     version: 0.0.0
     dependencies:
@@ -18234,13 +18221,13 @@ packages:
     dev: false
 
   file:projects/maps-search.tgz:
-    resolution: {integrity: sha512-ADWySSLYrpHfpvHe2zz3a1n1Hw91LWpfEAV6ptp5sznIFBjfAsptsN4+dDpEWuaCQVih1722peNs3LkUW1TL+w==, tarball: file:projects/maps-search.tgz}
+    resolution: {integrity: sha512-IMVLe4cirA0+BoDcFGBq/lEY9NadLYALHkwq706Q+bLDKw/yYii7/zQqpm9BGCCFzYFkTjBzaaPC1YdFoJMUWw==, tarball: file:projects/maps-search.tgz}
     name: '@rush-temp/maps-search'
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.18.11
+      '@microsoft/api-extractor': 7.31.2
       '@types/chai': 4.3.1
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
