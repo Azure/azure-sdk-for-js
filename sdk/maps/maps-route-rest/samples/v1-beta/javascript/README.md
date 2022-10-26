@@ -12,13 +12,13 @@ urlFragment: maps-route-javascript-beta
 
 These sample programs show how to use the JavaScript client libraries for Azure Maps Route in some common scenarios.
 
-| **File Name**               | **Description**                                                        |
-| --------------------------- | ---------------------------------------------------------------------- |
-| [directions.js][directions] | Demonstrates the use of a MapsRouteClient to calculate routes.         |
-| [lro.js][lro]               | Demonstrates how to manipulate a long running request.                 |
-| [matrix.js][matrix]         | Demonstrates the use of a MapsRouteClient to retrieve a setting value. |
-| [range.js][range]           | Demonstrates the use of a MapsRouteClient to retrieve a route range.   |
-| [resumeLro.js][resumelro]   | Demonstrates how to resume a long running request.                     |
+| **File Name**               | **Description**                                                  |
+| --------------------------- | ---------------------------------------------------------------- |
+| [directions.js][directions] | Demonstrates the use of a MapsRoute to calculate routes.         |
+| [lro.js][lro]               | Demonstrates how to manipulate a long running request.           |
+| [matrix.js][matrix]         | Demonstrates the use of a MapsRoute to retrieve a setting value. |
+| [range.js][range]           | Demonstrates the use of a MapsRoute to retrieve a route range.   |
+| [resumeLro.js][resumelro]   | Demonstrates how to resume a long running request.               |
 
 ## Prerequisites
 

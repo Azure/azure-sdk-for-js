@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of a MapsRouteClient to calculate routes.
+ * @summary Demonstrates the use of a MapsRoute to calculate routes.
  */
 
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -37,7 +37,7 @@ async function main() {
   /** Azure Active Directory (Azure AD) authentication */
   // const credential = new DefaultAzureCredential();
   // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
-  // const client = createMapsRouteClient(credential, mapsClientId);
+  // const client = MapsRoute(credential, mapsClientId);
 
   /**
    * Should provide at least two coordinates, origin and destination to the query.
@@ -56,11 +56,11 @@ async function main() {
       /**
        * Could also provide additional conditions to the query.
        */
-      vehicleWidthInMeters: 2,
-      vehicleHeightInMeters: 2,
+      vehicleWidth: 2,
+      vehicleHeight: 2,
       vehicleLoadType: "USHazmatClass1",
       travelMode: "truck",
-      isCommercialVehicle: true,
+      vehicleCommercial: true,
     },
   });
 

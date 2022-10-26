@@ -13,11 +13,11 @@ import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
  *
  * @example
  * ```ts
- * import { createMapsRouteClient } from "@azure-rest/maps-route";
+ * import MapsRoute from "@azure-rest/maps-route";
  * import { AzureKeyCredential } from "@azure/core-auth";
  *
  * const credential = new AzureKeyCredential("<subscription-key>");
- * const client = createMapsRouteClient(credential);
+ * const client = MapsRoute(credential);
  *```
  *
  * @param credential - An AzureKeyCredential instance used to authenticate requests to the service
@@ -28,15 +28,15 @@ export default function MapsRoute(
   options?: ClientOptions
 ): MapsRouteClient;
 /**
- * Creates an instance of MapsRouteClient from an Azure Identity `TokenCredential`.
+ * Creates an instance of MapsRoute from an Azure Identity `TokenCredential`.
  *
  * @example
  * ```ts
- * import { MapsRouteClient } from "@azure/maps-route";
+ * import MapsRoute from "@azure/maps-route";
  * import { DefaultAzureCredential } from "@azure/identity";
  *
  * const credential = new DefaultAzureCredential();
- * const client = createMapsRouteClient(credential, "<maps-account-client-id>");
+ * const client = MapsRoute(credential, "<maps-account-client-id>");
  *```
  *
  * @param credential - An TokenCredential instance used to authenticate requests to the service
