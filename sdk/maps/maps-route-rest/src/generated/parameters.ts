@@ -17,9 +17,9 @@ export interface RouteRequestRouteMatrixQueryParamProperties {
   /** Boolean to indicate whether to execute the request synchronously. If set to true, user will get a 200 response if the request is finished under 120 seconds. Otherwise, user will get a 202 response right away. Please refer to the API description for more details on 202 response. **Supported only for async request**. */
   waitForResults?: boolean;
   /** Specifies whether to return additional travel times using different types of traffic information (none, historic, live) as well as the default best-estimate travel time. */
-  computeTravelTime?: "none" | "all";
+  computeTravelTimeFor?: "none" | "all";
   /** Specifies which of the section types is reported in the route response. <br><br>For example if sectionType = pedestrian the sections which are suited for pedestrians only are returned. Multiple types can be used. The default sectionType refers to the travelMode input. By default travelMode is set to car */
-  filterSectionType?:
+  sectionType?:
     | "carTrain"
     | "country"
     | "ferry"
@@ -37,13 +37,13 @@ export interface RouteRequestRouteMatrixQueryParamProperties {
   /** The date and time of departure from the origin point. Departure times apart from now must be specified as a dateTime. When a time zone offset is not specified, it will be assumed to be that of the origin point. The departAt value must be in the future in the date-time format (1996-12-19T16:39:57-08:00). */
   departAt?: Date | string;
   /** Weight per axle of the vehicle in kg. A value of 0 means that weight restrictions per axle are not considered. */
-  vehicleAxleWeightInKg?: number;
+  vehicleAxleWeight?: number;
   /** Length of the vehicle in meters. A value of 0 means that length restrictions are not considered. */
-  vehicleLengthInMeters?: number;
+  vehicleLength?: number;
   /** Height of the vehicle in meters. A value of 0 means that height restrictions are not considered. */
-  vehicleHeightInMeters?: number;
+  vehicleHeight?: number;
   /** Width of the vehicle in meters. A value of 0 means that width restrictions are not considered. */
-  vehicleWidthInMeters?: number;
+  vehicleWidth?: number;
   /**
    * Maximum speed of the vehicle in km/hour. The max speed in the vehicle profile is used to check whether a vehicle is allowed on motorways.
    *
@@ -51,13 +51,13 @@ export interface RouteRequestRouteMatrixQueryParamProperties {
    *
    * * A non-zero value may be overridden during route planning. For example, the current traffic flow is 60 km/hour. If the vehicle  maximum speed is set to 50 km/hour, the routing engine will consider 60 km/hour as this is the current situation.  If the maximum speed of the vehicle is provided as 80 km/hour but the current traffic flow is 60 km/hour, then routing engine will again use 60 km/hour.
    */
-  vehicleMaxSpeedInKmPerHour?: number;
+  vehicleMaxSpeed?: number;
   /** Weight of the vehicle in kilograms. */
-  vehicleWeightInKg?: number;
+  vehicleWeight?: number;
   /** Level of turns for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling. */
   windingness?: "low" | "normal" | "high";
   /** Degree of hilliness for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling. */
-  inclineLevel?: "low" | "normal" | "high";
+  hilliness?: "low" | "normal" | "high";
   /** The mode of travel for the requested route. If not defined, default is 'car'. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be "other". Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used. */
   travelMode?:
     | "car"
@@ -84,7 +84,7 @@ export interface RouteRequestRouteMatrixQueryParamProperties {
    *   * false - Ignore current traffic data during routing. Note that although the current traffic data is ignored
    *   during routing, the effect of historic traffic on effective road speeds is still incorporated.
    */
-  useTrafficData?: boolean;
+  traffic?: boolean;
   /** The type of route requested. */
   routeType?: "fastest" | "shortest" | "eco" | "thrilling";
   /** Types of cargo that may be classified as hazardous materials and restricted from some roads. Available vehicleLoadType values are US Hazmat classes 1 through 9, plus generic classifications for use in other countries. Values beginning with USHazmat are for US routing while otherHazmat should be used for all other countries. vehicleLoadType can be specified multiple times. This parameter is currently only considered for travelMode=truck. */
@@ -127,9 +127,9 @@ export interface RouteRequestRouteMatrixSyncQueryParamProperties {
   /** Boolean to indicate whether to execute the request synchronously. If set to true, user will get a 200 response if the request is finished under 120 seconds. Otherwise, user will get a 202 response right away. Please refer to the API description for more details on 202 response. **Supported only for async request**. */
   waitForResults?: boolean;
   /** Specifies whether to return additional travel times using different types of traffic information (none, historic, live) as well as the default best-estimate travel time. */
-  computeTravelTime?: "none" | "all";
+  computeTravelTimeFor?: "none" | "all";
   /** Specifies which of the section types is reported in the route response. <br><br>For example if sectionType = pedestrian the sections which are suited for pedestrians only are returned. Multiple types can be used. The default sectionType refers to the travelMode input. By default travelMode is set to car */
-  filterSectionType?:
+  sectionType?:
     | "carTrain"
     | "country"
     | "ferry"
@@ -147,13 +147,13 @@ export interface RouteRequestRouteMatrixSyncQueryParamProperties {
   /** The date and time of departure from the origin point. Departure times apart from now must be specified as a dateTime. When a time zone offset is not specified, it will be assumed to be that of the origin point. The departAt value must be in the future in the date-time format (1996-12-19T16:39:57-08:00). */
   departAt?: Date | string;
   /** Weight per axle of the vehicle in kg. A value of 0 means that weight restrictions per axle are not considered. */
-  vehicleAxleWeightInKg?: number;
+  vehicleAxleWeight?: number;
   /** Length of the vehicle in meters. A value of 0 means that length restrictions are not considered. */
-  vehicleLengthInMeters?: number;
+  vehicleLength?: number;
   /** Height of the vehicle in meters. A value of 0 means that height restrictions are not considered. */
-  vehicleHeightInMeters?: number;
+  vehicleHeight?: number;
   /** Width of the vehicle in meters. A value of 0 means that width restrictions are not considered. */
-  vehicleWidthInMeters?: number;
+  vehicleWidth?: number;
   /**
    * Maximum speed of the vehicle in km/hour. The max speed in the vehicle profile is used to check whether a vehicle is allowed on motorways.
    *
@@ -161,13 +161,13 @@ export interface RouteRequestRouteMatrixSyncQueryParamProperties {
    *
    * * A non-zero value may be overridden during route planning. For example, the current traffic flow is 60 km/hour. If the vehicle  maximum speed is set to 50 km/hour, the routing engine will consider 60 km/hour as this is the current situation.  If the maximum speed of the vehicle is provided as 80 km/hour but the current traffic flow is 60 km/hour, then routing engine will again use 60 km/hour.
    */
-  vehicleMaxSpeedInKmPerHour?: number;
+  vehicleMaxSpeed?: number;
   /** Weight of the vehicle in kilograms. */
-  vehicleWeightInKg?: number;
+  vehicleWeight?: number;
   /** Level of turns for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling. */
   windingness?: "low" | "normal" | "high";
   /** Degree of hilliness for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling. */
-  inclineLevel?: "low" | "normal" | "high";
+  hilliness?: "low" | "normal" | "high";
   /** The mode of travel for the requested route. If not defined, default is 'car'. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be "other". Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used. */
   travelMode?:
     | "car"
@@ -194,7 +194,7 @@ export interface RouteRequestRouteMatrixSyncQueryParamProperties {
    *   * false - Ignore current traffic data during routing. Note that although the current traffic data is ignored
    *   during routing, the effect of historic traffic on effective road speeds is still incorporated.
    */
-  useTrafficData?: boolean;
+  traffic?: boolean;
   /** The type of route requested. */
   routeType?: "fastest" | "shortest" | "eco" | "thrilling";
   /** Types of cargo that may be classified as hazardous materials and restricted from some roads. Available vehicleLoadType values are US Hazmat classes 1 through 9, plus generic classifications for use in other countries. Values beginning with USHazmat are for US routing while otherHazmat should be used for all other countries. vehicleLoadType can be specified multiple times. This parameter is currently only considered for travelMode=truck. */
@@ -235,7 +235,7 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
   /** Controls the optimality, with respect to the given planning criteria, of the calculated alternatives compared to the reference route. */
   alternativeType?: "anyRoute" | "betterRoute";
   /** All alternative routes returned will follow the reference route (see section POST Requests) from the origin point of the calculateRoute request for at least this number of meters. Can only be used when reconstructing a route. The minDeviationDistance parameter cannot be used in conjunction with arriveAt */
-  minDeviationDistanceInMeters?: number;
+  minDeviationDistance?: number;
   /** The date and time of arrival at the destination point. It must be specified as a dateTime. When a time zone offset is not specified it will be assumed to be that of the destination point. The arriveAt value must be in the future. The arriveAt parameter cannot be used in conjunction with departAt, minDeviationDistance or minDeviationTime. */
   arriveAt?: Date | string;
   /** The date and time of departure from the origin point. Departure times apart from now must be specified as a dateTime. When a time zone offset is not specified, it will be assumed to be that of the origin point. The departAt value must be in the future in the date-time format (1996-12-19T16:39:57-08:00). */
@@ -268,17 +268,17 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
    */
   language?: string;
   /** Re-order the route waypoints using a fast heuristic algorithm to reduce the route length. Yields best results when used in conjunction with routeType _shortest_. Notice that origin and destination are excluded from the optimized waypoint indices. To include origin and destination in the response, please increase all the indices by 1 to account for the origin, and then add the destination as the final index. Possible values are true or false. True computes a better order if possible, but is not allowed to be used in conjunction with maxAlternatives value greater than 0 or in conjunction with circle waypoints. False will use the locations in the given order and not allowed to be used in conjunction with routeRepresentation _none_. */
-  computeBestWaypointOrder?: boolean;
+  computeBestOrder?: boolean;
   /** Specifies the representation of the set of routes provided as response. This parameter value can only be used in conjunction with computeBestOrder=true. */
-  routeRepresentationForBestOrder?: "polyline" | "summaryOnly" | "none";
+  routeRepresentation?: "polyline" | "summaryOnly" | "none";
   /** Specifies whether to return additional travel times using different types of traffic information (none, historic, live) as well as the default best-estimate travel time. */
-  computeTravelTime?: "none" | "all";
+  computeTravelTimeFor?: "none" | "all";
   /** The directional heading of the vehicle in degrees starting at true North and continuing in clockwise direction. North is 0 degrees, east is 90 degrees, south is 180 degrees, west is 270 degrees. Possible values 0-359 */
   vehicleHeading?: number;
   /** Specifies which data should be reported for diagnosis purposes. The only possible value is _effectiveSettings_. Reports the effective parameters or data used when calling the API. In the case of defaulted parameters the default will be reflected where the parameter was not specified by the caller. */
   report?: "effectiveSettings";
   /** Specifies which of the section types is reported in the route response. <br><br>For example if sectionType = pedestrian the sections which are suited for pedestrians only are returned. Multiple types can be used. The default sectionType refers to the travelMode input. By default travelMode is set to car */
-  filterSectionType?:
+  sectionType?:
     | "carTrain"
     | "country"
     | "ferry"
@@ -292,13 +292,13 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
     | "carpool"
     | "urban";
   /** Weight per axle of the vehicle in kg. A value of 0 means that weight restrictions per axle are not considered. */
-  vehicleAxleWeightInKg?: number;
+  vehicleAxleWeight?: number;
   /** Width of the vehicle in meters. A value of 0 means that width restrictions are not considered. */
-  vehicleWidthInMeters?: number;
+  vehicleWidth?: number;
   /** Height of the vehicle in meters. A value of 0 means that height restrictions are not considered. */
-  vehicleHeightInMeters?: number;
+  vehicleHeight?: number;
   /** Length of the vehicle in meters. A value of 0 means that length restrictions are not considered. */
-  vehicleLengthInMeters?: number;
+  vehicleLength?: number;
   /**
    * Maximum speed of the vehicle in km/hour. The max speed in the vehicle profile is used to check whether a vehicle is allowed on motorways.
    *
@@ -306,7 +306,7 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
    *
    * * A non-zero value may be overridden during route planning. For example, the current traffic flow is 60 km/hour. If the vehicle  maximum speed is set to 50 km/hour, the routing engine will consider 60 km/hour as this is the current situation.  If the maximum speed of the vehicle is provided as 80 km/hour but the current traffic flow is 60 km/hour, then routing engine will again use 60 km/hour.
    */
-  vehicleMaxSpeedInKmPerHour?: number;
+  vehicleMaxSpeed?: number;
   /**
    * Weight of the vehicle in kilograms.
    *
@@ -320,13 +320,13 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
    *
    * Sensible Values : for **Combustion Model** : 1600, for **Electric Model** : 1900
    */
-  vehicleWeightInKg?: number;
+  vehicleWeight?: number;
   /** Whether the vehicle is used for commercial purposes. Commercial vehicles may not be allowed to drive on some roads. */
-  isCommercialVehicle?: boolean;
+  vehicleCommercial?: boolean;
   /** Level of turns for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling. */
   windingness?: "low" | "normal" | "high";
   /** Degree of hilliness for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling. */
-  inclineLevel?: "low" | "normal" | "high";
+  hilliness?: "low" | "normal" | "high";
   /** The mode of travel for the requested route. If not defined, default is 'car'. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be "other". Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used. */
   travelMode?:
     | "car"
@@ -353,7 +353,7 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
    *   * false - Ignore current traffic data during routing. Note that although the current traffic data is ignored
    *   during routing, the effect of historic traffic on effective road speeds is still incorporated.
    */
-  useTrafficData?: boolean;
+  traffic?: boolean;
   /** The type of route requested. */
   routeType?: "fastest" | "shortest" | "eco" | "thrilling";
   /** Types of cargo that may be classified as hazardous materials and restricted from some roads. Available vehicleLoadType values are US Hazmat classes 1 through 9, plus generic classifications for use in other countries. Values beginning with USHazmat are for US routing while otherHazmat should be used for all other countries. vehicleLoadType can be specified multiple times. This parameter is currently only considered for travelMode=truck. */
@@ -394,7 +394,7 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
    *
    * **Note** : This parameter is required for **The Combustion Consumption Model**.
    */
-  constantSpeedConsumptionInLitersPerHundredKm?: string;
+  constantSpeedConsumptionInLitersPerHundredkm?: string;
   /**
    * Specifies the current supply of fuel in liters.
    *
@@ -416,7 +416,7 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
    *
    * Sensible Values : 34.2
    */
-  fuelEnergyDensityInMegajoulesPerLiter?: number;
+  fuelEnergyDensityInMJoulesPerLiter?: number;
   /**
    * Specifies the efficiency of converting chemical energy stored in fuel to kinetic energy when the vehicle accelerates _(i.e. KineticEnergyGained/ChemicalEnergyConsumed). ChemicalEnergyConsumed_ is obtained by converting consumed fuel to chemical energy using **fuelEnergyDensityInMJoulesPerLiter**.
    *
@@ -478,7 +478,7 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
    *
    * This parameter is required for **Electric consumption model**.
    */
-  constantSpeedConsumptionInKwHPerHundredKm?: string;
+  constantSpeedConsumptionInkWhPerHundredkm?: string;
   /**
    * Specifies the current electric energy supply in kilowatt hours (kWh).
    *
@@ -488,7 +488,7 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
    *
    * Sensible Values : 43
    */
-  currentChargeInKwH?: number;
+  currentChargeInkWh?: number;
   /**
    * Specifies the maximum electric energy supply in kilowatt hours (kWh) that may be stored in the vehicle's battery.
    *
@@ -498,7 +498,7 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
    *
    * Sensible Values : 85
    */
-  maxChargeInKwH?: number;
+  maxChargeInkWh?: number;
   /**
    * Specifies the amount of power consumed for sustaining auxiliary systems, in kilowatts (kW).
    *
@@ -506,7 +506,7 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
    *
    * Sensible Values : 1.7
    */
-  auxiliaryPowerInKw?: number;
+  auxiliaryPowerInkW?: number;
 }
 
 export interface RouteGetRouteDirectionsQueryParam {
@@ -539,7 +539,7 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProper
   /** Controls the optimality, with respect to the given planning criteria, of the calculated alternatives compared to the reference route. */
   alternativeType?: "anyRoute" | "betterRoute";
   /** All alternative routes returned will follow the reference route (see section POST Requests) from the origin point of the calculateRoute request for at least this number of meters. Can only be used when reconstructing a route. The minDeviationDistance parameter cannot be used in conjunction with arriveAt */
-  minDeviationDistanceInMeters?: number;
+  minDeviationDistance?: number;
   /**
    * All alternative routes returned will follow the reference route (see section POST Requests) from the origin point of the calculateRoute request for at least this number of seconds. Can only be used when reconstructing a route. The minDeviationTime parameter cannot be used in conjunction with arriveAt. Default value is 0. Setting )minDeviationTime_ to a value greater than zero has the following consequences:
    *   - The origin point of the _calculateRoute_ Request must be on
@@ -564,17 +564,17 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProper
   /** The language parameter determines the language of the guidance messages. It does not affect proper nouns (the names of streets, plazas, etc.) It has no effect when instructionsType=coded. Allowed values are (a subset of) the IETF language tags described */
   language?: string;
   /** Re-order the route waypoints using a fast heuristic algorithm to reduce the route length. Yields best results when used in conjunction with routeType _shortest_. Notice that origin and destination are excluded from the optimized waypoint indices. To include origin and destination in the response, please increase all the indices by 1 to account for the origin, and then add the destination as the final index. Possible values are true or false. True computes a better order if possible, but is not allowed to be used in conjunction with maxAlternatives value greater than 0 or in conjunction with circle waypoints. False will use the locations in the given order and not allowed to be used in conjunction with routeRepresentation _none_. */
-  computeBestWaypointOrder?: boolean;
+  computeBestOrder?: boolean;
   /** Specifies the representation of the set of routes provided as response. This parameter value can only be used in conjunction with computeBestOrder=true. */
-  routeRepresentationForBestOrder?: "polyline" | "summaryOnly" | "none";
+  routeRepresentation?: "polyline" | "summaryOnly" | "none";
   /** Specifies whether to return additional travel times using different types of traffic information (none, historic, live) as well as the default best-estimate travel time. */
-  computeTravelTime?: "none" | "all";
+  computeTravelTimeFor?: "none" | "all";
   /** The directional heading of the vehicle in degrees starting at true North and continuing in clockwise direction. North is 0 degrees, east is 90 degrees, south is 180 degrees, west is 270 degrees. Possible values 0-359 */
   vehicleHeading?: number;
   /** Specifies which data should be reported for diagnosis purposes. The only possible value is _effectiveSettings_. Reports the effective parameters or data used when calling the API. In the case of defaulted parameters the default will be reflected where the parameter was not specified by the caller. */
   report?: "effectiveSettings";
   /** Specifies which of the section types is reported in the route response. <br><br>For example if sectionType = pedestrian the sections which are suited for pedestrians only are returned. Multiple types can be used. The default sectionType refers to the travelMode input. By default travelMode is set to car */
-  filterSectionType?:
+  sectionType?:
     | "carTrain"
     | "country"
     | "ferry"
@@ -592,13 +592,13 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProper
   /** The date and time of departure from the origin point. Departure times apart from now must be specified as a dateTime. When a time zone offset is not specified, it will be assumed to be that of the origin point. The departAt value must be in the future in the date-time format (1996-12-19T16:39:57-08:00). */
   departAt?: Date | string;
   /** Weight per axle of the vehicle in kg. A value of 0 means that weight restrictions per axle are not considered. */
-  vehicleAxleWeightInKg?: number;
+  vehicleAxleWeight?: number;
   /** Length of the vehicle in meters. A value of 0 means that length restrictions are not considered. */
-  vehicleLengthInMeters?: number;
+  vehicleLength?: number;
   /** Height of the vehicle in meters. A value of 0 means that height restrictions are not considered. */
-  vehicleHeightInMeters?: number;
+  vehicleHeight?: number;
   /** Width of the vehicle in meters. A value of 0 means that width restrictions are not considered. */
-  vehicleWidthInMeters?: number;
+  vehicleWidth?: number;
   /**
    * Maximum speed of the vehicle in km/hour. The max speed in the vehicle profile is used to check whether a vehicle is allowed on motorways.
    *
@@ -606,7 +606,7 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProper
    *
    * * A non-zero value may be overridden during route planning. For example, the current traffic flow is 60 km/hour. If the vehicle  maximum speed is set to 50 km/hour, the routing engine will consider 60 km/hour as this is the current situation.  If the maximum speed of the vehicle is provided as 80 km/hour but the current traffic flow is 60 km/hour, then routing engine will again use 60 km/hour.
    */
-  vehicleMaxSpeedInKmPerHour?: number;
+  vehicleMaxSpeed?: number;
   /**
    * Weight of the vehicle in kilograms.
    *
@@ -620,13 +620,13 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProper
    *
    * Sensible Values : for **Combustion Model** : 1600, for **Electric Model** : 1900
    */
-  vehicleWeightInKg?: number;
+  vehicleWeight?: number;
   /** Whether the vehicle is used for commercial purposes. Commercial vehicles may not be allowed to drive on some roads. */
-  isCommercialVehicle?: boolean;
+  vehicleCommercial?: boolean;
   /** Level of turns for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling. */
   windingness?: "low" | "normal" | "high";
   /** Degree of hilliness for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling. */
-  inclineLevel?: "low" | "normal" | "high";
+  hilliness?: "low" | "normal" | "high";
   /** The mode of travel for the requested route. If not defined, default is 'car'. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be "other". Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used. */
   travelMode?:
     | "car"
@@ -653,7 +653,7 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProper
    *   * false - Ignore current traffic data during routing. Note that although the current traffic data is ignored
    *   during routing, the effect of historic traffic on effective road speeds is still incorporated.
    */
-  useTrafficData?: boolean;
+  traffic?: boolean;
   /** The type of route requested. */
   routeType?: "fastest" | "shortest" | "eco" | "thrilling";
   /** Types of cargo that may be classified as hazardous materials and restricted from some roads. Available vehicleLoadType values are US Hazmat classes 1 through 9, plus generic classifications for use in other countries. Values beginning with USHazmat are for US routing while otherHazmat should be used for all other countries. vehicleLoadType can be specified multiple times. This parameter is currently only considered for travelMode=truck. */
@@ -694,7 +694,7 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProper
    *
    * **Note** : This parameter is required for **The Combustion Consumption Model**.
    */
-  constantSpeedConsumptionInLitersPerHundredKm?: string;
+  constantSpeedConsumptionInLitersPerHundredkm?: string;
   /**
    * Specifies the current supply of fuel in liters.
    *
@@ -716,7 +716,7 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProper
    *
    * Sensible Values : 34.2
    */
-  fuelEnergyDensityInMegajoulesPerLiter?: number;
+  fuelEnergyDensityInMJoulesPerLiter?: number;
   /**
    * Specifies the efficiency of converting chemical energy stored in fuel to kinetic energy when the vehicle accelerates _(i.e. KineticEnergyGained/ChemicalEnergyConsumed). ChemicalEnergyConsumed_ is obtained by converting consumed fuel to chemical energy using **fuelEnergyDensityInMJoulesPerLiter**.
    *
@@ -778,7 +778,7 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProper
    *
    * This parameter is required for **Electric consumption model**.
    */
-  constantSpeedConsumptionInKwHPerHundredKm?: string;
+  constantSpeedConsumptionInkWhPerHundredkm?: string;
   /**
    * Specifies the current electric energy supply in kilowatt hours (kWh).
    *
@@ -788,7 +788,7 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProper
    *
    * Sensible Values : 43
    */
-  currentChargeInKwH?: number;
+  currentChargeInkWh?: number;
   /**
    * Specifies the maximum electric energy supply in kilowatt hours (kWh) that may be stored in the vehicle's battery.
    *
@@ -798,7 +798,7 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProper
    *
    * Sensible Values : 85
    */
-  maxChargeInKwH?: number;
+  maxChargeInkWh?: number;
   /**
    * Specifies the amount of power consumed for sustaining auxiliary systems, in kilowatts (kW).
    *
@@ -806,7 +806,7 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProper
    *
    * Sensible Values : 1.7
    */
-  auxiliaryPowerInKw?: number;
+  auxiliaryPowerInkW?: number;
 }
 
 export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParam {
@@ -829,7 +829,7 @@ export interface RouteGetRouteRangeQueryParamProperties {
   /** Fuel budget in liters that determines maximal range which can be travelled using the specified Combustion Consumption Model.<br> When fuelBudgetInLiters is used, it is mandatory to specify a detailed  Combustion Consumption Model.<br> Exactly one budget (fuelBudgetInLiters, energyBudgetInkWh, timeBudgetInSec, or distanceBudgetInMeters) must be used. */
   fuelBudgetInLiters?: number;
   /** Electric energy budget in kilowatt hours (kWh) that determines maximal range which can be travelled using the specified Electric Consumption Model.<br> When energyBudgetInkWh is used, it is mandatory to specify a detailed Electric Consumption Model.<br> Exactly one budget (fuelBudgetInLiters, energyBudgetInkWh, timeBudgetInSec, or distanceBudgetInMeters) must be used. */
-  energyBudgetInKwH?: number;
+  energyBudgetInkWh?: number;
   /** Time budget in seconds that determines maximal range which can be travelled using driving time. The Consumption Model will only affect the range when routeType is eco.<br> Exactly one budget (fuelBudgetInLiters, energyBudgetInkWh, timeBudgetInSec, or distanceBudgetInMeters) must be used. */
   timeBudgetInSec?: number;
   /** Distance budget in meters that determines maximal range which can be travelled using driving distance.  The Consumption Model will only affect the range when routeType is eco.<br> Exactly one budget (fuelBudgetInLiters, energyBudgetInkWh, timeBudgetInSec, or distanceBudgetInMeters) must be used. */
@@ -844,7 +844,7 @@ export interface RouteGetRouteRangeQueryParamProperties {
    *   * false - Ignore current traffic data during routing. Note that although the current traffic data is ignored
    *   during routing, the effect of historic traffic on effective road speeds is still incorporated.
    */
-  useTrafficData?: boolean;
+  traffic?: boolean;
   /** Specifies something that the route calculation should try to avoid when determining the route. Can be specified multiple times in one request, for example, '&avoid=motorways&avoid=tollRoads&avoid=ferries'. In calculateReachableRange requests, the value alreadyUsedRoads must not be used. */
   avoid?: Array<
     | "tollRoads"
@@ -866,17 +866,17 @@ export interface RouteGetRouteRangeQueryParamProperties {
     | "bicycle"
     | "pedestrian";
   /** Degree of hilliness for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling. */
-  inclineLevel?: "low" | "normal" | "high";
+  hilliness?: "low" | "normal" | "high";
   /** Level of turns for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling. */
   windingness?: "low" | "normal" | "high";
   /** Weight per axle of the vehicle in kg. A value of 0 means that weight restrictions per axle are not considered. */
-  vehicleAxleWeightInKg?: number;
+  vehicleAxleWeight?: number;
   /** Width of the vehicle in meters. A value of 0 means that width restrictions are not considered. */
-  vehicleWidthInMeters?: number;
+  vehicleWidth?: number;
   /** Height of the vehicle in meters. A value of 0 means that height restrictions are not considered. */
-  vehicleHeightInMeters?: number;
+  vehicleHeight?: number;
   /** Length of the vehicle in meters. A value of 0 means that length restrictions are not considered. */
-  vehicleLengthInMeters?: number;
+  vehicleLength?: number;
   /**
    * Maximum speed of the vehicle in km/hour. The max speed in the vehicle profile is used to check whether a vehicle is allowed on motorways.
    *
@@ -884,7 +884,7 @@ export interface RouteGetRouteRangeQueryParamProperties {
    *
    * * A non-zero value may be overridden during route planning. For example, the current traffic flow is 60 km/hour. If the vehicle  maximum speed is set to 50 km/hour, the routing engine will consider 60 km/hour as this is the current situation.  If the maximum speed of the vehicle is provided as 80 km/hour but the current traffic flow is 60 km/hour, then routing engine will again use 60 km/hour.
    */
-  vehicleMaxSpeedInKmPerHour?: number;
+  vehicleMaxSpeed?: number;
   /**
    * Weight of the vehicle in kilograms.
    *
@@ -898,9 +898,9 @@ export interface RouteGetRouteRangeQueryParamProperties {
    *
    * Sensible Values : for **Combustion Model** : 1600, for **Electric Model** : 1900
    */
-  vehicleWeightInKg?: number;
+  vehicleWeight?: number;
   /** Whether the vehicle is used for commercial purposes. Commercial vehicles may not be allowed to drive on some roads. */
-  isCommercialVehicle?: boolean;
+  vehicleCommercial?: boolean;
   /** Types of cargo that may be classified as hazardous materials and restricted from some roads. Available vehicleLoadType values are US Hazmat classes 1 through 9, plus generic classifications for use in other countries. Values beginning with USHazmat are for US routing while otherHazmat should be used for all other countries. vehicleLoadType can be specified multiple times. This parameter is currently only considered for travelMode=truck. */
   vehicleLoadType?:
     | "USHazmatClass1"
@@ -939,7 +939,7 @@ export interface RouteGetRouteRangeQueryParamProperties {
    *
    * **Note** : This parameter is required for **The Combustion Consumption Model**.
    */
-  constantSpeedConsumptionInLitersPerHundredKm?: string;
+  constantSpeedConsumptionInLitersPerHundredkm?: string;
   /**
    * Specifies the current supply of fuel in liters.
    *
@@ -961,7 +961,7 @@ export interface RouteGetRouteRangeQueryParamProperties {
    *
    * Sensible Values : 34.2
    */
-  fuelEnergyDensityInMegajoulesPerLiter?: number;
+  fuelEnergyDensityInMJoulesPerLiter?: number;
   /**
    * Specifies the efficiency of converting chemical energy stored in fuel to kinetic energy when the vehicle accelerates _(i.e. KineticEnergyGained/ChemicalEnergyConsumed). ChemicalEnergyConsumed_ is obtained by converting consumed fuel to chemical energy using **fuelEnergyDensityInMJoulesPerLiter**.
    *
@@ -1023,7 +1023,7 @@ export interface RouteGetRouteRangeQueryParamProperties {
    *
    * This parameter is required for **Electric consumption model**.
    */
-  constantSpeedConsumptionInKwHPerHundredKm?: string;
+  constantSpeedConsumptionInkWhPerHundredkm?: string;
   /**
    * Specifies the current electric energy supply in kilowatt hours (kWh).
    *
@@ -1033,7 +1033,7 @@ export interface RouteGetRouteRangeQueryParamProperties {
    *
    * Sensible Values : 43
    */
-  currentChargeInKwH?: number;
+  currentChargeInkWh?: number;
   /**
    * Specifies the maximum electric energy supply in kilowatt hours (kWh) that may be stored in the vehicle's battery.
    *
@@ -1043,7 +1043,7 @@ export interface RouteGetRouteRangeQueryParamProperties {
    *
    * Sensible Values : 85
    */
-  maxChargeInKwH?: number;
+  maxChargeInkWh?: number;
   /**
    * Specifies the amount of power consumed for sustaining auxiliary systems, in kilowatts (kW).
    *
@@ -1051,7 +1051,7 @@ export interface RouteGetRouteRangeQueryParamProperties {
    *
    * Sensible Values : 1.7
    */
-  auxiliaryPowerInKw?: number;
+  auxiliaryPowerInkW?: number;
 }
 
 export interface RouteGetRouteRangeQueryParam {

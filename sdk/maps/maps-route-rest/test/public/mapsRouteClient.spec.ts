@@ -215,7 +215,7 @@ describe("LRO", function (this: Suite) {
           ]),
           routeType: "eco",
           travelMode: "bicycle",
-          useTrafficData: false,
+          traffic: false,
         },
         {
           query: toColonDelimitedLatLonString([
@@ -260,7 +260,7 @@ describe("LRO", function (this: Suite) {
           ]),
           routeType: "eco",
           travelMode: "bicycle",
-          useTrafficData: false,
+          traffic: false,
         },
         {
           query: toColonDelimitedLatLonString([
@@ -311,7 +311,7 @@ describe("LRO", function (this: Suite) {
           ]),
           routeType: "eco",
           travelMode: "bicycle",
-          useTrafficData: false,
+          traffic: false,
         },
         {
           query: toColonDelimitedLatLonString([

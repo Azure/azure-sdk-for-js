@@ -37,26 +37,15 @@ describe("createRouteDirectionsBatchRequest", function () {
       {
         query: "-122.123,47.123:-122.123,47.123",
         routeType: undefined,
-        inclineLevel: "high",
-        useTrafficData: true,
-        isCommercialVehicle: false,
-        constantSpeedConsumptionInLitersPerHundredKm: "50,6.3:130,11.5",
-        fuelEnergyDensityInMegajoulesPerLiter: 34.2,
-        constantSpeedConsumptionInKwHPerHundredKm: "50,8.2:130,21.3",
-        currentChargeInKwH: 43,
-        maxChargeInKwH: 85,
-        auxiliaryPowerInKw: 10,
-        computeTravelTime: "all",
-        filterSectionType: "carTrain",
-        computeBestWaypointOrder: true,
-        routeRepresentationForBestOrder: "summaryOnly",
+        departAt: new Date("2022-10-26T05:00:13.827Z"),
+        arriveAt: new Date("2022-10-26T05:10:13.827Z"),
       },
     ];
     const expected: BatchRequest = {
       batchItems: [
         {
           query:
-            "?query=-122.123,47.123:-122.123,47.123&hilliness=high&traffic=true&vehicleCommercial=false&constantSpeedConsumptionInLitersPerHundredkm=50,6.3:130,11.5&fuelEnergyDensityInMJoulesPerLiter=34.2&constantSpeedConsumptionInkWhPerHundredkm=50,8.2:130,21.3&currentChargeInkWh=43&maxChargeInkWh=85&auxiliaryPowerInkW=10&computeTravelTimeFor=all&sectionType=carTrain&computeBestOrder=true&routeRepresentation=summaryOnly",
+            "?query=-122.123,47.123:-122.123,47.123&departAt=2022-10-26T05:00:13.827Z&arriveAt=2022-10-26T05:10:13.827Z",
         },
       ],
     };

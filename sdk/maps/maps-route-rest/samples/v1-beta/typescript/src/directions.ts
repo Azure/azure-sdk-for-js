@@ -169,7 +169,7 @@ async function main() {
           ]),
           routeType: "eco",
           travelMode: "bicycle",
-          useTrafficData: false,
+          traffic: false,
         },
         {
           query: toColonDelimitedLatLonString([

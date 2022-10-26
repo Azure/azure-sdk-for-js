@@ -19,22 +19,6 @@ export function toColonDelimitedLatLonString(coordinates: LatLon[]): string {
   return coordinates.map((c) => toLatLonString(c)).join(":");
 }
 
-const clientToServiceNames: Readonly<Record<string, string>> = {
-  inclineLevel: "hilliness",
-  useTrafficData: "traffic",
-  isCommercialVehicle: "vehicleCommercial",
-  constantSpeedConsumptionInLitersPerHundredKm: "constantSpeedConsumptionInLitersPerHundredkm",
-  fuelEnergyDensityInMegajoulesPerLiter: "fuelEnergyDensityInMJoulesPerLiter",
-  constantSpeedConsumptionInKwHPerHundredKm: "constantSpeedConsumptionInkWhPerHundredkm",
-  currentChargeInKwH: "currentChargeInkWh",
-  maxChargeInKwH: "maxChargeInkWh",
-  auxiliaryPowerInKw: "auxiliaryPowerInkW",
-  computeTravelTime: "computeTravelTimeFor",
-  filterSectionType: "sectionType",
-  computeBestWaypointOrder: "computeBestOrder",
-  routeRepresentationForBestOrder: "routeRepresentation",
-};
-
 /**
  * Create a batch request body of a bunch of route direction requests.
  *
@@ -53,10 +37,6 @@ export function createRouteDirectionsBatchRequest(
             // Skip if no value
             if (typeof v === "undefined" || v === null) {
               return "";
-            }
-            // Check name mappings: primitive values
-            if (k in clientToServiceNames) {
-              return `${clientToServiceNames[k]}=${v}`;
             }
             // Check name mappings: Array values
             if ((k === "departAt" || k === "arriveAt") && v instanceof Date) {
