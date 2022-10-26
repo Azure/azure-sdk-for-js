@@ -104,7 +104,6 @@ export async function deleteEverySetting(): Promise<void> {
   for await (const setting of settingsList) {
     await client.setReadOnly({ key: setting.key, label: setting.label }, false);
     await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
-    console.log(`  Deleted key: ${setting.key}, label: ${setting.label}`);
   }
 }
 

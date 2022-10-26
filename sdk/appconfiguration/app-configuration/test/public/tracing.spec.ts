@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers";
 import { AppConfigurationClient } from "../../src/appConfigurationClient";
 import { Context } from "mocha";
@@ -18,18 +18,6 @@ describe("supports tracing", () => {
 
   afterEach(async () => {
     await recorder.stop();
-  });
-
-  after(async function (this: Context) {
-    if (!isPlaybackMode()) {
-      client = createAppConfigurationClientForTests();
-      const settingsList = client.listConfigurationSettings({});
-
-      for await (const setting of settingsList) {
-        await client.setReadOnly({ key: setting.key, label: setting.label }, false);
-        await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
-      }
-    }
   });
 
   it("can trace through the various options", async function () {

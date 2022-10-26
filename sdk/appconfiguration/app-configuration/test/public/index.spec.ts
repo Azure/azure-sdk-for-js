@@ -8,6 +8,7 @@ import {
   assertThrowsAbortError,
   assertThrowsRestError,
   createAppConfigurationClientForTests,
+  deleteEverySetting,
   deleteKeyCompletely,
   startRecorder,
   toSortedArray,
@@ -30,13 +31,7 @@ describe("AppConfigurationClient", () => {
 
   after(async function (this: Context) {
     if (!isPlaybackMode()) {
-      client = createAppConfigurationClientForTests();
-      const settingsList = client.listConfigurationSettings({});
-
-      for await (const setting of settingsList) {
-        await client.setReadOnly({ key: setting.key, label: setting.label }, false);
-        await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
-      }
+      await deleteEverySetting();
     }
   });
 

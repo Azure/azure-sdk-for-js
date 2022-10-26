@@ -9,7 +9,7 @@ import {
   featureFlagPrefix,
 } from "../../src";
 import { FeatureFlagValue, isFeatureFlag, parseFeatureFlag } from "../../src/featureFlag";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers";
 import { Context } from "mocha";
 import { assert } from "chai";
@@ -73,18 +73,6 @@ describe("AppConfigurationClient - FeatureFlag", () => {
         label: baseSetting.label,
       });
       await recorder.stop();
-    });
-
-    after(async function (this: Context) {
-      if (!isPlaybackMode()) {
-        client = createAppConfigurationClientForTests();
-        const settingsList = client.listConfigurationSettings({});
-
-        for await (const setting of settingsList) {
-          await client.setReadOnly({ key: setting.key, label: setting.label }, false);
-          await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
-        }
-      }
     });
 
     function assertFeatureFlagProps(

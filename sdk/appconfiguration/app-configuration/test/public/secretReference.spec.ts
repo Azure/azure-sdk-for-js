@@ -10,7 +10,7 @@ import {
   parseSecretReference,
   secretReferenceContentType,
 } from "../../src";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers";
 import { Context } from "mocha";
 import { assert } from "chai";
@@ -28,17 +28,6 @@ describe("AppConfigurationClient - SecretReference", () => {
     await recorder.stop();
   });
 
-  after(async function (this: Context) {
-    if (!isPlaybackMode()) {
-      client = createAppConfigurationClientForTests();
-      const settingsList = client.listConfigurationSettings({});
-
-      for await (const setting of settingsList) {
-        await client.setReadOnly({ key: setting.key, label: setting.label }, false);
-        await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
-      }
-    }
-  });
   describe("SecretReference configuration setting", () => {
     const getBaseSetting = (): ConfigurationSetting<SecretReferenceValue> => {
       return {

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AppConfigurationClient, ConfigurationSetting } from "../../src";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import {
   assertThrowsRestError,
   createAppConfigurationClientForTests,
@@ -28,18 +28,6 @@ describe("Various error cases", () => {
 
   afterEach(async function () {
     await recorder.stop();
-  });
-
-  after(async function (this: Context) {
-    if (!isPlaybackMode()) {
-      client = createAppConfigurationClientForTests();
-      const settingsList = client.listConfigurationSettings({});
-
-      for await (const setting of settingsList) {
-        await client.setReadOnly({ key: setting.key, label: setting.label }, false);
-        await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
-      }
-    }
   });
 
   describe("throws", () => {

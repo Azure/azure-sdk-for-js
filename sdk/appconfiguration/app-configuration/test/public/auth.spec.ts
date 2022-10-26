@@ -3,11 +3,10 @@
 
 import {
   CredsAndEndpoint,
-  createAppConfigurationClientForTests,
   getTokenAuthenticationCredential,
   startRecorder,
 } from "./utils/testHelpers";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { AppConfigurationClient } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
@@ -24,18 +23,6 @@ describe("Authentication", () => {
 
   afterEach(async function () {
     await recorder.stop();
-  });
-
-  after(async function (this: Context) {
-    if (!isPlaybackMode()) {
-      const client = createAppConfigurationClientForTests();
-      const settingsList = client.listConfigurationSettings({});
-
-      for await (const setting of settingsList) {
-        await client.setReadOnly({ key: setting.key, label: setting.label }, false);
-        await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
-      }
-    }
   });
 
   it("token authentication works", async function () {

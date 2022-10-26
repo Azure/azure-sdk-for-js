@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import {
   assertThrowsRestError,
   createAppConfigurationClientForTests,
@@ -30,18 +30,6 @@ describe("etags", () => {
   afterEach(async function () {
     await deleteKeyCompletely([key], client);
     await recorder.stop();
-  });
-
-  after(async function (this: Context) {
-    if (!isPlaybackMode()) {
-      client = createAppConfigurationClientForTests();
-      const settingsList = client.listConfigurationSettings({});
-
-      for await (const setting of settingsList) {
-        await client.setReadOnly({ key: setting.key, label: setting.label }, false);
-        await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
-      }
-    }
   });
 
   // etag usage is 'opt-in' via the onlyIfChanged/onlyIfUnchanged options for certain calls
