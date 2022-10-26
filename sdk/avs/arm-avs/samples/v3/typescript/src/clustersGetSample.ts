@@ -15,10 +15,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Get a cluster by name in a private cloud
  *
  * @summary Get a cluster by name in a private cloud
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/Clusters_Get.json
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/Clusters_Get.json
  */
 async function clustersGet() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "group1";
   const privateCloudName = "cloud1";
   const clusterName = "cluster1";
