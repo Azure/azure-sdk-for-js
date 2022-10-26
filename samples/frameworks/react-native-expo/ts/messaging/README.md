@@ -134,8 +134,8 @@ Add a `src` directory at the root of the project and add the following files
 
 ### Add dependencies
 
-We need to add dependency to the JavaScript Client SDK libraries for Event Hubs and Service Bus.
-We use `@babel/plugin-proposal-async-generator-functions` to help transform async iterator usage in our sample.
+We need to JavaScript Client SDK libraries for Event Hubs and Service Bus as dependencies.
+We use `@babel/plugin-proposal-async-generator-functions` to help transform async iterator usage.
 We also use `babel-plugin-inline-dotenv` to help load secrets from our `.env` file while developing.
 
 ```shell
@@ -143,7 +143,7 @@ yarn add @azure/event-hubs@dev @azure/service-bus@dev
 yarn add --dev babel-plugin-inline-dotenv @babel/plugin-proposal-async-generator-functions
 ```
 
-Then add the following into `babel.config.js` to enable the plugin
+Then add the following into `babel.config.js` to enable the plugins
 
 ```diff
     presets: ["babel-preset-expo"],
