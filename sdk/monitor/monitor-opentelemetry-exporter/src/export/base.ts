@@ -32,7 +32,6 @@ export abstract class AzureMonitorBaseExporter {
   private _isStatsbeatExporter: boolean;
   private _statsbeatFailureCount: number = 0;
   private _batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
-  private _isStatsbeatDisabled: boolean = false;
   /**
    * Exporter internal configuration
    */
@@ -162,7 +161,7 @@ export abstract class AzureMonitorBaseExporter {
           };
         } else {
           // calls resultCallback(ExportResult) based on result of persister.push
-          if (!this._isStatsbeatExporter && !this._isStatsbeatDisabled) {
+          if (!this._isStatsbeatExporter) {
             this._statsbeatMetrics?.countRetry(statusCode);
           }
           return await this._persist(envelopes);
