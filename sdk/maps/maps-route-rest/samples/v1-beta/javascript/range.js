@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of a MapsRouteClient to retrieve a route range.
+ * @summary Demonstrates the use of a MapsRoute to retrieve a route range.
  */
 
 const { AzureKeyCredential } = require("@azure/core-auth");
@@ -32,7 +32,7 @@ async function main() {
   /** Azure Active Directory (Azure AD) authentication */
   // const credential = new DefaultAzureCredential();
   // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
-  // const client = createMapsRouteClient(credential, mapsClientId);
+  // const client = MapsRoute(credential, mapsClientId);
 
   const routeRangeResult = await client
     .path("/route/range/{format}", "json")
