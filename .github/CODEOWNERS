@@ -71,10 +71,10 @@
 /sdk/containerregistry/ @jeremymeng @timovv
 
 # PRLabel: %Cosmos
-/sdk/cosmosdb/ @kushagraThapar @kirankumarkolli
+/sdk/cosmosdb/ @kushagraThapar @kirankumarkolli @abkolant-MSFT
 
 # ServiceLabel: %Cosmos %Service Attention
-#/<NotInRepo>/ @sajeetharan @simorenoh @pjohari-ms
+#/<NotInRepo>/ @sajeetharan @abkolant-MSFT @pjohari-ms
 
 # PRLabel: %Digital Twins
 /sdk/digitaltwins/ @johngallardo @olivakar @sjiherzig
