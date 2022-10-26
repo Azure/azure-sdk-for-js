@@ -125,12 +125,12 @@ const styles = StyleSheet.create({
 
 Add a `src` directory at the root of the project and add the following files
 
-- testSDK.ts
-- ehSendEvents.ts
-- ehReceiveEvents.ts
-- sbSendMessages.ts
-- sbReceiveMessages.ts
-- wsWrapper.ts
+- [testSDK.ts](./src/testSDK.ts) - contains the code to run the scenarios.
+- [ehSendEvents.ts](./src/ehSendEvents.ts) - contains the code to send messages to Event Hub.
+- [ehReceiveEvents.ts](./src/ehReceiveEvents.ts) - contains the code to receive messages from Event Hub.
+- [sbSendMessages.ts](./src/sbSendMessages.ts) - contains the code to send messages to Service Bus.
+- [sbReceiveMessages.ts](./src/sbReceiveMessages.ts) - contains the code to receive messages from Service Bus.
+- [wsWrapper.ts](./src/wsWrapper.ts) - contains the code to wrap WebSocket implementation in React Native.
 
 ### Add dependencies
 
