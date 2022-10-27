@@ -173,7 +173,7 @@ function toDynamicClassificationResult(
   results: GeneratedDynamicClassification
 ): DynamicClassificationResult[] {
   return transformDocumentResults(docIds, results, {
-    // Fixing a service bug, see https://github.com/Azure/azure-sdk-for-js/issues/23617
+    // FIXME: Fixing a service bug, see https://github.com/Azure/azure-sdk-for-js/issues/23617
     processSuccess: ({
       class: classes,
       id,
