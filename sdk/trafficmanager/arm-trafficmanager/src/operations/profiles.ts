@@ -46,8 +46,7 @@ export class ProfilesImpl implements Profiles {
 
   /**
    * Lists all Traffic Manager profiles within a resource group.
-   * @param resourceGroupName The name of the resource group containing the Traffic Manager profiles to
-   *                          be listed.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -142,8 +141,7 @@ export class ProfilesImpl implements Profiles {
 
   /**
    * Lists all Traffic Manager profiles within a resource group.
-   * @param resourceGroupName The name of the resource group containing the Traffic Manager profiles to
-   *                          be listed.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -171,7 +169,7 @@ export class ProfilesImpl implements Profiles {
 
   /**
    * Gets a Traffic Manager profile.
-   * @param resourceGroupName The name of the resource group containing the Traffic Manager profile.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName The name of the Traffic Manager profile.
    * @param options The options parameters.
    */
@@ -188,7 +186,7 @@ export class ProfilesImpl implements Profiles {
 
   /**
    * Create or update a Traffic Manager profile.
-   * @param resourceGroupName The name of the resource group containing the Traffic Manager profile.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName The name of the Traffic Manager profile.
    * @param parameters The Traffic Manager profile parameters supplied to the CreateOrUpdate operation.
    * @param options The options parameters.
@@ -207,8 +205,7 @@ export class ProfilesImpl implements Profiles {
 
   /**
    * Deletes a Traffic Manager profile.
-   * @param resourceGroupName The name of the resource group containing the Traffic Manager profile to be
-   *                          deleted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName The name of the Traffic Manager profile to be deleted.
    * @param options The options parameters.
    */
@@ -225,7 +222,7 @@ export class ProfilesImpl implements Profiles {
 
   /**
    * Update a Traffic Manager profile.
-   * @param resourceGroupName The name of the resource group containing the Traffic Manager profile.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName The name of the Traffic Manager profile.
    * @param parameters The Traffic Manager profile parameters supplied to the Update operation.
    * @param options The options parameters.

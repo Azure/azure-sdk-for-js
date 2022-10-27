@@ -12,6 +12,9 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 export type AllowedEndpointRecordType = string;
 
 // @public
+export type AlwaysServe = string;
+
+// @public
 export interface CheckTrafficManagerRelativeDnsNameAvailabilityParameters {
     name?: string;
     type?: string;
@@ -43,21 +46,22 @@ export interface DnsConfig {
 }
 
 // @public
-export type Endpoint = ProxyResource & {
-    targetResourceId?: string;
-    target?: string;
-    endpointStatus?: EndpointStatus;
-    weight?: number;
-    priority?: number;
+export interface Endpoint extends ProxyResource {
+    alwaysServe?: AlwaysServe;
+    customHeaders?: EndpointPropertiesCustomHeadersItem[];
     endpointLocation?: string;
     endpointMonitorStatus?: EndpointMonitorStatus;
+    endpointStatus?: EndpointStatus;
+    geoMapping?: string[];
     minChildEndpoints?: number;
     minChildEndpointsIPv4?: number;
     minChildEndpointsIPv6?: number;
-    geoMapping?: string[];
+    priority?: number;
     subnets?: EndpointPropertiesSubnetsItem[];
-    customHeaders?: EndpointPropertiesCustomHeadersItem[];
-};
+    target?: string;
+    targetResourceId?: string;
+    weight?: number;
+}
 
 // @public
 export type EndpointMonitorStatus = string;
@@ -150,102 +154,78 @@ export interface HeatMapGetOptionalParams extends coreClient.OperationOptions {
 export type HeatMapGetResponse = HeatMapModel;
 
 // @public
-export type HeatMapModel = ProxyResource & {
-    startTime?: Date;
-    endTime?: Date;
+export interface HeatMapModel extends ProxyResource {
     endpoints?: HeatMapEndpoint[];
+    endTime?: Date;
+    startTime?: Date;
     trafficFlows?: TrafficFlow[];
-};
+}
 
 // @public
 export enum KnownAllowedEndpointRecordType {
-    // (undocumented)
     Any = "Any",
-    // (undocumented)
     DomainName = "DomainName",
-    // (undocumented)
     IPv4Address = "IPv4Address",
-    // (undocumented)
     IPv6Address = "IPv6Address"
 }
 
 // @public
-export enum KnownEndpointMonitorStatus {
-    // (undocumented)
-    CheckingEndpoint = "CheckingEndpoint",
-    // (undocumented)
-    Degraded = "Degraded",
-    // (undocumented)
+export enum KnownAlwaysServe {
     Disabled = "Disabled",
-    // (undocumented)
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownEndpointMonitorStatus {
+    CheckingEndpoint = "CheckingEndpoint",
+    Degraded = "Degraded",
+    Disabled = "Disabled",
     Inactive = "Inactive",
-    // (undocumented)
     Online = "Online",
-    // (undocumented)
     Stopped = "Stopped"
 }
 
 // @public
 export enum KnownEndpointStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownMonitorProtocol {
-    // (undocumented)
     Http = "HTTP",
-    // (undocumented)
     Https = "HTTPS",
-    // (undocumented)
     TCP = "TCP"
 }
 
 // @public
 export enum KnownProfileMonitorStatus {
-    // (undocumented)
     CheckingEndpoints = "CheckingEndpoints",
-    // (undocumented)
     Degraded = "Degraded",
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Inactive = "Inactive",
-    // (undocumented)
     Online = "Online"
 }
 
 // @public
 export enum KnownProfileStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownTrafficRoutingMethod {
-    // (undocumented)
     Geographic = "Geographic",
-    // (undocumented)
     MultiValue = "MultiValue",
-    // (undocumented)
     Performance = "Performance",
-    // (undocumented)
     Priority = "Priority",
-    // (undocumented)
     Subnet = "Subnet",
-    // (undocumented)
     Weighted = "Weighted"
 }
 
 // @public
 export enum KnownTrafficViewEnrollmentStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
@@ -278,16 +258,16 @@ export interface MonitorConfigExpectedStatusCodeRangesItem {
 export type MonitorProtocol = string;
 
 // @public
-export type Profile = TrackedResource & {
+export interface Profile extends TrackedResource {
+    allowedEndpointRecordTypes?: AllowedEndpointRecordType[];
+    dnsConfig?: DnsConfig;
+    endpoints?: Endpoint[];
+    maxReturn?: number;
+    monitorConfig?: MonitorConfig;
     profileStatus?: ProfileStatus;
     trafficRoutingMethod?: TrafficRoutingMethod;
-    dnsConfig?: DnsConfig;
-    monitorConfig?: MonitorConfig;
-    endpoints?: Endpoint[];
     trafficViewEnrollmentStatus?: TrafficViewEnrollmentStatus;
-    allowedEndpointRecordTypes?: AllowedEndpointRecordType[];
-    maxReturn?: number;
-};
+}
 
 // @public
 export interface ProfileListResult {
@@ -361,7 +341,8 @@ export interface ProfilesUpdateOptionalParams extends coreClient.OperationOption
 export type ProfilesUpdateResponse = Profile;
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface QueryExperience {
@@ -385,12 +366,12 @@ export interface Resource {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location?: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location?: string;
-};
+}
 
 // @public
 export interface TrafficFlow {
@@ -401,9 +382,9 @@ export interface TrafficFlow {
 }
 
 // @public
-export type TrafficManagerGeographicHierarchy = ProxyResource & {
+export interface TrafficManagerGeographicHierarchy extends ProxyResource {
     geographicHierarchy?: Region;
-};
+}
 
 // @public (undocumented)
 export class TrafficManagerManagementClient extends coreClient.ServiceClient {
@@ -477,9 +458,9 @@ export type TrafficRoutingMethod = string;
 export type TrafficViewEnrollmentStatus = string;
 
 // @public
-export type UserMetricsModel = ProxyResource & {
+export interface UserMetricsModel extends ProxyResource {
     key?: string;
-};
+}
 
 // (No @packageDocumentation comment for this package)
 

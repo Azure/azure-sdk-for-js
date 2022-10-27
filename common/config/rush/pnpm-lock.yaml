@@ -4132,7 +4132,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20221025
+      typescript: 4.9.0-dev.20221027
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -9209,8 +9209,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20221025:
-    resolution: {integrity: sha512-3TZlt+3jGBjPRVFcNX6BmlajqwNExRm4rhG4llSH5WSMX/eQ54PSueTJ5UhLn9+6/byL31/WRmJJ/7W0j+gCtQ==}
+  /typescript/4.9.0-dev.20221027:
+    resolution: {integrity: sha512-CIkuppg1AjXN2O+njxomS97BHqIMH+NqXXD661ViFdVvesx9YLsNjiATUlfIkeVtVyG0PGpzES8lmzIhoSaniA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -15627,7 +15627,7 @@ packages:
     dev: false
 
   file:projects/arm-trafficmanager.tgz:
-    resolution: {integrity: sha512-Faq0zxI3akYqIUEuXmnxDzMIYe7lS+egPwAAjrBERe7VXjzDmy2ALYH9Jmyj2YzBcquZaUoBSe1O8W+LHOVz+g==, tarball: file:projects/arm-trafficmanager.tgz}
+    resolution: {integrity: sha512-k8LIoAGNhvQvkpYXiG4m4n/g+7LovWUpqME2zcz7fM3PL1n3WEo0N7TKhF2Bv3mMKyz/R6jMWqNOfyUtMZ4gwQ==, tarball: file:projects/arm-trafficmanager.tgz}
     name: '@rush-temp/arm-trafficmanager'
     version: 0.0.0
     dependencies:
@@ -15638,6 +15638,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -15645,11 +15647,10 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
