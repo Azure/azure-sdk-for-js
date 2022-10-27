@@ -837,7 +837,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           await poller.pollUntilDone();
         });
 
-        it.skip("cancel after progress", async function () {
+        it("cancel after progress", async function () {
           const docs = [
             "Patient does not suffer from high blood pressure.",
             "Prescribed 100mg ibuprofen, taken twice daily.",
@@ -861,9 +861,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             updateIntervalInMs: 100,
           });
           const pollPromise = poller.pollUntilDone();
+          let sent = false;
           poller.onProgress(async (state) => {
-            if (state.actionInProgressCount < actions.length) {
+            if (!sent && state.actionInProgressCount < actions.length) {
               await poller.sendCancellationRequest();
+              sent = true;
             }
           });
           await assert.isRejected(pollPromise, /Operation was canceled/);
