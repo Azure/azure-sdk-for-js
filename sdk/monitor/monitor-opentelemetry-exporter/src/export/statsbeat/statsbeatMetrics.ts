@@ -18,7 +18,7 @@ import {
   PeriodicExportingMetricReader,
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
-import { AzureMonitorExporterOptions, AzureMonitorMetricExporter } from "../../index";
+import { AzureMonitorExporterOptions, AzureMonitorStatsbeatExporter } from "../../index";
 import * as ai from "../../utils/constants/applicationinsights";
 import {
   StatsbeatCounter,
@@ -44,7 +44,7 @@ export class StatsbeatMetrics {
   private _isInitialized: boolean = false;
   private _networkStatsbeatCollection: Array<NetworkStatsbeat> = [];
   private _meterProvider: MeterProvider;
-  private _azureExporter: AzureMonitorMetricExporter;
+  private _azureExporter: AzureMonitorStatsbeatExporter;
   private _metricReader: PeriodicExportingMetricReader;
   private _statsCollectionShortInterval: number = 900000; // 15 minutes
 
@@ -78,7 +78,7 @@ export class StatsbeatMetrics {
       connectionString: this._connectionString,
     };
 
-    this._azureExporter = new AzureMonitorMetricExporter(exporterConfig, true);
+    this._azureExporter = new AzureMonitorStatsbeatExporter(exporterConfig);
 
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter,

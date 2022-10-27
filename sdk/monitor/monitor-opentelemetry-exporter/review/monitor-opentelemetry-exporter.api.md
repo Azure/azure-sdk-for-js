@@ -52,10 +52,18 @@ export interface AzureMonitorExporterOptions extends ApplicationInsightsClientOp
 
 // @public
 export class AzureMonitorMetricExporter extends AzureMonitorBaseExporter implements PushMetricExporter {
-    constructor(options?: AzureMonitorExporterOptions, isStatsbeat?: boolean);
+    constructor(options?: AzureMonitorExporterOptions);
     export(metrics: ResourceMetrics, resultCallback: (result: ExportResult) => void): Promise<void>;
     forceFlush(): Promise<void>;
     selectAggregationTemporality(_instrumentType: InstrumentType): AggregationTemporality;
+    shutdown(): Promise<void>;
+}
+
+// @public (undocumented)
+export class AzureMonitorStatsbeatExporter extends AzureMonitorBaseExporter implements PushMetricExporter {
+    constructor(options: AzureMonitorExporterOptions);
+    export(metrics: ResourceMetrics, resultCallback: (result: ExportResult) => void): Promise<void>;
+    forceFlush(): Promise<void>;
     shutdown(): Promise<void>;
 }
 
