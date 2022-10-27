@@ -16,7 +16,6 @@ stages:
         Int:
           SubscriptionConfigurations:
             - $(communication-livetest-rooms-int)
-            - $(sub-config-communication-int-test-resources-js)
           MatrixFilters:
             - TestType=^(?!browser).*
       Clouds: Public,Int
