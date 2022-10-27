@@ -10,8 +10,6 @@
 
 ### Other Changes
 
-- Migrated from using `@azure-tools/test-recorder` to depend on the newer v2 of the recorder. [#23520](https://github.com/Azure/azure-sdk-for-js/pull/23520). See [Azure @azure-tools/test-recorder library for JavaScript](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md) for more information on the new test recorder.
-
 - Update `@azure/core-paging` dependency to the latest version (1.4.0). Notable changes include using the `getPagedAsyncIterator` method. [#23479](https://github.com/Azure/azure-sdk-for-js/pull/23479)
 
 ## 1.4.0-beta.1 (2022-05-10)
