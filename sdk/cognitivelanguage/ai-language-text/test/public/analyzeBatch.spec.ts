@@ -1020,6 +1020,7 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
           await poller.pollUntilDone();
         });
 
+        // FIXME: see https://github.com/Azure/azure-sdk-for-js/issues/23616
         it.skip("cancel after progress", async function () {
           const docs = [
             "Patient does not suffer from high blood pressure.",

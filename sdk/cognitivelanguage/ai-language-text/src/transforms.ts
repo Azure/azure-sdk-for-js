@@ -45,6 +45,8 @@ import {
   SentimentLROResult,
   SentimentTaskResult,
   TargetRelation,
+  DynamicClassificationResultDocumentsItem,
+  ClassificationCategory,
 } from "./generated";
 import {
   AnalyzeActionName,
@@ -170,7 +172,23 @@ function toDynamicClassificationResult(
   docIds: string[],
   results: GeneratedDynamicClassification
 ): DynamicClassificationResult[] {
-  return transformDocumentResults(docIds, results);
+  return transformDocumentResults(docIds, results, {
+    // Fixing a service bug
+    processSuccess: ({
+      class: classes,
+      id,
+      warnings,
+      statistics,
+      classifications,
+    }: DynamicClassificationResultDocumentsItem & {
+      classifications?: ClassificationCategory[];
+    }) => ({
+      id,
+      warnings,
+      classifications: classes ? classes : classifications ?? [],
+      ...(statistics ? { statistics } : {}),
+    }),
+  });
 }
 
 /**
