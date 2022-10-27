@@ -197,7 +197,7 @@ export abstract class AzureMonitorBaseExporter {
           return { code: ExportResultCode.FAILED, error: redirectError };
         }
       } else if (restError.statusCode && isRetriable(restError.statusCode)) {
-          this._statsbeatMetrics?.countRetry(restError.statusCode);
+        this._statsbeatMetrics?.countRetry(restError.statusCode);
         return await this._persist(envelopes);
       }
       if (this._isNetworkError(restError)) {
