@@ -8,7 +8,11 @@
 
 ### Bugs Fixed
 
+- Allow nested field names to be specified in `select` and `searchField` options [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
+
 ### Other Changes
+
+- Add `object` type constraint to `IndexDocumentsClient` [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
 
 ## 11.3.0-beta.8 (2022-09-06)
 
