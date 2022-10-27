@@ -8,7 +8,11 @@ import { TelemetryItem as Envelope } from "../generated";
 import { resourceMetricsToEnvelope } from "../utils/metricUtils";
 import { AzureMonitorBaseExporter } from "./base";
 
-export class AzureMonitorStatsbeatExporter
+/**
+ * @internal
+ * Azure Monitor Statsbeat Exporter
+ */
+export class _AzureMonitorStatsbeatExporter
   extends AzureMonitorBaseExporter
   implements PushMetricExporter
 {
@@ -42,6 +46,7 @@ export class AzureMonitorStatsbeatExporter
       this._instrumentationKey,
       true // isStatsbeat flag passed to create a Statsbeat envelope.
     );
+    // Supress tracing until OpenTelemetry Metrics SDK support it
     context.with(suppressTracing(context.active()), async () => {
       resultCallback(await this._exportEnvelopes(envelopes));
     });

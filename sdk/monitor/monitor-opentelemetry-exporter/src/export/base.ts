@@ -66,7 +66,7 @@ export abstract class AzureMonitorBaseExporter {
     this._sender = new HttpSender(this._endpointUrl, this._options);
     this._persister = new FileSystemPersist(this._instrumentationKey, this._options);
 
-    if (!isStatsbeatExporter) {
+    if (!this._isStatsbeatExporter) {
       // Initialize statsbeatMetrics
       this._statsbeatMetrics = new StatsbeatMetrics(this._instrumentationKey, this._endpointUrl);
     }
@@ -111,8 +111,10 @@ export abstract class AzureMonitorBaseExporter {
     try {
       const startTime = new Date().getTime();
       const { result, statusCode } = await this._sender.send(envelopes);
-      const endTime = Number(new Date().getTime());
+      const endTime = new Date().getTime();
+      const duration = endTime - startTime;
       this._numConsecutiveRedirects = 0;
+
       if (statusCode === 200) {
         // Success -- @todo: start retry timer
         if (!this._retryTimer) {
@@ -123,13 +125,11 @@ export abstract class AzureMonitorBaseExporter {
           this._retryTimer.unref();
         }
         // If we are not exportings statsbeat and statsbeat is not disabled -- count success
-        if (!this._isStatsbeatExporter) {
-          this._statsbeatMetrics?.countSuccess(endTime - startTime);
-        }
+        this._statsbeatMetrics?.countSuccess(duration);
         return { code: ExportResultCode.SUCCESS };
       } else if (statusCode && isRetriable(statusCode)) {
         // Failed -- persist failed data
-        if (!this._isStatsbeatExporter && statusCode === 429) {
+        if (statusCode === 429 || statusCode === 439) {
           this._statsbeatMetrics?.countThrottle(statusCode);
         }
         if (result) {
@@ -144,33 +144,25 @@ export abstract class AzureMonitorBaseExporter {
             });
           }
           if (filteredEnvelopes.length > 0) {
-            if (!this._isStatsbeatExporter) {
-              this._statsbeatMetrics?.countRetry(statusCode);
-            }
+            this._statsbeatMetrics?.countRetry(statusCode);
             // calls resultCallback(ExportResult) based on result of persister.push
             return await this._persist(filteredEnvelopes);
           }
           // Failed -- not retriable
-          if (this._isStatsbeatExporter) {
-            this._incrementStatsbeatFailure();
-          } else {
-            this._statsbeatMetrics?.countFailure(endTime - startTime, statusCode);
-          }
+          this._statsbeatMetrics?.countFailure(duration, statusCode);
           return {
             code: ExportResultCode.FAILED,
           };
         } else {
           // calls resultCallback(ExportResult) based on result of persister.push
-          if (!this._isStatsbeatExporter) {
-            this._statsbeatMetrics?.countRetry(statusCode);
-          }
+          this._statsbeatMetrics?.countRetry(statusCode);
           return await this._persist(envelopes);
         }
       } else {
         // Failed -- not retriable
-        if (!this._isStatsbeatExporter) {
+        if (this._statsbeatMetrics) {
           if (statusCode) {
-            this._statsbeatMetrics?.countFailure(endTime - startTime, statusCode);
+            this._statsbeatMetrics.countFailure(duration, statusCode);
           }
         } else {
           this._incrementStatsbeatFailure();
@@ -201,21 +193,15 @@ export abstract class AzureMonitorBaseExporter {
           }
         } else {
           let redirectError = new Error("Circular redirect");
-          if (!this._isStatsbeatExporter) {
-            this._statsbeatMetrics?.countException(redirectError);
-          } else {
-            this._incrementStatsbeatFailure();
-          }
+          this._statsbeatMetrics?.countException(redirectError);
           return { code: ExportResultCode.FAILED, error: redirectError };
         }
       } else if (restError.statusCode && isRetriable(restError.statusCode)) {
-        if (!this._isStatsbeatExporter) {
           this._statsbeatMetrics?.countRetry(restError.statusCode);
-        }
         return await this._persist(envelopes);
       }
       if (this._isNetworkError(restError)) {
-        if (!this._isStatsbeatExporter && restError.statusCode) {
+        if (restError.statusCode) {
           this._statsbeatMetrics?.countRetry(restError.statusCode);
         }
         diag.error(
@@ -224,10 +210,7 @@ export abstract class AzureMonitorBaseExporter {
         );
         return await this._persist(envelopes);
       }
-
-      if (!this._isStatsbeatExporter) {
-        this._statsbeatMetrics?.countException(restError);
-      }
+      this._statsbeatMetrics?.countException(restError);
       diag.error(
         "Envelopes could not be exported and are not retriable. Error message:",
         restError.message
