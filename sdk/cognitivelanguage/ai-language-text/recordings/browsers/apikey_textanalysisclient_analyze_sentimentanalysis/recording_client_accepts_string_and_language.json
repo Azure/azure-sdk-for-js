@@ -19,8 +19,8 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "f816ce57-e34c-4de1-a4cf-023865177a13",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.0 core-rest-pipeline/1.9.2 OS/Linuxx86_64"
+        "x-ms-client-request-id": "07565a08-fe25-4b4f-b707-07a3b460493b",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": {
         "kind": "SentimentAnalysis",
@@ -52,14 +52,16 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "7fd324d3-659b-440a-9cf5-a7e53148d90a",
-        "Content-Length": "1575",
+        "apim-request-id": "0428efcc-d1be-4c22-adea-d97bf6eb0bcc",
+        "Content-Length": "1572",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4,CognitiveServices.TextAnalytics.TextRecords=4",
-        "Date": "Wed, 07 Sep 2022 04:20:31 GMT",
+        "Date": "Mon, 24 Oct 2022 05:17:12 GMT",
+        "Set-Cookie": ".AspNetCore.Mvc.CookieTempDataProvider=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; samesite=lax; httponly",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "25"
+        "x-envoy-upstream-service-time": "31",
+        "x-ms-region": "West US 2"
       },
       "ResponseBody": {
         "kind": "SentimentAnalysisResults",
@@ -111,9 +113,9 @@
                 {
                   "sentiment": "neutral",
                   "confidenceScores": {
-                    "positive": 0.03,
-                    "neutral": 0.58,
-                    "negative": 0.39
+                    "positive": 0.0,
+                    "neutral": 0.92,
+                    "negative": 0.08
                   },
                   "offset": 59,
                   "length": 43,
@@ -124,19 +126,19 @@
             },
             {
               "id": "2",
-              "sentiment": "positive",
+              "sentiment": "negative",
               "confidenceScores": {
-                "positive": 0.71,
-                "neutral": 0.06,
-                "negative": 0.23
+                "positive": 0.19,
+                "neutral": 0.28,
+                "negative": 0.53
               },
               "sentences": [
                 {
-                  "sentiment": "positive",
+                  "sentiment": "negative",
                   "confidenceScores": {
-                    "positive": 0.71,
-                    "neutral": 0.06,
-                    "negative": 0.23
+                    "positive": 0.19,
+                    "neutral": 0.28,
+                    "negative": 0.53
                   },
                   "offset": 0,
                   "length": 101,
@@ -149,7 +151,7 @@
               "id": "3",
               "sentiment": "negative",
               "confidenceScores": {
-                "positive": 0.01,
+                "positive": 0.0,
                 "neutral": 0.01,
                 "negative": 0.99
               },
@@ -157,7 +159,7 @@
                 {
                   "sentiment": "negative",
                   "confidenceScores": {
-                    "positive": 0.01,
+                    "positive": 0.0,
                     "neutral": 0.01,
                     "negative": 0.99
                   },
@@ -170,7 +172,7 @@
             }
           ],
           "errors": [],
-          "modelVersion": "2022-06-01"
+          "modelVersion": "2022-10-01"
         }
       }
     }

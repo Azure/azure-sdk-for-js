@@ -2,10 +2,12 @@
 
 These sample programs show how to use the JavaScript client libraries for Monitor Ingestion in some common scenarios.
 
-| **File Name**                                 | **Description**                                                                 |
-| --------------------------------------------- | ------------------------------------------------------------------------------- |
-| [logsIngestionClient.js][logsingestionclient] | Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace) |
-| [uploadCustomLogs.js][uploadcustomlogs]       | Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace) |
+| **File Name**                                 | **Description**                                                                                                         |
+| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| [concurrency.js][concurrency]                 | Demonstrates uploading a large number of logs where the logs are split into multiple batches and uploaded concurrently. |
+| [logsIngestionClient.js][logsingestionclient] | Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace)                                         |
+| [maxConcurrency.js][maxconcurrency]           | Demonstrates how to control the number of concurrent requests using the maxConcurrency option                           |
+| [uploadCustomLogs.js][uploadcustomlogs]       | Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace)                                         |
 
 ## Prerequisites
 
@@ -34,20 +36,22 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node logsIngestionClient.js
+node concurrency.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env LOGS_INGESTION_ENDPOINT="<logs ingestion endpoint>" DATA_COLLECTION_RULE_ID="<data collection rule id>" STREAM_NAME="<stream name>" node logsIngestionClient.js
+npx cross-env LOGS_INGESTION_ENDPOINT="<logs ingestion endpoint>" DATA_COLLECTION_RULE_ID="<data collection rule id>" STREAM_NAME="<stream name>" node concurrency.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[concurrency]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/javascript/concurrency.js
 [logsingestionclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/javascript/logsIngestionClient.js
+[maxconcurrency]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/javascript/maxConcurrency.js
 [uploadcustomlogs]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/javascript/uploadCustomLogs.js
 [apiref]: https://docs.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/

@@ -6,16 +6,13 @@ import { ExportResult, ExportResultCode } from "@opentelemetry/core";
 import { RestError } from "@azure/core-rest-pipeline";
 import { ConnectionStringParser } from "../utils/connectionStringParser";
 import { HttpSender, FileSystemPersist } from "../platform";
-import {
-  DEFAULT_EXPORTER_CONFIG,
-  AzureExporterConfig,
-  AzureExporterInternalConfig,
-} from "../config";
+import { AzureMonitorExporterOptions } from "../config";
 import { PersistentStorage, Sender } from "../types";
 import { isRetriable, BreezeResponse } from "../utils/breezeUtils";
-import { ENV_CONNECTION_STRING } from "../Declarations/Constants";
+import { DEFAULT_BREEZE_ENDPOINT, ENV_CONNECTION_STRING } from "../Declarations/Constants";
 import { TelemetryItem as Envelope } from "../generated";
 
+const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
 /**
  * Azure Monitor OpenTelemetry Trace Exporter.
  */
@@ -23,49 +20,48 @@ export abstract class AzureMonitorBaseExporter {
   /**
    * Instrumentation key to be used for exported envelopes
    */
-  protected readonly _instrumentationKey: string;
+  protected _instrumentationKey: string;
   private readonly _persister: PersistentStorage;
   private readonly _sender: Sender;
   private _numConsecutiveRedirects: number;
   private _retryTimer: NodeJS.Timer | null;
+  private _endpointUrl: string;
+
+  private _batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
   /**
    * Exporter internal configuration
    */
-  private readonly _options: AzureExporterInternalConfig;
+  private readonly _options: AzureMonitorExporterOptions;
 
   /**
    * Initializes a new instance of the AzureMonitorBaseExporter class.
-   * @param AzureExporterConfig - Exporter configuration.
+   * @param AzureMonitorExporterOptions - Exporter configuration.
    */
-  constructor(options: AzureExporterConfig = {}) {
+  constructor(options: AzureMonitorExporterOptions = {}) {
+    this._options = options;
     this._numConsecutiveRedirects = 0;
-    const connectionString = options.connectionString || process.env[ENV_CONNECTION_STRING];
-    this._options = {
-      ...DEFAULT_EXPORTER_CONFIG,
-    };
-    this._options.apiVersion = options.apiVersion ?? this._options.apiVersion;
-    this._options.aadTokenCredential = options.aadTokenCredential;
-
+    this._instrumentationKey = "";
+    this._endpointUrl = DEFAULT_BREEZE_ENDPOINT;
+    const connectionString = this._options.connectionString || process.env[ENV_CONNECTION_STRING];
     if (connectionString) {
       const parsedConnectionString = ConnectionStringParser.parse(connectionString);
-      this._options.instrumentationKey =
-        parsedConnectionString.instrumentationkey ?? this._options.instrumentationKey;
-      this._options.endpointUrl =
-        parsedConnectionString.ingestionendpoint?.trim() ?? this._options.endpointUrl;
+      this._instrumentationKey =
+        parsedConnectionString.instrumentationkey || this._instrumentationKey;
+      this._endpointUrl = parsedConnectionString.ingestionendpoint?.trim() || this._endpointUrl;
     }
+
     // Instrumentation key is required
-    if (!this._options.instrumentationKey) {
+    if (!this._instrumentationKey) {
       const message =
         "No instrumentation key or connection string was provided to the Azure Monitor Exporter";
       diag.error(message);
       throw new Error(message);
     }
 
-    this._instrumentationKey = this._options.instrumentationKey;
-    this._sender = new HttpSender(this._options);
-    this._persister = new FileSystemPersist(this._options);
+    this._sender = new HttpSender(this._endpointUrl, this._options);
+    this._persister = new FileSystemPersist(this._instrumentationKey, this._options);
     this._retryTimer = null;
-    diag.debug("AzureMonitorTraceExporter was successfully setup");
+    diag.debug("AzureMonitorExporter was successfully setup");
   }
 
   /**
@@ -97,7 +93,9 @@ export abstract class AzureMonitorBaseExporter {
    */
   protected async _exportEnvelopes(envelopes: Envelope[]): Promise<ExportResult> {
     diag.info(`Exporting ${envelopes.length} envelope(s)`);
-
+    if (envelopes.length < 1) {
+      return { code: ExportResultCode.SUCCESS };
+    }
     try {
       const { result, statusCode } = await this._sender.send(envelopes);
       this._numConsecutiveRedirects = 0;
@@ -107,7 +105,7 @@ export abstract class AzureMonitorBaseExporter {
           this._retryTimer = setTimeout(() => {
             this._retryTimer = null;
             this._sendFirstPersistedFile();
-          }, this._options.batchSendRetryIntervalMs);
+          }, this._batchSendRetryIntervalMs);
           this._retryTimer.unref();
         }
         return { code: ExportResultCode.SUCCESS };

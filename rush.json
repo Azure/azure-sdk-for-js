@@ -589,7 +589,7 @@
     {
       "packageName": "@azure/keyvault-common",
       "projectFolder": "sdk/keyvault/keyvault-common",
-      "versionPolicyName": "utility"
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/keyvault-admin",
@@ -624,6 +624,11 @@
     {
       "packageName": "@azure/maps-search",
       "projectFolder": "sdk/maps/maps-search",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/maps-route",
+      "projectFolder": "sdk/maps/maps-route-rest",
       "versionPolicyName": "client"
     },
     {
@@ -889,6 +894,11 @@
     {
       "packageName": "@azure-tests/perf-monitor-query",
       "projectFolder": "sdk/monitor/perf-tests/monitor-query",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-monitor-ingestion",
+      "projectFolder": "sdk/monitor/perf-tests/monitor-ingestion",
       "versionPolicyName": "test"
     },
     {
@@ -1880,6 +1890,31 @@
       "packageName": "@azure/functions-authentication-events",
       "projectFolder": "sdk/entra/functions-authentication-events",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/developer-devcenter",
+      "projectFolder": "sdk/devcenter/developer-devcenter-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-securitydevops",
+      "projectFolder": "sdk/securitydevops/arm-securitydevops",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-devhub",
+      "projectFolder": "sdk/devhub/arm-devhub",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/load-testing",
+      "projectFolder": "sdk/loadtestservice/load-testing-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-elasticsan",
+      "projectFolder": "sdk/elasticsans/arm-elasticsan",
+      "versionPolicyName": "management"
     }
   ]
 }

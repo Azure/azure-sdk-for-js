@@ -13,7 +13,7 @@ import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient"
 import { Context, Suite } from "mocha";
 import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert, matrix } from "@azure/test-utils";
-import { assertActionResults, assertRestError } from "./utils/resultHelper";
+import { assertActionsResults, assertRestError } from "./utils/resultHelper";
 import {
   expectation1,
   expectation10,
@@ -42,6 +42,11 @@ import {
   expectation9,
 } from "./expectations";
 import { getDocIDsFromState } from "../../src/lro";
+
+const FIXME1 = {
+  // Remove this check when the service updates its message
+  excludedAdditionalProps: ["message"],
+};
 
 matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
@@ -91,7 +96,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               }
             );
 
-            await assertActionResults(await poller.pollUntilDone(), expectation3);
+            await assertActionsResults(await poller.pollUntilDone(), expectation3);
           });
 
           it("key phrase extraction", async function () {
@@ -119,7 +124,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation5);
+            await assertActionsResults(await poller.pollUntilDone(), expectation5);
           });
 
           it("entity linking", async function () {
@@ -140,7 +145,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation6);
+            await assertActionsResults(await poller.pollUntilDone(), expectation6);
           });
 
           it("pii entity recognition", async function () {
@@ -162,7 +167,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation7);
+            await assertActionsResults(await poller.pollUntilDone(), expectation7);
           });
 
           it("pii entity recognition with filtered categories", async function () {
@@ -184,7 +189,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation8);
+            await assertActionsResults(await poller.pollUntilDone(), expectation8);
           });
 
           it("pii entity recognition with phi domain", async function () {
@@ -206,7 +211,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation24);
+            await assertActionsResults(await poller.pollUntilDone(), expectation24);
           });
 
           it("sentiment analysis with opinion mining", async function () {
@@ -233,7 +238,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation9);
+            await assertActionsResults(await poller.pollUntilDone(), expectation9);
           });
 
           it("healthcare", async function () {
@@ -254,7 +259,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation20);
+            await assertActionsResults(await poller.pollUntilDone(), expectation20);
           });
         });
 
@@ -281,7 +286,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation1);
+            await assertActionsResults(await poller.pollUntilDone(), expectation1);
           });
 
           it("single label classification action", async function () {
@@ -306,7 +311,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation2);
+            await assertActionsResults(await poller.pollUntilDone(), expectation2);
           });
 
           it("multi label classification action", async function () {
@@ -331,7 +336,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation4);
+            await assertActionsResults(await poller.pollUntilDone(), expectation4);
           });
         });
       });
@@ -483,7 +488,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation21);
+            await assertActionsResults(await poller.pollUntilDone(), expectation21, FIXME1);
           });
         });
 
@@ -506,7 +511,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionResults(await poller.pollUntilDone(), expectation19);
+          await assertActionsResults(await poller.pollUntilDone(), expectation19);
         });
 
         it("some documents with errors and multiple actions", async function () {
@@ -540,7 +545,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionResults(await poller.pollUntilDone(), expectation10);
+          await assertActionsResults(await poller.pollUntilDone(), expectation10, FIXME1);
         });
 
         it("all documents with errors and multiple actions", async function () {
@@ -574,7 +579,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionResults(await poller.pollUntilDone(), expectation11);
+          await assertActionsResults(await poller.pollUntilDone(), expectation11);
         });
 
         it("output order is same as the input's one with multiple actions", async function () {
@@ -602,7 +607,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionResults(await poller.pollUntilDone(), expectation12);
+          await assertActionsResults(await poller.pollUntilDone(), expectation12);
         });
 
         it("out of order input IDs with multiple actions", async function () {
@@ -630,7 +635,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionResults(await poller.pollUntilDone(), expectation13);
+          await assertActionsResults(await poller.pollUntilDone(), expectation13);
         });
 
         it("statistics", async function () {
@@ -700,7 +705,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionResults(await poller.pollUntilDone(), expectation14);
+          await assertActionsResults(await poller.pollUntilDone(), expectation14);
         });
 
         it("whole batch with no language hint", async function () {
@@ -727,7 +732,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionResults(await poller.pollUntilDone(), expectation14);
+          await assertActionsResults(await poller.pollUntilDone(), expectation14);
         });
 
         it("whole batch input with a language hint", async function () {
@@ -753,7 +758,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionResults(await poller.pollUntilDone(), expectation15);
+          await assertActionsResults(await poller.pollUntilDone(), expectation15);
         });
 
         it("invalid language hint", async function () {
@@ -776,7 +781,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionResults(await poller.pollUntilDone(), expectation16);
+          await assertActionsResults(await poller.pollUntilDone(), expectation16);
         });
 
         it("paged results with custom page size", async function () {
@@ -798,7 +803,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionResults(await poller.pollUntilDone(), expectation17, {
+          await assertActionsResults(await poller.pollUntilDone(), expectation17, {
             maxPageSize: 10,
           });
         });
@@ -914,8 +919,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           const rehydratedPoller = await client.restoreAnalyzeBatchPoller(serializedState, {
             updateIntervalInMs: pollingInterval,
           });
-          await assertActionResults(await rehydratedPoller.pollUntilDone(), expectation26);
-          await assertActionResults(await originalPoller.pollUntilDone(), expectation26);
+          await assertActionsResults(await rehydratedPoller.pollUntilDone(), expectation26);
+          await assertActionsResults(await originalPoller.pollUntilDone(), expectation26);
         });
 
         describe("stringIndexType", function () {
@@ -934,7 +939,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation18);
+            await assertActionsResults(await poller.pollUntilDone(), expectation18);
           });
 
           it("family emoji wit skin tone modifier with Utf16CodeUnit", async function () {
@@ -952,7 +957,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation22);
+            await assertActionsResults(await poller.pollUntilDone(), expectation22);
           });
 
           it("family emoji wit skin tone modifier with UnicodeCodePoint", async function () {
@@ -970,7 +975,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionResults(await poller.pollUntilDone(), expectation23);
+            await assertActionsResults(await poller.pollUntilDone(), expectation23);
           });
         });
       });

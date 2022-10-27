@@ -1,0 +1,198 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/testruns/abcde?api-version=2022-06-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "aa8bfc2d-a7e0-4bd3-96fa-1375648ab37f",
+        "x-ms-useragent": "azsdk-js-load-testing-rest/1.0.0-beta.1 core-rest-pipeline/1.9.2 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview",
+        "Connection": "keep-alive",
+        "Content-Length": "3651",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 19 Oct 2022 21:58:11 GMT",
+        "mise-correlation-id": "ef6fa8ea-1706-473d-9ed9-72359972fcde",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "9c629205-c386-4362-aa07-7d3fbf0bdc12"
+      },
+      "ResponseBody": {
+        "testRunId": "abcde",
+        "displayName": "sample_testrun",
+        "testId": "abc",
+        "resourceId": "/subscriptions/azure_subscription_id/resourcegroups/mrinal/providers/microsoft.loadtestservice/loadtests/mrgautam-auseast",
+        "description": null,
+        "status": "DONE",
+        "startDateTime": "2022-09-22T14:17:59Z",
+        "endDateTime": "2022-09-22T14:18:01Z",
+        "loadTestConfig": {
+          "engineInstances": 1,
+          "splitAllCSVs": false
+        },
+        "testResult": "NOT_APPLICABLE",
+        "passFailCriteria": null,
+        "testArtifacts": {
+          "inputArtifacts": {
+            "configUrl": {
+              "url": "https://storageurl.com/",
+              "fileId": "fb4ae40e-4259-4d13-bb74-54c1e17b0556",
+              "filename": "config.yaml",
+              "fileType": 2,
+              "expireTime": "2022-10-19T22:08:11.3455936\u002B00:00",
+              "validationStatus": ""
+            },
+            "testScriptUrl": {
+              "url": "https://storageurl.com/",
+              "fileId": "xyz12365",
+              "filename": "sample.jmx",
+              "fileType": 0,
+              "expireTime": "2022-10-19T22:08:11.3455936\u002B00:00",
+              "validationStatus": "VALIDATION_SUCCESS"
+            },
+            "userPropUrl": null,
+            "inputArtifactsZipFileurl": {
+              "url": "https://storageurl.com/",
+              "fileId": "0936295d-f3f1-47ae-8326-6c67f1dcf6cb",
+              "filename": "inputartifacts.zip",
+              "fileType": 2,
+              "expireTime": "2022-10-19T22:08:11.3455936\u002B00:00",
+              "validationStatus": ""
+            },
+            "additionalUrls": []
+          },
+          "outputArtifacts": {
+            "resultUrl": {
+              "url": "https://storageurl.com/",
+              "fileId": "c550376b-8dbf-4944-9b0e-953588129f2c",
+              "filename": "csv.zip",
+              "fileType": 2,
+              "expireTime": "2022-10-19T22:08:11.3455936\u002B00:00",
+              "validationStatus": ""
+            },
+            "logsUrl": {
+              "url": "https://storageurl.com/",
+              "fileId": "0c898fbf-cada-4f94-9038-36d2cf00744f",
+              "filename": "logs.zip",
+              "fileType": 2,
+              "expireTime": "2022-10-19T22:08:11.3455936\u002B00:00",
+              "validationStatus": ""
+            }
+          }
+        },
+        "executedDateTime": "2022-09-22T14:17:23.406Z",
+        "vusers": 50,
+        "testRunStatistics": {
+          "Sample": {
+            "transaction": "Sample",
+            "sampleCount": 500.0,
+            "errorCount": 397.0,
+            "errorPct": 79.0,
+            "meanResTime": 120.714,
+            "medianResTime": 64.0,
+            "maxResTime": 780.0,
+            "minResTime": 32.0,
+            "pct1ResTime": 294.0,
+            "pct2ResTime": 369.0,
+            "pct3ResTime": 494.0,
+            "throughput": 250.0,
+            "receivedKBytesPerSec": 0.0,
+            "sentKBytesPerSec": 0.0
+          },
+          "Sample-0": {
+            "transaction": "Sample-0",
+            "sampleCount": 500.0,
+            "errorCount": 0.0,
+            "errorPct": 0.0,
+            "meanResTime": 27.89,
+            "medianResTime": 25.0,
+            "maxResTime": 68.0,
+            "minResTime": 21.0,
+            "pct1ResTime": 39.0,
+            "pct2ResTime": 50.0,
+            "pct3ResTime": 64.0,
+            "throughput": 250.0,
+            "receivedKBytesPerSec": 0.0,
+            "sentKBytesPerSec": 0.0
+          },
+          "Sample-1": {
+            "transaction": "Sample-1",
+            "sampleCount": 500.0,
+            "errorCount": 396.0,
+            "errorPct": 79.0,
+            "meanResTime": 49.762,
+            "medianResTime": 31.0,
+            "maxResTime": 403.0,
+            "minResTime": 10.0,
+            "pct1ResTime": 107.0,
+            "pct2ResTime": 164.0,
+            "pct3ResTime": 241.0,
+            "throughput": 250.0,
+            "receivedKBytesPerSec": 0.0,
+            "sentKBytesPerSec": 0.0
+          },
+          "Sample-2": {
+            "transaction": "Sample-2",
+            "sampleCount": 104.0,
+            "errorCount": 1.0,
+            "errorPct": 0.0,
+            "meanResTime": 205.7596153846154,
+            "medianResTime": 190.0,
+            "maxResTime": 677.0,
+            "minResTime": 53.0,
+            "pct1ResTime": 326.0,
+            "pct2ResTime": 367.0,
+            "pct3ResTime": 417.0,
+            "throughput": 104.0,
+            "receivedKBytesPerSec": 0.0,
+            "sentKBytesPerSec": 0.0
+          },
+          "Total": {
+            "transaction": "Total",
+            "sampleCount": 1604.0,
+            "errorCount": 794.0,
+            "errorPct": 49.0,
+            "meanResTime": 75.17581047381546,
+            "medianResTime": 39.0,
+            "maxResTime": 780.0,
+            "minResTime": 10.0,
+            "pct1ResTime": 204.0,
+            "pct2ResTime": 278.0,
+            "pct3ResTime": 417.0,
+            "throughput": 802.0,
+            "receivedKBytesPerSec": 0.0,
+            "sentKBytesPerSec": 0.0
+          }
+        },
+        "createdDateTime": "2022-09-22T14:17:23.648Z",
+        "createdBy": null,
+        "lastModifiedDateTime": "2022-09-22T14:17:23.648Z",
+        "lastModifiedBy": null,
+        "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
+        "secrets": null,
+        "certificate": null,
+        "environmentVariables": null,
+        "duration": 2000,
+        "subnetId": null,
+        "errorDetails": null
+      }
+    }
+  ],
+  "Variables": {}
+}

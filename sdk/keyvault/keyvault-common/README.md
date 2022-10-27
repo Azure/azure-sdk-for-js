@@ -2,7 +2,7 @@
 
 An internal support library for the various Azure Key Vault client libraries.
 
-This package contains common code that needs to be shared among the other Azure Key Vault libraries. It is not published to NPM and is not meant for usage by any other consumers.
+This package contains common code that needs to be shared among the other Azure Key Vault libraries. **It is not meant for usage by any other consumers**.
 
 ## Key Vault client libraries
 

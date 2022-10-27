@@ -1,0 +1,173 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.LoadTestService/loadTests/myLoadTest?api-version=2022-12-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "109",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-loadtestservice/1.0.0 core-rest-pipeline/1.10.0 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "37e06903-7f3a-49aa-ae73-f0c3d163d3a6"
+      },
+      "RequestBody": {
+        "tags": {
+          "team": "Dev Exp"
+        },
+        "location": "eastus",
+        "properties": {
+          "description": "This is new load test resource"
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.LoadTestService/locations/EASTUS/operationStatuses/14c01cc4-b2d2-4c5f-a0c2-29f7c4554185*CD639B59EFF4DC1A8879234192809027C5FEC7CACFF2C106564B360BA8608E66?api-version=2022-12-01",
+        "Cache-Control": "no-cache",
+        "Content-Length": "703",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 24 Oct 2022 02:37:37 GMT",
+        "ETag": "\u00222101d502-0000-0100-0000-6355fa700000\u0022",
+        "Expires": "-1",
+        "mise-correlation-id": "179b0bcd-7be4-40d6-a5b1-4d823eb7573a",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "3a98aa62-2f66-4e88-ac3d-7dd41b2524ef",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "14c01cc4-b2d2-4c5f-a0c2-29f7c4554185",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221024T023738Z:3a98aa62-2f66-4e88-ac3d-7dd41b2524ef"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.LoadTestService/loadTests/myLoadTest",
+        "name": "myLoadTest",
+        "type": "microsoft.loadtestservice/loadtests",
+        "location": "eastus",
+        "tags": {
+          "team": "Dev Exp"
+        },
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2022-10-24T02:37:35.5756346Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2022-10-24T02:37:35.5756346Z"
+        },
+        "identity": {
+          "type": "None"
+        },
+        "properties": {
+          "description": "This is new load test resource",
+          "dataPlaneURI": "748713bf-94cd-420c-aae3-036ebb010d42.eastus.cnt-prod.loadtesting.azure.com",
+          "encryption": null,
+          "provisioningState": "Accepted"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.LoadTestService/locations/EASTUS/operationStatuses/14c01cc4-b2d2-4c5f-a0c2-29f7c4554185*CD639B59EFF4DC1A8879234192809027C5FEC7CACFF2C106564B360BA8608E66?api-version=2022-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-loadtestservice/1.0.0 core-rest-pipeline/1.10.0 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "5e7304b9-c3f3-40db-a73e-3a0496b7a516"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 24 Oct 2022 02:37:38 GMT",
+        "ETag": "\u00222f00801b-0000-0100-0000-6355fa720000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "e9d93f79-1e7a-4d9f-8fdc-549c9c01716e",
+        "x-ms-ratelimit-remaining-subscription-reads": "11999",
+        "x-ms-request-id": "6c998ca4-7a06-44a8-a46f-7e4761914d18",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221024T023738Z:e9d93f79-1e7a-4d9f-8fdc-549c9c01716e"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.LoadTestService/locations/EASTUS/operationStatuses/14c01cc4-b2d2-4c5f-a0c2-29f7c4554185*CD639B59EFF4DC1A8879234192809027C5FEC7CACFF2C106564B360BA8608E66",
+        "name": "14c01cc4-b2d2-4c5f-a0c2-29f7c4554185*CD639B59EFF4DC1A8879234192809027C5FEC7CACFF2C106564B360BA8608E66",
+        "resourceId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.LoadTestService/loadTests/myLoadTest",
+        "status": "Succeeded",
+        "startTime": "2022-10-24T02:37:36.5165372Z",
+        "endTime": "2022-10-24T02:37:38.2755251Z",
+        "properties": null
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.LoadTestService/loadTests/myLoadTest?api-version=2022-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-loadtestservice/1.0.0 core-rest-pipeline/1.10.0 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "67f96652-e4b7-4c0d-9316-4c346cea3043"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 24 Oct 2022 02:37:38 GMT",
+        "ETag": "\u002221010c03-0000-0100-0000-6355fa720000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "548d8c37-c54e-4eb9-a0e6-1dcc4c6786e4",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-reads": "11998",
+        "x-ms-request-id": "122117f3-c533-4a82-9b8e-b7429f425e4e",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221024T023739Z:548d8c37-c54e-4eb9-a0e6-1dcc4c6786e4"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.LoadTestService/loadTests/myLoadTest",
+        "name": "myLoadTest",
+        "type": "microsoft.loadtestservice/loadtests",
+        "location": "eastus",
+        "tags": {
+          "team": "Dev Exp"
+        },
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2022-10-24T02:37:35.5756346Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2022-10-24T02:37:35.5756346Z"
+        },
+        "identity": {
+          "type": "None"
+        },
+        "properties": {
+          "description": "This is new load test resource",
+          "dataPlaneURI": "748713bf-94cd-420c-aae3-036ebb010d42.eastus.cnt-prod.loadtesting.azure.com",
+          "encryption": null,
+          "provisioningState": "Succeeded"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

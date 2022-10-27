@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Cache/redis/myrediscachexxx111/patchSchedules/default?api-version=2022-05-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Cache/redis/myrediscachexxx111/patchSchedules/default?api-version=2022-06-01",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "146",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-rediscache/7.0.0 core-rest-pipeline/1.9.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "2c04a0fa-08b3-4adf-9b2a-a0948ac1fec3"
+        "User-Agent": "azsdk-js-arm-rediscache/7.1.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "334e502f-408d-414e-8c96-ec59c7a32820"
       },
       "RequestBody": {
         "properties": {
@@ -33,7 +33,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 01 Sep 2022 03:04:14 GMT",
+        "Date": "Fri, 21 Oct 2022 07:06:31 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
@@ -41,11 +41,11 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "4c8c0a40-3b23-459d-83a2-238b24e00d91",
+        "x-ms-correlation-request-id": "15cbaf3b-3693-4bec-8e0b-03dc38dbc973",
         "x-ms-ratelimit-remaining-subscription-writes": "1196",
-        "x-ms-request-id": "5e05db31-1bb7-403a-8fa0-e013b4712857",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220901T030414Z:4c8c0a40-3b23-459d-83a2-238b24e00d91",
-        "x-rp-server-mvid": "1d4d9b62-2466-4e49-81a7-239328084a93"
+        "x-ms-request-id": "1e139cae-93c6-4a58-aaca-2ac3dbd12238",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221021T070631Z:15cbaf3b-3693-4bec-8e0b-03dc38dbc973",
+        "x-rp-server-mvid": "be1ed6d8-4bcc-498f-a45e-34b9fb6c6358"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Cache/Redis/myrediscachexxx111/patchSchedules/default",

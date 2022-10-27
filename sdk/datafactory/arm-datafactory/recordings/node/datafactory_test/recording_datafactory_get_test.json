@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-datafactory/10.8.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "90e6ebf5-5e77-43d0-abed-daabbab62551"
+        "User-Agent": "azsdk-js-arm-datafactory/10.9.0 core-rest-pipeline/1.9.3 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "918c1612-d402-457a-9fc6-4240b6d20af6"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 07 Sep 2022 08:06:20 GMT",
+        "Date": "Fri, 14 Oct 2022 03:03:59 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Kestrel",
@@ -25,18 +25,18 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "d98b2996-35c1-48c3-a098-e72ddd161e33",
+        "x-ms-correlation-request-id": "6daf4cef-b478-4d29-8eeb-447b4ebe50bd",
         "x-ms-ratelimit-remaining-subscription-reads": "11999",
-        "x-ms-request-id": "d98b2996-35c1-48c3-a098-e72ddd161e33",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220907T080621Z:d98b2996-35c1-48c3-a098-e72ddd161e33"
+        "x-ms-request-id": "6daf4cef-b478-4d29-8eeb-447b4ebe50bd",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221014T030400Z:6daf4cef-b478-4d29-8eeb-447b4ebe50bd"
       },
       "ResponseBody": {
         "name": "examplefactorytest",
-        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DataFactory/factories/examplefactorytest",
+        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.DataFactory/factories/examplefactorytest",
         "type": "Microsoft.DataFactory/factories",
         "properties": {
           "provisioningState": "Succeeded",
-          "createTime": "2022-09-07T08:06:18.5852616Z",
+          "createTime": "2022-10-14T03:03:57.3005633Z",
           "version": "2018-06-01",
           "factoryStatistics": {
             "totalResourceCount": 0,
@@ -45,7 +45,7 @@
             "maxAllowedFactorySizeInGbUnits": 0
           }
         },
-        "eTag": "\u00229b001bb4-0000-0100-0000-631850fa0000\u0022",
+        "eTag": "\u002201005bc0-0000-0100-0000-6348d19d0000\u0022",
         "location": "eastus",
         "tags": {}
       }

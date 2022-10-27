@@ -3,9 +3,9 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for AutomanageClient.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "dependencies": {
     "@azure/core-paging": "^1.2.0",

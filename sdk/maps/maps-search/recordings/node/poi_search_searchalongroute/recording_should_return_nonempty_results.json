@@ -11,7 +11,7 @@
         "Content-Type": "application/json",
         "subscription-key": "azure_maps_subscription_key",
         "User-Agent": "azsdk-js-maps-search/1.0.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
-        "x-ms-client-request-id": "8e613bc4-5172-4f3b-b0ba-9293a4551f75"
+        "x-ms-client-request-id": "2a70093e-fa4b-4d69-b3b2-e419a2ec6b7b"
       },
       "RequestBody": {
         "route": {
@@ -38,9 +38,9 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "11872",
+        "Content-Length": "11846",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 16 Sep 2022 10:55:47 GMT",
+        "Date": "Thu, 06 Oct 2022 02:38:23 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": [
           "Accept-Encoding",
@@ -49,17 +49,22 @@
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: 5DC36D7F49B54193895D6210D7DDD8BC Ref B: SG1EDGE0112 Ref C: 2022-09-16T10:55:47Z"
+        "X-MSEdge-Ref": "Ref A: 033ACA93ACA0456DBAAD6485C861BDF5 Ref B: SG2EDGE3221 Ref C: 2022-10-06T02:38:23Z"
       },
       "ResponseBody": {
         "summary": {
           "query": "burger",
           "queryType": "NON_NEAR",
-          "queryTime": 215,
+          "queryTime": 297,
           "numResults": 10,
           "offset": 0,
           "totalResults": 10,
-          "fuzzyLevel": 1
+          "fuzzyLevel": 1,
+          "backtracking": {
+            "abGroupsApplicable": [
+              "frequentMisspells"
+            ]
+          }
         },
         "results": [
           {
@@ -133,8 +138,8 @@
                 }
               }
             ],
-            "detourTime": -434,
-            "detourDistance": -20368
+            "detourTime": -475,
+            "detourDistance": -20865
           },
           {
             "type": "POI",
@@ -161,11 +166,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "fast food"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "fast food"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -209,8 +214,8 @@
                 }
               }
             ],
-            "detourTime": -193,
-            "detourDistance": -13373
+            "detourTime": -168,
+            "detourDistance": -13870
           },
           {
             "type": "POI",
@@ -286,8 +291,8 @@
                 }
               }
             ],
-            "detourTime": 77,
-            "detourDistance": -7246
+            "detourTime": 98,
+            "detourDistance": -7743
           },
           {
             "type": "POI",
@@ -315,11 +320,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "fast food"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "fast food"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -363,8 +368,86 @@
                 }
               }
             ],
-            "detourTime": 84,
-            "detourDistance": -6787
+            "detourTime": 114,
+            "detourDistance": -7284
+          },
+          {
+            "type": "POI",
+            "id": "840531000533803",
+            "score": 2.7693781853,
+            "dist": 1127.9399853212014,
+            "query": "burger",
+            "info": "search:ta:840531000533803-US",
+            "poi": {
+              "name": "Wibbley\u0027s Gourmet Burgers",
+              "phone": "\u002B1 425-747-7818",
+              "categorySet": [
+                {
+                  "id": 7315069
+                }
+              ],
+              "url": "wibbleys.com",
+              "categories": [
+                "hamburgers",
+                "restaurant"
+              ],
+              "classifications": [
+                {
+                  "code": "RESTAURANT",
+                  "names": [
+                    {
+                      "nameLocale": "en-US",
+                      "name": "hamburgers"
+                    },
+                    {
+                      "nameLocale": "en-US",
+                      "name": "restaurant"
+                    }
+                  ]
+                }
+              ]
+            },
+            "address": {
+              "streetNumber": "2255",
+              "streetName": "140th Avenue Northeast",
+              "municipalitySubdivision": "Bel Red",
+              "municipality": "Bellevue",
+              "countrySecondarySubdivision": "King",
+              "countrySubdivision": "WA",
+              "countrySubdivisionName": "Washington",
+              "postalCode": "98005",
+              "extendedPostalCode": "98005-1819",
+              "countryCode": "US",
+              "country": "United States",
+              "countryCodeISO3": "USA",
+              "freeformAddress": "2255 140th Avenue Northeast, Bellevue, WA 98005",
+              "localName": "Bellevue"
+            },
+            "position": {
+              "lat": 47.63066,
+              "lon": -122.15504
+            },
+            "viewport": {
+              "topLeftPoint": {
+                "lat": 47.63156,
+                "lon": -122.15637
+              },
+              "btmRightPoint": {
+                "lat": 47.62976,
+                "lon": -122.15371
+              }
+            },
+            "entryPoints": [
+              {
+                "type": "main",
+                "position": {
+                  "lat": 47.63066,
+                  "lon": -122.15374
+                }
+              }
+            ],
+            "detourTime": 190,
+            "detourDistance": -6539
           },
           {
             "type": "POI",
@@ -397,11 +480,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "fast food"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "fast food"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -452,98 +535,8 @@
                 }
               }
             ],
-            "detourTime": 174,
-            "detourDistance": -6089
-          },
-          {
-            "type": "POI",
-            "id": "840531000465150",
-            "score": 2.8922464848,
-            "dist": 1748.7957271682615,
-            "query": "burger",
-            "info": "search:ta:840531000465150-US",
-            "poi": {
-              "name": "BURGER KING",
-              "phone": "\u002B1 425-746-7508",
-              "brands": [
-                {
-                  "name": "BURGER KING"
-                }
-              ],
-              "categorySet": [
-                {
-                  "id": 7315015
-                }
-              ],
-              "url": "burgerking.com/store-locator/store/restaurant_490",
-              "categories": [
-                "fast food",
-                "restaurant"
-              ],
-              "classifications": [
-                {
-                  "code": "RESTAURANT",
-                  "names": [
-                    {
-                      "nameLocale": "en-US",
-                      "name": "restaurant"
-                    },
-                    {
-                      "nameLocale": "en-US",
-                      "name": "fast food"
-                    }
-                  ]
-                }
-              ]
-            },
-            "address": {
-              "streetNumber": "14620",
-              "streetName": "Northeast 24th Street",
-              "municipalitySubdivision": "Bridle Trails",
-              "municipality": "Bellevue",
-              "countrySecondarySubdivision": "King",
-              "countrySubdivision": "WA",
-              "countrySubdivisionName": "Washington",
-              "postalCode": "98007",
-              "extendedPostalCode": "98007-3723",
-              "countryCode": "US",
-              "country": "United States",
-              "countryCodeISO3": "USA",
-              "freeformAddress": "14620 Northeast 24th Street, Bellevue, WA 98007",
-              "localName": "Bellevue"
-            },
-            "position": {
-              "lat": 47.63187,
-              "lon": -122.14472
-            },
-            "viewport": {
-              "topLeftPoint": {
-                "lat": 47.63277,
-                "lon": -122.14605
-              },
-              "btmRightPoint": {
-                "lat": 47.63097,
-                "lon": -122.14339
-              }
-            },
-            "entryPoints": [
-              {
-                "type": "minor",
-                "position": {
-                  "lat": 47.63188,
-                  "lon": -122.14458
-                }
-              },
-              {
-                "type": "main",
-                "position": {
-                  "lat": 47.63155,
-                  "lon": -122.14461
-                }
-              }
-            ],
-            "detourTime": 194,
-            "detourDistance": -5827
+            "detourTime": 204,
+            "detourDistance": -6285
           },
           {
             "type": "POI",
@@ -576,11 +569,11 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "fast food"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "fast food"
+                      "name": "restaurant"
                     }
                   ]
                 }
@@ -632,19 +625,19 @@
                 }
               }
             ],
-            "detourTime": 195,
-            "detourDistance": 6858
+            "detourTime": 207,
+            "detourDistance": 6361
           },
           {
             "type": "POI",
-            "id": "840531000465149",
-            "score": 2.898733139,
-            "dist": 161.17565489389224,
+            "id": "840531000465150",
+            "score": 2.8922464848,
+            "dist": 1748.7957271682615,
             "query": "burger",
-            "info": "search:ta:840531000465149-US",
+            "info": "search:ta:840531000465150-US",
             "poi": {
               "name": "BURGER KING",
-              "phone": "\u002B1 425-453-5775",
+              "phone": "\u002B1 425-746-7508",
               "brands": [
                 {
                   "name": "BURGER KING"
@@ -655,7 +648,7 @@
                   "id": 7315015
                 }
               ],
-              "url": "burgerking.com/store-locator/store/restaurant_2700",
+              "url": "burgerking.com/store-locator/store/restaurant_490",
               "categories": [
                 "fast food",
                 "restaurant"
@@ -666,57 +659,64 @@
                   "names": [
                     {
                       "nameLocale": "en-US",
-                      "name": "restaurant"
+                      "name": "fast food"
                     },
                     {
                       "nameLocale": "en-US",
-                      "name": "fast food"
+                      "name": "restaurant"
                     }
                   ]
                 }
               ]
             },
             "address": {
-              "streetNumber": "11723",
-              "streetName": "Northeast 8th Street",
-              "municipalitySubdivision": "Willburton",
+              "streetNumber": "14620",
+              "streetName": "Northeast 24th Street",
+              "municipalitySubdivision": "Bridle Trails",
               "municipality": "Bellevue",
               "countrySecondarySubdivision": "King",
               "countrySubdivision": "WA",
               "countrySubdivisionName": "Washington",
-              "postalCode": "98005",
-              "extendedPostalCode": "98005-3003",
+              "postalCode": "98007",
+              "extendedPostalCode": "98007-3723",
               "countryCode": "US",
               "country": "United States",
               "countryCodeISO3": "USA",
-              "freeformAddress": "11723 Northeast 8th Street, Bellevue, WA 98005",
+              "freeformAddress": "14620 Northeast 24th Street, Bellevue, WA 98007",
               "localName": "Bellevue"
             },
             "position": {
-              "lat": 47.61683,
-              "lon": -122.18338
+              "lat": 47.63187,
+              "lon": -122.14472
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.61773,
-                "lon": -122.18471
+                "lat": 47.63277,
+                "lon": -122.14605
               },
               "btmRightPoint": {
-                "lat": 47.61593,
-                "lon": -122.18205
+                "lat": 47.63097,
+                "lon": -122.14339
               }
             },
             "entryPoints": [
               {
+                "type": "minor",
+                "position": {
+                  "lat": 47.63188,
+                  "lon": -122.14458
+                }
+              },
+              {
                 "type": "main",
                 "position": {
-                  "lat": 47.61723,
-                  "lon": -122.1834
+                  "lat": 47.63155,
+                  "lon": -122.14461
                 }
               }
             ],
-            "detourTime": 205,
-            "detourDistance": 309
+            "detourTime": 233,
+            "detourDistance": -6324
           },
           {
             "type": "POI",
@@ -792,25 +792,25 @@
                 }
               }
             ],
-            "detourTime": 251,
+            "detourTime": 348,
             "detourDistance": 1146
           },
           {
             "type": "POI",
-            "id": "840539002169056",
-            "score": 2.7732198238,
-            "dist": 6501.943096976129,
+            "id": "840539002366655",
+            "score": 2.7806251049,
+            "dist": 4895.0590447372215,
             "query": "burger",
-            "info": "search:ta:840539002169056-US",
+            "info": "search:ta:840539002366655-US",
             "poi": {
-              "name": "Coastline Burgers",
-              "phone": "\u002B1 425-822-1770",
+              "name": "Burger Addict",
+              "phone": "\u002B1 425-305-5572",
               "categorySet": [
                 {
                   "id": 7315069
                 }
               ],
-              "url": "coastlineburgers.com",
+              "url": "www.burgeraddict.com",
               "categories": [
                 "hamburgers",
                 "restaurant"
@@ -832,53 +832,46 @@
               ]
             },
             "address": {
-              "streetNumber": "116",
-              "streetName": "Central Way",
-              "municipalitySubdivision": "Moss Bay",
+              "streetNumber": "12016",
+              "streetName": "Northeast 85th Street",
+              "municipalitySubdivision": "North Rose Hill",
               "municipality": "Kirkland",
               "countrySecondarySubdivision": "King",
               "countrySubdivision": "WA",
               "countrySubdivisionName": "Washington",
               "postalCode": "98033",
-              "extendedPostalCode": "98033-6159",
+              "extendedPostalCode": "98033-8039",
               "countryCode": "US",
               "country": "United States",
               "countryCodeISO3": "USA",
-              "freeformAddress": "116 Central Way, Kirkland, WA 98033",
+              "freeformAddress": "12016 Northeast 85th Street, Kirkland, WA 98033",
               "localName": "Kirkland"
             },
             "position": {
-              "lat": 47.67687,
-              "lon": -122.20695
+              "lat": 47.68023,
+              "lon": -122.17996
             },
             "viewport": {
               "topLeftPoint": {
-                "lat": 47.67777,
-                "lon": -122.20829
+                "lat": 47.68116,
+                "lon": -122.18134
               },
               "btmRightPoint": {
-                "lat": 47.67597,
-                "lon": -122.20561
+                "lat": 47.6793,
+                "lon": -122.17858
               }
             },
             "entryPoints": [
               {
                 "type": "main",
                 "position": {
-                  "lat": 47.67671,
-                  "lon": -122.20688
-                }
-              },
-              {
-                "type": "main",
-                "position": {
-                  "lat": 47.67671,
-                  "lon": -122.20687
+                  "lat": 47.67931,
+                  "lon": -122.18013
                 }
               }
             ],
-            "detourTime": 549,
-            "detourDistance": 6156
+            "detourTime": 446,
+            "detourDistance": 3092
           }
         ]
       }

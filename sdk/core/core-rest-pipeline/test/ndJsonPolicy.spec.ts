@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as sinon from "sinon";
+import sinon from "sinon";
 import {
   PipelineResponse,
   SendRequest,
   createHttpHeaders,
   createPipelineRequest,
   ndJsonPolicy,
-} from "../src";
+} from "../src/index.js";
 
 describe("NdJsonPolicy", function () {
   afterEach(function () {

@@ -13,6 +13,7 @@ export type ActionUnion =
   | DelayAction
   | DiscreteAction
   | ContinuousAction;
+export type FilterUnion = Filter | SimpleFilter;
 
 /** Model that represents a list of Capability resources and a link for pagination. */
 export interface CapabilityListResult {
@@ -112,6 +113,29 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
+/** Model that represents a list of Capability Type resources and a link for pagination. */
+export interface CapabilityTypeListResult {
+  /**
+   * List of Capability Type resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: CapabilityType[];
+  /**
+   * URL to retrieve the next page of Capability Type resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Runtime properties of this Capability Type. */
+export interface CapabilityTypePropertiesRuntimeProperties {
+  /**
+   * String of the kind of the resource's action type (continuous or discrete).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kind?: string;
+}
+
 /** Model that represents a list of Experiment resources and a link for pagination. */
 export interface ExperimentListResult {
   /**
@@ -174,6 +198,8 @@ export interface Selector {
   id: string;
   /** List of Target references. */
   targets: TargetReference[];
+  /** Model that represents available filter types that can be applied to a targets list. */
+  filter?: FilterUnion;
 }
 
 /** Model that represents a reference to a Target in the selector. */
@@ -182,6 +208,12 @@ export interface TargetReference {
   type: "ChaosTarget";
   /** String of the resource ID of a Target resource. */
   id: string;
+}
+
+/** Model that represents available filter types that can be applied to a targets list. */
+export interface Filter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Simple";
 }
 
 /** Model that represents the result of a cancel Experiment operation. */
@@ -531,20 +563,6 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
-/** Model that represents a list of Target resources and a link for pagination. */
-export interface TargetListResult {
-  /**
-   * List of Target resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Target[];
-  /**
-   * URL to retrieve the next page of Target resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
 /** Model that represents a list of Target Type resources and a link for pagination. */
 export interface TargetTypeListResult {
   /**
@@ -559,27 +577,18 @@ export interface TargetTypeListResult {
   readonly nextLink?: string;
 }
 
-/** Model that represents a list of Capability Type resources and a link for pagination. */
-export interface CapabilityTypeListResult {
+/** Model that represents a list of Target resources and a link for pagination. */
+export interface TargetListResult {
   /**
-   * List of Capability Type resources.
+   * List of Target resources.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: CapabilityType[];
+  readonly value?: Target[];
   /**
-   * URL to retrieve the next page of Capability Type resources.
+   * URL to retrieve the next page of Target resources.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
-}
-
-/** Runtime properties of this Capability Type. */
-export interface CapabilityTypePropertiesRuntimeProperties {
-  /**
-   * String of the kind of the resource's action type (continuous or discrete).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly kind?: string;
 }
 
 /** A map to describe the settings of an action. */
@@ -588,6 +597,12 @@ export interface KeyValuePair {
   key: string;
   /** The value of the setting for the action. */
   value: string;
+}
+
+/** Model that represents the Simple filter parameters. */
+export interface SimpleFilterParameters {
+  /** List of Azure availability zones to filter targets by. */
+  zones?: string[];
 }
 
 /** Model that represents a Capability resource. */
@@ -622,58 +637,6 @@ export interface Capability extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly urn?: string;
-}
-
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends Resource {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The geo-location where the resource lives */
-  location: string;
-}
-
-/** Model that represents a Target resource. */
-export interface Target extends Resource {
-  /**
-   * The system metadata of the target resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** Location of the target resource. */
-  location?: string;
-  /** The properties of the target resource. */
-  properties: { [propertyName: string]: any };
-}
-
-/** Model that represents a Target Type resource. */
-export interface TargetType extends Resource {
-  /**
-   * The system metadata properties of the target type resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** Location of the Target Type resource. */
-  location?: string;
-  /**
-   * Localized string of the display name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /**
-   * Localized string of the description.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-  /**
-   * URL to retrieve JSON schema of the Target Type properties.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly propertiesSchema?: string;
-  /**
-   * List of resource types this Target Type can extend.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceTypes?: string[];
 }
 
 /** Model that represents a Capability Type resource. */
@@ -724,6 +687,58 @@ export interface CapabilityType extends Resource {
   runtimeProperties?: CapabilityTypePropertiesRuntimeProperties;
 }
 
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+/** Model that represents a Target Type resource. */
+export interface TargetType extends Resource {
+  /**
+   * The system metadata properties of the target type resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Location of the Target Type resource. */
+  location?: string;
+  /**
+   * Localized string of the display name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Localized string of the description.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * URL to retrieve JSON schema of the Target Type properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly propertiesSchema?: string;
+  /**
+   * List of resource types this Target Type can extend.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceTypes?: string[];
+}
+
+/** Model that represents a Target resource. */
+export interface Target extends Resource {
+  /**
+   * The system metadata of the target resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Location of the target resource. */
+  location?: string;
+  /** The properties of the target resource. */
+  properties: { [propertyName: string]: any };
+}
+
 /** Model that represents a delay action. */
 export interface DelayAction extends Action {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -752,6 +767,14 @@ export interface ContinuousAction extends Action {
   parameters: KeyValuePair[];
   /** String that represents a selector. */
   selectorId: string;
+}
+
+/** Model that represents a simple target filter. */
+export interface SimpleFilter extends Filter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Simple";
+  /** Model that represents the Simple filter parameters. */
+  parameters?: SimpleFilterParameters;
 }
 
 /** Model that represents a Experiment resource. */
@@ -794,6 +817,21 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+
+/** Known values of {@link FilterType} that the service accepts. */
+export enum KnownFilterType {
+  /** Simple */
+  Simple = "Simple"
+}
+
+/**
+ * Defines values for FilterType. \
+ * {@link KnownFilterType} can be used interchangeably with FilterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Simple**
+ */
+export type FilterType = string;
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
@@ -872,6 +910,33 @@ export interface CapabilitiesListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type CapabilitiesListNextResponse = CapabilityListResult;
+
+/** Optional parameters. */
+export interface CapabilityTypesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** String that sets the continuation token. */
+  continuationToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type CapabilityTypesListResponse = CapabilityTypeListResult;
+
+/** Optional parameters. */
+export interface CapabilityTypesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type CapabilityTypesGetResponse = CapabilityType;
+
+/** Optional parameters. */
+export interface CapabilityTypesListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** String that sets the continuation token. */
+  continuationToken?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type CapabilityTypesListNextResponse = CapabilityTypeListResult;
 
 /** Optional parameters. */
 export interface ExperimentsListAllOptionalParams
@@ -1010,6 +1075,33 @@ export interface OperationsListAllNextOptionalParams
 export type OperationsListAllNextResponse = OperationListResult;
 
 /** Optional parameters. */
+export interface TargetTypesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** String that sets the continuation token. */
+  continuationToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type TargetTypesListResponse = TargetTypeListResult;
+
+/** Optional parameters. */
+export interface TargetTypesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TargetTypesGetResponse = TargetType;
+
+/** Optional parameters. */
+export interface TargetTypesListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** String that sets the continuation token. */
+  continuationToken?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type TargetTypesListNextResponse = TargetTypeListResult;
+
+/** Optional parameters. */
 export interface TargetsListOptionalParams extends coreClient.OperationOptions {
   /** String that sets the continuation token. */
   continuationToken?: string;
@@ -1044,60 +1136,6 @@ export interface TargetsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type TargetsListNextResponse = TargetListResult;
-
-/** Optional parameters. */
-export interface TargetTypesListOptionalParams
-  extends coreClient.OperationOptions {
-  /** String that sets the continuation token. */
-  continuationToken?: string;
-}
-
-/** Contains response data for the list operation. */
-export type TargetTypesListResponse = TargetTypeListResult;
-
-/** Optional parameters. */
-export interface TargetTypesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type TargetTypesGetResponse = TargetType;
-
-/** Optional parameters. */
-export interface TargetTypesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** String that sets the continuation token. */
-  continuationToken?: string;
-}
-
-/** Contains response data for the listNext operation. */
-export type TargetTypesListNextResponse = TargetTypeListResult;
-
-/** Optional parameters. */
-export interface CapabilityTypesListOptionalParams
-  extends coreClient.OperationOptions {
-  /** String that sets the continuation token. */
-  continuationToken?: string;
-}
-
-/** Contains response data for the list operation. */
-export type CapabilityTypesListResponse = CapabilityTypeListResult;
-
-/** Optional parameters. */
-export interface CapabilityTypesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type CapabilityTypesGetResponse = CapabilityType;
-
-/** Optional parameters. */
-export interface CapabilityTypesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** String that sets the continuation token. */
-  continuationToken?: string;
-}
-
-/** Contains response data for the listNext operation. */
-export type CapabilityTypesListNextResponse = CapabilityTypeListResult;
 
 /** Optional parameters. */
 export interface ChaosManagementClientOptionalParams

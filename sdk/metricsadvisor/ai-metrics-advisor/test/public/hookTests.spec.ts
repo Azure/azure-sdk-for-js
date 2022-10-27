@@ -5,19 +5,19 @@ import { assert } from "chai";
 import { Context } from "mocha";
 
 import {
-  MetricsAdvisorAdministrationClient,
-  WebNotificationHook,
   EmailNotificationHook,
   EmailNotificationHookPatch,
+  MetricsAdvisorAdministrationClient,
+  WebNotificationHook,
   WebNotificationHookPatch,
 } from "../../src";
 import { createRecordedAdminClient, makeCredential } from "./util/recordedClients";
 import { Recorder } from "@azure-tools/test-recorder";
 import {
-  matrix,
-  getYieldedValue,
   fakeTestPassPlaceholder,
   fakeTestSecretPlaceholder,
+  getYieldedValue,
+  matrix,
 } from "@azure/test-utils";
 
 matrix([[true, false]] as const, async (useAad) => {
