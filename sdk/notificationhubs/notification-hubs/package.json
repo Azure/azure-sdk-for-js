@@ -20,7 +20,7 @@
     },
     "./api": {
       "types": "./types/src/api/index.d.ts",
-      "import": "./dist-esm/api/client/index.js"
+      "import": "./dist-esm/src/api/index.js"
     },
     "./models": {
       "types": "./types/src/models/index.d.ts",
