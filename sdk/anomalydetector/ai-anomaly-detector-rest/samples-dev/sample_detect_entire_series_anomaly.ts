@@ -10,7 +10,6 @@
 import AnomalyDetector, {
   DetectUnivariateEntireSeriesParameters,
   EntireDetectResponseOutput,
-  isUnexpected,
   TimeSeriesPoint,
 } from "@azure-rest/ai-anomaly-detector";
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -41,7 +40,7 @@ function read_series_from_file(path: string): Array<TimeSeriesPoint> {
 export async function main() {
   // create client
   const credential = new AzureKeyCredential(apiKey);
-  const client = AnomalyDetector(endpoint, credential, { apiVersion });
+  const client = AnomalyDetector(endpoint, credential);
 
   // construct request
   const options: DetectUnivariateEntireSeriesParameters = {
@@ -56,10 +55,7 @@ export async function main() {
   };
 
   // get last detect result
-  const result = await client.path("/timeseries/entire/detect").post(options);
-  if (isUnexpected(result)) {
-    throw result;
-  }
+  const result = await client.path("/{ApiVersion}/timeseries/entire/detect").post(options);
 
   if ((result.body as EntireDetectResponseOutput).isAnomaly) {
     console.log("The latest point is detected as anomaly.");

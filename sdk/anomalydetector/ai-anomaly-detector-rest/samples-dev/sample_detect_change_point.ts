@@ -10,7 +10,6 @@
 import AnomalyDetector, {
   ChangePointDetectResponseOutput,
   DetectUnivariateChangePointParameters,
-  isUnexpected,
   TimeSeriesPoint,
 } from "@azure-rest/ai-anomaly-detector";
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -41,7 +40,7 @@ function read_series_from_file(path: string): Array<TimeSeriesPoint> {
 
 export async function main() {
   const credential = new AzureKeyCredential(apiKey);
-  const client = AnomalyDetector(endpoint, credential, { apiVersion });
+  const client = AnomalyDetector(endpoint, credential);
   const options: DetectUnivariateChangePointParameters = {
     body: {
       granularity: "daily",
@@ -49,10 +48,8 @@ export async function main() {
     },
     headers: { "Content-Type": "application/json" },
   };
-  const result = await client.path("/timeseries/changepoint/detect").post(options);
-  if (isUnexpected(result)) {
-    throw result;
-  }
+  const result = await client.path("/{ApiVersion}/timeseries/changepoint/detect").post(options);
+  console.log(result);
 
   if (
     (result.body as ChangePointDetectResponseOutput).isChangePoint!.some(function (changePoint) {
