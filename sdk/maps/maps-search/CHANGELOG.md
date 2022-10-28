@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Correct the type declaration file generation.
+
 ### Other Changes
 
 ## 1.0.0-beta.1 (2022-10-11)

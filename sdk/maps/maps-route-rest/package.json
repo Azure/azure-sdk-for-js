@@ -26,7 +26,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/maps-route.d.ts",
+    "types/maps-route-rest.d.ts",
     "README.md",
     "LICENSE",
     "review/*"
