@@ -4,6 +4,7 @@ specifiers:
   '@rush-temp/abort-controller': file:./projects/abort-controller.tgz
   '@rush-temp/agrifood-farming': file:./projects/agrifood-farming.tgz
   '@rush-temp/ai-anomaly-detector': file:./projects/ai-anomaly-detector.tgz
+  '@rush-temp/ai-anomaly-detector-1': file:./projects/ai-anomaly-detector-1.tgz
   '@rush-temp/ai-document-translator': file:./projects/ai-document-translator.tgz
   '@rush-temp/ai-form-recognizer': file:./projects/ai-form-recognizer.tgz
   '@rush-temp/ai-language-conversations': file:./projects/ai-language-conversations.tgz
@@ -325,6 +326,7 @@ dependencies:
   '@rush-temp/abort-controller': file:projects/abort-controller.tgz
   '@rush-temp/agrifood-farming': file:projects/agrifood-farming.tgz
   '@rush-temp/ai-anomaly-detector': file:projects/ai-anomaly-detector.tgz
+  '@rush-temp/ai-anomaly-detector-1': file:projects/ai-anomaly-detector-1.tgz
   '@rush-temp/ai-document-translator': file:projects/ai-document-translator.tgz
   '@rush-temp/ai-form-recognizer': file:projects/ai-form-recognizer.tgz
   '@rush-temp/ai-language-conversations': file:projects/ai-language-conversations.tgz
@@ -4123,7 +4125,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20221027
+      typescript: 4.9.0-dev.20221028
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -9196,8 +9198,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20221027:
-    resolution: {integrity: sha512-CIkuppg1AjXN2O+njxomS97BHqIMH+NqXXD661ViFdVvesx9YLsNjiATUlfIkeVtVyG0PGpzES8lmzIhoSaniA==}
+  /typescript/4.9.0-dev.20221028:
+    resolution: {integrity: sha512-JIdw2x8nITGBxIOtEs49PcKt/M1ghKPRsiWXfiEzD+GfwE/2pLCt6Z+jrww8OXGNZU+yh0oGWUvUz/qr0O0eUg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9841,9 +9843,9 @@ packages:
       - utf-8-validate
     dev: false
 
-  file:projects/ai-anomaly-detector.tgz:
-    resolution: {integrity: sha512-A9ojtvZrXb395G4EYirDrkSqvoAA/taaKEm9kqQ0S+AwjnPW/nXMM7LlAm34/VfYGIQUclhDJRtbdztYDNfNSA==, tarball: file:projects/ai-anomaly-detector.tgz}
-    name: '@rush-temp/ai-anomaly-detector'
+  file:projects/ai-anomaly-detector-1.tgz:
+    resolution: {integrity: sha512-wJZZrHKPNlK2z/PPVtHvPNUo4Uys9wPyPKBDmYNsNSKdjH1zsArRdN/x6PE/bH/XEesPkEtJVQ8q1c4QJcKLUQ==, tarball: file:projects/ai-anomaly-detector-1.tgz}
+    name: '@rush-temp/ai-anomaly-detector-1'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
@@ -9882,6 +9884,55 @@ packages:
       - bufferutil
       - debug
       - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/ai-anomaly-detector.tgz:
+    resolution: {integrity: sha512-+mr3yEj6NbyzRvFAXj7TSP8YPAcusW8BJ3s2b4aOgzZa6IDdOVA0C0nP2ZDzyOFK7fGFP/owU8n0lNGL7+hXZw==, tarball: file:projects/ai-anomaly-detector.tgz}
+    name: '@rush-temp/ai-anomaly-detector'
+    version: 0.0.0
+    dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.10
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.31.2
+      '@types/chai': 4.3.1
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.32
+      autorest: 3.6.2
+      chai: 4.3.6
+      cross-env: 7.0.3
+      csv-parse: 5.3.0
+      dotenv: 8.6.0
+      eslint: 8.20.0
+      inherits: 2.0.4
+      karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.0
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.0
+      karma-junit-reporter: 2.0.1_karma@6.4.0
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.0
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 2.2.1
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.4.0
+      typescript: 4.6.4
+      util: 0.12.4
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
       - supports-color
       - utf-8-validate
     dev: false
