@@ -53,6 +53,13 @@ export interface HubSendToAllOptions extends OperationOptions {
    * Connection ids to exclude from receiving this message.
    */
   excludedConnections?: string[];
+  /**
+   * The filter syntax to filter out the connections to send the messages to following OData filter syntax.
+   * Examples:
+   *  * Exclude connections from `user1` and `user2`: `userId ne 'user1' and userId ne 'user2'`
+   *  * Exclude connections in `group1`: `not('group1' in groups)`
+   */
+  filter?: string;
 }
 
 /**
@@ -135,7 +142,15 @@ export interface HubSendTextToConnectionOptions extends HubSendToConnectionOptio
 /**
  * Options for sending a message to a user.
  */
-export interface HubSendToUserOptions extends OperationOptions {}
+export interface HubSendToUserOptions extends OperationOptions {
+  /**
+   * The filter syntax to filter out the connections to send the messages to following OData filter syntax.
+   * Examples:
+   *  * Exclude connections in `group1`: `not('group1' in groups)`
+   *  * Send to connections in `group1` or `group2`: `'group1' in groups or `group2` in groups`
+   */
+  filter?: string;
+}
 
 /**
  * Options for sending a text message to a user.
@@ -204,6 +219,11 @@ export interface GenerateClientTokenOptions extends OperationOptions {
    * Minutes until the token expires.
    */
   expirationTimeInMinutes?: number;
+
+  /**
+   * The groups to join when the client connects
+   */
+  groups?: string[];
 }
 
 /**
@@ -239,7 +259,7 @@ export class WebPubSubServiceClient {
   /**
    * The Web PubSub API version being used by this client
    */
-  public readonly apiVersion: string = "2021-10-01";
+  public readonly apiVersion: string = "2022-11-01";
 
   /**
    * The Web PubSub endpoint this client is connected to
@@ -619,6 +639,28 @@ export class WebPubSubServiceClient {
   }
 
   /**
+   * Remove a specific connection from all groups they are joined to
+   * @param connectionId - The connection id to remove from all groups
+   * @param options - Additional options
+   */
+  public async removeConnectionFromAllGroups(
+    connectionId: string,
+    options: HubCloseConnectionOptions = {}
+  ): Promise<void> {
+    return tracingClient.withSpan(
+      "WebPubSubServiceClient.removeConnectionFromAllGroups",
+      options,
+      (updatedOptions) => {
+        return this.client.webPubSub.removeConnectionFromAllGroups(
+          this.hubName,
+          connectionId,
+          updatedOptions
+        );
+      }
+    );
+  }
+
+  /**
    * Check if a particular group exists (i.e. has active connections).
    *
    * @param groupName - The group name to check for
@@ -820,7 +862,7 @@ export class WebPubSubServiceClient {
         } else {
           const key = this.credential.key;
           const audience = `${endpoint}client/hubs/${this.hubName}`;
-          const payload = { role: options?.roles };
+          const payload = { role: options?.roles, "webpubsub.group": options?.groups };
           const signOptions: jwt.SignOptions = {
             audience: audience,
             expiresIn:
