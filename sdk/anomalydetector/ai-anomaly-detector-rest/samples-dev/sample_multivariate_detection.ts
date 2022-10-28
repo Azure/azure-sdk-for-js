@@ -23,7 +23,7 @@ dotenv.config();
 // You will need to set this environment variables or edit the following values
 const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
 const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
-
+const apiVersion = "v1.1";
 // const dataSource = "<your data source>";
 const dataSource =
   "https://mvaddataset.blob.core.windows.net/sample-multitable/sample_data_20_3000";
@@ -35,7 +35,7 @@ function sleep(time: number): Promise<NodeJS.Timer> {
 export async function main() {
   // create client
   const credential = new AzureKeyCredential(apiKey);
-  const client = AnomalyDetector(endpoint, credential);
+  const client = AnomalyDetector(endpoint, apiVersion, credential);
 
   // Already available models
   const options: ListMultivariateModelsParameters = {
