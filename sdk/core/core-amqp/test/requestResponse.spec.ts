@@ -103,6 +103,7 @@ describe("RequestResponseLink", function () {
           send: (request: any) => {
             req = request;
           },
+          on: () => { /* no_op */ },
         });
       },
       createReceiver: () => {
@@ -148,6 +149,9 @@ describe("RequestResponseLink", function () {
         return Promise.resolve({
           send: (request: RheaMessage) => {
             reqs.push(request);
+          },
+          on: () => {
+            /* no_op */
           },
         });
       },
@@ -216,6 +220,9 @@ describe("RequestResponseLink", function () {
           send: (request: RheaMessage) => {
             reqs.push(request);
           },
+          on: () => {
+            /* no_op */
+          },
         });
       },
       createReceiver: () => {
@@ -259,6 +266,9 @@ describe("RequestResponseLink", function () {
         return Promise.resolve({
           send: (request: RheaMessage) => {
             reqs.push(request);
+          },
+          on: () => {
+            /* no_op */
           },
         });
       },
@@ -341,6 +351,9 @@ describe("RequestResponseLink", function () {
             count++;
             messageId = request.message_id;
           },
+          on: () => {
+            /* no_op */
+          },
         });
       },
       createReceiver: () => {
@@ -419,6 +432,9 @@ describe("RequestResponseLink", function () {
           send: (request: any) => {
             req = request;
           },
+          on: () => {
+            /* no_op */
+          },
         });
       },
       createReceiver: () => {
@@ -478,6 +494,9 @@ describe("RequestResponseLink", function () {
         return Promise.resolve({
           send: (request: any) => {
             req = request;
+          },
+          on: () => {
+            /* no_op */
           },
         });
       },
@@ -549,6 +568,9 @@ describe("RequestResponseLink", function () {
         return Promise.resolve({
           send: (request: any) => {
             req = request;
+          },
+          on: () => {
+            /* no_op */
           },
         });
       },
@@ -627,6 +649,9 @@ describe("RequestResponseLink", function () {
             send: (request: any) => {
               req = request;
             },
+            on: () => {
+              /* no_op */
+            },
           });
         },
         createReceiver: () => {
@@ -681,6 +706,9 @@ describe("RequestResponseLink", function () {
             send: (request: any) => {
               req = request;
             },
+            on: () => {
+              /* no_op */
+            },
           });
         },
         createReceiver: () => {
@@ -730,6 +758,9 @@ describe("RequestResponseLink", function () {
               /* no op */
             },
             close: fake(),
+            on: () => {
+              /* no_op */
+            },
           });
         },
         createReceiver: () => {
