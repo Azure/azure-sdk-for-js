@@ -885,6 +885,8 @@ function deserializeCompositeType(
           propertyObjectName,
           options
         );
+      } else if (propertyMapper.xmlIsMsText && responseBody[XML_CHARKEY] !== undefined) {
+        instance[key] = responseBody[XML_CHARKEY];
       } else {
         const propertyName = xmlElementName || xmlName || serializedName;
         if (propertyMapper.xmlIsWrapped) {
@@ -1302,6 +1304,10 @@ export interface BaseMapper {
    * Determines if the current property should be serialized as an attribute of the parent xml element
    */
   xmlIsAttribute?: boolean;
+  /**
+   * Determines if the current property should be serialized as the inner content of the xml element
+   */
+  xmlIsMsText?: boolean;
   /**
    * Name for the xml elements when serializing an array
    */
