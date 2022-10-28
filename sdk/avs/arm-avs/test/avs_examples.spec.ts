@@ -90,7 +90,7 @@ describe("avs test", () => {
     for await (let item of client.privateClouds.listInSubscription()) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 3);
+    assert.equal(resArray.length, 3);//should be 1,but when testing this test there's 2 resources on portal
   });
 
   it.skip("privateClouds delete test", async function () {
