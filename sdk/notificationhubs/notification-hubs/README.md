@@ -57,7 +57,7 @@ import {
   createAppleInstallation 
 } from "@azure/notification-hubs";
 
-const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
+const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
 const installation = createAppleInstallation({
   installationId: "<installation-id>",
@@ -102,16 +102,16 @@ const result = await createOrUpdateInstallation(context, installation);
 
 ### Authenticate the client
 
-Interaction with an Azure Notification Hub starts with the `NotificationHubServiceClient` which supports [Shared Access Signature connection strings](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-security).  This includes the following permission levels: **Listen**, **Manage**, **Send**.
+Interaction with an Azure Notification Hub starts with the `NotificationHubsClient` which supports [Shared Access Signature connection strings](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-security).  This includes the following permission levels: **Listen**, **Manage**, **Send**.
 
 Listen allows for a client to register itself via the Registration and Installations API. Send allows for the client to send notifications to devices using the send APIs. Finally, Manage allows the user to do Registration and Installation management, such as queries.
 
-A new `NotificationHubServiceClient` client can be created using the constructor with the connection string and Notification Hub name.
+A new `NotificationHubsClient` client can be created using the constructor with the connection string and Notification Hub name.
 
 ```typescript
-import { NotificationHubServiceClient } from "@azure/notification-hubs";
+import { NotificationHubsClient } from "@azure/notification-hubs";
 
-const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
+const client = new NotificationHubsClient("<connection string>", "<hub name>");
 ```
 
 Using the modular approach, the `createClientContext` can be imported via the `"@azure/notification-hubs/client"` subpath.
@@ -145,10 +145,10 @@ Installations are a newer and native JSON approach to device management that con
 Installations can be created through the `createOrUpdateInstallation` method such as the following:
 
 ```typescript
-import { NotificationHubServiceClient, createAppleInstallation } from "@azure/notification-hubs";
+import { NotificationHubsClient, createAppleInstallation } from "@azure/notification-hubs";
 import { v4 as uuid } from "uuid";
 
-const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
+const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
 // Create an installation for APNs
 let installation = createAppleInstallation({
@@ -183,9 +183,9 @@ installation = await createOrUpdateInstallation(context, installation);
 An update to an installation can be made through the JSON Patch schema such as adding a tag and a user ID using the `updateInstallation` method.
 
 ```typescript
-import { NotificationHubServiceClient, JsonPatch } from "@azure/notification-hubs";
+import { NotificationHubsClient, JsonPatch } from "@azure/notification-hubs";
 
-const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
+const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
 const installationId = "<unique installation ID>";
 
@@ -219,9 +219,9 @@ const installation = await updateInstallation(context, installationId, updates);
 To retrieve an existing installation, use the `getInstallation` method with your existing unique installation ID.
 
 ```typescript
-import { NotificationHubServiceClient } from "@azure/notification-hubs";
+import { NotificationHubsClient } from "@azure/notification-hubs";
 
-const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
+const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
 const installationId = "<unique installation ID>";
 
@@ -249,11 +249,11 @@ An installation may be created in one of two ways, first by getting a registrati
 
 ```typescript
 import {
-  NotificationHubServiceClient,
+  NotificationHubsClient,
   createAppleRegistrationDescription,
 } from "@azure/notification-hubs";
 
-const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
+const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
 let registration = createAppleRegistrationDescription({
   deviceToken: "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0",
@@ -287,9 +287,9 @@ console.log(`New Registration ID: ${registration.registrationId}`);
 Updates can be done via the `updateRegistration` method but unlike installations, does not support incremental updates.  Querying for an existing registration can be done with the `getRegistration` method.
 
 ```typescript
-import { NotificationHubServiceClient } from "@azure/notification-hubs";
+import { NotificationHubsClient } from "@azure/notification-hubs";
 
-const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
+const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
 const registrationId = "<unique Registration ID>";
 
@@ -321,9 +321,9 @@ registration = await updateRegistration(context, registration);
 Registrations, unlike installations, can be queried to get all registrations, matching registrations to a condition, or by tags.  Registrations can be queried using the `listRegistrations` and `listRegistrationsByTag` method.  Both methods support limiting via the `top` option and support asynchronous paging.
 
 ```typescript
-import { NotificationHubServiceClient } from "@azure/notification-hubs/client";
+import { NotificationHubsClient } from "@azure/notification-hubs/client";
 
-const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
+const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
 const registrations = await client.listRegistrationsByTag("likes_hockey");
 
@@ -391,7 +391,7 @@ Notification Hubs can be used to send notifications to all registered devices pe
 
 ```typescript
 import { 
-  NotificationHubServiceClient,
+  NotificationHubsClient,
   createAppleNotification,
 } from "@azure/notification-hubs/client";
 
@@ -454,11 +454,11 @@ To send directly a device, the user can send using the platform provided unique 
 
 ```typescript
 import {
-  NotificationHubServiceClient,
+  NotificationHubsClient,
   createAppleNotification,
 } from "@azure/notification-hubs";
 
-const client = new NotificationHubServiceClient(connectionString, hubName);
+const client = new NotificationHubsClient(connectionString, hubName);
 
 const deviceHandle = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
@@ -537,11 +537,11 @@ Tag expression messages can be sent using the following code:
 
 ```typescript
 import {
-  NotificationHubServiceClient,
+  NotificationHubsClient,
   createAppleNotification,
 } from "@azure/notification-hubs";
 
-const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
+const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
 const tagExpression = "likes_hockey && likes_football";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
@@ -602,11 +602,11 @@ Push notifications can be scheduled up to seven days in advance with Standard SK
 
 ```typescript
 import {
-  NotificationHubServiceClient,
+  NotificationHubsClient,
   createAppleNotification,
 } from "@azure/notification-hubs";
 
-const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
+const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
 const tagExpression = "likes_hockey && likes_football";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;

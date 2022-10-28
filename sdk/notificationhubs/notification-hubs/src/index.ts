@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { NotificationHubsServiceClient } from "./notificationHubsClient.js";
+export { NotificationHubsClient } from "./notificationHubsClient.js";
 export * from "./models/installation.js";
 export * from "./models/notification.js";
 export * from "./models/notificationBuilder.js";

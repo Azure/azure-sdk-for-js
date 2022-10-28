@@ -49,7 +49,7 @@ import { updateRegistration as updateRegistrationMethod } from "./client/updateR
  * This represents a client for Azure Notification Hubs to manage installations and send
  * messages to devices.
  */
-export class NotificationHubsServiceClient {
+export class NotificationHubsClient {
   private _client: NotificationHubsClientContext;
 
   /**

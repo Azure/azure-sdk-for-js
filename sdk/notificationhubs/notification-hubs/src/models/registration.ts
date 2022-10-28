@@ -50,9 +50,9 @@ export interface RegistrationDescriptionCommon {
   pushVariables?: Record<string, string>;
 
   /**
-   * The type of the registration.
+   * The kind of the registration.
    */
-  type: RegistrationType;
+  kind: RegistrationType;
 }
 
 /**
@@ -80,9 +80,9 @@ export interface AdmRegistrationDescription extends RegistrationDescriptionCommo
   admRegistrationId: string;
 
   /**
-   * The type of the registration.
+   * The kind of the registration.
    */
-  type: "Adm";
+  kind: "Adm";
 }
 
 /**
@@ -91,11 +91,11 @@ export interface AdmRegistrationDescription extends RegistrationDescriptionCommo
  * @returns A created ADM registration description.
  */
 export function createAdmRegistrationDescription(
-  description: Omit<AdmRegistrationDescription, "type">
+  description: Omit<AdmRegistrationDescription, "kind">
 ): AdmRegistrationDescription {
   return {
     ...description,
-    type: "Adm",
+    kind: "Adm",
   };
 }
 
@@ -103,12 +103,12 @@ export function createAdmRegistrationDescription(
  * Represents the description of the Amazon Device Messaging (ADM) template registration.
  */
 export interface AdmTemplateRegistrationDescription
-  extends Omit<AdmRegistrationDescription, "type">,
+  extends Omit<AdmRegistrationDescription, "kind">,
     TemplateRegistrationDescription {
   /**
-   * The type of the registration.
+   * The kind of the registration.
    */
-  type: "AdmTemplate";
+  kind: "AdmTemplate";
 }
 
 /**
@@ -117,11 +117,11 @@ export interface AdmTemplateRegistrationDescription
  * @returns A created ADM template registration description.
  */
 export function createAdmTemplateRegistrationDescription(
-  description: Omit<AdmTemplateRegistrationDescription, "type">
+  description: Omit<AdmTemplateRegistrationDescription, "kind">
 ): AdmTemplateRegistrationDescription {
   return {
     ...description,
-    type: "AdmTemplate",
+    kind: "AdmTemplate",
   };
 }
 
@@ -135,9 +135,9 @@ export interface AppleRegistrationDescription extends RegistrationDescriptionCom
   deviceToken: string;
 
   /**
-   * The type of the registration.
+   * The kind of the registration.
    */
-  type: "Apple";
+  kind: "Apple";
 }
 
 /**
@@ -146,11 +146,11 @@ export interface AppleRegistrationDescription extends RegistrationDescriptionCom
  * @returns A created Apple registration description.
  */
 export function createAppleRegistrationDescription(
-  description: Omit<AppleRegistrationDescription, "type">
+  description: Omit<AppleRegistrationDescription, "kind">
 ): AppleRegistrationDescription {
   return {
     ...description,
-    type: "Apple",
+    kind: "Apple",
   };
 }
 
@@ -163,7 +163,7 @@ export type ApplePriority = "10" | "5";
  * Represents the description of the Apple template registration.
  */
 export interface AppleTemplateRegistrationDescription
-  extends Omit<AppleRegistrationDescription, "type">,
+  extends Omit<AppleRegistrationDescription, "kind">,
     TemplateRegistrationDescription {
   /**
    * The expiry date.
@@ -181,9 +181,9 @@ export interface AppleTemplateRegistrationDescription
   apnsHeaders?: Record<string, string>;
 
   /**
-   * The type of the registration.
+   * The kind of the registration.
    */
-  type: "AppleTemplate";
+  kind: "AppleTemplate";
 }
 
 /**
@@ -192,11 +192,11 @@ export interface AppleTemplateRegistrationDescription
  * @returns A created Apple template registration description.
  */
 export function createAppleTemplateRegistrationDescription(
-  description: Omit<AppleTemplateRegistrationDescription, "type">
+  description: Omit<AppleTemplateRegistrationDescription, "kind">
 ): AppleTemplateRegistrationDescription {
   return {
     ...description,
-    type: "AppleTemplate",
+    kind: "AppleTemplate",
   };
 }
 
@@ -215,9 +215,9 @@ export interface BaiduRegistrationDescription extends RegistrationDescriptionCom
   baiduChannelId: string;
 
   /**
-   * The type of the registration.
+   * The kind of the registration.
    */
-  type: "Baidu";
+  kind: "Baidu";
 }
 
 /**
@@ -226,11 +226,11 @@ export interface BaiduRegistrationDescription extends RegistrationDescriptionCom
  * @returns A created Baidu registration description.
  */
 export function createBaiduRegistrationDescription(
-  description: Omit<BaiduRegistrationDescription, "type">
+  description: Omit<BaiduRegistrationDescription, "kind">
 ): BaiduRegistrationDescription {
   return {
     ...description,
-    type: "Baidu",
+    kind: "Baidu",
   };
 }
 
@@ -238,12 +238,12 @@ export function createBaiduRegistrationDescription(
  * Represents a Baidu template registration description.
  */
 export interface BaiduTemplateRegistrationDescription
-  extends Omit<BaiduRegistrationDescription, "type">,
+  extends Omit<BaiduRegistrationDescription, "kind">,
     TemplateRegistrationDescription {
   /**
-   * The type of the registration.
+   * The kind of the registration.
    */
-  type: "BaiduTemplate";
+  kind: "BaiduTemplate";
 }
 
 /**
@@ -252,11 +252,11 @@ export interface BaiduTemplateRegistrationDescription
  * @returns A created Baidu template registration description.
  */
 export function createBaiduTemplateRegistrationDescription(
-  description: Omit<BaiduTemplateRegistrationDescription, "type">
+  description: Omit<BaiduTemplateRegistrationDescription, "kind">
 ): BaiduTemplateRegistrationDescription {
   return {
     ...description,
-    type: "BaiduTemplate",
+    kind: "BaiduTemplate",
   };
 }
 
@@ -280,9 +280,9 @@ export interface BrowserRegistrationDescription extends RegistrationDescriptionC
   auth: string;
 
   /**
-   * The type of the registration.
+   * The kind of the registration.
    */
-  type: "Browser";
+  kind: "Browser";
 }
 
 /**
@@ -291,11 +291,11 @@ export interface BrowserRegistrationDescription extends RegistrationDescriptionC
  * @returns A created Web Push registration description.
  */
 export function createBrowserRegistrationDescription(
-  description: Omit<BrowserRegistrationDescription, "type">
+  description: Omit<BrowserRegistrationDescription, "kind">
 ): BrowserRegistrationDescription {
   return {
     ...description,
-    type: "Browser",
+    kind: "Browser",
   };
 }
 
@@ -303,12 +303,12 @@ export function createBrowserRegistrationDescription(
  * Represents a Browser Push remplate registration description.
  */
 export interface BrowserTemplateRegistrationDescription
-  extends Omit<BrowserRegistrationDescription, "type">,
+  extends Omit<BrowserRegistrationDescription, "kind">,
     TemplateRegistrationDescription {
   /**
-   * The type of the registration.
+   * The kind of the registration.
    */
-  type: "BrowserTemplate";
+  kind: "BrowserTemplate";
 }
 
 /**
@@ -317,11 +317,11 @@ export interface BrowserTemplateRegistrationDescription
  * @returns A created Web Push template registration description.
  */
 export function createBrowserTemplateRegistrationDescription(
-  description: Omit<BrowserTemplateRegistrationDescription, "type">
+  description: Omit<BrowserTemplateRegistrationDescription, "kind">
 ): BrowserTemplateRegistrationDescription {
   return {
     ...description,
-    type: "BrowserTemplate",
+    kind: "BrowserTemplate",
   };
 }
 
@@ -335,9 +335,9 @@ export interface GcmRegistrationDescription extends RegistrationDescriptionCommo
   gcmRegistrationId: string;
 
   /**
-   * The type of the registration.
+   * The kind of the registration.
    */
-  type: "Gcm";
+  kind: "Gcm";
 }
 
 /**
@@ -346,11 +346,11 @@ export interface GcmRegistrationDescription extends RegistrationDescriptionCommo
  * @returns A created GCM registration description.
  */
 export function createFcmLegacyRegistrationDescription(
-  description: Omit<GcmRegistrationDescription, "type">
+  description: Omit<GcmRegistrationDescription, "kind">
 ): GcmRegistrationDescription {
   return {
     ...description,
-    type: "Gcm",
+    kind: "Gcm",
   };
 }
 
@@ -358,12 +358,12 @@ export function createFcmLegacyRegistrationDescription(
  * Represents Notification Hub template registration description for Firebase Legacy Cloud Messaging.
  */
 export interface GcmTemplateRegistrationDescription
-  extends Omit<GcmRegistrationDescription, "type">,
+  extends Omit<GcmRegistrationDescription, "kind">,
     TemplateRegistrationDescription {
   /**
-   * The type of the registration.
+   * The kind of the registration.
    */
-  type: "GcmTemplate";
+  kind: "GcmTemplate";
 }
 
 /**
@@ -372,11 +372,11 @@ export interface GcmTemplateRegistrationDescription
  * @returns A created GCM template registration description.
  */
 export function createFcmLegacyTemplateRegistrationDescription(
-  description: Omit<GcmTemplateRegistrationDescription, "type">
+  description: Omit<GcmTemplateRegistrationDescription, "kind">
 ): GcmTemplateRegistrationDescription {
   return {
     ...description,
-    type: "GcmTemplate",
+    kind: "GcmTemplate",
   };
 }
 
@@ -391,9 +391,9 @@ export interface MpnsRegistrationDescription extends RegistrationDescriptionComm
   channelUri: string;
 
   /**
-   * The type of the registration.
+   * The kind of the registration.
    */
-  type: "Mpns";
+  kind: "Mpns";
 }
 
 /**
@@ -401,7 +401,7 @@ export interface MpnsRegistrationDescription extends RegistrationDescriptionComm
  * @deprecated Windows Phone is no longer supported.
  */
 export interface MpnsTemplateRegistrationDescription
-  extends Omit<MpnsRegistrationDescription, "type">,
+  extends Omit<MpnsRegistrationDescription, "kind">,
     TemplateRegistrationDescription {
   /**
    * The WNS headers.
@@ -409,9 +409,9 @@ export interface MpnsTemplateRegistrationDescription
   mpnsHeaders?: Record<string, string>;
 
   /**
-   * The type of the registration.
+   * The kind of the registration.
    */
-  type: "MpnsTemplate";
+  kind: "MpnsTemplate";
 }
 
 /**
@@ -424,9 +424,9 @@ export interface WindowsRegistrationDescription extends RegistrationDescriptionC
   channelUri: string;
 
   /**
-   * The type of the registration.
+   * The kind of the registration.
    */
-  type: "Windows";
+  kind: "Windows";
 }
 
 /**
@@ -435,11 +435,11 @@ export interface WindowsRegistrationDescription extends RegistrationDescriptionC
  * @returns A created Windows registration description.
  */
 export function createWindowsRegistrationDescription(
-  description: Omit<WindowsRegistrationDescription, "type">
+  description: Omit<WindowsRegistrationDescription, "kind">
 ): WindowsRegistrationDescription {
   return {
     ...description,
-    type: "Windows",
+    kind: "Windows",
   };
 }
 
@@ -447,7 +447,7 @@ export function createWindowsRegistrationDescription(
  * Represents a Windows Notification Services (WNS) template registration.
  */
 export interface WindowsTemplateRegistrationDescription
-  extends Omit<WindowsRegistrationDescription, "type">,
+  extends Omit<WindowsRegistrationDescription, "kind">,
     TemplateRegistrationDescription {
   /**
    * The WNS headers.
@@ -455,9 +455,9 @@ export interface WindowsTemplateRegistrationDescription
   wnsHeaders?: Record<string, string>;
 
   /**
-   * The type of the registration.
+   * The kind of the registration.
    */
-  type: "WindowsTemplate";
+  kind: "WindowsTemplate";
 }
 
 /**
@@ -466,11 +466,11 @@ export interface WindowsTemplateRegistrationDescription
  * @returns A created Windows template registration description.
  */
 export function createWindowsTemplateRegistrationDescription(
-  description: Omit<WindowsTemplateRegistrationDescription, "type">
+  description: Omit<WindowsTemplateRegistrationDescription, "kind">
 ): WindowsTemplateRegistrationDescription {
   return {
     ...description,
-    type: "WindowsTemplate",
+    kind: "WindowsTemplate",
   };
 }
 
