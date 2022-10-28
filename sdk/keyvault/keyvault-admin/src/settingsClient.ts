@@ -87,12 +87,12 @@ export class KeyVaultSettingsClient {
    * @param value - the value of the pool setting.
    * @param options - the optional parameters.
    */
-  async createOrUpdateSetting(
+  createOrUpdateSetting(
     settingName: string,
     value: string,
     options: CreateOrUpdateSettingOptions
   ): Promise<KeyVaultSetting> {
-    return await this.client.createOrUpdateSetting(this.vaultUrl, settingName, value, options);
+    return this.client.createOrUpdateSetting(this.vaultUrl, settingName, value, options);
   }
 
   /**
@@ -101,8 +101,8 @@ export class KeyVaultSettingsClient {
    * @param settingName - the name of the setting.
    * @param options - the optional parameters.
    */
-  async getSetting(settingName: string, options: GetSettingOptions): Promise<KeyVaultSetting> {
-    return await this.client.getSetting(this.vaultUrl, settingName, options);
+  getSetting(settingName: string, options: GetSettingOptions): Promise<KeyVaultSetting> {
+    return this.client.getSetting(this.vaultUrl, settingName, options);
   }
 
   /**
