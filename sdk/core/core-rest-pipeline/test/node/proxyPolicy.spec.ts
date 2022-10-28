@@ -2,19 +2,19 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as sinon from "sinon";
+import sinon from "sinon";
 import {
   ProxySettings,
   SendRequest,
   createPipelineRequest,
   getDefaultProxySettings,
   proxyPolicy,
-} from "../../src";
+} from "../../src/index.js";
 import {
   getProxyAgentOptions,
   globalNoProxyList,
   loadNoProxy,
-} from "../../src/policies/proxyPolicy";
+} from "../../src/policies/proxyPolicy.js";
 
 describe("proxyPolicy (node)", function () {
   it("Sets proxy settings on the request", function () {

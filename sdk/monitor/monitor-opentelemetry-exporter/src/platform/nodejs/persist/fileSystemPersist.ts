@@ -25,7 +25,7 @@ export class FileSystemPersist implements PersistentStorage {
   static TEMPDIR_PREFIX = "ot-azure-exporter-";
   static FILENAME_SUFFIX = ".ai.json";
 
-  fileRetemptionPeriod = 7 * 24 * 60 * 60 * 1000; // 7 days
+  fileRetemptionPeriod = 2 * 24 * 60 * 60 * 1000; // 2 days
   cleanupTimeOut = 60 * 60 * 1000; // 1 hour
   maxBytesOnDisk: number = 50_000_000; // ~50MB
 

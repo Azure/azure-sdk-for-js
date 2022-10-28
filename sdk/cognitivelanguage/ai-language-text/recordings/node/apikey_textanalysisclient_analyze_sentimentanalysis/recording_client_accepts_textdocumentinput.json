@@ -10,8 +10,8 @@
         "Content-Length": "770",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "5a6f577a-346d-48f9-8e08-e3bdeac37c22"
+        "User-Agent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "cf0c2613-cde2-4230-861d-4a77c3309304"
       },
       "RequestBody": {
         "kind": "SentimentAnalysis",
@@ -53,15 +53,16 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "a669a469-76b0-475c-a205-f7b5d937d147",
+        "apim-request-id": "73f89bd8-74e0-486b-a25e-c0d63557b08a",
         "Content-Length": "2343",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=6,CognitiveServices.TextAnalytics.TextRecords=6",
-        "Date": "Sat, 15 Oct 2022 02:20:42 GMT",
+        "Date": "Mon, 24 Oct 2022 05:11:40 GMT",
         "Set-Cookie": ".AspNetCore.Mvc.CookieTempDataProvider=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; samesite=lax; httponly",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "34"
+        "x-envoy-upstream-service-time": "37",
+        "x-ms-region": "West US 2"
       },
       "ResponseBody": {
         "kind": "SentimentAnalysisResults",

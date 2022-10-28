@@ -13,8 +13,8 @@ import {
   CertificatesListOptionalParams,
   CertificatesGetOptionalParams,
   CertificatesGetResponse,
-  CertificatesCreateOptionalParams,
-  CertificatesCreateResponse,
+  CertificatesCreateOrUpdateOptionalParams,
+  CertificatesCreateOrUpdateResponse,
   CertificatesDeleteOptionalParams
 } from "../models";
 
@@ -52,15 +52,15 @@ export interface Certificates {
    * @param certificateName The name of certificate
    * @param options The options parameters.
    */
-  beginCreate(
+  beginCreateOrUpdate(
     resourceGroupName: string,
     deploymentName: string,
     certificateName: string,
-    options?: CertificatesCreateOptionalParams
+    options?: CertificatesCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<CertificatesCreateResponse>,
-      CertificatesCreateResponse
+      PollOperationState<CertificatesCreateOrUpdateResponse>,
+      CertificatesCreateOrUpdateResponse
     >
   >;
   /**
@@ -70,12 +70,12 @@ export interface Certificates {
    * @param certificateName The name of certificate
    * @param options The options parameters.
    */
-  beginCreateAndWait(
+  beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     deploymentName: string,
     certificateName: string,
-    options?: CertificatesCreateOptionalParams
-  ): Promise<CertificatesCreateResponse>;
+    options?: CertificatesCreateOrUpdateOptionalParams
+  ): Promise<CertificatesCreateOrUpdateResponse>;
   /**
    * Deletes a certificate from the nginx deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
