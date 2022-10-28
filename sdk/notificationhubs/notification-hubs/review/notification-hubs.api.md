@@ -458,13 +458,13 @@ export interface NotificationCommon {
 
 // @public
 export interface NotificationDetails {
-    admOutcomeCounts?: NotificationOutcomeCollectionItem[];
-    apnsOutcomeCounts?: NotificationOutcomeCollectionItem[];
-    baiduOutcomeCounts?: NotificationOutcomeCollectionItem[];
-    browserOutcomeCounts?: NotificationOutcomeCollectionItem[];
+    admOutcomeCounts?: NotificationOutcome[];
+    apnsOutcomeCounts?: NotificationOutcome[];
+    baiduOutcomeCounts?: NotificationOutcome[];
+    browserOutcomeCounts?: NotificationOutcome[];
     endTime?: Date;
     enqueueTime?: Date;
-    fcmOutcomeCounts?: NotificationOutcomeCollectionItem[];
+    fcmOutcomeCounts?: NotificationOutcome[];
     location?: string;
     notificationBody?: string;
     notificationId?: string;
@@ -473,7 +473,7 @@ export interface NotificationDetails {
     state?: NotificationOutcomeState;
     tags?: string;
     targetPlatforms?: string;
-    wnsOutcomeCounts?: NotificationOutcomeCollectionItem[];
+    wnsOutcomeCounts?: NotificationOutcome[];
 }
 
 // @public
@@ -587,7 +587,7 @@ export interface NotificationHubsResponse {
 }
 
 // @public
-export interface NotificationOutcomeCollectionItem {
+export interface NotificationOutcome {
     count: number;
     state: string;
 }
