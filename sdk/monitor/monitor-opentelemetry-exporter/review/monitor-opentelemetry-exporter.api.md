@@ -35,7 +35,7 @@ export class ApplicationInsightsSampler implements Sampler {
 
 // @public
 export abstract class AzureMonitorBaseExporter {
-    constructor(options?: AzureMonitorExporterOptions);
+    constructor(options?: AzureMonitorExporterOptions, isStatsbeatExporter?: boolean);
     protected _exportEnvelopes(envelopes: TelemetryItem[]): Promise<ExportResult>;
     protected _instrumentationKey: string;
     protected _shutdown(): Promise<void>;
@@ -56,6 +56,14 @@ export class AzureMonitorMetricExporter extends AzureMonitorBaseExporter impleme
     export(metrics: ResourceMetrics, resultCallback: (result: ExportResult) => void): Promise<void>;
     forceFlush(): Promise<void>;
     selectAggregationTemporality(_instrumentType: InstrumentType): AggregationTemporality;
+    shutdown(): Promise<void>;
+}
+
+// @internal
+export class _AzureMonitorStatsbeatExporter extends AzureMonitorBaseExporter implements PushMetricExporter {
+    constructor(options: AzureMonitorExporterOptions);
+    export(metrics: ResourceMetrics, resultCallback: (result: ExportResult) => void): Promise<void>;
+    forceFlush(): Promise<void>;
     shutdown(): Promise<void>;
 }
 

@@ -33,11 +33,22 @@ function createPropertiesFromMetricAttributes(attributes?: MetricAttributes): {
  * Metric to Azure envelope parsing.
  * @internal
  */
-export function resourceMetricsToEnvelope(metrics: ResourceMetrics, ikey: string): Envelope[] {
+export function resourceMetricsToEnvelope(
+  metrics: ResourceMetrics,
+  ikey: string,
+  isStatsbeat?: boolean
+): Envelope[] {
   let envelopes: Envelope[] = [];
   const time = new Date();
   const instrumentationKey = ikey;
   const tags = createTagsFromResource(metrics.resource);
+  let envelopeName: string;
+
+  if (isStatsbeat) {
+    envelopeName = "Microsoft.ApplicationInsights.Statsbeat";
+  } else {
+    envelopeName = "Microsoft.ApplicationInsights.Metric";
+  }
 
   metrics.scopeMetrics.forEach((scopeMetric) => {
     scopeMetric.metrics.forEach((metric) => {
@@ -76,7 +87,7 @@ export function resourceMetricsToEnvelope(metrics: ResourceMetrics, ikey: string
         }
         baseData.metrics.push(metricDataPoint);
         let envelope: Envelope = {
-          name: "Microsoft.ApplicationInsights.Metric",
+          name: envelopeName,
           time: time,
           sampleRate: 100, // Metrics are never sampled
           instrumentationKey: instrumentationKey,
