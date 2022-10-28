@@ -90,7 +90,7 @@ describe("avs test", () => {
     for await (let item of client.privateClouds.listInSubscription()) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 1);
+    assert.equal(resArray.length, 2);
   });
 
   it.skip("privateClouds delete test", async function () {
