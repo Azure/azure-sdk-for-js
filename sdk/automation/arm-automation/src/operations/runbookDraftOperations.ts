@@ -17,11 +17,9 @@ import {
   RunbookDraftGetContentOptionalParams,
   RunbookDraftGetContentResponse,
   RunbookDraftReplaceContentOptionalParams,
-  RunbookDraftReplaceContentResponse,
   RunbookDraftGetOptionalParams,
   RunbookDraftGetResponse,
-  RunbookDraftUndoEditOptionalParams,
-  RunbookDraftUndoEditResponse
+  RunbookDraftUndoEditOptionalParams
 } from "../models";
 
 /** Class containing RunbookDraftOperations operations. */
@@ -60,7 +58,7 @@ export class RunbookDraftOperationsImpl implements RunbookDraftOperations {
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param runbookName The runbook name.
-   * @param runbookContent The runbook draft content.
+   * @param runbookContent The runbook draft content.
    * @param options The options parameters.
    */
   async beginReplaceContent(
@@ -69,16 +67,11 @@ export class RunbookDraftOperationsImpl implements RunbookDraftOperations {
     runbookName: string,
     runbookContent: string,
     options?: RunbookDraftReplaceContentOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<RunbookDraftReplaceContentResponse>,
-      RunbookDraftReplaceContentResponse
-    >
-  > {
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<RunbookDraftReplaceContentResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -127,7 +120,8 @@ export class RunbookDraftOperationsImpl implements RunbookDraftOperations {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -138,7 +132,7 @@ export class RunbookDraftOperationsImpl implements RunbookDraftOperations {
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param runbookName The runbook name.
-   * @param runbookContent The runbook draft content.
+   * @param runbookContent The runbook draft content.
    * @param options The options parameters.
    */
   async beginReplaceContentAndWait(
@@ -147,7 +141,7 @@ export class RunbookDraftOperationsImpl implements RunbookDraftOperations {
     runbookName: string,
     runbookContent: string,
     options?: RunbookDraftReplaceContentOptionalParams
-  ): Promise<RunbookDraftReplaceContentResponse> {
+  ): Promise<void> {
     const poller = await this.beginReplaceContent(
       resourceGroupName,
       automationAccountName,
@@ -189,7 +183,7 @@ export class RunbookDraftOperationsImpl implements RunbookDraftOperations {
     automationAccountName: string,
     runbookName: string,
     options?: RunbookDraftUndoEditOptionalParams
-  ): Promise<RunbookDraftUndoEditResponse> {
+  ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, runbookName, options },
       undoEditOperationSpec
@@ -209,7 +203,7 @@ const getContentOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -225,24 +219,16 @@ const replaceContentOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/content",
   httpMethod: "PUT",
   responses: {
-    200: {
-      bodyMapper: { type: { name: "Stream" }, serializedName: "parsedResponse" }
-    },
-    201: {
-      bodyMapper: { type: { name: "Stream" }, serializedName: "parsedResponse" }
-    },
-    202: {
-      bodyMapper: { type: { name: "Stream" }, serializedName: "parsedResponse" }
-    },
-    204: {
-      bodyMapper: { type: { name: "Stream" }, serializedName: "parsedResponse" }
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.runbookContent,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -266,7 +252,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -282,14 +268,12 @@ const undoEditOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/undoEdit",
   httpMethod: "POST",
   responses: {
-    200: {
-      bodyMapper: Mappers.RunbookDraftUndoEditResult
-    },
+    200: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

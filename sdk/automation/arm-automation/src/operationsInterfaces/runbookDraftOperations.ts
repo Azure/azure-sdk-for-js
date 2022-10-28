@@ -11,11 +11,9 @@ import {
   RunbookDraftGetContentOptionalParams,
   RunbookDraftGetContentResponse,
   RunbookDraftReplaceContentOptionalParams,
-  RunbookDraftReplaceContentResponse,
   RunbookDraftGetOptionalParams,
   RunbookDraftGetResponse,
-  RunbookDraftUndoEditOptionalParams,
-  RunbookDraftUndoEditResponse
+  RunbookDraftUndoEditOptionalParams
 } from "../models";
 
 /** Interface representing a RunbookDraftOperations. */
@@ -38,7 +36,7 @@ export interface RunbookDraftOperations {
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param runbookName The runbook name.
-   * @param runbookContent The runbook draft content.
+   * @param runbookContent The runbook draft content.
    * @param options The options parameters.
    */
   beginReplaceContent(
@@ -47,18 +45,13 @@ export interface RunbookDraftOperations {
     runbookName: string,
     runbookContent: string,
     options?: RunbookDraftReplaceContentOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<RunbookDraftReplaceContentResponse>,
-      RunbookDraftReplaceContentResponse
-    >
-  >;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Replaces the runbook draft content.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param runbookName The runbook name.
-   * @param runbookContent The runbook draft content.
+   * @param runbookContent The runbook draft content.
    * @param options The options parameters.
    */
   beginReplaceContentAndWait(
@@ -67,7 +60,7 @@ export interface RunbookDraftOperations {
     runbookName: string,
     runbookContent: string,
     options?: RunbookDraftReplaceContentOptionalParams
-  ): Promise<RunbookDraftReplaceContentResponse>;
+  ): Promise<void>;
   /**
    * Retrieve the runbook draft identified by runbook name.
    * @param resourceGroupName Name of an Azure Resource group.
@@ -93,5 +86,5 @@ export interface RunbookDraftOperations {
     automationAccountName: string,
     runbookName: string,
     options?: RunbookDraftUndoEditOptionalParams
-  ): Promise<RunbookDraftUndoEditResponse>;
+  ): Promise<void>;
 }

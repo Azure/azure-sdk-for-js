@@ -87,7 +87,7 @@ const getByIdOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -112,7 +112,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.filter,
-    Parameters.apiVersion2,
+    Parameters.apiVersion4,
     Parameters.skip1,
     Parameters.top1
   ],

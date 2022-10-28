@@ -292,8 +292,8 @@ const listByNodeNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.nextLink,
-    Parameters.nodeId
+    Parameters.nodeId,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
