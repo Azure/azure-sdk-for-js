@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createMultipartDirectNotification } from "../../../src/utils/notificationUtils.js";
 import { assert } from "@azure/test-utils";
 import { createAppleNotification } from "../../../src/models/notification.js";
+import { createMultipartDirectNotification } from "../../../src/utils/notificationUtils.js";
 
 describe("notificationUtils", () => {
   describe("createMultipartDirectNotification", () => {

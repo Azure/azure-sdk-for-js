@@ -3,8 +3,8 @@
 
 import { assert } from "@azure/test-utils";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
-import { createClientContext } from "@azure/notification-hubs/client";
-import { sendNotification } from "@azure/notification-hubs/client/sendNotification";
+import { createClientContext } from "../../types/src/api/index.js";
+import { sendNotification } from "../../types/src/api/sendNotification.js";
 
 // Load the .env file if it exists
 // eslint-disable-next-line sort-imports

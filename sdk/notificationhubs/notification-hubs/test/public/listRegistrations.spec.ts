@@ -5,14 +5,11 @@ import {
   AppleRegistrationDescription,
   createAppleRegistrationDescription,
 } from "@azure/notification-hubs/models/registration";
-import {
-  NotificationHubsClientContext,
-  createClientContext,
-} from "@azure/notification-hubs/client";
+import { NotificationHubsClientContext, createClientContext } from "../../types/src/api/index.js";
 import { assert } from "@azure/test-utils";
-import { createRegistration } from "@azure/notification-hubs/client/createRegistration";
-import { deleteRegistration } from "@azure/notification-hubs/client/deleteRegistration";
-import { listRegistrations } from "@azure/notification-hubs/client/listRegistrations";
+import { createRegistration } from "../../types/src/api/createRegistration.js";
+import { deleteRegistration } from "../../types/src/api/deleteRegistration.js";
+import { listRegistrations } from "../../types/src/api/listRegistrations.js";
 
 // Load the .env file if it exists
 // eslint-disable-next-line sort-imports

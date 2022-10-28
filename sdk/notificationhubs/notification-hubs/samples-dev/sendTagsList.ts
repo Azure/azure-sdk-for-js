@@ -18,17 +18,17 @@ import * as dotenv from "dotenv";
 import {
   NotificationDetails,
   NotificationOutcomeState,
-} from "@azure/notification-hubs/models/notificationDetails";
+  createAppleNotification,
+  createTagExpression,
+} from "@azure/notification-hubs/models";
 import {
   NotificationHubsClientContext,
   createClientContext,
-} from "@azure/notification-hubs/client";
-import { createAppleNotification } from "@azure/notification-hubs/models/notification";
-import { createTagExpression } from "@azure/notification-hubs/models/tagExpressionBuilder";
+  getNotificationOutcomeDetails,
+  sendNotification,
+} from "@azure/notification-hubs/api";
 import { delay } from "@azure/core-util";
-import { getNotificationOutcomeDetails } from "@azure/notification-hubs/client/getNotificationOutcomeDetails";
 import { isRestError } from "@azure/core-rest-pipeline";
-import { sendNotification } from "@azure/notification-hubs/client/sendNotification";
 
 // Load the .env file if it exists
 dotenv.config();

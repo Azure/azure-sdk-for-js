@@ -4,11 +4,11 @@
 import {
   NotificationHubsClientContext,
   createClientContext,
-} from "@azure/notification-hubs/client";
+  createOrUpdateInstallation,
+  deleteInstallation,
+} from "../../src/api/index.js";
 import { assert } from "@azure/test-utils";
-import { createAppleInstallation } from "@azure/notification-hubs/models/installation";
-import { createOrUpdateInstallation } from "@azure/notification-hubs/client/createOrUpdateInstallation";
-import { deleteInstallation } from "@azure/notification-hubs/client/deleteInstallation";
+import { createAppleInstallation } from "../../src/models/index.js";
 import { v4 as uuid } from "uuid";
 
 // Load the .env file if it exists

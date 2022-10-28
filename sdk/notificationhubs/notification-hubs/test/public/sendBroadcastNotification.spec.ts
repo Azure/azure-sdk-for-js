@@ -5,8 +5,8 @@ import * as dotenv from "dotenv";
 import { SendNotificationOptions } from "../../src/models/options.js";
 import { assert } from "@azure/test-utils";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
-import { createClientContext } from "@azure/notification-hubs/client";
-import { sendNotification } from "../../src/client/sendNotification.js";
+import { createClientContext } from "../../types/src/api/index.js";
+import { sendNotification } from "../../src/api/sendNotification.js";
 
 // Load the .env file if it exists
 dotenv.config();
