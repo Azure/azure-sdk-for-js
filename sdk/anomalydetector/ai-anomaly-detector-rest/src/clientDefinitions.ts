@@ -11,7 +11,7 @@ import {
   DeleteMultivariateModelParameters,
   GetMultivariateModelParameters,
   DetectMultivariateBatchAnomalyParameters,
-  DetectMultivariateLastAnomalyParameters,
+  DetectMultivariateLastAnomalyParameters
 } from "./parameters";
 import {
   DetectUnivariateEntireSeries200Response,
@@ -33,7 +33,7 @@ import {
   DetectMultivariateBatchAnomaly202Response,
   DetectMultivariateBatchAnomalyDefaultResponse,
   DetectMultivariateLastAnomaly200Response,
-  DetectMultivariateLastAnomalyDefaultResponse,
+  DetectMultivariateLastAnomalyDefaultResponse
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -42,7 +42,8 @@ export interface DetectUnivariateEntireSeries {
   post(
     options: DetectUnivariateEntireSeriesParameters
   ): StreamableMethod<
-    DetectUnivariateEntireSeries200Response | DetectUnivariateEntireSeriesDefaultResponse
+    | DetectUnivariateEntireSeries200Response
+    | DetectUnivariateEntireSeriesDefaultResponse
   >;
 }
 
@@ -51,7 +52,8 @@ export interface DetectUnivariateLastPoint {
   post(
     options: DetectUnivariateLastPointParameters
   ): StreamableMethod<
-    DetectUnivariateLastPoint200Response | DetectUnivariateLastPointDefaultResponse
+    | DetectUnivariateLastPoint200Response
+    | DetectUnivariateLastPointDefaultResponse
   >;
 }
 
@@ -60,7 +62,8 @@ export interface DetectUnivariateChangePoint {
   post(
     options: DetectUnivariateChangePointParameters
   ): StreamableMethod<
-    DetectUnivariateChangePoint200Response | DetectUnivariateChangePointDefaultResponse
+    | DetectUnivariateChangePoint200Response
+    | DetectUnivariateChangePointDefaultResponse
   >;
 }
 
@@ -79,23 +82,30 @@ export interface CreateAndTrainMultivariateModel {
   post(
     options: CreateAndTrainMultivariateModelParameters
   ): StreamableMethod<
-    CreateAndTrainMultivariateModel201Response | CreateAndTrainMultivariateModelDefaultResponse
+    | CreateAndTrainMultivariateModel201Response
+    | CreateAndTrainMultivariateModelDefaultResponse
   >;
   /** List models of a resource. */
   get(
     options?: ListMultivariateModelsParameters
-  ): StreamableMethod<ListMultivariateModels200Response | ListMultivariateModelsDefaultResponse>;
+  ): StreamableMethod<
+    ListMultivariateModels200Response | ListMultivariateModelsDefaultResponse
+  >;
 }
 
 export interface DeleteMultivariateModel {
   /** Delete an existing multivariate model according to the modelId */
   delete(
     options?: DeleteMultivariateModelParameters
-  ): StreamableMethod<DeleteMultivariateModel204Response | DeleteMultivariateModelDefaultResponse>;
+  ): StreamableMethod<
+    DeleteMultivariateModel204Response | DeleteMultivariateModelDefaultResponse
+  >;
   /** Get detailed information of multivariate model, including the training status and variables used in the model. */
   get(
     options?: GetMultivariateModelParameters
-  ): StreamableMethod<GetMultivariateModel200Response | GetMultivariateModelDefaultResponse>;
+  ): StreamableMethod<
+    GetMultivariateModel200Response | GetMultivariateModelDefaultResponse
+  >;
 }
 
 export interface DetectMultivariateBatchAnomaly {
@@ -103,7 +113,8 @@ export interface DetectMultivariateBatchAnomaly {
   post(
     options: DetectMultivariateBatchAnomalyParameters
   ): StreamableMethod<
-    DetectMultivariateBatchAnomaly202Response | DetectMultivariateBatchAnomalyDefaultResponse
+    | DetectMultivariateBatchAnomaly202Response
+    | DetectMultivariateBatchAnomalyDefaultResponse
   >;
 }
 
@@ -112,34 +123,42 @@ export interface DetectMultivariateLastAnomaly {
   post(
     options: DetectMultivariateLastAnomalyParameters
   ): StreamableMethod<
-    DetectMultivariateLastAnomaly200Response | DetectMultivariateLastAnomalyDefaultResponse
+    | DetectMultivariateLastAnomaly200Response
+    | DetectMultivariateLastAnomalyDefaultResponse
   >;
 }
 
 export interface Routes {
-  /** Resource for '/timeseries/entire/detect' has methods for the following verbs: post */
-  (path: "/timeseries/entire/detect"): DetectUnivariateEntireSeries;
-  /** Resource for '/timeseries/last/detect' has methods for the following verbs: post */
-  (path: "/timeseries/last/detect"): DetectUnivariateLastPoint;
-  /** Resource for '/timeseries/changepoint/detect' has methods for the following verbs: post */
-  (path: "/timeseries/changepoint/detect"): DetectUnivariateChangePoint;
-  /** Resource for '/multivariate/detect-batch/\{resultId\}' has methods for the following verbs: get */
+  /** Resource for '/\{ApiVersion\}/timeseries/entire/detect' has methods for the following verbs: post */
   (
-    path: "/multivariate/detect-batch/{resultId}",
+    path: "/{ApiVersion}/timeseries/entire/detect"
+  ): DetectUnivariateEntireSeries;
+  /** Resource for '/\{ApiVersion\}/timeseries/last/detect' has methods for the following verbs: post */
+  (path: "/{ApiVersion}/timeseries/last/detect"): DetectUnivariateLastPoint;
+  /** Resource for '/\{ApiVersion\}/timeseries/changepoint/detect' has methods for the following verbs: post */
+  (
+    path: "/{ApiVersion}/timeseries/changepoint/detect"
+  ): DetectUnivariateChangePoint;
+  /** Resource for '/\{ApiVersion\}/multivariate/detect-batch/\{resultId\}' has methods for the following verbs: get */
+  (
+    path: "/{ApiVersion}/multivariate/detect-batch/{resultId}",
     resultId: string
   ): GetMultivariateBatchDetectionResult;
-  /** Resource for '/multivariate/models' has methods for the following verbs: post, get */
-  (path: "/multivariate/models"): CreateAndTrainMultivariateModel;
-  /** Resource for '/multivariate/models/\{modelId\}' has methods for the following verbs: delete, get */
-  (path: "/multivariate/models/{modelId}", modelId: string): DeleteMultivariateModel;
-  /** Resource for '/multivariate/models/\{modelId\}:detect-batch' has methods for the following verbs: post */
+  /** Resource for '/\{ApiVersion\}/multivariate/models' has methods for the following verbs: post, get */
+  (path: "/{ApiVersion}/multivariate/models"): CreateAndTrainMultivariateModel;
+  /** Resource for '/\{ApiVersion\}/multivariate/models/\{modelId\}' has methods for the following verbs: delete, get */
   (
-    path: "/multivariate/models/{modelId}:detect-batch",
+    path: "/{ApiVersion}/multivariate/models/{modelId}",
+    modelId: string
+  ): DeleteMultivariateModel;
+  /** Resource for '/\{ApiVersion\}/multivariate/models/\{modelId\}:detect-batch' has methods for the following verbs: post */
+  (
+    path: "/{ApiVersion}/multivariate/models/{modelId}:detect-batch",
     modelId: string
   ): DetectMultivariateBatchAnomaly;
-  /** Resource for '/multivariate/models/\{modelId\}:detect-last' has methods for the following verbs: post */
+  /** Resource for '/\{ApiVersion\}/multivariate/models/\{modelId\}:detect-last' has methods for the following verbs: post */
   (
-    path: "/multivariate/models/{modelId}:detect-last",
+    path: "/{ApiVersion}/multivariate/models/{modelId}:detect-last",
     modelId: string
   ): DetectMultivariateLastAnomaly;
 }

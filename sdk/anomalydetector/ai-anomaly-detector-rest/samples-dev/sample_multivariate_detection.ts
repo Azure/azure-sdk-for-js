@@ -12,7 +12,6 @@ import AnomalyDetector, {
   CreateAndTrainMultivariateModelParameters,
   ListMultivariateModelsParameters,
   paginate,
-  isUnexpected,
 } from "@azure-rest/ai-anomaly-detector";
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -23,6 +22,7 @@ dotenv.config();
 // You will need to set this environment variables or edit the following values
 const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
 const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
+const apiVersion = "v1.1";
 
 // const dataSource = "<your data source>";
 const dataSource =
@@ -41,7 +41,7 @@ export async function main() {
   const options: ListMultivariateModelsParameters = {
     queryParameters: { skip: 0, top: 10 },
   };
-  const initialResponse = await client.path(`/multivariate/models`).get(options);
+  const initialResponse = await client.path(`/{ApiVersion}/multivariate/models`).get(options);
   const pageData = paginate(client, initialResponse);
   const listModelsResult = [];
   for await (const item of pageData) {
@@ -69,39 +69,47 @@ export async function main() {
 
   // train model
   const createModelResult = await client
-    .path("/multivariate/models")
-    .post(createMultivariateModelParameters);
-
-  if (isUnexpected(createModelResult)) {
-    throw createModelResult.body;
-  }
-
+    .path("/{ApiVersion}/multivariate/models")
+    .post(createMultivariateModelParameters)
+    .then((res) => {
+      if (!("modelId" in res.body)) {
+        throw res.body;
+      }
+      return res.body;
+    });
   console.log(createModelResult);
 
   // get model status
-  const modelId = createModelResult.body.modelId;
-  let modelResponse = await client.path("/multivariate/models/{modelId}", modelId).get();
-  if (isUnexpected(modelResponse)) {
-    throw modelResponse.body;
-  }
-
+  const modelId = createModelResult.modelId;
+  let modelResponse = await client
+    .path("/{ApiVersion}/multivariate/models/{modelId}", modelId)
+    .get()
+    .then((res) => {
+      if (!("modelInfo" in res.body)) {
+        throw res.body;
+      }
+      return res.body;
+    });
   console.log(modelResponse);
-  let modelStatus = modelResponse.body.modelInfo?.status;
+  let modelStatus = modelResponse.modelInfo && modelResponse.modelInfo.status;
 
   while (modelStatus != "READY" && modelStatus != "FAILED") {
     await sleep(2000).then(() => {});
-    modelResponse = await client.path("/multivariate/models/{modelId}", modelId).get();
-
-    if (isUnexpected(modelResponse)) {
-      throw modelResponse.body;
-    }
-
-    modelStatus = modelResponse.body.modelInfo?.status;
+    modelResponse = await client
+      .path("/{ApiVersion}/multivariate/models/{modelId}", modelId)
+      .get()
+      .then((res) => {
+        if (!("modelInfo" in res.body)) {
+          throw res.body;
+        }
+        return res.body;
+      });
+    modelStatus = modelResponse.modelInfo && modelResponse.modelInfo.status;
   }
 
   if (modelStatus == "FAILED") {
     console.log("Training failed.\nErrors:");
-    for (const error of modelResponse.body.modelInfo?.errors || []) {
+    for (const error of (modelResponse.modelInfo && modelResponse.modelInfo.errors) || []) {
       console.log("Error code: " + error.code + ". Message: " + error.message);
     }
     return;
@@ -121,40 +129,45 @@ export async function main() {
     headers: { "Content-Type": "application/json" },
   };
   const batchDetectionResponse = await client
-    .path("/multivariate/models/{modelId}:detect-batch", modelId)
-    .post(batchDetectAnomalyParameters);
+    .path("/{ApiVersion}/multivariate/models/{modelId}:detect-batch", modelId)
+    .post(batchDetectAnomalyParameters)
+    .then((res) => {
+      if (!("resultId" in res.body)) {
+        throw res.body;
+      }
+      return res.body;
+    });
 
-  if (isUnexpected(batchDetectionResponse)) {
-    throw batchDetectionResponse.body;
-  }
-
-  const resultId = batchDetectionResponse.body.resultId;
+  const resultId = batchDetectionResponse.resultId;
   let getDetectionResultResponse = await client
-    .path("/multivariate/detect-batch/{resultId}", resultId)
-    .get();
-
-  if (isUnexpected(getDetectionResultResponse)) {
-    throw getDetectionResultResponse.body;
-  }
-
-  let resultStatus = getDetectionResultResponse.body.summary.status;
+    .path("/{ApiVersion}/multivariate/detect-batch/{resultId}", resultId)
+    .get()
+    .then((res) => {
+      if (!("summary" in res.body)) {
+        throw res.body;
+      }
+      return res.body;
+    });
+  let resultStatus = getDetectionResultResponse.summary.status;
 
   while (resultStatus != "READY" && resultStatus != "FAILED") {
     await sleep(1000).then(() => {});
     getDetectionResultResponse = await client
-      .path("/multivariate/detect-batch/{resultId}", resultId)
-      .get();
-
-    if (isUnexpected(getDetectionResultResponse)) {
-      throw getDetectionResultResponse.body;
-    }
-    resultStatus = getDetectionResultResponse.body.summary.status;
+      .path("/{ApiVersion}/multivariate/detect-batch/{resultId}", resultId)
+      .get()
+      .then((res) => {
+        if (!("summary" in res.body)) {
+          throw res.body;
+        }
+        return res.body;
+      });
+    resultStatus = getDetectionResultResponse.summary.status;
   }
 
   if (resultStatus == "FAILED") {
     console.log("Detection failed.");
     console.log("Errors:");
-    for (let error of getDetectionResultResponse.body.summary.errors || []) {
+    for (let error of getDetectionResultResponse.summary.errors || []) {
       console.log("Error code: " + error.code + ". Message: " + error.message);
     }
     return;
@@ -162,10 +175,12 @@ export async function main() {
 
   // if result status is "READY"
   console.log("Result status: " + resultStatus);
-  console.log("Result Id: " + getDetectionResultResponse.body.resultId);
+  console.log("Result Id: " + getDetectionResultResponse.resultId);
 
   // delete model
-  const deleteResult = await client.path("/multivariate/models/{modelId}", modelId).delete();
+  const deleteResult = await client
+    .path("/{ApiVersion}/multivariate/models/{modelId}", modelId)
+    .delete();
 
   if (deleteResult.status == "204") {
     console.log("New model has been deleted.");
