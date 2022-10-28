@@ -253,7 +253,7 @@ export enum KnownKeyVaultRoleScope {
 }
 
 // @public
-export enum KnownKeyVaultSettingType {
+export enum KnownSettingType {
     Boolean = "boolean"
 }
 

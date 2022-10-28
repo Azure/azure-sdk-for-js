@@ -38,7 +38,7 @@ export interface GetSettingsOptions extends OperationOptions {}
 /**
  * Known values of {@link SettingType} that the service accepts.
  */
-export enum KnownKeyVaultSettingType {
+export enum KnownSettingType {
   /**
    * A boolean setting.
    */
@@ -47,7 +47,7 @@ export enum KnownKeyVaultSettingType {
 
 /**
  * Defines values for KeyVaultSettingType.
- * {@link KnownKeyVaultSettingType} can be used interchangeably with KeyVaultSettingType. This enum contains
+ * {@link KnownSettingType} can be used interchangeably with KeyVaultSettingType. This enum contains
  * the known values that the service supports.
  */
 export type KeyVaultSettingType = string;
