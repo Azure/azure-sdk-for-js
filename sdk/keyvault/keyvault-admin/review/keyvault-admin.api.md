@@ -53,7 +53,6 @@ export interface GetSettingsOptions extends OperationOptions {
 
 // @public
 export interface GetSettingsResponse {
-    // (undocumented)
     value: KeyVaultSetting[];
 }
 
@@ -191,14 +190,11 @@ export interface KeyVaultSetting {
     value: string;
 }
 
-// @public (undocumented)
+// @public
 export class KeyVaultSettingsClient {
     constructor(vaultUrl: string, credential: TokenCredential, options?: KeyVaultSettingsClientOptions);
-    // (undocumented)
     createOrUpdateSetting(settingName: string, value: string, options: CreateOrUpdateSettingOptions): Promise<KeyVaultSetting>;
-    // (undocumented)
     getSetting(settingName: string, options: GetSettingOptions): Promise<KeyVaultSetting>;
-    // (undocumented)
     getSettings(options: GetSettingsOptions): Promise<GetSettingsResponse>;
     readonly vaultUrl: string;
 }

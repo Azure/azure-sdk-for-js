@@ -16,6 +16,10 @@ import {
   KeyVaultSettingsClientOptions,
 } from "./settingsClientModels";
 
+/**
+ * The KeyVaultSettingsClient provides asynchronous methods to create, update, get and list
+ * settings for the Azure Key Vault.
+ */
 export class KeyVaultSettingsClient {
   /**
    * The base URL to the vault.
@@ -76,6 +80,13 @@ export class KeyVaultSettingsClient {
     );
   }
 
+  /**
+   * Updates key vault account setting, stores it, then returns the setting name and value to the client.
+   *
+   * @param settingName - the name of the account setting. Must be a valid settings option.
+   * @param value - the value of the pool setting.
+   * @param options - the optional parameters.
+   */
   async createOrUpdateSetting(
     settingName: string,
     value: string,
@@ -84,10 +95,21 @@ export class KeyVaultSettingsClient {
     return await this.client.createOrUpdateSetting(this.vaultUrl, settingName, value, options);
   }
 
+  /**
+   * Get the value of a specific account setting.
+   *
+   * @param settingName - the name of the setting.
+   * @param options - the optional parameters.
+   */
   async getSetting(settingName: string, options: GetSettingOptions): Promise<KeyVaultSetting> {
     return await this.client.getSetting(this.vaultUrl, settingName, options);
   }
 
+  /**
+   * List the acccount's settings.
+   *
+   * @param options - the optional parameters.
+   */
   async getSettings(options: GetSettingsOptions): Promise<GetSettingsResponse> {
     const { value } = await this.client.getSettings(this.vaultUrl, options);
     return { value: value ?? [] };

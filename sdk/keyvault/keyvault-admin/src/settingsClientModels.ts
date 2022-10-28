@@ -39,6 +39,9 @@ export interface GetSettingsOptions extends OperationOptions {}
  * An interface representing the response returned by {@link KeyVaultSettingsClient.getSettings}
  */
 export interface GetSettingsResponse {
+  /**
+   * The account's settings.
+   */
   value: KeyVaultSetting[];
 }
 
