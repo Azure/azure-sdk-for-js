@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { NotificationHubsClientContext, createClientContext } from "../../types/src/api/index.js";
+import * as dotenv from "dotenv";
+import {
+  NotificationHubsClientContext,
+  createClientContext,
+  createOrUpdateRegistration,
+  createRegistrationId,
+  deleteRegistration,
+  getRegistration,
+} from "@azure/notification-hubs/api";
 import { assert } from "@azure/test-utils";
-import { createAppleRegistrationDescription } from "@azure/notification-hubs/models/registration";
-import { createOrUpdateRegistration } from "../../types/src/api/createOrUpdateRegistration.js";
-import { createRegistrationId } from "../../types/src/api/createRegistrationId.js";
-import { deleteRegistration } from "../../types/src/api/deleteRegistration.js";
-import { getRegistration } from "../../types/src/api/getRegistration.js";
+import { createAppleRegistrationDescription } from "@azure/notification-hubs/models";
 
 // Load the .env file if it exists
-// eslint-disable-next-line sort-imports
-import * as dotenv from "dotenv";
-
 dotenv.config();
 
 // Define connection string and hub name
