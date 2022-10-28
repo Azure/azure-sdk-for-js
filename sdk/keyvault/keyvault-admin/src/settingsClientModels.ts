@@ -36,7 +36,14 @@ export interface GetSettingOptions extends OperationOptions {}
 export interface GetSettingsOptions extends OperationOptions {}
 
 /**
- * Known values of {@link KeyVaultSettingType} that the service accepts.
+ * An interface representing the response returned by {@link KeyVaultSettingsClient.getSettings}
+ */
+export interface GetSettingsResponse {
+  value: KeyVaultSetting[];
+}
+
+/**
+ * Known values of {@link SettingType} that the service accepts.
  */
 export enum KnownKeyVaultSettingType {
   /**
@@ -67,7 +74,7 @@ export interface KeyVaultSetting {
   value: string;
 
   /**
-   * The type specifier of the value.
+   * The type of the setting.
    */
   type?: KeyVaultSettingType;
 }

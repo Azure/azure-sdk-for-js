@@ -11,6 +11,7 @@ import {
   CreateOrUpdateSettingOptions,
   GetSettingOptions,
   GetSettingsOptions,
+  GetSettingsResponse,
   KeyVaultSetting,
   KeyVaultSettingsClientOptions,
 } from "./settingsClientModels";
@@ -87,8 +88,8 @@ export class KeyVaultSettingsClient {
     return await this.client.getSetting(this.vaultUrl, settingName, options);
   }
 
-  async getSettings(options: GetSettingsOptions): Promise<KeyVaultSetting[]> {
+  async getSettings(options: GetSettingsOptions): Promise<GetSettingsResponse> {
     const { value } = await this.client.getSettings(this.vaultUrl, options);
-    return value ?? [];
+    return { value: value ?? [] };
   }
 }
