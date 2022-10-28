@@ -81,18 +81,18 @@ export class KeyVaultSettingsClient {
   }
 
   /**
-   * Updates key vault account setting, stores it, then returns the setting name and value to the client.
+   * Updates the named account setting.
    *
    * @param settingName - the name of the account setting. Must be a valid settings option.
    * @param value - the value of the pool setting.
    * @param options - the optional parameters.
    */
-  createOrUpdateSetting(
+  updateSetting(
     settingName: string,
     value: string,
     options: CreateOrUpdateSettingOptions
   ): Promise<KeyVaultSetting> {
-    return this.client.createOrUpdateSetting(this.vaultUrl, settingName, value, options);
+    return this.client.updateSetting(this.vaultUrl, settingName, value, options);
   }
 
   /**

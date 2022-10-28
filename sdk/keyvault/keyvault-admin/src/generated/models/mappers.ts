@@ -617,10 +617,10 @@ export const SelectiveKeyRestoreOperation: coreClient.CompositeMapper = {
   }
 };
 
-export const UpdateSettingsRequest: coreClient.CompositeMapper = {
+export const UpdateSettingRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "UpdateSettingsRequest",
+    className: "UpdateSettingRequest",
     modelProperties: {
       value: {
         serializedName: "value",

@@ -17,7 +17,7 @@ import {
   SASTokenParameter as SASTokenParameterMapper,
   RestoreOperationParameters as RestoreOperationParametersMapper,
   SelectiveKeyRestoreOperationParameters as SelectiveKeyRestoreOperationParametersMapper,
-  UpdateSettingsRequest as UpdateSettingsRequestMapper
+  UpdateSettingRequest as UpdateSettingRequestMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -172,7 +172,7 @@ export const keyName: OperationURLParameter = {
 
 export const value: OperationParameter = {
   parameterPath: "value",
-  mapper: UpdateSettingsRequestMapper
+  mapper: UpdateSettingRequestMapper
 };
 
 export const settingName: OperationURLParameter = {

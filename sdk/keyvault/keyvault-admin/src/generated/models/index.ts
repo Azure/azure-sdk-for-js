@@ -228,7 +228,7 @@ export interface SelectiveKeyRestoreOperation {
 }
 
 /** The update settings request object. */
-export interface UpdateSettingsRequest {
+export interface UpdateSettingRequest {
   /** The value of the pool setting. */
   value: string;
 }
@@ -603,11 +603,11 @@ export type SelectiveKeyRestoreOperationResponse = KeyVaultClientSelectiveKeyRes
   SelectiveKeyRestoreOperation;
 
 /** Optional parameters. */
-export interface CreateOrUpdateSettingOptionalParams
+export interface UpdateSettingOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the createOrUpdateSetting operation. */
-export type CreateOrUpdateSettingResponse = Setting;
+/** Contains response data for the updateSetting operation. */
+export type UpdateSettingResponse = Setting;
 
 /** Optional parameters. */
 export interface GetSettingOptionalParams extends coreClient.OperationOptions {}

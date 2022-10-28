@@ -25,8 +25,8 @@ import {
   RestoreStatusResponse,
   SelectiveKeyRestoreOperationOptionalParams,
   SelectiveKeyRestoreOperationResponse,
-  CreateOrUpdateSettingOptionalParams,
-  CreateOrUpdateSettingResponse,
+  UpdateSettingOptionalParams,
+  UpdateSettingResponse,
   GetSettingOptionalParams,
   GetSettingResponse,
   GetSettingsOptionalParams,
@@ -138,20 +138,20 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param value The value of the pool setting.
    * @param options The options parameters.
    */
-  createOrUpdateSetting(
+  updateSetting(
     vaultBaseUrl: string,
     settingName: string,
     value: string,
-    options?: CreateOrUpdateSettingOptionalParams
-  ): Promise<CreateOrUpdateSettingResponse> {
+    options?: UpdateSettingOptionalParams
+  ): Promise<UpdateSettingResponse> {
     return this.sendOperationRequest(
       { vaultBaseUrl, settingName, value, options },
-      createOrUpdateSettingOperationSpec
+      updateSettingOperationSpec
     );
   }
 
   /**
-   * Retrieves the value of a specified, value account setting.
+   * Retrieves the setting object of a specified setting name.
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param settingName The name of the account setting. Must be a valid settings option.
    * @param options The options parameters.
@@ -277,7 +277,7 @@ const selectiveKeyRestoreOperationOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const createOrUpdateSettingOperationSpec: coreClient.OperationSpec = {
+const updateSettingOperationSpec: coreClient.OperationSpec = {
   path: "/settings/{setting-name}",
   httpMethod: "PATCH",
   responses: {
@@ -290,7 +290,7 @@ const createOrUpdateSettingOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: {
     parameterPath: { value: ["value"] },
-    mapper: { ...Mappers.UpdateSettingsRequest, required: true }
+    mapper: { ...Mappers.UpdateSettingRequest, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.settingName],
