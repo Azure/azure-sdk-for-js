@@ -14,7 +14,8 @@
  */
 
 import * as dotenv from "dotenv";
-import { createClientContext, listRegistrations } from "@azure/notification-hubs/api";
+import { createClientContext, listRegistrationsByDevice } from "@azure/notification-hubs/api";
+import { AppleDevice } from "@azure/notification-hubs/models";
 
 // Load the .env file if it exists
 dotenv.config();
@@ -23,13 +24,22 @@ dotenv.config();
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";
 const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
+// Define message constants
+const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
+const deviceToken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
+
 const TOP = 100;
 
 async function main() {
   const context = createClientContext(connectionString, hubName);
 
+  const device: AppleDevice = {
+    deviceToken,
+    kind: "apple",
+  };
+
   // Unlimited
-  let allRegistrations = listRegistrations(context);
+  let allRegistrations = listRegistrationsByDevice(context, device);
   let page = 0;
   for await (const pages of allRegistrations.byPage()) {
     console.log(`Page number ${page++}`);
@@ -40,7 +50,7 @@ async function main() {
 
   // Top
   page = 0;
-  allRegistrations = listRegistrations(context, { top: TOP });
+  allRegistrations = listRegistrationsByDevice(context, device, { top: TOP });
   for await (const pages of allRegistrations.byPage()) {
     console.log(`Page number ${page++}`);
     for (const item of pages) {

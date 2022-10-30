@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 export { NotificationHubsClient } from "./notificationHubsClient.js";
+export * from "./models/device.js";
 export * from "./models/installation.js";
 export * from "./models/notification.js";
 export * from "./models/notificationBuilder.js";

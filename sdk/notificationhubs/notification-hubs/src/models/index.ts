@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+export * from "./device.js";
 export * from "./installation.js";
 export * from "./notification.js";
 export * from "./notificationBuilder.js";

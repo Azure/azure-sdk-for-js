@@ -10,6 +10,14 @@ import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
+// @public (undocumented)
+export interface AdmDevice {
+    // (undocumented)
+    admRegistrationId: string;
+    // (undocumented)
+    kind: "adm";
+}
+
 // @public
 export interface AdmInstallation extends DeviceTokenInstallation {
     platform: "adm";
@@ -87,6 +95,14 @@ export interface AppleCriticalSound {
     volume: number;
 }
 
+// @public (undocumented)
+export interface AppleDevice {
+    // (undocumented)
+    deviceToken: string;
+    // (undocumented)
+    kind: "apple";
+}
+
 // @public
 export interface AppleInstallation extends DeviceTokenInstallation {
     platform: "apns";
@@ -136,6 +152,16 @@ export interface BaiduAppleNativePayload {
     sound?: string;
 }
 
+// @public (undocumented)
+export interface BaiduDevice {
+    // (undocumented)
+    baiduChannelId: string;
+    // (undocumented)
+    baiduUserId: string;
+    // (undocumented)
+    kind: "baidu";
+}
+
 // @public
 export interface BaiduInstallation extends DeviceTokenInstallation {
     platform: "baidu";
@@ -172,6 +198,18 @@ export interface BaiduRegistrationDescription extends RegistrationDescriptionCom
 // @public
 export interface BaiduTemplateRegistrationDescription extends Omit<BaiduRegistrationDescription, "kind">, TemplateRegistrationDescription {
     kind: "BaiduTemplate";
+}
+
+// @public (undocumented)
+export interface BrowserDevice {
+    // (undocumented)
+    auth: string;
+    // (undocumented)
+    endpoint: string;
+    // (undocumented)
+    kind: "browser";
+    // (undocumented)
+    p256dh: string;
 }
 
 // @public
@@ -360,6 +398,14 @@ export interface FirebaseLegacyAppleNativePayload {
     title?: string;
     titleLocArgs?: string[];
     titleLocKey?: string;
+}
+
+// @public (undocumented)
+export interface FirebaseLegacyDevice {
+    // (undocumented)
+    gcmRegistrationId: string;
+    // (undocumented)
+    kind: "gcm";
 }
 
 // @public
@@ -557,7 +603,8 @@ export class NotificationHubsClient {
     getNotificationOutcomeDetails(notificationId: string, options?: OperationOptions): Promise<NotificationDetails>;
     getRegistration(registrationId: string, options?: OperationOptions): Promise<RegistrationDescription>;
     listNotificationHubJobs(options?: OperationOptions): Promise<NotificationHubJob[]>;
-    listRegistrations(options?: RegistrationQueryOptions): PagedAsyncIterableIterator<RegistrationDescription>;
+    listRegistrations(options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
+    listRegistrationsByDevice(device: RegistrationDevice, options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
     listRegistrationsByTag(tag: string, options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
     scheduleNotification(scheduledTime: Date, notification: Notification, options?: ScheduleNotificationOptions): Promise<NotificationHubsMessageResponse>;
     sendNotification(notification: Notification, options?: DirectSendNotificationOptions | SendNotificationOptions): Promise<NotificationHubsMessageResponse>;
@@ -615,6 +662,9 @@ export interface RegistrationDescriptionCommon {
     registrationId?: string;
     tags?: string[];
 }
+
+// @public (undocumented)
+export type RegistrationDevice = AdmDevice | AppleDevice | BaiduDevice | BrowserDevice | FirebaseLegacyDevice | WindowsDevice;
 
 // @public
 export interface RegistrationQueryLimitOptions extends OperationOptions {
@@ -675,6 +725,14 @@ export interface WindowsBadgeNativeMessage {
 
 // @public
 export type WindowsContentType = "application/xml" | "application/octet-stream";
+
+// @public (undocumented)
+export interface WindowsDevice {
+    // (undocumented)
+    channelUri: string;
+    // (undocumented)
+    kind: "windows";
+}
 
 // @public
 export interface WindowsInstallation extends DeviceTokenInstallation {

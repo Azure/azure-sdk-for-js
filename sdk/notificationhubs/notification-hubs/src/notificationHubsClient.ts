@@ -7,7 +7,6 @@ import {
   NotificationHubsClientOptions,
   PolledOperationOptions,
   RegistrationQueryLimitOptions,
-  RegistrationQueryOptions,
   ScheduleNotificationOptions,
   SendNotificationOptions,
 } from "./models/options.js";
@@ -37,6 +36,7 @@ import { getNotificationHubJob as getNotificationHubJobMethod } from "./api/getN
 import { getNotificationOutcomeDetails as getNotificationOutcomeDetailsMethod } from "./api/getNotificationOutcomeDetails.js";
 import { getRegistration as getRegistrationMethod } from "./api/getRegistration.js";
 import { listNotificationHubJobs as listNotificationHubJobsMethod } from "./api/listNotificationHubJobs.js";
+import { listRegistrationsByDevice as listRegistrationsByDeviceMethod } from "./api/listRegistrationsByDevice.js";
 import { listRegistrationsByTag as listRegistrationsByTagMethod } from "./api/listRegistrationsByTag.js";
 import { listRegistrations as listRegistrationsMethod } from "./api/listRegistrations.js";
 import { scheduleNotification as scheduleNotificationMethod } from "./api/scheduleNotification.js";
@@ -44,6 +44,7 @@ import { sendNotification as sendNotificationMethod } from "./api/sendNotificati
 import { submitNotificationHubJob as submitNotificationHubJobMethod } from "./api/submitNotificationHubJob.js";
 import { updateInstallation as updateInstallationMethod } from "./api/updateInstallation.js";
 import { updateRegistration as updateRegistrationMethod } from "./api/updateRegistration.js";
+import { RegistrationDevice } from "./models/device.js";
 
 /**
  * This represents a client for Azure Notification Hubs to manage installations and send
@@ -195,13 +196,26 @@ export class NotificationHubsClient {
 
   /**
    * Gets all registrations for the notification hub with the given query options.
-   * @param options - The options for querying the registrations such as $top and $filter.
+   * @param options - The options for querying the registrations such as $top.
    * @returns A paged async iterable containing all of the registrations for the notification hub.
    */
   listRegistrations(
-    options: RegistrationQueryOptions = {}
+    options: RegistrationQueryLimitOptions = {}
   ): PagedAsyncIterableIterator<RegistrationDescription> {
     return listRegistrationsMethod(this._client, options);
+  }
+
+  /**
+   * Gets all registrations for the notification hub with the given device information and options.
+   * @param device - The device information to query per PNS type.
+   * @param options - The options for querying the registrations such as $top.
+   * @returns A paged async iterable containing all of the registrations for the notification hub.
+   */
+  listRegistrationsByDevice(
+    device: RegistrationDevice,
+    options: RegistrationQueryLimitOptions = {}
+  ): PagedAsyncIterableIterator<RegistrationDescription> {
+    return listRegistrationsByDeviceMethod(this._client, device, options);
   }
 
   /**
