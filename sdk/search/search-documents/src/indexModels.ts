@@ -736,7 +736,7 @@ export type SearchPick<T extends object, Paths extends SelectFields<T>> =
   UnionToIntersection<
     // Paths is a union or single string type, so if it's a union it will be _distributed_ over this conditional.
     // Fortunately, template literal types are not greedy, so we can infer the field name easily.
-    Paths extends `${infer FieldName extends Exclude<keyof T, symbol>}/${infer RestPaths}`
+    Paths extends `${infer FieldName extends Exclude<keyof T, symbol | number>}/${infer RestPaths}`
       ? NonNullable<T[FieldName]> extends object
         ? NonNullable<T[FieldName]> extends Array<infer U extends object>
           ? // Extends clause is necessary to refine the constraint of RestPaths
