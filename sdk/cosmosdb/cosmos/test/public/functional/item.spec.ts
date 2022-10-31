@@ -37,7 +37,7 @@ describe("Item CRUD", function (this: Suite) {
   const documentCRUDTest = async function (isUpsertTest: boolean): Promise<void> {
     // create database
     const database = await getTestDatabase("sample 中文 database");
-    // create container
+    // create container                  
     const { resource: containerdef } = await database.containers.create({ id: "sample container" });
     const container: Container = database.container(containerdef.id);
 
@@ -679,7 +679,7 @@ describe("bulk/batch item operations", function () {
         },
         {
           operationType: BulkOperationType.Patch,
-          id: patchItemId,
+          id: patchItemId, 
           resourceBody: {
             operations: [{ op: PatchOperationType.add, path: "/good", value: "greatValue" }],
             condition: "from c where NOT IS_DEFINED(c.newImproved)",
@@ -688,6 +688,7 @@ describe("bulk/batch item operations", function () {
       ];
 
       const response = await container.items.batch(operations, "A");
+      assert(isOperationResponse(response.result[0]));
       assert.strictEqual(response.result[0].statusCode, 201);
       assert.strictEqual(response.result[1].statusCode, 201);
       assert.strictEqual(response.result[2].statusCode, 200);
@@ -711,7 +712,12 @@ describe("bulk/batch item operations", function () {
       assert.strictEqual(deleteResponse.result[1].statusCode, 404);
       const { resource: readItem } = await container.item(otherItemId).read();
       assert.strictEqual(readItem, undefined);
+      assert(isOperationResponse(deleteResponse.result[0]));
     });
+
+    function isOperationResponse(object: any): Boolean {
+      return 'statusCode' in object && 'requestCharge' in object && 'eTag' in object && 'resourceBody' in object;
+    }
   });
 });
 describe("patch operations", function () {
