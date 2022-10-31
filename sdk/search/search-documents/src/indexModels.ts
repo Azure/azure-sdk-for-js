@@ -742,13 +742,15 @@ export type SearchPick<T extends object, Paths extends SelectFields<T>> =
           ? // Extends clause is necessary to refine the constraint of RestPaths
             RestPaths extends SelectFields<U>
             ? // Narrow the type of every element in the array
-              { [K in FieldName]: Array<SearchPick<U, RestPaths>> }
+              {
+                [K in FieldName]: Array<SearchPick<U, RestPaths>> | Extract<T[K], null | undefined>;
+              }
             : // Unreachable by construction
               never
           : // Recur :)
             {
               [K in FieldName]: RestPaths extends SelectFields<NonNullable<T[K]>>
-                ? SearchPick<NonNullable<T[K]>, RestPaths>
+                ? SearchPick<NonNullable<T[K]>, RestPaths> | Extract<T[K], null | undefined>
                 : // Unreachable by construction
                   never;
             }
@@ -765,3 +767,7 @@ export type SearchPick<T extends object, Paths extends SelectFields<T>> =
     // sure the type always yields an object, this intersection does not alter the type
     // at all, only the display string of the type.
   };
+
+type a = { a?: { a?: string | null } | null };
+
+type b = SearchPick<a, "a/a">;
