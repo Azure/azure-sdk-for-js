@@ -5,15 +5,15 @@ import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { Suite } from "mocha";
 import { assert } from "chai";
-import { SearchIndexClient, SynonymMap, SearchIndex } from "../../../src";
+import { SearchIndex, SearchIndexClient, SynonymMap } from "../../../src";
 import { Hotel } from "../utils/interfaces";
 import { createClients } from "../utils/recordedClient";
 import {
+  WAIT_TIME,
+  createRandomIndexName,
   createSimpleIndex,
   createSynonymMaps,
   deleteSynonymMaps,
-  WAIT_TIME,
-  createRandomIndexName,
 } from "../utils/setup";
 import { delay, serviceVersions } from "../../../src/serviceUtils";
 import { versionsToTest } from "@azure/test-utils";
