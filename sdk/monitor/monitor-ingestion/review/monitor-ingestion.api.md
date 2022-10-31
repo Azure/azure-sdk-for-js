@@ -10,7 +10,7 @@ import { TokenCredential } from '@azure/core-auth';
 // @public
 export class LogsIngestionClient {
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: LogsIngestionClientOptions);
-    upload(ruleId: string, streamName: string, logs: Record<string, unknown>[], options?: UploadLogsOptions): Promise<UploadLogsResult>;
+    upload(ruleId: string, streamName: string, logs: Record<string, unknown>[]): Promise<UploadLogsResult>;
 }
 
 // @public

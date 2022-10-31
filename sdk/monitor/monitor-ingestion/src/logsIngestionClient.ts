@@ -4,7 +4,7 @@
 import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions } from "@azure/core-client";
 import { GeneratedMonitorIngestionClient } from "./generated";
-import { UploadLogsError, UploadLogsOptions, UploadLogsResult } from "./models";
+import { UploadLogsError, UploadLogsResult } from "./models";
 import { GZippingPolicy } from "./gZippingPolicy";
 import { concurrentRun } from "./utils/concurrentPoolHelper";
 import { splitDataToChunks } from "./utils/splitDataToChunksHelper";
@@ -53,22 +53,19 @@ export class LogsIngestionClient {
    * @param ruleId - The immutable Id of the Data Collection Rule resource.
    * @param streamName - The streamDeclaration name as defined in the Data Collection Rule.
    * @param logs - An array of objects matching the schema defined by the provided stream.
-   * @param options - The options parameters.
    * See error response code and error response message for more detail.
    */
   async upload(
     ruleId: string,
     streamName: string,
     logs: Record<string, unknown>[],
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: UploadLogsOptions
   ): Promise<UploadLogsResult> {
     // TODO: Do we need to worry about memory issues when loading data for 100GB ?? JS max allocation is 1 or 2GB
 
     // This splits logs into 1MB chunks
     const chunkArray = splitDataToChunks(logs);
     const noOfChunks = chunkArray.length;
-    const concurrency = Math.max(options?.maxConcurrency ?? DEFAULT_MAX_CONCURRENCY, 1);
+    const concurrency = DEFAULT_MAX_CONCURRENCY;
 
     const uploadResultErrors: Array<UploadLogsError> = [];
     await concurrentRun(concurrency, chunkArray, async (eachChunk): Promise<void> => {

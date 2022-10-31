@@ -78,9 +78,7 @@ describe("LogsIngestionClient live tests", function () {
   });
 
   it("Success Test - divides huge data into chunks", async function () {
-    const result = await client.upload(getDcrId(), "Custom-MyTableRawData", getObjects(10000), {
-      maxConcurrency: 3,
-    });
+    const result = await client.upload(getDcrId(), "Custom-MyTableRawData", getObjects(10000));
 
     assert.equal(result.status, "Success");
   });
@@ -97,9 +95,7 @@ describe("LogsIngestionClient live tests", function () {
       })
     );
     recordedClient.client = client;
-    const result = await client.upload(getDcrId(), "Custom-MyTableRawData", logData, {
-      maxConcurrency: 3,
-    });
+    const result = await client.upload(getDcrId(), "Custom-MyTableRawData", logData);
     assert.equal(result.status, "PartialFailure");
     if (result.status !== "Success") {
       result.errors.forEach((err) => {
@@ -123,9 +119,7 @@ describe("LogsIngestionClient live tests", function () {
   it("Throws error when all logs fail", async function () {
     const noOfElements = 25000;
     const logData = getObjects(noOfElements);
-    const result = await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
-      maxConcurrency: 3,
-    });
+    const result = await client.upload("immutable-id-123", "Custom-MyTableRawData", logData);
     assert.equal(result.status, "Failure");
     if (result.status !== "Success") {
       result.errors.forEach((err) => {
