@@ -17,7 +17,7 @@ export interface LogsIngestionClientOptions extends CommonClientOptions {
   apiVersion?: string;
 }
 const defaultIngestionScope = "https://monitor.azure.com//.default";
-const DEFAULT_MAX_CONCURRENCY = 5;
+const DEFAULT_MAX_CONCURRENCY = 1;
 
 /**
  * Client for Monitor Logs Ingestion

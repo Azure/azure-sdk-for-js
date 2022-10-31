@@ -17,9 +17,7 @@ export async function main() {
   const streamName = process.env.STREAM_NAME || "stream_name";
   const credential = new DefaultAzureCredential();
   const client = new LogsIngestionClient(logsIngestionEndpoint, credential);
-  const result = await client.upload(ruleId, streamName, getObjects(10000), {
-    maxConcurrency: 5,
-  });
+  const result = await client.upload(ruleId, streamName, getObjects(10000));
   console.log(result.status);
   if (result.status === "Success") {
     console.log("All the logs provided are successfully ingested");

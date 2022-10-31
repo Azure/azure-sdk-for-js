@@ -6,7 +6,6 @@ These sample programs show how to use the TypeScript client libraries for Monito
 | --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | [concurrency.ts][concurrency]                 | Demonstrates uploading a large number of logs where the logs are split into multiple batches and uploaded concurrently. |
 | [logsIngestionClient.ts][logsingestionclient] | Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace)                                         |
-| [maxConcurrency.ts][maxconcurrency]           | Demonstrates how to control the number of concurrent requests using the maxConcurrency option                           |
 | [uploadCustomLogs.ts][uploadcustomlogs]       | Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace)                                         |
 
 ## Prerequisites
@@ -63,7 +62,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [concurrency]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/typescript/src/concurrency.ts
 [logsingestionclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/typescript/src/logsIngestionClient.ts
-[maxconcurrency]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/typescript/src/maxConcurrency.ts
 [uploadcustomlogs]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/typescript/src/uploadCustomLogs.ts
 [apiref]: https://docs.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/

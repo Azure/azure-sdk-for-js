@@ -180,7 +180,7 @@ module.exports = { main };
 
 ### Uploading large batches of logs
 
-When uploading more than 1MB of logs in a single call to the `upload` method on `LogsIngestionClient`, the upload will be split into several smaller batches, each no larger than 1MB. By default, these batches will be uploaded in parallel, with a maximum of 5 batches being uploaded concurrently. It may be desirable to decrease the maximum concurrency if memory usage is a concern. The maximum number of concurrent uploads can be controlled using the `maxConcurrency` option, as shown in this example:
+When uploading more than 1MB of logs in a single call to the `upload` method on `LogsIngestionClient`, the upload will be split into several smaller batches, each no larger than 1MB.
 
 ```js
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -205,8 +205,7 @@ async function main() {
     });
   }
 
-  // Set the maximum concurrency to 1 to prevent concurrent requests entirely
-  const result = await client.upload(ruleId, streamName, logs, { maxConcurrency: 1 });
+  const result = await client.upload(ruleId, streamName, logs);
   if (result.status !== "Success") {
     console.log("Some logs have failed to complete ingestion. Upload status=", result.status);
     for (const error of result.errors) {

@@ -6,7 +6,6 @@ These sample programs show how to use the JavaScript client libraries for Monito
 | --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | [concurrency.js][concurrency]                 | Demonstrates uploading a large number of logs where the logs are split into multiple batches and uploaded concurrently. |
 | [logsIngestionClient.js][logsingestionclient] | Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace)                                         |
-| [maxConcurrency.js][maxconcurrency]           | Demonstrates how to control the number of concurrent requests using the maxConcurrency option                           |
 | [uploadCustomLogs.js][uploadcustomlogs]       | Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace)                                         |
 
 ## Prerequisites
@@ -51,7 +50,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [concurrency]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/javascript/concurrency.js
 [logsingestionclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/javascript/logsIngestionClient.js
-[maxconcurrency]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/javascript/maxConcurrency.js
 [uploadcustomlogs]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/javascript/uploadCustomLogs.js
 [apiref]: https://docs.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/

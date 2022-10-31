@@ -27,8 +27,7 @@ async function main() {
     });
   }
 
-  // The logs will be split into multiple batches and uploaded concurrently. By default,
-  // the maximum number of concurrent uploads is 5.
+  // The logs will be split into multiple batches and uploaded serially.
   const result = await client.upload(ruleId, streamName, logs);
   if (result.status !== "Success") {
     console.log("Some logs have failed to complete ingestion. Upload status=", result.status);
