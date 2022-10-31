@@ -2216,9 +2216,11 @@ export type SearchMode = "any" | "all";
 export type SearchOptions<T extends object, Fields extends SelectFields<T>> = OperationOptions & SearchRequestOptions<T, Fields>;
 
 // @public
-export type SearchPick<T extends object, Paths extends SelectFields<T>> = UnionToIntersection<Paths extends `${infer FieldName extends Exclude<keyof T, symbol | number>}/${infer RestPaths}` ? T[FieldName] extends object ? RestPaths extends SelectFields<T[FieldName]> ? {
-    [K in FieldName]: SearchPick<T[FieldName], RestPaths>;
-} : never : never : Paths extends keyof T ? {
+export type SearchPick<T extends object, Paths extends SelectFields<T>> = UnionToIntersection<Paths extends `${infer FieldName extends Exclude<keyof T, symbol>}/${infer RestPaths}` ? NonNullable<T[FieldName]> extends object ? NonNullable<T[FieldName]> extends Array<infer U extends object> ? RestPaths extends SelectFields<U> ? {
+    [K in FieldName]: Array<SearchPick<U, RestPaths>>;
+} : never : {
+    [K in FieldName]: RestPaths extends SelectFields<NonNullable<T[K]>> ? SearchPick<NonNullable<T[K]>, RestPaths> : never;
+} : never : Paths extends keyof T ? {
     [K in Paths]: T[K];
 } : never> & {};
 
@@ -2313,7 +2315,7 @@ export interface SearchSuggester {
 }
 
 // @public
-export type SelectFields<T extends object> = T extends unknown[] ? never : {
+export type SelectFields<T extends object> = T extends (infer U)[] ? NonNullable<U> extends object ? SelectFields<NonNullable<U>> : never : {
     [K in Exclude<keyof T, symbol | number>]: NonNullable<T[K]> extends object ? NonNullable<T[K]> extends ExcludedODataTypes ? K : SelectFields<NonNullable<T[K]>> extends infer NextPaths extends string ? // Union this key with all the next paths separated with '/'
     K | `${K}/${NextPaths}` : K : K;
 }[Exclude<keyof T, symbol | number>];

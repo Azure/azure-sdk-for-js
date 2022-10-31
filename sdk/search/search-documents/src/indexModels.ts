@@ -707,9 +707,11 @@ export type ExcludedODataTypes = Date;
  * Produces a union of valid Cognitive Search OData $select paths for T
  * using a post-order traversal of the field tree rooted at T.
  */
-export type SelectFields<T extends object> = T extends unknown[]
-  ? // Don't recur on arrays
-    never
+export type SelectFields<T extends object> = T extends (infer U)[]
+  ? // Allow selecting fields only from elements which are objects
+    NonNullable<U> extends object
+    ? SelectFields<NonNullable<U>>
+    : never
   : {
       // Only consider string keys
       [K in Exclude<keyof T, symbol | number>]: NonNullable<T[K]> extends object
@@ -734,14 +736,22 @@ export type SearchPick<T extends object, Paths extends SelectFields<T>> =
   UnionToIntersection<
     // Paths is a union or single string type, so if it's a union it will be _distributed_ over this conditional.
     // Fortunately, template literal types are not greedy, so we can infer the field name easily.
-    Paths extends `${infer FieldName extends Exclude<keyof T, symbol | number>}/${infer RestPaths}`
-      ? T[FieldName] extends object
-        ? // Extends clause is necessary to refine the constraint of RestPaths
-          RestPaths extends SelectFields<T[FieldName]>
-          ? // Recur :)
-            { [K in FieldName]: SearchPick<T[FieldName], RestPaths> }
-          : // Unreachable by construction
-            never
+    Paths extends `${infer FieldName extends Exclude<keyof T, symbol>}/${infer RestPaths}`
+      ? NonNullable<T[FieldName]> extends object
+        ? NonNullable<T[FieldName]> extends Array<infer U extends object>
+          ? // Extends clause is necessary to refine the constraint of RestPaths
+            RestPaths extends SelectFields<U>
+            ? // Narrow the type of every element in the array
+              { [K in FieldName]: Array<SearchPick<U, RestPaths>> }
+            : // Unreachable by construction
+              never
+          : // Recur :)
+            {
+              [K in FieldName]: RestPaths extends SelectFields<NonNullable<T[K]>>
+                ? SearchPick<NonNullable<T[K]>, RestPaths>
+                : // Unreachable by construction
+                  never;
+            }
         : // Unreachable by construction
           never
       : // Otherwise, capture the paths that are simple keys of T itself

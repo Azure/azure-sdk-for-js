@@ -15,7 +15,6 @@ import {
   KnownSpeller,
   KnownQueryLanguage,
   AzureKeyCredential,
-  SelectFields,
 } from "../../../src";
 import { Hotel } from "../utils/interfaces";
 import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup";
@@ -96,14 +95,44 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         "smokingAllowed",
         "tags",
       ];
-      const selectFields: SelectFields<Hotel>[] = ["hotelId", "address"];
-      const selectResults = await searchClient.search("New", { select: selectFields });
+      type Address = NonNullable<NonNullable<Hotel>["address"]>;
+      const addressKeys: (keyof Address)[] = [
+        "streetAddress",
+        "city",
+        "stateProvince",
+        "postalCode",
+        "country",
+      ];
+      type Room = NonNullable<NonNullable<Hotel>["rooms"]> extends (infer U)[] ? U : never;
+      const roomKeys: (keyof Room)[] = [
+        "description",
+        "descriptionFr",
+        "type",
+        "baseRate",
+        "bedOptions",
+        "sleepsCount",
+        "smokingAllowed",
+        "tags",
+      ];
+      const selectResults = await searchClient.search("New", {
+        select: ["hotelId", "address/city", "rooms/type"],
+      });
       for await (const result of selectResults.results) {
         assert.doesNotHaveAnyKeys(
           result.document,
-          hotelKeys.filter((key) => !selectFields.includes(key))
+          hotelKeys.filter((key) => !["hotelId", "address", "rooms"].includes(key))
         );
-        break;
+        assert.doesNotHaveAnyKeys(
+          result.document.address,
+          addressKeys.filter((key) => key !== "city")
+        );
+        for (const room of result.document.rooms) {
+          assert.doesNotHaveAnyKeys(
+            room,
+            roomKeys.filter((key) => key !== "type")
+          );
+          break;
+        }
       }
       const searchFieldsResults = await searchClient.search("New", {
         searchFields: ["address/city"],
@@ -113,8 +142,8 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         if (!city) {
           assert.fail();
         }
-        assert.match(city, /New York/);
         assert.hasAllKeys(result.document, hotelKeys);
+        assert.hasAllKeys(result.document.address, addressKeys);
       }
     });
 
