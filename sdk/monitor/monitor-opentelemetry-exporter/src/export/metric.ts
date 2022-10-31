@@ -9,9 +9,9 @@ import {
 } from "@opentelemetry/sdk-metrics";
 import { ExportResult, ExportResultCode, suppressTracing } from "@opentelemetry/core";
 import { AzureMonitorBaseExporter } from "./base";
-import { AzureMonitorExporterOptions } from "../config";
 import { TelemetryItem as Envelope } from "../generated";
 import { resourceMetricsToEnvelope } from "../utils/metricUtils";
+import { AzureMonitorExporterOptions } from "../config";
 
 /**
  * Azure Monitor OpenTelemetry Metric Exporter.
@@ -33,6 +33,7 @@ export class AzureMonitorMetricExporter
    * Initializes a new instance of the AzureMonitorMetricExporter class.
    * @param AzureExporterConfig - Exporter configuration.
    */
+
   constructor(options: AzureMonitorExporterOptions = {}) {
     super(options);
     this._aggregationTemporality = AggregationTemporality.CUMULATIVE;

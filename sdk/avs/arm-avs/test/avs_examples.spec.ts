@@ -48,7 +48,7 @@ describe("avs test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new AzureVMwareSolutionAPI(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
+    location = "eastasia";
     resourceGroup = "myjstest";
     privateCloudName = "cloud1";
   });
@@ -57,12 +57,48 @@ describe("avs test", () => {
     await recorder.stop();
   });
 
+  it.skip("privateClouds create test", async function () {
+    const res = await client.privateClouds.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      privateCloudName,
+      {
+        availability: {
+          strategy: "SingleZone"
+        },
+        identity: { type: "SystemAssigned" },
+        location,
+        managementCluster: {
+          clusterId: 1,
+          clusterSize: 3
+        },
+        networkBlock: "192.168.0.0/16",
+        sku: { name: "AV36" },
+        tags: {}
+      },
+      testPollingOptions
+    );
+    assert.equal(res.name, privateCloudName);
+  }).timeout(36000000);
+
+  it("privateClouds get test", async function () {
+    const res = await client.privateClouds.get(resourceGroup, privateCloudName);
+    assert.equal(res.name, privateCloudName);
+  });
+
   it("privateClouds list test", async function () {
     const resArray = new Array();
     for await (let item of client.privateClouds.listInSubscription()) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 0);
+    assert.equal(resArray.length, 3);//should be 1,but when testing this test there's 2 resources on portal
   });
 
+  it.skip("privateClouds delete test", async function () {
+    const resArray = new Array();
+    const res = await client.privateClouds.beginDeleteAndWait(resourceGroup, privateCloudName)
+    for await (let item of client.privateClouds.listInSubscription()) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
+  });
 })
