@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineRequest } from "../interfaces.js";
+import { InternalPipelineRetryOptions, PipelineRequest } from "../interfaces.js";
 import { RetryInformation, RetryModifiers, RetryStrategy } from "./retryStrategy.js";
 import { DEFAULT_CLIENT_MAX_RETRY_INTERVAL, DEFAULT_CLIENT_RETRY_INTERVAL } from "../constants.js";
-import { DefaultRetryPolicyOptions } from "../policies/defaultRetryPolicy.js";
 import * as retryAfterUtil from "../util/retryAfter.js";
 
 // Workaround for module imports being non-configurable in browser
@@ -16,7 +15,7 @@ export const _retryAfterUtil = { ...retryAfterUtil };
  */
 export type FailoverHostDelegate = (
   retryState: RetryInformation,
-  options: DefaultRetryPolicyOptions
+  options: InternalPipelineRetryOptions
 ) => Iterator<FailoverHostState | undefined, void, RetryInformation>;
 
 /**
@@ -121,12 +120,12 @@ export function readWriteFailoverHostDelegate(options: {
  * @param options - Lists of fallback endpoints for read/write operations
  * @returns An exponential retry strategy with support for multiple endpoints
  */
-export function failoverRetryStrategy(options: DefaultRetryPolicyOptions): RetryStrategy {
+export function failoverRetryStrategy(options: InternalPipelineRetryOptions): RetryStrategy {
   const delegateMap = new WeakMap<PipelineRequest, ReturnType<FailoverHostDelegate>>();
   return {
     name: "failoverRetryStrategy",
     retry(state) {
-      if (!shouldFailover(state) || !options.failoverHostDelegate) {
+      if (!options.failoverHostDelegate || !shouldFailover(state)) {
         return { skipStrategy: true };
       }
 
@@ -161,7 +160,7 @@ export function failoverRetryStrategy(options: DefaultRetryPolicyOptions): Retry
       const modifiers: RetryModifiers = { redirectTo: redirectUrl.toString() };
 
       if (hostState.retryAt) {
-        const timeUntilRetryAt = hostState.retryAt.valueOf() - Date.now();
+        const timeUntilRetryAt = hostState.retryAt.getTime() - Date.now();
         if (timeUntilRetryAt > 0) {
           modifiers.retryAfterInMs = timeUntilRetryAt;
         }
