@@ -767,7 +767,3 @@ export type SearchPick<T extends object, Paths extends SelectFields<T>> =
     // sure the type always yields an object, this intersection does not alter the type
     // at all, only the display string of the type.
   };
-
-type a = { a?: { a?: string | null } | null };
-
-type b = SearchPick<a, "a/a">;
