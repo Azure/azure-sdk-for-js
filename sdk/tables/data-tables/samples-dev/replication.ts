@@ -4,7 +4,7 @@
 /**
  * This sample demonstrates how to configure and use replication
  *
- * @summary creates and works with an entity containing a bigint
+ * @summary creates a client that works with replicated services
  * @azsdk-weight 70
  */
 
