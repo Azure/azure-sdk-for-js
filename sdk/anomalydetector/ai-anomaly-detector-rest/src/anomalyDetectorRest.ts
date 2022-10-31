@@ -8,15 +8,16 @@ import { AnomalyDetectorRestClient } from "./clientDefinitions";
 /**
  * Initialize a new instance of the class AnomalyDetectorRestClient class.
  * @param Endpoint type: string Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus2.api.cognitive.microsoft.com).
+ * @param ApiVersion type: string Anomaly Detector API version (for example, v1.1).
  * @param credentials type: KeyCredential
  */
 export default function createClient(
   Endpoint: string,
+  ApiVersion: string,
   credentials: KeyCredential,
-  options: ClientOptions & { apiVersion?: string } = {}
+  options: ClientOptions = {}
 ): AnomalyDetectorRestClient {
-  const apiVersion = options.apiVersion ?? "v1.1";
-  const baseUrl = options.baseUrl ?? `${Endpoint}/anomalydetector/${apiVersion}`;
+  const baseUrl = options.baseUrl ?? `${Endpoint}/anomalydetector/${ApiVersion}`;
 
   options = {
     ...options,

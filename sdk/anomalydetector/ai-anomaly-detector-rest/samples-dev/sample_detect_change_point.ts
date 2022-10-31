@@ -15,7 +15,7 @@ import AnomalyDetector, {
 } from "@azure-rest/ai-anomaly-detector";
 import { AzureKeyCredential } from "@azure/core-auth";
 
-import { parse } from "csv-parse/lib/sync";
+import { parse } from "csv-parse/sync";
 import * as fs from "fs";
 
 // Load the .env file if it exists
@@ -41,7 +41,7 @@ function read_series_from_file(path: string): Array<TimeSeriesPoint> {
 
 export async function main() {
   const credential = new AzureKeyCredential(apiKey);
-  const client = AnomalyDetector(endpoint, credential, { apiVersion });
+  const client = AnomalyDetector(endpoint, apiVersion, credential);
   const options: DetectUnivariateChangePointParameters = {
     body: {
       granularity: "daily",
