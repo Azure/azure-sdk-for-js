@@ -16,12 +16,14 @@ const envSetupForPlayback: { [k: string]: string } = {
   // Second API key
   LANGUAGE_API_KEY_ALT: "api_key_alt",
   ENDPOINT: "https://endpoint",
-  LANGUAGE_CUSTOM_ENTITY_RECOGNITION_PROJECT_NAME: "sanitized",
-  LANGUAGE_CUSTOM_ENTITY_RECOGNITION_DEPLOYMENT_NAME: "sanitized",
-  LANGUAGE_CUSTOM_SINGLE_LABEL_CLASSIFICATION_PROJECT_NAME: "sanitized",
-  LANGUAGE_CUSTOM_SINGLE_LABEL_CLASSIFICATION_DEPLOYMENT_NAME: "sanitized",
-  LANGUAGE_CUSTOM_MULTI_LABEL_CLASSIFICATION_PROJECT_NAME: "sanitized",
-  LANGUAGE_CUSTOM_MULTI_LABEL_CLASSIFICATION_DEPLOYMENT_NAME: "sanitized",
+  AZURE_LANGUAGE_ENDPOINT: "https://endpoint",
+  AZURE_LANGUAGE_KEY: "api_key",
+  CUSTOM_ENTITIES_PROJECT_NAME: "sanitized",
+  CUSTOM_ENTITIES_DEPLOYMENT_NAME: "sanitized",
+  SINGLE_LABEL_CLASSIFY_PROJECT_NAME: "sanitized",
+  SINGLE_LABEL_CLASSIFY_DEPLOYMENT_NAME: "sanitized",
+  MULTI_LABEL_CLASSIFY_PROJECT_NAME: "sanitized",
+  MULTI_LABEL_CLASSIFY_DEPLOYMENT_NAME: "sanitized",
 };
 
 const recorderStartOptions: RecorderStartOptions = {
@@ -30,20 +32,41 @@ const recorderStartOptions: RecorderStartOptions = {
 
 export type AuthMethod = "APIKey" | "AAD" | "DummyAPIKey";
 
-export function createClient(options: {
-  authMethod: AuthMethod;
-  recorder?: Recorder;
-  clientOptions?: TextAnalysisClientOptions;
-}): TextAnalysisClient {
-  const { authMethod, recorder, clientOptions = {} } = options;
-  const endpoint = env.ENDPOINT || "https://dummy.cognitiveservices.azure.com/";
+function getEndpoint(resource: "Default" | "CustomText"): string | undefined {
+  switch (resource) {
+    case "CustomText":
+      return env.AZURE_LANGUAGE_ENDPOINT;
+    case "Default":
+      return env.ENDPOINT;
+  }
+}
+
+function getApiKeyEnvVarName(resource: "Default" | "CustomText"): string {
+  switch (resource) {
+    case "CustomText":
+      return "AZURE_LANGUAGE_KEY";
+    case "Default":
+      return "LANGUAGE_API_KEY";
+  }
+}
+
+export function createClient(
+  authMethod: AuthMethod,
+  options: {
+    resource?: "Default" | "CustomText";
+    recorder?: Recorder;
+    clientOptions?: TextAnalysisClientOptions;
+  }
+): TextAnalysisClient {
+  const { resource = "Default", recorder, clientOptions = {} } = options;
+  const endpoint = getEndpoint(resource) || "https://dummy.cognitiveservices.azure.com/";
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
 
   switch (authMethod) {
     case "APIKey": {
       return new TextAnalysisClient(
         endpoint,
-        new AzureKeyCredential(assertEnvironmentVariable("LANGUAGE_API_KEY")),
+        new AzureKeyCredential(assertEnvironmentVariable(getApiKeyEnvVarName(resource))),
         updatedOptions
       );
     }
