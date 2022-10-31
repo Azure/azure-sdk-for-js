@@ -32,6 +32,7 @@ export function isRetriable(statusCode: number): boolean {
     statusCode === 403 || // Forbidden
     statusCode === 408 || // Timeout
     statusCode === 429 || // Too many requests
+    statusCode === 439 || // Daily quota exceeded (legacy)
     statusCode === 500 || // Server Error
     statusCode === 502 || // Bad Gateway
     statusCode === 503 || // Server Unavailable

@@ -15,10 +15,10 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Create or update a datastore in a private cloud cluster
  *
  * @summary Create or update a datastore in a private cloud cluster
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/Datastores_CreateOrUpdate.json
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/Datastores_CreateOrUpdate.json
  */
 async function datastoresCreateOrUpdate() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "group1";
   const privateCloudName = "cloud1";
   const clusterName = "cluster1";

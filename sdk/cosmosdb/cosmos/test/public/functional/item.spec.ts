@@ -391,6 +391,30 @@ describe("bulk/batch item operations", function () {
             condition: "from c where NOT IS_DEFINED(c.newImproved)",
           },
         },
+        {
+          operationType: BulkOperationType.Patch,
+          partitionKey: 5,
+          id: patchItemId,
+          resourceBody: {
+            operations: [{ op: PatchOperationType.add, path: "/goodKey", value: "goodValue" }],
+          },
+        },
+        {
+          operationType: BulkOperationType.Patch,
+          partitionKey: 5,
+          id: patchItemId,
+          resourceBody: {
+            operations: [{ op: PatchOperationType.add, path: "/greatKey", value: "greatValue" }],
+          },
+        },
+        {
+          operationType: BulkOperationType.Patch,
+          partitionKey: 5,
+          id: patchItemId,
+          resourceBody: {
+            operations: [{ op: PatchOperationType.move, from: "/greatKey", path: "/goodKey" }],
+          },
+        },
       ];
       const response = await v2Container.items.bulk(operations);
       // Create
@@ -407,9 +431,12 @@ describe("bulk/batch item operations", function () {
       // Replace
       assert.strictEqual(response[4].resourceBody.name, "nice");
       assert.strictEqual(response[4].statusCode, 200);
-      // Patch
+      // Patch add
       assert.strictEqual(response[5].resourceBody.great, "goodValue");
       assert.strictEqual(response[5].statusCode, 200);
+      // Patch move
+      assert.strictEqual(response[9].resourceBody.goodKey, "greatValue");
+      assert.strictEqual(response[9].statusCode, 200);
     });
     it("respects order", async function () {
       readItemId = addEntropy("item1");

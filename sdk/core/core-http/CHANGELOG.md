@@ -1,8 +1,10 @@
 # Release History
 
-## 2.2.8 (Unreleased)
+## 2.3.0 (Unreleased)
 
 ### Features Added
+
+- add support for `x-ms-text`
 
 ### Breaking Changes
 

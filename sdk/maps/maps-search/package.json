@@ -10,7 +10,7 @@
   "typesVersions": {
     "<3.6": {
       "*": [
-        "types/3.1/src/maps-search.d.ts"
+        "types/3.1/maps-search.d.ts"
       ]
     }
   },
