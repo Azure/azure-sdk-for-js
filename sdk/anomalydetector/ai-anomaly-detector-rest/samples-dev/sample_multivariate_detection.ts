@@ -35,7 +35,7 @@ function sleep(time: number): Promise<NodeJS.Timer> {
 export async function main() {
   // create client
   const credential = new AzureKeyCredential(apiKey);
-  const client = AnomalyDetector(endpoint, apiVersion, credential);
+  const client = AnomalyDetector(endpoint, credential, { apiVersion });
 
   // Already available models
   const options: ListMultivariateModelsParameters = {
