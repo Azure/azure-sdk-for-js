@@ -2216,7 +2216,7 @@ export type SearchMode = "any" | "all";
 export type SearchOptions<T extends object, Fields extends SelectFields<T>> = OperationOptions & SearchRequestOptions<T, Fields>;
 
 // @public
-export type SearchPick<T extends object, Paths extends SelectFields<T>> = UnionToIntersection<Paths extends `${infer FieldName extends Exclude<keyof T, symbol>}/${infer RestPaths}` ? NonNullable<T[FieldName]> extends object ? NonNullable<T[FieldName]> extends Array<infer U extends object> ? RestPaths extends SelectFields<U> ? {
+export type SearchPick<T extends object, Paths extends SelectFields<T>> = UnionToIntersection<Paths extends `${infer FieldName extends Exclude<keyof T, symbol | number>}/${infer RestPaths}` ? NonNullable<T[FieldName]> extends object ? NonNullable<T[FieldName]> extends Array<infer U extends object> ? RestPaths extends SelectFields<U> ? {
     [K in FieldName]: Array<SearchPick<U, RestPaths>>;
 } : never : {
     [K in FieldName]: RestPaths extends SelectFields<NonNullable<T[K]>> ? SearchPick<NonNullable<T[K]>, RestPaths> : never;
