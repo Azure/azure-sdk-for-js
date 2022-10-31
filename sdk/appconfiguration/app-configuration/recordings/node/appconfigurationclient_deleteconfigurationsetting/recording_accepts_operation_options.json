@@ -1,0 +1,56 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://myappconfig.azconfig.io/kv/deleteConfigTest817?api-version=1.0\u0026label=MyLabel",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/vnd.microsoft.appconfig.kv\u002Bjson, application/json, application/problem\u002Bjson",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "65",
+        "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson",
+        "If-None-Match": "*",
+        "User-Agent": "azsdk-js-app-configuration/1.4.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
+        "x-ms-client-request-id": "19cffac3-651d-470f-8058-07feeecff9a6",
+        "x-ms-content-sha256": "PP1Pv3tASos4u9qmfTyvguiTv5i5nxRlAT5sckCdrEA=",
+        "x-ms-date": "Tue, 18 Oct 2022 22:31:45 GMT"
+      },
+      "RequestBody": {
+        "key": "deleteConfigTest817",
+        "label": "MyLabel",
+        "value": "MyValue"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Authorization, x-ms-client-request-id, x-ms-useragent, x-ms-content-sha256, x-ms-date, host, Accept, Accept-Datetime, Date, If-Match, If-None-Match, Sync-Token, x-ms-return-client-request-id, ETag, Last-Modified, Link, Memento-Datetime, retry-after-ms, x-ms-request-id, x-ms-client-session-id, x-ms-effective-locale, WWW-Authenticate, traceparent, tracestate",
+        "Connection": "keep-alive",
+        "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson; charset=utf-8",
+        "Date": "Tue, 18 Oct 2022 22:31:45 GMT",
+        "ETag": "\u0022X4jrDMaIcDFaQPPNk66m9eI7nrysnyQQlZHXEv6L5eM\u0022",
+        "Last-Modified": "Tue, 18 Oct 2022 22:31:45 GMT",
+        "Server": "openresty/1.17.8.2",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Sync-Token": "zAJw6V16=NDoxOSMyNTQ2OTIwNg==;sn=25469206",
+        "Transfer-Encoding": "chunked",
+        "x-ms-correlation-request-id": "6eb45623-d9ef-4822-ab27-67e0b7429d86",
+        "x-ms-request-id": "6eb45623-d9ef-4822-ab27-67e0b7429d86"
+      },
+      "ResponseBody": {
+        "etag": "X4jrDMaIcDFaQPPNk66m9eI7nrysnyQQlZHXEv6L5eM",
+        "key": "deleteConfigTest817",
+        "label": "MyLabel",
+        "content_type": null,
+        "value": "MyValue",
+        "tags": {},
+        "locked": false,
+        "last_modified": "2022-10-18T22:31:45\u002B00:00"
+      }
+    }
+  ],
+  "Variables": {
+    "deleteConfigTest": "deleteConfigTest817"
+  }
+}

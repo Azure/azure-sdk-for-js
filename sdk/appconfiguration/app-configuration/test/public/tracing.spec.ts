@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Recorder } from "@azure-tools/test-recorder";
 import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers";
 import { AppConfigurationClient } from "../../src/appConfigurationClient";
 import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "@azure/test-utils";
 
 describe("supports tracing", () => {
@@ -12,8 +12,8 @@ describe("supports tracing", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = startRecorder(this);
-    client = createAppConfigurationClientForTests() || this.skip();
+    recorder = await startRecorder(this);
+    client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
   });
 
   afterEach(async () => {
@@ -21,7 +21,10 @@ describe("supports tracing", () => {
   });
 
   it("can trace through the various options", async function () {
-    const key = recorder.getUniqueName("noLabelTests");
+    const key = recorder.variable(
+      "noLabelTests",
+      `noLabelTests${Math.floor(Math.random() * 1000)}`
+    );
     await assert.supportsTracing(
       async (options) => {
         const promises: Promise<any>[] = [
