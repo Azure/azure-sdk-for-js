@@ -1,0 +1,119 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://myappconfig.azconfig.io/kv/addConfigTest983?api-version=1.0\u0026label=MyLabel",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/vnd.microsoft.appconfig.kv\u002Bjson, application/json, application/problem\u002Bjson",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "62",
+        "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson",
+        "If-None-Match": "*",
+        "Origin": "http://localhost:9876",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "762a7c0e-2955-4926-a9f2-a67dfb834993",
+        "x-ms-content-sha256": "16QAj26V8M3lR38Cg5w4mrHy46op6GZkpLuWImpV5nA=",
+        "x-ms-date": "Fri, 21 Oct 2022 22:48:29 GMT",
+        "x-ms-useragent": "azsdk-js-app-configuration/1.4.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+      },
+      "RequestBody": {
+        "key": "addConfigTest983",
+        "label": "MyLabel",
+        "value": "MyValue"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Authorization, x-ms-client-request-id, x-ms-useragent, x-ms-content-sha256, x-ms-date, host, Accept, Accept-Datetime, Date, If-Match, If-None-Match, Sync-Token, x-ms-return-client-request-id, ETag, Last-Modified, Link, Memento-Datetime, retry-after-ms, x-ms-request-id, x-ms-client-session-id, x-ms-effective-locale, WWW-Authenticate, traceparent, tracestate",
+        "Connection": "keep-alive",
+        "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson; charset=utf-8",
+        "Date": "Fri, 21 Oct 2022 22:48:29 GMT",
+        "ETag": "\u0022X9Sv8HFYj2y1U-cqCttwsrBgou0vJnlZcu-rLwfDcxM\u0022",
+        "Last-Modified": "Fri, 21 Oct 2022 22:48:29 GMT",
+        "Server": "openresty/1.17.8.2",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Sync-Token": "zAJw6V16=MjoxNyMxMDA1MDQzOQ==;sn=10050439",
+        "Transfer-Encoding": "chunked",
+        "x-ms-correlation-request-id": "eddfc12f-dbc5-481b-b85c-3e7bdcd1c062",
+        "x-ms-request-id": "eddfc12f-dbc5-481b-b85c-3e7bdcd1c062"
+      },
+      "ResponseBody": {
+        "etag": "X9Sv8HFYj2y1U-cqCttwsrBgou0vJnlZcu-rLwfDcxM",
+        "key": "addConfigTest983",
+        "label": "MyLabel",
+        "content_type": null,
+        "value": "MyValue",
+        "tags": {},
+        "locked": false,
+        "last_modified": "2022-10-21T22:48:29\u002B00:00"
+      }
+    },
+    {
+      "RequestUri": "https://myappconfig.azconfig.io/kv/addConfigTest983?api-version=1.0\u0026label=MyLabel",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/vnd.microsoft.appconfig.kv\u002Bjson, application/json, application/problem\u002Bjson",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Origin": "http://localhost:9876",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "sync-token": "zAJw6V16=MjoxNyMxMDA1MDQzOQ==",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "8f7262d9-da62-4af4-a49d-e6086f27b7d0",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Fri, 21 Oct 2022 22:48:29 GMT",
+        "x-ms-useragent": "azsdk-js-app-configuration/1.4.0-beta.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Authorization, x-ms-client-request-id, x-ms-useragent, x-ms-content-sha256, x-ms-date, host, Accept, Accept-Datetime, Date, If-Match, If-None-Match, Sync-Token, x-ms-return-client-request-id, ETag, Last-Modified, Link, Memento-Datetime, retry-after-ms, x-ms-request-id, x-ms-client-session-id, x-ms-effective-locale, WWW-Authenticate, traceparent, tracestate",
+        "Connection": "keep-alive",
+        "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson; charset=utf-8",
+        "Date": "Fri, 21 Oct 2022 22:48:29 GMT",
+        "ETag": "\u0022X9Sv8HFYj2y1U-cqCttwsrBgou0vJnlZcu-rLwfDcxM\u0022",
+        "Last-Modified": "Fri, 21 Oct 2022 22:48:29 GMT",
+        "Server": "openresty/1.17.8.2",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Sync-Token": "zAJw6V16=MjoxNyMxMDA1MDQ0MA==;sn=10050440",
+        "Transfer-Encoding": "chunked",
+        "x-ms-correlation-request-id": "54585cf6-f181-4124-97ee-776ab6c88d5e",
+        "x-ms-request-id": "54585cf6-f181-4124-97ee-776ab6c88d5e"
+      },
+      "ResponseBody": {
+        "etag": "X9Sv8HFYj2y1U-cqCttwsrBgou0vJnlZcu-rLwfDcxM",
+        "key": "addConfigTest983",
+        "label": "MyLabel",
+        "content_type": null,
+        "value": "MyValue",
+        "tags": {},
+        "locked": false,
+        "last_modified": "2022-10-21T22:48:29\u002B00:00"
+      }
+    }
+  ],
+  "Variables": {
+    "addConfigTest": "addConfigTest983"
+  }
+}
