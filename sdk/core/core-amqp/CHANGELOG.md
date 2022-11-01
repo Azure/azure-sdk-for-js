@@ -1,14 +1,10 @@
 # Release History
 
-## 3.1.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 3.1.2 (2022-11-03)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix React-Native bundling issue by adding a `react-native` mapping to ESM entrypoint file. (PR #23524)[https://github.com/Azure/azure-sdk-for-js/pull/23524]
 
 ## 3.1.1 (2022-09-01)
 
