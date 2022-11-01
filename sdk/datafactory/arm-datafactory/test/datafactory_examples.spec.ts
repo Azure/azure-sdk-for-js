@@ -80,7 +80,7 @@ describe("Datafactory test", () => {
     for await (let item of client.factories.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 2);
+    assert.equal(resArray.length, 1);
   });
 
   it("datafactory delete test", async function () {
@@ -89,6 +89,6 @@ describe("Datafactory test", () => {
     for await (let item of client.factories.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 1);
+    assert.equal(resArray.length, 0);
   });
 })

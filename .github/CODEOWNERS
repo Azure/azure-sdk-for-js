@@ -43,8 +43,11 @@
 # PRLabel: %Batch
 /sdk/batch/ @dpwatrous @paterasMSFT @zfengms @deyaaeldeen
 
+# PRLabel: %Communication
+/sdk/communication/
+
 # PRLabel: %Communication - Identity
-/sdk/communication/communication-identity/ @petrsvihlik @AikoBB @maximrytych-ms
+/sdk/communication/communication-identity/ @petrsvihlik @AikoBB @maximrytych-ms @ostoliarova-msft
 
 # PRLabel: %Communication - Chat
 /sdk/communication/communication-chat/ @LuChen-Microsoft
@@ -62,19 +65,16 @@
 /sdk/communication/communication-short-codes/ @guilhermeluizsp @danielav7
 
 # PRLabel: %Communication - Common
-/sdk/communication/communication-common/ @petrsvihlik @AikoBB @maximrytych-ms
-
-# PRLabel: %Communication
-/sdk/communication/communication/ @petrsvihlik @AikoBB @maximrytych-ms
+/sdk/communication/communication-common/ @petrsvihlik @AikoBB @maximrytych-ms @ostoliarova-msft
 
 # PRLabel: %Container Registry
 /sdk/containerregistry/ @jeremymeng @timovv
 
 # PRLabel: %Cosmos
-/sdk/cosmosdb/ @kushagraThapar @kirankumarkolli
+/sdk/cosmosdb/ @kushagraThapar @kirankumarkolli @abkolant-MSFT
 
 # ServiceLabel: %Cosmos %Service Attention
-#/<NotInRepo>/ @sajeetharan @simorenoh @pjohari-ms
+#/<NotInRepo>/ @sajeetharan @abkolant-MSFT @pjohari-ms
 
 # PRLabel: %Digital Twins
 /sdk/digitaltwins/ @johngallardo @olivakar @sjiherzig

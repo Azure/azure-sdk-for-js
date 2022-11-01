@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Deletes an existing attestation at resource group scope.
  *
  * @summary Deletes an existing attestation at resource group scope.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-01-01/examples/Attestations_DeleteResourceGroupScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2022-09-01/examples/Attestations_DeleteResourceGroupScope.json
  */
 async function deleteAttestationAtResourceGroupScope() {
   const subscriptionId = "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";

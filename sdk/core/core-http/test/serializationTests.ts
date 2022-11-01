@@ -4,7 +4,7 @@
 /* eslint-disable no-unused-expressions */
 
 import "chai/register-should";
-import * as msRest from "../src/coreHttp";
+import * as msRest from "../src";
 import { Mappers } from "./data/TestClient/src/models/mappers";
 import { TestClient } from "./data/TestClient/src/testClient";
 import { assert } from "chai";
@@ -1682,6 +1682,87 @@ describe("msrest", function () {
         );
 
         assert.deepEqual(result, { cors: [] });
+      });
+
+      it("should handle xmlIsMsText flag", function () {
+        const stringEncoded: msRest.CompositeMapper = {
+          serializedName: "StringEncoded",
+          type: {
+            name: "Composite",
+            className: "StringEncoded",
+            modelProperties: {
+              encoded: {
+                serializedName: "Encoded",
+                xmlName: "Encoded",
+                xmlIsAttribute: true,
+                type: {
+                  name: "Boolean",
+                },
+              },
+              content: {
+                serializedName: "content",
+                xmlName: "content",
+                xmlIsMsText: true,
+                type: {
+                  name: "String",
+                },
+              },
+            },
+          },
+        };
+
+        const mappers = {
+          StringEncoded: stringEncoded,
+        };
+        const serializer = new msRest.Serializer(mappers, true);
+        const result: any = serializer.deserialize(
+          stringEncoded,
+          { $: { Encoded: true }, _: "dir%EF%BF%BE0166562954291707607" },
+          "mockedStringEncoded"
+        );
+
+        assert.deepEqual(result, { encoded: true, content: "dir%EF%BF%BE0166562954291707607" });
+      });
+
+      it("should handle xmlIsMsText flag for degenerated string case", function () {
+        const stringEncoded: msRest.CompositeMapper = {
+          serializedName: "StringEncoded",
+          type: {
+            name: "Composite",
+            className: "StringEncoded",
+            modelProperties: {
+              encoded: {
+                serializedName: "Encoded",
+                xmlName: "Encoded",
+                xmlIsAttribute: true,
+                type: {
+                  name: "Boolean",
+                },
+              },
+              content: {
+                serializedName: "content",
+                xmlName: "content",
+                xmlIsMsText: true,
+                type: {
+                  name: "String",
+                },
+              },
+            },
+          },
+        };
+
+        const mappers = {
+          StringEncoded: stringEncoded,
+        };
+        const serializer = new msRest.Serializer(mappers, true);
+        const result: any = serializer.deserialize(
+          stringEncoded,
+          "justastring",
+          "mockedStringEncoded"
+        );
+
+        assert.equal(result.content, "justastring");
+        assert.equal(result.encoded, undefined);
       });
     });
 

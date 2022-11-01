@@ -1,25 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Installation, JsonPatch, PushHandle } from "./models/installation.js";
+import {
+  DirectSendNotificationOptions,
+  EntityOperationOptions,
+  NotificationHubsClientOptions,
+  PolledOperationOptions,
+  RegistrationQueryLimitOptions,
+  RegistrationQueryOptions,
+  ScheduleNotificationOptions,
+  SendNotificationOptions,
+} from "./models/options.js";
+import { Installation, JsonPatch } from "./models/installation.js";
 import {
   NotificationDetails,
   NotificationHubsMessageResponse,
   NotificationHubsResponse,
 } from "./models/notificationDetails.js";
+import { NotificationHubJob, NotificationHubJobPoller } from "./models/notificationHubJob.js";
 import { NotificationHubsClientContext, createClientContext } from "./client/index.js";
-import {
-  EntityOperationOptions,
-  NotificationHubsClientOptions,
-  RegistrationQueryLimitOptions,
-  RegistrationQueryOptions,
-  SendOperationOptions,
-} from "./models/options.js";
 import { Notification } from "./models/notification.js";
-import { NotificationHubJob } from "./models/notificationHubJob.js";
 import { OperationOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RegistrationDescription } from "./models/registration.js";
+import { beginSubmitNotificationHubJob as beginSubmitNotificationHubJobMethod } from "./client/beginSubmitNotificationHubJob.js";
 import { cancelScheduledNotification as cancelScheduledNotificationMethod } from "./client/cancelScheduledNotification.js";
 import { createOrUpdateInstallation as createOrUpdateInstallationMethod } from "./client/createOrUpdateInstallation.js";
 import { createOrUpdateRegistration as createOrUpdateRegistrationMethod } from "./client/createOrUpdateRegistration.js";
@@ -35,10 +39,7 @@ import { getRegistration as getRegistrationMethod } from "./client/getRegistrati
 import { listNotificationHubJobs as listNotificationHubJobsMethod } from "./client/listNotificationHubJobs.js";
 import { listRegistrationsByTag as listRegistrationsByTagMethod } from "./client/listRegistrationsByTag.js";
 import { listRegistrations as listRegistrationsMethod } from "./client/listRegistrations.js";
-import { scheduleBroadcastNotification as scheduleBroadcastNotificationMethod } from "./client/scheduleBroadcastNotification.js";
 import { scheduleNotification as scheduleNotificationMethod } from "./client/scheduleNotification.js";
-import { sendBroadcastNotification as sendBroadcastNotificationMethod } from "./client/sendBroadcastNotification.js";
-import { sendDirectNotification as sendDirectNotificationMethod } from "./client/sendDirectNotification.js";
 import { sendNotification as sendNotificationMethod } from "./client/sendNotification.js";
 import { submitNotificationHubJob as submitNotificationHubJobMethod } from "./client/submitNotificationHubJob.js";
 import { updateInstallation as updateInstallationMethod } from "./client/updateInstallation.js";
@@ -217,84 +218,32 @@ export class NotificationHubsServiceClient {
   }
 
   /**
-   * Sends a direct push notification to a device with the given push handle.
-   * @param pushHandle - The push handle which is the unique identifier for the device.
-   * @param notification - The notification to send to the device.
-   * @param options - The options for sending a direct notification.
-   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
-   */
-  sendDirectNotification(
-    pushHandle: PushHandle,
-    notification: Notification,
-    options: OperationOptions = {}
-  ): Promise<NotificationHubsMessageResponse> {
-    return sendDirectNotificationMethod(this._client, pushHandle, notification, options);
-  }
-
-  /**
    * Sends push notifications to devices that match the given tags or tag expression.
-   * @param tags - The tags used to target the device for push notifications in either an array or tag expression.
    * @param notification - The notification to send to the matching devices.
-   * @param options - Configuration options for the direct send operation which can contain custom headers
-   * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
+   * @param options - Options for the notification including tags, device handles and whether to enable test send.
    * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
    */
   sendNotification(
-    tags: string[] | string,
     notification: Notification,
-    options: SendOperationOptions = {}
+    options: DirectSendNotificationOptions | SendNotificationOptions = { enableTestSend: false }
   ): Promise<NotificationHubsMessageResponse> {
-    return sendNotificationMethod(this._client, tags, notification, options);
-  }
-
-  /**
-   * Sends push notifications to all devices on the Notification Hub.
-   * @param notification - The notification to send to all devices.
-   * @param options - Configuration options for the direct send operation which can contain custom headers
-   * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
-   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
-   */
-  sendBroadcastNotification(
-    notification: Notification,
-    options: SendOperationOptions = {}
-  ): Promise<NotificationHubsMessageResponse> {
-    return sendBroadcastNotificationMethod(this._client, notification, options);
+    return sendNotificationMethod(this._client, notification, options);
   }
 
   /**
    * Schedules a push notification to devices that match the given tags or tag expression at the specified time.
    * NOTE: This is only available in Standard SKU Azure Notification Hubs.
    * @param scheduledTime - The Date to send the push notification.
-   * @param tags - The tags used to target the device for push notifications in either an array or tag expression.
    * @param notification - The notification to send to the matching devices.
-   * @param options - Configuration options for the direct send operation which can contain custom headers
-   * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
+   * @param options - Options which include tags used to target the device for push notifications in either an array or tag expression.
    * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
    */
   scheduleNotification(
     scheduledTime: Date,
-    tags: string[] | string,
     notification: Notification,
-    options: OperationOptions = {}
+    options: ScheduleNotificationOptions = {}
   ): Promise<NotificationHubsMessageResponse> {
-    return scheduleNotificationMethod(this._client, scheduledTime, tags, notification, options);
-  }
-
-  /**
-   * Schedules a push notification to all devices registered on the Notification Hub.
-   * NOTE: This is only available in Standard SKU Azure Notification Hubs.
-   * @param scheduledTime - The Date to send the push notification.
-   * @param notification - The notification to send to the matching devices.
-   * @param options - Configuration options for the direct send operation which can contain custom headers
-   * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
-   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
-   */
-  scheduleBroadcastNotification(
-    scheduledTime: Date,
-    notification: Notification,
-    options: OperationOptions = {}
-  ): Promise<NotificationHubsMessageResponse> {
-    return scheduleBroadcastNotificationMethod(this._client, scheduledTime, notification, options);
+    return scheduleNotificationMethod(this._client, scheduledTime, notification, options);
   }
 
   /**
@@ -345,6 +294,19 @@ export class NotificationHubsServiceClient {
     options: OperationOptions = {}
   ): Promise<NotificationHubJob> {
     return getNotificationHubJobMethod(this._client, jobId, options);
+  }
+
+  /**
+   * Submits a Notification Hub job and creates a poller to poll for results.
+   * @param notificationHubJob - The Notification Hub import/export job to start.
+   * @param options - The operation options.
+   * @returns A poller which can be called to poll until completion of the job.
+   */
+  beginSubmitNotificationHubJob(
+    notificationHubJob: NotificationHubJob,
+    options: PolledOperationOptions = {}
+  ): Promise<NotificationHubJobPoller> {
+    return beginSubmitNotificationHubJobMethod(this._client, notificationHubJob, options);
   }
 
   /**
