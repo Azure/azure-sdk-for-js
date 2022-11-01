@@ -75,7 +75,11 @@ describe(`ShortCodesClient - manage Attachments`, function () {
       assert.equal(existingAttachment.fileType, attachment.fileType);
       assert.equal(existingAttachment.type, attachment.type);
 
-      const listedAttachment = await getProgramBriefAttachmentWithId(client, uspb.id, attachment.id);
+      const listedAttachment = await getProgramBriefAttachmentWithId(
+        client,
+        uspb.id,
+        attachment.id
+      );
 
       assert.isOk(listedAttachment);
 
@@ -99,8 +103,7 @@ describe(`ShortCodesClient - manage Attachments`, function () {
         if (error.response?.bodyAsText) {
           console.log(error.response?.bodyAsText);
           assert.fail(error.response?.bodyAsText);
-        }
-        else {
+        } else {
           assert.fail("Rest error while testing Program Brief Attachments");
         }
       }
