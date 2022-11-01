@@ -627,6 +627,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/maps-route",
+      "projectFolder": "sdk/maps/maps-route-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/notification-hubs",
       "projectFolder": "sdk/notificationhubs/notification-hubs",
       "versionPolicyName": "client"

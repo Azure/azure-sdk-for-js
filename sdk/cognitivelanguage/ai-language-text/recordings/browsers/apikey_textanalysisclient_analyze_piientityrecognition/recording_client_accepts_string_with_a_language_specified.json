@@ -19,7 +19,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "bbbc9ad2-c820-463c-bdb9-ef778e29daec",
+        "x-ms-client-request-id": "9fbfce0f-3c9c-4083-814b-122fbc58af38",
         "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": {
@@ -52,17 +52,15 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "d02db1a2-4e0a-464f-a61e-c469c83c319d",
+        "apim-request-id": "348c25e1-5419-4075-9f74-9f75c121a66e",
         "Content-Length": "883",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4,CognitiveServices.TextAnalytics.TextRecords=4",
-        "Date": "Tue, 25 Oct 2022 21:30:46 GMT",
-        "Server": "istio-envoy",
+        "Date": "Tue, 01 Nov 2022 22:58:59 GMT",
         "Set-Cookie": ".AspNetCore.Mvc.CookieTempDataProvider=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; samesite=lax; httponly",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "54",
-        "x-http2-stream-id": "7",
+        "x-envoy-upstream-service-time": "111",
         "x-ms-region": "East US"
       },
       "ResponseBody": {

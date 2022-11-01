@@ -5,11 +5,11 @@
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/index.js",
-  "types": "types/maps-common.d.ts",
+  "types": "types/latest/maps-common.d.ts",
   "typesVersions": {
     "<3.6": {
       "*": [
-        "types/3.1/index.d.ts"
+        "types/3.1/maps-common.d.ts"
       ]
     }
   },

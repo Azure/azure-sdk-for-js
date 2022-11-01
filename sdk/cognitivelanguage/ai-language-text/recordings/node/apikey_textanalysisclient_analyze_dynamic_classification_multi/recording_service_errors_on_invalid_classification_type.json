@@ -11,7 +11,7 @@
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "dcd81346-2238-42d8-8091-d99c8f053c65"
+        "x-ms-client-request-id": "0e312da2-9403-4803-b284-5917e51ac817"
       },
       "RequestBody": {
         "kind": "DynamicClassification",
@@ -34,15 +34,13 @@
       },
       "StatusCode": 400,
       "ResponseHeaders": {
-        "apim-request-id": "7747062c-f2a5-42f1-a9c9-515455e399f7",
+        "apim-request-id": "a7cc0902-4b28-46ce-bcd0-7f3f60f21ce7",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 25 Oct 2022 21:27:17 GMT",
-        "Server": "istio-envoy",
+        "Date": "Tue, 01 Nov 2022 22:52:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "7",
-        "x-http2-stream-id": "11",
+        "x-envoy-upstream-service-time": "6",
         "x-ms-region": "East US"
       },
       "ResponseBody": {

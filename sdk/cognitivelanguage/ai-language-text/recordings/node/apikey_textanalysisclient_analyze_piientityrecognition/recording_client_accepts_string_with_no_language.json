@@ -11,7 +11,7 @@
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "a15c2185-00b7-45d1-8945-7c6847e2251e"
+        "x-ms-client-request-id": "b4a02a64-3b07-4ad3-9920-a91061180d14"
       },
       "RequestBody": {
         "kind": "PiiEntityRecognition",
@@ -43,17 +43,15 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "bd4737cd-78c6-41a2-aad8-4e0694798488",
+        "apim-request-id": "1bb1b762-b78a-4748-94c9-ebddc205810e",
         "Content-Length": "883",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4,CognitiveServices.TextAnalytics.TextRecords=4",
-        "Date": "Tue, 25 Oct 2022 21:27:09 GMT",
-        "Server": "istio-envoy",
+        "Date": "Tue, 01 Nov 2022 22:51:51 GMT",
         "Set-Cookie": ".AspNetCore.Mvc.CookieTempDataProvider=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; samesite=lax; httponly",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "49",
-        "x-http2-stream-id": "5",
+        "x-envoy-upstream-service-time": "41",
         "x-ms-region": "East US"
       },
       "ResponseBody": {

@@ -11,7 +11,7 @@
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "a1a5eda7-b5a5-4dd5-8191-62552cd78ae2"
+        "x-ms-client-request-id": "d573696c-b60a-4876-b88a-348a5de33a52"
       },
       "RequestBody": {
         "kind": "EntityRecognition",
@@ -53,15 +53,13 @@
       },
       "StatusCode": 400,
       "ResponseHeaders": {
-        "apim-request-id": "c8785362-a880-451d-bbc5-efe4bdc8894c",
+        "apim-request-id": "67503131-f8d3-4e9c-9c9d-132d3a695319",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 25 Oct 2022 21:27:08 GMT",
-        "Server": "istio-envoy",
+        "Date": "Tue, 01 Nov 2022 22:51:51 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "10",
-        "x-http2-stream-id": "3",
+        "x-envoy-upstream-service-time": "6",
         "x-ms-region": "East US"
       },
       "ResponseBody": {

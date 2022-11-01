@@ -11,7 +11,7 @@
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "1945632d-38c3-4def-bfdb-43eb0d7b8b4a"
+        "x-ms-client-request-id": "317b9091-21ee-442b-8fcd-b2573e276060"
       },
       "RequestBody": {
         "kind": "DynamicClassification",
@@ -46,17 +46,15 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "1d4b12f3-dbb6-43e3-81a3-cbebd0c8605d",
+        "apim-request-id": "13f60548-16f6-40a4-af22-030658c7b4c7",
         "Content-Length": "844",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=0,CognitiveServices.TextAnalytics.TextRecords=4",
-        "Date": "Tue, 25 Oct 2022 21:27:17 GMT",
-        "Server": "istio-envoy",
+        "Date": "Tue, 01 Nov 2022 22:52:00 GMT",
         "Set-Cookie": ".AspNetCore.Mvc.CookieTempDataProvider=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; samesite=lax; httponly",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "633",
-        "x-http2-stream-id": "13",
+        "x-envoy-upstream-service-time": "1720",
         "x-ms-region": "East US"
       },
       "ResponseBody": {

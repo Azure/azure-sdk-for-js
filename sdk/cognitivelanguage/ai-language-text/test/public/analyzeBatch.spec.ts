@@ -65,20 +65,16 @@ const FIXME2 = {
   excludedAdditionalProps: ["warnings"],
 };
 
-// FIXME: add AAD
-const FIXME3: AuthMethod[] = ["APIKey"];
-
 const excludedFHIRProperties = ["reference", "id", "fullUrl", "value", "date", "period"];
 
-matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
+matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
     let recorder: Recorder;
     let client: TextAnalysisClient;
 
     beforeEach(async function (this: Context) {
       recorder = await startRecorder(this.currentTest);
-      client = createClient({
-        authMethod,
+      client = createClient(authMethod, {
         recorder,
       });
     });
@@ -441,84 +437,6 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
               }
             );
             await assertActionsResults(await poller.pollUntilDone(), expectation31, FIXME2);
-          });
-        });
-
-        // FIXME: Re-enable once we start testing on prod
-        describe.skip("custom", function () {
-          it("entity recognition", async function () {
-            const docs = [
-              "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
-            ];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.CustomEntityRecognition,
-                  deploymentName: assertEnvironmentVariable(
-                    "LANGUAGE_CUSTOM_ENTITY_RECOGNITION_DEPLOYMENT_NAME"
-                  ),
-                  projectName: assertEnvironmentVariable(
-                    "LANGUAGE_CUSTOM_ENTITY_RECOGNITION_PROJECT_NAME"
-                  ),
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionsResults(await poller.pollUntilDone(), expectation1);
-          });
-
-          it("single label classification action", async function () {
-            const docs = [
-              "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
-            ];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.CustomSingleLabelClassification,
-                  deploymentName: assertEnvironmentVariable(
-                    "LANGUAGE_CUSTOM_SINGLE_LABEL_CLASSIFICATION_DEPLOYMENT_NAME"
-                  ),
-                  projectName: assertEnvironmentVariable(
-                    "LANGUAGE_CUSTOM_SINGLE_LABEL_CLASSIFICATION_PROJECT_NAME"
-                  ),
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionsResults(await poller.pollUntilDone(), expectation2);
-          });
-
-          it("multi label classification action", async function () {
-            const docs = [
-              "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
-            ];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.CustomMultiLabelClassification,
-                  deploymentName: assertEnvironmentVariable(
-                    "LANGUAGE_CUSTOM_MULTI_LABEL_CLASSIFICATION_DEPLOYMENT_NAME"
-                  ),
-                  projectName: assertEnvironmentVariable(
-                    "LANGUAGE_CUSTOM_MULTI_LABEL_CLASSIFICATION_PROJECT_NAME"
-                  ),
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionsResults(await poller.pollUntilDone(), expectation4);
           });
         });
       });
@@ -1160,6 +1078,98 @@ matrix([FIXME3] as const, async (authMethod: AuthMethod) => {
               }
             );
             await assertActionsResults(await poller.pollUntilDone(), expectation23);
+          });
+        });
+      });
+    });
+  });
+});
+
+matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
+  describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
+    let recorder: Recorder;
+    let client: TextAnalysisClient;
+
+    beforeEach(async function (this: Context) {
+      recorder = await startRecorder(this.currentTest);
+      client = createClient(authMethod, {
+        resource: "CustomText",
+        recorder,
+      });
+    });
+
+    afterEach(async function () {
+      await recorder.stop();
+    });
+
+    describe("analyzeBatch", function () {
+      const pollingInterval = isPlaybackMode() ? 0 : 2000;
+
+      describe("actions", function () {
+        describe("custom", function () {
+          it("entity recognition", async function () {
+            const docs = [
+              "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
+            ];
+            const poller = await client.beginAnalyzeBatch(
+              [
+                {
+                  kind: AnalyzeBatchActionNames.CustomEntityRecognition,
+                  deploymentName: assertEnvironmentVariable("CUSTOM_ENTITIES_DEPLOYMENT_NAME"),
+                  projectName: assertEnvironmentVariable("CUSTOM_ENTITIES_PROJECT_NAME"),
+                },
+              ],
+              docs,
+              "en",
+              {
+                updateIntervalInMs: pollingInterval,
+              }
+            );
+            await assertActionsResults(await poller.pollUntilDone(), expectation1);
+          });
+
+          it("single label classification action", async function () {
+            const docs = [
+              "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
+            ];
+            const poller = await client.beginAnalyzeBatch(
+              [
+                {
+                  kind: AnalyzeBatchActionNames.CustomSingleLabelClassification,
+                  deploymentName: assertEnvironmentVariable(
+                    "SINGLE_LABEL_CLASSIFY_DEPLOYMENT_NAME"
+                  ),
+                  projectName: assertEnvironmentVariable("SINGLE_LABEL_CLASSIFY_PROJECT_NAME"),
+                },
+              ],
+              docs,
+              "en",
+              {
+                updateIntervalInMs: pollingInterval,
+              }
+            );
+            await assertActionsResults(await poller.pollUntilDone(), expectation2);
+          });
+
+          it("multi label classification action", async function () {
+            const docs = [
+              "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
+            ];
+            const poller = await client.beginAnalyzeBatch(
+              [
+                {
+                  kind: AnalyzeBatchActionNames.CustomMultiLabelClassification,
+                  deploymentName: assertEnvironmentVariable("MULTI_LABEL_CLASSIFY_DEPLOYMENT_NAME"),
+                  projectName: assertEnvironmentVariable("MULTI_LABEL_CLASSIFY_PROJECT_NAME"),
+                },
+              ],
+              docs,
+              "en",
+              {
+                updateIntervalInMs: pollingInterval,
+              }
+            );
+            await assertActionsResults(await poller.pollUntilDone(), expectation4);
           });
         });
       });

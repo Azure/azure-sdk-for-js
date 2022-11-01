@@ -55,9 +55,6 @@ import {
   expectation70,
 } from "./expectations";
 
-// Add AAD once the service supports it
-const FIXME1: AuthMethod[] = ["APIKey"];
-
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
   "Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle",
@@ -72,7 +69,7 @@ const testDataEs = [
 
 const classificationTypeList: string[] = ["single", "multi"];
 
-matrix([FIXME1] as const, async (authMethod: AuthMethod) => {
+matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
     let recorder: Recorder;
     let client: TextAnalysisClient;
@@ -81,8 +78,7 @@ matrix([FIXME1] as const, async (authMethod: AuthMethod) => {
 
     beforeEach(async function (this: Context) {
       recorder = await startRecorder(this.currentTest);
-      client = createClient({
-        authMethod,
+      client = createClient(authMethod, {
         recorder,
       });
       let nextId = 0;
