@@ -7,10 +7,11 @@
  * @summary detects anomaly for the last point on the series.
  */
 
-const createAnomalyDetectorRestClient = require("@azure-rest/ai-anomaly-detector").default;
+const AnomalyDetector = require("@azure-rest/ai-anomaly-detector").default,
+  { isUnexpected } = require("@azure-rest/ai-anomaly-detector");
 const { AzureKeyCredential } = require("@azure/core-auth");
 
-const parse = require("csv-parse/lib/sync");
+const { parse } = require("csv-parse/sync");
 const fs = require("fs");
 
 // Load the .env file if it exists
@@ -35,7 +36,7 @@ function read_series_from_file(path) {
 async function main() {
   // create client
   const credential = new AzureKeyCredential(apiKey);
-  const client = createAnomalyDetectorRestClient(endpoint, apiVersion, credential);
+  const client = AnomalyDetector(endpoint, apiVersion, credential);
 
   // construct request
   const options = {
@@ -52,6 +53,9 @@ async function main() {
 
   // get last detect result
   const result = await client.path("/timeseries/last/detect").post(options);
+  if (isUnexpected(result)) {
+    throw result;
+  }
 
   if (result.body.isAnomaly) {
     console.log("The latest point is detected as anomaly.");

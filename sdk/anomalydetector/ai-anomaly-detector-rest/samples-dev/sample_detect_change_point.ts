@@ -55,15 +55,12 @@ export async function main() {
   }
 
   if (
-    (result.body as ChangePointDetectResponseOutput).isChangePoint!.some(function (changePoint) {
+    result.body.isChangePoint!.some(function (changePoint) {
       return changePoint === true;
     })
   ) {
     console.log("Change points were detected from the series at index:");
-    (result.body as ChangePointDetectResponseOutput).isChangePoint!.forEach(function (
-      changePoint,
-      index
-    ) {
+    result.body.isChangePoint!.forEach(function (changePoint, index) {
       if (changePoint === true) console.log(index);
     });
   } else {

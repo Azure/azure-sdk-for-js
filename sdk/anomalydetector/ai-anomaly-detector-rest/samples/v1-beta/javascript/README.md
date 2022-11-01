@@ -1,6 +1,6 @@
-# client library samples for JavaScript (Beta)
+# AnomalyDetectorRest client library samples for JavaScript (Beta)
 
-These sample programs show how to use the JavaScript client libraries for in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for AnomalyDetectorRest in some common scenarios.
 
 | **File Name**                                                                 | **Description**                                   |
 | ----------------------------------------------------------------------------- | ------------------------------------------------- |

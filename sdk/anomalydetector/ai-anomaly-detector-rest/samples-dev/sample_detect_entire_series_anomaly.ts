@@ -61,7 +61,7 @@ export async function main() {
     throw result;
   }
 
-  if ((result.body as EntireDetectResponseOutput).isAnomaly) {
+  if (result.body.isAnomaly) {
     console.log("The latest point is detected as anomaly.");
   } else {
     console.log("The latest point is not detected as anomaly.");

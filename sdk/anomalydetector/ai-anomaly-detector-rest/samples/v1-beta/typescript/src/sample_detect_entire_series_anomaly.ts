@@ -7,14 +7,15 @@
  * @summary detects anomaly points on entire series.
  */
 
-import createAnomalyDetectorRestClient, {
-  DetectEntireSeriesParameters,
+import AnomalyDetector, {
+  DetectUnivariateEntireSeriesParameters,
   EntireDetectResponseOutput,
+  isUnexpected,
   TimeSeriesPoint,
 } from "@azure-rest/ai-anomaly-detector";
 import { AzureKeyCredential } from "@azure/core-auth";
 
-import parse from "csv-parse/lib/sync";
+import { parse } from "csv-parse/sync";
 import * as fs from "fs";
 
 // Load the .env file if it exists
@@ -40,10 +41,10 @@ function read_series_from_file(path: string): Array<TimeSeriesPoint> {
 export async function main() {
   // create client
   const credential = new AzureKeyCredential(apiKey);
-  const client = createAnomalyDetectorRestClient(endpoint, apiVersion, credential);
+  const client = AnomalyDetector(endpoint, apiVersion, credential);
 
   // construct request
-  const options: DetectEntireSeriesParameters = {
+  const options: DetectUnivariateEntireSeriesParameters = {
     body: {
       granularity: "daily",
       imputeMode: "auto",
@@ -56,8 +57,11 @@ export async function main() {
 
   // get last detect result
   const result = await client.path("/timeseries/entire/detect").post(options);
+  if (isUnexpected(result)) {
+    throw result;
+  }
 
-  if ((result.body as EntireDetectResponseOutput).isAnomaly) {
+  if (result.body.isAnomaly) {
     console.log("The latest point is detected as anomaly.");
   } else {
     console.log("The latest point is not detected as anomaly.");

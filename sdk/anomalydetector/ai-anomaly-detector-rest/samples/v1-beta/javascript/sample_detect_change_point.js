@@ -7,10 +7,11 @@
  * @summary detects change points.
  */
 
-const createAnomalyDetectorRestClient = require("@azure-rest/ai-anomaly-detector").default;
+const AnomalyDetector = require("@azure-rest/ai-anomaly-detector").default,
+  { isUnexpected } = require("@azure-rest/ai-anomaly-detector");
 const { AzureKeyCredential } = require("@azure/core-auth");
 
-const parse = require("csv-parse/lib/sync");
+const { parse } = require("csv-parse/sync");
 const fs = require("fs");
 
 // Load the .env file if it exists
@@ -35,7 +36,7 @@ function read_series_from_file(path) {
 
 async function main() {
   const credential = new AzureKeyCredential(apiKey);
-  const client = createAnomalyDetectorRestClient(endpoint, apiVersion, credential);
+  const client = AnomalyDetector(endpoint, apiVersion, credential);
   const options = {
     body: {
       granularity: "daily",
@@ -44,7 +45,9 @@ async function main() {
     headers: { "Content-Type": "application/json" },
   };
   const result = await client.path("/timeseries/changepoint/detect").post(options);
-  console.log(result);
+  if (isUnexpected(result)) {
+    throw result;
+  }
 
   if (
     result.body.isChangePoint.some(function (changePoint) {

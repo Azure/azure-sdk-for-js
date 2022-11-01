@@ -7,14 +7,15 @@
  * @summary detects change points.
  */
 
-import createAnomalyDetectorRestClient, {
+import AnomalyDetector, {
   ChangePointDetectResponseOutput,
-  DetectChangePointParameters,
+  DetectUnivariateChangePointParameters,
+  isUnexpected,
   TimeSeriesPoint,
 } from "@azure-rest/ai-anomaly-detector";
 import { AzureKeyCredential } from "@azure/core-auth";
 
-import parse from "csv-parse/lib/sync";
+import { parse } from "csv-parse/sync";
 import * as fs from "fs";
 
 // Load the .env file if it exists
@@ -40,8 +41,8 @@ function read_series_from_file(path: string): Array<TimeSeriesPoint> {
 
 export async function main() {
   const credential = new AzureKeyCredential(apiKey);
-  const client = createAnomalyDetectorRestClient(endpoint, apiVersion, credential);
-  const options: DetectChangePointParameters = {
+  const client = AnomalyDetector(endpoint, apiVersion, credential);
+  const options: DetectUnivariateChangePointParameters = {
     body: {
       granularity: "daily",
       series: read_series_from_file(timeSeriesDataPath),
@@ -49,18 +50,17 @@ export async function main() {
     headers: { "Content-Type": "application/json" },
   };
   const result = await client.path("/timeseries/changepoint/detect").post(options);
-  console.log(result);
+  if (isUnexpected(result)) {
+    throw result;
+  }
 
   if (
-    (result.body as ChangePointDetectResponseOutput).isChangePoint!.some(function (changePoint) {
+    result.body.isChangePoint!.some(function (changePoint) {
       return changePoint === true;
     })
   ) {
     console.log("Change points were detected from the series at index:");
-    (result.body as ChangePointDetectResponseOutput).isChangePoint!.forEach(function (
-      changePoint,
-      index
-    ) {
+    result.body.isChangePoint!.forEach(function (changePoint, index) {
       if (changePoint === true) console.log(index);
     });
   } else {

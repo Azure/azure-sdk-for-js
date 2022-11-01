@@ -1,6 +1,6 @@
-# client library samples for TypeScript (Beta)
+# AnomalyDetectorRest client library samples for TypeScript (Beta)
 
-These sample programs show how to use the TypeScript client libraries for in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for AnomalyDetectorRest in some common scenarios.
 
 | **File Name**                                                                 | **Description**                                   |
 | ----------------------------------------------------------------------------- | ------------------------------------------------- |

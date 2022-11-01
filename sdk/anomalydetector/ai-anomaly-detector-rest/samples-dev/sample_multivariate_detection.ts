@@ -24,9 +24,7 @@ dotenv.config();
 const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
 const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
 const apiVersion = "v1.1";
-// const dataSource = "<your data source>";
-const dataSource =
-  "https://mvaddataset.blob.core.windows.net/sample-multitable/sample_data_20_3000";
+const dataSource = "<your data source>";
 
 function sleep(time: number): Promise<NodeJS.Timer> {
   return new Promise((resolve) => setTimeout(resolve, time));
@@ -84,9 +82,10 @@ export async function main() {
   if (isUnexpected(modelResponse)) {
     throw modelResponse;
   }
-
-  console.log(modelResponse);
-  let modelStatus = modelResponse.body.modelInfo?.status;
+  if (modelResponse.body.modelInfo === undefined) {
+    throw "Empty model info.";
+  }
+  let modelStatus = modelResponse.body.modelInfo.status;
 
   while (modelStatus != "READY" && modelStatus != "FAILED") {
     await sleep(2000).then(() => {});
@@ -95,13 +94,18 @@ export async function main() {
     if (isUnexpected(modelResponse)) {
       throw modelResponse.body;
     }
-
-    modelStatus = modelResponse.body.modelInfo?.status;
+    if (modelResponse.body.modelInfo === undefined) {
+      throw "Empty model info.";
+    }
+    modelStatus = modelResponse.body.modelInfo.status;
   }
 
   if (modelStatus == "FAILED") {
     console.log("Training failed.\nErrors:");
-    for (const error of modelResponse.body.modelInfo?.errors || []) {
+    if (modelResponse.body.modelInfo === undefined) {
+      throw "Empty model info.";
+    }
+    for (const error of modelResponse.body.modelInfo.errors || []) {
       console.log("Error code: " + error.code + ". Message: " + error.message);
     }
     return;
@@ -166,12 +170,10 @@ export async function main() {
 
   // delete model
   const deleteResult = await client.path("/multivariate/models/{modelId}", modelId).delete();
-
-  if (deleteResult.status == "204") {
-    console.log("New model has been deleted.");
-  } else {
-    console.log("Failed to delete the new model.");
+  if (isUnexpected(deleteResult)) {
+    throw deleteResult;
   }
+  console.log("New model has been deleted.");
 }
 
 main().catch((err) => {
