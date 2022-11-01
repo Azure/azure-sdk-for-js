@@ -13,7 +13,7 @@ import {
   GetSettingsOptions,
   GetSettingsResponse,
   KeyVaultSetting,
-  KeyVaultSettingsClientOptions,
+  SettingsClientOptions,
   KnownSettingType,
 } from "./settingsClientModels";
 
@@ -65,11 +65,7 @@ export class KeyVaultSettingsClient {
    * @param options - options used to configure Key Vault API requests.
 
    */
-  constructor(
-    vaultUrl: string,
-    credential: TokenCredential,
-    options: KeyVaultSettingsClientOptions = {}
-  ) {
+  constructor(vaultUrl: string, credential: TokenCredential, options: SettingsClientOptions = {}) {
     this.vaultUrl = vaultUrl;
 
     const apiVersion = options.serviceVersion || LATEST_API_VERSION;

@@ -202,17 +202,11 @@ export type KeyVaultSetting = BooleanKeyVaultSetting | DefaultKeyVaultSetting;
 
 // @public
 export class KeyVaultSettingsClient {
-    constructor(vaultUrl: string, credential: TokenCredential, options?: KeyVaultSettingsClientOptions);
+    constructor(vaultUrl: string, credential: TokenCredential, options?: SettingsClientOptions);
     getSetting(settingName: string, options: GetSettingOptions): Promise<KeyVaultSetting>;
     getSettings(options: GetSettingsOptions): Promise<GetSettingsResponse>;
     updateSetting(settingName: string, value: string, options: CreateOrUpdateSettingOptions): Promise<KeyVaultSetting>;
     readonly vaultUrl: string;
-}
-
-// @public
-export interface KeyVaultSettingsClientOptions extends CommonClientOptions {
-    disableChallengeResourceVerification?: boolean;
-    serviceVersion?: SUPPORTED_API_VERSIONS;
 }
 
 // @public
@@ -298,6 +292,12 @@ export interface SetRoleDefinitionOptions extends OperationOptions {
     permissions?: KeyVaultPermission[];
     roleDefinitionName?: string;
     roleName?: string;
+}
+
+// @public
+export interface SettingsClientOptions extends CommonClientOptions {
+    disableChallengeResourceVerification?: boolean;
+    serviceVersion?: SUPPORTED_API_VERSIONS;
 }
 
 // @public

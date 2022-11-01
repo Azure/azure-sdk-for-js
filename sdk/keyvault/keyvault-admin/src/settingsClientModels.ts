@@ -7,7 +7,7 @@ import { SUPPORTED_API_VERSIONS } from "./constants";
 /**
  * The optional parameters accepted by the KeyVaultSettingsClient.
  */
-export interface KeyVaultSettingsClientOptions extends CommonClientOptions {
+export interface SettingsClientOptions extends CommonClientOptions {
   /**
    * The accepted versions of the Key Vault's service API.
    */
