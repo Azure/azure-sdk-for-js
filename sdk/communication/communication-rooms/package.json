@@ -5,7 +5,7 @@
   "description": "Azure client library for Azure Communication Rooms services",
   "version": "1.0.0-beta.2",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=12.0.0"
   },
   "dependencies": {
     "@azure/communication-common": "^2.1.0",
