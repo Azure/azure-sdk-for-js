@@ -24,9 +24,7 @@ dotenv.config();
 const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
 const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
 const apiVersion = "v1.1";
-// const dataSource = "<your data source>";
-const dataSource =
-  "https://mvaddataset.blob.core.windows.net/sample-multitable/sample_data_20_3000";
+const dataSource = "<your data source>";
 
 function sleep(time: number): Promise<NodeJS.Timer> {
   return new Promise((resolve) => setTimeout(resolve, time));
