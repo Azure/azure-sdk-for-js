@@ -109,7 +109,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/src/shortCodesClientContext.ts",
+        "path": "src/generated/src/shortCodesClient.ts",
         "prefix": "packageDetails"
       },
       {
