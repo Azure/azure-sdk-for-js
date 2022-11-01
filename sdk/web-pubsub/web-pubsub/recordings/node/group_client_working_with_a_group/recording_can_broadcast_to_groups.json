@@ -4,7 +4,7 @@
       "RequestUri": "https://endpoint/api/hubs/simplechat/groups/group/:send?api-version=2021-10-01",
       "RequestMethod": "POST",
       "RequestHeaders": {
-        "Accept": "application/json, text/json",
+        "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
@@ -28,7 +28,7 @@
       "RequestUri": "https://endpoint/api/hubs/simplechat/groups/group/:send?api-version=2021-10-01",
       "RequestMethod": "POST",
       "RequestHeaders": {
-        "Accept": "application/json, text/json",
+        "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
@@ -55,7 +55,7 @@
       "RequestUri": "https://endpoint/api/hubs/simplechat/groups/group/:send?api-version=2021-10-01",
       "RequestMethod": "POST",
       "RequestHeaders": {
-        "Accept": "application/json, text/json",
+        "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",

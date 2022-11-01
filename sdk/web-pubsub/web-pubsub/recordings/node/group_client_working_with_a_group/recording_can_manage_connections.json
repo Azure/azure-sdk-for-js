@@ -4,7 +4,7 @@
       "RequestUri": "https://endpoint/api/hubs/simplechat/groups/group/connections/xxxx?api-version=2021-10-01",
       "RequestMethod": "PUT",
       "RequestHeaders": {
-        "Accept": "application/json, text/json",
+        "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
@@ -35,7 +35,7 @@
       "RequestUri": "https://endpoint/api/hubs/simplechat/groups/group/connections/xxxx?api-version=2021-10-01",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
-        "Accept": "application/json, text/json",
+        "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
