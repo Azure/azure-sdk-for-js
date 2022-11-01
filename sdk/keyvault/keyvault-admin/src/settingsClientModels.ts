@@ -53,9 +53,29 @@ export enum KnownSettingType {
 export type KeyVaultSettingType = string;
 
 /**
- * An interface representing a Key Vault setting.
+ * A setting with a boolean value.
  */
-export interface KeyVaultSetting {
+export interface BooleanKeyVaultSetting {
+  /**
+   * The name of the setting.
+   */
+  name: string;
+
+  /**
+   * The value of the setting.
+   */
+  value: boolean;
+
+  /**
+   * The type of the setting.
+   */
+  type: KnownSettingType.Boolean;
+}
+
+/**
+ * A setting with an unknown type.
+ */
+export interface DefaultKeyVaultSetting {
   /**
    * The name of the setting.
    */
@@ -69,8 +89,13 @@ export interface KeyVaultSetting {
   /**
    * The type of the setting.
    */
-  type?: KeyVaultSettingType;
+  type?: never;
 }
+
+/**
+ * A Key Vault setting.
+ */
+export type KeyVaultSetting = BooleanKeyVaultSetting | DefaultKeyVaultSetting;
 
 /**
  * An interface representing the response returned by {@link KeyVaultSettingsClient.getSettings}

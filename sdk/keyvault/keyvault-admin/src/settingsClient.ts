@@ -5,7 +5,7 @@ import { TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { createKeyVaultChallengeCallbacks } from "../../keyvault-common/src";
 import { LATEST_API_VERSION } from "./constants";
-import { KeyVaultClient } from "./generated";
+import { KeyVaultClient, Setting as GeneratedSetting } from "./generated";
 import { logger } from "./log";
 import {
   CreateOrUpdateSettingOptions,
@@ -14,7 +14,23 @@ import {
   GetSettingsResponse,
   KeyVaultSetting,
   KeyVaultSettingsClientOptions,
+  KnownSettingType,
 } from "./settingsClientModels";
+
+function makeSetting(generatedSetting: GeneratedSetting): KeyVaultSetting {
+  if (generatedSetting.type === KnownSettingType.Boolean) {
+    return {
+      name: generatedSetting.name,
+      type: generatedSetting.type,
+      value: Boolean(generatedSetting.value),
+    };
+  } else {
+    return {
+      name: generatedSetting.name,
+      value: generatedSetting.value,
+    };
+  }
+}
 
 /**
  * The KeyVaultSettingsClient provides asynchronous methods to create, update, get and list
@@ -87,12 +103,12 @@ export class KeyVaultSettingsClient {
    * @param value - the value of the pool setting.
    * @param options - the optional parameters.
    */
-  updateSetting(
+  async updateSetting(
     settingName: string,
     value: string,
     options: CreateOrUpdateSettingOptions
   ): Promise<KeyVaultSetting> {
-    return this.client.updateSetting(this.vaultUrl, settingName, value, options);
+    return makeSetting(await this.client.updateSetting(this.vaultUrl, settingName, value, options));
   }
 
   /**
@@ -101,8 +117,8 @@ export class KeyVaultSettingsClient {
    * @param settingName - the name of the setting.
    * @param options - the optional parameters.
    */
-  getSetting(settingName: string, options: GetSettingOptions): Promise<KeyVaultSetting> {
-    return this.client.getSetting(this.vaultUrl, settingName, options);
+  async getSetting(settingName: string, options: GetSettingOptions): Promise<KeyVaultSetting> {
+    return makeSetting(await this.client.getSetting(this.vaultUrl, settingName, options));
   }
 
   /**
@@ -112,6 +128,6 @@ export class KeyVaultSettingsClient {
    */
   async getSettings(options: GetSettingsOptions): Promise<GetSettingsResponse> {
     const { value } = await this.client.getSettings(this.vaultUrl, options);
-    return { value: value ?? [] };
+    return { value: value?.map(makeSetting) ?? [] };
   }
 }

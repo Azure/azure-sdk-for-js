@@ -20,11 +20,25 @@ export interface AccessControlClientOptions extends CommonClientOptions {
 }
 
 // @public
+export interface BooleanKeyVaultSetting {
+    name: string;
+    type: KnownSettingType.Boolean;
+    value: boolean;
+}
+
+// @public
 export interface CreateOrUpdateSettingOptions extends OperationOptions {
 }
 
 // @public
 export interface CreateRoleAssignmentOptions extends OperationOptions {
+}
+
+// @public
+export interface DefaultKeyVaultSetting {
+    name: string;
+    type?: never;
+    value: string;
 }
 
 // @public
@@ -184,11 +198,7 @@ export interface KeyVaultSelectiveKeyRestoreResult {
 }
 
 // @public
-export interface KeyVaultSetting {
-    name: string;
-    type?: KeyVaultSettingType;
-    value: string;
-}
+export type KeyVaultSetting = BooleanKeyVaultSetting | DefaultKeyVaultSetting;
 
 // @public
 export class KeyVaultSettingsClient {
