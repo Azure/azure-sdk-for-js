@@ -148,13 +148,11 @@ describe("HubClient", function () {
       assert.equal(lastResponse?.status, 202);
     });
 
-    // `removeUserFromAllGroups` always times out.
-    it.skip("can manage users", async () => {
-      this.timeout(Infinity);
+    it("can manage users", async () => {
       const res = await client.userExists("foo");
       assert.ok(!res);
       await client.removeUserFromAllGroups("brian", { onResponse });
-      assert.equal(lastResponse?.status, 200);
+      assert.equal(lastResponse?.status, 204);
     });
 
     it("can check if a connection exists", async function () {
@@ -235,11 +233,15 @@ describe("HubClient", function () {
       );
     });
 
-    // service API doesn't work yet.
-    it.skip("can generate client tokens", async () => {
-      await client.getClientAccessToken({
+    it("can generate client tokens", async () => {
+      const res = await client.getClientAccessToken({
         userId: "brian",
+        groups: ["group1"]
       });
+      var url = new URL(res.url);
+      assert.ok(url.searchParams.has("access_token"));
+      assert.equal(url.host, new URL(client.endpoint).host);
+      assert.equal(url.pathname, `/client/hubs/${client.hubName}`);
     });
   });
 });
