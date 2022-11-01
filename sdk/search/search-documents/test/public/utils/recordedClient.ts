@@ -3,13 +3,13 @@
 
 import * as dotenv from "dotenv";
 
-import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
 
 import {
   AzureKeyCredential,
   SearchClient,
-  SearchIndexerClient,
   SearchIndexClient,
+  SearchIndexerClient,
 } from "../../../src";
 
 const isNode =

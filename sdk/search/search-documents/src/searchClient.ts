@@ -11,37 +11,37 @@ import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPoli
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import {
-  AutocompleteResult,
   AutocompleteRequest,
-  SuggestRequest,
+  AutocompleteResult,
   IndexDocumentsResult,
+  SuggestRequest,
 } from "./generated/data/models";
 import { createSpan } from "./tracing";
 import { deserialize, serialize } from "./serialization";
 import {
-  CountDocumentsOptions,
   AutocompleteOptions,
-  SearchOptions,
-  SearchDocumentsResult,
-  SearchIterator,
-  ListSearchResultsPageSettings,
-  SearchResult,
-  SuggestOptions,
-  SuggestDocumentsResult,
+  CountDocumentsOptions,
+  DeleteDocumentsOptions,
   GetDocumentOptions,
   IndexDocumentsOptions,
-  UploadDocumentsOptions,
+  ListSearchResultsPageSettings,
   MergeDocumentsOptions,
-  DeleteDocumentsOptions,
-  SearchDocumentsPageResult,
   MergeOrUploadDocumentsOptions,
+  SearchDocumentsPageResult,
+  SearchDocumentsResult,
+  SearchIterator,
+  SearchOptions,
   SearchRequest,
   SelectFields,
   SearchPick,
+  SearchResult,
+  SuggestDocumentsResult,
+  SuggestOptions,
+  UploadDocumentsOptions,
 } from "./indexModels";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
-import { encode, decode } from "./base64";
+import { decode, encode } from "./base64";
 import * as utils from "./serviceUtils";
 import { IndexDocumentsClient } from "./searchIndexingBufferedSender";
 import { ExtendedCommonClientOptions } from "@azure/core-http-compat";

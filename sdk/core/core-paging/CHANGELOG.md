@@ -1,14 +1,10 @@
 # Release History
 
-## 1.4.0 (Unreleased)
+## 1.4.0 (2022-11-03)
 
 ### Features Added
 
 - Add `toElements` function to convert a page to a list of elements
-
-### Breaking Changes
-
-### Bugs Fixed
 
 ### Other Changes
 

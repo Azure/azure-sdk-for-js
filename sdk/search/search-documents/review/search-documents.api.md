@@ -160,7 +160,7 @@ export interface BaseScoringFunction {
 
 // @public
 export interface BaseSearchIndexerDataIdentity {
-    odatatype: "#Microsoft.Azure.Search.SearchIndexerDataNoneIdentity" | "#Microsoft.Azure.Search.SearchIndexerDataUserAssignedIdentity";
+    odatatype: "#Microsoft.Azure.Search.DataNoneIdentity" | "#Microsoft.Azure.Search.DataUserAssignedIdentity";
 }
 
 // @public
@@ -989,11 +989,58 @@ export enum KnownEntityRecognitionSkillLanguage {
 
 // @public
 export enum KnownImageAnalysisSkillLanguage {
+    Ar = "ar",
+    Az = "az",
+    Bg = "bg",
+    Bs = "bs",
+    Ca = "ca",
+    Cs = "cs",
+    Cy = "cy",
+    Da = "da",
+    De = "de",
+    El = "el",
     En = "en",
     Es = "es",
+    Et = "et",
+    Eu = "eu",
+    Fi = "fi",
+    Fr = "fr",
+    Ga = "ga",
+    Gl = "gl",
+    He = "he",
+    Hi = "hi",
+    Hr = "hr",
+    Hu = "hu",
+    Id = "id",
+    It = "it",
     Ja = "ja",
+    Kk = "kk",
+    Ko = "ko",
+    Lt = "lt",
+    Lv = "lv",
+    Mk = "mk",
+    Ms = "ms",
+    Nb = "nb",
+    Nl = "nl",
+    Pl = "pl",
+    Prs = "prs",
     Pt = "pt",
-    Zh = "zh"
+    PtBR = "pt-BR",
+    PtPT = "pt-PT",
+    Ro = "ro",
+    Ru = "ru",
+    Sk = "sk",
+    Sl = "sl",
+    SrCyrl = "sr-Cyrl",
+    SrLatn = "sr-Latn",
+    Sv = "sv",
+    Th = "th",
+    Tr = "tr",
+    Uk = "uk",
+    Vi = "vi",
+    Zh = "zh",
+    ZhHans = "zh-Hans",
+    ZhHant = "zh-Hant"
 }
 
 // @public
@@ -1149,33 +1196,176 @@ export enum KnownLineEnding {
 
 // @public
 export enum KnownOcrSkillLanguage {
+    Af = "af",
+    Anp = "anp",
     Ar = "ar",
+    Ast = "ast",
+    Awa = "awa",
+    Az = "az",
+    Be = "be",
+    BeCyrl = "be-cyrl",
+    BeLatn = "be-latn",
+    Bfy = "bfy",
+    Bfz = "bfz",
+    Bg = "bg",
+    Bgc = "bgc",
+    Bho = "bho",
+    Bi = "bi",
+    Bns = "bns",
+    Br = "br",
+    Bra = "bra",
+    Brx = "brx",
+    Bs = "bs",
+    Bua = "bua",
+    Ca = "ca",
+    Ceb = "ceb",
+    Ch = "ch",
+    CnrCyrl = "cnr-cyrl",
+    CnrLatn = "cnr-latn",
+    Co = "co",
+    Crh = "crh",
     Cs = "cs",
+    Csb = "csb",
+    Cy = "cy",
     Da = "da",
     De = "de",
+    Dhi = "dhi",
+    Doi = "doi",
+    Dsb = "dsb",
     El = "el",
     En = "en",
     Es = "es",
+    Et = "et",
+    Eu = "eu",
+    Fa = "fa",
     Fi = "fi",
+    Fil = "fil",
+    Fj = "fj",
+    Fo = "fo",
     Fr = "fr",
+    Fur = "fur",
+    Fy = "fy",
+    Ga = "ga",
+    Gag = "gag",
+    Gd = "gd",
+    Gil = "gil",
+    Gl = "gl",
+    Gon = "gon",
+    Gv = "gv",
+    Gvr = "gvr",
+    Haw = "haw",
+    Hi = "hi",
+    Hlb = "hlb",
+    Hne = "hne",
+    Hni = "hni",
+    Hoc = "hoc",
+    Hr = "hr",
+    Hsb = "hsb",
+    Ht = "ht",
     Hu = "hu",
+    Ia = "ia",
+    Id = "id",
+    Is = "is",
     It = "it",
+    Iu = "iu",
     Ja = "ja",
+    Jns = "Jns",
+    Jv = "jv",
+    Kaa = "kaa",
+    KaaCyrl = "kaa-cyrl",
+    Kac = "kac",
+    Kea = "kea",
+    Kfq = "kfq",
+    Kha = "kha",
+    KkCyrl = "kk-cyrl",
+    KkLatn = "kk-latn",
+    Kl = "kl",
+    Klr = "klr",
+    Kmj = "kmj",
     Ko = "ko",
+    Kos = "kos",
+    Kpy = "kpy",
+    Krc = "krc",
+    Kru = "kru",
+    Ksh = "ksh",
+    KuArab = "ku-arab",
+    KuLatn = "ku-latn",
+    Kum = "kum",
+    Kw = "kw",
+    Ky = "ky",
+    La = "la",
+    Lb = "lb",
+    Lkt = "lkt",
+    Lt = "lt",
+    Mi = "mi",
+    Mn = "mn",
+    Mr = "mr",
+    Ms = "ms",
+    Mt = "mt",
+    Mww = "mww",
+    Myv = "myv",
+    Nap = "nap",
     Nb = "nb",
+    Ne = "ne",
+    Niu = "niu",
     Nl = "nl",
+    No = "no",
+    Nog = "nog",
+    Oc = "oc",
+    Os = "os",
+    Pa = "pa",
     Pl = "pl",
+    Prs = "prs",
+    Ps = "ps",
     Pt = "pt",
+    Quc = "quc",
+    Rab = "rab",
+    Rm = "rm",
     Ro = "ro",
     Ru = "ru",
+    Sa = "sa",
+    Sat = "sat",
+    Sck = "sck",
+    Sco = "sco",
     Sk = "sk",
+    Sl = "sl",
+    Sm = "sm",
+    Sma = "sma",
+    Sme = "sme",
+    Smj = "smj",
+    Smn = "smn",
+    Sms = "sms",
+    So = "so",
+    Sq = "sq",
+    Sr = "sr",
     SrCyrl = "sr-Cyrl",
     SrLatn = "sr-Latn",
+    Srx = "srx",
     Sv = "sv",
+    Sw = "sw",
+    Tet = "tet",
+    Tg = "tg",
+    Thf = "thf",
+    Tk = "tk",
+    To = "to",
     Tr = "tr",
+    Tt = "tt",
+    Tyv = "tyv",
+    Ug = "ug",
     Unk = "unk",
+    Ur = "ur",
+    Uz = "uz",
+    UzArab = "uz-arab",
+    UzCyrl = "uz-cyrl",
+    Vo = "vo",
+    Wae = "wae",
+    Xnr = "xnr",
+    Xsr = "xsr",
+    Yua = "yua",
+    Za = "za",
     ZhHans = "zh-Hans",
-    ZhHant = "zh-Hant"
+    ZhHant = "zh-Hant",
+    Zu = "zu"
 }
 
 // @public
@@ -2038,7 +2228,7 @@ export type SearchIndexerDataIdentity = SearchIndexerDataNoneIdentity | SearchIn
 
 // @public
 export type SearchIndexerDataNoneIdentity = BaseSearchIndexerDataIdentity & {
-    odatatype: "#Microsoft.Azure.Search.SearchIndexerDataNoneIdentity";
+    odatatype: "#Microsoft.Azure.Search.DataNoneIdentity";
 };
 
 // @public
@@ -2060,7 +2250,7 @@ export type SearchIndexerDataSourceType = string;
 
 // @public
 export type SearchIndexerDataUserAssignedIdentity = BaseSearchIndexerDataIdentity & {
-    odatatype: "#Microsoft.Azure.Search.SearchIndexerDataUserAssignedIdentity";
+    odatatype: "#Microsoft.Azure.Search.DataUserAssignedIdentity";
     userAssignedIdentity: string;
 };
 
@@ -2217,9 +2407,9 @@ export type SearchOptions<T extends object, Fields extends SelectFields<T>> = Op
 
 // @public
 export type SearchPick<T extends object, Paths extends SelectFields<T>> = UnionToIntersection<Paths extends `${infer FieldName extends Exclude<keyof T, symbol | number>}/${infer RestPaths}` ? NonNullable<T[FieldName]> extends object ? NonNullable<T[FieldName]> extends Array<infer U extends object> ? RestPaths extends SelectFields<U> ? {
-    [K in FieldName]: Array<SearchPick<U, RestPaths>>;
+    [K in FieldName]: Array<SearchPick<U, RestPaths>> | Extract<T[K], null | undefined>;
 } : never : {
-    [K in FieldName]: RestPaths extends SelectFields<NonNullable<T[K]>> ? SearchPick<NonNullable<T[K]>, RestPaths> : never;
+    [K in FieldName]: RestPaths extends SelectFields<NonNullable<T[K]>> ? SearchPick<NonNullable<T[K]>, RestPaths> | Extract<T[K], null | undefined> : never;
 } : never : Paths extends keyof T ? {
     [K in Paths]: T[K];
 } : never> & {};
