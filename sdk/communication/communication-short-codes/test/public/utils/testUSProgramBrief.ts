@@ -13,9 +13,27 @@ import {
 } from "../../../src/generated/src/models/mappers";
 import { CompositeMapper } from "@azure/core-client";
 
+// We'd like to make sure that tests can safely run concurrently while avoiding
+// generating a lot of leftovers.
+const testProgramBriefIds = [
+  "aaf617ef-4f1c-4910-b406-a0ec4eff5b8d",
+  "453e2fde-ede2-4dbd-bcfb-e8d79bb1c958",
+  "a3f5937b-5b70-49fe-9de2-6a7465568734",
+  "736b678a-e356-4194-9a6a-e30d9e471d7b",
+  "bbc06fea-73ea-4332-b934-4a72a3c36553",
+  "c1d88c44-7981-48c6-824e-f12330eaefe5",
+  "0722b4ea-7bb0-4e84-803d-a4dba7c920e5",
+  "0f2e455c-1ad4-4411-8b16-631a3202d44c",
+  "0257a0c6-5f86-4860-876b-581671748b40",
+  "67a426b4-0459-435b-bc29-ca0e0c9e9102",
+  "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
+];
+
 export function getTestUSProgramBrief(): USProgramBrief {
+  const id = testProgramBriefIds[Math.floor(Math.random() * testProgramBriefIds.length)];
+
   const testUSProgramBrief: USProgramBrief = {
-    id: "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
+    id,
     programDetails: {
       description:
         "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
@@ -114,7 +132,7 @@ function assertDeepEqualKnownFields(
     mapper: CompositeMapper,
     errorMessage: string
   ][]
-) {
+): void {
   for (const comparison of comparisons) {
     assertDeepEqualKnownFieldsInternal(
       actual,
@@ -134,7 +152,7 @@ function assertDeepEqualKnownFieldsInternal(
   propertyToCompareExtractor: (object: any) => any,
   errorMessage: string,
   messageContext: string
-) {
+): void {
   const mappedActual = mapKnownFields(propertyToCompareExtractor(actual), mapper);
   const mappedExpected = mapKnownFields(propertyToCompareExtractor(expected), mapper);
 
