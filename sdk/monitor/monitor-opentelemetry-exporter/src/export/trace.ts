@@ -5,7 +5,7 @@ import { diag } from "@opentelemetry/api";
 import { ExportResult, ExportResultCode } from "@opentelemetry/core";
 import { ReadableSpan, SpanExporter } from "@opentelemetry/sdk-trace-base";
 import { AzureMonitorBaseExporter } from "./base";
-import { AzureExporterConfig } from "../config";
+import { AzureMonitorExporterOptions } from "../config";
 import { TelemetryItem as Envelope } from "../generated";
 import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../utils/spanUtils";
 
@@ -22,7 +22,7 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
    * Initializes a new instance of the AzureMonitorTraceExporter class.
    * @param AzureExporterConfig - Exporter configuration.
    */
-  constructor(options: AzureExporterConfig = {}) {
+  constructor(options: AzureMonitorExporterOptions = {}) {
     super(options);
     diag.debug("AzureMonitorTraceExporter was successfully setup");
   }

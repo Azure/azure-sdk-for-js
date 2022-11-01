@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import {
+  KnownRenderingSessionStatus,
   RenderingServerSize,
   SessionProperties,
-  KnownRenderingSessionStatus,
 } from "../generated/index";
 import {
   RemoteRenderingServiceError,

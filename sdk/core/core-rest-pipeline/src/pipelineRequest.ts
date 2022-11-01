@@ -9,10 +9,10 @@ import {
   ProxySettings,
   RequestBodyType,
   TransferProgressEvent,
-} from "./interfaces";
-import { createHttpHeaders } from "./httpHeaders";
+} from "./interfaces.js";
+import { createHttpHeaders } from "./httpHeaders.js";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { generateUuid } from "./util/uuid";
+import { generateUuid } from "./util/uuid.js";
 import { OperationTracingOptions } from "@azure/core-tracing";
 
 /**

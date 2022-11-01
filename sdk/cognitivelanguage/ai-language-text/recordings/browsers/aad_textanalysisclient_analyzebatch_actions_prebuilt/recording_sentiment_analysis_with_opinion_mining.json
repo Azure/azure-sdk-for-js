@@ -19,8 +19,8 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "c3edf660-69ac-45b3-a9ca-76346df49965",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.0 core-rest-pipeline/1.9.2 OS/Linuxx86_64"
+        "x-ms-client-request-id": "12e6f595-8d29-4a66-95a0-1f7e10450ccd",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": {
         "analysisInput": {
@@ -74,18 +74,19 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "ef4bd609-686c-4949-9787-4712d423899e",
+        "apim-request-id": "4d2b09bc-12e3-4866-9b28-0f7fb229639f",
         "Content-Length": "0",
-        "Date": "Wed, 07 Sep 2022 04:24:06 GMT",
-        "operation-location": "https://endpoint/language/analyze-text/jobs/41b70aa7-d796-4870-b02a-c9f2dd9223e0?api-version=2022-05-01",
+        "Date": "Mon, 24 Oct 2022 05:20:08 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/54bfadd0-2521-4bec-8e7b-19f34c2a930c?api-version=2022-05-01",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "369"
+        "x-envoy-upstream-service-time": "261",
+        "x-ms-region": "West US 2"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/41b70aa7-d796-4870-b02a-c9f2dd9223e0?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/54bfadd0-2521-4bec-8e7b-19f34c2a930c?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -101,25 +102,26 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "7640eb95-f1e0-4142-b79a-646f7c5e98ef",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.0 core-rest-pipeline/1.9.2 OS/Linuxx86_64"
+        "x-ms-client-request-id": "60af152c-250a-4ac3-9a40-35f6038e765e",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "8b063f1f-1e25-43e5-9ae7-83dbec5953a7",
+        "apim-request-id": "0e682b8c-d0be-4b94-8bcb-a13e9b83759c",
         "Content-Length": "280",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 07 Sep 2022 04:24:06 GMT",
+        "Date": "Mon, 24 Oct 2022 05:20:08 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "6"
+        "x-envoy-upstream-service-time": "6",
+        "x-ms-region": "West US 2"
       },
       "ResponseBody": {
-        "jobId": "41b70aa7-d796-4870-b02a-c9f2dd9223e0",
-        "lastUpdatedDateTime": "2022-09-07T04:24:06Z",
-        "createdDateTime": "2022-09-07T04:24:06Z",
-        "expirationDateTime": "2022-09-08T04:24:06Z",
+        "jobId": "54bfadd0-2521-4bec-8e7b-19f34c2a930c",
+        "lastUpdatedDateTime": "2022-10-24T05:20:08Z",
+        "createdDateTime": "2022-10-24T05:20:08Z",
+        "expirationDateTime": "2022-10-25T05:20:08Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -132,7 +134,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/41b70aa7-d796-4870-b02a-c9f2dd9223e0?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/54bfadd0-2521-4bec-8e7b-19f34c2a930c?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -148,25 +150,26 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "d9bb5b51-d50a-40c2-bb9f-11862c7c29bb",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.0 core-rest-pipeline/1.9.2 OS/Linuxx86_64"
+        "x-ms-client-request-id": "9790b8af-336b-4ae6-a1ce-5d873f79e577",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "bf1bd902-6613-4f9e-b9e8-e0225131a461",
+        "apim-request-id": "4f365fd6-65b1-4d2d-b782-39fef81ece01",
         "Content-Length": "280",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 07 Sep 2022 04:24:06 GMT",
+        "Date": "Mon, 24 Oct 2022 05:20:08 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "6"
+        "x-envoy-upstream-service-time": "6",
+        "x-ms-region": "West US 2"
       },
       "ResponseBody": {
-        "jobId": "41b70aa7-d796-4870-b02a-c9f2dd9223e0",
-        "lastUpdatedDateTime": "2022-09-07T04:24:06Z",
-        "createdDateTime": "2022-09-07T04:24:06Z",
-        "expirationDateTime": "2022-09-08T04:24:06Z",
+        "jobId": "54bfadd0-2521-4bec-8e7b-19f34c2a930c",
+        "lastUpdatedDateTime": "2022-10-24T05:20:08Z",
+        "createdDateTime": "2022-10-24T05:20:08Z",
+        "expirationDateTime": "2022-10-25T05:20:08Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -179,7 +182,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/41b70aa7-d796-4870-b02a-c9f2dd9223e0?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/54bfadd0-2521-4bec-8e7b-19f34c2a930c?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -195,25 +198,74 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "ffccd1ad-0afc-4f9f-b0f3-cf29849d1eaf",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.0 core-rest-pipeline/1.9.2 OS/Linuxx86_64"
+        "x-ms-client-request-id": "8e164e3e-4358-4ea6-85c7-f616de7c34bf",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "eb13cece-7ab8-414a-82cc-898ac4d3ac09",
-        "Content-Length": "8185",
+        "apim-request-id": "26f2d93a-442e-4458-8418-7a84a2b4962d",
+        "Content-Length": "280",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 07 Sep 2022 04:24:08 GMT",
+        "Date": "Mon, 24 Oct 2022 05:20:10 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "69"
+        "x-envoy-upstream-service-time": "8",
+        "x-ms-region": "West US 2"
       },
       "ResponseBody": {
-        "jobId": "41b70aa7-d796-4870-b02a-c9f2dd9223e0",
-        "lastUpdatedDateTime": "2022-09-07T04:24:08Z",
-        "createdDateTime": "2022-09-07T04:24:06Z",
-        "expirationDateTime": "2022-09-08T04:24:06Z",
+        "jobId": "54bfadd0-2521-4bec-8e7b-19f34c2a930c",
+        "lastUpdatedDateTime": "2022-10-24T05:20:08Z",
+        "createdDateTime": "2022-10-24T05:20:08Z",
+        "expirationDateTime": "2022-10-25T05:20:08Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/54bfadd0-2521-4bec-8e7b-19f34c2a930c?api-version=2022-05-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "7ef81791-c7d2-4ec8-a069-90f348ad2a3a",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "b8b25676-083d-4405-82c1-682df3271295",
+        "Content-Length": "8186",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 24 Oct 2022 05:20:13 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "118",
+        "x-ms-region": "West US 2"
+      },
+      "ResponseBody": {
+        "jobId": "54bfadd0-2521-4bec-8e7b-19f34c2a930c",
+        "lastUpdatedDateTime": "2022-10-24T05:20:11Z",
+        "createdDateTime": "2022-10-24T05:20:08Z",
+        "expirationDateTime": "2022-10-25T05:20:08Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -224,7 +276,7 @@
           "items": [
             {
               "kind": "SentimentAnalysisLROResults",
-              "lastUpdateDateTime": "2022-09-07T04:24:08.2730735Z",
+              "lastUpdateDateTime": "2022-10-24T05:20:11.5215691Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -234,7 +286,7 @@
                     "confidenceScores": {
                       "positive": 0.0,
                       "neutral": 0.0,
-                      "negative": 0.99
+                      "negative": 1.0
                     },
                     "sentences": [
                       {
@@ -242,7 +294,7 @@
                         "confidenceScores": {
                           "positive": 0.0,
                           "neutral": 0.0,
-                          "negative": 0.99
+                          "negative": 1.0
                         },
                         "offset": 0,
                         "length": 25,
@@ -287,14 +339,14 @@
                     "sentiment": "positive",
                     "confidenceScores": {
                       "positive": 0.99,
-                      "neutral": 0.0,
+                      "neutral": 0.01,
                       "negative": 0.0
                     },
                     "sentences": [
                       {
                         "sentiment": "positive",
                         "confidenceScores": {
-                          "positive": 0.99,
+                          "positive": 1.0,
                           "neutral": 0.0,
                           "negative": 0.0
                         },
@@ -337,7 +389,7 @@
                         "sentiment": "positive",
                         "confidenceScores": {
                           "positive": 0.99,
-                          "neutral": 0.0,
+                          "neutral": 0.01,
                           "negative": 0.0
                         },
                         "offset": 26,
@@ -397,17 +449,17 @@
                     "id": "2",
                     "sentiment": "negative",
                     "confidenceScores": {
-                      "positive": 0.03,
+                      "positive": 0.0,
                       "neutral": 0.0,
-                      "negative": 0.97
+                      "negative": 0.99
                     },
                     "sentences": [
                       {
                         "sentiment": "negative",
                         "confidenceScores": {
-                          "positive": 0.03,
+                          "positive": 0.0,
                           "neutral": 0.0,
-                          "negative": 0.97
+                          "negative": 0.99
                         },
                         "offset": 0,
                         "length": 50,
@@ -617,17 +669,17 @@
                     "id": "4",
                     "sentiment": "positive",
                     "confidenceScores": {
-                      "positive": 1.0,
-                      "neutral": 0.0,
-                      "negative": 0.0
+                      "positive": 0.92,
+                      "neutral": 0.07,
+                      "negative": 0.01
                     },
                     "sentences": [
                       {
                         "sentiment": "positive",
                         "confidenceScores": {
-                          "positive": 1.0,
-                          "neutral": 0.0,
-                          "negative": 0.0
+                          "positive": 0.92,
+                          "neutral": 0.07,
+                          "negative": 0.01
                         },
                         "offset": 0,
                         "length": 56,
@@ -686,17 +738,17 @@
                     "id": "5",
                     "sentiment": "negative",
                     "confidenceScores": {
-                      "positive": 0.09,
+                      "positive": 0.04,
                       "neutral": 0.0,
-                      "negative": 0.91
+                      "negative": 0.96
                     },
                     "sentences": [
                       {
                         "sentiment": "negative",
                         "confidenceScores": {
-                          "positive": 0.09,
+                          "positive": 0.04,
                           "neutral": 0.0,
-                          "negative": 0.91
+                          "negative": 0.96
                         },
                         "offset": 0,
                         "length": 75,
@@ -794,17 +846,17 @@
                     "id": "6",
                     "sentiment": "negative",
                     "confidenceScores": {
-                      "positive": 0.02,
-                      "neutral": 0.09,
-                      "negative": 0.88
+                      "positive": 0.0,
+                      "neutral": 0.02,
+                      "negative": 0.98
                     },
                     "sentences": [
                       {
                         "sentiment": "negative",
                         "confidenceScores": {
-                          "positive": 0.02,
-                          "neutral": 0.09,
-                          "negative": 0.88
+                          "positive": 0.0,
+                          "neutral": 0.02,
+                          "negative": 0.98
                         },
                         "offset": 0,
                         "length": 19,
@@ -846,7 +898,7 @@
                   }
                 ],
                 "errors": [],
-                "modelVersion": "2022-06-01"
+                "modelVersion": "2022-10-01"
               }
             }
           ]
@@ -854,7 +906,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/41b70aa7-d796-4870-b02a-c9f2dd9223e0?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/54bfadd0-2521-4bec-8e7b-19f34c2a930c?api-version=2022-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -870,25 +922,26 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "c4f98963-ddba-4d7d-ac08-b88989a102e4",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.0 core-rest-pipeline/1.9.2 OS/Linuxx86_64"
+        "x-ms-client-request-id": "1a85142e-ba2c-4f0e-bdc1-1d8fe90e540b",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "4b06758b-bab8-48bc-b5e2-4d7da0981757",
-        "Content-Length": "8185",
+        "apim-request-id": "15694a06-883c-4ac9-af24-aec611736c46",
+        "Content-Length": "8186",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 07 Sep 2022 04:24:08 GMT",
+        "Date": "Mon, 24 Oct 2022 05:20:13 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "94"
+        "x-envoy-upstream-service-time": "88",
+        "x-ms-region": "West US 2"
       },
       "ResponseBody": {
-        "jobId": "41b70aa7-d796-4870-b02a-c9f2dd9223e0",
-        "lastUpdatedDateTime": "2022-09-07T04:24:08Z",
-        "createdDateTime": "2022-09-07T04:24:06Z",
-        "expirationDateTime": "2022-09-08T04:24:06Z",
+        "jobId": "54bfadd0-2521-4bec-8e7b-19f34c2a930c",
+        "lastUpdatedDateTime": "2022-10-24T05:20:11Z",
+        "createdDateTime": "2022-10-24T05:20:08Z",
+        "expirationDateTime": "2022-10-25T05:20:08Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -899,7 +952,7 @@
           "items": [
             {
               "kind": "SentimentAnalysisLROResults",
-              "lastUpdateDateTime": "2022-09-07T04:24:08.2730735Z",
+              "lastUpdateDateTime": "2022-10-24T05:20:11.5215691Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -909,7 +962,7 @@
                     "confidenceScores": {
                       "positive": 0.0,
                       "neutral": 0.0,
-                      "negative": 0.99
+                      "negative": 1.0
                     },
                     "sentences": [
                       {
@@ -917,7 +970,7 @@
                         "confidenceScores": {
                           "positive": 0.0,
                           "neutral": 0.0,
-                          "negative": 0.99
+                          "negative": 1.0
                         },
                         "offset": 0,
                         "length": 25,
@@ -962,14 +1015,14 @@
                     "sentiment": "positive",
                     "confidenceScores": {
                       "positive": 0.99,
-                      "neutral": 0.0,
+                      "neutral": 0.01,
                       "negative": 0.0
                     },
                     "sentences": [
                       {
                         "sentiment": "positive",
                         "confidenceScores": {
-                          "positive": 0.99,
+                          "positive": 1.0,
                           "neutral": 0.0,
                           "negative": 0.0
                         },
@@ -1012,7 +1065,7 @@
                         "sentiment": "positive",
                         "confidenceScores": {
                           "positive": 0.99,
-                          "neutral": 0.0,
+                          "neutral": 0.01,
                           "negative": 0.0
                         },
                         "offset": 26,
@@ -1072,17 +1125,17 @@
                     "id": "2",
                     "sentiment": "negative",
                     "confidenceScores": {
-                      "positive": 0.03,
+                      "positive": 0.0,
                       "neutral": 0.0,
-                      "negative": 0.97
+                      "negative": 0.99
                     },
                     "sentences": [
                       {
                         "sentiment": "negative",
                         "confidenceScores": {
-                          "positive": 0.03,
+                          "positive": 0.0,
                           "neutral": 0.0,
-                          "negative": 0.97
+                          "negative": 0.99
                         },
                         "offset": 0,
                         "length": 50,
@@ -1292,17 +1345,17 @@
                     "id": "4",
                     "sentiment": "positive",
                     "confidenceScores": {
-                      "positive": 1.0,
-                      "neutral": 0.0,
-                      "negative": 0.0
+                      "positive": 0.92,
+                      "neutral": 0.07,
+                      "negative": 0.01
                     },
                     "sentences": [
                       {
                         "sentiment": "positive",
                         "confidenceScores": {
-                          "positive": 1.0,
-                          "neutral": 0.0,
-                          "negative": 0.0
+                          "positive": 0.92,
+                          "neutral": 0.07,
+                          "negative": 0.01
                         },
                         "offset": 0,
                         "length": 56,
@@ -1361,17 +1414,17 @@
                     "id": "5",
                     "sentiment": "negative",
                     "confidenceScores": {
-                      "positive": 0.09,
+                      "positive": 0.04,
                       "neutral": 0.0,
-                      "negative": 0.91
+                      "negative": 0.96
                     },
                     "sentences": [
                       {
                         "sentiment": "negative",
                         "confidenceScores": {
-                          "positive": 0.09,
+                          "positive": 0.04,
                           "neutral": 0.0,
-                          "negative": 0.91
+                          "negative": 0.96
                         },
                         "offset": 0,
                         "length": 75,
@@ -1469,17 +1522,17 @@
                     "id": "6",
                     "sentiment": "negative",
                     "confidenceScores": {
-                      "positive": 0.02,
-                      "neutral": 0.09,
-                      "negative": 0.88
+                      "positive": 0.0,
+                      "neutral": 0.02,
+                      "negative": 0.98
                     },
                     "sentences": [
                       {
                         "sentiment": "negative",
                         "confidenceScores": {
-                          "positive": 0.02,
-                          "neutral": 0.09,
-                          "negative": 0.88
+                          "positive": 0.0,
+                          "neutral": 0.02,
+                          "negative": 0.98
                         },
                         "offset": 0,
                         "length": 19,
@@ -1521,7 +1574,7 @@
                   }
                 ],
                 "errors": [],
-                "modelVersion": "2022-06-01"
+                "modelVersion": "2022-10-01"
               }
             }
           ]

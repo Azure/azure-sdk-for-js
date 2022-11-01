@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets the current status of an async operation.
  *
  * @summary Gets the current status of an async operation.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-08-01-preview/examples/OperationStatus_Get.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/OperationStatus_Get.json
  */
 async function getOperationStatus() {
   const subscriptionId = "{subscriptionId}";

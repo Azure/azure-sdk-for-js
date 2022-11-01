@@ -141,6 +141,18 @@
       "path": "sdk/core/logger"
     },
     {
+      "name": "maps-common",
+      "path": "sdk/maps/maps-common"
+    },
+    {
+      "name": "maps-search",
+      "path": "sdk/maps/maps-search"
+    },
+    {
+      "name": "maps-route-rest",
+      "path": "sdk/maps/maps-route-rest"
+    },
+    {
       "name": "metrics-advisor",
       "path": "sdk/metricsadvisor/ai-metrics-advisor"
     },

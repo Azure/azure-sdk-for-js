@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 import { ServiceClient } from "@azure/core-client";
+import { createPipelineRequest } from "@azure/core-rest-pipeline";
+import { expect } from "chai";
 import { CustomMatcherOptions, isPlaybackMode, Recorder } from "../src";
 import { isLiveMode, TestMode } from "../src/utils/utils";
 import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils";
@@ -89,6 +91,21 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         { val: "I am the answer!" }
       );
     });
+
+    describe("does not add a content-length header unnecessarily", () =>
+      (["GET", "DELETE"] as const).forEach((method) =>
+        it(`to a ${method} request`, async () => {
+          await recorder.start({ envSetupForPlayback: {} });
+          const req = createPipelineRequest({
+            url: getTestServerUrl() + "/content_length_test",
+            method,
+            allowInsecureConnection: isLiveMode(),
+          });
+
+          const rsp = await client.sendRequest(req);
+          expect(rsp.status).to.be.within(200, 299);
+        })
+      ));
 
     // Matchers
     describe("Matchers", () => {

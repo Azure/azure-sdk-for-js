@@ -1,6 +1,6 @@
 {
   "name": "@azure/storage-file-datalake",
-  "version": "12.11.0-beta.2",
+  "version": "12.11.1",
   "description": "Microsoft Azure Storage SDK for JavaScript - DataLake",
   "sdk-type": "client",
   "main": "./dist/index.js",
@@ -29,7 +29,7 @@
     "./dist/index.js": "./dist-esm/storage-file-datalake/src/index.js"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -122,7 +122,7 @@
     "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/logger": "^1.0.0",
-    "@azure/storage-blob": "^12.12.0-beta.1",
+    "@azure/storage-blob": "^12.12.0",
     "events": "^3.0.0",
     "tslib": "^2.2.0"
   },
@@ -133,10 +133,10 @@
     "@azure/test-utils": "^1.0.0",
     "@azure-tools/test-recorder": "^1.0.0",
     "@azure/test-utils-perf": "^1.0.0",
-    "@microsoft/api-extractor": "7.18.11",
+    "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^12.0.0",
+    "@types/node": "^14.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",

@@ -5,41 +5,71 @@
 ```ts
 
 import { AggregationTemporality } from '@opentelemetry/sdk-metrics';
+import { Attributes } from '@opentelemetry/api';
+import { Context } from '@opentelemetry/api';
+import * as coreClient from '@azure/core-client';
 import { ExportResult } from '@opentelemetry/core';
 import { InstrumentType } from '@opentelemetry/sdk-metrics';
+import { Link } from '@opentelemetry/api';
 import { PushMetricExporter } from '@opentelemetry/sdk-metrics';
 import { ReadableSpan } from '@opentelemetry/sdk-trace-base';
 import { ResourceMetrics } from '@opentelemetry/sdk-metrics';
+import { Sampler } from '@opentelemetry/sdk-trace-base';
+import { SamplingResult } from '@opentelemetry/sdk-trace-base';
 import { SpanExporter } from '@opentelemetry/sdk-trace-base';
+import { SpanKind } from '@opentelemetry/api';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AzureExporterConfig {
-    aadTokenCredential?: TokenCredential;
-    apiVersion?: ServiceApiVersion;
-    connectionString?: string;
+export interface ApplicationInsightsClientOptionalParams extends coreClient.ServiceClientOptions {
+    endpoint?: string;
+    host?: string;
+}
+
+// @public
+export class ApplicationInsightsSampler implements Sampler {
+    constructor(samplingRatio?: number);
+    shouldSample(context: Context, traceId: string, spanName: string, spanKind: SpanKind, attributes: Attributes, links: Link[]): SamplingResult;
+    toString(): string;
 }
 
 // @public
 export abstract class AzureMonitorBaseExporter {
-    constructor(options?: AzureExporterConfig);
+    constructor(options?: AzureMonitorExporterOptions, isStatsbeatExporter?: boolean);
     protected _exportEnvelopes(envelopes: TelemetryItem[]): Promise<ExportResult>;
-    protected readonly _instrumentationKey: string;
+    protected _instrumentationKey: string;
     protected _shutdown(): Promise<void>;
 }
 
 // @public
+export interface AzureMonitorExporterOptions extends ApplicationInsightsClientOptionalParams {
+    aadTokenCredential?: TokenCredential;
+    apiVersion?: ServiceApiVersion;
+    connectionString?: string;
+    disableOfflineStorage?: boolean;
+    storageDirectory?: string;
+}
+
+// @public
 export class AzureMonitorMetricExporter extends AzureMonitorBaseExporter implements PushMetricExporter {
-    constructor(options?: AzureExporterConfig);
+    constructor(options?: AzureMonitorExporterOptions);
     export(metrics: ResourceMetrics, resultCallback: (result: ExportResult) => void): Promise<void>;
     forceFlush(): Promise<void>;
     selectAggregationTemporality(_instrumentType: InstrumentType): AggregationTemporality;
     shutdown(): Promise<void>;
 }
 
+// @internal
+export class _AzureMonitorStatsbeatExporter extends AzureMonitorBaseExporter implements PushMetricExporter {
+    constructor(options: AzureMonitorExporterOptions);
+    export(metrics: ResourceMetrics, resultCallback: (result: ExportResult) => void): Promise<void>;
+    forceFlush(): Promise<void>;
+    shutdown(): Promise<void>;
+}
+
 // @public
 export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implements SpanExporter {
-    constructor(options?: AzureExporterConfig);
+    constructor(options?: AzureMonitorExporterOptions);
     export(spans: ReadableSpan[], resultCallback: (result: ExportResult) => void): Promise<void>;
     shutdown(): Promise<void>;
 }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export type PatchOperation = ExistingKeyOperation | RemoveOperation;
+export type PatchOperation = ExistingKeyOperation | RemoveOperation | MoveOperation;
 
 export const PatchOperationType = {
   add: "add",
@@ -9,7 +9,14 @@ export const PatchOperationType = {
   remove: "remove",
   set: "set",
   incr: "incr",
+  move: "move",
 } as const;
+
+export type MoveOperation = {
+  op: keyof typeof PatchOperationType;
+  from: string;
+  path: string;
+};
 
 export type ExistingKeyOperation = {
   op: keyof typeof PatchOperationType;

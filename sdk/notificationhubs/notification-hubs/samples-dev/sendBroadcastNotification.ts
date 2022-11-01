@@ -14,6 +14,7 @@
  * @azsdk-weight 100
  */
 
+import * as dotenv from "dotenv";
 import {
   NotificationDetails,
   NotificationOutcomeState,
@@ -22,14 +23,12 @@ import {
   NotificationHubsClientContext,
   createClientContext,
 } from "@azure/notification-hubs/client";
-import { SendOperationOptions } from "@azure/notification-hubs/models/options";
 import { createAppleNotification } from "@azure/notification-hubs/models/notification";
 import { delay } from "@azure/core-util";
 import { getNotificationOutcomeDetails } from "@azure/notification-hubs/client/getNotificationOutcomeDetails";
-import { sendBroadcastNotification } from "@azure/notification-hubs/client/sendBroadcastNotification";
+import { sendNotification } from "@azure/notification-hubs/client/sendNotification";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and hub name
@@ -49,9 +48,8 @@ async function main() {
     },
   });
 
-  // Not required but can set test send to true for debugging purposes.
-  const sendOptions: SendOperationOptions = { enableTestSend: false };
-  const result = await sendBroadcastNotification(context, notification, sendOptions);
+  // Can set enableTestSend to true for debugging purposes
+  const result = await sendNotification(context, notification, { enableTestSend: false });
 
   console.log(`Tag List send Tracking ID: ${result.trackingId}`);
   console.log(`Tag List Correlation ID: ${result.correlationId}`);

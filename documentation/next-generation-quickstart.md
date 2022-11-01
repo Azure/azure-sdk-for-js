@@ -544,7 +544,7 @@ async function createVirtualMachines() {
         osProfile: {
             adminUsername: "testuser",
             computerName: "myVM",
-            adminPassword: "p@55wOrd",
+            adminPassword: "Placeholder",
             windowsConfiguration: {
                 enableAutomaticUpdates: true // need automatic update for reimage
             }
@@ -607,7 +607,7 @@ async function createVirtualMachines() {
         osProfile: {
             adminUsername: "testuser",
             computerName: "myVM",
-            adminPassword: "p@55wOrd",
+            adminPassword: "Placeholder",
             windowsConfiguration: {
                 enableAutomaticUpdates: true // need automatic update for reimage
             }

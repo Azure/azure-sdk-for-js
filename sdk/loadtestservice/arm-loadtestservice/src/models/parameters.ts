@@ -12,6 +12,7 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
+  QuotaBucketRequest as QuotaBucketRequestMapper,
   LoadTestResource as LoadTestResourceMapper,
   LoadTestResourcePatchRequestBody as LoadTestResourcePatchRequestBodyMapper
 } from "../models/mappers";
@@ -43,7 +44,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-12-01-preview",
+    defaultValue: "2022-12-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -78,6 +79,48 @@ export const subscriptionId: OperationURLParameter = {
   }
 };
 
+export const location: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    constraints: {
+      MinLength: 1
+    },
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const quotaBucketName: OperationURLParameter = {
+  parameterPath: "quotaBucketName",
+  mapper: {
+    serializedName: "quotaBucketName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const quotaBucketRequest: OperationParameter = {
+  parameterPath: "quotaBucketRequest",
+  mapper: QuotaBucketRequestMapper
+};
+
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -98,18 +141,6 @@ export const loadTestName: OperationURLParameter = {
   mapper: {
     serializedName: "loadTestName",
     required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
     type: {
       name: "String"
     }

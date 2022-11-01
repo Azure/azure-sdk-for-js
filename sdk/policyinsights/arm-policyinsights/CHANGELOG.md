@@ -1,6 +1,6 @@
 # Release History
 
-## 6.0.0-beta.2 (Unreleased)
+## 6.0.0-beta.3 (Unreleased)
 
 ### Features Added
 
@@ -10,12 +10,14 @@
 
 ### Other Changes
 
-## 6.0.0-beta.1 (2022-03-31)
+## 6.0.0-beta.2 (2022-10-19)
     
 **Features**
 
   - Added operation PolicyRestrictions.checkAtManagementGroupScope
+  - Added Interface Attestation
   - Added Interface CheckManagementGroupRestrictionsRequest
+  - Added Interface PolicyMetadataProperties
   - Added Interface PolicyRestrictionsCheckAtManagementGroupScopeOptionalParams
   - Added Type Alias PolicyEventsResourceType
   - Added Type Alias PolicyRestrictionsCheckAtManagementGroupScopeResponse

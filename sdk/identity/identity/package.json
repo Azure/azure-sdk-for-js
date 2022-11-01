@@ -1,7 +1,7 @@
 {
   "name": "@azure/identity",
   "sdk-type": "client",
-  "version": "3.0.0",
+  "version": "3.1.0-beta.2",
   "description": "Provides credential implementations for Azure SDK libraries that can authenticate with Azure Active Directory",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -81,7 +81,7 @@
     ]
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
@@ -112,7 +112,7 @@
     "@azure/logger": "^1.0.0",
     "@azure/msal-browser": "^2.26.0",
     "@azure/msal-common": "^7.0.0",
-    "@azure/msal-node": "^1.10.0",
+    "@azure/msal-node": "^1.14.2",
     "events": "^3.0.0",
     "jws": "^4.0.0",
     "open": "^8.0.0",
@@ -126,13 +126,13 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/keyvault-keys": "4.2.0",
     "@azure/test-utils": "^1.0.0",
-    "@microsoft/api-extractor": "7.18.11",
+    "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/jsonwebtoken": "~8.5.0",
     "@types/jws": "^3.2.2",
     "@types/mocha": "^7.0.2",
     "@types/ms": "^0.7.31",
-    "@types/node": "^12.0.0",
+    "@types/node": "^14.0.0",
     "@types/sinon": "^9.0.4",
     "@types/stoppable": "^1.1.0",
     "@types/uuid": "^8.0.0",

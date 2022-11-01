@@ -11,7 +11,7 @@ import {
   ApplicationInsightsClientOptionalParams,
   TrackOptionalParams,
 } from "../../generated";
-import { AzureExporterInternalConfig } from "../../config";
+import { AzureMonitorExporterOptions } from "../../config";
 
 const applicationInsightsResource = "https://monitor.azure.com//.default";
 
@@ -23,22 +23,22 @@ export class HttpSender implements Sender {
   private readonly _appInsightsClient: ApplicationInsightsClient;
   private _appInsightsClientOptions: ApplicationInsightsClientOptionalParams;
 
-  constructor(private _exporterOptions: AzureExporterInternalConfig) {
+  constructor(endpointUrl: string, options?: AzureMonitorExporterOptions) {
     // Build endpoint using provided configuration or default values
     this._appInsightsClientOptions = {
-      host: this._exporterOptions.endpointUrl,
+      host: endpointUrl,
+      ...options,
     };
-    this._appInsightsClient = new ApplicationInsightsClient({
-      ...this._appInsightsClientOptions,
-    });
+    this._appInsightsClient = new ApplicationInsightsClient(this._appInsightsClientOptions);
+
     // Handle redirects in HTTP Sender
     this._appInsightsClient.pipeline.removePolicy({ name: redirectPolicyName });
 
-    if (this._exporterOptions.aadTokenCredential) {
+    if (options?.aadTokenCredential) {
       let scopes: string[] = [applicationInsightsResource];
       this._appInsightsClient.pipeline.addPolicy(
         bearerTokenAuthenticationPolicy({
-          credential: this._exporterOptions.aadTokenCredential,
+          credential: options?.aadTokenCredential,
           scopes: scopes,
         })
       );

@@ -14,7 +14,37 @@ import { PollOperationState } from '@azure/core-lro';
 export type ActionType = string;
 
 // @public
+export interface CheckQuotaAvailabilityResponse extends Resource {
+    availabilityStatus?: string;
+    isAvailable?: boolean;
+}
+
+// @public
 export type CreatedByType = string;
+
+// @public
+export interface EncryptionProperties {
+    identity?: EncryptionPropertiesIdentity;
+    keyUrl?: string;
+}
+
+// @public
+export interface EncryptionPropertiesIdentity {
+    resourceId?: string;
+    type?: Type;
+}
+
+// @public
+export interface EndpointDependency {
+    readonly description?: string;
+    readonly domainName?: string;
+    readonly endpointDetails?: EndpointDetail[];
+}
+
+// @public
+export interface EndpointDetail {
+    readonly port?: number;
+}
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -38,50 +68,44 @@ export interface ErrorResponse {
 
 // @public
 export enum KnownActionType {
-    // (undocumented)
     Internal = "Internal"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownOrigin {
-    // (undocumented)
     System = "system",
-    // (undocumented)
     User = "user",
-    // (undocumented)
     UserSystem = "user,system"
 }
 
 // @public
 export enum KnownResourceState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
-export enum KnownSystemAssignedServiceIdentityType {
-    // (undocumented)
-    None = "None",
-    // (undocumented)
-    SystemAssigned = "SystemAssigned"
+export enum KnownType {
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
 }
 
 // @public (undocumented)
@@ -96,6 +120,8 @@ export class LoadTestClient extends coreClient.ServiceClient {
     // (undocumented)
     operations: Operations;
     // (undocumented)
+    quotas: Quotas;
+    // (undocumented)
     subscriptionId: string;
 }
 
@@ -107,12 +133,13 @@ export interface LoadTestClientOptionalParams extends coreClient.ServiceClientOp
 }
 
 // @public
-export type LoadTestResource = TrackedResource & {
-    identity?: SystemAssignedServiceIdentity;
-    description?: string;
-    readonly provisioningState?: ResourceState;
+export interface LoadTestResource extends TrackedResource {
     readonly dataPlaneURI?: string;
-};
+    description?: string;
+    encryption?: EncryptionProperties;
+    identity?: ManagedServiceIdentity;
+    readonly provisioningState?: ResourceState;
+}
 
 // @public
 export interface LoadTestResourcePageList {
@@ -122,29 +149,30 @@ export interface LoadTestResourcePageList {
 
 // @public
 export interface LoadTestResourcePatchRequestBody {
-    identity?: SystemAssignedServiceIdentity;
-    properties?: LoadTestResourcePatchRequestBodyProperties;
+    description?: string;
+    encryption?: EncryptionProperties;
+    identity?: ManagedServiceIdentity;
     tags?: Record<string, unknown>;
 }
 
 // @public
-export interface LoadTestResourcePatchRequestBodyProperties {
-    description?: string;
-}
-
-// @public
 export interface LoadTests {
+    beginCreateOrUpdate(resourceGroupName: string, loadTestName: string, loadTestResource: LoadTestResource, options?: LoadTestsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<LoadTestsCreateOrUpdateResponse>, LoadTestsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, loadTestName: string, loadTestResource: LoadTestResource, options?: LoadTestsCreateOrUpdateOptionalParams): Promise<LoadTestsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, loadTestName: string, options?: LoadTestsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, loadTestName: string, options?: LoadTestsDeleteOptionalParams): Promise<void>;
-    createOrUpdate(resourceGroupName: string, loadTestName: string, loadTestResource: LoadTestResource, options?: LoadTestsCreateOrUpdateOptionalParams): Promise<LoadTestsCreateOrUpdateResponse>;
+    beginUpdate(resourceGroupName: string, loadTestName: string, loadTestResourcePatchRequestBody: LoadTestResourcePatchRequestBody, options?: LoadTestsUpdateOptionalParams): Promise<PollerLike<PollOperationState<LoadTestsUpdateResponse>, LoadTestsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, loadTestName: string, loadTestResourcePatchRequestBody: LoadTestResourcePatchRequestBody, options?: LoadTestsUpdateOptionalParams): Promise<LoadTestsUpdateResponse>;
     get(resourceGroupName: string, loadTestName: string, options?: LoadTestsGetOptionalParams): Promise<LoadTestsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: LoadTestsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<LoadTestResource>;
     listBySubscription(options?: LoadTestsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<LoadTestResource>;
-    update(resourceGroupName: string, loadTestName: string, loadTestResourcePatchRequestBody: LoadTestResourcePatchRequestBody, options?: LoadTestsUpdateOptionalParams): Promise<LoadTestsUpdateResponse>;
+    listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, loadTestName: string, options?: LoadTestsListOutboundNetworkDependenciesEndpointsOptionalParams): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
 }
 
 // @public
 export interface LoadTestsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -192,11 +220,40 @@ export interface LoadTestsListBySubscriptionOptionalParams extends coreClient.Op
 export type LoadTestsListBySubscriptionResponse = LoadTestResourcePageList;
 
 // @public
+export interface LoadTestsListOutboundNetworkDependenciesEndpointsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LoadTestsListOutboundNetworkDependenciesEndpointsNextResponse = OutboundEnvironmentEndpointCollection;
+
+// @public
+export interface LoadTestsListOutboundNetworkDependenciesEndpointsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LoadTestsListOutboundNetworkDependenciesEndpointsResponse = OutboundEnvironmentEndpointCollection;
+
+// @public
 export interface LoadTestsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
 export type LoadTestsUpdateResponse = LoadTestResource;
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public
 export interface Operation {
@@ -244,6 +301,80 @@ export type OperationsListResponse = OperationListResult;
 export type Origin = string;
 
 // @public
+export interface OutboundEnvironmentEndpoint {
+    readonly category?: string;
+    readonly endpoints?: EndpointDependency[];
+}
+
+// @public
+export interface OutboundEnvironmentEndpointCollection {
+    nextLink?: string;
+    readonly value?: OutboundEnvironmentEndpoint[];
+}
+
+// @public
+export interface QuotaBucketRequest extends Resource {
+    currentQuota?: number;
+    currentUsage?: number;
+    dimensions?: QuotaBucketRequestPropertiesDimensions;
+    newQuota?: number;
+}
+
+// @public
+export interface QuotaBucketRequestPropertiesDimensions {
+    location?: string;
+    subscriptionId?: string;
+}
+
+// @public
+export interface QuotaResource extends Resource {
+    limit?: number;
+    readonly provisioningState?: ResourceState;
+    usage?: number;
+}
+
+// @public
+export interface QuotaResourceList {
+    readonly nextLink?: string;
+    readonly value?: QuotaResource[];
+}
+
+// @public
+export interface Quotas {
+    checkAvailability(location: string, quotaBucketName: string, quotaBucketRequest: QuotaBucketRequest, options?: QuotasCheckAvailabilityOptionalParams): Promise<QuotasCheckAvailabilityResponse>;
+    get(location: string, quotaBucketName: string, options?: QuotasGetOptionalParams): Promise<QuotasGetResponse>;
+    list(location: string, options?: QuotasListOptionalParams): PagedAsyncIterableIterator<QuotaResource>;
+}
+
+// @public
+export interface QuotasCheckAvailabilityOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QuotasCheckAvailabilityResponse = CheckQuotaAvailabilityResponse;
+
+// @public
+export interface QuotasGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QuotasGetResponse = QuotaResource;
+
+// @public
+export interface QuotasListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QuotasListNextResponse = QuotaResourceList;
+
+// @public
+export interface QuotasListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QuotasListResponse = QuotaResourceList;
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -253,16 +384,6 @@ export interface Resource {
 
 // @public
 export type ResourceState = string;
-
-// @public
-export interface SystemAssignedServiceIdentity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type: SystemAssignedServiceIdentityType;
-}
-
-// @public
-export type SystemAssignedServiceIdentityType = string;
 
 // @public
 export interface SystemData {
@@ -275,12 +396,21 @@ export interface SystemData {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
+
+// @public
+export type Type = string;
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
 
 // (No @packageDocumentation comment for this package)
 

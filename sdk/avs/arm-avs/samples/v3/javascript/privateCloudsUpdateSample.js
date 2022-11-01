@@ -15,10 +15,10 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Update a private cloud
  *
  * @summary Update a private cloud
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/PrivateClouds_Update.json
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/PrivateClouds_Update.json
  */
 async function privateCloudsUpdate() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "group1";
   const privateCloudName = "cloud1";
   const privateCloudUpdate = {
@@ -49,10 +49,10 @@ privateCloudsUpdate().catch(console.error);
  * This sample demonstrates how to Update a private cloud
  *
  * @summary Update a private cloud
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/PrivateClouds_Update_Stretched.json
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/PrivateClouds_Update_Stretched.json
  */
 async function privateCloudsUpdateStretched() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "group1";
   const privateCloudName = "cloud1";
   const privateCloudUpdate = {

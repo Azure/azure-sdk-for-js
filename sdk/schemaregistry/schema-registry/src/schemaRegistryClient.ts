@@ -3,7 +3,6 @@
 
 import { DEFAULT_SCOPE, SDK_VERSION } from "./constants";
 import {
-  GetSchemaByVersionOptions,
   GetSchemaOptions,
   GetSchemaPropertiesOptions,
   RegisterSchemaOptions,
@@ -12,7 +11,6 @@ import {
   SchemaProperties,
   SchemaRegistry,
   SchemaRegistryClientOptions,
-  SchemaVersion,
 } from "./models";
 import {
   InternalPipelineOptions,
@@ -153,11 +151,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * @param schemaId - Unique schema ID.
    * @returns Schema with given ID.
    */
-  getSchema(schemaId: string, options: GetSchemaOptions = {}): Promise<Schema> {
-    return this._tracing.withSpan("SchemaRegistryClient.getSchema", options, (updatedOptions) =>
-      this._client.schema.getById(schemaId, updatedOptions).then(convertSchemaResponse)
-    );
-  }
+  getSchema(schemaId: string, options?: GetSchemaOptions): Promise<Schema>;
 
   /**
    * Gets an existing schema by version. If the schema was not found, a RestError with
@@ -173,20 +167,41 @@ export class SchemaRegistryClient implements SchemaRegistry {
   }
    * ```
    *
-   * @param schemaVersion - schema version.
+   * @param schemaDescription - schema version.
    * @returns Schema with given ID.
    */
-  getSchemaByVersion(
-    schemaVersion: SchemaVersion,
-    options: GetSchemaByVersionOptions = {}
+  getSchema(
+    name: string,
+    groupName: string,
+    version: number,
+    options?: GetSchemaOptions
+  ): Promise<Schema>;
+  // implementation
+  getSchema(
+    nameOrId: string,
+    groupNameOrOptions?: string | GetSchemaOptions,
+    version?: number,
+    options: GetSchemaOptions = {}
   ): Promise<Schema> {
-    const { groupName, name, version } = schemaVersion;
+    if (typeof groupNameOrOptions !== "string" && version === undefined) {
+      return this._tracing.withSpan(
+        "SchemaRegistryClient.getSchema",
+        groupNameOrOptions ?? {},
+        (updatedOptions) =>
+          this._client.schema.getById(nameOrId, updatedOptions).then(convertSchemaResponse)
+      );
+    }
     return this._tracing.withSpan(
       "SchemaRegistryClient.getSchemaByVersion",
       options,
       (updatedOptions) =>
         this._client.schema
-          .getSchemaVersion(groupName, name, version, updatedOptions)
+          .getSchemaVersion(
+            groupNameOrOptions as string,
+            nameOrId,
+            version as number,
+            updatedOptions
+          )
           .then(convertSchemaResponse)
     );
   }
