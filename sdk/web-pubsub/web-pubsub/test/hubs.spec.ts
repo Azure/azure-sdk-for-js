@@ -82,6 +82,34 @@ describe("HubClient", function () {
       assert.equal(lastResponse?.status, 202);
     });
 
+    it("can broadcast with filter", async () => {
+      await client.sendToAll("hello", {
+        contentType: "text/plain",
+        filter: "userId ne 'user1'",
+        onResponse,
+      });
+      assert.equal(lastResponse?.status, 202);
+
+      let error;
+      try {
+        await client.sendToAll("hello", {
+          contentType: "text/plain",
+          filter: "invalid filter",
+        });
+      } catch (e: any) {
+        if (e.name !== "RestError") {
+          throw e;
+        }
+
+        error = e;
+      }
+      assert.equal(error.statusCode, 400);
+      assert.equal(
+        JSON.parse(error.message).message,
+        "Invalid syntax for 'invalid filter': Syntax error at position 14 in 'invalid filter'. (Parameter 'filter')"
+      );
+    });
+
     it("can broadcast using the DAC", async () => {
       const dacClient = new WebPubSubServiceClient(
         assertEnvironmentVariable("WPS_ENDPOINT"),
@@ -136,6 +164,34 @@ describe("HubClient", function () {
       assert.equal(lastResponse?.status, 202);
     });
 
+    it("can send to a user with filter", async () => {
+      await client.sendToUser("vic", "hello", {
+        contentType: "text/plain",
+        filter: "userId ne 'user1'",
+        onResponse,
+      });
+      assert.equal(lastResponse?.status, 202);
+
+      let error;
+      try {
+        await client.sendToUser("brian", "hello", {
+          contentType: "text/plain",
+          filter: "invalid filter",
+        });
+      } catch (e: any) {
+        if (e.name !== "RestError") {
+          throw e;
+        }
+
+        error = e;
+      }
+      assert.equal(error.statusCode, 400);
+      assert.equal(
+        JSON.parse(error.message).message,
+        "Invalid syntax for 'invalid filter': Syntax error at position 14 in 'invalid filter'. (Parameter 'filter')"
+      );
+    });
+
     it("can send messages to a connection", async () => {
       await client.sendToConnection("xxxx", "hello", { contentType: "text/plain", onResponse });
       assert.equal(lastResponse?.status, 202);
@@ -152,6 +208,11 @@ describe("HubClient", function () {
       const res = await client.userExists("foo");
       assert.ok(!res);
       await client.removeUserFromAllGroups("brian", { onResponse });
+      assert.equal(lastResponse?.status, 204);
+    });
+
+    it("can manage connections", async () => {
+      await client.removeConnectionFromAllGroups("xxx", { onResponse });
       assert.equal(lastResponse?.status, 204);
     });
 
@@ -236,7 +297,7 @@ describe("HubClient", function () {
     it("can generate client tokens", async () => {
       const res = await client.getClientAccessToken({
         userId: "brian",
-        groups: ["group1"]
+        groups: ["group1"],
       });
       var url = new URL(res.url);
       assert.ok(url.searchParams.has("access_token"));

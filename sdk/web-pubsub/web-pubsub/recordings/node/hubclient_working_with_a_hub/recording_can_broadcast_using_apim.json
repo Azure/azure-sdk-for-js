@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/api/hubs/simplechat/:send?api-version=2021-10-01",
+      "RequestUri": "https://endpoint/api/hubs/simplechat/:send?api-version=2022-11-01",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,22 +10,22 @@
         "Connection": "keep-alive",
         "Content-Length": "5",
         "Content-Type": "text/plain",
-        "User-Agent": "azsdk-js-web-pubsub/1.1.0 core-rest-pipeline/1.8.2 Node/v16.13.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "94a675c6-3c67-471f-943c-ec5b41069661"
+        "User-Agent": "azsdk-js-web-pubsub/1.1.0 core-rest-pipeline/1.10.0 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "a344e7c8-7c3f-4b1e-985b-484848c127bd"
       },
       "RequestBody": "hello",
       "StatusCode": 202,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-10-01",
+        "api-supported-versions": "2022-11-01",
         "Connection": "keep-alive",
         "Content-Length": "0",
-        "Date": "Fri, 13 May 2022 21:51:48 GMT",
+        "Date": "Tue, 01 Nov 2022 12:19:36 GMT",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/api/hubs/simplechat/:send?api-version=2021-10-01",
+      "RequestUri": "https://endpoint/api/hubs/simplechat/:send?api-version=2022-11-01",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -34,8 +34,8 @@
         "Connection": "keep-alive",
         "Content-Length": "13",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-web-pubsub/1.1.0 core-rest-pipeline/1.8.2 Node/v16.13.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "968c6047-67a8-410d-9d4b-3189372aa941"
+        "User-Agent": "azsdk-js-web-pubsub/1.1.0 core-rest-pipeline/1.10.0 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "3dd1310f-78bb-4ced-b4ac-1c4fddce715a"
       },
       "RequestBody": {
         "x": 1,
@@ -43,16 +43,16 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-10-01",
+        "api-supported-versions": "2022-11-01",
         "Connection": "keep-alive",
         "Content-Length": "0",
-        "Date": "Fri, 13 May 2022 21:51:49 GMT",
+        "Date": "Tue, 01 Nov 2022 12:19:36 GMT",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/api/hubs/simplechat/:send?api-version=2021-10-01",
+      "RequestUri": "https://endpoint/api/hubs/simplechat/:send?api-version=2022-11-01",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -61,16 +61,16 @@
         "Connection": "keep-alive",
         "Content-Length": "10",
         "Content-Type": "application/octet-stream",
-        "User-Agent": "azsdk-js-web-pubsub/1.1.0 core-rest-pipeline/1.8.2 Node/v16.13.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "0c9148ff-7dda-4bd0-aa69-8754f809a689"
+        "User-Agent": "azsdk-js-web-pubsub/1.1.0 core-rest-pipeline/1.10.0 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "ceecbb59-934a-4539-af9f-6a3854375bbf"
       },
       "RequestBody": "AAAAAAAAAAAAAA==",
       "StatusCode": 202,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-10-01",
+        "api-supported-versions": "2022-11-01",
         "Connection": "keep-alive",
         "Content-Length": "0",
-        "Date": "Fri, 13 May 2022 21:51:49 GMT",
+        "Date": "Tue, 01 Nov 2022 12:19:36 GMT",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
       },
       "ResponseBody": null

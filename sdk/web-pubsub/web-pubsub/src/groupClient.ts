@@ -46,16 +46,19 @@ export interface GroupSendToAllOptions extends OperationOptions {
    * Connection ids to exclude from receiving this message.
    */
   excludedConnections?: string[];
+  /**
+   * The filter syntax to filter out the connections to send the messages to following OData filter syntax.
+   * Examples:
+   *  * Exclude connections from `user1` and `user2`: `userId ne 'user1' and userId ne 'user2'`
+   *  * Exclude connections in `group1`: `not('group1' in groups)`
+   */
+  filter?: string;
 }
 
 /**
  * Options for sending text messages to a group..
  */
-export interface GroupSendTextToAllOptions extends OperationOptions {
-  /**
-   * Connection ids to exclude from receiving this message.
-   */
-  excludedConnections?: string[];
+export interface GroupSendTextToAllOptions extends GroupSendToAllOptions {
   contentType: "text/plain";
 }
 

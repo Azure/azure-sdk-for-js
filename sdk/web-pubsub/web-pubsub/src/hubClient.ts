@@ -142,7 +142,15 @@ export interface HubSendTextToConnectionOptions extends HubSendToConnectionOptio
 /**
  * Options for sending a message to a user.
  */
-export interface HubSendToUserOptions extends OperationOptions {}
+export interface HubSendToUserOptions extends OperationOptions {
+  /**
+   * The filter syntax to filter out the connections to send the messages to following OData filter syntax.
+   * Examples:
+   *  * Exclude connections in `group1`: `not('group1' in groups)`
+   *  * Send to connections in `group1` or `group2`: `'group1' in groups or `group2` in groups`
+   */
+  filter?: string;
+}
 
 /**
  * Options for sending a text message to a user.
@@ -251,7 +259,7 @@ export class WebPubSubServiceClient {
   /**
    * The Web PubSub API version being used by this client
    */
-  public readonly apiVersion: string = "2021-10-01";
+  public readonly apiVersion: string = "2022-11-01";
 
   /**
    * The Web PubSub endpoint this client is connected to
