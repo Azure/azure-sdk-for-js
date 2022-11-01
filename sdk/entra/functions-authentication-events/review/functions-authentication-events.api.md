@@ -98,6 +98,9 @@ export interface CloudEventRequest<TResponse extends AuthenticationEventResponse
 export function createFailedRequest(error: unknown): FailedRequest;
 
 // @public
+export function createProvideClaimsForToken(claims: TokenClaim): ProvideClaimsForToken;
+
+// @public
 export interface FailedRequest extends AuthenticationEventResponse {
     // (undocumented)
     error: string;
@@ -105,8 +108,8 @@ export interface FailedRequest extends AuthenticationEventResponse {
 
 // @public
 export interface ProvideClaimsForToken extends TokenIssuanceStartAction {
-    actionType: "ProvideClaimsForToken";
-    claims: TokenClaim[];
+    actionType: "microsoft.graph.ProvideClaimsForToken";
+    claims: TokenClaim;
 }
 
 // @public
@@ -114,8 +117,8 @@ export type RequestStatus = "Failed" | "TokenInvalid" | "Successful";
 
 // @public
 export interface TokenClaim {
-    id: string;
-    value: string | string[];
+    // (undocumented)
+    [key: string]: string | string[];
 }
 
 // @public
