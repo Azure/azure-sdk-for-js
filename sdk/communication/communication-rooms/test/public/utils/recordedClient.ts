@@ -23,15 +23,15 @@ export interface RecordedClient<T> {
 }
 
 const envSetupForPlayback: { [k: string]: string } = {
-  COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
+  COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
 };
 
 const fakeToken = generateToken();
 const sanitizerOptions: SanitizerOptions = {
   connectionStringSanitizers: [
     {
-      actualConnString: env["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"] || undefined,
-      fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"],
+      actualConnString: env["COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"] || undefined,
+      fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"],
     },
   ],
   bodyKeySanitizers: [
@@ -75,7 +75,7 @@ export async function createRecordedRoomsClient(
   const recorder = await createRecorder(context.currentTest);
 
   const client = new RoomsClient(
-    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? "",
+    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
     recorder.configureClientOptions({})
   );
   return {
@@ -91,7 +91,7 @@ export async function createRecordedRoomsClientWithToken(
 
   let credential: TokenCredential;
   const endpoint = parseConnectionString(
-    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? ""
+    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? ""
   ).endpoint;
 
   if (isPlaybackMode()) {
@@ -113,7 +113,7 @@ export async function createRecordedRoomsClientWithToken(
 
 export async function createTestUser(recorder: Recorder): Promise<CommunicationUserToken> {
   const identityClient = new CommunicationIdentityClient(
-    assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
+    assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"),
     recorder.configureClientOptions({})
   );
   return identityClient.createUserAndToken(["voip"]);
@@ -122,7 +122,7 @@ export async function createTestUser(recorder: Recorder): Promise<CommunicationU
 export async function deleteTestUser(testUser: CommunicationUserIdentifier): Promise<void> {
   if (testUser) {
     const identityClient = new CommunicationIdentityClient(
-      assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING")
+      assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING")
     );
     await identityClient.deleteUser(testUser);
   }
