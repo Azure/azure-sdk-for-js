@@ -1,4 +1,4 @@
-import MapsRenderClient from "./generated";
+import MapsRender from "./mapsRender";
 
 export * from "./generated";
-export default MapsRenderClient;
+export default MapsRender;

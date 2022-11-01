@@ -4,13 +4,14 @@
 
 ```ts
 
+import { AzureKeyCredential } from '@azure/core-auth';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
-import { KeyCredential } from '@azure/core-auth';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface CopyrightCaptionOutput {
@@ -24,10 +25,6 @@ export interface CopyrightOutput {
     generalCopyrights?: Array<string>;
     regions?: Array<RegionCopyrightsOutput>;
 }
-
-// @public
-function createClient(credentials: KeyCredential, options?: ClientOptions): MapsRenderClient;
-export default createClient;
 
 // @public
 export interface ErrorAdditionalInfoOutput {
@@ -125,6 +122,13 @@ export function isUnexpected(response: RenderGetCopyrightForWorld200Response | R
 export interface MapAttributionOutput {
     copyrights: Array<string>;
 }
+
+// @public
+function MapsRender(credential: AzureKeyCredential, options?: ClientOptions): MapsRenderClient;
+
+// @public
+function MapsRender(credential: TokenCredential, mapsAccountClientId: string, options?: ClientOptions): MapsRenderClient;
+export default MapsRender;
 
 // @public (undocumented)
 export type MapsRenderClient = Client & {
