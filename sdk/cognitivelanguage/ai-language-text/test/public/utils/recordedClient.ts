@@ -32,16 +32,18 @@ const recorderStartOptions: RecorderStartOptions = {
 
 export type AuthMethod = "APIKey" | "AAD" | "DummyAPIKey";
 
-function getEndpoint(resource: "Default" | "CustomText"): string | undefined {
+type ResourceKind = "Default" | "CustomText";
+
+function getEndpointEnvVarName(resource: ResourceKind): string {
   switch (resource) {
     case "CustomText":
-      return env.AZURE_LANGUAGE_ENDPOINT;
+      return "AZURE_LANGUAGE_ENDPOINT";
     case "Default":
-      return env.ENDPOINT;
+      return "ENDPOINT";
   }
 }
 
-function getApiKeyEnvVarName(resource: "Default" | "CustomText"): string {
+function getApiKeyEnvVarName(resource: ResourceKind): string {
   switch (resource) {
     case "CustomText":
       return "AZURE_LANGUAGE_KEY";
@@ -53,13 +55,13 @@ function getApiKeyEnvVarName(resource: "Default" | "CustomText"): string {
 export function createClient(
   authMethod: AuthMethod,
   options: {
-    resource?: "Default" | "CustomText";
+    resource?: ResourceKind;
     recorder?: Recorder;
     clientOptions?: TextAnalysisClientOptions;
   }
 ): TextAnalysisClient {
   const { resource = "Default", recorder, clientOptions = {} } = options;
-  const endpoint = getEndpoint(resource) || "https://dummy.cognitiveservices.azure.com/";
+  const endpoint = assertEnvironmentVariable(getEndpointEnvVarName(resource));
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
 
   switch (authMethod) {
