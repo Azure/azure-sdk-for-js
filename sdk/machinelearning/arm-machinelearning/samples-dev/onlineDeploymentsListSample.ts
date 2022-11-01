@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to List Inference Endpoint Deployments.
  *
  * @summary List Inference Endpoint Deployments.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/OnlineDeployment/list.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/OnlineDeployment/list.json
  */
 async function listOnlineDeployments() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
