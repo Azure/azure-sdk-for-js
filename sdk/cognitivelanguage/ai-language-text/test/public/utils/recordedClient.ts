@@ -6,7 +6,6 @@ import {
   Recorder,
   RecorderStartOptions,
   assertEnvironmentVariable,
-  env,
 } from "@azure-tools/test-recorder";
 import { Test } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
