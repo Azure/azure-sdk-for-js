@@ -77,7 +77,7 @@ async function main() {
     throw modelResponse;
   }
   if (modelResponse.body.modelInfo === undefined) {
-    throw "Empty model info.";
+    throw new Error("Empty model info");
   }
   let modelStatus = modelResponse.body.modelInfo.status;
 
@@ -89,16 +89,13 @@ async function main() {
       throw modelResponse.body;
     }
     if (modelResponse.body.modelInfo === undefined) {
-      throw "Empty model info.";
+      throw new Error("Empty model info");
     }
     modelStatus = modelResponse.body.modelInfo.status;
   }
 
   if (modelStatus == "FAILED") {
     console.log("Training failed.\nErrors:");
-    if (modelResponse.body.modelInfo === undefined) {
-      throw "Empty model info.";
-    }
     for (const error of modelResponse.body.modelInfo.errors || []) {
       console.log("Error code: " + error.code + ". Message: " + error.message);
     }

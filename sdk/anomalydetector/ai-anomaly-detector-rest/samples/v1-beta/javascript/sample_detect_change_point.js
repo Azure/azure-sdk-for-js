@@ -49,7 +49,7 @@ async function main() {
     throw result;
   }
 
-  if (result.body.isChangePoint === undefined) throw "Empty isChangePoint";
+  if (result.body.isChangePoint === undefined) throw new Error("Empty isChangePoint");
   if (
     result.body.isChangePoint.some(function (changePoint) {
       return changePoint === true;
