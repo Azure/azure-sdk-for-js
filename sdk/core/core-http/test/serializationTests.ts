@@ -1765,7 +1765,7 @@ describe("msrest", function () {
         assert.equal(result.encoded, undefined);
       });
 
-      it("should not copy extra properties when xmlName is different from serializedName", function() {
+      it("should not copy extra properties when xmlName is different from serializedName", function () {
         const DirectoryItem: msRest.CompositeMapper = {
           serializedName: "DirectoryItem",
           xmlName: "Directory",
@@ -1824,7 +1824,7 @@ describe("msrest", function () {
           "mockedEntries"
         );
 
-        assert.deepEqual(result, { directoryItems: [{ name: 'd1' }, { name: 'd2' }] } );
+        assert.deepEqual(result, { directoryItems: [{ name: "d1" }, { name: "d2" }] });
       });
     });
 
