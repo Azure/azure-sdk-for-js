@@ -268,7 +268,7 @@ export interface FirebaseLegacyAppleNativePayload {
   /**
    * The action associated with a user click on the notification which corresponds to the APNs category.
    */
-  click_actionx?: string;
+  click_action?: string;
 
   /**
    * The notification's subtitle.
