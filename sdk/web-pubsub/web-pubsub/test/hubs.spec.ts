@@ -299,7 +299,7 @@ describe("HubClient", function () {
         userId: "brian",
         groups: ["group1"],
       });
-      var url = new URL(res.url);
+      const url = new URL(res.url);
       assert.ok(url.searchParams.has("access_token"));
       assert.equal(url.host, new URL(client.endpoint).host);
       assert.equal(url.pathname, `/client/hubs/${client.hubName}`);
