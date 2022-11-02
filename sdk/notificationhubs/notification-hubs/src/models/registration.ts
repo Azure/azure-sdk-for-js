@@ -48,11 +48,6 @@ export interface RegistrationDescriptionCommon {
    * A dictionary of push variables associated with property bag.
    */
   pushVariables?: Record<string, string>;
-
-  /**
-   * The kind of the registration.
-   */
-  kind: RegistrationType;
 }
 
 /**
@@ -68,17 +63,22 @@ export interface TemplateRegistrationDescription {
    * The name of the template.
    */
   templateName?: string;
+
+  /**
+   * Represents the description of the Amazon Device Messaging (ADM) registration.
+   */
+}
+export interface AdmRegistrationDescriptionCommon extends RegistrationDescriptionCommon {
+  /**
+   * The Amazon Device Messaging registration identifier.
+   */
+  admRegistrationId: string;
 }
 
 /**
  * Represents the description of the Amazon Device Messaging (ADM) registration.
  */
-export interface AdmRegistrationDescription extends RegistrationDescriptionCommon {
-  /**
-   * The Amazon Device Messaging registration identifier.
-   */
-  admRegistrationId: string;
-
+export interface AdmRegistrationDescription extends AdmRegistrationDescriptionCommon {
   /**
    * The kind of the registration.
    */
@@ -91,7 +91,7 @@ export interface AdmRegistrationDescription extends RegistrationDescriptionCommo
  * @returns A created ADM registration description.
  */
 export function createAdmRegistrationDescription(
-  description: Omit<AdmRegistrationDescription, "kind">
+  description: AdmRegistrationDescriptionCommon
 ): AdmRegistrationDescription {
   return {
     ...description,
@@ -102,9 +102,15 @@ export function createAdmRegistrationDescription(
 /**
  * Represents the description of the Amazon Device Messaging (ADM) template registration.
  */
+export interface AdmTemplateRegistrationDescriptionCommon
+  extends AdmRegistrationDescriptionCommon,
+    TemplateRegistrationDescription {}
+
+/**
+ * Represents the description of the Amazon Device Messaging (ADM) template registration.
+ */
 export interface AdmTemplateRegistrationDescription
-  extends Omit<AdmRegistrationDescription, "kind">,
-    TemplateRegistrationDescription {
+  extends AdmTemplateRegistrationDescriptionCommon {
   /**
    * The kind of the registration.
    */
@@ -117,7 +123,7 @@ export interface AdmTemplateRegistrationDescription
  * @returns A created ADM template registration description.
  */
 export function createAdmTemplateRegistrationDescription(
-  description: Omit<AdmTemplateRegistrationDescription, "kind">
+  description: AdmTemplateRegistrationDescriptionCommon
 ): AdmTemplateRegistrationDescription {
   return {
     ...description,
@@ -128,12 +134,17 @@ export function createAdmTemplateRegistrationDescription(
 /**
  * Represents the description of apple registration.
  */
-export interface AppleRegistrationDescription extends RegistrationDescriptionCommon {
+export interface AppleRegistrationDescriptionCommon extends RegistrationDescriptionCommon {
   /**
    * The APNs device token.
    */
   deviceToken: string;
+}
 
+/**
+ * Represents the description of apple registration.
+ */
+export interface AppleRegistrationDescription extends AppleRegistrationDescriptionCommon {
   /**
    * The kind of the registration.
    */
@@ -146,7 +157,7 @@ export interface AppleRegistrationDescription extends RegistrationDescriptionCom
  * @returns A created Apple registration description.
  */
 export function createAppleRegistrationDescription(
-  description: Omit<AppleRegistrationDescription, "kind">
+  description: AppleRegistrationDescriptionCommon
 ): AppleRegistrationDescription {
   return {
     ...description,
@@ -155,15 +166,10 @@ export function createAppleRegistrationDescription(
 }
 
 /**
- * The priority of the Apple push notification.
- */
-export type ApplePriority = "10" | "5";
-
-/**
  * Represents the description of the Apple template registration.
  */
-export interface AppleTemplateRegistrationDescription
-  extends Omit<AppleRegistrationDescription, "kind">,
+export interface AppleTemplateRegistrationDescriptionCommon
+  extends AppleRegistrationDescriptionCommon,
     TemplateRegistrationDescription {
   /**
    * The expiry date.
@@ -173,13 +179,19 @@ export interface AppleTemplateRegistrationDescription
   /**
    * The notification priority.
    */
-  priority?: ApplePriority;
+  priority?: "10" | "5";
 
   /**
    * The APNS headers.
    */
   apnsHeaders?: Record<string, string>;
+}
 
+/**
+ * Represents the description of the Apple template registration.
+ */
+export interface AppleTemplateRegistrationDescription
+  extends AppleTemplateRegistrationDescriptionCommon {
   /**
    * The kind of the registration.
    */
@@ -192,7 +204,7 @@ export interface AppleTemplateRegistrationDescription
  * @returns A created Apple template registration description.
  */
 export function createAppleTemplateRegistrationDescription(
-  description: Omit<AppleTemplateRegistrationDescription, "kind">
+  description: AppleTemplateRegistrationDescriptionCommon
 ): AppleTemplateRegistrationDescription {
   return {
     ...description,
@@ -200,10 +212,7 @@ export function createAppleTemplateRegistrationDescription(
   };
 }
 
-/**
- * Represents a Baidu registration description.
- */
-export interface BaiduRegistrationDescription extends RegistrationDescriptionCommon {
+export interface BaiduRegistrationDescriptionCommon extends RegistrationDescriptionCommon {
   /**
    * The Baidu user identifier.
    */
@@ -213,7 +222,12 @@ export interface BaiduRegistrationDescription extends RegistrationDescriptionCom
    * The Baidu channel identifier.
    */
   baiduChannelId: string;
+}
 
+/**
+ * Represents a Baidu registration description.
+ */
+export interface BaiduRegistrationDescription extends BaiduRegistrationDescriptionCommon {
   /**
    * The kind of the registration.
    */
@@ -226,7 +240,7 @@ export interface BaiduRegistrationDescription extends RegistrationDescriptionCom
  * @returns A created Baidu registration description.
  */
 export function createBaiduRegistrationDescription(
-  description: Omit<BaiduRegistrationDescription, "kind">
+  description: BaiduRegistrationDescriptionCommon
 ): BaiduRegistrationDescription {
   return {
     ...description,
@@ -237,9 +251,15 @@ export function createBaiduRegistrationDescription(
 /**
  * Represents a Baidu template registration description.
  */
+export interface BaiduTemplateRegistrationDescriptionCommon
+  extends BaiduRegistrationDescriptionCommon,
+    TemplateRegistrationDescription {}
+
+/**
+ * Represents a Baidu template registration description.
+ */
 export interface BaiduTemplateRegistrationDescription
-  extends Omit<BaiduRegistrationDescription, "kind">,
-    TemplateRegistrationDescription {
+  extends BaiduTemplateRegistrationDescriptionCommon {
   /**
    * The kind of the registration.
    */
@@ -252,7 +272,7 @@ export interface BaiduTemplateRegistrationDescription
  * @returns A created Baidu template registration description.
  */
 export function createBaiduTemplateRegistrationDescription(
-  description: Omit<BaiduTemplateRegistrationDescription, "kind">
+  description: BaiduTemplateRegistrationDescriptionCommon
 ): BaiduTemplateRegistrationDescription {
   return {
     ...description,
@@ -263,7 +283,7 @@ export function createBaiduTemplateRegistrationDescription(
 /**
  * Represents a Browser Push registration description.
  */
-export interface BrowserRegistrationDescription extends RegistrationDescriptionCommon {
+export interface BrowserRegistrationDescriptionCommon extends RegistrationDescriptionCommon {
   /**
    * The Browser push endpoint.
    */
@@ -278,7 +298,12 @@ export interface BrowserRegistrationDescription extends RegistrationDescriptionC
    * The Browser push auth secret.
    */
   auth: string;
+}
 
+/**
+ * Represents a Browser Push registration description.
+ */
+export interface BrowserRegistrationDescription extends BrowserRegistrationDescriptionCommon {
   /**
    * The kind of the registration.
    */
@@ -291,7 +316,7 @@ export interface BrowserRegistrationDescription extends RegistrationDescriptionC
  * @returns A created Web Push registration description.
  */
 export function createBrowserRegistrationDescription(
-  description: Omit<BrowserRegistrationDescription, "kind">
+  description: BrowserRegistrationDescriptionCommon
 ): BrowserRegistrationDescription {
   return {
     ...description,
@@ -302,9 +327,15 @@ export function createBrowserRegistrationDescription(
 /**
  * Represents a Browser Push remplate registration description.
  */
+export interface BrowserTemplateRegistrationDescriptionCommon
+  extends BrowserRegistrationDescriptionCommon,
+    TemplateRegistrationDescription {}
+
+/**
+ * Represents a Browser Push remplate registration description.
+ */
 export interface BrowserTemplateRegistrationDescription
-  extends Omit<BrowserRegistrationDescription, "kind">,
-    TemplateRegistrationDescription {
+  extends BrowserTemplateRegistrationDescriptionCommon {
   /**
    * The kind of the registration.
    */
@@ -317,7 +348,7 @@ export interface BrowserTemplateRegistrationDescription
  * @returns A created Web Push template registration description.
  */
 export function createBrowserTemplateRegistrationDescription(
-  description: Omit<BrowserTemplateRegistrationDescription, "kind">
+  description: BrowserTemplateRegistrationDescriptionCommon
 ): BrowserTemplateRegistrationDescription {
   return {
     ...description,
@@ -328,12 +359,17 @@ export function createBrowserTemplateRegistrationDescription(
 /**
  * Represents Notification Hub registration description for Google Cloud Messaging.
  */
-export interface GcmRegistrationDescription extends RegistrationDescriptionCommon {
+export interface GcmRegistrationDescriptionCommon extends RegistrationDescriptionCommon {
   /**
    * Registration id obtained from the Google Cloud Messaging service.
    */
   gcmRegistrationId: string;
+}
 
+/**
+ * Represents Notification Hub registration description for Google Cloud Messaging.
+ */
+export interface GcmRegistrationDescription extends GcmRegistrationDescriptionCommon {
   /**
    * The kind of the registration.
    */
@@ -346,7 +382,7 @@ export interface GcmRegistrationDescription extends RegistrationDescriptionCommo
  * @returns A created GCM registration description.
  */
 export function createFcmLegacyRegistrationDescription(
-  description: Omit<GcmRegistrationDescription, "kind">
+  description: GcmRegistrationDescriptionCommon
 ): GcmRegistrationDescription {
   return {
     ...description,
@@ -357,9 +393,15 @@ export function createFcmLegacyRegistrationDescription(
 /**
  * Represents Notification Hub template registration description for Firebase Legacy Cloud Messaging.
  */
+export interface GcmTemplateRegistrationDescriptionCommon
+  extends GcmRegistrationDescriptionCommon,
+    TemplateRegistrationDescription {}
+
+/**
+ * Represents Notification Hub template registration description for Firebase Legacy Cloud Messaging.
+ */
 export interface GcmTemplateRegistrationDescription
-  extends Omit<GcmRegistrationDescription, "kind">,
-    TemplateRegistrationDescription {
+  extends GcmTemplateRegistrationDescriptionCommon {
   /**
    * The kind of the registration.
    */
@@ -372,7 +414,7 @@ export interface GcmTemplateRegistrationDescription
  * @returns A created GCM template registration description.
  */
 export function createFcmLegacyTemplateRegistrationDescription(
-  description: Omit<GcmTemplateRegistrationDescription, "kind">
+  description: GcmTemplateRegistrationDescriptionCommon
 ): GcmTemplateRegistrationDescription {
   return {
     ...description,
@@ -384,12 +426,18 @@ export function createFcmLegacyTemplateRegistrationDescription(
  * Represents a Windows Phone Notification Services registration description.
  * @deprecated Windows Phone is no longer supported.
  */
-export interface MpnsRegistrationDescription extends RegistrationDescriptionCommon {
+export interface MpnsRegistrationDescriptionCommon extends RegistrationDescriptionCommon {
   /**
    * The channel URI.
    */
   channelUri: string;
+}
 
+/**
+ * Represents a Windows Phone Notification Services registration description.
+ * @deprecated Windows Phone is no longer supported.
+ */
+export interface MpnsRegistrationDescription extends MpnsRegistrationDescriptionCommon {
   /**
    * The kind of the registration.
    */
@@ -401,7 +449,7 @@ export interface MpnsRegistrationDescription extends RegistrationDescriptionComm
  * @deprecated Windows Phone is no longer supported.
  */
 export interface MpnsTemplateRegistrationDescription
-  extends Omit<MpnsRegistrationDescription, "kind">,
+  extends MpnsRegistrationDescriptionCommon,
     TemplateRegistrationDescription {
   /**
    * The WNS headers.
@@ -415,14 +463,44 @@ export interface MpnsTemplateRegistrationDescription
 }
 
 /**
+ * Represents a Windows Phone Notification Services template registration.
+ * @deprecated Windows Phone is no longer supported.
+ */
+export interface MpnsTemplateRegistrationDescriptionCommon
+  extends MpnsRegistrationDescriptionCommon,
+    TemplateRegistrationDescription {
+  /**
+   * The WNS headers.
+   */
+  mpnsHeaders?: Record<string, string>;
+}
+
+/**
+ * Represents a Windows Phone Notification Services template registration.
+ * @deprecated Windows Phone is no longer supported.
+ */
+export interface MpnsTemplateRegistrationDescription
+  extends MpnsTemplateRegistrationDescriptionCommon {
+  /**
+   * The kind of the registration.
+   */
+  kind: "MpnsTemplate";
+}
+
+/**
  * Represents a Windows Notification Services (WNS) registration description.
  */
-export interface WindowsRegistrationDescription extends RegistrationDescriptionCommon {
+export interface WindowsRegistrationDescriptionCommon extends RegistrationDescriptionCommon {
   /**
    * The channel URI.
    */
   channelUri: string;
+}
 
+/**
+ * Represents a Windows Notification Services (WNS) registration description.
+ */
+export interface WindowsRegistrationDescription extends WindowsRegistrationDescriptionCommon {
   /**
    * The kind of the registration.
    */
@@ -435,7 +513,7 @@ export interface WindowsRegistrationDescription extends RegistrationDescriptionC
  * @returns A created Windows registration description.
  */
 export function createWindowsRegistrationDescription(
-  description: Omit<WindowsRegistrationDescription, "kind">
+  description: WindowsRegistrationDescriptionCommon
 ): WindowsRegistrationDescription {
   return {
     ...description,
@@ -446,14 +524,20 @@ export function createWindowsRegistrationDescription(
 /**
  * Represents a Windows Notification Services (WNS) template registration.
  */
-export interface WindowsTemplateRegistrationDescription
-  extends Omit<WindowsRegistrationDescription, "kind">,
+export interface WindowsTemplateRegistrationDescriptionCommon
+  extends WindowsRegistrationDescriptionCommon,
     TemplateRegistrationDescription {
   /**
    * The WNS headers.
    */
   wnsHeaders?: Record<string, string>;
+}
 
+/**
+ * Represents a Windows Notification Services (WNS) template registration.
+ */
+export interface WindowsTemplateRegistrationDescription
+  extends WindowsTemplateRegistrationDescriptionCommon {
   /**
    * The kind of the registration.
    */
@@ -466,7 +550,7 @@ export interface WindowsTemplateRegistrationDescription
  * @returns A created Windows template registration description.
  */
 export function createWindowsTemplateRegistrationDescription(
-  description: Omit<WindowsTemplateRegistrationDescription, "kind">
+  description: WindowsTemplateRegistrationDescriptionCommon
 ): WindowsTemplateRegistrationDescription {
   return {
     ...description,
@@ -492,3 +576,110 @@ export type RegistrationDescription =
   | MpnsTemplateRegistrationDescription
   | WindowsRegistrationDescription
   | WindowsTemplateRegistrationDescription;
+
+/**
+ * Describes an ADM Registration channel query.
+ */
+export interface AdmRegistrationChannel {
+  /**
+   * The ADM Registration ID.
+   */
+  admRegistrationId: string;
+  /**
+   * The kind of the registration channel.
+   */
+  kind: "adm";
+}
+
+/**
+ * Describes an Apple Registration channel query.
+ */
+export interface AppleRegistrationChannel {
+  /**
+   * The APNs device token.
+   */
+  deviceToken: string;
+  /**
+   * The kind of the registration channel.
+   */
+  kind: "apple";
+}
+
+/**
+ * Describes an Baidu Registration channel query.
+ */
+export interface BaiduRegistrationChannel {
+  /**
+   * The Baidu Channel ID.
+   */
+  baiduChannelId: string;
+  /**
+   * The Baidu User ID.
+   */
+  baiduUserId: string;
+  /**
+   * The kind of the registration channel.
+   */
+  kind: "baidu";
+}
+
+/**
+ * Describes an Browser Registration channel query.
+ */
+export interface BrowserRegistrationChannel {
+  /**
+   * The Web Push endpoint URL.
+   */
+  endpoint: string;
+  /**
+   * The Web Push subscription P256DH.
+   */
+  p256dh: string;
+  /**
+   * The Web Push subscription auth secret.
+   */
+  auth: string;
+  /**
+   * The kind of the registration channel.
+   */
+  kind: "browser";
+}
+
+/**
+ * Describes an Firebase Legacy Registration channel query.
+ */
+export interface FirebaseLegacyRegistrationChannel {
+  /**
+   * The FCM Legacy registration ID.
+   */
+  gcmRegistrationId: string;
+  /**
+   * The kind of the registration channel.
+   */
+  kind: "gcm";
+}
+
+/**
+ * Describes an Windows Notification Services Registration channel query.
+ */
+export interface WindowsRegistrationChannel {
+  /**
+   * The WNS Channel URI.
+   */
+  channelUri: string;
+  /**
+   * The kind of the registration channel.
+   */
+  kind: "windows";
+}
+
+/**
+ * Describes a Registration query.
+ */
+export type RegistrationChannel =
+  | AdmRegistrationChannel
+  | AppleRegistrationChannel
+  | BaiduRegistrationChannel
+  | BrowserRegistrationChannel
+  | FirebaseLegacyRegistrationChannel
+  | WindowsRegistrationChannel;

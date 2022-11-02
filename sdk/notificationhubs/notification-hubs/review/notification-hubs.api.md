@@ -10,14 +10,6 @@ import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
-// @public (undocumented)
-export interface AdmDevice {
-    // (undocumented)
-    admRegistrationId: string;
-    // (undocumented)
-    kind: "adm";
-}
-
 // @public
 export interface AdmInstallation extends DeviceTokenInstallation {
     platform: "adm";
@@ -36,26 +28,26 @@ export interface AdmNativeMessage {
 // @public
 export interface AdmNativeNotification {
     body?: string;
-    bodyLocArgs?: string[];
-    bodyLocKey?: string;
-    channelId?: string;
-    clickAction?: string;
+    body_loc_args?: string[];
+    body_loc_key?: string;
+    channel_id?: string;
+    click_action?: string;
     color?: string;
-    defaultSound?: boolean;
-    eventTime?: string;
+    default_sound?: boolean;
+    event_time?: string;
     icon?: string;
     image?: string;
-    localOnly?: boolean;
-    notificationCount?: number;
-    notificationPriority?: number;
+    local_only?: boolean;
+    notification_count?: number;
+    notification_priority?: "PRIORITY_UNSPECIFIED" | "PRIORITY_MIN" | "PRIORITY_LOW" | "PRIORITY_DEFAULT" | "PRIORITY_HIGH" | "PRIORITY_MAX";
     sound?: string;
     sticky?: boolean;
     tag?: string;
     ticker?: string;
     title?: string;
-    titleLocArgs?: string[];
-    titleLocKey?: string;
-    visibility?: number;
+    title_loc_args?: string[];
+    title_loc_key?: string;
+    visibility?: "VISIBILITY_UNSPECIFIED" | "PRIVATE" | "PUBLIC" | "SECRET";
 }
 
 // @public
@@ -64,28 +56,42 @@ export interface AdmNotification extends JsonNotification {
 }
 
 // @public
-export interface AdmRegistrationDescription extends RegistrationDescriptionCommon {
+export interface AdmRegistrationChannel {
     admRegistrationId: string;
-    kind: "Adm";
+    kind: "adm";
 }
 
 // @public
-export interface AdmTemplateRegistrationDescription extends Omit<AdmRegistrationDescription, "kind">, TemplateRegistrationDescription {
+export interface AdmRegistrationDescription extends AdmRegistrationDescriptionCommon {
+    kind: "Adm";
+}
+
+// @public (undocumented)
+export interface AdmRegistrationDescriptionCommon extends RegistrationDescriptionCommon {
+    admRegistrationId: string;
+}
+
+// @public
+export interface AdmTemplateRegistrationDescription extends AdmTemplateRegistrationDescriptionCommon {
     kind: "AdmTemplate";
 }
 
 // @public
+export interface AdmTemplateRegistrationDescriptionCommon extends AdmRegistrationDescriptionCommon, TemplateRegistrationDescription {
+}
+
+// @public
 export interface AppleAlert {
+    "launch-image"?: string;
+    "loc-args"?: string[];
+    "loc-key"?: string;
+    "subtitle-loc-args"?: string[];
+    "subtitle-loc-key"?: string;
+    "title-loc-args"?: string[];
+    "title-loc-key"?: string;
     body?: string;
-    launchImage?: string;
-    locArgs?: string[];
-    locKey?: string;
     subtitle?: string;
-    subtitleLocArgs?: string[];
-    subtitleLocKey?: string;
     title?: string;
-    titleLocArgs?: string[];
-    titleLocKey?: string;
 }
 
 // @public
@@ -95,14 +101,6 @@ export interface AppleCriticalSound {
     volume: number;
 }
 
-// @public (undocumented)
-export interface AppleDevice {
-    // (undocumented)
-    deviceToken: string;
-    // (undocumented)
-    kind: "apple";
-}
-
 // @public
 export interface AppleInstallation extends DeviceTokenInstallation {
     platform: "apns";
@@ -110,17 +108,17 @@ export interface AppleInstallation extends DeviceTokenInstallation {
 
 // @public
 export interface AppleNativeMessage extends Record<string, any> {
+    "content-available"?: number;
+    "filter-criteria"?: string;
+    "interruption-level"?: "passive" | "active" | "time-sensitive" | "critical";
+    "mutable-content"?: number;
+    "relevance-score"?: number;
+    "target-content-id"?: string;
+    "thread-id"?: string;
     alert?: string | AppleAlert;
     badge?: number;
     category?: string;
-    contentAvailable?: number;
-    filterCriteria?: string;
-    interruptionLevel?: "passive" | "active" | "time-sensitive" | "critical";
-    mutableContent?: number;
-    relevanceScore?: number;
     sound?: string | AppleCriticalSound;
-    targetContentId?: string;
-    threadId?: string;
 }
 
 // @public
@@ -129,20 +127,31 @@ export interface AppleNotification extends JsonNotification {
 }
 
 // @public
-export type ApplePriority = "10" | "5";
+export interface AppleRegistrationChannel {
+    deviceToken: string;
+    kind: "apple";
+}
 
 // @public
-export interface AppleRegistrationDescription extends RegistrationDescriptionCommon {
-    deviceToken: string;
+export interface AppleRegistrationDescription extends AppleRegistrationDescriptionCommon {
     kind: "Apple";
 }
 
 // @public
-export interface AppleTemplateRegistrationDescription extends Omit<AppleRegistrationDescription, "kind">, TemplateRegistrationDescription {
+export interface AppleRegistrationDescriptionCommon extends RegistrationDescriptionCommon {
+    deviceToken: string;
+}
+
+// @public
+export interface AppleTemplateRegistrationDescription extends AppleTemplateRegistrationDescriptionCommon {
+    kind: "AppleTemplate";
+}
+
+// @public
+export interface AppleTemplateRegistrationDescriptionCommon extends AppleRegistrationDescriptionCommon, TemplateRegistrationDescription {
     apnsHeaders?: Record<string, string>;
     expiry?: Date;
-    kind: "AppleTemplate";
-    priority?: ApplePriority;
+    priority?: "10" | "5";
 }
 
 // @public
@@ -150,16 +159,6 @@ export interface BaiduAppleNativePayload {
     alert?: string;
     badge?: number;
     sound?: string;
-}
-
-// @public (undocumented)
-export interface BaiduDevice {
-    // (undocumented)
-    baiduChannelId: string;
-    // (undocumented)
-    baiduUserId: string;
-    // (undocumented)
-    kind: "baidu";
 }
 
 // @public
@@ -170,17 +169,17 @@ export interface BaiduInstallation extends DeviceTokenInstallation {
 // @public
 export interface BaiduNativeMessage extends Record<string, any> {
     aps?: BaiduAppleNativePayload;
-    customContent?: Record<string, any>;
+    custom_content?: Record<string, any>;
     description?: string;
-    netSupport?: number;
-    notificationBasicStyle?: number;
-    notificationBuilderId?: number;
-    openType?: number;
-    pkgContent?: string;
-    pkgVersion?: string;
+    net_support?: number;
+    notification_basic_style?: number;
+    notification_builder_id?: number;
+    open_type?: number;
+    pkg_content?: string;
+    pkg_version?: string;
     title?: string;
     url?: string;
-    userConfirm?: number;
+    user_confirm?: number;
 }
 
 // @public
@@ -189,32 +188,39 @@ export interface BaiduNotification extends JsonNotification {
 }
 
 // @public
-export interface BaiduRegistrationDescription extends RegistrationDescriptionCommon {
+export interface BaiduRegistrationChannel {
     baiduChannelId: string;
     baiduUserId: string;
+    kind: "baidu";
+}
+
+// @public
+export interface BaiduRegistrationDescription extends BaiduRegistrationDescriptionCommon {
     kind: "Baidu";
 }
 
+// @public (undocumented)
+export interface BaiduRegistrationDescriptionCommon extends RegistrationDescriptionCommon {
+    baiduChannelId: string;
+    baiduUserId: string;
+}
+
 // @public
-export interface BaiduTemplateRegistrationDescription extends Omit<BaiduRegistrationDescription, "kind">, TemplateRegistrationDescription {
+export interface BaiduTemplateRegistrationDescription extends BaiduTemplateRegistrationDescriptionCommon {
     kind: "BaiduTemplate";
 }
 
-// @public (undocumented)
-export interface BrowserDevice {
-    // (undocumented)
-    auth: string;
-    // (undocumented)
-    endpoint: string;
-    // (undocumented)
-    kind: "browser";
-    // (undocumented)
-    p256dh: string;
+// @public
+export interface BaiduTemplateRegistrationDescriptionCommon extends BaiduRegistrationDescriptionCommon, TemplateRegistrationDescription {
 }
 
 // @public
-export interface BrowserInstallation extends InstallationCommon {
+export interface BrowserInstallation extends BrowserInstallationCommon {
     platform: "browser";
+}
+
+// @public
+export interface BrowserInstallationCommon extends InstallationCommon {
     pushChannel: BrowserPushChannel;
 }
 
@@ -231,119 +237,135 @@ export interface BrowserPushChannel {
 }
 
 // @public
-export interface BrowserRegistrationDescription extends RegistrationDescriptionCommon {
+export interface BrowserRegistrationChannel {
     auth: string;
     endpoint: string;
-    kind: "Browser";
+    kind: "browser";
     p256dh: string;
 }
 
 // @public
-export interface BrowserTemplateRegistrationDescription extends Omit<BrowserRegistrationDescription, "kind">, TemplateRegistrationDescription {
+export interface BrowserRegistrationDescription extends BrowserRegistrationDescriptionCommon {
+    kind: "Browser";
+}
+
+// @public
+export interface BrowserRegistrationDescriptionCommon extends RegistrationDescriptionCommon {
+    auth: string;
+    endpoint: string;
+    p256dh: string;
+}
+
+// @public
+export interface BrowserTemplateRegistrationDescription extends BrowserTemplateRegistrationDescriptionCommon {
     kind: "BrowserTemplate";
 }
 
 // @public
-export function buildAdmNativeMessage(nativeMessage: AdmNativeMessage): AdmNotification;
+export interface BrowserTemplateRegistrationDescriptionCommon extends BrowserRegistrationDescriptionCommon, TemplateRegistrationDescription {
+}
 
 // @public
-export function buildAppleNativeMessage(nativeMessage: AppleNativeMessage, additionalProperties?: Record<string, any>): AppleNotification;
+export function createAdmInstallation(installation: DeviceTokenInstallation): AdmInstallation;
 
 // @public
-export function buildBaiduNativeMessage(nativeMessage: BaiduNativeMessage, additionalProperties?: Record<string, any>): BaiduNotification;
+export function createAdmNotification(notification: NotificationCommon): AdmNotification;
 
 // @public
-export function buildFirebaseLegacyNativeMessage(nativeMessage: FirebaseLegacyNativeMessage): FcmLegacyNotification;
+export function createAdmNotificationBody(nativeMessage: AdmNativeMessage): string;
 
 // @public
-export function buildWindowsBadgeNativeMessage(nativeMessage: WindowsBadgeNativeMessage): WindowsNotification;
+export function createAdmRegistrationDescription(description: AdmRegistrationDescriptionCommon): AdmRegistrationDescription;
 
 // @public
-export function createAdmInstallation(installation: Omit<AdmInstallation, "platform">): AdmInstallation;
+export function createAdmTemplateRegistrationDescription(description: AdmTemplateRegistrationDescriptionCommon): AdmTemplateRegistrationDescription;
 
 // @public
-export function createAdmNotification(notification: Omit<AdmNotification, "platform" | "contentType">): AdmNotification;
+export function createAppleInstallation(installation: DeviceTokenInstallation): AppleInstallation;
 
 // @public
-export function createAdmRegistrationDescription(description: Omit<AdmRegistrationDescription, "kind">): AdmRegistrationDescription;
+export function createAppleNotification(notification: NotificationCommon): AppleNotification;
 
 // @public
-export function createAdmTemplateRegistrationDescription(description: Omit<AdmTemplateRegistrationDescription, "kind">): AdmTemplateRegistrationDescription;
+export function createAppleNotificationBody(nativeMessage: AppleNativeMessage): string;
 
 // @public
-export function createAppleInstallation(installation: Omit<AppleInstallation, "platform">): AppleInstallation;
+export function createAppleRegistrationDescription(description: AppleRegistrationDescriptionCommon): AppleRegistrationDescription;
 
 // @public
-export function createAppleNotification(notification: Omit<AppleNotification, "platform" | "contentType">): AppleNotification;
+export function createAppleTemplateRegistrationDescription(description: AppleTemplateRegistrationDescriptionCommon): AppleTemplateRegistrationDescription;
 
 // @public
-export function createAppleRegistrationDescription(description: Omit<AppleRegistrationDescription, "kind">): AppleRegistrationDescription;
+export function createBaiduInstallation(installation: DeviceTokenInstallation): BaiduInstallation;
 
 // @public
-export function createAppleTemplateRegistrationDescription(description: Omit<AppleTemplateRegistrationDescription, "kind">): AppleTemplateRegistrationDescription;
+export function createBaiduNotification(notification: NotificationCommon): BaiduNotification;
 
 // @public
-export function createBaiduInstallation(installation: Omit<BaiduInstallation, "platform">): BaiduInstallation;
+export function createBaiduNotificationBody(nativeMessage: BaiduNativeMessage): string;
 
 // @public
-export function createBaiduNotification(notification: Omit<BaiduNotification, "platform" | "contentType">): BaiduNotification;
+export function createBaiduRegistrationDescription(description: BaiduRegistrationDescriptionCommon): BaiduRegistrationDescription;
 
 // @public
-export function createBaiduRegistrationDescription(description: Omit<BaiduRegistrationDescription, "kind">): BaiduRegistrationDescription;
+export function createBaiduTemplateRegistrationDescription(description: BaiduTemplateRegistrationDescriptionCommon): BaiduTemplateRegistrationDescription;
 
 // @public
-export function createBaiduTemplateRegistrationDescription(description: Omit<BaiduTemplateRegistrationDescription, "kind">): BaiduTemplateRegistrationDescription;
+export function createBrowserInstallation(installation: BrowserInstallationCommon): BrowserInstallation;
 
 // @public
-export function createBrowserInstallation(installation: Omit<BrowserInstallation, "platform">): BrowserInstallation;
+export function createBrowserNotification(notification: NotificationCommon): BrowserNotification;
 
 // @public
-export function createBrowserNotification(notification: Omit<BrowserNotification, "platform" | "contentType">): BrowserNotification;
+export function createBrowserRegistrationDescription(description: BrowserRegistrationDescriptionCommon): BrowserRegistrationDescription;
 
 // @public
-export function createBrowserRegistrationDescription(description: Omit<BrowserRegistrationDescription, "kind">): BrowserRegistrationDescription;
+export function createBrowserTemplateRegistrationDescription(description: BrowserTemplateRegistrationDescriptionCommon): BrowserTemplateRegistrationDescription;
 
 // @public
-export function createBrowserTemplateRegistrationDescription(description: Omit<BrowserTemplateRegistrationDescription, "kind">): BrowserTemplateRegistrationDescription;
+export function createFcmLegacyInstallation(installation: DeviceTokenInstallation): FcmLegacyInstallation;
 
 // @public
-export function createFcmLegacyInstallation(installation: Omit<FcmLegacyInstallation, "platform">): FcmLegacyInstallation;
+export function createFcmLegacyNotification(notification: NotificationCommon): FcmLegacyNotification;
 
 // @public
-export function createFcmLegacyNotification(notification: Omit<FcmLegacyNotification, "platform" | "contentType">): FcmLegacyNotification;
+export function createFcmLegacyRegistrationDescription(description: GcmRegistrationDescriptionCommon): GcmRegistrationDescription;
 
 // @public
-export function createFcmLegacyRegistrationDescription(description: Omit<GcmRegistrationDescription, "kind">): GcmRegistrationDescription;
+export function createFcmLegacyTemplateRegistrationDescription(description: GcmTemplateRegistrationDescriptionCommon): GcmTemplateRegistrationDescription;
 
 // @public
-export function createFcmLegacyTemplateRegistrationDescription(description: Omit<GcmTemplateRegistrationDescription, "kind">): GcmTemplateRegistrationDescription;
+export function createFirebaseLegacyNotificationBody(nativeMessage: FirebaseLegacyNativeMessage): string;
 
 // @public
 export function createTagExpression(tags: string[]): string;
 
 // @public
-export function createTemplateNotification(notification: Omit<TemplateNotification, "platform" | "contentType">): TemplateNotification;
+export function createTemplateNotification(notification: NotificationCommon): TemplateNotification;
 
 // @public
-export function createWindowsBadgeNotification(notification: Omit<WindowsNotification, "platform" | "contentType">): WindowsNotification;
+export function createWindowsBadgeNotification(notification: NotificationCommon): WindowsNotification;
 
 // @public
-export function createWindowsInstallation(installation: Omit<WindowsInstallation, "platform">): WindowsInstallation;
+export function createWindowsBadgeNotificationBody(nativeMessage: WindowsBadgeNativeMessage): string;
 
 // @public
-export function createWindowsRawNotification(notification: Omit<WindowsNotification, "platform" | "contentType">): WindowsNotification;
+export function createWindowsInstallation(installation: DeviceTokenInstallation): WindowsInstallation;
 
 // @public
-export function createWindowsRegistrationDescription(description: Omit<WindowsRegistrationDescription, "kind">): WindowsRegistrationDescription;
+export function createWindowsRawNotification(notification: NotificationCommon): WindowsNotification;
 
 // @public
-export function createWindowsTemplateRegistrationDescription(description: Omit<WindowsTemplateRegistrationDescription, "kind">): WindowsTemplateRegistrationDescription;
+export function createWindowsRegistrationDescription(description: WindowsRegistrationDescriptionCommon): WindowsRegistrationDescription;
 
 // @public
-export function createWindowsTileNotification(notification: Omit<WindowsNotification, "platform" | "contentType">): WindowsNotification;
+export function createWindowsTemplateRegistrationDescription(description: WindowsTemplateRegistrationDescriptionCommon): WindowsTemplateRegistrationDescription;
 
 // @public
-export function createWindowsToastNotification(notification: Omit<WindowsNotification, "platform" | "contentType">): WindowsNotification;
+export function createWindowsTileNotification(notification: NotificationCommon): WindowsNotification;
+
+// @public
+export function createWindowsToastNotification(notification: NotificationCommon): WindowsNotification;
 
 // @public
 export interface DeviceTokenInstallation extends InstallationCommon {
@@ -372,75 +394,81 @@ export interface FcmLegacyNotification extends JsonNotification {
 
 // @public
 export interface FirebaseLegacyAndroidNativePayload {
-    androidChannelId?: string;
+    android_channel_id?: string;
     body?: string;
-    bodyLocArgs?: string[];
-    bodyLocKey?: string;
-    clickAction?: string;
+    body_loc_args?: string[];
+    body_loc_key?: string;
+    click_action?: string;
     color?: string;
     icon?: string;
     sound?: string;
     tag?: string;
     title?: string;
-    titleLocArgs?: string[];
-    titleLocKey?: string;
+    title_loc_args?: string[];
+    title_loc_key?: string;
 }
 
 // @public
 export interface FirebaseLegacyAppleNativePayload {
     badge?: string;
     body?: string;
-    bodyLocArgs?: string[];
-    bodyLocKey?: string;
-    clickAction?: string;
+    body_loc_args?: string[];
+    body_loc_key?: string;
+    click_actionx?: string;
     sound?: string;
     subtitle?: string;
     title?: string;
-    titleLocArgs?: string[];
-    titleLocKey?: string;
-}
-
-// @public (undocumented)
-export interface FirebaseLegacyDevice {
-    // (undocumented)
-    gcmRegistrationId: string;
-    // (undocumented)
-    kind: "gcm";
+    title_loc_args?: string[];
+    title_loc_key?: string;
 }
 
 // @public
 export interface FirebaseLegacyNativeMessage {
-    collapseKey?: string;
+    collapse_key?: string;
     condition?: string;
-    contentAvailable?: boolean;
+    content_available?: boolean;
     data?: Record<string, any>;
-    dryRun?: boolean;
-    mutableContent?: number;
+    dry_run?: boolean;
+    mutable_content?: number;
     notification?: FirebaseLegacyAppleNativePayload | FirebaseLegacyAndroidNativePayload | FirebaseLegacyWebNativePayload;
     priority?: "normal" | "high";
-    registrationIds?: string[];
-    restrictedPackageName?: string;
-    timeToLive?: number;
+    registration_ids?: string[];
+    restricted_package_name?: string;
+    time_to_live?: number;
     to?: string;
+}
+
+// @public
+export interface FirebaseLegacyRegistrationChannel {
+    gcmRegistrationId: string;
+    kind: "gcm";
 }
 
 // @public
 export interface FirebaseLegacyWebNativePayload {
     body?: string;
-    clickAction?: string;
+    click_action?: string;
     icon?: string;
     title?: string;
 }
 
 // @public
-export interface GcmRegistrationDescription extends RegistrationDescriptionCommon {
-    gcmRegistrationId: string;
+export interface GcmRegistrationDescription extends GcmRegistrationDescriptionCommon {
     kind: "Gcm";
 }
 
 // @public
-export interface GcmTemplateRegistrationDescription extends Omit<GcmRegistrationDescription, "kind">, TemplateRegistrationDescription {
+export interface GcmRegistrationDescriptionCommon extends RegistrationDescriptionCommon {
+    gcmRegistrationId: string;
+}
+
+// @public
+export interface GcmTemplateRegistrationDescription extends GcmTemplateRegistrationDescriptionCommon {
     kind: "GcmTemplate";
+}
+
+// @public
+export interface GcmTemplateRegistrationDescriptionCommon extends GcmRegistrationDescriptionCommon, TemplateRegistrationDescription {
 }
 
 // @public
@@ -451,7 +479,6 @@ export interface InstallationCommon {
     readonly expirationTime?: string;
     installationId: string;
     readonly lastUpdate?: string;
-    platform: "apns" | "adm" | "baidu" | "browser" | "gcm" | "wns";
     tags?: string[];
     templates?: Record<string, InstallationTemplate>;
     userId?: string;
@@ -480,14 +507,28 @@ export interface JsonPatch {
 export type JsonPatchOperation = "add" | "remove" | "replace";
 
 // @public @deprecated
-export interface MpnsRegistrationDescription extends RegistrationDescriptionCommon {
-    channelUri: string;
+export interface MpnsRegistrationDescription extends MpnsRegistrationDescriptionCommon {
     kind: "Mpns";
 }
 
 // @public @deprecated
-export interface MpnsTemplateRegistrationDescription extends Omit<MpnsRegistrationDescription, "kind">, TemplateRegistrationDescription {
+export interface MpnsRegistrationDescriptionCommon extends RegistrationDescriptionCommon {
+    channelUri: string;
+}
+
+// @public @deprecated
+export interface MpnsTemplateRegistrationDescription extends MpnsRegistrationDescriptionCommon, TemplateRegistrationDescription {
     kind: "MpnsTemplate";
+    mpnsHeaders?: Record<string, string>;
+}
+
+// @public @deprecated
+export interface MpnsTemplateRegistrationDescription extends MpnsTemplateRegistrationDescriptionCommon {
+    kind: "MpnsTemplate";
+}
+
+// @public @deprecated
+export interface MpnsTemplateRegistrationDescriptionCommon extends MpnsRegistrationDescriptionCommon, TemplateRegistrationDescription {
     mpnsHeaders?: Record<string, string>;
 }
 
@@ -497,9 +538,7 @@ export type Notification = AppleNotification | AdmNotification | BaiduNotificati
 // @public
 export interface NotificationCommon {
     body: string;
-    contentType: string;
     headers?: Record<string, string>;
-    platform: string;
 }
 
 // @public
@@ -604,7 +643,7 @@ export class NotificationHubsClient {
     getRegistration(registrationId: string, options?: OperationOptions): Promise<RegistrationDescription>;
     listNotificationHubJobs(options?: OperationOptions): Promise<NotificationHubJob[]>;
     listRegistrations(options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
-    listRegistrationsByDevice(device: RegistrationDevice, options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
+    listRegistrationsByChannel(channel: RegistrationChannel, options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
     listRegistrationsByTag(tag: string, options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
     scheduleNotification(scheduledTime: Date, notification: Notification, options?: ScheduleNotificationOptions): Promise<NotificationHubsMessageResponse>;
     sendNotification(notification: Notification, options?: DirectSendNotificationOptions | SendNotificationOptions): Promise<NotificationHubsMessageResponse>;
@@ -651,20 +690,19 @@ export interface PolledOperationOptions extends OperationOptions {
 export type PushHandle = BrowserPushChannel | string;
 
 // @public
+export type RegistrationChannel = AdmRegistrationChannel | AppleRegistrationChannel | BaiduRegistrationChannel | BrowserRegistrationChannel | FirebaseLegacyRegistrationChannel | WindowsRegistrationChannel;
+
+// @public
 export type RegistrationDescription = AdmRegistrationDescription | AdmTemplateRegistrationDescription | AppleRegistrationDescription | AppleTemplateRegistrationDescription | BaiduRegistrationDescription | BaiduTemplateRegistrationDescription | BrowserRegistrationDescription | BrowserTemplateRegistrationDescription | GcmRegistrationDescription | GcmTemplateRegistrationDescription | MpnsRegistrationDescription | MpnsTemplateRegistrationDescription | WindowsRegistrationDescription | WindowsTemplateRegistrationDescription;
 
 // @public
 export interface RegistrationDescriptionCommon {
     etag?: string;
     expirationTime?: Date;
-    kind: RegistrationType;
     pushVariables?: Record<string, string>;
     registrationId?: string;
     tags?: string[];
 }
-
-// @public (undocumented)
-export type RegistrationDevice = AdmDevice | AppleDevice | BaiduDevice | BrowserDevice | FirebaseLegacyDevice | WindowsDevice;
 
 // @public
 export interface RegistrationQueryLimitOptions extends OperationOptions {
@@ -726,14 +764,6 @@ export interface WindowsBadgeNativeMessage {
 // @public
 export type WindowsContentType = "application/xml" | "application/octet-stream";
 
-// @public (undocumented)
-export interface WindowsDevice {
-    // (undocumented)
-    channelUri: string;
-    // (undocumented)
-    kind: "windows";
-}
-
 // @public
 export interface WindowsInstallation extends DeviceTokenInstallation {
     platform: "wns";
@@ -746,14 +776,28 @@ export interface WindowsNotification extends NotificationCommon {
 }
 
 // @public
-export interface WindowsRegistrationDescription extends RegistrationDescriptionCommon {
+export interface WindowsRegistrationChannel {
     channelUri: string;
+    kind: "windows";
+}
+
+// @public
+export interface WindowsRegistrationDescription extends WindowsRegistrationDescriptionCommon {
     kind: "Windows";
 }
 
 // @public
-export interface WindowsTemplateRegistrationDescription extends Omit<WindowsRegistrationDescription, "kind">, TemplateRegistrationDescription {
+export interface WindowsRegistrationDescriptionCommon extends RegistrationDescriptionCommon {
+    channelUri: string;
+}
+
+// @public
+export interface WindowsTemplateRegistrationDescription extends WindowsTemplateRegistrationDescriptionCommon {
     kind: "WindowsTemplate";
+}
+
+// @public
+export interface WindowsTemplateRegistrationDescriptionCommon extends WindowsRegistrationDescriptionCommon, TemplateRegistrationDescription {
     wnsHeaders?: Record<string, string>;
 }
 

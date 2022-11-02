@@ -70,24 +70,17 @@ const result = await client.createOrUpdateInstallation(installation);
 
 The modular approach allows the developer to pick and choose which functions to import as each method is exposed individually.  This approach uses subpath-exports with ES-Modules to expose the methods via direct imports.  With the individual exports, this creates a better tree-shaking experience and smaller bundle sizes that the developer can take advantage of.  
 
-Note that creating a client is exposed through the `"@azure/notification-hubs/client"` subpath and all client methods are exposed through the `"@azure/notification-hubs/client"` subpath.  Each function exported takes the `client` as the first parameter and the rest of the parameters remain unchanged.  
+Note that creating a client is exposed through the `"@azure/notification-hubs/api"` subpath and all client methods are exposed through the `"@azure/notification-hubs/api"` subpath.  Each function exported takes the `client` as the first parameter and the rest of the parameters remain unchanged.  
 
 The following subpaths are exposed:
 
-- `@azure/notification-hubs/client` - The main entry point for the client via `createClientContext`
-- `@azure/notification-hubs/client/*` - The client methods such as `getInstallation` or `sendNotification`
-- `@azure/notification-hubs/models/installation` - The installation models and factory methods.
-- `@azure/notification-hubs/models/notification` - The notification models and factory methods.
-- `@azure/notification-hubs/models/notificationBuilder` - The notification builder models and factory methods.
-- `@azure/notification-hubs/models/options` - The method options such as `SendOperationOptions`.
-- `@azure/notification-hubs/models/registration` - The registration models and factory methods.
+- `@azure/notification-hubs/api` - The main entry point for the client via `createClientContext` and client methods such as `getInstallation` or `sendNotification`
+- `@azure/notification-hubs/models` - The Notification Hubs models and factory methods.
 
 The above code snippet then becomes the following:
 
 ```typescript
-import { createClientContext } from "@azure/notification-hubs/client";
-import { createAppleInstallation } from "@azure/notification-hubs/models/installation";
-import { createOrUpdateInstallation } from "@azure/notification-hubs/client/createOrUpdateInstallation";
+import { createClientContext, createOrUpdateInstallation } from "@azure/notification-hubs/api";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
@@ -114,10 +107,10 @@ import { NotificationHubsClient } from "@azure/notification-hubs";
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
 ```
 
-Using the modular approach, the `createClientContext` can be imported via the `"@azure/notification-hubs/client"` subpath.
+Using the modular approach, the `createClientContext` can be imported via the `"@azure/notification-hubs/api"` subpath.
 
 ```typescript
-import { createClientContext } from "@azure/notification-hubs/client";
+import { createClientContext } from "@azure/notification-hubs/api";
 
 const context = createClientContext("<connection string>", "<hub name>");
 ```
@@ -163,9 +156,8 @@ installation = await client.createOrUpdateInstallation(installation);
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { createClientContext } from "@azure/notification-hubs/client";
-import { createAppleInstallation } from "@azure/notification-hubs/models/installation";
-import { createOrUpdateInstallation } from "@azure/notification-hubs/client/createOrUpdateInstallation";
+import { createClientContext, createOrUpdateInstallation } from "@azure/notification-hubs/api";
+import { createAppleInstallation } from "@azure/notification-hubs/models";
 import { v4 as uuid } from "uuid";
 
 const context = createClientContext("<connection string>", "<hub name>");
@@ -200,9 +192,8 @@ const installation = await client.updateInstallation(installationId, updates);
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { createClientContext } from "@azure/notification-hubs/client";
-import { JsonPatch, createAppleInstallation } from "@azure/notification-hubs/models/installation";
-import { updateInstallation } from "@azure/notification-hubs/client/updateInstallation";
+import { createClientContext, updateInstallation } from "@azure/notification-hubs/api";
+import { JsonPatch, createAppleInstallation } from "@azure/notification-hubs/models";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
@@ -231,8 +222,7 @@ const installation = client.getInstallation(installationId);
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { createClientContext } from "@azure/notification-hubs/client";
-import { getInstallation } from "@azure/notification-hubs/client/getInstallation";
+import { createClientContext, getInstallation } from "@azure/notification-hubs/api";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
@@ -268,9 +258,8 @@ console.log(`New Registration ID: ${registration.registrationId}`);
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { createClientContext } from "@azure/notification-hubs/client";
-import { createAppleRegistrationDescription } from "@azure/notification-hubs/models/registration";
-import { createRegistration } from "@azure/notification-hubs/client/createRegistration";
+import { createClientContext, createRegistration } from "@azure/notification-hubs/api";
+import { createAppleRegistrationDescription } from "@azure/notification-hubs/models";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
@@ -303,9 +292,11 @@ registration = await client.updateRegistration(registration);
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { createClientContext } from "@azure/notification-hubs/client";
-import { getRegistration } from "@azure/notification-hubs/client/getRegistration";
-import { updateRegistration } from "@azure/notification-hubs/client/updateRegistration";
+import { 
+  createClientContext, 
+  getRegistration, 
+  updateRegistration 
+} from "@azure/notification-hubs/api";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
@@ -318,10 +309,10 @@ registration.tags.push("likes_sports");
 registration = await updateRegistration(context, registration);
 ```
 
-Registrations, unlike installations, can be queried to get all registrations, matching registrations to a condition, or by tags.  Registrations can be queried using the `listRegistrations` and `listRegistrationsByTag` method.  Both methods support limiting via the `top` option and support asynchronous paging.
+Registrations, unlike installations, can be queried to get all registrations, matching registrations to a condition, or by tags.  Registrations can be queried using the `listRegistrations`, `listRegistrationsByChannel` and `listRegistrationsByTag` method.  All methods support limiting via the `top` option and support asynchronous paging.
 
 ```typescript
-import { NotificationHubsClient } from "@azure/notification-hubs/client";
+import { NotificationHubsClient } from "@azure/notification-hubs/api";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
@@ -339,8 +330,7 @@ for await (const pages of registrations.byPage()) {
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { createClientContext } from "@azure/notification-hubs/client";
-import { listRegistrationsByTag } from "@azure/notification-hubs/client/listRegistrationsByTag";
+import { createClientContext, listRegistrationsByTag } from "@azure/notification-hubs/api";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
@@ -361,16 +351,16 @@ Notification Hubs supports sending notifications to devices either directly usin
 
 For debugging purposes, the `enableTestSend` options can be set to `true` which gets immediate feedback from the PNS on the `sendNotification` method, however, is not supported in production scenarios.  This is not supported on the scheduled send methods.
 
-Raw JSON or XML strings can be sent to the send or scheduled send methods, or the notification builders can be used which helps construct messages per PNS such as APNs, Firebase, Baidu, ADM and WNS.  These builders will build the native message format and fill in associated HTTP headers so there is no guessing about which fields are available for each PNS.
+Raw JSON or XML strings can be sent to the send or scheduled send methods, or the notification builders can be used which helps construct messages per PNS such as APNs, Firebase, Baidu, ADM and WNS.  These builders will build the native message format so there is no guessing about which fields are available for each PNS.
 
 ```typescript
 // Using the class-based approach
-import { buildAppleNativeMessage } from "@azure/notification-hubs";
+import { createAppleNotificationBody } from "@azure/notification-hubs";
 
 // Using the modular approach
-import { buildAppleNativeMessage } from "@azure/notification-hubs/models/notificationBuilder";
+import { createAppleNotification, createAppleNotificationBody } from "@azure/notification-hubs/models";
 
-const apnsMessage = buildAppleNativeMessage({
+const apnsBody = createAppleNotificationBody({
   alert: {
     title: "Notification Title",
     subtitle: "Notification Subtitle",
@@ -381,8 +371,11 @@ const apnsMessage = buildAppleNativeMessage({
 });
 
 // Send the message using the modular approach
+const notification = createAppleNotification({
+  body: apnsBody
+})
 
-const result = await sendNotification(context, apnsMessage);
+const result = await sendNotification(context, notification);
 ```
 
 #### Broadcast Send
@@ -393,7 +386,7 @@ Notification Hubs can be used to send notifications to all registered devices pe
 import { 
   NotificationHubsClient,
   createAppleNotification,
-} from "@azure/notification-hubs/client";
+} from "@azure/notification-hubs/api";
 
 const context = createClientContext(connectionString, hubName);
 
@@ -421,9 +414,8 @@ if (result.notificationId) {
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { createClientContext } from "@azure/notification-hubs/client";
-import { createAppleNotification } from "@azure/notification-hubs/models/notification";
-import { sendNotification } from "@azure/notification-hubs/client/sendNotification";
+import { createClientContext, sendNotification } from "@azure/notification-hubs/api";
+import { createAppleNotification } from "@azure/notification-hubs/models";
 
 const context = createClientContext(connectionString, hubName);
 
@@ -485,9 +477,8 @@ if (result.notificationId) {
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { createClientContext } from "@azure/notification-hubs/client";
-import { createAppleNotification } from "@azure/notification-hubs/models/notification";
-import { sendNotification } from "@azure/notification-hubs/client/sendDirectNotification";
+import { createClientContext, sendDirectNotification } from "@azure/notification-hubs/api";
+import { createAppleNotification } from "@azure/notification-hubs/models";
 
 const context = createClientContext(connectionString, hubName);
 
@@ -524,7 +515,7 @@ If you wish to create a tag expression from an array of tags, there is a Tag Exp
 import { createTagExpression } from "@azure/notification-hubs";
 
 // Modular import
-import { createTagExpression } from "@azure/notification-hubs/models/tagExpressionBuilder";
+import { createTagExpression } from "@azure/notification-hubs/models";
 
 const tags = ["likes_football", "likes_hockey"];
 const tagExpression = createTagExpression(tags);
@@ -568,9 +559,8 @@ if (result.notificationId) {
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { createClientContext } from "@azure/notification-hubs/client";
-import { createAppleNotification } from "@azure/notification-hubs/models/notification";
-import { sendNotification } from "@azure/notification-hubs/client/sendNotification";
+import { createClientContext, sendNotification } from "@azure/notification-hubs/api";
+import { createAppleNotification } from "@azure/notification-hubs/models";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
@@ -634,9 +624,8 @@ console.log(`Notification ID: ${result.notificationId}`);
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { createClientContext } from "@azure/notification-hubs/client";
-import { createAppleNotification } from "@azure/notification-hubs/models/notification";
-import { scheduleNotification } from "@azure/notification-hubs/client/scheduleNotification";
+import { createClientContext, scheduleNotification } from "@azure/notification-hubs/api";
+import { createAppleNotification } from "@azure/notification-hubs/models";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
@@ -673,7 +662,7 @@ Azure Notification Hubs has a complete guide to troubleshooting problems with dr
 
 ```typescript
 // Using the client
-const result = await client.sendNotification(message, { tags, enableTestSend: true });
+const result = await client.sendNotification(notification, { tags, enableTestSend: true });
 
 // Using the modular approach
 const result = await sendNotification(context, notification, { tags, enableTestSend: true });

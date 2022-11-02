@@ -4,7 +4,6 @@
 import {
   AdmRegistrationDescription,
   AdmTemplateRegistrationDescription,
-  ApplePriority,
   AppleRegistrationDescription,
   AppleTemplateRegistrationDescription,
   BaiduRegistrationDescription,
@@ -248,7 +247,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
     rawRegistrationDescription: Record<string, any>
   ): AppleTemplateRegistrationDescription {
     return {
-      priority: getStringOrUndefined(rawRegistrationDescription["Priority"]) as ApplePriority,
+      priority: getStringOrUndefined(rawRegistrationDescription["Priority"]) as "10" | "5",
       apnsHeaders: getHeadersOrUndefined(rawRegistrationDescription["ApnsHeaders"]?.["ApnsHeader"]),
       ...this.createAppleRegistrationDescription(rawRegistrationDescription),
       ...createTemplateRegistrationDescription(rawRegistrationDescription),

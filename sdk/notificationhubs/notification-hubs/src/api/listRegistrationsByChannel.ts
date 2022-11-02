@@ -1,30 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { RegistrationDescription, RegistrationChannel } from "../models/registration.js";
 import { listRegistrationPagingPage, listRegistrationsAll } from "./internal/_listRegistrations.js";
 import { NotificationHubsClientContext } from "./index.js";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RestError } from "@azure/core-rest-pipeline";
-import { RegistrationDescription } from "../models/registration.js";
-import { RegistrationDevice } from "../models/device.js";
 import { RegistrationQueryLimitOptions } from "../models/options.js";
 import { tracingClient } from "../utils/tracing.js";
 
 /**
  * Gets all registrations for the notification hub with the given device information and options.
  * @param context - The Notification Hubs client.
- * @param device - The device information to query per PNS type.
+ * @param channel - The Registration channel information to query per PNS type.
  * @param options - The options for querying the registrations such as $top.
  * @returns A paged async iterable containing all of the registrations for the notification hub.
  */
-export function listRegistrationsByDevice(
+export function listRegistrationsByChannel(
   context: NotificationHubsClientContext,
-  device: RegistrationDevice,
+  channel: RegistrationChannel,
   options: RegistrationQueryLimitOptions = {}
 ): PagedAsyncIterableIterator<RegistrationDescription> {
   const newOptions = {
     ...options,
-    filter: getFilterByDevice(device),
+    filter: getFilterByChannel(channel),
   };
   const { span, updatedOptions } = tracingClient.startSpan(
     "NotificationHubsClientContext.listRegistrationsByDevice",
@@ -51,7 +50,7 @@ export function listRegistrationsByDevice(
   }
 }
 
-function getFilterByDevice(device: RegistrationDevice): string {
+function getFilterByChannel(device: RegistrationChannel): string {
   switch (device.kind) {
     case "adm":
       return `AdmRegistrationId eq '${device.admRegistrationId}'`;

@@ -1,19 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  AdmNotification,
-  AppleNotification,
-  BaiduNotification,
-  FcmLegacyNotification,
-  WindowsNotification,
-  createAdmNotification,
-  createAppleNotification,
-  createBaiduNotification,
-  createFcmLegacyNotification,
-  createWindowsBadgeNotification,
-} from "./notification.js";
-import { isDefined, isString } from "../utils/utils.js";
 import { stringifyXML } from "@azure/core-xml";
 
 /**
@@ -40,13 +27,13 @@ export interface AppleAlert {
    * The name of the launch image file to display. If the user chooses to launch your app,
    * the contents of the specified image or storyboard file are displayed instead of your app’s normal launch image.
    */
-  launchImage?: string;
+  "launch-image"?: string;
 
   /**
    * The key for a localized title string. Specify this key instead of the title key to retrieve
    * the title from your app’s Localizable.strings files. The value must contain the name of a key in your strings file.
    */
-  titleLocKey?: string;
+  "title-loc-key"?: string;
 
   /**
    * An array of strings containing replacement values for variables in your title string.
@@ -54,14 +41,14 @@ export interface AppleAlert {
    * from this array. The first item in the array replaces the first instance
    * of the %\@ character in the string, the second item replaces the second instance, and so on.
    */
-  titleLocArgs?: string[];
+  "title-loc-args"?: string[];
 
   /**
    * The key for a localized subtitle string. Use this key, instead of the subtitle key, to
    * retrieve the subtitle from your app’s Localizable.strings file.
    * The value must contain the name of a key in your strings file.
    */
-  subtitleLocKey?: string;
+  "subtitle-loc-key"?: string;
 
   /**
    * An array of strings containing replacement values for variables in your title string.
@@ -69,14 +56,14 @@ export interface AppleAlert {
    * from this array. The first item in the array replaces the first instance of the
    * %\@ character in the string, the second item replaces the second instance, and so on.
    */
-  subtitleLocArgs?: string[];
+  "subtitle-loc-args"?: string[];
 
   /**
    * The key for a localized message string. Use this key, instead of the body key, to
    * retrieve the message text from your app’s Localizable.strings file. The value must contain
    * the name of a key in your strings file.
    */
-  locKey?: string;
+  "loc-key"?: string;
 
   /**
    * An array of strings containing replacement values for variables in your message text.
@@ -84,7 +71,7 @@ export interface AppleAlert {
    * this array. The first item in the array replaces the first instance of the %\@ character
    * in the string, the second item replaces the second instance, and so on.
    */
-  locArgs?: string[];
+  "loc-args"?: string[];
 }
 
 /**
@@ -133,7 +120,7 @@ export interface AppleNativeMessage extends Record<string, any> {
   /**
    * An app-specific identifier for grouping related notifications.
    */
-  threadId?: string;
+  "thread-id"?: string;
 
   /**
    * The notification’s type.
@@ -144,61 +131,34 @@ export interface AppleNativeMessage extends Record<string, any> {
    * The background notification flag. To perform a silent background update,
    * specify the value 1 and don’t include the alert, badge, or sound keys in your payload.
    */
-  contentAvailable?: number;
+  "content-available"?: number;
 
   /**
    * The notification service app extension flag. If the value is 1, the system passes
    * the notification to your notification service app extension before delivery.
    */
-  mutableContent?: number;
+  "mutable-content"?: number;
 
   /**
    * The identifier of the window brought forward.
    */
-  targetContentId?: string;
+  "target-content-id"?: string;
 
   /**
    * The importance and delivery timing of a notification.
    */
-  interruptionLevel?: "passive" | "active" | "time-sensitive" | "critical";
+  "interruption-level"?: "passive" | "active" | "time-sensitive" | "critical";
 
   /**
    * The relevance score, a number between 0 and 1, that the system uses to sort the
    * notifications from your app. The highest score gets featured in the notification summary.
    */
-  relevanceScore?: number;
+  "relevance-score"?: number;
 
   /**
    * The criteria the system evaluates to determine if it displays the notification in the current Focus.
    */
-  filterCriteria?: string;
-}
-
-function createAppleNativeAlert(
-  nativeAlert?: string | AppleAlert
-): Record<string, any> | string | undefined {
-  if (!isDefined(nativeAlert)) {
-    return undefined;
-  }
-
-  if (isString(nativeAlert)) {
-    return nativeAlert;
-  }
-
-  const alert: Record<string, any> = {
-    title: nativeAlert.title,
-    subtitle: nativeAlert.subtitle,
-    body: nativeAlert.body,
-    "launch-image": nativeAlert.launchImage,
-    "title-loc-key": nativeAlert.titleLocKey,
-    "title-loc-args": nativeAlert.titleLocArgs,
-    "subtitle-loc-key": nativeAlert.subtitleLocKey,
-    "subtitle-loc-args": nativeAlert.subtitleLocArgs,
-    "loc-key": nativeAlert.locKey,
-    "loc-args": nativeAlert.locArgs,
-  };
-
-  return alert;
+  "filter-criteria"?: string;
 }
 
 /**
@@ -207,36 +167,8 @@ function createAppleNativeAlert(
  * @param additionalProperties - Additional properties for Apple messages.
  * @returns An AppleNotification to send to Notification Hubs.
  */
-export function buildAppleNativeMessage(
-  nativeMessage: AppleNativeMessage,
-  additionalProperties?: Record<string, any>
-): AppleNotification {
-  const headers: Record<string, string> = {};
-
-  const message: Record<string, any> = {
-    aps: {
-      alert: createAppleNativeAlert(nativeMessage.alert),
-      sound: nativeMessage.sound,
-      badge: nativeMessage.badge,
-      "thread-id": nativeMessage.threadId,
-      category: nativeMessage.category,
-      "content-available": nativeMessage.contentAvailable,
-      "mutable-content": nativeMessage.mutableContent,
-      "target-content-id": nativeMessage.targetContentId,
-      "interruption-level": nativeMessage.interruptionLevel,
-      "relevance-score": nativeMessage.relevanceScore,
-      "filter-criteria": nativeMessage.filterCriteria,
-    },
-    ...additionalProperties,
-  };
-
-  const apnsPriority = nativeMessage?.contentAvailable === 1 ? "5" : "10";
-  headers["apns-priority"] = apnsPriority;
-
-  return createAppleNotification({
-    body: JSON.stringify(message),
-    headers: headers,
-  });
+export function createAppleNotificationBody(nativeMessage: AppleNativeMessage): string {
+  return JSON.stringify(nativeMessage);
 }
 
 /**
@@ -251,7 +183,7 @@ export interface FirebaseLegacyNativeMessage {
   /**
    * The recipient of a multicast message, a message sent to more than one registration token.
    */
-  registrationIds?: string[];
+  registration_ids?: string[];
 
   /**
    * A logical expression of conditions that determine the message target.
@@ -261,7 +193,7 @@ export interface FirebaseLegacyNativeMessage {
   /**
    * Used to identify a group of messages.
    */
-  collapseKey?: string;
+  collapse_key?: string;
 
   /**
    * The priority of the message.
@@ -272,28 +204,28 @@ export interface FirebaseLegacyNativeMessage {
    * The background notification flag. To perform a silent background update,
    * specify the value 1 and don’t include the alert, badge, or sound keys in your payload.
    */
-  contentAvailable?: boolean;
+  content_available?: boolean;
 
   /**
    * The notification service app extension flag. If the value is 1, the system passes
    * the notification to your notification service app extension before delivery.
    */
-  mutableContent?: number;
+  mutable_content?: number;
 
   /**
    * Specifies how long (in seconds) the message should be kept in FCM storage if the device is offline
    */
-  timeToLive?: number;
+  time_to_live?: number;
 
   /**
    * The package name of the application where the registration tokens must match in order to receive the message.
    */
-  restrictedPackageName?: string;
+  restricted_package_name?: string;
 
   /**
    * When set to true, allows developers to test a request without actually sending a message.
    */
-  dryRun?: boolean;
+  dry_run?: boolean;
 
   /**
    * Custom key-value pairs of the message's payload.
@@ -336,7 +268,7 @@ export interface FirebaseLegacyAppleNativePayload {
   /**
    * The action associated with a user click on the notification which corresponds to the APNs category.
    */
-  clickAction?: string;
+  click_actionx?: string;
 
   /**
    * The notification's subtitle.
@@ -346,22 +278,22 @@ export interface FirebaseLegacyAppleNativePayload {
   /**
    * The key to the body string in the app's string resources to use to localize the body text to the user's current localization.
    */
-  bodyLocKey?: string;
+  body_loc_key?: string;
 
   /**
    * Variable string values to be used in place of the format specifiers in body_loc_key to use to localize the body text to the user's current localization.
    */
-  bodyLocArgs?: string[];
+  body_loc_args?: string[];
 
   /**
    * The key to the title string in the app's string resources to use to localize the title text to the user's current localization.
    */
-  titleLocKey?: string;
+  title_loc_key?: string;
 
   /**
    * Variable string values to be used in place of the format specifiers in title_loc_key to use to localize the title text to the user's current localization.
    */
-  titleLocArgs?: string[];
+  title_loc_args?: string[];
 }
 
 /**
@@ -381,7 +313,7 @@ export interface FirebaseLegacyAndroidNativePayload {
   /**
    * The notification's channel ID.
    */
-  androidChannelId?: string;
+  android_channel_id?: string;
 
   /**
    * The notification's icon.
@@ -406,27 +338,27 @@ export interface FirebaseLegacyAndroidNativePayload {
   /**
    * The action associated with a user click on the notification.
    */
-  clickAction?: string;
+  click_action?: string;
 
   /**
    * The key to the body string in the app's string resources to use to localize the body text to the user's current localization.
    */
-  bodyLocKey?: string;
+  body_loc_key?: string;
 
   /**
    * Variable string values to be used in place of the format specifiers in body_loc_key to use to localize the body text to the user's current localization.
    */
-  bodyLocArgs?: string[];
+  body_loc_args?: string[];
 
   /**
    * The key to the title string in the app's string resources to use to localize the title text to the user's current localization.
    */
-  titleLocKey?: string;
+  title_loc_key?: string;
 
   /**
    * Variable string values to be used in place of the format specifiers in title_loc_key to use to localize the title text to the user's current localization.
    */
-  titleLocArgs?: string[];
+  title_loc_args?: string[];
 }
 
 /**
@@ -451,72 +383,18 @@ export interface FirebaseLegacyWebNativePayload {
   /**
    * The action associated with a user click on the notification.
    */
-  clickAction?: string;
-}
-
-function buildFcmLegacyNativePayload(
-  nativeNotification?:
-    | FirebaseLegacyAppleNativePayload
-    | FirebaseLegacyAndroidNativePayload
-    | FirebaseLegacyWebNativePayload
-): Record<string, any> | undefined {
-  if (!isDefined(nativeNotification)) {
-    return undefined;
-  }
-
-  const androidMessage = nativeNotification as FirebaseLegacyAndroidNativePayload;
-  const appleMessage = nativeNotification as FirebaseLegacyAppleNativePayload;
-
-  const notification: Record<string, any> = {
-    title: nativeNotification.title,
-    body: nativeNotification.body,
-    click_action: nativeNotification.clickAction,
-
-    // Apple/Android fields
-    sound: appleMessage.sound,
-    badge: appleMessage.badge,
-    subtitle: appleMessage.subtitle,
-    body_loc_key: appleMessage.bodyLocKey,
-    body_loc_args: appleMessage.bodyLocArgs,
-    title_loc_key: appleMessage.bodyLocKey,
-    title_loc_args: appleMessage.bodyLocArgs,
-
-    // Android/Web fields
-    android_channel_id: androidMessage.androidChannelId,
-    icon: androidMessage.icon,
-    tag: androidMessage.tag,
-    color: androidMessage.color,
-  };
-
-  return notification;
+  click_action?: string;
 }
 
 /**
  * Creates a FcmLegacyNotification from a native Firebase payload.
  * @param nativeMessage - The native message payload to send to Notification Hubs.
- * @returns The FcmLegacyNotification to send to Notification Hubs.
+ * @returns The JSON body to send to Notification Hubs.
  */
-export function buildFirebaseLegacyNativeMessage(
+export function createFirebaseLegacyNotificationBody(
   nativeMessage: FirebaseLegacyNativeMessage
-): FcmLegacyNotification {
-  const jsonMessage: Record<string, any> = {
-    to: nativeMessage.to,
-    registration_ids: nativeMessage.registrationIds,
-    condition: nativeMessage.condition,
-    collapse_key: nativeMessage.collapseKey,
-    priority: nativeMessage.priority,
-    content_available: nativeMessage.contentAvailable,
-    mutable_content: nativeMessage.mutableContent,
-    time_to_live: nativeMessage.timeToLive,
-    restricted_package_name: nativeMessage.restrictedPackageName,
-    dry_run: nativeMessage.dryRun,
-    data: nativeMessage.data,
-    notification: buildFcmLegacyNativePayload(nativeMessage.notification),
-  };
-
-  return createFcmLegacyNotification({
-    body: JSON.stringify(jsonMessage),
-  });
+): string {
+  return JSON.stringify(nativeMessage);
 }
 
 /**
@@ -556,32 +434,32 @@ export interface AdmNativeNotification {
   /**
    * The action associated with a user click on the notification.
    */
-  clickAction?: string;
+  click_action?: string;
 
   /**
    * The key to the body string in the app's string resources to use to localize the body text to the user's current localization.
    */
-  bodyLocKey?: string;
+  body_loc_key?: string;
 
   /**
    * Variable string values to be used in place of the format specifiers in body_loc_key to use to localize the body text to the user's current localization.
    */
-  bodyLocArgs?: string[];
+  body_loc_args?: string[];
 
   /**
    * The key to the title string in the app's string resources to use to localize the title text to the user's current localization.
    */
-  titleLocKey?: string;
+  title_loc_key?: string;
 
   /**
    * Variable string values to be used in place of the format specifiers in title_loc_key to use to localize the title text to the user's current localization.
    */
-  titleLocArgs?: string[];
+  title_loc_args?: string[];
 
   /**
    * The notification's channel id.
    */
-  channelId?: string;
+  channel_id?: string;
 
   /**
    * Sets the "ticker" text, which is sent to accessibility services.
@@ -596,32 +474,38 @@ export interface AdmNativeNotification {
   /**
    * Set the time that the event in the notification occurred. Must be a timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
    */
-  eventTime?: string;
+  event_time?: string;
 
   /**
    * Set whether or not this notification is relevant only to the current device.
    */
-  localOnly?: boolean;
+  local_only?: boolean;
 
   /**
    * Set the relative priority for this notification.
    */
-  notificationPriority?: number; // TODO: Enum?
+  notification_priority?:
+    | "PRIORITY_UNSPECIFIED"
+    | "PRIORITY_MIN"
+    | "PRIORITY_LOW"
+    | "PRIORITY_DEFAULT"
+    | "PRIORITY_HIGH"
+    | "PRIORITY_MAX";
 
   /**
    * If set to true, use the Android framework's default sound for the notification.
    */
-  defaultSound?: boolean;
+  default_sound?: boolean;
 
   /**
    * Set the Notification.visibility of the notification.
    */
-  visibility?: number; // TODO: Enum?
+  visibility?: "VISIBILITY_UNSPECIFIED" | "PRIVATE" | "PUBLIC" | "SECRET";
 
   /**
    * Sets the number of items this notification represents.
    */
-  notificationCount?: number;
+  notification_count?: number;
 
   /**
    * Contains the URL of an image that is going to be displayed in a notification.
@@ -665,53 +549,13 @@ export interface AdmNativeMessage {
   md5?: string;
 }
 
-function buildAdmNativeNotification(
-  nativeNotification?: AdmNativeNotification
-): Record<string, any> | undefined {
-  if (!isDefined(nativeNotification)) {
-    return undefined;
-  }
-
-  return {
-    title: nativeNotification.title,
-    body: nativeNotification.body,
-    icon: nativeNotification.icon,
-    color: nativeNotification.color,
-    sound: nativeNotification.sound,
-    tag: nativeNotification.tag,
-    click_action: nativeNotification.clickAction,
-    body_loc_key: nativeNotification.bodyLocKey,
-    body_loc_args: nativeNotification.bodyLocArgs,
-    title_loc_key: nativeNotification.titleLocKey,
-    title_loc_args: nativeNotification.titleLocArgs,
-    channel_id: nativeNotification.channelId,
-    ticker: nativeNotification.ticker,
-    sticky: nativeNotification.sticky,
-    event_time: nativeNotification.eventTime,
-    local_only: nativeNotification.localOnly,
-    notification_priority: nativeNotification.notificationPriority,
-    default_sound: nativeNotification.defaultSound,
-    visibility: nativeNotification.visibility,
-    notification_count: nativeNotification.notificationCount,
-    image: nativeNotification.image,
-  };
-}
-
 /**
  * Creates a AdmNotification from a native ADM payload.
  * @param nativeMessage - The native message payload to send to Notification Hubs.
  * @returns The AdmNotification to send to Notification Hubs.
  */
-export function buildAdmNativeMessage(nativeMessage: AdmNativeMessage): AdmNotification {
-  const jsonObj: Record<string, any> = {
-    notification: buildAdmNativeNotification(nativeMessage.notification),
-    data: nativeMessage.data || {},
-    ...nativeMessage,
-  };
-
-  return createAdmNotification({
-    body: JSON.stringify(jsonObj),
-  });
+export function createAdmNotificationBody(nativeMessage: AdmNativeMessage): string {
+  return JSON.stringify(nativeMessage);
 }
 
 /**
@@ -753,27 +597,27 @@ export interface BaiduNativeMessage extends Record<string, any> {
   /**
    * Baidu Notification builder ID.
    */
-  notificationBuilderId?: number;
+  notification_builder_id?: number;
 
   /**
    * Baidu Notification Android basic style.
    */
-  notificationBasicStyle?: number;
+  notification_basic_style?: number;
 
   /**
    * Baidu Android open type.
    */
-  openType?: number;
+  open_type?: number;
 
   /**
    * Baidu Android net support option.
    */
-  netSupport?: number;
+  net_support?: number;
 
   /**
    * Baidu Android user confirm.
    */
-  userConfirm?: number;
+  user_confirm?: number;
 
   /**
    * Baidu Android URL.
@@ -783,17 +627,17 @@ export interface BaiduNativeMessage extends Record<string, any> {
   /**
    * Baidu Android package content.
    */
-  pkgContent?: string;
+  pkg_content?: string;
 
   /**
    * Baidu Android package version.
    */
-  pkgVersion?: string;
+  pkg_version?: string;
 
   /**
    * Baidu Android custom content dictionary.
    */
-  customContent?: Record<string, any>;
+  custom_content?: Record<string, any>;
 
   /**
    * Baidu APNs support.
@@ -804,32 +648,10 @@ export interface BaiduNativeMessage extends Record<string, any> {
 /**
  * Creates a BaiduNotification from a native Baidu payload.
  * @param nativeMessage - The native message payload to send to Notification Hubs.
- * @param additionalProperties - Additional properties for Apple Baidu messages.
- * @returns The BaiduNotification to send to Notification Hubs.
+ * @returns The JSON body to send to Notification Hubs.
  */
-export function buildBaiduNativeMessage(
-  nativeMessage: BaiduNativeMessage,
-  additionalProperties?: Record<string, any>
-): BaiduNotification {
-  const jsonObj: Record<string, any> = {
-    title: nativeMessage.title,
-    description: nativeMessage.description,
-    notification_builder_id: nativeMessage.notificationBuilderId,
-    notification_basic_style: nativeMessage.notificationBasicStyle,
-    open_type: nativeMessage.openType,
-    net_support: nativeMessage.netSupport,
-    user_confirm: nativeMessage.userConfirm,
-    url: nativeMessage.url,
-    pkg_content: nativeMessage.pkgContent,
-    pkg_version: nativeMessage.pkgVersion,
-    custom_content: nativeMessage.customContent,
-    aps: nativeMessage.aps,
-    ...additionalProperties,
-  };
-
-  return createBaiduNotification({
-    body: JSON.stringify(jsonObj),
-  });
+export function createBaiduNotificationBody(nativeMessage: BaiduNativeMessage): string {
+  return JSON.stringify(nativeMessage);
 }
 
 /**
@@ -863,16 +685,14 @@ export interface WindowsBadgeNativeMessage {
 /**
  * Builds a WindowsNotification from a Windows Badge.
  * @param nativeMessage - The Windows Badge Message to build.
- * @returns A WindowsNotification created with the badge information.
+ * @returns The WNS XML created with the badge information.
  */
-export function buildWindowsBadgeNativeMessage(
+export function createWindowsBadgeNotificationBody(
   nativeMessage: WindowsBadgeNativeMessage
-): WindowsNotification {
+): string {
   const badge = {
     $: { value: nativeMessage.value },
   };
 
-  return createWindowsBadgeNotification({
-    body: stringifyXML(badge, { rootName: "badge" }),
-  });
+  return stringifyXML(badge, { rootName: "badge" });
 }

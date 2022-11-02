@@ -5,16 +5,19 @@
 ### Features Added
 
 - Added a tag expression builder from arrays with `createTagExpression` from the `@azure/notification-hubs/models/tagExpressionBuilder` modular import or regular `@azure/notification-hubs` top level import.
-- Added the `listRegistrationsByDevice` to list all registrations for a given device.
+- Added the `listRegistrationsByChannel` to list all registrations for a given channel.
 - Moved all API methods to the `/api` subpath export.
 - Moved all models to the `/models` subpath export.
+- Added notification body creation methods per PNS type, removing the old `build` methods.
+- Created `Common` types for `Notification`, `Installation` and `Registrations` to get rid of `Omit<>` usage.
 
 ### Breaking Changes
 
 - `sendNotification` and `scheduleNotification` options no longer accept a string array for `tags`.  This has been changed to `tagExpression`.  If you need to create a tag expression, use the`createTagExpression`from the`@azure/notification-hubs/models/tagExpressionBuilder`modular import or regular`@azure/notification-hubs` top level import.
-- `listRegistrations` no longer accepts a `filter`.  This has been replaced with the `listRegistrationsByDevice` which then queries device specific information.
+- `listRegistrations` no longer accepts a `filter`.  This has been replaced with the `listRegistrationsByChannel` which then queries channel specific information.
 - Changed `/client` to `/api` for the client context and methods.  All methods are now exported at the top level `/api` subpath export for external references instead of per file.
 - All interfaces and factory functions are now exported at the top level `/model` subpath export for external references instead of per file.
+- `build*NativeNotification` methods removed in favor of `create*NotificationBody` methods which return a string instead of the `Notification`.
 
 ## 1.0.0-beta.6 (2022-10-12)
 

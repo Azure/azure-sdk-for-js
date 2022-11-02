@@ -143,7 +143,7 @@ export * from "./getNotificationOutcomeDetails.js";
 export * from "./getRegistration.js";
 export * from "./listNotificationHubJobs.js";
 export * from "./listRegistrations.js";
-export * from "./listRegistrationsByDevice.js";
+export * from "./listRegistrationsByChannel.js";
 export * from "./listRegistrationsByTag.js";
 export * from "./scheduleNotification.js";
 export * from "./sendNotification.js";
