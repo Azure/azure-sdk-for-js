@@ -12,24 +12,25 @@ import { AzureMachineLearningWorkspaces } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Get datastore secrets.
+ * This sample demonstrates how to List schedules in specified workspace.
  *
- * @summary Get datastore secrets.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Datastore/listSecrets.json
+ * @summary List schedules in specified workspace.
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Schedule/list.json
  */
-async function getDatastoreSecrets() {
+async function listSchedules() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = "test-rg";
   const workspaceName = "my-aml-workspace";
-  const name = "string";
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
-  const result = await client.datastores.listSecrets(
+  const resArray = new Array();
+  for await (let item of client.schedules.list(
     resourceGroupName,
-    workspaceName,
-    name
-  );
-  console.log(result);
+    workspaceName
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
-getDatastoreSecrets().catch(console.error);
+listSchedules().catch(console.error);
