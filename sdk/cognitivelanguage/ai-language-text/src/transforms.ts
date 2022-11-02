@@ -47,6 +47,9 @@ import {
   TargetRelation,
   DynamicClassificationResultDocumentsItem,
   ClassificationCategory,
+  CustomEntitiesResultDocumentsItem,
+  ExtractedSummaryDocumentResultWithDetectedLanguage,
+  AbstractiveSummaryDocumentResultWithDetectedLanguage,
 } from "./generated";
 import {
   AnalyzeActionName,
@@ -509,7 +512,7 @@ export function transformAnalyzeBatchResults(
         const { deploymentName, projectName, statistics } = results;
         return {
           kind: "CustomEntityRecognition",
-          results: transformDocumentResults(docIds, results),
+          results: transformDocumentResults<CustomEntitiesResultDocumentsItem>(docIds, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),
@@ -548,7 +551,10 @@ export function transformAnalyzeBatchResults(
         const { modelVersion, statistics } = results;
         return {
           kind: "ExtractiveSummarization",
-          results: transformDocumentResults(docIds, results),
+          results: transformDocumentResults<ExtractedSummaryDocumentResultWithDetectedLanguage>(
+            docIds,
+            results
+          ),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),
@@ -560,7 +566,10 @@ export function transformAnalyzeBatchResults(
         const { modelVersion, statistics } = results;
         return {
           kind: "AbstractiveSummarization",
-          results: transformDocumentResults(docIds, results),
+          results: transformDocumentResults<AbstractiveSummaryDocumentResultWithDetectedLanguage>(
+            docIds,
+            results
+          ),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),
