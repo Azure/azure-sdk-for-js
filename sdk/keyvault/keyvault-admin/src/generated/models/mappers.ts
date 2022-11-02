@@ -667,8 +667,8 @@ export const SettingsListResult: coreClient.CompositeMapper = {
     name: "Composite",
     className: "SettingsListResult",
     modelProperties: {
-      value: {
-        serializedName: "value",
+      settings: {
+        serializedName: "settings",
         readOnly: true,
         type: {
           name: "Sequence",

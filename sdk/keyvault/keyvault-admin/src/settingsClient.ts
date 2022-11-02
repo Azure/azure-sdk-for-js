@@ -8,28 +8,25 @@ import { LATEST_API_VERSION } from "./constants";
 import { KeyVaultClient, Setting as GeneratedSetting } from "./generated";
 import { logger } from "./log";
 import {
-  CreateOrUpdateSettingOptions,
+  UpdateSettingOptions,
   GetSettingOptions,
-  GetSettingsOptions,
-  GetSettingsResponse,
+  ListSettingsOptions,
+  ListSettingsResponse,
   KeyVaultSetting,
   SettingsClientOptions,
-  KnownSettingType,
 } from "./settingsClientModels";
 
 function makeSetting(generatedSetting: GeneratedSetting): KeyVaultSetting {
-  if (generatedSetting.type === KnownSettingType.Boolean) {
-    return {
-      name: generatedSetting.name,
-      type: generatedSetting.type,
-      value: Boolean(generatedSetting.value),
-    };
-  } else {
-    return {
-      name: generatedSetting.name,
-      value: generatedSetting.value,
-    };
+  if (generatedSetting.type !== "boolean") {
+    throw new Error(
+      `Unexpected setting type: ${generatedSetting.type}. Only settings of type "boolean" are supported.`
+    );
   }
+
+  return {
+    name: generatedSetting.name,
+    value: Boolean(generatedSetting.value),
+  };
 }
 
 /**
@@ -102,7 +99,7 @@ export class KeyVaultSettingsClient {
   async updateSetting(
     settingName: string,
     value: string,
-    options: CreateOrUpdateSettingOptions
+    options: UpdateSettingOptions
   ): Promise<KeyVaultSetting> {
     return makeSetting(await this.client.updateSetting(this.vaultUrl, settingName, value, options));
   }
@@ -122,8 +119,8 @@ export class KeyVaultSettingsClient {
    *
    * @param options - the optional parameters.
    */
-  async getSettings(options: GetSettingsOptions): Promise<GetSettingsResponse> {
-    const { value } = await this.client.getSettings(this.vaultUrl, options);
-    return { value: value?.map(makeSetting) ?? [] };
+  async listSettings(options: ListSettingsOptions): Promise<ListSettingsResponse> {
+    const { settings } = await this.client.getSettings(this.vaultUrl, options);
+    return { settings: settings?.map(makeSetting) ?? [] };
   }
 }

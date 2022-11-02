@@ -76,9 +76,18 @@ directive:
 ```yaml
 directive:
   - rename-operation:
-      from: UpdateSettings
-      to: CreateOrUpdateSetting
-  - rename-operation:
       from: GetSettingValue
       to: GetSetting
+```
+
+### Fix listSettings response based on actual response
+
+See https://github.com/Azure/azure-rest-api-specs/issues/21334
+
+```yaml
+directive:
+  - where-model: SettingsListResult
+    rename-property:
+      from: value
+      to: settings
 ```

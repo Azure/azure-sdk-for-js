@@ -248,7 +248,7 @@ export interface SettingsListResult {
    * A response message containing a list of account settings with their associated value.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: Setting[];
+  readonly settings?: Setting[];
 }
 
 /** Role Assignments filter */

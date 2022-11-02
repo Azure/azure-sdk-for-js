@@ -20,25 +20,7 @@ export interface AccessControlClientOptions extends CommonClientOptions {
 }
 
 // @public
-export interface BooleanKeyVaultSetting {
-    name: string;
-    type: KnownSettingType.Boolean;
-    value: boolean;
-}
-
-// @public
-export interface CreateOrUpdateSettingOptions extends OperationOptions {
-}
-
-// @public
 export interface CreateRoleAssignmentOptions extends OperationOptions {
-}
-
-// @public
-export interface DefaultKeyVaultSetting {
-    name: string;
-    type?: never;
-    value: string;
 }
 
 // @public
@@ -59,15 +41,6 @@ export interface GetRoleDefinitionOptions extends OperationOptions {
 
 // @public
 export interface GetSettingOptions extends OperationOptions {
-}
-
-// @public
-export interface GetSettingsOptions extends OperationOptions {
-}
-
-// @public
-export interface GetSettingsResponse {
-    value: KeyVaultSetting[];
 }
 
 // @public
@@ -198,19 +171,19 @@ export interface KeyVaultSelectiveKeyRestoreResult {
 }
 
 // @public
-export type KeyVaultSetting = BooleanKeyVaultSetting | DefaultKeyVaultSetting;
+export interface KeyVaultSetting {
+    name: string;
+    value: boolean;
+}
 
 // @public
 export class KeyVaultSettingsClient {
     constructor(vaultUrl: string, credential: TokenCredential, options?: SettingsClientOptions);
     getSetting(settingName: string, options: GetSettingOptions): Promise<KeyVaultSetting>;
-    getSettings(options: GetSettingsOptions): Promise<GetSettingsResponse>;
-    updateSetting(settingName: string, value: string, options: CreateOrUpdateSettingOptions): Promise<KeyVaultSetting>;
+    listSettings(options: ListSettingsOptions): Promise<ListSettingsResponse>;
+    updateSetting(settingName: string, value: string, options: UpdateSettingOptions): Promise<KeyVaultSetting>;
     readonly vaultUrl: string;
 }
-
-// @public
-export type KeyVaultSettingType = string;
 
 // @public
 export enum KnownKeyVaultDataAction {
@@ -257,11 +230,6 @@ export enum KnownKeyVaultRoleScope {
 }
 
 // @public
-export enum KnownSettingType {
-    Boolean = "boolean"
-}
-
-// @public
 export const LATEST_API_VERSION = "7.4-preview.1";
 
 // @public
@@ -280,6 +248,15 @@ export interface ListRoleDefinitionsOptions extends OperationOptions {
 // @public
 export interface ListRoleDefinitionsPageSettings {
     continuationToken?: string;
+}
+
+// @public
+export interface ListSettingsOptions extends OperationOptions {
+}
+
+// @public
+export interface ListSettingsResponse {
+    settings: KeyVaultSetting[];
 }
 
 // @public
@@ -302,6 +279,10 @@ export interface SettingsClientOptions extends CommonClientOptions {
 
 // @public
 export type SUPPORTED_API_VERSIONS = "7.2" | "7.3" | "7.4-preview.1";
+
+// @public
+export interface UpdateSettingOptions extends OperationOptions {
+}
 
 // (No @packageDocumentation comment for this package)
 

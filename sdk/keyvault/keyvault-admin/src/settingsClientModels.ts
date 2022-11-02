@@ -21,9 +21,9 @@ export interface SettingsClientOptions extends CommonClientOptions {
 }
 
 /**
- * An interface representing the optional parameters that can be passed to {@link KeyVaultSettingsClient.createOrUpdateSetting}
+ * An interface representing the optional parameters that can be passed to {@link KeyVaultSettingsClient.updateSetting}
  */
-export interface CreateOrUpdateSettingOptions extends OperationOptions {}
+export interface UpdateSettingOptions extends OperationOptions {}
 
 /**
  * An interface representing the optional parameters that can be passed to {@link KeyVaultSettingsClient.getSetting}
@@ -31,31 +31,14 @@ export interface CreateOrUpdateSettingOptions extends OperationOptions {}
 export interface GetSettingOptions extends OperationOptions {}
 
 /**
- * An interface representing the optional parameters that can be passed to {@link KeyVaultSettingsClient.getSettings}
+ * An interface representing the optional parameters that can be passed to {@link KeyVaultSettingsClient.listSettings}
  */
-export interface GetSettingsOptions extends OperationOptions {}
+export interface ListSettingsOptions extends OperationOptions {}
 
 /**
- * Known values of {@link SettingType} that the service accepts.
+ * A Key Vault setting.
  */
-export enum KnownSettingType {
-  /**
-   * A boolean setting.
-   */
-  Boolean = "boolean",
-}
-
-/**
- * Defines values for KeyVaultSettingType.
- * {@link KnownSettingType} can be used interchangeably with KeyVaultSettingType. This enum contains
- * the known values that the service supports.
- */
-export type KeyVaultSettingType = string;
-
-/**
- * A setting with a boolean value.
- */
-export interface BooleanKeyVaultSetting {
+export interface KeyVaultSetting {
   /**
    * The name of the setting.
    */
@@ -65,44 +48,14 @@ export interface BooleanKeyVaultSetting {
    * The value of the setting.
    */
   value: boolean;
-
-  /**
-   * The type of the setting.
-   */
-  type: KnownSettingType.Boolean;
 }
 
 /**
- * A setting with an unknown type.
+ * An interface representing the response returned by {@link KeyVaultSettingsClient.listSettings}
  */
-export interface DefaultKeyVaultSetting {
-  /**
-   * The name of the setting.
-   */
-  name: string;
-
-  /**
-   * The value of the setting.
-   */
-  value: string;
-
-  /**
-   * The type of the setting.
-   */
-  type?: never;
-}
-
-/**
- * A Key Vault setting.
- */
-export type KeyVaultSetting = BooleanKeyVaultSetting | DefaultKeyVaultSetting;
-
-/**
- * An interface representing the response returned by {@link KeyVaultSettingsClient.getSettings}
- */
-export interface GetSettingsResponse {
+export interface ListSettingsResponse {
   /**
    * The account's settings.
    */
-  value: KeyVaultSetting[];
+  settings: KeyVaultSetting[];
 }
