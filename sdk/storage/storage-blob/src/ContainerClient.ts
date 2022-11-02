@@ -59,8 +59,6 @@ import {
   extractConnectionStringParts,
   isIpEndpointStyle,
   parseObjectReplicationRecord,
-  ProcessBlobItems,
-  ProcessBlobPrefixes,
   toTags,
   truncatedISO8061Date,
 } from "./utils/utils.common";
@@ -1338,11 +1336,6 @@ export class ContainerClient extends StorageClient {
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
-      response.segment.blobItems = [];
-      if ((response.segment as any)["Blob"] !== undefined) {
-        response.segment.blobItems = ProcessBlobItems((response.segment as any)["Blob"]);
-      }
-
       const wrappedResponse: ContainerListBlobFlatSegmentResponse = {
         ...response,
         _response: {
@@ -1402,18 +1395,6 @@ export class ContainerClient extends StorageClient {
         ...options,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-
-      response.segment.blobItems = [];
-      if ((response.segment as any)["Blob"] !== undefined) {
-        response.segment.blobItems = ProcessBlobItems((response.segment as any)["Blob"]);
-      }
-
-      response.segment.blobPrefixes = [];
-      if ((response.segment as any)["BlobPrefix"] !== undefined) {
-        response.segment.blobPrefixes = ProcessBlobPrefixes(
-          (response.segment as any)["BlobPrefix"]
-        );
-      }
 
       const wrappedResponse: ContainerListBlobHierarchySegmentResponse = {
         ...response,
