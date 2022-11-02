@@ -1508,42 +1508,6 @@ export const AbstractiveSummarizationTaskParametersBase: coreClient.CompositeMap
         type: {
           name: "String"
         }
-      },
-      phraseControls: {
-        serializedName: "phraseControls",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PhraseControl"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const PhraseControl: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PhraseControl",
-    modelProperties: {
-      targetPhrase: {
-        serializedName: "targetPhrase",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      strategy: {
-        serializedName: "strategy",
-        required: true,
-        type: {
-          name: "Enum",
-          allowedValues: ["encourage", "discourage", "disallow"]
-        }
       }
     }
   }
@@ -1562,7 +1526,7 @@ export const AbstractiveSummarizationResultBase: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "AbstractiveSummarizationResultBaseDocumentsItem"
+              className: "AbstractiveSummaryDocumentResultWithDetectedLanguage"
             }
           }
         }
@@ -2500,6 +2464,12 @@ export const TemporalSpanResolution: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      timex: {
+        serializedName: "timex",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2903,10 +2873,10 @@ export const PiiResultDocumentsItem: coreClient.CompositeMapper = {
   }
 };
 
-export const ExtractiveSummarizationResultDocumentsItem: coreClient.CompositeMapper = {
+export const ExtractedSummaryDocumentResultWithDetectedLanguage: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ExtractiveSummarizationResultDocumentsItem",
+    className: "ExtractedSummaryDocumentResultWithDetectedLanguage",
     modelProperties: {
       ...ExtractedSummaryDocumentResult.type.modelProperties,
       ...DocumentDetectedLanguage.type.modelProperties
@@ -2925,10 +2895,10 @@ export const KeyPhraseResultDocumentsItem: coreClient.CompositeMapper = {
   }
 };
 
-export const AbstractiveSummarizationResultBaseDocumentsItem: coreClient.CompositeMapper = {
+export const AbstractiveSummaryDocumentResultWithDetectedLanguage: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AbstractiveSummarizationResultBaseDocumentsItem",
+    className: "AbstractiveSummaryDocumentResultWithDetectedLanguage",
     modelProperties: {
       ...AbstractiveSummaryDocumentResult.type.modelProperties,
       ...DocumentDetectedLanguage.type.modelProperties
@@ -3065,7 +3035,7 @@ export const ExtractiveSummarizationResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ExtractiveSummarizationResultDocumentsItem"
+              className: "ExtractedSummaryDocumentResultWithDetectedLanguage"
             }
           }
         }
@@ -3170,8 +3140,8 @@ export const CustomEntitiesLROTask: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CustomEntitiesLROTask",
-    uberParent: "BatchActionState",
-    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeBatchAction",
+    polymorphicDiscriminator: AnalyzeBatchAction.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -3190,8 +3160,8 @@ export const CustomSingleLabelClassificationLROTask: coreClient.CompositeMapper 
   type: {
     name: "Composite",
     className: "CustomSingleLabelClassificationLROTask",
-    uberParent: "BatchActionState",
-    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeBatchAction",
+    polymorphicDiscriminator: AnalyzeBatchAction.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -3210,8 +3180,8 @@ export const CustomMultiLabelClassificationLROTask: coreClient.CompositeMapper =
   type: {
     name: "Composite",
     className: "CustomMultiLabelClassificationLROTask",
-    uberParent: "BatchActionState",
-    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeBatchAction",
+    polymorphicDiscriminator: AnalyzeBatchAction.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -3230,8 +3200,8 @@ export const HealthcareLROTask: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "HealthcareLROTask",
-    uberParent: "BatchActionState",
-    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeBatchAction",
+    polymorphicDiscriminator: AnalyzeBatchAction.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -3250,8 +3220,8 @@ export const SentimentAnalysisLROTask: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SentimentAnalysisLROTask",
-    uberParent: "BatchActionState",
-    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeBatchAction",
+    polymorphicDiscriminator: AnalyzeBatchAction.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -3270,8 +3240,8 @@ export const EntitiesLROTask: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EntitiesLROTask",
-    uberParent: "BatchActionState",
-    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeBatchAction",
+    polymorphicDiscriminator: AnalyzeBatchAction.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -3290,8 +3260,8 @@ export const EntityLinkingLROTask: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EntityLinkingLROTask",
-    uberParent: "BatchActionState",
-    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeBatchAction",
+    polymorphicDiscriminator: AnalyzeBatchAction.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -3310,8 +3280,8 @@ export const PiiLROTask: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PiiLROTask",
-    uberParent: "BatchActionState",
-    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeBatchAction",
+    polymorphicDiscriminator: AnalyzeBatchAction.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -3330,8 +3300,8 @@ export const ExtractiveSummarizationLROTask: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ExtractiveSummarizationLROTask",
-    uberParent: "BatchActionState",
-    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeBatchAction",
+    polymorphicDiscriminator: AnalyzeBatchAction.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -3350,8 +3320,8 @@ export const KeyPhraseLROTask: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyPhraseLROTask",
-    uberParent: "BatchActionState",
-    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeBatchAction",
+    polymorphicDiscriminator: AnalyzeBatchAction.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -3370,8 +3340,8 @@ export const AbstractiveSummarizationLROTask: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AbstractiveSummarizationLROTask",
-    uberParent: "BatchActionState",
-    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeBatchAction",
+    polymorphicDiscriminator: AnalyzeBatchAction.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -3390,8 +3360,9 @@ export const EntityRecognitionLROResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EntityRecognitionLROResult",
-    uberParent: "TaskState",
-    polymorphicDiscriminator: TaskState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeTextLROResult",
+    polymorphicDiscriminator:
+      AnalyzeTextLROResult.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeTextLROResult.type.modelProperties,
       results: {
@@ -3410,8 +3381,9 @@ export const CustomEntityRecognitionLROResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CustomEntityRecognitionLROResult",
-    uberParent: "TaskState",
-    polymorphicDiscriminator: TaskState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeTextLROResult",
+    polymorphicDiscriminator:
+      AnalyzeTextLROResult.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeTextLROResult.type.modelProperties,
       results: {
@@ -3430,8 +3402,9 @@ export const CustomSingleLabelClassificationLROResult: coreClient.CompositeMappe
   type: {
     name: "Composite",
     className: "CustomSingleLabelClassificationLROResult",
-    uberParent: "TaskState",
-    polymorphicDiscriminator: TaskState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeTextLROResult",
+    polymorphicDiscriminator:
+      AnalyzeTextLROResult.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeTextLROResult.type.modelProperties,
       results: {
@@ -3450,8 +3423,9 @@ export const CustomMultiLabelClassificationLROResult: coreClient.CompositeMapper
   type: {
     name: "Composite",
     className: "CustomMultiLabelClassificationLROResult",
-    uberParent: "TaskState",
-    polymorphicDiscriminator: TaskState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeTextLROResult",
+    polymorphicDiscriminator:
+      AnalyzeTextLROResult.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeTextLROResult.type.modelProperties,
       results: {
@@ -3470,8 +3444,9 @@ export const EntityLinkingLROResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EntityLinkingLROResult",
-    uberParent: "TaskState",
-    polymorphicDiscriminator: TaskState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeTextLROResult",
+    polymorphicDiscriminator:
+      AnalyzeTextLROResult.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeTextLROResult.type.modelProperties,
       results: {
@@ -3490,8 +3465,9 @@ export const PiiEntityRecognitionLROResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PiiEntityRecognitionLROResult",
-    uberParent: "TaskState",
-    polymorphicDiscriminator: TaskState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeTextLROResult",
+    polymorphicDiscriminator:
+      AnalyzeTextLROResult.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeTextLROResult.type.modelProperties,
       results: {
@@ -3510,8 +3486,9 @@ export const ExtractiveSummarizationLROResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ExtractiveSummarizationLROResult",
-    uberParent: "TaskState",
-    polymorphicDiscriminator: TaskState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeTextLROResult",
+    polymorphicDiscriminator:
+      AnalyzeTextLROResult.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeTextLROResult.type.modelProperties,
       results: {
@@ -3530,8 +3507,9 @@ export const HealthcareLROResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "HealthcareLROResult",
-    uberParent: "TaskState",
-    polymorphicDiscriminator: TaskState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeTextLROResult",
+    polymorphicDiscriminator:
+      AnalyzeTextLROResult.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeTextLROResult.type.modelProperties,
       results: {
@@ -3550,8 +3528,9 @@ export const SentimentLROResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SentimentLROResult",
-    uberParent: "TaskState",
-    polymorphicDiscriminator: TaskState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeTextLROResult",
+    polymorphicDiscriminator:
+      AnalyzeTextLROResult.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeTextLROResult.type.modelProperties,
       results: {
@@ -3570,8 +3549,9 @@ export const KeyPhraseExtractionLROResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyPhraseExtractionLROResult",
-    uberParent: "TaskState",
-    polymorphicDiscriminator: TaskState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeTextLROResult",
+    polymorphicDiscriminator:
+      AnalyzeTextLROResult.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeTextLROResult.type.modelProperties,
       results: {
@@ -3590,8 +3570,9 @@ export const AbstractiveSummarizationLROResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AbstractiveSummarizationLROResult",
-    uberParent: "TaskState",
-    polymorphicDiscriminator: TaskState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeTextLROResult",
+    polymorphicDiscriminator:
+      AnalyzeTextLROResult.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeTextLROResult.type.modelProperties,
       results: {
@@ -3922,26 +3903,26 @@ export let discriminators = {
   "BaseResolution.OrdinalResolution": OrdinalResolution,
   "BaseResolution.TemporalSpanResolution": TemporalSpanResolution,
   "BaseResolution.NumericRangeResolution": NumericRangeResolution,
-  "BatchActionState.CustomEntityRecognition": CustomEntitiesLROTask,
-  "BatchActionState.CustomSingleLabelClassification": CustomSingleLabelClassificationLROTask,
-  "BatchActionState.CustomMultiLabelClassification": CustomMultiLabelClassificationLROTask,
-  "BatchActionState.Healthcare": HealthcareLROTask,
-  "BatchActionState.SentimentAnalysis": SentimentAnalysisLROTask,
-  "BatchActionState.EntityRecognition": EntitiesLROTask,
-  "BatchActionState.EntityLinking": EntityLinkingLROTask,
-  "BatchActionState.PiiEntityRecognition": PiiLROTask,
-  "BatchActionState.ExtractiveSummarization": ExtractiveSummarizationLROTask,
-  "BatchActionState.KeyPhraseExtraction": KeyPhraseLROTask,
-  "BatchActionState.AbstractiveSummarization": AbstractiveSummarizationLROTask,
-  "TaskState.EntityRecognitionLROResults": EntityRecognitionLROResult,
-  "TaskState.CustomEntityRecognitionLROResults": CustomEntityRecognitionLROResult,
-  "TaskState.CustomSingleLabelClassificationLROResults": CustomSingleLabelClassificationLROResult,
-  "TaskState.CustomMultiLabelClassificationLROResults": CustomMultiLabelClassificationLROResult,
-  "TaskState.EntityLinkingLROResults": EntityLinkingLROResult,
-  "TaskState.PiiEntityRecognitionLROResults": PiiEntityRecognitionLROResult,
-  "TaskState.ExtractiveSummarizationLROResults": ExtractiveSummarizationLROResult,
-  "TaskState.HealthcareLROResults": HealthcareLROResult,
-  "TaskState.SentimentAnalysisLROResults": SentimentLROResult,
-  "TaskState.KeyPhraseExtractionLROResults": KeyPhraseExtractionLROResult,
-  "TaskState.AbstractiveSummarizationLROResults": AbstractiveSummarizationLROResult
+  "AnalyzeBatchAction.CustomEntityRecognition": CustomEntitiesLROTask,
+  "AnalyzeBatchAction.CustomSingleLabelClassification": CustomSingleLabelClassificationLROTask,
+  "AnalyzeBatchAction.CustomMultiLabelClassification": CustomMultiLabelClassificationLROTask,
+  "AnalyzeBatchAction.Healthcare": HealthcareLROTask,
+  "AnalyzeBatchAction.SentimentAnalysis": SentimentAnalysisLROTask,
+  "AnalyzeBatchAction.EntityRecognition": EntitiesLROTask,
+  "AnalyzeBatchAction.EntityLinking": EntityLinkingLROTask,
+  "AnalyzeBatchAction.PiiEntityRecognition": PiiLROTask,
+  "AnalyzeBatchAction.ExtractiveSummarization": ExtractiveSummarizationLROTask,
+  "AnalyzeBatchAction.KeyPhraseExtraction": KeyPhraseLROTask,
+  "AnalyzeBatchAction.AbstractiveSummarization": AbstractiveSummarizationLROTask,
+  "AnalyzeTextLROResult.EntityRecognitionLROResults": EntityRecognitionLROResult,
+  "AnalyzeTextLROResult.CustomEntityRecognitionLROResults": CustomEntityRecognitionLROResult,
+  "AnalyzeTextLROResult.CustomSingleLabelClassificationLROResults": CustomSingleLabelClassificationLROResult,
+  "AnalyzeTextLROResult.CustomMultiLabelClassificationLROResults": CustomMultiLabelClassificationLROResult,
+  "AnalyzeTextLROResult.EntityLinkingLROResults": EntityLinkingLROResult,
+  "AnalyzeTextLROResult.PiiEntityRecognitionLROResults": PiiEntityRecognitionLROResult,
+  "AnalyzeTextLROResult.ExtractiveSummarizationLROResults": ExtractiveSummarizationLROResult,
+  "AnalyzeTextLROResult.HealthcareLROResults": HealthcareLROResult,
+  "AnalyzeTextLROResult.SentimentAnalysisLROResults": SentimentLROResult,
+  "AnalyzeTextLROResult.KeyPhraseExtractionLROResults": KeyPhraseExtractionLROResult,
+  "AnalyzeTextLROResult.AbstractiveSummarizationLROResults": AbstractiveSummarizationLROResult
 };

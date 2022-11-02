@@ -16,7 +16,6 @@ import { TokenCredential } from '@azure/core-auth';
 // @public
 export interface AbstractiveSummarizationAction {
     maxSentenceCount?: number;
-    phraseControls?: PhraseControl[];
     stringIndexType?: StringIndexType;
 }
 
@@ -346,9 +345,6 @@ export interface DocumentDetectedLanguage {
 export type DocumentSentimentLabel = "positive" | "neutral" | "negative" | "mixed";
 
 // @public
-export type DocumentType = string;
-
-// @public
 export interface DocumentWarning {
     code: WarningCode;
     message: string;
@@ -483,7 +479,7 @@ export type FhirVersion = string;
 
 // @public
 export interface HealthcareAction extends ActionPrebuilt {
-    documentType?: DocumentType;
+    documentType?: HealthcareDocumentType;
     fhirVersion?: FhirVersion;
     stringIndexType?: StringIndexType;
 }
@@ -502,6 +498,9 @@ export interface HealthcareBatchAction extends AnalyzeBatchActionCommon, Healthc
 
 // @public
 export type HealthcareBatchResult = ActionMetadata & BatchActionResult<HealthcareResult, "Healthcare">;
+
+// @public
+export type HealthcareDocumentType = string;
 
 // @public
 export interface HealthcareEntity extends Entity {
@@ -617,19 +616,6 @@ export enum KnownDateTimeSubKind {
 }
 
 // @public
-export enum KnownDocumentType {
-    ClinicalTrial = "ClinicalTrial",
-    Consult = "Consult",
-    DischargeSummary = "DischargeSummary",
-    HistoryAndPhysical = "HistoryAndPhysical",
-    Imaging = "Imaging",
-    None = "None",
-    Pathology = "Pathology",
-    ProcedureNote = "ProcedureNote",
-    ProgressNote = "ProgressNote"
-}
-
-// @public
 export enum KnownErrorCode {
     AzureCognitiveSearchIndexLimitReached = "AzureCognitiveSearchIndexLimitReached",
     AzureCognitiveSearchIndexNotFound = "AzureCognitiveSearchIndexNotFound",
@@ -660,6 +646,19 @@ export enum KnownExtractiveSummarizationOrderingCriteria {
 // @public
 export enum KnownFhirVersion {
     "4.0.1" = "4.0.1"
+}
+
+// @public
+export enum KnownHealthcareDocumentType {
+    ClinicalTrial = "ClinicalTrial",
+    Consult = "Consult",
+    DischargeSummary = "DischargeSummary",
+    HistoryAndPhysical = "HistoryAndPhysical",
+    Imaging = "Imaging",
+    None = "None",
+    Pathology = "Pathology",
+    ProcedureNote = "ProcedureNote",
+    ProgressNote = "ProgressNote"
 }
 
 // @public
@@ -1238,15 +1237,6 @@ export interface OrdinalResolution extends BaseResolution {
 export type PagedAnalyzeBatchResult = PagedAsyncIterableIterator<AnalyzeBatchResult>;
 
 // @public
-export interface PhraseControl {
-    strategy: PhraseControlStrategy;
-    targetPhrase: string;
-}
-
-// @public
-export type PhraseControlStrategy = "encourage" | "discourage" | "disallow";
-
-// @public
 export type PiiEntityCategory = string;
 
 // @public
@@ -1413,6 +1403,7 @@ export interface TemporalSpanResolution extends BaseResolution {
     end?: string;
     modifier?: TemporalModifier;
     resolutionKind: "TemporalSpanResolution";
+    timex?: string;
 }
 
 // @public
