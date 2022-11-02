@@ -1,0 +1,48 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://atlas.microsoft.com/map/copyright/caption/json?api-version=2022-08-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "subscription-key": "azure_maps_subscription_key",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "08155385-5746-4eb7-8194-e4a0d7fb4ae6",
+        "x-ms-useragent": "azsdk-js-maps-render-rest/1.0.0-beta.1 core-rest-pipeline/1.9.0 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "max-age=86400",
+        "Content-Encoding": "br",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 03 Nov 2022 08:43:47 GMT",
+        "ETag": "W/\u0022ed42b665849015a4f2aece6170490d5b\u0022",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-azuremaps-region": "West Europe",
+        "X-MSEdge-Ref": "Ref A: 448DA254FE6E4EF284DAADC47F0DC65B Ref B: SG2EDGE3615 Ref C: 2022-11-03T08:43:47Z"
+      },
+      "ResponseBody": [
+        "\u000B!\uFFFD{\n",
+        "   \u0022formatVersion\u0022: \u00220.0.1\u0022,\n",
+        "   \u0022copyrightsCaption\u0022: \u0022\u00A9TomTom\u0022\n",
+        "}\u0003"
+      ]
+    }
+  ],
+  "Variables": {}
+}
