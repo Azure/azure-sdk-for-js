@@ -414,7 +414,7 @@ export interface FirebaseLegacyAppleNativePayload {
     body?: string;
     body_loc_args?: string[];
     body_loc_key?: string;
-    click_actionx?: string;
+    click_action?: string;
     sound?: string;
     subtitle?: string;
     title?: string;
