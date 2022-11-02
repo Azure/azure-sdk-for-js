@@ -10185,23 +10185,23 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.31.2
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.79.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
-      '@types/chai': 4.3.1
-      '@types/node': 14.18.32
+      '@microsoft/api-extractor': 7.33.5
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      '@types/node': 14.18.33
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.79.0
-      rollup-plugin-sourcemaps: 0.6.3_c7db7d5b071236050b16f8e8aba5b37f
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.0
       typescript: 4.6.4
-      uglify-js: 3.16.3
+      uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -11232,7 +11232,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-7fYeKt2889vI53Zu2G6zkdujfeh4GBPMKEtQk+TIoV5tFEPRhhMujL6+ToJ+AJUKDTwO1jfDmc2QblcvOGAfnQ==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-i+zP5fyjBw1HO6MrXogUV2hYqtYoK8of8dDRAuVHXWmxH5eEnamSk1hUp1Q0YDJ1E/7nSARdDBa8c29IDhdXsg==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
@@ -11243,18 +11243,18 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.3
+      '@types/node': 14.18.33
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
