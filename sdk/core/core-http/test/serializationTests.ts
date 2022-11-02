@@ -1724,6 +1724,49 @@ describe("msrest", function () {
         assert.deepEqual(result, { encoded: true, content: "dir%EF%BF%BE0166562954291707607" });
       });
 
+      it("should handle xmlIsMsText flag with customized XML_CHARKEY", function () {
+        const stringEncoded: msRest.CompositeMapper = {
+          serializedName: "StringEncoded",
+          type: {
+            name: "Composite",
+            className: "StringEncoded",
+            modelProperties: {
+              encoded: {
+                serializedName: "Encoded",
+                xmlName: "Encoded",
+                xmlIsAttribute: true,
+                type: {
+                  name: "Boolean",
+                },
+              },
+              content: {
+                serializedName: "content",
+                xmlName: "content",
+                xmlIsMsText: true,
+                type: {
+                  name: "String",
+                },
+              },
+            },
+          },
+        };
+
+        const mappers = {
+          StringEncoded: stringEncoded,
+        };
+        const serializer = new msRest.Serializer(mappers, true);
+        const result: any = serializer.deserialize(
+          stringEncoded,
+          { $: { Encoded: true }, "#": "dir%EF%BF%BE0166562954291707607" },
+          "mockedStringEncoded",
+          {
+            xmlCharKey: "#",
+          }
+        );
+
+        assert.deepEqual(result, { encoded: true, content: "dir%EF%BF%BE0166562954291707607" });
+      });
+
       it("should handle xmlIsMsText flag for degenerated string case", function () {
         const stringEncoded: msRest.CompositeMapper = {
           serializedName: "StringEncoded",
