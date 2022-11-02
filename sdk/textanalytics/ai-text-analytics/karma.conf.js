@@ -65,7 +65,7 @@ module.exports = function (config) {
       "LANGUAGE_CUSTOM_MULTI_LABEL_CLASSIFICATION_PROJECT_NAME",
       "LANGUAGE_CUSTOM_MULTI_LABEL_CLASSIFICATION_DEPLOYMENT_NAME",
       "RECORDINGS_RELATIVE_PATH",
-      "RECORDING_ASSETS_PATH"
+      "RECORDING_ASSETS_PATH",
     ],
 
     // test results reporter to use

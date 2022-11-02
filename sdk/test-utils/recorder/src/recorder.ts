@@ -70,11 +70,9 @@ export class Recorder {
       if (this.testContext) {
         this.sessionFile = sessionFilePath(this.testContext);
 
-        if(!isNode)
-        {
-          this.assetsJson = env.RECORDING_ASSETS_PATH
-        }
-        else {
+        if (!isNode) {
+          this.assetsJson = env.RECORDING_ASSETS_PATH;
+        } else {
           this.assetsJson = resolveAssetsJson(this.sessionFile);
         }
 

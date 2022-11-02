@@ -343,9 +343,9 @@ export function resolveAssetsJson(testPath: string): string {
   if (!(typeof testPath === "undefined" || testPath == null)) {
     if (process === undefined) {
       throw new RecorderError(
-        "Unable to access the project object. This is likely occurring because the user requested a browser test"
-        + " run and RECORDING_ASSETS_PATH isn't yet defined. Set process.env variable RECORDING_ASSETS_PATH within karma configuration."
-      )
+        "Unable to access the project object. This is likely occurring because the user requested a browser test" +
+          " run and RECORDING_ASSETS_PATH isn't yet defined. Set process.env variable RECORDING_ASSETS_PATH within karma configuration."
+      );
     }
 
     const currentPath = process.cwd();

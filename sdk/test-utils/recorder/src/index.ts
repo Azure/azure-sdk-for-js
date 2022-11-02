@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 export { Recorder } from "./recorder";
-export { relativeRecordingsPath,relativeAssetsPath } from "./utils/relativePathCalculator";
+export { relativeRecordingsPath, relativeAssetsPath } from "./utils/relativePathCalculator";
 export {
   SanitizerOptions,
   RecorderStartOptions,
