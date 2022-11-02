@@ -4123,7 +4123,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20221027
+      typescript: 4.9.0-dev.20221031
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -9196,8 +9196,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20221027:
-    resolution: {integrity: sha512-CIkuppg1AjXN2O+njxomS97BHqIMH+NqXXD661ViFdVvesx9YLsNjiATUlfIkeVtVyG0PGpzES8lmzIhoSaniA==}
+  /typescript/4.9.0-dev.20221031:
+    resolution: {integrity: sha512-jCNHTa9twe5d/5Pfob2BhOLwHS6kxMcGyc3fIWDGGkEdkyYYbiXD2czz1U6jVOB+9QaVxVNUQuDfN42H5DGZZg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10325,7 +10325,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-fKOda1/Pg3Y3PDVROg4wzHR4RAbGwWOjUP1DuYWdan/zJ/I1Zmx71XxHLWrb3ekRKeG1IMieYlFk2cymIjYUig==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-nDE3NgLXXXxuvcwjzKjg0a710dW3gDK4ZPj0eDANOaSKnrtzGOd0A1g3AAMvG6J62ob9qOMxmSAGhJbKDe5baQ==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -10372,7 +10372,6 @@ packages:
       - '@swc/wasm'
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -13212,7 +13211,7 @@ packages:
     dev: false
 
   file:projects/arm-machinelearning.tgz:
-    resolution: {integrity: sha512-RlPP1B/0X/zgb/C/hxjAGcvA8Z31ejCn38+lNhXK6a6DJzhVy0PJlUysoZLVHZxMheAIf5eta1zyxWEK/IWQyg==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-/kBQvSmU7X1MmiRyR/HBTVEOpcn9nHBOfU31WnZkibEssrU+/Myc2Lh3IPtbEjpHzj8YQBd3V5SE+Cu4f2j0zg==, tarball: file:projects/arm-machinelearning.tgz}
     name: '@rush-temp/arm-machinelearning'
     version: 0.0.0
     dependencies:
@@ -13224,18 +13223,18 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
       '@types/chai': 4.3.1
+      '@types/node': 14.18.32
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
+      rollup-plugin-sourcemaps: 0.6.3_c7db7d5b071236050b16f8e8aba5b37f
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
