@@ -4,18 +4,17 @@
 import {
   AppleRegistrationDescription,
   createAppleRegistrationDescription,
-} from "@azure/notification-hubs/models/registration";
+} from "@azure/notification-hubs/models";
 import {
   NotificationHubsClientContext,
   createClientContext,
-} from "@azure/notification-hubs/client";
+  createRegistration,
+  deleteRegistration,
+  listRegistrations,
+} from "@azure/notification-hubs/api";
 import { assert } from "@azure/test-utils";
-import { createRegistration } from "@azure/notification-hubs/client/createRegistration";
-import { deleteRegistration } from "@azure/notification-hubs/client/deleteRegistration";
-import { listRegistrations } from "@azure/notification-hubs/client/listRegistrations";
 
 // Load the .env file if it exists
-// eslint-disable-next-line sort-imports
 import * as dotenv from "dotenv";
 
 dotenv.config();

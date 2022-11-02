@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how the listRegistrationsByTag() method can be used to list all registrations with
- * the given tag.
+ * This sample demonstrates how the listRegistrations() method can be used to find all registrations for
+ * the given Notification Hub with an optional set of query parameters such as OData $top and $filter.
  *
  * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-registration-management
  * to learn about registrations.
@@ -14,7 +14,8 @@
  */
 
 import * as dotenv from "dotenv";
-import { createClientContext, listRegistrationsByTag } from "@azure/notification-hubs/api";
+import { createClientContext, listRegistrationsByChannel } from "@azure/notification-hubs/api";
+import { AppleRegistrationChannel } from "@azure/notification-hubs/models";
 
 // Load the .env file if it exists
 dotenv.config();
@@ -23,14 +24,22 @@ dotenv.config();
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";
 const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
+// Define message constants
+const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
+const deviceToken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
+
 const TOP = 100;
-const TAG = "likes_hockey";
 
 async function main() {
   const context = createClientContext(connectionString, hubName);
 
+  const device: AppleRegistrationChannel = {
+    deviceToken,
+    kind: "apple",
+  };
+
   // Unlimited
-  let allRegistrations = listRegistrationsByTag(context, TAG);
+  let allRegistrations = listRegistrationsByChannel(context, device);
   let page = 0;
   for await (const pages of allRegistrations.byPage()) {
     console.log(`Page number ${page++}`);
@@ -41,7 +50,7 @@ async function main() {
 
   // Top
   page = 0;
-  allRegistrations = listRegistrationsByTag(context, TAG, { top: TOP });
+  allRegistrations = listRegistrationsByChannel(context, device, { top: TOP });
   for await (const pages of allRegistrations.byPage()) {
     console.log(`Page number ${page++}`);
     for (const item of pages) {
@@ -51,6 +60,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.log("sendDirectNotification Sample: Error occurred: ", err);
+  console.log("listRegistrations Sample: Error occurred: ", err);
   process.exit(1);
 });
