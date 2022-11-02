@@ -3,7 +3,7 @@
 
 import {
   AnalyzeBatchActionNames,
-  KnownDocumentType,
+  KnownHealthcareDocumentType,
   KnownExtractiveSummarizationOrderingCriteria,
   KnownFhirVersion,
   KnownPiiEntityCategory,
@@ -337,7 +337,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 {
                   kind: AnalyzeBatchActionNames.Healthcare,
                   fhirVersion: KnownFhirVersion["4.0.1"],
-                  documentType: KnownDocumentType.DischargeSummary,
+                  documentType: KnownHealthcareDocumentType.DischargeSummary,
                 },
               ],
               docs,

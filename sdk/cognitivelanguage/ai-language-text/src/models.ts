@@ -27,7 +27,6 @@ import {
   KnownInnerErrorCode,
   LanguageDetectionAction,
   LinkedEntity,
-  PhraseControl,
   PiiEntityRecognitionAction,
   RelationType,
   SentenceSentimentLabel,
@@ -180,8 +179,6 @@ export interface AbstractiveSummarizationAction {
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
-  /** Control the phrases to be used in the summary. */
-  phraseControls?: PhraseControl[];
 }
 
 /**
