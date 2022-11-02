@@ -885,8 +885,14 @@ function deserializeCompositeType(
           propertyObjectName,
           options
         );
-      } else if (propertyMapper.xmlIsMsText && responseBody[XML_CHARKEY] !== undefined) {
-        instance[key] = responseBody[XML_CHARKEY];
+      } else if (propertyMapper.xmlIsMsText) {
+        if (responseBody[XML_CHARKEY] !== undefined) {
+          instance[key] = responseBody[XML_CHARKEY];
+        } else if (typeof responseBody === "string") {
+          // The special case where xml parser parses "<Name>content</Name>" into JSON of
+          //   `{ name: "content"}` instead of `{ name: { "_": "content" }}`
+          instance[key] = responseBody;
+        }
       } else {
         const propertyName = xmlElementName || xmlName || serializedName;
         if (propertyMapper.xmlIsWrapped) {
