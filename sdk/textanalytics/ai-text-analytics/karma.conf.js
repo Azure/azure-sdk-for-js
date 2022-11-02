@@ -4,9 +4,10 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config();
-const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
+const { relativeRecordingsPath, relativeAssetsPath } = require("@azure-tools/test-recorder");
 
 process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
+process.env.RECORDING_ASSETS_PATH = relativeAssetsPath();
 
 module.exports = function (config) {
   config.set({
@@ -64,6 +65,7 @@ module.exports = function (config) {
       "LANGUAGE_CUSTOM_MULTI_LABEL_CLASSIFICATION_PROJECT_NAME",
       "LANGUAGE_CUSTOM_MULTI_LABEL_CLASSIFICATION_DEPLOYMENT_NAME",
       "RECORDINGS_RELATIVE_PATH",
+      "RECORDING_ASSETS_PATH"
     ],
 
     // test results reporter to use
