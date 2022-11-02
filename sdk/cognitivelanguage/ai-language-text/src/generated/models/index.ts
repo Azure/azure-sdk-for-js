@@ -544,22 +544,12 @@ export interface AbstractiveSummarizationTaskParametersBase {
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
-  /** Control the phrases to be used in the summary. */
-  phraseControls?: PhraseControl[];
-}
-
-/** Control the phrases to be used in the summary. */
-export interface PhraseControl {
-  /** The target phrase to control. */
-  targetPhrase: string;
-  /** The strategy to use in phrase control. */
-  strategy: PhraseControlStrategy;
 }
 
 /** An object representing the summarization results of each document. */
 export interface AbstractiveSummarizationResultBase {
   /** Response by document */
-  documents: AbstractiveSummarizationResultBaseDocumentsItem[];
+  documents: AbstractiveSummaryDocumentResultWithDetectedLanguage[];
 }
 
 /** An object representing a single summary with context for given document. */
@@ -864,6 +854,8 @@ export interface TemporalSpanResolution extends BaseResolution {
   duration?: string;
   /** An optional modifier of a date/time instance. */
   modifier?: TemporalModifier;
+  /** An optional triplet containing the beginning, the end, and the duration all stated as ISO 8601 formatted strings. */
+  timex?: string;
 }
 
 /** represents the resolution of numeric intervals. */
@@ -972,7 +964,7 @@ export interface PiiResultDocumentsItem
   extends PiiEntitiesDocumentResult,
     DocumentDetectedLanguage {}
 
-export interface ExtractiveSummarizationResultDocumentsItem
+export interface ExtractedSummaryDocumentResultWithDetectedLanguage
   extends ExtractedSummaryDocumentResult,
     DocumentDetectedLanguage {}
 
@@ -980,7 +972,8 @@ export interface KeyPhraseResultDocumentsItem
   extends KeyPhrasesDocumentResult,
     DocumentDetectedLanguage {}
 
-export interface AbstractiveSummarizationResultBaseDocumentsItem
+/** An object representing the summarization result of a single document with detected language. */
+export interface AbstractiveSummaryDocumentResultWithDetectedLanguage
   extends AbstractiveSummaryDocumentResult,
     DocumentDetectedLanguage {}
 
@@ -1010,7 +1003,7 @@ export interface PiiResult extends PreBuiltResult {
 
 export interface ExtractiveSummarizationResult extends PreBuiltResult {
   /** Response by document */
-  documents: ExtractiveSummarizationResultDocumentsItem[];
+  documents: ExtractedSummaryDocumentResultWithDetectedLanguage[];
 }
 
 export interface KeyPhraseResult extends PreBuiltResult {
@@ -1040,6 +1033,8 @@ export interface AbstractiveSummarizationAction
 
 /** Use custom models to ease the process of information extraction from unstructured documents like contracts or financial documents */
 export interface CustomEntitiesLROTask extends AnalyzeBatchAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "CustomEntityRecognition";
   /** Supported parameters for a Custom Entities task. */
   parameters?: CustomEntityRecognitionAction;
 }
@@ -1047,6 +1042,8 @@ export interface CustomEntitiesLROTask extends AnalyzeBatchAction {
 /** Use custom models to classify text into single label taxonomy */
 export interface CustomSingleLabelClassificationLROTask
   extends AnalyzeBatchAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "CustomSingleLabelClassification";
   /** Options for a single-label classification custom action */
   parameters?: CustomSingleLabelClassificationAction;
 }
@@ -1054,102 +1051,142 @@ export interface CustomSingleLabelClassificationLROTask
 /** Use custom models to classify text into multi label taxonomy */
 export interface CustomMultiLabelClassificationLROTask
   extends AnalyzeBatchAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "CustomMultiLabelClassification";
   /** Options for a multi-label classification custom action */
   parameters?: CustomMultiLabelClassificationAction;
 }
 
 export interface HealthcareLROTask extends AnalyzeBatchAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "Healthcare";
   /** Supported parameters for a Healthcare task. */
   parameters?: HealthcareAction;
 }
 
 /** An object representing the task definition for a Sentiment Analysis task. */
 export interface SentimentAnalysisLROTask extends AnalyzeBatchAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "SentimentAnalysis";
   /** Options for a sentiment analysis action. */
   parameters?: SentimentAnalysisAction;
 }
 
 /** An object representing the task definition for an Entities Recognition task. */
 export interface EntitiesLROTask extends AnalyzeBatchAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "EntityRecognition";
   /** Options for an entity recognition action. */
   parameters?: EntityRecognitionAction;
 }
 
 /** An object representing the task definition for an Entity Linking task. */
 export interface EntityLinkingLROTask extends AnalyzeBatchAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "EntityLinking";
   /** Options for an entity linking action. */
   parameters?: EntityLinkingAction;
 }
 
 /** An object representing the task definition for a PII Entities Recognition task. */
 export interface PiiLROTask extends AnalyzeBatchAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "PiiEntityRecognition";
   /** Options for a Pii entity recognition action. */
   parameters?: PiiEntityRecognitionAction;
 }
 
 /** An object representing the task definition for an Extractive Summarization task. */
 export interface ExtractiveSummarizationLROTask extends AnalyzeBatchAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "ExtractiveSummarization";
   /** Supported parameters for an Extractive Summarization task. */
   parameters?: ExtractiveSummarizationAction;
 }
 
 /** An object representing the task definition for a Key Phrase Extraction task. */
 export interface KeyPhraseLROTask extends AnalyzeBatchAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "KeyPhraseExtraction";
   /** Options for a key phrase recognition action. */
   parameters?: KeyPhraseExtractionAction;
 }
 
 /** An object representing the task definition for an Abstractive Summarization task. */
 export interface AbstractiveSummarizationLROTask extends AnalyzeBatchAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "AbstractiveSummarization";
   /** Supported parameters for the pre-build Abstractive Summarization task. */
   parameters: AbstractiveSummarizationAction;
 }
 
 export interface EntityRecognitionLROResult extends AnalyzeTextLROResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "EntityRecognitionLROResults";
   results: EntitiesResult;
 }
 
 export interface CustomEntityRecognitionLROResult extends AnalyzeTextLROResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "CustomEntityRecognitionLROResults";
   results: CustomEntitiesResult;
 }
 
 export interface CustomSingleLabelClassificationLROResult
   extends AnalyzeTextLROResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "CustomSingleLabelClassificationLROResults";
   results: CustomLabelClassificationResult;
 }
 
 export interface CustomMultiLabelClassificationLROResult
   extends AnalyzeTextLROResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "CustomMultiLabelClassificationLROResults";
   results: CustomLabelClassificationResult;
 }
 
 export interface EntityLinkingLROResult extends AnalyzeTextLROResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "EntityLinkingLROResults";
   results: EntityLinkingResult;
 }
 
 export interface PiiEntityRecognitionLROResult extends AnalyzeTextLROResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "PiiEntityRecognitionLROResults";
   results: PiiResult;
 }
 
 export interface ExtractiveSummarizationLROResult extends AnalyzeTextLROResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "ExtractiveSummarizationLROResults";
   results: ExtractiveSummarizationResult;
 }
 
 export interface HealthcareLROResult extends AnalyzeTextLROResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "HealthcareLROResults";
   results: HealthcareResult;
 }
 
 export interface SentimentLROResult extends AnalyzeTextLROResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "SentimentAnalysisLROResults";
   results: SentimentResponse;
 }
 
 export interface KeyPhraseExtractionLROResult extends AnalyzeTextLROResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "KeyPhraseExtractionLROResults";
   results: KeyPhraseResult;
 }
 
 /** An object representing the results for an Abstractive Summarization task. */
 export interface AbstractiveSummarizationLROResult
   extends AnalyzeTextLROResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "AbstractiveSummarizationLROResults";
   /** An object representing the pre-build summarization results of each document. */
   results: AbstractiveSummarizationResult;
 }
@@ -1223,7 +1260,7 @@ export interface HealthcareAction extends ActionPrebuilt {
   /** The FHIR Spec version that the result will use to format the fhirBundle. For additional information see https://www.hl7.org/fhir/overview.html. */
   fhirVersion?: FhirVersion;
   /** Document type that can be provided as input for Fhir Documents. Expect to have fhirVersion provided when used. Behavior of using None enum is the same as not using the documentType parameter. */
-  documentType?: DocumentType;
+  documentType?: HealthcareDocumentType;
   /**
    * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
    *
@@ -2307,8 +2344,8 @@ export enum KnownFhirVersion {
  */
 export type FhirVersion = string;
 
-/** Known values of {@link DocumentType} that the service accepts. */
-export enum KnownDocumentType {
+/** Known values of {@link HealthcareDocumentType} that the service accepts. */
+export enum KnownHealthcareDocumentType {
   /** None */
   None = "None",
   /** ClinicalTrial */
@@ -2330,8 +2367,8 @@ export enum KnownDocumentType {
 }
 
 /**
- * Defines values for DocumentType. \
- * {@link KnownDocumentType} can be used interchangeably with DocumentType,
+ * Defines values for HealthcareDocumentType. \
+ * {@link KnownHealthcareDocumentType} can be used interchangeably with HealthcareDocumentType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **None** \
@@ -2344,7 +2381,7 @@ export enum KnownDocumentType {
  * **Pathology** \
  * **ProcedureNote**
  */
-export type DocumentType = string;
+export type HealthcareDocumentType = string;
 
 /** Known values of {@link HealthcareEntityCategory} that the service accepts. */
 export enum KnownHealthcareEntityCategory {
@@ -3166,8 +3203,6 @@ export type SentenceSentimentLabel = "positive" | "neutral" | "negative";
 export type TokenSentimentLabel = "positive" | "mixed" | "negative";
 /** Defines values for TargetRelationType. */
 export type TargetRelationType = "assessment" | "target";
-/** Defines values for PhraseControlStrategy. */
-export type PhraseControlStrategy = "encourage" | "discourage" | "disallow";
 
 /** Optional parameters. */
 export interface AnalyzeOptionalParams extends coreClient.OperationOptions {

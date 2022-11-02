@@ -662,7 +662,7 @@ export class TextAnalysisClient {
       realOptions = languageOrOptions as BeginAnalyzeBatchOptions;
     }
     const realActions = actions.map(
-      ({ kind, actionName, ...rest }): AnalyzeBatchActionUnion => ({
+      ({ kind, actionName, ...rest }): AnalyzeBatchActionUnion & { parameters: unknown } => ({
         kind,
         actionName,
         parameters: rest,

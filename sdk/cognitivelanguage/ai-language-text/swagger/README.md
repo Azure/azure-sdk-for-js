@@ -12,7 +12,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://github.com/Azure/azure-rest-api-specs/blob/98891f186eba7baaf7e14c3d5b2930172c1e1386/specification/cognitiveservices/data-plane/Language/preview/2022-10-01-preview/analyzetext.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/ac205086f477776e8d9aa4ff771e98f174afbea2/specification/cognitiveservices/data-plane/Language/preview/2022-10-01-preview/analyzetext.json
 add-credentials: false
 package-version: 1.1.0-beta.1
 v3: true
