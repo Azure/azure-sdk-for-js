@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-10-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Content-Length": "158",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "bbb1aa24-4b32-4872-800a-a9e9b419116f"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "a5b91193-13cf-412f-bac1-b4e3405fffd4"
       },
       "RequestBody": {
         "kind": "PiiEntityRecognition",
@@ -28,16 +28,16 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "37439672-e5e5-4e9a-ba55-e31dcb2e9c62",
+        "apim-request-id": "9e0c1022-c541-4b90-bc38-a8d2e2414d59",
         "Content-Length": "389",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-        "Date": "Mon, 24 Oct 2022 05:11:43 GMT",
+        "Date": "Tue, 01 Nov 2022 22:51:52 GMT",
         "Set-Cookie": ".AspNetCore.Mvc.CookieTempDataProvider=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; samesite=lax; httponly",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
         "x-envoy-upstream-service-time": "27",
-        "x-ms-region": "West US 2"
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
         "kind": "PiiEntityRecognitionResults",
@@ -71,7 +71,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-10-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -80,8 +80,8 @@
         "Content-Length": "200",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "2c2831f3-d031-47f3-ab96-906cd0185f45"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "91aa523c-9897-474a-b20e-9647e16c6db1"
       },
       "RequestBody": {
         "kind": "PiiEntityRecognition",
@@ -102,16 +102,16 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "8db033ab-a7da-4f2b-95aa-3d9c25dcb880",
+        "apim-request-id": "e78a8860-1a2a-4a26-adb8-3e9c67d3f84f",
         "Content-Length": "308",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-        "Date": "Mon, 24 Oct 2022 05:11:43 GMT",
+        "Date": "Tue, 01 Nov 2022 22:51:53 GMT",
         "Set-Cookie": ".AspNetCore.Mvc.CookieTempDataProvider=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; samesite=lax; httponly",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "31",
-        "x-ms-region": "West US 2"
+        "x-envoy-upstream-service-time": "32",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
         "kind": "PiiEntityRecognitionResults",
