@@ -204,10 +204,10 @@ export interface BatchActionState<Kind extends AnalyzeBatchActionName> {
 }
 
 // @public
-export interface BatchActionSuccessResult<T extends DocumentDetectedLanguage, Kind extends AnalyzeBatchActionName> extends BatchActionState<Kind> {
+export interface BatchActionSuccessResult<T, Kind extends AnalyzeBatchActionName> extends BatchActionState<Kind> {
     readonly completedOn: Date;
     readonly error?: undefined;
-    readonly results: T[];
+    readonly results: WithDetectedLanguage<T>[];
 }
 
 // @public
@@ -1497,5 +1497,10 @@ export interface WeightResolution extends BaseResolution, QuantityResolution {
 
 // @public
 export type WeightUnit = string;
+
+// @public
+export type WithDetectedLanguage<T> = T & DocumentDetectedLanguage & {
+    isLanguageDefaulted?: boolean;
+};
 
 ```
