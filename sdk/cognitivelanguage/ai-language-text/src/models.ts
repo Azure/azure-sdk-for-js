@@ -908,16 +908,23 @@ export interface CustomActionMetadata {
 }
 
 /**
+ * Document results with potentially automatically detected language.
+ */
+export type WithDetectedLanguage<T> = T &
+  DocumentDetectedLanguage & {
+    /** Indicates whether the default language hint was used */
+    isLanguageDefaulted?: boolean;
+  };
+
+/**
  * The state of a succeeded batched action.
  */
-export interface BatchActionSuccessResult<
-  T extends DocumentDetectedLanguage,
-  Kind extends AnalyzeBatchActionName
-> extends BatchActionState<Kind> {
+export interface BatchActionSuccessResult<T, Kind extends AnalyzeBatchActionName>
+  extends BatchActionState<Kind> {
   /**
    * The list of document results.
    */
-  readonly results: T[];
+  readonly results: WithDetectedLanguage<T>[];
   /**
    * When this action was completed by the service.
    */
