@@ -23,9 +23,6 @@ export function createProvideClaimsForToken(claims: TokenClaim): ProvideClaimsFo
 }
 
 /**
- * An Interface representing a claim.
+ * An type representing a claim.
  */
-export interface TokenClaim {
-  /** Dynamic object property of type string or string array */
-  [key: string]: string | string[];
-}
+export type TokenClaim = Record<string, string | string[]>;
