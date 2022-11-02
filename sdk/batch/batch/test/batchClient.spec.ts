@@ -2,12 +2,17 @@
 import { v4 as uuid } from "uuid";
 import * as dotenv from "dotenv";
 import { duration } from "moment";
-import { AccountListPoolNodeCountsResponse, TaskGetResponse } from "../src/models";
+import { AccountListPoolNodeCountsResponse, JobAddParameter, TaskGetResponse } from "../src/models";
 import { assert } from "chai";
 import { BatchServiceClient, BatchServiceModels } from "../src/batchServiceClient";
 import moment from "moment";
 import { createClient } from "./utils/recordedClient";
-import { fakeTestCertData, fakeTestPasswordPlaceholder1, fakeTestPasswordPlaceholder2, fakeTestPasswordPlaceholder3 } from "./fakeTestSecrets";
+import {
+  fakeTestCertData,
+  fakeTestPasswordPlaceholder1,
+  fakeTestPasswordPlaceholder2,
+  fakeTestPasswordPlaceholder3,
+} from "./fakeTestSecrets";
 
 dotenv.config();
 const wait = (timeout = 1000) => new Promise((resolve) => setTimeout(() => resolve(null), timeout));
@@ -327,6 +332,51 @@ describe("Batch Service", () => {
       const resultDelete = await client.pool.deleteMethod(pool.id);
       assert.equal(resultDelete._response.status, 202);
     });
+
+    it("should create a new pool with a target node communication mode", async () => {
+      const pool: BatchServiceModels.PoolAddParameter = {
+        id: getPoolName("NodeCommunication"),
+        vmSize: VMSIZE_D1,
+        cloudServiceConfiguration: { osFamily: "4" },
+        targetDedicatedNodes: 3,
+        targetNodeCommunicationMode: "simplified",
+        startTask: { commandLine: "cmd /c echo hello > hello.txt" },
+      };
+
+      const result = await client.pool.add(pool);
+      assert.equal(result._response.status, 201);
+
+      try {
+        let getResult: any;
+        let poolResizing = true;
+        let poolResult;
+        while (poolResizing) {
+          poolResult = await client.pool.get(pool.id);
+          if (poolResult.allocationState === "steady") {
+            break;
+          } else {
+            await wait(POLLING_INTERVAL * 2);
+          }
+        }
+
+        getResult = await client.pool.get(pool.id);
+        assert.equal(getResult.targetNodeCommunicationMode, pool.targetNodeCommunicationMode);
+        assert.isDefined(getResult.currentNodeCommunicationMode);
+
+        const options: BatchServiceModels.PoolPatchParameter = {
+          targetNodeCommunicationMode: "simplified",
+        };
+
+        const result = await client.pool.patch(pool.id, options);
+        assert.equal(result._response.status, 200);
+
+        getResult = await client.pool.get(pool.id);
+        assert.equal(getResult.targetNodeCommunicationMode, options.targetNodeCommunicationMode);
+        assert.isDefined(getResult.currentNodeCommunicationMode);
+      } finally {
+        await client.pool.deleteMethod(pool.id);
+      }
+    });
   });
 
   describe("Pool with endpoint configuration", async () => {
@@ -401,7 +451,7 @@ describe("Batch Service", () => {
         }
       }
 
-      assert.lengthOf(result, 2);
+      assert.isAtLeast(result.length, 2);
       assert.equal(result._response.status, 200);
 
       const endpointPoolObj = result.filter((pool) => pool.poolId == ENDPOINT_POOL);
@@ -1139,6 +1189,49 @@ describe("Batch Service", () => {
       assert.isDefined(result.userCPUTime);
       assert.isDefined(result.kernelCPUTime);
       assert.equal(result._response.status, 200);
+    });
+
+    it("should create a job with node communication mode in pool specification", async () => {
+      const options: JobAddParameter = {
+        id: `JSSDKTestJobCommunicationMode-${_SUFFIX}`,
+        poolInfo: {
+          autoPoolSpecification: {
+            poolLifetimeOption: "job",
+            pool: {
+              vmSize: VMSIZE_A1,
+              targetNodeCommunicationMode: "simplified",
+              virtualMachineConfiguration: {
+                imageReference: {
+                  publisher: "Canonical",
+                  offer: "UbuntuServer",
+                  sku: "18.04-LTS",
+                },
+                nodeAgentSKUId: "batch.node.ubuntu 18.04",
+                dataDisks: [
+                  {
+                    lun: 1,
+                    diskSizeGB: 50,
+                  },
+                ],
+              },
+            },
+          },
+        },
+      };
+
+      const result = await client.job.add(options);
+
+      assert.equal(result._response.status, 201);
+
+      try {
+        const getResult = await client.job.get(options.id);
+        assert.equal(
+          getResult.poolInfo?.autoPoolSpecification?.pool?.targetNodeCommunicationMode,
+          options.poolInfo.autoPoolSpecification?.pool?.targetNodeCommunicationMode
+        );
+      } finally {
+        await client.job.deleteMethod(options.id);
+      }
     });
   });
 
