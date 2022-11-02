@@ -4,13 +4,13 @@
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
 import {
   IndexDocumentsAction,
-  SearchIndexingBufferedSenderOptions,
-  SearchIndexingBufferedSenderUploadDocumentsOptions,
-  SearchIndexingBufferedSenderMergeDocumentsOptions,
-  SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
+  IndexDocumentsOptions,
   SearchIndexingBufferedSenderDeleteDocumentsOptions,
   SearchIndexingBufferedSenderFlushDocumentsOptions,
-  IndexDocumentsOptions,
+  SearchIndexingBufferedSenderMergeDocumentsOptions,
+  SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
+  SearchIndexingBufferedSenderOptions,
+  SearchIndexingBufferedSenderUploadDocumentsOptions,
 } from "./indexModels";
 import { IndexDocumentsResult } from "./generated/data/models";
 import { OperationOptions } from "@azure/core-client";

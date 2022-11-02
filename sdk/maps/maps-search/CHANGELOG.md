@@ -1,16 +1,10 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.0.0-beta.2 (2022-11-08)
 
 ### Bugs Fixed
 
 - Correct the type declaration file generation.
-
-### Other Changes
 
 ## 1.0.0-beta.1 (2022-10-11)
 

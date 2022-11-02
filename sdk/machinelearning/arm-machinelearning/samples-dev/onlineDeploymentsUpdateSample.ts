@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Update Online Deployment (asynchronous).
  *
  * @summary Update Online Deployment (asynchronous).
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/OnlineDeployment/KubernetesOnlineDeployment/update.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/OnlineDeployment/KubernetesOnlineDeployment/update.json
  */
 async function updateKubernetesOnlineDeployment() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
@@ -54,7 +54,7 @@ updateKubernetesOnlineDeployment().catch(console.error);
  * This sample demonstrates how to Update Online Deployment (asynchronous).
  *
  * @summary Update Online Deployment (asynchronous).
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/OnlineDeployment/ManagedOnlineDeployment/update.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/OnlineDeployment/ManagedOnlineDeployment/update.json
  */
 async function updateManagedOnlineDeployment() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";

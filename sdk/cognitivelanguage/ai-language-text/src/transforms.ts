@@ -2,29 +2,7 @@
 // Licensed under the MIT license.
 
 import {
-  AnalyzeActionName,
-  AnalyzeBatchResult,
-  AnalyzeResult,
-  CustomSingleLabelClassificationResult,
-  CustomSingleLabelClassificationSuccessResult,
-  EntityLinkingResult,
-  EntityRecognitionResult,
-  HealthcareEntity,
-  HealthcareEntityRelation,
-  HealthcareEntityRelationRole,
-  HealthcareResult,
-  HealthcareSuccessResult,
-  KeyPhraseExtractionResult,
-  LanguageDetectionResult,
-  Opinion,
-  PiiEntityRecognitionResult,
-  SentenceSentiment,
-  SentimentAnalysisResult,
-  TextAnalysisError,
-  TextAnalysisErrorResult,
-  TextAnalysisSuccessResult,
-} from "./models";
-import {
+  AbstractiveSummarizationLROResult,
   AnalyzeResponse,
   AnalyzeTextLROResultUnion,
   AssessmentSentiment,
@@ -33,13 +11,16 @@ import {
   CustomMultiLabelClassificationLROResult,
   CustomSingleLabelClassificationLROResult,
   DocumentError,
+  DynamicClassificationTaskResult,
   EntitiesTaskResult,
   EntityLinkingLROResult,
   EntityLinkingTaskResult,
   EntityRecognitionLROResult,
   ErrorModel,
   ErrorResponse,
+  ExtractiveSummarizationLROResult,
   CustomLabelClassificationResult as GeneratedCustomClassificationResult,
+  DynamicClassificationResult as GeneratedDynamicClassification,
   EntityLinkingResult as GeneratedEntityLinkingResult,
   EntitiesResult as GeneratedEntityRecognitionResult,
   HealthcareEntity as GeneratedHealthcareEntity,
@@ -64,7 +45,33 @@ import {
   SentimentLROResult,
   SentimentTaskResult,
   TargetRelation,
+  DynamicClassificationResultDocumentsItem,
+  ClassificationCategory,
 } from "./generated";
+import {
+  AnalyzeActionName,
+  AnalyzeBatchResult,
+  AnalyzeResult,
+  CustomSingleLabelClassificationResult,
+  CustomSingleLabelClassificationSuccessResult,
+  DynamicClassificationResult,
+  EntityLinkingResult,
+  EntityRecognitionResult,
+  HealthcareEntity,
+  HealthcareEntityRelation,
+  HealthcareEntityRelationRole,
+  HealthcareResult,
+  HealthcareSuccessResult,
+  KeyPhraseExtractionResult,
+  LanguageDetectionResult,
+  Opinion,
+  PiiEntityRecognitionResult,
+  SentenceSentiment,
+  SentimentAnalysisResult,
+  TextAnalysisError,
+  TextAnalysisErrorResult,
+  TextAnalysisSuccessResult,
+} from "./models";
 import {
   AssessmentIndex,
   parseAssessmentIndex,
@@ -157,6 +164,29 @@ function toSentimentAnalysisResult(
       sentences: sentences.map((sentence) =>
         convertGeneratedSentenceSentiment(sentence, sentences)
       ),
+    }),
+  });
+}
+
+function toDynamicClassificationResult(
+  docIds: string[],
+  results: GeneratedDynamicClassification
+): DynamicClassificationResult[] {
+  return transformDocumentResults(docIds, results, {
+    // FIXME: Fixing a service bug, see https://github.com/Azure/azure-sdk-for-js/issues/23617
+    processSuccess: ({
+      class: classes,
+      id,
+      warnings,
+      statistics,
+      classifications,
+    }: DynamicClassificationResultDocumentsItem & {
+      classifications?: ClassificationCategory[];
+    }) => ({
+      id,
+      warnings,
+      classifications: classes ? classes : classifications ?? [],
+      ...(statistics ? { statistics } : {}),
     }),
   });
 }
@@ -262,6 +292,12 @@ export function transformActionResult<ActionName extends AnalyzeActionName>(
     case "LanguageDetectionResults": {
       return toLanguageDetectionResult(docIds, (response as LanguageDetectionTaskResult).results);
     }
+    case "DynamicClassificationResults": {
+      return toDynamicClassificationResult(
+        docIds,
+        (response as DynamicClassificationTaskResult).results
+      );
+    }
     default: {
       const __exhaust: never = response;
       throw new Error(`Unsupported results kind: ${__exhaust} for an action of type ${actionName}`);
@@ -338,9 +374,14 @@ function toHealthcareResult(
   function makeHealthcareRelation(
     entities: HealthcareEntity[]
   ): (relation: HealthcareRelation) => HealthcareEntityRelation {
-    return (relation: HealthcareRelation): HealthcareEntityRelation => ({
-      relationType: relation.relationType,
-      roles: relation.entities.map(
+    return ({
+      entities: generatedEntities,
+      relationType,
+      confidenceScore,
+    }: HealthcareRelation): HealthcareEntityRelation => ({
+      relationType: relationType,
+      confidenceScore,
+      roles: generatedEntities.map(
         (role: HealthcareRelationEntity): HealthcareEntityRelationRole => ({
           entity: entities[parseHealthcareEntityIndex(role.ref)],
           name: role.role,
@@ -500,6 +541,30 @@ export function transformAnalyzeBatchResults(
           ...(statistics ? { statistics } : {}),
           deploymentName,
           projectName,
+        };
+      }
+      case "ExtractiveSummarizationLROResults": {
+        const { results } = actionData as ExtractiveSummarizationLROResult;
+        const { modelVersion, statistics } = results;
+        return {
+          kind: "ExtractiveSummarization",
+          results: transformDocumentResults(docIds, results),
+          completedOn,
+          ...(actionName ? { actionName } : {}),
+          ...(statistics ? { statistics } : {}),
+          modelVersion,
+        };
+      }
+      case "AbstractiveSummarizationLROResults": {
+        const { results } = actionData as AbstractiveSummarizationLROResult;
+        const { modelVersion, statistics } = results;
+        return {
+          kind: "AbstractiveSummarization",
+          results: transformDocumentResults(docIds, results),
+          completedOn,
+          ...(actionName ? { actionName } : {}),
+          ...(statistics ? { statistics } : {}),
+          modelVersion,
         };
       }
       default: {
