@@ -654,8 +654,8 @@ export class TextAnalysisClient {
     }
 
     if (isStringArray(documents)) {
-      const language = (languageOrOptions as string) || this.defaultLanguage;
-      realInputs = convertToTextDocumentInput(documents, language);
+      const languageHint = (languageOrOptions as string) ?? this.defaultLanguage;
+      realInputs = convertToTextDocumentInput(documents, languageHint);
       realOptions = options;
     } else {
       realInputs = documents;
