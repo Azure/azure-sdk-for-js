@@ -918,6 +918,7 @@ function deserializeCompositeType(
             propertyObjectName,
             options
           );
+          handledPropertyNames.push(xmlName!);
         } else {
           const property = responseBody[propertyName!];
           instance[key] = serializer.deserialize(
@@ -926,6 +927,7 @@ function deserializeCompositeType(
             propertyObjectName,
             options
           );
+          handledPropertyNames.push(propertyName!);
         }
       }
     } else {
