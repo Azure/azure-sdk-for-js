@@ -57,15 +57,15 @@ export interface GroupRemoveUserOptions extends OperationOptions {
 }
 
 // @public
-export interface GroupSendTextToAllOptions extends OperationOptions {
+export interface GroupSendTextToAllOptions extends GroupSendToAllOptions {
     // (undocumented)
     contentType: "text/plain";
-    excludedConnections?: string[];
 }
 
 // @public
 export interface GroupSendToAllOptions extends OperationOptions {
     excludedConnections?: string[];
+    filter?: string;
 }
 
 // @public
@@ -144,6 +144,7 @@ export interface HubSendToConnectionOptions extends OperationOptions {
 
 // @public
 export interface HubSendToUserOptions extends OperationOptions {
+    filter?: string;
 }
 
 // @public
