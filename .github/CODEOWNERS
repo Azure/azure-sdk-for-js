@@ -41,10 +41,10 @@
 /sdk/attestation/ @LarryOsterman @deyaaeldeen @anilba06 @gkostal
 
 # PRLabel: %Batch
-/sdk/batch/ @dpwatrous @paterasMSFT @zfengms @deyaaeldeen
+/sdk/batch/ @dpwatrous @paterasMSFT @zfengms @NickKouds @deyaaeldeen
 
 # PRLabel: %Communication
-/sdk/communication/ @petrsvihlik @AikoBB @maximrytych-ms
+/sdk/communication/
 
 # PRLabel: %Communication - Identity
 /sdk/communication/communication-identity/ @petrsvihlik @AikoBB @maximrytych-ms @ostoliarova-msft
