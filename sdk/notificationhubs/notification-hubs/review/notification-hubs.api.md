@@ -658,11 +658,11 @@ export interface NotificationHubsClientOptions extends CommonClientOptions {
 
 // @public
 export interface NotificationHubsMessageResponse extends NotificationHubsResponse {
-    failure: number;
+    failureCount: number;
     notificationId?: string;
     results: RegistrationResult[];
     state: NotificationOutcomeState;
-    success: number;
+    successCount: number;
 }
 
 // @public
