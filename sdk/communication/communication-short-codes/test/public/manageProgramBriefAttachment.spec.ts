@@ -28,7 +28,7 @@ describe(`ShortCodesClient - manage Attachments`, function () {
   });
 
   it("can manage Attachments", async function () {
-    const uspb = getTestUSProgramBrief();
+    const uspb = getTestUSProgramBrief({ id: "c1d88c44-7981-48c6-824e-f12330eaefe5" });
     const programBriefRequest: ShortCodesUpsertUSProgramBriefOptionalParams = {
       body: uspb,
     };
@@ -48,7 +48,9 @@ describe(`ShortCodesClient - manage Attachments`, function () {
     const submitResult = await client.upsertUSProgramBrief(uspb.id, programBriefRequest);
     assert.isOk(submitResult);
 
-    const attachment = getTestProgramBriefAttachment();
+    const attachment = getTestProgramBriefAttachment({
+      id: "5832ba0c-146b-4d21-8f84-861c3cab6228",
+    });
 
     assert.isFalse(
       await doesProgramBriefContainAnyAttachment(client, uspb.id),
