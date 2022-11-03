@@ -49,7 +49,7 @@ async function dataFlowDebugSessionAddDataFlow() {
         name: "dataset1",
         properties: {
           type: "DelimitedText",
-          schema: [{ type: "String" }],
+          schema: { type: "String" },
           annotations: [],
           columnDelimiter: ",",
           escapeChar: "\\",
@@ -69,7 +69,7 @@ async function dataFlowDebugSessionAddDataFlow() {
     ],
     debugSettings: {
       datasetParameters: { Movies: { path: "abc" }, Output: { time: "def" } },
-      parameters: { sourcePath: "Toy" },
+      parameters: { sourcePath: { string: "Toy" } },
       sourceSettings: [
         { rowLimit: 1000, sourceName: "source1" },
         { rowLimit: 222, sourceName: "source2" }

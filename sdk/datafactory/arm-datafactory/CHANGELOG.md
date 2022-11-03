@@ -1,15 +1,54 @@
 # Release History
+    
+## 11.0.0 (2022-11-03)
+    
+**Breaking Changes**
 
-## 10.9.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group GlobalParameters
+  - Interface AzureBlobFSLinkedService no longer has parameter servicePrincipalCredential
+  - Interface AzureBlobFSLinkedService no longer has parameter servicePrincipalCredentialType
+  - Interface AzureDatabricksDeltaLakeLinkedService no longer has parameter credential
+  - Interface AzureDatabricksDeltaLakeLinkedService no longer has parameter workspaceResourceId
+  - Interface CosmosDbLinkedService no longer has parameter credential
+  - Interface DataFlowSink no longer has parameter rejectedDataLinkedService
+  - Interface DynamicsLinkedService no longer has parameter credential
+  - Interface ExecuteDataFlowActivity no longer has parameter sourceStagingConcurrency
+  - Interface ExecuteDataFlowActivityTypeProperties no longer has parameter sourceStagingConcurrency
+  - Interface ExecutePipelineActivity no longer has parameter policy
+  - Interface ExecuteWranglingDataflowActivity no longer has parameter sourceStagingConcurrency
+  - Interface Factory no longer has parameter purviewConfiguration
+  - Interface FactoryRepoConfiguration no longer has parameter disablePublish
+  - Interface GoogleAdWordsLinkedService no longer has parameter connectionProperties
+  - Interface LinkedIntegrationRuntimeRbacAuthorization no longer has parameter credential
+  - Interface PrivateLinkConnectionApprovalRequest no longer has parameter privateEndpoint
+  - Interface RestServiceLinkedService no longer has parameter clientId
+  - Interface RestServiceLinkedService no longer has parameter clientSecret
+  - Interface RestServiceLinkedService no longer has parameter resource
+  - Interface RestServiceLinkedService no longer has parameter scope
+  - Interface RestServiceLinkedService no longer has parameter tokenEndpoint
+  - Interface WebActivity no longer has parameter disableCertValidation
+  - Parameter authenticationType of interface GoogleAdWordsLinkedService is now required
+  - Parameter clientCustomerID of interface GoogleAdWordsLinkedService is now required
+  - Parameter developerToken of interface GoogleAdWordsLinkedService is now required
+  - Class DataFactoryManagementClient no longer has parameter globalParameters
+  - Removed Enum KnownBigDataPoolReferenceType
+  - Removed Enum KnownCredentialReferenceType
+  - Removed Enum KnownDataFlowReferenceType
+  - Removed Enum KnownManagedVirtualNetworkReferenceType
+  - Removed Enum KnownNotebookParameterType
+  - Removed Enum KnownNotebookReferenceType
+  - Removed Enum KnownScriptActivityLogDestination
+  - Removed Enum KnownScriptActivityParameterDirection
+  - Removed Enum KnownScriptActivityParameterType
+  - Removed Enum KnownScriptType
+  - Removed Enum KnownSparkJobReferenceType
+  - Removed Enum KnownTeamDeskAuthenticationType
+  - Removed Enum KnownTriggerReferenceType
+  - Removed Enum KnownType
+  - Removed Enum KnownZendeskAuthenticationType
+  - Enum KnownRestServiceAuthenticationType no longer has value OAuth2ClientCredential
+    
+    
 ## 10.9.0 (2022-10-17)
     
 **Features**

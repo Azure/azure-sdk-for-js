@@ -77,17 +77,7 @@ export type LinkedServiceUnion =
   | SapCloudForCustomerLinkedService
   | SapEccLinkedService
   | SapOpenHubLinkedService
-  | SapOdpLinkedService
   | RestServiceLinkedService
-  | TeamDeskLinkedService
-  | QuickbaseLinkedService
-  | SmartsheetLinkedService
-  | ZendeskLinkedService
-  | DataworldLinkedService
-  | AppFiguresLinkedService
-  | AsanaLinkedService
-  | TwilioLinkedService
-  | GoogleSheetsLinkedService
   | AmazonS3LinkedService
   | AmazonRedshiftLinkedService
   | CustomDataSourceLinkedService
@@ -139,8 +129,7 @@ export type LinkedServiceUnion =
   | AzureDataExplorerLinkedService
   | AzureFunctionLinkedService
   | SnowflakeLinkedService
-  | SharePointOnlineListLinkedService
-  | AzureSynapseArtifactsLinkedService;
+  | SharePointOnlineListLinkedService;
 export type DatasetUnion =
   | Dataset
   | AmazonS3Dataset
@@ -197,7 +186,6 @@ export type DatasetUnion =
   | AmazonRdsForSqlServerTableDataset
   | RestResourceDataset
   | SapTableResourceDataset
-  | SapOdpResourceDataset
   | WebTableDataset
   | AzureSearchIndexDataset
   | HttpDataset
@@ -441,7 +429,6 @@ export type ControlActivityUnion =
   | SwitchActivity
   | ForEachActivity
   | WaitActivity
-  | FailActivity
   | UntilActivity
   | ValidationActivity
   | FilterActivity
@@ -472,10 +459,7 @@ export type ExecutionActivityUnion =
   | DatabricksSparkJarActivity
   | DatabricksSparkPythonActivity
   | AzureFunctionActivity
-  | ExecuteDataFlowActivity
-  | ScriptActivity
-  | SynapseNotebookActivity
-  | SynapseSparkJobDefinitionActivity;
+  | ExecuteDataFlowActivity;
 export type MultiplePipelineTriggerUnion =
   | MultiplePipelineTrigger
   | ScheduleTrigger
@@ -497,7 +481,6 @@ export type TabularSourceUnion =
   | SapEccSource
   | SapHanaSource
   | SapOpenHubSource
-  | SapOdpSource
   | SapTableSource
   | SqlSource
   | SqlServerSource
@@ -674,13 +657,7 @@ export interface FactoryIdentity {
    */
   readonly tenantId?: string;
   /** List of user assigned identities for the factory. */
-  userAssignedIdentities?: { [propertyName: string]: any };
-}
-
-/** Purview configuration. */
-export interface PurviewConfiguration {
-  /** Purview resource id. */
-  purviewResourceId?: string;
+  userAssignedIdentities?: { [propertyName: string]: Record<string, unknown> };
 }
 
 /** Factory's git repo information. */
@@ -697,8 +674,6 @@ export interface FactoryRepoConfiguration {
   rootFolder: string;
   /** Last commit id. */
   lastCommitId?: string;
-  /** Disable manual publish operation in ADF studio to favor automated publish. */
-  disablePublish?: boolean;
 }
 
 /** Definition of a single parameter for an entity. */
@@ -706,7 +681,7 @@ export interface GlobalParameterSpecification {
   /** Global Parameter type. */
   type: GlobalParameterType;
   /** Value of parameter. */
-  value: any;
+  value: Record<string, unknown>;
 }
 
 /** Definition of CMK for the factory. */
@@ -1243,7 +1218,7 @@ export interface LinkedServiceListResponse {
   nextLink?: string;
 }
 
-/** The nested object which contains the information and credential which can be used to connect with related store or compute resource. */
+/** The Azure Data Factory nested object which contains the information and credential which can be used to connect with related store or compute resource. */
 export interface LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type:
@@ -1296,17 +1271,7 @@ export interface LinkedService {
     | "SapCloudForCustomer"
     | "SapEcc"
     | "SapOpenHub"
-    | "SapOdp"
     | "RestService"
-    | "TeamDesk"
-    | "Quickbase"
-    | "Smartsheet"
-    | "Zendesk"
-    | "Dataworld"
-    | "AppFigures"
-    | "Asana"
-    | "Twilio"
-    | "GoogleSheets"
     | "AmazonS3"
     | "AmazonRedshift"
     | "CustomDataSource"
@@ -1358,8 +1323,7 @@ export interface LinkedService {
     | "AzureDataExplorer"
     | "AzureFunction"
     | "Snowflake"
-    | "SharePointOnlineList"
-    | "AzureSynapseArtifacts";
+    | "SharePointOnlineList";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** The integration runtime reference. */
@@ -1369,7 +1333,7 @@ export interface LinkedService {
   /** Parameters for linked service. */
   parameters?: { [propertyName: string]: ParameterSpecification };
   /** List of tags that can be used for describing the linked service. */
-  annotations?: any[];
+  annotations?: Record<string, unknown>[];
 }
 
 /** Integration runtime reference type. */
@@ -1379,7 +1343,7 @@ export interface IntegrationRuntimeReference {
   /** Reference integration runtime name. */
   referenceName: string;
   /** Arguments for integration runtime. */
-  parameters?: { [propertyName: string]: any };
+  parameters?: { [propertyName: string]: Record<string, unknown> };
 }
 
 /** Definition of a single parameter for an entity. */
@@ -1387,7 +1351,7 @@ export interface ParameterSpecification {
   /** Parameter type. */
   type: ParameterType;
   /** Default value of parameter. */
-  defaultValue?: any;
+  defaultValue?: Record<string, unknown>;
 }
 
 /** A list of dataset resources. */
@@ -1456,7 +1420,6 @@ export interface Dataset {
     | "AmazonRdsForSqlServerTable"
     | "RestResource"
     | "SapTableResource"
-    | "SapOdpResource"
     | "WebTable"
     | "AzureSearchIndex"
     | "HttpFile"
@@ -1503,15 +1466,15 @@ export interface Dataset {
   /** Dataset description. */
   description?: string;
   /** Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement. */
-  structure?: any;
+  structure?: Record<string, unknown>;
   /** Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement. */
-  schema?: any;
+  schema?: Record<string, unknown>;
   /** Linked service reference. */
   linkedServiceName: LinkedServiceReference;
   /** Parameters for dataset. */
   parameters?: { [propertyName: string]: ParameterSpecification };
   /** List of tags that can be used for describing the Dataset. */
-  annotations?: any[];
+  annotations?: Record<string, unknown>[];
   /** The folder that this Dataset is in. If not specified, Dataset will appear at the root level. */
   folder?: DatasetFolder;
 }
@@ -1519,11 +1482,11 @@ export interface Dataset {
 /** Linked service reference type. */
 export interface LinkedServiceReference {
   /** Linked service reference type. */
-  type: Type;
+  type: "LinkedServiceReference";
   /** Reference LinkedService name. */
   referenceName: string;
   /** Arguments for LinkedService. */
-  parameters?: { [propertyName: string]: any };
+  parameters?: { [propertyName: string]: Record<string, unknown> };
 }
 
 /** The folder that this Dataset is in. If not specified, Dataset will appear at the root level. */
@@ -1569,7 +1532,6 @@ export interface Activity {
     | "AzureMLExecutePipeline"
     | "DataLakeAnalyticsU-SQL"
     | "Wait"
-    | "Fail"
     | "Until"
     | "Validation"
     | "Filter"
@@ -1581,10 +1543,7 @@ export interface Activity {
     | "AzureFunctionActivity"
     | "WebHook"
     | "ExecuteDataFlow"
-    | "ExecuteWranglingDataflow"
-    | "Script"
-    | "SynapseNotebook"
-    | "SparkJob";
+    | "ExecuteWranglingDataflow";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Activity name. */
@@ -1612,7 +1571,7 @@ export interface UserProperty {
   /** User property name. */
   name: string;
   /** User property value. Type: string (or Expression with resultType string). */
-  value: any;
+  value: Record<string, unknown>;
 }
 
 /** Definition of a single variable for a Pipeline. */
@@ -1620,7 +1579,7 @@ export interface VariableSpecification {
   /** Variable type. */
   type: VariableType;
   /** Default value of variable. */
-  defaultValue?: any;
+  defaultValue?: Record<string, unknown>;
 }
 
 /** The folder that this Pipeline is in. If not specified, Pipeline will appear at the root level. */
@@ -1638,7 +1597,7 @@ export interface PipelinePolicy {
 /** Pipeline ElapsedTime Metric Policy. */
 export interface PipelineElapsedTimeMetricPolicy {
   /** TimeSpan value, after which an Azure Monitoring Metric is fired. */
-  duration?: any;
+  duration?: Record<string, unknown>;
 }
 
 /** Response body with a run identifier. */
@@ -1853,17 +1812,17 @@ export interface ActivityRun {
    * The input for the activity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly input?: any;
+  readonly input?: Record<string, unknown>;
   /**
    * The output for the activity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly output?: any;
+  readonly output?: Record<string, unknown>;
   /**
    * The error if any from the activity run.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly error?: any;
+  readonly error?: Record<string, unknown>;
 }
 
 /** A list of trigger resources. */
@@ -1896,7 +1855,7 @@ export interface Trigger {
    */
   readonly runtimeState?: TriggerRuntimeState;
   /** List of tags that can be used for describing the trigger. */
-  annotations?: any[];
+  annotations?: Record<string, unknown>[];
 }
 
 /** Query parameters for triggers. */
@@ -1990,7 +1949,9 @@ export interface TriggerRun {
    * Status of the upstream pipelines.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly dependencyStatus?: { [propertyName: string]: any };
+  readonly dependencyStatus?: {
+    [propertyName: string]: Record<string, unknown>;
+  };
 }
 
 /** Azure Data Factory nested object which contains a flow with data movements and transformations. */
@@ -2000,7 +1961,7 @@ export interface DataFlow {
   /** The description of the data flow. */
   description?: string;
   /** List of tags that can be used for describing the data flow. */
-  annotations?: any[];
+  annotations?: Record<string, unknown>[];
   /** The folder that this data flow is in. If not specified, Data flow will appear at the root level. */
   folder?: DataFlowFolder;
 }
@@ -2102,7 +2063,7 @@ export interface DataFlowStagingInfo {
   /** Staging linked service reference. */
   linkedService?: LinkedServiceReference;
   /** Folder path for staging blob. Type: string (or Expression with resultType string) */
-  folderPath?: any;
+  folderPath?: Record<string, unknown>;
 }
 
 /** Data flow debug settings. */
@@ -2110,9 +2071,9 @@ export interface DataFlowDebugPackageDebugSettings {
   /** Source setting for data flow debug. */
   sourceSettings?: DataFlowSourceSetting[];
   /** Data flow parameters. */
-  parameters?: { [propertyName: string]: any };
+  parameters?: { [propertyName: string]: Record<string, unknown> };
   /** Parameters for dataset. */
-  datasetParameters?: any;
+  datasetParameters?: Record<string, unknown>;
 }
 
 /** Definition of data flow source setting for debug. */
@@ -2280,14 +2241,6 @@ export interface PrivateLinkConnectionState {
 export interface PrivateLinkConnectionApprovalRequest {
   /** The state of a private link connection */
   privateLinkServiceConnectionState?: PrivateLinkConnectionState;
-  /** The resource of private endpoint. */
-  privateEndpoint?: PrivateEndpoint;
-}
-
-/** Private endpoint which a connection belongs to. */
-export interface PrivateEndpoint {
-  /** The resource Id for private endpoint */
-  id?: string;
 }
 
 /** Wrapper for a collection of private link resources */
@@ -2312,14 +2265,6 @@ export interface PrivateLinkResourceProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly requiredZoneNames?: string[];
-}
-
-/** A list of Global parameters. */
-export interface GlobalParameterListResponse {
-  /** List of global parameters. */
-  value: GlobalParameterResource[];
-  /** The link to the next page of results, if any remaining results exist. */
-  nextLink?: string;
 }
 
 /** Azure Data Factory expression definition. */
@@ -2359,7 +2304,7 @@ export interface TriggerPipelineReference {
   /** Pipeline reference. */
   pipelineReference?: PipelineReference;
   /** Pipeline parameters. */
-  parameters?: { [propertyName: string]: any };
+  parameters?: { [propertyName: string]: Record<string, unknown> };
 }
 
 /** Dataset reference type. */
@@ -2369,7 +2314,7 @@ export interface DatasetReference {
   /** Reference dataset name. */
   referenceName: string;
   /** Arguments for dataset. */
-  parameters?: { [propertyName: string]: any };
+  parameters?: { [propertyName: string]: Record<string, unknown> };
 }
 
 /** Response body structure for get data factory operation status. */
@@ -2385,19 +2330,19 @@ export interface DataFlowReference {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Data flow reference type. */
-  type: DataFlowReferenceType;
+  type: "DataFlowReference";
   /** Reference data flow name. */
   referenceName: string;
   /** Reference data flow parameters from dataset. */
-  datasetParameters?: any;
+  datasetParameters?: Record<string, unknown>;
   /** Data flow parameters */
-  parameters?: { [propertyName: string]: any };
+  parameters?: { [propertyName: string]: Record<string, unknown> };
 }
 
 /** Managed Virtual Network reference type. */
 export interface ManagedVirtualNetworkReference {
   /** Managed Virtual Network reference type. */
-  type: ManagedVirtualNetworkReferenceType;
+  type: "ManagedVirtualNetworkReference";
   /** Reference ManagedVirtualNetwork name. */
   referenceName: string;
 }
@@ -2407,7 +2352,7 @@ export interface CredentialReference {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Credential reference type. */
-  type: CredentialReferenceType;
+  type: "CredentialReference";
   /** Reference credential name. */
   referenceName: string;
 }
@@ -2421,7 +2366,7 @@ export interface Credential {
   /** Credential description. */
   description?: string;
   /** List of tags that can be used for describing the Credential. */
-  annotations?: any[];
+  annotations?: Record<string, unknown>[];
 }
 
 /** A data flow transformation. */
@@ -2458,17 +2403,17 @@ export interface DatasetLocation {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Specify the folder path of dataset. Type: string (or Expression with resultType string) */
-  folderPath?: any;
+  folderPath?: Record<string, unknown>;
   /** Specify the file name of dataset. Type: string (or Expression with resultType string). */
-  fileName?: any;
+  fileName?: Record<string, unknown>;
 }
 
 /** Columns that define the structure of the dataset. */
 export interface DatasetDataElement {
   /** Name of the column. Type: string (or Expression with resultType string). */
-  name?: any;
+  name?: Record<string, unknown>;
   /** Type of the column. Type: string (or Expression with resultType string). */
-  type?: any;
+  type?: Record<string, unknown>;
 }
 
 /** Columns that define the physical type schema of the dataset. */
@@ -2476,9 +2421,9 @@ export interface DatasetSchemaDataElement {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Name of the schema column. Type: string (or Expression with resultType string). */
-  name?: any;
+  name?: Record<string, unknown>;
   /** Type of the schema column. Type: string (or Expression with resultType string). */
-  type?: any;
+  type?: Record<string, unknown>;
 }
 
 /** The format definition of a storage. */
@@ -2493,9 +2438,9 @@ export interface DatasetStorageFormat {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Serializer. Type: string (or Expression with resultType string). */
-  serializer?: any;
+  serializer?: Record<string, unknown>;
   /** Deserializer. Type: string (or Expression with resultType string). */
-  deserializer?: any;
+  deserializer?: Record<string, unknown>;
 }
 
 /** The compression method used on a dataset. */
@@ -2503,9 +2448,9 @@ export interface DatasetCompression {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Type of dataset compression. Type: string (or Expression with resultType string). */
-  type: any;
+  type: Record<string, unknown>;
   /** The dataset compression level. Type: string (or Expression with resultType string). */
-  level?: any;
+  level?: Record<string, unknown>;
 }
 
 /** The compute resource properties for managed integration runtime. */
@@ -2820,7 +2765,7 @@ export interface SqlAlwaysEncryptedProperties {
   /** Sql always encrypted AKV authentication type. Type: string (or Expression with resultType string). */
   alwaysEncryptedAkvAuthType: SqlAlwaysEncryptedAkvAuthType;
   /** The client ID of the application in Azure Active Directory used for Azure Key Vault authentication. Type: string (or Expression with resultType string). */
-  servicePrincipalId?: any;
+  servicePrincipalId?: Record<string, unknown>;
   /** The key of the service principal used to authenticate against Azure Key Vault. */
   servicePrincipalKey?: SecretBaseUnion;
   /** The credential reference containing authentication information. */
@@ -2831,8 +2776,8 @@ export interface SqlAlwaysEncryptedProperties {
 export interface WebLinkedServiceTypeProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authenticationType: "Anonymous" | "Basic" | "ClientCertificate";
-  /** The URL of the web service endpoint, e.g. https://www.microsoft.com . Type: string (or Expression with resultType string). */
-  url: any;
+  /** The URL of the web service endpoint, e.g. http://www.microsoft.com . Type: string (or Expression with resultType string). */
+  url: Record<string, unknown>;
 }
 
 /** Custom script action to run on HDI ondemand cluster once it's up. */
@@ -2842,7 +2787,7 @@ export interface ScriptAction {
   /** The URI for the script action. */
   uri: string;
   /** The node types on which the script action should be executed. */
-  roles: any;
+  roles: Record<string, unknown>;
   /** The parameters for the script action. */
   parameters?: string;
 }
@@ -2852,9 +2797,9 @@ export interface ActivityPolicy {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Specifies the timeout for the activity to run. The default timeout is 7 days. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  timeout?: any;
+  timeout?: Record<string, unknown>;
   /** Maximum ordinary retry attempts. Default is 0. Type: integer (or Expression with resultType integer), minimum: 0. */
-  retry?: any;
+  retry?: Record<string, unknown>;
   /** Interval between each retry attempt (in seconds). The default is 30 sec. */
   retryIntervalInSeconds?: number;
   /** When set to true, Input from activity is considered as secure and will not be logged to monitoring. */
@@ -2883,9 +2828,9 @@ export interface StoreReadSettings {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** The maximum concurrent connection count for the source data store. Type: integer (or Expression with resultType integer). */
-  maxConcurrentConnections?: any;
+  maxConcurrentConnections?: Record<string, unknown>;
   /** If true, disable data store metrics collection. Default is false. Type: boolean (or Expression with resultType boolean). */
-  disableMetricsCollection?: any;
+  disableMetricsCollection?: Record<string, unknown>;
 }
 
 /** Connector write settings. */
@@ -2901,21 +2846,21 @@ export interface StoreWriteSettings {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** The maximum concurrent connection count for the source data store. Type: integer (or Expression with resultType integer). */
-  maxConcurrentConnections?: any;
+  maxConcurrentConnections?: Record<string, unknown>;
   /** If true, disable data store metrics collection. Default is false. Type: boolean (or Expression with resultType boolean). */
-  disableMetricsCollection?: any;
+  disableMetricsCollection?: Record<string, unknown>;
   /** The type of copy behavior for copy sink. */
-  copyBehavior?: any;
+  copyBehavior?: Record<string, unknown>;
 }
 
 /** Distcp settings. */
 export interface DistcpSettings {
   /** Specifies the Yarn ResourceManager endpoint. Type: string (or Expression with resultType string). */
-  resourceManagerEndpoint: any;
+  resourceManagerEndpoint: Record<string, unknown>;
   /** Specifies an existing folder path which will be used to store temp Distcp command script. The script file is generated by ADF and will be removed after Copy job finished. Type: string (or Expression with resultType string). */
-  tempScriptPath: any;
+  tempScriptPath: Record<string, unknown>;
   /** Specifies the Distcp options. Type: string (or Expression with resultType string). */
-  distcpOptions?: any;
+  distcpOptions?: Record<string, unknown>;
 }
 
 /** Format read settings. */
@@ -2987,7 +2932,6 @@ export interface CopySource {
     | "SapEccSource"
     | "SapHanaSource"
     | "SapOpenHubSource"
-    | "SapOdpSource"
     | "SapTableSource"
     | "RestSource"
     | "SqlSource"
@@ -3054,13 +2998,13 @@ export interface CopySource {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Source retry count. Type: integer (or Expression with resultType integer). */
-  sourceRetryCount?: any;
+  sourceRetryCount?: Record<string, unknown>;
   /** Source retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  sourceRetryWait?: any;
+  sourceRetryWait?: Record<string, unknown>;
   /** The maximum concurrent connection count for the source data store. Type: integer (or Expression with resultType integer). */
-  maxConcurrentConnections?: any;
+  maxConcurrentConnections?: Record<string, unknown>;
   /** If true, disable data store metrics collection. Default is false. Type: boolean (or Expression with resultType boolean). */
-  disableMetricsCollection?: any;
+  disableMetricsCollection?: Record<string, unknown>;
 }
 
 /** A copy activity sink. */
@@ -3109,17 +3053,17 @@ export interface CopySink {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Write batch size. Type: integer (or Expression with resultType integer), minimum: 0. */
-  writeBatchSize?: any;
+  writeBatchSize?: Record<string, unknown>;
   /** Write batch timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  writeBatchTimeout?: any;
+  writeBatchTimeout?: Record<string, unknown>;
   /** Sink retry count. Type: integer (or Expression with resultType integer). */
-  sinkRetryCount?: any;
+  sinkRetryCount?: Record<string, unknown>;
   /** Sink retry wait. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  sinkRetryWait?: any;
+  sinkRetryWait?: Record<string, unknown>;
   /** The maximum concurrent connection count for the sink data store. Type: integer (or Expression with resultType integer). */
-  maxConcurrentConnections?: any;
+  maxConcurrentConnections?: Record<string, unknown>;
   /** If true, disable data store metrics collection. Default is false. Type: boolean (or Expression with resultType boolean). */
-  disableMetricsCollection?: any;
+  disableMetricsCollection?: Record<string, unknown>;
 }
 
 /** Staging settings. */
@@ -3129,9 +3073,9 @@ export interface StagingSettings {
   /** Staging linked service reference. */
   linkedServiceName: LinkedServiceReference;
   /** The path to storage for storing the interim data. Type: string (or Expression with resultType string). */
-  path?: any;
+  path?: Record<string, unknown>;
   /** Specifies whether to use compression when copying data via an interim staging. Default value is false. Type: boolean (or Expression with resultType boolean). */
-  enableCompression?: any;
+  enableCompression?: Record<string, unknown>;
 }
 
 /** Redirect incompatible row settings */
@@ -3139,9 +3083,9 @@ export interface RedirectIncompatibleRowSettings {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Name of the Azure Storage, Storage SAS, or Azure Data Lake Store linked service used for redirecting incompatible row. Must be specified if redirectIncompatibleRowSettings is specified. Type: string (or Expression with resultType string). */
-  linkedServiceName: any;
+  linkedServiceName: Record<string, unknown>;
   /** The path for storing the redirect incompatible row data. Type: string (or Expression with resultType string). */
-  path?: any;
+  path?: Record<string, unknown>;
 }
 
 /** (Deprecated. Please use LogSettings) Log storage settings. */
@@ -3151,17 +3095,17 @@ export interface LogStorageSettings {
   /** Log storage linked service reference. */
   linkedServiceName: LinkedServiceReference;
   /** The path to storage for storing detailed logs of activity execution. Type: string (or Expression with resultType string). */
-  path?: any;
+  path?: Record<string, unknown>;
   /** Gets or sets the log level, support: Info, Warning. Type: string (or Expression with resultType string). */
-  logLevel?: any;
+  logLevel?: Record<string, unknown>;
   /** Specifies whether to enable reliable logging. Type: boolean (or Expression with resultType boolean). */
-  enableReliableLogging?: any;
+  enableReliableLogging?: Record<string, unknown>;
 }
 
 /** Log settings. */
 export interface LogSettings {
   /** Specifies whether to enable copy activity log. Type: boolean (or Expression with resultType boolean). */
-  enableCopyActivityLog?: any;
+  enableCopyActivityLog?: Record<string, unknown>;
   /** Specifies settings for copy activity log. */
   copyActivityLogSettings?: CopyActivityLogSettings;
   /** Log location settings customer needs to provide when enabling log. */
@@ -3171,9 +3115,9 @@ export interface LogSettings {
 /** Settings for copy activity log. */
 export interface CopyActivityLogSettings {
   /** Gets or sets the log level, support: Info, Warning. Type: string (or Expression with resultType string). */
-  logLevel?: any;
+  logLevel?: Record<string, unknown>;
   /** Specifies whether to enable reliable logging. Type: boolean (or Expression with resultType boolean). */
-  enableReliableLogging?: any;
+  enableReliableLogging?: Record<string, unknown>;
 }
 
 /** Log location settings. */
@@ -3181,77 +3125,85 @@ export interface LogLocationSettings {
   /** Log storage linked service reference. */
   linkedServiceName: LinkedServiceReference;
   /** The path to storage for storing detailed logs of activity execution. Type: string (or Expression with resultType string). */
-  path?: any;
+  path?: Record<string, unknown>;
 }
 
 /** Skip error file. */
 export interface SkipErrorFile {
   /** Skip if file is deleted by other client during copy. Default is true. Type: boolean (or Expression with resultType boolean). */
-  fileMissing?: any;
+  fileMissing?: Record<string, unknown>;
   /** Skip if source/sink file changed by other concurrent write. Default is false. Type: boolean (or Expression with resultType boolean). */
-  dataInconsistency?: any;
+  dataInconsistency?: Record<string, unknown>;
 }
 
 /** The settings that will be leveraged for SAP HANA source partitioning. */
 export interface SapHanaPartitionSettings {
   /** The name of the column that will be used for proceeding range partitioning. Type: string (or Expression with resultType string). */
-  partitionColumnName?: any;
+  partitionColumnName?: Record<string, unknown>;
 }
 
 /** The settings that will be leveraged for SAP table source partitioning. */
 export interface SapTablePartitionSettings {
   /** The name of the column that will be used for proceeding range partitioning. Type: string (or Expression with resultType string). */
-  partitionColumnName?: any;
+  partitionColumnName?: Record<string, unknown>;
   /** The maximum value of column specified in partitionColumnName that will be used for proceeding range partitioning. Type: string (or Expression with resultType string). */
-  partitionUpperBound?: any;
+  partitionUpperBound?: Record<string, unknown>;
   /** The minimum value of column specified in partitionColumnName that will be used for proceeding range partitioning. Type: string (or Expression with resultType string). */
-  partitionLowerBound?: any;
+  partitionLowerBound?: Record<string, unknown>;
   /** The maximum value of partitions the table will be split into. Type: integer (or Expression with resultType string). */
-  maxPartitionsNumber?: any;
+  maxPartitionsNumber?: Record<string, unknown>;
+}
+
+/** SQL stored procedure parameter. */
+export interface StoredProcedureParameter {
+  /** Stored procedure parameter value. Type: string (or Expression with resultType string). */
+  value?: Record<string, unknown>;
+  /** Stored procedure parameter type. */
+  type?: StoredProcedureParameterType;
 }
 
 /** The settings that will be leveraged for Sql source partitioning. */
 export interface SqlPartitionSettings {
   /** The name of the column in integer or datetime type that will be used for proceeding partitioning. If not specified, the primary key of the table is auto-detected and used as the partition column. Type: string (or Expression with resultType string). */
-  partitionColumnName?: any;
+  partitionColumnName?: Record<string, unknown>;
   /** The maximum value of the partition column for partition range splitting. This value is used to decide the partition stride, not for filtering the rows in table. All rows in the table or query result will be partitioned and copied. Type: string (or Expression with resultType string). */
-  partitionUpperBound?: any;
+  partitionUpperBound?: Record<string, unknown>;
   /** The minimum value of the partition column for partition range splitting. This value is used to decide the partition stride, not for filtering the rows in table. All rows in the table or query result will be partitioned and copied. Type: string (or Expression with resultType string). */
-  partitionLowerBound?: any;
+  partitionLowerBound?: Record<string, unknown>;
 }
 
 /** The settings that will be leveraged for Oracle source partitioning. */
 export interface OraclePartitionSettings {
   /** Names of the physical partitions of Oracle table. */
-  partitionNames?: any;
+  partitionNames?: Record<string, unknown>;
   /** The name of the column in integer type that will be used for proceeding range partitioning. Type: string (or Expression with resultType string). */
-  partitionColumnName?: any;
+  partitionColumnName?: Record<string, unknown>;
   /** The maximum value of column specified in partitionColumnName that will be used for proceeding range partitioning. Type: string (or Expression with resultType string). */
-  partitionUpperBound?: any;
+  partitionUpperBound?: Record<string, unknown>;
   /** The minimum value of column specified in partitionColumnName that will be used for proceeding range partitioning. Type: string (or Expression with resultType string). */
-  partitionLowerBound?: any;
+  partitionLowerBound?: Record<string, unknown>;
 }
 
 /** The settings that will be leveraged for AmazonRdsForOracle source partitioning. */
 export interface AmazonRdsForOraclePartitionSettings {
   /** Names of the physical partitions of AmazonRdsForOracle table. */
-  partitionNames?: any;
+  partitionNames?: Record<string, unknown>;
   /** The name of the column in integer type that will be used for proceeding range partitioning. Type: string (or Expression with resultType string). */
-  partitionColumnName?: any;
+  partitionColumnName?: Record<string, unknown>;
   /** The maximum value of column specified in partitionColumnName that will be used for proceeding range partitioning. Type: string (or Expression with resultType string). */
-  partitionUpperBound?: any;
+  partitionUpperBound?: Record<string, unknown>;
   /** The minimum value of column specified in partitionColumnName that will be used for proceeding range partitioning. Type: string (or Expression with resultType string). */
-  partitionLowerBound?: any;
+  partitionLowerBound?: Record<string, unknown>;
 }
 
 /** The settings that will be leveraged for teradata source partitioning. */
 export interface TeradataPartitionSettings {
   /** The name of the column that will be used for proceeding range or hash partitioning. Type: string (or Expression with resultType string). */
-  partitionColumnName?: any;
+  partitionColumnName?: Record<string, unknown>;
   /** The maximum value of column specified in partitionColumnName that will be used for proceeding range partitioning. Type: string (or Expression with resultType string). */
-  partitionUpperBound?: any;
+  partitionUpperBound?: Record<string, unknown>;
   /** The minimum value of column specified in partitionColumnName that will be used for proceeding range partitioning. Type: string (or Expression with resultType string). */
-  partitionLowerBound?: any;
+  partitionLowerBound?: Record<string, unknown>;
 }
 
 /** Cursor methods for Mongodb query */
@@ -3259,23 +3211,23 @@ export interface MongoDbCursorMethodsProperties {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Specifies the fields to return in the documents that match the query filter. To return all fields in the matching documents, omit this parameter. Type: string (or Expression with resultType string). */
-  project?: any;
+  project?: Record<string, unknown>;
   /** Specifies the order in which the query returns matching documents. Type: string (or Expression with resultType string). Type: string (or Expression with resultType string). */
-  sort?: any;
+  sort?: Record<string, unknown>;
   /** Specifies the how many documents skipped and where MongoDB begins returning results. This approach may be useful in implementing paginated results. Type: integer (or Expression with resultType integer). */
-  skip?: any;
+  skip?: Record<string, unknown>;
   /** Specifies the maximum number of documents the server returns. limit() is analogous to the LIMIT statement in a SQL database. Type: integer (or Expression with resultType integer). */
-  limit?: any;
+  limit?: Record<string, unknown>;
 }
 
 /** The settings that will be leveraged for Netezza source partitioning. */
 export interface NetezzaPartitionSettings {
   /** The name of the column in integer type that will be used for proceeding range partitioning. Type: string (or Expression with resultType string). */
-  partitionColumnName?: any;
+  partitionColumnName?: Record<string, unknown>;
   /** The maximum value of column specified in partitionColumnName that will be used for proceeding range partitioning. Type: string (or Expression with resultType string). */
-  partitionUpperBound?: any;
+  partitionUpperBound?: Record<string, unknown>;
   /** The minimum value of column specified in partitionColumnName that will be used for proceeding range partitioning. Type: string (or Expression with resultType string). */
-  partitionLowerBound?: any;
+  partitionLowerBound?: Record<string, unknown>;
 }
 
 /** The Amazon S3 settings needed for the interim Amazon S3 when copying from Amazon Redshift with unload. With this, data from Amazon Redshift source will be unloaded into S3 first and then copied into the targeted sink from the interim S3. */
@@ -3283,7 +3235,7 @@ export interface RedshiftUnloadSettings {
   /** The name of the Amazon S3 linked service which will be used for the unload operation when copying from the Amazon Redshift source. */
   s3LinkedServiceName: LinkedServiceReference;
   /** The bucket of the interim Amazon S3 which will be used to store the unloaded data from Amazon Redshift source. The bucket must be in the same region as the Amazon Redshift source. Type: string (or Expression with resultType string). */
-  bucketName: any;
+  bucketName: Record<string, unknown>;
 }
 
 /** Export command settings. */
@@ -3302,30 +3254,22 @@ export interface ImportSettings {
   [property: string]: any;
 }
 
-/** SQL stored procedure parameter. */
-export interface StoredProcedureParameter {
-  /** Stored procedure parameter value. Type: string (or Expression with resultType string). */
-  value?: any;
-  /** Stored procedure parameter type. */
-  type?: StoredProcedureParameterType;
-}
-
 /** Specify the name and value of custom metadata item. */
 export interface MetadataItem {
   /** Metadata item key name. Type: string (or Expression with resultType string). */
-  name?: any;
+  name?: Record<string, unknown>;
   /** Metadata item value. Type: string (or Expression with resultType string). */
-  value?: any;
+  value?: Record<string, unknown>;
 }
 
 /** Sql upsert option settings */
 export interface SqlUpsertSettings {
   /** Specifies whether to use temp db for upsert interim table. Type: boolean (or Expression with resultType boolean). */
-  useTempDB?: any;
+  useTempDB?: Record<string, unknown>;
   /** Schema name for interim table. Type: string (or Expression with resultType string). */
-  interimSchemaName?: any;
+  interimSchemaName?: Record<string, unknown>;
   /** Key column names for unique row identification. Type: array of strings (or Expression with resultType array of strings). */
-  keys?: any;
+  keys?: Record<string, unknown>;
 }
 
 /** PolyBase settings. */
@@ -3335,11 +3279,11 @@ export interface PolybaseSettings {
   /** Reject type. */
   rejectType?: PolybaseSettingsRejectType;
   /** Specifies the value or the percentage of rows that can be rejected before the query fails. Type: number (or Expression with resultType number), minimum: 0. */
-  rejectValue?: any;
+  rejectValue?: Record<string, unknown>;
   /** Determines the number of rows to attempt to retrieve before the PolyBase recalculates the percentage of rejected rows. Type: integer (or Expression with resultType integer), minimum: 0. */
-  rejectSampleValue?: any;
+  rejectSampleValue?: Record<string, unknown>;
   /** Specifies how to handle missing values in delimited text files when PolyBase retrieves data from the text file. Type: boolean (or Expression with resultType boolean). */
-  useTypeDefault?: any;
+  useTypeDefault?: Record<string, unknown>;
 }
 
 /** DW Copy Command settings. */
@@ -3353,25 +3297,25 @@ export interface DWCopyCommandSettings {
 /** Default value. */
 export interface DWCopyCommandDefaultValue {
   /** Column name. Type: object (or Expression with resultType string). */
-  columnName?: any;
+  columnName?: Record<string, unknown>;
   /** The default value of the column. Type: object (or Expression with resultType string). */
-  defaultValue?: any;
+  defaultValue?: Record<string, unknown>;
 }
 
 /** Sql DW upsert option settings */
 export interface SqlDWUpsertSettings {
   /** Schema name for interim table. Type: string (or Expression with resultType string). */
-  interimSchemaName?: any;
+  interimSchemaName?: Record<string, unknown>;
   /** Key column names for unique row identification. Type: array of strings (or Expression with resultType array of strings). */
-  keys?: any;
+  keys?: Record<string, unknown>;
 }
 
 /** Specify the column name and value of additional columns. */
 export interface AdditionalColumns {
   /** Additional column name. Type: string (or Expression with resultType string). */
-  name?: any;
+  name?: Record<string, unknown>;
   /** Additional column value. Type: string (or Expression with resultType string). */
-  value?: any;
+  value?: Record<string, unknown>;
 }
 
 /** A copy activity translator. */
@@ -3385,23 +3329,23 @@ export interface CopyTranslator {
 /** Type conversion settings */
 export interface TypeConversionSettings {
   /** Whether to allow data truncation when converting the data. Type: boolean (or Expression with resultType boolean). */
-  allowDataTruncation?: any;
+  allowDataTruncation?: Record<string, unknown>;
   /** Whether to treat boolean values as numbers. Type: boolean (or Expression with resultType boolean). */
-  treatBooleanAsNumber?: any;
+  treatBooleanAsNumber?: Record<string, unknown>;
   /** The format for DateTime values. Type: string (or Expression with resultType string). */
-  dateTimeFormat?: any;
+  dateTimeFormat?: Record<string, unknown>;
   /** The format for DateTimeOffset values. Type: string (or Expression with resultType string). */
-  dateTimeOffsetFormat?: any;
+  dateTimeOffsetFormat?: Record<string, unknown>;
   /** The format for TimeSpan values. Type: string (or Expression with resultType string). */
-  timeSpanFormat?: any;
+  timeSpanFormat?: Record<string, unknown>;
   /** The culture used to convert data from/to string. Type: string (or Expression with resultType string). */
-  culture?: any;
+  culture?: Record<string, unknown>;
 }
 
 /** SSIS package location. */
 export interface SsisPackageLocation {
   /** The SSIS package path. Type: string (or Expression with resultType string). */
-  packagePath?: any;
+  packagePath?: Record<string, unknown>;
   /** The type of SSIS package location. */
   type?: SsisPackageLocationType;
   /** Password of the package. */
@@ -3409,13 +3353,13 @@ export interface SsisPackageLocation {
   /** The package access credential. */
   accessCredential?: SsisAccessCredential;
   /** The configuration file of the package execution. Type: string (or Expression with resultType string). */
-  configurationPath?: any;
+  configurationPath?: Record<string, unknown>;
   /** The configuration file access credential. */
   configurationAccessCredential?: SsisAccessCredential;
   /** The package name. */
   packageName?: string;
   /** The embedded package content. Type: string (or Expression with resultType string). */
-  packageContent?: any;
+  packageContent?: Record<string, unknown>;
   /** The embedded package last modified date. */
   packageLastModifiedDate?: string;
   /** The embedded child package list. */
@@ -3425,9 +3369,9 @@ export interface SsisPackageLocation {
 /** SSIS access credential. */
 export interface SsisAccessCredential {
   /** Domain for windows authentication. */
-  domain: any;
+  domain: Record<string, unknown>;
   /** UseName for windows authentication. */
-  userName: any;
+  userName: Record<string, unknown>;
   /** Password for windows authentication. */
   password: SecretBaseUnion;
 }
@@ -3435,11 +3379,11 @@ export interface SsisAccessCredential {
 /** SSIS embedded child package. */
 export interface SsisChildPackage {
   /** Path for embedded child package. Type: string (or Expression with resultType string). */
-  packagePath: any;
+  packagePath: Record<string, unknown>;
   /** Name for embedded child package. */
   packageName?: string;
   /** Content for embedded child package. Type: string (or Expression with resultType string). */
-  packageContent: any;
+  packageContent: Record<string, unknown>;
   /** Last modified date for embedded child package. */
   packageLastModifiedDate?: string;
 }
@@ -3447,9 +3391,9 @@ export interface SsisChildPackage {
 /** SSIS package execution credential. */
 export interface SsisExecutionCredential {
   /** Domain for windows authentication. */
-  domain: any;
+  domain: Record<string, unknown>;
   /** UseName for windows authentication. */
-  userName: any;
+  userName: Record<string, unknown>;
   /** Password for windows authentication. */
   password: SecureString;
 }
@@ -3457,13 +3401,13 @@ export interface SsisExecutionCredential {
 /** SSIS execution parameter. */
 export interface SsisExecutionParameter {
   /** SSIS package execution parameter value. Type: string (or Expression with resultType string). */
-  value: any;
+  value: Record<string, unknown>;
 }
 
 /** SSIS property override. */
 export interface SsisPropertyOverride {
   /** SSIS package property override value. Type: string (or Expression with resultType string). */
-  value: any;
+  value: Record<string, unknown>;
   /** Whether SSIS package property override value is sensitive data. Value will be encrypted in SSISDB if it is true */
   isSensitive?: boolean;
 }
@@ -3471,13 +3415,13 @@ export interface SsisPropertyOverride {
 /** SSIS package execution log location */
 export interface SsisLogLocation {
   /** The SSIS package execution log path. Type: string (or Expression with resultType string). */
-  logPath: any;
+  logPath: Record<string, unknown>;
   /** The type of SSIS log location. */
   type: SsisLogLocationType;
   /** The package execution log access credential. */
   accessCredential?: SsisAccessCredential;
   /** Specifies the interval to refresh log. The default interval is 5 minutes. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  logRefreshInterval?: any;
+  logRefreshInterval?: Record<string, unknown>;
 }
 
 /** Reference objects for custom activity */
@@ -3488,14 +3432,6 @@ export interface CustomActivityReferenceObject {
   datasets?: DatasetReference[];
 }
 
-/** Execution policy for an execute pipeline activity. */
-export interface ExecutePipelineActivityPolicy {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** When set to true, Input from activity is considered as secure and will not be logged to monitoring. */
-  secureInput?: boolean;
-}
-
 /** Web activity authentication properties. */
 export interface WebActivityAuthentication {
   /** Web activity authentication (Basic/ClientCertificate/MSI/ServicePrincipal) */
@@ -3503,13 +3439,13 @@ export interface WebActivityAuthentication {
   /** Base64-encoded contents of a PFX file or Certificate when used for ServicePrincipal */
   pfx?: SecretBaseUnion;
   /** Web activity authentication user name for basic authentication or ClientID when used for ServicePrincipal. Type: string (or Expression with resultType string). */
-  username?: any;
+  username?: Record<string, unknown>;
   /** Password for the PFX file or basic authentication / Secret when used for ServicePrincipal */
   password?: SecretBaseUnion;
   /** Resource for which Azure Auth token will be requested when using MSI Authentication. Type: string (or Expression with resultType string). */
-  resource?: any;
+  resource?: Record<string, unknown>;
   /** TenantId for which Azure Auth token will be requested when using ServicePrincipal Authentication. Type: string (or Expression with resultType string). */
-  userTenant?: any;
+  userTenant?: Record<string, unknown>;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
 }
@@ -3525,7 +3461,7 @@ export interface SwitchCase {
 /** Azure ML WebService Input/Output file */
 export interface AzureMLWebServiceFile {
   /** The relative file path, including container name, in the Azure Blob Storage specified by the LinkedService. Type: string (or Expression with resultType string). */
-  filePath: any;
+  filePath: Record<string, unknown>;
   /** Reference to an Azure Storage LinkedService, where Azure ML WebService Input/Output file located. */
   linkedServiceName: LinkedServiceReference;
 }
@@ -3541,21 +3477,19 @@ export interface ExecuteDataFlowActivityTypeProperties {
   /** Compute properties for data flow activity. */
   compute?: ExecuteDataFlowActivityTypePropertiesCompute;
   /** Trace level setting used for data flow monitoring output. Supported values are: 'coarse', 'fine', and 'none'. Type: string (or Expression with resultType string) */
-  traceLevel?: any;
+  traceLevel?: Record<string, unknown>;
   /** Continue on error setting used for data flow execution. Enables processing to continue if a sink fails. Type: boolean (or Expression with resultType boolean) */
-  continueOnError?: any;
+  continueOnError?: Record<string, unknown>;
   /** Concurrent run setting used for data flow execution. Allows sinks with the same save order to be processed concurrently. Type: boolean (or Expression with resultType boolean) */
-  runConcurrently?: any;
-  /** Specify number of parallel staging for sources applicable to the sink. Type: integer (or Expression with resultType integer) */
-  sourceStagingConcurrency?: any;
+  runConcurrently?: Record<string, unknown>;
 }
 
 /** Compute properties for data flow activity. */
 export interface ExecuteDataFlowActivityTypePropertiesCompute {
   /** Compute type of the cluster which will execute data flow job. Possible values include: 'General', 'MemoryOptimized', 'ComputeOptimized'. Type: string (or Expression with resultType string) */
-  computeType?: any;
+  computeType?: Record<string, unknown>;
   /** Core count of the cluster which will execute data flow job. Supported values are: 8, 16, 32, 48, 80, 144 and 272. Type: integer (or Expression with resultType integer) */
-  coreCount?: any;
+  coreCount?: Record<string, unknown>;
 }
 
 /** Map Power Query mashup query to sink dataset(s). */
@@ -3564,70 +3498,6 @@ export interface PowerQuerySinkMapping {
   queryName?: string;
   /** List of sinks mapped to Power Query mashup query. */
   dataflowSinks?: PowerQuerySink[];
-}
-
-/** Script block of scripts. */
-export interface ScriptActivityScriptBlock {
-  /** The query text. Type: string (or Expression with resultType string). */
-  text: any;
-  /** The type of the query. Type: string. */
-  type: ScriptType;
-  /** Array of script parameters. Type: array. */
-  parameters?: ScriptActivityParameter[];
-}
-
-/** Parameters of a script block. */
-export interface ScriptActivityParameter {
-  /** The name of the parameter. Type: string (or Expression with resultType string). */
-  name?: any;
-  /** The type of the parameter. */
-  type?: ScriptActivityParameterType;
-  /** The value of the parameter. */
-  value?: any;
-  /** The direction of the parameter. */
-  direction?: ScriptActivityParameterDirection;
-  /** The size of the output direction parameter. */
-  size?: number;
-}
-
-/** Log settings of script activity. */
-export interface ScriptActivityTypePropertiesLogSettings {
-  /** The destination of logs. Type: string. */
-  logDestination: ScriptActivityLogDestination;
-  /** Log location settings customer needs to provide when enabling log. */
-  logLocationSettings?: LogLocationSettings;
-}
-
-/** Synapse notebook reference type. */
-export interface SynapseNotebookReference {
-  /** Synapse notebook reference type. */
-  type: NotebookReferenceType;
-  /** Reference notebook name. Type: string (or Expression with resultType string). */
-  referenceName: any;
-}
-
-/** Big data pool reference type. */
-export interface BigDataPoolParametrizationReference {
-  /** Big data pool reference type. */
-  type: BigDataPoolReferenceType;
-  /** Reference big data pool name. Type: string (or Expression with resultType string). */
-  referenceName: any;
-}
-
-/** Notebook parameter. */
-export interface NotebookParameter {
-  /** Notebook parameter value. Type: string (or Expression with resultType string). */
-  value?: any;
-  /** Notebook parameter type. */
-  type?: NotebookParameterType;
-}
-
-/** Synapse spark job reference type. */
-export interface SynapseSparkJobReference {
-  /** Synapse spark job reference type. */
-  type: SparkJobReferenceType;
-  /** Reference spark job name. Expression with resultType string. */
-  referenceName: any;
 }
 
 /** The workflow trigger recurrence. */
@@ -3677,7 +3547,7 @@ export interface RecurrenceScheduleOccurrence {
 /** Execution policy for an activity. */
 export interface RetryPolicy {
   /** Maximum ordinary retry attempts. Default is 0. Type: integer (or Expression with resultType integer), minimum: 0. */
-  count?: any;
+  count?: Record<string, unknown>;
   /** Interval between retries in seconds. Default is 30. */
   intervalInSeconds?: number;
 }
@@ -3694,7 +3564,7 @@ export interface DependencyReference {
 /** Trigger reference type. */
 export interface TriggerReference {
   /** Trigger reference type. */
-  type: TriggerReferenceType;
+  type: "TriggerReference";
   /** Reference trigger name. */
   referenceName: string;
 }
@@ -3713,7 +3583,7 @@ export interface FactoryVstsConfiguration extends FactoryRepoConfiguration {
 export interface FactoryGitHubConfiguration extends FactoryRepoConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "FactoryGitHubConfiguration";
-  /** GitHub Enterprise host name. For example: `https://github.mydomain.com` */
+  /** GitHub Enterprise host name. For example: https://github.mydomain.com */
   hostName?: string;
   /** GitHub bring your own app client id. */
   clientId?: string;
@@ -3742,8 +3612,6 @@ export interface Factory extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly version?: string;
-  /** Purview information of the factory. */
-  purviewConfiguration?: PurviewConfiguration;
   /** Git repo information of the factory. */
   repoConfiguration?: FactoryRepoConfigurationUnion;
   /** List of parameters for factory. */
@@ -3814,9 +3682,9 @@ export interface PipelineResource extends SubResource {
   /** The max number of concurrent runs for the pipeline. */
   concurrency?: number;
   /** List of tags that can be used for describing the Pipeline. */
-  annotations?: any[];
+  annotations?: Record<string, unknown>[];
   /** Dimensions emitted by Pipeline. */
-  runDimensions?: { [propertyName: string]: any };
+  runDimensions?: { [propertyName: string]: Record<string, unknown> };
   /** The folder that this Pipeline is in. If not specified, Pipeline will appear at the root level. */
   folder?: PipelineFolder;
   /** Pipeline Policy. */
@@ -3864,12 +3732,6 @@ export interface PrivateLinkConnectionApprovalRequestResource
 export interface PrivateLinkResource extends SubResource {
   /** Core resource properties */
   properties?: PrivateLinkResourceProperties;
-}
-
-/** Global parameters resource type. */
-export interface GlobalParameterResource extends SubResource {
-  /** Properties of the global parameter. */
-  properties: { [propertyName: string]: GlobalParameterSpecification };
 }
 
 /** Credential resource type. */
@@ -4035,11 +3897,11 @@ export interface AzureStorageLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureStorage";
   /** The connection string. It is mutually exclusive with sasUri property. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString?: any;
+  connectionString?: Record<string, unknown>;
   /** The Azure key vault secret reference of accountKey in connection string. */
   accountKey?: AzureKeyVaultSecretReference;
   /** SAS URI of the Azure Storage resource. It is mutually exclusive with connectionString property. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  sasUri?: any;
+  sasUri?: Record<string, unknown>;
   /** The Azure key vault secret reference of sasToken in sas uri. */
   sasToken?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
@@ -4051,23 +3913,23 @@ export interface AzureBlobStorageLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobStorage";
   /** The connection string. It is mutually exclusive with sasUri, serviceEndpoint property. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString?: any;
+  connectionString?: Record<string, unknown>;
   /** The Azure key vault secret reference of accountKey in connection string. */
   accountKey?: AzureKeyVaultSecretReference;
   /** SAS URI of the Azure Blob Storage resource. It is mutually exclusive with connectionString, serviceEndpoint property. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  sasUri?: any;
+  sasUri?: Record<string, unknown>;
   /** The Azure key vault secret reference of sasToken in sas uri. */
   sasToken?: AzureKeyVaultSecretReference;
   /** Blob service endpoint of the Azure Blob Storage resource. It is mutually exclusive with connectionString, sasUri property. */
   serviceEndpoint?: string;
   /** The ID of the service principal used to authenticate against Azure SQL Data Warehouse. Type: string (or Expression with resultType string). */
-  servicePrincipalId?: any;
+  servicePrincipalId?: Record<string, unknown>;
   /** The key of the service principal used to authenticate against Azure SQL Data Warehouse. */
   servicePrincipalKey?: SecretBaseUnion;
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
-  tenant?: any;
+  tenant?: Record<string, unknown>;
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
-  azureCloudType?: any;
+  azureCloudType?: Record<string, unknown>;
   /** Specify the kind of your storage account. Allowed values are: Storage (general purpose v1), StorageV2 (general purpose v2), BlobStorage, or BlockBlobStorage. Type: string (or Expression with resultType string). */
   accountKind?: string;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
@@ -4081,11 +3943,11 @@ export interface AzureTableStorageLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureTableStorage";
   /** The connection string. It is mutually exclusive with sasUri property. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString?: any;
+  connectionString?: Record<string, unknown>;
   /** The Azure key vault secret reference of accountKey in connection string. */
   accountKey?: AzureKeyVaultSecretReference;
   /** SAS URI of the Azure Storage resource. It is mutually exclusive with connectionString property. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  sasUri?: any;
+  sasUri?: Record<string, unknown>;
   /** The Azure key vault secret reference of sasToken in sas uri. */
   sasToken?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
@@ -4097,19 +3959,19 @@ export interface AzureSqlDWLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSqlDW";
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString: Record<string, unknown>;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
   /** The ID of the service principal used to authenticate against Azure SQL Data Warehouse. Type: string (or Expression with resultType string). */
-  servicePrincipalId?: any;
+  servicePrincipalId?: Record<string, unknown>;
   /** The key of the service principal used to authenticate against Azure SQL Data Warehouse. */
   servicePrincipalKey?: SecretBaseUnion;
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
-  tenant?: any;
+  tenant?: Record<string, unknown>;
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
-  azureCloudType?: any;
+  azureCloudType?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
 }
@@ -4119,13 +3981,13 @@ export interface SqlServerLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlServer";
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString: Record<string, unknown>;
   /** The on-premises Windows authentication user name. Type: string (or Expression with resultType string). */
-  userName?: any;
+  userName?: Record<string, unknown>;
   /** The on-premises Windows authentication password. */
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
   /** Sql always encrypted properties. */
   alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
 }
@@ -4135,13 +3997,13 @@ export interface AmazonRdsForSqlServerLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonRdsForSqlServer";
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString: Record<string, unknown>;
   /** The on-premises Windows authentication user name. Type: string (or Expression with resultType string). */
-  userName?: any;
+  userName?: Record<string, unknown>;
   /** The on-premises Windows authentication password. */
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
   /** Sql always encrypted properties. */
   alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
 }
@@ -4151,19 +4013,19 @@ export interface AzureSqlDatabaseLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSqlDatabase";
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString: Record<string, unknown>;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
   /** The ID of the service principal used to authenticate against Azure SQL Database. Type: string (or Expression with resultType string). */
-  servicePrincipalId?: any;
+  servicePrincipalId?: Record<string, unknown>;
   /** The key of the service principal used to authenticate against Azure SQL Database. */
   servicePrincipalKey?: SecretBaseUnion;
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
-  tenant?: any;
+  tenant?: Record<string, unknown>;
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
-  azureCloudType?: any;
+  azureCloudType?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
   /** Sql always encrypted properties. */
   alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
   /** The credential reference containing authentication information. */
@@ -4175,19 +4037,19 @@ export interface AzureSqlMILinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSqlMI";
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString: Record<string, unknown>;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
   /** The ID of the service principal used to authenticate against Azure SQL Managed Instance. Type: string (or Expression with resultType string). */
-  servicePrincipalId?: any;
+  servicePrincipalId?: Record<string, unknown>;
   /** The key of the service principal used to authenticate against Azure SQL Managed Instance. */
   servicePrincipalKey?: SecretBaseUnion;
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
-  tenant?: any;
+  tenant?: Record<string, unknown>;
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
-  azureCloudType?: any;
+  azureCloudType?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
   /** Sql always encrypted properties. */
   alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
   /** The credential reference containing authentication information. */
@@ -4199,17 +4061,17 @@ export interface AzureBatchLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBatch";
   /** The Azure Batch account name. Type: string (or Expression with resultType string). */
-  accountName: any;
+  accountName: Record<string, unknown>;
   /** The Azure Batch account access key. */
   accessKey?: SecretBaseUnion;
   /** The Azure Batch URI. Type: string (or Expression with resultType string). */
-  batchUri: any;
+  batchUri: Record<string, unknown>;
   /** The Azure Batch pool name. Type: string (or Expression with resultType string). */
-  poolName: any;
+  poolName: Record<string, unknown>;
   /** The Azure Storage linked service reference. */
   linkedServiceName: LinkedServiceReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
 }
@@ -4219,7 +4081,7 @@ export interface AzureKeyVaultLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureKeyVault";
   /** The base URL of the Azure Key Vault. e.g. https://myakv.vault.azure.net Type: string (or Expression with resultType string). */
-  baseUrl: any;
+  baseUrl: Record<string, unknown>;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
 }
@@ -4229,29 +4091,27 @@ export interface CosmosDbLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CosmosDb";
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString?: any;
+  connectionString?: Record<string, unknown>;
   /** The endpoint of the Azure CosmosDB account. Type: string (or Expression with resultType string) */
-  accountEndpoint?: any;
+  accountEndpoint?: Record<string, unknown>;
   /** The name of the database. Type: string (or Expression with resultType string) */
-  database?: any;
+  database?: Record<string, unknown>;
   /** The account key of the Azure CosmosDB account. Type: SecureString or AzureKeyVaultSecretReference. */
   accountKey?: SecretBaseUnion;
   /** The client ID of the application in Azure Active Directory used for Server-To-Server authentication. Type: string (or Expression with resultType string). */
-  servicePrincipalId?: any;
+  servicePrincipalId?: Record<string, unknown>;
   /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
   servicePrincipalCredentialType?: CosmosDbServicePrincipalCredentialType;
   /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
   servicePrincipalCredential?: SecretBaseUnion;
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
-  tenant?: any;
+  tenant?: Record<string, unknown>;
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
-  azureCloudType?: any;
+  azureCloudType?: Record<string, unknown>;
   /** The connection mode used to access CosmosDB account. Type: string (or Expression with resultType string). */
   connectionMode?: CosmosDbConnectionMode;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
-  /** The credential reference containing authentication information. */
-  credential?: CredentialReference;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Dynamics linked service. */
@@ -4259,31 +4119,29 @@ export interface DynamicsLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Dynamics";
   /** The deployment type of the Dynamics instance. 'Online' for Dynamics Online and 'OnPremisesWithIfd' for Dynamics on-premises with Ifd. Type: string (or Expression with resultType string). */
-  deploymentType: any;
+  deploymentType: Record<string, unknown>;
   /** The host name of the on-premises Dynamics server. The property is required for on-prem and not allowed for online. Type: string (or Expression with resultType string). */
-  hostName?: any;
+  hostName?: Record<string, unknown>;
   /** The port of on-premises Dynamics server. The property is required for on-prem and not allowed for online. Default is 443. Type: integer (or Expression with resultType integer), minimum: 0. */
-  port?: any;
+  port?: Record<string, unknown>;
   /** The URL to the Microsoft Dynamics server. The property is required for on-line and not allowed for on-prem. Type: string (or Expression with resultType string). */
-  serviceUri?: any;
+  serviceUri?: Record<string, unknown>;
   /** The organization name of the Dynamics instance. The property is required for on-prem and required for online when there are more than one Dynamics instances associated with the user. Type: string (or Expression with resultType string). */
-  organizationName?: any;
+  organizationName?: Record<string, unknown>;
   /** The authentication type to connect to Dynamics server. 'Office365' for online scenario, 'Ifd' for on-premises with Ifd scenario, 'AADServicePrincipal' for Server-To-Server authentication in online scenario. Type: string (or Expression with resultType string). */
-  authenticationType: any;
+  authenticationType: Record<string, unknown>;
   /** User name to access the Dynamics instance. Type: string (or Expression with resultType string). */
-  username?: any;
+  username?: Record<string, unknown>;
   /** Password to access the Dynamics instance. */
   password?: SecretBaseUnion;
   /** The client ID of the application in Azure Active Directory used for Server-To-Server authentication. Type: string (or Expression with resultType string). */
-  servicePrincipalId?: any;
+  servicePrincipalId?: Record<string, unknown>;
   /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
-  servicePrincipalCredentialType?: any;
+  servicePrincipalCredentialType?: Record<string, unknown>;
   /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
   servicePrincipalCredential?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
-  /** The credential reference containing authentication information. */
-  credential?: CredentialReference;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Dynamics CRM linked service. */
@@ -4291,29 +4149,29 @@ export interface DynamicsCrmLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DynamicsCrm";
   /** The deployment type of the Dynamics CRM instance. 'Online' for Dynamics CRM Online and 'OnPremisesWithIfd' for Dynamics CRM on-premises with Ifd. Type: string (or Expression with resultType string). */
-  deploymentType: any;
+  deploymentType: Record<string, unknown>;
   /** The host name of the on-premises Dynamics CRM server. The property is required for on-prem and not allowed for online. Type: string (or Expression with resultType string). */
-  hostName?: any;
+  hostName?: Record<string, unknown>;
   /** The port of on-premises Dynamics CRM server. The property is required for on-prem and not allowed for online. Default is 443. Type: integer (or Expression with resultType integer), minimum: 0. */
-  port?: any;
+  port?: Record<string, unknown>;
   /** The URL to the Microsoft Dynamics CRM server. The property is required for on-line and not allowed for on-prem. Type: string (or Expression with resultType string). */
-  serviceUri?: any;
+  serviceUri?: Record<string, unknown>;
   /** The organization name of the Dynamics CRM instance. The property is required for on-prem and required for online when there are more than one Dynamics CRM instances associated with the user. Type: string (or Expression with resultType string). */
-  organizationName?: any;
+  organizationName?: Record<string, unknown>;
   /** The authentication type to connect to Dynamics CRM server. 'Office365' for online scenario, 'Ifd' for on-premises with Ifd scenario, 'AADServicePrincipal' for Server-To-Server authentication in online scenario. Type: string (or Expression with resultType string). */
-  authenticationType: any;
+  authenticationType: Record<string, unknown>;
   /** User name to access the Dynamics CRM instance. Type: string (or Expression with resultType string). */
-  username?: any;
+  username?: Record<string, unknown>;
   /** Password to access the Dynamics CRM instance. */
   password?: SecretBaseUnion;
   /** The client ID of the application in Azure Active Directory used for Server-To-Server authentication. Type: string (or Expression with resultType string). */
-  servicePrincipalId?: any;
+  servicePrincipalId?: Record<string, unknown>;
   /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
-  servicePrincipalCredentialType?: any;
+  servicePrincipalCredentialType?: Record<string, unknown>;
   /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
   servicePrincipalCredential?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Common Data Service for Apps linked service. */
@@ -4321,29 +4179,29 @@ export interface CommonDataServiceForAppsLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CommonDataServiceForApps";
   /** The deployment type of the Common Data Service for Apps instance. 'Online' for Common Data Service for Apps Online and 'OnPremisesWithIfd' for Common Data Service for Apps on-premises with Ifd. Type: string (or Expression with resultType string). */
-  deploymentType: any;
+  deploymentType: Record<string, unknown>;
   /** The host name of the on-premises Common Data Service for Apps server. The property is required for on-prem and not allowed for online. Type: string (or Expression with resultType string). */
-  hostName?: any;
+  hostName?: Record<string, unknown>;
   /** The port of on-premises Common Data Service for Apps server. The property is required for on-prem and not allowed for online. Default is 443. Type: integer (or Expression with resultType integer), minimum: 0. */
-  port?: any;
+  port?: Record<string, unknown>;
   /** The URL to the Microsoft Common Data Service for Apps server. The property is required for on-line and not allowed for on-prem. Type: string (or Expression with resultType string). */
-  serviceUri?: any;
+  serviceUri?: Record<string, unknown>;
   /** The organization name of the Common Data Service for Apps instance. The property is required for on-prem and required for online when there are more than one Common Data Service for Apps instances associated with the user. Type: string (or Expression with resultType string). */
-  organizationName?: any;
+  organizationName?: Record<string, unknown>;
   /** The authentication type to connect to Common Data Service for Apps server. 'Office365' for online scenario, 'Ifd' for on-premises with Ifd scenario. 'AADServicePrincipal' for Server-To-Server authentication in online scenario. Type: string (or Expression with resultType string). */
-  authenticationType: any;
+  authenticationType: Record<string, unknown>;
   /** User name to access the Common Data Service for Apps instance. Type: string (or Expression with resultType string). */
-  username?: any;
+  username?: Record<string, unknown>;
   /** Password to access the Common Data Service for Apps instance. */
   password?: SecretBaseUnion;
   /** The client ID of the application in Azure Active Directory used for Server-To-Server authentication. Type: string (or Expression with resultType string). */
-  servicePrincipalId?: any;
+  servicePrincipalId?: Record<string, unknown>;
   /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
-  servicePrincipalCredentialType?: any;
+  servicePrincipalCredentialType?: Record<string, unknown>;
   /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
   servicePrincipalCredential?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** HDInsight linked service. */
@@ -4351,9 +4209,9 @@ export interface HDInsightLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HDInsight";
   /** HDInsight cluster URI. Type: string (or Expression with resultType string). */
-  clusterUri: any;
+  clusterUri: Record<string, unknown>;
   /** HDInsight cluster user name. Type: string (or Expression with resultType string). */
-  userName?: any;
+  userName?: Record<string, unknown>;
   /** HDInsight cluster password. */
   password?: SecretBaseUnion;
   /** The Azure Storage linked service reference. */
@@ -4361,11 +4219,11 @@ export interface HDInsightLinkedService extends LinkedService {
   /** A reference to the Azure SQL linked service that points to the HCatalog database. */
   hcatalogLinkedServiceName?: LinkedServiceReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
   /** Specify if the HDInsight is created with ESP (Enterprise Security Package). Type: Boolean. */
-  isEspEnabled?: any;
+  isEspEnabled?: Record<string, unknown>;
   /** Specify the FileSystem if the main storage for the HDInsight is ADLS Gen2. Type: string (or Expression with resultType string). */
-  fileSystem?: any;
+  fileSystem?: Record<string, unknown>;
 }
 
 /** File system linked service. */
@@ -4373,13 +4231,13 @@ export interface FileServerLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "FileServer";
   /** Host name of the server. Type: string (or Expression with resultType string). */
-  host: any;
+  host: Record<string, unknown>;
   /** User ID to logon the server. Type: string (or Expression with resultType string). */
-  userId?: any;
+  userId?: Record<string, unknown>;
   /** Password to logon the server. */
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Azure File Storage linked service. */
@@ -4387,25 +4245,25 @@ export interface AzureFileStorageLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureFileStorage";
   /** Host name of the server. Type: string (or Expression with resultType string). */
-  host?: any;
+  host?: Record<string, unknown>;
   /** User ID to logon the server. Type: string (or Expression with resultType string). */
-  userId?: any;
+  userId?: Record<string, unknown>;
   /** Password to logon the server. */
   password?: SecretBaseUnion;
   /** The connection string. It is mutually exclusive with sasUri property. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString?: any;
+  connectionString?: Record<string, unknown>;
   /** The Azure key vault secret reference of accountKey in connection string. */
   accountKey?: AzureKeyVaultSecretReference;
   /** SAS URI of the Azure File resource. It is mutually exclusive with connectionString property. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  sasUri?: any;
+  sasUri?: Record<string, unknown>;
   /** The Azure key vault secret reference of sasToken in sas uri. */
   sasToken?: AzureKeyVaultSecretReference;
   /** The azure file share name. It is required when auth with accountKey/sasToken. Type: string (or Expression with resultType string). */
-  fileShare?: any;
+  fileShare?: Record<string, unknown>;
   /** The azure file share snapshot version. Type: string (or Expression with resultType string). */
-  snapshot?: any;
+  snapshot?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Linked service for Amazon S3 Compatible. */
@@ -4413,15 +4271,15 @@ export interface AmazonS3CompatibleLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonS3Compatible";
   /** The access key identifier of the Amazon S3 Compatible Identity and Access Management (IAM) user. Type: string (or Expression with resultType string). */
-  accessKeyId?: any;
+  accessKeyId?: Record<string, unknown>;
   /** The secret access key of the Amazon S3 Compatible Identity and Access Management (IAM) user. */
   secretAccessKey?: SecretBaseUnion;
   /** This value specifies the endpoint to access with the Amazon S3 Compatible Connector. This is an optional property; change it only if you want to try a different service endpoint or want to switch between https and http. Type: string (or Expression with resultType string). */
-  serviceUrl?: any;
+  serviceUrl?: Record<string, unknown>;
   /** If true, use S3 path-style access instead of virtual hosted-style access. Default value is false. Type: boolean (or Expression with resultType boolean). */
-  forcePathStyle?: any;
+  forcePathStyle?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Linked service for Oracle Cloud Storage. */
@@ -4429,13 +4287,13 @@ export interface OracleCloudStorageLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OracleCloudStorage";
   /** The access key identifier of the Oracle Cloud Storage Identity and Access Management (IAM) user. Type: string (or Expression with resultType string). */
-  accessKeyId?: any;
+  accessKeyId?: Record<string, unknown>;
   /** The secret access key of the Oracle Cloud Storage Identity and Access Management (IAM) user. */
   secretAccessKey?: SecretBaseUnion;
   /** This value specifies the endpoint to access with the Oracle Cloud Storage Connector. This is an optional property; change it only if you want to try a different service endpoint or want to switch between https and http. Type: string (or Expression with resultType string). */
-  serviceUrl?: any;
+  serviceUrl?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Linked service for Google Cloud Storage. */
@@ -4443,13 +4301,13 @@ export interface GoogleCloudStorageLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleCloudStorage";
   /** The access key identifier of the Google Cloud Storage Identity and Access Management (IAM) user. Type: string (or Expression with resultType string). */
-  accessKeyId?: any;
+  accessKeyId?: Record<string, unknown>;
   /** The secret access key of the Google Cloud Storage Identity and Access Management (IAM) user. */
   secretAccessKey?: SecretBaseUnion;
   /** This value specifies the endpoint to access with the Google Cloud Storage Connector. This is an optional property; change it only if you want to try a different service endpoint or want to switch between https and http. Type: string (or Expression with resultType string). */
-  serviceUrl?: any;
+  serviceUrl?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Oracle database. */
@@ -4457,11 +4315,11 @@ export interface OracleLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Oracle";
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString: Record<string, unknown>;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** AmazonRdsForOracle database. */
@@ -4469,11 +4327,11 @@ export interface AmazonRdsForOracleLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonRdsForOracle";
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString: Record<string, unknown>;
   /** The Azure key vault secret reference of password in connection string. */
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Azure MySQL database linked service. */
@@ -4481,11 +4339,11 @@ export interface AzureMySqlLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureMySql";
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString: Record<string, unknown>;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Linked service for MySQL data source. */
@@ -4493,11 +4351,11 @@ export interface MySqlLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MySql";
   /** The connection string. */
-  connectionString: any;
+  connectionString: Record<string, unknown>;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Linked service for PostgreSQL data source. */
@@ -4505,11 +4363,11 @@ export interface PostgreSqlLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PostgreSql";
   /** The connection string. */
-  connectionString: any;
+  connectionString: Record<string, unknown>;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Linked service for Sybase data source. */
@@ -4517,19 +4375,19 @@ export interface SybaseLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Sybase";
   /** Server name for connection. Type: string (or Expression with resultType string). */
-  server: any;
+  server: Record<string, unknown>;
   /** Database name for connection. Type: string (or Expression with resultType string). */
-  database: any;
+  database: Record<string, unknown>;
   /** Schema name for connection. Type: string (or Expression with resultType string). */
-  schema?: any;
+  schema?: Record<string, unknown>;
   /** AuthenticationType to be used for connection. */
   authenticationType?: SybaseAuthenticationType;
   /** Username for authentication. Type: string (or Expression with resultType string). */
-  username?: any;
+  username?: Record<string, unknown>;
   /** Password for authentication. */
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Linked service for DB2 data source. */
@@ -4537,23 +4395,23 @@ export interface Db2LinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Db2";
   /** The connection string. It is mutually exclusive with server, database, authenticationType, userName, packageCollection and certificateCommonName property. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString?: any;
+  connectionString?: Record<string, unknown>;
   /** Server name for connection. It is mutually exclusive with connectionString property. Type: string (or Expression with resultType string). */
-  server?: any;
+  server?: Record<string, unknown>;
   /** Database name for connection. It is mutually exclusive with connectionString property. Type: string (or Expression with resultType string). */
-  database?: any;
+  database?: Record<string, unknown>;
   /** AuthenticationType to be used for connection. It is mutually exclusive with connectionString property. */
   authenticationType?: Db2AuthenticationType;
   /** Username for authentication. It is mutually exclusive with connectionString property. Type: string (or Expression with resultType string). */
-  username?: any;
+  username?: Record<string, unknown>;
   /** Password for authentication. */
   password?: SecretBaseUnion;
   /** Under where packages are created when querying database. It is mutually exclusive with connectionString property. Type: string (or Expression with resultType string). */
-  packageCollection?: any;
+  packageCollection?: Record<string, unknown>;
   /** Certificate Common Name when TLS is enabled. It is mutually exclusive with connectionString property. Type: string (or Expression with resultType string). */
-  certificateCommonName?: any;
+  certificateCommonName?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. It is mutually exclusive with connectionString property. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Linked service for Teradata data source. */
@@ -4561,17 +4419,17 @@ export interface TeradataLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Teradata";
   /** Teradata ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString?: any;
+  connectionString?: Record<string, unknown>;
   /** Server name for connection. Type: string (or Expression with resultType string). */
-  server?: any;
+  server?: Record<string, unknown>;
   /** AuthenticationType to be used for connection. */
   authenticationType?: TeradataAuthenticationType;
   /** Username for authentication. Type: string (or Expression with resultType string). */
-  username?: any;
+  username?: Record<string, unknown>;
   /** Password for authentication. */
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Azure ML Studio Web Service linked service. */
@@ -4579,21 +4437,21 @@ export interface AzureMLLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureML";
   /** The Batch Execution REST URL for an Azure ML Studio Web Service endpoint. Type: string (or Expression with resultType string). */
-  mlEndpoint: any;
+  mlEndpoint: Record<string, unknown>;
   /** The API key for accessing the Azure ML model endpoint. */
   apiKey: SecretBaseUnion;
   /** The Update Resource REST URL for an Azure ML Studio Web Service endpoint. Type: string (or Expression with resultType string). */
-  updateResourceEndpoint?: any;
+  updateResourceEndpoint?: Record<string, unknown>;
   /** The ID of the service principal used to authenticate against the ARM-based updateResourceEndpoint of an Azure ML Studio web service. Type: string (or Expression with resultType string). */
-  servicePrincipalId?: any;
+  servicePrincipalId?: Record<string, unknown>;
   /** The key of the service principal used to authenticate against the ARM-based updateResourceEndpoint of an Azure ML Studio web service. */
   servicePrincipalKey?: SecretBaseUnion;
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
-  tenant?: any;
+  tenant?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
   /** Type of authentication (Required to specify MSI) used to connect to AzureML. Type: string (or Expression with resultType string). */
-  authentication?: any;
+  authentication?: Record<string, unknown>;
 }
 
 /** Azure ML Service linked service. */
@@ -4601,19 +4459,19 @@ export interface AzureMLServiceLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureMLService";
   /** Azure ML Service workspace subscription ID. Type: string (or Expression with resultType string). */
-  subscriptionId: any;
+  subscriptionId: Record<string, unknown>;
   /** Azure ML Service workspace resource group name. Type: string (or Expression with resultType string). */
-  resourceGroupName: any;
+  resourceGroupName: Record<string, unknown>;
   /** Azure ML Service workspace name. Type: string (or Expression with resultType string). */
-  mlWorkspaceName: any;
+  mlWorkspaceName: Record<string, unknown>;
   /** The ID of the service principal used to authenticate against the endpoint of a published Azure ML Service pipeline. Type: string (or Expression with resultType string). */
-  servicePrincipalId?: any;
+  servicePrincipalId?: Record<string, unknown>;
   /** The key of the service principal used to authenticate against the endpoint of a published Azure ML Service pipeline. */
   servicePrincipalKey?: SecretBaseUnion;
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
-  tenant?: any;
+  tenant?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Open Database Connectivity (ODBC) linked service. */
@@ -4621,17 +4479,17 @@ export interface OdbcLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Odbc";
   /** The non-access credential portion of the connection string as well as an optional encrypted credential. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString: Record<string, unknown>;
   /** Type of authentication used to connect to the ODBC data store. Possible values are: Anonymous and Basic. Type: string (or Expression with resultType string). */
-  authenticationType?: any;
+  authenticationType?: Record<string, unknown>;
   /** The access credential portion of the connection string specified in driver-specific property-value format. */
   credential?: SecretBaseUnion;
   /** User name for Basic authentication. Type: string (or Expression with resultType string). */
-  userName?: any;
+  userName?: Record<string, unknown>;
   /** Password for Basic authentication. */
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Informix linked service. */
@@ -4639,17 +4497,17 @@ export interface InformixLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Informix";
   /** The non-access credential portion of the connection string as well as an optional encrypted credential. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString: Record<string, unknown>;
   /** Type of authentication used to connect to the Informix as ODBC data store. Possible values are: Anonymous and Basic. Type: string (or Expression with resultType string). */
-  authenticationType?: any;
+  authenticationType?: Record<string, unknown>;
   /** The access credential portion of the connection string specified in driver-specific property-value format. */
   credential?: SecretBaseUnion;
   /** User name for Basic authentication. Type: string (or Expression with resultType string). */
-  userName?: any;
+  userName?: Record<string, unknown>;
   /** Password for Basic authentication. */
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Microsoft Access linked service. */
@@ -4657,17 +4515,17 @@ export interface MicrosoftAccessLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MicrosoftAccess";
   /** The non-access credential portion of the connection string as well as an optional encrypted credential. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString: Record<string, unknown>;
   /** Type of authentication used to connect to the Microsoft Access as ODBC data store. Possible values are: Anonymous and Basic. Type: string (or Expression with resultType string). */
-  authenticationType?: any;
+  authenticationType?: Record<string, unknown>;
   /** The access credential portion of the connection string specified in driver-specific property-value format. */
   credential?: SecretBaseUnion;
   /** User name for Basic authentication. Type: string (or Expression with resultType string). */
-  userName?: any;
+  userName?: Record<string, unknown>;
   /** Password for Basic authentication. */
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Hadoop Distributed File System (HDFS) linked service. */
@@ -4675,13 +4533,13 @@ export interface HdfsLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Hdfs";
   /** The URL of the HDFS service endpoint, e.g. http://myhostname:50070/webhdfs/v1 . Type: string (or Expression with resultType string). */
-  url: any;
+  url: Record<string, unknown>;
   /** Type of authentication used to connect to the HDFS. Possible values are: Anonymous and Windows. Type: string (or Expression with resultType string). */
-  authenticationType?: any;
+  authenticationType?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
   /** User name for Windows authentication. Type: string (or Expression with resultType string). */
-  userName?: any;
+  userName?: Record<string, unknown>;
   /** Password for Windows authentication. */
   password?: SecretBaseUnion;
 }
@@ -4691,23 +4549,23 @@ export interface ODataLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OData";
   /** The URL of the OData service endpoint. Type: string (or Expression with resultType string). */
-  url: any;
+  url: Record<string, unknown>;
   /** Type of authentication used to connect to the OData service. */
   authenticationType?: ODataAuthenticationType;
   /** User name of the OData service. Type: string (or Expression with resultType string). */
-  userName?: any;
+  userName?: Record<string, unknown>;
   /** Password of the OData service. */
   password?: SecretBaseUnion;
   /** The additional HTTP headers in the request to RESTful API used for authorization. Type: object (or Expression with resultType object). */
-  authHeaders?: any;
+  authHeaders?: Record<string, unknown>;
   /** Specify the tenant information (domain name or tenant ID) under which your application resides. Type: string (or Expression with resultType string). */
-  tenant?: any;
+  tenant?: Record<string, unknown>;
   /** Specify the application id of your application registered in Azure Active Directory. Type: string (or Expression with resultType string). */
-  servicePrincipalId?: any;
+  servicePrincipalId?: Record<string, unknown>;
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
-  azureCloudType?: any;
+  azureCloudType?: Record<string, unknown>;
   /** Specify the resource you are requesting authorization to use Directory. Type: string (or Expression with resultType string). */
-  aadResourceId?: any;
+  aadResourceId?: Record<string, unknown>;
   /** Specify the credential type (key or cert) is used for service principal. */
   aadServicePrincipalCredentialType?: ODataAadServicePrincipalCredentialType;
   /** Specify the secret of your application registered in Azure Active Directory. Type: string (or Expression with resultType string). */
@@ -4717,7 +4575,7 @@ export interface ODataLinkedService extends LinkedService {
   /** Specify the password of your certificate if your certificate has a password and you are using AadServicePrincipal authentication. Type: string (or Expression with resultType string). */
   servicePrincipalEmbeddedCertPassword?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Web linked service. */
@@ -4733,17 +4591,17 @@ export interface CassandraLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Cassandra";
   /** Host name for connection. Type: string (or Expression with resultType string). */
-  host: any;
+  host: Record<string, unknown>;
   /** AuthenticationType to be used for connection. Type: string (or Expression with resultType string). */
-  authenticationType?: any;
+  authenticationType?: Record<string, unknown>;
   /** The port for the connection. Type: integer (or Expression with resultType integer). */
-  port?: any;
+  port?: Record<string, unknown>;
   /** Username for authentication. Type: string (or Expression with resultType string). */
-  username?: any;
+  username?: Record<string, unknown>;
   /** Password for authentication. */
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Linked service for MongoDb data source. */
@@ -4751,25 +4609,25 @@ export interface MongoDbLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MongoDb";
   /** The IP address or server name of the MongoDB server. Type: string (or Expression with resultType string). */
-  server: any;
+  server: Record<string, unknown>;
   /** The authentication type to be used to connect to the MongoDB database. */
   authenticationType?: MongoDbAuthenticationType;
   /** The name of the MongoDB database that you want to access. Type: string (or Expression with resultType string). */
-  databaseName: any;
+  databaseName: Record<string, unknown>;
   /** Username for authentication. Type: string (or Expression with resultType string). */
-  username?: any;
+  username?: Record<string, unknown>;
   /** Password for authentication. */
   password?: SecretBaseUnion;
   /** Database to verify the username and password. Type: string (or Expression with resultType string). */
-  authSource?: any;
+  authSource?: Record<string, unknown>;
   /** The TCP port number that the MongoDB server uses to listen for client connections. The default value is 27017. Type: integer (or Expression with resultType integer), minimum: 0. */
-  port?: any;
+  port?: Record<string, unknown>;
   /** Specifies whether the connections to the server are encrypted using SSL. The default value is false. Type: boolean (or Expression with resultType boolean). */
-  enableSsl?: any;
+  enableSsl?: Record<string, unknown>;
   /** Specifies whether to allow self-signed certificates from the server. The default value is false. Type: boolean (or Expression with resultType boolean). */
-  allowSelfSignedServerCert?: any;
+  allowSelfSignedServerCert?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Linked service for MongoDB Atlas data source. */
@@ -4777,9 +4635,9 @@ export interface MongoDbAtlasLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MongoDbAtlas";
   /** The MongoDB Atlas connection string. Type: string, SecureString or AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString: Record<string, unknown>;
   /** The name of the MongoDB Atlas database that you want to access. Type: string (or Expression with resultType string). */
-  database: any;
+  database: Record<string, unknown>;
 }
 
 /** Linked service for MongoDB data source. */
@@ -4787,9 +4645,9 @@ export interface MongoDbV2LinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MongoDbV2";
   /** The MongoDB connection string. Type: string, SecureString or AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString: Record<string, unknown>;
   /** The name of the MongoDB database that you want to access. Type: string (or Expression with resultType string). */
-  database: any;
+  database: Record<string, unknown>;
 }
 
 /** Linked service for CosmosDB (MongoDB API) data source. */
@@ -4797,11 +4655,11 @@ export interface CosmosDbMongoDbApiLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CosmosDbMongoDbApi";
   /** Whether the CosmosDB (MongoDB API) server version is higher than 3.2. The default value is false. Type: boolean (or Expression with resultType boolean). */
-  isServerVersionAbove32?: any;
+  isServerVersionAbove32?: Record<string, unknown>;
   /** The CosmosDB (MongoDB API) connection string. Type: string, SecureString or AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString: Record<string, unknown>;
   /** The name of the CosmosDB (MongoDB API) database that you want to access. Type: string (or Expression with resultType string). */
-  database: any;
+  database: Record<string, unknown>;
 }
 
 /** Azure Data Lake Store linked service. */
@@ -4809,23 +4667,23 @@ export interface AzureDataLakeStoreLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataLakeStore";
   /** Data Lake Store service URI. Type: string (or Expression with resultType string). */
-  dataLakeStoreUri: any;
+  dataLakeStoreUri: Record<string, unknown>;
   /** The ID of the application used to authenticate against the Azure Data Lake Store account. Type: string (or Expression with resultType string). */
-  servicePrincipalId?: any;
+  servicePrincipalId?: Record<string, unknown>;
   /** The Key of the application used to authenticate against the Azure Data Lake Store account. */
   servicePrincipalKey?: SecretBaseUnion;
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
-  tenant?: any;
+  tenant?: Record<string, unknown>;
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
-  azureCloudType?: any;
+  azureCloudType?: Record<string, unknown>;
   /** Data Lake Store account name. Type: string (or Expression with resultType string). */
-  accountName?: any;
+  accountName?: Record<string, unknown>;
   /** Data Lake Store account subscription ID (if different from Data Factory account). Type: string (or Expression with resultType string). */
-  subscriptionId?: any;
+  subscriptionId?: Record<string, unknown>;
   /** Data Lake Store account resource group name (if different from Data Factory account). Type: string (or Expression with resultType string). */
-  resourceGroupName?: any;
+  resourceGroupName?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
 }
@@ -4835,25 +4693,21 @@ export interface AzureBlobFSLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobFS";
   /** Endpoint for the Azure Data Lake Storage Gen2 service. Type: string (or Expression with resultType string). */
-  url: any;
+  url: Record<string, unknown>;
   /** Account key for the Azure Data Lake Storage Gen2 service. Type: string (or Expression with resultType string). */
-  accountKey?: any;
+  accountKey?: Record<string, unknown>;
   /** The ID of the application used to authenticate against the Azure Data Lake Storage Gen2 account. Type: string (or Expression with resultType string). */
-  servicePrincipalId?: any;
+  servicePrincipalId?: Record<string, unknown>;
   /** The Key of the application used to authenticate against the Azure Data Lake Storage Gen2 account. */
   servicePrincipalKey?: SecretBaseUnion;
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
-  tenant?: any;
+  tenant?: Record<string, unknown>;
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
-  azureCloudType?: any;
+  azureCloudType?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
-  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
-  servicePrincipalCredentialType?: any;
-  /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
-  servicePrincipalCredential?: SecretBaseUnion;
 }
 
 /** Office365 linked service. */
@@ -4861,15 +4715,15 @@ export interface Office365LinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Office365";
   /** Azure tenant ID to which the Office 365 account belongs. Type: string (or Expression with resultType string). */
-  office365TenantId: any;
+  office365TenantId: Record<string, unknown>;
   /** Specify the tenant information under which your Azure AD web application resides. Type: string (or Expression with resultType string). */
-  servicePrincipalTenantId: any;
+  servicePrincipalTenantId: Record<string, unknown>;
   /** Specify the application's client ID. Type: string (or Expression with resultType string). */
-  servicePrincipalId: any;
+  servicePrincipalId: Record<string, unknown>;
   /** Specify the application's key. */
   servicePrincipalKey: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Linked service for Salesforce. */
@@ -4877,17 +4731,17 @@ export interface SalesforceLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Salesforce";
   /** The URL of Salesforce instance. Default is 'https://login.salesforce.com'. To copy data from sandbox, specify 'https://test.salesforce.com'. To copy data from custom domain, specify, for example, 'https://[domain].my.salesforce.com'. Type: string (or Expression with resultType string). */
-  environmentUrl?: any;
+  environmentUrl?: Record<string, unknown>;
   /** The username for Basic authentication of the Salesforce instance. Type: string (or Expression with resultType string). */
-  username?: any;
+  username?: Record<string, unknown>;
   /** The password for Basic authentication of the Salesforce instance. */
   password?: SecretBaseUnion;
   /** The security token is optional to remotely access Salesforce instance. */
   securityToken?: SecretBaseUnion;
   /** The Salesforce API version used in ADF. Type: string (or Expression with resultType string). */
-  apiVersion?: any;
+  apiVersion?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Linked service for Salesforce Service Cloud. */
@@ -4895,19 +4749,19 @@ export interface SalesforceServiceCloudLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SalesforceServiceCloud";
   /** The URL of Salesforce Service Cloud instance. Default is 'https://login.salesforce.com'. To copy data from sandbox, specify 'https://test.salesforce.com'. To copy data from custom domain, specify, for example, 'https://[domain].my.salesforce.com'. Type: string (or Expression with resultType string). */
-  environmentUrl?: any;
+  environmentUrl?: Record<string, unknown>;
   /** The username for Basic authentication of the Salesforce instance. Type: string (or Expression with resultType string). */
-  username?: any;
+  username?: Record<string, unknown>;
   /** The password for Basic authentication of the Salesforce instance. */
   password?: SecretBaseUnion;
   /** The security token is optional to remotely access Salesforce instance. */
   securityToken?: SecretBaseUnion;
   /** The Salesforce API version used in ADF. Type: string (or Expression with resultType string). */
-  apiVersion?: any;
+  apiVersion?: Record<string, unknown>;
   /** Extended properties appended to the connection string. Type: string (or Expression with resultType string). */
-  extendedProperties?: any;
+  extendedProperties?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Linked service for SAP Cloud for Customer. */
@@ -4915,13 +4769,13 @@ export interface SapCloudForCustomerLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapCloudForCustomer";
   /** The URL of SAP Cloud for Customer OData API. For example, '[https://[tenantname].crm.ondemand.com/sap/c4c/odata/v1]'. Type: string (or Expression with resultType string). */
-  url: any;
+  url: Record<string, unknown>;
   /** The username for Basic authentication. Type: string (or Expression with resultType string). */
-  username?: any;
+  username?: Record<string, unknown>;
   /** The password for Basic authentication. */
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Either encryptedCredential or username/password must be provided. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Linked service for SAP ERP Central Component(SAP ECC). */
@@ -4943,69 +4797,27 @@ export interface SapOpenHubLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapOpenHub";
   /** Host name of the SAP BW instance where the open hub destination is located. Type: string (or Expression with resultType string). */
-  server?: any;
+  server?: Record<string, unknown>;
   /** System number of the BW system where the open hub destination is located. (Usually a two-digit decimal number represented as a string.) Type: string (or Expression with resultType string). */
-  systemNumber?: any;
+  systemNumber?: Record<string, unknown>;
   /** Client ID of the client on the BW system where the open hub destination is located. (Usually a three-digit decimal number represented as a string) Type: string (or Expression with resultType string). */
-  clientId?: any;
+  clientId?: Record<string, unknown>;
   /** Language of the BW system where the open hub destination is located. The default value is EN. Type: string (or Expression with resultType string). */
-  language?: any;
+  language?: Record<string, unknown>;
   /** SystemID of the SAP system where the table is located. Type: string (or Expression with resultType string). */
-  systemId?: any;
+  systemId?: Record<string, unknown>;
   /** Username to access the SAP BW server where the open hub destination is located. Type: string (or Expression with resultType string). */
-  userName?: any;
+  userName?: Record<string, unknown>;
   /** Password to access the SAP BW server where the open hub destination is located. */
   password?: SecretBaseUnion;
   /** The hostname of the SAP Message Server. Type: string (or Expression with resultType string). */
-  messageServer?: any;
+  messageServer?: Record<string, unknown>;
   /** The service name or port number of the Message Server. Type: string (or Expression with resultType string). */
-  messageServerService?: any;
+  messageServerService?: Record<string, unknown>;
   /** The Logon Group for the SAP System. Type: string (or Expression with resultType string). */
-  logonGroup?: any;
+  logonGroup?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
-}
-
-/** SAP ODP Linked Service. */
-export interface SapOdpLinkedService extends LinkedService {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SapOdp";
-  /** Host name of the SAP instance where the table is located. Type: string (or Expression with resultType string). */
-  server?: any;
-  /** System number of the SAP system where the table is located. (Usually a two-digit decimal number represented as a string.) Type: string (or Expression with resultType string). */
-  systemNumber?: any;
-  /** Client ID of the client on the SAP system where the table is located. (Usually a three-digit decimal number represented as a string) Type: string (or Expression with resultType string). */
-  clientId?: any;
-  /** Language of the SAP system where the table is located. The default value is EN. Type: string (or Expression with resultType string). */
-  language?: any;
-  /** SystemID of the SAP system where the table is located. Type: string (or Expression with resultType string). */
-  systemId?: any;
-  /** Username to access the SAP server where the table is located. Type: string (or Expression with resultType string). */
-  userName?: any;
-  /** Password to access the SAP server where the table is located. */
-  password?: SecretBaseUnion;
-  /** The hostname of the SAP Message Server. Type: string (or Expression with resultType string). */
-  messageServer?: any;
-  /** The service name or port number of the Message Server. Type: string (or Expression with resultType string). */
-  messageServerService?: any;
-  /** SNC activation indicator to access the SAP server where the table is located. Must be either 0 (off) or 1 (on). Type: string (or Expression with resultType string). */
-  sncMode?: any;
-  /** Initiator's SNC name to access the SAP server where the table is located. Type: string (or Expression with resultType string). */
-  sncMyName?: any;
-  /** Communication partner's SNC name to access the SAP server where the table is located. Type: string (or Expression with resultType string). */
-  sncPartnerName?: any;
-  /** External security product's library to access the SAP server where the table is located. Type: string (or Expression with resultType string). */
-  sncLibraryPath?: any;
-  /** SNC Quality of Protection. Allowed value include: 1, 2, 3, 8, 9. Type: string (or Expression with resultType string). */
-  sncQop?: any;
-  /** SNC X509 certificate file path. Type: string (or Expression with resultType string). */
-  x509CertificatePath?: any;
-  /** The Logon Group for the SAP System. Type: string (or Expression with resultType string). */
-  logonGroup?: any;
-  /** The subscriber name. Type: string (or Expression with resultType string). */
-  subscriberName?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Rest Service linked service. */
@@ -5013,151 +4825,31 @@ export interface RestServiceLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "RestService";
   /** The base URL of the REST service. */
-  url: any;
+  url: Record<string, unknown>;
   /** Whether to validate server side SSL certificate when connecting to the endpoint.The default value is true. Type: boolean (or Expression with resultType boolean). */
-  enableServerCertificateValidation?: any;
+  enableServerCertificateValidation?: Record<string, unknown>;
   /** Type of authentication used to connect to the REST service. */
   authenticationType: RestServiceAuthenticationType;
   /** The user name used in Basic authentication type. */
-  userName?: any;
+  userName?: Record<string, unknown>;
   /** The password used in Basic authentication type. */
   password?: SecretBaseUnion;
   /** The additional HTTP headers in the request to RESTful API used for authorization. Type: object (or Expression with resultType object). */
-  authHeaders?: any;
+  authHeaders?: Record<string, unknown>;
   /** The application's client ID used in AadServicePrincipal authentication type. */
-  servicePrincipalId?: any;
+  servicePrincipalId?: Record<string, unknown>;
   /** The application's key used in AadServicePrincipal authentication type. */
   servicePrincipalKey?: SecretBaseUnion;
   /** The tenant information (domain name or tenant ID) used in AadServicePrincipal authentication type under which your application resides. */
-  tenant?: any;
+  tenant?: Record<string, unknown>;
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
-  azureCloudType?: any;
+  azureCloudType?: Record<string, unknown>;
   /** The resource you are requesting authorization to use. */
-  aadResourceId?: any;
+  aadResourceId?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
-  /** The client ID associated with your application. Type: string (or Expression with resultType string). */
-  clientId?: any;
-  /** The client secret associated with your application. */
-  clientSecret?: SecretBaseUnion;
-  /** The token endpoint of the authorization server to acquire access token. Type: string (or Expression with resultType string). */
-  tokenEndpoint?: any;
-  /** The target service or resource to which the access will be requested. Type: string (or Expression with resultType string). */
-  resource?: any;
-  /** The scope of the access required. It describes what kind of access will be requested. Type: string (or Expression with resultType string). */
-  scope?: any;
-}
-
-/** Linked service for TeamDesk. */
-export interface TeamDeskLinkedService extends LinkedService {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "TeamDesk";
-  /** The authentication type to use. */
-  authenticationType: TeamDeskAuthenticationType;
-  /** The url to connect TeamDesk source. Type: string (or Expression with resultType string). */
-  url: any;
-  /** The username of the TeamDesk source. Type: string (or Expression with resultType string). */
-  userName?: any;
-  /** The password of the TeamDesk source. */
-  password?: SecretBaseUnion;
-  /** The api token for the TeamDesk source. */
-  apiToken?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
-}
-
-/** Linked service for Quickbase. */
-export interface QuickbaseLinkedService extends LinkedService {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Quickbase";
-  /** The url to connect Quickbase source. Type: string (or Expression with resultType string). */
-  url: any;
-  /** The user token for the Quickbase source. */
-  userToken: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
-}
-
-/** Linked service for Smartsheet. */
-export interface SmartsheetLinkedService extends LinkedService {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Smartsheet";
-  /** The api token for the Smartsheet source. */
-  apiToken: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
-}
-
-/** Linked service for Zendesk. */
-export interface ZendeskLinkedService extends LinkedService {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Zendesk";
-  /** The authentication type to use. */
-  authenticationType: ZendeskAuthenticationType;
-  /** The url to connect Zendesk source. Type: string (or Expression with resultType string). */
-  url: any;
-  /** The username of the Zendesk source. Type: string (or Expression with resultType string). */
-  userName?: any;
-  /** The password of the Zendesk source. */
-  password?: SecretBaseUnion;
-  /** The api token for the Zendesk source. */
-  apiToken?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
-}
-
-/** Linked service for Dataworld. */
-export interface DataworldLinkedService extends LinkedService {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Dataworld";
-  /** The api token for the Dataworld source. */
-  apiToken: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
-}
-
-/** Linked service for AppFigures. */
-export interface AppFiguresLinkedService extends LinkedService {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AppFigures";
-  /** The username of the Appfigures source. */
-  userName: any;
-  /** The password of the AppFigures source. */
-  password: SecretBaseUnion;
-  /** The client key for the AppFigures source. */
-  clientKey: SecretBaseUnion;
-}
-
-/** Linked service for Asana. */
-export interface AsanaLinkedService extends LinkedService {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Asana";
-  /** The api token for the Asana source. */
-  apiToken: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
-}
-
-/** Linked service for Twilio. */
-export interface TwilioLinkedService extends LinkedService {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Twilio";
-  /** The Account SID of Twilio service. */
-  userName: any;
-  /** The auth token of Twilio service. */
-  password: SecretBaseUnion;
-}
-
-/** Linked service for GoogleSheets. */
-export interface GoogleSheetsLinkedService extends LinkedService {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "GoogleSheets";
-  /** The api token for the GoogleSheets source. */
-  apiToken: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
 }
 
 /** Linked service for Amazon S3. */
@@ -5165,17 +4857,17 @@ export interface AmazonS3LinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonS3";
   /** The authentication type of S3. Allowed value: AccessKey (default) or TemporarySecurityCredentials. Type: string (or Expression with resultType string). */
-  authenticationType?: any;
+  authenticationType?: Record<string, unknown>;
   /** The access key identifier of the Amazon S3 Identity and Access Management (IAM) user. Type: string (or Expression with resultType string). */
-  accessKeyId?: any;
+  accessKeyId?: Record<string, unknown>;
   /** The secret access key of the Amazon S3 Identity and Access Management (IAM) user. */
   secretAccessKey?: SecretBaseUnion;
   /** This value specifies the endpoint to access with the S3 Connector. This is an optional property; change it only if you want to try a different service endpoint or want to switch between https and http. Type: string (or Expression with resultType string). */
-  serviceUrl?: any;
+  serviceUrl?: Record<string, unknown>;
   /** The session token for the S3 temporary security credential. */
   sessionToken?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Linked service for Amazon Redshift. */
@@ -5183,17 +4875,17 @@ export interface AmazonRedshiftLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonRedshift";
   /** The name of the Amazon Redshift server. Type: string (or Expression with resultType string). */
-  server: any;
+  server: Record<string, unknown>;
   /** The username of the Amazon Redshift source. Type: string (or Expression with resultType string). */
-  username?: any;
+  username?: Record<string, unknown>;
   /** The password of the Amazon Redshift source. */
   password?: SecretBaseUnion;
   /** The database name of the Amazon Redshift source. Type: string (or Expression with resultType string). */
-  database: any;
+  database: Record<string, unknown>;
   /** The TCP port number that the Amazon Redshift server uses to listen for client connections. The default value is 5439. Type: integer (or Expression with resultType integer). */
-  port?: any;
+  port?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Custom linked service. */
@@ -5201,7 +4893,7 @@ export interface CustomDataSourceLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CustomDataSource";
   /** Custom linked service properties. */
-  typeProperties: any;
+  typeProperties: Record<string, unknown>;
 }
 
 /** Linked service for Windows Azure Search Service. */
@@ -5209,35 +4901,35 @@ export interface AzureSearchLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSearch";
   /** URL for Azure Search service. Type: string (or Expression with resultType string). */
-  url: any;
+  url: Record<string, unknown>;
   /** Admin Key for Azure Search service */
   key?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Linked service for an HTTP source. */
 export interface HttpLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HttpServer";
-  /** The base URL of the HTTP endpoint, e.g. https://www.microsoft.com. Type: string (or Expression with resultType string). */
-  url: any;
+  /** The base URL of the HTTP endpoint, e.g. http://www.microsoft.com. Type: string (or Expression with resultType string). */
+  url: Record<string, unknown>;
   /** The authentication type to be used to connect to the HTTP server. */
   authenticationType?: HttpAuthenticationType;
   /** User name for Basic, Digest, or Windows authentication. Type: string (or Expression with resultType string). */
-  userName?: any;
+  userName?: Record<string, unknown>;
   /** Password for Basic, Digest, Windows, or ClientCertificate with EmbeddedCertData authentication. */
   password?: SecretBaseUnion;
   /** The additional HTTP headers in the request to RESTful API used for authorization. Type: object (or Expression with resultType object). */
-  authHeaders?: any;
+  authHeaders?: Record<string, unknown>;
   /** Base64 encoded certificate data for ClientCertificate authentication. For on-premises copy with ClientCertificate authentication, either CertThumbprint or EmbeddedCertData/Password should be specified. Type: string (or Expression with resultType string). */
-  embeddedCertData?: any;
+  embeddedCertData?: Record<string, unknown>;
   /** Thumbprint of certificate for ClientCertificate authentication. Only valid for on-premises copy. For on-premises copy with ClientCertificate authentication, either CertThumbprint or EmbeddedCertData/Password should be specified. Type: string (or Expression with resultType string). */
-  certThumbprint?: any;
+  certThumbprint?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
   /** If true, validate the HTTPS server SSL certificate. Default value is true. Type: boolean (or Expression with resultType boolean). */
-  enableServerCertificateValidation?: any;
+  enableServerCertificateValidation?: Record<string, unknown>;
 }
 
 /** A FTP server Linked Service. */
@@ -5245,21 +4937,21 @@ export interface FtpServerLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "FtpServer";
   /** Host name of the FTP server. Type: string (or Expression with resultType string). */
-  host: any;
+  host: Record<string, unknown>;
   /** The TCP port number that the FTP server uses to listen for client connections. Default value is 21. Type: integer (or Expression with resultType integer), minimum: 0. */
-  port?: any;
+  port?: Record<string, unknown>;
   /** The authentication type to be used to connect to the FTP server. */
   authenticationType?: FtpAuthenticationType;
   /** Username to logon the FTP server. Type: string (or Expression with resultType string). */
-  userName?: any;
+  userName?: Record<string, unknown>;
   /** Password to logon the FTP server. */
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
   /** If true, connect to the FTP server over SSL/TLS channel. Default value is true. Type: boolean (or Expression with resultType boolean). */
-  enableSsl?: any;
+  enableSsl?: Record<string, unknown>;
   /** If true, validate the FTP server SSL certificate when connect over SSL/TLS channel. Default value is true. Type: boolean (or Expression with resultType boolean). */
-  enableServerCertificateValidation?: any;
+  enableServerCertificateValidation?: Record<string, unknown>;
 }
 
 /** A linked service for an SSH File Transfer Protocol (SFTP) server. */
@@ -5267,27 +4959,27 @@ export interface SftpServerLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Sftp";
   /** The SFTP server host name. Type: string (or Expression with resultType string). */
-  host: any;
+  host: Record<string, unknown>;
   /** The TCP port number that the SFTP server uses to listen for client connections. Default value is 22. Type: integer (or Expression with resultType integer), minimum: 0. */
-  port?: any;
+  port?: Record<string, unknown>;
   /** The authentication type to be used to connect to the FTP server. */
   authenticationType?: SftpAuthenticationType;
   /** The username used to log on to the SFTP server. Type: string (or Expression with resultType string). */
-  userName?: any;
+  userName?: Record<string, unknown>;
   /** Password to logon the SFTP server for Basic authentication. */
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
   /** The SSH private key file path for SshPublicKey authentication. Only valid for on-premises copy. For on-premises copy with SshPublicKey authentication, either PrivateKeyPath or PrivateKeyContent should be specified. SSH private key should be OpenSSH format. Type: string (or Expression with resultType string). */
-  privateKeyPath?: any;
+  privateKeyPath?: Record<string, unknown>;
   /** Base64 encoded SSH private key content for SshPublicKey authentication. For on-premises copy with SshPublicKey authentication, either PrivateKeyPath or PrivateKeyContent should be specified. SSH private key should be OpenSSH format. */
   privateKeyContent?: SecretBaseUnion;
   /** The password to decrypt the SSH private key if the SSH private key is encrypted. */
   passPhrase?: SecretBaseUnion;
   /** If true, skip the SSH host key validation. Default value is false. Type: boolean (or Expression with resultType boolean). */
-  skipHostKeyValidation?: any;
+  skipHostKeyValidation?: Record<string, unknown>;
   /** The host key finger-print of the SFTP server. When SkipHostKeyValidation is false, HostKeyFingerprint should be specified. Type: string (or Expression with resultType string). */
-  hostKeyFingerprint?: any;
+  hostKeyFingerprint?: Record<string, unknown>;
 }
 
 /** SAP Business Warehouse Linked Service. */
@@ -5295,17 +4987,17 @@ export interface SapBWLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapBW";
   /** Host name of the SAP BW instance. Type: string (or Expression with resultType string). */
-  server: any;
+  server: Record<string, unknown>;
   /** System number of the BW system. (Usually a two-digit decimal number represented as a string.) Type: string (or Expression with resultType string). */
-  systemNumber: any;
+  systemNumber: Record<string, unknown>;
   /** Client ID of the client on the BW system. (Usually a three-digit decimal number represented as a string) Type: string (or Expression with resultType string). */
-  clientId: any;
+  clientId: Record<string, unknown>;
   /** Username to access the SAP BW server. Type: string (or Expression with resultType string). */
-  userName?: any;
+  userName?: Record<string, unknown>;
   /** Password to access the SAP BW server. */
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** SAP HANA Linked Service. */
@@ -5313,17 +5005,17 @@ export interface SapHanaLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapHana";
   /** SAP HANA ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString?: any;
+  connectionString?: Record<string, unknown>;
   /** Host name of the SAP HANA server. Type: string (or Expression with resultType string). */
-  server?: any;
+  server?: Record<string, unknown>;
   /** The authentication type to be used to connect to the SAP HANA server. */
   authenticationType?: SapHanaAuthenticationType;
   /** Username to access the SAP HANA server. Type: string (or Expression with resultType string). */
-  userName?: any;
+  userName?: Record<string, unknown>;
   /** Password to access the SAP HANA server. */
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Amazon Marketplace Web Service linked service. */
@@ -5331,25 +5023,25 @@ export interface AmazonMWSLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonMWS";
   /** The endpoint of the Amazon MWS server, (i.e. mws.amazonservices.com) */
-  endpoint: any;
+  endpoint: Record<string, unknown>;
   /** The Amazon Marketplace ID you want to retrieve data from. To retrieve data from multiple Marketplace IDs, separate them with a comma (,). (i.e. A2EUQ1WTGCTBG2) */
-  marketplaceID: any;
+  marketplaceID: Record<string, unknown>;
   /** The Amazon seller ID. */
-  sellerID: any;
+  sellerID: Record<string, unknown>;
   /** The Amazon MWS authentication token. */
   mwsAuthToken?: SecretBaseUnion;
   /** The access key id used to access data. */
-  accessKeyId: any;
+  accessKeyId: Record<string, unknown>;
   /** The secret key used to access data. */
   secretKey?: SecretBaseUnion;
   /** Specifies whether the data source endpoints are encrypted using HTTPS. The default value is true. */
-  useEncryptedEndpoints?: any;
+  useEncryptedEndpoints?: Record<string, unknown>;
   /** Specifies whether to require the host name in the server's certificate to match the host name of the server when connecting over SSL. The default value is true. */
-  useHostVerification?: any;
+  useHostVerification?: Record<string, unknown>;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
-  usePeerVerification?: any;
+  usePeerVerification?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Azure PostgreSQL linked service. */
@@ -5357,11 +5049,11 @@ export interface AzurePostgreSqlLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzurePostgreSql";
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString?: any;
+  connectionString?: Record<string, unknown>;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Concur Service linked service. */
@@ -5369,21 +5061,21 @@ export interface ConcurLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Concur";
   /** Properties used to connect to Concur. It is mutually exclusive with any other properties in the linked service. Type: object. */
-  connectionProperties?: any;
+  connectionProperties?: Record<string, unknown>;
   /** Application client_id supplied by Concur App Management. */
-  clientId: any;
+  clientId: Record<string, unknown>;
   /** The user name that you use to access Concur Service. */
-  username: any;
+  username: Record<string, unknown>;
   /** The password corresponding to the user name that you provided in the username field. */
   password?: SecretBaseUnion;
   /** Specifies whether the data source endpoints are encrypted using HTTPS. The default value is true. */
-  useEncryptedEndpoints?: any;
+  useEncryptedEndpoints?: Record<string, unknown>;
   /** Specifies whether to require the host name in the server's certificate to match the host name of the server when connecting over SSL. The default value is true. */
-  useHostVerification?: any;
+  useHostVerification?: Record<string, unknown>;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
-  usePeerVerification?: any;
+  usePeerVerification?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Couchbase server linked service. */
@@ -5391,11 +5083,11 @@ export interface CouchbaseLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Couchbase";
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString?: any;
+  connectionString?: Record<string, unknown>;
   /** The Azure key vault secret reference of credString in connection string. */
   credString?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Drill server linked service. */
@@ -5403,11 +5095,11 @@ export interface DrillLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Drill";
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString?: any;
+  connectionString?: Record<string, unknown>;
   /** The Azure key vault secret reference of password in connection string. */
   pwd?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Eloqua server linked service. */
@@ -5415,19 +5107,19 @@ export interface EloquaLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Eloqua";
   /** The endpoint of the Eloqua server. (i.e. eloqua.example.com) */
-  endpoint: any;
+  endpoint: Record<string, unknown>;
   /** The site name and user name of your Eloqua account in the form: sitename/username. (i.e. Eloqua/Alice) */
-  username: any;
+  username: Record<string, unknown>;
   /** The password corresponding to the user name. */
   password?: SecretBaseUnion;
   /** Specifies whether the data source endpoints are encrypted using HTTPS. The default value is true. */
-  useEncryptedEndpoints?: any;
+  useEncryptedEndpoints?: Record<string, unknown>;
   /** Specifies whether to require the host name in the server's certificate to match the host name of the server when connecting over SSL. The default value is true. */
-  useHostVerification?: any;
+  useHostVerification?: Record<string, unknown>;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
-  usePeerVerification?: any;
+  usePeerVerification?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Google BigQuery service linked service. */
@@ -5435,29 +5127,29 @@ export interface GoogleBigQueryLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleBigQuery";
   /** The default BigQuery project to query against. */
-  project: any;
+  project: Record<string, unknown>;
   /** A comma-separated list of public BigQuery projects to access. */
-  additionalProjects?: any;
+  additionalProjects?: Record<string, unknown>;
   /** Whether to request access to Google Drive. Allowing Google Drive access enables support for federated tables that combine BigQuery data with data from Google Drive. The default value is false. */
-  requestGoogleDriveScope?: any;
+  requestGoogleDriveScope?: Record<string, unknown>;
   /** The OAuth 2.0 authentication mechanism used for authentication. ServiceAuthentication can only be used on self-hosted IR. */
   authenticationType: GoogleBigQueryAuthenticationType;
   /** The refresh token obtained from Google for authorizing access to BigQuery for UserAuthentication. */
   refreshToken?: SecretBaseUnion;
   /** The client id of the google application used to acquire the refresh token. Type: string (or Expression with resultType string). */
-  clientId?: any;
+  clientId?: Record<string, unknown>;
   /** The client secret of the google application used to acquire the refresh token. */
   clientSecret?: SecretBaseUnion;
   /** The service account email ID that is used for ServiceAuthentication and can only be used on self-hosted IR. */
-  email?: any;
+  email?: Record<string, unknown>;
   /** The full path to the .p12 key file that is used to authenticate the service account email address and can only be used on self-hosted IR. */
-  keyFilePath?: any;
+  keyFilePath?: Record<string, unknown>;
   /** The full path of the .pem file containing trusted CA certificates for verifying the server when connecting over SSL. This property can only be set when using SSL on self-hosted IR. The default value is the cacerts.pem file installed with the IR. */
-  trustedCertPath?: any;
+  trustedCertPath?: Record<string, unknown>;
   /** Specifies whether to use a CA certificate from the system trust store or from a specified PEM file. The default value is false. */
-  useSystemTrustStore?: any;
+  useSystemTrustStore?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Greenplum Database linked service. */
@@ -5465,11 +5157,11 @@ export interface GreenplumLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Greenplum";
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString?: any;
+  connectionString?: Record<string, unknown>;
   /** The Azure key vault secret reference of password in connection string. */
   pwd?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** HBase server linked service. */
@@ -5477,27 +5169,27 @@ export interface HBaseLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HBase";
   /** The IP address or host name of the HBase server. (i.e. 192.168.222.160) */
-  host: any;
+  host: Record<string, unknown>;
   /** The TCP port that the HBase instance uses to listen for client connections. The default value is 9090. */
-  port?: any;
+  port?: Record<string, unknown>;
   /** The partial URL corresponding to the HBase server. (i.e. /gateway/sandbox/hbase/version) */
-  httpPath?: any;
+  httpPath?: Record<string, unknown>;
   /** The authentication mechanism to use to connect to the HBase server. */
   authenticationType: HBaseAuthenticationType;
   /** The user name used to connect to the HBase instance. */
-  username?: any;
+  username?: Record<string, unknown>;
   /** The password corresponding to the user name. */
   password?: SecretBaseUnion;
   /** Specifies whether the connections to the server are encrypted using SSL. The default value is false. */
-  enableSsl?: any;
+  enableSsl?: Record<string, unknown>;
   /** The full path of the .pem file containing trusted CA certificates for verifying the server when connecting over SSL. This property can only be set when using SSL on self-hosted IR. The default value is the cacerts.pem file installed with the IR. */
-  trustedCertPath?: any;
+  trustedCertPath?: Record<string, unknown>;
   /** Specifies whether to require a CA-issued SSL certificate name to match the host name of the server when connecting over SSL. The default value is false. */
-  allowHostNameCNMismatch?: any;
+  allowHostNameCNMismatch?: Record<string, unknown>;
   /** Specifies whether to allow self-signed certificates from the server. The default value is false. */
-  allowSelfSignedServerCert?: any;
+  allowSelfSignedServerCert?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Hive Server linked service. */
@@ -5505,9 +5197,9 @@ export interface HiveLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Hive";
   /** IP address or host name of the Hive server, separated by ';' for multiple hosts (only when serviceDiscoveryMode is enable). */
-  host: any;
+  host: Record<string, unknown>;
   /** The TCP port that the Hive server uses to listen for client connections. */
-  port?: any;
+  port?: Record<string, unknown>;
   /** The type of Hive server. */
   serverType?: HiveServerType;
   /** The transport protocol to use in the Thrift layer. */
@@ -5515,29 +5207,29 @@ export interface HiveLinkedService extends LinkedService {
   /** The authentication method used to access the Hive server. */
   authenticationType: HiveAuthenticationType;
   /** true to indicate using the ZooKeeper service, false not. */
-  serviceDiscoveryMode?: any;
+  serviceDiscoveryMode?: Record<string, unknown>;
   /** The namespace on ZooKeeper under which Hive Server 2 nodes are added. */
-  zooKeeperNameSpace?: any;
+  zooKeeperNameSpace?: Record<string, unknown>;
   /** Specifies whether the driver uses native HiveQL queries,or converts them into an equivalent form in HiveQL. */
-  useNativeQuery?: any;
+  useNativeQuery?: Record<string, unknown>;
   /** The user name that you use to access Hive Server. */
-  username?: any;
+  username?: Record<string, unknown>;
   /** The password corresponding to the user name that you provided in the Username field */
   password?: SecretBaseUnion;
   /** The partial URL corresponding to the Hive server. */
-  httpPath?: any;
+  httpPath?: Record<string, unknown>;
   /** Specifies whether the connections to the server are encrypted using SSL. The default value is false. */
-  enableSsl?: any;
+  enableSsl?: Record<string, unknown>;
   /** The full path of the .pem file containing trusted CA certificates for verifying the server when connecting over SSL. This property can only be set when using SSL on self-hosted IR. The default value is the cacerts.pem file installed with the IR. */
-  trustedCertPath?: any;
+  trustedCertPath?: Record<string, unknown>;
   /** Specifies whether to use a CA certificate from the system trust store or from a specified PEM file. The default value is false. */
-  useSystemTrustStore?: any;
+  useSystemTrustStore?: Record<string, unknown>;
   /** Specifies whether to require a CA-issued SSL certificate name to match the host name of the server when connecting over SSL. The default value is false. */
-  allowHostNameCNMismatch?: any;
+  allowHostNameCNMismatch?: Record<string, unknown>;
   /** Specifies whether to allow self-signed certificates from the server. The default value is false. */
-  allowSelfSignedServerCert?: any;
+  allowSelfSignedServerCert?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Hubspot Service linked service. */
@@ -5545,7 +5237,7 @@ export interface HubspotLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Hubspot";
   /** The client ID associated with your Hubspot application. */
-  clientId: any;
+  clientId: Record<string, unknown>;
   /** The client secret associated with your Hubspot application. */
   clientSecret?: SecretBaseUnion;
   /** The access token obtained when initially authenticating your OAuth integration. */
@@ -5553,13 +5245,13 @@ export interface HubspotLinkedService extends LinkedService {
   /** The refresh token obtained when initially authenticating your OAuth integration. */
   refreshToken?: SecretBaseUnion;
   /** Specifies whether the data source endpoints are encrypted using HTTPS. The default value is true. */
-  useEncryptedEndpoints?: any;
+  useEncryptedEndpoints?: Record<string, unknown>;
   /** Specifies whether to require the host name in the server's certificate to match the host name of the server when connecting over SSL. The default value is true. */
-  useHostVerification?: any;
+  useHostVerification?: Record<string, unknown>;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
-  usePeerVerification?: any;
+  usePeerVerification?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Impala server linked service. */
@@ -5567,27 +5259,27 @@ export interface ImpalaLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Impala";
   /** The IP address or host name of the Impala server. (i.e. 192.168.222.160) */
-  host: any;
+  host: Record<string, unknown>;
   /** The TCP port that the Impala server uses to listen for client connections. The default value is 21050. */
-  port?: any;
+  port?: Record<string, unknown>;
   /** The authentication type to use. */
   authenticationType: ImpalaAuthenticationType;
   /** The user name used to access the Impala server. The default value is anonymous when using SASLUsername. */
-  username?: any;
+  username?: Record<string, unknown>;
   /** The password corresponding to the user name when using UsernameAndPassword. */
   password?: SecretBaseUnion;
   /** Specifies whether the connections to the server are encrypted using SSL. The default value is false. */
-  enableSsl?: any;
+  enableSsl?: Record<string, unknown>;
   /** The full path of the .pem file containing trusted CA certificates for verifying the server when connecting over SSL. This property can only be set when using SSL on self-hosted IR. The default value is the cacerts.pem file installed with the IR. */
-  trustedCertPath?: any;
+  trustedCertPath?: Record<string, unknown>;
   /** Specifies whether to use a CA certificate from the system trust store or from a specified PEM file. The default value is false. */
-  useSystemTrustStore?: any;
+  useSystemTrustStore?: Record<string, unknown>;
   /** Specifies whether to require a CA-issued SSL certificate name to match the host name of the server when connecting over SSL. The default value is false. */
-  allowHostNameCNMismatch?: any;
+  allowHostNameCNMismatch?: Record<string, unknown>;
   /** Specifies whether to allow self-signed certificates from the server. The default value is false. */
-  allowSelfSignedServerCert?: any;
+  allowSelfSignedServerCert?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Jira Service linked service. */
@@ -5595,21 +5287,21 @@ export interface JiraLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Jira";
   /** The IP address or host name of the Jira service. (e.g. jira.example.com) */
-  host: any;
+  host: Record<string, unknown>;
   /** The TCP port that the Jira server uses to listen for client connections. The default value is 443 if connecting through HTTPS, or 8080 if connecting through HTTP. */
-  port?: any;
+  port?: Record<string, unknown>;
   /** The user name that you use to access Jira Service. */
-  username: any;
+  username: Record<string, unknown>;
   /** The password corresponding to the user name that you provided in the username field. */
   password?: SecretBaseUnion;
   /** Specifies whether the data source endpoints are encrypted using HTTPS. The default value is true. */
-  useEncryptedEndpoints?: any;
+  useEncryptedEndpoints?: Record<string, unknown>;
   /** Specifies whether to require the host name in the server's certificate to match the host name of the server when connecting over SSL. The default value is true. */
-  useHostVerification?: any;
+  useHostVerification?: Record<string, unknown>;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
-  usePeerVerification?: any;
+  usePeerVerification?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Magento server linked service. */
@@ -5617,17 +5309,17 @@ export interface MagentoLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Magento";
   /** The URL of the Magento instance. (i.e. 192.168.222.110/magento3) */
-  host: any;
+  host: Record<string, unknown>;
   /** The access token from Magento. */
   accessToken?: SecretBaseUnion;
   /** Specifies whether the data source endpoints are encrypted using HTTPS. The default value is true. */
-  useEncryptedEndpoints?: any;
+  useEncryptedEndpoints?: Record<string, unknown>;
   /** Specifies whether to require the host name in the server's certificate to match the host name of the server when connecting over SSL. The default value is true. */
-  useHostVerification?: any;
+  useHostVerification?: Record<string, unknown>;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
-  usePeerVerification?: any;
+  usePeerVerification?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** MariaDB server linked service. */
@@ -5635,11 +5327,11 @@ export interface MariaDBLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MariaDB";
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString?: any;
+  connectionString?: Record<string, unknown>;
   /** The Azure key vault secret reference of password in connection string. */
   pwd?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Azure Database for MariaDB linked service. */
@@ -5647,11 +5339,11 @@ export interface AzureMariaDBLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureMariaDB";
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString?: any;
+  connectionString?: Record<string, unknown>;
   /** The Azure key vault secret reference of password in connection string. */
   pwd?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Marketo server linked service. */
@@ -5659,19 +5351,19 @@ export interface MarketoLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Marketo";
   /** The endpoint of the Marketo server. (i.e. 123-ABC-321.mktorest.com) */
-  endpoint: any;
+  endpoint: Record<string, unknown>;
   /** The client Id of your Marketo service. */
-  clientId: any;
+  clientId: Record<string, unknown>;
   /** The client secret of your Marketo service. */
   clientSecret?: SecretBaseUnion;
   /** Specifies whether the data source endpoints are encrypted using HTTPS. The default value is true. */
-  useEncryptedEndpoints?: any;
+  useEncryptedEndpoints?: Record<string, unknown>;
   /** Specifies whether to require the host name in the server's certificate to match the host name of the server when connecting over SSL. The default value is true. */
-  useHostVerification?: any;
+  useHostVerification?: Record<string, unknown>;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
-  usePeerVerification?: any;
+  usePeerVerification?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Paypal Service linked service. */
@@ -5679,19 +5371,19 @@ export interface PaypalLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Paypal";
   /** The URL of the PayPal instance. (i.e. api.sandbox.paypal.com) */
-  host: any;
+  host: Record<string, unknown>;
   /** The client ID associated with your PayPal application. */
-  clientId: any;
+  clientId: Record<string, unknown>;
   /** The client secret associated with your PayPal application. */
   clientSecret?: SecretBaseUnion;
   /** Specifies whether the data source endpoints are encrypted using HTTPS. The default value is true. */
-  useEncryptedEndpoints?: any;
+  useEncryptedEndpoints?: Record<string, unknown>;
   /** Specifies whether to require the host name in the server's certificate to match the host name of the server when connecting over SSL. The default value is true. */
-  useHostVerification?: any;
+  useHostVerification?: Record<string, unknown>;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
-  usePeerVerification?: any;
+  usePeerVerification?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Phoenix server linked service. */
@@ -5699,29 +5391,29 @@ export interface PhoenixLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Phoenix";
   /** The IP address or host name of the Phoenix server. (i.e. 192.168.222.160) */
-  host: any;
+  host: Record<string, unknown>;
   /** The TCP port that the Phoenix server uses to listen for client connections. The default value is 8765. */
-  port?: any;
+  port?: Record<string, unknown>;
   /** The partial URL corresponding to the Phoenix server. (i.e. /gateway/sandbox/phoenix/version). The default value is hbasephoenix if using WindowsAzureHDInsightService. */
-  httpPath?: any;
+  httpPath?: Record<string, unknown>;
   /** The authentication mechanism used to connect to the Phoenix server. */
   authenticationType: PhoenixAuthenticationType;
   /** The user name used to connect to the Phoenix server. */
-  username?: any;
+  username?: Record<string, unknown>;
   /** The password corresponding to the user name. */
   password?: SecretBaseUnion;
   /** Specifies whether the connections to the server are encrypted using SSL. The default value is false. */
-  enableSsl?: any;
+  enableSsl?: Record<string, unknown>;
   /** The full path of the .pem file containing trusted CA certificates for verifying the server when connecting over SSL. This property can only be set when using SSL on self-hosted IR. The default value is the cacerts.pem file installed with the IR. */
-  trustedCertPath?: any;
+  trustedCertPath?: Record<string, unknown>;
   /** Specifies whether to use a CA certificate from the system trust store or from a specified PEM file. The default value is false. */
-  useSystemTrustStore?: any;
+  useSystemTrustStore?: Record<string, unknown>;
   /** Specifies whether to require a CA-issued SSL certificate name to match the host name of the server when connecting over SSL. The default value is false. */
-  allowHostNameCNMismatch?: any;
+  allowHostNameCNMismatch?: Record<string, unknown>;
   /** Specifies whether to allow self-signed certificates from the server. The default value is false. */
-  allowSelfSignedServerCert?: any;
+  allowSelfSignedServerCert?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Presto server linked service. */
@@ -5729,33 +5421,33 @@ export interface PrestoLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Presto";
   /** The IP address or host name of the Presto server. (i.e. 192.168.222.160) */
-  host: any;
+  host: Record<string, unknown>;
   /** The version of the Presto server. (i.e. 0.148-t) */
-  serverVersion: any;
+  serverVersion: Record<string, unknown>;
   /** The catalog context for all request against the server. */
-  catalog: any;
+  catalog: Record<string, unknown>;
   /** The TCP port that the Presto server uses to listen for client connections. The default value is 8080. */
-  port?: any;
+  port?: Record<string, unknown>;
   /** The authentication mechanism used to connect to the Presto server. */
   authenticationType: PrestoAuthenticationType;
   /** The user name used to connect to the Presto server. */
-  username?: any;
+  username?: Record<string, unknown>;
   /** The password corresponding to the user name. */
   password?: SecretBaseUnion;
   /** Specifies whether the connections to the server are encrypted using SSL. The default value is false. */
-  enableSsl?: any;
+  enableSsl?: Record<string, unknown>;
   /** The full path of the .pem file containing trusted CA certificates for verifying the server when connecting over SSL. This property can only be set when using SSL on self-hosted IR. The default value is the cacerts.pem file installed with the IR. */
-  trustedCertPath?: any;
+  trustedCertPath?: Record<string, unknown>;
   /** Specifies whether to use a CA certificate from the system trust store or from a specified PEM file. The default value is false. */
-  useSystemTrustStore?: any;
+  useSystemTrustStore?: Record<string, unknown>;
   /** Specifies whether to require a CA-issued SSL certificate name to match the host name of the server when connecting over SSL. The default value is false. */
-  allowHostNameCNMismatch?: any;
+  allowHostNameCNMismatch?: Record<string, unknown>;
   /** Specifies whether to allow self-signed certificates from the server. The default value is false. */
-  allowSelfSignedServerCert?: any;
+  allowSelfSignedServerCert?: Record<string, unknown>;
   /** The local time zone used by the connection. Valid values for this option are specified in the IANA Time Zone Database. The default value is the system time zone. */
-  timeZoneID?: any;
+  timeZoneID?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** QuickBooks server linked service. */
@@ -5763,13 +5455,13 @@ export interface QuickBooksLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "QuickBooks";
   /** Properties used to connect to QuickBooks. It is mutually exclusive with any other properties in the linked service. Type: object. */
-  connectionProperties?: any;
+  connectionProperties?: Record<string, unknown>;
   /** The endpoint of the QuickBooks server. (i.e. quickbooks.api.intuit.com) */
-  endpoint?: any;
+  endpoint?: Record<string, unknown>;
   /** The company ID of the QuickBooks company to authorize. */
-  companyId?: any;
+  companyId?: Record<string, unknown>;
   /** The consumer key for OAuth 1.0 authentication. */
-  consumerKey?: any;
+  consumerKey?: Record<string, unknown>;
   /** The consumer secret for OAuth 1.0 authentication. */
   consumerSecret?: SecretBaseUnion;
   /** The access token for OAuth 1.0 authentication. */
@@ -5777,9 +5469,9 @@ export interface QuickBooksLinkedService extends LinkedService {
   /** The access token secret for OAuth 1.0 authentication. */
   accessTokenSecret?: SecretBaseUnion;
   /** Specifies whether the data source endpoints are encrypted using HTTPS. The default value is true. */
-  useEncryptedEndpoints?: any;
+  useEncryptedEndpoints?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** ServiceNow server linked service. */
@@ -5787,25 +5479,25 @@ export interface ServiceNowLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ServiceNow";
   /** The endpoint of the ServiceNow server. (i.e. <instance>.service-now.com) */
-  endpoint: any;
+  endpoint: Record<string, unknown>;
   /** The authentication type to use. */
   authenticationType: ServiceNowAuthenticationType;
   /** The user name used to connect to the ServiceNow server for Basic and OAuth2 authentication. */
-  username?: any;
+  username?: Record<string, unknown>;
   /** The password corresponding to the user name for Basic and OAuth2 authentication. */
   password?: SecretBaseUnion;
   /** The client id for OAuth2 authentication. */
-  clientId?: any;
+  clientId?: Record<string, unknown>;
   /** The client secret for OAuth2 authentication. */
   clientSecret?: SecretBaseUnion;
   /** Specifies whether the data source endpoints are encrypted using HTTPS. The default value is true. */
-  useEncryptedEndpoints?: any;
+  useEncryptedEndpoints?: Record<string, unknown>;
   /** Specifies whether to require the host name in the server's certificate to match the host name of the server when connecting over SSL. The default value is true. */
-  useHostVerification?: any;
+  useHostVerification?: Record<string, unknown>;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
-  usePeerVerification?: any;
+  usePeerVerification?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Shopify Service linked service. */
@@ -5813,17 +5505,17 @@ export interface ShopifyLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Shopify";
   /** The endpoint of the Shopify server. (i.e. mystore.myshopify.com) */
-  host: any;
+  host: Record<string, unknown>;
   /** The API access token that can be used to access Shopify’s data. The token won't expire if it is offline mode. */
   accessToken?: SecretBaseUnion;
   /** Specifies whether the data source endpoints are encrypted using HTTPS. The default value is true. */
-  useEncryptedEndpoints?: any;
+  useEncryptedEndpoints?: Record<string, unknown>;
   /** Specifies whether to require the host name in the server's certificate to match the host name of the server when connecting over SSL. The default value is true. */
-  useHostVerification?: any;
+  useHostVerification?: Record<string, unknown>;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
-  usePeerVerification?: any;
+  usePeerVerification?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Spark Server linked service. */
@@ -5831,9 +5523,9 @@ export interface SparkLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Spark";
   /** IP address or host name of the Spark server */
-  host: any;
+  host: Record<string, unknown>;
   /** The TCP port that the Spark server uses to listen for client connections. */
-  port: any;
+  port: Record<string, unknown>;
   /** The type of Spark server. */
   serverType?: SparkServerType;
   /** The transport protocol to use in the Thrift layer. */
@@ -5841,23 +5533,23 @@ export interface SparkLinkedService extends LinkedService {
   /** The authentication method used to access the Spark server. */
   authenticationType: SparkAuthenticationType;
   /** The user name that you use to access Spark Server. */
-  username?: any;
+  username?: Record<string, unknown>;
   /** The password corresponding to the user name that you provided in the Username field */
   password?: SecretBaseUnion;
   /** The partial URL corresponding to the Spark server. */
-  httpPath?: any;
+  httpPath?: Record<string, unknown>;
   /** Specifies whether the connections to the server are encrypted using SSL. The default value is false. */
-  enableSsl?: any;
+  enableSsl?: Record<string, unknown>;
   /** The full path of the .pem file containing trusted CA certificates for verifying the server when connecting over SSL. This property can only be set when using SSL on self-hosted IR. The default value is the cacerts.pem file installed with the IR. */
-  trustedCertPath?: any;
+  trustedCertPath?: Record<string, unknown>;
   /** Specifies whether to use a CA certificate from the system trust store or from a specified PEM file. The default value is false. */
-  useSystemTrustStore?: any;
+  useSystemTrustStore?: Record<string, unknown>;
   /** Specifies whether to require a CA-issued SSL certificate name to match the host name of the server when connecting over SSL. The default value is false. */
-  allowHostNameCNMismatch?: any;
+  allowHostNameCNMismatch?: Record<string, unknown>;
   /** Specifies whether to allow self-signed certificates from the server. The default value is false. */
-  allowSelfSignedServerCert?: any;
+  allowSelfSignedServerCert?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Square Service linked service. */
@@ -5865,23 +5557,23 @@ export interface SquareLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Square";
   /** Properties used to connect to Square. It is mutually exclusive with any other properties in the linked service. Type: object. */
-  connectionProperties?: any;
+  connectionProperties?: Record<string, unknown>;
   /** The URL of the Square instance. (i.e. mystore.mysquare.com) */
-  host?: any;
+  host?: Record<string, unknown>;
   /** The client ID associated with your Square application. */
-  clientId?: any;
+  clientId?: Record<string, unknown>;
   /** The client secret associated with your Square application. */
   clientSecret?: SecretBaseUnion;
   /** The redirect URL assigned in the Square application dashboard. (i.e. http://localhost:2500) */
-  redirectUri?: any;
+  redirectUri?: Record<string, unknown>;
   /** Specifies whether the data source endpoints are encrypted using HTTPS. The default value is true. */
-  useEncryptedEndpoints?: any;
+  useEncryptedEndpoints?: Record<string, unknown>;
   /** Specifies whether to require the host name in the server's certificate to match the host name of the server when connecting over SSL. The default value is true. */
-  useHostVerification?: any;
+  useHostVerification?: Record<string, unknown>;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
-  usePeerVerification?: any;
+  usePeerVerification?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Xero Service linked service. */
@@ -5889,9 +5581,9 @@ export interface XeroLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Xero";
   /** Properties used to connect to Xero. It is mutually exclusive with any other properties in the linked service. Type: object. */
-  connectionProperties?: any;
+  connectionProperties?: Record<string, unknown>;
   /** The endpoint of the Xero server. (i.e. api.xero.com) */
-  host?: any;
+  host?: Record<string, unknown>;
   /** The consumer key associated with the Xero application. */
   consumerKey?: SecretBaseUnion;
   /**
@@ -5900,13 +5592,13 @@ export interface XeroLinkedService extends LinkedService {
    */
   privateKey?: SecretBaseUnion;
   /** Specifies whether the data source endpoints are encrypted using HTTPS. The default value is true. */
-  useEncryptedEndpoints?: any;
+  useEncryptedEndpoints?: Record<string, unknown>;
   /** Specifies whether to require the host name in the server's certificate to match the host name of the server when connecting over SSL. The default value is true. */
-  useHostVerification?: any;
+  useHostVerification?: Record<string, unknown>;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
-  usePeerVerification?: any;
+  usePeerVerification?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Zoho server linked service. */
@@ -5914,19 +5606,19 @@ export interface ZohoLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Zoho";
   /** Properties used to connect to Zoho. It is mutually exclusive with any other properties in the linked service. Type: object. */
-  connectionProperties?: any;
+  connectionProperties?: Record<string, unknown>;
   /** The endpoint of the Zoho server. (i.e. crm.zoho.com/crm/private) */
-  endpoint?: any;
+  endpoint?: Record<string, unknown>;
   /** The access token for Zoho authentication. */
   accessToken?: SecretBaseUnion;
   /** Specifies whether the data source endpoints are encrypted using HTTPS. The default value is true. */
-  useEncryptedEndpoints?: any;
+  useEncryptedEndpoints?: Record<string, unknown>;
   /** Specifies whether to require the host name in the server's certificate to match the host name of the server when connecting over SSL. The default value is true. */
-  useHostVerification?: any;
+  useHostVerification?: Record<string, unknown>;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
-  usePeerVerification?: any;
+  usePeerVerification?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Vertica linked service. */
@@ -5934,11 +5626,11 @@ export interface VerticaLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Vertica";
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString?: any;
+  connectionString?: Record<string, unknown>;
   /** The Azure key vault secret reference of password in connection string. */
   pwd?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Netezza linked service. */
@@ -5946,11 +5638,11 @@ export interface NetezzaLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Netezza";
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString?: any;
+  connectionString?: Record<string, unknown>;
   /** The Azure key vault secret reference of password in connection string. */
   pwd?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Salesforce Marketing Cloud linked service. */
@@ -5958,19 +5650,19 @@ export interface SalesforceMarketingCloudLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SalesforceMarketingCloud";
   /** Properties used to connect to Salesforce Marketing Cloud. It is mutually exclusive with any other properties in the linked service. Type: object. */
-  connectionProperties?: any;
+  connectionProperties?: Record<string, unknown>;
   /** The client ID associated with the Salesforce Marketing Cloud application. Type: string (or Expression with resultType string). */
-  clientId?: any;
+  clientId?: Record<string, unknown>;
   /** The client secret associated with the Salesforce Marketing Cloud application. Type: string (or Expression with resultType string). */
   clientSecret?: SecretBaseUnion;
   /** Specifies whether the data source endpoints are encrypted using HTTPS. The default value is true. Type: boolean (or Expression with resultType boolean). */
-  useEncryptedEndpoints?: any;
+  useEncryptedEndpoints?: Record<string, unknown>;
   /** Specifies whether to require the host name in the server's certificate to match the host name of the server when connecting over SSL. The default value is true. Type: boolean (or Expression with resultType boolean). */
-  useHostVerification?: any;
+  useHostVerification?: Record<string, unknown>;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. Type: boolean (or Expression with resultType boolean). */
-  usePeerVerification?: any;
+  usePeerVerification?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** HDInsight ondemand linked service. */
@@ -5978,31 +5670,31 @@ export interface HDInsightOnDemandLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HDInsightOnDemand";
   /** Number of worker/data nodes in the cluster. Suggestion value: 4. Type: string (or Expression with resultType string). */
-  clusterSize: any;
+  clusterSize: Record<string, unknown>;
   /** The allowed idle time for the on-demand HDInsight cluster. Specifies how long the on-demand HDInsight cluster stays alive after completion of an activity run if there are no other active jobs in the cluster. The minimum value is 5 mins. Type: string (or Expression with resultType string). */
-  timeToLive: any;
+  timeToLive: Record<string, unknown>;
   /** Version of the HDInsight cluster.  Type: string (or Expression with resultType string). */
-  version: any;
+  version: Record<string, unknown>;
   /** Azure Storage linked service to be used by the on-demand cluster for storing and processing data. */
   linkedServiceName: LinkedServiceReference;
   /** The customer’s subscription to host the cluster. Type: string (or Expression with resultType string). */
-  hostSubscriptionId: any;
+  hostSubscriptionId: Record<string, unknown>;
   /** The service principal id for the hostSubscriptionId. Type: string (or Expression with resultType string). */
-  servicePrincipalId?: any;
+  servicePrincipalId?: Record<string, unknown>;
   /** The key for the service principal id. */
   servicePrincipalKey?: SecretBaseUnion;
   /** The Tenant id/name to which the service principal belongs. Type: string (or Expression with resultType string). */
-  tenant: any;
+  tenant: Record<string, unknown>;
   /** The resource group where the cluster belongs. Type: string (or Expression with resultType string). */
-  clusterResourceGroup: any;
+  clusterResourceGroup: Record<string, unknown>;
   /** The prefix of cluster name, postfix will be distinct with timestamp. Type: string (or Expression with resultType string). */
-  clusterNamePrefix?: any;
+  clusterNamePrefix?: Record<string, unknown>;
   /** The username to access the cluster. Type: string (or Expression with resultType string). */
-  clusterUserName?: any;
+  clusterUserName?: Record<string, unknown>;
   /** The password to access the cluster. */
   clusterPassword?: SecretBaseUnion;
   /** The username to SSH remotely connect to cluster’s node (for Linux). Type: string (or Expression with resultType string). */
-  clusterSshUserName?: any;
+  clusterSshUserName?: Record<string, unknown>;
   /** The password to SSH remotely connect cluster’s node (for Linux). */
   clusterSshPassword?: SecretBaseUnion;
   /** Specifies additional storage accounts for the HDInsight linked service so that the Data Factory service can register them on your behalf. */
@@ -6010,39 +5702,39 @@ export interface HDInsightOnDemandLinkedService extends LinkedService {
   /** The name of Azure SQL linked service that point to the HCatalog database. The on-demand HDInsight cluster is created by using the Azure SQL database as the metastore. */
   hcatalogLinkedServiceName?: LinkedServiceReference;
   /** The cluster type. Type: string (or Expression with resultType string). */
-  clusterType?: any;
+  clusterType?: Record<string, unknown>;
   /** The version of spark if the cluster type is 'spark'. Type: string (or Expression with resultType string). */
-  sparkVersion?: any;
+  sparkVersion?: Record<string, unknown>;
   /** Specifies the core configuration parameters (as in core-site.xml) for the HDInsight cluster to be created. */
-  coreConfiguration?: any;
+  coreConfiguration?: Record<string, unknown>;
   /** Specifies the HBase configuration parameters (hbase-site.xml) for the HDInsight cluster. */
-  hBaseConfiguration?: any;
+  hBaseConfiguration?: Record<string, unknown>;
   /** Specifies the HDFS configuration parameters (hdfs-site.xml) for the HDInsight cluster. */
-  hdfsConfiguration?: any;
+  hdfsConfiguration?: Record<string, unknown>;
   /** Specifies the hive configuration parameters (hive-site.xml) for the HDInsight cluster. */
-  hiveConfiguration?: any;
+  hiveConfiguration?: Record<string, unknown>;
   /** Specifies the MapReduce configuration parameters (mapred-site.xml) for the HDInsight cluster. */
-  mapReduceConfiguration?: any;
+  mapReduceConfiguration?: Record<string, unknown>;
   /** Specifies the Oozie configuration parameters (oozie-site.xml) for the HDInsight cluster. */
-  oozieConfiguration?: any;
+  oozieConfiguration?: Record<string, unknown>;
   /** Specifies the Storm configuration parameters (storm-site.xml) for the HDInsight cluster. */
-  stormConfiguration?: any;
+  stormConfiguration?: Record<string, unknown>;
   /** Specifies the Yarn configuration parameters (yarn-site.xml) for the HDInsight cluster. */
-  yarnConfiguration?: any;
+  yarnConfiguration?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
   /** Specifies the size of the head node for the HDInsight cluster. */
-  headNodeSize?: any;
+  headNodeSize?: Record<string, unknown>;
   /** Specifies the size of the data node for the HDInsight cluster. */
-  dataNodeSize?: any;
+  dataNodeSize?: Record<string, unknown>;
   /** Specifies the size of the Zoo Keeper node for the HDInsight cluster. */
-  zookeeperNodeSize?: any;
+  zookeeperNodeSize?: Record<string, unknown>;
   /** Custom script actions to run on HDI ondemand cluster once it's up. Please refer to https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-customize-cluster-linux?toc=%2Fen-us%2Fazure%2Fhdinsight%2Fr-server%2FTOC.json&bc=%2Fen-us%2Fazure%2Fbread%2Ftoc.json#understanding-script-actions. */
   scriptActions?: ScriptAction[];
   /** The ARM resource ID for the vNet to which the cluster should be joined after creation. Type: string (or Expression with resultType string). */
-  virtualNetworkId?: any;
+  virtualNetworkId?: Record<string, unknown>;
   /** The ARM resource ID for the subnet in the vNet. If virtualNetworkId was specified, then this property is required. Type: string (or Expression with resultType string). */
-  subnetName?: any;
+  subnetName?: Record<string, unknown>;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
 }
@@ -6052,21 +5744,21 @@ export interface AzureDataLakeAnalyticsLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataLakeAnalytics";
   /** The Azure Data Lake Analytics account name. Type: string (or Expression with resultType string). */
-  accountName: any;
+  accountName: Record<string, unknown>;
   /** The ID of the application used to authenticate against the Azure Data Lake Analytics account. Type: string (or Expression with resultType string). */
-  servicePrincipalId?: any;
+  servicePrincipalId?: Record<string, unknown>;
   /** The Key of the application used to authenticate against the Azure Data Lake Analytics account. */
   servicePrincipalKey?: SecretBaseUnion;
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
-  tenant: any;
+  tenant: Record<string, unknown>;
   /** Data Lake Analytics account subscription ID (if different from Data Factory account). Type: string (or Expression with resultType string). */
-  subscriptionId?: any;
+  subscriptionId?: Record<string, unknown>;
   /** Data Lake Analytics account resource group name (if different from Data Factory account). Type: string (or Expression with resultType string). */
-  resourceGroupName?: any;
+  resourceGroupName?: Record<string, unknown>;
   /** Azure Data Lake Analytics URI Type: string (or Expression with resultType string). */
-  dataLakeAnalyticsUri?: any;
+  dataLakeAnalyticsUri?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Azure Databricks linked service. */
@@ -6074,41 +5766,41 @@ export interface AzureDatabricksLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDatabricks";
   /** <REGION>.azuredatabricks.net, domain name of your Databricks deployment. Type: string (or Expression with resultType string). */
-  domain: any;
+  domain: Record<string, unknown>;
   /** Access token for databricks REST API. Refer to https://docs.azuredatabricks.net/api/latest/authentication.html. Type: string (or Expression with resultType string). */
   accessToken?: SecretBaseUnion;
   /** Required to specify MSI, if using Workspace resource id for databricks REST API. Type: string (or Expression with resultType string). */
-  authentication?: any;
+  authentication?: Record<string, unknown>;
   /** Workspace resource id for databricks REST API. Type: string (or Expression with resultType string). */
-  workspaceResourceId?: any;
+  workspaceResourceId?: Record<string, unknown>;
   /** The id of an existing interactive cluster that will be used for all runs of this activity. Type: string (or Expression with resultType string). */
-  existingClusterId?: any;
+  existingClusterId?: Record<string, unknown>;
   /** The id of an existing instance pool that will be used for all runs of this activity. Type: string (or Expression with resultType string). */
-  instancePoolId?: any;
+  instancePoolId?: Record<string, unknown>;
   /** If not using an existing interactive cluster, this specifies the Spark version of a new job cluster or instance pool nodes created for each run of this activity. Required if instancePoolId is specified. Type: string (or Expression with resultType string). */
-  newClusterVersion?: any;
+  newClusterVersion?: Record<string, unknown>;
   /** If not using an existing interactive cluster, this specifies the number of worker nodes to use for the new job cluster or instance pool. For new job clusters, this a string-formatted Int32, like '1' means numOfWorker is 1 or '1:10' means auto-scale from 1 (min) to 10 (max). For instance pools, this is a string-formatted Int32, and can only specify a fixed number of worker nodes, such as '2'. Required if newClusterVersion is specified. Type: string (or Expression with resultType string). */
-  newClusterNumOfWorker?: any;
+  newClusterNumOfWorker?: Record<string, unknown>;
   /** The node type of the new job cluster. This property is required if newClusterVersion is specified and instancePoolId is not specified. If instancePoolId is specified, this property is ignored. Type: string (or Expression with resultType string). */
-  newClusterNodeType?: any;
+  newClusterNodeType?: Record<string, unknown>;
   /** A set of optional, user-specified Spark configuration key-value pairs. */
-  newClusterSparkConf?: { [propertyName: string]: any };
+  newClusterSparkConf?: { [propertyName: string]: Record<string, unknown> };
   /** A set of optional, user-specified Spark environment variables key-value pairs. */
-  newClusterSparkEnvVars?: { [propertyName: string]: any };
+  newClusterSparkEnvVars?: { [propertyName: string]: Record<string, unknown> };
   /** Additional tags for cluster resources. This property is ignored in instance pool configurations. */
-  newClusterCustomTags?: { [propertyName: string]: any };
+  newClusterCustomTags?: { [propertyName: string]: Record<string, unknown> };
   /** Specify a location to deliver Spark driver, worker, and event logs. Type: string (or Expression with resultType string). */
-  newClusterLogDestination?: any;
+  newClusterLogDestination?: Record<string, unknown>;
   /** The driver node type for the new job cluster. This property is ignored in instance pool configurations. Type: string (or Expression with resultType string). */
-  newClusterDriverNodeType?: any;
+  newClusterDriverNodeType?: Record<string, unknown>;
   /** User-defined initialization scripts for the new cluster. Type: array of strings (or Expression with resultType array of strings). */
-  newClusterInitScripts?: any;
+  newClusterInitScripts?: Record<string, unknown>;
   /** Enable the elastic disk on the new cluster. This property is now ignored, and takes the default elastic disk behavior in Databricks (elastic disks are always enabled). Type: boolean (or Expression with resultType boolean). */
-  newClusterEnableElasticDisk?: any;
+  newClusterEnableElasticDisk?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
   /** The policy id for limiting the ability to configure clusters based on a user defined set of rules. Type: string (or Expression with resultType string). */
-  policyId?: any;
+  policyId?: Record<string, unknown>;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
 }
@@ -6118,17 +5810,13 @@ export interface AzureDatabricksDeltaLakeLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDatabricksDeltaLake";
   /** <REGION>.azuredatabricks.net, domain name of your Databricks deployment. Type: string (or Expression with resultType string). */
-  domain: any;
+  domain: Record<string, unknown>;
   /** Access token for databricks REST API. Refer to https://docs.azuredatabricks.net/api/latest/authentication.html. Type: string, SecureString or AzureKeyVaultSecretReference. */
   accessToken?: SecretBaseUnion;
   /** The id of an existing interactive cluster that will be used for all runs of this job. Type: string (or Expression with resultType string). */
-  clusterId?: any;
+  clusterId?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
-  /** The credential reference containing authentication information. */
-  credential?: CredentialReference;
-  /** Workspace resource id for databricks REST API. Type: string (or Expression with resultType string). */
-  workspaceResourceId?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Responsys linked service. */
@@ -6136,19 +5824,19 @@ export interface ResponsysLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Responsys";
   /** The endpoint of the Responsys server. */
-  endpoint: any;
+  endpoint: Record<string, unknown>;
   /** The client ID associated with the Responsys application. Type: string (or Expression with resultType string). */
-  clientId: any;
+  clientId: Record<string, unknown>;
   /** The client secret associated with the Responsys application. Type: string (or Expression with resultType string). */
   clientSecret?: SecretBaseUnion;
   /** Specifies whether the data source endpoints are encrypted using HTTPS. The default value is true. Type: boolean (or Expression with resultType boolean). */
-  useEncryptedEndpoints?: any;
+  useEncryptedEndpoints?: Record<string, unknown>;
   /** Specifies whether to require the host name in the server's certificate to match the host name of the server when connecting over SSL. The default value is true. Type: boolean (or Expression with resultType boolean). */
-  useHostVerification?: any;
+  useHostVerification?: Record<string, unknown>;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. Type: boolean (or Expression with resultType boolean). */
-  usePeerVerification?: any;
+  usePeerVerification?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Dynamics AX linked service. */
@@ -6156,17 +5844,17 @@ export interface DynamicsAXLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DynamicsAX";
   /** The Dynamics AX (or Dynamics 365 Finance and Operations) instance OData endpoint. */
-  url: any;
+  url: Record<string, unknown>;
   /** Specify the application's client ID. Type: string (or Expression with resultType string). */
-  servicePrincipalId: any;
+  servicePrincipalId: Record<string, unknown>;
   /** Specify the application's key. Mark this field as a SecureString to store it securely in Data Factory, or reference a secret stored in Azure Key Vault. Type: string (or Expression with resultType string). */
   servicePrincipalKey: SecretBaseUnion;
   /** Specify the tenant information (domain name or tenant ID) under which your application resides. Retrieve it by hovering the mouse in the top-right corner of the Azure portal. Type: string (or Expression with resultType string). */
-  tenant: any;
+  tenant: Record<string, unknown>;
   /** Specify the resource you are requesting authorization. Type: string (or Expression with resultType string). */
-  aadResourceId: any;
+  aadResourceId: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Oracle Service Cloud linked service. */
@@ -6174,49 +5862,47 @@ export interface OracleServiceCloudLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OracleServiceCloud";
   /** The URL of the Oracle Service Cloud instance. */
-  host: any;
+  host: Record<string, unknown>;
   /** The user name that you use to access Oracle Service Cloud server. */
-  username: any;
+  username: Record<string, unknown>;
   /** The password corresponding to the user name that you provided in the username key. */
   password: SecretBaseUnion;
   /** Specifies whether the data source endpoints are encrypted using HTTPS. The default value is true. Type: boolean (or Expression with resultType boolean). */
-  useEncryptedEndpoints?: any;
+  useEncryptedEndpoints?: Record<string, unknown>;
   /** Specifies whether to require the host name in the server's certificate to match the host name of the server when connecting over SSL. The default value is true. Type: boolean (or Expression with resultType boolean). */
-  useHostVerification?: any;
+  useHostVerification?: Record<string, unknown>;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. Type: boolean (or Expression with resultType boolean). */
-  usePeerVerification?: any;
+  usePeerVerification?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Google AdWords service linked service. */
 export interface GoogleAdWordsLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleAdWords";
-  /** Properties used to connect to GoogleAds. It is mutually exclusive with any other properties in the linked service. Type: object. */
-  connectionProperties?: any;
   /** The Client customer ID of the AdWords account that you want to fetch report data for. */
-  clientCustomerID?: any;
+  clientCustomerID: Record<string, unknown>;
   /** The developer token associated with the manager account that you use to grant access to the AdWords API. */
-  developerToken?: SecretBaseUnion;
+  developerToken: SecretBaseUnion;
   /** The OAuth 2.0 authentication mechanism used for authentication. ServiceAuthentication can only be used on self-hosted IR. */
-  authenticationType?: GoogleAdWordsAuthenticationType;
+  authenticationType: GoogleAdWordsAuthenticationType;
   /** The refresh token obtained from Google for authorizing access to AdWords for UserAuthentication. */
   refreshToken?: SecretBaseUnion;
   /** The client id of the google application used to acquire the refresh token. Type: string (or Expression with resultType string). */
-  clientId?: any;
+  clientId?: Record<string, unknown>;
   /** The client secret of the google application used to acquire the refresh token. */
   clientSecret?: SecretBaseUnion;
   /** The service account email ID that is used for ServiceAuthentication and can only be used on self-hosted IR. */
-  email?: any;
+  email?: Record<string, unknown>;
   /** The full path to the .p12 key file that is used to authenticate the service account email address and can only be used on self-hosted IR. */
-  keyFilePath?: any;
+  keyFilePath?: Record<string, unknown>;
   /** The full path of the .pem file containing trusted CA certificates for verifying the server when connecting over SSL. This property can only be set when using SSL on self-hosted IR. The default value is the cacerts.pem file installed with the IR. */
-  trustedCertPath?: any;
+  trustedCertPath?: Record<string, unknown>;
   /** Specifies whether to use a CA certificate from the system trust store or from a specified PEM file. The default value is false. */
-  useSystemTrustStore?: any;
+  useSystemTrustStore?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** SAP Table Linked Service. */
@@ -6224,37 +5910,37 @@ export interface SapTableLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapTable";
   /** Host name of the SAP instance where the table is located. Type: string (or Expression with resultType string). */
-  server?: any;
+  server?: Record<string, unknown>;
   /** System number of the SAP system where the table is located. (Usually a two-digit decimal number represented as a string.) Type: string (or Expression with resultType string). */
-  systemNumber?: any;
+  systemNumber?: Record<string, unknown>;
   /** Client ID of the client on the SAP system where the table is located. (Usually a three-digit decimal number represented as a string) Type: string (or Expression with resultType string). */
-  clientId?: any;
+  clientId?: Record<string, unknown>;
   /** Language of the SAP system where the table is located. The default value is EN. Type: string (or Expression with resultType string). */
-  language?: any;
+  language?: Record<string, unknown>;
   /** SystemID of the SAP system where the table is located. Type: string (or Expression with resultType string). */
-  systemId?: any;
+  systemId?: Record<string, unknown>;
   /** Username to access the SAP server where the table is located. Type: string (or Expression with resultType string). */
-  userName?: any;
+  userName?: Record<string, unknown>;
   /** Password to access the SAP server where the table is located. */
   password?: SecretBaseUnion;
   /** The hostname of the SAP Message Server. Type: string (or Expression with resultType string). */
-  messageServer?: any;
+  messageServer?: Record<string, unknown>;
   /** The service name or port number of the Message Server. Type: string (or Expression with resultType string). */
-  messageServerService?: any;
+  messageServerService?: Record<string, unknown>;
   /** SNC activation indicator to access the SAP server where the table is located. Must be either 0 (off) or 1 (on). Type: string (or Expression with resultType string). */
-  sncMode?: any;
+  sncMode?: Record<string, unknown>;
   /** Initiator's SNC name to access the SAP server where the table is located. Type: string (or Expression with resultType string). */
-  sncMyName?: any;
+  sncMyName?: Record<string, unknown>;
   /** Communication partner's SNC name to access the SAP server where the table is located. Type: string (or Expression with resultType string). */
-  sncPartnerName?: any;
+  sncPartnerName?: Record<string, unknown>;
   /** External security product's library to access the SAP server where the table is located. Type: string (or Expression with resultType string). */
-  sncLibraryPath?: any;
+  sncLibraryPath?: Record<string, unknown>;
   /** SNC Quality of Protection. Allowed value include: 1, 2, 3, 8, 9. Type: string (or Expression with resultType string). */
-  sncQop?: any;
+  sncQop?: Record<string, unknown>;
   /** The Logon Group for the SAP System. Type: string (or Expression with resultType string). */
-  logonGroup?: any;
+  logonGroup?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** Azure Data Explorer (Kusto) linked service. */
@@ -6262,15 +5948,15 @@ export interface AzureDataExplorerLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataExplorer";
   /** The endpoint of Azure Data Explorer (the engine's endpoint). URL will be in the format https://<clusterName>.<regionName>.kusto.windows.net. Type: string (or Expression with resultType string) */
-  endpoint: any;
+  endpoint: Record<string, unknown>;
   /** The ID of the service principal used to authenticate against Azure Data Explorer. Type: string (or Expression with resultType string). */
-  servicePrincipalId?: any;
+  servicePrincipalId?: Record<string, unknown>;
   /** The key of the service principal used to authenticate against Kusto. */
   servicePrincipalKey?: SecretBaseUnion;
   /** Database name for connection. Type: string (or Expression with resultType string). */
-  database: any;
+  database: Record<string, unknown>;
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
-  tenant?: any;
+  tenant?: Record<string, unknown>;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
 }
@@ -6280,17 +5966,17 @@ export interface AzureFunctionLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureFunction";
   /** The endpoint of the Azure Function App. URL will be in the format https://<accountName>.azurewebsites.net. */
-  functionAppUrl: any;
+  functionAppUrl: Record<string, unknown>;
   /** Function or Host key for Azure Function App. */
   functionKey?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
   /** Allowed token audiences for azure function. */
-  resourceId?: any;
+  resourceId?: Record<string, unknown>;
   /** Type of authentication (Required to specify MSI) used to connect to AzureFunction. Type: string (or Expression with resultType string). */
-  authentication?: any;
+  authentication?: Record<string, unknown>;
 }
 
 /** Snowflake linked service. */
@@ -6298,11 +5984,11 @@ export interface SnowflakeLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Snowflake";
   /** The connection string of snowflake. Type: string, SecureString. */
-  connectionString: any;
+  connectionString: Record<string, unknown>;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** SharePoint Online List linked service. */
@@ -6310,27 +5996,15 @@ export interface SharePointOnlineListLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SharePointOnlineList";
   /** The URL of the SharePoint Online site. For example, https://contoso.sharepoint.com/sites/siteName. Type: string (or Expression with resultType string). */
-  siteUrl: any;
+  siteUrl: Record<string, unknown>;
   /** The tenant ID under which your application resides. You can find it from Azure portal Active Directory overview page. Type: string (or Expression with resultType string). */
-  tenantId: any;
+  tenantId: Record<string, unknown>;
   /** The application (client) ID of your application registered in Azure Active Directory. Make sure to grant SharePoint site permission to this application. Type: string (or Expression with resultType string). */
-  servicePrincipalId: any;
+  servicePrincipalId: Record<string, unknown>;
   /** The client secret of your application registered in Azure Active Directory. Type: string (or Expression with resultType string). */
   servicePrincipalKey: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
-}
-
-/** Azure Synapse Analytics (Artifacts) linked service. */
-export interface AzureSynapseArtifactsLinkedService extends LinkedService {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureSynapseArtifacts";
-  /** https://<workspacename>.dev.azuresynapse.net, Azure Synapse Analytics workspace URL. Type: string (or Expression with resultType string). */
-  endpoint: any;
-  /** Required to specify MSI, if using system assigned managed identity as authentication method. Type: string (or Expression with resultType string). */
-  authentication?: any;
-  /** The resource ID of the Synapse workspace. The format should be: /subscriptions/{subscriptionID}/resourceGroups/{resourceGroup}/providers/Microsoft.Synapse/workspaces/{workspaceName}. Type: string (or Expression with resultType string). */
-  workspaceResourceId?: any;
+  encryptedCredential?: Record<string, unknown>;
 }
 
 /** A single Amazon Simple Storage Service (S3) object or a set of S3 objects. */
@@ -6338,17 +6012,17 @@ export interface AmazonS3Dataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonS3Object";
   /** The name of the Amazon S3 bucket. Type: string (or Expression with resultType string). */
-  bucketName: any;
+  bucketName: Record<string, unknown>;
   /** The key of the Amazon S3 object. Type: string (or Expression with resultType string). */
-  key?: any;
+  key?: Record<string, unknown>;
   /** The prefix filter for the S3 object name. Type: string (or Expression with resultType string). */
-  prefix?: any;
+  prefix?: Record<string, unknown>;
   /** The version for the S3 object. Type: string (or Expression with resultType string). */
-  version?: any;
+  version?: Record<string, unknown>;
   /** The start of S3 object's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeStart?: any;
+  modifiedDatetimeStart?: Record<string, unknown>;
   /** The end of S3 object's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeEnd?: any;
+  modifiedDatetimeEnd?: Record<string, unknown>;
   /** The format of files. */
   format?: DatasetStorageFormatUnion;
   /** The data compression method used for the Amazon S3 object. */
@@ -6362,7 +6036,7 @@ export interface AvroDataset extends Dataset {
   /** The location of the avro storage. */
   location?: DatasetLocationUnion;
   /** The data avroCompressionCodec. Type: string (or Expression with resultType string). */
-  avroCompressionCodec?: any;
+  avroCompressionCodec?: Record<string, unknown>;
   avroCompressionLevel?: number;
 }
 
@@ -6373,17 +6047,17 @@ export interface ExcelDataset extends Dataset {
   /** The location of the excel storage. */
   location?: DatasetLocationUnion;
   /** The sheet name of excel file. Type: string (or Expression with resultType string). */
-  sheetName?: any;
+  sheetName?: Record<string, unknown>;
   /** The sheet index of excel file and default value is 0. Type: integer (or Expression with resultType integer) */
-  sheetIndex?: any;
+  sheetIndex?: Record<string, unknown>;
   /** The partial data of one sheet. Type: string (or Expression with resultType string). */
-  range?: any;
+  range?: Record<string, unknown>;
   /** When used as input, treat the first row of data as headers. When used as output,write the headers into the output as the first row of data. The default value is false. Type: boolean (or Expression with resultType boolean). */
-  firstRowAsHeader?: any;
+  firstRowAsHeader?: Record<string, unknown>;
   /** The data compression method used for the json dataset. */
   compression?: DatasetCompression;
   /** The null value string. Type: string (or Expression with resultType string). */
-  nullValue?: any;
+  nullValue?: Record<string, unknown>;
 }
 
 /** Parquet dataset. */
@@ -6393,7 +6067,7 @@ export interface ParquetDataset extends Dataset {
   /** The location of the parquet storage. */
   location?: DatasetLocationUnion;
   /** The data compressionCodec. Type: string (or Expression with resultType string). */
-  compressionCodec?: any;
+  compressionCodec?: Record<string, unknown>;
 }
 
 /** Delimited text dataset. */
@@ -6403,23 +6077,23 @@ export interface DelimitedTextDataset extends Dataset {
   /** The location of the delimited text storage. */
   location?: DatasetLocationUnion;
   /** The column delimiter. Type: string (or Expression with resultType string). */
-  columnDelimiter?: any;
+  columnDelimiter?: Record<string, unknown>;
   /** The row delimiter. Type: string (or Expression with resultType string). */
-  rowDelimiter?: any;
+  rowDelimiter?: Record<string, unknown>;
   /** The code page name of the preferred encoding. If miss, the default value is UTF-8, unless BOM denotes another Unicode encoding. Refer to the name column of the table in the following link to set supported values: https://msdn.microsoft.com/library/system.text.encoding.aspx. Type: string (or Expression with resultType string). */
-  encodingName?: any;
+  encodingName?: Record<string, unknown>;
   /** The data compressionCodec. Type: string (or Expression with resultType string). */
-  compressionCodec?: any;
+  compressionCodec?: Record<string, unknown>;
   /** The data compression method used for DelimitedText. */
-  compressionLevel?: any;
+  compressionLevel?: Record<string, unknown>;
   /** The quote character. Type: string (or Expression with resultType string). */
-  quoteChar?: any;
+  quoteChar?: Record<string, unknown>;
   /** The escape character. Type: string (or Expression with resultType string). */
-  escapeChar?: any;
+  escapeChar?: Record<string, unknown>;
   /** When used as input, treat the first row of data as headers. When used as output,write the headers into the output as the first row of data. The default value is false. Type: boolean (or Expression with resultType boolean). */
-  firstRowAsHeader?: any;
+  firstRowAsHeader?: Record<string, unknown>;
   /** The null value string. Type: string (or Expression with resultType string). */
-  nullValue?: any;
+  nullValue?: Record<string, unknown>;
 }
 
 /** Json dataset. */
@@ -6429,7 +6103,7 @@ export interface JsonDataset extends Dataset {
   /** The location of the json data storage. */
   location?: DatasetLocationUnion;
   /** The code page name of the preferred encoding. If not specified, the default value is UTF-8, unless BOM denotes another Unicode encoding. Refer to the name column of the table in the following link to set supported values: https://msdn.microsoft.com/library/system.text.encoding.aspx. Type: string (or Expression with resultType string). */
-  encodingName?: any;
+  encodingName?: Record<string, unknown>;
   /** The data compression method used for the json dataset. */
   compression?: DatasetCompression;
 }
@@ -6441,9 +6115,9 @@ export interface XmlDataset extends Dataset {
   /** The location of the json data storage. */
   location?: DatasetLocationUnion;
   /** The code page name of the preferred encoding. If not specified, the default value is UTF-8, unless BOM denotes another Unicode encoding. Refer to the name column of the table in the following link to set supported values: https://msdn.microsoft.com/library/system.text.encoding.aspx. Type: string (or Expression with resultType string). */
-  encodingName?: any;
+  encodingName?: Record<string, unknown>;
   /** The null value string. Type: string (or Expression with resultType string). */
-  nullValue?: any;
+  nullValue?: Record<string, unknown>;
   /** The data compression method used for the json dataset. */
   compression?: DatasetCompression;
 }
@@ -6455,7 +6129,7 @@ export interface OrcDataset extends Dataset {
   /** The location of the ORC data storage. */
   location?: DatasetLocationUnion;
   /** The data orcCompressionCodec. Type: string (or Expression with resultType string). */
-  orcCompressionCodec?: any;
+  orcCompressionCodec?: Record<string, unknown>;
 }
 
 /** Binary dataset. */
@@ -6473,15 +6147,15 @@ export interface AzureBlobDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlob";
   /** The path of the Azure Blob storage. Type: string (or Expression with resultType string). */
-  folderPath?: any;
+  folderPath?: Record<string, unknown>;
   /** The root of blob path. Type: string (or Expression with resultType string). */
-  tableRootLocation?: any;
+  tableRootLocation?: Record<string, unknown>;
   /** The name of the Azure Blob. Type: string (or Expression with resultType string). */
-  fileName?: any;
+  fileName?: Record<string, unknown>;
   /** The start of Azure Blob's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeStart?: any;
+  modifiedDatetimeStart?: Record<string, unknown>;
   /** The end of Azure Blob's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeEnd?: any;
+  modifiedDatetimeEnd?: Record<string, unknown>;
   /** The format of the Azure Blob storage. */
   format?: DatasetStorageFormatUnion;
   /** The data compression method used for the blob storage. */
@@ -6493,7 +6167,7 @@ export interface AzureTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureTable";
   /** The table name of the Azure Table storage. Type: string (or Expression with resultType string). */
-  tableName: any;
+  tableName: Record<string, unknown>;
 }
 
 /** The Azure SQL Server database dataset. */
@@ -6501,11 +6175,11 @@ export interface AzureSqlTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSqlTable";
   /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
   /** The schema name of the Azure SQL database. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
+  schemaTypePropertiesSchema?: Record<string, unknown>;
   /** The table name of the Azure SQL database. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
 }
 
 /** The Azure SQL Managed Instance dataset. */
@@ -6513,11 +6187,11 @@ export interface AzureSqlMITableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSqlMITable";
   /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
   /** The schema name of the Azure SQL Managed Instance. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
+  schemaTypePropertiesSchema?: Record<string, unknown>;
   /** The table name of the Azure SQL Managed Instance dataset. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
 }
 
 /** The Azure SQL Data Warehouse dataset. */
@@ -6525,11 +6199,11 @@ export interface AzureSqlDWTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSqlDWTable";
   /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
   /** The schema name of the Azure SQL Data Warehouse. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
+  schemaTypePropertiesSchema?: Record<string, unknown>;
   /** The table name of the Azure SQL Data Warehouse. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
 }
 
 /** The Cassandra database dataset. */
@@ -6537,9 +6211,9 @@ export interface CassandraTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CassandraTable";
   /** The table name of the Cassandra database. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
   /** The keyspace of the Cassandra database. Type: string (or Expression with resultType string). */
-  keyspace?: any;
+  keyspace?: Record<string, unknown>;
 }
 
 /** The custom dataset. */
@@ -6547,7 +6221,7 @@ export interface CustomDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CustomDataset";
   /** Custom dataset properties. */
-  typeProperties?: any;
+  typeProperties?: Record<string, unknown>;
 }
 
 /** Microsoft Azure CosmosDB (SQL API) Collection dataset. */
@@ -6555,7 +6229,7 @@ export interface CosmosDbSqlApiCollectionDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CosmosDbSqlApiCollection";
   /** CosmosDB (SQL API) collection name. Type: string (or Expression with resultType string). */
-  collectionName: any;
+  collectionName: Record<string, unknown>;
 }
 
 /** Microsoft Azure Document Database Collection dataset. */
@@ -6563,7 +6237,7 @@ export interface DocumentDbCollectionDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DocumentDbCollection";
   /** Document Database collection name. Type: string (or Expression with resultType string). */
-  collectionName: any;
+  collectionName: Record<string, unknown>;
 }
 
 /** The Dynamics entity dataset. */
@@ -6571,7 +6245,7 @@ export interface DynamicsEntityDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DynamicsEntity";
   /** The logical name of the entity. Type: string (or Expression with resultType string). */
-  entityName?: any;
+  entityName?: Record<string, unknown>;
 }
 
 /** The Dynamics CRM entity dataset. */
@@ -6579,7 +6253,7 @@ export interface DynamicsCrmEntityDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DynamicsCrmEntity";
   /** The logical name of the entity. Type: string (or Expression with resultType string). */
-  entityName?: any;
+  entityName?: Record<string, unknown>;
 }
 
 /** The Common Data Service for Apps entity dataset. */
@@ -6587,7 +6261,7 @@ export interface CommonDataServiceForAppsEntityDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CommonDataServiceForAppsEntity";
   /** The logical name of the entity. Type: string (or Expression with resultType string). */
-  entityName?: any;
+  entityName?: Record<string, unknown>;
 }
 
 /** Azure Data Lake Store dataset. */
@@ -6595,9 +6269,9 @@ export interface AzureDataLakeStoreDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataLakeStoreFile";
   /** Path to the folder in the Azure Data Lake Store. Type: string (or Expression with resultType string). */
-  folderPath?: any;
+  folderPath?: Record<string, unknown>;
   /** The name of the file in the Azure Data Lake Store. Type: string (or Expression with resultType string). */
-  fileName?: any;
+  fileName?: Record<string, unknown>;
   /** The format of the Data Lake Store. */
   format?: DatasetStorageFormatUnion;
   /** The data compression method used for the item(s) in the Azure Data Lake Store. */
@@ -6609,9 +6283,9 @@ export interface AzureBlobFSDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobFSFile";
   /** The path of the Azure Data Lake Storage Gen2 storage. Type: string (or Expression with resultType string). */
-  folderPath?: any;
+  folderPath?: Record<string, unknown>;
   /** The name of the Azure Data Lake Storage Gen2. Type: string (or Expression with resultType string). */
-  fileName?: any;
+  fileName?: Record<string, unknown>;
   /** The format of the Azure Data Lake Storage Gen2 storage. */
   format?: DatasetStorageFormatUnion;
   /** The data compression method used for the blob storage. */
@@ -6623,9 +6297,9 @@ export interface Office365Dataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Office365Table";
   /** Name of the dataset to extract from Office 365. Type: string (or Expression with resultType string). */
-  tableName: any;
+  tableName: Record<string, unknown>;
   /** A predicate expression that can be used to filter the specific rows to extract from Office 365. Type: string (or Expression with resultType string). */
-  predicate?: any;
+  predicate?: Record<string, unknown>;
 }
 
 /** An on-premises file system dataset. */
@@ -6633,17 +6307,17 @@ export interface FileShareDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "FileShare";
   /** The path of the on-premises file system. Type: string (or Expression with resultType string). */
-  folderPath?: any;
+  folderPath?: Record<string, unknown>;
   /** The name of the on-premises file system. Type: string (or Expression with resultType string). */
-  fileName?: any;
+  fileName?: Record<string, unknown>;
   /** The start of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeStart?: any;
+  modifiedDatetimeStart?: Record<string, unknown>;
   /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeEnd?: any;
+  modifiedDatetimeEnd?: Record<string, unknown>;
   /** The format of the files. */
   format?: DatasetStorageFormatUnion;
   /** Specify a filter to be used to select a subset of files in the folderPath rather than all files. Type: string (or Expression with resultType string). */
-  fileFilter?: any;
+  fileFilter?: Record<string, unknown>;
   /** The data compression method used for the file system. */
   compression?: DatasetCompression;
 }
@@ -6653,7 +6327,7 @@ export interface MongoDbCollectionDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MongoDbCollection";
   /** The table name of the MongoDB database. Type: string (or Expression with resultType string). */
-  collectionName: any;
+  collectionName: Record<string, unknown>;
 }
 
 /** The MongoDB Atlas database dataset. */
@@ -6661,7 +6335,7 @@ export interface MongoDbAtlasCollectionDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MongoDbAtlasCollection";
   /** The collection name of the MongoDB Atlas database. Type: string (or Expression with resultType string). */
-  collection: any;
+  collection: Record<string, unknown>;
 }
 
 /** The MongoDB database dataset. */
@@ -6669,7 +6343,7 @@ export interface MongoDbV2CollectionDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MongoDbV2Collection";
   /** The collection name of the MongoDB database. Type: string (or Expression with resultType string). */
-  collection: any;
+  collection: Record<string, unknown>;
 }
 
 /** The CosmosDB (MongoDB API) database dataset. */
@@ -6677,7 +6351,7 @@ export interface CosmosDbMongoDbApiCollectionDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CosmosDbMongoDbApiCollection";
   /** The collection name of the CosmosDB (MongoDB API) database. Type: string (or Expression with resultType string). */
-  collection: any;
+  collection: Record<string, unknown>;
 }
 
 /** The Open Data Protocol (OData) resource dataset. */
@@ -6685,7 +6359,7 @@ export interface ODataResourceDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ODataResource";
   /** The OData resource path. Type: string (or Expression with resultType string). */
-  path?: any;
+  path?: Record<string, unknown>;
 }
 
 /** The on-premises Oracle database dataset. */
@@ -6693,11 +6367,11 @@ export interface OracleTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OracleTable";
   /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
   /** The schema name of the on-premises Oracle database. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
+  schemaTypePropertiesSchema?: Record<string, unknown>;
   /** The table name of the on-premises Oracle database. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
 }
 
 /** The AmazonRdsForOracle database dataset. */
@@ -6705,9 +6379,9 @@ export interface AmazonRdsForOracleTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonRdsForOracleTable";
   /** The schema name of the AmazonRdsForOracle database. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
+  schemaTypePropertiesSchema?: Record<string, unknown>;
   /** The table name of the AmazonRdsForOracle database. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
 }
 
 /** The Teradata database dataset. */
@@ -6715,9 +6389,9 @@ export interface TeradataTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "TeradataTable";
   /** The database name of Teradata. Type: string (or Expression with resultType string). */
-  database?: any;
+  database?: Record<string, unknown>;
   /** The table name of Teradata. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
 }
 
 /** The Azure MySQL database dataset. */
@@ -6725,9 +6399,9 @@ export interface AzureMySqlTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureMySqlTable";
   /** The Azure MySQL database table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
   /** The name of Azure MySQL database table. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
 }
 
 /** The Amazon Redshift table dataset. */
@@ -6735,11 +6409,11 @@ export interface AmazonRedshiftTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonRedshiftTable";
   /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
   /** The Amazon Redshift table name. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
   /** The Amazon Redshift schema name. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
+  schemaTypePropertiesSchema?: Record<string, unknown>;
 }
 
 /** The Db2 table dataset. */
@@ -6747,11 +6421,11 @@ export interface Db2TableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Db2Table";
   /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
   /** The Db2 schema name. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
+  schemaTypePropertiesSchema?: Record<string, unknown>;
   /** The Db2 table name. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
 }
 
 /** The relational table dataset. */
@@ -6759,7 +6433,7 @@ export interface RelationalTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "RelationalTable";
   /** The relational table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** The Informix table dataset. */
@@ -6767,7 +6441,7 @@ export interface InformixTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "InformixTable";
   /** The Informix table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** The ODBC table dataset. */
@@ -6775,7 +6449,7 @@ export interface OdbcTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OdbcTable";
   /** The ODBC table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** The MySQL table dataset. */
@@ -6783,7 +6457,7 @@ export interface MySqlTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MySqlTable";
   /** The MySQL table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** The PostgreSQL table dataset. */
@@ -6791,11 +6465,11 @@ export interface PostgreSqlTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PostgreSqlTable";
   /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
   /** The PostgreSQL table name. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
   /** The PostgreSQL schema name. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
+  schemaTypePropertiesSchema?: Record<string, unknown>;
 }
 
 /** The Microsoft Access table dataset. */
@@ -6803,7 +6477,7 @@ export interface MicrosoftAccessTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MicrosoftAccessTable";
   /** The Microsoft Access table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** The Salesforce object dataset. */
@@ -6811,7 +6485,7 @@ export interface SalesforceObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SalesforceObject";
   /** The Salesforce object API name. Type: string (or Expression with resultType string). */
-  objectApiName?: any;
+  objectApiName?: Record<string, unknown>;
 }
 
 /** The Salesforce Service Cloud object dataset. */
@@ -6819,7 +6493,7 @@ export interface SalesforceServiceCloudObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SalesforceServiceCloudObject";
   /** The Salesforce Service Cloud object API name. Type: string (or Expression with resultType string). */
-  objectApiName?: any;
+  objectApiName?: Record<string, unknown>;
 }
 
 /** The Sybase table dataset. */
@@ -6827,7 +6501,7 @@ export interface SybaseTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SybaseTable";
   /** The Sybase table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** The SAP BW cube dataset. */
@@ -6841,7 +6515,7 @@ export interface SapCloudForCustomerResourceDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapCloudForCustomerResource";
   /** The path of the SAP Cloud for Customer OData entity. Type: string (or Expression with resultType string). */
-  path: any;
+  path: Record<string, unknown>;
 }
 
 /** The path of the SAP ECC OData entity. */
@@ -6849,7 +6523,7 @@ export interface SapEccResourceDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapEccResource";
   /** The path of the SAP ECC OData entity. Type: string (or Expression with resultType string). */
-  path: any;
+  path: Record<string, unknown>;
 }
 
 /** SAP HANA Table properties. */
@@ -6857,9 +6531,9 @@ export interface SapHanaTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapHanaTable";
   /** The schema name of SAP HANA. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
+  schemaTypePropertiesSchema?: Record<string, unknown>;
   /** The table name of SAP HANA. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
 }
 
 /** Sap Business Warehouse Open Hub Destination Table properties. */
@@ -6867,11 +6541,11 @@ export interface SapOpenHubTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapOpenHubTable";
   /** The name of the Open Hub Destination with destination type as Database Table. Type: string (or Expression with resultType string). */
-  openHubDestinationName: any;
+  openHubDestinationName: Record<string, unknown>;
   /** Whether to exclude the records of the last request. The default value is true. Type: boolean (or Expression with resultType boolean). */
-  excludeLastRequest?: any;
+  excludeLastRequest?: Record<string, unknown>;
   /** The ID of request for delta loading. Once it is set, only data with requestId larger than the value of this property will be retrieved. The default value is 0. Type: integer (or Expression with resultType integer ). */
-  baseRequestId?: any;
+  baseRequestId?: Record<string, unknown>;
 }
 
 /** The on-premises SQL Server dataset. */
@@ -6879,11 +6553,11 @@ export interface SqlServerTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlServerTable";
   /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
   /** The schema name of the SQL Server dataset. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
+  schemaTypePropertiesSchema?: Record<string, unknown>;
   /** The table name of the SQL Server dataset. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
 }
 
 /** The Amazon RDS for SQL Server dataset. */
@@ -6891,9 +6565,9 @@ export interface AmazonRdsForSqlServerTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonRdsForSqlServerTable";
   /** The schema name of the SQL Server dataset. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
+  schemaTypePropertiesSchema?: Record<string, unknown>;
   /** The table name of the SQL Server dataset. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
 }
 
 /** A Rest service dataset. */
@@ -6901,15 +6575,15 @@ export interface RestResourceDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "RestResource";
   /** The relative URL to the resource that the RESTful API provides. Type: string (or Expression with resultType string). */
-  relativeUrl?: any;
+  relativeUrl?: Record<string, unknown>;
   /** The HTTP method used to call the RESTful API. The default is GET. Type: string (or Expression with resultType string). */
-  requestMethod?: any;
+  requestMethod?: Record<string, unknown>;
   /** The HTTP request body to the RESTful API if requestMethod is POST. Type: string (or Expression with resultType string). */
-  requestBody?: any;
+  requestBody?: Record<string, unknown>;
   /** The additional HTTP headers in the request to the RESTful API. Type: string (or Expression with resultType string). */
-  additionalHeaders?: any;
+  additionalHeaders?: Record<string, unknown>;
   /** The pagination rules to compose next page requests. Type: string (or Expression with resultType string). */
-  paginationRules?: any;
+  paginationRules?: Record<string, unknown>;
 }
 
 /** SAP Table Resource properties. */
@@ -6917,17 +6591,7 @@ export interface SapTableResourceDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapTableResource";
   /** The name of the SAP Table. Type: string (or Expression with resultType string). */
-  tableName: any;
-}
-
-/** SAP ODP Resource properties. */
-export interface SapOdpResourceDataset extends Dataset {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SapOdpResource";
-  /** The context of the SAP ODP Object. Type: string (or Expression with resultType string). */
-  context: any;
-  /** The name of the SAP ODP Object. Type: string (or Expression with resultType string). */
-  objectName: any;
+  tableName: Record<string, unknown>;
 }
 
 /** The dataset points to a HTML table in the web page. */
@@ -6935,9 +6599,9 @@ export interface WebTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "WebTable";
   /** The zero-based index of the table in the web page. Type: integer (or Expression with resultType integer), minimum: 0. */
-  index: any;
+  index: Record<string, unknown>;
   /** The relative URL to the web page from the linked service URL. Type: string (or Expression with resultType string). */
-  path?: any;
+  path?: Record<string, unknown>;
 }
 
 /** The Azure Search Index. */
@@ -6945,7 +6609,7 @@ export interface AzureSearchIndexDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSearchIndex";
   /** The name of the Azure Search Index. Type: string (or Expression with resultType string). */
-  indexName: any;
+  indexName: Record<string, unknown>;
 }
 
 /** A file in an HTTP web server. */
@@ -6953,17 +6617,17 @@ export interface HttpDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HttpFile";
   /** The relative URL based on the URL in the HttpLinkedService refers to an HTTP file Type: string (or Expression with resultType string). */
-  relativeUrl?: any;
+  relativeUrl?: Record<string, unknown>;
   /** The HTTP method for the HTTP request. Type: string (or Expression with resultType string). */
-  requestMethod?: any;
+  requestMethod?: Record<string, unknown>;
   /** The body for the HTTP request. Type: string (or Expression with resultType string). */
-  requestBody?: any;
+  requestBody?: Record<string, unknown>;
   /**
    * The headers for the HTTP Request. e.g. request-header-name-1:request-header-value-1
    * ...
    * request-header-name-n:request-header-value-n Type: string (or Expression with resultType string).
    */
-  additionalHeaders?: any;
+  additionalHeaders?: Record<string, unknown>;
   /** The format of files. */
   format?: DatasetStorageFormatUnion;
   /** The data compression method used on files. */
@@ -6975,7 +6639,7 @@ export interface AmazonMWSObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonMWSObject";
   /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** Azure PostgreSQL dataset. */
@@ -6983,11 +6647,11 @@ export interface AzurePostgreSqlTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzurePostgreSqlTable";
   /** The table name of the Azure PostgreSQL database which includes both schema and table. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
   /** The table name of the Azure PostgreSQL database. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
   /** The schema name of the Azure PostgreSQL database. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
+  schemaTypePropertiesSchema?: Record<string, unknown>;
 }
 
 /** Concur Service dataset. */
@@ -6995,7 +6659,7 @@ export interface ConcurObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ConcurObject";
   /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** Couchbase server dataset. */
@@ -7003,7 +6667,7 @@ export interface CouchbaseTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CouchbaseTable";
   /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** Drill server dataset. */
@@ -7011,11 +6675,11 @@ export interface DrillTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DrillTable";
   /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
   /** The table name of the Drill. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
   /** The schema name of the Drill. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
+  schemaTypePropertiesSchema?: Record<string, unknown>;
 }
 
 /** Eloqua server dataset. */
@@ -7023,7 +6687,7 @@ export interface EloquaObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "EloquaObject";
   /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** Google BigQuery service dataset. */
@@ -7031,11 +6695,11 @@ export interface GoogleBigQueryObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleBigQueryObject";
   /** This property will be retired. Please consider using database + table properties instead. */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
   /** The table name of the Google BigQuery. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
   /** The database name of the Google BigQuery. Type: string (or Expression with resultType string). */
-  dataset?: any;
+  dataset?: Record<string, unknown>;
 }
 
 /** Greenplum Database dataset. */
@@ -7043,11 +6707,11 @@ export interface GreenplumTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GreenplumTable";
   /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
   /** The table name of Greenplum. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
   /** The schema name of Greenplum. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
+  schemaTypePropertiesSchema?: Record<string, unknown>;
 }
 
 /** HBase server dataset. */
@@ -7055,7 +6719,7 @@ export interface HBaseObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HBaseObject";
   /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** Hive Server dataset. */
@@ -7063,11 +6727,11 @@ export interface HiveObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HiveObject";
   /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
   /** The table name of the Hive. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
   /** The schema name of the Hive. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
+  schemaTypePropertiesSchema?: Record<string, unknown>;
 }
 
 /** Hubspot Service dataset. */
@@ -7075,7 +6739,7 @@ export interface HubspotObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HubspotObject";
   /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** Impala server dataset. */
@@ -7083,11 +6747,11 @@ export interface ImpalaObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ImpalaObject";
   /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
   /** The table name of the Impala. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
   /** The schema name of the Impala. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
+  schemaTypePropertiesSchema?: Record<string, unknown>;
 }
 
 /** Jira Service dataset. */
@@ -7095,7 +6759,7 @@ export interface JiraObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "JiraObject";
   /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** Magento server dataset. */
@@ -7103,7 +6767,7 @@ export interface MagentoObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MagentoObject";
   /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** MariaDB server dataset. */
@@ -7111,7 +6775,7 @@ export interface MariaDBTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MariaDBTable";
   /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** Azure Database for MariaDB dataset. */
@@ -7119,7 +6783,7 @@ export interface AzureMariaDBTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureMariaDBTable";
   /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** Marketo server dataset. */
@@ -7127,7 +6791,7 @@ export interface MarketoObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MarketoObject";
   /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** Paypal Service dataset. */
@@ -7135,7 +6799,7 @@ export interface PaypalObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PaypalObject";
   /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** Phoenix server dataset. */
@@ -7143,11 +6807,11 @@ export interface PhoenixObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PhoenixObject";
   /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
   /** The table name of the Phoenix. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
   /** The schema name of the Phoenix. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
+  schemaTypePropertiesSchema?: Record<string, unknown>;
 }
 
 /** Presto server dataset. */
@@ -7155,11 +6819,11 @@ export interface PrestoObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PrestoObject";
   /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
   /** The table name of the Presto. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
   /** The schema name of the Presto. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
+  schemaTypePropertiesSchema?: Record<string, unknown>;
 }
 
 /** QuickBooks server dataset. */
@@ -7167,7 +6831,7 @@ export interface QuickBooksObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "QuickBooksObject";
   /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** ServiceNow server dataset. */
@@ -7175,7 +6839,7 @@ export interface ServiceNowObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ServiceNowObject";
   /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** Shopify Service dataset. */
@@ -7183,7 +6847,7 @@ export interface ShopifyObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ShopifyObject";
   /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** Spark Server dataset. */
@@ -7191,11 +6855,11 @@ export interface SparkObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SparkObject";
   /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
   /** The table name of the Spark. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
   /** The schema name of the Spark. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
+  schemaTypePropertiesSchema?: Record<string, unknown>;
 }
 
 /** Square Service dataset. */
@@ -7203,7 +6867,7 @@ export interface SquareObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SquareObject";
   /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** Xero Service dataset. */
@@ -7211,7 +6875,7 @@ export interface XeroObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "XeroObject";
   /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** Zoho server dataset. */
@@ -7219,7 +6883,7 @@ export interface ZohoObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ZohoObject";
   /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** Netezza dataset. */
@@ -7227,11 +6891,11 @@ export interface NetezzaTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "NetezzaTable";
   /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
   /** The table name of the Netezza. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
   /** The schema name of the Netezza. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
+  schemaTypePropertiesSchema?: Record<string, unknown>;
 }
 
 /** Vertica dataset. */
@@ -7239,11 +6903,11 @@ export interface VerticaTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "VerticaTable";
   /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
   /** The table name of the Vertica. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
   /** The schema name of the Vertica. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
+  schemaTypePropertiesSchema?: Record<string, unknown>;
 }
 
 /** Salesforce Marketing Cloud dataset. */
@@ -7251,7 +6915,7 @@ export interface SalesforceMarketingCloudObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SalesforceMarketingCloudObject";
   /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** Responsys dataset. */
@@ -7259,7 +6923,7 @@ export interface ResponsysObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ResponsysObject";
   /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** The path of the Dynamics AX OData entity. */
@@ -7267,7 +6931,7 @@ export interface DynamicsAXResourceDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DynamicsAXResource";
   /** The path of the Dynamics AX OData entity. Type: string (or Expression with resultType string). */
-  path: any;
+  path: Record<string, unknown>;
 }
 
 /** Oracle Service Cloud dataset. */
@@ -7275,7 +6939,7 @@ export interface OracleServiceCloudObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OracleServiceCloudObject";
   /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** The Azure Data Explorer (Kusto) dataset. */
@@ -7283,7 +6947,7 @@ export interface AzureDataExplorerTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataExplorerTable";
   /** The table name of the Azure Data Explorer database. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
 }
 
 /** Google AdWords service dataset. */
@@ -7291,7 +6955,7 @@ export interface GoogleAdWordsObjectDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleAdWordsObject";
   /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
+  tableName?: Record<string, unknown>;
 }
 
 /** The snowflake dataset. */
@@ -7299,9 +6963,9 @@ export interface SnowflakeDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SnowflakeTable";
   /** The schema name of the Snowflake database. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
+  schemaTypePropertiesSchema?: Record<string, unknown>;
   /** The table name of the Snowflake database. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
 }
 
 /** The sharepoint online list resource dataset. */
@@ -7309,7 +6973,7 @@ export interface SharePointOnlineListResourceDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SharePointOnlineListResource";
   /** The name of the SharePoint Online list. Type: string (or Expression with resultType string). */
-  listName?: any;
+  listName?: Record<string, unknown>;
 }
 
 /** Azure Databricks Delta Lake dataset. */
@@ -7317,9 +6981,9 @@ export interface AzureDatabricksDeltaLakeDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDatabricksDeltaLakeDataset";
   /** The name of delta table. Type: string (or Expression with resultType string). */
-  table?: any;
+  table?: Record<string, unknown>;
   /** The database name of delta table. Type: string (or Expression with resultType string). */
-  database?: any;
+  database?: Record<string, unknown>;
 }
 
 /** Base class for all control activities like IfCondition, ForEach , Until. */
@@ -7332,7 +6996,6 @@ export interface ControlActivity extends Activity {
     | "Switch"
     | "ForEach"
     | "Wait"
-    | "Fail"
     | "Until"
     | "Validation"
     | "Filter"
@@ -7368,10 +7031,7 @@ export interface ExecutionActivity extends Activity {
     | "DatabricksSparkJar"
     | "DatabricksSparkPython"
     | "AzureFunctionActivity"
-    | "ExecuteDataFlow"
-    | "Script"
-    | "SynapseNotebook"
-    | "SparkJob";
+    | "ExecuteDataFlow";
   /** Linked service reference. */
   linkedServiceName?: LinkedServiceReference;
   /** Activity policy. */
@@ -7393,13 +7053,11 @@ export interface ExecuteWranglingDataflowActivity extends Activity {
   /** Compute properties for data flow activity. */
   compute?: ExecuteDataFlowActivityTypePropertiesCompute;
   /** Trace level setting used for data flow monitoring output. Supported values are: 'coarse', 'fine', and 'none'. Type: string (or Expression with resultType string) */
-  traceLevel?: any;
+  traceLevel?: Record<string, unknown>;
   /** Continue on error setting used for data flow execution. Enables processing to continue if a sink fails. Type: boolean (or Expression with resultType boolean) */
-  continueOnError?: any;
+  continueOnError?: Record<string, unknown>;
   /** Concurrent run setting used for data flow execution. Allows sinks with the same save order to be processed concurrently. Type: boolean (or Expression with resultType boolean) */
-  runConcurrently?: any;
-  /** Specify number of parallel staging for sources applicable to the sink. Type: integer (or Expression with resultType integer) */
-  sourceStagingConcurrency?: any;
+  runConcurrently?: Record<string, unknown>;
   /** (Deprecated. Please use Queries). List of Power Query activity sinks mapped to a queryName. */
   sinks?: { [propertyName: string]: PowerQuerySink };
   /** List of mapping for Power Query mashup query to sink dataset(s). */
@@ -7434,7 +7092,7 @@ export interface TumblingWindowTrigger extends Trigger {
   /** The end time for the time period for the trigger during which events are fired for windows that are ready. Only UTC time is currently supported. */
   endTime?: Date;
   /** Specifies how long the trigger waits past due time before triggering new run. It doesn't alter window start and end time. The default is 0. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  delay?: any;
+  delay?: Record<string, unknown>;
   /** The max number of parallel time windows (ready for execution) for which a new run is triggered. */
   maxConcurrency: number;
   /** Retry policy that will be applied for failed pipeline runs. */
@@ -7448,7 +7106,7 @@ export interface RerunTumblingWindowTrigger extends Trigger {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "RerunTumblingWindowTrigger";
   /** The parent trigger reference. */
-  parentTrigger: any;
+  parentTrigger: Record<string, unknown>;
   /** The start time for the time period for which restatement is initiated. Only UTC time is currently supported. */
   requestedStartTime: Date;
   /** The end time for the time period for which restatement is initiated. Only UTC time is currently supported. */
@@ -7553,9 +7211,9 @@ export interface AzureKeyVaultSecretReference extends SecretBase {
   /** The Azure Key Vault linked service reference. */
   store: LinkedServiceReference;
   /** The name of the secret in Azure Key Vault. Type: string (or Expression with resultType string). */
-  secretName: any;
+  secretName: Record<string, unknown>;
   /** The version of the secret in Azure Key Vault. The default value is the latest version of the secret. Type: string (or Expression with resultType string). */
-  secretVersion?: any;
+  secretVersion?: Record<string, unknown>;
 }
 
 /** Service principal credential. */
@@ -7563,11 +7221,11 @@ export interface ServicePrincipalCredential extends Credential {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ServicePrincipal";
   /** The app ID of the service principal used to authenticate */
-  servicePrincipalId?: any;
+  servicePrincipalId?: Record<string, unknown>;
   /** The key of the service principal used to authenticate. */
   servicePrincipalKey?: AzureKeyVaultSecretReference;
   /** The ID of the tenant to which the service principal belongs */
-  tenant?: any;
+  tenant?: Record<string, unknown>;
 }
 
 /** Managed identity credential. */
@@ -7588,8 +7246,6 @@ export interface DataFlowSource extends Transformation {
 export interface DataFlowSink extends Transformation {
   /** Schema linked service reference. */
   schemaLinkedService?: LinkedServiceReference;
-  /** Rejected data linked service reference. */
-  rejectedDataLinkedService?: LinkedServiceReference;
 }
 
 /** The location of azure blob dataset. */
@@ -7597,7 +7253,7 @@ export interface AzureBlobStorageLocation extends DatasetLocation {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobStorageLocation";
   /** Specify the container of azure blob. Type: string (or Expression with resultType string). */
-  container?: any;
+  container?: Record<string, unknown>;
 }
 
 /** The location of azure blobFS dataset. */
@@ -7605,7 +7261,7 @@ export interface AzureBlobFSLocation extends DatasetLocation {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobFSLocation";
   /** Specify the fileSystem of azure blobFS. Type: string (or Expression with resultType string). */
-  fileSystem?: any;
+  fileSystem?: Record<string, unknown>;
 }
 
 /** The location of azure data lake store dataset. */
@@ -7619,9 +7275,9 @@ export interface AmazonS3Location extends DatasetLocation {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonS3Location";
   /** Specify the bucketName of amazon S3. Type: string (or Expression with resultType string) */
-  bucketName?: any;
+  bucketName?: Record<string, unknown>;
   /** Specify the version of amazon S3. Type: string (or Expression with resultType string). */
-  version?: any;
+  version?: Record<string, unknown>;
 }
 
 /** The location of file server dataset. */
@@ -7641,9 +7297,9 @@ export interface AmazonS3CompatibleLocation extends DatasetLocation {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonS3CompatibleLocation";
   /** Specify the bucketName of Amazon S3 Compatible. Type: string (or Expression with resultType string) */
-  bucketName?: any;
+  bucketName?: Record<string, unknown>;
   /** Specify the version of Amazon S3 Compatible. Type: string (or Expression with resultType string). */
-  version?: any;
+  version?: Record<string, unknown>;
 }
 
 /** The location of Oracle Cloud Storage dataset. */
@@ -7651,9 +7307,9 @@ export interface OracleCloudStorageLocation extends DatasetLocation {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OracleCloudStorageLocation";
   /** Specify the bucketName of Oracle Cloud Storage. Type: string (or Expression with resultType string) */
-  bucketName?: any;
+  bucketName?: Record<string, unknown>;
   /** Specify the version of Oracle Cloud Storage. Type: string (or Expression with resultType string). */
-  version?: any;
+  version?: Record<string, unknown>;
 }
 
 /** The location of Google Cloud Storage dataset. */
@@ -7661,9 +7317,9 @@ export interface GoogleCloudStorageLocation extends DatasetLocation {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleCloudStorageLocation";
   /** Specify the bucketName of Google Cloud Storage. Type: string (or Expression with resultType string) */
-  bucketName?: any;
+  bucketName?: Record<string, unknown>;
   /** Specify the version of Google Cloud Storage. Type: string (or Expression with resultType string). */
-  version?: any;
+  version?: Record<string, unknown>;
 }
 
 /** The location of ftp server dataset. */
@@ -7683,7 +7339,7 @@ export interface HttpServerLocation extends DatasetLocation {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HttpServerLocation";
   /** Specify the relativeUrl of http server. Type: string (or Expression with resultType string) */
-  relativeUrl?: any;
+  relativeUrl?: Record<string, unknown>;
 }
 
 /** The location of HDFS. */
@@ -7697,23 +7353,23 @@ export interface TextFormat extends DatasetStorageFormat {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "TextFormat";
   /** The column delimiter. Type: string (or Expression with resultType string). */
-  columnDelimiter?: any;
+  columnDelimiter?: Record<string, unknown>;
   /** The row delimiter. Type: string (or Expression with resultType string). */
-  rowDelimiter?: any;
+  rowDelimiter?: Record<string, unknown>;
   /** The escape character. Type: string (or Expression with resultType string). */
-  escapeChar?: any;
+  escapeChar?: Record<string, unknown>;
   /** The quote character. Type: string (or Expression with resultType string). */
-  quoteChar?: any;
+  quoteChar?: Record<string, unknown>;
   /** The null value string. Type: string (or Expression with resultType string). */
-  nullValue?: any;
+  nullValue?: Record<string, unknown>;
   /** The code page name of the preferred encoding. If miss, the default value is ΓÇ£utf-8ΓÇ¥, unless BOM denotes another Unicode encoding. Refer to the ΓÇ£NameΓÇ¥ column of the table in the following link to set supported values: https://msdn.microsoft.com/library/system.text.encoding.aspx. Type: string (or Expression with resultType string). */
-  encodingName?: any;
+  encodingName?: Record<string, unknown>;
   /** Treat empty column values in the text file as null. The default value is true. Type: boolean (or Expression with resultType boolean). */
-  treatEmptyAsNull?: any;
+  treatEmptyAsNull?: Record<string, unknown>;
   /** The number of lines/rows to be skipped when parsing text files. The default value is 0. Type: integer (or Expression with resultType integer). */
-  skipLineCount?: any;
+  skipLineCount?: Record<string, unknown>;
   /** When used as input, treat the first row of data as headers. When used as output,write the headers into the output as the first row of data. The default value is false. Type: boolean (or Expression with resultType boolean). */
-  firstRowAsHeader?: any;
+  firstRowAsHeader?: Record<string, unknown>;
 }
 
 /** The data stored in JSON format. */
@@ -7721,15 +7377,15 @@ export interface JsonFormat extends DatasetStorageFormat {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "JsonFormat";
   /** File pattern of JSON. To be more specific, the way of separating a collection of JSON objects. The default value is 'setOfObjects'. It is case-sensitive. */
-  filePattern?: any;
+  filePattern?: Record<string, unknown>;
   /** The character used to separate nesting levels. Default value is '.' (dot). Type: string (or Expression with resultType string). */
-  nestingSeparator?: any;
+  nestingSeparator?: Record<string, unknown>;
   /** The code page name of the preferred encoding. If not provided, the default value is 'utf-8', unless the byte order mark (BOM) denotes another Unicode encoding. The full list of supported values can be found in the 'Name' column of the table of encodings in the following reference: https://go.microsoft.com/fwlink/?linkid=861078. Type: string (or Expression with resultType string). */
-  encodingName?: any;
+  encodingName?: Record<string, unknown>;
   /** The JSONPath of the JSON array element to be flattened. Example: "$.ArrayPath". Type: string (or Expression with resultType string). */
-  jsonNodeReference?: any;
+  jsonNodeReference?: Record<string, unknown>;
   /** The JSONPath definition for each column mapping with a customized column name to extract data from JSON file. For fields under root object, start with "$"; for fields inside the array chosen by jsonNodeReference property, start from the array element. Example: {"Column1": "$.Column1Path", "Column2": "Column2PathInArray"}. Type: object (or Expression with resultType object). */
-  jsonPathDefinition?: any;
+  jsonPathDefinition?: Record<string, unknown>;
 }
 
 /** The data stored in Avro format. */
@@ -7755,9 +7411,9 @@ export interface CmdkeySetup extends CustomSetupBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CmdkeySetup";
   /** The server name of data source access. */
-  targetName: any;
+  targetName: Record<string, unknown>;
   /** The user name of data source access. */
-  userName: any;
+  userName: Record<string, unknown>;
   /** The password of data source access. */
   password: SecretBaseUnion;
 }
@@ -7806,8 +7462,6 @@ export interface LinkedIntegrationRuntimeRbacAuthorization
   authorizationType: "RBAC";
   /** The resource identifier of the integration runtime to be shared. */
   resourceId: string;
-  /** The credential reference containing authentication information. */
-  credential?: CredentialReference;
 }
 
 /** A WebLinkedService that uses anonymous authentication to communicate with an HTTP endpoint. */
@@ -7822,7 +7476,7 @@ export interface WebBasicAuthentication extends WebLinkedServiceTypeProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authenticationType: "Basic";
   /** User name for Basic authentication. Type: string (or Expression with resultType string). */
-  username: any;
+  username: Record<string, unknown>;
   /** The password for Basic authentication. */
   password: SecretBaseUnion;
 }
@@ -7843,25 +7497,25 @@ export interface AzureBlobStorageReadSettings extends StoreReadSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobStorageReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
-  recursive?: any;
+  recursive?: Record<string, unknown>;
   /** Azure blob wildcardFolderPath. Type: string (or Expression with resultType string). */
-  wildcardFolderPath?: any;
+  wildcardFolderPath?: Record<string, unknown>;
   /** Azure blob wildcardFileName. Type: string (or Expression with resultType string). */
-  wildcardFileName?: any;
+  wildcardFileName?: Record<string, unknown>;
   /** The prefix filter for the Azure Blob name. Type: string (or Expression with resultType string). */
-  prefix?: any;
+  prefix?: Record<string, unknown>;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
-  fileListPath?: any;
+  fileListPath?: Record<string, unknown>;
   /** Indicates whether to enable partition discovery. */
   enablePartitionDiscovery?: boolean;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
-  partitionRootPath?: any;
+  partitionRootPath?: Record<string, unknown>;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
-  deleteFilesAfterCompletion?: any;
+  deleteFilesAfterCompletion?: Record<string, unknown>;
   /** The start of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeStart?: any;
+  modifiedDatetimeStart?: Record<string, unknown>;
   /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeEnd?: any;
+  modifiedDatetimeEnd?: Record<string, unknown>;
 }
 
 /** Azure blobFS read settings. */
@@ -7869,23 +7523,23 @@ export interface AzureBlobFSReadSettings extends StoreReadSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobFSReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
-  recursive?: any;
+  recursive?: Record<string, unknown>;
   /** Azure blobFS wildcardFolderPath. Type: string (or Expression with resultType string). */
-  wildcardFolderPath?: any;
+  wildcardFolderPath?: Record<string, unknown>;
   /** Azure blobFS wildcardFileName. Type: string (or Expression with resultType string). */
-  wildcardFileName?: any;
+  wildcardFileName?: Record<string, unknown>;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
-  fileListPath?: any;
+  fileListPath?: Record<string, unknown>;
   /** Indicates whether to enable partition discovery. */
   enablePartitionDiscovery?: boolean;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
-  partitionRootPath?: any;
+  partitionRootPath?: Record<string, unknown>;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
-  deleteFilesAfterCompletion?: any;
+  deleteFilesAfterCompletion?: Record<string, unknown>;
   /** The start of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeStart?: any;
+  modifiedDatetimeStart?: Record<string, unknown>;
   /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeEnd?: any;
+  modifiedDatetimeEnd?: Record<string, unknown>;
 }
 
 /** Azure data lake store read settings. */
@@ -7893,27 +7547,27 @@ export interface AzureDataLakeStoreReadSettings extends StoreReadSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataLakeStoreReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
-  recursive?: any;
+  recursive?: Record<string, unknown>;
   /** ADLS wildcardFolderPath. Type: string (or Expression with resultType string). */
-  wildcardFolderPath?: any;
+  wildcardFolderPath?: Record<string, unknown>;
   /** ADLS wildcardFileName. Type: string (or Expression with resultType string). */
-  wildcardFileName?: any;
+  wildcardFileName?: Record<string, unknown>;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
-  fileListPath?: any;
+  fileListPath?: Record<string, unknown>;
   /** Lists files after the value (exclusive) based on file/folder names’ lexicographical order. Applies under the folderPath in data set, and filter files/sub-folders under the folderPath. Type: string (or Expression with resultType string). */
-  listAfter?: any;
+  listAfter?: Record<string, unknown>;
   /** Lists files before the value (inclusive) based on file/folder names’ lexicographical order. Applies under the folderPath in data set, and filter files/sub-folders under the folderPath. Type: string (or Expression with resultType string). */
-  listBefore?: any;
+  listBefore?: Record<string, unknown>;
   /** Indicates whether to enable partition discovery. */
   enablePartitionDiscovery?: boolean;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
-  partitionRootPath?: any;
+  partitionRootPath?: Record<string, unknown>;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
-  deleteFilesAfterCompletion?: any;
+  deleteFilesAfterCompletion?: Record<string, unknown>;
   /** The start of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeStart?: any;
+  modifiedDatetimeStart?: Record<string, unknown>;
   /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeEnd?: any;
+  modifiedDatetimeEnd?: Record<string, unknown>;
 }
 
 /** Amazon S3 read settings. */
@@ -7921,25 +7575,25 @@ export interface AmazonS3ReadSettings extends StoreReadSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonS3ReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
-  recursive?: any;
+  recursive?: Record<string, unknown>;
   /** AmazonS3 wildcardFolderPath. Type: string (or Expression with resultType string). */
-  wildcardFolderPath?: any;
+  wildcardFolderPath?: Record<string, unknown>;
   /** AmazonS3 wildcardFileName. Type: string (or Expression with resultType string). */
-  wildcardFileName?: any;
+  wildcardFileName?: Record<string, unknown>;
   /** The prefix filter for the S3 object name. Type: string (or Expression with resultType string). */
-  prefix?: any;
+  prefix?: Record<string, unknown>;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
-  fileListPath?: any;
+  fileListPath?: Record<string, unknown>;
   /** Indicates whether to enable partition discovery. */
   enablePartitionDiscovery?: boolean;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
-  partitionRootPath?: any;
+  partitionRootPath?: Record<string, unknown>;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
-  deleteFilesAfterCompletion?: any;
+  deleteFilesAfterCompletion?: Record<string, unknown>;
   /** The start of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeStart?: any;
+  modifiedDatetimeStart?: Record<string, unknown>;
   /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeEnd?: any;
+  modifiedDatetimeEnd?: Record<string, unknown>;
 }
 
 /** File server read settings. */
@@ -7947,25 +7601,25 @@ export interface FileServerReadSettings extends StoreReadSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "FileServerReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
-  recursive?: any;
+  recursive?: Record<string, unknown>;
   /** FileServer wildcardFolderPath. Type: string (or Expression with resultType string). */
-  wildcardFolderPath?: any;
+  wildcardFolderPath?: Record<string, unknown>;
   /** FileServer wildcardFileName. Type: string (or Expression with resultType string). */
-  wildcardFileName?: any;
+  wildcardFileName?: Record<string, unknown>;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
-  fileListPath?: any;
+  fileListPath?: Record<string, unknown>;
   /** Indicates whether to enable partition discovery. */
   enablePartitionDiscovery?: boolean;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
-  partitionRootPath?: any;
+  partitionRootPath?: Record<string, unknown>;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
-  deleteFilesAfterCompletion?: any;
+  deleteFilesAfterCompletion?: Record<string, unknown>;
   /** The start of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeStart?: any;
+  modifiedDatetimeStart?: Record<string, unknown>;
   /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeEnd?: any;
+  modifiedDatetimeEnd?: Record<string, unknown>;
   /** Specify a filter to be used to select a subset of files in the folderPath rather than all files. Type: string (or Expression with resultType string). */
-  fileFilter?: any;
+  fileFilter?: Record<string, unknown>;
 }
 
 /** Azure File Storage read settings. */
@@ -7973,25 +7627,25 @@ export interface AzureFileStorageReadSettings extends StoreReadSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureFileStorageReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
-  recursive?: any;
+  recursive?: Record<string, unknown>;
   /** Azure File Storage wildcardFolderPath. Type: string (or Expression with resultType string). */
-  wildcardFolderPath?: any;
+  wildcardFolderPath?: Record<string, unknown>;
   /** Azure File Storage wildcardFileName. Type: string (or Expression with resultType string). */
-  wildcardFileName?: any;
+  wildcardFileName?: Record<string, unknown>;
   /** The prefix filter for the Azure File name starting from root path. Type: string (or Expression with resultType string). */
-  prefix?: any;
+  prefix?: Record<string, unknown>;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
-  fileListPath?: any;
+  fileListPath?: Record<string, unknown>;
   /** Indicates whether to enable partition discovery. */
   enablePartitionDiscovery?: boolean;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
-  partitionRootPath?: any;
+  partitionRootPath?: Record<string, unknown>;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
-  deleteFilesAfterCompletion?: any;
+  deleteFilesAfterCompletion?: Record<string, unknown>;
   /** The start of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeStart?: any;
+  modifiedDatetimeStart?: Record<string, unknown>;
   /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeEnd?: any;
+  modifiedDatetimeEnd?: Record<string, unknown>;
 }
 
 /** Amazon S3 Compatible read settings. */
@@ -7999,25 +7653,25 @@ export interface AmazonS3CompatibleReadSettings extends StoreReadSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonS3CompatibleReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
-  recursive?: any;
+  recursive?: Record<string, unknown>;
   /** Amazon S3 Compatible wildcardFolderPath. Type: string (or Expression with resultType string). */
-  wildcardFolderPath?: any;
+  wildcardFolderPath?: Record<string, unknown>;
   /** Amazon S3 Compatible wildcardFileName. Type: string (or Expression with resultType string). */
-  wildcardFileName?: any;
+  wildcardFileName?: Record<string, unknown>;
   /** The prefix filter for the S3 Compatible object name. Type: string (or Expression with resultType string). */
-  prefix?: any;
+  prefix?: Record<string, unknown>;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
-  fileListPath?: any;
+  fileListPath?: Record<string, unknown>;
   /** Indicates whether to enable partition discovery. */
   enablePartitionDiscovery?: boolean;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
-  partitionRootPath?: any;
+  partitionRootPath?: Record<string, unknown>;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
-  deleteFilesAfterCompletion?: any;
+  deleteFilesAfterCompletion?: Record<string, unknown>;
   /** The start of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeStart?: any;
+  modifiedDatetimeStart?: Record<string, unknown>;
   /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeEnd?: any;
+  modifiedDatetimeEnd?: Record<string, unknown>;
 }
 
 /** Oracle Cloud Storage read settings. */
@@ -8025,25 +7679,25 @@ export interface OracleCloudStorageReadSettings extends StoreReadSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OracleCloudStorageReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
-  recursive?: any;
+  recursive?: Record<string, unknown>;
   /** Oracle Cloud Storage wildcardFolderPath. Type: string (or Expression with resultType string). */
-  wildcardFolderPath?: any;
+  wildcardFolderPath?: Record<string, unknown>;
   /** Oracle Cloud Storage wildcardFileName. Type: string (or Expression with resultType string). */
-  wildcardFileName?: any;
+  wildcardFileName?: Record<string, unknown>;
   /** The prefix filter for the Oracle Cloud Storage object name. Type: string (or Expression with resultType string). */
-  prefix?: any;
+  prefix?: Record<string, unknown>;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
-  fileListPath?: any;
+  fileListPath?: Record<string, unknown>;
   /** Indicates whether to enable partition discovery. */
   enablePartitionDiscovery?: boolean;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
-  partitionRootPath?: any;
+  partitionRootPath?: Record<string, unknown>;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
-  deleteFilesAfterCompletion?: any;
+  deleteFilesAfterCompletion?: Record<string, unknown>;
   /** The start of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeStart?: any;
+  modifiedDatetimeStart?: Record<string, unknown>;
   /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeEnd?: any;
+  modifiedDatetimeEnd?: Record<string, unknown>;
 }
 
 /** Google Cloud Storage read settings. */
@@ -8051,25 +7705,25 @@ export interface GoogleCloudStorageReadSettings extends StoreReadSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleCloudStorageReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
-  recursive?: any;
+  recursive?: Record<string, unknown>;
   /** Google Cloud Storage wildcardFolderPath. Type: string (or Expression with resultType string). */
-  wildcardFolderPath?: any;
+  wildcardFolderPath?: Record<string, unknown>;
   /** Google Cloud Storage wildcardFileName. Type: string (or Expression with resultType string). */
-  wildcardFileName?: any;
+  wildcardFileName?: Record<string, unknown>;
   /** The prefix filter for the Google Cloud Storage object name. Type: string (or Expression with resultType string). */
-  prefix?: any;
+  prefix?: Record<string, unknown>;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
-  fileListPath?: any;
+  fileListPath?: Record<string, unknown>;
   /** Indicates whether to enable partition discovery. */
   enablePartitionDiscovery?: boolean;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
-  partitionRootPath?: any;
+  partitionRootPath?: Record<string, unknown>;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
-  deleteFilesAfterCompletion?: any;
+  deleteFilesAfterCompletion?: Record<string, unknown>;
   /** The start of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeStart?: any;
+  modifiedDatetimeStart?: Record<string, unknown>;
   /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeEnd?: any;
+  modifiedDatetimeEnd?: Record<string, unknown>;
 }
 
 /** Ftp read settings. */
@@ -8077,23 +7731,23 @@ export interface FtpReadSettings extends StoreReadSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "FtpReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
-  recursive?: any;
+  recursive?: Record<string, unknown>;
   /** Ftp wildcardFolderPath. Type: string (or Expression with resultType string). */
-  wildcardFolderPath?: any;
+  wildcardFolderPath?: Record<string, unknown>;
   /** Ftp wildcardFileName. Type: string (or Expression with resultType string). */
-  wildcardFileName?: any;
+  wildcardFileName?: Record<string, unknown>;
   /** Indicates whether to enable partition discovery. */
   enablePartitionDiscovery?: boolean;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
-  partitionRootPath?: any;
+  partitionRootPath?: Record<string, unknown>;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
-  deleteFilesAfterCompletion?: any;
+  deleteFilesAfterCompletion?: Record<string, unknown>;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
-  fileListPath?: any;
+  fileListPath?: Record<string, unknown>;
   /** Specify whether to use binary transfer mode for FTP stores. */
   useBinaryTransfer?: boolean;
   /** If true, disable parallel reading within each file. Default is false. Type: boolean (or Expression with resultType boolean). */
-  disableChunking?: any;
+  disableChunking?: Record<string, unknown>;
 }
 
 /** Sftp read settings. */
@@ -8101,25 +7755,25 @@ export interface SftpReadSettings extends StoreReadSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SftpReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
-  recursive?: any;
+  recursive?: Record<string, unknown>;
   /** Sftp wildcardFolderPath. Type: string (or Expression with resultType string). */
-  wildcardFolderPath?: any;
+  wildcardFolderPath?: Record<string, unknown>;
   /** Sftp wildcardFileName. Type: string (or Expression with resultType string). */
-  wildcardFileName?: any;
+  wildcardFileName?: Record<string, unknown>;
   /** Indicates whether to enable partition discovery. */
   enablePartitionDiscovery?: boolean;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
-  partitionRootPath?: any;
+  partitionRootPath?: Record<string, unknown>;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
-  fileListPath?: any;
+  fileListPath?: Record<string, unknown>;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
-  deleteFilesAfterCompletion?: any;
+  deleteFilesAfterCompletion?: Record<string, unknown>;
   /** The start of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeStart?: any;
+  modifiedDatetimeStart?: Record<string, unknown>;
   /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeEnd?: any;
+  modifiedDatetimeEnd?: Record<string, unknown>;
   /** If true, disable parallel reading within each file. Default is false. Type: boolean (or Expression with resultType boolean). */
-  disableChunking?: any;
+  disableChunking?: Record<string, unknown>;
 }
 
 /** Sftp read settings. */
@@ -8127,17 +7781,17 @@ export interface HttpReadSettings extends StoreReadSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HttpReadSettings";
   /** The HTTP method used to call the RESTful API. The default is GET. Type: string (or Expression with resultType string). */
-  requestMethod?: any;
+  requestMethod?: Record<string, unknown>;
   /** The HTTP request body to the RESTful API if requestMethod is POST. Type: string (or Expression with resultType string). */
-  requestBody?: any;
+  requestBody?: Record<string, unknown>;
   /** The additional HTTP headers in the request to the RESTful API. Type: string (or Expression with resultType string). */
-  additionalHeaders?: any;
+  additionalHeaders?: Record<string, unknown>;
   /** Specifies the timeout for a HTTP client to get HTTP response from HTTP server. */
-  requestTimeout?: any;
+  requestTimeout?: Record<string, unknown>;
   /** Indicates whether to enable partition discovery. */
   enablePartitionDiscovery?: boolean;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
-  partitionRootPath?: any;
+  partitionRootPath?: Record<string, unknown>;
 }
 
 /** HDFS read settings. */
@@ -8145,25 +7799,25 @@ export interface HdfsReadSettings extends StoreReadSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HdfsReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
-  recursive?: any;
+  recursive?: Record<string, unknown>;
   /** HDFS wildcardFolderPath. Type: string (or Expression with resultType string). */
-  wildcardFolderPath?: any;
+  wildcardFolderPath?: Record<string, unknown>;
   /** HDFS wildcardFileName. Type: string (or Expression with resultType string). */
-  wildcardFileName?: any;
+  wildcardFileName?: Record<string, unknown>;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
-  fileListPath?: any;
+  fileListPath?: Record<string, unknown>;
   /** Indicates whether to enable partition discovery. */
   enablePartitionDiscovery?: boolean;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
-  partitionRootPath?: any;
+  partitionRootPath?: Record<string, unknown>;
   /** The start of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeStart?: any;
+  modifiedDatetimeStart?: Record<string, unknown>;
   /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeEnd?: any;
+  modifiedDatetimeEnd?: Record<string, unknown>;
   /** Specifies Distcp-related settings. */
   distcpSettings?: DistcpSettings;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
-  deleteFilesAfterCompletion?: any;
+  deleteFilesAfterCompletion?: Record<string, unknown>;
 }
 
 /** Sftp write settings. */
@@ -8171,9 +7825,9 @@ export interface SftpWriteSettings extends StoreWriteSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SftpWriteSettings";
   /** Specifies the timeout for writing each chunk to SFTP server. Default value: 01:00:00 (one hour). Type: string (or Expression with resultType string). */
-  operationTimeout?: any;
+  operationTimeout?: Record<string, unknown>;
   /** Upload to temporary file(s) and rename. Disable this option if your SFTP server doesn't support rename operation. Type: boolean (or Expression with resultType boolean). */
-  useTempFileRename?: any;
+  useTempFileRename?: Record<string, unknown>;
 }
 
 /** Azure blob write settings. */
@@ -8181,7 +7835,7 @@ export interface AzureBlobStorageWriteSettings extends StoreWriteSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobStorageWriteSettings";
   /** Indicates the block size(MB) when writing data to blob. Type: integer (or Expression with resultType integer). */
-  blockSizeInMB?: any;
+  blockSizeInMB?: Record<string, unknown>;
 }
 
 /** Azure blobFS write settings. */
@@ -8189,7 +7843,7 @@ export interface AzureBlobFSWriteSettings extends StoreWriteSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobFSWriteSettings";
   /** Indicates the block size(MB) when writing data to blob. Type: integer (or Expression with resultType integer). */
-  blockSizeInMB?: any;
+  blockSizeInMB?: Record<string, unknown>;
 }
 
 /** Azure data lake store write settings. */
@@ -8197,7 +7851,7 @@ export interface AzureDataLakeStoreWriteSettings extends StoreWriteSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataLakeStoreWriteSettings";
   /** Specifies the expiry time of the written files. The time is applied to the UTC time zone in the format of "2018-12-01T05:00:00Z". Default value is NULL. Type: integer (or Expression with resultType integer). */
-  expiryDateTime?: any;
+  expiryDateTime?: Record<string, unknown>;
 }
 
 /** File server write settings. */
@@ -8217,7 +7871,7 @@ export interface DelimitedTextReadSettings extends FormatReadSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DelimitedTextReadSettings";
   /** Indicates the number of non-empty rows to skip when reading data from input files. Type: integer (or Expression with resultType integer). */
-  skipLineCount?: any;
+  skipLineCount?: Record<string, unknown>;
   /** Compression settings. */
   compressionProperties?: CompressionReadSettingsUnion;
 }
@@ -8237,13 +7891,13 @@ export interface XmlReadSettings extends FormatReadSettings {
   /** Compression settings. */
   compressionProperties?: CompressionReadSettingsUnion;
   /** Indicates what validation method is used when reading the xml files. Allowed values: 'none', 'xsd', or 'dtd'. Type: string (or Expression with resultType string). */
-  validationMode?: any;
+  validationMode?: Record<string, unknown>;
   /** Indicates whether type detection is enabled when reading the xml files. Type: boolean (or Expression with resultType boolean). */
-  detectDataType?: any;
+  detectDataType?: Record<string, unknown>;
   /** Indicates whether namespace is enabled when reading the xml files. Type: boolean (or Expression with resultType boolean). */
-  namespaces?: any;
+  namespaces?: Record<string, unknown>;
   /** Namespace uri to prefix mappings to override the prefixes in column names when namespace is enabled, if no prefix is defined for a namespace uri, the prefix of xml element/attribute name in the xml data file will be used. Example: "{"http://www.example.com/xml":"prefix"}" Type: object (or Expression with resultType object). */
-  namespacePrefixes?: any;
+  namespacePrefixes?: Record<string, unknown>;
 }
 
 /** Binary read settings. */
@@ -8259,7 +7913,7 @@ export interface ZipDeflateReadSettings extends CompressionReadSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ZipDeflateReadSettings";
   /** Preserve the zip file name as folder path. Type: boolean (or Expression with resultType boolean). */
-  preserveZipFileNameAsFolder?: any;
+  preserveZipFileNameAsFolder?: Record<string, unknown>;
 }
 
 /** The Tar compression read settings. */
@@ -8267,7 +7921,7 @@ export interface TarReadSettings extends CompressionReadSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "TarReadSettings";
   /** Preserve the compression file name as folder path. Type: boolean (or Expression with resultType boolean). */
-  preserveCompressionFileNameAsFolder?: any;
+  preserveCompressionFileNameAsFolder?: Record<string, unknown>;
 }
 
 /** The TarGZip compression read settings. */
@@ -8275,7 +7929,7 @@ export interface TarGZipReadSettings extends CompressionReadSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "TarGZipReadSettings";
   /** Preserve the compression file name as folder path. Type: boolean (or Expression with resultType boolean). */
-  preserveCompressionFileNameAsFolder?: any;
+  preserveCompressionFileNameAsFolder?: Record<string, unknown>;
 }
 
 /** Avro write settings. */
@@ -8287,9 +7941,9 @@ export interface AvroWriteSettings extends FormatWriteSettings {
   /** Record namespace in the write result. */
   recordNamespace?: string;
   /** Limit the written file's row count to be smaller than or equal to the specified count. Type: integer (or Expression with resultType integer). */
-  maxRowsPerFile?: any;
+  maxRowsPerFile?: Record<string, unknown>;
   /** Specifies the file name pattern <fileNamePrefix>_<fileIndex>.<fileExtension> when copy from non-file based store without partitionOptions. Type: string (or Expression with resultType string). */
-  fileNamePrefix?: any;
+  fileNamePrefix?: Record<string, unknown>;
 }
 
 /** Orc write settings. */
@@ -8297,9 +7951,9 @@ export interface OrcWriteSettings extends FormatWriteSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OrcWriteSettings";
   /** Limit the written file's row count to be smaller than or equal to the specified count. Type: integer (or Expression with resultType integer). */
-  maxRowsPerFile?: any;
+  maxRowsPerFile?: Record<string, unknown>;
   /** Specifies the file name pattern <fileNamePrefix>_<fileIndex>.<fileExtension> when copy from non-file based store without partitionOptions. Type: string (or Expression with resultType string). */
-  fileNamePrefix?: any;
+  fileNamePrefix?: Record<string, unknown>;
 }
 
 /** Parquet write settings. */
@@ -8307,9 +7961,9 @@ export interface ParquetWriteSettings extends FormatWriteSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ParquetWriteSettings";
   /** Limit the written file's row count to be smaller than or equal to the specified count. Type: integer (or Expression with resultType integer). */
-  maxRowsPerFile?: any;
+  maxRowsPerFile?: Record<string, unknown>;
   /** Specifies the file name pattern <fileNamePrefix>_<fileIndex>.<fileExtension> when copy from non-file based store without partitionOptions. Type: string (or Expression with resultType string). */
-  fileNamePrefix?: any;
+  fileNamePrefix?: Record<string, unknown>;
 }
 
 /** Delimited text write settings. */
@@ -8317,13 +7971,13 @@ export interface DelimitedTextWriteSettings extends FormatWriteSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DelimitedTextWriteSettings";
   /** Indicates whether string values should always be enclosed with quotes. Type: boolean (or Expression with resultType boolean). */
-  quoteAllText?: any;
+  quoteAllText?: Record<string, unknown>;
   /** The file extension used to create the files. Type: string (or Expression with resultType string). */
-  fileExtension: any;
+  fileExtension: Record<string, unknown>;
   /** Limit the written file's row count to be smaller than or equal to the specified count. Type: integer (or Expression with resultType integer). */
-  maxRowsPerFile?: any;
+  maxRowsPerFile?: Record<string, unknown>;
   /** Specifies the file name pattern <fileNamePrefix>_<fileIndex>.<fileExtension> when copy from non-file based store without partitionOptions. Type: string (or Expression with resultType string). */
-  fileNamePrefix?: any;
+  fileNamePrefix?: Record<string, unknown>;
 }
 
 /** Json write settings. */
@@ -8331,7 +7985,7 @@ export interface JsonWriteSettings extends FormatWriteSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "JsonWriteSettings";
   /** File pattern of JSON. This setting controls the way a collection of JSON objects will be treated. The default value is 'setOfObjects'. It is case-sensitive. */
-  filePattern?: any;
+  filePattern?: Record<string, unknown>;
 }
 
 /** A copy activity Avro source. */
@@ -8341,7 +7995,7 @@ export interface AvroSource extends CopySource {
   /** Avro store settings. */
   storeSettings?: StoreReadSettingsUnion;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity excel source. */
@@ -8351,7 +8005,7 @@ export interface ExcelSource extends CopySource {
   /** Excel store settings. */
   storeSettings?: StoreReadSettingsUnion;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity Parquet source. */
@@ -8361,7 +8015,7 @@ export interface ParquetSource extends CopySource {
   /** Parquet store settings. */
   storeSettings?: StoreReadSettingsUnion;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity DelimitedText source. */
@@ -8373,7 +8027,7 @@ export interface DelimitedTextSource extends CopySource {
   /** DelimitedText format settings. */
   formatSettings?: DelimitedTextReadSettings;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity Json source. */
@@ -8385,7 +8039,7 @@ export interface JsonSource extends CopySource {
   /** Json format settings. */
   formatSettings?: JsonReadSettings;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity Xml source. */
@@ -8397,7 +8051,7 @@ export interface XmlSource extends CopySource {
   /** Xml format settings. */
   formatSettings?: XmlReadSettings;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity ORC source. */
@@ -8407,7 +8061,7 @@ export interface OrcSource extends CopySource {
   /** ORC store settings. */
   storeSettings?: StoreReadSettingsUnion;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity Binary source. */
@@ -8438,7 +8092,6 @@ export interface TabularSource extends CopySource {
     | "SapEccSource"
     | "SapHanaSource"
     | "SapOpenHubSource"
-    | "SapOdpSource"
     | "SapTableSource"
     | "SqlSource"
     | "SqlServerSource"
@@ -8485,9 +8138,9 @@ export interface TabularSource extends CopySource {
     | "GoogleAdWordsSource"
     | "AmazonRedshiftSource";
   /** Query timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  queryTimeout?: any;
+  queryTimeout?: Record<string, unknown>;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity Azure Blob source. */
@@ -8495,11 +8148,11 @@ export interface BlobSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "BlobSource";
   /** Treat empty as null. Type: boolean (or Expression with resultType boolean). */
-  treatEmptyAsNull?: any;
+  treatEmptyAsNull?: Record<string, unknown>;
   /** Number of header lines to skip from each blob. Type: integer (or Expression with resultType integer). */
-  skipHeaderLineCount?: any;
+  skipHeaderLineCount?: Record<string, unknown>;
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
-  recursive?: any;
+  recursive?: Record<string, unknown>;
 }
 
 /** A copy activity Document Database Collection source. */
@@ -8507,13 +8160,13 @@ export interface DocumentDbCollectionSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DocumentDbCollectionSource";
   /** Documents query. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
   /** Nested properties separator. Type: string (or Expression with resultType string). */
-  nestingSeparator?: any;
+  nestingSeparator?: Record<string, unknown>;
   /** Query timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  queryTimeout?: any;
+  queryTimeout?: Record<string, unknown>;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity Azure CosmosDB (SQL API) Collection source. */
@@ -8521,15 +8174,15 @@ export interface CosmosDbSqlApiSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CosmosDbSqlApiSource";
   /** SQL API query. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
   /** Page size of the result. Type: integer (or Expression with resultType integer). */
-  pageSize?: any;
+  pageSize?: Record<string, unknown>;
   /** Preferred regions. Type: array of strings (or Expression with resultType array of strings). */
-  preferredRegions?: any;
+  preferredRegions?: Record<string, unknown>;
   /** Whether detect primitive values as datetime values. Type: boolean (or Expression with resultType boolean). */
-  detectDatetime?: any;
+  detectDatetime?: Record<string, unknown>;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity Dynamics source. */
@@ -8537,9 +8190,9 @@ export interface DynamicsSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DynamicsSource";
   /** FetchXML is a proprietary query language that is used in Microsoft Dynamics (online & on-premises). Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity Dynamics CRM source. */
@@ -8547,9 +8200,9 @@ export interface DynamicsCrmSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DynamicsCrmSource";
   /** FetchXML is a proprietary query language that is used in Microsoft Dynamics CRM (online & on-premises). Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity Common Data Service for Apps source. */
@@ -8557,9 +8210,9 @@ export interface CommonDataServiceForAppsSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CommonDataServiceForAppsSource";
   /** FetchXML is a proprietary query language that is used in Microsoft Common Data Service for Apps (online & on-premises). Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity source for various relational databases. */
@@ -8567,9 +8220,9 @@ export interface RelationalSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "RelationalSource";
   /** Database query. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity source for Microsoft Access. */
@@ -8577,9 +8230,9 @@ export interface MicrosoftAccessSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MicrosoftAccessSource";
   /** Database query. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity source for OData source. */
@@ -8587,11 +8240,11 @@ export interface ODataSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ODataSource";
   /** OData query. For example, "$top=1". Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
   /** The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a response, not the timeout to read response data. Default value: 00:05:00. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  httpRequestTimeout?: any;
+  httpRequestTimeout?: Record<string, unknown>;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity Salesforce Service Cloud source. */
@@ -8599,11 +8252,11 @@ export interface SalesforceServiceCloudSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SalesforceServiceCloudSource";
   /** Database query. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
   /** The read behavior for the operation. Default is Query. */
   readBehavior?: SalesforceSourceReadBehavior;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity Rest service source. */
@@ -8611,19 +8264,19 @@ export interface RestSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "RestSource";
   /** The HTTP method used to call the RESTful API. The default is GET. Type: string (or Expression with resultType string). */
-  requestMethod?: any;
+  requestMethod?: Record<string, unknown>;
   /** The HTTP request body to the RESTful API if requestMethod is POST. Type: string (or Expression with resultType string). */
-  requestBody?: any;
+  requestBody?: Record<string, unknown>;
   /** The additional HTTP headers in the request to the RESTful API. Type: string (or Expression with resultType string). */
-  additionalHeaders?: any;
+  additionalHeaders?: Record<string, unknown>;
   /** The pagination rules to compose next page requests. Type: string (or Expression with resultType string). */
-  paginationRules?: any;
+  paginationRules?: Record<string, unknown>;
   /** The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a response, not the timeout to read response data. Default value: 00:01:40. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  httpRequestTimeout?: any;
+  httpRequestTimeout?: Record<string, unknown>;
   /** The time to await before sending next page request. */
-  requestInterval?: any;
+  requestInterval?: Record<string, unknown>;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity file system source. */
@@ -8631,9 +8284,9 @@ export interface FileSystemSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "FileSystemSource";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
-  recursive?: any;
+  recursive?: Record<string, unknown>;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity HDFS source. */
@@ -8641,7 +8294,7 @@ export interface HdfsSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HdfsSource";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
-  recursive?: any;
+  recursive?: Record<string, unknown>;
   /** Specifies Distcp-related settings. */
   distcpSettings?: DistcpSettings;
 }
@@ -8651,13 +8304,13 @@ export interface AzureDataExplorerSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataExplorerSource";
   /** Database query. Should be a Kusto Query Language (KQL) query. Type: string (or Expression with resultType string). */
-  query: any;
+  query: Record<string, unknown>;
   /** The name of the Boolean option that controls whether truncation is applied to result-sets that go beyond a certain row-count limit. */
-  noTruncation?: any;
+  noTruncation?: Record<string, unknown>;
   /** Query timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).. */
-  queryTimeout?: any;
+  queryTimeout?: Record<string, unknown>;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity Oracle source. */
@@ -8665,15 +8318,15 @@ export interface OracleSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OracleSource";
   /** Oracle reader query. Type: string (or Expression with resultType string). */
-  oracleReaderQuery?: any;
+  oracleReaderQuery?: Record<string, unknown>;
   /** Query timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  queryTimeout?: any;
+  queryTimeout?: Record<string, unknown>;
   /** The partition mechanism that will be used for Oracle read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
-  partitionOption?: any;
+  partitionOption?: Record<string, unknown>;
   /** The settings that will be leveraged for Oracle source partitioning. */
   partitionSettings?: OraclePartitionSettings;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity AmazonRdsForOracle source. */
@@ -8681,15 +8334,15 @@ export interface AmazonRdsForOracleSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonRdsForOracleSource";
   /** AmazonRdsForOracle reader query. Type: string (or Expression with resultType string). */
-  oracleReaderQuery?: any;
+  oracleReaderQuery?: Record<string, unknown>;
   /** Query timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  queryTimeout?: any;
+  queryTimeout?: Record<string, unknown>;
   /** The partition mechanism that will be used for AmazonRdsForOracle read in parallel. Type: string (or Expression with resultType string). */
-  partitionOption?: any;
+  partitionOption?: Record<string, unknown>;
   /** The settings that will be leveraged for AmazonRdsForOracle source partitioning. */
   partitionSettings?: AmazonRdsForOraclePartitionSettings;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity source for web page table. */
@@ -8697,7 +8350,7 @@ export interface WebSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "WebSource";
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity source for a MongoDB database. */
@@ -8705,9 +8358,9 @@ export interface MongoDbSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MongoDbSource";
   /** Database query. Should be a SQL-92 query expression. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity source for a MongoDB Atlas database. */
@@ -8715,15 +8368,15 @@ export interface MongoDbAtlasSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MongoDbAtlasSource";
   /** Specifies selection filter using query operators. To return all documents in a collection, omit this parameter or pass an empty document ({}). Type: string (or Expression with resultType string). */
-  filter?: any;
+  filter?: Record<string, unknown>;
   /** Cursor methods for Mongodb query */
   cursorMethods?: MongoDbCursorMethodsProperties;
   /** Specifies the number of documents to return in each batch of the response from MongoDB Atlas instance. In most cases, modifying the batch size will not affect the user or the application. This property's main purpose is to avoid hit the limitation of response size. Type: integer (or Expression with resultType integer). */
-  batchSize?: any;
+  batchSize?: Record<string, unknown>;
   /** Query timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  queryTimeout?: any;
+  queryTimeout?: Record<string, unknown>;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity source for a MongoDB database. */
@@ -8731,15 +8384,15 @@ export interface MongoDbV2Source extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MongoDbV2Source";
   /** Specifies selection filter using query operators. To return all documents in a collection, omit this parameter or pass an empty document ({}). Type: string (or Expression with resultType string). */
-  filter?: any;
+  filter?: Record<string, unknown>;
   /** Cursor methods for Mongodb query */
   cursorMethods?: MongoDbCursorMethodsProperties;
   /** Specifies the number of documents to return in each batch of the response from MongoDB instance. In most cases, modifying the batch size will not affect the user or the application. This property's main purpose is to avoid hit the limitation of response size. Type: integer (or Expression with resultType integer). */
-  batchSize?: any;
+  batchSize?: Record<string, unknown>;
   /** Query timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  queryTimeout?: any;
+  queryTimeout?: Record<string, unknown>;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity source for a CosmosDB (MongoDB API) database. */
@@ -8747,15 +8400,15 @@ export interface CosmosDbMongoDbApiSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CosmosDbMongoDbApiSource";
   /** Specifies selection filter using query operators. To return all documents in a collection, omit this parameter or pass an empty document ({}). Type: string (or Expression with resultType string). */
-  filter?: any;
+  filter?: Record<string, unknown>;
   /** Cursor methods for Mongodb query. */
   cursorMethods?: MongoDbCursorMethodsProperties;
   /** Specifies the number of documents to return in each batch of the response from MongoDB instance. In most cases, modifying the batch size will not affect the user or the application. This property's main purpose is to avoid hit the limitation of response size. Type: integer (or Expression with resultType integer). */
-  batchSize?: any;
+  batchSize?: Record<string, unknown>;
   /** Query timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  queryTimeout?: any;
+  queryTimeout?: Record<string, unknown>;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
+  additionalColumns?: Record<string, unknown>;
 }
 
 /** A copy activity source for an Office 365 service. */
@@ -8763,17 +8416,17 @@ export interface Office365Source extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Office365Source";
   /** The groups containing all the users. Type: array of strings (or Expression with resultType array of strings). */
-  allowedGroups?: any;
+  allowedGroups?: Record<string, unknown>;
   /** The user scope uri. Type: string (or Expression with resultType string). */
-  userScopeFilterUri?: any;
+  userScopeFilterUri?: Record<string, unknown>;
   /** The Column to apply the <paramref name="StartTime"/> and <paramref name="EndTime"/>. Type: string (or Expression with resultType string). */
-  dateFilterColumn?: any;
+  dateFilterColumn?: Record<string, unknown>;
   /** Start time of the requested range for this dataset. Type: string (or Expression with resultType string). */
-  startTime?: any;
+  startTime?: Record<string, unknown>;
   /** End time of the requested range for this dataset. Type: string (or Expression with resultType string). */
-  endTime?: any;
+  endTime?: Record<string, unknown>;
   /** The columns to be read out from the Office 365 table. Type: array of objects (or Expression with resultType array of objects). Example: [ { "name": "Id" }, { "name": "CreatedDateTime" } ] */
-  outputColumns?: any;
+  outputColumns?: Record<string, unknown>;
 }
 
 /** A copy activity Azure Data Lake source. */
@@ -8781,7 +8434,7 @@ export interface AzureDataLakeStoreSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataLakeStoreSource";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
-  recursive?: any;
+  recursive?: Record<string, unknown>;
 }
 
 /** A copy activity Azure BlobFS source. */
@@ -8789,11 +8442,11 @@ export interface AzureBlobFSSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobFSSource";
   /** Treat empty as null. Type: boolean (or Expression with resultType boolean). */
-  treatEmptyAsNull?: any;
+  treatEmptyAsNull?: Record<string, unknown>;
   /** Number of header lines to skip from each blob. Type: integer (or Expression with resultType integer). */
-  skipHeaderLineCount?: any;
+  skipHeaderLineCount?: Record<string, unknown>;
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
-  recursive?: any;
+  recursive?: Record<string, unknown>;
 }
 
 /** A copy activity source for an HTTP file. */
@@ -8801,7 +8454,7 @@ export interface HttpSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HttpSource";
   /** Specifies the timeout for a HTTP client to get HTTP response from HTTP server. The default value is equivalent to System.Net.HttpWebRequest.Timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  httpRequestTimeout?: any;
+  httpRequestTimeout?: Record<string, unknown>;
 }
 
 /** A copy activity snowflake source. */
@@ -8809,7 +8462,7 @@ export interface SnowflakeSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SnowflakeSource";
   /** Snowflake Sql query. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
   /** Snowflake export settings. */
   exportSettings?: SnowflakeExportCopyCommand;
 }
@@ -8819,7 +8472,7 @@ export interface AzureDatabricksDeltaLakeSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDatabricksDeltaLakeSource";
   /** Azure Databricks Delta Lake Sql query. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
   /** Azure Databricks Delta Lake export settings. */
   exportSettings?: AzureDatabricksDeltaLakeExportCommand;
 }
@@ -8829,9 +8482,9 @@ export interface SharePointOnlineListSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SharePointOnlineListSource";
   /** The OData query to filter the data in SharePoint Online list. For example, "$top=1". Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
   /** The wait time to get a response from SharePoint Online. Default value is 5 minutes (00:05:00). Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  httpRequestTimeout?: any;
+  httpRequestTimeout?: Record<string, unknown>;
 }
 
 /** A copy activity DelimitedText sink. */
@@ -8869,15 +8522,15 @@ export interface RestSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "RestSink";
   /** The HTTP method used to call the RESTful API. The default is POST. Type: string (or Expression with resultType string). */
-  requestMethod?: any;
+  requestMethod?: Record<string, unknown>;
   /** The additional HTTP headers in the request to the RESTful API. Type: string (or Expression with resultType string). */
-  additionalHeaders?: any;
+  additionalHeaders?: Record<string, unknown>;
   /** The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a response, not the timeout to read response data. Default value: 00:01:40. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  httpRequestTimeout?: any;
+  httpRequestTimeout?: Record<string, unknown>;
   /** The time to await before sending next request, in milliseconds */
-  requestInterval?: any;
+  requestInterval?: Record<string, unknown>;
   /** Http Compression Type to Send data in compressed format with Optimal Compression Level, Default is None. And The Only Supported option is Gzip. */
-  httpCompressionType?: any;
+  httpCompressionType?: Record<string, unknown>;
 }
 
 /** A copy activity Azure PostgreSQL sink. */
@@ -8885,7 +8538,7 @@ export interface AzurePostgreSqlSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzurePostgreSqlSink";
   /** A query to execute before starting the copy. Type: string (or Expression with resultType string). */
-  preCopyScript?: any;
+  preCopyScript?: Record<string, unknown>;
 }
 
 /** A copy activity Azure MySql sink. */
@@ -8893,7 +8546,7 @@ export interface AzureMySqlSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureMySqlSink";
   /** A query to execute before starting the copy. Type: string (or Expression with resultType string). */
-  preCopyScript?: any;
+  preCopyScript?: Record<string, unknown>;
 }
 
 /** A copy activity Azure Databricks Delta Lake sink. */
@@ -8901,7 +8554,7 @@ export interface AzureDatabricksDeltaLakeSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDatabricksDeltaLakeSink";
   /** SQL pre-copy script. Type: string (or Expression with resultType string). */
-  preCopyScript?: any;
+  preCopyScript?: Record<string, unknown>;
   /** Azure Databricks Delta Lake import settings. */
   importSettings?: AzureDatabricksDeltaLakeImportCommand;
 }
@@ -8913,7 +8566,7 @@ export interface SapCloudForCustomerSink extends CopySink {
   /** The write behavior for the operation. Default is 'Insert'. */
   writeBehavior?: SapCloudForCustomerSinkWriteBehavior;
   /** The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a response, not the timeout to read response data. Default value: 00:05:00. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  httpRequestTimeout?: any;
+  httpRequestTimeout?: Record<string, unknown>;
 }
 
 /** A copy activity Azure Queue sink. */
@@ -8927,13 +8580,13 @@ export interface AzureTableSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureTableSink";
   /** Azure Table default partition key value. Type: string (or Expression with resultType string). */
-  azureTableDefaultPartitionKeyValue?: any;
+  azureTableDefaultPartitionKeyValue?: Record<string, unknown>;
   /** Azure Table partition key name. Type: string (or Expression with resultType string). */
-  azureTablePartitionKeyName?: any;
+  azureTablePartitionKeyName?: Record<string, unknown>;
   /** Azure Table row key name. Type: string (or Expression with resultType string). */
-  azureTableRowKeyName?: any;
+  azureTableRowKeyName?: Record<string, unknown>;
   /** Azure Table insert type. Type: string (or Expression with resultType string). */
-  azureTableInsertType?: any;
+  azureTableInsertType?: Record<string, unknown>;
 }
 
 /** A copy activity Avro sink. */
@@ -8969,13 +8622,13 @@ export interface BlobSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "BlobSink";
   /** Blob writer overwrite files. Type: boolean (or Expression with resultType boolean). */
-  blobWriterOverwriteFiles?: any;
+  blobWriterOverwriteFiles?: Record<string, unknown>;
   /** Blob writer date time format. Type: string (or Expression with resultType string). */
-  blobWriterDateTimeFormat?: any;
+  blobWriterDateTimeFormat?: Record<string, unknown>;
   /** Blob writer add header. Type: boolean (or Expression with resultType boolean). */
-  blobWriterAddHeader?: any;
+  blobWriterAddHeader?: Record<string, unknown>;
   /** The type of copy behavior for copy sink. */
-  copyBehavior?: any;
+  copyBehavior?: Record<string, unknown>;
   /** Specify the custom metadata to be added to sink data. Type: array of objects (or Expression with resultType array of objects). */
   metadata?: MetadataItem[];
 }
@@ -8985,7 +8638,7 @@ export interface FileSystemSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "FileSystemSink";
   /** The type of copy behavior for copy sink. */
-  copyBehavior?: any;
+  copyBehavior?: Record<string, unknown>;
 }
 
 /** A copy activity Document Database Collection sink. */
@@ -8993,9 +8646,9 @@ export interface DocumentDbCollectionSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DocumentDbCollectionSink";
   /** Nested properties separator. Default is . (dot). Type: string (or Expression with resultType string). */
-  nestingSeparator?: any;
+  nestingSeparator?: Record<string, unknown>;
   /** Describes how to write data to Azure Cosmos DB. Type: string (or Expression with resultType string). Allowed values: insert and upsert. */
-  writeBehavior?: any;
+  writeBehavior?: Record<string, unknown>;
 }
 
 /** A copy activity Azure CosmosDB (SQL API) Collection sink. */
@@ -9003,7 +8656,7 @@ export interface CosmosDbSqlApiSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CosmosDbSqlApiSink";
   /** Describes how to write data to Azure Cosmos DB. Type: string (or Expression with resultType string). Allowed values: insert and upsert. */
-  writeBehavior?: any;
+  writeBehavior?: Record<string, unknown>;
 }
 
 /** A copy activity SQL sink. */
@@ -9011,21 +8664,23 @@ export interface SqlSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlSink";
   /** SQL writer stored procedure name. Type: string (or Expression with resultType string). */
-  sqlWriterStoredProcedureName?: any;
+  sqlWriterStoredProcedureName?: Record<string, unknown>;
   /** SQL writer table type. Type: string (or Expression with resultType string). */
-  sqlWriterTableType?: any;
+  sqlWriterTableType?: Record<string, unknown>;
   /** SQL pre-copy script. Type: string (or Expression with resultType string). */
-  preCopyScript?: any;
+  preCopyScript?: Record<string, unknown>;
   /** SQL stored procedure parameters. */
-  storedProcedureParameters?: any;
+  storedProcedureParameters?: {
+    [propertyName: string]: StoredProcedureParameter;
+  };
   /** The stored procedure parameter name of the table type. Type: string (or Expression with resultType string). */
-  storedProcedureTableTypeParameterName?: any;
+  storedProcedureTableTypeParameterName?: Record<string, unknown>;
   /** The option to handle sink table, such as autoCreate. For now only 'autoCreate' value is supported. Type: string (or Expression with resultType string). */
-  tableOption?: any;
+  tableOption?: Record<string, unknown>;
   /** Whether to use table lock during bulk copy. Type: boolean (or Expression with resultType boolean). */
-  sqlWriterUseTableLock?: any;
+  sqlWriterUseTableLock?: Record<string, unknown>;
   /** Write behavior when copying data into sql. Type: SqlWriteBehaviorEnum (or Expression with resultType SqlWriteBehaviorEnum) */
-  writeBehavior?: any;
+  writeBehavior?: Record<string, unknown>;
   /** SQL upsert settings. */
   upsertSettings?: SqlUpsertSettings;
 }
@@ -9035,21 +8690,23 @@ export interface SqlServerSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlServerSink";
   /** SQL writer stored procedure name. Type: string (or Expression with resultType string). */
-  sqlWriterStoredProcedureName?: any;
+  sqlWriterStoredProcedureName?: Record<string, unknown>;
   /** SQL writer table type. Type: string (or Expression with resultType string). */
-  sqlWriterTableType?: any;
+  sqlWriterTableType?: Record<string, unknown>;
   /** SQL pre-copy script. Type: string (or Expression with resultType string). */
-  preCopyScript?: any;
+  preCopyScript?: Record<string, unknown>;
   /** SQL stored procedure parameters. */
-  storedProcedureParameters?: any;
+  storedProcedureParameters?: {
+    [propertyName: string]: StoredProcedureParameter;
+  };
   /** The stored procedure parameter name of the table type. Type: string (or Expression with resultType string). */
-  storedProcedureTableTypeParameterName?: any;
+  storedProcedureTableTypeParameterName?: Record<string, unknown>;
   /** The option to handle sink table, such as autoCreate. For now only 'autoCreate' value is supported. Type: string (or Expression with resultType string). */
-  tableOption?: any;
+  tableOption?: Record<string, unknown>;
   /** Whether to use table lock during bulk copy. Type: boolean (or Expression with resultType boolean). */
-  sqlWriterUseTableLock?: any;
+  sqlWriterUseTableLock?: Record<string, unknown>;
   /** Write behavior when copying data into sql server. Type: SqlWriteBehaviorEnum (or Expression with resultType SqlWriteBehaviorEnum) */
-  writeBehavior?: any;
+  writeBehavior?: Record<string, unknown>;
   /** SQL upsert settings. */
   upsertSettings?: SqlUpsertSettings;
 }
@@ -9059,21 +8716,23 @@ export interface AzureSqlSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSqlSink";
   /** SQL writer stored procedure name. Type: string (or Expression with resultType string). */
-  sqlWriterStoredProcedureName?: any;
+  sqlWriterStoredProcedureName?: Record<string, unknown>;
   /** SQL writer table type. Type: string (or Expression with resultType string). */
-  sqlWriterTableType?: any;
+  sqlWriterTableType?: Record<string, unknown>;
   /** SQL pre-copy script. Type: string (or Expression with resultType string). */
-  preCopyScript?: any;
+  preCopyScript?: Record<string, unknown>;
   /** SQL stored procedure parameters. */
-  storedProcedureParameters?: any;
+  storedProcedureParameters?: {
+    [propertyName: string]: StoredProcedureParameter;
+  };
   /** The stored procedure parameter name of the table type. Type: string (or Expression with resultType string). */
-  storedProcedureTableTypeParameterName?: any;
+  storedProcedureTableTypeParameterName?: Record<string, unknown>;
   /** The option to handle sink table, such as autoCreate. For now only 'autoCreate' value is supported. Type: string (or Expression with resultType string). */
-  tableOption?: any;
+  tableOption?: Record<string, unknown>;
   /** Whether to use table lock during bulk copy. Type: boolean (or Expression with resultType boolean). */
-  sqlWriterUseTableLock?: any;
+  sqlWriterUseTableLock?: Record<string, unknown>;
   /** Write behavior when copying data into Azure SQL. Type: SqlWriteBehaviorEnum (or Expression with resultType SqlWriteBehaviorEnum) */
-  writeBehavior?: any;
+  writeBehavior?: Record<string, unknown>;
   /** SQL upsert settings. */
   upsertSettings?: SqlUpsertSettings;
 }
@@ -9083,21 +8742,23 @@ export interface SqlMISink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlMISink";
   /** SQL writer stored procedure name. Type: string (or Expression with resultType string). */
-  sqlWriterStoredProcedureName?: any;
+  sqlWriterStoredProcedureName?: Record<string, unknown>;
   /** SQL writer table type. Type: string (or Expression with resultType string). */
-  sqlWriterTableType?: any;
+  sqlWriterTableType?: Record<string, unknown>;
   /** SQL pre-copy script. Type: string (or Expression with resultType string). */
-  preCopyScript?: any;
+  preCopyScript?: Record<string, unknown>;
   /** SQL stored procedure parameters. */
-  storedProcedureParameters?: any;
+  storedProcedureParameters?: {
+    [propertyName: string]: StoredProcedureParameter;
+  };
   /** The stored procedure parameter name of the table type. Type: string (or Expression with resultType string). */
-  storedProcedureTableTypeParameterName?: any;
+  storedProcedureTableTypeParameterName?: Record<string, unknown>;
   /** The option to handle sink table, such as autoCreate. For now only 'autoCreate' value is supported. Type: string (or Expression with resultType string). */
-  tableOption?: any;
+  tableOption?: Record<string, unknown>;
   /** Whether to use table lock during bulk copy. Type: boolean (or Expression with resultType boolean). */
-  sqlWriterUseTableLock?: any;
+  sqlWriterUseTableLock?: Record<string, unknown>;
   /** White behavior when copying data into azure SQL MI. Type: SqlWriteBehaviorEnum (or Expression with resultType SqlWriteBehaviorEnum) */
-  writeBehavior?: any;
+  writeBehavior?: Record<string, unknown>;
   /** SQL upsert settings. */
   upsertSettings?: SqlUpsertSettings;
 }
@@ -9107,21 +8768,21 @@ export interface SqlDWSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlDWSink";
   /** SQL pre-copy script. Type: string (or Expression with resultType string). */
-  preCopyScript?: any;
+  preCopyScript?: Record<string, unknown>;
   /** Indicates to use PolyBase to copy data into SQL Data Warehouse when applicable. Type: boolean (or Expression with resultType boolean). */
-  allowPolyBase?: any;
+  allowPolyBase?: Record<string, unknown>;
   /** Specifies PolyBase-related settings when allowPolyBase is true. */
   polyBaseSettings?: PolybaseSettings;
   /** Indicates to use Copy Command to copy data into SQL Data Warehouse. Type: boolean (or Expression with resultType boolean). */
-  allowCopyCommand?: any;
+  allowCopyCommand?: Record<string, unknown>;
   /** Specifies Copy Command related settings when allowCopyCommand is true. */
   copyCommandSettings?: DWCopyCommandSettings;
   /** The option to handle sink table, such as autoCreate. For now only 'autoCreate' value is supported. Type: string (or Expression with resultType string). */
-  tableOption?: any;
+  tableOption?: Record<string, unknown>;
   /** Whether to use table lock during bulk copy. Type: boolean (or Expression with resultType boolean). */
-  sqlWriterUseTableLock?: any;
+  sqlWriterUseTableLock?: Record<string, unknown>;
   /** Write behavior when copying data into azure SQL DW. Type: SqlDWWriteBehaviorEnum (or Expression with resultType SqlDWWriteBehaviorEnum) */
-  writeBehavior?: any;
+  writeBehavior?: Record<string, unknown>;
   /** SQL DW upsert settings. */
   upsertSettings?: SqlDWUpsertSettings;
 }
@@ -9131,7 +8792,7 @@ export interface SnowflakeSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SnowflakeSink";
   /** SQL pre-copy script. Type: string (or Expression with resultType string). */
-  preCopyScript?: any;
+  preCopyScript?: Record<string, unknown>;
   /** Snowflake import settings. */
   importSettings?: SnowflakeImportCopyCommand;
 }
@@ -9141,7 +8802,7 @@ export interface OracleSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OracleSink";
   /** SQL pre-copy script. Type: string (or Expression with resultType string). */
-  preCopyScript?: any;
+  preCopyScript?: Record<string, unknown>;
 }
 
 /** A copy activity Azure Data Lake Store sink. */
@@ -9149,9 +8810,9 @@ export interface AzureDataLakeStoreSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataLakeStoreSink";
   /** The type of copy behavior for copy sink. */
-  copyBehavior?: any;
+  copyBehavior?: Record<string, unknown>;
   /** Single File Parallel. */
-  enableAdlsSingleFileParallel?: any;
+  enableAdlsSingleFileParallel?: Record<string, unknown>;
 }
 
 /** A copy activity Azure Data Lake Storage Gen2 sink. */
@@ -9159,7 +8820,7 @@ export interface AzureBlobFSSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobFSSink";
   /** The type of copy behavior for copy sink. */
-  copyBehavior?: any;
+  copyBehavior?: Record<string, unknown>;
   /** Specify the custom metadata to be added to sink data. Type: array of objects (or Expression with resultType array of objects). */
   metadata?: MetadataItem[];
 }
@@ -9177,7 +8838,7 @@ export interface OdbcSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OdbcSink";
   /** A query to execute before starting the copy. Type: string (or Expression with resultType string). */
-  preCopyScript?: any;
+  preCopyScript?: Record<string, unknown>;
 }
 
 /** A copy activity Informix sink. */
@@ -9185,7 +8846,7 @@ export interface InformixSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "InformixSink";
   /** A query to execute before starting the copy. Type: string (or Expression with resultType string). */
-  preCopyScript?: any;
+  preCopyScript?: Record<string, unknown>;
 }
 
 /** A copy activity Microsoft Access sink. */
@@ -9193,7 +8854,7 @@ export interface MicrosoftAccessSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MicrosoftAccessSink";
   /** A query to execute before starting the copy. Type: string (or Expression with resultType string). */
-  preCopyScript?: any;
+  preCopyScript?: Record<string, unknown>;
 }
 
 /** A copy activity Dynamics sink. */
@@ -9203,9 +8864,9 @@ export interface DynamicsSink extends CopySink {
   /** The write behavior for the operation. */
   writeBehavior: DynamicsSinkWriteBehavior;
   /** The flag indicating whether ignore null values from input dataset (except key fields) during write operation. Default is false. Type: boolean (or Expression with resultType boolean). */
-  ignoreNullValues?: any;
+  ignoreNullValues?: Record<string, unknown>;
   /** The logical name of the alternate key which will be used when upserting records. Type: string (or Expression with resultType string). */
-  alternateKeyName?: any;
+  alternateKeyName?: Record<string, unknown>;
 }
 
 /** A copy activity Dynamics CRM sink. */
@@ -9215,9 +8876,9 @@ export interface DynamicsCrmSink extends CopySink {
   /** The write behavior for the operation. */
   writeBehavior: DynamicsSinkWriteBehavior;
   /** The flag indicating whether to ignore null values from input dataset (except key fields) during write operation. Default is false. Type: boolean (or Expression with resultType boolean). */
-  ignoreNullValues?: any;
+  ignoreNullValues?: Record<string, unknown>;
   /** The logical name of the alternate key which will be used when upserting records. Type: string (or Expression with resultType string). */
-  alternateKeyName?: any;
+  alternateKeyName?: Record<string, unknown>;
 }
 
 /** A copy activity Common Data Service for Apps sink. */
@@ -9227,9 +8888,9 @@ export interface CommonDataServiceForAppsSink extends CopySink {
   /** The write behavior for the operation. */
   writeBehavior: DynamicsSinkWriteBehavior;
   /** The flag indicating whether to ignore null values from input dataset (except key fields) during write operation. Default is false. Type: boolean (or Expression with resultType boolean). */
-  ignoreNullValues?: any;
+  ignoreNullValues?: Record<string, unknown>;
   /** The logical name of the alternate key which will be used when upserting records. Type: string (or Expression with resultType string). */
-  alternateKeyName?: any;
+  alternateKeyName?: Record<string, unknown>;
 }
 
 /** A copy activity Azure Data Explorer sink. */
@@ -9237,11 +8898,11 @@ export interface AzureDataExplorerSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataExplorerSink";
   /** A name of a pre-created csv mapping that was defined on the target Kusto table. Type: string. */
-  ingestionMappingName?: any;
+  ingestionMappingName?: Record<string, unknown>;
   /** An explicit column mapping description provided in a json format. Type: string. */
-  ingestionMappingAsJson?: any;
+  ingestionMappingAsJson?: Record<string, unknown>;
   /** If set to true, any aggregation will be skipped. Default is false. Type: boolean. */
-  flushImmediately?: any;
+  flushImmediately?: Record<string, unknown>;
 }
 
 /** A copy activity Salesforce sink. */
@@ -9251,9 +8912,9 @@ export interface SalesforceSink extends CopySink {
   /** The write behavior for the operation. Default is Insert. */
   writeBehavior?: SalesforceSinkWriteBehavior;
   /** The name of the external ID field for upsert operation. Default value is 'Id' column. Type: string (or Expression with resultType string). */
-  externalIdFieldName?: any;
+  externalIdFieldName?: Record<string, unknown>;
   /** The flag indicating whether or not to ignore null values from input dataset (except key fields) during write operation. Default value is false. If set it to true, it means ADF will leave the data in the destination object unchanged when doing upsert/update operation and insert defined default value when doing insert operation, versus ADF will update the data in the destination object to NULL when doing upsert/update operation and insert NULL value when doing insert operation. Type: boolean (or Expression with resultType boolean). */
-  ignoreNullValues?: any;
+  ignoreNullValues?: Record<string, unknown>;
 }
 
 /** A copy activity Salesforce Service Cloud sink. */
@@ -9263,9 +8924,9 @@ export interface SalesforceServiceCloudSink extends CopySink {
   /** The write behavior for the operation. Default is Insert. */
   writeBehavior?: SalesforceSinkWriteBehavior;
   /** The name of the external ID field for upsert operation. Default value is 'Id' column. Type: string (or Expression with resultType string). */
-  externalIdFieldName?: any;
+  externalIdFieldName?: Record<string, unknown>;
   /** The flag indicating whether or not to ignore null values from input dataset (except key fields) during write operation. Default value is false. If set it to true, it means ADF will leave the data in the destination object unchanged when doing upsert/update operation and insert defined default value when doing insert operation, versus ADF will update the data in the destination object to NULL when doing upsert/update operation and insert NULL value when doing insert operation. Type: boolean (or Expression with resultType boolean). */
-  ignoreNullValues?: any;
+  ignoreNullValues?: Record<string, unknown>;
 }
 
 /** A copy activity MongoDB Atlas sink. */
@@ -9273,7 +8934,7 @@ export interface MongoDbAtlasSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MongoDbAtlasSink";
   /** Specifies whether the document with same key to be overwritten (upsert) rather than throw exception (insert). The default value is "insert". Type: string (or Expression with resultType string). Type: string (or Expression with resultType string). */
-  writeBehavior?: any;
+  writeBehavior?: Record<string, unknown>;
 }
 
 /** A copy activity MongoDB sink. */
@@ -9281,7 +8942,7 @@ export interface MongoDbV2Sink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MongoDbV2Sink";
   /** Specifies whether the document with same key to be overwritten (upsert) rather than throw exception (insert). The default value is "insert". Type: string (or Expression with resultType string). Type: string (or Expression with resultType string). */
-  writeBehavior?: any;
+  writeBehavior?: Record<string, unknown>;
 }
 
 /** A copy activity sink for a CosmosDB (MongoDB API) database. */
@@ -9289,7 +8950,7 @@ export interface CosmosDbMongoDbApiSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CosmosDbMongoDbApiSink";
   /** Specifies whether the document with same key to be overwritten (upsert) rather than throw exception (insert). The default value is "insert". Type: string (or Expression with resultType string). Type: string (or Expression with resultType string). */
-  writeBehavior?: any;
+  writeBehavior?: Record<string, unknown>;
 }
 
 /** Snowflake export command settings. */
@@ -9297,9 +8958,9 @@ export interface SnowflakeExportCopyCommand extends ExportSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SnowflakeExportCopyCommand";
   /** Additional copy options directly passed to snowflake Copy Command. Type: key value pairs (value should be string type) (or Expression with resultType object). Example: "additionalCopyOptions": { "DATE_FORMAT": "MM/DD/YYYY", "TIME_FORMAT": "'HH24:MI:SS.FF'" } */
-  additionalCopyOptions?: { [propertyName: string]: any };
+  additionalCopyOptions?: { [propertyName: string]: Record<string, unknown> };
   /** Additional format options directly passed to snowflake Copy Command. Type: key value pairs (value should be string type) (or Expression with resultType object). Example: "additionalFormatOptions": { "OVERWRITE": "TRUE", "MAX_FILE_SIZE": "'FALSE'" } */
-  additionalFormatOptions?: { [propertyName: string]: any };
+  additionalFormatOptions?: { [propertyName: string]: Record<string, unknown> };
 }
 
 /** Azure Databricks Delta Lake export command settings. */
@@ -9307,9 +8968,9 @@ export interface AzureDatabricksDeltaLakeExportCommand extends ExportSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDatabricksDeltaLakeExportCommand";
   /** Specify the date format for the csv in Azure Databricks Delta Lake Copy. Type: string (or Expression with resultType string). */
-  dateFormat?: any;
+  dateFormat?: Record<string, unknown>;
   /** Specify the timestamp format for the csv in Azure Databricks Delta Lake Copy. Type: string (or Expression with resultType string). */
-  timestampFormat?: any;
+  timestampFormat?: Record<string, unknown>;
 }
 
 /** Azure Databricks Delta Lake import command settings. */
@@ -9317,9 +8978,9 @@ export interface AzureDatabricksDeltaLakeImportCommand extends ImportSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDatabricksDeltaLakeImportCommand";
   /** Specify the date format for csv in Azure Databricks Delta Lake Copy. Type: string (or Expression with resultType string). */
-  dateFormat?: any;
+  dateFormat?: Record<string, unknown>;
   /** Specify the timestamp format for csv in Azure Databricks Delta Lake Copy. Type: string (or Expression with resultType string). */
-  timestampFormat?: any;
+  timestampFormat?: Record<string, unknown>;
 }
 
 /** Snowflake import command settings. */
@@ -9327,9 +8988,9 @@ export interface SnowflakeImportCopyCommand extends ImportSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SnowflakeImportCopyCommand";
   /** Additional copy options directly passed to snowflake Copy Command. Type: key value pairs (value should be string type) (or Expression with resultType object). Example: "additionalCopyOptions": { "DATE_FORMAT": "MM/DD/YYYY", "TIME_FORMAT": "'HH24:MI:SS.FF'" } */
-  additionalCopyOptions?: { [propertyName: string]: any };
+  additionalCopyOptions?: { [propertyName: string]: Record<string, unknown> };
   /** Additional format options directly passed to snowflake Copy Command. Type: key value pairs (value should be string type) (or Expression with resultType object). Example: "additionalFormatOptions": { "FORCE": "TRUE", "LOAD_UNCERTAIN_FILES": "'FALSE'" } */
-  additionalFormatOptions?: { [propertyName: string]: any };
+  additionalFormatOptions?: { [propertyName: string]: Record<string, unknown> };
 }
 
 /** A copy activity tabular translator. */
@@ -9337,17 +8998,17 @@ export interface TabularTranslator extends CopyTranslator {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "TabularTranslator";
   /** Column mappings. Example: "UserId: MyUserId, Group: MyGroup, Name: MyName" Type: string (or Expression with resultType string). This property will be retired. Please use mappings property. */
-  columnMappings?: any;
+  columnMappings?: Record<string, unknown>;
   /** The schema mapping to map between tabular data and hierarchical data. Example: {"Column1": "$.Column1", "Column2": "$.Column2.Property1", "Column3": "$.Column2.Property2"}. Type: object (or Expression with resultType object). This property will be retired. Please use mappings property. */
-  schemaMapping?: any;
+  schemaMapping?: Record<string, unknown>;
   /** The JSON Path of the Nested Array that is going to do cross-apply. Type: object (or Expression with resultType object). */
-  collectionReference?: any;
+  collectionReference?: Record<string, unknown>;
   /** Whether to map complex (array and object) values to simple strings in json format. Type: boolean (or Expression with resultType boolean). */
-  mapComplexValuesToString?: any;
+  mapComplexValuesToString?: Record<string, unknown>;
   /** Column mappings with logical types. Tabular->tabular example: [{"source":{"name":"CustomerName","type":"String"},"sink":{"name":"ClientName","type":"String"}},{"source":{"name":"CustomerAddress","type":"String"},"sink":{"name":"ClientAddress","type":"String"}}].  Hierarchical->tabular example: [{"source":{"path":"$.CustomerName","type":"String"},"sink":{"name":"ClientName","type":"String"}},{"source":{"path":"$.CustomerAddress","type":"String"},"sink":{"name":"ClientAddress","type":"String"}}]. Type: object (or Expression with resultType object). */
-  mappings?: any;
+  mappings?: Record<string, unknown>;
   /** Whether to enable the advanced type conversion feature in the Copy activity. Type: boolean (or Expression with resultType boolean). */
-  typeConversion?: any;
+  typeConversion?: Record<string, unknown>;
   /** Type conversion settings */
   typeConversionSettings?: TypeConversionSettings;
 }
@@ -9386,12 +9047,10 @@ export interface SelfDependencyTumblingWindowTriggerReference
 export interface ExecutePipelineActivity extends ControlActivity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ExecutePipeline";
-  /** Execute pipeline activity policy. */
-  policy?: ExecutePipelineActivityPolicy;
   /** Pipeline reference. */
   pipeline: PipelineReference;
   /** Pipeline parameters. */
-  parameters?: { [propertyName: string]: any };
+  parameters?: { [propertyName: string]: Record<string, unknown> };
   /** Defines whether activity execution will wait for the dependent pipeline execution to finish. Default is false. */
   waitOnCompletion?: boolean;
 }
@@ -9439,17 +9098,7 @@ export interface WaitActivity extends ControlActivity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Wait";
   /** Duration in seconds. */
-  waitTimeInSeconds: any;
-}
-
-/** This activity will fail within its own scope and output a custom error message and error code. The error message and code can provided either as a string literal or as an expression that can be evaluated to a string at runtime. The activity scope can be the whole pipeline or a control activity (e.g. foreach, switch, until), if the fail activity is contained in it. */
-export interface FailActivity extends ControlActivity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Fail";
-  /** The error message that surfaced in the Fail activity. It can be dynamic content that's evaluated to a non empty/blank string at runtime. Type: string (or Expression with resultType string). */
-  message: any;
-  /** The error code that categorizes the error type of the Fail activity. It can be dynamic content that's evaluated to a non empty/blank string at runtime. Type: string (or Expression with resultType string). */
-  errorCode: any;
+  waitTimeInSeconds: Record<string, unknown>;
 }
 
 /** This activity executes inner activities until the specified boolean expression results to true or timeout is reached, whichever is earlier. */
@@ -9459,7 +9108,7 @@ export interface UntilActivity extends ControlActivity {
   /** An expression that would evaluate to Boolean. The loop will continue until this expression evaluates to true */
   expression: Expression;
   /** Specifies the timeout for the activity to run. If there is no value specified, it takes the value of TimeSpan.FromDays(7) which is 1 week as default. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  timeout?: any;
+  timeout?: Record<string, unknown>;
   /** List of activities to execute. */
   activities: ActivityUnion[];
 }
@@ -9469,13 +9118,13 @@ export interface ValidationActivity extends ControlActivity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Validation";
   /** Specifies the timeout for the activity to run. If there is no value specified, it takes the value of TimeSpan.FromDays(7) which is 1 week as default. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  timeout?: any;
+  timeout?: Record<string, unknown>;
   /** A delay in seconds between validation attempts. If no value is specified, 10 seconds will be used as the default. Type: integer (or Expression with resultType integer). */
-  sleep?: any;
+  sleep?: Record<string, unknown>;
   /** Can be used if dataset points to a file. The file must be greater than or equal in size to the value specified. Type: integer (or Expression with resultType integer). */
-  minimumSize?: any;
+  minimumSize?: Record<string, unknown>;
   /** Can be used if dataset points to a folder. If set to true, the folder must have at least one file. If set to false, the folder must be empty. Type: boolean (or Expression with resultType boolean). */
-  childItems?: any;
+  childItems?: Record<string, unknown>;
   /** Validation activity dataset reference. */
   dataset: DatasetReference;
 }
@@ -9497,7 +9146,7 @@ export interface SetVariableActivity extends ControlActivity {
   /** Name of the variable whose value needs to be set. */
   variableName?: string;
   /** Value to be set. Could be a static value or Expression */
-  value?: any;
+  value?: Record<string, unknown>;
 }
 
 /** Append value for a Variable of type Array. */
@@ -9507,7 +9156,7 @@ export interface AppendVariableActivity extends ControlActivity {
   /** Name of the variable whose value needs to be appended to. */
   variableName?: string;
   /** Value to be appended. Could be a static value or Expression */
-  value?: any;
+  value?: Record<string, unknown>;
 }
 
 /** WebHook activity. */
@@ -9517,17 +9166,17 @@ export interface WebHookActivity extends ControlActivity {
   /** Rest API method for target endpoint. */
   method: WebHookActivityMethod;
   /** WebHook activity target endpoint and path. Type: string (or Expression with resultType string). */
-  url: any;
+  url: Record<string, unknown>;
   /** The timeout within which the webhook should be called back. If there is no value specified, it defaults to 10 minutes. Type: string. Pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   timeout?: string;
   /** Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string). */
-  headers?: any;
+  headers?: Record<string, unknown>;
   /** Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string). */
-  body?: any;
+  body?: Record<string, unknown>;
   /** Authentication method used for calling the endpoint. */
   authentication?: WebActivityAuthentication;
   /** When set to true, statusCode, output and error in callback request body will be consumed by activity. The activity can be marked as failed by setting statusCode >= 400 in callback request. Default is false. Type: boolean (or Expression with resultType boolean). */
-  reportStatusOnCallBack?: any;
+  reportStatusOnCallBack?: Record<string, unknown>;
 }
 
 /** Copy activity. */
@@ -9543,17 +9192,17 @@ export interface CopyActivity extends ExecutionActivity {
   /** Copy activity sink. */
   sink: CopySinkUnion;
   /** Copy activity translator. If not specified, tabular translator is used. */
-  translator?: any;
+  translator?: Record<string, unknown>;
   /** Specifies whether to copy data via an interim staging. Default value is false. Type: boolean (or Expression with resultType boolean). */
-  enableStaging?: any;
+  enableStaging?: Record<string, unknown>;
   /** Specifies interim staging settings when EnableStaging is true. */
   stagingSettings?: StagingSettings;
   /** Maximum number of concurrent sessions opened on the source or sink to avoid overloading the data store. Type: integer (or Expression with resultType integer), minimum: 0. */
-  parallelCopies?: any;
+  parallelCopies?: Record<string, unknown>;
   /** Maximum number of data integration units that can be used to perform this data movement. Type: integer (or Expression with resultType integer), minimum: 0. */
-  dataIntegrationUnits?: any;
+  dataIntegrationUnits?: Record<string, unknown>;
   /** Whether to skip incompatible row. Default value is false. Type: boolean (or Expression with resultType boolean). */
-  enableSkipIncompatibleRow?: any;
+  enableSkipIncompatibleRow?: Record<string, unknown>;
   /** Redirect incompatible row settings when EnableSkipIncompatibleRow is true. */
   redirectIncompatibleRowSettings?: RedirectIncompatibleRowSettings;
   /** (Deprecated. Please use LogSettings) Log storage settings customer need to provide when enabling session log. */
@@ -9561,11 +9210,11 @@ export interface CopyActivity extends ExecutionActivity {
   /** Log settings customer needs provide when enabling log. */
   logSettings?: LogSettings;
   /** Preserve Rules. */
-  preserveRules?: any[];
+  preserveRules?: Record<string, unknown>[];
   /** Preserve rules. */
-  preserve?: any[];
+  preserve?: Record<string, unknown>[];
   /** Whether to enable Data Consistency validation. Type: boolean (or Expression with resultType boolean). */
-  validateDataConsistency?: any;
+  validateDataConsistency?: Record<string, unknown>;
   /** Specify the fault tolerance for data consistency. */
   skipErrorFile?: SkipErrorFile;
 }
@@ -9577,17 +9226,17 @@ export interface HDInsightHiveActivity extends ExecutionActivity {
   /** Storage linked service references. */
   storageLinkedServices?: LinkedServiceReference[];
   /** User specified arguments to HDInsightActivity. */
-  arguments?: any[];
+  arguments?: Record<string, unknown>[];
   /** Debug info option. */
   getDebugInfo?: HDInsightActivityDebugInfoOption;
   /** Script path. Type: string (or Expression with resultType string). */
-  scriptPath?: any;
+  scriptPath?: Record<string, unknown>;
   /** Script linked service reference. */
   scriptLinkedService?: LinkedServiceReference;
   /** Allows user to specify defines for Hive job request. */
-  defines?: { [propertyName: string]: any };
+  defines?: { [propertyName: string]: Record<string, unknown> };
   /** User specified arguments under hivevar namespace. */
-  variables?: any[];
+  variables?: Record<string, unknown>[];
   /** Query timeout value (in minutes).  Effective when the HDInsight cluster is with ESP (Enterprise Security Package) */
   queryTimeout?: number;
 }
@@ -9599,15 +9248,15 @@ export interface HDInsightPigActivity extends ExecutionActivity {
   /** Storage linked service references. */
   storageLinkedServices?: LinkedServiceReference[];
   /** User specified arguments to HDInsightActivity. Type: array (or Expression with resultType array). */
-  arguments?: any;
+  arguments?: Record<string, unknown>;
   /** Debug info option. */
   getDebugInfo?: HDInsightActivityDebugInfoOption;
   /** Script path. Type: string (or Expression with resultType string). */
-  scriptPath?: any;
+  scriptPath?: Record<string, unknown>;
   /** Script linked service reference. */
   scriptLinkedService?: LinkedServiceReference;
   /** Allows user to specify defines for Pig job request. */
-  defines?: { [propertyName: string]: any };
+  defines?: { [propertyName: string]: Record<string, unknown> };
 }
 
 /** HDInsight MapReduce activity type. */
@@ -9617,19 +9266,19 @@ export interface HDInsightMapReduceActivity extends ExecutionActivity {
   /** Storage linked service references. */
   storageLinkedServices?: LinkedServiceReference[];
   /** User specified arguments to HDInsightActivity. */
-  arguments?: any[];
+  arguments?: Record<string, unknown>[];
   /** Debug info option. */
   getDebugInfo?: HDInsightActivityDebugInfoOption;
   /** Class name. Type: string (or Expression with resultType string). */
-  className: any;
+  className: Record<string, unknown>;
   /** Jar path. Type: string (or Expression with resultType string). */
-  jarFilePath: any;
+  jarFilePath: Record<string, unknown>;
   /** Jar linked service reference. */
   jarLinkedService?: LinkedServiceReference;
   /** Jar libs. */
-  jarLibs?: any[];
+  jarLibs?: Record<string, unknown>[];
   /** Allows user to specify defines for the MapReduce job request. */
-  defines?: { [propertyName: string]: any };
+  defines?: { [propertyName: string]: Record<string, unknown> };
 }
 
 /** HDInsight streaming activity type. */
@@ -9639,27 +9288,27 @@ export interface HDInsightStreamingActivity extends ExecutionActivity {
   /** Storage linked service references. */
   storageLinkedServices?: LinkedServiceReference[];
   /** User specified arguments to HDInsightActivity. */
-  arguments?: any[];
+  arguments?: Record<string, unknown>[];
   /** Debug info option. */
   getDebugInfo?: HDInsightActivityDebugInfoOption;
   /** Mapper executable name. Type: string (or Expression with resultType string). */
-  mapper: any;
+  mapper: Record<string, unknown>;
   /** Reducer executable name. Type: string (or Expression with resultType string). */
-  reducer: any;
+  reducer: Record<string, unknown>;
   /** Input blob path. Type: string (or Expression with resultType string). */
-  input: any;
+  input: Record<string, unknown>;
   /** Output blob path. Type: string (or Expression with resultType string). */
-  output: any;
+  output: Record<string, unknown>;
   /** Paths to streaming job files. Can be directories. */
-  filePaths: any[];
+  filePaths: Record<string, unknown>[];
   /** Linked service reference where the files are located. */
   fileLinkedService?: LinkedServiceReference;
   /** Combiner executable name. Type: string (or Expression with resultType string). */
-  combiner?: any;
+  combiner?: Record<string, unknown>;
   /** Command line environment values. */
-  commandEnvironment?: any[];
+  commandEnvironment?: Record<string, unknown>[];
   /** Allows user to specify defines for streaming job request. */
-  defines?: { [propertyName: string]: any };
+  defines?: { [propertyName: string]: Record<string, unknown> };
 }
 
 /** HDInsight Spark activity. */
@@ -9667,11 +9316,11 @@ export interface HDInsightSparkActivity extends ExecutionActivity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HDInsightSpark";
   /** The root path in 'sparkJobLinkedService' for all the job’s files. Type: string (or Expression with resultType string). */
-  rootPath: any;
+  rootPath: Record<string, unknown>;
   /** The relative path to the root folder of the code/package to be executed. Type: string (or Expression with resultType string). */
-  entryFilePath: any;
+  entryFilePath: Record<string, unknown>;
   /** The user-specified arguments to HDInsightSparkActivity. */
-  arguments?: any[];
+  arguments?: Record<string, unknown>[];
   /** Debug info option. */
   getDebugInfo?: HDInsightActivityDebugInfoOption;
   /** The storage linked service for uploading the entry file and dependencies, and for receiving logs. */
@@ -9679,9 +9328,9 @@ export interface HDInsightSparkActivity extends ExecutionActivity {
   /** The application's Java/Spark main class. */
   className?: string;
   /** The user to impersonate that will execute the job. Type: string (or Expression with resultType string). */
-  proxyUser?: any;
+  proxyUser?: Record<string, unknown>;
   /** Spark configuration property. */
-  sparkConfig?: { [propertyName: string]: any };
+  sparkConfig?: { [propertyName: string]: Record<string, unknown> };
 }
 
 /** Execute SSIS package activity. */
@@ -9691,11 +9340,11 @@ export interface ExecuteSsisPackageActivity extends ExecutionActivity {
   /** SSIS package location. */
   packageLocation: SsisPackageLocation;
   /** Specifies the runtime to execute SSIS package. The value should be "x86" or "x64". Type: string (or Expression with resultType string). */
-  runtime?: any;
+  runtime?: Record<string, unknown>;
   /** The logging level of SSIS package execution. Type: string (or Expression with resultType string). */
-  loggingLevel?: any;
+  loggingLevel?: Record<string, unknown>;
   /** The environment path to execute the SSIS package. Type: string (or Expression with resultType string). */
-  environmentPath?: any;
+  environmentPath?: Record<string, unknown>;
   /** The package execution credential. */
   executionCredential?: SsisExecutionCredential;
   /** The integration runtime reference. */
@@ -9723,19 +9372,19 @@ export interface CustomActivity extends ExecutionActivity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Custom";
   /** Command for custom activity Type: string (or Expression with resultType string). */
-  command: any;
+  command: Record<string, unknown>;
   /** Resource linked service reference. */
   resourceLinkedService?: LinkedServiceReference;
   /** Folder path for resource files Type: string (or Expression with resultType string). */
-  folderPath?: any;
+  folderPath?: Record<string, unknown>;
   /** Reference objects */
   referenceObjects?: CustomActivityReferenceObject;
   /** User defined property bag. There is no restriction on the keys or values that can be used. The user specified custom activity has the full responsibility to consume and interpret the content defined. */
-  extendedProperties?: { [propertyName: string]: any };
+  extendedProperties?: { [propertyName: string]: Record<string, unknown> };
   /** The retention time for the files submitted for custom activity. Type: double (or Expression with resultType double). */
-  retentionTimeInDays?: any;
+  retentionTimeInDays?: Record<string, unknown>;
   /** Elevation level and scope for the user, default is nonadmin task. Type: string (or Expression with resultType double). */
-  autoUserSpecification?: any;
+  autoUserSpecification?: Record<string, unknown>;
 }
 
 /** SQL stored procedure activity type. */
@@ -9743,9 +9392,11 @@ export interface SqlServerStoredProcedureActivity extends ExecutionActivity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlServerStoredProcedure";
   /** Stored procedure name. Type: string (or Expression with resultType string). */
-  storedProcedureName: any;
+  storedProcedureName: Record<string, unknown>;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
-  storedProcedureParameters?: any;
+  storedProcedureParameters?: {
+    [propertyName: string]: StoredProcedureParameter;
+  };
 }
 
 /** Delete activity. */
@@ -9753,11 +9404,11 @@ export interface DeleteActivity extends ExecutionActivity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Delete";
   /** If true, files or sub-folders under current folder path will be deleted recursively. Default is false. Type: boolean (or Expression with resultType boolean). */
-  recursive?: any;
+  recursive?: Record<string, unknown>;
   /** The max concurrent connections to connect data source at the same time. */
   maxConcurrentConnections?: number;
   /** Whether to record detailed logs of delete-activity execution. Default value is false. Type: boolean (or Expression with resultType boolean). */
-  enableLogging?: any;
+  enableLogging?: Record<string, unknown>;
   /** Log storage settings customer need to provide when enableLogging is true. */
   logStorageSettings?: LogStorageSettings;
   /** Delete activity dataset reference. */
@@ -9771,9 +9422,9 @@ export interface AzureDataExplorerCommandActivity extends ExecutionActivity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataExplorerCommand";
   /** A control command, according to the Azure Data Explorer command syntax. Type: string (or Expression with resultType string). */
-  command: any;
+  command: Record<string, unknown>;
   /** Control command timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9]))..) */
-  commandTimeout?: any;
+  commandTimeout?: Record<string, unknown>;
 }
 
 /** Lookup activity. */
@@ -9785,7 +9436,7 @@ export interface LookupActivity extends ExecutionActivity {
   /** Lookup activity dataset reference. */
   dataset: DatasetReference;
   /** Whether to return first row or all rows. Default value is true. Type: boolean (or Expression with resultType boolean). */
-  firstRowOnly?: any;
+  firstRowOnly?: Record<string, unknown>;
 }
 
 /** Web activity. */
@@ -9795,15 +9446,13 @@ export interface WebActivity extends ExecutionActivity {
   /** Rest API method for target endpoint. */
   method: WebActivityMethod;
   /** Web activity target endpoint and path. Type: string (or Expression with resultType string). */
-  url: any;
+  url: Record<string, unknown>;
   /** Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string). */
-  headers?: any;
+  headers?: Record<string, unknown>;
   /** Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string). */
-  body?: any;
+  body?: Record<string, unknown>;
   /** Authentication method used for calling the endpoint. */
   authentication?: WebActivityAuthentication;
-  /** When set to true, Certificate validation will be disabled. */
-  disableCertValidation?: boolean;
   /** List of datasets passed to web endpoint. */
   datasets?: DatasetReference[];
   /** List of linked services passed to web endpoint. */
@@ -9819,7 +9468,7 @@ export interface GetMetadataActivity extends ExecutionActivity {
   /** GetMetadata activity dataset reference. */
   dataset: DatasetReference;
   /** Fields of metadata to get from dataset. */
-  fieldList?: any[];
+  fieldList?: Record<string, unknown>[];
   /** GetMetadata activity store settings. */
   storeSettings?: StoreReadSettingsUnion;
   /** GetMetadata activity format settings. */
@@ -9831,7 +9480,7 @@ export interface AzureMLBatchExecutionActivity extends ExecutionActivity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureMLBatchExecution";
   /** Key,Value pairs to be passed to the Azure ML Batch Execution Service endpoint. Keys must match the names of web service parameters defined in the published Azure ML web service. Values will be passed in the GlobalParameters property of the Azure ML batch execution request. */
-  globalParameters?: { [propertyName: string]: any };
+  globalParameters?: { [propertyName: string]: Record<string, unknown> };
   /** Key,Value pairs, mapping the names of Azure ML endpoint's Web Service Outputs to AzureMLWebServiceFile objects specifying the output Blob locations. This information will be passed in the WebServiceOutputs property of the Azure ML batch execution request. */
   webServiceOutputs?: { [propertyName: string]: AzureMLWebServiceFile };
   /** Key,Value pairs, mapping the names of Azure ML endpoint's Web Service Inputs to AzureMLWebServiceFile objects specifying the input Blob locations.. This information will be passed in the WebServiceInputs property of the Azure ML batch execution request. */
@@ -9843,11 +9492,11 @@ export interface AzureMLUpdateResourceActivity extends ExecutionActivity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureMLUpdateResource";
   /** Name of the Trained Model module in the Web Service experiment to be updated. Type: string (or Expression with resultType string). */
-  trainedModelName: any;
+  trainedModelName: Record<string, unknown>;
   /** Name of Azure Storage linked service holding the .ilearner file that will be uploaded by the update operation. */
   trainedModelLinkedServiceName: LinkedServiceReference;
   /** The relative file path in trainedModelLinkedService to represent the .ilearner file that will be uploaded by the update operation.  Type: string (or Expression with resultType string). */
-  trainedModelFilePath: any;
+  trainedModelFilePath: Record<string, unknown>;
 }
 
 /** Azure ML Execute Pipeline activity. */
@@ -9855,21 +9504,21 @@ export interface AzureMLExecutePipelineActivity extends ExecutionActivity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureMLExecutePipeline";
   /** ID of the published Azure ML pipeline. Type: string (or Expression with resultType string). */
-  mlPipelineId?: any;
+  mlPipelineId?: Record<string, unknown>;
   /** ID of the published Azure ML pipeline endpoint. Type: string (or Expression with resultType string). */
-  mlPipelineEndpointId?: any;
+  mlPipelineEndpointId?: Record<string, unknown>;
   /** Version of the published Azure ML pipeline endpoint. Type: string (or Expression with resultType string). */
-  version?: any;
+  version?: Record<string, unknown>;
   /** Run history experiment name of the pipeline run. This information will be passed in the ExperimentName property of the published pipeline execution request. Type: string (or Expression with resultType string). */
-  experimentName?: any;
+  experimentName?: Record<string, unknown>;
   /** Key,Value pairs to be passed to the published Azure ML pipeline endpoint. Keys must match the names of pipeline parameters defined in the published pipeline. Values will be passed in the ParameterAssignments property of the published pipeline execution request. Type: object with key value pairs (or Expression with resultType object). */
-  mlPipelineParameters?: any;
+  mlPipelineParameters?: Record<string, unknown>;
   /** Dictionary used for changing data path assignments without retraining. Values will be passed in the dataPathAssignments property of the published pipeline execution request. Type: object with key value pairs (or Expression with resultType object). */
-  dataPathAssignments?: any;
+  dataPathAssignments?: Record<string, unknown>;
   /** The parent Azure ML Service pipeline run id. This information will be passed in the ParentRunId property of the published pipeline execution request. Type: string (or Expression with resultType string). */
-  mlParentRunId?: any;
+  mlParentRunId?: Record<string, unknown>;
   /** Whether to continue execution of other steps in the PipelineRun if a step fails. This information will be passed in the continueOnStepFailure property of the published pipeline execution request. Type: boolean (or Expression with resultType boolean). */
-  continueOnStepFailure?: any;
+  continueOnStepFailure?: Record<string, unknown>;
 }
 
 /** Data Lake Analytics U-SQL activity. */
@@ -9877,19 +9526,19 @@ export interface DataLakeAnalyticsUsqlActivity extends ExecutionActivity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DataLakeAnalyticsU-SQL";
   /** Case-sensitive path to folder that contains the U-SQL script. Type: string (or Expression with resultType string). */
-  scriptPath: any;
+  scriptPath: Record<string, unknown>;
   /** Script linked service reference. */
   scriptLinkedService: LinkedServiceReference;
   /** The maximum number of nodes simultaneously used to run the job. Default value is 1. Type: integer (or Expression with resultType integer), minimum: 1. */
-  degreeOfParallelism?: any;
+  degreeOfParallelism?: Record<string, unknown>;
   /** Determines which jobs out of all that are queued should be selected to run first. The lower the number, the higher the priority. Default value is 1000. Type: integer (or Expression with resultType integer), minimum: 1. */
-  priority?: any;
+  priority?: Record<string, unknown>;
   /** Parameters for U-SQL job request. */
-  parameters?: { [propertyName: string]: any };
+  parameters?: { [propertyName: string]: Record<string, unknown> };
   /** Runtime version of the U-SQL engine to use. Type: string (or Expression with resultType string). */
-  runtimeVersion?: any;
+  runtimeVersion?: Record<string, unknown>;
   /** Compilation mode of U-SQL. Must be one of these values : Semantic, Full and SingleBox. Type: string (or Expression with resultType string). */
-  compilationMode?: any;
+  compilationMode?: Record<string, unknown>;
 }
 
 /** DatabricksNotebook activity. */
@@ -9897,11 +9546,11 @@ export interface DatabricksNotebookActivity extends ExecutionActivity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DatabricksNotebook";
   /** The absolute path of the notebook to be run in the Databricks Workspace. This path must begin with a slash. Type: string (or Expression with resultType string). */
-  notebookPath: any;
+  notebookPath: Record<string, unknown>;
   /** Base parameters to be used for each run of this job.If the notebook takes a parameter that is not specified, the default value from the notebook will be used. */
-  baseParameters?: { [propertyName: string]: any };
+  baseParameters?: { [propertyName: string]: Record<string, unknown> };
   /** A list of libraries to be installed on the cluster that will execute the job. */
-  libraries?: { [propertyName: string]: any }[];
+  libraries?: { [propertyName: string]: Record<string, unknown> }[];
 }
 
 /** DatabricksSparkJar activity. */
@@ -9909,11 +9558,11 @@ export interface DatabricksSparkJarActivity extends ExecutionActivity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DatabricksSparkJar";
   /** The full name of the class containing the main method to be executed. This class must be contained in a JAR provided as a library. Type: string (or Expression with resultType string). */
-  mainClassName: any;
+  mainClassName: Record<string, unknown>;
   /** Parameters that will be passed to the main method. */
-  parameters?: any[];
+  parameters?: Record<string, unknown>[];
   /** A list of libraries to be installed on the cluster that will execute the job. */
-  libraries?: { [propertyName: string]: any }[];
+  libraries?: { [propertyName: string]: Record<string, unknown> }[];
 }
 
 /** DatabricksSparkPython activity. */
@@ -9921,11 +9570,11 @@ export interface DatabricksSparkPythonActivity extends ExecutionActivity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DatabricksSparkPython";
   /** The URI of the Python file to be executed. DBFS paths are supported. Type: string (or Expression with resultType string). */
-  pythonFile: any;
+  pythonFile: Record<string, unknown>;
   /** Command line parameters that will be passed to the Python file. */
-  parameters?: any[];
+  parameters?: Record<string, unknown>[];
   /** A list of libraries to be installed on the cluster that will execute the job. */
-  libraries?: { [propertyName: string]: any }[];
+  libraries?: { [propertyName: string]: Record<string, unknown> }[];
 }
 
 /** Azure Function activity. */
@@ -9935,11 +9584,11 @@ export interface AzureFunctionActivity extends ExecutionActivity {
   /** Rest API method for target endpoint. */
   method: AzureFunctionActivityMethod;
   /** Name of the Function that the Azure Function Activity will call. Type: string (or Expression with resultType string) */
-  functionName: any;
+  functionName: Record<string, unknown>;
   /** Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string). */
-  headers?: any;
+  headers?: Record<string, unknown>;
   /** Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string). */
-  body?: any;
+  body?: Record<string, unknown>;
 }
 
 /** Execute data flow activity. */
@@ -9955,73 +9604,11 @@ export interface ExecuteDataFlowActivity extends ExecutionActivity {
   /** Compute properties for data flow activity. */
   compute?: ExecuteDataFlowActivityTypePropertiesCompute;
   /** Trace level setting used for data flow monitoring output. Supported values are: 'coarse', 'fine', and 'none'. Type: string (or Expression with resultType string) */
-  traceLevel?: any;
+  traceLevel?: Record<string, unknown>;
   /** Continue on error setting used for data flow execution. Enables processing to continue if a sink fails. Type: boolean (or Expression with resultType boolean) */
-  continueOnError?: any;
+  continueOnError?: Record<string, unknown>;
   /** Concurrent run setting used for data flow execution. Allows sinks with the same save order to be processed concurrently. Type: boolean (or Expression with resultType boolean) */
-  runConcurrently?: any;
-  /** Specify number of parallel staging for sources applicable to the sink. Type: integer (or Expression with resultType integer) */
-  sourceStagingConcurrency?: any;
-}
-
-/** Script activity type. */
-export interface ScriptActivity extends ExecutionActivity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Script";
-  /** Array of script blocks. Type: array. */
-  scripts?: ScriptActivityScriptBlock[];
-  /** Log settings of script activity. */
-  logSettings?: ScriptActivityTypePropertiesLogSettings;
-}
-
-/** Execute Synapse notebook activity. */
-export interface SynapseNotebookActivity extends ExecutionActivity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SynapseNotebook";
-  /** Synapse notebook reference. */
-  notebook: SynapseNotebookReference;
-  /** The name of the big data pool which will be used to execute the notebook. */
-  sparkPool?: BigDataPoolParametrizationReference;
-  /** Notebook parameters. */
-  parameters?: { [propertyName: string]: NotebookParameter };
-  /** Number of core and memory to be used for executors allocated in the specified Spark pool for the session, which will be used for overriding 'executorCores' and 'executorMemory' of the notebook you provide. Type: string (or Expression with resultType string). */
-  executorSize?: any;
-  /** Spark configuration properties, which will override the 'conf' of the notebook you provide. */
-  conf?: any;
-  /** Number of core and memory to be used for driver allocated in the specified Spark pool for the session, which will be used for overriding 'driverCores' and 'driverMemory' of the notebook you provide. Type: string (or Expression with resultType string). */
-  driverSize?: any;
-  /** Number of executors to launch for this session, which will override the 'numExecutors' of the notebook you provide. */
-  numExecutors?: number;
-}
-
-/** Execute spark job activity. */
-export interface SynapseSparkJobDefinitionActivity extends ExecutionActivity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SparkJob";
-  /** Synapse spark job reference. */
-  sparkJob: SynapseSparkJobReference;
-  /** User specified arguments to SynapseSparkJobDefinitionActivity. */
-  arguments?: any[];
-  /** The main file used for the job, which will override the 'file' of the spark job definition you provide. Type: string (or Expression with resultType string). */
-  file?: any;
-  /** The fully-qualified identifier or the main class that is in the main definition file, which will override the 'className' of the spark job definition you provide. Type: string (or Expression with resultType string). */
-  className?: any;
-  /** (Deprecated. Please use pythonCodeReference and filesV2) Additional files used for reference in the main definition file, which will override the 'files' of the spark job definition you provide. */
-  files?: any[];
-  /** Additional python code files used for reference in the main definition file, which will override the 'pyFiles' of the spark job definition you provide. */
-  pythonCodeReference?: any[];
-  /** Additional files used for reference in the main definition file, which will override the 'jars' and 'files' of the spark job definition you provide. */
-  filesV2?: any[];
-  /** The name of the big data pool which will be used to execute the spark batch job, which will override the 'targetBigDataPool' of the spark job definition you provide. */
-  targetBigDataPool?: BigDataPoolParametrizationReference;
-  /** Number of core and memory to be used for executors allocated in the specified Spark pool for the job, which will be used for overriding 'executorCores' and 'executorMemory' of the spark job definition you provide. Type: string (or Expression with resultType string). */
-  executorSize?: any;
-  /** Spark configuration properties, which will override the 'conf' of the spark job definition you provide. */
-  conf?: any;
-  /** Number of core and memory to be used for driver allocated in the specified Spark pool for the job, which will be used for overriding 'driverCores' and 'driverMemory' of the spark job definition you provide. Type: string (or Expression with resultType string). */
-  driverSize?: any;
-  /** Number of executors to launch for this job, which will override the 'numExecutors' of the spark job definition you provide. */
-  numExecutors?: number;
+  runConcurrently?: Record<string, unknown>;
 }
 
 /** Trigger that creates pipeline runs periodically, on schedule. */
@@ -10069,7 +9656,7 @@ export interface CustomEventsTrigger extends MultiplePipelineTrigger {
   /** The event subject must end with the pattern provided for trigger to fire. At least one of these must be provided: subjectBeginsWith, subjectEndsWith. */
   subjectEndsWith?: string;
   /** The list of event types that cause this trigger to fire. */
-  events: any[];
+  events: Record<string, unknown>[];
   /** The ARM resource ID of the Azure Event Grid Topic. */
   scope: string;
 }
@@ -10091,9 +9678,9 @@ export interface AzureTableSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureTableSource";
   /** Azure Table source query. Type: string (or Expression with resultType string). */
-  azureTableSourceQuery?: any;
+  azureTableSourceQuery?: Record<string, unknown>;
   /** Azure Table source ignore table not found. Type: boolean (or Expression with resultType boolean). */
-  azureTableSourceIgnoreTableNotFound?: any;
+  azureTableSourceIgnoreTableNotFound?: Record<string, unknown>;
 }
 
 /** A copy activity source for Informix. */
@@ -10101,7 +9688,7 @@ export interface InformixSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "InformixSource";
   /** Database query. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity source for Db2 databases. */
@@ -10109,7 +9696,7 @@ export interface Db2Source extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Db2Source";
   /** Database query. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity source for ODBC databases. */
@@ -10117,7 +9704,7 @@ export interface OdbcSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OdbcSource";
   /** Database query. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity source for MySQL databases. */
@@ -10125,7 +9712,7 @@ export interface MySqlSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MySqlSource";
   /** Database query. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity source for PostgreSQL databases. */
@@ -10133,7 +9720,7 @@ export interface PostgreSqlSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PostgreSqlSource";
   /** Database query. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity source for Sybase databases. */
@@ -10141,7 +9728,7 @@ export interface SybaseSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SybaseSource";
   /** Database query. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity source for SapBW server via MDX. */
@@ -10149,7 +9736,7 @@ export interface SapBwSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapBwSource";
   /** MDX query. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Salesforce source. */
@@ -10157,7 +9744,7 @@ export interface SalesforceSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SalesforceSource";
   /** Database query. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
   /** The read behavior for the operation. Default is Query. */
   readBehavior?: SalesforceSourceReadBehavior;
 }
@@ -10167,9 +9754,9 @@ export interface SapCloudForCustomerSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapCloudForCustomerSource";
   /** SAP Cloud for Customer OData query. For example, "$top=1". Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
   /** The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a response, not the timeout to read response data. Default value: 00:05:00. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  httpRequestTimeout?: any;
+  httpRequestTimeout?: Record<string, unknown>;
 }
 
 /** A copy activity source for SAP ECC source. */
@@ -10177,9 +9764,9 @@ export interface SapEccSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapEccSource";
   /** SAP ECC OData query. For example, "$top=1". Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
   /** The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a response, not the timeout to read response data. Default value: 00:05:00. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  httpRequestTimeout?: any;
+  httpRequestTimeout?: Record<string, unknown>;
 }
 
 /** A copy activity source for SAP HANA source. */
@@ -10187,11 +9774,11 @@ export interface SapHanaSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapHanaSource";
   /** SAP HANA Sql query. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
   /** The packet size of data read from SAP HANA. Type: integer(or Expression with resultType integer). */
-  packetSize?: any;
+  packetSize?: Record<string, unknown>;
   /** The partition mechanism that will be used for SAP HANA read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "SapHanaDynamicRange". */
-  partitionOption?: any;
+  partitionOption?: Record<string, unknown>;
   /** The settings that will be leveraged for SAP HANA source partitioning. */
   partitionSettings?: SapHanaPartitionSettings;
 }
@@ -10201,27 +9788,13 @@ export interface SapOpenHubSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapOpenHubSource";
   /** Whether to exclude the records of the last request. The default value is true. Type: boolean (or Expression with resultType boolean). */
-  excludeLastRequest?: any;
+  excludeLastRequest?: Record<string, unknown>;
   /** The ID of request for delta loading. Once it is set, only data with requestId larger than the value of this property will be retrieved. The default value is 0. Type: integer (or Expression with resultType integer ). */
-  baseRequestId?: any;
+  baseRequestId?: Record<string, unknown>;
   /** Specifies the custom RFC function module that will be used to read data from SAP Table. Type: string (or Expression with resultType string). */
-  customRfcReadTableFunctionModule?: any;
+  customRfcReadTableFunctionModule?: Record<string, unknown>;
   /** The single character that will be used as delimiter passed to SAP RFC as well as splitting the output data retrieved. Type: string (or Expression with resultType string). */
-  sapDataColumnDelimiter?: any;
-}
-
-/** A copy activity source for SAP ODP source. */
-export interface SapOdpSource extends TabularSource {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SapOdpSource";
-  /** The extraction mode. Allowed value include: Full, Delta and Recovery. The default value is Full. Type: string (or Expression with resultType string). */
-  extractionMode?: any;
-  /** The subscriber process to manage the delta process. Type: string (or Expression with resultType string). */
-  subscriberProcess?: any;
-  /** Specifies the selection conditions from source data. Type: array of objects(selection) (or Expression with resultType array of objects). */
-  selection?: any;
-  /** Specifies the columns to be selected from source data. Type: array of objects(projection) (or Expression with resultType array of objects). */
-  projection?: any;
+  sapDataColumnDelimiter?: Record<string, unknown>;
 }
 
 /** A copy activity source for SAP Table source. */
@@ -10229,21 +9802,21 @@ export interface SapTableSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapTableSource";
   /** The number of rows to be retrieved. Type: integer(or Expression with resultType integer). */
-  rowCount?: any;
+  rowCount?: Record<string, unknown>;
   /** The number of rows that will be skipped. Type: integer (or Expression with resultType integer). */
-  rowSkips?: any;
+  rowSkips?: Record<string, unknown>;
   /** The fields of the SAP table that will be retrieved. For example, column0, column1. Type: string (or Expression with resultType string). */
-  rfcTableFields?: any;
+  rfcTableFields?: Record<string, unknown>;
   /** The options for the filtering of the SAP Table. For example, COLUMN0 EQ SOME VALUE. Type: string (or Expression with resultType string). */
-  rfcTableOptions?: any;
+  rfcTableOptions?: Record<string, unknown>;
   /** Specifies the maximum number of rows that will be retrieved at a time when retrieving data from SAP Table. Type: integer (or Expression with resultType integer). */
-  batchSize?: any;
+  batchSize?: Record<string, unknown>;
   /** Specifies the custom RFC function module that will be used to read data from SAP Table. Type: string (or Expression with resultType string). */
-  customRfcReadTableFunctionModule?: any;
+  customRfcReadTableFunctionModule?: Record<string, unknown>;
   /** The single character that will be used as delimiter passed to SAP RFC as well as splitting the output data retrieved. Type: string (or Expression with resultType string). */
-  sapDataColumnDelimiter?: any;
+  sapDataColumnDelimiter?: Record<string, unknown>;
   /** The partition mechanism that will be used for SAP table read in parallel. Possible values include: "None", "PartitionOnInt", "PartitionOnCalendarYear", "PartitionOnCalendarMonth", "PartitionOnCalendarDate", "PartitionOnTime". */
-  partitionOption?: any;
+  partitionOption?: Record<string, unknown>;
   /** The settings that will be leveraged for SAP table source partitioning. */
   partitionSettings?: SapTablePartitionSettings;
 }
@@ -10253,15 +9826,17 @@ export interface SqlSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlSource";
   /** SQL reader query. Type: string (or Expression with resultType string). */
-  sqlReaderQuery?: any;
+  sqlReaderQuery?: Record<string, unknown>;
   /** Name of the stored procedure for a SQL Database source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string). */
-  sqlReaderStoredProcedureName?: any;
+  sqlReaderStoredProcedureName?: Record<string, unknown>;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
-  storedProcedureParameters?: any;
+  storedProcedureParameters?: {
+    [propertyName: string]: StoredProcedureParameter;
+  };
   /** Specifies the transaction locking behavior for the SQL source. Allowed values: ReadCommitted/ReadUncommitted/RepeatableRead/Serializable/Snapshot. The default value is ReadCommitted. Type: string (or Expression with resultType string). */
-  isolationLevel?: any;
+  isolationLevel?: Record<string, unknown>;
   /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
-  partitionOption?: any;
+  partitionOption?: Record<string, unknown>;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
 }
@@ -10271,15 +9846,17 @@ export interface SqlServerSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlServerSource";
   /** SQL reader query. Type: string (or Expression with resultType string). */
-  sqlReaderQuery?: any;
+  sqlReaderQuery?: Record<string, unknown>;
   /** Name of the stored procedure for a SQL Database source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string). */
-  sqlReaderStoredProcedureName?: any;
+  sqlReaderStoredProcedureName?: Record<string, unknown>;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
-  storedProcedureParameters?: any;
+  storedProcedureParameters?: {
+    [propertyName: string]: StoredProcedureParameter;
+  };
   /** Which additional types to produce. */
-  produceAdditionalTypes?: any;
+  produceAdditionalTypes?: Record<string, unknown>;
   /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
-  partitionOption?: any;
+  partitionOption?: Record<string, unknown>;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
 }
@@ -10289,15 +9866,17 @@ export interface AmazonRdsForSqlServerSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonRdsForSqlServerSource";
   /** SQL reader query. Type: string (or Expression with resultType string). */
-  sqlReaderQuery?: any;
+  sqlReaderQuery?: Record<string, unknown>;
   /** Name of the stored procedure for a SQL Database source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string). */
-  sqlReaderStoredProcedureName?: any;
+  sqlReaderStoredProcedureName?: Record<string, unknown>;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
-  storedProcedureParameters?: any;
+  storedProcedureParameters?: {
+    [propertyName: string]: StoredProcedureParameter;
+  };
   /** Which additional types to produce. */
-  produceAdditionalTypes?: any;
+  produceAdditionalTypes?: Record<string, unknown>;
   /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
-  partitionOption?: any;
+  partitionOption?: Record<string, unknown>;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
 }
@@ -10307,15 +9886,17 @@ export interface AzureSqlSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSqlSource";
   /** SQL reader query. Type: string (or Expression with resultType string). */
-  sqlReaderQuery?: any;
+  sqlReaderQuery?: Record<string, unknown>;
   /** Name of the stored procedure for a SQL Database source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string). */
-  sqlReaderStoredProcedureName?: any;
+  sqlReaderStoredProcedureName?: Record<string, unknown>;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
-  storedProcedureParameters?: any;
+  storedProcedureParameters?: {
+    [propertyName: string]: StoredProcedureParameter;
+  };
   /** Which additional types to produce. */
-  produceAdditionalTypes?: any;
+  produceAdditionalTypes?: Record<string, unknown>;
   /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
-  partitionOption?: any;
+  partitionOption?: Record<string, unknown>;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
 }
@@ -10325,15 +9906,17 @@ export interface SqlMISource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlMISource";
   /** SQL reader query. Type: string (or Expression with resultType string). */
-  sqlReaderQuery?: any;
+  sqlReaderQuery?: Record<string, unknown>;
   /** Name of the stored procedure for a Azure SQL Managed Instance source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string). */
-  sqlReaderStoredProcedureName?: any;
+  sqlReaderStoredProcedureName?: Record<string, unknown>;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
-  storedProcedureParameters?: any;
+  storedProcedureParameters?: {
+    [propertyName: string]: StoredProcedureParameter;
+  };
   /** Which additional types to produce. */
-  produceAdditionalTypes?: any;
+  produceAdditionalTypes?: Record<string, unknown>;
   /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
-  partitionOption?: any;
+  partitionOption?: Record<string, unknown>;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
 }
@@ -10343,13 +9926,13 @@ export interface SqlDWSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlDWSource";
   /** SQL Data Warehouse reader query. Type: string (or Expression with resultType string). */
-  sqlReaderQuery?: any;
+  sqlReaderQuery?: Record<string, unknown>;
   /** Name of the stored procedure for a SQL Data Warehouse source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string). */
-  sqlReaderStoredProcedureName?: any;
+  sqlReaderStoredProcedureName?: Record<string, unknown>;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". Type: object (or Expression with resultType object), itemType: StoredProcedureParameter. */
-  storedProcedureParameters?: any;
+  storedProcedureParameters?: Record<string, unknown>;
   /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
-  partitionOption?: any;
+  partitionOption?: Record<string, unknown>;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
 }
@@ -10359,7 +9942,7 @@ export interface AzureMySqlSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureMySqlSource";
   /** Database query. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Teradata source. */
@@ -10367,9 +9950,9 @@ export interface TeradataSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "TeradataSource";
   /** Teradata query. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
   /** The partition mechanism that will be used for teradata read in parallel. Possible values include: "None", "Hash", "DynamicRange". */
-  partitionOption?: any;
+  partitionOption?: Record<string, unknown>;
   /** The settings that will be leveraged for teradata source partitioning. */
   partitionSettings?: TeradataPartitionSettings;
 }
@@ -10379,7 +9962,7 @@ export interface CassandraSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CassandraSource";
   /** Database query. Should be a SQL-92 query expression or Cassandra Query Language (CQL) command. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
   /** The consistency level specifies how many Cassandra servers must respond to a read request before returning data to the client application. Cassandra checks the specified number of Cassandra servers for data to satisfy the read request. Must be one of cassandraSourceReadConsistencyLevels. The default value is 'ONE'. It is case-insensitive. */
   consistencyLevel?: CassandraSourceReadConsistencyLevels;
 }
@@ -10389,7 +9972,7 @@ export interface AmazonMWSSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonMWSSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Azure PostgreSQL source. */
@@ -10397,7 +9980,7 @@ export interface AzurePostgreSqlSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzurePostgreSqlSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Concur Service source. */
@@ -10405,7 +9988,7 @@ export interface ConcurSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ConcurSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Couchbase server source. */
@@ -10413,7 +9996,7 @@ export interface CouchbaseSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CouchbaseSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Drill server source. */
@@ -10421,7 +10004,7 @@ export interface DrillSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DrillSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Eloqua server source. */
@@ -10429,7 +10012,7 @@ export interface EloquaSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "EloquaSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Google BigQuery service source. */
@@ -10437,7 +10020,7 @@ export interface GoogleBigQuerySource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleBigQuerySource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Greenplum Database source. */
@@ -10445,7 +10028,7 @@ export interface GreenplumSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GreenplumSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity HBase server source. */
@@ -10453,7 +10036,7 @@ export interface HBaseSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HBaseSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Hive Server source. */
@@ -10461,7 +10044,7 @@ export interface HiveSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HiveSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Hubspot Service source. */
@@ -10469,7 +10052,7 @@ export interface HubspotSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HubspotSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Impala server source. */
@@ -10477,7 +10060,7 @@ export interface ImpalaSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ImpalaSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Jira Service source. */
@@ -10485,7 +10068,7 @@ export interface JiraSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "JiraSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Magento server source. */
@@ -10493,7 +10076,7 @@ export interface MagentoSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MagentoSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity MariaDB server source. */
@@ -10501,7 +10084,7 @@ export interface MariaDBSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MariaDBSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Azure MariaDB source. */
@@ -10509,7 +10092,7 @@ export interface AzureMariaDBSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureMariaDBSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Marketo server source. */
@@ -10517,7 +10100,7 @@ export interface MarketoSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MarketoSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Paypal Service source. */
@@ -10525,7 +10108,7 @@ export interface PaypalSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PaypalSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Phoenix server source. */
@@ -10533,7 +10116,7 @@ export interface PhoenixSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PhoenixSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Presto server source. */
@@ -10541,7 +10124,7 @@ export interface PrestoSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PrestoSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity QuickBooks server source. */
@@ -10549,7 +10132,7 @@ export interface QuickBooksSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "QuickBooksSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity ServiceNow server source. */
@@ -10557,7 +10140,7 @@ export interface ServiceNowSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ServiceNowSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Shopify Service source. */
@@ -10565,7 +10148,7 @@ export interface ShopifySource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ShopifySource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Spark Server source. */
@@ -10573,7 +10156,7 @@ export interface SparkSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SparkSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Square Service source. */
@@ -10581,7 +10164,7 @@ export interface SquareSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SquareSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Xero Service source. */
@@ -10589,7 +10172,7 @@ export interface XeroSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "XeroSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Zoho server source. */
@@ -10597,7 +10180,7 @@ export interface ZohoSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ZohoSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Netezza source. */
@@ -10605,9 +10188,9 @@ export interface NetezzaSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "NetezzaSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
   /** The partition mechanism that will be used for Netezza read in parallel. Possible values include: "None", "DataSlice", "DynamicRange". */
-  partitionOption?: any;
+  partitionOption?: Record<string, unknown>;
   /** The settings that will be leveraged for Netezza source partitioning. */
   partitionSettings?: NetezzaPartitionSettings;
 }
@@ -10617,7 +10200,7 @@ export interface VerticaSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "VerticaSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Salesforce Marketing Cloud source. */
@@ -10625,7 +10208,7 @@ export interface SalesforceMarketingCloudSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SalesforceMarketingCloudSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Responsys source. */
@@ -10633,7 +10216,7 @@ export interface ResponsysSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ResponsysSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Dynamics AX source. */
@@ -10641,9 +10224,9 @@ export interface DynamicsAXSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DynamicsAXSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
   /** The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a response, not the timeout to read response data. Default value: 00:05:00. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  httpRequestTimeout?: any;
+  httpRequestTimeout?: Record<string, unknown>;
 }
 
 /** A copy activity Oracle Service Cloud source. */
@@ -10651,7 +10234,7 @@ export interface OracleServiceCloudSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OracleServiceCloudSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity Google AdWords service source. */
@@ -10659,7 +10242,7 @@ export interface GoogleAdWordsSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleAdWordsSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
 }
 
 /** A copy activity source for Amazon Redshift Source. */
@@ -10667,7 +10250,7 @@ export interface AmazonRedshiftSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonRedshiftSource";
   /** Database query. Type: string (or Expression with resultType string). */
-  query?: any;
+  query?: Record<string, unknown>;
   /** The Amazon S3 settings needed for the interim Amazon S3 when copying from Amazon Redshift with unload. With this, data from Amazon Redshift source will be unloaded into S3 first and then copied into the targeted sink from the interim S3. */
   redshiftUnloadSettings?: RedshiftUnloadSettings;
 }
@@ -10971,21 +10554,6 @@ export enum KnownParameterType {
  */
 export type ParameterType = string;
 
-/** Known values of {@link Type} that the service accepts. */
-export enum KnownType {
-  /** LinkedServiceReference */
-  LinkedServiceReference = "LinkedServiceReference"
-}
-
-/**
- * Defines values for Type. \
- * {@link KnownType} can be used interchangeably with Type,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **LinkedServiceReference**
- */
-export type Type = string;
-
 /** Known values of {@link DependencyCondition} that the service accepts. */
 export enum KnownDependencyCondition {
   /** Succeeded */
@@ -11249,51 +10817,6 @@ export enum KnownDataFlowDebugCommandType {
  * **executeExpressionQuery**
  */
 export type DataFlowDebugCommandType = string;
-
-/** Known values of {@link DataFlowReferenceType} that the service accepts. */
-export enum KnownDataFlowReferenceType {
-  /** DataFlowReference */
-  DataFlowReference = "DataFlowReference"
-}
-
-/**
- * Defines values for DataFlowReferenceType. \
- * {@link KnownDataFlowReferenceType} can be used interchangeably with DataFlowReferenceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **DataFlowReference**
- */
-export type DataFlowReferenceType = string;
-
-/** Known values of {@link ManagedVirtualNetworkReferenceType} that the service accepts. */
-export enum KnownManagedVirtualNetworkReferenceType {
-  /** ManagedVirtualNetworkReference */
-  ManagedVirtualNetworkReference = "ManagedVirtualNetworkReference"
-}
-
-/**
- * Defines values for ManagedVirtualNetworkReferenceType. \
- * {@link KnownManagedVirtualNetworkReferenceType} can be used interchangeably with ManagedVirtualNetworkReferenceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ManagedVirtualNetworkReference**
- */
-export type ManagedVirtualNetworkReferenceType = string;
-
-/** Known values of {@link CredentialReferenceType} that the service accepts. */
-export enum KnownCredentialReferenceType {
-  /** CredentialReference */
-  CredentialReference = "CredentialReference"
-}
-
-/**
- * Defines values for CredentialReferenceType. \
- * {@link KnownCredentialReferenceType} can be used interchangeably with CredentialReferenceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **CredentialReference**
- */
-export type CredentialReferenceType = string;
 
 /** Known values of {@link DataFlowComputeType} that the service accepts. */
 export enum KnownDataFlowComputeType {
@@ -11640,9 +11163,7 @@ export enum KnownRestServiceAuthenticationType {
   /** AadServicePrincipal */
   AadServicePrincipal = "AadServicePrincipal",
   /** ManagedServiceIdentity */
-  ManagedServiceIdentity = "ManagedServiceIdentity",
-  /** OAuth2ClientCredential */
-  OAuth2ClientCredential = "OAuth2ClientCredential"
+  ManagedServiceIdentity = "ManagedServiceIdentity"
 }
 
 /**
@@ -11653,46 +11174,9 @@ export enum KnownRestServiceAuthenticationType {
  * **Anonymous** \
  * **Basic** \
  * **AadServicePrincipal** \
- * **ManagedServiceIdentity** \
- * **OAuth2ClientCredential**
+ * **ManagedServiceIdentity**
  */
 export type RestServiceAuthenticationType = string;
-
-/** Known values of {@link TeamDeskAuthenticationType} that the service accepts. */
-export enum KnownTeamDeskAuthenticationType {
-  /** Basic */
-  Basic = "Basic",
-  /** Token */
-  Token = "Token"
-}
-
-/**
- * Defines values for TeamDeskAuthenticationType. \
- * {@link KnownTeamDeskAuthenticationType} can be used interchangeably with TeamDeskAuthenticationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Basic** \
- * **Token**
- */
-export type TeamDeskAuthenticationType = string;
-
-/** Known values of {@link ZendeskAuthenticationType} that the service accepts. */
-export enum KnownZendeskAuthenticationType {
-  /** Basic */
-  Basic = "Basic",
-  /** Token */
-  Token = "Token"
-}
-
-/**
- * Defines values for ZendeskAuthenticationType. \
- * {@link KnownZendeskAuthenticationType} can be used interchangeably with ZendeskAuthenticationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Basic** \
- * **Token**
- */
-export type ZendeskAuthenticationType = string;
 
 /** Known values of {@link HttpAuthenticationType} that the service accepts. */
 export enum KnownHttpAuthenticationType {
@@ -12060,6 +11544,39 @@ export enum KnownSalesforceSourceReadBehavior {
  */
 export type SalesforceSourceReadBehavior = string;
 
+/** Known values of {@link StoredProcedureParameterType} that the service accepts. */
+export enum KnownStoredProcedureParameterType {
+  /** String */
+  String = "String",
+  /** Int */
+  Int = "Int",
+  /** Int64 */
+  Int64 = "Int64",
+  /** Decimal */
+  Decimal = "Decimal",
+  /** Guid */
+  Guid = "Guid",
+  /** Boolean */
+  Boolean = "Boolean",
+  /** Date */
+  Date = "Date"
+}
+
+/**
+ * Defines values for StoredProcedureParameterType. \
+ * {@link KnownStoredProcedureParameterType} can be used interchangeably with StoredProcedureParameterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **String** \
+ * **Int** \
+ * **Int64** \
+ * **Decimal** \
+ * **Guid** \
+ * **Boolean** \
+ * **Date**
+ */
+export type StoredProcedureParameterType = string;
+
 /** Known values of {@link CassandraSourceReadConsistencyLevels} that the service accepts. */
 export enum KnownCassandraSourceReadConsistencyLevels {
   /** ALL */
@@ -12101,39 +11618,6 @@ export enum KnownCassandraSourceReadConsistencyLevels {
  * **LOCAL_SERIAL**
  */
 export type CassandraSourceReadConsistencyLevels = string;
-
-/** Known values of {@link StoredProcedureParameterType} that the service accepts. */
-export enum KnownStoredProcedureParameterType {
-  /** String */
-  String = "String",
-  /** Int */
-  Int = "Int",
-  /** Int64 */
-  Int64 = "Int64",
-  /** Decimal */
-  Decimal = "Decimal",
-  /** Guid */
-  Guid = "Guid",
-  /** Boolean */
-  Boolean = "Boolean",
-  /** Date */
-  Date = "Date"
-}
-
-/**
- * Defines values for StoredProcedureParameterType. \
- * {@link KnownStoredProcedureParameterType} can be used interchangeably with StoredProcedureParameterType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **String** \
- * **Int** \
- * **Int64** \
- * **Decimal** \
- * **Guid** \
- * **Boolean** \
- * **Date**
- */
-export type StoredProcedureParameterType = string;
 
 /** Known values of {@link SapCloudForCustomerSinkWriteBehavior} that the service accepts. */
 export enum KnownSapCloudForCustomerSinkWriteBehavior {
@@ -12354,180 +11838,6 @@ export enum KnownWebHookActivityMethod {
  */
 export type WebHookActivityMethod = string;
 
-/** Known values of {@link ScriptType} that the service accepts. */
-export enum KnownScriptType {
-  /** Query */
-  Query = "Query",
-  /** NonQuery */
-  NonQuery = "NonQuery"
-}
-
-/**
- * Defines values for ScriptType. \
- * {@link KnownScriptType} can be used interchangeably with ScriptType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Query** \
- * **NonQuery**
- */
-export type ScriptType = string;
-
-/** Known values of {@link ScriptActivityParameterType} that the service accepts. */
-export enum KnownScriptActivityParameterType {
-  /** Boolean */
-  Boolean = "Boolean",
-  /** DateTime */
-  DateTime = "DateTime",
-  /** DateTimeOffset */
-  DateTimeOffset = "DateTimeOffset",
-  /** Decimal */
-  Decimal = "Decimal",
-  /** Double */
-  Double = "Double",
-  /** Guid */
-  Guid = "Guid",
-  /** Int16 */
-  Int16 = "Int16",
-  /** Int32 */
-  Int32 = "Int32",
-  /** Int64 */
-  Int64 = "Int64",
-  /** Single */
-  Single = "Single",
-  /** String */
-  String = "String",
-  /** Timespan */
-  Timespan = "Timespan"
-}
-
-/**
- * Defines values for ScriptActivityParameterType. \
- * {@link KnownScriptActivityParameterType} can be used interchangeably with ScriptActivityParameterType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Boolean** \
- * **DateTime** \
- * **DateTimeOffset** \
- * **Decimal** \
- * **Double** \
- * **Guid** \
- * **Int16** \
- * **Int32** \
- * **Int64** \
- * **Single** \
- * **String** \
- * **Timespan**
- */
-export type ScriptActivityParameterType = string;
-
-/** Known values of {@link ScriptActivityParameterDirection} that the service accepts. */
-export enum KnownScriptActivityParameterDirection {
-  /** Input */
-  Input = "Input",
-  /** Output */
-  Output = "Output",
-  /** InputOutput */
-  InputOutput = "InputOutput"
-}
-
-/**
- * Defines values for ScriptActivityParameterDirection. \
- * {@link KnownScriptActivityParameterDirection} can be used interchangeably with ScriptActivityParameterDirection,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Input** \
- * **Output** \
- * **InputOutput**
- */
-export type ScriptActivityParameterDirection = string;
-
-/** Known values of {@link ScriptActivityLogDestination} that the service accepts. */
-export enum KnownScriptActivityLogDestination {
-  /** ActivityOutput */
-  ActivityOutput = "ActivityOutput",
-  /** ExternalStore */
-  ExternalStore = "ExternalStore"
-}
-
-/**
- * Defines values for ScriptActivityLogDestination. \
- * {@link KnownScriptActivityLogDestination} can be used interchangeably with ScriptActivityLogDestination,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ActivityOutput** \
- * **ExternalStore**
- */
-export type ScriptActivityLogDestination = string;
-
-/** Known values of {@link NotebookReferenceType} that the service accepts. */
-export enum KnownNotebookReferenceType {
-  /** NotebookReference */
-  NotebookReference = "NotebookReference"
-}
-
-/**
- * Defines values for NotebookReferenceType. \
- * {@link KnownNotebookReferenceType} can be used interchangeably with NotebookReferenceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotebookReference**
- */
-export type NotebookReferenceType = string;
-
-/** Known values of {@link BigDataPoolReferenceType} that the service accepts. */
-export enum KnownBigDataPoolReferenceType {
-  /** BigDataPoolReference */
-  BigDataPoolReference = "BigDataPoolReference"
-}
-
-/**
- * Defines values for BigDataPoolReferenceType. \
- * {@link KnownBigDataPoolReferenceType} can be used interchangeably with BigDataPoolReferenceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **BigDataPoolReference**
- */
-export type BigDataPoolReferenceType = string;
-
-/** Known values of {@link NotebookParameterType} that the service accepts. */
-export enum KnownNotebookParameterType {
-  /** String */
-  String = "string",
-  /** Int */
-  Int = "int",
-  /** Float */
-  Float = "float",
-  /** Bool */
-  Bool = "bool"
-}
-
-/**
- * Defines values for NotebookParameterType. \
- * {@link KnownNotebookParameterType} can be used interchangeably with NotebookParameterType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **string** \
- * **int** \
- * **float** \
- * **bool**
- */
-export type NotebookParameterType = string;
-
-/** Known values of {@link SparkJobReferenceType} that the service accepts. */
-export enum KnownSparkJobReferenceType {
-  /** SparkJobDefinitionReference */
-  SparkJobDefinitionReference = "SparkJobDefinitionReference"
-}
-
-/**
- * Defines values for SparkJobReferenceType. \
- * {@link KnownSparkJobReferenceType} can be used interchangeably with SparkJobReferenceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **SparkJobDefinitionReference**
- */
-export type SparkJobReferenceType = string;
-
 /** Known values of {@link RecurrenceFrequency} that the service accepts. */
 export enum KnownRecurrenceFrequency {
   /** NotSpecified */
@@ -12599,21 +11909,6 @@ export enum KnownTumblingWindowFrequency {
  * **Month**
  */
 export type TumblingWindowFrequency = string;
-
-/** Known values of {@link TriggerReferenceType} that the service accepts. */
-export enum KnownTriggerReferenceType {
-  /** TriggerReference */
-  TriggerReference = "TriggerReference"
-}
-
-/**
- * Defines values for TriggerReferenceType. \
- * {@link KnownTriggerReferenceType} can be used interchangeably with TriggerReferenceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **TriggerReference**
- */
-export type TriggerReferenceType = string;
 
 /** Known values of {@link JsonFormatFilePattern} that the service accepts. */
 export enum KnownJsonFormatFilePattern {
@@ -13473,7 +12768,7 @@ export interface PipelinesDeleteOptionalParams
 export interface PipelinesCreateRunOptionalParams
   extends coreClient.OperationOptions {
   /** Parameters of the pipeline run. These parameters will be used only if the runId is not specified. */
-  parameters?: { [propertyName: string]: any };
+  parameters?: { [propertyName: string]: Record<string, unknown> };
   /** The pipeline run identifier. If run ID is specified the parameters of the specified run will be used to create a new run. */
   referencePipelineRunId?: string;
   /** Recovery mode flag. If recovery mode is set to true, the specified referenced pipeline run and the new run will be grouped under the same groupId. */
@@ -13833,38 +13128,6 @@ export interface PrivateLinkResourcesGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type PrivateLinkResourcesGetResponse = PrivateLinkResourcesWrapper;
-
-/** Optional parameters. */
-export interface GlobalParametersListByFactoryOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByFactory operation. */
-export type GlobalParametersListByFactoryResponse = GlobalParameterListResponse;
-
-/** Optional parameters. */
-export interface GlobalParametersGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type GlobalParametersGetResponse = GlobalParameterResource;
-
-/** Optional parameters. */
-export interface GlobalParametersCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type GlobalParametersCreateOrUpdateResponse = GlobalParameterResource;
-
-/** Optional parameters. */
-export interface GlobalParametersDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface GlobalParametersListByFactoryNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByFactoryNext operation. */
-export type GlobalParametersListByFactoryNextResponse = GlobalParameterListResponse;
 
 /** Optional parameters. */
 export interface DataFactoryManagementClientOptionalParams

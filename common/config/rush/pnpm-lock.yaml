@@ -3883,7 +3883,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221102
+      typescript: 5.0.0-dev.20221103
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8872,8 +8872,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221102:
-    resolution: {integrity: sha512-/zsVWPD4QVasQaOQAhaV7TkveFM6Wx4ql9LxnM7NNFb56FpD4tlIjUT/EZLA2tiz472D6zGQf6uuzhjS9mQ4EQ==}
+  /typescript/5.0.0-dev.20221103:
+    resolution: {integrity: sha512-hfqcsmiJ+5ktli1OAkwu4PyDDJ3kWW3tiUofd2t1uxwmni3ZT3Mrv1m2dZFg9VNDKqHrkt49izB3tAtD2bsyGw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11545,7 +11545,7 @@ packages:
     dev: false
 
   file:projects/arm-datafactory.tgz:
-    resolution: {integrity: sha512-aMHQvZbkrVvcEkSRICRbvLmSKLCY/gdSWanI6SjgZJX514Y+jwleTQmOxUseP1jtivJWErmjF9kZvcsPPLjFQg==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-6ENvRJON3IOdZX0+eArEaLoE1ryKBtMVTUmATWNa/FLZUio/9j4daiqBVslGLOY4r6e7iwAilGbptlAdlYbQ/g==, tarball: file:projects/arm-datafactory.tgz}
     name: '@rush-temp/arm-datafactory'
     version: 0.0.0
     dependencies:
@@ -11556,18 +11556,18 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.3
+      '@types/node': 14.18.33
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.0
       typescript: 4.6.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -15551,7 +15551,7 @@ packages:
     dev: false
 
   file:projects/communication-email.tgz:
-    resolution: {integrity: sha512-RhI+WjqfaBqh0U8veuoa5ZrFNTH/LJzWkOM3Q85xPYbUjbnSRYz4EoAMjHQqVmj9hZvhSbouIUKVsBQ2oQM8jA==, tarball: file:projects/communication-email.tgz}
+    resolution: {integrity: sha512-JUM2HfVa7yIVOHZ2hdb4QjOe3EA0XgNw+8TTjKDJ4319hEcss0cdw4lSg6kBG/S1EGL+yjS+xY86YWkY68xw+g==, tarball: file:projects/communication-email.tgz}
     name: '@rush-temp/communication-email'
     version: 0.0.0
     dependencies:
@@ -17312,7 +17312,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-zt5Iu56m9r0icm/kPw+dSYGCDhXP9YvUODLIlCinUSBZ8/dhcr2ovf57pb/5Ojqjuaxo2Lpj4ON9Q2Moc1pPYw==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-qegEv0paVx7dHJIGMtm8fTGiVf0AKTLUquBP7seg/SwQ2X1SMJR0O5XOJrIyfX1VBG7L+TSr04adfr/1TIR2YQ==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -18129,7 +18129,7 @@ packages:
     dev: false
 
   file:projects/perf-app-configuration.tgz:
-    resolution: {integrity: sha512-BzR9fvBllxo1pEws5GZiMxuzWLQ7KjDJMfrzlcfwWZIldYlntxGolkUbdVYKsQlxiiq6W+aq/OY8j3AGqI7cwQ==, tarball: file:projects/perf-app-configuration.tgz}
+    resolution: {integrity: sha512-b33BULpxOX6J9dR9f56lJ7afd7XBXxEQZBtZwG3pq0Slu6LjWh717zNT0t+HV/uNPpDTUySako6JAzVPT5yJWQ==, tarball: file:projects/perf-app-configuration.tgz}
     name: '@rush-temp/perf-app-configuration'
     version: 0.0.0
     dependencies:
@@ -18512,7 +18512,7 @@ packages:
     dev: false
 
   file:projects/perf-template.tgz:
-    resolution: {integrity: sha512-CR7LZ2mTcTzlarWLzMt5NaXWF8Wqyxkq9XPVS7BXzPMLAUx2sjTkZtDBuNK0UQ+lGJ3uqhpokEQO6A6jw9fwtg==, tarball: file:projects/perf-template.tgz}
+    resolution: {integrity: sha512-vkGuclIBHH0EYig/IAlJuKXo0FPxnqH3LWulE/Ibe4LUnjHFEv6qTEtps9HpSL/UhkERBiBJo5o7wsNO/ElgwA==, tarball: file:projects/perf-template.tgz}
     name: '@rush-temp/perf-template'
     version: 0.0.0
     dependencies:

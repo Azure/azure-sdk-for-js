@@ -26,4 +26,3 @@ export * from "./managedPrivateEndpoints";
 export * from "./privateEndPointConnections";
 export * from "./privateEndpointConnection";
 export * from "./privateLinkResources";
-export * from "./globalParameters";

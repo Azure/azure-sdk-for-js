@@ -70,7 +70,7 @@ async function pipelinesCreate() {
       jobId: { type: "String" },
       outputBlobNameList: { type: "Array" }
     },
-    policy: { elapsedTimeMetric: { duration: "0.00:10:00" } },
+    policy: { elapsedTimeMetric: { duration: { string: "0.00:10:00" } } },
     runDimensions: {
       jobId: { type: "Expression", value: "@pipeline().parameters.JobId" }
     },
@@ -143,7 +143,7 @@ async function pipelinesUpdate() {
       }
     ],
     parameters: { outputBlobNameList: { type: "Array" } },
-    policy: { elapsedTimeMetric: { duration: "0.00:10:00" } }
+    policy: { elapsedTimeMetric: { duration: { string: "0.00:10:00" } } }
   };
   const credential = new DefaultAzureCredential();
   const client = new DataFactoryManagementClient(credential, subscriptionId);
