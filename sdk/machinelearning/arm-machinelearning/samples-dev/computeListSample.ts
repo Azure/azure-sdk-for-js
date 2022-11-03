@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets computes in specified workspace.
  *
  * @summary Gets computes in specified workspace.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Compute/list.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/list.json
  */
 async function getComputes() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

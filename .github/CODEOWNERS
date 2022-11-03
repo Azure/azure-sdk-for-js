@@ -41,7 +41,7 @@
 /sdk/attestation/ @LarryOsterman @deyaaeldeen @anilba06 @gkostal
 
 # PRLabel: %Batch
-/sdk/batch/ @dpwatrous @paterasMSFT @zfengms @deyaaeldeen
+/sdk/batch/ @dpwatrous @paterasMSFT @zfengms @NickKouds @deyaaeldeen
 
 # PRLabel: %Communication
 /sdk/communication/
