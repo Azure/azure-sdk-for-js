@@ -14,31 +14,35 @@ import { TableClient, AzureNamedKeyCredential } from "@azure/data-tables";
 import * as dotenv from "dotenv";
 dotenv.config();
 
+const accountName = process.env["ACCOUNT_NAME"] || "";
+const accountKey = process.env["ACCOUNT_KEY"] || "";
+
+// TableClient also supports Table Storage RA-GRS replicas.
 const tablesUrls = [
   "https://accountname-region1.table.cosmos.azure.com:443/",
   "https://accountname-region2.table.cosmos.azure.com:443/",
   "https://accountname-region3.table.cosmos.azure.com:443/",
 ];
-const accountName = process.env["ACCOUNT_NAME"] || "";
-const accountKey = process.env["ACCOUNT_KEY"] || "";
 
 async function replication() {
   console.log("Working with table replicas");
+  const options = {
+    // Use all but the first URL for failover.
+    readFailoverHosts: tablesUrls.slice(1),
+    // Table Storage RA-GRS replicas are read-only. Cosmos replicas can also be configured to be read-only. In these cases, omit this field.
+    writeFailoverHosts: tablesUrls.slice(1),
+  };
+
   const client = new TableClient(
     tablesUrls[0],
     "testreplication",
     new AzureNamedKeyCredential(accountName, accountKey),
-    // The client supports an arbitrary number of failover hosts
-    {
-      readFailoverHosts: tablesUrls.slice(1),
-      // Omit this if the service doesn't support writing to replicas or isn't configured to allow writing to replicas
-      writeFailoverHosts: tablesUrls.slice(1),
-    }
+    options
   );
 
   await client.createTable();
 
-  // The client API is no different with replication configured
+  // The client API is no different with replication configured.
   // If the first URL is unavailable, the client will cycle through the others.
 
   type Foo = {
