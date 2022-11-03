@@ -1,10 +1,8 @@
 # Release History
 
-## 1.10.0 (Unreleased)
+## 1.9.3 (Unreleased)
 
 ### Features Added
-
-- Added conditional exports for CommonJS and ESM. [#22804](https://github.com/Azure/azure-sdk-for-js/pull/22804)
 
 ### Breaking Changes
 

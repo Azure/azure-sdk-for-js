@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
-import sinon from "sinon";
+import * as sinon from "sinon";
 import {
   PipelineResponse,
   RestError,
@@ -9,11 +8,11 @@ import {
   createHttpHeaders,
   createPipelineRequest,
   retryPolicy,
-} from "../src/index.js";
+} from "../src";
 import { AbortController } from "@azure/abort-controller";
-import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
 import { assert } from "chai";
-import { makeTestLogger } from "./util.js";
+import { makeTestLogger } from "./util";
 
 describe("retryPolicy", function () {
   afterEach(function () {

@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import FormData from "form-data";
-import { FormDataMap, PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
-import { PipelinePolicy } from "../pipeline.js";
+import { FormDataMap, PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
+import { PipelinePolicy } from "../pipeline";
 
 /**
  * The programmatic identifier of the formDataPolicy.
