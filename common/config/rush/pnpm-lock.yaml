@@ -808,6 +808,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-resources/5.0.1:
+    resolution: {integrity: sha512-JbZtIqfEulsIA0rC3zM7jfF4KkOnye9aKcaO/jJqxJRm/gM6lAjEv7sL4njW8D+35l50P1f+UuH5OqN+UKJqNA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.4.0
+      '@azure/core-client': 1.6.1
+      '@azure/core-lro': 2.4.0
+      '@azure/core-paging': 1.3.0
+      '@azure/core-rest-pipeline': 1.9.2
+      tslib: 2.4.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-storage/17.2.1:
     resolution: {integrity: sha512-J2jmTPv8ZraSHDTz9l2Bx8gNL3ktfDDWo2mxWfzarn64O9Fjhb+l85YWyubGy2xUdeGuZPKzvQLltGv8bSu8eQ==}
     engines: {node: '>=12.0.0'}
@@ -3883,7 +3898,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221101
+      typescript: 5.0.0-dev.20221102
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8872,8 +8887,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221101:
-    resolution: {integrity: sha512-toPkTrYmviWyzo9Vj/fEG0iWkVTo6wB5HHaZu8eV070sOA8yON5vKKsROt0AyeveDhSfzPX8MXEc5oiNeDCGeA==}
+  /typescript/5.0.0-dev.20221102:
+    resolution: {integrity: sha512-/zsVWPD4QVasQaOQAhaV7TkveFM6Wx4ql9LxnM7NNFb56FpD4tlIjUT/EZLA2tiz472D6zGQf6uuzhjS9mQ4EQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -12682,11 +12697,12 @@ packages:
     dev: false
 
   file:projects/arm-links.tgz:
-    resolution: {integrity: sha512-Vdb/Dd+9IFLd8/yto66fCWhX5yjLE+N/v5pxRCYm6PaaUfLPJLXLxHgnqRlEAl++bMBr5CF0qRZPPBo3X/TNLQ==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-dA1SMN8GHZj+2vmT2rgeid6pvkP3DUoWQdzbhxPrJ5QgAgjA1dZ4yckeIgZEo8z93ZWD9LP8/QJVWHccEEdwVA==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
+      '@azure/arm-resources': 5.0.1
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.5
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
@@ -14321,7 +14337,7 @@ packages:
     dev: false
 
   file:projects/arm-resources.tgz:
-    resolution: {integrity: sha512-dCbJQwCvIzZ2VzqzLnHSQDu9a6SGCkhBMzljvRr15+2M+AgkoPFanApID8PgsDHiHmB9zVcams8T90xRPvM94g==, tarball: file:projects/arm-resources.tgz}
+    resolution: {integrity: sha512-/bqYSaWaEdRslQxOTwX1YyA5RPcx4lnudPwrfuHMh7wXCgUHovGr6ep9Fy6Jl4p//M/VhThT8FYrPhXBYrJd/w==, tarball: file:projects/arm-resources.tgz}
     name: '@rush-temp/arm-resources'
     version: 0.0.0
     dependencies:
@@ -14332,18 +14348,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      '@types/node': 14.18.33
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.6.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -15551,7 +15568,7 @@ packages:
     dev: false
 
   file:projects/communication-email.tgz:
-    resolution: {integrity: sha512-RhI+WjqfaBqh0U8veuoa5ZrFNTH/LJzWkOM3Q85xPYbUjbnSRYz4EoAMjHQqVmj9hZvhSbouIUKVsBQ2oQM8jA==, tarball: file:projects/communication-email.tgz}
+    resolution: {integrity: sha512-JUM2HfVa7yIVOHZ2hdb4QjOe3EA0XgNw+8TTjKDJ4319hEcss0cdw4lSg6kBG/S1EGL+yjS+xY86YWkY68xw+g==, tarball: file:projects/communication-email.tgz}
     name: '@rush-temp/communication-email'
     version: 0.0.0
     dependencies:
@@ -17312,7 +17329,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-zt5Iu56m9r0icm/kPw+dSYGCDhXP9YvUODLIlCinUSBZ8/dhcr2ovf57pb/5Ojqjuaxo2Lpj4ON9Q2Moc1pPYw==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-qegEv0paVx7dHJIGMtm8fTGiVf0AKTLUquBP7seg/SwQ2X1SMJR0O5XOJrIyfX1VBG7L+TSr04adfr/1TIR2YQ==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -18129,7 +18146,7 @@ packages:
     dev: false
 
   file:projects/perf-app-configuration.tgz:
-    resolution: {integrity: sha512-BzR9fvBllxo1pEws5GZiMxuzWLQ7KjDJMfrzlcfwWZIldYlntxGolkUbdVYKsQlxiiq6W+aq/OY8j3AGqI7cwQ==, tarball: file:projects/perf-app-configuration.tgz}
+    resolution: {integrity: sha512-b33BULpxOX6J9dR9f56lJ7afd7XBXxEQZBtZwG3pq0Slu6LjWh717zNT0t+HV/uNPpDTUySako6JAzVPT5yJWQ==, tarball: file:projects/perf-app-configuration.tgz}
     name: '@rush-temp/perf-app-configuration'
     version: 0.0.0
     dependencies:
@@ -18512,7 +18529,7 @@ packages:
     dev: false
 
   file:projects/perf-template.tgz:
-    resolution: {integrity: sha512-CR7LZ2mTcTzlarWLzMt5NaXWF8Wqyxkq9XPVS7BXzPMLAUx2sjTkZtDBuNK0UQ+lGJ3uqhpokEQO6A6jw9fwtg==, tarball: file:projects/perf-template.tgz}
+    resolution: {integrity: sha512-vkGuclIBHH0EYig/IAlJuKXo0FPxnqH3LWulE/Ibe4LUnjHFEv6qTEtps9HpSL/UhkERBiBJo5o7wsNO/ElgwA==, tarball: file:projects/perf-template.tgz}
     name: '@rush-temp/perf-template'
     version: 0.0.0
     dependencies:
