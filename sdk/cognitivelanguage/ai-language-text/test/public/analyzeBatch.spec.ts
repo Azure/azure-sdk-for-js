@@ -3,6 +3,9 @@
 
 import {
   AnalyzeBatchActionNames,
+  KnownHealthcareDocumentType,
+  KnownExtractiveSummarizationOrderingCriteria,
+  KnownFhirVersion,
   KnownPiiEntityCategory,
   KnownPiiEntityDomain,
   KnownStringIndexType,
@@ -32,7 +35,11 @@ import {
   expectation22,
   expectation23,
   expectation24,
+  expectation25,
   expectation26,
+  expectation27,
+  expectation28,
+  expectation29,
   expectation3,
   expectation4,
   expectation5,
@@ -40,13 +47,25 @@ import {
   expectation7,
   expectation8,
   expectation9,
+  expectation33,
+  expectation32,
+  expectation30,
+  expectation31,
 } from "./expectations";
+import { windows365ArticlePart1, windows365ArticlePart2 } from "./inputs";
 import { getDocIDsFromState } from "../../src/lro";
 
 const FIXME1 = {
-  // Remove this check when the service updates its message
+  // FIXME: remove this check when the service updates its message
   excludedAdditionalProps: ["message"],
 };
+
+const FIXME2 = {
+  // FIXME: remove this check when the service returns warnings in document results, see https://dev.azure.com/msazure/Cognitive%20Services/_workitems/edit/15772270
+  excludedAdditionalProps: ["warnings"],
+};
+
+const excludedFHIRProperties = ["reference", "id", "fullUrl", "value", "date", "period"];
 
 matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
@@ -55,8 +74,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
     beforeEach(async function (this: Context) {
       recorder = await startRecorder(this.currentTest);
-      client = createClient({
-        authMethod,
+      client = createClient(authMethod, {
         recorder,
       });
     });
@@ -97,6 +115,28 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
 
             await assertActionsResults(await poller.pollUntilDone(), expectation3);
+          });
+
+          it("entity recognition with resolution", async function () {
+            const docs = [
+              "Average price of sneaker is 120 EUR",
+              "Bill Gates is 66 years old in 2022",
+            ];
+            const poller = await client.beginAnalyzeBatch(
+              [
+                {
+                  kind: AnalyzeBatchActionNames.EntityRecognition,
+                  modelVersion: "2022-10-01-preview",
+                },
+              ],
+              docs,
+              "en",
+              {
+                updateIntervalInMs: pollingInterval,
+              }
+            );
+
+            await assertActionsResults(await poller.pollUntilDone(), expectation33);
           });
 
           it("key phrase extraction", async function () {
@@ -261,23 +301,18 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
             await assertActionsResults(await poller.pollUntilDone(), expectation20);
           });
-        });
 
-        describe("custom", function () {
-          it("entity recognition", async function () {
+          it("healthcare with fhir", async function () {
             const docs = [
-              "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
+              "Patient does not suffer from high blood pressure.",
+              "Prescribed 100mg ibuprofen, taken twice daily.",
+              "Baby not likely to have Meningitis. in case of fever in the mother, consider Penicillin for the baby too.",
             ];
             const poller = await client.beginAnalyzeBatch(
               [
                 {
-                  kind: AnalyzeBatchActionNames.CustomEntityRecognition,
-                  deploymentName: assertEnvironmentVariable(
-                    "LANGUAGE_CUSTOM_ENTITY_RECOGNITION_DEPLOYMENT_NAME"
-                  ),
-                  projectName: assertEnvironmentVariable(
-                    "LANGUAGE_CUSTOM_ENTITY_RECOGNITION_PROJECT_NAME"
-                  ),
+                  kind: AnalyzeBatchActionNames.Healthcare,
+                  fhirVersion: KnownFhirVersion["4.0.1"],
                 },
               ],
               docs,
@@ -286,23 +321,23 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionsResults(await poller.pollUntilDone(), expectation1);
+            await assertActionsResults(await poller.pollUntilDone(), expectation25, {
+              excludedAdditionalProps: excludedFHIRProperties,
+            });
           });
 
-          it("single label classification action", async function () {
+          it("healthcare with known documents type", async function () {
             const docs = [
-              "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
+              "The patient is a 54-year-old gentleman with a history of progressive angina over the past several months.",
+              "Prescribed 100mg ibuprofen, taken twice daily.",
+              "Patient does not suffer from high blood pressure.",
             ];
             const poller = await client.beginAnalyzeBatch(
               [
                 {
-                  kind: AnalyzeBatchActionNames.CustomSingleLabelClassification,
-                  deploymentName: assertEnvironmentVariable(
-                    "LANGUAGE_CUSTOM_SINGLE_LABEL_CLASSIFICATION_DEPLOYMENT_NAME"
-                  ),
-                  projectName: assertEnvironmentVariable(
-                    "LANGUAGE_CUSTOM_SINGLE_LABEL_CLASSIFICATION_PROJECT_NAME"
-                  ),
+                  kind: AnalyzeBatchActionNames.Healthcare,
+                  fhirVersion: KnownFhirVersion["4.0.1"],
+                  documentType: KnownHealthcareDocumentType.DischargeSummary,
                 },
               ],
               docs,
@@ -311,23 +346,17 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionsResults(await poller.pollUntilDone(), expectation2);
+            await assertActionsResults(await poller.pollUntilDone(), expectation32, {
+              excludedAdditionalProps: excludedFHIRProperties,
+            });
           });
 
-          it("multi label classification action", async function () {
-            const docs = [
-              "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
-            ];
+          it("extractive summarization", async function () {
+            const docs = [windows365ArticlePart1, windows365ArticlePart2];
             const poller = await client.beginAnalyzeBatch(
               [
                 {
-                  kind: AnalyzeBatchActionNames.CustomMultiLabelClassification,
-                  deploymentName: assertEnvironmentVariable(
-                    "LANGUAGE_CUSTOM_MULTI_LABEL_CLASSIFICATION_DEPLOYMENT_NAME"
-                  ),
-                  projectName: assertEnvironmentVariable(
-                    "LANGUAGE_CUSTOM_MULTI_LABEL_CLASSIFICATION_PROJECT_NAME"
-                  ),
+                  kind: AnalyzeBatchActionNames.ExtractiveSummarization,
                 },
               ],
               docs,
@@ -336,7 +365,78 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionsResults(await poller.pollUntilDone(), expectation4);
+            await assertActionsResults(await poller.pollUntilDone(), expectation27);
+          });
+
+          it("extractive summarization with maxSentenceCount", async function () {
+            const docs = [windows365ArticlePart1, windows365ArticlePart2];
+            const poller = await client.beginAnalyzeBatch(
+              [
+                {
+                  kind: AnalyzeBatchActionNames.ExtractiveSummarization,
+                  maxSentenceCount: 2,
+                },
+              ],
+              docs,
+              "en",
+              {
+                updateIntervalInMs: pollingInterval,
+              }
+            );
+            await assertActionsResults(await poller.pollUntilDone(), expectation28);
+          });
+
+          it("extractive summarization with orderBy", async function () {
+            const docs = [windows365ArticlePart1, windows365ArticlePart2];
+            const poller = await client.beginAnalyzeBatch(
+              [
+                {
+                  kind: AnalyzeBatchActionNames.ExtractiveSummarization,
+                  orderBy: KnownExtractiveSummarizationOrderingCriteria.Rank,
+                },
+              ],
+              docs,
+              "en",
+              {
+                updateIntervalInMs: pollingInterval,
+              }
+            );
+            await assertActionsResults(await poller.pollUntilDone(), expectation29);
+          });
+
+          it("abstractive summarization", async function () {
+            const docs = [windows365ArticlePart1, windows365ArticlePart2];
+            const poller = await client.beginAnalyzeBatch(
+              [
+                {
+                  kind: AnalyzeBatchActionNames.AbstractiveSummarization,
+                },
+              ],
+              docs,
+              "en",
+              {
+                updateIntervalInMs: pollingInterval,
+              }
+            );
+            await assertActionsResults(await poller.pollUntilDone(), expectation30, FIXME2);
+          });
+
+          it("abstractive summarization with maxSentenceCont", async function () {
+            const docs = [windows365ArticlePart1, windows365ArticlePart2];
+            const poller = await client.beginAnalyzeBatch(
+              [
+                {
+                  kind: AnalyzeBatchActionNames.AbstractiveSummarization,
+                  maxSentenceCount: 1,
+                },
+              ],
+              docs,
+              "en",
+              {
+                updateIntervalInMs: pollingInterval,
+              }
+            );
+            await assertActionsResults(await poller.pollUntilDone(), expectation31, FIXME2);
           });
         });
       });
@@ -579,7 +679,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionsResults(await poller.pollUntilDone(), expectation11);
+          await assertActionsResults(await poller.pollUntilDone(), expectation11, FIXME1);
         });
 
         it("output order is same as the input's one with multiple actions", async function () {
@@ -781,7 +881,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionsResults(await poller.pollUntilDone(), expectation16);
+          await assertActionsResults(await poller.pollUntilDone(), expectation16, FIXME1);
         });
 
         it("paged results with custom page size", async function () {
@@ -826,7 +926,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           poller.onProgress((state) => {
             assert.ok(state.createdOn, "createdOn is undefined!");
             assert.ok(state.expiresOn, "expiresOn is undefined!");
-            assert.ok(state.modifiedOn, "modifiedOn is undefined!");
+            // FIXME uncomment this line when the service fixes the issue
+            // assert.ok(state.modifiedOn, "modifiedOn is undefined!");
             assert.ok(state.status, "status is undefined!");
             assert.ok(state.id, "id is undefined!");
             assert.equal(state.displayName, "testJob");
@@ -837,6 +938,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           await poller.pollUntilDone();
         });
 
+        // FIXME: see https://github.com/Azure/azure-sdk-for-js/issues/23616
         it.skip("cancel after progress", async function () {
           const docs = [
             "Patient does not suffer from high blood pressure.",
@@ -976,6 +1078,98 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               }
             );
             await assertActionsResults(await poller.pollUntilDone(), expectation23);
+          });
+        });
+      });
+    });
+  });
+});
+
+matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
+  describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
+    let recorder: Recorder;
+    let client: TextAnalysisClient;
+
+    beforeEach(async function (this: Context) {
+      recorder = await startRecorder(this.currentTest);
+      client = createClient(authMethod, {
+        resource: "CustomText",
+        recorder,
+      });
+    });
+
+    afterEach(async function () {
+      await recorder.stop();
+    });
+
+    describe("analyzeBatch", function () {
+      const pollingInterval = isPlaybackMode() ? 0 : 2000;
+
+      describe("actions", function () {
+        describe("custom", function () {
+          it("entity recognition", async function () {
+            const docs = [
+              "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
+            ];
+            const poller = await client.beginAnalyzeBatch(
+              [
+                {
+                  kind: AnalyzeBatchActionNames.CustomEntityRecognition,
+                  deploymentName: assertEnvironmentVariable("CUSTOM_ENTITIES_DEPLOYMENT_NAME"),
+                  projectName: assertEnvironmentVariable("CUSTOM_ENTITIES_PROJECT_NAME"),
+                },
+              ],
+              docs,
+              "en",
+              {
+                updateIntervalInMs: pollingInterval,
+              }
+            );
+            await assertActionsResults(await poller.pollUntilDone(), expectation1);
+          });
+
+          it("single label classification action", async function () {
+            const docs = [
+              "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
+            ];
+            const poller = await client.beginAnalyzeBatch(
+              [
+                {
+                  kind: AnalyzeBatchActionNames.CustomSingleLabelClassification,
+                  deploymentName: assertEnvironmentVariable(
+                    "SINGLE_LABEL_CLASSIFY_DEPLOYMENT_NAME"
+                  ),
+                  projectName: assertEnvironmentVariable("SINGLE_LABEL_CLASSIFY_PROJECT_NAME"),
+                },
+              ],
+              docs,
+              "en",
+              {
+                updateIntervalInMs: pollingInterval,
+              }
+            );
+            await assertActionsResults(await poller.pollUntilDone(), expectation2);
+          });
+
+          it("multi label classification action", async function () {
+            const docs = [
+              "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
+            ];
+            const poller = await client.beginAnalyzeBatch(
+              [
+                {
+                  kind: AnalyzeBatchActionNames.CustomMultiLabelClassification,
+                  deploymentName: assertEnvironmentVariable("MULTI_LABEL_CLASSIFY_DEPLOYMENT_NAME"),
+                  projectName: assertEnvironmentVariable("MULTI_LABEL_CLASSIFY_PROJECT_NAME"),
+                },
+              ],
+              docs,
+              "en",
+              {
+                updateIntervalInMs: pollingInterval,
+              }
+            );
+            await assertActionsResults(await poller.pollUntilDone(), expectation4);
           });
         });
       });

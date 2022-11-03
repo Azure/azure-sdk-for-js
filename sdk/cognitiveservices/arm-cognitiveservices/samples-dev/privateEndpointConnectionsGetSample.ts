@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets the specified private endpoint connection associated with the Cognitive Services account.
  *
  * @summary Gets the specified private endpoint connection associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-03-01/examples/GetPrivateEndpointConnection.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-10-01/examples/GetPrivateEndpointConnection.json
  */
 async function getPrivateEndpointConnection() {
   const subscriptionId = "{subscription-id}";

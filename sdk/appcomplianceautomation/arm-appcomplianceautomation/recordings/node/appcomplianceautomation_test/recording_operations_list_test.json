@@ -1,0 +1,170 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.AppComplianceAutomation/operations?api-version=2022-11-16-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-appcomplianceautomation/1.0.0-beta.1 core-rest-pipeline/1.10.0 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "6ae13922-10d3-4da5-8070-093ed24a07b5"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 31 Oct 2022 07:57:41 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "39570df1-34be-4b3b-8ae2-976a82b43123",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-tenant-reads": "11999",
+        "x-ms-request-id": "14e84c1f-3122-4fbd-8b39-4f484e2a512c",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221031T075742Z:39570df1-34be-4b3b-8ae2-976a82b43123"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "name": "Microsoft.AppComplianceAutomation/operations/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AppComplianceAutomation",
+              "resource": "operations",
+              "operation": "read_operations",
+              "description": "read operations"
+            }
+          },
+          {
+            "name": "Microsoft.AppComplianceAutomation/locations/operationStatuses/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AppComplianceAutomation",
+              "resource": "locations/operationStatuses",
+              "operation": "read_operationStatuses",
+              "description": "read operationStatuses"
+            }
+          },
+          {
+            "name": "Microsoft.AppComplianceAutomation/locations/operationStatuses/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AppComplianceAutomation",
+              "resource": "locations/operationStatuses",
+              "operation": "write_operationStatuses",
+              "description": "write operationStatuses"
+            }
+          },
+          {
+            "name": "Microsoft.AppComplianceAutomation/reports/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AppComplianceAutomation",
+              "resource": "reports",
+              "operation": "Reports_List",
+              "description": "Get the AppComplianceAutomation report list for the tenant."
+            }
+          },
+          {
+            "name": "Microsoft.AppComplianceAutomation/reports/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AppComplianceAutomation",
+              "resource": "reports",
+              "operation": "Report_Get",
+              "description": "Get the AppComplianceAutomation report and its properties."
+            }
+          },
+          {
+            "name": "Microsoft.AppComplianceAutomation/reports/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AppComplianceAutomation",
+              "resource": "reports",
+              "operation": "Report_CreateOrUpdate",
+              "description": "Create a new AppComplianceAutomation report or update an exiting AppComplianceAutomation report."
+            }
+          },
+          {
+            "name": "Microsoft.AppComplianceAutomation/reports/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AppComplianceAutomation",
+              "resource": "reports",
+              "operation": "Report_Delete",
+              "description": "Delete an AppComplianceAutomation report."
+            }
+          },
+          {
+            "name": "Microsoft.AppComplianceAutomation/reports/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AppComplianceAutomation",
+              "resource": "reports",
+              "operation": "Report_Update",
+              "description": "Update an exiting AppComplianceAutomation report."
+            }
+          },
+          {
+            "name": "Microsoft.AppComplianceAutomation/reports/snapshots/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AppComplianceAutomation",
+              "resource": "reports/snapshots",
+              "operation": "Snapshots_List",
+              "description": "Get the AppComplianceAutomation snapshot list."
+            }
+          },
+          {
+            "name": "Microsoft.AppComplianceAutomation/reports/snapshots/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AppComplianceAutomation",
+              "resource": "reports/snapshots",
+              "operation": "Snapshot_Get",
+              "description": "Get the AppComplianceAutomation snapshot and its properties."
+            }
+          },
+          {
+            "name": "Microsoft.AppComplianceAutomation/reports/snapshots/download/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AppComplianceAutomation",
+              "resource": "reports/snapshots",
+              "operation": "Snapshot_Download",
+              "description": "Download compliance needs from snapshot, like: Compliance Report, Resource List."
+            }
+          },
+          {
+            "name": "Microsoft.AppComplianceAutomation/register/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AppComplianceAutomation",
+              "resource": "Microsoft.AppComplianceAutomation",
+              "operation": "Register the Microsoft.AppComplianceAutomation",
+              "description": "Register the subscription for Microsoft.AppComplianceAutomation"
+            }
+          },
+          {
+            "name": "Microsoft.AppComplianceAutomation/unregister/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AppComplianceAutomation",
+              "resource": "Microsoft.AppComplianceAutomation",
+              "operation": "Unregister the Microsoft.AppComplianceAutomation",
+              "description": "Unregister the subscription for Microsoft.AppComplianceAutomation"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
