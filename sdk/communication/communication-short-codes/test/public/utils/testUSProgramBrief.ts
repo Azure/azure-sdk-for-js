@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import { RestError } from "@azure/core-rest-pipeline";
-import { ShortCodesClient } from "../../../src";
-import { USProgramBrief } from "../../../src";
-import { assert } from "chai";
 import {
-  CompanyInformation,
-  MessageDetails,
-  ProgramDetails,
-  TrafficDetails,
-} from "../../../src/generated/src/models/mappers";
+  CompanyInformationMapper,
+  MessageDetailsMapper,
+  ProgramDetailsMapper,
+  ShortCodesClient,
+  TrafficDetailsMapper,
+  USProgramBrief,
+} from "../../../src";
+import { assert } from "chai";
 import { CompositeMapper } from "@azure/core-client";
 
 // We'd like to make sure that tests can safely run concurrently while avoiding
@@ -110,10 +110,10 @@ export function assertEditableFieldsAreEqual(
   assert.equal(expected.id, actual.id, `Program brief Id is incorrect - ${messageContext}`);
 
   assertDeepEqualKnownFields(actual, expected, messageContext, [
-    [(x) => x.programDetails, ProgramDetails, "Program Details do not match"],
-    [(x) => x.companyInformation, CompanyInformation, "Company Information does not match"],
-    [(x) => x.messageDetails, MessageDetails, "Message Details do not match"],
-    [(x) => x.trafficDetails, TrafficDetails, "Traffic Details do not match"],
+    [(x) => x.programDetails, ProgramDetailsMapper, "Program Details do not match"],
+    [(x) => x.companyInformation, CompanyInformationMapper, "Company Information does not match"],
+    [(x) => x.messageDetails, MessageDetailsMapper, "Message Details do not match"],
+    [(x) => x.trafficDetails, TrafficDetailsMapper, "Traffic Details do not match"],
   ]);
 }
 
