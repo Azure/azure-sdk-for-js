@@ -126,7 +126,7 @@ export class Recorder {
       redirectedUrl.port = testProxyUrl.port;
       redirectedUrl.protocol = testProxyUrl.protocol;
 
-      request.headers.set("x-recording-upstream-base-uri", upstreamUrl.toString());
+      request.headers.set("x-recording-upstream-base-uri", upstreamUrl.origin);
       request.url = redirectedUrl.toString();
 
       if (!(request instanceof WebResource)) {

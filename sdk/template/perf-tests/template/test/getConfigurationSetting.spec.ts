@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { generateUuid } from "@azure/core-http";
+import { v4 as generateUuid } from "uuid";
 import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { TemplateTest } from "./templateBase.spec";
 
