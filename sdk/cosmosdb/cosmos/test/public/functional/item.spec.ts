@@ -716,12 +716,7 @@ describe("bulk/batch item operations", function () {
     });
 
     function isOperationResponse(object: any): boolean {
-      return (
-        "statusCode" in object &&
-        "requestCharge" in object &&
-        "eTag" in object &&
-        "resourceBody" in object
-      );
+      return "statusCode" in object && "requestCharge" in object;
     }
   });
 });
