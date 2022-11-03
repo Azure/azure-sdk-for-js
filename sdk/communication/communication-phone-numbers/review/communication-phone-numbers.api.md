@@ -202,6 +202,12 @@ export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchReq
 }
 
 // @public
+export interface SipDomain {
+    domainUri: string;
+    enabled: boolean;
+}
+
+// @public
 export class SipRoutingClient {
     constructor(connectionString: string, options?: SipRoutingClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: SipRoutingClientOptions);
@@ -230,6 +236,7 @@ export interface SipRoutingError {
 
 // @public
 export interface SipTrunk {
+    enabled: boolean;
     fqdn: string;
     sipSignalingPort: number;
 }

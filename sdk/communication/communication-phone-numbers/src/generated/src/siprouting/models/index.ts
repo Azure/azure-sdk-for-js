@@ -16,6 +16,11 @@ import * as coreClient from "@azure/core-client";
  */
 export interface SipConfiguration {
   /**
+   * Validated Domains.
+   * Map key is domain.
+   */
+  domains?: { [propertyName: string]: SipDomain };
+  /**
    * SIP trunks for routing calls.
    * Map key is trunk's FQDN (1-249 characters).
    */
@@ -24,10 +29,21 @@ export interface SipConfiguration {
   routes?: SipTrunkRoute[];
 }
 
+/**
+ * Represents Domain object as response of validation api.
+ * Map key is domain.
+ */
+export interface SipDomain {
+  /** Enabled flag */
+  enabled: boolean;
+}
+
 /** Represents a SIP trunk for routing calls. See RFC 4904. */
 export interface SipTrunk {
   /** Gets or sets SIP signaling port of the trunk. */
   sipSignalingPort: number;
+  /** Enabled flag */
+  enabled: boolean;
 }
 
 /** Represents a trunk route for routing calls. */
@@ -78,30 +94,10 @@ export interface SipRoutingError {
 /** Represents a SIP configuration patch. */
 export interface SipConfigurationPatch {
   /**
-   * SIP trunks for routing calls.
-   * Map key is trunk's FQDN (1-249 characters).
+   * Domains that will be validated and used.
+   * Map key is domain.
    */
-  trunks?: { [propertyName: string]: TrunkPatch | null };
-  /** Trunk routes for routing calls. */
-  routes?: SipTrunkRoute[];
-}
-
-/** Represents a SIP trunk patch. */
-export interface TrunkPatch {
-  /** Gets or sets SIP signaling port of the trunk. */
-  sipSignalingPort?: number;
-}
-
-/** Optional parameters. */
-export interface GetSipConfigurationOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getSipConfiguration operation. */
-export type GetSipConfigurationResponse = SipConfiguration;
-
-/** Optional parameters. */
-export interface PatchSipConfigurationOptionalParams
-  extends coreClient.OperationOptions {
+  domains?: { [propertyName: string]: DomainPatch };
   /**
    * SIP trunks for routing calls.
    * Map key is trunk's FQDN (1-249 characters).
@@ -111,8 +107,61 @@ export interface PatchSipConfigurationOptionalParams
   routes?: SipTrunkRoute[];
 }
 
-/** Contains response data for the patchSipConfiguration operation. */
-export type PatchSipConfigurationResponse = SipConfiguration;
+/**
+ * Represents Domain that will be validated and used.
+ * Map key is domain.
+ */
+export interface DomainPatch {
+  /** Enabled flag */
+  enabled?: boolean;
+}
+
+/** Represents a SIP trunk patch. */
+export interface TrunkPatch {
+  /** Gets or sets SIP signaling port of the trunk. */
+  sipSignalingPort?: number;
+  /** Enabled flag */
+  enabled?: boolean;
+}
+
+/** Defines headers for SipRouting_get operation. */
+export interface SipRoutingGetExceptionHeaders {
+  /** Error code */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for SipRouting_patch operation. */
+export interface SipRoutingPatchExceptionHeaders {
+  /** Error code */
+  xMsErrorCode?: string;
+}
+
+/** Optional parameters. */
+export interface SipRoutingGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SipRoutingGetResponse = SipConfiguration;
+
+/** Optional parameters. */
+export interface SipRoutingPatchOptionalParams
+  extends coreClient.OperationOptions {
+  /**
+   * Domains that will be validated and used.
+   * Map key is domain.
+   */
+  domains?: { [propertyName: string]: DomainPatch };
+  /**
+   * SIP trunks for routing calls.
+   * Map key is trunk's FQDN (1-249 characters).
+   */
+  trunks?: { [propertyName: string]: TrunkPatch | null };
+  /** Trunk routes for routing calls. */
+  routes?: SipTrunkRoute[];
+}
+
+/** Contains response data for the patch operation. */
+export type SipRoutingPatchResponse = SipConfiguration;
 
 /** Optional parameters. */
 export interface SipRoutingClientOptionalParams
