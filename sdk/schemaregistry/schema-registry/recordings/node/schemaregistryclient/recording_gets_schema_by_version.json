@@ -11,7 +11,7 @@
         "Content-Length": "160",
         "Content-Type": "application/json; serialization=Avro",
         "User-Agent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "76646f94-ffc9-4b28-b38f-171d4f4016b0"
+        "x-ms-client-request-id": "71e6dea3-d1ff-4205-b1e5-e31b5eaf0d52"
       },
       "RequestBody": {
         "type": "record",
@@ -31,7 +31,7 @@
       "StatusCode": 204,
       "ResponseHeaders": {
         "Content-Length": "0",
-        "Date": "Mon, 24 Oct 2022 05:30:49 GMT",
+        "Date": "Thu, 03 Nov 2022 00:35:38 GMT",
         "Location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2022-10",
         "Schema-Group-Name": "group-1",
         "Schema-Id": "bbf801958fa1455cbb5b6b87cdfd9118",
@@ -48,18 +48,18 @@
       "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2022-10",
       "RequestMethod": "GET",
       "RequestHeaders": {
-        "Accept": "application/json; serialization=Avro, application/schema\u002Bjson, application/octet-stream",
+        "Accept": "application/json; serialization=Avro, application/json; serialization=json, text/plain; charset=utf-8",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "2fb27fdf-8621-4721-b1a1-bd75684e81f6"
+        "x-ms-client-request-id": "7724bece-b13b-4965-a1ea-42da7c34f532"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Type": "application/json; serialization=Avro",
-        "Date": "Mon, 24 Oct 2022 05:30:49 GMT",
+        "Date": "Thu, 03 Nov 2022 00:35:38 GMT",
         "Location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2022-10",
         "Schema-Group-Name": "group-1",
         "Schema-Id": "bbf801958fa1455cbb5b6b87cdfd9118",

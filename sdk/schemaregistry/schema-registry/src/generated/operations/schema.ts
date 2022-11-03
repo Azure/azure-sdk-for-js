@@ -147,10 +147,7 @@ const getByIdOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: {
-        type: { name: "Stream" },
-        serializedName: "parsedResponse"
-      },
+      bodyMapper: { type: { name: "Stream" } },
       headersMapper: Mappers.SchemaGetByIdHeaders
     },
     default: {
@@ -190,10 +187,7 @@ const getSchemaVersionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: {
-        type: { name: "Stream" },
-        serializedName: "parsedResponse"
-      },
+      bodyMapper: { type: { name: "Stream" } },
       headersMapper: Mappers.SchemaGetSchemaVersionHeaders
     },
     default: {
@@ -218,11 +212,6 @@ const queryIdByContentOperationSpec: coreClient.OperationSpec = {
     204: {
       headersMapper: Mappers.SchemaQueryIdByContentHeaders
     },
-    415: {
-      bodyMapper: Mappers.ErrorModel,
-      headersMapper: Mappers.SchemaQueryIdByContentExceptionHeaders,
-      isError: true
-    },
     default: {
       bodyMapper: Mappers.ErrorModel,
       headersMapper: Mappers.SchemaQueryIdByContentExceptionHeaders
@@ -245,11 +234,6 @@ const registerOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {
       headersMapper: Mappers.SchemaRegisterHeaders
-    },
-    415: {
-      bodyMapper: Mappers.ErrorModel,
-      headersMapper: Mappers.SchemaRegisterExceptionHeaders,
-      isError: true
     },
     default: {
       bodyMapper: Mappers.ErrorModel,

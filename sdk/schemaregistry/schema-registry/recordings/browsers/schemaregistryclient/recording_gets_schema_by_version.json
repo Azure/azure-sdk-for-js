@@ -19,7 +19,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "c4bffaa2-f7a1-4665-901a-3a25d19d4a89",
+        "x-ms-client-request-id": "4856118c-8f82-4143-a497-dc60830aceae",
         "x-ms-useragent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": {
@@ -40,7 +40,7 @@
       "StatusCode": 204,
       "ResponseHeaders": {
         "Content-Length": "0",
-        "Date": "Mon, 24 Oct 2022 05:31:24 GMT",
+        "Date": "Thu, 03 Nov 2022 00:36:21 GMT",
         "Location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2022-10",
         "Schema-Group-Name": "group-1",
         "Schema-Id": "bbf801958fa1455cbb5b6b87cdfd9118",
@@ -57,7 +57,7 @@
       "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2022-10",
       "RequestMethod": "GET",
       "RequestHeaders": {
-        "Accept": "application/json; serialization=Avro, application/schema\u002Bjson, application/octet-stream",
+        "Accept": "application/json; serialization=Avro, application/json; serialization=json, text/plain; charset=utf-8",
         "Accept-Encoding": "gzip, deflate, br",
         "Accept-Language": "en-US",
         "Authorization": "Sanitized",
@@ -70,14 +70,14 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "22258a2e-9b9a-42c9-9448-03ccf4e6adf9",
+        "x-ms-client-request-id": "4215cc36-76ce-4189-a705-4a15c5e95094",
         "x-ms-useragent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Type": "application/json; serialization=Avro",
-        "Date": "Mon, 24 Oct 2022 05:31:25 GMT",
+        "Date": "Thu, 03 Nov 2022 00:36:22 GMT",
         "Location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2022-10",
         "Schema-Group-Name": "group-1",
         "Schema-Id": "bbf801958fa1455cbb5b6b87cdfd9118",

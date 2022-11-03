@@ -19,7 +19,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "0f27ab9b-6984-4684-92d3-705942d7316d",
+        "x-ms-client-request-id": "ffc39072-971d-466c-ba42-a9bb89e66599",
         "x-ms-useragent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": {
@@ -40,7 +40,7 @@
       "StatusCode": 415,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Mon, 24 Oct 2022 05:31:17 GMT",
+        "Date": "Thu, 03 Nov 2022 00:36:13 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000",
         "Transfer-Encoding": "chunked",
@@ -49,7 +49,7 @@
       "ResponseBody": {
         "error": {
           "code": "InvalidSchemaType",
-          "message": "Invalid schema type for PUT request. \u0027null\u0027 is not supported. TrackingId:dcb69c27-55bc-438f-94fa-2b643d12d7f1_G7, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups/group-1/schemas/azsdk_js_test, Timestamp:2022-10-24T05:31:17"
+          "message": "Invalid schema type for PUT request. \u0027null\u0027 is not supported. TrackingId:ce981552-59d5-4b8d-8ead-df6573c46b26_G14, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups/group-1/schemas/azsdk_js_test, Timestamp:2022-11-03T00:36:13"
         }
       }
     },
@@ -72,7 +72,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "8a41da8f-651c-4f75-a4f2-c31a78ef3996",
+        "x-ms-client-request-id": "00626644-7ae1-49fc-acc2-50587a0f1f1c",
         "x-ms-useragent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": {
@@ -93,7 +93,7 @@
       "StatusCode": 415,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Mon, 24 Oct 2022 05:31:18 GMT",
+        "Date": "Thu, 03 Nov 2022 00:36:14 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000",
         "Transfer-Encoding": "chunked",
@@ -102,7 +102,7 @@
       "ResponseBody": {
         "error": {
           "code": "InvalidSchemaType",
-          "message": "Invalid schema type for PUT request. \u0027not-valid\u0027 is not supported. TrackingId:39c86be1-7123-417a-8e88-5168bd828fd2_G7, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups/group-1/schemas/azsdk_js_test, Timestamp:2022-10-24T05:31:18"
+          "message": "Invalid schema type for PUT request. \u0027not-valid\u0027 is not supported. TrackingId:0c1403fc-9392-48f2-b604-6b32a6f23177_G14, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups/group-1/schemas/azsdk_js_test, Timestamp:2022-11-03T00:36:14"
         }
       }
     }

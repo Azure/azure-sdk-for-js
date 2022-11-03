@@ -18,8 +18,7 @@ add-credentials: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://github.com/Azure/azure-rest-api-specs/blob/f5f5472c0aa3d5690e2aaf8895e88ce40d50b79f/specification/schemaregistry/data-plane/Microsoft.EventHub/stable/2022-10/schemaregistry.json
-#input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specification/schemaregistry/data-plane/Microsoft.EventHub/stable/2021-10/schemaregistry.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specification/schemaregistry/data-plane/Microsoft.EventHub/stable/2022-10/schemaregistry.json
 typescript: true
 ```
 
@@ -32,6 +31,7 @@ directive:
   from: swagger-document
   where: $.paths["/$schemaGroups/{groupName}/schemas/{schemaName}:get-id"].post
   transform: >
+    delete $.consumes;
     $.parameters.push({
       "name": "Content-Type",
       "in": "header",
@@ -47,6 +47,7 @@ directive:
   from: swagger-document
   where: $.paths["/$schemaGroups/{groupName}/schemas/{schemaName}"].put
   transform: >
+    delete $.consumes;
     $.parameters.push({
       "name": "Content-Type",
       "in": "header",
@@ -64,5 +65,19 @@ directive:
     transform: >
       if ($.pattern) {
         delete $.pattern;
+      }
+```
+
+### Disable Paging
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["paths"][*]
+    transform: >
+      for (var op of Object.values($)) {
+          if (op["x-ms-pageable"]) {
+              delete op["x-ms-pageable"];
+          }
       }
 ```

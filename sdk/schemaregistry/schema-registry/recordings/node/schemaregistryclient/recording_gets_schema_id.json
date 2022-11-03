@@ -11,7 +11,7 @@
         "Content-Length": "160",
         "Content-Type": "application/json; serialization=Avro",
         "User-Agent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "82db1e21-3c81-4434-84a2-7c1b010d70a4"
+        "x-ms-client-request-id": "ee376435-71b0-468b-8945-6ce11c48ea45"
       },
       "RequestBody": {
         "type": "record",
@@ -31,7 +31,7 @@
       "StatusCode": 204,
       "ResponseHeaders": {
         "Content-Length": "0",
-        "Date": "Mon, 24 Oct 2022 05:30:45 GMT",
+        "Date": "Thu, 03 Nov 2022 00:35:34 GMT",
         "Location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2022-10",
         "Schema-Group-Name": "group-1",
         "Schema-Id": "bbf801958fa1455cbb5b6b87cdfd9118",
@@ -55,7 +55,7 @@
         "Content-Length": "160",
         "Content-Type": "application/json; serialization=Avro",
         "User-Agent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "1ddb4803-74a9-4cd4-ac06-b240c414438c"
+        "x-ms-client-request-id": "8f462331-86c7-418b-862b-8978b558eec9"
       },
       "RequestBody": {
         "type": "record",
@@ -75,7 +75,7 @@
       "StatusCode": 204,
       "ResponseHeaders": {
         "Content-Length": "0",
-        "Date": "Mon, 24 Oct 2022 05:30:46 GMT",
+        "Date": "Thu, 03 Nov 2022 00:35:35 GMT",
         "Location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2022-10",
         "Schema-Group-Name": "group-1",
         "Schema-Id": "bbf801958fa1455cbb5b6b87cdfd9118",

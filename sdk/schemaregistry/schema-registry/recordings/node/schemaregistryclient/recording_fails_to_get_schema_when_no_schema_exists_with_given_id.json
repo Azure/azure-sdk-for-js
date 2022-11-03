@@ -4,18 +4,18 @@
       "RequestUri": "https://endpoint/$schemaGroups/$schemas/ffffffffffffffffffffffffffffffff?api-version=2022-10",
       "RequestMethod": "GET",
       "RequestHeaders": {
-        "Accept": "application/json; serialization=Avro, application/schema\u002Bjson, application/octet-stream",
+        "Accept": "application/json; serialization=Avro, application/json; serialization=json, text/plain; charset=utf-8",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "744840c5-8da1-4e2a-86a0-19b423811df8"
+        "x-ms-client-request-id": "3e803d35-5364-42f3-9929-a1a8cd331840"
       },
       "RequestBody": null,
       "StatusCode": 404,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Mon, 24 Oct 2022 05:30:46 GMT",
+        "Date": "Thu, 03 Nov 2022 00:35:35 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000",
         "Transfer-Encoding": "chunked",
@@ -24,7 +24,7 @@
       "ResponseBody": {
         "error": {
           "code": "ItemNotFound",
-          "message": "Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:8412ceeb-b6d2-4617-829d-b4366c7dca41_G19, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups/$schemas/ffffffffffffffffffffffffffffffff, Timestamp:2022-10-24T05:30:47"
+          "message": "Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:eb283a78-5be3-4a5b-a5ab-e0a66654f8de_G0, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups/$schemas/ffffffffffffffffffffffffffffffff, Timestamp:2022-11-03T00:35:36"
         }
       }
     }

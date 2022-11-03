@@ -11,7 +11,7 @@
         "Content-Length": "160",
         "Content-Type": "application/json; serialization=Avro",
         "User-Agent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "16c1fc1e-98dc-405a-b3a4-43bbb37b103f"
+        "x-ms-client-request-id": "76750eac-c393-44a0-9df2-bd5ca6dc7155"
       },
       "RequestBody": {
         "type": "record",
@@ -31,7 +31,7 @@
       "StatusCode": 204,
       "ResponseHeaders": {
         "Content-Length": "0",
-        "Date": "Mon, 24 Oct 2022 05:30:42 GMT",
+        "Date": "Thu, 03 Nov 2022 00:35:31 GMT",
         "Location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2022-10",
         "Schema-Group-Name": "group-1",
         "Schema-Id": "bbf801958fa1455cbb5b6b87cdfd9118",

@@ -13,7 +13,7 @@ export const SchemaGroups: coreClient.CompositeMapper = {
     name: "Composite",
     className: "SchemaGroups",
     modelProperties: {
-      schemaGroups: {
+      groups: {
         serializedName: "schemaGroups",
         type: {
           name: "Sequence",
@@ -22,6 +22,12 @@ export const SchemaGroups: coreClient.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }
@@ -84,7 +90,7 @@ export const SchemaVersions: coreClient.CompositeMapper = {
     name: "Composite",
     className: "SchemaVersions",
     modelProperties: {
-      schemaVersions: {
+      versions: {
         serializedName: "schemaVersions",
         type: {
           name: "Sequence",
@@ -93,6 +99,12 @@ export const SchemaVersions: coreClient.CompositeMapper = {
               name: "Number"
             }
           }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }

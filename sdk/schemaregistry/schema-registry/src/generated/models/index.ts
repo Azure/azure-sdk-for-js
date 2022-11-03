@@ -8,10 +8,12 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Array received from the registry containing the list of schema groups. */
+/** Object received from the registry containing the list of schema groups and link to next batch page. */
 export interface SchemaGroups {
   /** Array of schema groups. */
-  schemaGroups?: string[];
+  groups?: string[];
+  /** URl to next batch of schema groups */
+  nextLink?: string;
 }
 
 /** An error response returned from Azure Schema Registry service. */
@@ -22,7 +24,7 @@ export interface ErrorModel {
 
 /** Error response returned from Azure Schema Registry service. */
 export interface ErrorDetail {
-  /** Type of error. */
+  /** Server-defined error code. */
   code: string;
   /** Brief description of error. */
   message: string;
@@ -30,10 +32,12 @@ export interface ErrorDetail {
   details?: ErrorDetail[];
 }
 
-/** Array received from the registry containing the list of versions for specific schema. */
+/** Object received from the registry containing the list of schema versions and link to next batch page. */
 export interface SchemaVersions {
-  /** Array of schema groups. */
-  schemaVersions?: number[];
+  /** Array of schema version integers. */
+  versions?: number[];
+  /** URl to next batch of schema versions */
+  nextLink?: string;
 }
 
 /** Object received from the registry containing schema identifiers. */

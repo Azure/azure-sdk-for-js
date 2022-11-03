@@ -52,7 +52,7 @@ export const accept1: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue:
-      "application/json; serialization=Avro, application/schema+json, application/octet-stream",
+      "application/json; serialization=Avro, application/json; serialization=json, text/plain; charset=utf-8",
     isConstant: true,
     serializedName: "Accept",
     type: {
