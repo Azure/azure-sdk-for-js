@@ -289,6 +289,7 @@ export class SipRoutingClient {
       const storedTrunk = transformFromRestModel(config.trunks).find(
         (value: SipTrunk) => value.fqdn === trunk.fqdn
       );
+      console.log("===========patch transform");
       if (storedTrunk) {
         return storedTrunk;
       }
