@@ -287,6 +287,7 @@ export class StatsbeatMetrics {
     counter.totalRequestCount++;
     counter.totalSuccesfulRequestCount++;
     counter.intervalRequestExecutionTime += duration;
+    this.countAverageDuration();
   }
 
   public countFailure(duration: number, statusCode: number) {
@@ -306,6 +307,7 @@ export class StatsbeatMetrics {
 
     counter.totalRequestCount++;
     counter.intervalRequestExecutionTime += duration;
+    this.countAverageDuration();
   }
 
   public countRetry(statusCode: number) {
