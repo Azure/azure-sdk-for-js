@@ -6,6 +6,10 @@
 
 - Add support for `x-ms-text` [PR# 23631](https://github.com/Azure/azure-sdk-for-js/pull/23631)
 
+### Other Changes
+
+- Update `engines` to `"node": ">=14.0.0"`
+
 ## 2.2.7 (2022-09-01)
 
 ### Bugs Fixed

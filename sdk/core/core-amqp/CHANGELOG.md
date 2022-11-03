@@ -8,7 +8,7 @@
 
 ### Other Changes
 
-- Update `engings` to `"node": ">=14.0.0"`
+- Update `engines` to `"node": ">=14.0.0"`
 
 ## 3.1.1 (2022-09-01)
 
