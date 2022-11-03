@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import sinon from "sinon";
+import * as sinon from "sinon";
 import { AccessToken, TokenCredential } from "@azure/core-auth";
 import {
   PipelinePolicy,
@@ -11,8 +11,8 @@ import {
   bearerTokenAuthenticationPolicy,
   createHttpHeaders,
   createPipelineRequest,
-} from "../src/index.js";
-import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler.js";
+} from "../src";
+import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler";
 
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 
