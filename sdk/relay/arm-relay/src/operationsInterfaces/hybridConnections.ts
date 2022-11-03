@@ -8,15 +8,10 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  HybridConnection,
-  HybridConnectionsListByNamespaceOptionalParams,
   AuthorizationRule,
   HybridConnectionsListAuthorizationRulesOptionalParams,
-  HybridConnectionsCreateOrUpdateOptionalParams,
-  HybridConnectionsCreateOrUpdateResponse,
-  HybridConnectionsDeleteOptionalParams,
-  HybridConnectionsGetOptionalParams,
-  HybridConnectionsGetResponse,
+  HybridConnection,
+  HybridConnectionsListByNamespaceOptionalParams,
   HybridConnectionsCreateOrUpdateAuthorizationRuleOptionalParams,
   HybridConnectionsCreateOrUpdateAuthorizationRuleResponse,
   HybridConnectionsDeleteAuthorizationRuleOptionalParams,
@@ -26,23 +21,17 @@ import {
   HybridConnectionsListKeysResponse,
   RegenerateAccessKeyParameters,
   HybridConnectionsRegenerateKeysOptionalParams,
-  HybridConnectionsRegenerateKeysResponse
+  HybridConnectionsRegenerateKeysResponse,
+  HybridConnectionsCreateOrUpdateOptionalParams,
+  HybridConnectionsCreateOrUpdateResponse,
+  HybridConnectionsDeleteOptionalParams,
+  HybridConnectionsGetOptionalParams,
+  HybridConnectionsGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a HybridConnections. */
 export interface HybridConnections {
-  /**
-   * Lists the hybrid connection within the namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param options The options parameters.
-   */
-  listByNamespace(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: HybridConnectionsListByNamespaceOptionalParams
-  ): PagedAsyncIterableIterator<HybridConnection>;
   /**
    * Authorization rules for a hybrid connection.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -57,46 +46,16 @@ export interface HybridConnections {
     options?: HybridConnectionsListAuthorizationRulesOptionalParams
   ): PagedAsyncIterableIterator<AuthorizationRule>;
   /**
-   * Creates or updates a service hybrid connection. This operation is idempotent.
+   * Lists the hybrid connection within the namespace.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
-   * @param hybridConnectionName The hybrid connection name.
-   * @param parameters Parameters supplied to create a hybrid connection.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    hybridConnectionName: string,
-    parameters: HybridConnection,
-    options?: HybridConnectionsCreateOrUpdateOptionalParams
-  ): Promise<HybridConnectionsCreateOrUpdateResponse>;
-  /**
-   * Deletes a hybrid connection.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param hybridConnectionName The hybrid connection name.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    namespaceName: string,
-    hybridConnectionName: string,
-    options?: HybridConnectionsDeleteOptionalParams
-  ): Promise<void>;
-  /**
-   * Returns the description for the specified hybrid connection.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param hybridConnectionName The hybrid connection name.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    namespaceName: string,
-    hybridConnectionName: string,
-    options?: HybridConnectionsGetOptionalParams
-  ): Promise<HybridConnectionsGetResponse>;
+    options?: HybridConnectionsListByNamespaceOptionalParams
+  ): PagedAsyncIterableIterator<HybridConnection>;
   /**
    * Creates or updates an authorization rule for a hybrid connection.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -176,4 +135,45 @@ export interface HybridConnections {
     parameters: RegenerateAccessKeyParameters,
     options?: HybridConnectionsRegenerateKeysOptionalParams
   ): Promise<HybridConnectionsRegenerateKeysResponse>;
+  /**
+   * Creates or updates a service hybrid connection. This operation is idempotent.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param hybridConnectionName The hybrid connection name.
+   * @param parameters Parameters supplied to create a hybrid connection.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    parameters: HybridConnection,
+    options?: HybridConnectionsCreateOrUpdateOptionalParams
+  ): Promise<HybridConnectionsCreateOrUpdateResponse>;
+  /**
+   * Deletes a hybrid connection.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param hybridConnectionName The hybrid connection name.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    options?: HybridConnectionsDeleteOptionalParams
+  ): Promise<void>;
+  /**
+   * Returns the description for the specified hybrid connection.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param hybridConnectionName The hybrid connection name.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    options?: HybridConnectionsGetOptionalParams
+  ): Promise<HybridConnectionsGetResponse>;
 }

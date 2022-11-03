@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for RelayAPI.",
-  "version": "3.1.0",
+  "version": "4.0.0",
   "engines": {
     "node": ">=14.0.0"
   },
@@ -36,7 +36,7 @@
     "mkdirp": "^1.0.4",
     "rollup": "^2.66.1",
     "rollup-plugin-sourcemaps": "^0.6.3",
-    "typescript": "~4.2.0",
+    "typescript": "~4.6.0",
     "uglify-js": "^3.4.9",
     "rimraf": "^3.0.0",
     "@azure/identity": "^2.0.1",
@@ -109,13 +109,5 @@
       }
     ]
   },
-  "autoPublish": true,
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-relay?view=azure-node-preview"
-  }
+  "autoPublish": true
 }

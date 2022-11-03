@@ -20,11 +20,12 @@ export interface AccessKeys {
 }
 
 // @public
-export type AccessRights = "Manage" | "Send" | "Listen";
+export type AccessRights = string;
 
 // @public
-export interface AuthorizationRule extends Resource {
-    rights: AccessRights[];
+export interface AuthorizationRule extends ProxyResource {
+    rights?: AccessRights[];
+    readonly systemData?: SystemData;
 }
 
 // @public
@@ -46,16 +47,46 @@ export interface CheckNameAvailabilityResult {
 }
 
 // @public
-export interface ErrorResponse {
-    code?: string;
-    message?: string;
+export interface ConnectionState {
+    description?: string;
+    status?: PrivateLinkConnectionStatus;
 }
 
 // @public
-export interface HybridConnection extends Resource {
+export type CreatedByType = string;
+
+// @public
+export type DefaultAction = string;
+
+// @public
+export type EndPointProvisioningState = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
+export interface HybridConnection extends ProxyResource {
     readonly createdAt?: Date;
     readonly listenerCount?: number;
     requiresClientAuthorization?: boolean;
+    readonly systemData?: SystemData;
     readonly updatedAt?: Date;
     userMetadata?: string;
 }
@@ -159,8 +190,85 @@ export interface HybridConnectionsRegenerateKeysOptionalParams extends coreClien
 export type HybridConnectionsRegenerateKeysResponse = AccessKeys;
 
 // @public
-type KeyType_2 = "PrimaryKey" | "SecondaryKey";
+type KeyType_2 = string;
 export { KeyType_2 as KeyType }
+
+// @public
+export enum KnownAccessRights {
+    Listen = "Listen",
+    Manage = "Manage",
+    Send = "Send"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
+export enum KnownDefaultAction {
+    Allow = "Allow",
+    Deny = "Deny"
+}
+
+// @public
+export enum KnownEndPointProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownKeyType {
+    PrimaryKey = "PrimaryKey",
+    SecondaryKey = "SecondaryKey"
+}
+
+// @public
+export enum KnownNetworkRuleIPAction {
+    Allow = "Allow"
+}
+
+// @public
+export enum KnownPrivateLinkConnectionStatus {
+    Approved = "Approved",
+    Disconnected = "Disconnected",
+    Pending = "Pending",
+    Rejected = "Rejected"
+}
+
+// @public
+export enum KnownPublicNetworkAccess {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    SecuredByPerimeter = "SecuredByPerimeter"
+}
+
+// @public
+export enum KnownSkuName {
+    Standard = "Standard"
+}
+
+// @public
+export enum KnownSkuTier {
+    Standard = "Standard"
+}
+
+// @public
+export enum KnownUnavailableReason {
+    InvalidName = "InvalidName",
+    NameInLockdown = "NameInLockdown",
+    NameInUse = "NameInUse",
+    None = "None",
+    SubscriptionIsDisabled = "SubscriptionIsDisabled",
+    TooManyNamespaceInCurrentSubscription = "TooManyNamespaceInCurrentSubscription"
+}
 
 // @public
 export interface Namespaces {
@@ -170,9 +278,11 @@ export interface Namespaces {
     beginDeleteAndWait(resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<void>;
     checkNameAvailability(parameters: CheckNameAvailability, options?: NamespacesCheckNameAvailabilityOptionalParams): Promise<NamespacesCheckNameAvailabilityResponse>;
     createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: AuthorizationRule, options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams): Promise<NamespacesCreateOrUpdateAuthorizationRuleResponse>;
+    createOrUpdateNetworkRuleSet(resourceGroupName: string, namespaceName: string, parameters: NetworkRuleSet, options?: NamespacesCreateOrUpdateNetworkRuleSetOptionalParams): Promise<NamespacesCreateOrUpdateNetworkRuleSetResponse>;
     deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesDeleteAuthorizationRuleOptionalParams): Promise<void>;
     get(resourceGroupName: string, namespaceName: string, options?: NamespacesGetOptionalParams): Promise<NamespacesGetResponse>;
     getAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesGetAuthorizationRuleOptionalParams): Promise<NamespacesGetAuthorizationRuleResponse>;
+    getNetworkRuleSet(resourceGroupName: string, namespaceName: string, options?: NamespacesGetNetworkRuleSetOptionalParams): Promise<NamespacesGetNetworkRuleSetResponse>;
     list(options?: NamespacesListOptionalParams): PagedAsyncIterableIterator<RelayNamespace>;
     listAuthorizationRules(resourceGroupName: string, namespaceName: string, options?: NamespacesListAuthorizationRulesOptionalParams): PagedAsyncIterableIterator<AuthorizationRule>;
     listByResourceGroup(resourceGroupName: string, options?: NamespacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<RelayNamespace>;
@@ -194,6 +304,13 @@ export interface NamespacesCreateOrUpdateAuthorizationRuleOptionalParams extends
 
 // @public
 export type NamespacesCreateOrUpdateAuthorizationRuleResponse = AuthorizationRule;
+
+// @public
+export interface NamespacesCreateOrUpdateNetworkRuleSetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NamespacesCreateOrUpdateNetworkRuleSetResponse = NetworkRuleSet;
 
 // @public
 export interface NamespacesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -220,6 +337,13 @@ export interface NamespacesGetAuthorizationRuleOptionalParams extends coreClient
 
 // @public
 export type NamespacesGetAuthorizationRuleResponse = AuthorizationRule;
+
+// @public
+export interface NamespacesGetNetworkRuleSetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NamespacesGetNetworkRuleSetResponse = NetworkRuleSet;
 
 // @public
 export interface NamespacesGetOptionalParams extends coreClient.OperationOptions {
@@ -292,13 +416,34 @@ export interface NamespacesUpdateOptionalParams extends coreClient.OperationOpti
 export type NamespacesUpdateResponse = RelayNamespace;
 
 // @public
+export type NetworkRuleIPAction = string;
+
+// @public
+export interface NetworkRuleSet extends Resource {
+    defaultAction?: DefaultAction;
+    ipRules?: NWRuleSetIpRules[];
+    publicNetworkAccess?: PublicNetworkAccess;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface NWRuleSetIpRules {
+    action?: NetworkRuleIPAction;
+    ipMask?: string;
+}
+
+// @public
 export interface Operation {
-    display?: OperationDisplay;
+    readonly display?: OperationDisplay;
+    readonly isDataAction?: boolean;
     readonly name?: string;
+    readonly origin?: string;
+    properties?: Record<string, unknown>;
 }
 
 // @public
 export interface OperationDisplay {
+    readonly description?: string;
     readonly operation?: string;
     readonly provider?: string;
     readonly resource?: string;
@@ -330,7 +475,116 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
-export type ProvisioningStateEnum = "Created" | "Succeeded" | "Deleted" | "Failed" | "Updating" | "Unknown";
+export interface PrivateEndpoint {
+    id?: string;
+}
+
+// @public
+export interface PrivateEndpointConnection extends ProxyResource {
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: ConnectionState;
+    provisioningState?: EndPointProvisioningState;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface PrivateEndpointConnectionListResult {
+    nextLink?: string;
+    value?: PrivateEndpointConnection[];
+}
+
+// @public
+export interface PrivateEndpointConnections {
+    beginDelete(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
+    createOrUpdate(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
+    get(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
+    list(resourceGroupName: string, namespaceName: string, options?: PrivateEndpointConnectionsListOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+}
+
+// @public
+export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsListNextResponse = PrivateEndpointConnectionListResult;
+
+// @public
+export interface PrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+
+// @public
+export type PrivateLinkConnectionStatus = string;
+
+// @public
+export interface PrivateLinkResource {
+    groupId?: string;
+    id?: string;
+    name?: string;
+    requiredMembers?: string[];
+    requiredZoneNames?: string[];
+    type?: string;
+}
+
+// @public
+export interface PrivateLinkResources {
+    get(resourceGroupName: string, namespaceName: string, privateLinkResourceName: string, options?: PrivateLinkResourcesGetOptionalParams): Promise<PrivateLinkResourcesGetResponse>;
+    list(resourceGroupName: string, namespaceName: string, options?: PrivateLinkResourcesListOptionalParams): Promise<PrivateLinkResourcesListResponse>;
+}
+
+// @public
+export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
+
+// @public
+export interface PrivateLinkResourcesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkResourcesListResponse = PrivateLinkResourcesListResult;
+
+// @public
+export interface PrivateLinkResourcesListResult {
+    nextLink?: string;
+    value?: PrivateLinkResource[];
+}
+
+// @public
+export interface ProxyResource {
+    readonly id?: string;
+    readonly location?: string;
+    readonly name?: string;
+    readonly type?: string;
+}
+
+// @public
+export type PublicNetworkAccess = string;
 
 // @public
 export interface RegenerateAccessKeyParameters {
@@ -352,6 +606,10 @@ export class RelayAPI extends coreClient.ServiceClient {
     // (undocumented)
     operations: Operations;
     // (undocumented)
+    privateEndpointConnections: PrivateEndpointConnections;
+    // (undocumented)
+    privateLinkResources: PrivateLinkResources;
+    // (undocumented)
     subscriptionId: string;
     // (undocumented)
     wCFRelays: WCFRelays;
@@ -368,9 +626,13 @@ export interface RelayAPIOptionalParams extends coreClient.ServiceClientOptions 
 export interface RelayNamespace extends TrackedResource {
     readonly createdAt?: Date;
     readonly metricId?: string;
-    readonly provisioningState?: ProvisioningStateEnum;
+    privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: string;
+    publicNetworkAccess?: PublicNetworkAccess;
     readonly serviceBusEndpoint?: string;
     sku?: Sku;
+    readonly status?: string;
+    readonly systemData?: SystemData;
     readonly updatedAt?: Date;
 }
 
@@ -387,9 +649,12 @@ export type Relaytype = "NetTcp" | "Http";
 export interface RelayUpdateParameters extends ResourceNamespacePatch {
     readonly createdAt?: Date;
     readonly metricId?: string;
-    readonly provisioningState?: ProvisioningStateEnum;
+    privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: string;
+    publicNetworkAccess?: PublicNetworkAccess;
     readonly serviceBusEndpoint?: string;
     sku?: Sku;
+    readonly status?: string;
     readonly updatedAt?: Date;
 }
 
@@ -409,8 +674,24 @@ export interface ResourceNamespacePatch extends Resource {
 
 // @public
 export interface Sku {
-    name: "Standard";
-    tier?: "Standard";
+    name: SkuName;
+    tier?: SkuTier;
+}
+
+// @public
+export type SkuName = string;
+
+// @public
+export type SkuTier = string;
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
 }
 
 // @public
@@ -422,16 +703,17 @@ export interface TrackedResource extends Resource {
 }
 
 // @public
-export type UnavailableReason = "None" | "InvalidName" | "SubscriptionIsDisabled" | "NameInUse" | "NameInLockdown" | "TooManyNamespaceInCurrentSubscription";
+export type UnavailableReason = string;
 
 // @public
-export interface WcfRelay extends Resource {
+export interface WcfRelay extends ProxyResource {
     readonly createdAt?: Date;
     readonly isDynamic?: boolean;
     readonly listenerCount?: number;
     relayType?: Relaytype;
     requiresClientAuthorization?: boolean;
     requiresTransportSecurity?: boolean;
+    readonly systemData?: SystemData;
     readonly updatedAt?: Date;
     userMetadata?: string;
 }
