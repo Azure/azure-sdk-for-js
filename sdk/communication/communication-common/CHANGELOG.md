@@ -1,12 +1,10 @@
 # Release History
 
-## 2.2.0 (Unreleased)
+## 2.2.0 (2022-11-03)
 
 ### Features Added
 
 - Optimized the logic for deserializing types derived from the `CommunicationIdentifier`.
-
-### Breaking Changes
 
 ### Bugs Fixed
 
