@@ -1915,6 +1915,11 @@
       "packageName": "@azure/arm-elasticsan",
       "projectFolder": "sdk/elasticsans/arm-elasticsan",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/adp-test",
+      "projectFolder": "sdk/adp/adp-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
