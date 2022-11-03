@@ -18,17 +18,17 @@ import * as dotenv from "dotenv";
 import {
   NotificationDetails,
   NotificationOutcomeState,
-} from "@azure/notification-hubs/models/notificationDetails";
+  createAppleNotification,
+  createTagExpression,
+} from "@azure/notification-hubs/models";
 import {
   NotificationHubsClientContext,
   createClientContext,
-} from "@azure/notification-hubs/client";
-import { SendNotificationOptions } from "@azure/notification-hubs/models/options";
-import { createAppleNotification } from "@azure/notification-hubs/models/notification";
+  getNotificationOutcomeDetails,
+  sendNotification,
+} from "@azure/notification-hubs/api";
 import { delay } from "@azure/core-util";
-import { getNotificationOutcomeDetails } from "@azure/notification-hubs/client/getNotificationOutcomeDetails";
 import { isRestError } from "@azure/core-rest-pipeline";
-import { sendNotification } from "@azure/notification-hubs/client/sendNotification";
 
 // Load the .env file if it exists
 dotenv.config();
@@ -41,7 +41,7 @@ async function main() {
   const context = createClientContext(connectionString, hubName);
 
   const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
-  const tags = ["likes_hockey", "likes_football"];
+  const tagExpression = createTagExpression(["likes_hockey", "likes_football"]);
 
   const notification = createAppleNotification({
     body: messageBody,
@@ -51,9 +51,10 @@ async function main() {
     },
   });
 
-  // Not required but can set test send to true for debugging purposes.
-  const sendOptions: SendNotificationOptions = { enableTestSend: false, tags };
-  const result = await sendNotification(context, notification, sendOptions);
+  const result = await sendNotification(context, notification, {
+    enableTestSend: false,
+    tagExpression,
+  });
 
   console.log(`Tag List send Tracking ID: ${result.trackingId}`);
   console.log(`Tag List Correlation ID: ${result.correlationId}`);

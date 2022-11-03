@@ -7,7 +7,6 @@ import {
   NotificationHubsClientOptions,
   PolledOperationOptions,
   RegistrationQueryLimitOptions,
-  RegistrationQueryOptions,
   ScheduleNotificationOptions,
   SendNotificationOptions,
 } from "./models/options.js";
@@ -18,38 +17,39 @@ import {
   NotificationHubsResponse,
 } from "./models/notificationDetails.js";
 import { NotificationHubJob, NotificationHubJobPoller } from "./models/notificationHubJob.js";
-import { NotificationHubsClientContext, createClientContext } from "./client/index.js";
+import { NotificationHubsClientContext, createClientContext } from "./api/index.js";
+import { RegistrationDescription, RegistrationChannel } from "./models/registration.js";
 import { Notification } from "./models/notification.js";
 import { OperationOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { RegistrationDescription } from "./models/registration.js";
-import { beginSubmitNotificationHubJob as beginSubmitNotificationHubJobMethod } from "./client/beginSubmitNotificationHubJob.js";
-import { cancelScheduledNotification as cancelScheduledNotificationMethod } from "./client/cancelScheduledNotification.js";
-import { createOrUpdateInstallation as createOrUpdateInstallationMethod } from "./client/createOrUpdateInstallation.js";
-import { createOrUpdateRegistration as createOrUpdateRegistrationMethod } from "./client/createOrUpdateRegistration.js";
-import { createRegistrationId as createRegistrationIdMethod } from "./client/createRegistrationId.js";
-import { createRegistration as createRegistrationMethod } from "./client/createRegistration.js";
-import { deleteInstallation as deleteInstallationMethod } from "./client/deleteInstallation.js";
-import { deleteRegistration } from "./client/deleteRegistration.js";
-import { getFeedbackContainerUrl as getFeedbackContainerUrlMethod } from "./client/getFeedbackContainerUrl.js";
-import { getInstallation as getInstallationMethod } from "./client/getInstallation.js";
-import { getNotificationHubJob as getNotificationHubJobMethod } from "./client/getNotificationHubJob.js";
-import { getNotificationOutcomeDetails as getNotificationOutcomeDetailsMethod } from "./client/getNotificationOutcomeDetails.js";
-import { getRegistration as getRegistrationMethod } from "./client/getRegistration.js";
-import { listNotificationHubJobs as listNotificationHubJobsMethod } from "./client/listNotificationHubJobs.js";
-import { listRegistrationsByTag as listRegistrationsByTagMethod } from "./client/listRegistrationsByTag.js";
-import { listRegistrations as listRegistrationsMethod } from "./client/listRegistrations.js";
-import { scheduleNotification as scheduleNotificationMethod } from "./client/scheduleNotification.js";
-import { sendNotification as sendNotificationMethod } from "./client/sendNotification.js";
-import { submitNotificationHubJob as submitNotificationHubJobMethod } from "./client/submitNotificationHubJob.js";
-import { updateInstallation as updateInstallationMethod } from "./client/updateInstallation.js";
-import { updateRegistration as updateRegistrationMethod } from "./client/updateRegistration.js";
+import { beginSubmitNotificationHubJob as beginSubmitNotificationHubJobMethod } from "./api/beginSubmitNotificationHubJob.js";
+import { cancelScheduledNotification as cancelScheduledNotificationMethod } from "./api/cancelScheduledNotification.js";
+import { createOrUpdateInstallation as createOrUpdateInstallationMethod } from "./api/createOrUpdateInstallation.js";
+import { createOrUpdateRegistration as createOrUpdateRegistrationMethod } from "./api/createOrUpdateRegistration.js";
+import { createRegistrationId as createRegistrationIdMethod } from "./api/createRegistrationId.js";
+import { createRegistration as createRegistrationMethod } from "./api/createRegistration.js";
+import { deleteInstallation as deleteInstallationMethod } from "./api/deleteInstallation.js";
+import { deleteRegistration } from "./api/deleteRegistration.js";
+import { getFeedbackContainerUrl as getFeedbackContainerUrlMethod } from "./api/getFeedbackContainerUrl.js";
+import { getInstallation as getInstallationMethod } from "./api/getInstallation.js";
+import { getNotificationHubJob as getNotificationHubJobMethod } from "./api/getNotificationHubJob.js";
+import { getNotificationOutcomeDetails as getNotificationOutcomeDetailsMethod } from "./api/getNotificationOutcomeDetails.js";
+import { getRegistration as getRegistrationMethod } from "./api/getRegistration.js";
+import { listNotificationHubJobs as listNotificationHubJobsMethod } from "./api/listNotificationHubJobs.js";
+import { listRegistrationsByChannel as listRegistrationsByChannelMethod } from "./api/listRegistrationsByChannel.js";
+import { listRegistrationsByTag as listRegistrationsByTagMethod } from "./api/listRegistrationsByTag.js";
+import { listRegistrations as listRegistrationsMethod } from "./api/listRegistrations.js";
+import { scheduleNotification as scheduleNotificationMethod } from "./api/scheduleNotification.js";
+import { sendNotification as sendNotificationMethod } from "./api/sendNotification.js";
+import { submitNotificationHubJob as submitNotificationHubJobMethod } from "./api/submitNotificationHubJob.js";
+import { updateInstallation as updateInstallationMethod } from "./api/updateInstallation.js";
+import { updateRegistration as updateRegistrationMethod } from "./api/updateRegistration.js";
 
 /**
  * This represents a client for Azure Notification Hubs to manage installations and send
  * messages to devices.
  */
-export class NotificationHubsServiceClient {
+export class NotificationHubsClient {
   private _client: NotificationHubsClientContext;
 
   /**
@@ -195,13 +195,26 @@ export class NotificationHubsServiceClient {
 
   /**
    * Gets all registrations for the notification hub with the given query options.
-   * @param options - The options for querying the registrations such as $top and $filter.
+   * @param options - The options for querying the registrations such as $top.
    * @returns A paged async iterable containing all of the registrations for the notification hub.
    */
   listRegistrations(
-    options: RegistrationQueryOptions = {}
+    options: RegistrationQueryLimitOptions = {}
   ): PagedAsyncIterableIterator<RegistrationDescription> {
     return listRegistrationsMethod(this._client, options);
+  }
+
+  /**
+   * Gets all registrations for the notification hub with the given device information and options.
+   * @param channel - The registration channel information to query per PNS type.
+   * @param options - The options for querying the registrations such as $top.
+   * @returns A paged async iterable containing all of the registrations for the notification hub.
+   */
+  listRegistrationsByChannel(
+    channel: RegistrationChannel,
+    options: RegistrationQueryLimitOptions = {}
+  ): PagedAsyncIterableIterator<RegistrationDescription> {
+    return listRegistrationsByChannelMethod(this._client, channel, options);
   }
 
   /**

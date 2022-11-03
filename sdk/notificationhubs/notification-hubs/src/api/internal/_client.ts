@@ -92,8 +92,8 @@ function createDefaultResponse(
   return {
     ...response,
     notificationId,
-    success: 0,
-    failure: 0,
+    successCount: 0,
+    failureCount: 0,
     results: [],
     state: "Enqueued",
   };

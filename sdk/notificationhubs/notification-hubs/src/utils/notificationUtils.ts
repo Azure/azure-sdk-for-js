@@ -25,10 +25,3 @@ export function createMultipartDirectNotification(
     `--${boundaryName}--`
   );
 }
-
-/**
- * @internal
- */
-export function normalizeTags(tags: string | string[]): string {
-  return Array.isArray(tags) ? tags.join("||") : tags;
-}
