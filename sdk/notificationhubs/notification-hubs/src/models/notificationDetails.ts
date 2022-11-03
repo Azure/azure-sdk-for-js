@@ -171,12 +171,12 @@ export interface NotificationHubsMessageResponse extends NotificationHubsRespons
   /**
    * The number of devices that successfully received the notification.
    */
-  success: number;
+  successCount: number;
 
   /**
    * The number of devices that failed to receive a notification.
    */
-  failure: number;
+  failureCount: number;
 
   /**
    * The list of notification outcome results for each device registered with the hub, to which this notification was sent.
