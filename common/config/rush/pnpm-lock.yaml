@@ -4,6 +4,7 @@ specifiers:
   '@rush-temp/abort-controller': file:./projects/abort-controller.tgz
   '@rush-temp/agrifood-farming': file:./projects/agrifood-farming.tgz
   '@rush-temp/ai-anomaly-detector': file:./projects/ai-anomaly-detector.tgz
+  '@rush-temp/ai-anomaly-detector-1': file:./projects/ai-anomaly-detector-1.tgz
   '@rush-temp/ai-document-translator': file:./projects/ai-document-translator.tgz
   '@rush-temp/ai-form-recognizer': file:./projects/ai-form-recognizer.tgz
   '@rush-temp/ai-language-conversations': file:./projects/ai-language-conversations.tgz
@@ -326,6 +327,7 @@ dependencies:
   '@rush-temp/abort-controller': file:projects/abort-controller.tgz
   '@rush-temp/agrifood-farming': file:projects/agrifood-farming.tgz
   '@rush-temp/ai-anomaly-detector': file:projects/ai-anomaly-detector.tgz
+  '@rush-temp/ai-anomaly-detector-1': file:projects/ai-anomaly-detector-1.tgz
   '@rush-temp/ai-document-translator': file:projects/ai-document-translator.tgz
   '@rush-temp/ai-form-recognizer': file:projects/ai-form-recognizer.tgz
   '@rush-temp/ai-language-conversations': file:projects/ai-language-conversations.tgz
@@ -3883,7 +3885,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221102
+      typescript: 5.0.0-dev.20221103
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8872,8 +8874,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221102:
-    resolution: {integrity: sha512-/zsVWPD4QVasQaOQAhaV7TkveFM6Wx4ql9LxnM7NNFb56FpD4tlIjUT/EZLA2tiz472D6zGQf6uuzhjS9mQ4EQ==}
+  /typescript/5.0.0-dev.20221103:
+    resolution: {integrity: sha512-hfqcsmiJ+5ktli1OAkwu4PyDDJ3kWW3tiUofd2t1uxwmni3ZT3Mrv1m2dZFg9VNDKqHrkt49izB3tAtD2bsyGw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9520,9 +9522,9 @@ packages:
       - utf-8-validate
     dev: false
 
-  file:projects/ai-anomaly-detector.tgz:
-    resolution: {integrity: sha512-A9ojtvZrXb395G4EYirDrkSqvoAA/taaKEm9kqQ0S+AwjnPW/nXMM7LlAm34/VfYGIQUclhDJRtbdztYDNfNSA==, tarball: file:projects/ai-anomaly-detector.tgz}
-    name: '@rush-temp/ai-anomaly-detector'
+  file:projects/ai-anomaly-detector-1.tgz:
+    resolution: {integrity: sha512-wJZZrHKPNlK2z/PPVtHvPNUo4Uys9wPyPKBDmYNsNSKdjH1zsArRdN/x6PE/bH/XEesPkEtJVQ8q1c4QJcKLUQ==, tarball: file:projects/ai-anomaly-detector-1.tgz}
+    name: '@rush-temp/ai-anomaly-detector-1'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
@@ -9561,6 +9563,55 @@ packages:
       - bufferutil
       - debug
       - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/ai-anomaly-detector.tgz:
+    resolution: {integrity: sha512-i4JIRiaWFkmL4mkfnxJ3gMyyJ1U3mIAJQUk1FkdM1Pzb1pI6bAHOWtfKyU7rrxgP1H6qJTRs+7cj9V+S9Zs1Jw==, tarball: file:projects/ai-anomaly-detector.tgz}
+    name: '@rush-temp/ai-anomaly-detector'
+    version: 0.0.0
+    dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.10
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.33.5
+      '@types/chai': 4.3.3
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.33
+      autorest: 3.6.2
+      chai: 4.3.6
+      cross-env: 7.0.3
+      csv-parse: 5.3.1
+      dotenv: 8.6.0
+      eslint: 8.26.0
+      inherits: 2.0.4
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.1
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 2.2.1
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.4.0
+      typescript: 4.6.4
+      util: 0.12.5
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
       - supports-color
       - utf-8-validate
     dev: false
@@ -15551,7 +15602,7 @@ packages:
     dev: false
 
   file:projects/communication-email.tgz:
-    resolution: {integrity: sha512-RhI+WjqfaBqh0U8veuoa5ZrFNTH/LJzWkOM3Q85xPYbUjbnSRYz4EoAMjHQqVmj9hZvhSbouIUKVsBQ2oQM8jA==, tarball: file:projects/communication-email.tgz}
+    resolution: {integrity: sha512-JUM2HfVa7yIVOHZ2hdb4QjOe3EA0XgNw+8TTjKDJ4319hEcss0cdw4lSg6kBG/S1EGL+yjS+xY86YWkY68xw+g==, tarball: file:projects/communication-email.tgz}
     name: '@rush-temp/communication-email'
     version: 0.0.0
     dependencies:
@@ -17312,7 +17363,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-zt5Iu56m9r0icm/kPw+dSYGCDhXP9YvUODLIlCinUSBZ8/dhcr2ovf57pb/5Ojqjuaxo2Lpj4ON9Q2Moc1pPYw==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-qegEv0paVx7dHJIGMtm8fTGiVf0AKTLUquBP7seg/SwQ2X1SMJR0O5XOJrIyfX1VBG7L+TSr04adfr/1TIR2YQ==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -18129,7 +18180,7 @@ packages:
     dev: false
 
   file:projects/perf-app-configuration.tgz:
-    resolution: {integrity: sha512-BzR9fvBllxo1pEws5GZiMxuzWLQ7KjDJMfrzlcfwWZIldYlntxGolkUbdVYKsQlxiiq6W+aq/OY8j3AGqI7cwQ==, tarball: file:projects/perf-app-configuration.tgz}
+    resolution: {integrity: sha512-b33BULpxOX6J9dR9f56lJ7afd7XBXxEQZBtZwG3pq0Slu6LjWh717zNT0t+HV/uNPpDTUySako6JAzVPT5yJWQ==, tarball: file:projects/perf-app-configuration.tgz}
     name: '@rush-temp/perf-app-configuration'
     version: 0.0.0
     dependencies:
@@ -18512,7 +18563,7 @@ packages:
     dev: false
 
   file:projects/perf-template.tgz:
-    resolution: {integrity: sha512-CR7LZ2mTcTzlarWLzMt5NaXWF8Wqyxkq9XPVS7BXzPMLAUx2sjTkZtDBuNK0UQ+lGJ3uqhpokEQO6A6jw9fwtg==, tarball: file:projects/perf-template.tgz}
+    resolution: {integrity: sha512-vkGuclIBHH0EYig/IAlJuKXo0FPxnqH3LWulE/Ibe4LUnjHFEv6qTEtps9HpSL/UhkERBiBJo5o7wsNO/ElgwA==, tarball: file:projects/perf-template.tgz}
     name: '@rush-temp/perf-template'
     version: 0.0.0
     dependencies:
