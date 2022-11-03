@@ -104,7 +104,7 @@ export class SipRoutingClient {
    */
   public async getTrunks(options: OperationOptions = {}): Promise<SipTrunk[]> {
     return tracingClient.withSpan("SipRoutingClient-getTrunks", options, async (updatedOptions) => {
-      const config = await this.client.getSipConfiguration(updatedOptions);
+      const config = await this.client.sipRouting.get(updatedOptions);
       return transformFromRestModel(config.trunks);
     });
   }
@@ -132,7 +132,7 @@ export class SipRoutingClient {
    */
   public async getRoutes(options: OperationOptions = {}): Promise<SipTrunkRoute[]> {
     return tracingClient.withSpan("SipRoutingClient-getRoutes", options, async (updatedOptions) => {
-      const config = await this.client.getSipConfiguration(updatedOptions);
+      const config = await this.client.sipRouting.get(updatedOptions);
       return config.routes || [];
     });
   }
@@ -145,7 +145,7 @@ export class SipRoutingClient {
   public async setTrunks(trunks: SipTrunk[], options: OperationOptions = {}): Promise<SipTrunk[]> {
     return tracingClient.withSpan("SipRoutingClient-setTrunks", options, async (updatedOptions) => {
       const patch: SipConfigurationPatch = { trunks: transformIntoRestModel(trunks) };
-      let config = await this.client.getSipConfiguration(updatedOptions);
+      let config = await this.client.sipRouting.get(updatedOptions);
       const storedFqdns = transformFromRestModel(config.trunks).map((trunk) => trunk.fqdn);
       const setFqdns = trunks.map((trunk) => trunk.fqdn);
       storedFqdns.forEach((storedFqdn) => {
@@ -161,7 +161,7 @@ export class SipRoutingClient {
           ...updatedOptions,
           ...patch,
         };
-        config = await this.client.patchSipConfiguration(payload);
+        config = await this.client.sipRouting.patch(payload);
       }
 
       return transformFromRestModel(config.trunks);
@@ -182,10 +182,13 @@ export class SipRoutingClient {
         ...updatedOptions,
         ...patch,
       };
-      const config = await this.client.patchSipConfiguration(payload);
+      console.log("===========patch begin");
+      const config = await this.client.sipRouting.patch(payload);
+      console.log("===========patch end");
       const storedTrunk = transformFromRestModel(config.trunks).find(
         (value: SipTrunk) => value.fqdn === trunk.fqdn
       );
+      console.log("===========patch transform");
       if (storedTrunk) {
         return storedTrunk;
       }
@@ -211,7 +214,7 @@ export class SipRoutingClient {
         ...updatedOptions,
         ...patch,
       };
-      const config = await this.client.patchSipConfiguration(payload);
+      const config = await this.client.sipRouting.patch(payload);
       const storedRoutes = config.routes || (await this.getRoutes(updatedOptions));
       return storedRoutes;
     });
@@ -237,7 +240,7 @@ export class SipRoutingClient {
           ...updatedOptions,
           ...patch,
         };
-        await this.client.patchSipConfiguration(payload);
+        await this.client.sipRouting.patch(payload);
       }
     );
   }
