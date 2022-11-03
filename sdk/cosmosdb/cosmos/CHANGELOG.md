@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed issue with path api not working with aadCredentials [#20689](https://github.com/Azure/azure-sdk-for-js/issues/20689)
+
 ### Other Changes
 
 ## 3.17.1 (2022-09-12)
