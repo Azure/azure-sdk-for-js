@@ -16,6 +16,8 @@ import { parseConnectionString } from "@azure/communication-common";
 import { TokenCredential } from "@azure/identity";
 import { isNode } from "@azure/test-utils";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { createMSUserAgentPolicy } from "../siprouting/utils/msUserAgentPolicy";
+import { AdditionalPolicyConfig } from "@azure/core-client";
 
 if (isNode) {
   dotenv.config();
@@ -87,11 +89,12 @@ export async function createRecordedClient(
   context: Context
 ): Promise<RecordedClient<PhoneNumbersClient>> {
   const recorder = await createRecorder(context.currentTest);
+  const policies = getAdditionalPolicies();
 
   const client = new PhoneNumbersClient(
     env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
-    recorder.configureClientOptions({})
-  );
+    recorder.configureClientOptions({ "additionalPolicies": policies})
+    );
 
   // casting is a workaround to enable min-max testing
   return { client, recorder };
@@ -130,3 +133,12 @@ export async function createRecordedClientWithToken(
 export const testPollerOptions = {
   pollInterval: isPlaybackMode() ? 0 : undefined,
 };
+
+export function getAdditionalPolicies():AdditionalPolicyConfig[] {  
+  return [
+    {
+      policy: createMSUserAgentPolicy(),
+      position: "perRetry",
+    },
+  ];
+}
