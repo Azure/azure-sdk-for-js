@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.10 (2022-11-07)
+
+### Features Added
+
+- Add network Statsbeat Metrics.
+
 ## 1.0.0-beta.9 (2022-10-20)
 
 ### Features Added
