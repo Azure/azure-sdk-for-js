@@ -15,8 +15,10 @@ export function transformFromRestModel(
 
   if (trunks) {
     Object.keys(trunks).forEach((fqdn: string) => {
-      const port = trunks[fqdn].sipSignalingPort;
-      result.push({ fqdn: fqdn, sipSignalingPort: port } as SipTrunk);
+      const currentTrunk = trunks[fqdn];
+      const port = currentTrunk.sipSignalingPort;
+      const enabledFlag = currentTrunk.enabled;
+      result.push({ fqdn: fqdn, sipSignalingPort: port, enabled: enabledFlag } as SipTrunk);
     });
   }
 
@@ -33,7 +35,7 @@ export function transformIntoRestModel(trunks: SipTrunk[]): {
   const result: { [propertyName: string]: RestSipTrunk } = {};
 
   trunks.forEach((trunk: SipTrunk) => {
-    result[trunk.fqdn] = { sipSignalingPort: trunk.sipSignalingPort } as RestSipTrunk;
+    result[trunk.fqdn] = { sipSignalingPort: trunk.sipSignalingPort, enabled: trunk.enabled } as RestSipTrunk;
   });
 
   return result;

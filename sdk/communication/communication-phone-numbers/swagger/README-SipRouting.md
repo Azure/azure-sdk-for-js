@@ -14,7 +14,7 @@ output-folder: ../src/generated
 source-code-folder-path: src/siprouting
 clear-output-folder: false
 tag: package-phonenumber-siprouting-2021-05-01-preview
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/15d66311cc2b64f04692fdf021d1b235b538e1bc/specification/communication/data-plane/SipRouting/preview/2021-05-01-preview/communicationservicessiprouting.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/communication/data-plane/SipRouting/preview/2022-09-01-preview/communicationservicessiprouting.json
 optional-response-headers: true
 payload-flattening-threshold: 10
 use-extension:
@@ -23,6 +23,16 @@ add-credentials: false
 azure-arm: false
 title: Sip Routing Client
 v3: true
+```
+
+### Directive renaming "Domain" model to "SipDomain"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: "$.definitions.Domain"
+    transform: >
+      $["x-ms-client-name"] = "SipDomain";
 ```
 
 ### Directive renaming "Trunk" model to "SipTrunk"

@@ -13,6 +13,13 @@ export const SipConfiguration: coreClient.CompositeMapper = {
     name: "Composite",
     className: "SipConfiguration",
     modelProperties: {
+      domains: {
+        serializedName: "domains",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Composite", className: "SipDomain" } }
+        }
+      },
       trunks: {
         serializedName: "trunks",
         type: {
@@ -36,6 +43,22 @@ export const SipConfiguration: coreClient.CompositeMapper = {
   }
 };
 
+export const SipDomain: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SipDomain",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const SipTrunk: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -46,6 +69,13 @@ export const SipTrunk: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Number"
+        }
+      },
+      enabled: {
+        serializedName: "enabled",
+        required: true,
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -172,6 +202,13 @@ export const SipConfigurationPatch: coreClient.CompositeMapper = {
     name: "Composite",
     className: "SipConfigurationPatch",
     modelProperties: {
+      domains: {
+        serializedName: "domains",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Composite", className: "DomainPatch" } }
+        }
+      },
       trunks: {
         serializedName: "trunks",
         type: {
@@ -195,6 +232,21 @@ export const SipConfigurationPatch: coreClient.CompositeMapper = {
   }
 };
 
+export const DomainPatch: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DomainPatch",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const TrunkPatch: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -204,6 +256,42 @@ export const TrunkPatch: coreClient.CompositeMapper = {
         serializedName: "sipSignalingPort",
         type: {
           name: "Number"
+        }
+      },
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const SipRoutingGetExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SipRoutingGetExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SipRoutingPatchExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SipRoutingPatchExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
         }
       }
     }
