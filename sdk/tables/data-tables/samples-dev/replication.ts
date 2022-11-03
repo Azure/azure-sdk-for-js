@@ -14,7 +14,11 @@ import { TableClient, AzureNamedKeyCredential } from "@azure/data-tables";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const tablesUrls = [process.env["TABLES_URL_1"] || "", process.env["TABLES_URL_2"] || ""];
+const tablesUrls = [
+  "https://accountname-region1.table.cosmos.azure.com:443/",
+  "https://accountname-region2.table.cosmos.azure.com:443/",
+  "https://accountname-region3.table.cosmos.azure.com:443/",
+];
 const accountName = process.env["ACCOUNT_NAME"] || "";
 const accountKey = process.env["ACCOUNT_KEY"] || "";
 
@@ -22,12 +26,12 @@ async function replication() {
   console.log("Working with table replicas");
   const client = new TableClient(
     tablesUrls[0],
-    "testbigint",
+    "testreplication",
     new AzureNamedKeyCredential(accountName, accountKey),
     // The client supports an arbitrary number of failover hosts
     {
       readFailoverHosts: tablesUrls.slice(1),
-      // Omit this if the service doesn't support writing to replicas
+      // Omit this if the service doesn't support writing to replicas or isn't configured to allow writing to replicas
       writeFailoverHosts: tablesUrls.slice(1),
     }
   );
