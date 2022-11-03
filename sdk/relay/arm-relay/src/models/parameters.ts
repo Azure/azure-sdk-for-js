@@ -12,13 +12,15 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
+  AuthorizationRule as AuthorizationRuleMapper,
+  RegenerateAccessKeyParameters as RegenerateAccessKeyParametersMapper,
   CheckNameAvailability as CheckNameAvailabilityMapper,
   RelayNamespace as RelayNamespaceMapper,
   RelayUpdateParameters as RelayUpdateParametersMapper,
-  AuthorizationRule as AuthorizationRuleMapper,
-  RegenerateAccessKeyParameters as RegenerateAccessKeyParametersMapper,
+  NetworkRuleSet as NetworkRuleSetMapper,
   HybridConnection as HybridConnectionMapper,
-  WcfRelay as WcfRelayMapper
+  WcfRelay as WcfRelayMapper,
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -45,58 +47,6 @@ export const $host: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2017-04-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: CheckNameAvailabilityMapper
-};
-
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -110,11 +60,6 @@ export const resourceGroupName: OperationURLParameter = {
       name: "String"
     }
   }
-};
-
-export const parameters1: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: RelayNamespaceMapper
 };
 
 export const namespaceName: OperationURLParameter = {
@@ -132,12 +77,42 @@ export const namespaceName: OperationURLParameter = {
   }
 };
 
-export const parameters2: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: RelayUpdateParametersMapper
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2021-11-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
 };
 
-export const parameters3: OperationParameter = {
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters: OperationParameter = {
   parameterPath: "parameters",
   mapper: AuthorizationRuleMapper
 };
@@ -156,14 +131,41 @@ export const authorizationRuleName: OperationURLParameter = {
   }
 };
 
-export const parameters4: OperationParameter = {
+export const parameters1: OperationParameter = {
   parameterPath: "parameters",
   mapper: RegenerateAccessKeyParametersMapper
 };
 
+export const parameters2: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: CheckNameAvailabilityMapper
+};
+
+export const parameters3: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: RelayNamespaceMapper
+};
+
+export const parameters4: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: RelayUpdateParametersMapper
+};
+
 export const parameters5: OperationParameter = {
   parameterPath: "parameters",
-  mapper: HybridConnectionMapper
+  mapper: NetworkRuleSetMapper
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 
 export const hybridConnectionName: OperationURLParameter = {
@@ -182,7 +184,7 @@ export const hybridConnectionName: OperationURLParameter = {
 
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
-  mapper: WcfRelayMapper
+  mapper: HybridConnectionMapper
 };
 
 export const relayName: OperationURLParameter = {
@@ -192,6 +194,38 @@ export const relayName: OperationURLParameter = {
       MinLength: 1
     },
     serializedName: "relayName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters7: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: WcfRelayMapper
+};
+
+export const parameters8: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PrivateEndpointConnectionMapper
+};
+
+export const privateEndpointConnectionName: OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    serializedName: "privateEndpointConnectionName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const privateLinkResourceName: OperationURLParameter = {
+  parameterPath: "privateLinkResourceName",
+  mapper: {
+    serializedName: "privateLinkResourceName",
     required: true,
     type: {
       name: "String"
