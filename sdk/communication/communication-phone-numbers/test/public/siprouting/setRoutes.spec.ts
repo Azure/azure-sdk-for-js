@@ -87,8 +87,9 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("can set a new route with trunk", async () => {
+      let trunkFqdn = useAad ? "111.fqdn.com" : "112.fqdn.com";
       const trunk: SipTrunk = {
-        fqdn: "111.fqdn.com",
+        fqdn: trunkFqdn,
         sipSignalingPort: 5678,
       };
       await client.setTrunk(trunk);
@@ -97,7 +98,7 @@ matrix([[true, false]], async function (useAad) {
         name: "myFirstRoute",
         description: "myFirstRoute's description",
         numberPattern: "^+[1-9][0-9]{3,23}$",
-        trunks: ["111.fqdn.com"],
+        trunks: [trunkFqdn],
       };
       assert.deepEqual(await client.setRoutes([route]), [route]);
       assert.deepEqual(await client.getRoutes(), [route]);
@@ -199,15 +200,18 @@ matrix([[true, false]], async function (useAad) {
 
     it("cannot set a route with duplicated routing trunks", async () => {
       const trunks: SipTrunk[] = [
-        { fqdn: "112.fqdn.com", sipSignalingPort: 8239 },
-        { fqdn: "113.fqdn.com", sipSignalingPort: 7348 },
+        { fqdn: useAad ? "113.fqdn.com" : "114.fqdn.com", sipSignalingPort: 8239 },
+        { fqdn: useAad ? "115.fqdn.com" : "116.fqdn.com", sipSignalingPort: 7348 },
       ];
       await client.setTrunks(trunks);
 
       const invalidRoute: SipTrunkRoute = {
         name: "invalidDuplicatedRoutingTrunksRoute",
         numberPattern: "^+[1-9][0-9]{3,23}$",
-        trunks: ["112.fqdn.com", "113.fqdn.com"],
+        trunks: [
+          useAad ? "113.fqdn.com" : "114.fqdn.com",
+          useAad ? "113.fqdn.com" : "114.fqdn.com"
+        ],
       };
 
       try {
@@ -244,11 +248,11 @@ matrix([[true, false]], async function (useAad) {
     it("can set multiple new routes without affecting trunks via PATCH", async () => {
       const trunks: SipTrunk[] = [
         {
-          fqdn: "114.fqdn.com",
+          fqdn: useAad ? "122.fqdn.com" : "123.fqdn.com",
           sipSignalingPort: 5678,
         },
         {
-          fqdn: "115.fqdn.com",
+          fqdn: useAad ? "124.fqdn.com" : "125.fqdn.com",
           sipSignalingPort: 5678,
         },
       ];

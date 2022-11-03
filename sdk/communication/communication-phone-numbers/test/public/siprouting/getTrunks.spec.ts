@@ -39,9 +39,10 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("can retrieve an existing trunk", async () => {
-      await client.setTrunk({ fqdn: "411.fqdn.com", sipSignalingPort: 4567 } as SipTrunk);
+      let trunkFqdn = useAad ? "411.fqdn.com" : "412.fqdn.com";
+      await client.setTrunk({ fqdn: trunkFqdn, sipSignalingPort: 4567 } as SipTrunk);
 
-      const trunk = await client.getTrunk("411.fqdn.com");
+      const trunk = await client.getTrunk(trunkFqdn);
 
       assert.isNotNull(trunk);
       assert.equal(trunk?.sipSignalingPort, 4567);
@@ -63,9 +64,9 @@ matrix([[true, false]], async function (useAad) {
 
     it("can retrieve not empty trunks", async () => {
       const expectedTrunks = [
-        { fqdn: "412.fqdn.com", sipSignalingPort: 1239 },
-        { fqdn: "413.fqdn.com", sipSignalingPort: 2348 },
-        { fqdn: "414.fqdn.com", sipSignalingPort: 3457 },
+        { fqdn: useAad ? "413.fqdn.com" : "414.fqdn.com", sipSignalingPort: 1239 },
+        { fqdn: useAad ? "415.fqdn.com" : "416.fqdn.com", sipSignalingPort: 2348 },
+        { fqdn: useAad ? "417.fqdn.com" : "418.fqdn.com", sipSignalingPort: 3457 },
       ];
       await client.setTrunks(expectedTrunks);
 
