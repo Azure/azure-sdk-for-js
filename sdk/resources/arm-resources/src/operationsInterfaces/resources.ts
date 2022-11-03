@@ -298,7 +298,9 @@ export interface Resources {
     options?: ResourcesGetOptionalParams
   ): Promise<ResourcesGetResponse>;
   /**
-   * Checks by ID whether a resource exists.
+   * Checks by ID whether a resource exists. This API currently works only for a limited set of Resource
+   * providers. In the event that a Resource provider does not implement this API, ARM will respond with
+   * a 405. The alternative then is to use the GET API to check for the existence of the resource.
    * @param resourceId The fully qualified ID of the resource, including the resource name and resource
    *                   type. Use the format,
    *                   /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}

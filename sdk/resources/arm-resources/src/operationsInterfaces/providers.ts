@@ -51,7 +51,10 @@ export interface Providers {
     options?: ProvidersUnregisterOptionalParams
   ): Promise<ProvidersUnregisterResponse>;
   /**
-   * Registers a management group with a resource provider.
+   * Registers a management group with a resource provider. Use this operation to register a resource
+   * provider with resource types that can be deployed at the management group scope. It does not
+   * recursively register subscriptions within the management group. Instead, you must register
+   * subscriptions individually.
    * @param resourceProviderNamespace The namespace of the resource provider to register.
    * @param groupId The management group ID.
    * @param options The options parameters.

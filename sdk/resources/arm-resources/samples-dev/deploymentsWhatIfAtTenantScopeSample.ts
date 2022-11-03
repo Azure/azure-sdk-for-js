@@ -25,7 +25,11 @@ async function predictTemplateChangesAtManagementGroupScope() {
   const deploymentName = "exampleDeploymentName";
   const parameters: ScopedDeploymentWhatIf = {
     location: "eastus",
-    properties: { mode: "Incremental", parameters: {}, templateLink: {} }
+    properties: {
+      mode: "Incremental",
+      parameters: {},
+      templateLink: { uri: "https://example.com/exampleTemplate.json" }
+    }
   };
   const credential = new DefaultAzureCredential();
   const client = new ResourceManagementClient(credential, subscriptionId);
