@@ -37,7 +37,7 @@ describe("Item CRUD", function (this: Suite) {
   const documentCRUDTest = async function (isUpsertTest: boolean): Promise<void> {
     // create database
     const database = await getTestDatabase("sample 中文 database");
-    // create container                  
+    // create container
     const { resource: containerdef } = await database.containers.create({ id: "sample container" });
     const container: Container = database.container(containerdef.id);
 
@@ -679,7 +679,7 @@ describe("bulk/batch item operations", function () {
         },
         {
           operationType: BulkOperationType.Patch,
-          id: patchItemId, 
+          id: patchItemId,
           resourceBody: {
             operations: [{ op: PatchOperationType.add, path: "/good", value: "greatValue" }],
             condition: "from c where NOT IS_DEFINED(c.newImproved)",
@@ -716,7 +716,12 @@ describe("bulk/batch item operations", function () {
     });
 
     function isOperationResponse(object: any): boolean {
-      return 'statusCode' in object && 'requestCharge' in object && 'eTag' in object && 'resourceBody' in object;
+      return (
+        "statusCode" in object &&
+        "requestCharge" in object &&
+        "eTag" in object &&
+        "resourceBody" in object
+      );
     }
   });
 });
