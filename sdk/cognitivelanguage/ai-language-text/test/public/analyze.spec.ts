@@ -53,6 +53,7 @@ import {
   expectation68,
   expectation69,
   expectation70,
+  expectation72,
 } from "./expectations";
 
 const testDataEn = [
@@ -252,6 +253,20 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.LanguageDetection, docs, "invalidcountry"),
             expectation42
+          );
+        });
+
+        it("service returns script with DetectLanguageInput[]", async function () {
+          const doc = ["Tumhara naam kya hai?"];
+          const docs = doc.map((text) => ({
+            id: getId(),
+            text,
+          }));
+          assertActionResults(
+            await client.analyze(AnalyzeActionNames.LanguageDetection, docs, {
+              modelVersion: "2022-04-10-preview",
+            }),
+            expectation72
           );
         });
 

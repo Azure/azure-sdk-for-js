@@ -8494,3 +8494,115 @@ export const expectation70: DynamicClassificationResult[] = [
     ],
   },
 ];
+
+export const expectation71: AnalyzeBatchResult[] = [
+  {
+    kind: "EntityRecognition",
+    results: [
+      {
+        id: "0",
+        warnings: [],
+        entities: [
+          { text: "park", category: "Location", offset: 17, length: 4, confidenceScore: 0.99 },
+        ],
+        detectedLanguage: { name: "English", iso6391Name: "en", confidenceScore: 0.98 },
+        isLanguageDefaulted: false,
+      },
+      {
+        id: "1",
+        warnings: [],
+        entities: [
+          {
+            text: "un",
+            category: "Quantity",
+            subCategory: "Number",
+            offset: 8,
+            length: 2,
+            confidenceScore: 0.8,
+          },
+          { text: "Español", category: "Skill", offset: 31, length: 7, confidenceScore: 0.94 },
+        ],
+        detectedLanguage: { name: "Spanish", iso6391Name: "es", confidenceScore: 0.75 },
+        isLanguageDefaulted: false,
+      },
+      {
+        id: "2",
+        warnings: [],
+        entities: [
+          { text: "猫", category: "Product", offset: 0, length: 1, confidenceScore: 0.42 },
+        ],
+        detectedLanguage: { name: "Japanese", iso6391Name: "ja", confidenceScore: 1 },
+        isLanguageDefaulted: false,
+      },
+    ],
+    completedOn,
+    modelVersion,
+  },
+  {
+    kind: "PiiEntityRecognition",
+    results: [
+      {
+        id: "0",
+        warnings: [],
+        redactedText: "I will go to the park.",
+        entities: [],
+        detectedLanguage: { name: "English", iso6391Name: "en", confidenceScore: 0.98 },
+        isLanguageDefaulted: false,
+      },
+      {
+        id: "1",
+        warnings: [],
+        redactedText: "Este es un document escrito en Español.",
+        entities: [],
+        detectedLanguage: { name: "Spanish", iso6391Name: "es", confidenceScore: 0.75 },
+        isLanguageDefaulted: false,
+      },
+      {
+        id: "2",
+        warnings: [],
+        redactedText: "猫は幸せ",
+        entities: [],
+        detectedLanguage: { name: "Japanese", iso6391Name: "ja", confidenceScore: 1 },
+        isLanguageDefaulted: false,
+      },
+    ],
+    completedOn,
+    modelVersion,
+  },
+  {
+    kind: "KeyPhraseExtraction",
+    results: [
+      {
+        id: "0",
+        warnings: [],
+        keyPhrases: ["park"],
+        detectedLanguage: { name: "English", iso6391Name: "en", confidenceScore: 0.98 },
+        isLanguageDefaulted: false,
+      },
+      {
+        id: "1",
+        warnings: [],
+        keyPhrases: ["Español", "document"],
+        detectedLanguage: { name: "Spanish", iso6391Name: "es", confidenceScore: 0.75 },
+        isLanguageDefaulted: false,
+      },
+      {
+        id: "2",
+        warnings: [],
+        keyPhrases: [],
+        detectedLanguage: { name: "Japanese", iso6391Name: "ja", confidenceScore: 1 },
+        isLanguageDefaulted: false,
+      },
+    ],
+    completedOn,
+    modelVersion,
+  },
+];
+
+export const expectation72: LanguageDetectionResult[] = [
+  {
+    primaryLanguage: { name: "Hindi", iso6391Name: "hi", confidenceScore: 1, script: "Latin" },
+    id: "1",
+    warnings: [],
+  },
+];
