@@ -3,7 +3,7 @@
   "version": "1.0.0-beta.7",
   "description": "Azure Notification Hubs SDK for JavaScript",
   "sdk-type": "client",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist-esm/src/index.js",
   "browser": {
     "./dist-esm/src/auth/hmacSha256.js": "./dist-esm/src/auth/hmacSha256.browser.js"
