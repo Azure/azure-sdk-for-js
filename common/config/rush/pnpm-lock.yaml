@@ -939,6 +939,24 @@ packages:
       tslib: 2.4.0
     dev: false
 
+  /@azure/core-rest-pipeline/1.9.1:
+    resolution: {integrity: sha512-OVtt0LP0K5ktsKTmh6/695P0mPFmngjdCJPr4V0uvrkhHTkARSQ3VYRnxRc0LC9g3mHcH90C+8a6iF7ApMAZKg==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.4.0
+      '@azure/core-tracing': 1.0.1
+      '@azure/core-util': 1.1.1
+      '@azure/logger': 1.0.3
+      form-data: 4.0.0
+      http-proxy-agent: 5.0.0
+      https-proxy-agent: 5.0.1
+      tslib: 2.4.0
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/core-rest-pipeline/1.9.2:
     resolution: {integrity: sha512-8rXI6ircjenaLp+PkOFpo37tQ1PQfztZkfVj97BIF3RPxHAsoVSgkJtu3IK/bUEWcb7HzXSoyBe06M7ODRkRyw==}
     engines: {node: '>=12.0.0'}
@@ -3883,7 +3901,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221101
+      typescript: 5.0.0-dev.20221103
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8538,37 +8556,6 @@ packages:
     hasBin: true
     dev: false
 
-  /ts-node/10.9.1_05ce6ddf7c913a7b5ea293e6705b34c0:
-    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.9
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.3
-      '@types/node': 14.18.33
-      acorn: 8.8.1
-      acorn-walk: 8.2.0
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 4.7.4
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-    dev: false
-
   /ts-node/10.9.1_58215dfbed9856019847b52698b53c56:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
@@ -8860,20 +8847,14 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.7.4:
-    resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}
-    engines: {node: '>=4.2.0'}
-    hasBin: true
-    dev: false
-
   /typescript/4.8.4:
     resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221101:
-    resolution: {integrity: sha512-toPkTrYmviWyzo9Vj/fEG0iWkVTo6wB5HHaZu8eV070sOA8yON5vKKsROt0AyeveDhSfzPX8MXEc5oiNeDCGeA==}
+  /typescript/5.0.0-dev.20221103:
+    resolution: {integrity: sha512-hfqcsmiJ+5ktli1OAkwu4PyDDJ3kWW3tiUofd2t1uxwmni3ZT3Mrv1m2dZFg9VNDKqHrkt49izB3tAtD2bsyGw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -15551,7 +15532,7 @@ packages:
     dev: false
 
   file:projects/communication-email.tgz:
-    resolution: {integrity: sha512-RhI+WjqfaBqh0U8veuoa5ZrFNTH/LJzWkOM3Q85xPYbUjbnSRYz4EoAMjHQqVmj9hZvhSbouIUKVsBQ2oQM8jA==, tarball: file:projects/communication-email.tgz}
+    resolution: {integrity: sha512-JUM2HfVa7yIVOHZ2hdb4QjOe3EA0XgNw+8TTjKDJ4319hEcss0cdw4lSg6kBG/S1EGL+yjS+xY86YWkY68xw+g==, tarball: file:projects/communication-email.tgz}
     name: '@rush-temp/communication-email'
     version: 0.0.0
     dependencies:
@@ -16083,7 +16064,7 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-JIo2qDLtc67SeRcBKOsYUC8pr6jCiuOcEFxqv7PUcBpkfabrLTG+1wAzEarxa8yyErCrKmwm5Ao0S1asfBAVAw==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-ANaqd68SCg+bNajmOFmW+7mhYEUCRreXH/phXwHzrKvWX9mCuUGFGxOX23UZSCyOd4dIT3StKZCV/LkhAxEGYg==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
@@ -16113,9 +16094,9 @@ packages:
       prettier: 2.7.1
       rimraf: 3.0.2
       sinon: 9.2.4
-      ts-node: 10.9.1_8eede5a1f104955b45a9048c7d5b972d
+      ts-node: 10.9.1_c386e8b7aaca4ce6057194a7156a4f00
       tslib: 2.4.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       util: 0.12.5
     transitivePeerDependencies:
       - '@swc/core'
@@ -16323,7 +16304,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-P+4UEkZWR9T9IFRcnwPbAKI0JMw2iqPbrmEe/4b7vgEmaS6n19K7T+YnSqoU9FA543ixwQBNdB2ojc7m4m6KEg==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-RCCFD7DYz52Hnt5ps4Hy2wRhb0sUj7ZP5+v2yo0iM5PlEYdMRrfQNqcjhMof9Mje6o+9Gipipup0N5T1XiMWnQ==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -16362,9 +16343,9 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.9.1_05ce6ddf7c913a7b5ea293e6705b34c0
+      ts-node: 10.9.1_c386e8b7aaca4ce6057194a7156a4f00
       tslib: 2.4.0
-      typescript: 4.7.4
+      typescript: 4.8.4
       util: 0.12.5
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -17312,7 +17293,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-zt5Iu56m9r0icm/kPw+dSYGCDhXP9YvUODLIlCinUSBZ8/dhcr2ovf57pb/5Ojqjuaxo2Lpj4ON9Q2Moc1pPYw==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-qegEv0paVx7dHJIGMtm8fTGiVf0AKTLUquBP7seg/SwQ2X1SMJR0O5XOJrIyfX1VBG7L+TSr04adfr/1TIR2YQ==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -17946,10 +17927,12 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-YM8tXusovnwzSvuvrITI36irXDAfA2BAih9NtJFYg3fenIm0yOVRRhjns7yI9Tg6lAdeGUazyFjedT0owqxNbA==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-crWnoQIDGsvPW4lt4d2Sr0aLvBdnLVvno/Xbd9JVv3H5j7L2NVAlwuAH++8bgmwCiDsiw+Ugnea/Jk5vgR5dWg==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
+      '@azure/core-client': 1.6.1
+      '@azure/core-rest-pipeline': 1.9.1
       '@microsoft/api-extractor': 7.33.5
       '@types/chai': 4.3.3
       '@types/mocha': 9.1.1
@@ -18129,7 +18112,7 @@ packages:
     dev: false
 
   file:projects/perf-app-configuration.tgz:
-    resolution: {integrity: sha512-BzR9fvBllxo1pEws5GZiMxuzWLQ7KjDJMfrzlcfwWZIldYlntxGolkUbdVYKsQlxiiq6W+aq/OY8j3AGqI7cwQ==, tarball: file:projects/perf-app-configuration.tgz}
+    resolution: {integrity: sha512-b33BULpxOX6J9dR9f56lJ7afd7XBXxEQZBtZwG3pq0Slu6LjWh717zNT0t+HV/uNPpDTUySako6JAzVPT5yJWQ==, tarball: file:projects/perf-app-configuration.tgz}
     name: '@rush-temp/perf-app-configuration'
     version: 0.0.0
     dependencies:
@@ -18512,7 +18495,7 @@ packages:
     dev: false
 
   file:projects/perf-template.tgz:
-    resolution: {integrity: sha512-CR7LZ2mTcTzlarWLzMt5NaXWF8Wqyxkq9XPVS7BXzPMLAUx2sjTkZtDBuNK0UQ+lGJ3uqhpokEQO6A6jw9fwtg==, tarball: file:projects/perf-template.tgz}
+    resolution: {integrity: sha512-vkGuclIBHH0EYig/IAlJuKXo0FPxnqH3LWulE/Ibe4LUnjHFEv6qTEtps9HpSL/UhkERBiBJo5o7wsNO/ElgwA==, tarball: file:projects/perf-template.tgz}
     name: '@rush-temp/perf-template'
     version: 0.0.0
     dependencies:
@@ -19659,7 +19642,7 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-Dmo3usvsR7NnLEgv9M03xcaCz6X3l0bamstzq95KLC3Rzt88e8h1hLb6TFZoSBV1EvlLNQUkMI2uHPHpI9W7WQ==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-2637jdka8VsG6hJxPEmrAyUhPLBfAGbVJ0s/ud2EQ0C7U01P0BPjFKr4YkRt3kPkE9Gl9U5SD5VCUrgvehqUEw==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TestSpan } from "./testSpan";
+import { TestSpan } from "./testSpan.js";
 import {
   SpanContext,
   SpanKind,
@@ -12,7 +12,7 @@ import {
   Tracer,
   trace as otTrace,
 } from "@opentelemetry/api";
-import { SpanGraph, SpanGraphNode } from "./spanGraphModel";
+import { SpanGraph, SpanGraphNode } from "./spanGraphModel.js";
 
 /**
  * A mock tracer useful for testing

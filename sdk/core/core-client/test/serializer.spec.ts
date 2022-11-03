@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as MediaMappers from "./testMappers2";
+import * as MediaMappers from "./testMappers2.js";
 import {
   CompositeMapper,
   DictionaryMapper,
@@ -9,8 +9,8 @@ import {
   Mapper,
   SequenceMapper,
   createSerializer,
-} from "../src";
-import { Mappers } from "./testMappers1";
+} from "../src/index.js";
+import { Mappers } from "./testMappers1.js";
 import { assert } from "chai";
 
 const Serializer = createSerializer(Mappers);

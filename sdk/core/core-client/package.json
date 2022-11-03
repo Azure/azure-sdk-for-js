@@ -3,13 +3,21 @@
   "version": "1.6.2",
   "description": "Core library for interfacing with AutoRest generated code",
   "sdk-type": "client",
-  "main": "dist/index.js",
+  "type": "module",
+  "main": "dist/index.cjs",
   "module": "dist-esm/src/index.js",
   "browser": {
     "./dist-esm/src/base64.js": "./dist-esm/src/base64.browser.js"
   },
   "react-native": {
     "./dist/index.js": "./dist-esm/src/index.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./types/src/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist-esm/src/index.js"
+    }
   },
   "types": "types/latest/core-client.d.ts",
   "typesVersions": {
@@ -46,7 +54,9 @@
   "files": [
     "dist/",
     "dist-esm/src/",
+    "types/src/",
     "types/latest/core-client.d.ts",
+    "types/latest/src/",
     "types/3.1/core-client.d.ts",
     "README.md",
     "LICENSE"
@@ -80,7 +90,7 @@
     "@azure/core-xml": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
-    "@types/mocha": "^7.0.2",
+    "@types/mocha": "^10.0.0",
     "@types/node": "^14.0.0",
     "@types/sinon": "^9.0.4",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
@@ -101,13 +111,16 @@
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^7.1.1",
+    "mocha": "^10.1.0",
     "mocha-junit-reporter": "^2.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~4.6.0",
+    "typescript": "^4.8.4",
     "util": "^0.12.1"
-  }
+  },
+  "mocha": {
+    "loader": "ts-node/esm"
+  }  
 }

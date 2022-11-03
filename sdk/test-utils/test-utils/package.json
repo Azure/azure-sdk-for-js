@@ -3,12 +3,20 @@
   "version": "1.0.0",
   "sdk-type": "utility",
   "description": "Test utilities library for the Azure SDK for JavaScript and TypeScript",
-  "main": "dist/index.js",
+  "type": "module",
+  "main": "dist/index.cjs",
   "module": "dist-esm/src/index.js",
   "browser": {
     "./dist-esm/src/global.js": "./dist-esm/src/global.browser.js"
   },
   "types": "./types/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types/src/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist-esm/src/index.js"
+    }
+  },
   "engines": {
     "node": ">=14.0.0"
   },
@@ -27,7 +35,7 @@
     "lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "unit-test:browser": "cross-env karma start --single-run",
-    "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 120000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
+    "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 120000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test:browser": "npm run clean && npm run build:test npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
@@ -66,14 +74,14 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-exclude": "^2.1.0",
-    "mocha": "^7.1.1",
+    "mocha": "^10.1.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
-    "@types/mocha": "^7.0.2",
+    "@types/mocha": "^10.0.0",
     "@types/node": "^14.0.0",
     "@types/sinon": "^9.0.4",
     "cross-env": "^7.0.2",
@@ -85,6 +93,9 @@
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
-    "typescript": "~4.8.0"
-  }
+    "typescript": "^4.8.4"
+  },
+  "mocha": {
+    "loader": "ts-node/esm"
+  }  
 }

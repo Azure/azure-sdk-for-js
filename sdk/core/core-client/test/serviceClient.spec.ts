@@ -16,7 +16,7 @@ import {
   ServiceClient,
   createSerializer,
   serializationPolicy,
-} from "../src";
+} from "../src/index.js";
 import {
   HttpClient,
   PipelinePolicy,
@@ -30,12 +30,12 @@ import {
 import {
   getOperationArgumentValueFromParameter,
   getOperationRequestInfo,
-} from "../src/operationHelpers";
+} from "../src/operationHelpers.js";
 import { TokenCredential } from "@azure/core-auth";
 import { assert } from "chai";
-import { assertServiceClientResponse } from "./utils/serviceClient";
-import { deserializationPolicy } from "../src/deserializationPolicy";
-import { getCachedDefaultHttpClient } from "../src/httpClientCache";
+import { assertServiceClientResponse } from "./utils/serviceClient.js";
+import { deserializationPolicy } from "../src/deserializationPolicy.js";
+import { getCachedDefaultHttpClient } from "../src/httpClientCache.js";
 
 describe("ServiceClient", function () {
   describe("Auth scopes", () => {

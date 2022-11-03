@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Mapper, createSerializer } from "../../src";
+import { Mapper, createSerializer } from "../../src/index.js";
 import { assert } from "chai";
 
 describe("Serializer (browser specific)", function () {

@@ -9,4 +9,4 @@ declare global {
   interface TransformStream<I = any, O = any>  {}
 }
 
-export * from "./types/3.1/core-rest-pipeline";
+export * from "./types/3.1/core-rest-pipeline.js";

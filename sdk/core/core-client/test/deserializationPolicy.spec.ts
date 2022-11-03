@@ -10,7 +10,7 @@ import {
   SerializerOptions,
   createSerializer,
   deserializationPolicy,
-} from "../src";
+} from "../src/index.js";
 import {
   PipelineResponse,
   RawHttpHeaders,
@@ -19,7 +19,7 @@ import {
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { assert } from "chai";
-import { getOperationRequestInfo } from "../src/operationHelpers";
+import { getOperationRequestInfo } from "../src/operationHelpers.js";
 import { parseXML } from "@azure/core-xml";
 
 describe("deserializationPolicy", function () {

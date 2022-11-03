@@ -3,7 +3,7 @@
   "version": "1.0.0-beta.7",
   "description": "Azure Notification Hubs SDK for JavaScript",
   "sdk-type": "client",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist-esm/src/index.js",
   "browser": {
     "./dist-esm/src/auth/hmacSha256.js": "./dist-esm/src/auth/hmacSha256.browser.js"
@@ -65,7 +65,7 @@
     "test:node": "npm run clean && tsc -p . && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "mocha -r ts-node/register --timeout 1200000 --full-trace --exclude \"dist-esm/test/**/browser/*.spec.js\" \"dist-esm/test/internal/unit/{,!(browser)/**/}*.spec.js\" \"dist-esm/test/public/unit/{,!(browser)/**/}*.spec.js\"",
+    "unit-test:node": "mocha --timeout 1200000 --full-trace --exclude \"dist-esm/test/**/browser/*.spec.js\" \"dist-esm/test/internal/unit/{,!(browser)/**/}*.spec.js\" \"dist-esm/test/public/unit/{,!(browser)/**/}*.spec.js\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
@@ -132,10 +132,10 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.1.0",
-    "@azure/core-client": "^1.6.1",
+    "@azure/core-client": "1.6.1",
     "@azure/core-lro": "^2.4.0",
     "@azure/core-paging": "^1.3.0",
-    "@azure/core-rest-pipeline": "^1.8.1",
+    "@azure/core-rest-pipeline": "1.9.1",
     "@azure/core-tracing": "^1.0.1",
     "@azure/core-util": "^1.1.0",
     "@azure/core-xml": "^1.3.0",
