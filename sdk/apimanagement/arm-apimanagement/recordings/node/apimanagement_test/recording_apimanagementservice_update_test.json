@@ -8,28 +8,26 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-apimanagement/8.1.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "f91b6f7b-39df-4618-8973-f31930f2173d"
+        "User-Agent": "azsdk-js-arm-apimanagement/1.0.0-beta.1 core-rest-pipeline/1.10.0 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "1b2f8056-baaa-46e4-8941-87538c51932a"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Encoding": "gzip",
+        "Content-Length": "2526",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 04 Aug 2022 02:12:51 GMT",
-        "ETag": "\u0022AAAAAABtk2E=\u0022",
+        "Date": "Wed, 02 Nov 2022 09:17:48 GMT",
+        "ETag": "\u0022AAAAAACBFbo=\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "29af2dd4-69b0-4123-9f45-d31093deecf2",
+        "x-ms-correlation-request-id": "9714698c-dc56-4d4b-95ee-a30fff138432",
         "x-ms-ratelimit-remaining-subscription-reads": "11950",
-        "x-ms-request-id": "29af2dd4-69b0-4123-9f45-d31093deecf2",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220804T021252Z:29af2dd4-69b0-4123-9f45-d31093deecf2"
+        "x-ms-request-id": "9714698c-dc56-4d4b-95ee-a30fff138432",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221102T091749Z:9714698c-dc56-4d4b-95ee-a30fff138432"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy1",
@@ -37,14 +35,14 @@
         "type": "Microsoft.ApiManagement/service",
         "tags": {},
         "location": "East US",
-        "etag": "AAAAAABtk2E=",
+        "etag": "AAAAAACBFbo=",
         "properties": {
           "publisherEmail": "foo@contoso.com",
           "publisherName": "foo",
           "notificationSenderEmail": "apimgmt-noreply@mail.windowsazure.com",
           "provisioningState": "Succeeded",
           "targetProvisioningState": "",
-          "createdAtUtc": "2022-08-04T01:26:45.0593048Z",
+          "createdAtUtc": "2022-11-02T08:31:36.2698892Z",
           "gatewayUrl": "https://myserviceyyy1.azure-api.net",
           "gatewayRegionalUrl": "https://myserviceyyy1-eastus-01.regional.azure-api.net",
           "portalUrl": "https://myserviceyyy1.portal.azure-api.net",
@@ -67,7 +65,7 @@
             }
           ],
           "publicIPAddresses": [
-            "20.85.161.60"
+            "20.237.43.224"
           ],
           "privateIPAddresses": null,
           "additionalLocations": null,
@@ -102,10 +100,10 @@
         "systemData": {
           "createdBy": "azure_client_id",
           "createdByType": "Application",
-          "createdAt": "2022-08-04T01:26:44.1737987Z",
+          "createdAt": "2022-11-02T08:31:35.4400849Z",
           "lastModifiedBy": "azure_client_id",
           "lastModifiedByType": "Application",
-          "lastModifiedAt": "2022-08-04T01:26:44.1737987Z"
+          "lastModifiedAt": "2022-11-02T08:31:35.4400849Z"
         }
       }
     },
@@ -119,8 +117,8 @@
         "Connection": "keep-alive",
         "Content-Length": "117",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-apimanagement/8.1.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "b0d634f7-8d84-434d-ab7f-114f79d05433"
+        "User-Agent": "azsdk-js-arm-apimanagement/1.0.0-beta.1 core-rest-pipeline/1.10.0 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "0623da1f-a3d4-473e-9a7f-0cfe233b9bb1"
       },
       "RequestBody": {
         "properties": {
@@ -132,21 +130,19 @@
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Encoding": "gzip",
+        "Content-Length": "2526",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 04 Aug 2022 02:12:52 GMT",
-        "ETag": "\u0022AAAAAABtk2E=\u0022",
+        "Date": "Wed, 02 Nov 2022 09:17:50 GMT",
+        "ETag": "\u0022AAAAAACBFbo=\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "c014a8c1-96c1-436a-8dfb-f38e3d4d3013",
+        "x-ms-correlation-request-id": "911ad4a3-54a8-4037-bbb3-639a5ae061f0",
         "x-ms-ratelimit-remaining-subscription-writes": "1198",
-        "x-ms-request-id": "c014a8c1-96c1-436a-8dfb-f38e3d4d3013",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220804T021253Z:c014a8c1-96c1-436a-8dfb-f38e3d4d3013"
+        "x-ms-request-id": "911ad4a3-54a8-4037-bbb3-639a5ae061f0",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221102T091751Z:911ad4a3-54a8-4037-bbb3-639a5ae061f0"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy1",
@@ -154,14 +150,14 @@
         "type": "Microsoft.ApiManagement/service",
         "tags": {},
         "location": "East US",
-        "etag": "AAAAAABtk2E=",
+        "etag": "AAAAAACBFbo=",
         "properties": {
           "publisherEmail": "foo@contoso.com",
           "publisherName": "foo",
           "notificationSenderEmail": "apimgmt-noreply@mail.windowsazure.com",
           "provisioningState": "Succeeded",
           "targetProvisioningState": "",
-          "createdAtUtc": "2022-08-04T01:26:45.0593048Z",
+          "createdAtUtc": "2022-11-02T08:31:36.2698892Z",
           "gatewayUrl": "https://myserviceyyy1.azure-api.net",
           "gatewayRegionalUrl": "https://myserviceyyy1-eastus-01.regional.azure-api.net",
           "portalUrl": "https://myserviceyyy1.portal.azure-api.net",
@@ -184,7 +180,7 @@
             }
           ],
           "publicIPAddresses": [
-            "20.85.161.60"
+            "20.237.43.224"
           ],
           "privateIPAddresses": null,
           "additionalLocations": null,
@@ -219,10 +215,10 @@
         "systemData": {
           "createdBy": "azure_client_id",
           "createdByType": "Application",
-          "createdAt": "2022-08-04T01:26:44.1737987Z",
+          "createdAt": "2022-11-02T08:31:35.4400849Z",
           "lastModifiedBy": "azure_client_id",
           "lastModifiedByType": "Application",
-          "lastModifiedAt": "2022-08-04T01:26:44.1737987Z"
+          "lastModifiedAt": "2022-11-02T08:31:35.4400849Z"
         }
       }
     }

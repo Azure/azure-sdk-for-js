@@ -6,7 +6,7 @@ ApiManagement Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/apimanagement/arm-apimanagement) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-apimanagement) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-apimanagement) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-apimanagement?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

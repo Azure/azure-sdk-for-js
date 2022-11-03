@@ -394,9 +394,6 @@ const deployOperationSpec: coreClient.OperationSpec = {
     202: {
       bodyMapper: Mappers.OperationResultContract
     },
-    204: {
-      bodyMapper: Mappers.OperationResultContract
-    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -428,9 +425,6 @@ const saveOperationSpec: coreClient.OperationSpec = {
     202: {
       bodyMapper: Mappers.OperationResultContract
     },
-    204: {
-      bodyMapper: Mappers.OperationResultContract
-    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -460,9 +454,6 @@ const validateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.OperationResultContract
     },
     202: {
-      bodyMapper: Mappers.OperationResultContract
-    },
-    204: {
       bodyMapper: Mappers.OperationResultContract
     },
     default: {
