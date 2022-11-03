@@ -27,7 +27,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
   });
 
   it("can create, get, update, list, and delete a US Program Brief", async function () {
-    const uspb = getTestUSProgramBrief({ id: "36927137-86ff-4e70-a2bf-4d6fcac45aa7" });
+    const uspb = getTestUSProgramBrief();
     const createRequest: ShortCodesUpsertUSProgramBriefOptionalParams = {
       body: uspb,
     };

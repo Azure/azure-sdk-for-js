@@ -13,13 +13,9 @@ import {
 import { assert } from "chai";
 import { CompositeMapper } from "@azure/core-client";
 
-export interface TestUsProgramBriefOptions {
-  id: string;
-}
-
-export function getTestUSProgramBrief(options: TestUsProgramBriefOptions): USProgramBrief {
+export function getTestUSProgramBrief(): USProgramBrief {
   const testUSProgramBrief: USProgramBrief = {
-    id: options.id,
+    id: "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
     programDetails: {
       description:
         "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
