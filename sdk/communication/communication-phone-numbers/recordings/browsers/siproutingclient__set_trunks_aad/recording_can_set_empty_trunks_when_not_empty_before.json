@@ -25,13 +25,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:12:52 GMT",
-        "MS-CV": "xnswlqAlWkaQmUAEMpp5Mg.0",
+        "Date": "Thu, 03 Nov 2022 21:09:33 GMT",
+        "MS-CV": "V\u002BfriiQSK0iKl9pxpWVsrQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "09XYaYwAAAADp7enDB84YSpd8uQuLV7IMUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0DS5kYwAAAABuUbrRxsEJSLk4PYVDy0saUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "138ms"
+        "X-Processing-Time": "78ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -47,7 +47,7 @@
         "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "94",
+        "Content-Length": "89",
         "Content-Type": "application/merge-patch\u002Bjson",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
@@ -62,10 +62,10 @@
       },
       "RequestBody": {
         "trunks": {
-          "111.fqdn.com": {
+          "first.com": {
             "sipSignalingPort": 8239
           },
-          "222.fqdn.com": {
+          "second.com": {
             "sipSignalingPort": 7348
           }
         }
@@ -74,20 +74,20 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:12:54 GMT",
-        "MS-CV": "zKiKj8zd30af/LaaaSTLOA.0",
+        "Date": "Thu, 03 Nov 2022 21:09:33 GMT",
+        "MS-CV": "0SZv/MGgRECak7SBZYkTmA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "09XYaYwAAAABq5k8lpVnKS7QkCO20i7VoUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0DS5kYwAAAAAuM\u002BwXdTDcRJ5dKJs3CFG6UFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1014ms"
+        "X-Processing-Time": "434ms"
       },
       "ResponseBody": {
         "trunks": {
-          "111.fqdn.com": {
+          "first.com": {
             "sipSignalingPort": 8239
           },
-          "222.fqdn.com": {
+          "second.com": {
             "sipSignalingPort": 7348
           }
         },
@@ -119,20 +119,20 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:12:55 GMT",
-        "MS-CV": "OVDWv67or0\u002BBiK0i4dqsjg.0",
+        "Date": "Thu, 03 Nov 2022 21:09:33 GMT",
+        "MS-CV": "XwLArpkHCEypNtzFXBm0Sw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "09nYaYwAAAACEM9LD/21iT5hsDi7mG00NUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0Di5kYwAAAAAego1JndPWTYkUIXp2gQrNUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "167ms"
+        "X-Processing-Time": "70ms"
       },
       "ResponseBody": {
         "trunks": {
-          "111.fqdn.com": {
+          "first.com": {
             "sipSignalingPort": 8239
           },
-          "222.fqdn.com": {
+          "second.com": {
             "sipSignalingPort": 7348
           }
         },
@@ -148,7 +148,7 @@
         "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "52",
+        "Content-Length": "47",
         "Content-Type": "application/merge-patch\u002Bjson",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
@@ -163,21 +163,21 @@
       },
       "RequestBody": {
         "trunks": {
-          "111.fqdn.com": null,
-          "222.fqdn.com": null
+          "first.com": null,
+          "second.com": null
         }
       },
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:12:55 GMT",
-        "MS-CV": "2LUewRTpWESpVOK4\u002Be0EOg.0",
+        "Date": "Thu, 03 Nov 2022 21:09:34 GMT",
+        "MS-CV": "X6LCVc5\u002BsU6/FIrgsmi88Q.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "093YaYwAAAABdHVAUtOjsQq40rrY1wQvlUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0Di5kYwAAAAA/UNhzeGwaQ4GBgBcrFA0RUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "335ms"
+        "X-Processing-Time": "247ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -209,13 +209,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:12:55 GMT",
-        "MS-CV": "0suPDt2kIUeZDKV6F8SvGw.0",
+        "Date": "Thu, 03 Nov 2022 21:09:34 GMT",
+        "MS-CV": "9KmXWuZnZ0q9uZ/A9HK1kw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "093YaYwAAAAArJ4XeyJHYTJqo3HmrePoZUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0Di5kYwAAAAA3rOuhkgE4R6anSwC7MMVfUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "176ms"
+        "X-Processing-Time": "72ms"
       },
       "ResponseBody": {
         "trunks": {},

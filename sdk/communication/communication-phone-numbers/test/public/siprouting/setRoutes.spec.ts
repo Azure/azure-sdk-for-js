@@ -6,15 +6,22 @@ import { Context } from "mocha";
 
 import { SipRoutingClient } from "../../../src";
 
-import { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { SipTrunk, SipTrunkRoute } from "../../../src/models";
-import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
+import { clearSipConfiguration, createRecordedClient, createRecordedClientWithToken, getFqdn } from "./utils/recordedClient";
 import { matrix } from "@azure/test-utils";
 
 matrix([[true, false]], async function (useAad) {
   describe(`SipRoutingClient - set routes${useAad ? " [AAD]" : ""}`, function () {
     let client: SipRoutingClient;
     let recorder: Recorder;
+
+    const firstFqdn = getFqdn("first");
+    const secondFqdn = getFqdn("second");
+
+    before(async function (this: Context) {
+      !isPlaybackMode() && clearSipConfiguration();
+    })
 
     beforeEach(async function (this: Context) {
       ({ client, recorder } = useAad
@@ -86,9 +93,12 @@ matrix([[true, false]], async function (useAad) {
       assert.deepEqual(storedRoutes, expectedRoutes);
     });
 
-    it("can set a new route with trunk", async () => {
+    it("can set a new route with trunk", async function (this: Context) {
+      if (isPlaybackMode()) {
+        this.skip();
+      }
       const trunk: SipTrunk = {
-        fqdn: "111.fqdn.com",
+        fqdn: firstFqdn,
         sipSignalingPort: 5678,
       };
       await client.setTrunk(trunk);
@@ -97,7 +107,7 @@ matrix([[true, false]], async function (useAad) {
         name: "myFirstRoute",
         description: "myFirstRoute's description",
         numberPattern: "^+[1-9][0-9]{3,23}$",
-        trunks: ["111.fqdn.com"],
+        trunks: [firstFqdn],
       };
       assert.deepEqual(await client.setRoutes([route]), [route]);
       assert.deepEqual(await client.getRoutes(), [route]);
@@ -199,15 +209,15 @@ matrix([[true, false]], async function (useAad) {
 
     it("cannot set a route with duplicated routing trunks", async () => {
       const trunks: SipTrunk[] = [
-        { fqdn: "111.fqdn.com", sipSignalingPort: 8239 },
-        { fqdn: "222.fqdn.com", sipSignalingPort: 7348 },
+        { fqdn: firstFqdn, sipSignalingPort: 8239 },
+        { fqdn: secondFqdn, sipSignalingPort: 7348 },
       ];
       await client.setTrunks(trunks);
 
       const invalidRoute: SipTrunkRoute = {
         name: "invalidDuplicatedRoutingTrunksRoute",
         numberPattern: "^+[1-9][0-9]{3,23}$",
-        trunks: ["111.fqdn.com", "111.fqdn.com"],
+        trunks: [firstFqdn, firstFqdn],
       };
 
       try {
@@ -244,11 +254,11 @@ matrix([[true, false]], async function (useAad) {
     it("can set multiple new routes without affecting trunks via PATCH", async () => {
       const trunks: SipTrunk[] = [
         {
-          fqdn: "777.fqdn.com",
+          fqdn: getFqdn("random1"),
           sipSignalingPort: 5678,
         },
         {
-          fqdn: "888.fqdn.com",
+          fqdn: getFqdn("random2"),
           sipSignalingPort: 5678,
         },
       ];
@@ -270,8 +280,17 @@ matrix([[true, false]], async function (useAad) {
       ];
       await client.setRoutes(routes);
 
-      assert.deepEqual(await client.getTrunks(), trunks);
-      assert.deepEqual(await client.getRoutes(), routes);
+      const getTrunks = await client.getTrunks();
+      const getRoutes = await client.getRoutes();
+
+      assert.isArray(getTrunks);
+      assert.isArray(getRoutes);
+      assert.equal(getTrunks.length, trunks.length);
+      assert.equal(getRoutes.length, routes.length);
+      if (!isPlaybackMode()) {
+        assert.deepEqual(getTrunks, trunks);
+        assert.deepEqual(getRoutes, routes);
+      }
     });
   });
 });

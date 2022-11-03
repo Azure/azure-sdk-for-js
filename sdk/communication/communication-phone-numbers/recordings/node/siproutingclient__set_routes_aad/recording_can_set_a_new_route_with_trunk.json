@@ -8,14 +8,14 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "53",
+        "Content-Length": "50",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22000)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": {
         "trunks": {
-          "111.fqdn.com": {
+          "first.com": {
             "sipSignalingPort": 5678
           }
         }
@@ -24,26 +24,26 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:07:32 GMT",
-        "MS-CV": "nGzyYRbihUm4xlIaRqHfYw.0",
+        "Date": "Thu, 03 Nov 2022 21:05:11 GMT",
+        "MS-CV": "OFcxdy0lU06160R0EPpwAg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0tHUaYwAAAAA1eiP9ub0hSINvW\u002Bg3rIzUUFJHMDFFREdFMDkxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0By1kYwAAAABYpvILfp/2QJcuBlmqF7apUFJHMDFFREdFMDkxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "703ms"
+        "X-Processing-Time": "364ms"
       },
       "ResponseBody": {
         "trunks": {
-          "11.fqdn.com": {
+          "first.com": {
             "sipSignalingPort": 1239
           },
-          "22.fqdn.com": {
+          "second.com": {
             "sipSignalingPort": 2348
           },
-          "33.fqdn.com": {
+          "third.com": {
             "sipSignalingPort": 3457
           },
-          "111.fqdn.com": {
+          "first.com": {
             "sipSignalingPort": 5678
           }
         },
@@ -77,9 +77,9 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "143",
+        "Content-Length": "140",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22000)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": {
@@ -89,7 +89,7 @@
             "name": "myFirstRoute",
             "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
             "trunks": [
-              "111.fqdn.com"
+              "first.com"
             ]
           }
         ]
@@ -98,26 +98,26 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:07:33 GMT",
-        "MS-CV": "hbeLCLasoUGbaNR87vM/FQ.0",
+        "Date": "Thu, 03 Nov 2022 21:05:11 GMT",
+        "MS-CV": "uDRkycUm9UiTx9NiblI3ug.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0tXUaYwAAAADEz9g9YjXqSK81MQ0/7/hWUFJHMDFFREdFMDkxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0By1kYwAAAABhtMf2EoeOS7W8U0xXlfZTUFJHMDFFREdFMDkxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "335ms"
+        "X-Processing-Time": "104ms"
       },
       "ResponseBody": {
         "trunks": {
-          "11.fqdn.com": {
+          "first.com": {
             "sipSignalingPort": 1239
           },
-          "22.fqdn.com": {
+          "second.com": {
             "sipSignalingPort": 2348
           },
-          "33.fqdn.com": {
+          "third.com": {
             "sipSignalingPort": 3457
           },
-          "111.fqdn.com": {
+          "first.com": {
             "sipSignalingPort": 5678
           }
         },
@@ -127,7 +127,7 @@
             "name": "myFirstRoute",
             "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
             "trunks": [
-              "111.fqdn.com"
+              "first.com"
             ]
           }
         ]
@@ -141,7 +141,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22000)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": null,
@@ -149,26 +149,26 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:07:33 GMT",
-        "MS-CV": "VIcTECl7DEmAhHJwGyfkFw.0",
+        "Date": "Thu, 03 Nov 2022 21:05:12 GMT",
+        "MS-CV": "t\u002B7Aks50Ak\u002B/pMcomZ1Ykw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0tXUaYwAAAAAxu4EvdxlCSJey17lDvBD2UFJHMDFFREdFMDkxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0CC1kYwAAAACooGTzV/EEQo8Tq0fMSC37UFJHMDFFREdFMDkxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "252ms"
+        "X-Processing-Time": "72ms"
       },
       "ResponseBody": {
         "trunks": {
-          "11.fqdn.com": {
+          "first.com": {
             "sipSignalingPort": 1239
           },
-          "22.fqdn.com": {
+          "second.com": {
             "sipSignalingPort": 2348
           },
-          "33.fqdn.com": {
+          "third.com": {
             "sipSignalingPort": 3457
           },
-          "111.fqdn.com": {
+          "first.com": {
             "sipSignalingPort": 5678
           }
         },
@@ -178,7 +178,7 @@
             "name": "myFirstRoute",
             "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
             "trunks": [
-              "111.fqdn.com"
+              "first.com"
             ]
           }
         ]

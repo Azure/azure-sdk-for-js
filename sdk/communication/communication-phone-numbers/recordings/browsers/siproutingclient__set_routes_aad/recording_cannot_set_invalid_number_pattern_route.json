@@ -33,13 +33,13 @@
       "StatusCode": 422,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Thu, 08 Sep 2022 23:12:27 GMT",
-        "MS-CV": "EsIWeal04EOU8W3L8/bPYg.0",
+        "Date": "Thu, 03 Nov 2022 21:09:57 GMT",
+        "MS-CV": "6uje1ixznUm3otSr3TWHNA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "023YaYwAAAABKJ/YH0z\u002BeSbfN/kqyBsxRUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0JS5kYwAAAABC\u002Bo/6esn6SaWQ9yyWO5HNUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "23ms"
+        "X-Processing-Time": "22ms"
       },
       "ResponseBody": {
         "error": {
@@ -77,26 +77,17 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:12:27 GMT",
-        "MS-CV": "sv6EpPyLvke6XKNTxJzQZQ.0",
+        "Date": "Thu, 03 Nov 2022 21:09:57 GMT",
+        "MS-CV": "tx0tuc3wo067M9bq\u002Bk7J8g.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "023YaYwAAAAAsHBC64PdHQZDemKn//EhjUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0JS5kYwAAAAA/G05Qi5UpQoFLe8tRQ5XRUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "297ms"
+        "X-Processing-Time": "60ms"
       },
       "ResponseBody": {
         "trunks": {
-          "11.fqdn.com": {
-            "sipSignalingPort": 1239
-          },
-          "22.fqdn.com": {
-            "sipSignalingPort": 2348
-          },
-          "33.fqdn.com": {
-            "sipSignalingPort": 3457
-          },
-          "111.fqdn.com": {
+          "first.com": {
             "sipSignalingPort": 5678
           }
         },

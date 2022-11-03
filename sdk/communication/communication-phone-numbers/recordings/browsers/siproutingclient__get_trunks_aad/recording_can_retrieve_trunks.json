@@ -25,34 +25,21 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:25:05 GMT",
-        "MS-CV": "cGsBVg7nKE2CFOcSaq\u002BXIA.0",
+        "Date": "Thu, 03 Nov 2022 21:09:20 GMT",
+        "MS-CV": "rRELkBoPDkOmHZMd6w9myw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "00nkaYwAAAAA8zB8DL7PaSKfYR1/xFZtCUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0AC5kYwAAAACB3kxWkaURQpnrukauPB1SUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "234ms"
+        "X-Processing-Time": "66ms"
       },
       "ResponseBody": {
         "trunks": {
-          "44.fqdn.com": {
+          "fourth.com": {
             "sipSignalingPort": 4567
           }
         },
-        "routes": [
-          {
-            "description": "myFirstRoute\u0027s description",
-            "name": "myFirstRoute",
-            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
-            "trunks": []
-          },
-          {
-            "description": "mySecondRoute\u0027s description",
-            "name": "mySecondRoute",
-            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
-            "trunks": []
-          }
-        ]
+        "routes": []
       }
     }
   ],

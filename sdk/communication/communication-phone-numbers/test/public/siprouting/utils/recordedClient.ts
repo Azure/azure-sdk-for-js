@@ -55,6 +55,7 @@ const sanitizerOptions: SanitizerOptions = {
       target: `[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}`,
       value: `sanitized`,
     },
+    { regex: true, target: `([a-z]+[0-9]?).[0-9]{12}.com`, value: `$1\.com`, },
   ],
 };
 
@@ -71,6 +72,7 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
       "Accept-Language", // This is env-dependent
       "x-ms-content-sha256", // This is dependent on the current datetime
     ],
+    compareBodies: false,
   });
   return recorder;
 }
@@ -116,4 +118,19 @@ export async function createRecordedClientWithToken(
 
   // casting is a workaround to enable min-max testing
   return { client, recorder };
+}
+
+export async function clearSipConfiguration() {
+  const client = new SipRoutingClient(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "");
+  await client.setRoutes([]);
+  await client.setTrunks([]);
+}
+
+export function getFqdn(order: string) {
+  const length = 12;
+  let random = 0;
+  do {
+    random = Math.floor(Math.random() * 10 ** length);
+  } while (random < 10 ** (length - 1));
+  return `${order}.${random}.com`;
 }

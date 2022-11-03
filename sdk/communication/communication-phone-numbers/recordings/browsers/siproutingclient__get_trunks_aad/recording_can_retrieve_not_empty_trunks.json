@@ -25,30 +25,17 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:25:07 GMT",
-        "MS-CV": "YQBqp95edEWsh18sEfCT3g.0",
+        "Date": "Thu, 03 Nov 2022 21:09:21 GMT",
+        "MS-CV": "Qy\u002BN0gtUHUuKHSmkOV8buQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "01HkaYwAAAAAcqCtsaNEzRa0YRTG3jWXHUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0AS5kYwAAAAA\u002Bpo0zZhBcTIX2LcIBhSJLUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "178ms"
+        "X-Processing-Time": "69ms"
       },
       "ResponseBody": {
         "trunks": {},
-        "routes": [
-          {
-            "description": "myFirstRoute\u0027s description",
-            "name": "myFirstRoute",
-            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
-            "trunks": []
-          },
-          {
-            "description": "mySecondRoute\u0027s description",
-            "name": "mySecondRoute",
-            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
-            "trunks": []
-          }
-        ]
+        "routes": []
       }
     },
     {
@@ -60,7 +47,7 @@
         "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "132",
+        "Content-Length": "127",
         "Content-Type": "application/merge-patch\u002Bjson",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
@@ -75,13 +62,13 @@
       },
       "RequestBody": {
         "trunks": {
-          "11.fqdn.com": {
+          "first.com": {
             "sipSignalingPort": 1239
           },
-          "22.fqdn.com": {
+          "second.com": {
             "sipSignalingPort": 2348
           },
-          "33.fqdn.com": {
+          "third.com": {
             "sipSignalingPort": 3457
           }
         }
@@ -90,40 +77,27 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:25:08 GMT",
-        "MS-CV": "Vg1NOFDNMUi9bBwFhKDwug.0",
+        "Date": "Thu, 03 Nov 2022 21:09:22 GMT",
+        "MS-CV": "tezewBIGEkarwjWaXTtekw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "01HkaYwAAAAB8lnQJqwOXSo0fC7Xebti1UFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0AS5kYwAAAAAEI\u002BJaWbNUSaFrF\u002BXEe259UFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "530ms"
+        "X-Processing-Time": "763ms"
       },
       "ResponseBody": {
         "trunks": {
-          "11.fqdn.com": {
+          "first.com": {
             "sipSignalingPort": 1239
           },
-          "22.fqdn.com": {
+          "second.com": {
             "sipSignalingPort": 2348
           },
-          "33.fqdn.com": {
+          "third.com": {
             "sipSignalingPort": 3457
           }
         },
-        "routes": [
-          {
-            "description": "myFirstRoute\u0027s description",
-            "name": "myFirstRoute",
-            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
-            "trunks": []
-          },
-          {
-            "description": "mySecondRoute\u0027s description",
-            "name": "mySecondRoute",
-            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
-            "trunks": []
-          }
-        ]
+        "routes": []
       }
     },
     {
@@ -151,40 +125,27 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:25:08 GMT",
-        "MS-CV": "DHR3t49lZk\u002BFHKeDxJvvww.0",
+        "Date": "Thu, 03 Nov 2022 21:09:22 GMT",
+        "MS-CV": "oyfMoFigvUWmu7//1dFI9Q.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "01XkaYwAAAAAg3MpuXZtnQLDKaWmI2vhzUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0Ai5kYwAAAAAiFiwtNu4cQ5iPfYb\u002BAmCKUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "253ms"
+        "X-Processing-Time": "69ms"
       },
       "ResponseBody": {
         "trunks": {
-          "11.fqdn.com": {
+          "first.com": {
             "sipSignalingPort": 1239
           },
-          "22.fqdn.com": {
+          "second.com": {
             "sipSignalingPort": 2348
           },
-          "33.fqdn.com": {
+          "third.com": {
             "sipSignalingPort": 3457
           }
         },
-        "routes": [
-          {
-            "description": "myFirstRoute\u0027s description",
-            "name": "myFirstRoute",
-            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
-            "trunks": []
-          },
-          {
-            "description": "mySecondRoute\u0027s description",
-            "name": "mySecondRoute",
-            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
-            "trunks": []
-          }
-        ]
+        "routes": []
       }
     }
   ],

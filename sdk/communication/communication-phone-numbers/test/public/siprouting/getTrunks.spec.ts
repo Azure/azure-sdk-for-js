@@ -6,15 +6,24 @@ import { Context } from "mocha";
 
 import { SipRoutingClient } from "../../../src";
 
-import { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { SipTrunk } from "../../../src/models";
-import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
+import { clearSipConfiguration, createRecordedClient, createRecordedClientWithToken, getFqdn } from "./utils/recordedClient";
 import { matrix } from "@azure/test-utils";
 
 matrix([[true, false]], async function (useAad) {
   describe(`SipRoutingClient - get trunks${useAad ? " [AAD]" : ""}`, function () {
     let client: SipRoutingClient;
     let recorder: Recorder;
+
+    const firstFqdn = getFqdn("first");
+    const secondFqdn = getFqdn("second");
+    const thirdFqdn = getFqdn("third");
+    const fourthFqdn = getFqdn("fourth");
+
+    before(async function (this: Context) {
+      !isPlaybackMode() && clearSipConfiguration();
+    })
 
     beforeEach(async function (this: Context) {
       ({ client, recorder } = useAad
@@ -38,10 +47,13 @@ matrix([[true, false]], async function (useAad) {
       assert.fail("NotFound expected.");
     });
 
-    it("can retrieve an existing trunk", async () => {
-      await client.setTrunk({ fqdn: "44.fqdn.com", sipSignalingPort: 4567 } as SipTrunk);
+    it("can retrieve an existing trunk", async function (this: Context) {
+      if (isPlaybackMode()) {
+        this.skip();
+      }
+      await client.setTrunk({ fqdn: fourthFqdn, sipSignalingPort: 4567 } as SipTrunk);
 
-      const trunk = await client.getTrunk("44.fqdn.com");
+      const trunk = await client.getTrunk(fourthFqdn);
 
       assert.isNotNull(trunk);
       assert.equal(trunk?.sipSignalingPort, 4567);
@@ -63,9 +75,9 @@ matrix([[true, false]], async function (useAad) {
 
     it("can retrieve not empty trunks", async () => {
       const expectedTrunks = [
-        { fqdn: "11.fqdn.com", sipSignalingPort: 1239 },
-        { fqdn: "22.fqdn.com", sipSignalingPort: 2348 },
-        { fqdn: "33.fqdn.com", sipSignalingPort: 3457 },
+        { fqdn: firstFqdn, sipSignalingPort: 1239 },
+        { fqdn: secondFqdn, sipSignalingPort: 2348 },
+        { fqdn: thirdFqdn, sipSignalingPort: 3457 },
       ];
       await client.setTrunks(expectedTrunks);
 
@@ -73,7 +85,10 @@ matrix([[true, false]], async function (useAad) {
 
       assert.isNotNull(trunks);
       assert.isArray(trunks);
-      assert.deepEqual(trunks, expectedTrunks);
+      assert.equal(expectedTrunks.length, trunks.length);
+      if (!isPlaybackMode()) {
+        assert.deepEqual(trunks, expectedTrunks);
+      }
     });
   });
 });

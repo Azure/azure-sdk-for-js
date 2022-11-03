@@ -21,7 +21,7 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "ODIXdNitMBjpT2PiLFpjCT7IcVv2g5G9Iwu1SjYCZGQ=",
-        "x-ms-date": "Thu, 08 Sep 2022 23:12:38 GMT",
+        "x-ms-date": "Thu, 03 Nov 2022 21:10:05 GMT",
         "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
       },
       "RequestBody": {
@@ -36,11 +36,11 @@
       "StatusCode": 422,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Thu, 08 Sep 2022 23:12:38 GMT",
-        "MS-CV": "tTFjkeRT\u002BkKKvmTmm0Hfqg.0",
+        "Date": "Thu, 03 Nov 2022 21:10:04 GMT",
+        "MS-CV": "8Xpx2D2tgESed4Y5dYZmFQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "053YaYwAAAADBh0ejgWQhR5JkmAdFqiYRUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0LC5kYwAAAADHGisfS4LkSJdjxaEqsh91UFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Processing-Time": "26ms"
       },
@@ -74,7 +74,7 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Thu, 08 Sep 2022 23:12:38 GMT",
+        "x-ms-date": "Thu, 03 Nov 2022 21:10:05 GMT",
         "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
       },
       "RequestBody": null,
@@ -82,23 +82,16 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:12:38 GMT",
-        "MS-CV": "oHmHIfEFpEKdFRGQKjHOGQ.0",
+        "Date": "Thu, 03 Nov 2022 21:10:04 GMT",
+        "MS-CV": "bzZoMN9QdU\u002BcgJler10aow.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "053YaYwAAAAA4xzXYIohzQJ2Gj7aO8wCqUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0LC5kYwAAAACctUAVIz2BR7ReYOcdXMtaUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "182ms"
+        "X-Processing-Time": "64ms"
       },
       "ResponseBody": {
-        "trunks": {
-          "111.fqdn.com": {
-            "sipSignalingPort": 5678
-          },
-          "222.fqdn.com": {
-            "sipSignalingPort": 7348
-          }
-        },
+        "trunks": {},
         "routes": []
       }
     }
