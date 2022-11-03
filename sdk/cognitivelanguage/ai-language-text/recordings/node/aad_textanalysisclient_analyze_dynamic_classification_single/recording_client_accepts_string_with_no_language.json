@@ -1,0 +1,112 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-10-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "569",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "c6ee61cd-9e3e-4f26-a8b4-8b4479e7b78f"
+      },
+      "RequestBody": {
+        "kind": "DynamicClassification",
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "1",
+              "text": "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!"
+            },
+            {
+              "id": "2",
+              "text": "Unfortunately, it rained during my entire trip to Seattle. I didn\u0027t even get to visit the Space Needle"
+            },
+            {
+              "id": "3",
+              "text": "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected."
+            },
+            {
+              "id": "4",
+              "text": "I didn\u0027t like the last book I read at all."
+            }
+          ]
+        },
+        "parameters": {
+          "classificationType": "single",
+          "categories": [
+            "Travel",
+            "Weather",
+            "Location"
+          ]
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "e7c01d48-fdb8-4d85-bca8-185e3c5eacca",
+        "Content-Length": "475",
+        "Content-Type": "application/json; charset=utf-8",
+        "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=0,CognitiveServices.TextAnalytics.TextRecords=4",
+        "Date": "Tue, 01 Nov 2022 22:52:31 GMT",
+        "Set-Cookie": ".AspNetCore.Mvc.CookieTempDataProvider=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; samesite=lax; httponly",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "722",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "kind": "DynamicClassificationResults",
+        "results": {
+          "documents": [
+            {
+              "id": "1",
+              "classifications": [
+                {
+                  "category": "Travel",
+                  "confidenceScore": 0.84
+                }
+              ],
+              "warnings": []
+            },
+            {
+              "id": "2",
+              "classifications": [
+                {
+                  "category": "Travel",
+                  "confidenceScore": 0.46
+                }
+              ],
+              "warnings": []
+            },
+            {
+              "id": "3",
+              "classifications": [
+                {
+                  "category": "Location",
+                  "confidenceScore": 0.39
+                }
+              ],
+              "warnings": []
+            },
+            {
+              "id": "4",
+              "classifications": [
+                {
+                  "category": "Weather",
+                  "confidenceScore": 0.4
+                }
+              ],
+              "warnings": []
+            }
+          ],
+          "errors": [],
+          "modelVersion": "2022-10-01-preview"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

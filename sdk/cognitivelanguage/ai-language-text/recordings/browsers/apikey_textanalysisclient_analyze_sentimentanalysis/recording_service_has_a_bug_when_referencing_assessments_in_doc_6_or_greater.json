@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-10-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -19,8 +19,8 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "35d512ea-e63e-410f-94d5-3a2fbca30b51",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
+        "x-ms-client-request-id": "9ec3248e-8eaa-4274-93ad-839cfe7ee86f",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": {
         "kind": "SentimentAnalysis",
@@ -69,16 +69,16 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "a70860b2-9b3d-4502-93c6-6578b26e31c2",
+        "apim-request-id": "4a0bb557-ded9-4e48-b1a3-bffc43ed9dbb",
         "Content-Length": "7828",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=7,CognitiveServices.TextAnalytics.TextRecords=7",
-        "Date": "Mon, 24 Oct 2022 05:17:14 GMT",
+        "Date": "Tue, 01 Nov 2022 23:34:27 GMT",
         "Set-Cookie": ".AspNetCore.Mvc.CookieTempDataProvider=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; samesite=lax; httponly",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "41",
-        "x-ms-region": "West US 2"
+        "x-envoy-upstream-service-time": "32",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
         "kind": "SentimentAnalysisResults",
