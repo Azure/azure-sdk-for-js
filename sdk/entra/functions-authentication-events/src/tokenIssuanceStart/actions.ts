@@ -14,7 +14,7 @@ export interface ProvideClaimsForToken extends TokenIssuanceStartAction {
   /** Helper constructor to easily add claims to the action. */
 }
 
-/**Helper function to create a provider claims for token */
+/** Helper function to create a provider claims for token */
 export function createProvideClaimsForToken(claims: TokenClaim): ProvideClaimsForToken {
   return {
     actionType: "microsoft.graph.ProvideClaimsForToken",

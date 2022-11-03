@@ -116,10 +116,7 @@ export interface ProvideClaimsForToken extends TokenIssuanceStartAction {
 export type RequestStatus = "Failed" | "TokenInvalid" | "Successful";
 
 // @public
-export interface TokenClaim {
-    // (undocumented)
-    [key: string]: string | string[];
-}
+export type TokenClaim = Record<string, string | string[]>;
 
 // @public
 export interface TokenIssuanceStartAction extends AuthenticationEventAction {
