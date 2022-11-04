@@ -499,54 +499,28 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
-/** The current status of an async operation */
-export interface OperationStatus {
-  /**
-   * Fully qualified ID for the operation status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The operation id name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Provisioning state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: string;
-  /**
-   * The id of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceId?: string;
-  /**
-   * The start time of the operation
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startTime?: Date;
-  /**
-   * The end time of the operation
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endTime?: Date;
-  /**
-   * Percent of the operation that is complete
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly percentComplete?: number;
-  /**
-   * Custom operation properties, populated only for a successful operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly properties?: Record<string, unknown>;
-  /** Operation Error message */
-  error?: OperationStatusError;
+/** The current status of an async operation. */
+export interface OperationStatusResult {
+  /** Fully qualified ID for the async operation. */
+  id?: string;
+  /** Name of the async operation. */
+  name?: string;
+  /** Operation status. */
+  status: string;
+  /** Percent of the operation that is complete. */
+  percentComplete?: number;
+  /** The start time of the operation. */
+  startTime?: Date;
+  /** The end time of the operation. */
+  endTime?: Date;
+  /** The operations list. */
+  operations?: OperationStatusResult[];
+  /** If present, details of the operation error. */
+  error?: ErrorDetail;
 }
 
-/** Operation Error message */
-export interface OperationStatusError {
+/** The error detail. */
+export interface ErrorDetail {
   /**
    * The error code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -557,6 +531,35 @@ export interface OperationStatusError {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
 }
 
 /** List of Core Usages. */
@@ -816,6 +819,11 @@ export interface Catalog extends Resource {
    */
   readonly provisioningState?: string;
   /**
+   * The synchronization state of the catalog.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly syncState?: CatalogSyncState;
+  /**
    * When the catalog was last synced.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -984,6 +992,11 @@ export interface CatalogProperties extends CatalogUpdateProperties {
    */
   readonly provisioningState?: string;
   /**
+   * The synchronization state of the catalog.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly syncState?: CatalogSyncState;
+  /**
    * When the catalog was last synced.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -1042,6 +1055,20 @@ export interface DevCenterSku extends Sku {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly capabilities?: Capability[];
+}
+
+/** The current status of an async operation */
+export interface OperationStatus extends OperationStatusResult {
+  /**
+   * The id of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceId?: string;
+  /**
+   * Custom operation properties, populated only for a successful operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: Record<string, unknown>;
 }
 
 /** Properties of a Pool */
@@ -1337,6 +1364,30 @@ export enum KnownDomainJoinType {
  * **AzureADJoin**
  */
 export type DomainJoinType = string;
+
+/** Known values of {@link CatalogSyncState} that the service accepts. */
+export enum KnownCatalogSyncState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for CatalogSyncState. \
+ * {@link KnownCatalogSyncState} can be used interchangeably with CatalogSyncState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **InProgress** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type CatalogSyncState = string;
 
 /** Known values of {@link EnableStatus} that the service accepts. */
 export enum KnownEnableStatus {
@@ -2278,6 +2329,9 @@ export interface SchedulesUpdateOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the update operation. */
+export type SchedulesUpdateResponse = Schedule;
 
 /** Optional parameters. */
 export interface SchedulesDeleteOptionalParams
