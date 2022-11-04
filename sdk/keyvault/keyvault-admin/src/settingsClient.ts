@@ -115,7 +115,7 @@ export class KeyVaultSettingsClient {
   }
 
   /**
-   * List the acccount's settings.
+   * List the account's settings.
    *
    * @param options - the optional parameters.
    */
