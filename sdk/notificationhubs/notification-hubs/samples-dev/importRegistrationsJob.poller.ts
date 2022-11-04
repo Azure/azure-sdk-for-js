@@ -14,9 +14,8 @@
  */
 
 import * as dotenv from "dotenv";
-import { NotificationHubJob } from "@azure/notification-hubs/models/notificationHubJob";
-import { beginSubmitNotificationHubJob } from "@azure/notification-hubs/client/beginSubmitNotificationHubJob";
-import { createClientContext } from "@azure/notification-hubs/client";
+import { beginSubmitNotificationHubJob, createClientContext } from "@azure/notification-hubs/api";
+import { NotificationHubJob } from "@azure/notification-hubs/models";
 
 // Load the .env file if it exists
 dotenv.config();

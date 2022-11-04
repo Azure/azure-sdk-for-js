@@ -24613,6 +24613,12 @@ export const ScriptActivity: coreClient.CompositeMapper = {
     polymorphicDiscriminator: ExecutionActivity.type.polymorphicDiscriminator,
     modelProperties: {
       ...ExecutionActivity.type.modelProperties,
+      scriptBlockExecutionTimeout: {
+        serializedName: "typeProperties.scriptBlockExecutionTimeout",
+        type: {
+          name: "any"
+        }
+      },
       scripts: {
         serializedName: "typeProperties.scripts",
         type: {
