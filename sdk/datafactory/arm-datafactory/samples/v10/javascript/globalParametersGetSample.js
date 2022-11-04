@@ -12,33 +12,24 @@ const { DataFactoryManagementClient } = require("@azure/arm-datafactory");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Creates a run of a pipeline.
+ * This sample demonstrates how to Gets a Global parameter
  *
- * @summary Creates a run of a pipeline.
- * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Pipelines_CreateRun.json
+ * @summary Gets a Global parameter
+ * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/GlobalParameters_Get.json
  */
-async function pipelinesCreateRun() {
+async function globalParametersGet() {
   const subscriptionId = "12345678-1234-1234-1234-12345678abc";
   const resourceGroupName = "exampleResourceGroup";
   const factoryName = "exampleFactoryName";
-  const pipelineName = "examplePipeline";
-  const referencePipelineRunId = undefined;
-  const parameters = {
-    outputBlobNameList: { string: ["exampleoutput.csv"] },
-  };
-  const options = {
-    referencePipelineRunId,
-    parameters,
-  };
+  const globalParameterName = "default";
   const credential = new DefaultAzureCredential();
   const client = new DataFactoryManagementClient(credential, subscriptionId);
-  const result = await client.pipelines.createRun(
+  const result = await client.globalParameters.get(
     resourceGroupName,
     factoryName,
-    pipelineName,
-    options
+    globalParameterName
   );
   console.log(result);
 }
 
-pipelinesCreateRun().catch(console.error);
+globalParametersGet().catch(console.error);

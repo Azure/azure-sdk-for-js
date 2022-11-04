@@ -8,8 +8,11 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { DataFactoryManagementClient } = require("@azure/arm-datafactory");
-const { DefaultAzureCredential } = require("@azure/identity");
+import {
+  DataFlowDebugPackage,
+  DataFactoryManagementClient
+} from "@azure/arm-datafactory";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to Add a data flow into debug session.
@@ -21,7 +24,7 @@ async function dataFlowDebugSessionAddDataFlow() {
   const subscriptionId = "12345678-1234-1234-1234-12345678abc";
   const resourceGroupName = "exampleResourceGroup";
   const factoryName = "exampleFactoryName";
-  const request = {
+  const request: DataFlowDebugPackage = {
     dataFlow: {
       name: "dataflow1",
       properties: {
@@ -34,43 +37,43 @@ async function dataFlowDebugSessionAddDataFlow() {
             name: "source1",
             dataset: {
               type: "DatasetReference",
-              referenceName: "DelimitedText2",
-            },
-          },
+              referenceName: "DelimitedText2"
+            }
+          }
         ],
-        transformations: [],
-      },
+        transformations: []
+      }
     },
     datasets: [
       {
         name: "dataset1",
         properties: {
           type: "DelimitedText",
-          schema: { type: "String" },
+          schema: [{ type: "String" }],
           annotations: [],
           columnDelimiter: ",",
           escapeChar: "\\",
           firstRowAsHeader: true,
           linkedServiceName: {
             type: "LinkedServiceReference",
-            referenceName: "linkedService5",
+            referenceName: "linkedService5"
           },
           location: {
             type: "AzureBlobStorageLocation",
             container: "dataflow-sample-data",
-            fileName: "Ansiencoding.csv",
+            fileName: "Ansiencoding.csv"
           },
-          quoteChar: '"',
-        },
-      },
+          quoteChar: '"'
+        }
+      }
     ],
     debugSettings: {
       datasetParameters: { Movies: { path: "abc" }, Output: { time: "def" } },
-      parameters: { sourcePath: { string: "Toy" } },
+      parameters: { sourcePath: "Toy" },
       sourceSettings: [
         { rowLimit: 1000, sourceName: "source1" },
-        { rowLimit: 222, sourceName: "source2" },
-      ],
+        { rowLimit: 222, sourceName: "source2" }
+      ]
     },
     linkedServices: [
       {
@@ -80,11 +83,11 @@ async function dataFlowDebugSessionAddDataFlow() {
           annotations: [],
           connectionString:
             "DefaultEndpointsProtocol=https;AccountName=<storageName>;EndpointSuffix=core.windows.net;",
-          encryptedCredential: "<credential>",
-        },
-      },
+          encryptedCredential: "<credential>"
+        }
+      }
     ],
-    sessionId: "f06ed247-9d07-49b2-b05e-2cb4a2fc871e",
+    sessionId: "f06ed247-9d07-49b2-b05e-2cb4a2fc871e"
   };
   const credential = new DefaultAzureCredential();
   const client = new DataFactoryManagementClient(credential, subscriptionId);

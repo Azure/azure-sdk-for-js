@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  PipelinesCreateRunOptionalParams,
-  DataFactoryManagementClient
-} from "@azure/arm-datafactory";
-import { DefaultAzureCredential } from "@azure/identity";
+const { DataFactoryManagementClient } = require("@azure/arm-datafactory");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Creates a run of a pipeline.
@@ -26,12 +23,12 @@ async function pipelinesCreateRun() {
   const factoryName = "exampleFactoryName";
   const pipelineName = "examplePipeline";
   const referencePipelineRunId = undefined;
-  const parameters: { [propertyName: string]: any } = {
-    outputBlobNameList: ["exampleoutput.csv"]
+  const parameters = {
+    outputBlobNameList: ["exampleoutput.csv"],
   };
-  const options: PipelinesCreateRunOptionalParams = {
+  const options = {
     referencePipelineRunId,
-    parameters
+    parameters,
   };
   const credential = new DefaultAzureCredential();
   const client = new DataFactoryManagementClient(credential, subscriptionId);

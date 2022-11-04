@@ -39,7 +39,8 @@ import {
   DataFlowDebugCommandRequest as DataFlowDebugCommandRequestMapper,
   ManagedVirtualNetworkResource as ManagedVirtualNetworkResourceMapper,
   ManagedPrivateEndpointResource as ManagedPrivateEndpointResourceMapper,
-  PrivateLinkConnectionApprovalRequestResource as PrivateLinkConnectionApprovalRequestResourceMapper
+  PrivateLinkConnectionApprovalRequestResource as PrivateLinkConnectionApprovalRequestResourceMapper,
+  GlobalParameterResource as GlobalParameterResourceMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -347,7 +348,7 @@ export const parameters: OperationParameter = {
     serializedName: "parameters",
     type: {
       name: "Dictionary",
-      value: { type: { name: "Dictionary", value: { type: { name: "any" } } } }
+      value: { type: { name: "any" } }
     }
   }
 };
@@ -545,4 +546,25 @@ export const privateEndpointConnectionName: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const globalParameterName: OperationURLParameter = {
+  parameterPath: "globalParameterName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9_][^<>*#.%&:\\\\+?/]*$"),
+      MaxLength: 260,
+      MinLength: 1
+    },
+    serializedName: "globalParameterName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const defaultParam: OperationParameter = {
+  parameterPath: "defaultParam",
+  mapper: GlobalParameterResourceMapper
 };

@@ -24,6 +24,9 @@ async function approvesOrRejectsAPrivateEndpointConnectionForAFactory() {
   const privateEndpointConnectionName = "connection";
   const privateEndpointWrapper = {
     properties: {
+      privateEndpoint: {
+        id: "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/privateEndpoints/myPrivateEndpoint",
+      },
       privateLinkServiceConnectionState: {
         description: "Approved by admin.",
         actionsRequired: "",

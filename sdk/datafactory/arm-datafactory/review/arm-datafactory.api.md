@@ -23,7 +23,7 @@ export interface Activity {
     dependsOn?: ActivityDependency[];
     description?: string;
     name: string;
-    type: "Container" | "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "ExecutePipeline" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "IfCondition" | "Switch" | "ForEach" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "Wait" | "Until" | "Validation" | "Filter" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "SetVariable" | "AppendVariable" | "AzureFunctionActivity" | "WebHook" | "ExecuteDataFlow" | "ExecuteWranglingDataflow";
+    type: "Container" | "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "ExecutePipeline" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "IfCondition" | "Switch" | "ForEach" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "Wait" | "Fail" | "Until" | "Validation" | "Filter" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "SetVariable" | "AppendVariable" | "AzureFunctionActivity" | "WebHook" | "ExecuteDataFlow" | "ExecuteWranglingDataflow" | "Script" | "SynapseNotebook" | "SparkJob";
     userProperties?: UserProperty[];
 }
 
@@ -37,11 +37,11 @@ export interface ActivityDependency {
 // @public
 export interface ActivityPolicy {
     [property: string]: any;
-    retry?: Record<string, unknown>;
+    retry?: any;
     retryIntervalInSeconds?: number;
     secureInput?: boolean;
     secureOutput?: boolean;
-    timeout?: Record<string, unknown>;
+    timeout?: any;
 }
 
 // @public
@@ -53,10 +53,10 @@ export interface ActivityRun {
     readonly activityRunStart?: Date;
     readonly activityType?: string;
     readonly durationInMs?: number;
-    readonly error?: Record<string, unknown>;
-    readonly input?: Record<string, unknown>;
+    readonly error?: any;
+    readonly input?: any;
     readonly linkedServiceName?: string;
-    readonly output?: Record<string, unknown>;
+    readonly output?: any;
     readonly pipelineName?: string;
     readonly pipelineRunId?: string;
     readonly status?: string;
@@ -90,41 +90,41 @@ export interface AddDataFlowToDebugSessionResponse {
 
 // @public
 export interface AdditionalColumns {
-    name?: Record<string, unknown>;
-    value?: Record<string, unknown>;
+    name?: any;
+    value?: any;
 }
 
 // @public
 export interface AmazonMWSLinkedService extends LinkedService {
-    accessKeyId: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    endpoint: Record<string, unknown>;
-    marketplaceID: Record<string, unknown>;
+    accessKeyId: any;
+    encryptedCredential?: any;
+    endpoint: any;
+    marketplaceID: any;
     mwsAuthToken?: SecretBaseUnion;
     secretKey?: SecretBaseUnion;
-    sellerID: Record<string, unknown>;
+    sellerID: any;
     type: "AmazonMWS";
-    useEncryptedEndpoints?: Record<string, unknown>;
-    useHostVerification?: Record<string, unknown>;
-    usePeerVerification?: Record<string, unknown>;
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
 }
 
 // @public
 export interface AmazonMWSObjectDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "AmazonMWSObject";
 }
 
 // @public
 export interface AmazonMWSSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "AmazonMWSSource";
 }
 
 // @public
 export interface AmazonRdsForOracleLinkedService extends LinkedService {
-    connectionString: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    connectionString: any;
+    encryptedCredential?: any;
     password?: SecretBaseUnion;
     type: "AmazonRdsForOracle";
 }
@@ -134,168 +134,174 @@ export type AmazonRdsForOraclePartitionOption = string;
 
 // @public
 export interface AmazonRdsForOraclePartitionSettings {
-    partitionColumnName?: Record<string, unknown>;
-    partitionLowerBound?: Record<string, unknown>;
-    partitionNames?: Record<string, unknown>;
-    partitionUpperBound?: Record<string, unknown>;
+    partitionColumnName?: any;
+    partitionLowerBound?: any;
+    partitionNames?: any;
+    partitionUpperBound?: any;
 }
 
 // @public
 export interface AmazonRdsForOracleSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
-    oracleReaderQuery?: Record<string, unknown>;
-    partitionOption?: Record<string, unknown>;
+    additionalColumns?: any;
+    oracleReaderQuery?: any;
+    partitionOption?: any;
     partitionSettings?: AmazonRdsForOraclePartitionSettings;
-    queryTimeout?: Record<string, unknown>;
+    queryTimeout?: any;
     type: "AmazonRdsForOracleSource";
 }
 
 // @public
 export interface AmazonRdsForOracleTableDataset extends Dataset {
-    schemaTypePropertiesSchema?: Record<string, unknown>;
-    table?: Record<string, unknown>;
+    schemaTypePropertiesSchema?: any;
+    table?: any;
     type: "AmazonRdsForOracleTable";
 }
 
 // @public
 export interface AmazonRdsForSqlServerLinkedService extends LinkedService {
     alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
-    connectionString: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    connectionString: any;
+    encryptedCredential?: any;
     password?: SecretBaseUnion;
     type: "AmazonRdsForSqlServer";
-    userName?: Record<string, unknown>;
+    userName?: any;
 }
 
 // @public
 export interface AmazonRdsForSqlServerSource extends TabularSource {
-    partitionOption?: Record<string, unknown>;
+    partitionOption?: any;
     partitionSettings?: SqlPartitionSettings;
-    produceAdditionalTypes?: Record<string, unknown>;
-    sqlReaderQuery?: Record<string, unknown>;
-    sqlReaderStoredProcedureName?: Record<string, unknown>;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    produceAdditionalTypes?: any;
+    sqlReaderQuery?: any;
+    sqlReaderStoredProcedureName?: any;
+    storedProcedureParameters?: any;
     type: "AmazonRdsForSqlServerSource";
 }
 
 // @public
 export interface AmazonRdsForSqlServerTableDataset extends Dataset {
-    schemaTypePropertiesSchema?: Record<string, unknown>;
-    table?: Record<string, unknown>;
+    schemaTypePropertiesSchema?: any;
+    table?: any;
     type: "AmazonRdsForSqlServerTable";
 }
 
 // @public
 export interface AmazonRedshiftLinkedService extends LinkedService {
-    database: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    database: any;
+    encryptedCredential?: any;
     password?: SecretBaseUnion;
-    port?: Record<string, unknown>;
-    server: Record<string, unknown>;
+    port?: any;
+    server: any;
     type: "AmazonRedshift";
-    username?: Record<string, unknown>;
+    username?: any;
 }
 
 // @public
 export interface AmazonRedshiftSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     redshiftUnloadSettings?: RedshiftUnloadSettings;
     type: "AmazonRedshiftSource";
 }
 
 // @public
 export interface AmazonRedshiftTableDataset extends Dataset {
-    schemaTypePropertiesSchema?: Record<string, unknown>;
-    table?: Record<string, unknown>;
-    tableName?: Record<string, unknown>;
+    schemaTypePropertiesSchema?: any;
+    table?: any;
+    tableName?: any;
     type: "AmazonRedshiftTable";
 }
 
 // @public
 export interface AmazonS3CompatibleLinkedService extends LinkedService {
-    accessKeyId?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    forcePathStyle?: Record<string, unknown>;
+    accessKeyId?: any;
+    encryptedCredential?: any;
+    forcePathStyle?: any;
     secretAccessKey?: SecretBaseUnion;
-    serviceUrl?: Record<string, unknown>;
+    serviceUrl?: any;
     type: "AmazonS3Compatible";
 }
 
 // @public
 export interface AmazonS3CompatibleLocation extends DatasetLocation {
-    bucketName?: Record<string, unknown>;
+    bucketName?: any;
     type: "AmazonS3CompatibleLocation";
-    version?: Record<string, unknown>;
+    version?: any;
 }
 
 // @public
 export interface AmazonS3CompatibleReadSettings extends StoreReadSettings {
-    deleteFilesAfterCompletion?: Record<string, unknown>;
+    deleteFilesAfterCompletion?: any;
     enablePartitionDiscovery?: boolean;
-    fileListPath?: Record<string, unknown>;
-    modifiedDatetimeEnd?: Record<string, unknown>;
-    modifiedDatetimeStart?: Record<string, unknown>;
-    partitionRootPath?: Record<string, unknown>;
-    prefix?: Record<string, unknown>;
-    recursive?: Record<string, unknown>;
+    fileListPath?: any;
+    modifiedDatetimeEnd?: any;
+    modifiedDatetimeStart?: any;
+    partitionRootPath?: any;
+    prefix?: any;
+    recursive?: any;
     type: "AmazonS3CompatibleReadSettings";
-    wildcardFileName?: Record<string, unknown>;
-    wildcardFolderPath?: Record<string, unknown>;
+    wildcardFileName?: any;
+    wildcardFolderPath?: any;
 }
 
 // @public
 export interface AmazonS3Dataset extends Dataset {
-    bucketName: Record<string, unknown>;
+    bucketName: any;
     compression?: DatasetCompression;
     format?: DatasetStorageFormatUnion;
-    key?: Record<string, unknown>;
-    modifiedDatetimeEnd?: Record<string, unknown>;
-    modifiedDatetimeStart?: Record<string, unknown>;
-    prefix?: Record<string, unknown>;
+    key?: any;
+    modifiedDatetimeEnd?: any;
+    modifiedDatetimeStart?: any;
+    prefix?: any;
     type: "AmazonS3Object";
-    version?: Record<string, unknown>;
+    version?: any;
 }
 
 // @public
 export interface AmazonS3LinkedService extends LinkedService {
-    accessKeyId?: Record<string, unknown>;
-    authenticationType?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    accessKeyId?: any;
+    authenticationType?: any;
+    encryptedCredential?: any;
     secretAccessKey?: SecretBaseUnion;
-    serviceUrl?: Record<string, unknown>;
+    serviceUrl?: any;
     sessionToken?: SecretBaseUnion;
     type: "AmazonS3";
 }
 
 // @public
 export interface AmazonS3Location extends DatasetLocation {
-    bucketName?: Record<string, unknown>;
+    bucketName?: any;
     type: "AmazonS3Location";
-    version?: Record<string, unknown>;
+    version?: any;
 }
 
 // @public
 export interface AmazonS3ReadSettings extends StoreReadSettings {
-    deleteFilesAfterCompletion?: Record<string, unknown>;
+    deleteFilesAfterCompletion?: any;
     enablePartitionDiscovery?: boolean;
-    fileListPath?: Record<string, unknown>;
-    modifiedDatetimeEnd?: Record<string, unknown>;
-    modifiedDatetimeStart?: Record<string, unknown>;
-    partitionRootPath?: Record<string, unknown>;
-    prefix?: Record<string, unknown>;
-    recursive?: Record<string, unknown>;
+    fileListPath?: any;
+    modifiedDatetimeEnd?: any;
+    modifiedDatetimeStart?: any;
+    partitionRootPath?: any;
+    prefix?: any;
+    recursive?: any;
     type: "AmazonS3ReadSettings";
-    wildcardFileName?: Record<string, unknown>;
-    wildcardFolderPath?: Record<string, unknown>;
+    wildcardFileName?: any;
+    wildcardFolderPath?: any;
 }
 
 // @public
 export interface AppendVariableActivity extends ControlActivity {
     type: "AppendVariable";
-    value?: Record<string, unknown>;
+    value?: any;
     variableName?: string;
+}
+
+// @public
+export interface AppFiguresLinkedService extends LinkedService {
+    clientKey: SecretBaseUnion;
+    password: SecretBaseUnion;
+    type: "AppFigures";
+    userName: any;
 }
 
 // @public
@@ -304,11 +310,18 @@ export interface ArmIdWrapper {
 }
 
 // @public
+export interface AsanaLinkedService extends LinkedService {
+    apiToken: SecretBaseUnion;
+    encryptedCredential?: any;
+    type: "Asana";
+}
+
+// @public
 export type AvroCompressionCodec = string;
 
 // @public
 export interface AvroDataset extends Dataset {
-    avroCompressionCodec?: Record<string, unknown>;
+    avroCompressionCodec?: any;
     // (undocumented)
     avroCompressionLevel?: number;
     location?: DatasetLocationUnion;
@@ -329,15 +342,15 @@ export interface AvroSink extends CopySink {
 
 // @public
 export interface AvroSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
+    additionalColumns?: any;
     storeSettings?: StoreReadSettingsUnion;
     type: "AvroSource";
 }
 
 // @public
 export interface AvroWriteSettings extends FormatWriteSettings {
-    fileNamePrefix?: Record<string, unknown>;
-    maxRowsPerFile?: Record<string, unknown>;
+    fileNamePrefix?: any;
+    maxRowsPerFile?: any;
     recordName?: string;
     recordNamespace?: string;
     type: "AvroWriteSettings";
@@ -352,87 +365,89 @@ export interface AzPowerShellSetup extends CustomSetupBase {
 // @public
 export interface AzureBatchLinkedService extends LinkedService {
     accessKey?: SecretBaseUnion;
-    accountName: Record<string, unknown>;
-    batchUri: Record<string, unknown>;
+    accountName: any;
+    batchUri: any;
     credential?: CredentialReference;
-    encryptedCredential?: Record<string, unknown>;
+    encryptedCredential?: any;
     linkedServiceName: LinkedServiceReference;
-    poolName: Record<string, unknown>;
+    poolName: any;
     type: "AzureBatch";
 }
 
 // @public
 export interface AzureBlobDataset extends Dataset {
     compression?: DatasetCompression;
-    fileName?: Record<string, unknown>;
-    folderPath?: Record<string, unknown>;
+    fileName?: any;
+    folderPath?: any;
     format?: DatasetStorageFormatUnion;
-    modifiedDatetimeEnd?: Record<string, unknown>;
-    modifiedDatetimeStart?: Record<string, unknown>;
-    tableRootLocation?: Record<string, unknown>;
+    modifiedDatetimeEnd?: any;
+    modifiedDatetimeStart?: any;
+    tableRootLocation?: any;
     type: "AzureBlob";
 }
 
 // @public
 export interface AzureBlobFSDataset extends Dataset {
     compression?: DatasetCompression;
-    fileName?: Record<string, unknown>;
-    folderPath?: Record<string, unknown>;
+    fileName?: any;
+    folderPath?: any;
     format?: DatasetStorageFormatUnion;
     type: "AzureBlobFSFile";
 }
 
 // @public
 export interface AzureBlobFSLinkedService extends LinkedService {
-    accountKey?: Record<string, unknown>;
-    azureCloudType?: Record<string, unknown>;
+    accountKey?: any;
+    azureCloudType?: any;
     credential?: CredentialReference;
-    encryptedCredential?: Record<string, unknown>;
-    servicePrincipalId?: Record<string, unknown>;
+    encryptedCredential?: any;
+    servicePrincipalCredential?: SecretBaseUnion;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
-    tenant?: Record<string, unknown>;
+    tenant?: any;
     type: "AzureBlobFS";
-    url: Record<string, unknown>;
+    url: any;
 }
 
 // @public
 export interface AzureBlobFSLocation extends DatasetLocation {
-    fileSystem?: Record<string, unknown>;
+    fileSystem?: any;
     type: "AzureBlobFSLocation";
 }
 
 // @public
 export interface AzureBlobFSReadSettings extends StoreReadSettings {
-    deleteFilesAfterCompletion?: Record<string, unknown>;
+    deleteFilesAfterCompletion?: any;
     enablePartitionDiscovery?: boolean;
-    fileListPath?: Record<string, unknown>;
-    modifiedDatetimeEnd?: Record<string, unknown>;
-    modifiedDatetimeStart?: Record<string, unknown>;
-    partitionRootPath?: Record<string, unknown>;
-    recursive?: Record<string, unknown>;
+    fileListPath?: any;
+    modifiedDatetimeEnd?: any;
+    modifiedDatetimeStart?: any;
+    partitionRootPath?: any;
+    recursive?: any;
     type: "AzureBlobFSReadSettings";
-    wildcardFileName?: Record<string, unknown>;
-    wildcardFolderPath?: Record<string, unknown>;
+    wildcardFileName?: any;
+    wildcardFolderPath?: any;
 }
 
 // @public
 export interface AzureBlobFSSink extends CopySink {
-    copyBehavior?: Record<string, unknown>;
+    copyBehavior?: any;
     metadata?: MetadataItem[];
     type: "AzureBlobFSSink";
 }
 
 // @public
 export interface AzureBlobFSSource extends CopySource {
-    recursive?: Record<string, unknown>;
-    skipHeaderLineCount?: Record<string, unknown>;
-    treatEmptyAsNull?: Record<string, unknown>;
+    recursive?: any;
+    skipHeaderLineCount?: any;
+    treatEmptyAsNull?: any;
     type: "AzureBlobFSSource";
 }
 
 // @public
 export interface AzureBlobFSWriteSettings extends StoreWriteSettings {
-    blockSizeInMB?: Record<string, unknown>;
+    blockSizeInMB?: any;
     type: "AzureBlobFSWriteSettings";
 }
 
@@ -440,195 +455,197 @@ export interface AzureBlobFSWriteSettings extends StoreWriteSettings {
 export interface AzureBlobStorageLinkedService extends LinkedService {
     accountKey?: AzureKeyVaultSecretReference;
     accountKind?: string;
-    azureCloudType?: Record<string, unknown>;
-    connectionString?: Record<string, unknown>;
+    azureCloudType?: any;
+    connectionString?: any;
     credential?: CredentialReference;
     encryptedCredential?: string;
     sasToken?: AzureKeyVaultSecretReference;
-    sasUri?: Record<string, unknown>;
+    sasUri?: any;
     serviceEndpoint?: string;
-    servicePrincipalId?: Record<string, unknown>;
+    servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
-    tenant?: Record<string, unknown>;
+    tenant?: any;
     type: "AzureBlobStorage";
 }
 
 // @public
 export interface AzureBlobStorageLocation extends DatasetLocation {
-    container?: Record<string, unknown>;
+    container?: any;
     type: "AzureBlobStorageLocation";
 }
 
 // @public
 export interface AzureBlobStorageReadSettings extends StoreReadSettings {
-    deleteFilesAfterCompletion?: Record<string, unknown>;
+    deleteFilesAfterCompletion?: any;
     enablePartitionDiscovery?: boolean;
-    fileListPath?: Record<string, unknown>;
-    modifiedDatetimeEnd?: Record<string, unknown>;
-    modifiedDatetimeStart?: Record<string, unknown>;
-    partitionRootPath?: Record<string, unknown>;
-    prefix?: Record<string, unknown>;
-    recursive?: Record<string, unknown>;
+    fileListPath?: any;
+    modifiedDatetimeEnd?: any;
+    modifiedDatetimeStart?: any;
+    partitionRootPath?: any;
+    prefix?: any;
+    recursive?: any;
     type: "AzureBlobStorageReadSettings";
-    wildcardFileName?: Record<string, unknown>;
-    wildcardFolderPath?: Record<string, unknown>;
+    wildcardFileName?: any;
+    wildcardFolderPath?: any;
 }
 
 // @public
 export interface AzureBlobStorageWriteSettings extends StoreWriteSettings {
-    blockSizeInMB?: Record<string, unknown>;
+    blockSizeInMB?: any;
     type: "AzureBlobStorageWriteSettings";
 }
 
 // @public
 export interface AzureDatabricksDeltaLakeDataset extends Dataset {
-    database?: Record<string, unknown>;
-    table?: Record<string, unknown>;
+    database?: any;
+    table?: any;
     type: "AzureDatabricksDeltaLakeDataset";
 }
 
 // @public
 export interface AzureDatabricksDeltaLakeExportCommand extends ExportSettings {
-    dateFormat?: Record<string, unknown>;
-    timestampFormat?: Record<string, unknown>;
+    dateFormat?: any;
+    timestampFormat?: any;
     type: "AzureDatabricksDeltaLakeExportCommand";
 }
 
 // @public
 export interface AzureDatabricksDeltaLakeImportCommand extends ImportSettings {
-    dateFormat?: Record<string, unknown>;
-    timestampFormat?: Record<string, unknown>;
+    dateFormat?: any;
+    timestampFormat?: any;
     type: "AzureDatabricksDeltaLakeImportCommand";
 }
 
 // @public
 export interface AzureDatabricksDeltaLakeLinkedService extends LinkedService {
     accessToken?: SecretBaseUnion;
-    clusterId?: Record<string, unknown>;
-    domain: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    clusterId?: any;
+    credential?: CredentialReference;
+    domain: any;
+    encryptedCredential?: any;
     type: "AzureDatabricksDeltaLake";
+    workspaceResourceId?: any;
 }
 
 // @public
 export interface AzureDatabricksDeltaLakeSink extends CopySink {
     importSettings?: AzureDatabricksDeltaLakeImportCommand;
-    preCopyScript?: Record<string, unknown>;
+    preCopyScript?: any;
     type: "AzureDatabricksDeltaLakeSink";
 }
 
 // @public
 export interface AzureDatabricksDeltaLakeSource extends CopySource {
     exportSettings?: AzureDatabricksDeltaLakeExportCommand;
-    query?: Record<string, unknown>;
+    query?: any;
     type: "AzureDatabricksDeltaLakeSource";
 }
 
 // @public
 export interface AzureDatabricksLinkedService extends LinkedService {
     accessToken?: SecretBaseUnion;
-    authentication?: Record<string, unknown>;
+    authentication?: any;
     credential?: CredentialReference;
-    domain: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    existingClusterId?: Record<string, unknown>;
-    instancePoolId?: Record<string, unknown>;
+    domain: any;
+    encryptedCredential?: any;
+    existingClusterId?: any;
+    instancePoolId?: any;
     newClusterCustomTags?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
-    newClusterDriverNodeType?: Record<string, unknown>;
-    newClusterEnableElasticDisk?: Record<string, unknown>;
-    newClusterInitScripts?: Record<string, unknown>;
-    newClusterLogDestination?: Record<string, unknown>;
-    newClusterNodeType?: Record<string, unknown>;
-    newClusterNumOfWorker?: Record<string, unknown>;
+    newClusterDriverNodeType?: any;
+    newClusterEnableElasticDisk?: any;
+    newClusterInitScripts?: any;
+    newClusterLogDestination?: any;
+    newClusterNodeType?: any;
+    newClusterNumOfWorker?: any;
     newClusterSparkConf?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     newClusterSparkEnvVars?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
-    newClusterVersion?: Record<string, unknown>;
-    policyId?: Record<string, unknown>;
+    newClusterVersion?: any;
+    policyId?: any;
     type: "AzureDatabricks";
-    workspaceResourceId?: Record<string, unknown>;
+    workspaceResourceId?: any;
 }
 
 // @public
 export interface AzureDataExplorerCommandActivity extends ExecutionActivity {
-    command: Record<string, unknown>;
-    commandTimeout?: Record<string, unknown>;
+    command: any;
+    commandTimeout?: any;
     type: "AzureDataExplorerCommand";
 }
 
 // @public
 export interface AzureDataExplorerLinkedService extends LinkedService {
     credential?: CredentialReference;
-    database: Record<string, unknown>;
-    endpoint: Record<string, unknown>;
-    servicePrincipalId?: Record<string, unknown>;
+    database: any;
+    endpoint: any;
+    servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
-    tenant?: Record<string, unknown>;
+    tenant?: any;
     type: "AzureDataExplorer";
 }
 
 // @public
 export interface AzureDataExplorerSink extends CopySink {
-    flushImmediately?: Record<string, unknown>;
-    ingestionMappingAsJson?: Record<string, unknown>;
-    ingestionMappingName?: Record<string, unknown>;
+    flushImmediately?: any;
+    ingestionMappingAsJson?: any;
+    ingestionMappingName?: any;
     type: "AzureDataExplorerSink";
 }
 
 // @public
 export interface AzureDataExplorerSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
-    noTruncation?: Record<string, unknown>;
-    query: Record<string, unknown>;
-    queryTimeout?: Record<string, unknown>;
+    additionalColumns?: any;
+    noTruncation?: any;
+    query: any;
+    queryTimeout?: any;
     type: "AzureDataExplorerSource";
 }
 
 // @public
 export interface AzureDataExplorerTableDataset extends Dataset {
-    table?: Record<string, unknown>;
+    table?: any;
     type: "AzureDataExplorerTable";
 }
 
 // @public
 export interface AzureDataLakeAnalyticsLinkedService extends LinkedService {
-    accountName: Record<string, unknown>;
-    dataLakeAnalyticsUri?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    resourceGroupName?: Record<string, unknown>;
-    servicePrincipalId?: Record<string, unknown>;
+    accountName: any;
+    dataLakeAnalyticsUri?: any;
+    encryptedCredential?: any;
+    resourceGroupName?: any;
+    servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
-    subscriptionId?: Record<string, unknown>;
-    tenant: Record<string, unknown>;
+    subscriptionId?: any;
+    tenant: any;
     type: "AzureDataLakeAnalytics";
 }
 
 // @public
 export interface AzureDataLakeStoreDataset extends Dataset {
     compression?: DatasetCompression;
-    fileName?: Record<string, unknown>;
-    folderPath?: Record<string, unknown>;
+    fileName?: any;
+    folderPath?: any;
     format?: DatasetStorageFormatUnion;
     type: "AzureDataLakeStoreFile";
 }
 
 // @public
 export interface AzureDataLakeStoreLinkedService extends LinkedService {
-    accountName?: Record<string, unknown>;
-    azureCloudType?: Record<string, unknown>;
+    accountName?: any;
+    azureCloudType?: any;
     credential?: CredentialReference;
-    dataLakeStoreUri: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    resourceGroupName?: Record<string, unknown>;
-    servicePrincipalId?: Record<string, unknown>;
+    dataLakeStoreUri: any;
+    encryptedCredential?: any;
+    resourceGroupName?: any;
+    servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
-    subscriptionId?: Record<string, unknown>;
-    tenant?: Record<string, unknown>;
+    subscriptionId?: any;
+    tenant?: any;
     type: "AzureDataLakeStore";
 }
 
@@ -639,52 +656,52 @@ export interface AzureDataLakeStoreLocation extends DatasetLocation {
 
 // @public
 export interface AzureDataLakeStoreReadSettings extends StoreReadSettings {
-    deleteFilesAfterCompletion?: Record<string, unknown>;
+    deleteFilesAfterCompletion?: any;
     enablePartitionDiscovery?: boolean;
-    fileListPath?: Record<string, unknown>;
-    listAfter?: Record<string, unknown>;
-    listBefore?: Record<string, unknown>;
-    modifiedDatetimeEnd?: Record<string, unknown>;
-    modifiedDatetimeStart?: Record<string, unknown>;
-    partitionRootPath?: Record<string, unknown>;
-    recursive?: Record<string, unknown>;
+    fileListPath?: any;
+    listAfter?: any;
+    listBefore?: any;
+    modifiedDatetimeEnd?: any;
+    modifiedDatetimeStart?: any;
+    partitionRootPath?: any;
+    recursive?: any;
     type: "AzureDataLakeStoreReadSettings";
-    wildcardFileName?: Record<string, unknown>;
-    wildcardFolderPath?: Record<string, unknown>;
+    wildcardFileName?: any;
+    wildcardFolderPath?: any;
 }
 
 // @public
 export interface AzureDataLakeStoreSink extends CopySink {
-    copyBehavior?: Record<string, unknown>;
-    enableAdlsSingleFileParallel?: Record<string, unknown>;
+    copyBehavior?: any;
+    enableAdlsSingleFileParallel?: any;
     type: "AzureDataLakeStoreSink";
 }
 
 // @public
 export interface AzureDataLakeStoreSource extends CopySource {
-    recursive?: Record<string, unknown>;
+    recursive?: any;
     type: "AzureDataLakeStoreSource";
 }
 
 // @public
 export interface AzureDataLakeStoreWriteSettings extends StoreWriteSettings {
-    expiryDateTime?: Record<string, unknown>;
+    expiryDateTime?: any;
     type: "AzureDataLakeStoreWriteSettings";
 }
 
 // @public
 export interface AzureFileStorageLinkedService extends LinkedService {
     accountKey?: AzureKeyVaultSecretReference;
-    connectionString?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    fileShare?: Record<string, unknown>;
-    host?: Record<string, unknown>;
+    connectionString?: any;
+    encryptedCredential?: any;
+    fileShare?: any;
+    host?: any;
     password?: SecretBaseUnion;
     sasToken?: AzureKeyVaultSecretReference;
-    sasUri?: Record<string, unknown>;
-    snapshot?: Record<string, unknown>;
+    sasUri?: any;
+    snapshot?: any;
     type: "AzureFileStorage";
-    userId?: Record<string, unknown>;
+    userId?: any;
 }
 
 // @public
@@ -694,17 +711,17 @@ export interface AzureFileStorageLocation extends DatasetLocation {
 
 // @public
 export interface AzureFileStorageReadSettings extends StoreReadSettings {
-    deleteFilesAfterCompletion?: Record<string, unknown>;
+    deleteFilesAfterCompletion?: any;
     enablePartitionDiscovery?: boolean;
-    fileListPath?: Record<string, unknown>;
-    modifiedDatetimeEnd?: Record<string, unknown>;
-    modifiedDatetimeStart?: Record<string, unknown>;
-    partitionRootPath?: Record<string, unknown>;
-    prefix?: Record<string, unknown>;
-    recursive?: Record<string, unknown>;
+    fileListPath?: any;
+    modifiedDatetimeEnd?: any;
+    modifiedDatetimeStart?: any;
+    partitionRootPath?: any;
+    prefix?: any;
+    recursive?: any;
     type: "AzureFileStorageReadSettings";
-    wildcardFileName?: Record<string, unknown>;
-    wildcardFolderPath?: Record<string, unknown>;
+    wildcardFileName?: any;
+    wildcardFolderPath?: any;
 }
 
 // @public
@@ -714,9 +731,9 @@ export interface AzureFileStorageWriteSettings extends StoreWriteSettings {
 
 // @public
 export interface AzureFunctionActivity extends ExecutionActivity {
-    body?: Record<string, unknown>;
-    functionName: Record<string, unknown>;
-    headers?: Record<string, unknown>;
+    body?: any;
+    functionName: any;
+    headers?: any;
     method: AzureFunctionActivityMethod;
     type: "AzureFunctionActivity";
 }
@@ -726,54 +743,54 @@ export type AzureFunctionActivityMethod = string;
 
 // @public
 export interface AzureFunctionLinkedService extends LinkedService {
-    authentication?: Record<string, unknown>;
+    authentication?: any;
     credential?: CredentialReference;
-    encryptedCredential?: Record<string, unknown>;
-    functionAppUrl: Record<string, unknown>;
+    encryptedCredential?: any;
+    functionAppUrl: any;
     functionKey?: SecretBaseUnion;
-    resourceId?: Record<string, unknown>;
+    resourceId?: any;
     type: "AzureFunction";
 }
 
 // @public
 export interface AzureKeyVaultLinkedService extends LinkedService {
-    baseUrl: Record<string, unknown>;
+    baseUrl: any;
     credential?: CredentialReference;
     type: "AzureKeyVault";
 }
 
 // @public
 export interface AzureKeyVaultSecretReference extends SecretBase {
-    secretName: Record<string, unknown>;
-    secretVersion?: Record<string, unknown>;
+    secretName: any;
+    secretVersion?: any;
     store: LinkedServiceReference;
     type: "AzureKeyVaultSecret";
 }
 
 // @public
 export interface AzureMariaDBLinkedService extends LinkedService {
-    connectionString?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    connectionString?: any;
+    encryptedCredential?: any;
     pwd?: AzureKeyVaultSecretReference;
     type: "AzureMariaDB";
 }
 
 // @public
 export interface AzureMariaDBSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "AzureMariaDBSource";
 }
 
 // @public
 export interface AzureMariaDBTableDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "AzureMariaDBTable";
 }
 
 // @public
 export interface AzureMLBatchExecutionActivity extends ExecutionActivity {
     globalParameters?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     type: "AzureMLBatchExecution";
     webServiceInputs?: {
@@ -786,108 +803,108 @@ export interface AzureMLBatchExecutionActivity extends ExecutionActivity {
 
 // @public
 export interface AzureMLExecutePipelineActivity extends ExecutionActivity {
-    continueOnStepFailure?: Record<string, unknown>;
-    dataPathAssignments?: Record<string, unknown>;
-    experimentName?: Record<string, unknown>;
-    mlParentRunId?: Record<string, unknown>;
-    mlPipelineEndpointId?: Record<string, unknown>;
-    mlPipelineId?: Record<string, unknown>;
-    mlPipelineParameters?: Record<string, unknown>;
+    continueOnStepFailure?: any;
+    dataPathAssignments?: any;
+    experimentName?: any;
+    mlParentRunId?: any;
+    mlPipelineEndpointId?: any;
+    mlPipelineId?: any;
+    mlPipelineParameters?: any;
     type: "AzureMLExecutePipeline";
-    version?: Record<string, unknown>;
+    version?: any;
 }
 
 // @public
 export interface AzureMLLinkedService extends LinkedService {
     apiKey: SecretBaseUnion;
-    authentication?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    mlEndpoint: Record<string, unknown>;
-    servicePrincipalId?: Record<string, unknown>;
+    authentication?: any;
+    encryptedCredential?: any;
+    mlEndpoint: any;
+    servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
-    tenant?: Record<string, unknown>;
+    tenant?: any;
     type: "AzureML";
-    updateResourceEndpoint?: Record<string, unknown>;
+    updateResourceEndpoint?: any;
 }
 
 // @public
 export interface AzureMLServiceLinkedService extends LinkedService {
-    encryptedCredential?: Record<string, unknown>;
-    mlWorkspaceName: Record<string, unknown>;
-    resourceGroupName: Record<string, unknown>;
-    servicePrincipalId?: Record<string, unknown>;
+    encryptedCredential?: any;
+    mlWorkspaceName: any;
+    resourceGroupName: any;
+    servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
-    subscriptionId: Record<string, unknown>;
-    tenant?: Record<string, unknown>;
+    subscriptionId: any;
+    tenant?: any;
     type: "AzureMLService";
 }
 
 // @public
 export interface AzureMLUpdateResourceActivity extends ExecutionActivity {
-    trainedModelFilePath: Record<string, unknown>;
+    trainedModelFilePath: any;
     trainedModelLinkedServiceName: LinkedServiceReference;
-    trainedModelName: Record<string, unknown>;
+    trainedModelName: any;
     type: "AzureMLUpdateResource";
 }
 
 // @public
 export interface AzureMLWebServiceFile {
-    filePath: Record<string, unknown>;
+    filePath: any;
     linkedServiceName: LinkedServiceReference;
 }
 
 // @public
 export interface AzureMySqlLinkedService extends LinkedService {
-    connectionString: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    connectionString: any;
+    encryptedCredential?: any;
     password?: AzureKeyVaultSecretReference;
     type: "AzureMySql";
 }
 
 // @public
 export interface AzureMySqlSink extends CopySink {
-    preCopyScript?: Record<string, unknown>;
+    preCopyScript?: any;
     type: "AzureMySqlSink";
 }
 
 // @public
 export interface AzureMySqlSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "AzureMySqlSource";
 }
 
 // @public
 export interface AzureMySqlTableDataset extends Dataset {
-    table?: Record<string, unknown>;
-    tableName?: Record<string, unknown>;
+    table?: any;
+    tableName?: any;
     type: "AzureMySqlTable";
 }
 
 // @public
 export interface AzurePostgreSqlLinkedService extends LinkedService {
-    connectionString?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    connectionString?: any;
+    encryptedCredential?: any;
     password?: AzureKeyVaultSecretReference;
     type: "AzurePostgreSql";
 }
 
 // @public
 export interface AzurePostgreSqlSink extends CopySink {
-    preCopyScript?: Record<string, unknown>;
+    preCopyScript?: any;
     type: "AzurePostgreSqlSink";
 }
 
 // @public
 export interface AzurePostgreSqlSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "AzurePostgreSqlSource";
 }
 
 // @public
 export interface AzurePostgreSqlTableDataset extends Dataset {
-    schemaTypePropertiesSchema?: Record<string, unknown>;
-    table?: Record<string, unknown>;
-    tableName?: Record<string, unknown>;
+    schemaTypePropertiesSchema?: any;
+    table?: any;
+    tableName?: any;
     type: "AzurePostgreSqlTable";
 }
 
@@ -898,7 +915,7 @@ export interface AzureQueueSink extends CopySink {
 
 // @public
 export interface AzureSearchIndexDataset extends Dataset {
-    indexName: Record<string, unknown>;
+    indexName: any;
     type: "AzureSearchIndex";
 }
 
@@ -913,147 +930,160 @@ export type AzureSearchIndexWriteBehaviorType = string;
 
 // @public
 export interface AzureSearchLinkedService extends LinkedService {
-    encryptedCredential?: Record<string, unknown>;
+    encryptedCredential?: any;
     key?: SecretBaseUnion;
     type: "AzureSearch";
-    url: Record<string, unknown>;
+    url: any;
 }
 
 // @public
 export interface AzureSqlDatabaseLinkedService extends LinkedService {
     alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
-    azureCloudType?: Record<string, unknown>;
-    connectionString: Record<string, unknown>;
+    azureCloudType?: any;
+    connectionString: any;
     credential?: CredentialReference;
-    encryptedCredential?: Record<string, unknown>;
+    encryptedCredential?: any;
     password?: AzureKeyVaultSecretReference;
-    servicePrincipalId?: Record<string, unknown>;
+    servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
-    tenant?: Record<string, unknown>;
+    tenant?: any;
     type: "AzureSqlDatabase";
 }
 
 // @public
 export interface AzureSqlDWLinkedService extends LinkedService {
-    azureCloudType?: Record<string, unknown>;
-    connectionString: Record<string, unknown>;
+    azureCloudType?: any;
+    connectionString: any;
     credential?: CredentialReference;
-    encryptedCredential?: Record<string, unknown>;
+    encryptedCredential?: any;
     password?: AzureKeyVaultSecretReference;
-    servicePrincipalId?: Record<string, unknown>;
+    servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
-    tenant?: Record<string, unknown>;
+    tenant?: any;
     type: "AzureSqlDW";
 }
 
 // @public
 export interface AzureSqlDWTableDataset extends Dataset {
-    schemaTypePropertiesSchema?: Record<string, unknown>;
-    table?: Record<string, unknown>;
-    tableName?: Record<string, unknown>;
+    schemaTypePropertiesSchema?: any;
+    table?: any;
+    tableName?: any;
     type: "AzureSqlDWTable";
 }
 
 // @public
 export interface AzureSqlMILinkedService extends LinkedService {
     alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
-    azureCloudType?: Record<string, unknown>;
-    connectionString: Record<string, unknown>;
+    azureCloudType?: any;
+    connectionString: any;
     credential?: CredentialReference;
-    encryptedCredential?: Record<string, unknown>;
+    encryptedCredential?: any;
     password?: AzureKeyVaultSecretReference;
-    servicePrincipalId?: Record<string, unknown>;
+    servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
-    tenant?: Record<string, unknown>;
+    tenant?: any;
     type: "AzureSqlMI";
 }
 
 // @public
 export interface AzureSqlMITableDataset extends Dataset {
-    schemaTypePropertiesSchema?: Record<string, unknown>;
-    table?: Record<string, unknown>;
-    tableName?: Record<string, unknown>;
+    schemaTypePropertiesSchema?: any;
+    table?: any;
+    tableName?: any;
     type: "AzureSqlMITable";
 }
 
 // @public
 export interface AzureSqlSink extends CopySink {
-    preCopyScript?: Record<string, unknown>;
-    sqlWriterStoredProcedureName?: Record<string, unknown>;
-    sqlWriterTableType?: Record<string, unknown>;
-    sqlWriterUseTableLock?: Record<string, unknown>;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
-    storedProcedureTableTypeParameterName?: Record<string, unknown>;
-    tableOption?: Record<string, unknown>;
+    preCopyScript?: any;
+    sqlWriterStoredProcedureName?: any;
+    sqlWriterTableType?: any;
+    sqlWriterUseTableLock?: any;
+    storedProcedureParameters?: any;
+    storedProcedureTableTypeParameterName?: any;
+    tableOption?: any;
     type: "AzureSqlSink";
     upsertSettings?: SqlUpsertSettings;
-    writeBehavior?: Record<string, unknown>;
+    writeBehavior?: any;
 }
 
 // @public
 export interface AzureSqlSource extends TabularSource {
-    partitionOption?: Record<string, unknown>;
+    partitionOption?: any;
     partitionSettings?: SqlPartitionSettings;
-    produceAdditionalTypes?: Record<string, unknown>;
-    sqlReaderQuery?: Record<string, unknown>;
-    sqlReaderStoredProcedureName?: Record<string, unknown>;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    produceAdditionalTypes?: any;
+    sqlReaderQuery?: any;
+    sqlReaderStoredProcedureName?: any;
+    storedProcedureParameters?: any;
     type: "AzureSqlSource";
 }
 
 // @public
 export interface AzureSqlTableDataset extends Dataset {
-    schemaTypePropertiesSchema?: Record<string, unknown>;
-    table?: Record<string, unknown>;
-    tableName?: Record<string, unknown>;
+    schemaTypePropertiesSchema?: any;
+    table?: any;
+    tableName?: any;
     type: "AzureSqlTable";
 }
 
 // @public
 export interface AzureStorageLinkedService extends LinkedService {
     accountKey?: AzureKeyVaultSecretReference;
-    connectionString?: Record<string, unknown>;
+    connectionString?: any;
     encryptedCredential?: string;
     sasToken?: AzureKeyVaultSecretReference;
-    sasUri?: Record<string, unknown>;
+    sasUri?: any;
     type: "AzureStorage";
 }
 
 // @public
+export interface AzureSynapseArtifactsLinkedService extends LinkedService {
+    authentication?: any;
+    endpoint: any;
+    type: "AzureSynapseArtifacts";
+    workspaceResourceId?: any;
+}
+
+// @public
 export interface AzureTableDataset extends Dataset {
-    tableName: Record<string, unknown>;
+    tableName: any;
     type: "AzureTable";
 }
 
 // @public
 export interface AzureTableSink extends CopySink {
-    azureTableDefaultPartitionKeyValue?: Record<string, unknown>;
-    azureTableInsertType?: Record<string, unknown>;
-    azureTablePartitionKeyName?: Record<string, unknown>;
-    azureTableRowKeyName?: Record<string, unknown>;
+    azureTableDefaultPartitionKeyValue?: any;
+    azureTableInsertType?: any;
+    azureTablePartitionKeyName?: any;
+    azureTableRowKeyName?: any;
     type: "AzureTableSink";
 }
 
 // @public
 export interface AzureTableSource extends TabularSource {
-    azureTableSourceIgnoreTableNotFound?: Record<string, unknown>;
-    azureTableSourceQuery?: Record<string, unknown>;
+    azureTableSourceIgnoreTableNotFound?: any;
+    azureTableSourceQuery?: any;
     type: "AzureTableSource";
 }
 
 // @public
 export interface AzureTableStorageLinkedService extends LinkedService {
     accountKey?: AzureKeyVaultSecretReference;
-    connectionString?: Record<string, unknown>;
+    connectionString?: any;
     encryptedCredential?: string;
     sasToken?: AzureKeyVaultSecretReference;
-    sasUri?: Record<string, unknown>;
+    sasUri?: any;
     type: "AzureTableStorage";
 }
+
+// @public
+export interface BigDataPoolParametrizationReference {
+    referenceName: any;
+    type: BigDataPoolReferenceType;
+}
+
+// @public
+export type BigDataPoolReferenceType = string;
 
 // @public
 export interface BinaryDataset extends Dataset {
@@ -1096,19 +1126,19 @@ export type BlobEventTypes = string;
 
 // @public
 export interface BlobSink extends CopySink {
-    blobWriterAddHeader?: Record<string, unknown>;
-    blobWriterDateTimeFormat?: Record<string, unknown>;
-    blobWriterOverwriteFiles?: Record<string, unknown>;
-    copyBehavior?: Record<string, unknown>;
+    blobWriterAddHeader?: any;
+    blobWriterDateTimeFormat?: any;
+    blobWriterOverwriteFiles?: any;
+    copyBehavior?: any;
     metadata?: MetadataItem[];
     type: "BlobSink";
 }
 
 // @public
 export interface BlobSource extends CopySource {
-    recursive?: Record<string, unknown>;
-    skipHeaderLineCount?: Record<string, unknown>;
-    treatEmptyAsNull?: Record<string, unknown>;
+    recursive?: any;
+    skipHeaderLineCount?: any;
+    treatEmptyAsNull?: any;
     type: "BlobSource";
 }
 
@@ -1122,19 +1152,19 @@ export interface BlobTrigger extends MultiplePipelineTrigger {
 
 // @public
 export interface CassandraLinkedService extends LinkedService {
-    authenticationType?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    host: Record<string, unknown>;
+    authenticationType?: any;
+    encryptedCredential?: any;
+    host: any;
     password?: SecretBaseUnion;
-    port?: Record<string, unknown>;
+    port?: any;
     type: "Cassandra";
-    username?: Record<string, unknown>;
+    username?: any;
 }
 
 // @public
 export interface CassandraSource extends TabularSource {
     consistencyLevel?: CassandraSourceReadConsistencyLevels;
-    query?: Record<string, unknown>;
+    query?: any;
     type: "CassandraSource";
 }
 
@@ -1143,8 +1173,8 @@ export type CassandraSourceReadConsistencyLevels = string;
 
 // @public
 export interface CassandraTableDataset extends Dataset {
-    keyspace?: Record<string, unknown>;
-    tableName?: Record<string, unknown>;
+    keyspace?: any;
+    tableName?: any;
     type: "CassandraTable";
 }
 
@@ -1167,9 +1197,9 @@ export interface CloudError {
 // @public
 export interface CmdkeySetup extends CustomSetupBase {
     password: SecretBaseUnion;
-    targetName: Record<string, unknown>;
+    targetName: any;
     type: "CmdkeySetup";
-    userName: Record<string, unknown>;
+    userName: any;
 }
 
 // @public
@@ -1179,39 +1209,39 @@ export interface CMKIdentityDefinition {
 
 // @public
 export interface CommonDataServiceForAppsEntityDataset extends Dataset {
-    entityName?: Record<string, unknown>;
+    entityName?: any;
     type: "CommonDataServiceForAppsEntity";
 }
 
 // @public
 export interface CommonDataServiceForAppsLinkedService extends LinkedService {
-    authenticationType: Record<string, unknown>;
-    deploymentType: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    hostName?: Record<string, unknown>;
-    organizationName?: Record<string, unknown>;
+    authenticationType: any;
+    deploymentType: any;
+    encryptedCredential?: any;
+    hostName?: any;
+    organizationName?: any;
     password?: SecretBaseUnion;
-    port?: Record<string, unknown>;
+    port?: any;
     servicePrincipalCredential?: SecretBaseUnion;
-    servicePrincipalCredentialType?: Record<string, unknown>;
-    servicePrincipalId?: Record<string, unknown>;
-    serviceUri?: Record<string, unknown>;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalId?: any;
+    serviceUri?: any;
     type: "CommonDataServiceForApps";
-    username?: Record<string, unknown>;
+    username?: any;
 }
 
 // @public
 export interface CommonDataServiceForAppsSink extends CopySink {
-    alternateKeyName?: Record<string, unknown>;
-    ignoreNullValues?: Record<string, unknown>;
+    alternateKeyName?: any;
+    ignoreNullValues?: any;
     type: "CommonDataServiceForAppsSink";
     writeBehavior: DynamicsSinkWriteBehavior;
 }
 
 // @public
 export interface CommonDataServiceForAppsSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
-    query?: Record<string, unknown>;
+    additionalColumns?: any;
+    query?: any;
     type: "CommonDataServiceForAppsSource";
 }
 
@@ -1236,26 +1266,26 @@ export type CompressionReadSettingsUnion = CompressionReadSettings | ZipDeflateR
 
 // @public
 export interface ConcurLinkedService extends LinkedService {
-    clientId: Record<string, unknown>;
-    connectionProperties?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    clientId: any;
+    connectionProperties?: any;
+    encryptedCredential?: any;
     password?: SecretBaseUnion;
     type: "Concur";
-    useEncryptedEndpoints?: Record<string, unknown>;
-    useHostVerification?: Record<string, unknown>;
-    usePeerVerification?: Record<string, unknown>;
-    username: Record<string, unknown>;
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
+    username: any;
 }
 
 // @public
 export interface ConcurObjectDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "ConcurObject";
 }
 
 // @public
 export interface ConcurSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "ConcurSource";
 }
 
@@ -1268,38 +1298,38 @@ export interface ConnectionStateProperties {
 
 // @public
 export interface ControlActivity extends Activity {
-    type: "Container" | "ExecutePipeline" | "IfCondition" | "Switch" | "ForEach" | "Wait" | "Until" | "Validation" | "Filter" | "SetVariable" | "AppendVariable" | "WebHook";
+    type: "Container" | "ExecutePipeline" | "IfCondition" | "Switch" | "ForEach" | "Wait" | "Fail" | "Until" | "Validation" | "Filter" | "SetVariable" | "AppendVariable" | "WebHook";
 }
 
 // @public (undocumented)
-export type ControlActivityUnion = ControlActivity | ExecutePipelineActivity | IfConditionActivity | SwitchActivity | ForEachActivity | WaitActivity | UntilActivity | ValidationActivity | FilterActivity | SetVariableActivity | AppendVariableActivity | WebHookActivity;
+export type ControlActivityUnion = ControlActivity | ExecutePipelineActivity | IfConditionActivity | SwitchActivity | ForEachActivity | WaitActivity | FailActivity | UntilActivity | ValidationActivity | FilterActivity | SetVariableActivity | AppendVariableActivity | WebHookActivity;
 
 // @public
 export interface CopyActivity extends ExecutionActivity {
-    dataIntegrationUnits?: Record<string, unknown>;
-    enableSkipIncompatibleRow?: Record<string, unknown>;
-    enableStaging?: Record<string, unknown>;
+    dataIntegrationUnits?: any;
+    enableSkipIncompatibleRow?: any;
+    enableStaging?: any;
     inputs?: DatasetReference[];
     logSettings?: LogSettings;
     logStorageSettings?: LogStorageSettings;
     outputs?: DatasetReference[];
-    parallelCopies?: Record<string, unknown>;
-    preserve?: Record<string, unknown>[];
-    preserveRules?: Record<string, unknown>[];
+    parallelCopies?: any;
+    preserve?: any[];
+    preserveRules?: any[];
     redirectIncompatibleRowSettings?: RedirectIncompatibleRowSettings;
     sink: CopySinkUnion;
     skipErrorFile?: SkipErrorFile;
     source: CopySourceUnion;
     stagingSettings?: StagingSettings;
-    translator?: Record<string, unknown>;
+    translator?: any;
     type: "Copy";
-    validateDataConsistency?: Record<string, unknown>;
+    validateDataConsistency?: any;
 }
 
 // @public
 export interface CopyActivityLogSettings {
-    enableReliableLogging?: Record<string, unknown>;
-    logLevel?: Record<string, unknown>;
+    enableReliableLogging?: any;
+    logLevel?: any;
 }
 
 // @public
@@ -1308,13 +1338,13 @@ export type CopyBehaviorType = string;
 // @public
 export interface CopySink {
     [property: string]: any;
-    disableMetricsCollection?: Record<string, unknown>;
-    maxConcurrentConnections?: Record<string, unknown>;
-    sinkRetryCount?: Record<string, unknown>;
-    sinkRetryWait?: Record<string, unknown>;
+    disableMetricsCollection?: any;
+    maxConcurrentConnections?: any;
+    sinkRetryCount?: any;
+    sinkRetryWait?: any;
     type: "DelimitedTextSink" | "JsonSink" | "OrcSink" | "RestSink" | "AzurePostgreSqlSink" | "AzureMySqlSink" | "AzureDatabricksDeltaLakeSink" | "SapCloudForCustomerSink" | "AzureQueueSink" | "AzureTableSink" | "AvroSink" | "ParquetSink" | "BinarySink" | "BlobSink" | "FileSystemSink" | "DocumentDbCollectionSink" | "CosmosDbSqlApiSink" | "SqlSink" | "SqlServerSink" | "AzureSqlSink" | "SqlMISink" | "SqlDWSink" | "SnowflakeSink" | "OracleSink" | "AzureDataLakeStoreSink" | "AzureBlobFSSink" | "AzureSearchIndexSink" | "OdbcSink" | "InformixSink" | "MicrosoftAccessSink" | "DynamicsSink" | "DynamicsCrmSink" | "CommonDataServiceForAppsSink" | "AzureDataExplorerSink" | "SalesforceSink" | "SalesforceServiceCloudSink" | "MongoDbAtlasSink" | "MongoDbV2Sink" | "CosmosDbMongoDbApiSink";
-    writeBatchSize?: Record<string, unknown>;
-    writeBatchTimeout?: Record<string, unknown>;
+    writeBatchSize?: any;
+    writeBatchTimeout?: any;
 }
 
 // @public (undocumented)
@@ -1323,11 +1353,11 @@ export type CopySinkUnion = CopySink | DelimitedTextSink | JsonSink | OrcSink | 
 // @public
 export interface CopySource {
     [property: string]: any;
-    disableMetricsCollection?: Record<string, unknown>;
-    maxConcurrentConnections?: Record<string, unknown>;
-    sourceRetryCount?: Record<string, unknown>;
-    sourceRetryWait?: Record<string, unknown>;
-    type: "AvroSource" | "ExcelSource" | "ParquetSource" | "DelimitedTextSource" | "JsonSource" | "XmlSource" | "OrcSource" | "BinarySource" | "TabularSource" | "AzureTableSource" | "BlobSource" | "DocumentDbCollectionSource" | "CosmosDbSqlApiSource" | "DynamicsSource" | "DynamicsCrmSource" | "CommonDataServiceForAppsSource" | "RelationalSource" | "InformixSource" | "MicrosoftAccessSource" | "Db2Source" | "OdbcSource" | "MySqlSource" | "PostgreSqlSource" | "SybaseSource" | "SapBwSource" | "ODataSource" | "SalesforceSource" | "SalesforceServiceCloudSource" | "SapCloudForCustomerSource" | "SapEccSource" | "SapHanaSource" | "SapOpenHubSource" | "SapTableSource" | "RestSource" | "SqlSource" | "SqlServerSource" | "AmazonRdsForSqlServerSource" | "AzureSqlSource" | "SqlMISource" | "SqlDWSource" | "FileSystemSource" | "HdfsSource" | "AzureMySqlSource" | "AzureDataExplorerSource" | "OracleSource" | "AmazonRdsForOracleSource" | "TeradataSource" | "WebSource" | "CassandraSource" | "MongoDbSource" | "MongoDbAtlasSource" | "MongoDbV2Source" | "CosmosDbMongoDbApiSource" | "Office365Source" | "AzureDataLakeStoreSource" | "AzureBlobFSSource" | "HttpSource" | "AmazonMWSSource" | "AzurePostgreSqlSource" | "ConcurSource" | "CouchbaseSource" | "DrillSource" | "EloquaSource" | "GoogleBigQuerySource" | "GreenplumSource" | "HBaseSource" | "HiveSource" | "HubspotSource" | "ImpalaSource" | "JiraSource" | "MagentoSource" | "MariaDBSource" | "AzureMariaDBSource" | "MarketoSource" | "PaypalSource" | "PhoenixSource" | "PrestoSource" | "QuickBooksSource" | "ServiceNowSource" | "ShopifySource" | "SparkSource" | "SquareSource" | "XeroSource" | "ZohoSource" | "NetezzaSource" | "VerticaSource" | "SalesforceMarketingCloudSource" | "ResponsysSource" | "DynamicsAXSource" | "OracleServiceCloudSource" | "GoogleAdWordsSource" | "AmazonRedshiftSource" | "SnowflakeSource" | "AzureDatabricksDeltaLakeSource" | "SharePointOnlineListSource";
+    disableMetricsCollection?: any;
+    maxConcurrentConnections?: any;
+    sourceRetryCount?: any;
+    sourceRetryWait?: any;
+    type: "AvroSource" | "ExcelSource" | "ParquetSource" | "DelimitedTextSource" | "JsonSource" | "XmlSource" | "OrcSource" | "BinarySource" | "TabularSource" | "AzureTableSource" | "BlobSource" | "DocumentDbCollectionSource" | "CosmosDbSqlApiSource" | "DynamicsSource" | "DynamicsCrmSource" | "CommonDataServiceForAppsSource" | "RelationalSource" | "InformixSource" | "MicrosoftAccessSource" | "Db2Source" | "OdbcSource" | "MySqlSource" | "PostgreSqlSource" | "SybaseSource" | "SapBwSource" | "ODataSource" | "SalesforceSource" | "SalesforceServiceCloudSource" | "SapCloudForCustomerSource" | "SapEccSource" | "SapHanaSource" | "SapOpenHubSource" | "SapOdpSource" | "SapTableSource" | "RestSource" | "SqlSource" | "SqlServerSource" | "AmazonRdsForSqlServerSource" | "AzureSqlSource" | "SqlMISource" | "SqlDWSource" | "FileSystemSource" | "HdfsSource" | "AzureMySqlSource" | "AzureDataExplorerSource" | "OracleSource" | "AmazonRdsForOracleSource" | "TeradataSource" | "WebSource" | "CassandraSource" | "MongoDbSource" | "MongoDbAtlasSource" | "MongoDbV2Source" | "CosmosDbMongoDbApiSource" | "Office365Source" | "AzureDataLakeStoreSource" | "AzureBlobFSSource" | "HttpSource" | "AmazonMWSSource" | "AzurePostgreSqlSource" | "ConcurSource" | "CouchbaseSource" | "DrillSource" | "EloquaSource" | "GoogleBigQuerySource" | "GreenplumSource" | "HBaseSource" | "HiveSource" | "HubspotSource" | "ImpalaSource" | "JiraSource" | "MagentoSource" | "MariaDBSource" | "AzureMariaDBSource" | "MarketoSource" | "PaypalSource" | "PhoenixSource" | "PrestoSource" | "QuickBooksSource" | "ServiceNowSource" | "ShopifySource" | "SparkSource" | "SquareSource" | "XeroSource" | "ZohoSource" | "NetezzaSource" | "VerticaSource" | "SalesforceMarketingCloudSource" | "ResponsysSource" | "DynamicsAXSource" | "OracleServiceCloudSource" | "GoogleAdWordsSource" | "AmazonRedshiftSource" | "SnowflakeSource" | "AzureDatabricksDeltaLakeSource" | "SharePointOnlineListSource";
 }
 
 // @public (undocumented)
@@ -1347,47 +1377,48 @@ export type CosmosDbConnectionMode = string;
 
 // @public
 export interface CosmosDbLinkedService extends LinkedService {
-    accountEndpoint?: Record<string, unknown>;
+    accountEndpoint?: any;
     accountKey?: SecretBaseUnion;
-    azureCloudType?: Record<string, unknown>;
+    azureCloudType?: any;
     connectionMode?: CosmosDbConnectionMode;
-    connectionString?: Record<string, unknown>;
-    database?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    connectionString?: any;
+    credential?: CredentialReference;
+    database?: any;
+    encryptedCredential?: any;
     servicePrincipalCredential?: SecretBaseUnion;
     servicePrincipalCredentialType?: CosmosDbServicePrincipalCredentialType;
-    servicePrincipalId?: Record<string, unknown>;
-    tenant?: Record<string, unknown>;
+    servicePrincipalId?: any;
+    tenant?: any;
     type: "CosmosDb";
 }
 
 // @public
 export interface CosmosDbMongoDbApiCollectionDataset extends Dataset {
-    collection: Record<string, unknown>;
+    collection: any;
     type: "CosmosDbMongoDbApiCollection";
 }
 
 // @public
 export interface CosmosDbMongoDbApiLinkedService extends LinkedService {
-    connectionString: Record<string, unknown>;
-    database: Record<string, unknown>;
-    isServerVersionAbove32?: Record<string, unknown>;
+    connectionString: any;
+    database: any;
+    isServerVersionAbove32?: any;
     type: "CosmosDbMongoDbApi";
 }
 
 // @public
 export interface CosmosDbMongoDbApiSink extends CopySink {
     type: "CosmosDbMongoDbApiSink";
-    writeBehavior?: Record<string, unknown>;
+    writeBehavior?: any;
 }
 
 // @public
 export interface CosmosDbMongoDbApiSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
-    batchSize?: Record<string, unknown>;
+    additionalColumns?: any;
+    batchSize?: any;
     cursorMethods?: MongoDbCursorMethodsProperties;
-    filter?: Record<string, unknown>;
-    queryTimeout?: Record<string, unknown>;
+    filter?: any;
+    queryTimeout?: any;
     type: "CosmosDbMongoDbApiSource";
 }
 
@@ -1396,43 +1427,43 @@ export type CosmosDbServicePrincipalCredentialType = string;
 
 // @public
 export interface CosmosDbSqlApiCollectionDataset extends Dataset {
-    collectionName: Record<string, unknown>;
+    collectionName: any;
     type: "CosmosDbSqlApiCollection";
 }
 
 // @public
 export interface CosmosDbSqlApiSink extends CopySink {
     type: "CosmosDbSqlApiSink";
-    writeBehavior?: Record<string, unknown>;
+    writeBehavior?: any;
 }
 
 // @public
 export interface CosmosDbSqlApiSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
-    detectDatetime?: Record<string, unknown>;
-    pageSize?: Record<string, unknown>;
-    preferredRegions?: Record<string, unknown>;
-    query?: Record<string, unknown>;
+    additionalColumns?: any;
+    detectDatetime?: any;
+    pageSize?: any;
+    preferredRegions?: any;
+    query?: any;
     type: "CosmosDbSqlApiSource";
 }
 
 // @public
 export interface CouchbaseLinkedService extends LinkedService {
-    connectionString?: Record<string, unknown>;
+    connectionString?: any;
     credString?: AzureKeyVaultSecretReference;
-    encryptedCredential?: Record<string, unknown>;
+    encryptedCredential?: any;
     type: "Couchbase";
 }
 
 // @public
 export interface CouchbaseSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "CouchbaseSource";
 }
 
 // @public
 export interface CouchbaseTableDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "CouchbaseTable";
 }
 
@@ -1466,7 +1497,7 @@ export interface CreateRunResponse {
 // @public
 interface Credential_2 {
     [property: string]: any;
-    annotations?: Record<string, unknown>[];
+    annotations?: any[];
     description?: string;
     type: "ServicePrincipal" | "ManagedIdentity";
 }
@@ -1476,8 +1507,11 @@ export { Credential_2 as Credential }
 export interface CredentialReference {
     [property: string]: any;
     referenceName: string;
-    type: "CredentialReference";
+    type: CredentialReferenceType;
 }
+
+// @public
+export type CredentialReferenceType = string;
 
 // @public
 export interface CredentialResource extends SubResource {
@@ -1489,15 +1523,15 @@ export type CredentialUnion = Credential_2 | ServicePrincipalCredential | Manage
 
 // @public
 export interface CustomActivity extends ExecutionActivity {
-    autoUserSpecification?: Record<string, unknown>;
-    command: Record<string, unknown>;
+    autoUserSpecification?: any;
+    command: any;
     extendedProperties?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
-    folderPath?: Record<string, unknown>;
+    folderPath?: any;
     referenceObjects?: CustomActivityReferenceObject;
     resourceLinkedService?: LinkedServiceReference;
-    retentionTimeInDays?: Record<string, unknown>;
+    retentionTimeInDays?: any;
     type: "Custom";
 }
 
@@ -1510,18 +1544,18 @@ export interface CustomActivityReferenceObject {
 // @public
 export interface CustomDataset extends Dataset {
     type: "CustomDataset";
-    typeProperties?: Record<string, unknown>;
+    typeProperties?: any;
 }
 
 // @public
 export interface CustomDataSourceLinkedService extends LinkedService {
     type: "CustomDataSource";
-    typeProperties: Record<string, unknown>;
+    typeProperties: any;
 }
 
 // @public
 export interface CustomEventsTrigger extends MultiplePipelineTrigger {
-    events: Record<string, unknown>[];
+    events: any[];
     scope: string;
     subjectBeginsWith?: string;
     subjectEndsWith?: string;
@@ -1539,32 +1573,32 @@ export type CustomSetupBaseUnion = CustomSetupBase | CmdkeySetup | EnvironmentVa
 // @public
 export interface DatabricksNotebookActivity extends ExecutionActivity {
     baseParameters?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     libraries?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     }[];
-    notebookPath: Record<string, unknown>;
+    notebookPath: any;
     type: "DatabricksNotebook";
 }
 
 // @public
 export interface DatabricksSparkJarActivity extends ExecutionActivity {
     libraries?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     }[];
-    mainClassName: Record<string, unknown>;
-    parameters?: Record<string, unknown>[];
+    mainClassName: any;
+    parameters?: any[];
     type: "DatabricksSparkJar";
 }
 
 // @public
 export interface DatabricksSparkPythonActivity extends ExecutionActivity {
     libraries?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     }[];
-    parameters?: Record<string, unknown>[];
-    pythonFile: Record<string, unknown>;
+    parameters?: any[];
+    pythonFile: any;
     type: "DatabricksSparkPython";
 }
 
@@ -1587,6 +1621,8 @@ export class DataFactoryManagementClient extends coreClient.ServiceClient {
     exposureControl: ExposureControl;
     // (undocumented)
     factories: Factories;
+    // (undocumented)
+    globalParameters: GlobalParameters;
     // (undocumented)
     integrationRuntimeNodes: IntegrationRuntimeNodes;
     // (undocumented)
@@ -1628,7 +1664,7 @@ export interface DataFactoryManagementClientOptionalParams extends coreClient.Se
 
 // @public
 export interface DataFlow {
-    annotations?: Record<string, unknown>[];
+    annotations?: any[];
     description?: string;
     folder?: DataFlowFolder;
     type: "MappingDataFlow" | "Flowlet" | "WranglingDataFlow";
@@ -1675,9 +1711,9 @@ export interface DataFlowDebugPackage {
 
 // @public
 export interface DataFlowDebugPackageDebugSettings {
-    datasetParameters?: Record<string, unknown>;
+    datasetParameters?: any;
     parameters?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     sourceSettings?: DataFlowSourceSetting[];
 }
@@ -1779,13 +1815,16 @@ export interface DataFlowListResponse {
 // @public
 export interface DataFlowReference {
     [property: string]: any;
-    datasetParameters?: Record<string, unknown>;
+    datasetParameters?: any;
     parameters?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     referenceName: string;
-    type: "DataFlowReference";
+    type: DataFlowReferenceType;
 }
+
+// @public
+export type DataFlowReferenceType = string;
 
 // @public
 export interface DataFlowResource extends SubResource {
@@ -1822,6 +1861,7 @@ export type DataFlowsGetResponse = DataFlowResource;
 
 // @public
 export interface DataFlowSink extends Transformation {
+    rejectedDataLinkedService?: LinkedServiceReference;
     schemaLinkedService?: LinkedServiceReference;
 }
 
@@ -1853,7 +1893,7 @@ export interface DataFlowSourceSetting {
 
 // @public
 export interface DataFlowStagingInfo {
-    folderPath?: Record<string, unknown>;
+    folderPath?: any;
     linkedService?: LinkedServiceReference;
 }
 
@@ -1862,38 +1902,38 @@ export type DataFlowUnion = DataFlow | MappingDataFlow | Flowlet | WranglingData
 
 // @public
 export interface DataLakeAnalyticsUsqlActivity extends ExecutionActivity {
-    compilationMode?: Record<string, unknown>;
-    degreeOfParallelism?: Record<string, unknown>;
+    compilationMode?: any;
+    degreeOfParallelism?: any;
     parameters?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
-    priority?: Record<string, unknown>;
-    runtimeVersion?: Record<string, unknown>;
+    priority?: any;
+    runtimeVersion?: any;
     scriptLinkedService: LinkedServiceReference;
-    scriptPath: Record<string, unknown>;
+    scriptPath: any;
     type: "DataLakeAnalyticsU-SQL";
 }
 
 // @public
 export interface Dataset {
     [property: string]: any;
-    annotations?: Record<string, unknown>[];
+    annotations?: any[];
     description?: string;
     folder?: DatasetFolder;
     linkedServiceName: LinkedServiceReference;
     parameters?: {
         [propertyName: string]: ParameterSpecification;
     };
-    schema?: Record<string, unknown>;
-    structure?: Record<string, unknown>;
-    type: "AmazonS3Object" | "Avro" | "Excel" | "Parquet" | "DelimitedText" | "Json" | "Xml" | "Orc" | "Binary" | "AzureBlob" | "AzureTable" | "AzureSqlTable" | "AzureSqlMITable" | "AzureSqlDWTable" | "CassandraTable" | "CustomDataset" | "CosmosDbSqlApiCollection" | "DocumentDbCollection" | "DynamicsEntity" | "DynamicsCrmEntity" | "CommonDataServiceForAppsEntity" | "AzureDataLakeStoreFile" | "AzureBlobFSFile" | "Office365Table" | "FileShare" | "MongoDbCollection" | "MongoDbAtlasCollection" | "MongoDbV2Collection" | "CosmosDbMongoDbApiCollection" | "ODataResource" | "OracleTable" | "AmazonRdsForOracleTable" | "TeradataTable" | "AzureMySqlTable" | "AmazonRedshiftTable" | "Db2Table" | "RelationalTable" | "InformixTable" | "OdbcTable" | "MySqlTable" | "PostgreSqlTable" | "MicrosoftAccessTable" | "SalesforceObject" | "SalesforceServiceCloudObject" | "SybaseTable" | "SapBwCube" | "SapCloudForCustomerResource" | "SapEccResource" | "SapHanaTable" | "SapOpenHubTable" | "SqlServerTable" | "AmazonRdsForSqlServerTable" | "RestResource" | "SapTableResource" | "WebTable" | "AzureSearchIndex" | "HttpFile" | "AmazonMWSObject" | "AzurePostgreSqlTable" | "ConcurObject" | "CouchbaseTable" | "DrillTable" | "EloquaObject" | "GoogleBigQueryObject" | "GreenplumTable" | "HBaseObject" | "HiveObject" | "HubspotObject" | "ImpalaObject" | "JiraObject" | "MagentoObject" | "MariaDBTable" | "AzureMariaDBTable" | "MarketoObject" | "PaypalObject" | "PhoenixObject" | "PrestoObject" | "QuickBooksObject" | "ServiceNowObject" | "ShopifyObject" | "SparkObject" | "SquareObject" | "XeroObject" | "ZohoObject" | "NetezzaTable" | "VerticaTable" | "SalesforceMarketingCloudObject" | "ResponsysObject" | "DynamicsAXResource" | "OracleServiceCloudObject" | "AzureDataExplorerTable" | "GoogleAdWordsObject" | "SnowflakeTable" | "SharePointOnlineListResource" | "AzureDatabricksDeltaLakeDataset";
+    schema?: any;
+    structure?: any;
+    type: "AmazonS3Object" | "Avro" | "Excel" | "Parquet" | "DelimitedText" | "Json" | "Xml" | "Orc" | "Binary" | "AzureBlob" | "AzureTable" | "AzureSqlTable" | "AzureSqlMITable" | "AzureSqlDWTable" | "CassandraTable" | "CustomDataset" | "CosmosDbSqlApiCollection" | "DocumentDbCollection" | "DynamicsEntity" | "DynamicsCrmEntity" | "CommonDataServiceForAppsEntity" | "AzureDataLakeStoreFile" | "AzureBlobFSFile" | "Office365Table" | "FileShare" | "MongoDbCollection" | "MongoDbAtlasCollection" | "MongoDbV2Collection" | "CosmosDbMongoDbApiCollection" | "ODataResource" | "OracleTable" | "AmazonRdsForOracleTable" | "TeradataTable" | "AzureMySqlTable" | "AmazonRedshiftTable" | "Db2Table" | "RelationalTable" | "InformixTable" | "OdbcTable" | "MySqlTable" | "PostgreSqlTable" | "MicrosoftAccessTable" | "SalesforceObject" | "SalesforceServiceCloudObject" | "SybaseTable" | "SapBwCube" | "SapCloudForCustomerResource" | "SapEccResource" | "SapHanaTable" | "SapOpenHubTable" | "SqlServerTable" | "AmazonRdsForSqlServerTable" | "RestResource" | "SapTableResource" | "SapOdpResource" | "WebTable" | "AzureSearchIndex" | "HttpFile" | "AmazonMWSObject" | "AzurePostgreSqlTable" | "ConcurObject" | "CouchbaseTable" | "DrillTable" | "EloquaObject" | "GoogleBigQueryObject" | "GreenplumTable" | "HBaseObject" | "HiveObject" | "HubspotObject" | "ImpalaObject" | "JiraObject" | "MagentoObject" | "MariaDBTable" | "AzureMariaDBTable" | "MarketoObject" | "PaypalObject" | "PhoenixObject" | "PrestoObject" | "QuickBooksObject" | "ServiceNowObject" | "ShopifyObject" | "SparkObject" | "SquareObject" | "XeroObject" | "ZohoObject" | "NetezzaTable" | "VerticaTable" | "SalesforceMarketingCloudObject" | "ResponsysObject" | "DynamicsAXResource" | "OracleServiceCloudObject" | "AzureDataExplorerTable" | "GoogleAdWordsObject" | "SnowflakeTable" | "SharePointOnlineListResource" | "AzureDatabricksDeltaLakeDataset";
 }
 
 // @public
 export interface DatasetCompression {
     [property: string]: any;
-    level?: Record<string, unknown>;
-    type: Record<string, unknown>;
+    level?: any;
+    type: any;
 }
 
 // @public
@@ -1901,8 +1941,8 @@ export type DatasetCompressionLevel = string;
 
 // @public
 export interface DatasetDataElement {
-    name?: Record<string, unknown>;
-    type?: Record<string, unknown>;
+    name?: any;
+    type?: any;
 }
 
 // @public
@@ -1924,8 +1964,8 @@ export interface DatasetListResponse {
 // @public
 export interface DatasetLocation {
     [property: string]: any;
-    fileName?: Record<string, unknown>;
-    folderPath?: Record<string, unknown>;
+    fileName?: any;
+    folderPath?: any;
     type: "AzureBlobStorageLocation" | "AzureBlobFSLocation" | "AzureDataLakeStoreLocation" | "AmazonS3Location" | "FileServerLocation" | "AzureFileStorageLocation" | "AmazonS3CompatibleLocation" | "OracleCloudStorageLocation" | "GoogleCloudStorageLocation" | "FtpServerLocation" | "SftpLocation" | "HttpServerLocation" | "HdfsLocation";
 }
 
@@ -1935,7 +1975,7 @@ export type DatasetLocationUnion = DatasetLocation | AzureBlobStorageLocation | 
 // @public
 export interface DatasetReference {
     parameters?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     referenceName: string;
     type: "DatasetReference";
@@ -1957,8 +1997,8 @@ export interface Datasets {
 // @public
 export interface DatasetSchemaDataElement {
     [property: string]: any;
-    name?: Record<string, unknown>;
-    type?: Record<string, unknown>;
+    name?: any;
+    type?: any;
 }
 
 // @public
@@ -1998,8 +2038,8 @@ export type DatasetsListByFactoryResponse = DatasetListResponse;
 // @public
 export interface DatasetStorageFormat {
     [property: string]: any;
-    deserializer?: Record<string, unknown>;
-    serializer?: Record<string, unknown>;
+    deserializer?: any;
+    serializer?: any;
     type: "TextFormat" | "JsonFormat" | "AvroFormat" | "OrcFormat" | "ParquetFormat";
 }
 
@@ -2007,7 +2047,14 @@ export interface DatasetStorageFormat {
 export type DatasetStorageFormatUnion = DatasetStorageFormat | TextFormat | JsonFormat | AvroFormat | OrcFormat | ParquetFormat;
 
 // @public (undocumented)
-export type DatasetUnion = Dataset | AmazonS3Dataset | AvroDataset | ExcelDataset | ParquetDataset | DelimitedTextDataset | JsonDataset | XmlDataset | OrcDataset | BinaryDataset | AzureBlobDataset | AzureTableDataset | AzureSqlTableDataset | AzureSqlMITableDataset | AzureSqlDWTableDataset | CassandraTableDataset | CustomDataset | CosmosDbSqlApiCollectionDataset | DocumentDbCollectionDataset | DynamicsEntityDataset | DynamicsCrmEntityDataset | CommonDataServiceForAppsEntityDataset | AzureDataLakeStoreDataset | AzureBlobFSDataset | Office365Dataset | FileShareDataset | MongoDbCollectionDataset | MongoDbAtlasCollectionDataset | MongoDbV2CollectionDataset | CosmosDbMongoDbApiCollectionDataset | ODataResourceDataset | OracleTableDataset | AmazonRdsForOracleTableDataset | TeradataTableDataset | AzureMySqlTableDataset | AmazonRedshiftTableDataset | Db2TableDataset | RelationalTableDataset | InformixTableDataset | OdbcTableDataset | MySqlTableDataset | PostgreSqlTableDataset | MicrosoftAccessTableDataset | SalesforceObjectDataset | SalesforceServiceCloudObjectDataset | SybaseTableDataset | SapBwCubeDataset | SapCloudForCustomerResourceDataset | SapEccResourceDataset | SapHanaTableDataset | SapOpenHubTableDataset | SqlServerTableDataset | AmazonRdsForSqlServerTableDataset | RestResourceDataset | SapTableResourceDataset | WebTableDataset | AzureSearchIndexDataset | HttpDataset | AmazonMWSObjectDataset | AzurePostgreSqlTableDataset | ConcurObjectDataset | CouchbaseTableDataset | DrillTableDataset | EloquaObjectDataset | GoogleBigQueryObjectDataset | GreenplumTableDataset | HBaseObjectDataset | HiveObjectDataset | HubspotObjectDataset | ImpalaObjectDataset | JiraObjectDataset | MagentoObjectDataset | MariaDBTableDataset | AzureMariaDBTableDataset | MarketoObjectDataset | PaypalObjectDataset | PhoenixObjectDataset | PrestoObjectDataset | QuickBooksObjectDataset | ServiceNowObjectDataset | ShopifyObjectDataset | SparkObjectDataset | SquareObjectDataset | XeroObjectDataset | ZohoObjectDataset | NetezzaTableDataset | VerticaTableDataset | SalesforceMarketingCloudObjectDataset | ResponsysObjectDataset | DynamicsAXResourceDataset | OracleServiceCloudObjectDataset | AzureDataExplorerTableDataset | GoogleAdWordsObjectDataset | SnowflakeDataset | SharePointOnlineListResourceDataset | AzureDatabricksDeltaLakeDataset;
+export type DatasetUnion = Dataset | AmazonS3Dataset | AvroDataset | ExcelDataset | ParquetDataset | DelimitedTextDataset | JsonDataset | XmlDataset | OrcDataset | BinaryDataset | AzureBlobDataset | AzureTableDataset | AzureSqlTableDataset | AzureSqlMITableDataset | AzureSqlDWTableDataset | CassandraTableDataset | CustomDataset | CosmosDbSqlApiCollectionDataset | DocumentDbCollectionDataset | DynamicsEntityDataset | DynamicsCrmEntityDataset | CommonDataServiceForAppsEntityDataset | AzureDataLakeStoreDataset | AzureBlobFSDataset | Office365Dataset | FileShareDataset | MongoDbCollectionDataset | MongoDbAtlasCollectionDataset | MongoDbV2CollectionDataset | CosmosDbMongoDbApiCollectionDataset | ODataResourceDataset | OracleTableDataset | AmazonRdsForOracleTableDataset | TeradataTableDataset | AzureMySqlTableDataset | AmazonRedshiftTableDataset | Db2TableDataset | RelationalTableDataset | InformixTableDataset | OdbcTableDataset | MySqlTableDataset | PostgreSqlTableDataset | MicrosoftAccessTableDataset | SalesforceObjectDataset | SalesforceServiceCloudObjectDataset | SybaseTableDataset | SapBwCubeDataset | SapCloudForCustomerResourceDataset | SapEccResourceDataset | SapHanaTableDataset | SapOpenHubTableDataset | SqlServerTableDataset | AmazonRdsForSqlServerTableDataset | RestResourceDataset | SapTableResourceDataset | SapOdpResourceDataset | WebTableDataset | AzureSearchIndexDataset | HttpDataset | AmazonMWSObjectDataset | AzurePostgreSqlTableDataset | ConcurObjectDataset | CouchbaseTableDataset | DrillTableDataset | EloquaObjectDataset | GoogleBigQueryObjectDataset | GreenplumTableDataset | HBaseObjectDataset | HiveObjectDataset | HubspotObjectDataset | ImpalaObjectDataset | JiraObjectDataset | MagentoObjectDataset | MariaDBTableDataset | AzureMariaDBTableDataset | MarketoObjectDataset | PaypalObjectDataset | PhoenixObjectDataset | PrestoObjectDataset | QuickBooksObjectDataset | ServiceNowObjectDataset | ShopifyObjectDataset | SparkObjectDataset | SquareObjectDataset | XeroObjectDataset | ZohoObjectDataset | NetezzaTableDataset | VerticaTableDataset | SalesforceMarketingCloudObjectDataset | ResponsysObjectDataset | DynamicsAXResourceDataset | OracleServiceCloudObjectDataset | AzureDataExplorerTableDataset | GoogleAdWordsObjectDataset | SnowflakeDataset | SharePointOnlineListResourceDataset | AzureDatabricksDeltaLakeDataset;
+
+// @public
+export interface DataworldLinkedService extends LinkedService {
+    apiToken: SecretBaseUnion;
+    encryptedCredential?: any;
+    type: "Dataworld";
+}
 
 // @public
 export type DayOfWeek = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
@@ -2021,38 +2068,38 @@ export type Db2AuthenticationType = string;
 // @public
 export interface Db2LinkedService extends LinkedService {
     authenticationType?: Db2AuthenticationType;
-    certificateCommonName?: Record<string, unknown>;
-    connectionString?: Record<string, unknown>;
-    database?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    packageCollection?: Record<string, unknown>;
+    certificateCommonName?: any;
+    connectionString?: any;
+    database?: any;
+    encryptedCredential?: any;
+    packageCollection?: any;
     password?: SecretBaseUnion;
-    server?: Record<string, unknown>;
+    server?: any;
     type: "Db2";
-    username?: Record<string, unknown>;
+    username?: any;
 }
 
 // @public
 export interface Db2Source extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "Db2Source";
 }
 
 // @public
 export interface Db2TableDataset extends Dataset {
-    schemaTypePropertiesSchema?: Record<string, unknown>;
-    table?: Record<string, unknown>;
-    tableName?: Record<string, unknown>;
+    schemaTypePropertiesSchema?: any;
+    table?: any;
+    tableName?: any;
     type: "Db2Table";
 }
 
 // @public
 export interface DeleteActivity extends ExecutionActivity {
     dataset: DatasetReference;
-    enableLogging?: Record<string, unknown>;
+    enableLogging?: any;
     logStorageSettings?: LogStorageSettings;
     maxConcurrentConnections?: number;
-    recursive?: Record<string, unknown>;
+    recursive?: any;
     storeSettings?: StoreReadSettingsUnion;
     type: "Delete";
 }
@@ -2064,23 +2111,23 @@ export interface DeleteDataFlowDebugSessionRequest {
 
 // @public
 export interface DelimitedTextDataset extends Dataset {
-    columnDelimiter?: Record<string, unknown>;
-    compressionCodec?: Record<string, unknown>;
-    compressionLevel?: Record<string, unknown>;
-    encodingName?: Record<string, unknown>;
-    escapeChar?: Record<string, unknown>;
-    firstRowAsHeader?: Record<string, unknown>;
+    columnDelimiter?: any;
+    compressionCodec?: any;
+    compressionLevel?: any;
+    encodingName?: any;
+    escapeChar?: any;
+    firstRowAsHeader?: any;
     location?: DatasetLocationUnion;
-    nullValue?: Record<string, unknown>;
-    quoteChar?: Record<string, unknown>;
-    rowDelimiter?: Record<string, unknown>;
+    nullValue?: any;
+    quoteChar?: any;
+    rowDelimiter?: any;
     type: "DelimitedText";
 }
 
 // @public
 export interface DelimitedTextReadSettings extends FormatReadSettings {
     compressionProperties?: CompressionReadSettingsUnion;
-    skipLineCount?: Record<string, unknown>;
+    skipLineCount?: any;
     type: "DelimitedTextReadSettings";
 }
 
@@ -2093,7 +2140,7 @@ export interface DelimitedTextSink extends CopySink {
 
 // @public
 export interface DelimitedTextSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
+    additionalColumns?: any;
     formatSettings?: DelimitedTextReadSettings;
     storeSettings?: StoreReadSettingsUnion;
     type: "DelimitedTextSource";
@@ -2101,10 +2148,10 @@ export interface DelimitedTextSource extends CopySource {
 
 // @public
 export interface DelimitedTextWriteSettings extends FormatWriteSettings {
-    fileExtension: Record<string, unknown>;
-    fileNamePrefix?: Record<string, unknown>;
-    maxRowsPerFile?: Record<string, unknown>;
-    quoteAllText?: Record<string, unknown>;
+    fileExtension: any;
+    fileNamePrefix?: any;
+    maxRowsPerFile?: any;
+    quoteAllText?: any;
     type: "DelimitedTextWriteSettings";
 }
 
@@ -2121,59 +2168,59 @@ export type DependencyReferenceUnion = DependencyReference | TriggerDependencyRe
 
 // @public
 export interface DistcpSettings {
-    distcpOptions?: Record<string, unknown>;
-    resourceManagerEndpoint: Record<string, unknown>;
-    tempScriptPath: Record<string, unknown>;
+    distcpOptions?: any;
+    resourceManagerEndpoint: any;
+    tempScriptPath: any;
 }
 
 // @public
 export interface DocumentDbCollectionDataset extends Dataset {
-    collectionName: Record<string, unknown>;
+    collectionName: any;
     type: "DocumentDbCollection";
 }
 
 // @public
 export interface DocumentDbCollectionSink extends CopySink {
-    nestingSeparator?: Record<string, unknown>;
+    nestingSeparator?: any;
     type: "DocumentDbCollectionSink";
-    writeBehavior?: Record<string, unknown>;
+    writeBehavior?: any;
 }
 
 // @public
 export interface DocumentDbCollectionSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
-    nestingSeparator?: Record<string, unknown>;
-    query?: Record<string, unknown>;
-    queryTimeout?: Record<string, unknown>;
+    additionalColumns?: any;
+    nestingSeparator?: any;
+    query?: any;
+    queryTimeout?: any;
     type: "DocumentDbCollectionSource";
 }
 
 // @public
 export interface DrillLinkedService extends LinkedService {
-    connectionString?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    connectionString?: any;
+    encryptedCredential?: any;
     pwd?: AzureKeyVaultSecretReference;
     type: "Drill";
 }
 
 // @public
 export interface DrillSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "DrillSource";
 }
 
 // @public
 export interface DrillTableDataset extends Dataset {
-    schemaTypePropertiesSchema?: Record<string, unknown>;
-    table?: Record<string, unknown>;
-    tableName?: Record<string, unknown>;
+    schemaTypePropertiesSchema?: any;
+    table?: any;
+    tableName?: any;
     type: "DrillTable";
 }
 
 // @public
 export interface DWCopyCommandDefaultValue {
-    columnName?: Record<string, unknown>;
-    defaultValue?: Record<string, unknown>;
+    columnName?: any;
+    defaultValue?: any;
 }
 
 // @public
@@ -2189,63 +2236,63 @@ export type DynamicsAuthenticationType = string;
 
 // @public
 export interface DynamicsAXLinkedService extends LinkedService {
-    aadResourceId: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    servicePrincipalId: Record<string, unknown>;
+    aadResourceId: any;
+    encryptedCredential?: any;
+    servicePrincipalId: any;
     servicePrincipalKey: SecretBaseUnion;
-    tenant: Record<string, unknown>;
+    tenant: any;
     type: "DynamicsAX";
-    url: Record<string, unknown>;
+    url: any;
 }
 
 // @public
 export interface DynamicsAXResourceDataset extends Dataset {
-    path: Record<string, unknown>;
+    path: any;
     type: "DynamicsAXResource";
 }
 
 // @public
 export interface DynamicsAXSource extends TabularSource {
-    httpRequestTimeout?: Record<string, unknown>;
-    query?: Record<string, unknown>;
+    httpRequestTimeout?: any;
+    query?: any;
     type: "DynamicsAXSource";
 }
 
 // @public
 export interface DynamicsCrmEntityDataset extends Dataset {
-    entityName?: Record<string, unknown>;
+    entityName?: any;
     type: "DynamicsCrmEntity";
 }
 
 // @public
 export interface DynamicsCrmLinkedService extends LinkedService {
-    authenticationType: Record<string, unknown>;
-    deploymentType: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    hostName?: Record<string, unknown>;
-    organizationName?: Record<string, unknown>;
+    authenticationType: any;
+    deploymentType: any;
+    encryptedCredential?: any;
+    hostName?: any;
+    organizationName?: any;
     password?: SecretBaseUnion;
-    port?: Record<string, unknown>;
+    port?: any;
     servicePrincipalCredential?: SecretBaseUnion;
-    servicePrincipalCredentialType?: Record<string, unknown>;
-    servicePrincipalId?: Record<string, unknown>;
-    serviceUri?: Record<string, unknown>;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalId?: any;
+    serviceUri?: any;
     type: "DynamicsCrm";
-    username?: Record<string, unknown>;
+    username?: any;
 }
 
 // @public
 export interface DynamicsCrmSink extends CopySink {
-    alternateKeyName?: Record<string, unknown>;
-    ignoreNullValues?: Record<string, unknown>;
+    alternateKeyName?: any;
+    ignoreNullValues?: any;
     type: "DynamicsCrmSink";
     writeBehavior: DynamicsSinkWriteBehavior;
 }
 
 // @public
 export interface DynamicsCrmSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
-    query?: Record<string, unknown>;
+    additionalColumns?: any;
+    query?: any;
     type: "DynamicsCrmSource";
 }
 
@@ -2254,31 +2301,32 @@ export type DynamicsDeploymentType = string;
 
 // @public
 export interface DynamicsEntityDataset extends Dataset {
-    entityName?: Record<string, unknown>;
+    entityName?: any;
     type: "DynamicsEntity";
 }
 
 // @public
 export interface DynamicsLinkedService extends LinkedService {
-    authenticationType: Record<string, unknown>;
-    deploymentType: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    hostName?: Record<string, unknown>;
-    organizationName?: Record<string, unknown>;
+    authenticationType: any;
+    credential?: CredentialReference;
+    deploymentType: any;
+    encryptedCredential?: any;
+    hostName?: any;
+    organizationName?: any;
     password?: SecretBaseUnion;
-    port?: Record<string, unknown>;
+    port?: any;
     servicePrincipalCredential?: SecretBaseUnion;
-    servicePrincipalCredentialType?: Record<string, unknown>;
-    servicePrincipalId?: Record<string, unknown>;
-    serviceUri?: Record<string, unknown>;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalId?: any;
+    serviceUri?: any;
     type: "Dynamics";
-    username?: Record<string, unknown>;
+    username?: any;
 }
 
 // @public
 export interface DynamicsSink extends CopySink {
-    alternateKeyName?: Record<string, unknown>;
-    ignoreNullValues?: Record<string, unknown>;
+    alternateKeyName?: any;
+    ignoreNullValues?: any;
     type: "DynamicsSink";
     writeBehavior: DynamicsSinkWriteBehavior;
 }
@@ -2288,32 +2336,32 @@ export type DynamicsSinkWriteBehavior = string;
 
 // @public
 export interface DynamicsSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
-    query?: Record<string, unknown>;
+    additionalColumns?: any;
+    query?: any;
     type: "DynamicsSource";
 }
 
 // @public
 export interface EloquaLinkedService extends LinkedService {
-    encryptedCredential?: Record<string, unknown>;
-    endpoint: Record<string, unknown>;
+    encryptedCredential?: any;
+    endpoint: any;
     password?: SecretBaseUnion;
     type: "Eloqua";
-    useEncryptedEndpoints?: Record<string, unknown>;
-    useHostVerification?: Record<string, unknown>;
-    usePeerVerification?: Record<string, unknown>;
-    username: Record<string, unknown>;
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
+    username: any;
 }
 
 // @public
 export interface EloquaObjectDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "EloquaObject";
 }
 
 // @public
 export interface EloquaSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "EloquaSource";
 }
 
@@ -2344,18 +2392,18 @@ export type EventSubscriptionStatus = string;
 // @public
 export interface ExcelDataset extends Dataset {
     compression?: DatasetCompression;
-    firstRowAsHeader?: Record<string, unknown>;
+    firstRowAsHeader?: any;
     location?: DatasetLocationUnion;
-    nullValue?: Record<string, unknown>;
-    range?: Record<string, unknown>;
-    sheetIndex?: Record<string, unknown>;
-    sheetName?: Record<string, unknown>;
+    nullValue?: any;
+    range?: any;
+    sheetIndex?: any;
+    sheetName?: any;
     type: "Excel";
 }
 
 // @public
 export interface ExcelSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
+    additionalColumns?: any;
     storeSettings?: StoreReadSettingsUnion;
     type: "ExcelSource";
 }
@@ -2363,40 +2411,49 @@ export interface ExcelSource extends CopySource {
 // @public
 export interface ExecuteDataFlowActivity extends ExecutionActivity {
     compute?: ExecuteDataFlowActivityTypePropertiesCompute;
-    continueOnError?: Record<string, unknown>;
+    continueOnError?: any;
     dataFlow: DataFlowReference;
     integrationRuntime?: IntegrationRuntimeReference;
-    runConcurrently?: Record<string, unknown>;
+    runConcurrently?: any;
+    sourceStagingConcurrency?: any;
     staging?: DataFlowStagingInfo;
-    traceLevel?: Record<string, unknown>;
+    traceLevel?: any;
     type: "ExecuteDataFlow";
 }
 
 // @public
 export interface ExecuteDataFlowActivityTypeProperties {
     compute?: ExecuteDataFlowActivityTypePropertiesCompute;
-    continueOnError?: Record<string, unknown>;
+    continueOnError?: any;
     dataFlow: DataFlowReference;
     integrationRuntime?: IntegrationRuntimeReference;
-    runConcurrently?: Record<string, unknown>;
+    runConcurrently?: any;
+    sourceStagingConcurrency?: any;
     staging?: DataFlowStagingInfo;
-    traceLevel?: Record<string, unknown>;
+    traceLevel?: any;
 }
 
 // @public
 export interface ExecuteDataFlowActivityTypePropertiesCompute {
-    computeType?: Record<string, unknown>;
-    coreCount?: Record<string, unknown>;
+    computeType?: any;
+    coreCount?: any;
 }
 
 // @public
 export interface ExecutePipelineActivity extends ControlActivity {
     parameters?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     pipeline: PipelineReference;
+    policy?: ExecutePipelineActivityPolicy;
     type: "ExecutePipeline";
     waitOnCompletion?: boolean;
+}
+
+// @public
+export interface ExecutePipelineActivityPolicy {
+    [property: string]: any;
+    secureInput?: boolean;
 }
 
 // @public
@@ -2410,9 +2467,9 @@ export interface ExecutePowerQueryActivityTypeProperties extends ExecuteDataFlow
 // @public
 export interface ExecuteSsisPackageActivity extends ExecutionActivity {
     connectVia: IntegrationRuntimeReference;
-    environmentPath?: Record<string, unknown>;
+    environmentPath?: any;
     executionCredential?: SsisExecutionCredential;
-    loggingLevel?: Record<string, unknown>;
+    loggingLevel?: any;
     logLocation?: SsisLogLocation;
     packageConnectionManagers?: {
         [propertyName: string]: {
@@ -2434,24 +2491,25 @@ export interface ExecuteSsisPackageActivity extends ExecutionActivity {
     propertyOverrides?: {
         [propertyName: string]: SsisPropertyOverride;
     };
-    runtime?: Record<string, unknown>;
+    runtime?: any;
     type: "ExecuteSSISPackage";
 }
 
 // @public
 export interface ExecuteWranglingDataflowActivity extends Activity {
     compute?: ExecuteDataFlowActivityTypePropertiesCompute;
-    continueOnError?: Record<string, unknown>;
+    continueOnError?: any;
     dataFlow: DataFlowReference;
     integrationRuntime?: IntegrationRuntimeReference;
     policy?: ActivityPolicy;
     queries?: PowerQuerySinkMapping[];
-    runConcurrently?: Record<string, unknown>;
+    runConcurrently?: any;
     sinks?: {
         [propertyName: string]: PowerQuerySink;
     };
+    sourceStagingConcurrency?: any;
     staging?: DataFlowStagingInfo;
-    traceLevel?: Record<string, unknown>;
+    traceLevel?: any;
     type: "ExecuteWranglingDataflow";
 }
 
@@ -2459,11 +2517,11 @@ export interface ExecuteWranglingDataflowActivity extends Activity {
 export interface ExecutionActivity extends Activity {
     linkedServiceName?: LinkedServiceReference;
     policy?: ActivityPolicy;
-    type: "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "AzureFunctionActivity" | "ExecuteDataFlow";
+    type: "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "AzureFunctionActivity" | "ExecuteDataFlow" | "Script" | "SynapseNotebook" | "SparkJob";
 }
 
 // @public (undocumented)
-export type ExecutionActivityUnion = ExecutionActivity | CopyActivity | HDInsightHiveActivity | HDInsightPigActivity | HDInsightMapReduceActivity | HDInsightStreamingActivity | HDInsightSparkActivity | ExecuteSsisPackageActivity | CustomActivity | SqlServerStoredProcedureActivity | DeleteActivity | AzureDataExplorerCommandActivity | LookupActivity | WebActivity | GetMetadataActivity | AzureMLBatchExecutionActivity | AzureMLUpdateResourceActivity | AzureMLExecutePipelineActivity | DataLakeAnalyticsUsqlActivity | DatabricksNotebookActivity | DatabricksSparkJarActivity | DatabricksSparkPythonActivity | AzureFunctionActivity | ExecuteDataFlowActivity;
+export type ExecutionActivityUnion = ExecutionActivity | CopyActivity | HDInsightHiveActivity | HDInsightPigActivity | HDInsightMapReduceActivity | HDInsightStreamingActivity | HDInsightSparkActivity | ExecuteSsisPackageActivity | CustomActivity | SqlServerStoredProcedureActivity | DeleteActivity | AzureDataExplorerCommandActivity | LookupActivity | WebActivity | GetMetadataActivity | AzureMLBatchExecutionActivity | AzureMLUpdateResourceActivity | AzureMLExecutePipelineActivity | DataLakeAnalyticsUsqlActivity | DatabricksNotebookActivity | DatabricksSparkJarActivity | DatabricksSparkPythonActivity | AzureFunctionActivity | ExecuteDataFlowActivity | ScriptActivity | SynapseNotebookActivity | SynapseSparkJobDefinitionActivity;
 
 // @public
 export interface ExportSettings {
@@ -2630,6 +2688,7 @@ export interface Factory extends Resource {
     identity?: FactoryIdentity;
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
+    purviewConfiguration?: PurviewConfiguration;
     repoConfiguration?: FactoryRepoConfigurationUnion;
     readonly version?: string;
 }
@@ -2648,7 +2707,7 @@ export interface FactoryIdentity {
     readonly tenantId?: string;
     type: FactoryIdentityType;
     userAssignedIdentities?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
 }
 
@@ -2665,6 +2724,7 @@ export interface FactoryListResponse {
 export interface FactoryRepoConfiguration {
     accountName: string;
     collaborationBranch: string;
+    disablePublish?: boolean;
     lastCommitId?: string;
     repositoryName: string;
     rootFolder: string;
@@ -2697,12 +2757,19 @@ export interface FactoryVstsConfiguration extends FactoryRepoConfiguration {
 }
 
 // @public
+export interface FailActivity extends ControlActivity {
+    errorCode: any;
+    message: any;
+    type: "Fail";
+}
+
+// @public
 export interface FileServerLinkedService extends LinkedService {
-    encryptedCredential?: Record<string, unknown>;
-    host: Record<string, unknown>;
+    encryptedCredential?: any;
+    host: any;
     password?: SecretBaseUnion;
     type: "FileServer";
-    userId?: Record<string, unknown>;
+    userId?: any;
 }
 
 // @public
@@ -2712,17 +2779,17 @@ export interface FileServerLocation extends DatasetLocation {
 
 // @public
 export interface FileServerReadSettings extends StoreReadSettings {
-    deleteFilesAfterCompletion?: Record<string, unknown>;
+    deleteFilesAfterCompletion?: any;
     enablePartitionDiscovery?: boolean;
-    fileFilter?: Record<string, unknown>;
-    fileListPath?: Record<string, unknown>;
-    modifiedDatetimeEnd?: Record<string, unknown>;
-    modifiedDatetimeStart?: Record<string, unknown>;
-    partitionRootPath?: Record<string, unknown>;
-    recursive?: Record<string, unknown>;
+    fileFilter?: any;
+    fileListPath?: any;
+    modifiedDatetimeEnd?: any;
+    modifiedDatetimeStart?: any;
+    partitionRootPath?: any;
+    recursive?: any;
     type: "FileServerReadSettings";
-    wildcardFileName?: Record<string, unknown>;
-    wildcardFolderPath?: Record<string, unknown>;
+    wildcardFileName?: any;
+    wildcardFolderPath?: any;
 }
 
 // @public
@@ -2733,25 +2800,25 @@ export interface FileServerWriteSettings extends StoreWriteSettings {
 // @public
 export interface FileShareDataset extends Dataset {
     compression?: DatasetCompression;
-    fileFilter?: Record<string, unknown>;
-    fileName?: Record<string, unknown>;
-    folderPath?: Record<string, unknown>;
+    fileFilter?: any;
+    fileName?: any;
+    folderPath?: any;
     format?: DatasetStorageFormatUnion;
-    modifiedDatetimeEnd?: Record<string, unknown>;
-    modifiedDatetimeStart?: Record<string, unknown>;
+    modifiedDatetimeEnd?: any;
+    modifiedDatetimeStart?: any;
     type: "FileShare";
 }
 
 // @public
 export interface FileSystemSink extends CopySink {
-    copyBehavior?: Record<string, unknown>;
+    copyBehavior?: any;
     type: "FileSystemSink";
 }
 
 // @public
 export interface FileSystemSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
-    recursive?: Record<string, unknown>;
+    additionalColumns?: any;
+    recursive?: any;
     type: "FileSystemSource";
 }
 
@@ -2804,29 +2871,29 @@ export type FtpAuthenticationType = string;
 
 // @public
 export interface FtpReadSettings extends StoreReadSettings {
-    deleteFilesAfterCompletion?: Record<string, unknown>;
-    disableChunking?: Record<string, unknown>;
+    deleteFilesAfterCompletion?: any;
+    disableChunking?: any;
     enablePartitionDiscovery?: boolean;
-    fileListPath?: Record<string, unknown>;
-    partitionRootPath?: Record<string, unknown>;
-    recursive?: Record<string, unknown>;
+    fileListPath?: any;
+    partitionRootPath?: any;
+    recursive?: any;
     type: "FtpReadSettings";
     useBinaryTransfer?: boolean;
-    wildcardFileName?: Record<string, unknown>;
-    wildcardFolderPath?: Record<string, unknown>;
+    wildcardFileName?: any;
+    wildcardFolderPath?: any;
 }
 
 // @public
 export interface FtpServerLinkedService extends LinkedService {
     authenticationType?: FtpAuthenticationType;
-    enableServerCertificateValidation?: Record<string, unknown>;
-    enableSsl?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    host: Record<string, unknown>;
+    enableServerCertificateValidation?: any;
+    enableSsl?: any;
+    encryptedCredential?: any;
+    host: any;
     password?: SecretBaseUnion;
-    port?: Record<string, unknown>;
+    port?: any;
     type: "FtpServer";
-    userName?: Record<string, unknown>;
+    userName?: any;
 }
 
 // @public
@@ -2846,7 +2913,7 @@ export interface GetDataFactoryOperationStatusResponse {
 // @public
 export interface GetMetadataActivity extends ExecutionActivity {
     dataset: DatasetReference;
-    fieldList?: Record<string, unknown>[];
+    fieldList?: any[];
     formatSettings?: FormatReadSettingsUnion;
     storeSettings?: StoreReadSettingsUnion;
     type: "GetMetadata";
@@ -2877,9 +2944,62 @@ export interface GitHubClientSecret {
 }
 
 // @public
+export interface GlobalParameterListResponse {
+    nextLink?: string;
+    value: GlobalParameterResource[];
+}
+
+// @public
+export interface GlobalParameterResource extends SubResource {
+    properties: {
+        [propertyName: string]: GlobalParameterSpecification;
+    };
+}
+
+// @public
+export interface GlobalParameters {
+    createOrUpdate(resourceGroupName: string, factoryName: string, globalParameterName: string, defaultParam: GlobalParameterResource, options?: GlobalParametersCreateOrUpdateOptionalParams): Promise<GlobalParametersCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, factoryName: string, globalParameterName: string, options?: GlobalParametersDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, factoryName: string, globalParameterName: string, options?: GlobalParametersGetOptionalParams): Promise<GlobalParametersGetResponse>;
+    listByFactory(resourceGroupName: string, factoryName: string, options?: GlobalParametersListByFactoryOptionalParams): PagedAsyncIterableIterator<GlobalParameterResource>;
+}
+
+// @public
+export interface GlobalParametersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GlobalParametersCreateOrUpdateResponse = GlobalParameterResource;
+
+// @public
+export interface GlobalParametersDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface GlobalParametersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GlobalParametersGetResponse = GlobalParameterResource;
+
+// @public
+export interface GlobalParametersListByFactoryNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GlobalParametersListByFactoryNextResponse = GlobalParameterListResponse;
+
+// @public
+export interface GlobalParametersListByFactoryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GlobalParametersListByFactoryResponse = GlobalParameterListResponse;
+
+// @public
 export interface GlobalParameterSpecification {
     type: GlobalParameterType;
-    value: Record<string, unknown>;
+    value: any;
 }
 
 // @public
@@ -2890,29 +3010,30 @@ export type GoogleAdWordsAuthenticationType = string;
 
 // @public
 export interface GoogleAdWordsLinkedService extends LinkedService {
-    authenticationType: GoogleAdWordsAuthenticationType;
-    clientCustomerID: Record<string, unknown>;
-    clientId?: Record<string, unknown>;
+    authenticationType?: GoogleAdWordsAuthenticationType;
+    clientCustomerID?: any;
+    clientId?: any;
     clientSecret?: SecretBaseUnion;
-    developerToken: SecretBaseUnion;
-    email?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    keyFilePath?: Record<string, unknown>;
+    connectionProperties?: any;
+    developerToken?: SecretBaseUnion;
+    email?: any;
+    encryptedCredential?: any;
+    keyFilePath?: any;
     refreshToken?: SecretBaseUnion;
-    trustedCertPath?: Record<string, unknown>;
+    trustedCertPath?: any;
     type: "GoogleAdWords";
-    useSystemTrustStore?: Record<string, unknown>;
+    useSystemTrustStore?: any;
 }
 
 // @public
 export interface GoogleAdWordsObjectDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "GoogleAdWordsObject";
 }
 
 // @public
 export interface GoogleAdWordsSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "GoogleAdWordsSource";
 }
 
@@ -2921,85 +3042,92 @@ export type GoogleBigQueryAuthenticationType = string;
 
 // @public
 export interface GoogleBigQueryLinkedService extends LinkedService {
-    additionalProjects?: Record<string, unknown>;
+    additionalProjects?: any;
     authenticationType: GoogleBigQueryAuthenticationType;
-    clientId?: Record<string, unknown>;
+    clientId?: any;
     clientSecret?: SecretBaseUnion;
-    email?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    keyFilePath?: Record<string, unknown>;
-    project: Record<string, unknown>;
+    email?: any;
+    encryptedCredential?: any;
+    keyFilePath?: any;
+    project: any;
     refreshToken?: SecretBaseUnion;
-    requestGoogleDriveScope?: Record<string, unknown>;
-    trustedCertPath?: Record<string, unknown>;
+    requestGoogleDriveScope?: any;
+    trustedCertPath?: any;
     type: "GoogleBigQuery";
-    useSystemTrustStore?: Record<string, unknown>;
+    useSystemTrustStore?: any;
 }
 
 // @public
 export interface GoogleBigQueryObjectDataset extends Dataset {
-    dataset?: Record<string, unknown>;
-    table?: Record<string, unknown>;
-    tableName?: Record<string, unknown>;
+    dataset?: any;
+    table?: any;
+    tableName?: any;
     type: "GoogleBigQueryObject";
 }
 
 // @public
 export interface GoogleBigQuerySource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "GoogleBigQuerySource";
 }
 
 // @public
 export interface GoogleCloudStorageLinkedService extends LinkedService {
-    accessKeyId?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    accessKeyId?: any;
+    encryptedCredential?: any;
     secretAccessKey?: SecretBaseUnion;
-    serviceUrl?: Record<string, unknown>;
+    serviceUrl?: any;
     type: "GoogleCloudStorage";
 }
 
 // @public
 export interface GoogleCloudStorageLocation extends DatasetLocation {
-    bucketName?: Record<string, unknown>;
+    bucketName?: any;
     type: "GoogleCloudStorageLocation";
-    version?: Record<string, unknown>;
+    version?: any;
 }
 
 // @public
 export interface GoogleCloudStorageReadSettings extends StoreReadSettings {
-    deleteFilesAfterCompletion?: Record<string, unknown>;
+    deleteFilesAfterCompletion?: any;
     enablePartitionDiscovery?: boolean;
-    fileListPath?: Record<string, unknown>;
-    modifiedDatetimeEnd?: Record<string, unknown>;
-    modifiedDatetimeStart?: Record<string, unknown>;
-    partitionRootPath?: Record<string, unknown>;
-    prefix?: Record<string, unknown>;
-    recursive?: Record<string, unknown>;
+    fileListPath?: any;
+    modifiedDatetimeEnd?: any;
+    modifiedDatetimeStart?: any;
+    partitionRootPath?: any;
+    prefix?: any;
+    recursive?: any;
     type: "GoogleCloudStorageReadSettings";
-    wildcardFileName?: Record<string, unknown>;
-    wildcardFolderPath?: Record<string, unknown>;
+    wildcardFileName?: any;
+    wildcardFolderPath?: any;
+}
+
+// @public
+export interface GoogleSheetsLinkedService extends LinkedService {
+    apiToken: SecretBaseUnion;
+    encryptedCredential?: any;
+    type: "GoogleSheets";
 }
 
 // @public
 export interface GreenplumLinkedService extends LinkedService {
-    connectionString?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    connectionString?: any;
+    encryptedCredential?: any;
     pwd?: AzureKeyVaultSecretReference;
     type: "Greenplum";
 }
 
 // @public
 export interface GreenplumSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "GreenplumSource";
 }
 
 // @public
 export interface GreenplumTableDataset extends Dataset {
-    schemaTypePropertiesSchema?: Record<string, unknown>;
-    table?: Record<string, unknown>;
-    tableName?: Record<string, unknown>;
+    schemaTypePropertiesSchema?: any;
+    table?: any;
+    tableName?: any;
     type: "GreenplumTable";
 }
 
@@ -3008,40 +3136,40 @@ export type HBaseAuthenticationType = string;
 
 // @public
 export interface HBaseLinkedService extends LinkedService {
-    allowHostNameCNMismatch?: Record<string, unknown>;
-    allowSelfSignedServerCert?: Record<string, unknown>;
+    allowHostNameCNMismatch?: any;
+    allowSelfSignedServerCert?: any;
     authenticationType: HBaseAuthenticationType;
-    enableSsl?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    host: Record<string, unknown>;
-    httpPath?: Record<string, unknown>;
+    enableSsl?: any;
+    encryptedCredential?: any;
+    host: any;
+    httpPath?: any;
     password?: SecretBaseUnion;
-    port?: Record<string, unknown>;
-    trustedCertPath?: Record<string, unknown>;
+    port?: any;
+    trustedCertPath?: any;
     type: "HBase";
-    username?: Record<string, unknown>;
+    username?: any;
 }
 
 // @public
 export interface HBaseObjectDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "HBaseObject";
 }
 
 // @public
 export interface HBaseSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "HBaseSource";
 }
 
 // @public
 export interface HdfsLinkedService extends LinkedService {
-    authenticationType?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    authenticationType?: any;
+    encryptedCredential?: any;
     password?: SecretBaseUnion;
     type: "Hdfs";
-    url: Record<string, unknown>;
-    userName?: Record<string, unknown>;
+    url: any;
+    userName?: any;
 }
 
 // @public
@@ -3051,23 +3179,23 @@ export interface HdfsLocation extends DatasetLocation {
 
 // @public
 export interface HdfsReadSettings extends StoreReadSettings {
-    deleteFilesAfterCompletion?: Record<string, unknown>;
+    deleteFilesAfterCompletion?: any;
     distcpSettings?: DistcpSettings;
     enablePartitionDiscovery?: boolean;
-    fileListPath?: Record<string, unknown>;
-    modifiedDatetimeEnd?: Record<string, unknown>;
-    modifiedDatetimeStart?: Record<string, unknown>;
-    partitionRootPath?: Record<string, unknown>;
-    recursive?: Record<string, unknown>;
+    fileListPath?: any;
+    modifiedDatetimeEnd?: any;
+    modifiedDatetimeStart?: any;
+    partitionRootPath?: any;
+    recursive?: any;
     type: "HdfsReadSettings";
-    wildcardFileName?: Record<string, unknown>;
-    wildcardFolderPath?: Record<string, unknown>;
+    wildcardFileName?: any;
+    wildcardFolderPath?: any;
 }
 
 // @public
 export interface HdfsSource extends CopySource {
     distcpSettings?: DistcpSettings;
-    recursive?: Record<string, unknown>;
+    recursive?: any;
     type: "HdfsSource";
 }
 
@@ -3079,42 +3207,42 @@ export type HDInsightActivityDebugInfoOption = string;
 
 // @public
 export interface HDInsightHiveActivity extends ExecutionActivity {
-    arguments?: Record<string, unknown>[];
+    arguments?: any[];
     defines?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     getDebugInfo?: HDInsightActivityDebugInfoOption;
     queryTimeout?: number;
     scriptLinkedService?: LinkedServiceReference;
-    scriptPath?: Record<string, unknown>;
+    scriptPath?: any;
     storageLinkedServices?: LinkedServiceReference[];
     type: "HDInsightHive";
-    variables?: Record<string, unknown>[];
+    variables?: any[];
 }
 
 // @public
 export interface HDInsightLinkedService extends LinkedService {
-    clusterUri: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    fileSystem?: Record<string, unknown>;
+    clusterUri: any;
+    encryptedCredential?: any;
+    fileSystem?: any;
     hcatalogLinkedServiceName?: LinkedServiceReference;
-    isEspEnabled?: Record<string, unknown>;
+    isEspEnabled?: any;
     linkedServiceName?: LinkedServiceReference;
     password?: SecretBaseUnion;
     type: "HDInsight";
-    userName?: Record<string, unknown>;
+    userName?: any;
 }
 
 // @public
 export interface HDInsightMapReduceActivity extends ExecutionActivity {
-    arguments?: Record<string, unknown>[];
-    className: Record<string, unknown>;
+    arguments?: any[];
+    className: any;
     defines?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     getDebugInfo?: HDInsightActivityDebugInfoOption;
-    jarFilePath: Record<string, unknown>;
-    jarLibs?: Record<string, unknown>[];
+    jarFilePath: any;
+    jarLibs?: any[];
     jarLinkedService?: LinkedServiceReference;
     storageLinkedServices?: LinkedServiceReference[];
     type: "HDInsightMapReduce";
@@ -3123,65 +3251,65 @@ export interface HDInsightMapReduceActivity extends ExecutionActivity {
 // @public
 export interface HDInsightOnDemandLinkedService extends LinkedService {
     additionalLinkedServiceNames?: LinkedServiceReference[];
-    clusterNamePrefix?: Record<string, unknown>;
+    clusterNamePrefix?: any;
     clusterPassword?: SecretBaseUnion;
-    clusterResourceGroup: Record<string, unknown>;
-    clusterSize: Record<string, unknown>;
+    clusterResourceGroup: any;
+    clusterSize: any;
     clusterSshPassword?: SecretBaseUnion;
-    clusterSshUserName?: Record<string, unknown>;
-    clusterType?: Record<string, unknown>;
-    clusterUserName?: Record<string, unknown>;
-    coreConfiguration?: Record<string, unknown>;
+    clusterSshUserName?: any;
+    clusterType?: any;
+    clusterUserName?: any;
+    coreConfiguration?: any;
     credential?: CredentialReference;
-    dataNodeSize?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    hBaseConfiguration?: Record<string, unknown>;
+    dataNodeSize?: any;
+    encryptedCredential?: any;
+    hBaseConfiguration?: any;
     hcatalogLinkedServiceName?: LinkedServiceReference;
-    hdfsConfiguration?: Record<string, unknown>;
-    headNodeSize?: Record<string, unknown>;
-    hiveConfiguration?: Record<string, unknown>;
-    hostSubscriptionId: Record<string, unknown>;
+    hdfsConfiguration?: any;
+    headNodeSize?: any;
+    hiveConfiguration?: any;
+    hostSubscriptionId: any;
     linkedServiceName: LinkedServiceReference;
-    mapReduceConfiguration?: Record<string, unknown>;
-    oozieConfiguration?: Record<string, unknown>;
+    mapReduceConfiguration?: any;
+    oozieConfiguration?: any;
     scriptActions?: ScriptAction[];
-    servicePrincipalId?: Record<string, unknown>;
+    servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
-    sparkVersion?: Record<string, unknown>;
-    stormConfiguration?: Record<string, unknown>;
-    subnetName?: Record<string, unknown>;
-    tenant: Record<string, unknown>;
-    timeToLive: Record<string, unknown>;
+    sparkVersion?: any;
+    stormConfiguration?: any;
+    subnetName?: any;
+    tenant: any;
+    timeToLive: any;
     type: "HDInsightOnDemand";
-    version: Record<string, unknown>;
-    virtualNetworkId?: Record<string, unknown>;
-    yarnConfiguration?: Record<string, unknown>;
-    zookeeperNodeSize?: Record<string, unknown>;
+    version: any;
+    virtualNetworkId?: any;
+    yarnConfiguration?: any;
+    zookeeperNodeSize?: any;
 }
 
 // @public
 export interface HDInsightPigActivity extends ExecutionActivity {
-    arguments?: Record<string, unknown>;
+    arguments?: any;
     defines?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     getDebugInfo?: HDInsightActivityDebugInfoOption;
     scriptLinkedService?: LinkedServiceReference;
-    scriptPath?: Record<string, unknown>;
+    scriptPath?: any;
     storageLinkedServices?: LinkedServiceReference[];
     type: "HDInsightPig";
 }
 
 // @public
 export interface HDInsightSparkActivity extends ExecutionActivity {
-    arguments?: Record<string, unknown>[];
+    arguments?: any[];
     className?: string;
-    entryFilePath: Record<string, unknown>;
+    entryFilePath: any;
     getDebugInfo?: HDInsightActivityDebugInfoOption;
-    proxyUser?: Record<string, unknown>;
-    rootPath: Record<string, unknown>;
+    proxyUser?: any;
+    rootPath: any;
     sparkConfig?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     sparkJobLinkedService?: LinkedServiceReference;
     type: "HDInsightSpark";
@@ -3189,19 +3317,19 @@ export interface HDInsightSparkActivity extends ExecutionActivity {
 
 // @public
 export interface HDInsightStreamingActivity extends ExecutionActivity {
-    arguments?: Record<string, unknown>[];
-    combiner?: Record<string, unknown>;
-    commandEnvironment?: Record<string, unknown>[];
+    arguments?: any[];
+    combiner?: any;
+    commandEnvironment?: any[];
     defines?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     fileLinkedService?: LinkedServiceReference;
-    filePaths: Record<string, unknown>[];
+    filePaths: any[];
     getDebugInfo?: HDInsightActivityDebugInfoOption;
-    input: Record<string, unknown>;
-    mapper: Record<string, unknown>;
-    output: Record<string, unknown>;
-    reducer: Record<string, unknown>;
+    input: any;
+    mapper: any;
+    output: any;
+    reducer: any;
     storageLinkedServices?: LinkedServiceReference[];
     type: "HDInsightStreaming";
 }
@@ -3211,31 +3339,31 @@ export type HiveAuthenticationType = string;
 
 // @public
 export interface HiveLinkedService extends LinkedService {
-    allowHostNameCNMismatch?: Record<string, unknown>;
-    allowSelfSignedServerCert?: Record<string, unknown>;
+    allowHostNameCNMismatch?: any;
+    allowSelfSignedServerCert?: any;
     authenticationType: HiveAuthenticationType;
-    enableSsl?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    host: Record<string, unknown>;
-    httpPath?: Record<string, unknown>;
+    enableSsl?: any;
+    encryptedCredential?: any;
+    host: any;
+    httpPath?: any;
     password?: SecretBaseUnion;
-    port?: Record<string, unknown>;
+    port?: any;
     serverType?: HiveServerType;
-    serviceDiscoveryMode?: Record<string, unknown>;
+    serviceDiscoveryMode?: any;
     thriftTransportProtocol?: HiveThriftTransportProtocol;
-    trustedCertPath?: Record<string, unknown>;
+    trustedCertPath?: any;
     type: "Hive";
-    useNativeQuery?: Record<string, unknown>;
-    username?: Record<string, unknown>;
-    useSystemTrustStore?: Record<string, unknown>;
-    zooKeeperNameSpace?: Record<string, unknown>;
+    useNativeQuery?: any;
+    username?: any;
+    useSystemTrustStore?: any;
+    zooKeeperNameSpace?: any;
 }
 
 // @public
 export interface HiveObjectDataset extends Dataset {
-    schemaTypePropertiesSchema?: Record<string, unknown>;
-    table?: Record<string, unknown>;
-    tableName?: Record<string, unknown>;
+    schemaTypePropertiesSchema?: any;
+    table?: any;
+    tableName?: any;
     type: "HiveObject";
 }
 
@@ -3244,7 +3372,7 @@ export type HiveServerType = string;
 
 // @public
 export interface HiveSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "HiveSource";
 }
 
@@ -3256,74 +3384,74 @@ export type HttpAuthenticationType = string;
 
 // @public
 export interface HttpDataset extends Dataset {
-    additionalHeaders?: Record<string, unknown>;
+    additionalHeaders?: any;
     compression?: DatasetCompression;
     format?: DatasetStorageFormatUnion;
-    relativeUrl?: Record<string, unknown>;
-    requestBody?: Record<string, unknown>;
-    requestMethod?: Record<string, unknown>;
+    relativeUrl?: any;
+    requestBody?: any;
+    requestMethod?: any;
     type: "HttpFile";
 }
 
 // @public
 export interface HttpLinkedService extends LinkedService {
     authenticationType?: HttpAuthenticationType;
-    authHeaders?: Record<string, unknown>;
-    certThumbprint?: Record<string, unknown>;
-    embeddedCertData?: Record<string, unknown>;
-    enableServerCertificateValidation?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    authHeaders?: any;
+    certThumbprint?: any;
+    embeddedCertData?: any;
+    enableServerCertificateValidation?: any;
+    encryptedCredential?: any;
     password?: SecretBaseUnion;
     type: "HttpServer";
-    url: Record<string, unknown>;
-    userName?: Record<string, unknown>;
+    url: any;
+    userName?: any;
 }
 
 // @public
 export interface HttpReadSettings extends StoreReadSettings {
-    additionalHeaders?: Record<string, unknown>;
+    additionalHeaders?: any;
     enablePartitionDiscovery?: boolean;
-    partitionRootPath?: Record<string, unknown>;
-    requestBody?: Record<string, unknown>;
-    requestMethod?: Record<string, unknown>;
-    requestTimeout?: Record<string, unknown>;
+    partitionRootPath?: any;
+    requestBody?: any;
+    requestMethod?: any;
+    requestTimeout?: any;
     type: "HttpReadSettings";
 }
 
 // @public
 export interface HttpServerLocation extends DatasetLocation {
-    relativeUrl?: Record<string, unknown>;
+    relativeUrl?: any;
     type: "HttpServerLocation";
 }
 
 // @public
 export interface HttpSource extends CopySource {
-    httpRequestTimeout?: Record<string, unknown>;
+    httpRequestTimeout?: any;
     type: "HttpSource";
 }
 
 // @public
 export interface HubspotLinkedService extends LinkedService {
     accessToken?: SecretBaseUnion;
-    clientId: Record<string, unknown>;
+    clientId: any;
     clientSecret?: SecretBaseUnion;
-    encryptedCredential?: Record<string, unknown>;
+    encryptedCredential?: any;
     refreshToken?: SecretBaseUnion;
     type: "Hubspot";
-    useEncryptedEndpoints?: Record<string, unknown>;
-    useHostVerification?: Record<string, unknown>;
-    usePeerVerification?: Record<string, unknown>;
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
 }
 
 // @public
 export interface HubspotObjectDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "HubspotObject";
 }
 
 // @public
 export interface HubspotSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "HubspotSource";
 }
 
@@ -3340,31 +3468,31 @@ export type ImpalaAuthenticationType = string;
 
 // @public
 export interface ImpalaLinkedService extends LinkedService {
-    allowHostNameCNMismatch?: Record<string, unknown>;
-    allowSelfSignedServerCert?: Record<string, unknown>;
+    allowHostNameCNMismatch?: any;
+    allowSelfSignedServerCert?: any;
     authenticationType: ImpalaAuthenticationType;
-    enableSsl?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    host: Record<string, unknown>;
+    enableSsl?: any;
+    encryptedCredential?: any;
+    host: any;
     password?: SecretBaseUnion;
-    port?: Record<string, unknown>;
-    trustedCertPath?: Record<string, unknown>;
+    port?: any;
+    trustedCertPath?: any;
     type: "Impala";
-    username?: Record<string, unknown>;
-    useSystemTrustStore?: Record<string, unknown>;
+    username?: any;
+    useSystemTrustStore?: any;
 }
 
 // @public
 export interface ImpalaObjectDataset extends Dataset {
-    schemaTypePropertiesSchema?: Record<string, unknown>;
-    table?: Record<string, unknown>;
-    tableName?: Record<string, unknown>;
+    schemaTypePropertiesSchema?: any;
+    table?: any;
+    tableName?: any;
     type: "ImpalaObject";
 }
 
 // @public
 export interface ImpalaSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "ImpalaSource";
 }
 
@@ -3379,30 +3507,30 @@ export type ImportSettingsUnion = ImportSettings | AzureDatabricksDeltaLakeImpor
 
 // @public
 export interface InformixLinkedService extends LinkedService {
-    authenticationType?: Record<string, unknown>;
-    connectionString: Record<string, unknown>;
+    authenticationType?: any;
+    connectionString: any;
     credential?: SecretBaseUnion;
-    encryptedCredential?: Record<string, unknown>;
+    encryptedCredential?: any;
     password?: SecretBaseUnion;
     type: "Informix";
-    userName?: Record<string, unknown>;
+    userName?: any;
 }
 
 // @public
 export interface InformixSink extends CopySink {
-    preCopyScript?: Record<string, unknown>;
+    preCopyScript?: any;
     type: "InformixSink";
 }
 
 // @public
 export interface InformixSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "InformixSource";
 }
 
 // @public
 export interface InformixTableDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "InformixTable";
 }
 
@@ -3603,7 +3731,7 @@ export interface IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse 
 // @public
 export interface IntegrationRuntimeReference {
     parameters?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     referenceName: string;
     type: "IntegrationRuntimeReference";
@@ -3831,44 +3959,44 @@ export interface IntegrationRuntimeVNetProperties {
 
 // @public
 export interface JiraLinkedService extends LinkedService {
-    encryptedCredential?: Record<string, unknown>;
-    host: Record<string, unknown>;
+    encryptedCredential?: any;
+    host: any;
     password?: SecretBaseUnion;
-    port?: Record<string, unknown>;
+    port?: any;
     type: "Jira";
-    useEncryptedEndpoints?: Record<string, unknown>;
-    useHostVerification?: Record<string, unknown>;
-    usePeerVerification?: Record<string, unknown>;
-    username: Record<string, unknown>;
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
+    username: any;
 }
 
 // @public
 export interface JiraObjectDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "JiraObject";
 }
 
 // @public
 export interface JiraSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "JiraSource";
 }
 
 // @public
 export interface JsonDataset extends Dataset {
     compression?: DatasetCompression;
-    encodingName?: Record<string, unknown>;
+    encodingName?: any;
     location?: DatasetLocationUnion;
     type: "Json";
 }
 
 // @public
 export interface JsonFormat extends DatasetStorageFormat {
-    encodingName?: Record<string, unknown>;
-    filePattern?: Record<string, unknown>;
-    jsonNodeReference?: Record<string, unknown>;
-    jsonPathDefinition?: Record<string, unknown>;
-    nestingSeparator?: Record<string, unknown>;
+    encodingName?: any;
+    filePattern?: any;
+    jsonNodeReference?: any;
+    jsonPathDefinition?: any;
+    nestingSeparator?: any;
     type: "JsonFormat";
 }
 
@@ -3890,7 +4018,7 @@ export interface JsonSink extends CopySink {
 
 // @public
 export interface JsonSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
+    additionalColumns?: any;
     formatSettings?: JsonReadSettings;
     storeSettings?: StoreReadSettingsUnion;
     type: "JsonSource";
@@ -3901,7 +4029,7 @@ export type JsonWriteFilePattern = string;
 
 // @public
 export interface JsonWriteSettings extends FormatWriteSettings {
-    filePattern?: Record<string, unknown>;
+    filePattern?: any;
     type: "JsonWriteSettings";
 }
 
@@ -3936,6 +4064,11 @@ export enum KnownAzureFunctionActivityMethod {
 export enum KnownAzureSearchIndexWriteBehaviorType {
     Merge = "Merge",
     Upload = "Upload"
+}
+
+// @public
+export enum KnownBigDataPoolReferenceType {
+    BigDataPoolReference = "BigDataPoolReference"
 }
 
 // @public
@@ -3992,6 +4125,11 @@ export enum KnownCosmosDbServicePrincipalCredentialType {
 }
 
 // @public
+export enum KnownCredentialReferenceType {
+    CredentialReference = "CredentialReference"
+}
+
+// @public
 export enum KnownDataFlowComputeType {
     ComputeOptimized = "ComputeOptimized",
     General = "General",
@@ -4003,6 +4141,11 @@ export enum KnownDataFlowDebugCommandType {
     ExecuteExpressionQuery = "executeExpressionQuery",
     ExecutePreviewQuery = "executePreviewQuery",
     ExecuteStatisticsQuery = "executeStatisticsQuery"
+}
+
+// @public
+export enum KnownDataFlowReferenceType {
+    DataFlowReference = "DataFlowReference"
 }
 
 // @public
@@ -4237,6 +4380,11 @@ export enum KnownManagedIntegrationRuntimeNodeStatus {
 }
 
 // @public
+export enum KnownManagedVirtualNetworkReferenceType {
+    ManagedVirtualNetworkReference = "ManagedVirtualNetworkReference"
+}
+
+// @public
 export enum KnownMongoDbAuthenticationType {
     Anonymous = "Anonymous",
     Basic = "Basic"
@@ -4247,6 +4395,19 @@ export enum KnownNetezzaPartitionOption {
     DataSlice = "DataSlice",
     DynamicRange = "DynamicRange",
     None = "None"
+}
+
+// @public
+export enum KnownNotebookParameterType {
+    Bool = "bool",
+    Float = "float",
+    Int = "int",
+    String = "string"
+}
+
+// @public
+export enum KnownNotebookReferenceType {
+    NotebookReference = "NotebookReference"
 }
 
 // @public
@@ -4331,7 +4492,8 @@ export enum KnownRestServiceAuthenticationType {
     AadServicePrincipal = "AadServicePrincipal",
     Anonymous = "Anonymous",
     Basic = "Basic",
-    ManagedServiceIdentity = "ManagedServiceIdentity"
+    ManagedServiceIdentity = "ManagedServiceIdentity",
+    OAuth2ClientCredential = "OAuth2ClientCredential"
 }
 
 // @public
@@ -4419,6 +4581,41 @@ export enum KnownSapTablePartitionOption {
 }
 
 // @public
+export enum KnownScriptActivityLogDestination {
+    ActivityOutput = "ActivityOutput",
+    ExternalStore = "ExternalStore"
+}
+
+// @public
+export enum KnownScriptActivityParameterDirection {
+    Input = "Input",
+    InputOutput = "InputOutput",
+    Output = "Output"
+}
+
+// @public
+export enum KnownScriptActivityParameterType {
+    Boolean = "Boolean",
+    DateTime = "DateTime",
+    DateTimeOffset = "DateTimeOffset",
+    Decimal = "Decimal",
+    Double = "Double",
+    Guid = "Guid",
+    Int16 = "Int16",
+    Int32 = "Int32",
+    Int64 = "Int64",
+    Single = "Single",
+    String = "String",
+    Timespan = "Timespan"
+}
+
+// @public
+export enum KnownScriptType {
+    NonQuery = "NonQuery",
+    Query = "Query"
+}
+
+// @public
 export enum KnownSelfHostedIntegrationRuntimeNodeStatus {
     InitializeFailed = "InitializeFailed",
     Initializing = "Initializing",
@@ -4454,6 +4651,11 @@ export enum KnownSparkAuthenticationType {
     Username = "Username",
     UsernameAndPassword = "UsernameAndPassword",
     WindowsAzureHDInsightService = "WindowsAzureHDInsightService"
+}
+
+// @public
+export enum KnownSparkJobReferenceType {
+    SparkJobDefinitionReference = "SparkJobDefinitionReference"
 }
 
 // @public
@@ -4536,6 +4738,12 @@ export enum KnownSybaseAuthenticationType {
 }
 
 // @public
+export enum KnownTeamDeskAuthenticationType {
+    Basic = "Basic",
+    Token = "Token"
+}
+
+// @public
 export enum KnownTeradataAuthenticationType {
     Basic = "Basic",
     Windows = "Windows"
@@ -4546,6 +4754,11 @@ export enum KnownTeradataPartitionOption {
     DynamicRange = "DynamicRange",
     Hash = "Hash",
     None = "None"
+}
+
+// @public
+export enum KnownTriggerReferenceType {
+    TriggerReference = "TriggerReference"
 }
 
 // @public
@@ -4567,6 +4780,11 @@ export enum KnownTumblingWindowFrequency {
     Hour = "Hour",
     Minute = "Minute",
     Month = "Month"
+}
+
+// @public
+export enum KnownType {
+    LinkedServiceReference = "LinkedServiceReference"
 }
 
 // @public
@@ -4597,6 +4815,12 @@ export enum KnownWebHookActivityMethod {
 }
 
 // @public
+export enum KnownZendeskAuthenticationType {
+    Basic = "Basic",
+    Token = "Token"
+}
+
+// @public
 export interface LinkedIntegrationRuntime {
     readonly createTime?: Date;
     readonly dataFactoryLocation?: string;
@@ -4614,6 +4838,7 @@ export interface LinkedIntegrationRuntimeKeyAuthorization extends LinkedIntegrat
 // @public
 export interface LinkedIntegrationRuntimeRbacAuthorization extends LinkedIntegrationRuntimeType {
     authorizationType: "RBAC";
+    credential?: CredentialReference;
     resourceId: string;
 }
 
@@ -4633,13 +4858,13 @@ export type LinkedIntegrationRuntimeTypeUnion = LinkedIntegrationRuntimeType | L
 // @public
 export interface LinkedService {
     [property: string]: any;
-    annotations?: Record<string, unknown>[];
+    annotations?: any[];
     connectVia?: IntegrationRuntimeReference;
     description?: string;
     parameters?: {
         [propertyName: string]: ParameterSpecification;
     };
-    type: "AzureStorage" | "AzureBlobStorage" | "AzureTableStorage" | "AzureSqlDW" | "SqlServer" | "AmazonRdsForSqlServer" | "AzureSqlDatabase" | "AzureSqlMI" | "AzureBatch" | "AzureKeyVault" | "CosmosDb" | "Dynamics" | "DynamicsCrm" | "CommonDataServiceForApps" | "HDInsight" | "FileServer" | "AzureFileStorage" | "AmazonS3Compatible" | "OracleCloudStorage" | "GoogleCloudStorage" | "Oracle" | "AmazonRdsForOracle" | "AzureMySql" | "MySql" | "PostgreSql" | "Sybase" | "Db2" | "Teradata" | "AzureML" | "AzureMLService" | "Odbc" | "Informix" | "MicrosoftAccess" | "Hdfs" | "OData" | "Web" | "Cassandra" | "MongoDb" | "MongoDbAtlas" | "MongoDbV2" | "CosmosDbMongoDbApi" | "AzureDataLakeStore" | "AzureBlobFS" | "Office365" | "Salesforce" | "SalesforceServiceCloud" | "SapCloudForCustomer" | "SapEcc" | "SapOpenHub" | "RestService" | "AmazonS3" | "AmazonRedshift" | "CustomDataSource" | "AzureSearch" | "HttpServer" | "FtpServer" | "Sftp" | "SapBW" | "SapHana" | "AmazonMWS" | "AzurePostgreSql" | "Concur" | "Couchbase" | "Drill" | "Eloqua" | "GoogleBigQuery" | "Greenplum" | "HBase" | "Hive" | "Hubspot" | "Impala" | "Jira" | "Magento" | "MariaDB" | "AzureMariaDB" | "Marketo" | "Paypal" | "Phoenix" | "Presto" | "QuickBooks" | "ServiceNow" | "Shopify" | "Spark" | "Square" | "Xero" | "Zoho" | "Vertica" | "Netezza" | "SalesforceMarketingCloud" | "HDInsightOnDemand" | "AzureDataLakeAnalytics" | "AzureDatabricks" | "AzureDatabricksDeltaLake" | "Responsys" | "DynamicsAX" | "OracleServiceCloud" | "GoogleAdWords" | "SapTable" | "AzureDataExplorer" | "AzureFunction" | "Snowflake" | "SharePointOnlineList";
+    type: "AzureStorage" | "AzureBlobStorage" | "AzureTableStorage" | "AzureSqlDW" | "SqlServer" | "AmazonRdsForSqlServer" | "AzureSqlDatabase" | "AzureSqlMI" | "AzureBatch" | "AzureKeyVault" | "CosmosDb" | "Dynamics" | "DynamicsCrm" | "CommonDataServiceForApps" | "HDInsight" | "FileServer" | "AzureFileStorage" | "AmazonS3Compatible" | "OracleCloudStorage" | "GoogleCloudStorage" | "Oracle" | "AmazonRdsForOracle" | "AzureMySql" | "MySql" | "PostgreSql" | "Sybase" | "Db2" | "Teradata" | "AzureML" | "AzureMLService" | "Odbc" | "Informix" | "MicrosoftAccess" | "Hdfs" | "OData" | "Web" | "Cassandra" | "MongoDb" | "MongoDbAtlas" | "MongoDbV2" | "CosmosDbMongoDbApi" | "AzureDataLakeStore" | "AzureBlobFS" | "Office365" | "Salesforce" | "SalesforceServiceCloud" | "SapCloudForCustomer" | "SapEcc" | "SapOpenHub" | "SapOdp" | "RestService" | "TeamDesk" | "Quickbase" | "Smartsheet" | "Zendesk" | "Dataworld" | "AppFigures" | "Asana" | "Twilio" | "GoogleSheets" | "AmazonS3" | "AmazonRedshift" | "CustomDataSource" | "AzureSearch" | "HttpServer" | "FtpServer" | "Sftp" | "SapBW" | "SapHana" | "AmazonMWS" | "AzurePostgreSql" | "Concur" | "Couchbase" | "Drill" | "Eloqua" | "GoogleBigQuery" | "Greenplum" | "HBase" | "Hive" | "Hubspot" | "Impala" | "Jira" | "Magento" | "MariaDB" | "AzureMariaDB" | "Marketo" | "Paypal" | "Phoenix" | "Presto" | "QuickBooks" | "ServiceNow" | "Shopify" | "Spark" | "Square" | "Xero" | "Zoho" | "Vertica" | "Netezza" | "SalesforceMarketingCloud" | "HDInsightOnDemand" | "AzureDataLakeAnalytics" | "AzureDatabricks" | "AzureDatabricksDeltaLake" | "Responsys" | "DynamicsAX" | "OracleServiceCloud" | "GoogleAdWords" | "SapTable" | "AzureDataExplorer" | "AzureFunction" | "Snowflake" | "SharePointOnlineList" | "AzureSynapseArtifacts";
 }
 
 // @public
@@ -4656,10 +4881,10 @@ export interface LinkedServiceListResponse {
 // @public
 export interface LinkedServiceReference {
     parameters?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     referenceName: string;
-    type: "LinkedServiceReference";
+    type: Type;
 }
 
 // @public
@@ -4710,34 +4935,34 @@ export interface LinkedServicesListByFactoryOptionalParams extends coreClient.Op
 export type LinkedServicesListByFactoryResponse = LinkedServiceListResponse;
 
 // @public (undocumented)
-export type LinkedServiceUnion = LinkedService | AzureStorageLinkedService | AzureBlobStorageLinkedService | AzureTableStorageLinkedService | AzureSqlDWLinkedService | SqlServerLinkedService | AmazonRdsForSqlServerLinkedService | AzureSqlDatabaseLinkedService | AzureSqlMILinkedService | AzureBatchLinkedService | AzureKeyVaultLinkedService | CosmosDbLinkedService | DynamicsLinkedService | DynamicsCrmLinkedService | CommonDataServiceForAppsLinkedService | HDInsightLinkedService | FileServerLinkedService | AzureFileStorageLinkedService | AmazonS3CompatibleLinkedService | OracleCloudStorageLinkedService | GoogleCloudStorageLinkedService | OracleLinkedService | AmazonRdsForOracleLinkedService | AzureMySqlLinkedService | MySqlLinkedService | PostgreSqlLinkedService | SybaseLinkedService | Db2LinkedService | TeradataLinkedService | AzureMLLinkedService | AzureMLServiceLinkedService | OdbcLinkedService | InformixLinkedService | MicrosoftAccessLinkedService | HdfsLinkedService | ODataLinkedService | WebLinkedService | CassandraLinkedService | MongoDbLinkedService | MongoDbAtlasLinkedService | MongoDbV2LinkedService | CosmosDbMongoDbApiLinkedService | AzureDataLakeStoreLinkedService | AzureBlobFSLinkedService | Office365LinkedService | SalesforceLinkedService | SalesforceServiceCloudLinkedService | SapCloudForCustomerLinkedService | SapEccLinkedService | SapOpenHubLinkedService | RestServiceLinkedService | AmazonS3LinkedService | AmazonRedshiftLinkedService | CustomDataSourceLinkedService | AzureSearchLinkedService | HttpLinkedService | FtpServerLinkedService | SftpServerLinkedService | SapBWLinkedService | SapHanaLinkedService | AmazonMWSLinkedService | AzurePostgreSqlLinkedService | ConcurLinkedService | CouchbaseLinkedService | DrillLinkedService | EloquaLinkedService | GoogleBigQueryLinkedService | GreenplumLinkedService | HBaseLinkedService | HiveLinkedService | HubspotLinkedService | ImpalaLinkedService | JiraLinkedService | MagentoLinkedService | MariaDBLinkedService | AzureMariaDBLinkedService | MarketoLinkedService | PaypalLinkedService | PhoenixLinkedService | PrestoLinkedService | QuickBooksLinkedService | ServiceNowLinkedService | ShopifyLinkedService | SparkLinkedService | SquareLinkedService | XeroLinkedService | ZohoLinkedService | VerticaLinkedService | NetezzaLinkedService | SalesforceMarketingCloudLinkedService | HDInsightOnDemandLinkedService | AzureDataLakeAnalyticsLinkedService | AzureDatabricksLinkedService | AzureDatabricksDeltaLakeLinkedService | ResponsysLinkedService | DynamicsAXLinkedService | OracleServiceCloudLinkedService | GoogleAdWordsLinkedService | SapTableLinkedService | AzureDataExplorerLinkedService | AzureFunctionLinkedService | SnowflakeLinkedService | SharePointOnlineListLinkedService;
+export type LinkedServiceUnion = LinkedService | AzureStorageLinkedService | AzureBlobStorageLinkedService | AzureTableStorageLinkedService | AzureSqlDWLinkedService | SqlServerLinkedService | AmazonRdsForSqlServerLinkedService | AzureSqlDatabaseLinkedService | AzureSqlMILinkedService | AzureBatchLinkedService | AzureKeyVaultLinkedService | CosmosDbLinkedService | DynamicsLinkedService | DynamicsCrmLinkedService | CommonDataServiceForAppsLinkedService | HDInsightLinkedService | FileServerLinkedService | AzureFileStorageLinkedService | AmazonS3CompatibleLinkedService | OracleCloudStorageLinkedService | GoogleCloudStorageLinkedService | OracleLinkedService | AmazonRdsForOracleLinkedService | AzureMySqlLinkedService | MySqlLinkedService | PostgreSqlLinkedService | SybaseLinkedService | Db2LinkedService | TeradataLinkedService | AzureMLLinkedService | AzureMLServiceLinkedService | OdbcLinkedService | InformixLinkedService | MicrosoftAccessLinkedService | HdfsLinkedService | ODataLinkedService | WebLinkedService | CassandraLinkedService | MongoDbLinkedService | MongoDbAtlasLinkedService | MongoDbV2LinkedService | CosmosDbMongoDbApiLinkedService | AzureDataLakeStoreLinkedService | AzureBlobFSLinkedService | Office365LinkedService | SalesforceLinkedService | SalesforceServiceCloudLinkedService | SapCloudForCustomerLinkedService | SapEccLinkedService | SapOpenHubLinkedService | SapOdpLinkedService | RestServiceLinkedService | TeamDeskLinkedService | QuickbaseLinkedService | SmartsheetLinkedService | ZendeskLinkedService | DataworldLinkedService | AppFiguresLinkedService | AsanaLinkedService | TwilioLinkedService | GoogleSheetsLinkedService | AmazonS3LinkedService | AmazonRedshiftLinkedService | CustomDataSourceLinkedService | AzureSearchLinkedService | HttpLinkedService | FtpServerLinkedService | SftpServerLinkedService | SapBWLinkedService | SapHanaLinkedService | AmazonMWSLinkedService | AzurePostgreSqlLinkedService | ConcurLinkedService | CouchbaseLinkedService | DrillLinkedService | EloquaLinkedService | GoogleBigQueryLinkedService | GreenplumLinkedService | HBaseLinkedService | HiveLinkedService | HubspotLinkedService | ImpalaLinkedService | JiraLinkedService | MagentoLinkedService | MariaDBLinkedService | AzureMariaDBLinkedService | MarketoLinkedService | PaypalLinkedService | PhoenixLinkedService | PrestoLinkedService | QuickBooksLinkedService | ServiceNowLinkedService | ShopifyLinkedService | SparkLinkedService | SquareLinkedService | XeroLinkedService | ZohoLinkedService | VerticaLinkedService | NetezzaLinkedService | SalesforceMarketingCloudLinkedService | HDInsightOnDemandLinkedService | AzureDataLakeAnalyticsLinkedService | AzureDatabricksLinkedService | AzureDatabricksDeltaLakeLinkedService | ResponsysLinkedService | DynamicsAXLinkedService | OracleServiceCloudLinkedService | GoogleAdWordsLinkedService | SapTableLinkedService | AzureDataExplorerLinkedService | AzureFunctionLinkedService | SnowflakeLinkedService | SharePointOnlineListLinkedService | AzureSynapseArtifactsLinkedService;
 
 // @public
 export interface LogLocationSettings {
     linkedServiceName: LinkedServiceReference;
-    path?: Record<string, unknown>;
+    path?: any;
 }
 
 // @public
 export interface LogSettings {
     copyActivityLogSettings?: CopyActivityLogSettings;
-    enableCopyActivityLog?: Record<string, unknown>;
+    enableCopyActivityLog?: any;
     logLocationSettings: LogLocationSettings;
 }
 
 // @public
 export interface LogStorageSettings {
     [property: string]: any;
-    enableReliableLogging?: Record<string, unknown>;
+    enableReliableLogging?: any;
     linkedServiceName: LinkedServiceReference;
-    logLevel?: Record<string, unknown>;
-    path?: Record<string, unknown>;
+    logLevel?: any;
+    path?: any;
 }
 
 // @public
 export interface LookupActivity extends ExecutionActivity {
     dataset: DatasetReference;
-    firstRowOnly?: Record<string, unknown>;
+    firstRowOnly?: any;
     source: CopySourceUnion;
     type: "Lookup";
 }
@@ -4745,23 +4970,23 @@ export interface LookupActivity extends ExecutionActivity {
 // @public
 export interface MagentoLinkedService extends LinkedService {
     accessToken?: SecretBaseUnion;
-    encryptedCredential?: Record<string, unknown>;
-    host: Record<string, unknown>;
+    encryptedCredential?: any;
+    host: any;
     type: "Magento";
-    useEncryptedEndpoints?: Record<string, unknown>;
-    useHostVerification?: Record<string, unknown>;
-    usePeerVerification?: Record<string, unknown>;
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
 }
 
 // @public
 export interface MagentoObjectDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "MagentoObject";
 }
 
 // @public
 export interface MagentoSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "MagentoSource";
 }
 
@@ -4901,8 +5126,11 @@ export interface ManagedVirtualNetworkListResponse {
 // @public
 export interface ManagedVirtualNetworkReference {
     referenceName: string;
-    type: "ManagedVirtualNetworkReference";
+    type: ManagedVirtualNetworkReferenceType;
 }
+
+// @public
+export type ManagedVirtualNetworkReferenceType = string;
 
 // @public
 export interface ManagedVirtualNetworkResource extends SubResource {
@@ -4958,110 +5186,110 @@ export interface MappingDataFlow extends DataFlow {
 
 // @public
 export interface MariaDBLinkedService extends LinkedService {
-    connectionString?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    connectionString?: any;
+    encryptedCredential?: any;
     pwd?: AzureKeyVaultSecretReference;
     type: "MariaDB";
 }
 
 // @public
 export interface MariaDBSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "MariaDBSource";
 }
 
 // @public
 export interface MariaDBTableDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "MariaDBTable";
 }
 
 // @public
 export interface MarketoLinkedService extends LinkedService {
-    clientId: Record<string, unknown>;
+    clientId: any;
     clientSecret?: SecretBaseUnion;
-    encryptedCredential?: Record<string, unknown>;
-    endpoint: Record<string, unknown>;
+    encryptedCredential?: any;
+    endpoint: any;
     type: "Marketo";
-    useEncryptedEndpoints?: Record<string, unknown>;
-    useHostVerification?: Record<string, unknown>;
-    usePeerVerification?: Record<string, unknown>;
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
 }
 
 // @public
 export interface MarketoObjectDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "MarketoObject";
 }
 
 // @public
 export interface MarketoSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "MarketoSource";
 }
 
 // @public
 export interface MetadataItem {
-    name?: Record<string, unknown>;
-    value?: Record<string, unknown>;
+    name?: any;
+    value?: any;
 }
 
 // @public
 export interface MicrosoftAccessLinkedService extends LinkedService {
-    authenticationType?: Record<string, unknown>;
-    connectionString: Record<string, unknown>;
+    authenticationType?: any;
+    connectionString: any;
     credential?: SecretBaseUnion;
-    encryptedCredential?: Record<string, unknown>;
+    encryptedCredential?: any;
     password?: SecretBaseUnion;
     type: "MicrosoftAccess";
-    userName?: Record<string, unknown>;
+    userName?: any;
 }
 
 // @public
 export interface MicrosoftAccessSink extends CopySink {
-    preCopyScript?: Record<string, unknown>;
+    preCopyScript?: any;
     type: "MicrosoftAccessSink";
 }
 
 // @public
 export interface MicrosoftAccessSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
-    query?: Record<string, unknown>;
+    additionalColumns?: any;
+    query?: any;
     type: "MicrosoftAccessSource";
 }
 
 // @public
 export interface MicrosoftAccessTableDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "MicrosoftAccessTable";
 }
 
 // @public
 export interface MongoDbAtlasCollectionDataset extends Dataset {
-    collection: Record<string, unknown>;
+    collection: any;
     type: "MongoDbAtlasCollection";
 }
 
 // @public
 export interface MongoDbAtlasLinkedService extends LinkedService {
-    connectionString: Record<string, unknown>;
-    database: Record<string, unknown>;
+    connectionString: any;
+    database: any;
     type: "MongoDbAtlas";
 }
 
 // @public
 export interface MongoDbAtlasSink extends CopySink {
     type: "MongoDbAtlasSink";
-    writeBehavior?: Record<string, unknown>;
+    writeBehavior?: any;
 }
 
 // @public
 export interface MongoDbAtlasSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
-    batchSize?: Record<string, unknown>;
+    additionalColumns?: any;
+    batchSize?: any;
     cursorMethods?: MongoDbCursorMethodsProperties;
-    filter?: Record<string, unknown>;
-    queryTimeout?: Record<string, unknown>;
+    filter?: any;
+    queryTimeout?: any;
     type: "MongoDbAtlasSource";
 }
 
@@ -5070,67 +5298,67 @@ export type MongoDbAuthenticationType = string;
 
 // @public
 export interface MongoDbCollectionDataset extends Dataset {
-    collectionName: Record<string, unknown>;
+    collectionName: any;
     type: "MongoDbCollection";
 }
 
 // @public
 export interface MongoDbCursorMethodsProperties {
     [property: string]: any;
-    limit?: Record<string, unknown>;
-    project?: Record<string, unknown>;
-    skip?: Record<string, unknown>;
-    sort?: Record<string, unknown>;
+    limit?: any;
+    project?: any;
+    skip?: any;
+    sort?: any;
 }
 
 // @public
 export interface MongoDbLinkedService extends LinkedService {
-    allowSelfSignedServerCert?: Record<string, unknown>;
+    allowSelfSignedServerCert?: any;
     authenticationType?: MongoDbAuthenticationType;
-    authSource?: Record<string, unknown>;
-    databaseName: Record<string, unknown>;
-    enableSsl?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    authSource?: any;
+    databaseName: any;
+    enableSsl?: any;
+    encryptedCredential?: any;
     password?: SecretBaseUnion;
-    port?: Record<string, unknown>;
-    server: Record<string, unknown>;
+    port?: any;
+    server: any;
     type: "MongoDb";
-    username?: Record<string, unknown>;
+    username?: any;
 }
 
 // @public
 export interface MongoDbSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
-    query?: Record<string, unknown>;
+    additionalColumns?: any;
+    query?: any;
     type: "MongoDbSource";
 }
 
 // @public
 export interface MongoDbV2CollectionDataset extends Dataset {
-    collection: Record<string, unknown>;
+    collection: any;
     type: "MongoDbV2Collection";
 }
 
 // @public
 export interface MongoDbV2LinkedService extends LinkedService {
-    connectionString: Record<string, unknown>;
-    database: Record<string, unknown>;
+    connectionString: any;
+    database: any;
     type: "MongoDbV2";
 }
 
 // @public
 export interface MongoDbV2Sink extends CopySink {
     type: "MongoDbV2Sink";
-    writeBehavior?: Record<string, unknown>;
+    writeBehavior?: any;
 }
 
 // @public
 export interface MongoDbV2Source extends CopySource {
-    additionalColumns?: Record<string, unknown>;
-    batchSize?: Record<string, unknown>;
+    additionalColumns?: any;
+    batchSize?: any;
     cursorMethods?: MongoDbCursorMethodsProperties;
-    filter?: Record<string, unknown>;
-    queryTimeout?: Record<string, unknown>;
+    filter?: any;
+    queryTimeout?: any;
     type: "MongoDbV2Source";
 }
 
@@ -5145,28 +5373,28 @@ export type MultiplePipelineTriggerUnion = MultiplePipelineTrigger | ScheduleTri
 
 // @public
 export interface MySqlLinkedService extends LinkedService {
-    connectionString: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    connectionString: any;
+    encryptedCredential?: any;
     password?: AzureKeyVaultSecretReference;
     type: "MySql";
 }
 
 // @public
 export interface MySqlSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "MySqlSource";
 }
 
 // @public
 export interface MySqlTableDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "MySqlTable";
 }
 
 // @public
 export interface NetezzaLinkedService extends LinkedService {
-    connectionString?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    connectionString?: any;
+    encryptedCredential?: any;
     pwd?: AzureKeyVaultSecretReference;
     type: "Netezza";
 }
@@ -5176,26 +5404,38 @@ export type NetezzaPartitionOption = string;
 
 // @public
 export interface NetezzaPartitionSettings {
-    partitionColumnName?: Record<string, unknown>;
-    partitionLowerBound?: Record<string, unknown>;
-    partitionUpperBound?: Record<string, unknown>;
+    partitionColumnName?: any;
+    partitionLowerBound?: any;
+    partitionUpperBound?: any;
 }
 
 // @public
 export interface NetezzaSource extends TabularSource {
-    partitionOption?: Record<string, unknown>;
+    partitionOption?: any;
     partitionSettings?: NetezzaPartitionSettings;
-    query?: Record<string, unknown>;
+    query?: any;
     type: "NetezzaSource";
 }
 
 // @public
 export interface NetezzaTableDataset extends Dataset {
-    schemaTypePropertiesSchema?: Record<string, unknown>;
-    table?: Record<string, unknown>;
-    tableName?: Record<string, unknown>;
+    schemaTypePropertiesSchema?: any;
+    table?: any;
+    tableName?: any;
     type: "NetezzaTable";
 }
+
+// @public
+export interface NotebookParameter {
+    type?: NotebookParameterType;
+    value?: any;
+}
+
+// @public
+export type NotebookParameterType = string;
+
+// @public
+export type NotebookReferenceType = string;
 
 // @public
 export type ODataAadServicePrincipalCredentialType = string;
@@ -5205,92 +5445,92 @@ export type ODataAuthenticationType = string;
 
 // @public
 export interface ODataLinkedService extends LinkedService {
-    aadResourceId?: Record<string, unknown>;
+    aadResourceId?: any;
     aadServicePrincipalCredentialType?: ODataAadServicePrincipalCredentialType;
     authenticationType?: ODataAuthenticationType;
-    authHeaders?: Record<string, unknown>;
-    azureCloudType?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    authHeaders?: any;
+    azureCloudType?: any;
+    encryptedCredential?: any;
     password?: SecretBaseUnion;
     servicePrincipalEmbeddedCert?: SecretBaseUnion;
     servicePrincipalEmbeddedCertPassword?: SecretBaseUnion;
-    servicePrincipalId?: Record<string, unknown>;
+    servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
-    tenant?: Record<string, unknown>;
+    tenant?: any;
     type: "OData";
-    url: Record<string, unknown>;
-    userName?: Record<string, unknown>;
+    url: any;
+    userName?: any;
 }
 
 // @public
 export interface ODataResourceDataset extends Dataset {
-    path?: Record<string, unknown>;
+    path?: any;
     type: "ODataResource";
 }
 
 // @public
 export interface ODataSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
-    httpRequestTimeout?: Record<string, unknown>;
-    query?: Record<string, unknown>;
+    additionalColumns?: any;
+    httpRequestTimeout?: any;
+    query?: any;
     type: "ODataSource";
 }
 
 // @public
 export interface OdbcLinkedService extends LinkedService {
-    authenticationType?: Record<string, unknown>;
-    connectionString: Record<string, unknown>;
+    authenticationType?: any;
+    connectionString: any;
     credential?: SecretBaseUnion;
-    encryptedCredential?: Record<string, unknown>;
+    encryptedCredential?: any;
     password?: SecretBaseUnion;
     type: "Odbc";
-    userName?: Record<string, unknown>;
+    userName?: any;
 }
 
 // @public
 export interface OdbcSink extends CopySink {
-    preCopyScript?: Record<string, unknown>;
+    preCopyScript?: any;
     type: "OdbcSink";
 }
 
 // @public
 export interface OdbcSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "OdbcSource";
 }
 
 // @public
 export interface OdbcTableDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "OdbcTable";
 }
 
 // @public
 export interface Office365Dataset extends Dataset {
-    predicate?: Record<string, unknown>;
-    tableName: Record<string, unknown>;
+    predicate?: any;
+    tableName: any;
     type: "Office365Table";
 }
 
 // @public
 export interface Office365LinkedService extends LinkedService {
-    encryptedCredential?: Record<string, unknown>;
-    office365TenantId: Record<string, unknown>;
-    servicePrincipalId: Record<string, unknown>;
+    encryptedCredential?: any;
+    office365TenantId: any;
+    servicePrincipalId: any;
     servicePrincipalKey: SecretBaseUnion;
-    servicePrincipalTenantId: Record<string, unknown>;
+    servicePrincipalTenantId: any;
     type: "Office365";
 }
 
 // @public
 export interface Office365Source extends CopySource {
-    allowedGroups?: Record<string, unknown>;
-    dateFilterColumn?: Record<string, unknown>;
-    endTime?: Record<string, unknown>;
-    outputColumns?: Record<string, unknown>;
-    startTime?: Record<string, unknown>;
+    allowedGroups?: any;
+    dateFilterColumn?: any;
+    endTime?: any;
+    outputColumns?: any;
+    startTime?: any;
     type: "Office365Source";
-    userScopeFilterUri?: Record<string, unknown>;
+    userScopeFilterUri?: any;
 }
 
 // @public
@@ -5376,39 +5616,39 @@ export type OperationsListResponse = OperationListResponse;
 
 // @public
 export interface OracleCloudStorageLinkedService extends LinkedService {
-    accessKeyId?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    accessKeyId?: any;
+    encryptedCredential?: any;
     secretAccessKey?: SecretBaseUnion;
-    serviceUrl?: Record<string, unknown>;
+    serviceUrl?: any;
     type: "OracleCloudStorage";
 }
 
 // @public
 export interface OracleCloudStorageLocation extends DatasetLocation {
-    bucketName?: Record<string, unknown>;
+    bucketName?: any;
     type: "OracleCloudStorageLocation";
-    version?: Record<string, unknown>;
+    version?: any;
 }
 
 // @public
 export interface OracleCloudStorageReadSettings extends StoreReadSettings {
-    deleteFilesAfterCompletion?: Record<string, unknown>;
+    deleteFilesAfterCompletion?: any;
     enablePartitionDiscovery?: boolean;
-    fileListPath?: Record<string, unknown>;
-    modifiedDatetimeEnd?: Record<string, unknown>;
-    modifiedDatetimeStart?: Record<string, unknown>;
-    partitionRootPath?: Record<string, unknown>;
-    prefix?: Record<string, unknown>;
-    recursive?: Record<string, unknown>;
+    fileListPath?: any;
+    modifiedDatetimeEnd?: any;
+    modifiedDatetimeStart?: any;
+    partitionRootPath?: any;
+    prefix?: any;
+    recursive?: any;
     type: "OracleCloudStorageReadSettings";
-    wildcardFileName?: Record<string, unknown>;
-    wildcardFolderPath?: Record<string, unknown>;
+    wildcardFileName?: any;
+    wildcardFolderPath?: any;
 }
 
 // @public
 export interface OracleLinkedService extends LinkedService {
-    connectionString: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    connectionString: any;
+    encryptedCredential?: any;
     password?: AzureKeyVaultSecretReference;
     type: "Oracle";
 }
@@ -5418,57 +5658,57 @@ export type OraclePartitionOption = string;
 
 // @public
 export interface OraclePartitionSettings {
-    partitionColumnName?: Record<string, unknown>;
-    partitionLowerBound?: Record<string, unknown>;
-    partitionNames?: Record<string, unknown>;
-    partitionUpperBound?: Record<string, unknown>;
+    partitionColumnName?: any;
+    partitionLowerBound?: any;
+    partitionNames?: any;
+    partitionUpperBound?: any;
 }
 
 // @public
 export interface OracleServiceCloudLinkedService extends LinkedService {
-    encryptedCredential?: Record<string, unknown>;
-    host: Record<string, unknown>;
+    encryptedCredential?: any;
+    host: any;
     password: SecretBaseUnion;
     type: "OracleServiceCloud";
-    useEncryptedEndpoints?: Record<string, unknown>;
-    useHostVerification?: Record<string, unknown>;
-    usePeerVerification?: Record<string, unknown>;
-    username: Record<string, unknown>;
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
+    username: any;
 }
 
 // @public
 export interface OracleServiceCloudObjectDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "OracleServiceCloudObject";
 }
 
 // @public
 export interface OracleServiceCloudSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "OracleServiceCloudSource";
 }
 
 // @public
 export interface OracleSink extends CopySink {
-    preCopyScript?: Record<string, unknown>;
+    preCopyScript?: any;
     type: "OracleSink";
 }
 
 // @public
 export interface OracleSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
-    oracleReaderQuery?: Record<string, unknown>;
-    partitionOption?: Record<string, unknown>;
+    additionalColumns?: any;
+    oracleReaderQuery?: any;
+    partitionOption?: any;
     partitionSettings?: OraclePartitionSettings;
-    queryTimeout?: Record<string, unknown>;
+    queryTimeout?: any;
     type: "OracleSource";
 }
 
 // @public
 export interface OracleTableDataset extends Dataset {
-    schemaTypePropertiesSchema?: Record<string, unknown>;
-    table?: Record<string, unknown>;
-    tableName?: Record<string, unknown>;
+    schemaTypePropertiesSchema?: any;
+    table?: any;
+    tableName?: any;
     type: "OracleTable";
 }
 
@@ -5478,7 +5718,7 @@ export type OrcCompressionCodec = string;
 // @public
 export interface OrcDataset extends Dataset {
     location?: DatasetLocationUnion;
-    orcCompressionCodec?: Record<string, unknown>;
+    orcCompressionCodec?: any;
     type: "Orc";
 }
 
@@ -5496,15 +5736,15 @@ export interface OrcSink extends CopySink {
 
 // @public
 export interface OrcSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
+    additionalColumns?: any;
     storeSettings?: StoreReadSettingsUnion;
     type: "OrcSource";
 }
 
 // @public
 export interface OrcWriteSettings extends FormatWriteSettings {
-    fileNamePrefix?: Record<string, unknown>;
-    maxRowsPerFile?: Record<string, unknown>;
+    fileNamePrefix?: any;
+    maxRowsPerFile?: any;
     type: "OrcWriteSettings";
 }
 
@@ -5516,7 +5756,7 @@ export interface PackageStore {
 
 // @public
 export interface ParameterSpecification {
-    defaultValue?: Record<string, unknown>;
+    defaultValue?: any;
     type: ParameterType;
 }
 
@@ -5525,7 +5765,7 @@ export type ParameterType = string;
 
 // @public
 export interface ParquetDataset extends Dataset {
-    compressionCodec?: Record<string, unknown>;
+    compressionCodec?: any;
     location?: DatasetLocationUnion;
     type: "Parquet";
 }
@@ -5544,39 +5784,39 @@ export interface ParquetSink extends CopySink {
 
 // @public
 export interface ParquetSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
+    additionalColumns?: any;
     storeSettings?: StoreReadSettingsUnion;
     type: "ParquetSource";
 }
 
 // @public
 export interface ParquetWriteSettings extends FormatWriteSettings {
-    fileNamePrefix?: Record<string, unknown>;
-    maxRowsPerFile?: Record<string, unknown>;
+    fileNamePrefix?: any;
+    maxRowsPerFile?: any;
     type: "ParquetWriteSettings";
 }
 
 // @public
 export interface PaypalLinkedService extends LinkedService {
-    clientId: Record<string, unknown>;
+    clientId: any;
     clientSecret?: SecretBaseUnion;
-    encryptedCredential?: Record<string, unknown>;
-    host: Record<string, unknown>;
+    encryptedCredential?: any;
+    host: any;
     type: "Paypal";
-    useEncryptedEndpoints?: Record<string, unknown>;
-    useHostVerification?: Record<string, unknown>;
-    usePeerVerification?: Record<string, unknown>;
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
 }
 
 // @public
 export interface PaypalObjectDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "PaypalObject";
 }
 
 // @public
 export interface PaypalSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "PaypalSource";
 }
 
@@ -5585,38 +5825,38 @@ export type PhoenixAuthenticationType = string;
 
 // @public
 export interface PhoenixLinkedService extends LinkedService {
-    allowHostNameCNMismatch?: Record<string, unknown>;
-    allowSelfSignedServerCert?: Record<string, unknown>;
+    allowHostNameCNMismatch?: any;
+    allowSelfSignedServerCert?: any;
     authenticationType: PhoenixAuthenticationType;
-    enableSsl?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    host: Record<string, unknown>;
-    httpPath?: Record<string, unknown>;
+    enableSsl?: any;
+    encryptedCredential?: any;
+    host: any;
+    httpPath?: any;
     password?: SecretBaseUnion;
-    port?: Record<string, unknown>;
-    trustedCertPath?: Record<string, unknown>;
+    port?: any;
+    trustedCertPath?: any;
     type: "Phoenix";
-    username?: Record<string, unknown>;
-    useSystemTrustStore?: Record<string, unknown>;
+    username?: any;
+    useSystemTrustStore?: any;
 }
 
 // @public
 export interface PhoenixObjectDataset extends Dataset {
-    schemaTypePropertiesSchema?: Record<string, unknown>;
-    table?: Record<string, unknown>;
-    tableName?: Record<string, unknown>;
+    schemaTypePropertiesSchema?: any;
+    table?: any;
+    tableName?: any;
     type: "PhoenixObject";
 }
 
 // @public
 export interface PhoenixSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "PhoenixSource";
 }
 
 // @public
 export interface PipelineElapsedTimeMetricPolicy {
-    duration?: Record<string, unknown>;
+    duration?: any;
 }
 
 // @public
@@ -5646,7 +5886,7 @@ export interface PipelineReference {
 export interface PipelineResource extends SubResource {
     [property: string]: any;
     activities?: ActivityUnion[];
-    annotations?: Record<string, unknown>[];
+    annotations?: any[];
     concurrency?: number;
     description?: string;
     folder?: PipelineFolder;
@@ -5655,7 +5895,7 @@ export interface PipelineResource extends SubResource {
     };
     policy?: PipelinePolicy;
     runDimensions?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     variables?: {
         [propertyName: string]: VariableSpecification;
@@ -5746,7 +5986,7 @@ export type PipelinesCreateOrUpdateResponse = PipelineResource;
 export interface PipelinesCreateRunOptionalParams extends coreClient.OperationOptions {
     isRecovery?: boolean;
     parameters?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     referencePipelineRunId?: string;
     startActivityName?: string;
@@ -5785,10 +6025,10 @@ export type PipelinesListByFactoryResponse = PipelineListResponse;
 // @public
 export interface PolybaseSettings {
     [property: string]: any;
-    rejectSampleValue?: Record<string, unknown>;
+    rejectSampleValue?: any;
     rejectType?: PolybaseSettingsRejectType;
-    rejectValue?: Record<string, unknown>;
-    useTypeDefault?: Record<string, unknown>;
+    rejectValue?: any;
+    useTypeDefault?: any;
 }
 
 // @public
@@ -5796,23 +6036,23 @@ export type PolybaseSettingsRejectType = string;
 
 // @public
 export interface PostgreSqlLinkedService extends LinkedService {
-    connectionString: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    connectionString: any;
+    encryptedCredential?: any;
     password?: AzureKeyVaultSecretReference;
     type: "PostgreSql";
 }
 
 // @public
 export interface PostgreSqlSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "PostgreSqlSource";
 }
 
 // @public
 export interface PostgreSqlTableDataset extends Dataset {
-    schemaTypePropertiesSchema?: Record<string, unknown>;
-    table?: Record<string, unknown>;
-    tableName?: Record<string, unknown>;
+    schemaTypePropertiesSchema?: any;
+    table?: any;
+    tableName?: any;
     type: "PostgreSqlTable";
 }
 
@@ -5837,35 +6077,40 @@ export type PrestoAuthenticationType = string;
 
 // @public
 export interface PrestoLinkedService extends LinkedService {
-    allowHostNameCNMismatch?: Record<string, unknown>;
-    allowSelfSignedServerCert?: Record<string, unknown>;
+    allowHostNameCNMismatch?: any;
+    allowSelfSignedServerCert?: any;
     authenticationType: PrestoAuthenticationType;
-    catalog: Record<string, unknown>;
-    enableSsl?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    host: Record<string, unknown>;
+    catalog: any;
+    enableSsl?: any;
+    encryptedCredential?: any;
+    host: any;
     password?: SecretBaseUnion;
-    port?: Record<string, unknown>;
-    serverVersion: Record<string, unknown>;
-    timeZoneID?: Record<string, unknown>;
-    trustedCertPath?: Record<string, unknown>;
+    port?: any;
+    serverVersion: any;
+    timeZoneID?: any;
+    trustedCertPath?: any;
     type: "Presto";
-    username?: Record<string, unknown>;
-    useSystemTrustStore?: Record<string, unknown>;
+    username?: any;
+    useSystemTrustStore?: any;
 }
 
 // @public
 export interface PrestoObjectDataset extends Dataset {
-    schemaTypePropertiesSchema?: Record<string, unknown>;
-    table?: Record<string, unknown>;
-    tableName?: Record<string, unknown>;
+    schemaTypePropertiesSchema?: any;
+    table?: any;
+    tableName?: any;
     type: "PrestoObject";
 }
 
 // @public
 export interface PrestoSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "PrestoSource";
+}
+
+// @public
+export interface PrivateEndpoint {
+    id?: string;
 }
 
 // @public
@@ -5927,6 +6172,7 @@ export type PrivateEndPointConnectionsListByFactoryResponse = PrivateEndpointCon
 
 // @public
 export interface PrivateLinkConnectionApprovalRequest {
+    privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkConnectionState;
 }
 
@@ -5976,34 +6222,47 @@ export interface PrivateLinkResourcesWrapper {
 export type PublicNetworkAccess = string;
 
 // @public
+export interface PurviewConfiguration {
+    purviewResourceId?: string;
+}
+
+// @public
 export interface QueryDataFlowDebugSessionsResponse {
     nextLink?: string;
     value?: DataFlowDebugSessionInfo[];
 }
 
 // @public
+export interface QuickbaseLinkedService extends LinkedService {
+    encryptedCredential?: any;
+    type: "Quickbase";
+    url: any;
+    userToken: SecretBaseUnion;
+}
+
+// @public
 export interface QuickBooksLinkedService extends LinkedService {
     accessToken?: SecretBaseUnion;
     accessTokenSecret?: SecretBaseUnion;
-    companyId?: Record<string, unknown>;
-    connectionProperties?: Record<string, unknown>;
-    consumerKey?: Record<string, unknown>;
+    companyId?: any;
+    connectionProperties?: any;
+    consumerKey?: any;
     consumerSecret?: SecretBaseUnion;
-    encryptedCredential?: Record<string, unknown>;
-    endpoint?: Record<string, unknown>;
+    encryptedCredential?: any;
+    endpoint?: any;
     type: "QuickBooks";
-    useEncryptedEndpoints?: Record<string, unknown>;
+    useEncryptedEndpoints?: any;
 }
 
 // @public
 export interface QuickBooksObjectDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "QuickBooksObject";
 }
 
 // @public
 export interface QuickBooksSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "QuickBooksSource";
 }
 
@@ -6030,26 +6289,26 @@ export interface RecurrenceScheduleOccurrence {
 // @public
 export interface RedirectIncompatibleRowSettings {
     [property: string]: any;
-    linkedServiceName: Record<string, unknown>;
-    path?: Record<string, unknown>;
+    linkedServiceName: any;
+    path?: any;
 }
 
 // @public
 export interface RedshiftUnloadSettings {
-    bucketName: Record<string, unknown>;
+    bucketName: any;
     s3LinkedServiceName: LinkedServiceReference;
 }
 
 // @public
 export interface RelationalSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
-    query?: Record<string, unknown>;
+    additionalColumns?: any;
+    query?: any;
     type: "RelationalSource";
 }
 
 // @public
 export interface RelationalTableDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "RelationalTable";
 }
 
@@ -6062,7 +6321,7 @@ export interface RemotePrivateEndpointConnection {
 
 // @public
 export interface RerunTumblingWindowTrigger extends Trigger {
-    parentTrigger: Record<string, unknown>;
+    parentTrigger: any;
     requestedEndTime: Date;
     requestedStartTime: Date;
     rerunConcurrency: number;
@@ -6083,35 +6342,35 @@ export interface Resource {
 
 // @public
 export interface ResponsysLinkedService extends LinkedService {
-    clientId: Record<string, unknown>;
+    clientId: any;
     clientSecret?: SecretBaseUnion;
-    encryptedCredential?: Record<string, unknown>;
-    endpoint: Record<string, unknown>;
+    encryptedCredential?: any;
+    endpoint: any;
     type: "Responsys";
-    useEncryptedEndpoints?: Record<string, unknown>;
-    useHostVerification?: Record<string, unknown>;
-    usePeerVerification?: Record<string, unknown>;
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
 }
 
 // @public
 export interface ResponsysObjectDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "ResponsysObject";
 }
 
 // @public
 export interface ResponsysSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "ResponsysSource";
 }
 
 // @public
 export interface RestResourceDataset extends Dataset {
-    additionalHeaders?: Record<string, unknown>;
-    paginationRules?: Record<string, unknown>;
-    relativeUrl?: Record<string, unknown>;
-    requestBody?: Record<string, unknown>;
-    requestMethod?: Record<string, unknown>;
+    additionalHeaders?: any;
+    paginationRules?: any;
+    relativeUrl?: any;
+    requestBody?: any;
+    requestMethod?: any;
     type: "RestResource";
 }
 
@@ -6120,47 +6379,52 @@ export type RestServiceAuthenticationType = string;
 
 // @public
 export interface RestServiceLinkedService extends LinkedService {
-    aadResourceId?: Record<string, unknown>;
+    aadResourceId?: any;
     authenticationType: RestServiceAuthenticationType;
-    authHeaders?: Record<string, unknown>;
-    azureCloudType?: Record<string, unknown>;
+    authHeaders?: any;
+    azureCloudType?: any;
+    clientId?: any;
+    clientSecret?: SecretBaseUnion;
     credential?: CredentialReference;
-    enableServerCertificateValidation?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    enableServerCertificateValidation?: any;
+    encryptedCredential?: any;
     password?: SecretBaseUnion;
-    servicePrincipalId?: Record<string, unknown>;
+    resource?: any;
+    scope?: any;
+    servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
-    tenant?: Record<string, unknown>;
+    tenant?: any;
+    tokenEndpoint?: any;
     type: "RestService";
-    url: Record<string, unknown>;
-    userName?: Record<string, unknown>;
+    url: any;
+    userName?: any;
 }
 
 // @public
 export interface RestSink extends CopySink {
-    additionalHeaders?: Record<string, unknown>;
-    httpCompressionType?: Record<string, unknown>;
-    httpRequestTimeout?: Record<string, unknown>;
-    requestInterval?: Record<string, unknown>;
-    requestMethod?: Record<string, unknown>;
+    additionalHeaders?: any;
+    httpCompressionType?: any;
+    httpRequestTimeout?: any;
+    requestInterval?: any;
+    requestMethod?: any;
     type: "RestSink";
 }
 
 // @public
 export interface RestSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
-    additionalHeaders?: Record<string, unknown>;
-    httpRequestTimeout?: Record<string, unknown>;
-    paginationRules?: Record<string, unknown>;
-    requestBody?: Record<string, unknown>;
-    requestInterval?: Record<string, unknown>;
-    requestMethod?: Record<string, unknown>;
+    additionalColumns?: any;
+    additionalHeaders?: any;
+    httpRequestTimeout?: any;
+    paginationRules?: any;
+    requestBody?: any;
+    requestInterval?: any;
+    requestMethod?: any;
     type: "RestSource";
 }
 
 // @public
 export interface RetryPolicy {
-    count?: Record<string, unknown>;
+    count?: any;
     intervalInSeconds?: number;
 }
 
@@ -6200,83 +6464,83 @@ export type RunQueryOrderByField = string;
 
 // @public
 export interface SalesforceLinkedService extends LinkedService {
-    apiVersion?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    environmentUrl?: Record<string, unknown>;
+    apiVersion?: any;
+    encryptedCredential?: any;
+    environmentUrl?: any;
     password?: SecretBaseUnion;
     securityToken?: SecretBaseUnion;
     type: "Salesforce";
-    username?: Record<string, unknown>;
+    username?: any;
 }
 
 // @public
 export interface SalesforceMarketingCloudLinkedService extends LinkedService {
-    clientId?: Record<string, unknown>;
+    clientId?: any;
     clientSecret?: SecretBaseUnion;
-    connectionProperties?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    connectionProperties?: any;
+    encryptedCredential?: any;
     type: "SalesforceMarketingCloud";
-    useEncryptedEndpoints?: Record<string, unknown>;
-    useHostVerification?: Record<string, unknown>;
-    usePeerVerification?: Record<string, unknown>;
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
 }
 
 // @public
 export interface SalesforceMarketingCloudObjectDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "SalesforceMarketingCloudObject";
 }
 
 // @public
 export interface SalesforceMarketingCloudSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "SalesforceMarketingCloudSource";
 }
 
 // @public
 export interface SalesforceObjectDataset extends Dataset {
-    objectApiName?: Record<string, unknown>;
+    objectApiName?: any;
     type: "SalesforceObject";
 }
 
 // @public
 export interface SalesforceServiceCloudLinkedService extends LinkedService {
-    apiVersion?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    environmentUrl?: Record<string, unknown>;
-    extendedProperties?: Record<string, unknown>;
+    apiVersion?: any;
+    encryptedCredential?: any;
+    environmentUrl?: any;
+    extendedProperties?: any;
     password?: SecretBaseUnion;
     securityToken?: SecretBaseUnion;
     type: "SalesforceServiceCloud";
-    username?: Record<string, unknown>;
+    username?: any;
 }
 
 // @public
 export interface SalesforceServiceCloudObjectDataset extends Dataset {
-    objectApiName?: Record<string, unknown>;
+    objectApiName?: any;
     type: "SalesforceServiceCloudObject";
 }
 
 // @public
 export interface SalesforceServiceCloudSink extends CopySink {
-    externalIdFieldName?: Record<string, unknown>;
-    ignoreNullValues?: Record<string, unknown>;
+    externalIdFieldName?: any;
+    ignoreNullValues?: any;
     type: "SalesforceServiceCloudSink";
     writeBehavior?: SalesforceSinkWriteBehavior;
 }
 
 // @public
 export interface SalesforceServiceCloudSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
-    query?: Record<string, unknown>;
+    additionalColumns?: any;
+    query?: any;
     readBehavior?: SalesforceSourceReadBehavior;
     type: "SalesforceServiceCloudSource";
 }
 
 // @public
 export interface SalesforceSink extends CopySink {
-    externalIdFieldName?: Record<string, unknown>;
-    ignoreNullValues?: Record<string, unknown>;
+    externalIdFieldName?: any;
+    ignoreNullValues?: any;
     type: "SalesforceSink";
     writeBehavior?: SalesforceSinkWriteBehavior;
 }
@@ -6286,7 +6550,7 @@ export type SalesforceSinkWriteBehavior = string;
 
 // @public
 export interface SalesforceSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     readBehavior?: SalesforceSourceReadBehavior;
     type: "SalesforceSource";
 }
@@ -6301,39 +6565,39 @@ export interface SapBwCubeDataset extends Dataset {
 
 // @public
 export interface SapBWLinkedService extends LinkedService {
-    clientId: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    clientId: any;
+    encryptedCredential?: any;
     password?: SecretBaseUnion;
-    server: Record<string, unknown>;
-    systemNumber: Record<string, unknown>;
+    server: any;
+    systemNumber: any;
     type: "SapBW";
-    userName?: Record<string, unknown>;
+    userName?: any;
 }
 
 // @public
 export interface SapBwSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "SapBwSource";
 }
 
 // @public
 export interface SapCloudForCustomerLinkedService extends LinkedService {
-    encryptedCredential?: Record<string, unknown>;
+    encryptedCredential?: any;
     password?: SecretBaseUnion;
     type: "SapCloudForCustomer";
-    url: Record<string, unknown>;
-    username?: Record<string, unknown>;
+    url: any;
+    username?: any;
 }
 
 // @public
 export interface SapCloudForCustomerResourceDataset extends Dataset {
-    path: Record<string, unknown>;
+    path: any;
     type: "SapCloudForCustomerResource";
 }
 
 // @public
 export interface SapCloudForCustomerSink extends CopySink {
-    httpRequestTimeout?: Record<string, unknown>;
+    httpRequestTimeout?: any;
     type: "SapCloudForCustomerSink";
     writeBehavior?: SapCloudForCustomerSinkWriteBehavior;
 }
@@ -6343,8 +6607,8 @@ export type SapCloudForCustomerSinkWriteBehavior = string;
 
 // @public
 export interface SapCloudForCustomerSource extends TabularSource {
-    httpRequestTimeout?: Record<string, unknown>;
-    query?: Record<string, unknown>;
+    httpRequestTimeout?: any;
+    query?: any;
     type: "SapCloudForCustomerSource";
 }
 
@@ -6359,14 +6623,14 @@ export interface SapEccLinkedService extends LinkedService {
 
 // @public
 export interface SapEccResourceDataset extends Dataset {
-    path: Record<string, unknown>;
+    path: any;
     type: "SapEccResource";
 }
 
 // @public
 export interface SapEccSource extends TabularSource {
-    httpRequestTimeout?: Record<string, unknown>;
-    query?: Record<string, unknown>;
+    httpRequestTimeout?: any;
+    query?: any;
     type: "SapEccSource";
 }
 
@@ -6376,12 +6640,12 @@ export type SapHanaAuthenticationType = string;
 // @public
 export interface SapHanaLinkedService extends LinkedService {
     authenticationType?: SapHanaAuthenticationType;
-    connectionString?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    connectionString?: any;
+    encryptedCredential?: any;
     password?: SecretBaseUnion;
-    server?: Record<string, unknown>;
+    server?: any;
     type: "SapHana";
-    userName?: Record<string, unknown>;
+    userName?: any;
 }
 
 // @public
@@ -6389,77 +6653,116 @@ export type SapHanaPartitionOption = string;
 
 // @public
 export interface SapHanaPartitionSettings {
-    partitionColumnName?: Record<string, unknown>;
+    partitionColumnName?: any;
 }
 
 // @public
 export interface SapHanaSource extends TabularSource {
-    packetSize?: Record<string, unknown>;
-    partitionOption?: Record<string, unknown>;
+    packetSize?: any;
+    partitionOption?: any;
     partitionSettings?: SapHanaPartitionSettings;
-    query?: Record<string, unknown>;
+    query?: any;
     type: "SapHanaSource";
 }
 
 // @public
 export interface SapHanaTableDataset extends Dataset {
-    schemaTypePropertiesSchema?: Record<string, unknown>;
-    table?: Record<string, unknown>;
+    schemaTypePropertiesSchema?: any;
+    table?: any;
     type: "SapHanaTable";
 }
 
 // @public
-export interface SapOpenHubLinkedService extends LinkedService {
-    clientId?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    language?: Record<string, unknown>;
-    logonGroup?: Record<string, unknown>;
-    messageServer?: Record<string, unknown>;
-    messageServerService?: Record<string, unknown>;
+export interface SapOdpLinkedService extends LinkedService {
+    clientId?: any;
+    encryptedCredential?: any;
+    language?: any;
+    logonGroup?: any;
+    messageServer?: any;
+    messageServerService?: any;
     password?: SecretBaseUnion;
-    server?: Record<string, unknown>;
-    systemId?: Record<string, unknown>;
-    systemNumber?: Record<string, unknown>;
+    server?: any;
+    sncLibraryPath?: any;
+    sncMode?: any;
+    sncMyName?: any;
+    sncPartnerName?: any;
+    sncQop?: any;
+    subscriberName?: any;
+    systemId?: any;
+    systemNumber?: any;
+    type: "SapOdp";
+    userName?: any;
+    x509CertificatePath?: any;
+}
+
+// @public
+export interface SapOdpResourceDataset extends Dataset {
+    context: any;
+    objectName: any;
+    type: "SapOdpResource";
+}
+
+// @public
+export interface SapOdpSource extends TabularSource {
+    extractionMode?: any;
+    projection?: any;
+    selection?: any;
+    subscriberProcess?: any;
+    type: "SapOdpSource";
+}
+
+// @public
+export interface SapOpenHubLinkedService extends LinkedService {
+    clientId?: any;
+    encryptedCredential?: any;
+    language?: any;
+    logonGroup?: any;
+    messageServer?: any;
+    messageServerService?: any;
+    password?: SecretBaseUnion;
+    server?: any;
+    systemId?: any;
+    systemNumber?: any;
     type: "SapOpenHub";
-    userName?: Record<string, unknown>;
+    userName?: any;
 }
 
 // @public
 export interface SapOpenHubSource extends TabularSource {
-    baseRequestId?: Record<string, unknown>;
-    customRfcReadTableFunctionModule?: Record<string, unknown>;
-    excludeLastRequest?: Record<string, unknown>;
-    sapDataColumnDelimiter?: Record<string, unknown>;
+    baseRequestId?: any;
+    customRfcReadTableFunctionModule?: any;
+    excludeLastRequest?: any;
+    sapDataColumnDelimiter?: any;
     type: "SapOpenHubSource";
 }
 
 // @public
 export interface SapOpenHubTableDataset extends Dataset {
-    baseRequestId?: Record<string, unknown>;
-    excludeLastRequest?: Record<string, unknown>;
-    openHubDestinationName: Record<string, unknown>;
+    baseRequestId?: any;
+    excludeLastRequest?: any;
+    openHubDestinationName: any;
     type: "SapOpenHubTable";
 }
 
 // @public
 export interface SapTableLinkedService extends LinkedService {
-    clientId?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    language?: Record<string, unknown>;
-    logonGroup?: Record<string, unknown>;
-    messageServer?: Record<string, unknown>;
-    messageServerService?: Record<string, unknown>;
+    clientId?: any;
+    encryptedCredential?: any;
+    language?: any;
+    logonGroup?: any;
+    messageServer?: any;
+    messageServerService?: any;
     password?: SecretBaseUnion;
-    server?: Record<string, unknown>;
-    sncLibraryPath?: Record<string, unknown>;
-    sncMode?: Record<string, unknown>;
-    sncMyName?: Record<string, unknown>;
-    sncPartnerName?: Record<string, unknown>;
-    sncQop?: Record<string, unknown>;
-    systemId?: Record<string, unknown>;
-    systemNumber?: Record<string, unknown>;
+    server?: any;
+    sncLibraryPath?: any;
+    sncMode?: any;
+    sncMyName?: any;
+    sncPartnerName?: any;
+    sncQop?: any;
+    systemId?: any;
+    systemNumber?: any;
     type: "SapTable";
-    userName?: Record<string, unknown>;
+    userName?: any;
 }
 
 // @public
@@ -6467,29 +6770,29 @@ export type SapTablePartitionOption = string;
 
 // @public
 export interface SapTablePartitionSettings {
-    maxPartitionsNumber?: Record<string, unknown>;
-    partitionColumnName?: Record<string, unknown>;
-    partitionLowerBound?: Record<string, unknown>;
-    partitionUpperBound?: Record<string, unknown>;
+    maxPartitionsNumber?: any;
+    partitionColumnName?: any;
+    partitionLowerBound?: any;
+    partitionUpperBound?: any;
 }
 
 // @public
 export interface SapTableResourceDataset extends Dataset {
-    tableName: Record<string, unknown>;
+    tableName: any;
     type: "SapTableResource";
 }
 
 // @public
 export interface SapTableSource extends TabularSource {
-    batchSize?: Record<string, unknown>;
-    customRfcReadTableFunctionModule?: Record<string, unknown>;
-    partitionOption?: Record<string, unknown>;
+    batchSize?: any;
+    customRfcReadTableFunctionModule?: any;
+    partitionOption?: any;
     partitionSettings?: SapTablePartitionSettings;
-    rfcTableFields?: Record<string, unknown>;
-    rfcTableOptions?: Record<string, unknown>;
-    rowCount?: Record<string, unknown>;
-    rowSkips?: Record<string, unknown>;
-    sapDataColumnDelimiter?: Record<string, unknown>;
+    rfcTableFields?: any;
+    rfcTableOptions?: any;
+    rowCount?: any;
+    rowSkips?: any;
+    sapDataColumnDelimiter?: any;
     type: "SapTableSource";
 }
 
@@ -6514,9 +6817,51 @@ export interface ScheduleTriggerRecurrence {
 export interface ScriptAction {
     name: string;
     parameters?: string;
-    roles: Record<string, unknown>;
+    roles: any;
     uri: string;
 }
+
+// @public
+export interface ScriptActivity extends ExecutionActivity {
+    logSettings?: ScriptActivityTypePropertiesLogSettings;
+    scriptBlockExecutionTimeout?: any;
+    scripts?: ScriptActivityScriptBlock[];
+    type: "Script";
+}
+
+// @public
+export type ScriptActivityLogDestination = string;
+
+// @public
+export interface ScriptActivityParameter {
+    direction?: ScriptActivityParameterDirection;
+    name?: any;
+    size?: number;
+    type?: ScriptActivityParameterType;
+    value?: any;
+}
+
+// @public
+export type ScriptActivityParameterDirection = string;
+
+// @public
+export type ScriptActivityParameterType = string;
+
+// @public
+export interface ScriptActivityScriptBlock {
+    parameters?: ScriptActivityParameter[];
+    text: any;
+    type: ScriptType;
+}
+
+// @public
+export interface ScriptActivityTypePropertiesLogSettings {
+    logDestination: ScriptActivityLogDestination;
+    logLocationSettings?: LogLocationSettings;
+}
+
+// @public
+export type ScriptType = string;
 
 // @public
 export interface SecretBase {
@@ -6602,35 +6947,35 @@ export type ServiceNowAuthenticationType = string;
 // @public
 export interface ServiceNowLinkedService extends LinkedService {
     authenticationType: ServiceNowAuthenticationType;
-    clientId?: Record<string, unknown>;
+    clientId?: any;
     clientSecret?: SecretBaseUnion;
-    encryptedCredential?: Record<string, unknown>;
-    endpoint: Record<string, unknown>;
+    encryptedCredential?: any;
+    endpoint: any;
     password?: SecretBaseUnion;
     type: "ServiceNow";
-    useEncryptedEndpoints?: Record<string, unknown>;
-    useHostVerification?: Record<string, unknown>;
-    usePeerVerification?: Record<string, unknown>;
-    username?: Record<string, unknown>;
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
+    username?: any;
 }
 
 // @public
 export interface ServiceNowObjectDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "ServiceNowObject";
 }
 
 // @public
 export interface ServiceNowSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "ServiceNowSource";
 }
 
 // @public
 export interface ServicePrincipalCredential extends Credential_2 {
-    servicePrincipalId?: Record<string, unknown>;
+    servicePrincipalId?: any;
     servicePrincipalKey?: AzureKeyVaultSecretReference;
-    tenant?: Record<string, unknown>;
+    tenant?: any;
     type: "ServicePrincipal";
 }
 
@@ -6640,7 +6985,7 @@ export type ServicePrincipalCredentialType = string;
 // @public
 export interface SetVariableActivity extends ControlActivity {
     type: "SetVariable";
-    value?: Record<string, unknown>;
+    value?: any;
     variableName?: string;
 }
 
@@ -6654,108 +6999,115 @@ export interface SftpLocation extends DatasetLocation {
 
 // @public
 export interface SftpReadSettings extends StoreReadSettings {
-    deleteFilesAfterCompletion?: Record<string, unknown>;
-    disableChunking?: Record<string, unknown>;
+    deleteFilesAfterCompletion?: any;
+    disableChunking?: any;
     enablePartitionDiscovery?: boolean;
-    fileListPath?: Record<string, unknown>;
-    modifiedDatetimeEnd?: Record<string, unknown>;
-    modifiedDatetimeStart?: Record<string, unknown>;
-    partitionRootPath?: Record<string, unknown>;
-    recursive?: Record<string, unknown>;
+    fileListPath?: any;
+    modifiedDatetimeEnd?: any;
+    modifiedDatetimeStart?: any;
+    partitionRootPath?: any;
+    recursive?: any;
     type: "SftpReadSettings";
-    wildcardFileName?: Record<string, unknown>;
-    wildcardFolderPath?: Record<string, unknown>;
+    wildcardFileName?: any;
+    wildcardFolderPath?: any;
 }
 
 // @public
 export interface SftpServerLinkedService extends LinkedService {
     authenticationType?: SftpAuthenticationType;
-    encryptedCredential?: Record<string, unknown>;
-    host: Record<string, unknown>;
-    hostKeyFingerprint?: Record<string, unknown>;
+    encryptedCredential?: any;
+    host: any;
+    hostKeyFingerprint?: any;
     passPhrase?: SecretBaseUnion;
     password?: SecretBaseUnion;
-    port?: Record<string, unknown>;
+    port?: any;
     privateKeyContent?: SecretBaseUnion;
-    privateKeyPath?: Record<string, unknown>;
-    skipHostKeyValidation?: Record<string, unknown>;
+    privateKeyPath?: any;
+    skipHostKeyValidation?: any;
     type: "Sftp";
-    userName?: Record<string, unknown>;
+    userName?: any;
 }
 
 // @public
 export interface SftpWriteSettings extends StoreWriteSettings {
-    operationTimeout?: Record<string, unknown>;
+    operationTimeout?: any;
     type: "SftpWriteSettings";
-    useTempFileRename?: Record<string, unknown>;
+    useTempFileRename?: any;
 }
 
 // @public
 export interface SharePointOnlineListLinkedService extends LinkedService {
-    encryptedCredential?: Record<string, unknown>;
-    servicePrincipalId: Record<string, unknown>;
+    encryptedCredential?: any;
+    servicePrincipalId: any;
     servicePrincipalKey: SecretBaseUnion;
-    siteUrl: Record<string, unknown>;
-    tenantId: Record<string, unknown>;
+    siteUrl: any;
+    tenantId: any;
     type: "SharePointOnlineList";
 }
 
 // @public
 export interface SharePointOnlineListResourceDataset extends Dataset {
-    listName?: Record<string, unknown>;
+    listName?: any;
     type: "SharePointOnlineListResource";
 }
 
 // @public
 export interface SharePointOnlineListSource extends CopySource {
-    httpRequestTimeout?: Record<string, unknown>;
-    query?: Record<string, unknown>;
+    httpRequestTimeout?: any;
+    query?: any;
     type: "SharePointOnlineListSource";
 }
 
 // @public
 export interface ShopifyLinkedService extends LinkedService {
     accessToken?: SecretBaseUnion;
-    encryptedCredential?: Record<string, unknown>;
-    host: Record<string, unknown>;
+    encryptedCredential?: any;
+    host: any;
     type: "Shopify";
-    useEncryptedEndpoints?: Record<string, unknown>;
-    useHostVerification?: Record<string, unknown>;
-    usePeerVerification?: Record<string, unknown>;
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
 }
 
 // @public
 export interface ShopifyObjectDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "ShopifyObject";
 }
 
 // @public
 export interface ShopifySource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "ShopifySource";
 }
 
 // @public
 export interface SkipErrorFile {
-    dataInconsistency?: Record<string, unknown>;
-    fileMissing?: Record<string, unknown>;
+    dataInconsistency?: any;
+    fileMissing?: any;
+}
+
+// @public
+export interface SmartsheetLinkedService extends LinkedService {
+    apiToken: SecretBaseUnion;
+    encryptedCredential?: any;
+    type: "Smartsheet";
 }
 
 // @public
 export interface SnowflakeDataset extends Dataset {
-    schemaTypePropertiesSchema?: Record<string, unknown>;
-    table?: Record<string, unknown>;
+    schemaTypePropertiesSchema?: any;
+    table?: any;
     type: "SnowflakeTable";
 }
 
 // @public
 export interface SnowflakeExportCopyCommand extends ExportSettings {
     additionalCopyOptions?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     additionalFormatOptions?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     type: "SnowflakeExportCopyCommand";
 }
@@ -6763,18 +7115,18 @@ export interface SnowflakeExportCopyCommand extends ExportSettings {
 // @public
 export interface SnowflakeImportCopyCommand extends ImportSettings {
     additionalCopyOptions?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     additionalFormatOptions?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     type: "SnowflakeImportCopyCommand";
 }
 
 // @public
 export interface SnowflakeLinkedService extends LinkedService {
-    connectionString: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    connectionString: any;
+    encryptedCredential?: any;
     password?: AzureKeyVaultSecretReference;
     type: "Snowflake";
 }
@@ -6782,14 +7134,14 @@ export interface SnowflakeLinkedService extends LinkedService {
 // @public
 export interface SnowflakeSink extends CopySink {
     importSettings?: SnowflakeImportCopyCommand;
-    preCopyScript?: Record<string, unknown>;
+    preCopyScript?: any;
     type: "SnowflakeSink";
 }
 
 // @public
 export interface SnowflakeSource extends CopySource {
     exportSettings?: SnowflakeExportCopyCommand;
-    query?: Record<string, unknown>;
+    query?: any;
     type: "SnowflakeSource";
 }
 
@@ -6797,29 +7149,32 @@ export interface SnowflakeSource extends CopySource {
 export type SparkAuthenticationType = string;
 
 // @public
+export type SparkJobReferenceType = string;
+
+// @public
 export interface SparkLinkedService extends LinkedService {
-    allowHostNameCNMismatch?: Record<string, unknown>;
-    allowSelfSignedServerCert?: Record<string, unknown>;
+    allowHostNameCNMismatch?: any;
+    allowSelfSignedServerCert?: any;
     authenticationType: SparkAuthenticationType;
-    enableSsl?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    host: Record<string, unknown>;
-    httpPath?: Record<string, unknown>;
+    enableSsl?: any;
+    encryptedCredential?: any;
+    host: any;
+    httpPath?: any;
     password?: SecretBaseUnion;
-    port: Record<string, unknown>;
+    port: any;
     serverType?: SparkServerType;
     thriftTransportProtocol?: SparkThriftTransportProtocol;
-    trustedCertPath?: Record<string, unknown>;
+    trustedCertPath?: any;
     type: "Spark";
-    username?: Record<string, unknown>;
-    useSystemTrustStore?: Record<string, unknown>;
+    username?: any;
+    useSystemTrustStore?: any;
 }
 
 // @public
 export interface SparkObjectDataset extends Dataset {
-    schemaTypePropertiesSchema?: Record<string, unknown>;
-    table?: Record<string, unknown>;
-    tableName?: Record<string, unknown>;
+    schemaTypePropertiesSchema?: any;
+    table?: any;
+    tableName?: any;
     type: "SparkObject";
 }
 
@@ -6828,7 +7183,7 @@ export type SparkServerType = string;
 
 // @public
 export interface SparkSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "SparkSource";
 }
 
@@ -6842,38 +7197,38 @@ export type SqlAlwaysEncryptedAkvAuthType = string;
 export interface SqlAlwaysEncryptedProperties {
     alwaysEncryptedAkvAuthType: SqlAlwaysEncryptedAkvAuthType;
     credential?: CredentialReference;
-    servicePrincipalId?: Record<string, unknown>;
+    servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
 }
 
 // @public
 export interface SqlDWSink extends CopySink {
-    allowCopyCommand?: Record<string, unknown>;
-    allowPolyBase?: Record<string, unknown>;
+    allowCopyCommand?: any;
+    allowPolyBase?: any;
     copyCommandSettings?: DWCopyCommandSettings;
     polyBaseSettings?: PolybaseSettings;
-    preCopyScript?: Record<string, unknown>;
-    sqlWriterUseTableLock?: Record<string, unknown>;
-    tableOption?: Record<string, unknown>;
+    preCopyScript?: any;
+    sqlWriterUseTableLock?: any;
+    tableOption?: any;
     type: "SqlDWSink";
     upsertSettings?: SqlDWUpsertSettings;
-    writeBehavior?: Record<string, unknown>;
+    writeBehavior?: any;
 }
 
 // @public
 export interface SqlDWSource extends TabularSource {
-    partitionOption?: Record<string, unknown>;
+    partitionOption?: any;
     partitionSettings?: SqlPartitionSettings;
-    sqlReaderQuery?: Record<string, unknown>;
-    sqlReaderStoredProcedureName?: Record<string, unknown>;
-    storedProcedureParameters?: Record<string, unknown>;
+    sqlReaderQuery?: any;
+    sqlReaderStoredProcedureName?: any;
+    storedProcedureParameters?: any;
     type: "SqlDWSource";
 }
 
 // @public
 export interface SqlDWUpsertSettings {
-    interimSchemaName?: Record<string, unknown>;
-    keys?: Record<string, unknown>;
+    interimSchemaName?: any;
+    keys?: any;
 }
 
 // @public
@@ -6881,30 +7236,26 @@ export type SqlDWWriteBehaviorEnum = string;
 
 // @public
 export interface SqlMISink extends CopySink {
-    preCopyScript?: Record<string, unknown>;
-    sqlWriterStoredProcedureName?: Record<string, unknown>;
-    sqlWriterTableType?: Record<string, unknown>;
-    sqlWriterUseTableLock?: Record<string, unknown>;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
-    storedProcedureTableTypeParameterName?: Record<string, unknown>;
-    tableOption?: Record<string, unknown>;
+    preCopyScript?: any;
+    sqlWriterStoredProcedureName?: any;
+    sqlWriterTableType?: any;
+    sqlWriterUseTableLock?: any;
+    storedProcedureParameters?: any;
+    storedProcedureTableTypeParameterName?: any;
+    tableOption?: any;
     type: "SqlMISink";
     upsertSettings?: SqlUpsertSettings;
-    writeBehavior?: Record<string, unknown>;
+    writeBehavior?: any;
 }
 
 // @public
 export interface SqlMISource extends TabularSource {
-    partitionOption?: Record<string, unknown>;
+    partitionOption?: any;
     partitionSettings?: SqlPartitionSettings;
-    produceAdditionalTypes?: Record<string, unknown>;
-    sqlReaderQuery?: Record<string, unknown>;
-    sqlReaderStoredProcedureName?: Record<string, unknown>;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    produceAdditionalTypes?: any;
+    sqlReaderQuery?: any;
+    sqlReaderStoredProcedureName?: any;
+    storedProcedureParameters?: any;
     type: "SqlMISource";
 }
 
@@ -6913,101 +7264,91 @@ export type SqlPartitionOption = string;
 
 // @public
 export interface SqlPartitionSettings {
-    partitionColumnName?: Record<string, unknown>;
-    partitionLowerBound?: Record<string, unknown>;
-    partitionUpperBound?: Record<string, unknown>;
+    partitionColumnName?: any;
+    partitionLowerBound?: any;
+    partitionUpperBound?: any;
 }
 
 // @public
 export interface SqlServerLinkedService extends LinkedService {
     alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
-    connectionString: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    connectionString: any;
+    encryptedCredential?: any;
     password?: SecretBaseUnion;
     type: "SqlServer";
-    userName?: Record<string, unknown>;
+    userName?: any;
 }
 
 // @public
 export interface SqlServerSink extends CopySink {
-    preCopyScript?: Record<string, unknown>;
-    sqlWriterStoredProcedureName?: Record<string, unknown>;
-    sqlWriterTableType?: Record<string, unknown>;
-    sqlWriterUseTableLock?: Record<string, unknown>;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
-    storedProcedureTableTypeParameterName?: Record<string, unknown>;
-    tableOption?: Record<string, unknown>;
+    preCopyScript?: any;
+    sqlWriterStoredProcedureName?: any;
+    sqlWriterTableType?: any;
+    sqlWriterUseTableLock?: any;
+    storedProcedureParameters?: any;
+    storedProcedureTableTypeParameterName?: any;
+    tableOption?: any;
     type: "SqlServerSink";
     upsertSettings?: SqlUpsertSettings;
-    writeBehavior?: Record<string, unknown>;
+    writeBehavior?: any;
 }
 
 // @public
 export interface SqlServerSource extends TabularSource {
-    partitionOption?: Record<string, unknown>;
+    partitionOption?: any;
     partitionSettings?: SqlPartitionSettings;
-    produceAdditionalTypes?: Record<string, unknown>;
-    sqlReaderQuery?: Record<string, unknown>;
-    sqlReaderStoredProcedureName?: Record<string, unknown>;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    produceAdditionalTypes?: any;
+    sqlReaderQuery?: any;
+    sqlReaderStoredProcedureName?: any;
+    storedProcedureParameters?: any;
     type: "SqlServerSource";
 }
 
 // @public
 export interface SqlServerStoredProcedureActivity extends ExecutionActivity {
-    storedProcedureName: Record<string, unknown>;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureName: any;
+    storedProcedureParameters?: any;
     type: "SqlServerStoredProcedure";
 }
 
 // @public
 export interface SqlServerTableDataset extends Dataset {
-    schemaTypePropertiesSchema?: Record<string, unknown>;
-    table?: Record<string, unknown>;
-    tableName?: Record<string, unknown>;
+    schemaTypePropertiesSchema?: any;
+    table?: any;
+    tableName?: any;
     type: "SqlServerTable";
 }
 
 // @public
 export interface SqlSink extends CopySink {
-    preCopyScript?: Record<string, unknown>;
-    sqlWriterStoredProcedureName?: Record<string, unknown>;
-    sqlWriterTableType?: Record<string, unknown>;
-    sqlWriterUseTableLock?: Record<string, unknown>;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
-    storedProcedureTableTypeParameterName?: Record<string, unknown>;
-    tableOption?: Record<string, unknown>;
+    preCopyScript?: any;
+    sqlWriterStoredProcedureName?: any;
+    sqlWriterTableType?: any;
+    sqlWriterUseTableLock?: any;
+    storedProcedureParameters?: any;
+    storedProcedureTableTypeParameterName?: any;
+    tableOption?: any;
     type: "SqlSink";
     upsertSettings?: SqlUpsertSettings;
-    writeBehavior?: Record<string, unknown>;
+    writeBehavior?: any;
 }
 
 // @public
 export interface SqlSource extends TabularSource {
-    isolationLevel?: Record<string, unknown>;
-    partitionOption?: Record<string, unknown>;
+    isolationLevel?: any;
+    partitionOption?: any;
     partitionSettings?: SqlPartitionSettings;
-    sqlReaderQuery?: Record<string, unknown>;
-    sqlReaderStoredProcedureName?: Record<string, unknown>;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    sqlReaderQuery?: any;
+    sqlReaderStoredProcedureName?: any;
+    storedProcedureParameters?: any;
     type: "SqlSource";
 }
 
 // @public
 export interface SqlUpsertSettings {
-    interimSchemaName?: Record<string, unknown>;
-    keys?: Record<string, unknown>;
-    useTempDB?: Record<string, unknown>;
+    interimSchemaName?: any;
+    keys?: any;
+    useTempDB?: any;
 }
 
 // @public
@@ -7015,43 +7356,43 @@ export type SqlWriteBehaviorEnum = string;
 
 // @public
 export interface SquareLinkedService extends LinkedService {
-    clientId?: Record<string, unknown>;
+    clientId?: any;
     clientSecret?: SecretBaseUnion;
-    connectionProperties?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    host?: Record<string, unknown>;
-    redirectUri?: Record<string, unknown>;
+    connectionProperties?: any;
+    encryptedCredential?: any;
+    host?: any;
+    redirectUri?: any;
     type: "Square";
-    useEncryptedEndpoints?: Record<string, unknown>;
-    useHostVerification?: Record<string, unknown>;
-    usePeerVerification?: Record<string, unknown>;
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
 }
 
 // @public
 export interface SquareObjectDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "SquareObject";
 }
 
 // @public
 export interface SquareSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "SquareSource";
 }
 
 // @public
 export interface SsisAccessCredential {
-    domain: Record<string, unknown>;
+    domain: any;
     password: SecretBaseUnion;
-    userName: Record<string, unknown>;
+    userName: any;
 }
 
 // @public
 export interface SsisChildPackage {
-    packageContent: Record<string, unknown>;
+    packageContent: any;
     packageLastModifiedDate?: string;
     packageName?: string;
-    packagePath: Record<string, unknown>;
+    packagePath: any;
 }
 
 // @public
@@ -7071,14 +7412,14 @@ export interface SsisEnvironmentReference {
 
 // @public
 export interface SsisExecutionCredential {
-    domain: Record<string, unknown>;
+    domain: any;
     password: SecureString;
-    userName: Record<string, unknown>;
+    userName: any;
 }
 
 // @public
 export interface SsisExecutionParameter {
-    value: Record<string, unknown>;
+    value: any;
 }
 
 // @public
@@ -7089,8 +7430,8 @@ export interface SsisFolder extends SsisObjectMetadata {
 // @public
 export interface SsisLogLocation {
     accessCredential?: SsisAccessCredential;
-    logPath: Record<string, unknown>;
-    logRefreshInterval?: Record<string, unknown>;
+    logPath: any;
+    logRefreshInterval?: any;
     type: SsisLogLocationType;
 }
 
@@ -7139,12 +7480,12 @@ export interface SsisPackageLocation {
     accessCredential?: SsisAccessCredential;
     childPackages?: SsisChildPackage[];
     configurationAccessCredential?: SsisAccessCredential;
-    configurationPath?: Record<string, unknown>;
-    packageContent?: Record<string, unknown>;
+    configurationPath?: any;
+    packageContent?: any;
     packageLastModifiedDate?: string;
     packageName?: string;
     packagePassword?: SecretBaseUnion;
-    packagePath?: Record<string, unknown>;
+    packagePath?: any;
     type?: SsisPackageLocationType;
 }
 
@@ -7179,7 +7520,7 @@ export interface SsisProject extends SsisObjectMetadata {
 // @public
 export interface SsisPropertyOverride {
     isSensitive?: boolean;
-    value: Record<string, unknown>;
+    value: any;
 }
 
 // @public
@@ -7196,15 +7537,15 @@ export interface SsisVariable {
 // @public
 export interface StagingSettings {
     [property: string]: any;
-    enableCompression?: Record<string, unknown>;
+    enableCompression?: any;
     linkedServiceName: LinkedServiceReference;
-    path?: Record<string, unknown>;
+    path?: any;
 }
 
 // @public
 export interface StoredProcedureParameter {
     type?: StoredProcedureParameterType;
-    value?: Record<string, unknown>;
+    value?: any;
 }
 
 // @public
@@ -7213,8 +7554,8 @@ export type StoredProcedureParameterType = string;
 // @public
 export interface StoreReadSettings {
     [property: string]: any;
-    disableMetricsCollection?: Record<string, unknown>;
-    maxConcurrentConnections?: Record<string, unknown>;
+    disableMetricsCollection?: any;
+    maxConcurrentConnections?: any;
     type: "AzureBlobStorageReadSettings" | "AzureBlobFSReadSettings" | "AzureDataLakeStoreReadSettings" | "AmazonS3ReadSettings" | "FileServerReadSettings" | "AzureFileStorageReadSettings" | "AmazonS3CompatibleReadSettings" | "OracleCloudStorageReadSettings" | "GoogleCloudStorageReadSettings" | "FtpReadSettings" | "SftpReadSettings" | "HttpReadSettings" | "HdfsReadSettings";
 }
 
@@ -7224,9 +7565,9 @@ export type StoreReadSettingsUnion = StoreReadSettings | AzureBlobStorageReadSet
 // @public
 export interface StoreWriteSettings {
     [property: string]: any;
-    copyBehavior?: Record<string, unknown>;
-    disableMetricsCollection?: Record<string, unknown>;
-    maxConcurrentConnections?: Record<string, unknown>;
+    copyBehavior?: any;
+    disableMetricsCollection?: any;
+    maxConcurrentConnections?: any;
     type: "SftpWriteSettings" | "AzureBlobStorageWriteSettings" | "AzureBlobFSWriteSettings" | "AzureDataLakeStoreWriteSettings" | "FileServerWriteSettings" | "AzureFileStorageWriteSettings";
 }
 
@@ -7266,59 +7607,116 @@ export type SybaseAuthenticationType = string;
 // @public
 export interface SybaseLinkedService extends LinkedService {
     authenticationType?: SybaseAuthenticationType;
-    database: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    database: any;
+    encryptedCredential?: any;
     password?: SecretBaseUnion;
-    schema?: Record<string, unknown>;
-    server: Record<string, unknown>;
+    schema?: any;
+    server: any;
     type: "Sybase";
-    username?: Record<string, unknown>;
+    username?: any;
 }
 
 // @public
 export interface SybaseSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "SybaseSource";
 }
 
 // @public
 export interface SybaseTableDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "SybaseTable";
 }
 
 // @public
+export interface SynapseNotebookActivity extends ExecutionActivity {
+    conf?: any;
+    driverSize?: any;
+    executorSize?: any;
+    notebook: SynapseNotebookReference;
+    numExecutors?: number;
+    parameters?: {
+        [propertyName: string]: NotebookParameter;
+    };
+    sparkPool?: BigDataPoolParametrizationReference;
+    type: "SynapseNotebook";
+}
+
+// @public
+export interface SynapseNotebookReference {
+    referenceName: any;
+    type: NotebookReferenceType;
+}
+
+// @public
+export interface SynapseSparkJobDefinitionActivity extends ExecutionActivity {
+    arguments?: any[];
+    className?: any;
+    conf?: any;
+    driverSize?: any;
+    executorSize?: any;
+    file?: any;
+    files?: any[];
+    filesV2?: any[];
+    numExecutors?: number;
+    pythonCodeReference?: any[];
+    sparkJob: SynapseSparkJobReference;
+    targetBigDataPool?: BigDataPoolParametrizationReference;
+    type: "SparkJob";
+}
+
+// @public
+export interface SynapseSparkJobReference {
+    referenceName: any;
+    type: SparkJobReferenceType;
+}
+
+// @public
 export interface TabularSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
-    queryTimeout?: Record<string, unknown>;
-    type: "TabularSource" | "AzureTableSource" | "InformixSource" | "Db2Source" | "OdbcSource" | "MySqlSource" | "PostgreSqlSource" | "SybaseSource" | "SapBwSource" | "SalesforceSource" | "SapCloudForCustomerSource" | "SapEccSource" | "SapHanaSource" | "SapOpenHubSource" | "SapTableSource" | "SqlSource" | "SqlServerSource" | "AmazonRdsForSqlServerSource" | "AzureSqlSource" | "SqlMISource" | "SqlDWSource" | "AzureMySqlSource" | "TeradataSource" | "CassandraSource" | "AmazonMWSSource" | "AzurePostgreSqlSource" | "ConcurSource" | "CouchbaseSource" | "DrillSource" | "EloquaSource" | "GoogleBigQuerySource" | "GreenplumSource" | "HBaseSource" | "HiveSource" | "HubspotSource" | "ImpalaSource" | "JiraSource" | "MagentoSource" | "MariaDBSource" | "AzureMariaDBSource" | "MarketoSource" | "PaypalSource" | "PhoenixSource" | "PrestoSource" | "QuickBooksSource" | "ServiceNowSource" | "ShopifySource" | "SparkSource" | "SquareSource" | "XeroSource" | "ZohoSource" | "NetezzaSource" | "VerticaSource" | "SalesforceMarketingCloudSource" | "ResponsysSource" | "DynamicsAXSource" | "OracleServiceCloudSource" | "GoogleAdWordsSource" | "AmazonRedshiftSource";
+    additionalColumns?: any;
+    queryTimeout?: any;
+    type: "TabularSource" | "AzureTableSource" | "InformixSource" | "Db2Source" | "OdbcSource" | "MySqlSource" | "PostgreSqlSource" | "SybaseSource" | "SapBwSource" | "SalesforceSource" | "SapCloudForCustomerSource" | "SapEccSource" | "SapHanaSource" | "SapOpenHubSource" | "SapOdpSource" | "SapTableSource" | "SqlSource" | "SqlServerSource" | "AmazonRdsForSqlServerSource" | "AzureSqlSource" | "SqlMISource" | "SqlDWSource" | "AzureMySqlSource" | "TeradataSource" | "CassandraSource" | "AmazonMWSSource" | "AzurePostgreSqlSource" | "ConcurSource" | "CouchbaseSource" | "DrillSource" | "EloquaSource" | "GoogleBigQuerySource" | "GreenplumSource" | "HBaseSource" | "HiveSource" | "HubspotSource" | "ImpalaSource" | "JiraSource" | "MagentoSource" | "MariaDBSource" | "AzureMariaDBSource" | "MarketoSource" | "PaypalSource" | "PhoenixSource" | "PrestoSource" | "QuickBooksSource" | "ServiceNowSource" | "ShopifySource" | "SparkSource" | "SquareSource" | "XeroSource" | "ZohoSource" | "NetezzaSource" | "VerticaSource" | "SalesforceMarketingCloudSource" | "ResponsysSource" | "DynamicsAXSource" | "OracleServiceCloudSource" | "GoogleAdWordsSource" | "AmazonRedshiftSource";
 }
 
 // @public (undocumented)
-export type TabularSourceUnion = TabularSource | AzureTableSource | InformixSource | Db2Source | OdbcSource | MySqlSource | PostgreSqlSource | SybaseSource | SapBwSource | SalesforceSource | SapCloudForCustomerSource | SapEccSource | SapHanaSource | SapOpenHubSource | SapTableSource | SqlSource | SqlServerSource | AmazonRdsForSqlServerSource | AzureSqlSource | SqlMISource | SqlDWSource | AzureMySqlSource | TeradataSource | CassandraSource | AmazonMWSSource | AzurePostgreSqlSource | ConcurSource | CouchbaseSource | DrillSource | EloquaSource | GoogleBigQuerySource | GreenplumSource | HBaseSource | HiveSource | HubspotSource | ImpalaSource | JiraSource | MagentoSource | MariaDBSource | AzureMariaDBSource | MarketoSource | PaypalSource | PhoenixSource | PrestoSource | QuickBooksSource | ServiceNowSource | ShopifySource | SparkSource | SquareSource | XeroSource | ZohoSource | NetezzaSource | VerticaSource | SalesforceMarketingCloudSource | ResponsysSource | DynamicsAXSource | OracleServiceCloudSource | GoogleAdWordsSource | AmazonRedshiftSource;
+export type TabularSourceUnion = TabularSource | AzureTableSource | InformixSource | Db2Source | OdbcSource | MySqlSource | PostgreSqlSource | SybaseSource | SapBwSource | SalesforceSource | SapCloudForCustomerSource | SapEccSource | SapHanaSource | SapOpenHubSource | SapOdpSource | SapTableSource | SqlSource | SqlServerSource | AmazonRdsForSqlServerSource | AzureSqlSource | SqlMISource | SqlDWSource | AzureMySqlSource | TeradataSource | CassandraSource | AmazonMWSSource | AzurePostgreSqlSource | ConcurSource | CouchbaseSource | DrillSource | EloquaSource | GoogleBigQuerySource | GreenplumSource | HBaseSource | HiveSource | HubspotSource | ImpalaSource | JiraSource | MagentoSource | MariaDBSource | AzureMariaDBSource | MarketoSource | PaypalSource | PhoenixSource | PrestoSource | QuickBooksSource | ServiceNowSource | ShopifySource | SparkSource | SquareSource | XeroSource | ZohoSource | NetezzaSource | VerticaSource | SalesforceMarketingCloudSource | ResponsysSource | DynamicsAXSource | OracleServiceCloudSource | GoogleAdWordsSource | AmazonRedshiftSource;
 
 // @public
 export interface TabularTranslator extends CopyTranslator {
-    collectionReference?: Record<string, unknown>;
-    columnMappings?: Record<string, unknown>;
-    mapComplexValuesToString?: Record<string, unknown>;
-    mappings?: Record<string, unknown>;
-    schemaMapping?: Record<string, unknown>;
+    collectionReference?: any;
+    columnMappings?: any;
+    mapComplexValuesToString?: any;
+    mappings?: any;
+    schemaMapping?: any;
     type: "TabularTranslator";
-    typeConversion?: Record<string, unknown>;
+    typeConversion?: any;
     typeConversionSettings?: TypeConversionSettings;
 }
 
 // @public
 export interface TarGZipReadSettings extends CompressionReadSettings {
-    preserveCompressionFileNameAsFolder?: Record<string, unknown>;
+    preserveCompressionFileNameAsFolder?: any;
     type: "TarGZipReadSettings";
 }
 
 // @public
 export interface TarReadSettings extends CompressionReadSettings {
-    preserveCompressionFileNameAsFolder?: Record<string, unknown>;
+    preserveCompressionFileNameAsFolder?: any;
     type: "TarReadSettings";
+}
+
+// @public
+export type TeamDeskAuthenticationType = string;
+
+// @public
+export interface TeamDeskLinkedService extends LinkedService {
+    apiToken?: SecretBaseUnion;
+    authenticationType: TeamDeskAuthenticationType;
+    encryptedCredential?: any;
+    password?: SecretBaseUnion;
+    type: "TeamDesk";
+    url: any;
+    userName?: any;
 }
 
 // @public
@@ -7327,12 +7725,12 @@ export type TeradataAuthenticationType = string;
 // @public
 export interface TeradataLinkedService extends LinkedService {
     authenticationType?: TeradataAuthenticationType;
-    connectionString?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    connectionString?: any;
+    encryptedCredential?: any;
     password?: SecretBaseUnion;
-    server?: Record<string, unknown>;
+    server?: any;
     type: "Teradata";
-    username?: Record<string, unknown>;
+    username?: any;
 }
 
 // @public
@@ -7340,37 +7738,37 @@ export type TeradataPartitionOption = string;
 
 // @public
 export interface TeradataPartitionSettings {
-    partitionColumnName?: Record<string, unknown>;
-    partitionLowerBound?: Record<string, unknown>;
-    partitionUpperBound?: Record<string, unknown>;
+    partitionColumnName?: any;
+    partitionLowerBound?: any;
+    partitionUpperBound?: any;
 }
 
 // @public
 export interface TeradataSource extends TabularSource {
-    partitionOption?: Record<string, unknown>;
+    partitionOption?: any;
     partitionSettings?: TeradataPartitionSettings;
-    query?: Record<string, unknown>;
+    query?: any;
     type: "TeradataSource";
 }
 
 // @public
 export interface TeradataTableDataset extends Dataset {
-    database?: Record<string, unknown>;
-    table?: Record<string, unknown>;
+    database?: any;
+    table?: any;
     type: "TeradataTable";
 }
 
 // @public
 export interface TextFormat extends DatasetStorageFormat {
-    columnDelimiter?: Record<string, unknown>;
-    encodingName?: Record<string, unknown>;
-    escapeChar?: Record<string, unknown>;
-    firstRowAsHeader?: Record<string, unknown>;
-    nullValue?: Record<string, unknown>;
-    quoteChar?: Record<string, unknown>;
-    rowDelimiter?: Record<string, unknown>;
-    skipLineCount?: Record<string, unknown>;
-    treatEmptyAsNull?: Record<string, unknown>;
+    columnDelimiter?: any;
+    encodingName?: any;
+    escapeChar?: any;
+    firstRowAsHeader?: any;
+    nullValue?: any;
+    quoteChar?: any;
+    rowDelimiter?: any;
+    skipLineCount?: any;
+    treatEmptyAsNull?: any;
     type: "TextFormat";
 }
 
@@ -7386,7 +7784,7 @@ export interface Transformation {
 // @public
 export interface Trigger {
     [property: string]: any;
-    annotations?: Record<string, unknown>[];
+    annotations?: any[];
     description?: string;
     readonly runtimeState?: TriggerRuntimeState;
     type: "MultiplePipelineTrigger" | "ScheduleTrigger" | "BlobTrigger" | "BlobEventsTrigger" | "CustomEventsTrigger" | "TumblingWindowTrigger" | "RerunTumblingWindowTrigger" | "ChainingTrigger";
@@ -7416,7 +7814,7 @@ export interface TriggerListResponse {
 // @public
 export interface TriggerPipelineReference {
     parameters?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     pipelineReference?: PipelineReference;
 }
@@ -7430,8 +7828,11 @@ export interface TriggerQueryResponse {
 // @public
 export interface TriggerReference {
     referenceName: string;
-    type: "TriggerReference";
+    type: TriggerReferenceType;
 }
+
+// @public
+export type TriggerReferenceType = string;
 
 // @public
 export interface TriggerResource extends SubResource {
@@ -7442,7 +7843,7 @@ export interface TriggerResource extends SubResource {
 export interface TriggerRun {
     [property: string]: any;
     readonly dependencyStatus?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     readonly message?: string;
     readonly properties?: {
@@ -7605,7 +8006,7 @@ export type TumblingWindowFrequency = string;
 
 // @public
 export interface TumblingWindowTrigger extends Trigger {
-    delay?: Record<string, unknown>;
+    delay?: any;
     dependsOn?: DependencyReferenceUnion[];
     endTime?: Date;
     frequency: TumblingWindowFrequency;
@@ -7625,20 +8026,30 @@ export interface TumblingWindowTriggerDependencyReference extends TriggerDepende
 }
 
 // @public
+export interface TwilioLinkedService extends LinkedService {
+    password: SecretBaseUnion;
+    type: "Twilio";
+    userName: any;
+}
+
+// @public
+export type Type = string;
+
+// @public
 export interface TypeConversionSettings {
-    allowDataTruncation?: Record<string, unknown>;
-    culture?: Record<string, unknown>;
-    dateTimeFormat?: Record<string, unknown>;
-    dateTimeOffsetFormat?: Record<string, unknown>;
-    timeSpanFormat?: Record<string, unknown>;
-    treatBooleanAsNumber?: Record<string, unknown>;
+    allowDataTruncation?: any;
+    culture?: any;
+    dateTimeFormat?: any;
+    dateTimeOffsetFormat?: any;
+    timeSpanFormat?: any;
+    treatBooleanAsNumber?: any;
 }
 
 // @public
 export interface UntilActivity extends ControlActivity {
     activities: ActivityUnion[];
     expression: Expression;
-    timeout?: Record<string, unknown>;
+    timeout?: any;
     type: "Until";
 }
 
@@ -7665,22 +8076,22 @@ export interface UserAccessPolicy {
 // @public
 export interface UserProperty {
     name: string;
-    value: Record<string, unknown>;
+    value: any;
 }
 
 // @public
 export interface ValidationActivity extends ControlActivity {
-    childItems?: Record<string, unknown>;
+    childItems?: any;
     dataset: DatasetReference;
-    minimumSize?: Record<string, unknown>;
-    sleep?: Record<string, unknown>;
-    timeout?: Record<string, unknown>;
+    minimumSize?: any;
+    sleep?: any;
+    timeout?: any;
     type: "Validation";
 }
 
 // @public
 export interface VariableSpecification {
-    defaultValue?: Record<string, unknown>;
+    defaultValue?: any;
     type: VariableType;
 }
 
@@ -7689,43 +8100,44 @@ export type VariableType = string;
 
 // @public
 export interface VerticaLinkedService extends LinkedService {
-    connectionString?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
+    connectionString?: any;
+    encryptedCredential?: any;
     pwd?: AzureKeyVaultSecretReference;
     type: "Vertica";
 }
 
 // @public
 export interface VerticaSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "VerticaSource";
 }
 
 // @public
 export interface VerticaTableDataset extends Dataset {
-    schemaTypePropertiesSchema?: Record<string, unknown>;
-    table?: Record<string, unknown>;
-    tableName?: Record<string, unknown>;
+    schemaTypePropertiesSchema?: any;
+    table?: any;
+    tableName?: any;
     type: "VerticaTable";
 }
 
 // @public
 export interface WaitActivity extends ControlActivity {
     type: "Wait";
-    waitTimeInSeconds: Record<string, unknown>;
+    waitTimeInSeconds: any;
 }
 
 // @public
 export interface WebActivity extends ExecutionActivity {
     authentication?: WebActivityAuthentication;
-    body?: Record<string, unknown>;
+    body?: any;
     connectVia?: IntegrationRuntimeReference;
     datasets?: DatasetReference[];
-    headers?: Record<string, unknown>;
+    disableCertValidation?: boolean;
+    headers?: any;
     linkedServices?: LinkedServiceReference[];
     method: WebActivityMethod;
     type: "WebActivity";
-    url: Record<string, unknown>;
+    url: any;
 }
 
 // @public
@@ -7733,10 +8145,10 @@ export interface WebActivityAuthentication {
     credential?: CredentialReference;
     password?: SecretBaseUnion;
     pfx?: SecretBaseUnion;
-    resource?: Record<string, unknown>;
+    resource?: any;
     type?: string;
-    username?: Record<string, unknown>;
-    userTenant?: Record<string, unknown>;
+    username?: any;
+    userTenant?: any;
 }
 
 // @public
@@ -7754,7 +8166,7 @@ export type WebAuthenticationType = string;
 export interface WebBasicAuthentication extends WebLinkedServiceTypeProperties {
     authenticationType: "Basic";
     password: SecretBaseUnion;
-    username: Record<string, unknown>;
+    username: any;
 }
 
 // @public
@@ -7767,13 +8179,13 @@ export interface WebClientCertificateAuthentication extends WebLinkedServiceType
 // @public
 export interface WebHookActivity extends ControlActivity {
     authentication?: WebActivityAuthentication;
-    body?: Record<string, unknown>;
-    headers?: Record<string, unknown>;
+    body?: any;
+    headers?: any;
     method: WebHookActivityMethod;
-    reportStatusOnCallBack?: Record<string, unknown>;
+    reportStatusOnCallBack?: any;
     timeout?: string;
     type: "WebHook";
-    url: Record<string, unknown>;
+    url: any;
 }
 
 // @public
@@ -7788,7 +8200,7 @@ export interface WebLinkedService extends LinkedService {
 // @public
 export interface WebLinkedServiceTypeProperties {
     authenticationType: "Anonymous" | "Basic" | "ClientCertificate";
-    url: Record<string, unknown>;
+    url: any;
 }
 
 // @public (undocumented)
@@ -7796,14 +8208,14 @@ export type WebLinkedServiceTypePropertiesUnion = WebLinkedServiceTypeProperties
 
 // @public
 export interface WebSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
+    additionalColumns?: any;
     type: "WebSource";
 }
 
 // @public
 export interface WebTableDataset extends Dataset {
-    index: Record<string, unknown>;
-    path?: Record<string, unknown>;
+    index: any;
+    path?: any;
     type: "WebTable";
 }
 
@@ -7817,83 +8229,97 @@ export interface WranglingDataFlow extends DataFlow {
 
 // @public
 export interface XeroLinkedService extends LinkedService {
-    connectionProperties?: Record<string, unknown>;
+    connectionProperties?: any;
     consumerKey?: SecretBaseUnion;
-    encryptedCredential?: Record<string, unknown>;
-    host?: Record<string, unknown>;
+    encryptedCredential?: any;
+    host?: any;
     privateKey?: SecretBaseUnion;
     type: "Xero";
-    useEncryptedEndpoints?: Record<string, unknown>;
-    useHostVerification?: Record<string, unknown>;
-    usePeerVerification?: Record<string, unknown>;
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
 }
 
 // @public
 export interface XeroObjectDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "XeroObject";
 }
 
 // @public
 export interface XeroSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "XeroSource";
 }
 
 // @public
 export interface XmlDataset extends Dataset {
     compression?: DatasetCompression;
-    encodingName?: Record<string, unknown>;
+    encodingName?: any;
     location?: DatasetLocationUnion;
-    nullValue?: Record<string, unknown>;
+    nullValue?: any;
     type: "Xml";
 }
 
 // @public
 export interface XmlReadSettings extends FormatReadSettings {
     compressionProperties?: CompressionReadSettingsUnion;
-    detectDataType?: Record<string, unknown>;
-    namespacePrefixes?: Record<string, unknown>;
-    namespaces?: Record<string, unknown>;
+    detectDataType?: any;
+    namespacePrefixes?: any;
+    namespaces?: any;
     type: "XmlReadSettings";
-    validationMode?: Record<string, unknown>;
+    validationMode?: any;
 }
 
 // @public
 export interface XmlSource extends CopySource {
-    additionalColumns?: Record<string, unknown>;
+    additionalColumns?: any;
     formatSettings?: XmlReadSettings;
     storeSettings?: StoreReadSettingsUnion;
     type: "XmlSource";
 }
 
 // @public
+export type ZendeskAuthenticationType = string;
+
+// @public
+export interface ZendeskLinkedService extends LinkedService {
+    apiToken?: SecretBaseUnion;
+    authenticationType: ZendeskAuthenticationType;
+    encryptedCredential?: any;
+    password?: SecretBaseUnion;
+    type: "Zendesk";
+    url: any;
+    userName?: any;
+}
+
+// @public
 export interface ZipDeflateReadSettings extends CompressionReadSettings {
-    preserveZipFileNameAsFolder?: Record<string, unknown>;
+    preserveZipFileNameAsFolder?: any;
     type: "ZipDeflateReadSettings";
 }
 
 // @public
 export interface ZohoLinkedService extends LinkedService {
     accessToken?: SecretBaseUnion;
-    connectionProperties?: Record<string, unknown>;
-    encryptedCredential?: Record<string, unknown>;
-    endpoint?: Record<string, unknown>;
+    connectionProperties?: any;
+    encryptedCredential?: any;
+    endpoint?: any;
     type: "Zoho";
-    useEncryptedEndpoints?: Record<string, unknown>;
-    useHostVerification?: Record<string, unknown>;
-    usePeerVerification?: Record<string, unknown>;
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
 }
 
 // @public
 export interface ZohoObjectDataset extends Dataset {
-    tableName?: Record<string, unknown>;
+    tableName?: any;
     type: "ZohoObject";
 }
 
 // @public
 export interface ZohoSource extends TabularSource {
-    query?: Record<string, unknown>;
+    query?: any;
     type: "ZohoSource";
 }
 

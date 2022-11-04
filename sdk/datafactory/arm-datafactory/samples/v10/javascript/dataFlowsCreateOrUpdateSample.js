@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  DataFlowResource,
-  DataFactoryManagementClient
-} from "@azure/arm-datafactory";
-import { DefaultAzureCredential } from "@azure/identity";
+const { DataFactoryManagementClient } = require("@azure/arm-datafactory");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Creates or updates a data flow.
@@ -25,40 +22,62 @@ async function dataFlowsCreate() {
   const resourceGroupName = "exampleResourceGroup";
   const factoryName = "exampleFactoryName";
   const dataFlowName = "exampleDataFlow";
-  const dataFlow: DataFlowResource = {
+  const dataFlow = {
     properties: {
       type: "MappingDataFlow",
       description:
         "Sample demo data flow to convert currencies showing usage of union, derive and conditional split transformation.",
-      script:
-        "source(output(PreviousConversionRate as double,Country as string,DateTime1 as string,CurrentConversionRate as double),allowSchemaDrift: false,validateSchema: false) ~> USDCurrency\nsource(output(PreviousConversionRate as double,Country as string,DateTime1 as string,CurrentConversionRate as double),allowSchemaDrift: true,validateSchema: false) ~> CADSource\nUSDCurrency, CADSource union(byName: true)~> Union\nUnion derive(NewCurrencyRate = round(CurrentConversionRate*1.25)) ~> NewCurrencyColumn\nNewCurrencyColumn split(Country == 'USD',Country == 'CAD',disjoint: false) ~> ConditionalSplit1@(USD, CAD)\nConditionalSplit1@USD sink(saveMode:'overwrite' ) ~> USDSink\nConditionalSplit1@CAD sink(saveMode:'overwrite' ) ~> CADSink",
+      scriptLines: [
+        "source(output(",
+        "PreviousConversionRate as double,",
+        "Country as string,",
+        "DateTime1 as string,",
+        "CurrentConversionRate as double",
+        "),",
+        "allowSchemaDrift: false,",
+        "validateSchema: false) ~> USDCurrency",
+        "source(output(",
+        "PreviousConversionRate as double,",
+        "Country as string,",
+        "DateTime1 as string,",
+        "CurrentConversionRate as double",
+        "),",
+        "allowSchemaDrift: true,",
+        "validateSchema: false) ~> CADSource",
+        "USDCurrency, CADSource union(byName: true)~> Union",
+        "Union derive(NewCurrencyRate = round(CurrentConversionRate*1.25)) ~> NewCurrencyColumn",
+        "NewCurrencyColumn split(Country == 'USD',",
+        "Country == 'CAD',disjoint: false) ~> ConditionalSplit1@(USD, CAD)",
+        "ConditionalSplit1@USD sink(saveMode:'overwrite' ) ~> USDSink",
+        "ConditionalSplit1@CAD sink(saveMode:'overwrite' ) ~> CADSink",
+      ],
       sinks: [
         {
           name: "USDSink",
-          dataset: { type: "DatasetReference", referenceName: "USDOutput" }
+          dataset: { type: "DatasetReference", referenceName: "USDOutput" },
         },
         {
           name: "CADSink",
-          dataset: { type: "DatasetReference", referenceName: "CADOutput" }
-        }
+          dataset: { type: "DatasetReference", referenceName: "CADOutput" },
+        },
       ],
       sources: [
         {
           name: "USDCurrency",
           dataset: {
             type: "DatasetReference",
-            referenceName: "CurrencyDatasetUSD"
-          }
+            referenceName: "CurrencyDatasetUSD",
+          },
         },
         {
           name: "CADSource",
           dataset: {
             type: "DatasetReference",
-            referenceName: "CurrencyDatasetCAD"
-          }
-        }
-      ]
-    }
+            referenceName: "CurrencyDatasetCAD",
+          },
+        },
+      ],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataFactoryManagementClient(credential, subscriptionId);
@@ -84,40 +103,62 @@ async function dataFlowsUpdate() {
   const resourceGroupName = "exampleResourceGroup";
   const factoryName = "exampleFactoryName";
   const dataFlowName = "exampleDataFlow";
-  const dataFlow: DataFlowResource = {
+  const dataFlow = {
     properties: {
       type: "MappingDataFlow",
       description:
         "Sample demo data flow to convert currencies showing usage of union, derive and conditional split transformation.",
-      script:
-        "source(output(PreviousConversionRate as double,Country as string,DateTime1 as string,CurrentConversionRate as double),allowSchemaDrift: false,validateSchema: false) ~> USDCurrency\nsource(output(PreviousConversionRate as double,Country as string,DateTime1 as string,CurrentConversionRate as double),allowSchemaDrift: true,validateSchema: false) ~> CADSource\nUSDCurrency, CADSource union(byName: true)~> Union\nUnion derive(NewCurrencyRate = round(CurrentConversionRate*1.25)) ~> NewCurrencyColumn\nNewCurrencyColumn split(Country == 'USD',Country == 'CAD',disjoint: false) ~> ConditionalSplit1@(USD, CAD)\nConditionalSplit1@USD sink(saveMode:'overwrite' ) ~> USDSink\nConditionalSplit1@CAD sink(saveMode:'overwrite' ) ~> CADSink",
+      scriptLines: [
+        "source(output(",
+        "PreviousConversionRate as double,",
+        "Country as string,",
+        "DateTime1 as string,",
+        "CurrentConversionRate as double",
+        "),",
+        "allowSchemaDrift: false,",
+        "validateSchema: false) ~> USDCurrency",
+        "source(output(",
+        "PreviousConversionRate as double,",
+        "Country as string,",
+        "DateTime1 as string,",
+        "CurrentConversionRate as double",
+        "),",
+        "allowSchemaDrift: true,",
+        "validateSchema: false) ~> CADSource",
+        "USDCurrency, CADSource union(byName: true)~> Union",
+        "Union derive(NewCurrencyRate = round(CurrentConversionRate*1.25)) ~> NewCurrencyColumn",
+        "NewCurrencyColumn split(Country == 'USD',",
+        "Country == 'CAD',disjoint: false) ~> ConditionalSplit1@(USD, CAD)",
+        "ConditionalSplit1@USD sink(saveMode:'overwrite' ) ~> USDSink",
+        "ConditionalSplit1@CAD sink(saveMode:'overwrite' ) ~> CADSink",
+      ],
       sinks: [
         {
           name: "USDSink",
-          dataset: { type: "DatasetReference", referenceName: "USDOutput" }
+          dataset: { type: "DatasetReference", referenceName: "USDOutput" },
         },
         {
           name: "CADSink",
-          dataset: { type: "DatasetReference", referenceName: "CADOutput" }
-        }
+          dataset: { type: "DatasetReference", referenceName: "CADOutput" },
+        },
       ],
       sources: [
         {
           name: "USDCurrency",
           dataset: {
             type: "DatasetReference",
-            referenceName: "CurrencyDatasetUSD"
-          }
+            referenceName: "CurrencyDatasetUSD",
+          },
         },
         {
           name: "CADSource",
           dataset: {
             type: "DatasetReference",
-            referenceName: "CurrencyDatasetCAD"
-          }
-        }
-      ]
-    }
+            referenceName: "CurrencyDatasetCAD",
+          },
+        },
+      ],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataFactoryManagementClient(credential, subscriptionId);

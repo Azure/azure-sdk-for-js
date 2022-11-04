@@ -26,8 +26,8 @@ async function pipelinesCreateRun() {
   const factoryName = "exampleFactoryName";
   const pipelineName = "examplePipeline";
   const referencePipelineRunId = undefined;
-  const parameters: { [propertyName: string]: Record<string, unknown> } = {
-    outputBlobNameList: { string: ["exampleoutput.csv"] }
+  const parameters: { [propertyName: string]: any } = {
+    outputBlobNameList: ["exampleoutput.csv"]
   };
   const options: PipelinesCreateRunOptionalParams = {
     referencePipelineRunId,
