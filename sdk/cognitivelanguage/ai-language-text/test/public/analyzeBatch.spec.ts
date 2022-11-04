@@ -51,6 +51,7 @@ import {
   expectation32,
   expectation30,
   expectation31,
+  expectation71,
 } from "./expectations";
 import { windows365ArticlePart1, windows365ArticlePart2 } from "./inputs";
 import { getDocIDsFromState } from "../../src/lro";
@@ -859,6 +860,43 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             }
           );
           await assertActionsResults(await poller.pollUntilDone(), expectation15);
+        });
+
+        it("whole batch input with auto language detection", async function () {
+          const docs = [
+            "I will go to the park.",
+            "Este es un document escrito en Español.",
+            "猫は幸せ",
+          ];
+          const poller = await client.beginAnalyzeBatch(
+            [
+              {
+                kind: AnalyzeBatchActionNames.EntityRecognition,
+              },
+              {
+                kind: AnalyzeBatchActionNames.PiiEntityRecognition,
+              },
+              {
+                kind: AnalyzeBatchActionNames.SentimentAnalysis,
+              },
+              {
+                kind: AnalyzeBatchActionNames.KeyPhraseExtraction,
+              },
+              {
+                kind: AnalyzeBatchActionNames.EntityLinking,
+              },
+              {
+                kind: AnalyzeBatchActionNames.Healthcare,
+              },
+            ],
+            docs,
+            "auto",
+            {
+              updateIntervalInMs: pollingInterval,
+              defaultLanguage: "en",
+            }
+          );
+          await assertActionsResults(await poller.pollUntilDone(), expectation71);
         });
 
         it("invalid language hint", async function () {
