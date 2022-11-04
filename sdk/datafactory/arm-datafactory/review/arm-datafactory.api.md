@@ -2902,6 +2902,9 @@ export interface FtpServerLocation extends DatasetLocation {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GetDataFactoryOperationStatusResponse {
     [property: string]: any;
     status?: string;
@@ -6821,6 +6824,7 @@ export interface ScriptAction {
 // @public
 export interface ScriptActivity extends ExecutionActivity {
     logSettings?: ScriptActivityTypePropertiesLogSettings;
+    scriptBlockExecutionTimeout?: any;
     scripts?: ScriptActivityScriptBlock[];
     type: "Script";
 }

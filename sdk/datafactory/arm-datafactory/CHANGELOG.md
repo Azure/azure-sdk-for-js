@@ -1,15 +1,12 @@
 # Release History
+    
+## 10.10.0 (2022-11-04)
+    
+**Features**
 
-## 10.9.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface ScriptActivity has a new optional parameter scriptBlockExecutionTimeout
+    
+    
 ## 10.9.0 (2022-10-17)
     
 **Features**
