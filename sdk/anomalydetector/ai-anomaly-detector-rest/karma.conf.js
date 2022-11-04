@@ -55,11 +55,9 @@ module.exports = function(config) {
 
     envPreprocessor: [
       "TEST_MODE",
-      "ENDPOINT",
-      "AZURE_CLIENT_SECRET",
-      "AZURE_CLIENT_ID",
-      "AZURE_TENANT_ID",
-      "SUBSCRIPTION_ID"
+      "ANOMALY_DETECTOR_API_KEY",
+      "ANOMALY_DETECTOR_ENDPOINT",
+      "RECORDINGS_RELATIVE_PATH"
     ],
 
     // test results reporter to use
