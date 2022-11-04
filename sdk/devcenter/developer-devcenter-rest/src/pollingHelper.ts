@@ -8,7 +8,7 @@ import {
   LroEngineOptions,
   LroResponse,
   PollerLike,
-  PollOperationState
+  PollOperationState,
 } from "@azure/core-lro";
 
 /**
@@ -41,17 +41,15 @@ export function getLongRunningPoller<TResult extends HttpResponse>(
       // This is a workaround to handle problems with the test recorder implementation. This allows us to send requests to the correct
       // host in playback mode, while ensuring the path remains the same in normal operation.
       const currentUrl = new URL(path ?? initialResponse.request.url);
-      const base: string = initialResponse.request.headers.get("x-recording-upstream-base-uri") ?? currentUrl.host;
+      const base: string =
+        initialResponse.request.headers.get("x-recording-upstream-base-uri") ?? currentUrl.host;
       path = base + currentUrl.pathname;
-      
-      const response = await client
-        .pathUnchecked(path ?? initialResponse.request.url)
-        .get();
+
+      const response = await client.pathUnchecked(path ?? initialResponse.request.url).get();
       const lroResponse = getLroResponse(response as TResult);
-      lroResponse.rawResponse.headers["x-ms-original-url"] =
-        initialResponse.request.url;
+      lroResponse.rawResponse.headers["x-ms-original-url"] = initialResponse.request.url;
       return lroResponse;
-    }
+    },
   };
 
   return new LroEngine(poller, options);
@@ -62,13 +60,9 @@ export function getLongRunningPoller<TResult extends HttpResponse>(
  * @param response - a rest client http response
  * @returns - An LRO response that the LRO engine can work with
  */
-function getLroResponse<TResult extends HttpResponse>(
-  response: TResult
-): LroResponse<TResult> {
+function getLroResponse<TResult extends HttpResponse>(response: TResult): LroResponse<TResult> {
   if (Number.isNaN(response.status)) {
-    throw new TypeError(
-      `Status code of the response is not a number. Value: ${response.status}`
-    );
+    throw new TypeError(`Status code of the response is not a number. Value: ${response.status}`);
   }
 
   return {
@@ -76,7 +70,7 @@ function getLroResponse<TResult extends HttpResponse>(
     rawResponse: {
       ...response,
       statusCode: Number.parseInt(response.status),
-      body: response.body
-    }
+      body: response.body,
+    },
   };
 }
