@@ -4,6 +4,7 @@ specifiers:
   '@rush-temp/abort-controller': file:./projects/abort-controller.tgz
   '@rush-temp/agrifood-farming': file:./projects/agrifood-farming.tgz
   '@rush-temp/ai-anomaly-detector': file:./projects/ai-anomaly-detector.tgz
+  '@rush-temp/ai-anomaly-detector-1': file:./projects/ai-anomaly-detector-1.tgz
   '@rush-temp/ai-document-translator': file:./projects/ai-document-translator.tgz
   '@rush-temp/ai-form-recognizer': file:./projects/ai-form-recognizer.tgz
   '@rush-temp/ai-language-conversations': file:./projects/ai-language-conversations.tgz
@@ -326,6 +327,7 @@ dependencies:
   '@rush-temp/abort-controller': file:projects/abort-controller.tgz
   '@rush-temp/agrifood-farming': file:projects/agrifood-farming.tgz
   '@rush-temp/ai-anomaly-detector': file:projects/ai-anomaly-detector.tgz
+  '@rush-temp/ai-anomaly-detector-1': file:projects/ai-anomaly-detector-1.tgz
   '@rush-temp/ai-document-translator': file:projects/ai-document-translator.tgz
   '@rush-temp/ai-form-recognizer': file:projects/ai-form-recognizer.tgz
   '@rush-temp/ai-language-conversations': file:projects/ai-language-conversations.tgz
@@ -9489,9 +9491,9 @@ packages:
       - utf-8-validate
     dev: false
 
-  file:projects/ai-anomaly-detector.tgz:
-    resolution: {integrity: sha512-A9ojtvZrXb395G4EYirDrkSqvoAA/taaKEm9kqQ0S+AwjnPW/nXMM7LlAm34/VfYGIQUclhDJRtbdztYDNfNSA==, tarball: file:projects/ai-anomaly-detector.tgz}
-    name: '@rush-temp/ai-anomaly-detector'
+  file:projects/ai-anomaly-detector-1.tgz:
+    resolution: {integrity: sha512-wJZZrHKPNlK2z/PPVtHvPNUo4Uys9wPyPKBDmYNsNSKdjH1zsArRdN/x6PE/bH/XEesPkEtJVQ8q1c4QJcKLUQ==, tarball: file:projects/ai-anomaly-detector-1.tgz}
+    name: '@rush-temp/ai-anomaly-detector-1'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
@@ -9530,6 +9532,55 @@ packages:
       - bufferutil
       - debug
       - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/ai-anomaly-detector.tgz:
+    resolution: {integrity: sha512-i4JIRiaWFkmL4mkfnxJ3gMyyJ1U3mIAJQUk1FkdM1Pzb1pI6bAHOWtfKyU7rrxgP1H6qJTRs+7cj9V+S9Zs1Jw==, tarball: file:projects/ai-anomaly-detector.tgz}
+    name: '@rush-temp/ai-anomaly-detector'
+    version: 0.0.0
+    dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.10
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.33.5
+      '@types/chai': 4.3.3
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.33
+      autorest: 3.6.2
+      chai: 4.3.6
+      cross-env: 7.0.3
+      csv-parse: 5.3.1
+      dotenv: 8.6.0
+      eslint: 8.26.0
+      inherits: 2.0.4
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.1
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 2.2.1
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.4.0
+      typescript: 4.6.4
+      util: 0.12.5
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
       - supports-color
       - utf-8-validate
     dev: false
