@@ -8,7 +8,7 @@ import {
   LroEngineOptions,
   LroResponse,
   PollerLike,
-  PollOperationState,
+  PollOperationState
 } from "@azure/core-lro";
 
 /**
@@ -25,10 +25,7 @@ export function getLongRunningPoller<TResult extends HttpResponse>(
 ): PollerLike<PollOperationState<TResult>, TResult> {
   const poller: LongRunningOperation<TResult> = {
     requestMethod: initialResponse.request.method,
-    // Override this so we can poll on requests sent while recording
-    requestPath:
-      initialResponse.request.headers.get("x-recording-upstream-base-uri") ??
-      initialResponse.request.url,
+    requestPath: initialResponse.request.url,
     sendInitialRequest: async () => {
       // In the case of Rest Clients we are building the LRO poller object from a response that's the reason
       // we are not triggering the initial request here, just extracting the information from the
@@ -40,11 +37,21 @@ export function getLongRunningPoller<TResult extends HttpResponse>(
       // to get the latest status. We use the client provided and the polling path
       // which is an opaque URL provided by caller, the service sends this in one of the following headers: operation-location, azure-asyncoperation or location
       // depending on the lro pattern that the service implements. If non is provided we default to the initial path.
-      const response = await client.pathUnchecked(path ?? initialResponse.request.url).get();
+
+      // This is a workaround to handle problems with the test recorder implementation. This allows us to send requests to the correct
+      // host in playback mode, while ensuring the path remains the same in normal operation.
+      const currentUrl = new URL(path ?? initialResponse.request.url);
+      const base: string = initialResponse.request.headers.get("x-recording-upstream-base-uri") ?? currentUrl.host;
+      path = base + currentUrl.pathname;
+      
+      const response = await client
+        .pathUnchecked(path ?? initialResponse.request.url)
+        .get();
       const lroResponse = getLroResponse(response as TResult);
-      lroResponse.rawResponse.headers["x-ms-original-url"] = initialResponse.request.url;
+      lroResponse.rawResponse.headers["x-ms-original-url"] =
+        initialResponse.request.url;
       return lroResponse;
-    },
+    }
   };
 
   return new LroEngine(poller, options);
@@ -55,9 +62,13 @@ export function getLongRunningPoller<TResult extends HttpResponse>(
  * @param response - a rest client http response
  * @returns - An LRO response that the LRO engine can work with
  */
-function getLroResponse<TResult extends HttpResponse>(response: TResult): LroResponse<TResult> {
+function getLroResponse<TResult extends HttpResponse>(
+  response: TResult
+): LroResponse<TResult> {
   if (Number.isNaN(response.status)) {
-    throw new TypeError(`Status code of the response is not a number. Value: ${response.status}`);
+    throw new TypeError(
+      `Status code of the response is not a number. Value: ${response.status}`
+    );
   }
 
   return {
@@ -65,7 +76,7 @@ function getLroResponse<TResult extends HttpResponse>(response: TResult): LroRes
     rawResponse: {
       ...response,
       statusCode: Number.parseInt(response.status),
-      body: response.body,
-    },
+      body: response.body
+    }
   };
 }

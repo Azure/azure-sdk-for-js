@@ -50,7 +50,12 @@ export interface DevBox {
   /** The current action state of the Dev Box. This is state is based on previous action performed by user. */
   actionState?: string;
   /** The current power state of the Dev Box. */
-  powerState?: "Unknown" | "Deallocated" | "PoweredOff" | "Running" | "Hibernated";
+  powerState?:
+    | "Unknown"
+    | "Deallocated"
+    | "PoweredOff"
+    | "Running"
+    | "Hibernated";
   /** A unique identifier for the Dev Box. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000). */
   uniqueId?: string;
   /** Provisioning or action error details. Populated only for error states. */

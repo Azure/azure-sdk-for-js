@@ -10,7 +10,7 @@ tag: v2022-03-01-preview
 generate-test: true
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
-source-code-folder-path: ./src
+source-code-folder-path: ./src/generated
 package-version: 1.0.0
 rest-level-client: true
 security: AADToken
