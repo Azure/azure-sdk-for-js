@@ -50,6 +50,8 @@ import {
   CustomEntitiesResultDocumentsItem,
   ExtractedSummaryDocumentResultWithDetectedLanguage,
   AbstractiveSummaryDocumentResultWithDetectedLanguage,
+  HealthcareResultDocumentsItem,
+  DetectedLanguage,
 } from "./generated";
 import {
   AnalyzeActionName,
@@ -74,6 +76,7 @@ import {
   TextAnalysisError,
   TextAnalysisErrorResult,
   TextAnalysisSuccessResult,
+  WithDetectedLanguage,
 } from "./models";
 import {
   AssessmentIndex,
@@ -392,20 +395,34 @@ function toHealthcareResult(
       ),
     });
   }
-  return transformDocumentResults<HealthcareEntitiesDocumentResult, HealthcareSuccessResult>(
-    docIds,
-    results,
-    {
-      processSuccess: ({ entities, relations, ...rest }) => {
-        const newEntities = entities.map(makeHealthcareEntity);
-        return {
-          entities: newEntities,
-          entityRelations: relations.map(makeHealthcareRelation(newEntities)),
-          ...rest,
-        };
-      },
+  function deserializeDetectedLanguage(input: string): DetectedLanguage {
+    function helper(str: string): undefined {
+      try {
+        return JSON.parse(str);
+      } catch (e) {
+        return undefined;
+      }
     }
-  );
+    const obj = helper(input);
+    return obj !== undefined ? obj : ({ iso6391Name: input } as any);
+  }
+  return transformDocumentResults<
+    HealthcareResultDocumentsItem,
+    WithDetectedLanguage<HealthcareSuccessResult>
+  >(docIds, results, {
+    processSuccess: ({ entities, relations, detectedLanguage, ...rest }) => {
+      const newEntities = entities.map(makeHealthcareEntity);
+      return {
+        entities: newEntities,
+        entityRelations: relations.map(makeHealthcareRelation(newEntities)),
+        // FIXME: remove this mitigation when the API fixes the representation on their end
+        ...(detectedLanguage
+          ? { detectedLanguage: deserializeDetectedLanguage(detectedLanguage) }
+          : {}),
+        ...rest,
+      };
+    },
+  });
 }
 
 function toCustomSingleLabelClassificationResult(

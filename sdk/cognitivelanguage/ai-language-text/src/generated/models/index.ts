@@ -397,6 +397,11 @@ export interface HealthcareRelationEntity {
   role: string;
 }
 
+export interface DocumentDetectedLanguageForHealthcare {
+  /** If 'language' is set to 'auto' for the document in the request this field will contain a 2 letter ISO 639-1 representation of the language detected for this document. */
+  detectedLanguage?: string;
+}
+
 export interface PreBuiltResult {
   /** Errors by document id. */
   errors: InputError[];
@@ -944,10 +949,6 @@ export interface CustomLabelClassificationResultDocumentsItem
   extends ClassificationDocumentResult,
     DocumentDetectedLanguage {}
 
-export interface HealthcareResultDocumentsItem
-  extends HealthcareEntitiesDocumentResult,
-    DocumentDetectedLanguage {}
-
 export interface SentimentResponseDocumentsItem
   extends SentimentDocumentResult,
     DocumentDetectedLanguage {}
@@ -976,6 +977,10 @@ export interface KeyPhraseResultDocumentsItem
 export interface AbstractiveSummaryDocumentResultWithDetectedLanguage
   extends AbstractiveSummaryDocumentResult,
     DocumentDetectedLanguage {}
+
+export interface HealthcareResultDocumentsItem
+  extends HealthcareEntitiesDocumentResult,
+    DocumentDetectedLanguageForHealthcare {}
 
 export interface HealthcareResult extends PreBuiltResult {
   documents: HealthcareResultDocumentsItem[];
