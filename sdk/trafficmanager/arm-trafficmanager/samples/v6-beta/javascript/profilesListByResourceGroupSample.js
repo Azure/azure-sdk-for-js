@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
-import { DefaultAzureCredential } from "@azure/identity";
+const { TrafficManagerManagementClient } = require("@azure/arm-trafficmanager");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Lists all Traffic Manager profiles within a resource group.
@@ -23,9 +23,7 @@ async function listProfilesByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.profiles.listByResourceGroup(
-    resourceGroupName
-  )) {
+  for await (let item of client.profiles.listByResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

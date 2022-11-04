@@ -1,0 +1,39 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/trafficmanagerprofiles?api-version=2022-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-trafficmanager/6.1.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "423c6a0d-32bb-4f6a-ac77-d2ea00851f88"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "319",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 04 Nov 2022 08:22:30 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "86e7f5b1-582a-4c5e-988b-ed5f506f5af9",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "86e7f5b1-582a-4c5e-988b-ed5f506f5af9",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221104T082231Z:86e7f5b1-582a-4c5e-988b-ed5f506f5af9"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidResourceType",
+          "message": "The resource type \u0027trafficmanagerprofiles\u0027 could not be found in the namespace \u0027Microsoft.Network\u0027 for api version \u00272022-04-01-preview\u0027. The supported api-versions are \u00272015-04-28-preview,2015-11-01,2017-03-01,2017-05-01,2018-02-01,2018-03-01,2018-04-01,2018-08-01\u0027."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

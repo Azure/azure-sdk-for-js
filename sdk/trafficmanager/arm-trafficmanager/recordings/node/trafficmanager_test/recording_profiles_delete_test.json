@@ -1,0 +1,66 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/trafficmanagerprofiles/azsmnet6386?api-version=2022-04-01-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-trafficmanager/6.1.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "f1909377-b0c1-409f-91d0-523ae83c06e9"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Date": "Fri, 04 Nov 2022 08:22:32 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "a4ddd62c-b40f-4c3c-82b5-2afc68400b20",
+        "x-ms-ratelimit-remaining-subscription-resource-requests": "499",
+        "x-ms-request-id": "a4ddd62c-b40f-4c3c-82b5-2afc68400b20",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221104T082232Z:a4ddd62c-b40f-4c3c-82b5-2afc68400b20"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/trafficmanagerprofiles?api-version=2022-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-trafficmanager/6.1.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "b5ed5032-0464-4486-af49-66b66a9641e0"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "319",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 04 Nov 2022 08:22:32 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "f1b27836-6069-4269-8521-3d04d3f89182",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "f1b27836-6069-4269-8521-3d04d3f89182",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221104T082233Z:f1b27836-6069-4269-8521-3d04d3f89182"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidResourceType",
+          "message": "The resource type \u0027trafficmanagerprofiles\u0027 could not be found in the namespace \u0027Microsoft.Network\u0027 for api version \u00272022-04-01-preview\u0027. The supported api-versions are \u00272015-04-28-preview,2015-11-01,2017-03-01,2017-05-01,2018-02-01,2018-03-01,2018-04-01,2018-08-01\u0027."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

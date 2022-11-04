@@ -1,0 +1,58 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/trafficmanagerprofiles/azsmnet6386?api-version=2022-04-01-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "275",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-trafficmanager/6.1.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "c63e1fcf-9339-4127-908d-7a47dfea06c7"
+      },
+      "RequestBody": {
+        "location": "eastus",
+        "properties": {
+          "profileStatus": "Enabled",
+          "trafficRoutingMethod": "MultiValue",
+          "dnsConfig": {
+            "relativeName": "azsmnet6386",
+            "ttl": 35
+          },
+          "monitorConfig": {
+            "protocol": "HTTP",
+            "port": 80,
+            "path": "/testpath.aspx"
+          },
+          "trafficViewEnrollmentStatus": "Disabled",
+          "maxReturn": 2
+        }
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "367",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 04 Nov 2022 08:22:28 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "a340c9fd-26a2-43b3-b881-5f8fcf703e27",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "a340c9fd-26a2-43b3-b881-5f8fcf703e27",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221104T082229Z:a340c9fd-26a2-43b3-b881-5f8fcf703e27"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "NoRegisteredProviderFound",
+          "message": "No registered resource provider found for location \u0027eastus\u0027 and API version \u00272022-04-01-preview\u0027 for type \u0027trafficmanagerprofiles\u0027. The supported api-versions are \u00272015-04-28-preview, 2015-11-01, 2017-03-01, 2017-05-01, 2018-02-01, 2018-03-01, 2018-04-01, 2018-08-01\u0027. The supported locations are \u0027, global\u0027."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
