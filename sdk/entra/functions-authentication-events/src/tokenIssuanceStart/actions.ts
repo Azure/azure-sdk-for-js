@@ -8,18 +8,21 @@ import { TokenIssuanceStartAction } from "./context";
  */
 export interface ProvideClaimsForToken extends TokenIssuanceStartAction {
   /** The 'Name' of the action in the JSON. */
-  actionType: "ProvideClaimsForToken";
+  actionType: "microsoft.graph.ProvideClaimsForToken";
   /** Collection of claims to add to the token. */
-  claims: TokenClaim[];
+  claims: TokenClaim;
   /** Helper constructor to easily add claims to the action. */
 }
 
-/**
- * An Interface representing a claim.
- */
-export interface TokenClaim {
-  /** The id of the claim (i.e. Name). */
-  id: string;
-  /** The value of the claim. */
-  value: string | string[];
+/** Helper function to create a provider claims for token */
+export function createProvideClaimsForToken(claims: TokenClaim): ProvideClaimsForToken {
+  return {
+    actionType: "microsoft.graph.ProvideClaimsForToken",
+    claims: claims,
+  };
 }
+
+/**
+ * An type representing a claim.
+ */
+export type TokenClaim = Record<string, string | string[]>;
