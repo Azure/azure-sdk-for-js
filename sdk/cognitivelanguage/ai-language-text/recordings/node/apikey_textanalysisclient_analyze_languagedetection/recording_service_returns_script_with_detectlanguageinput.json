@@ -7,19 +7,20 @@
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
-        "Content-Length": "153",
+        "Content-Length": "172",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v16.14.2 OS/(x64-Linux-5.4.0-1094-azure)",
-        "x-ms-client-request-id": "9b3b8087-c514-4925-939e-0feb42aa0533"
+        "x-ms-client-request-id": "b18a132e-3462-44da-86fe-48ef72326b18"
       },
       "RequestBody": {
         "kind": "LanguageDetection",
         "analysisInput": {
           "documents": [
             {
-              "id": "1",
-              "text": "Tumhara naam kya hai?"
+              "id": "0",
+              "text": "Tumhara naam kya hai?",
+              "countryHint": "in"
             }
           ]
         },
@@ -29,15 +30,15 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "243339f2-dae8-44bb-a407-0a0b9a6d05a1",
+        "apim-request-id": "2a143490-f4d1-48b8-95b3-18ac0c05ab8a",
         "Content-Length": "228",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-        "Date": "Thu, 03 Nov 2022 16:28:59 GMT",
+        "Date": "Fri, 04 Nov 2022 16:23:48 GMT",
         "Set-Cookie": ".AspNetCore.Mvc.CookieTempDataProvider=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; samesite=lax; httponly",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "16",
+        "x-envoy-upstream-service-time": "50",
         "x-ms-region": "West US 2"
       },
       "ResponseBody": {
@@ -45,7 +46,7 @@
         "results": {
           "documents": [
             {
-              "id": "1",
+              "id": "0",
               "detectedLanguage": {
                 "name": "Hindi",
                 "iso6391Name": "hi",

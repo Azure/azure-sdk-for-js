@@ -258,12 +258,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
         it("service returns script with DetectLanguageInput[]", async function () {
           const doc = ["Tumhara naam kya hai?"];
-          const docs = doc.map((text) => ({
-            id: getId(),
-            text,
-          }));
           assertActionResults(
-            await client.analyze(AnalyzeActionNames.LanguageDetection, docs, {
+            await client.analyze(AnalyzeActionNames.LanguageDetection, doc, "in", {
               modelVersion: "2022-04-10-preview",
             }),
             expectation72

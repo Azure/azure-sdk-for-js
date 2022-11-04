@@ -877,13 +877,23 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 kind: AnalyzeBatchActionNames.PiiEntityRecognition,
               },
               {
+                kind: AnalyzeBatchActionNames.SentimentAnalysis,
+              },
+              {
                 kind: AnalyzeBatchActionNames.KeyPhraseExtraction,
+              },
+              {
+                kind: AnalyzeBatchActionNames.EntityLinking,
+              },
+              {
+                kind: AnalyzeBatchActionNames.Healthcare,
               },
             ],
             docs,
             "auto",
             {
               updateIntervalInMs: pollingInterval,
+              defaultLanguage: "en",
             }
           );
           await assertActionsResults(await poller.pollUntilDone(), expectation71);
