@@ -9,7 +9,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { expect } from "chai";
 import { env, Recorder } from "../src";
-import { createRecordingRequest } from "../src/utils/createRecordingRequest";
+import { createRecordingRequest, getHttpsAgent } from "../src/utils/createRecordingRequest";
 import { paths } from "../src/utils/paths";
 import { getTestMode, isLiveMode, isRecordMode, RecorderError } from "../src/utils/utils";
 
@@ -61,6 +61,7 @@ describe("TestProxyClient functions", () => {
               headers: createHttpHeaders({
                 "x-recording-upstream-uri": "https://dummy_url.windows.net/dummy_path?sas=sas",
               }),
+              agent: getHttpsAgent()
             }),
             (req) => req
           );
@@ -79,6 +80,7 @@ describe("TestProxyClient functions", () => {
             () => ({
               ...initialRequest,
               headers: createHttpHeaders({}),
+              agent: getHttpsAgent()
             }),
             (req) => {
               if (!client.recordingId) {
