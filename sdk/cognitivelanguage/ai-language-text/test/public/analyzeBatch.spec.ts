@@ -862,7 +862,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           await assertActionsResults(await poller.pollUntilDone(), expectation15);
         });
 
-        it.only("whole batch input with auto language detection", async function () {
+        it("whole batch input with auto language detection", async function () {
           const docs = [
             "I will go to the park.",
             "Este es un document escrito en Español.",
