@@ -36,7 +36,7 @@ function read_series_from_file(path) {
 
 async function main() {
   const credential = new AzureKeyCredential(apiKey);
-  const client = AnomalyDetector(endpoint, apiVersion, credential);
+  const client = AnomalyDetector(endpoint, credential, { apiVersion });
   const options = {
     body: {
       granularity: "daily",

@@ -13,11 +13,11 @@ import { AnomalyDetectorRestClient } from "./clientDefinitions";
  */
 export default function createClient(
   Endpoint: string,
-  ApiVersion: string,
   credentials: KeyCredential,
-  options: ClientOptions = {}
+  options: ClientOptions & { apiVersion?: string } = {}
 ): AnomalyDetectorRestClient {
-  const baseUrl = options.baseUrl ?? `${Endpoint}/anomalydetector/${ApiVersion}`;
+  const apiVersion = options.apiVersion ?? "v1.1";
+  const baseUrl = options.baseUrl ?? `${Endpoint}/anomalydetector/${apiVersion}`;
 
   options = {
     ...options,
