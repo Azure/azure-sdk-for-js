@@ -1,6 +1,6 @@
 {
   "name": "@azure/functions-authentication-events",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Typescript Trigger SDK for Azure AD Authentication event custom extensions. Lets you focus on your business logic.",
   "sdk-type": "client",
   "main": "dist/index.js",

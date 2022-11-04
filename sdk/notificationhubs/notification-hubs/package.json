@@ -18,17 +18,13 @@
       "require": "./dist/index.cjs",
       "import": "./dist-esm/src/index.js"
     },
-    "./client": {
-      "types": "./types/src/client/index.d.ts",
-      "import": "./dist-esm/src/client/index.js"
+    "./api": {
+      "types": "./types/src/api/index.d.ts",
+      "import": "./dist-esm/src/api/index.js"
     },
-    "./client/*": {
-      "types": "./types/src/client/*.d.ts",
-      "import": "./dist-esm/src/client/*.js"
-    },
-    "./models/*": {
-      "types": "./types/src/models/*.d.ts",
-      "import": "./dist-esm/src/models/*.js"
+    "./models": {
+      "types": "./types/src/models/index.d.ts",
+      "import": "./dist-esm/src/models/index.js"
     }
   },
   "//metadata": {

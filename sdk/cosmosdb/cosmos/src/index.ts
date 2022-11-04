@@ -29,7 +29,6 @@ export {
   PatchOperation,
   PatchOperationType,
   ExistingKeyOperation,
-  MoveOperation,
   RemoveOperation,
   PatchRequestBody,
 } from "./utils/patch";
