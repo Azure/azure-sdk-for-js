@@ -30,7 +30,6 @@ import {
   PiiResult as GeneratedPiiEntityRecognitionResult,
   SentenceSentiment as GeneratedSentenceSentiment,
   SentimentResponse as GeneratedSentimentAnalysisResult,
-  HealthcareEntitiesDocumentResult,
   HealthcareLROResult,
   HealthcareRelation,
   HealthcareRelationEntity,
