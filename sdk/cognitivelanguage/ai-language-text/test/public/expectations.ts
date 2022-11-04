@@ -8696,7 +8696,7 @@ export const expectation71: any = [
         entityRelations: [],
         id: "0",
         warnings: [],
-        detectedLanguage: { "0": "e", "1": "n" },
+        detectedLanguage: { iso6391Name: "en" },
         isLanguageDefaulted: false,
       },
       {
