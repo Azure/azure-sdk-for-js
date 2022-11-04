@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-            
+                
 trigger:
   branches:
     include:
@@ -10,7 +10,9 @@ trigger:
     include:
       - sdk/devcenter/developer-devcenter-arm
       - sdk/devcenter/ci.yml
-
+    exclude:
+      - sdk/devcenter/arm-devcenter
+      - sdk/devcenter/ci.mgmt.yml
 pr:
   branches:
     include:
@@ -24,7 +26,9 @@ pr:
     include:
       - sdk/devcenter/developer-devcenter-arm
       - sdk/devcenter/ci.yml
-
+    exclude:
+      - sdk/devcenter/arm-devcenter
+      - sdk/devcenter/ci.mgmt.yml
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
