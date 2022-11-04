@@ -365,6 +365,18 @@ export async function throwError<T>(p: Promise<T>): Promise<T> {
   }
 }
 
+export function deserializeDetectedLanguage(input: string): DetectedLanguage {
+  function helper(str: string): undefined {
+    try {
+      return JSON.parse(str);
+    } catch (e) {
+      return undefined;
+    }
+  }
+  const obj = helper(input);
+  return obj !== undefined ? obj : ({ iso6391Name: input } as any);
+}
+
 function toHealthcareResult(
   docIds: string[],
   results: GeneratedHealthcareResult
@@ -393,17 +405,6 @@ function toHealthcareResult(
         })
       ),
     });
-  }
-  function deserializeDetectedLanguage(input: string): DetectedLanguage {
-    function helper(str: string): undefined {
-      try {
-        return JSON.parse(str);
-      } catch (e) {
-        return undefined;
-      }
-    }
-    const obj = helper(input);
-    return obj !== undefined ? obj : ({ iso6391Name: input } as any);
   }
   return transformDocumentResults<
     HealthcareResultDocumentsItem,
