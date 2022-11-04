@@ -1,4 +1,5 @@
 import { createHttpHeaders, createPipelineRequest, HttpClient } from "@azure/core-rest-pipeline";
+import { getHttpsAgent } from "./utils/createRecordingRequest";
 import { paths } from "./utils/paths";
 import { RecorderError } from "./utils/utils";
 
@@ -19,12 +20,12 @@ export async function setRecordingOptions(
     url: `${recorderUrl}${paths.admin}${paths.setRecordingOptions}`,
     method: "POST",
     body,
-    allowInsecureConnection: true,
     headers: createHttpHeaders({
       "Content-Type": "application/json",
     }),
   });
 
+  request.agent = getHttpsAgent();
   const response = await httpClient.sendRequest(request);
 
   if (response.status < 200 || response.status > 299) {

@@ -33,23 +33,23 @@ type AddSanitizer<T> = (
  */
 const pluralize =
   <T>(singular: AddSanitizer<T>): AddSanitizer<T[]> =>
-  async (httpClient, url, recordingId, sanitizers) => {
-    await Promise.all(
-      sanitizers.map((sanitizer) => singular(httpClient, url, recordingId, sanitizer))
-    );
-  };
+    async (httpClient, url, recordingId, sanitizers) => {
+      await Promise.all(
+        sanitizers.map((sanitizer) => singular(httpClient, url, recordingId, sanitizer))
+      );
+    };
 
 /**
  * Makes an AddSanitizer<unknown> function that passes the sanitizer content directly to the test proxy request body.
  */
 const makeAddSanitizer =
   (sanitizerName: ProxyToolSanitizers): AddSanitizer<Record<string, unknown>> =>
-  async (httpClient, url, recordingId, sanitizer) => {
-    await addSanitizer(httpClient, url, recordingId, {
-      sanitizer: sanitizerName,
-      body: sanitizer,
-    });
-  };
+    async (httpClient, url, recordingId, sanitizer) => {
+      await addSanitizer(httpClient, url, recordingId, {
+        sanitizer: sanitizerName,
+        body: sanitizer,
+      });
+    };
 
 /**
  * Makes an AddSanitizer<boolean> function that adds the sanitizer if the value is set to true,
@@ -57,14 +57,14 @@ const makeAddSanitizer =
  */
 const makeAddBodilessSanitizer =
   (sanitizerName: ProxyToolSanitizers): AddSanitizer<boolean> =>
-  async (httpClient, url, recordingId, enable) => {
-    if (enable) {
-      await addSanitizer(httpClient, url, recordingId, {
-        sanitizer: sanitizerName,
-        body: undefined,
-      });
-    }
-  };
+    async (httpClient, url, recordingId, enable) => {
+      if (enable) {
+        await addSanitizer(httpClient, url, recordingId, {
+          sanitizer: sanitizerName,
+          body: undefined,
+        });
+      }
+    };
 
 /**
  * Makes an AddSanitizer function for a FindReplaceSanitizer, for example a bodySanitizer.
@@ -76,26 +76,26 @@ const makeAddFindReplaceSanitizer =
     regexSanitizerName: ProxyToolSanitizers,
     stringSanitizerName: ProxyToolSanitizers
   ): AddSanitizer<FindReplaceSanitizer> =>
-  async (httpClient, url, recordingId, sanitizer): Promise<void> => {
-    if (isStringSanitizer(sanitizer)) {
-      await addSanitizer(httpClient, url, recordingId, {
-        sanitizer: stringSanitizerName,
-        body: {
-          target: sanitizer.target,
-          value: sanitizer.value,
-        },
-      });
-    } else {
-      await addSanitizer(httpClient, url, recordingId, {
-        sanitizer: regexSanitizerName,
-        body: {
-          regex: sanitizer.target,
-          value: sanitizer.value,
-          groupForReplace: sanitizer.groupForReplace,
-        },
-      });
-    }
-  };
+    async (httpClient, url, recordingId, sanitizer): Promise<void> => {
+      if (isStringSanitizer(sanitizer)) {
+        await addSanitizer(httpClient, url, recordingId, {
+          sanitizer: stringSanitizerName,
+          body: {
+            target: sanitizer.target,
+            value: sanitizer.value,
+          },
+        });
+      } else {
+        await addSanitizer(httpClient, url, recordingId, {
+          sanitizer: regexSanitizerName,
+          body: {
+            regex: sanitizer.target,
+            value: sanitizer.value,
+            groupForReplace: sanitizer.groupForReplace,
+          },
+        });
+      }
+    };
 
 /**
  *  Internally,
@@ -247,9 +247,8 @@ async function addSanitizer(
     body: Record<string, unknown> | undefined;
   }
 ): Promise<void> {
-  const uri = `${url}${paths.admin}${
-    options.sanitizer !== "Reset" ? paths.addSanitizer : paths.reset
-  }`;
+  const uri = `${url}${paths.admin}${options.sanitizer !== "Reset" ? paths.addSanitizer : paths.reset
+    }`;
   const req = createRecordingRequest(uri, undefined, recordingId);
   if (options.sanitizer !== "Reset") {
     req.headers.set("x-abstraction-identifier", options.sanitizer);
@@ -260,7 +259,6 @@ async function addSanitizer(
   logger.info("[addSanitizer] Adding sanitizer", options);
   const rsp = await httpClient.sendRequest({
     ...req,
-    allowInsecureConnection: true,
   });
   if (rsp.status !== 200) {
     logger.error("[addSanitizer] addSanitizer request failed", rsp);
@@ -286,7 +284,6 @@ export async function transformsInfo(
     }
     const rsp = await httpClient.sendRequest({
       ...req,
-      allowInsecureConnection: true,
     });
     if (rsp.status !== 200) {
       throw new RecorderError("Info request failed.");

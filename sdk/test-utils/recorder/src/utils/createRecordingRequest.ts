@@ -2,6 +2,10 @@
 // Licensed under the MIT license.
 
 import { createPipelineRequest, HttpMethods } from "@azure/core-rest-pipeline";
+import { Agent } from "https";
+import { getCertOptions } from "./certs";
+
+let _agent: Agent | undefined;
 
 /**
  * Adds the recording id headers to the requests that are sent to the proxy tool.
@@ -22,5 +26,11 @@ export function createRecordingRequest(
   if (recordingId !== undefined) {
     req.headers.set("x-recording-id", recordingId);
   }
+  req.agent = getHttpsAgent();
   return req;
+}
+
+export function getHttpsAgent() {
+  if (!_agent) _agent = new Agent({ ca: getCertOptions().ca });
+  return _agent;
 }

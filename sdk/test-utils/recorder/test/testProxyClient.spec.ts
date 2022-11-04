@@ -57,7 +57,7 @@ describe("TestProxyClient functions", () => {
             client,
             () => ({
               ...initialRequest,
-              url: "http://localhost:5000/dummy_path?sas=sas",
+              url: "https://localhost:5001/dummy_path?sas=sas",
               headers: createHttpHeaders({
                 "x-recording-upstream-uri": "https://dummy_url.windows.net/dummy_path?sas=sas",
               }),
@@ -87,13 +87,12 @@ describe("TestProxyClient functions", () => {
 
               return {
                 ...req,
-                url: "http://localhost:5000/dummy_path?sas=sas",
+                url: "https://localhost:5001/dummy_path?sas=sas",
                 headers: createHttpHeaders({
                   "x-recording-upstream-base-uri": initialRequest.url,
                   "x-recording-id": client.recordingId,
                   "x-recording-mode": getTestMode(),
                 }),
-                allowInsecureConnection: !isLiveMode(),
               };
             }
           );

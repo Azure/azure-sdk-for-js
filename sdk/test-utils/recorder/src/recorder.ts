@@ -35,7 +35,7 @@ import {
   WebResourceLike,
 } from "@azure/core-http";
 import { addTransform, Transform } from "./transform";
-import { createRecordingRequest } from "./utils/createRecordingRequest";
+import { createRecordingRequest, getHttpsAgent } from "./utils/createRecordingRequest";
 import { AdditionalPolicyConfig } from "@azure/core-client";
 import { logger } from "./log";
 import { setRecordingOptions } from "./options";
@@ -55,7 +55,7 @@ import { decodeBase64 } from "./utils/encoding";
  * Other than configuring your clients, use `start`, `stop`, `addSanitizers` methods to use the recorder.
  */
 export class Recorder {
-  private static url = `http://localhost:${env.TEST_PROXY_HTTP_PORT ?? 5000}`;
+  private static url = `https://localhost:${env.TEST_PROXY_HTTPS_PORT ?? 5001}`;
   public recordingId?: string;
   private stateManager = new RecordingStateManager();
   private httpClient?: HttpClient;
@@ -131,7 +131,7 @@ export class Recorder {
 
       if (!(request instanceof WebResource)) {
         // for core-v2
-        request.allowInsecureConnection = true;
+        request.agent = getHttpsAgent();
       }
     }
   }
@@ -211,9 +211,8 @@ export class Recorder {
     logger.info(`[Recorder#start] Starting the recorder in ${getTestMode()} mode`);
     this.stateManager.state = "started";
     if (this.recordingId === undefined) {
-      const startUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${
-        paths.start
-      }`;
+      const startUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${paths.start
+        }`;
       const req = createRecordingRequest(startUri, this.sessionFile, this.recordingId);
 
       if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
@@ -221,8 +220,7 @@ export class Recorder {
         await setRecordingOptions(Recorder.url, this.httpClient, { handleRedirects: !isNode });
         logger.verbose("[Recorder#start] Sending the start request to the test proxy");
         const rsp = await this.httpClient.sendRequest({
-          ...req,
-          allowInsecureConnection: true,
+          ...req
         });
         if (rsp.status !== 200) {
           logger.error("[Recorder#start] Could not start the recorder", rsp);
@@ -268,9 +266,8 @@ export class Recorder {
     this.stateManager.state = "stopped";
     if (this.recordingId !== undefined) {
       logger.info("[Recorder#stop] Stopping recording", this.recordingId);
-      const stopUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${
-        paths.stop
-      }`;
+      const stopUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${paths.stop
+        }`;
       const req = createRecordingRequest(stopUri, undefined, this.recordingId);
       req.headers.set("x-recording-save", "true");
 
@@ -286,7 +283,6 @@ export class Recorder {
       if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
         const rsp = await this.httpClient.sendRequest({
           ...req,
-          allowInsecureConnection: true,
         });
         if (rsp.status !== 200) {
           logger.error("[Recorder#stop] Stop request failed", rsp);
@@ -402,6 +398,7 @@ export class Recorder {
         request: PipelineRequest,
         next: SendRequest
       ): Promise<PipelineResponse> => {
+        request.agent = getHttpsAgent();
         this.redirectRequest(request);
         const response = await next(request);
         this.handleTestProxyErrors(response);

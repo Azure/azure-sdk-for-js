@@ -3,6 +3,7 @@
 
 import { createPipelineRequest, HttpClient } from "@azure/core-rest-pipeline";
 import { logger } from "./log";
+import { getHttpsAgent } from "./utils/createRecordingRequest";
 import { paths } from "./utils/paths";
 import { RecorderError } from "./utils/utils";
 
@@ -52,7 +53,7 @@ export async function setMatcher(
 ): Promise<void> {
   const url = `${recorderUrl}${paths.admin}${paths.setMatcher}`;
 
-  const request = createPipelineRequest({ url, method: "POST", allowInsecureConnection: true });
+  const request = createPipelineRequest({ url, method: "POST" });
   request.headers.set("x-abstraction-identifier", matcher);
   if (recordingId) {
     request.headers.set("x-recording-id", recordingId);
@@ -65,7 +66,7 @@ export async function setMatcher(
       ignoreQueryOrdering: matcherBody.ignoreQueryOrdering,
     });
   }
-
+  request.agent = getHttpsAgent();
   logger.info("[setMatcher] Setting matcher", matcher, matcherBody);
   const response = await httpClient.sendRequest(request);
   const { status, bodyAsText } = response;

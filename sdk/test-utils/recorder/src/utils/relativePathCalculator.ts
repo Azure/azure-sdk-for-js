@@ -28,15 +28,31 @@ import { RecorderError } from "./utils";
  * @returns {string} location of the relative `recordings` folder path - `sdk/storage/storage-blob/recordings/` example
  */
 export function relativeRecordingsPath(): string {
+  const { rootPath, projectPath } = getRootAndProjectPaths();
+  // <root>/
+  // <root>/sdk/service/project/
+  return path
+    .join(path.relative(rootPath, projectPath), "recordings")
+    .split(path.sep)
+    .join(path.posix.sep); // Converting "\" to "/" (needed for windows) so that the path.sep("\") is not treated as an escape character in the browsers
+  // => sdk/service/project/recordings
+}
+
+/**
+ * ONLY WORKS IN THE NODE.JS ENVIRONMENT
+ *
+ * Returns the root path of the repo using `process.cwd()`.
+ */
+export function getRootAndProjectPaths(): { rootPath: string; projectPath: string } {
   const currentPath = process.cwd(); // Gives the current working directory
 
   let rootPath = undefined;
-  let expectedProjectPath = undefined;
+  let projectPath = undefined;
 
   if (fs.existsSync(path.join(currentPath, "package.json"))) {
     // <root>/sdk/service/project/package.json
     if (fs.existsSync(path.join(currentPath, "package.json"))) {
-      expectedProjectPath = currentPath; // <root>/sdk/service/project/
+      projectPath = currentPath; // <root>/sdk/service/project/
       const expectedRootPath = path.join(currentPath, "..", "..", ".."); // <root>/
       if (
         fs.existsSync(path.join(expectedRootPath, "sdk/")) && // <root>/sdk
@@ -50,17 +66,9 @@ export function relativeRecordingsPath(): string {
     throw new RecorderError(`'package.json' is not found at ${currentPath}`);
   }
 
-  if (!(rootPath === undefined || expectedProjectPath === undefined)) {
-    // <root>/
-    // <root>/sdk/service/project/
-    return path
-      .join(path.relative(rootPath, expectedProjectPath), "recordings")
-      .split(path.sep)
-      .join(path.posix.sep); // Converting "\" to "/" (needed for windows) so that the path.sep("\") is not treated as an escape character in the browsers
-    // => sdk/service/project/recordings
-  } else {
-    throw new RecorderError(
-      "rootPath or expectedProjectPath could not be calculated properly from process.cwd()"
-    );
+  if (rootPath === undefined || projectPath === undefined) {
+    throw new RecorderError("root path could not be calculated properly from process.cwd()");
   }
+
+  return { rootPath, projectPath };
 }

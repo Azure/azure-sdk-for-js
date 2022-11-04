@@ -5,6 +5,7 @@ import { createPipelineRequest, HttpClient } from "@azure/core-rest-pipeline";
 import { paths } from "./utils/paths";
 import { RecorderError } from "./utils/utils";
 import { logger } from "./log";
+import { getHttpsAgent } from "./utils/createRecordingRequest";
 
 interface ApplyCondition {
   uriRegex: string;
@@ -34,7 +35,11 @@ export async function addTransform(
 ): Promise<void> {
   const url = `${recorderUrl}${paths.admin}${paths.addTransform}`;
 
-  const request = createPipelineRequest({ url, method: "POST", allowInsecureConnection: true });
+  const request = createPipelineRequest({
+    url,
+    method: "POST",
+  });
+
   request.headers.set("x-abstraction-identifier", transform.type);
   if (recordingId) {
     request.headers.set("x-recording-id", recordingId);
@@ -44,6 +49,7 @@ export async function addTransform(
     ...(transform.applyCondition ? { applyCondition: transform.applyCondition } : {}),
     ...((transform as { params?: Record<string, unknown> }).params ?? {}),
   });
+  request.agent = getHttpsAgent();
 
   logger.info("[addTransform] Adding transform", transform);
   const response = await httpClient.sendRequest(request);

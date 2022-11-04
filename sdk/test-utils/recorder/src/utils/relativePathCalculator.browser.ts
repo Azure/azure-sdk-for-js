@@ -4,3 +4,7 @@
 export function relativeRecordingsPath(): never {
   throw new Error("Attempted to use the function meant for node in a browser.");
 }
+
+export function getRootAndProjectPaths(): string {
+  throw new Error("Attempted to use the function meant for node in a browser.");
+}
