@@ -9,7 +9,6 @@
 
 import AnomalyDetector, {
   DetectUnivariateEntireSeriesParameters,
-  EntireDetectResponseOutput,
   isUnexpected,
   TimeSeriesPoint,
 } from "@azure-rest/ai-anomaly-detector";

@@ -8,7 +8,6 @@
  */
 
 import AnomalyDetector, {
-  ChangePointDetectResponseOutput,
   DetectUnivariateChangePointParameters,
   isUnexpected,
   TimeSeriesPoint,

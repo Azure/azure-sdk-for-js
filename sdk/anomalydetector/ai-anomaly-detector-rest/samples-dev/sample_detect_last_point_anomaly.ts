@@ -10,7 +10,6 @@
 import AnomalyDetector, {
   DetectUnivariateLastPointParameters,
   isUnexpected,
-  LastDetectResponseOutput,
   TimeSeriesPoint,
 } from "@azure-rest/ai-anomaly-detector";
 import { AzureKeyCredential } from "@azure/core-auth";
