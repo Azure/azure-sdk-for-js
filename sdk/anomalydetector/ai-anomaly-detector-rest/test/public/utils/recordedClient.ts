@@ -12,7 +12,7 @@ import AnomalyDetector, { AnomalyDetectorRestClient } from "../../../src";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const envSetupForPlayback: Record<string, string> = {
-  ENDPOINT: "https://endpoint",
+  ANOMALY_DETECTOR_ENDPOINT: "https://endpoint",
   ANOMALY_DETECTOR_API_KEY: "fake_key",
   ANOMALY_DETECTOR_DATA_URL: "https://endpoint-docs/data",
 };
