@@ -4,7 +4,9 @@
 import fs from "fs";
 import { getRootAndProjectPaths } from "./relativePathCalculator";
 import path from "path";
-import https from "https";
+import https, { Agent } from "https";
+
+let _agent: Agent | undefined;
 
 export function getCertOptions(): https.AgentOptions {
   const list = (process.env.NODE_EXTRA_CA_CERTS || "dotnet-devcert.crt,dotnet-devcert.pfx").split(
@@ -20,4 +22,9 @@ export function getCertOptions(): https.AgentOptions {
   return {
     ca: additionalCerts,
   };
+}
+
+export function getHttpsAgent() {
+  if (!_agent) _agent = new Agent({ ca: getCertOptions().ca });
+  return _agent;
 }

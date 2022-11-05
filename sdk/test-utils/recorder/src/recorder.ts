@@ -35,7 +35,8 @@ import {
   WebResourceLike,
 } from "@azure/core-http";
 import { addTransform, Transform } from "./transform";
-import { createRecordingRequest, getHttpsAgent } from "./utils/createRecordingRequest";
+import { createRecordingRequest } from "./utils/createRecordingRequest";
+import { getHttpsAgent } from "./utils/certs";
 import { AdditionalPolicyConfig } from "@azure/core-client";
 import { logger } from "./log";
 import { setRecordingOptions } from "./options";

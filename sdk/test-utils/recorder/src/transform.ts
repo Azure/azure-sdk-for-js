@@ -5,7 +5,7 @@ import { createPipelineRequest, HttpClient } from "@azure/core-rest-pipeline";
 import { paths } from "./utils/paths";
 import { RecorderError } from "./utils/utils";
 import { logger } from "./log";
-import { getHttpsAgent } from "./utils/createRecordingRequest";
+import { getHttpsAgent } from "./utils/certs";
 
 interface ApplyCondition {
   uriRegex: string;

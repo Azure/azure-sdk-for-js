@@ -3,6 +3,7 @@
 
 export { Recorder } from "./recorder";
 export { relativeRecordingsPath } from "./utils/relativePathCalculator";
+export { getCertOptions } from "./utils/certs";
 export {
   SanitizerOptions,
   RecorderStartOptions,

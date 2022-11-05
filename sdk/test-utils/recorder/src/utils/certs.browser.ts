@@ -4,3 +4,7 @@
 export function getCertOptions() {
   throw new Error("Attempted to use the function meant for node in a browser.");
 }
+
+export function getHttpsAgent() {
+  return undefined;
+}

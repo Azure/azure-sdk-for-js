@@ -9,7 +9,8 @@ import {
 } from "@azure/core-rest-pipeline";
 import { expect } from "chai";
 import { env, Recorder } from "../src";
-import { createRecordingRequest, getHttpsAgent } from "../src/utils/createRecordingRequest";
+import { getHttpsAgent } from "../src/utils/certs";
+import { createRecordingRequest } from "../src/utils/createRecordingRequest";
 import { paths } from "../src/utils/paths";
 import { getTestMode, isLiveMode, isRecordMode, RecorderError } from "../src/utils/utils";
 
@@ -133,7 +134,7 @@ describe("TestProxyClient functions", () => {
       it("throws if not received a 200 status code", async function () {
         env.TEST_MODE = testMode;
         const recordingId = "dummy-recording-id";
-        clientHttpClient.sendRequest = (req): Promise<PipelineResponse> => {
+        clientHttpClient.sendRequest = (req: { url: string; }): Promise<PipelineResponse> => {
           if (req.url.endsWith(paths.setRecordingOptions)) {
             return Promise.resolve({
               headers: createHttpHeaders(),

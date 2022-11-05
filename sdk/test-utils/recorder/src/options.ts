@@ -1,5 +1,5 @@
 import { createHttpHeaders, createPipelineRequest, HttpClient } from "@azure/core-rest-pipeline";
-import { getHttpsAgent } from "./utils/createRecordingRequest";
+import { getHttpsAgent } from "./utils/certs";
 import { paths } from "./utils/paths";
 import { RecorderError } from "./utils/utils";
 
