@@ -5,7 +5,7 @@ import { Context } from "mocha";
 import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import "./env";
 import { NetworkManagementClient } from "../../../src/clientDefinitions";
-import { customizedTestPolicy } from "./customizedTestPolicy";
+// import { customizedTestPolicy } from "./customizedTestPolicy";
 import { TokenCredential } from "@azure/core-auth";
 import { ClientOptions } from "@azure-rest/core-client";
 import createNetworkManagementClient from "../../../src";
@@ -43,8 +43,8 @@ export function createTestNetworkManagementClient(
     credentials,
     recorder.configureClientOptions(options)
   );
-  client.pipeline.addPolicy(customizedTestPolicy(), {
-    beforePolicies: ["bearerTokenAuthenticationPolicy"],
-  });
+  // client.pipeline.addPolicy(customizedTestPolicy(), {
+  //   beforePolicies: ["bearerTokenAuthenticationPolicy"],
+  // });
   return client;
 }
