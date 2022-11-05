@@ -16,7 +16,7 @@ import { StatsbeatCounter } from "../../src/export/statsbeat/types";
 describe("#AzureMonitorStatsbeatExporter", () => {
   let options = {
     instrumentationKey: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;",
-    endpointUrl: "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com"
+    endpointUrl: "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com",
   };
   class TestExporter extends AzureMonitorBaseExporter {
     private thisAsAny: any;
@@ -69,8 +69,8 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
       it("should use non EU connection string", () => {
         const statsbeat = new StatsbeatMetrics({
-          instrumentationKey:"InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;",
-          endpointUrl: "IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com"
+          instrumentationKey: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;",
+          endpointUrl: "IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com",
         });
         assert.strictEqual(
           statsbeat["_host"],
@@ -233,7 +233,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         statsbeat.countSuccess(200);
         statsbeat.countSuccess(200);
 
-        await new Promise(resolve => setTimeout(resolve, 120));
+        await new Promise((resolve) => setTimeout(resolve, 120));
         assert.ok(mockExport.called);
         let resourceMetrics = mockExport.args[0][0];
         const scopeMetrics = resourceMetrics.scopeMetrics;
@@ -269,7 +269,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         statsbeat.countException({ name: "Statsbeat", message: "Statsbeat Exception" });
         statsbeat.countException({ name: "Statsbeat2", message: "Second Statsbeat Exception" });
 
-        await new Promise(resolve => setTimeout(resolve, 500));
+        await new Promise((resolve) => setTimeout(resolve, 500));
         assert.ok(mockExport.called);
         let resourceMetrics = mockExport.args[0][0];
         const scopeMetrics = resourceMetrics.scopeMetrics;
