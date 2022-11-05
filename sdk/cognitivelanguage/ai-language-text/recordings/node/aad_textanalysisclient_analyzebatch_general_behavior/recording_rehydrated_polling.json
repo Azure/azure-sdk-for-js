@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs?api-version=2022-10-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "408",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "0bc246e0-994c-43e7-9d81-28304344931f"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "c04a3223-0f6c-4c03-b635-7dbc11293913"
       },
       "RequestBody": {
         "analysisInput": {
@@ -51,73 +51,45 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "4a004d7b-1552-44b3-96ba-7f9c49ebf045",
+        "apim-request-id": "d9b876b9-f161-492d-bcb5-b7425b1cc187",
         "Content-Length": "0",
-        "Date": "Sat, 15 Oct 2022 02:24:57 GMT",
-        "operation-location": "https://endpoint/language/analyze-text/jobs/532551de-b291-447c-b78f-eaa71cc1ea61?api-version=2022-05-01",
+        "Date": "Tue, 01 Nov 2022 22:58:00 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/2a344ccb-6872-4833-8306-41a866255c87?api-version=2022-10-01-preview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "167"
+        "x-envoy-upstream-service-time": "448",
+        "x-ms-region": "East US"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/532551de-b291-447c-b78f-eaa71cc1ea61?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2a344ccb-6872-4833-8306-41a866255c87?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "d60c9d06-57a7-46bc-9084-5032ea71ff58"
-      },
-      "RequestBody": null,
-      "StatusCode": 429,
-      "ResponseHeaders": {
-        "apim-request-id": "8fc09ad2-d988-49ca-b7bc-c659238db87f",
-        "Content-Length": "85",
-        "Content-Type": "application/json",
-        "Date": "Sat, 15 Oct 2022 02:24:57 GMT",
-        "policy-id": "ResourceRateLimitBy1s",
-        "Retry-After": "1",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff"
-      },
-      "ResponseBody": {
-        "error": {
-          "code": "429",
-          "message": "Rate limit is exceeded. Try again in 1 seconds."
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/532551de-b291-447c-b78f-eaa71cc1ea61?api-version=2022-05-01",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "d60c9d06-57a7-46bc-9084-5032ea71ff58"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "6a1b8490-8d11-4842-9879-ecf7c9320087"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "abb0e401-eeda-4452-beb7-8f057df6770f",
-        "Content-Length": "280",
+        "apim-request-id": "4cbcc44e-c636-4ac8-b744-81ecb08b5215",
+        "Content-Length": "279",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 15 Oct 2022 02:24:58 GMT",
+        "Date": "Tue, 01 Nov 2022 22:58:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "7"
+        "x-envoy-upstream-service-time": "13",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "532551de-b291-447c-b78f-eaa71cc1ea61",
-        "lastUpdatedDateTime": "2022-10-15T02:24:58Z",
-        "createdDateTime": "2022-10-15T02:24:57Z",
-        "expirationDateTime": "2022-10-16T02:24:57Z",
+        "jobId": "2a344ccb-6872-4833-8306-41a866255c87",
+        "lastUpdateDateTime": "2022-11-01T22:58:01Z",
+        "createdDateTime": "2022-11-01T22:58:00Z",
+        "expirationDateTime": "2022-11-02T22:58:00Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -130,32 +102,33 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/532551de-b291-447c-b78f-eaa71cc1ea61?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2a344ccb-6872-4833-8306-41a866255c87?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "38edaa3b-687c-4792-a670-e4fe22acf3ea"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "a6398825-1183-4246-b2df-11afa7a845cd"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "71410786-9ecd-4ad1-b439-03f8896c7bc9",
-        "Content-Length": "280",
+        "apim-request-id": "a0208435-b438-404b-8d25-c8f1b4126438",
+        "Content-Length": "279",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 15 Oct 2022 02:24:58 GMT",
+        "Date": "Tue, 01 Nov 2022 22:58:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "11"
+        "x-envoy-upstream-service-time": "9",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "532551de-b291-447c-b78f-eaa71cc1ea61",
-        "lastUpdatedDateTime": "2022-10-15T02:24:58Z",
-        "createdDateTime": "2022-10-15T02:24:57Z",
-        "expirationDateTime": "2022-10-16T02:24:57Z",
+        "jobId": "2a344ccb-6872-4833-8306-41a866255c87",
+        "lastUpdateDateTime": "2022-11-01T22:58:01Z",
+        "createdDateTime": "2022-11-01T22:58:00Z",
+        "expirationDateTime": "2022-11-02T22:58:00Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -168,32 +141,33 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/532551de-b291-447c-b78f-eaa71cc1ea61?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2a344ccb-6872-4833-8306-41a866255c87?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "712eb687-6b1c-4f2b-969b-72c65a087d05"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "b29b1e5e-d059-47b6-92f9-27227541f655"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "5df89a2a-0562-434c-a7ca-70d62aeb077b",
-        "Content-Length": "280",
+        "apim-request-id": "e2c13f47-644e-4b2d-97ff-4df7b1ba5cb1",
+        "Content-Length": "279",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 15 Oct 2022 02:24:58 GMT",
+        "Date": "Tue, 01 Nov 2022 22:58:00 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "8"
+        "x-envoy-upstream-service-time": "13",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "532551de-b291-447c-b78f-eaa71cc1ea61",
-        "lastUpdatedDateTime": "2022-10-15T02:24:58Z",
-        "createdDateTime": "2022-10-15T02:24:57Z",
-        "expirationDateTime": "2022-10-16T02:24:57Z",
+        "jobId": "2a344ccb-6872-4833-8306-41a866255c87",
+        "lastUpdateDateTime": "2022-11-01T22:58:01Z",
+        "createdDateTime": "2022-11-01T22:58:00Z",
+        "expirationDateTime": "2022-11-02T22:58:00Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -206,43 +180,44 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/532551de-b291-447c-b78f-eaa71cc1ea61?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2a344ccb-6872-4833-8306-41a866255c87?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "0a627af1-3693-4b48-9acc-ada567d53745"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "8241eda8-35c3-4dcd-b5ca-e689a7aea871"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "b83967e5-ff68-4de8-8b2c-9561c270cd48",
-        "Content-Length": "6371",
+        "apim-request-id": "b0b84604-00ae-4cf4-9248-cb66b3c80e8a",
+        "Content-Length": "5833",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 15 Oct 2022 02:25:00 GMT",
+        "Date": "Tue, 01 Nov 2022 22:58:03 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "188"
+        "x-envoy-upstream-service-time": "121",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "532551de-b291-447c-b78f-eaa71cc1ea61",
-        "lastUpdatedDateTime": "2022-10-15T02:25:00Z",
-        "createdDateTime": "2022-10-15T02:24:57Z",
-        "expirationDateTime": "2022-10-16T02:24:57Z",
-        "status": "succeeded",
+        "jobId": "2a344ccb-6872-4833-8306-41a866255c87",
+        "lastUpdateDateTime": "2022-11-01T22:58:02Z",
+        "createdDateTime": "2022-11-01T22:58:00Z",
+        "expirationDateTime": "2022-11-02T22:58:00Z",
+        "status": "running",
         "errors": [],
         "tasks": {
-          "completed": 4,
+          "completed": 3,
           "failed": 0,
-          "inProgress": 0,
+          "inProgress": 1,
           "total": 4,
           "items": [
             {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2022-10-15T02:24:59.450137Z",
+              "lastUpdateDateTime": "2022-11-01T22:58:02.6045041Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -600,6 +575,7 @@
                     ],
                     "relations": [
                       {
+                        "confidenceScore": 1.0,
                         "relationType": "DosageOfMedication",
                         "entities": [
                           {
@@ -613,6 +589,7 @@
                         ]
                       },
                       {
+                        "confidenceScore": 1.0,
                         "relationType": "FrequencyOfMedication",
                         "entities": [
                           {
@@ -635,7 +612,7 @@
             },
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-10-15T02:24:59.4707173Z",
+              "lastUpdateDateTime": "2022-11-01T22:58:02.6602045Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -687,48 +664,8 @@
               }
             },
             {
-              "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-10-15T02:25:00.4155139Z",
-              "status": "succeeded",
-              "results": {
-                "documents": [
-                  {
-                    "redactedText": "******* does not suffer from high blood pressure.",
-                    "id": "0",
-                    "entities": [
-                      {
-                        "text": "Patient",
-                        "category": "PersonType",
-                        "offset": 0,
-                        "length": 7,
-                        "confidenceScore": 0.94
-                      }
-                    ],
-                    "warnings": []
-                  },
-                  {
-                    "redactedText": "Prescribed 100mg ibuprofen, taken twice *****.",
-                    "id": "1",
-                    "entities": [
-                      {
-                        "text": "daily",
-                        "category": "DateTime",
-                        "subcategory": "Set",
-                        "offset": 40,
-                        "length": 5,
-                        "confidenceScore": 0.8
-                      }
-                    ],
-                    "warnings": []
-                  }
-                ],
-                "errors": [],
-                "modelVersion": "2021-01-15"
-              }
-            },
-            {
               "kind": "SentimentAnalysisLROResults",
-              "lastUpdateDateTime": "2022-10-15T02:24:59.5904896Z",
+              "lastUpdateDateTime": "2022-11-01T22:58:02.5200953Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -792,43 +729,44 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/532551de-b291-447c-b78f-eaa71cc1ea61?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2a344ccb-6872-4833-8306-41a866255c87?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "b5b919e3-fb25-4397-8ad7-3387dc21f09a"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "aabe6207-8e22-4732-9bf4-bdaf46912533"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "3cf5531d-ac38-44d3-806c-93bff7dec578",
-        "Content-Length": "6371",
+        "apim-request-id": "1db930ac-d852-4103-a6fd-28534d8caa2f",
+        "Content-Length": "5833",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 15 Oct 2022 02:25:01 GMT",
+        "Date": "Tue, 01 Nov 2022 22:58:05 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "142"
+        "x-envoy-upstream-service-time": "117",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "532551de-b291-447c-b78f-eaa71cc1ea61",
-        "lastUpdatedDateTime": "2022-10-15T02:25:00Z",
-        "createdDateTime": "2022-10-15T02:24:57Z",
-        "expirationDateTime": "2022-10-16T02:24:57Z",
-        "status": "succeeded",
+        "jobId": "2a344ccb-6872-4833-8306-41a866255c87",
+        "lastUpdateDateTime": "2022-11-01T22:58:02Z",
+        "createdDateTime": "2022-11-01T22:58:00Z",
+        "expirationDateTime": "2022-11-02T22:58:00Z",
+        "status": "running",
         "errors": [],
         "tasks": {
-          "completed": 4,
+          "completed": 3,
           "failed": 0,
-          "inProgress": 0,
+          "inProgress": 1,
           "total": 4,
           "items": [
             {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2022-10-15T02:24:59.450137Z",
+              "lastUpdateDateTime": "2022-11-01T22:58:02.6045041Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1186,6 +1124,7 @@
                     ],
                     "relations": [
                       {
+                        "confidenceScore": 1.0,
                         "relationType": "DosageOfMedication",
                         "entities": [
                           {
@@ -1199,6 +1138,7 @@
                         ]
                       },
                       {
+                        "confidenceScore": 1.0,
                         "relationType": "FrequencyOfMedication",
                         "entities": [
                           {
@@ -1221,7 +1161,7 @@
             },
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-10-15T02:24:59.4707173Z",
+              "lastUpdateDateTime": "2022-11-01T22:58:02.6602045Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1273,48 +1213,8 @@
               }
             },
             {
-              "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-10-15T02:25:00.4155139Z",
-              "status": "succeeded",
-              "results": {
-                "documents": [
-                  {
-                    "redactedText": "******* does not suffer from high blood pressure.",
-                    "id": "0",
-                    "entities": [
-                      {
-                        "text": "Patient",
-                        "category": "PersonType",
-                        "offset": 0,
-                        "length": 7,
-                        "confidenceScore": 0.94
-                      }
-                    ],
-                    "warnings": []
-                  },
-                  {
-                    "redactedText": "Prescribed 100mg ibuprofen, taken twice *****.",
-                    "id": "1",
-                    "entities": [
-                      {
-                        "text": "daily",
-                        "category": "DateTime",
-                        "subcategory": "Set",
-                        "offset": 40,
-                        "length": 5,
-                        "confidenceScore": 0.8
-                      }
-                    ],
-                    "warnings": []
-                  }
-                ],
-                "errors": [],
-                "modelVersion": "2021-01-15"
-              }
-            },
-            {
               "kind": "SentimentAnalysisLROResults",
-              "lastUpdateDateTime": "2022-10-15T02:24:59.5904896Z",
+              "lastUpdateDateTime": "2022-11-01T22:58:02.5200953Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1378,43 +1278,44 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/532551de-b291-447c-b78f-eaa71cc1ea61?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2a344ccb-6872-4833-8306-41a866255c87?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "d6ea38fa-b94f-4a5b-b2e0-ce26f773312c"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "aa200fae-a2c4-4675-98a1-23aba24173f7"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "eda552de-6243-4ea5-bfda-039a53a128db",
-        "Content-Length": "6371",
+        "apim-request-id": "be649d2e-cdc1-40f3-894d-5a2ac0e69d9b",
+        "Content-Length": "5833",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 15 Oct 2022 02:25:01 GMT",
+        "Date": "Tue, 01 Nov 2022 22:58:07 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "120"
+        "x-envoy-upstream-service-time": "105",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "532551de-b291-447c-b78f-eaa71cc1ea61",
-        "lastUpdatedDateTime": "2022-10-15T02:25:00Z",
-        "createdDateTime": "2022-10-15T02:24:57Z",
-        "expirationDateTime": "2022-10-16T02:24:57Z",
-        "status": "succeeded",
+        "jobId": "2a344ccb-6872-4833-8306-41a866255c87",
+        "lastUpdateDateTime": "2022-11-01T22:58:02Z",
+        "createdDateTime": "2022-11-01T22:58:00Z",
+        "expirationDateTime": "2022-11-02T22:58:00Z",
+        "status": "running",
         "errors": [],
         "tasks": {
-          "completed": 4,
+          "completed": 3,
           "failed": 0,
-          "inProgress": 0,
+          "inProgress": 1,
           "total": 4,
           "items": [
             {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2022-10-15T02:24:59.450137Z",
+              "lastUpdateDateTime": "2022-11-01T22:58:02.6045041Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1772,6 +1673,7 @@
                     ],
                     "relations": [
                       {
+                        "confidenceScore": 1.0,
                         "relationType": "DosageOfMedication",
                         "entities": [
                           {
@@ -1785,6 +1687,7 @@
                         ]
                       },
                       {
+                        "confidenceScore": 1.0,
                         "relationType": "FrequencyOfMedication",
                         "entities": [
                           {
@@ -1807,7 +1710,7 @@
             },
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-10-15T02:24:59.4707173Z",
+              "lastUpdateDateTime": "2022-11-01T22:58:02.6602045Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1859,48 +1762,8 @@
               }
             },
             {
-              "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-10-15T02:25:00.4155139Z",
-              "status": "succeeded",
-              "results": {
-                "documents": [
-                  {
-                    "redactedText": "******* does not suffer from high blood pressure.",
-                    "id": "0",
-                    "entities": [
-                      {
-                        "text": "Patient",
-                        "category": "PersonType",
-                        "offset": 0,
-                        "length": 7,
-                        "confidenceScore": 0.94
-                      }
-                    ],
-                    "warnings": []
-                  },
-                  {
-                    "redactedText": "Prescribed 100mg ibuprofen, taken twice *****.",
-                    "id": "1",
-                    "entities": [
-                      {
-                        "text": "daily",
-                        "category": "DateTime",
-                        "subcategory": "Set",
-                        "offset": 40,
-                        "length": 5,
-                        "confidenceScore": 0.8
-                      }
-                    ],
-                    "warnings": []
-                  }
-                ],
-                "errors": [],
-                "modelVersion": "2021-01-15"
-              }
-            },
-            {
               "kind": "SentimentAnalysisLROResults",
-              "lastUpdateDateTime": "2022-10-15T02:24:59.5904896Z",
+              "lastUpdateDateTime": "2022-11-01T22:58:02.5200953Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -1964,32 +1827,33 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/532551de-b291-447c-b78f-eaa71cc1ea61?api-version=2022-05-01",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2a344ccb-6872-4833-8306-41a866255c87?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.1 core-rest-pipeline/1.9.3 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "39795789-ca92-4004-8c11-95430bf3dc50"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "70d68c7e-3aa9-4b7a-a5e5-2e722c3303e4"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "7fd7dcc5-0057-4353-a5b3-388fa150255e",
-        "Content-Length": "6371",
+        "apim-request-id": "b34515b3-cf85-49a7-8611-e54b120d1cb1",
+        "Content-Length": "6415",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 15 Oct 2022 02:25:01 GMT",
+        "Date": "Tue, 01 Nov 2022 22:58:10 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "109"
+        "x-envoy-upstream-service-time": "163",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "532551de-b291-447c-b78f-eaa71cc1ea61",
-        "lastUpdatedDateTime": "2022-10-15T02:25:00Z",
-        "createdDateTime": "2022-10-15T02:24:57Z",
-        "expirationDateTime": "2022-10-16T02:24:57Z",
+        "jobId": "2a344ccb-6872-4833-8306-41a866255c87",
+        "lastUpdateDateTime": "2022-11-01T22:58:08Z",
+        "createdDateTime": "2022-11-01T22:58:00Z",
+        "expirationDateTime": "2022-11-02T22:58:00Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -2000,7 +1864,7 @@
           "items": [
             {
               "kind": "HealthcareLROResults",
-              "lastUpdateDateTime": "2022-10-15T02:24:59.450137Z",
+              "lastUpdateDateTime": "2022-11-01T22:58:02.6045041Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -2358,6 +2222,7 @@
                     ],
                     "relations": [
                       {
+                        "confidenceScore": 1.0,
                         "relationType": "DosageOfMedication",
                         "entities": [
                           {
@@ -2371,6 +2236,7 @@
                         ]
                       },
                       {
+                        "confidenceScore": 1.0,
                         "relationType": "FrequencyOfMedication",
                         "entities": [
                           {
@@ -2393,7 +2259,7 @@
             },
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-10-15T02:24:59.4707173Z",
+              "lastUpdateDateTime": "2022-11-01T22:58:02.6602045Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -2446,7 +2312,7 @@
             },
             {
               "kind": "PiiEntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-10-15T02:25:00.4155139Z",
+              "lastUpdateDateTime": "2022-11-01T22:58:08.5862378Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -2486,7 +2352,1774 @@
             },
             {
               "kind": "SentimentAnalysisLROResults",
-              "lastUpdateDateTime": "2022-10-15T02:24:59.5904896Z",
+              "lastUpdateDateTime": "2022-11-01T22:58:02.5200953Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "sentiment": "neutral",
+                    "confidenceScores": {
+                      "positive": 0.46,
+                      "neutral": 0.5,
+                      "negative": 0.05
+                    },
+                    "sentences": [
+                      {
+                        "sentiment": "neutral",
+                        "confidenceScores": {
+                          "positive": 0.46,
+                          "neutral": 0.5,
+                          "negative": 0.05
+                        },
+                        "offset": 0,
+                        "length": 49,
+                        "text": "Patient does not suffer from high blood pressure.",
+                        "targets": [],
+                        "assessments": []
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "1",
+                    "sentiment": "neutral",
+                    "confidenceScores": {
+                      "positive": 0.01,
+                      "neutral": 0.99,
+                      "negative": 0.0
+                    },
+                    "sentences": [
+                      {
+                        "sentiment": "neutral",
+                        "confidenceScores": {
+                          "positive": 0.01,
+                          "neutral": 0.99,
+                          "negative": 0.0
+                        },
+                        "offset": 0,
+                        "length": 46,
+                        "text": "Prescribed 100mg ibuprofen, taken twice daily.",
+                        "targets": [],
+                        "assessments": []
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2022-10-01"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2a344ccb-6872-4833-8306-41a866255c87?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "f3803364-f086-4d1f-81be-7943e9d699f1"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "55b142cf-dde1-48aa-a078-2f61b7c0fa92",
+        "Content-Length": "6415",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 01 Nov 2022 22:58:10 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "194",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "2a344ccb-6872-4833-8306-41a866255c87",
+        "lastUpdateDateTime": "2022-11-01T22:58:08Z",
+        "createdDateTime": "2022-11-01T22:58:00Z",
+        "expirationDateTime": "2022-11-02T22:58:00Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 4,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 4,
+          "items": [
+            {
+              "kind": "HealthcareLROResults",
+              "lastUpdateDateTime": "2022-11-01T22:58:02.6045041Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "entities": [
+                      {
+                        "offset": 29,
+                        "length": 19,
+                        "text": "high blood pressure",
+                        "category": "SymptomOrSign",
+                        "confidenceScore": 1.0,
+                        "assertion": {
+                          "certainty": "negative"
+                        },
+                        "name": "Hypertensive disease",
+                        "links": [
+                          {
+                            "dataSource": "UMLS",
+                            "id": "C0020538"
+                          },
+                          {
+                            "dataSource": "AOD",
+                            "id": "0000023317"
+                          },
+                          {
+                            "dataSource": "BI",
+                            "id": "BI00001"
+                          },
+                          {
+                            "dataSource": "CCPSS",
+                            "id": "1017493"
+                          },
+                          {
+                            "dataSource": "CCS",
+                            "id": "7.1"
+                          },
+                          {
+                            "dataSource": "CHV",
+                            "id": "0000015800"
+                          },
+                          {
+                            "dataSource": "COSTAR",
+                            "id": "397"
+                          },
+                          {
+                            "dataSource": "CSP",
+                            "id": "0571-5243"
+                          },
+                          {
+                            "dataSource": "CST",
+                            "id": "HYPERTENS"
+                          },
+                          {
+                            "dataSource": "DXP",
+                            "id": "U002034"
+                          },
+                          {
+                            "dataSource": "HPO",
+                            "id": "HP:0000822"
+                          },
+                          {
+                            "dataSource": "ICD10",
+                            "id": "I10-I15.9"
+                          },
+                          {
+                            "dataSource": "ICD10AM",
+                            "id": "I10-I15.9"
+                          },
+                          {
+                            "dataSource": "ICD10CM",
+                            "id": "I10"
+                          },
+                          {
+                            "dataSource": "ICD9CM",
+                            "id": "997.91"
+                          },
+                          {
+                            "dataSource": "ICPC2ICD10ENG",
+                            "id": "MTHU035456"
+                          },
+                          {
+                            "dataSource": "ICPC2P",
+                            "id": "K85004"
+                          },
+                          {
+                            "dataSource": "LCH",
+                            "id": "U002317"
+                          },
+                          {
+                            "dataSource": "LCH_NW",
+                            "id": "sh85063723"
+                          },
+                          {
+                            "dataSource": "LNC",
+                            "id": "LA14293-7"
+                          },
+                          {
+                            "dataSource": "MDR",
+                            "id": "10020772"
+                          },
+                          {
+                            "dataSource": "MEDCIN",
+                            "id": "33288"
+                          },
+                          {
+                            "dataSource": "MEDLINEPLUS",
+                            "id": "34"
+                          },
+                          {
+                            "dataSource": "MSH",
+                            "id": "D006973"
+                          },
+                          {
+                            "dataSource": "MTH",
+                            "id": "005"
+                          },
+                          {
+                            "dataSource": "MTHICD9",
+                            "id": "997.91"
+                          },
+                          {
+                            "dataSource": "NANDA-I",
+                            "id": "00905"
+                          },
+                          {
+                            "dataSource": "NCI",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_CPTAC",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_CTCAE",
+                            "id": "E13785"
+                          },
+                          {
+                            "dataSource": "NCI_CTRP",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_FDA",
+                            "id": "1908"
+                          },
+                          {
+                            "dataSource": "NCI_GDC",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_NCI-GLOSS",
+                            "id": "CDR0000458091"
+                          },
+                          {
+                            "dataSource": "NCI_NICHD",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_caDSR",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NOC",
+                            "id": "060808"
+                          },
+                          {
+                            "dataSource": "OMIM",
+                            "id": "MTHU002068"
+                          },
+                          {
+                            "dataSource": "PCDS",
+                            "id": "PRB_11000.06"
+                          },
+                          {
+                            "dataSource": "PDQ",
+                            "id": "CDR0000686951"
+                          },
+                          {
+                            "dataSource": "PSY",
+                            "id": "23830"
+                          },
+                          {
+                            "dataSource": "RCD",
+                            "id": "XE0Ub"
+                          },
+                          {
+                            "dataSource": "SNM",
+                            "id": "F-70700"
+                          },
+                          {
+                            "dataSource": "SNMI",
+                            "id": "D3-02000"
+                          },
+                          {
+                            "dataSource": "SNOMEDCT_US",
+                            "id": "38341003"
+                          },
+                          {
+                            "dataSource": "WHO",
+                            "id": "0210"
+                          }
+                        ]
+                      }
+                    ],
+                    "relations": [],
+                    "warnings": []
+                  },
+                  {
+                    "id": "1",
+                    "entities": [
+                      {
+                        "offset": 11,
+                        "length": 5,
+                        "text": "100mg",
+                        "category": "Dosage",
+                        "confidenceScore": 0.98
+                      },
+                      {
+                        "offset": 17,
+                        "length": 9,
+                        "text": "ibuprofen",
+                        "category": "MedicationName",
+                        "confidenceScore": 1.0,
+                        "name": "ibuprofen",
+                        "links": [
+                          {
+                            "dataSource": "UMLS",
+                            "id": "C0020740"
+                          },
+                          {
+                            "dataSource": "AOD",
+                            "id": "0000019879"
+                          },
+                          {
+                            "dataSource": "ATC",
+                            "id": "M01AE01"
+                          },
+                          {
+                            "dataSource": "CCPSS",
+                            "id": "0046165"
+                          },
+                          {
+                            "dataSource": "CHV",
+                            "id": "0000006519"
+                          },
+                          {
+                            "dataSource": "CSP",
+                            "id": "2270-2077"
+                          },
+                          {
+                            "dataSource": "DRUGBANK",
+                            "id": "DB01050"
+                          },
+                          {
+                            "dataSource": "GS",
+                            "id": "1611"
+                          },
+                          {
+                            "dataSource": "LCH_NW",
+                            "id": "sh97005926"
+                          },
+                          {
+                            "dataSource": "LNC",
+                            "id": "LP16165-0"
+                          },
+                          {
+                            "dataSource": "MEDCIN",
+                            "id": "40458"
+                          },
+                          {
+                            "dataSource": "MMSL",
+                            "id": "d00015"
+                          },
+                          {
+                            "dataSource": "MSH",
+                            "id": "D007052"
+                          },
+                          {
+                            "dataSource": "MTHSPL",
+                            "id": "WK2XYI10QM"
+                          },
+                          {
+                            "dataSource": "NCI",
+                            "id": "C561"
+                          },
+                          {
+                            "dataSource": "NCI_CTRP",
+                            "id": "C561"
+                          },
+                          {
+                            "dataSource": "NCI_DCP",
+                            "id": "00803"
+                          },
+                          {
+                            "dataSource": "NCI_DTP",
+                            "id": "NSC0256857"
+                          },
+                          {
+                            "dataSource": "NCI_FDA",
+                            "id": "WK2XYI10QM"
+                          },
+                          {
+                            "dataSource": "NCI_NCI-GLOSS",
+                            "id": "CDR0000613511"
+                          },
+                          {
+                            "dataSource": "NDDF",
+                            "id": "002377"
+                          },
+                          {
+                            "dataSource": "PDQ",
+                            "id": "CDR0000040475"
+                          },
+                          {
+                            "dataSource": "RCD",
+                            "id": "x02MO"
+                          },
+                          {
+                            "dataSource": "RXNORM",
+                            "id": "5640"
+                          },
+                          {
+                            "dataSource": "SNM",
+                            "id": "E-7772"
+                          },
+                          {
+                            "dataSource": "SNMI",
+                            "id": "C-603C0"
+                          },
+                          {
+                            "dataSource": "SNOMEDCT_US",
+                            "id": "387207008"
+                          },
+                          {
+                            "dataSource": "USP",
+                            "id": "m39860"
+                          },
+                          {
+                            "dataSource": "USPMG",
+                            "id": "MTHU000060"
+                          },
+                          {
+                            "dataSource": "VANDF",
+                            "id": "4017840"
+                          }
+                        ]
+                      },
+                      {
+                        "offset": 34,
+                        "length": 11,
+                        "text": "twice daily",
+                        "category": "Frequency",
+                        "confidenceScore": 1.0
+                      }
+                    ],
+                    "relations": [
+                      {
+                        "confidenceScore": 1.0,
+                        "relationType": "DosageOfMedication",
+                        "entities": [
+                          {
+                            "ref": "#/results/documents/1/entities/0",
+                            "role": "Dosage"
+                          },
+                          {
+                            "ref": "#/results/documents/1/entities/1",
+                            "role": "Medication"
+                          }
+                        ]
+                      },
+                      {
+                        "confidenceScore": 1.0,
+                        "relationType": "FrequencyOfMedication",
+                        "entities": [
+                          {
+                            "ref": "#/results/documents/1/entities/1",
+                            "role": "Medication"
+                          },
+                          {
+                            "ref": "#/results/documents/1/entities/2",
+                            "role": "Frequency"
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2022-03-01"
+              }
+            },
+            {
+              "kind": "EntityRecognitionLROResults",
+              "lastUpdateDateTime": "2022-11-01T22:58:02.6602045Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "entities": [
+                      {
+                        "text": "Patient",
+                        "category": "PersonType",
+                        "offset": 0,
+                        "length": 7,
+                        "confidenceScore": 0.99
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "100mg",
+                        "category": "Quantity",
+                        "subcategory": "Dimension",
+                        "offset": 11,
+                        "length": 5,
+                        "confidenceScore": 0.8
+                      },
+                      {
+                        "text": "ibuprofen",
+                        "category": "Product",
+                        "offset": 17,
+                        "length": 9,
+                        "confidenceScore": 0.89
+                      },
+                      {
+                        "text": "daily",
+                        "category": "DateTime",
+                        "subcategory": "Set",
+                        "offset": 40,
+                        "length": 5,
+                        "confidenceScore": 0.8
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-06-01"
+              }
+            },
+            {
+              "kind": "PiiEntityRecognitionLROResults",
+              "lastUpdateDateTime": "2022-11-01T22:58:08.5862378Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "redactedText": "******* does not suffer from high blood pressure.",
+                    "id": "0",
+                    "entities": [
+                      {
+                        "text": "Patient",
+                        "category": "PersonType",
+                        "offset": 0,
+                        "length": 7,
+                        "confidenceScore": 0.94
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "redactedText": "Prescribed 100mg ibuprofen, taken twice *****.",
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "daily",
+                        "category": "DateTime",
+                        "subcategory": "Set",
+                        "offset": 40,
+                        "length": 5,
+                        "confidenceScore": 0.8
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-01-15"
+              }
+            },
+            {
+              "kind": "SentimentAnalysisLROResults",
+              "lastUpdateDateTime": "2022-11-01T22:58:02.5200953Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "sentiment": "neutral",
+                    "confidenceScores": {
+                      "positive": 0.46,
+                      "neutral": 0.5,
+                      "negative": 0.05
+                    },
+                    "sentences": [
+                      {
+                        "sentiment": "neutral",
+                        "confidenceScores": {
+                          "positive": 0.46,
+                          "neutral": 0.5,
+                          "negative": 0.05
+                        },
+                        "offset": 0,
+                        "length": 49,
+                        "text": "Patient does not suffer from high blood pressure.",
+                        "targets": [],
+                        "assessments": []
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "1",
+                    "sentiment": "neutral",
+                    "confidenceScores": {
+                      "positive": 0.01,
+                      "neutral": 0.99,
+                      "negative": 0.0
+                    },
+                    "sentences": [
+                      {
+                        "sentiment": "neutral",
+                        "confidenceScores": {
+                          "positive": 0.01,
+                          "neutral": 0.99,
+                          "negative": 0.0
+                        },
+                        "offset": 0,
+                        "length": 46,
+                        "text": "Prescribed 100mg ibuprofen, taken twice daily.",
+                        "targets": [],
+                        "assessments": []
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2022-10-01"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2a344ccb-6872-4833-8306-41a866255c87?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "ff2d1667-101e-436f-b72a-0db45c02b0ee"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "2f4b1be3-5a12-4492-90b4-26e37e89c181",
+        "Content-Length": "6415",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 01 Nov 2022 22:58:11 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "168",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "2a344ccb-6872-4833-8306-41a866255c87",
+        "lastUpdateDateTime": "2022-11-01T22:58:08Z",
+        "createdDateTime": "2022-11-01T22:58:00Z",
+        "expirationDateTime": "2022-11-02T22:58:00Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 4,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 4,
+          "items": [
+            {
+              "kind": "HealthcareLROResults",
+              "lastUpdateDateTime": "2022-11-01T22:58:02.6045041Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "entities": [
+                      {
+                        "offset": 29,
+                        "length": 19,
+                        "text": "high blood pressure",
+                        "category": "SymptomOrSign",
+                        "confidenceScore": 1.0,
+                        "assertion": {
+                          "certainty": "negative"
+                        },
+                        "name": "Hypertensive disease",
+                        "links": [
+                          {
+                            "dataSource": "UMLS",
+                            "id": "C0020538"
+                          },
+                          {
+                            "dataSource": "AOD",
+                            "id": "0000023317"
+                          },
+                          {
+                            "dataSource": "BI",
+                            "id": "BI00001"
+                          },
+                          {
+                            "dataSource": "CCPSS",
+                            "id": "1017493"
+                          },
+                          {
+                            "dataSource": "CCS",
+                            "id": "7.1"
+                          },
+                          {
+                            "dataSource": "CHV",
+                            "id": "0000015800"
+                          },
+                          {
+                            "dataSource": "COSTAR",
+                            "id": "397"
+                          },
+                          {
+                            "dataSource": "CSP",
+                            "id": "0571-5243"
+                          },
+                          {
+                            "dataSource": "CST",
+                            "id": "HYPERTENS"
+                          },
+                          {
+                            "dataSource": "DXP",
+                            "id": "U002034"
+                          },
+                          {
+                            "dataSource": "HPO",
+                            "id": "HP:0000822"
+                          },
+                          {
+                            "dataSource": "ICD10",
+                            "id": "I10-I15.9"
+                          },
+                          {
+                            "dataSource": "ICD10AM",
+                            "id": "I10-I15.9"
+                          },
+                          {
+                            "dataSource": "ICD10CM",
+                            "id": "I10"
+                          },
+                          {
+                            "dataSource": "ICD9CM",
+                            "id": "997.91"
+                          },
+                          {
+                            "dataSource": "ICPC2ICD10ENG",
+                            "id": "MTHU035456"
+                          },
+                          {
+                            "dataSource": "ICPC2P",
+                            "id": "K85004"
+                          },
+                          {
+                            "dataSource": "LCH",
+                            "id": "U002317"
+                          },
+                          {
+                            "dataSource": "LCH_NW",
+                            "id": "sh85063723"
+                          },
+                          {
+                            "dataSource": "LNC",
+                            "id": "LA14293-7"
+                          },
+                          {
+                            "dataSource": "MDR",
+                            "id": "10020772"
+                          },
+                          {
+                            "dataSource": "MEDCIN",
+                            "id": "33288"
+                          },
+                          {
+                            "dataSource": "MEDLINEPLUS",
+                            "id": "34"
+                          },
+                          {
+                            "dataSource": "MSH",
+                            "id": "D006973"
+                          },
+                          {
+                            "dataSource": "MTH",
+                            "id": "005"
+                          },
+                          {
+                            "dataSource": "MTHICD9",
+                            "id": "997.91"
+                          },
+                          {
+                            "dataSource": "NANDA-I",
+                            "id": "00905"
+                          },
+                          {
+                            "dataSource": "NCI",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_CPTAC",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_CTCAE",
+                            "id": "E13785"
+                          },
+                          {
+                            "dataSource": "NCI_CTRP",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_FDA",
+                            "id": "1908"
+                          },
+                          {
+                            "dataSource": "NCI_GDC",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_NCI-GLOSS",
+                            "id": "CDR0000458091"
+                          },
+                          {
+                            "dataSource": "NCI_NICHD",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_caDSR",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NOC",
+                            "id": "060808"
+                          },
+                          {
+                            "dataSource": "OMIM",
+                            "id": "MTHU002068"
+                          },
+                          {
+                            "dataSource": "PCDS",
+                            "id": "PRB_11000.06"
+                          },
+                          {
+                            "dataSource": "PDQ",
+                            "id": "CDR0000686951"
+                          },
+                          {
+                            "dataSource": "PSY",
+                            "id": "23830"
+                          },
+                          {
+                            "dataSource": "RCD",
+                            "id": "XE0Ub"
+                          },
+                          {
+                            "dataSource": "SNM",
+                            "id": "F-70700"
+                          },
+                          {
+                            "dataSource": "SNMI",
+                            "id": "D3-02000"
+                          },
+                          {
+                            "dataSource": "SNOMEDCT_US",
+                            "id": "38341003"
+                          },
+                          {
+                            "dataSource": "WHO",
+                            "id": "0210"
+                          }
+                        ]
+                      }
+                    ],
+                    "relations": [],
+                    "warnings": []
+                  },
+                  {
+                    "id": "1",
+                    "entities": [
+                      {
+                        "offset": 11,
+                        "length": 5,
+                        "text": "100mg",
+                        "category": "Dosage",
+                        "confidenceScore": 0.98
+                      },
+                      {
+                        "offset": 17,
+                        "length": 9,
+                        "text": "ibuprofen",
+                        "category": "MedicationName",
+                        "confidenceScore": 1.0,
+                        "name": "ibuprofen",
+                        "links": [
+                          {
+                            "dataSource": "UMLS",
+                            "id": "C0020740"
+                          },
+                          {
+                            "dataSource": "AOD",
+                            "id": "0000019879"
+                          },
+                          {
+                            "dataSource": "ATC",
+                            "id": "M01AE01"
+                          },
+                          {
+                            "dataSource": "CCPSS",
+                            "id": "0046165"
+                          },
+                          {
+                            "dataSource": "CHV",
+                            "id": "0000006519"
+                          },
+                          {
+                            "dataSource": "CSP",
+                            "id": "2270-2077"
+                          },
+                          {
+                            "dataSource": "DRUGBANK",
+                            "id": "DB01050"
+                          },
+                          {
+                            "dataSource": "GS",
+                            "id": "1611"
+                          },
+                          {
+                            "dataSource": "LCH_NW",
+                            "id": "sh97005926"
+                          },
+                          {
+                            "dataSource": "LNC",
+                            "id": "LP16165-0"
+                          },
+                          {
+                            "dataSource": "MEDCIN",
+                            "id": "40458"
+                          },
+                          {
+                            "dataSource": "MMSL",
+                            "id": "d00015"
+                          },
+                          {
+                            "dataSource": "MSH",
+                            "id": "D007052"
+                          },
+                          {
+                            "dataSource": "MTHSPL",
+                            "id": "WK2XYI10QM"
+                          },
+                          {
+                            "dataSource": "NCI",
+                            "id": "C561"
+                          },
+                          {
+                            "dataSource": "NCI_CTRP",
+                            "id": "C561"
+                          },
+                          {
+                            "dataSource": "NCI_DCP",
+                            "id": "00803"
+                          },
+                          {
+                            "dataSource": "NCI_DTP",
+                            "id": "NSC0256857"
+                          },
+                          {
+                            "dataSource": "NCI_FDA",
+                            "id": "WK2XYI10QM"
+                          },
+                          {
+                            "dataSource": "NCI_NCI-GLOSS",
+                            "id": "CDR0000613511"
+                          },
+                          {
+                            "dataSource": "NDDF",
+                            "id": "002377"
+                          },
+                          {
+                            "dataSource": "PDQ",
+                            "id": "CDR0000040475"
+                          },
+                          {
+                            "dataSource": "RCD",
+                            "id": "x02MO"
+                          },
+                          {
+                            "dataSource": "RXNORM",
+                            "id": "5640"
+                          },
+                          {
+                            "dataSource": "SNM",
+                            "id": "E-7772"
+                          },
+                          {
+                            "dataSource": "SNMI",
+                            "id": "C-603C0"
+                          },
+                          {
+                            "dataSource": "SNOMEDCT_US",
+                            "id": "387207008"
+                          },
+                          {
+                            "dataSource": "USP",
+                            "id": "m39860"
+                          },
+                          {
+                            "dataSource": "USPMG",
+                            "id": "MTHU000060"
+                          },
+                          {
+                            "dataSource": "VANDF",
+                            "id": "4017840"
+                          }
+                        ]
+                      },
+                      {
+                        "offset": 34,
+                        "length": 11,
+                        "text": "twice daily",
+                        "category": "Frequency",
+                        "confidenceScore": 1.0
+                      }
+                    ],
+                    "relations": [
+                      {
+                        "confidenceScore": 1.0,
+                        "relationType": "DosageOfMedication",
+                        "entities": [
+                          {
+                            "ref": "#/results/documents/1/entities/0",
+                            "role": "Dosage"
+                          },
+                          {
+                            "ref": "#/results/documents/1/entities/1",
+                            "role": "Medication"
+                          }
+                        ]
+                      },
+                      {
+                        "confidenceScore": 1.0,
+                        "relationType": "FrequencyOfMedication",
+                        "entities": [
+                          {
+                            "ref": "#/results/documents/1/entities/1",
+                            "role": "Medication"
+                          },
+                          {
+                            "ref": "#/results/documents/1/entities/2",
+                            "role": "Frequency"
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2022-03-01"
+              }
+            },
+            {
+              "kind": "EntityRecognitionLROResults",
+              "lastUpdateDateTime": "2022-11-01T22:58:02.6602045Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "entities": [
+                      {
+                        "text": "Patient",
+                        "category": "PersonType",
+                        "offset": 0,
+                        "length": 7,
+                        "confidenceScore": 0.99
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "100mg",
+                        "category": "Quantity",
+                        "subcategory": "Dimension",
+                        "offset": 11,
+                        "length": 5,
+                        "confidenceScore": 0.8
+                      },
+                      {
+                        "text": "ibuprofen",
+                        "category": "Product",
+                        "offset": 17,
+                        "length": 9,
+                        "confidenceScore": 0.89
+                      },
+                      {
+                        "text": "daily",
+                        "category": "DateTime",
+                        "subcategory": "Set",
+                        "offset": 40,
+                        "length": 5,
+                        "confidenceScore": 0.8
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-06-01"
+              }
+            },
+            {
+              "kind": "PiiEntityRecognitionLROResults",
+              "lastUpdateDateTime": "2022-11-01T22:58:08.5862378Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "redactedText": "******* does not suffer from high blood pressure.",
+                    "id": "0",
+                    "entities": [
+                      {
+                        "text": "Patient",
+                        "category": "PersonType",
+                        "offset": 0,
+                        "length": 7,
+                        "confidenceScore": 0.94
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "redactedText": "Prescribed 100mg ibuprofen, taken twice *****.",
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "daily",
+                        "category": "DateTime",
+                        "subcategory": "Set",
+                        "offset": 40,
+                        "length": 5,
+                        "confidenceScore": 0.8
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-01-15"
+              }
+            },
+            {
+              "kind": "SentimentAnalysisLROResults",
+              "lastUpdateDateTime": "2022-11-01T22:58:02.5200953Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "sentiment": "neutral",
+                    "confidenceScores": {
+                      "positive": 0.46,
+                      "neutral": 0.5,
+                      "negative": 0.05
+                    },
+                    "sentences": [
+                      {
+                        "sentiment": "neutral",
+                        "confidenceScores": {
+                          "positive": 0.46,
+                          "neutral": 0.5,
+                          "negative": 0.05
+                        },
+                        "offset": 0,
+                        "length": 49,
+                        "text": "Patient does not suffer from high blood pressure.",
+                        "targets": [],
+                        "assessments": []
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "1",
+                    "sentiment": "neutral",
+                    "confidenceScores": {
+                      "positive": 0.01,
+                      "neutral": 0.99,
+                      "negative": 0.0
+                    },
+                    "sentences": [
+                      {
+                        "sentiment": "neutral",
+                        "confidenceScores": {
+                          "positive": 0.01,
+                          "neutral": 0.99,
+                          "negative": 0.0
+                        },
+                        "offset": 0,
+                        "length": 46,
+                        "text": "Prescribed 100mg ibuprofen, taken twice daily.",
+                        "targets": [],
+                        "assessments": []
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2022-10-01"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/2a344ccb-6872-4833-8306-41a866255c87?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "883d968d-3d88-4bd6-9410-f42e6a32ddcc"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "4e737bfe-5bed-4c3b-94d2-517a1dfef734",
+        "Content-Length": "6415",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 01 Nov 2022 22:58:11 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "206",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "2a344ccb-6872-4833-8306-41a866255c87",
+        "lastUpdateDateTime": "2022-11-01T22:58:08Z",
+        "createdDateTime": "2022-11-01T22:58:00Z",
+        "expirationDateTime": "2022-11-02T22:58:00Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 4,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 4,
+          "items": [
+            {
+              "kind": "HealthcareLROResults",
+              "lastUpdateDateTime": "2022-11-01T22:58:02.6045041Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "entities": [
+                      {
+                        "offset": 29,
+                        "length": 19,
+                        "text": "high blood pressure",
+                        "category": "SymptomOrSign",
+                        "confidenceScore": 1.0,
+                        "assertion": {
+                          "certainty": "negative"
+                        },
+                        "name": "Hypertensive disease",
+                        "links": [
+                          {
+                            "dataSource": "UMLS",
+                            "id": "C0020538"
+                          },
+                          {
+                            "dataSource": "AOD",
+                            "id": "0000023317"
+                          },
+                          {
+                            "dataSource": "BI",
+                            "id": "BI00001"
+                          },
+                          {
+                            "dataSource": "CCPSS",
+                            "id": "1017493"
+                          },
+                          {
+                            "dataSource": "CCS",
+                            "id": "7.1"
+                          },
+                          {
+                            "dataSource": "CHV",
+                            "id": "0000015800"
+                          },
+                          {
+                            "dataSource": "COSTAR",
+                            "id": "397"
+                          },
+                          {
+                            "dataSource": "CSP",
+                            "id": "0571-5243"
+                          },
+                          {
+                            "dataSource": "CST",
+                            "id": "HYPERTENS"
+                          },
+                          {
+                            "dataSource": "DXP",
+                            "id": "U002034"
+                          },
+                          {
+                            "dataSource": "HPO",
+                            "id": "HP:0000822"
+                          },
+                          {
+                            "dataSource": "ICD10",
+                            "id": "I10-I15.9"
+                          },
+                          {
+                            "dataSource": "ICD10AM",
+                            "id": "I10-I15.9"
+                          },
+                          {
+                            "dataSource": "ICD10CM",
+                            "id": "I10"
+                          },
+                          {
+                            "dataSource": "ICD9CM",
+                            "id": "997.91"
+                          },
+                          {
+                            "dataSource": "ICPC2ICD10ENG",
+                            "id": "MTHU035456"
+                          },
+                          {
+                            "dataSource": "ICPC2P",
+                            "id": "K85004"
+                          },
+                          {
+                            "dataSource": "LCH",
+                            "id": "U002317"
+                          },
+                          {
+                            "dataSource": "LCH_NW",
+                            "id": "sh85063723"
+                          },
+                          {
+                            "dataSource": "LNC",
+                            "id": "LA14293-7"
+                          },
+                          {
+                            "dataSource": "MDR",
+                            "id": "10020772"
+                          },
+                          {
+                            "dataSource": "MEDCIN",
+                            "id": "33288"
+                          },
+                          {
+                            "dataSource": "MEDLINEPLUS",
+                            "id": "34"
+                          },
+                          {
+                            "dataSource": "MSH",
+                            "id": "D006973"
+                          },
+                          {
+                            "dataSource": "MTH",
+                            "id": "005"
+                          },
+                          {
+                            "dataSource": "MTHICD9",
+                            "id": "997.91"
+                          },
+                          {
+                            "dataSource": "NANDA-I",
+                            "id": "00905"
+                          },
+                          {
+                            "dataSource": "NCI",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_CPTAC",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_CTCAE",
+                            "id": "E13785"
+                          },
+                          {
+                            "dataSource": "NCI_CTRP",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_FDA",
+                            "id": "1908"
+                          },
+                          {
+                            "dataSource": "NCI_GDC",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_NCI-GLOSS",
+                            "id": "CDR0000458091"
+                          },
+                          {
+                            "dataSource": "NCI_NICHD",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_caDSR",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NOC",
+                            "id": "060808"
+                          },
+                          {
+                            "dataSource": "OMIM",
+                            "id": "MTHU002068"
+                          },
+                          {
+                            "dataSource": "PCDS",
+                            "id": "PRB_11000.06"
+                          },
+                          {
+                            "dataSource": "PDQ",
+                            "id": "CDR0000686951"
+                          },
+                          {
+                            "dataSource": "PSY",
+                            "id": "23830"
+                          },
+                          {
+                            "dataSource": "RCD",
+                            "id": "XE0Ub"
+                          },
+                          {
+                            "dataSource": "SNM",
+                            "id": "F-70700"
+                          },
+                          {
+                            "dataSource": "SNMI",
+                            "id": "D3-02000"
+                          },
+                          {
+                            "dataSource": "SNOMEDCT_US",
+                            "id": "38341003"
+                          },
+                          {
+                            "dataSource": "WHO",
+                            "id": "0210"
+                          }
+                        ]
+                      }
+                    ],
+                    "relations": [],
+                    "warnings": []
+                  },
+                  {
+                    "id": "1",
+                    "entities": [
+                      {
+                        "offset": 11,
+                        "length": 5,
+                        "text": "100mg",
+                        "category": "Dosage",
+                        "confidenceScore": 0.98
+                      },
+                      {
+                        "offset": 17,
+                        "length": 9,
+                        "text": "ibuprofen",
+                        "category": "MedicationName",
+                        "confidenceScore": 1.0,
+                        "name": "ibuprofen",
+                        "links": [
+                          {
+                            "dataSource": "UMLS",
+                            "id": "C0020740"
+                          },
+                          {
+                            "dataSource": "AOD",
+                            "id": "0000019879"
+                          },
+                          {
+                            "dataSource": "ATC",
+                            "id": "M01AE01"
+                          },
+                          {
+                            "dataSource": "CCPSS",
+                            "id": "0046165"
+                          },
+                          {
+                            "dataSource": "CHV",
+                            "id": "0000006519"
+                          },
+                          {
+                            "dataSource": "CSP",
+                            "id": "2270-2077"
+                          },
+                          {
+                            "dataSource": "DRUGBANK",
+                            "id": "DB01050"
+                          },
+                          {
+                            "dataSource": "GS",
+                            "id": "1611"
+                          },
+                          {
+                            "dataSource": "LCH_NW",
+                            "id": "sh97005926"
+                          },
+                          {
+                            "dataSource": "LNC",
+                            "id": "LP16165-0"
+                          },
+                          {
+                            "dataSource": "MEDCIN",
+                            "id": "40458"
+                          },
+                          {
+                            "dataSource": "MMSL",
+                            "id": "d00015"
+                          },
+                          {
+                            "dataSource": "MSH",
+                            "id": "D007052"
+                          },
+                          {
+                            "dataSource": "MTHSPL",
+                            "id": "WK2XYI10QM"
+                          },
+                          {
+                            "dataSource": "NCI",
+                            "id": "C561"
+                          },
+                          {
+                            "dataSource": "NCI_CTRP",
+                            "id": "C561"
+                          },
+                          {
+                            "dataSource": "NCI_DCP",
+                            "id": "00803"
+                          },
+                          {
+                            "dataSource": "NCI_DTP",
+                            "id": "NSC0256857"
+                          },
+                          {
+                            "dataSource": "NCI_FDA",
+                            "id": "WK2XYI10QM"
+                          },
+                          {
+                            "dataSource": "NCI_NCI-GLOSS",
+                            "id": "CDR0000613511"
+                          },
+                          {
+                            "dataSource": "NDDF",
+                            "id": "002377"
+                          },
+                          {
+                            "dataSource": "PDQ",
+                            "id": "CDR0000040475"
+                          },
+                          {
+                            "dataSource": "RCD",
+                            "id": "x02MO"
+                          },
+                          {
+                            "dataSource": "RXNORM",
+                            "id": "5640"
+                          },
+                          {
+                            "dataSource": "SNM",
+                            "id": "E-7772"
+                          },
+                          {
+                            "dataSource": "SNMI",
+                            "id": "C-603C0"
+                          },
+                          {
+                            "dataSource": "SNOMEDCT_US",
+                            "id": "387207008"
+                          },
+                          {
+                            "dataSource": "USP",
+                            "id": "m39860"
+                          },
+                          {
+                            "dataSource": "USPMG",
+                            "id": "MTHU000060"
+                          },
+                          {
+                            "dataSource": "VANDF",
+                            "id": "4017840"
+                          }
+                        ]
+                      },
+                      {
+                        "offset": 34,
+                        "length": 11,
+                        "text": "twice daily",
+                        "category": "Frequency",
+                        "confidenceScore": 1.0
+                      }
+                    ],
+                    "relations": [
+                      {
+                        "confidenceScore": 1.0,
+                        "relationType": "DosageOfMedication",
+                        "entities": [
+                          {
+                            "ref": "#/results/documents/1/entities/0",
+                            "role": "Dosage"
+                          },
+                          {
+                            "ref": "#/results/documents/1/entities/1",
+                            "role": "Medication"
+                          }
+                        ]
+                      },
+                      {
+                        "confidenceScore": 1.0,
+                        "relationType": "FrequencyOfMedication",
+                        "entities": [
+                          {
+                            "ref": "#/results/documents/1/entities/1",
+                            "role": "Medication"
+                          },
+                          {
+                            "ref": "#/results/documents/1/entities/2",
+                            "role": "Frequency"
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2022-03-01"
+              }
+            },
+            {
+              "kind": "EntityRecognitionLROResults",
+              "lastUpdateDateTime": "2022-11-01T22:58:02.6602045Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "entities": [
+                      {
+                        "text": "Patient",
+                        "category": "PersonType",
+                        "offset": 0,
+                        "length": 7,
+                        "confidenceScore": 0.99
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "100mg",
+                        "category": "Quantity",
+                        "subcategory": "Dimension",
+                        "offset": 11,
+                        "length": 5,
+                        "confidenceScore": 0.8
+                      },
+                      {
+                        "text": "ibuprofen",
+                        "category": "Product",
+                        "offset": 17,
+                        "length": 9,
+                        "confidenceScore": 0.89
+                      },
+                      {
+                        "text": "daily",
+                        "category": "DateTime",
+                        "subcategory": "Set",
+                        "offset": 40,
+                        "length": 5,
+                        "confidenceScore": 0.8
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-06-01"
+              }
+            },
+            {
+              "kind": "PiiEntityRecognitionLROResults",
+              "lastUpdateDateTime": "2022-11-01T22:58:08.5862378Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "redactedText": "******* does not suffer from high blood pressure.",
+                    "id": "0",
+                    "entities": [
+                      {
+                        "text": "Patient",
+                        "category": "PersonType",
+                        "offset": 0,
+                        "length": 7,
+                        "confidenceScore": 0.94
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "redactedText": "Prescribed 100mg ibuprofen, taken twice *****.",
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "daily",
+                        "category": "DateTime",
+                        "subcategory": "Set",
+                        "offset": 40,
+                        "length": 5,
+                        "confidenceScore": 0.8
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-01-15"
+              }
+            },
+            {
+              "kind": "SentimentAnalysisLROResults",
+              "lastUpdateDateTime": "2022-11-01T22:58:02.5200953Z",
               "status": "succeeded",
               "results": {
                 "documents": [

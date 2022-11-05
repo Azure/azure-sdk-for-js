@@ -10,7 +10,7 @@
   "typesVersions": {
     "<3.6": {
       "*": [
-        "types/3.1/src/maps-search.d.ts"
+        "types/3.1/maps-search.d.ts"
       ]
     }
   },
@@ -113,7 +113,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "2.0.4",
     "@azure/test-utils": "^1.0.0",
-    "@microsoft/api-extractor": "7.18.11",
+    "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^7.0.2",

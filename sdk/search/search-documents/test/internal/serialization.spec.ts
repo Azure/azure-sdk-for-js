@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import * as sinon from "sinon";
-import { serialize, deserialize } from "../../src/serialization";
+import { deserialize, serialize } from "../../src/serialization";
 import GeographyPoint from "../../src/geographyPoint";
 
 describe("serialization.serialize", () => {

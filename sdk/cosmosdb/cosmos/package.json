@@ -58,7 +58,7 @@
     "check:src:strict": "tsc --pretty --project tsconfig.strict.json",
     "build:src": "echo Using TypeScript && tsc --version && tsc -b --pretty",
     "build:test": "tsc",
-    "build:types": "downlevel-dts dist/types/latest dist/types/3.1",
+    "build:types": "downlevel-dts dist/types/latest dist/types/4.1 --to=4.1",
     "build": "npm run clean && npm run extract-api && npm run build:types && npm run bundle",
     "bundle": "dev-tool run bundle",
     "bundle-types": "node bundle-types.js",
@@ -132,7 +132,8 @@
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~4.6.0"
+    "typescript": "~4.6.0",
+    "nock": "^12.0.3"
   },
   "//sampleConfiguration": {
     "skip": [
@@ -148,7 +149,7 @@
       "QueryThroughput.ts",
       "SasTokenAuth.ts",
       "ServerSideScripts.ts",
-      "Shared/handleError.ts"
+      "handleError.ts"
     ],
     "productName": "Azure Cosmos DB",
     "productSlugs": [

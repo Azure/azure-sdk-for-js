@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Deletes the linked server from a redis cache (requires Premium SKU).
  *
  * @summary Deletes the linked server from a redis cache (requires Premium SKU).
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-05-01/examples/RedisCacheLinkedServer_Delete.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheLinkedServer_Delete.json
  */
 async function linkedServerDelete() {
   const subscriptionId = "subid";

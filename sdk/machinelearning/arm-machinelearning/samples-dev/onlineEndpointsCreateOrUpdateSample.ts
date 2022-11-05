@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or update Online Endpoint (asynchronous).
  *
  * @summary Create or update Online Endpoint (asynchronous).
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/OnlineEndpoint/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/OnlineEndpoint/createOrUpdate.json
  */
 async function createOrUpdateOnlineEndpoint() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
