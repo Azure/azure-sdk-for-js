@@ -8732,22 +8732,6 @@ packages:
       yn: 3.1.1
     dev: false
 
-  /ts-node/9.1.1_typescript@4.8.4:
-    resolution: {integrity: sha512-hPlt7ZACERQGf03M253ytLY3dHbGNGrAq9qIHWUY9XHYl1z7wYngSr3OQ5xmui8o2AaxsONxIzjafLUiWBo1Fg==}
-    engines: {node: '>=10.0.0'}
-    hasBin: true
-    peerDependencies:
-      typescript: '>=2.7'
-    dependencies:
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      source-map-support: 0.5.21
-      typescript: 4.8.4
-      yn: 3.1.1
-    dev: false
-
   /tsconfig-paths/3.14.1:
     resolution: {integrity: sha512-fxDhWnFSLt3VuTwtvJt5fpwxBHg5AdKWMsgcPOOIilyjymcYVZoCQF8fvFRezCNfblEXmi+PcM1eYHeOAgXCOQ==}
     dependencies:
@@ -19617,7 +19601,7 @@ packages:
     dev: false
 
   file:projects/test-recorder.tgz:
-    resolution: {integrity: sha512-TESyRKgpu4mtosyy7IRLH+QyGdvl+kTNcojmo/PenxNl5YxESc4Pf+kChQvg0Kqq3120z5Ltt5b7jLJl1xr3JA==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-gr+sOuKMxldDuFijYGnkB6S7MTY8nrv3mX23vFV4N6iF0uzVhp8xnFUtCniI2p2qPMTdlEfBvtOU63sr0IyXNA==, tarball: file:projects/test-recorder.tgz}
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
@@ -19649,11 +19633,13 @@ packages:
       nyc: 15.1.0
       prettier: 2.7.1
       rimraf: 3.0.2
-      ts-node: 9.1.1_typescript@4.8.4
+      ts-node: 10.9.1_c386e8b7aaca4ce6057194a7156a4f00
       tslib: 2.4.1
       typescript: 4.8.4
       uuid: 8.3.2
     transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
       - bufferutil
       - debug
       - supports-color
