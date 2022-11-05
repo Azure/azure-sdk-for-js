@@ -41,7 +41,6 @@ export class _AzureMonitorStatsbeatExporter
       return;
     }
 
-    this._statsbeatMetrics?.countAverageDuration();
     let envelopes: Envelope[] = resourceMetricsToEnvelope(
       metrics,
       this._instrumentationKey,
