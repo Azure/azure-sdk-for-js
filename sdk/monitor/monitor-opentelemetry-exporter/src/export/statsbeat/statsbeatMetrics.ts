@@ -70,7 +70,11 @@ export class StatsbeatMetrics {
   private _endpointUrl: string;
   private _host: string;
 
-  constructor(options: { instrumentationKey: string, endpointUrl: string, collectionInterval?: number }) {
+  constructor(options: {
+    instrumentationKey: string;
+    endpointUrl: string;
+    collectionInterval?: number;
+  }) {
     this._connectionString = this._getConnectionString(options.endpointUrl);
     this._meterProvider = new MeterProvider();
 

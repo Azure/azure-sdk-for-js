@@ -70,7 +70,7 @@ export abstract class AzureMonitorBaseExporter {
       // Initialize statsbeatMetrics
       this._statsbeatMetrics = new StatsbeatMetrics({
         instrumentationKey: this._instrumentationKey,
-        endpointUrl: this._endpointUrl
+        endpointUrl: this._endpointUrl,
       });
     }
     this._retryTimer = null;
