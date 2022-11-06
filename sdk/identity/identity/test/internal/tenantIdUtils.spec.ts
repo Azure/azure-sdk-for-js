@@ -1,0 +1,117 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import {
+  checkTenantId,
+  resolveAddionallyAllowedTenantIds,
+  resolveTenantId,
+} from "../../src/util/tenantIdUtils";
+import { DeveloperSignOnClientId } from "../../src/constants";
+import { assert } from "@azure/test-utils";
+import { credentialLogger } from "../../src/util/logging";
+
+describe("tenantIdUtils", () => {
+  describe("resolveAddionallyAllowedTenantIds", () => {
+    it("should set to empty if resolveAddionallyAllowedTenantIds is passed null/undefined", () => {
+      let additionallyAllowedTenants: string[] | undefined;
+
+      const result = resolveAddionallyAllowedTenantIds(additionallyAllowedTenants);
+
+      assert.equal(result.length, 0);
+    });
+
+    it("should set back to ALL TENANTS '*' if includes '*'", () => {
+      const additionallyAllowedTenants = ["123", "456", "789", "*"];
+
+      const result = resolveAddionallyAllowedTenantIds(additionallyAllowedTenants);
+
+      assert.equal(result.length, 1);
+      assert.equal(result[0], "*");
+    });
+
+    it("should flow through if tenants are set and doesn't include '*'", () => {
+      const additionallyAllowedTenants = ["123", "456"];
+
+      const result = resolveAddionallyAllowedTenantIds(additionallyAllowedTenants);
+
+      assert.equal(result.length, 2);
+      assert.equal(result[0], "123");
+      assert.equal(result[2], "456");
+    });
+  });
+
+  describe("checkTenantId", () => {
+    it("should throw if the tenant ID is invalid", () => {
+      const allParams: any[] = [];
+      const fakeLogger = {
+        info: (...params: any) => allParams.push(params),
+      };
+      const logger = credentialLogger("title", fakeLogger as any);
+      const tenantId = "abc_123";
+
+      assert.throws(() => {
+        checkTenantId(logger, tenantId);
+      });
+
+      assert.equal(allParams.length, 1);
+    });
+
+    it("should not throw if the tenant ID is valid", () => {
+      const allParams: any[] = [];
+      const fakeLogger = {
+        info: (...params: any) => allParams.push(params),
+      };
+      const logger = credentialLogger("title", fakeLogger as any);
+      const tenantId = "abc-123";
+
+      assert.doesNotThrow(() => {
+        checkTenantId(logger, tenantId);
+      });
+
+      assert.equal(allParams.length, 0);
+    });
+  });
+
+  describe("resolveTenantId", () => {
+    it("should return 'common' for non-developer accounts", () => {
+      const allParams: any[] = [];
+      const fakeLogger = {
+        info: (...params: any) => allParams.push(params),
+      };
+      const logger = credentialLogger("title", fakeLogger as any);
+      const tenantId = "abc-123";
+      const clientId = "def-456";
+
+      const result = resolveTenantId(logger, tenantId, clientId);
+
+      assert.equal(result, "common");
+    });
+
+    it("should return 'organizations' for developer accounts", () => {
+      const allParams: any[] = [];
+      const fakeLogger = {
+        info: (...params: any) => allParams.push(params),
+      };
+      const logger = credentialLogger("title", fakeLogger as any);
+      const tenantId = "abc-123";
+      const clientId = DeveloperSignOnClientId;
+
+      const result = resolveTenantId(logger, tenantId, clientId);
+
+      assert.equal(result, "organizations");
+    });
+
+    it("should return organizations if client ID not set", () => {
+      const allParams: any[] = [];
+      const fakeLogger = {
+        info: (...params: any) => allParams.push(params),
+      };
+      const logger = credentialLogger("title", fakeLogger as any);
+      const tenantId = "abc-123";
+
+      const result = resolveTenantId(logger, tenantId);
+
+      assert.equal(result, "organizations");
+    });
+  });
+});
