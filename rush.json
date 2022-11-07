@@ -1657,6 +1657,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/kusto-data",
+      "projectFolder": "sdk/kusto/kusto-data",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/core-http-compat",
       "projectFolder": "sdk/core/core-http-compat",
       "versionPolicyName": "core"

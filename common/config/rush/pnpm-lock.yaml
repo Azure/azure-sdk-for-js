@@ -257,6 +257,7 @@ specifiers:
   '@rush-temp/keyvault-common': file:./projects/keyvault-common.tgz
   '@rush-temp/keyvault-keys': file:./projects/keyvault-keys.tgz
   '@rush-temp/keyvault-secrets': file:./projects/keyvault-secrets.tgz
+  '@rush-temp/kusto-data': file:./projects/kusto-data.tgz
   '@rush-temp/load-testing': file:./projects/load-testing.tgz
   '@rush-temp/logger': file:./projects/logger.tgz
   '@rush-temp/maps-common': file:./projects/maps-common.tgz
@@ -580,6 +581,7 @@ dependencies:
   '@rush-temp/keyvault-common': file:projects/keyvault-common.tgz
   '@rush-temp/keyvault-keys': file:projects/keyvault-keys.tgz
   '@rush-temp/keyvault-secrets': file:projects/keyvault-secrets.tgz
+  '@rush-temp/kusto-data': file:projects/kusto-data.tgz
   '@rush-temp/load-testing': file:projects/load-testing.tgz
   '@rush-temp/logger': file:projects/logger.tgz
   '@rush-temp/maps-common': file:projects/maps-common.tgz
@@ -2116,6 +2118,7 @@ packages:
 
   /@sinonjs/commons/1.8.4:
     resolution: {integrity: sha512-RpmQdHVo8hCEHDVpO39zToS9jOhR6nw+/lQAzRNq9ErrGV9IeHM71XCn68svVl/euFeVW6BWX4p35gkhbOcSIQ==}
+    deprecated: Breaks compatibility with ES5, use v1.8.5
     dependencies:
       type-detect: 4.0.8
     dev: false
@@ -2858,7 +2861,7 @@ packages:
     dev: false
 
   /array-flatten/1.1.1:
-    resolution: {integrity: sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=}
+    resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
     dev: false
 
   /array-includes/3.1.5:
@@ -2949,6 +2952,16 @@ packages:
   /avsc/5.7.6:
     resolution: {integrity: sha512-jyn9tfd9J3h7pgJSk4qQ/1c1Tk5qiXrvmdCDON2UjcFplqRu/KpmKmpi+Ess8ZKmmqK12U4Y3VHrfwQs1xSMZA==}
     engines: {node: '>=0.11'}
+    dev: false
+
+  /axios/1.1.3:
+    resolution: {integrity: sha512-00tXVRwKx/FZr/IDVFt4C+f9FYairX517WoGCL6dpOntqLkZofjhu43F/Xl44UOpqa+9sLFDrG/XAnFsUYgkDA==}
+    dependencies:
+      follow-redirects: 1.15.2
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
     dev: false
 
   /azure-iot-amqp-base/2.5.1:
@@ -3099,7 +3112,7 @@ packages:
     dev: false
 
   /buffer-equal-constant-time/1.0.1:
-    resolution: {integrity: sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=}
+    resolution: {integrity: sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==}
     dev: false
 
   /buffer-from/1.1.2:
@@ -3256,7 +3269,7 @@ packages:
     dev: false
 
   /charenc/0.0.2:
-    resolution: {integrity: sha1-wKHS86cJLgN3S/qD8UwPxXkKhmc=}
+    resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
     dev: false
 
   /check-error/1.0.2:
@@ -3399,7 +3412,7 @@ packages:
     dev: false
 
   /concat-map/0.0.1:
-    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
+    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
     dev: false
 
   /concurrently/6.5.1:
@@ -3460,7 +3473,7 @@ packages:
     dev: false
 
   /cookie-signature/1.0.6:
-    resolution: {integrity: sha1-4wOogrNCzD7oylE6eZmXNNqzriw=}
+    resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==}
     dev: false
 
   /cookie/0.4.2:
@@ -3562,7 +3575,7 @@ packages:
     dev: false
 
   /crypt/0.0.2:
-    resolution: {integrity: sha1-iNf/fsDfuG9xPch7u0LQRNPmxBs=}
+    resolution: {integrity: sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==}
     dev: false
 
   /csv-parse/5.3.1:
@@ -3835,11 +3848,11 @@ packages:
     dev: false
 
   /edge-launcher/1.2.2:
-    resolution: {integrity: sha1-60Cq+9Bnpup27/+rBke81VCbN7I=}
+    resolution: {integrity: sha512-JcD5WBi3BHZXXVSSeEhl6sYO8g5cuynk/hifBzds2Bp4JdzCGLNMHgMCKu5DvrO1yatMgF0goFsxXRGus0yh1g==}
     dev: false
 
   /ee-first/1.1.1:
-    resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
+    resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: false
 
   /electron-to-chromium/1.4.284:
@@ -4720,7 +4733,7 @@ packages:
     dev: false
 
   /fresh/0.5.2:
-    resolution: {integrity: sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=}
+    resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -4860,7 +4873,7 @@ packages:
     dev: false
 
   /github-from-package/0.0.0:
-    resolution: {integrity: sha1-l/tdlr/eiXMxPyDoKI75oWf6ZM4=}
+    resolution: {integrity: sha512-SyHy3T1v2NUXn29OsWdxmK6RwHD+vkj3v8en8AOBZ1wBQ/hCAQ5bAQTD02kW4W9tUp/3Qh6J8r9EvntiyCmOOw==}
     dev: false
 
   /glob-parent/5.1.2:
@@ -6268,7 +6281,7 @@ packages:
     dev: false
 
   /media-typer/0.3.0:
-    resolution: {integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=}
+    resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -6278,7 +6291,7 @@ packages:
     dev: false
 
   /merge-descriptors/1.0.1:
-    resolution: {integrity: sha1-sAqqVW3YtEVoFQ7J0blT8/kMu2E=}
+    resolution: {integrity: sha512-cCi6g3/Zr1iqQi6ySbseM1Xvooa98N0w31jzUYrXPX2xqObmFGHJ0tQ5u74H3mVh7wLouTseZyYIq39g8cNp1w==}
     dev: false
 
   /merge-source-map/1.1.0:
@@ -6695,7 +6708,7 @@ packages:
     dev: false
 
   /noms/0.0.0:
-    resolution: {integrity: sha1-2o69nzr51nYJGbJ9nNyAkqczKFk=}
+    resolution: {integrity: sha512-lNDU9VJaOPxUmXcLb+HQFeUgQQPtMI24Gt6hgfuMHRJgMRHMF/qZ4HJD3GDru4sSw9IQl2jPjAYnQrdIeLbwow==}
     dependencies:
       inherits: 2.0.4
       readable-stream: 1.0.34
@@ -8889,7 +8902,7 @@ packages:
     dev: false
 
   /utils-merge/1.0.1:
-    resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=}
+    resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
     dev: false
 
@@ -17421,6 +17434,57 @@ packages:
       - bufferutil
       - debug
       - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/kusto-data.tgz:
+    resolution: {integrity: sha512-fs1auzvAK69S19XhuhN8Y5/+NPm/zMK3aHGtYOtTaDb5wFi/320L283XBMc+gmoPTeVFD7lN0swEEN4QrWF+jA==, tarball: file:projects/kusto-data.tgz}
+    name: '@rush-temp/kusto-data'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@azure/msal-common': 7.6.0
+      '@azure/msal-node': 1.14.2
+      '@microsoft/api-extractor': 7.33.5
+      '@types/chai': 4.3.3
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.33
+      '@types/uuid': 8.3.4
+      axios: 1.1.3
+      chai: 4.3.6
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      downlevel-dts: 0.10.1
+      eslint: 8.26.0
+      esm: 3.2.25
+      inherits: 2.0.4
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.1
+      karma-json-preprocessor: 0.3.3_karma@6.4.1
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      mocha: 7.2.0
+      mocha-junit-reporter: 2.1.1_mocha@7.2.0
+      moment: 2.29.4
+      nyc: 15.1.0
+      prettier: 2.7.1
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.4.1
+      typescript: 4.8.4
+      util: 0.12.5
+      uuid: 9.0.0
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
       - supports-color
       - utf-8-validate
     dev: false

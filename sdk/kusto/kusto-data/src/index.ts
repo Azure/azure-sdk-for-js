@@ -1,9 +1,17 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import KustoClient from "./source/client";
-import ClientRequestProperties from "./source/clientRequestProperties";
-import KustoConnectionStringBuilder from "./source/connectionBuilder";
-import * as KustoDataErrors from "./source/errors";
+import KustoClient from "./client";
+import ClientRequestProperties from "./clientRequestProperties";
+import KustoConnectionStringBuilder from "./connectionBuilder";
+import * as KustoDataErrors from "./errors";
 
-export { KustoClient as Client, ClientRequestProperties, KustoConnectionStringBuilder, KustoDataErrors };
+export {
+  KustoClient as Client,
+  ClientRequestProperties,
+  KustoConnectionStringBuilder,
+  KustoDataErrors,
+};
