@@ -330,7 +330,7 @@
       "type": "string",
       "value": "[variables('eventHubName')]"
     },
-    "SCHEMAREGISTRY_GROUP": {
+    "SCHEMA_REGISTRY_GROUP": {
       "type": "string",
       "value": "[variables('schemaRegistryGroup')]"
     }
