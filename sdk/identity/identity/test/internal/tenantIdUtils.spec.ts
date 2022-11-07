@@ -73,7 +73,22 @@ describe("tenantIdUtils", () => {
   });
 
   describe("resolveTenantId", () => {
-    it("should return 'common' for non-developer accounts", () => {
+    it("should throw if the tenant ID is invalid", () => {
+      const allParams: any[] = [];
+      const fakeLogger = {
+        info: (...params: any) => allParams.push(params),
+      };
+      const logger = credentialLogger("title", fakeLogger as any);
+      const tenantId = "abc_123";
+
+      assert.throws(() => {
+        resolveTenantId(logger, tenantId);
+      });
+
+      assert.equal(allParams.length, 1);
+    });
+
+    it("should return the tenant ID if properly set", () => {
       const allParams: any[] = [];
       const fakeLogger = {
         info: (...params: any) => allParams.push(params),
@@ -84,16 +99,30 @@ describe("tenantIdUtils", () => {
 
       const result = resolveTenantId(logger, tenantId, clientId);
 
-      assert.equal(result, "common");
+      assert.equal(result, tenantId);
     });
 
-    it("should return 'organizations' for developer accounts", () => {
+    it("should return 'common' for non-developer accounts with client ID", () => {
       const allParams: any[] = [];
       const fakeLogger = {
         info: (...params: any) => allParams.push(params),
       };
       const logger = credentialLogger("title", fakeLogger as any);
-      const tenantId = "abc-123";
+      let tenantId: string | undefined;
+      const clientId = "def-456";
+
+      const result = resolveTenantId(logger, tenantId, clientId);
+
+      assert.equal(result, "common");
+    });
+
+    it("should return 'organizations' for developer accounts with client ID", () => {
+      const allParams: any[] = [];
+      const fakeLogger = {
+        info: (...params: any) => allParams.push(params),
+      };
+      const logger = credentialLogger("title", fakeLogger as any);
+      let tenantId: string | undefined;
       const clientId = DeveloperSignOnClientId;
 
       const result = resolveTenantId(logger, tenantId, clientId);
@@ -107,9 +136,8 @@ describe("tenantIdUtils", () => {
         info: (...params: any) => allParams.push(params),
       };
       const logger = credentialLogger("title", fakeLogger as any);
-      const tenantId = "abc-123";
 
-      const result = resolveTenantId(logger, tenantId);
+      const result = resolveTenantId(logger);
 
       assert.equal(result, "organizations");
     });
