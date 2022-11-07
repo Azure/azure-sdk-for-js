@@ -36,7 +36,7 @@ describe("tenantIdUtils", () => {
 
       assert.equal(result.length, 2);
       assert.equal(result[0], "123");
-      assert.equal(result[2], "456");
+      assert.equal(result[1], "456");
     });
   });
 
