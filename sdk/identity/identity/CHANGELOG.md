@@ -1,5 +1,11 @@
 # Release History
 
+## 3.0.1 (2022-11-07)
+
+### Bugs Fixed
+
+- Fixed bug to enable `additionallyAllowedTenants` to pass through to MSAL Flow.
+
 ## 3.0.0 (2022-09-19)
 
 ### Features Added
