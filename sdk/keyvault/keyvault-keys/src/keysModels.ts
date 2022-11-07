@@ -387,6 +387,12 @@ export interface BeginRecoverDeletedKeyOptions extends KeyPollerOptions {}
 
 /**
  * An interface representing the optional parameters that can be
+ * passed to {@link createOkpKey}
+ */
+export interface CreateOkpKeyOptions extends CreateKeyOptions {}
+
+/**
+ * An interface representing the optional parameters that can be
  * passed to {@link createEcKey}
  */
 export interface CreateEcKeyOptions extends CreateKeyOptions {}
