@@ -20,6 +20,7 @@ import {
   Speller,
 } from "./generated/data/models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import GeographyPoint from "./geographyPoint";
 
 /**
  * Options for performing the count operation on the index.
@@ -701,7 +702,7 @@ export type UnionToIntersection<U> =
     : never;
 
 // Types that should not be included in SelectPaths recursion
-export type ExcludedODataTypes = Date;
+export type ExcludedODataTypes = Date | GeographyPoint;
 
 /**
  * Produces a union of valid Cognitive Search OData $select paths for T

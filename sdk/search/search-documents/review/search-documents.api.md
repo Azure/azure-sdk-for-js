@@ -531,7 +531,7 @@ export type EntityRecognitionSkillV3 = BaseSearchIndexerSkill & {
 };
 
 // @public (undocumented)
-export type ExcludedODataTypes = Date;
+export type ExcludedODataTypes = Date | GeographyPoint;
 
 // @public
 export interface FacetResult {
