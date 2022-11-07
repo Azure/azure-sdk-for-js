@@ -319,6 +319,20 @@ directive:
     where: $.definitions.JobState
     transform: $.properties.lastUpdatedDateTime["x-ms-client-name"] = "modifiedOn";
 
+  - from: swagger-document
+    where: $.definitions
+    transform: >
+      if (!$.DocumentDetectedLanguageForHealthcare) {
+          $.DocumentDetectedLanguageForHealthcare = { "type": "object", "properties": { "detectedLanguage": { "type": "string" } } };
+      }
+
+  - from: swagger-document
+    where: $.definitions.HealthcareResult.properties.documents.items.allOf
+    transform: >
+      if ($[1]["$ref"] === "#/definitions/DocumentDetectedLanguage") {
+          $[1]["$ref"] = "#/definitions/DocumentDetectedLanguageForHealthcare";
+      }
+
 # Enhance documentation strings for some exported swagger types
 
   - from: swagger-document

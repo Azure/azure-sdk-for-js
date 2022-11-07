@@ -46,8 +46,8 @@ describe("notificationOutcomeSerializer", () => {
   it("should parse a feed", async () => {
     const parsed = await parseNotificationOutcome(FEEDBACK);
 
-    assert.equal(parsed.success, 1);
-    assert.equal(parsed.failure, 1);
+    assert.equal(parsed.successCount, 1);
+    assert.equal(parsed.failureCount, 1);
     assert.equal(parsed.results.length, 2);
 
     let result = parsed.results[0];
@@ -77,8 +77,8 @@ describe("notificationOutcomeSerializer", () => {
 
   it("should parse a single result in the feed", async () => {
     const parsed = await parseNotificationOutcome(SINGLE_FEEDBACK);
-    assert.equal(parsed.success, 1);
-    assert.equal(parsed.failure, 0);
+    assert.equal(parsed.successCount, 1);
+    assert.equal(parsed.failureCount, 0);
     assert.equal(parsed.results.length, 1);
 
     const result = parsed.results[0];
@@ -96,8 +96,8 @@ describe("notificationOutcomeSerializer", () => {
 
   it("should parse an empty feed", async () => {
     const parsed = await parseNotificationOutcome(EMPTY_FEEDBACK);
-    assert.equal(parsed.success, 0);
-    assert.equal(parsed.failure, 0);
+    assert.equal(parsed.successCount, 0);
+    assert.equal(parsed.failureCount, 0);
     assert.equal(parsed.results.length, 0);
   });
 });

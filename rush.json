@@ -367,6 +367,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/ai-anomaly-detector",
+      "projectFolder": "sdk/anomalydetector/ai-anomaly-detector-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-form-recognizer",
       "projectFolder": "sdk/formrecognizer/ai-form-recognizer",
       "versionPolicyName": "client"

@@ -1,0 +1,9 @@
+{
+  "extends": "../../../tsconfig.package",
+  "compilerOptions": {
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
+    "paths": { "@azure-rest/ai-anomaly-detector": ["./src/index"] }
+  },
+  "include": ["src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
+}
