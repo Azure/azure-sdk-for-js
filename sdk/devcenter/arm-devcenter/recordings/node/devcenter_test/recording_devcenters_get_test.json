@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-devcenter/1.0.0-beta.3 core-rest-pipeline/1.10.0 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "90b1725f-9399-41b3-8163-1fc0eb455024"
+        "User-Agent": "azsdk-js-arm-devcenter/1.0.0-beta.3 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "55459a5e-6b3f-4ffd-ac62-00a436221ad8"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,19 +17,19 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 04 Nov 2022 06:03:03 GMT",
-        "ETag": "\u0022fc007bc0-0000-0100-0000-6364ab150000\u0022",
+        "Date": "Mon, 07 Nov 2022 01:48:26 GMT",
+        "ETag": "\u00220601471f-0000-0100-0000-636863e70000\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "bdef2b24-c137-412b-aca1-2fca705fa21c",
+        "x-ms-correlation-request-id": "005fb81d-221e-41a9-9e04-d7fa6db79840",
         "x-ms-providerhub-traffic": "True",
-        "x-ms-ratelimit-remaining-subscription-reads": "11975",
-        "x-ms-request-id": "15fb57ad-aa8c-4518-be93-ca58394f12ac",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221104T060303Z:bdef2b24-c137-412b-aca1-2fca705fa21c"
+        "x-ms-ratelimit-remaining-subscription-reads": "11938",
+        "x-ms-request-id": "c906b312-879f-4ea4-a0ca-c4ed832370d9",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221107T014826Z:005fb81d-221e-41a9-9e04-d7fa6db79840"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DevCenter/devcenters/Contoso1",
@@ -42,10 +42,10 @@
         "systemData": {
           "createdBy": "azure_client_id",
           "createdByType": "Application",
-          "createdAt": "2022-11-04T06:02:14.3745728Z",
+          "createdAt": "2022-11-07T01:45:56.3531156Z",
           "lastModifiedBy": "azure_client_id",
           "lastModifiedByType": "Application",
-          "lastModifiedAt": "2022-11-04T06:02:14.3745728Z"
+          "lastModifiedAt": "2022-11-07T01:45:56.3531156Z"
         },
         "properties": {
           "provisioningState": "Succeeded"
