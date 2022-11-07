@@ -16,10 +16,10 @@ import { assertActionResults, assertRestError } from "./utils/resultHelper";
 import { checkEntityTextOffset, checkOffsetAndLength } from "./utils/stringIndexTypeHelpers";
 import { Recorder } from "@azure-tools/test-recorder";
 import {
-  expectation30,
-  expectation31,
-  expectation32,
-  expectation33,
+  expectation63,
+  expectation64,
+  expectation65,
+  expectation66,
   expectation34,
   expectation35,
   expectation36,
@@ -49,6 +49,11 @@ import {
   expectation60,
   expectation61,
   expectation62,
+  expectation67,
+  expectation68,
+  expectation69,
+  expectation70,
+  expectation72,
 } from "./expectations";
 
 const testDataEn = [
@@ -63,6 +68,8 @@ const testDataEs = [
   "La carretera estaba atascada. Había mucho tráfico el día de ayer.",
 ];
 
+const classificationTypeList: string[] = ["single", "multi"];
+
 matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
     let recorder: Recorder;
@@ -72,8 +79,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
     beforeEach(async function (this: Context) {
       recorder = await startRecorder(this.currentTest);
-      client = createClient({
-        authMethod,
+      client = createClient(authMethod, {
         recorder,
       });
       let nextId = 0;
@@ -99,14 +105,14 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
         it("client accepts string[] and language", async function () {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.SentimentAnalysis, testDataEn, "en"),
-            expectation30
+            expectation63
           );
         });
 
         it("client accepts string[] with no language", async function () {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.SentimentAnalysis, testDataEn),
-            expectation30
+            expectation63
           );
         });
 
@@ -117,7 +123,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               ["Hello world!"],
               "notalanguage"
             ),
-            expectation31
+            expectation64
           );
         });
 
@@ -135,7 +141,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             await client.analyze(AnalyzeActionNames.SentimentAnalysis, docs, "en", {
               includeOpinionMining: true,
             }),
-            expectation32
+            expectation65
           );
         });
 
@@ -144,7 +150,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           data.splice(1, 0, "");
           assertActionResults(
             await client.analyze(AnalyzeActionNames.SentimentAnalysis, data),
-            expectation33
+            expectation66
           );
         });
 
@@ -247,6 +253,16 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.LanguageDetection, docs, "invalidcountry"),
             expectation42
+          );
+        });
+
+        it("service returns script with DetectLanguageInput[]", async function () {
+          const doc = ["Tumhara naam kya hai?"];
+          assertActionResults(
+            await client.analyze(AnalyzeActionNames.LanguageDetection, doc, "in", {
+              modelVersion: "2022-04-10-preview",
+            }),
+            expectation72
           );
         });
 
@@ -545,6 +561,98 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             code: KnownTextAnalysisErrorCode.InvalidDocumentBatch,
             statusCode: 400,
             messagePattern: /Max 5 records are permitted/,
+          });
+        });
+      });
+
+      matrix([classificationTypeList], async (classificationType: string) => {
+        describe(`#Dynamic Classification [${classificationType}]`, function () {
+          it("client throws on empty list", async function () {
+            return assert.isRejected(
+              client.analyze(AnalyzeActionNames.DynamicClassification, []),
+              /non-empty array/
+            );
+          });
+
+          it("client accepts string[] and language", async function () {
+            assertActionResults(
+              await client.analyze(AnalyzeActionNames.DynamicClassification, testDataEn, "en", {
+                categories: ["Travel", "Weather", "Location"],
+                classificationType,
+              }),
+              classificationType === "single" ? expectation67 : expectation69
+            );
+          });
+
+          it("client accepts string[] with no language", async function () {
+            const docs = testDataEn.map((text) => ({
+              id: getId(),
+              text,
+            }));
+            assertActionResults(
+              await client.analyze(AnalyzeActionNames.DynamicClassification, docs, {
+                categories: ["Travel", "Weather", "Location"],
+                classificationType,
+              }),
+              classificationType === "single" ? expectation68 : expectation70
+            );
+          });
+
+          it("service errors on unsupported language", async function () {
+            const [result] = await client.analyze(
+              AnalyzeActionNames.DynamicClassification,
+              ["This is some text, but it doesn't matter."],
+              "notalanguage",
+              {
+                categories: ["Travel", "Weather", "Location"],
+                classificationType,
+              }
+            );
+
+            if (result.error === undefined) {
+              assert.fail("Expected an error from the service");
+            }
+            assert.equal(result.error.code, KnownTextAnalysisErrorCode.UnsupportedLanguageCode);
+          });
+
+          it("service errors on invalid number of categories", async function () {
+            await assertRestError(
+              client.analyze(
+                AnalyzeActionNames.DynamicClassification,
+                ["This is some text, but it doesn't matter."],
+                "en",
+                {
+                  categories: ["A"],
+                  classificationType,
+                }
+              ),
+              {
+                code: KnownTextAnalysisErrorCode.InvalidParameterValue,
+                statusCode: 400,
+                messagePattern:
+                  /Invalid parameter in request. Parameter 'categories' cannot be empty or contain less than 2 categories/,
+              }
+            );
+          });
+
+          it("service errors on invalid classification type", async function () {
+            await assertRestError(
+              client.analyze(
+                AnalyzeActionNames.DynamicClassification,
+                ["This is some text, but it doesn't matter."],
+                "en",
+                {
+                  categories: ["A", "B"],
+                  classificationType: classificationType + "A",
+                }
+              ),
+              {
+                code: KnownTextAnalysisErrorCode.InvalidParameterValue,
+                statusCode: 400,
+                messagePattern:
+                  /Invalid parameter in request. Invalid value for parameter 'classificationType'/,
+              }
+            );
           });
         });
       });
