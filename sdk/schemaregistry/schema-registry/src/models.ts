@@ -55,6 +55,18 @@ export interface Schema {
 }
 
 /**
+ * Schema formats supported at the time of this library release.
+ */
+export enum KnownSchemaFormats {
+  /** Avro */
+  Avro = "Avro",
+  /** JSON */
+  json = "json",
+  /** Custom */
+  custom = "custom",
+}
+
+/**
  * Options for SchemaRegistrationClient.
  */
 export interface SchemaRegistryClientOptions extends CommonClientOptions {

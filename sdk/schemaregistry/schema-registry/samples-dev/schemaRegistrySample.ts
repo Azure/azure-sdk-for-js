@@ -6,7 +6,11 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { SchemaRegistryClient, SchemaDescription } from "@azure/schema-registry";
+import {
+  SchemaRegistryClient,
+  SchemaDescription,
+  KnownSchemaFormats,
+} from "@azure/schema-registry";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -40,7 +44,7 @@ const name = `${schemaObject.namespace}-${schemaObject.name}`;
 const schemaDescription: SchemaDescription = {
   name,
   groupName,
-  format: "Avro",
+  format: KnownSchemaFormats.Avro,
   definition: JSON.stringify(schemaObject),
 };
 

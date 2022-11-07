@@ -68,16 +68,19 @@ directive:
       }
 ```
 
-### Disable Paging
+### Delete list operations
 
 ```yaml
 directive:
   - from: swagger-document
-    where: $["paths"][*]
+    where: $["paths"]
     transform: >
-      for (var op of Object.values($)) {
-          if (op["x-ms-pageable"]) {
-              delete op["x-ms-pageable"];
-          }
-      }
+      delete $["/$schemaGroups"]["get"];
+      delete $["/$schemaGroups/{groupName}/schemas/{schemaName}/versions"]["get"];
+
+  - from: swagger-document
+    where: $["definitions"]
+    transform: >
+      delete $["SchemaGroups"];
+      delete $["SchemaVersions"];
 ```

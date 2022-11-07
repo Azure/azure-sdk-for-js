@@ -12,8 +12,8 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { SchemaGroupsOperationsImpl, SchemaImpl } from "./operations";
-import { SchemaGroupsOperations, Schema } from "./operationsInterfaces";
+import { SchemaImpl } from "./operations";
+import { Schema } from "./operationsInterfaces";
 import { GeneratedSchemaRegistryClientOptionalParams } from "./models";
 
 export class GeneratedSchemaRegistryClient extends coreClient.ServiceClient {
@@ -62,7 +62,6 @@ export class GeneratedSchemaRegistryClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.apiVersion = options.apiVersion || "2022-10";
-    this.schemaGroupsOperations = new SchemaGroupsOperationsImpl(this);
     this.schema = new SchemaImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -95,6 +94,5 @@ export class GeneratedSchemaRegistryClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  schemaGroupsOperations: SchemaGroupsOperations;
   schema: Schema;
 }

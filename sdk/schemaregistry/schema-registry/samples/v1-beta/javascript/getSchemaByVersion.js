@@ -6,7 +6,7 @@
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { SchemaRegistryClient } = require("@azure/schema-registry");
+const { SchemaRegistryClient, KnownSchemaFormats } = require("@azure/schema-registry");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -39,7 +39,7 @@ const name = `${schemaObject.namespace}-${schemaObject.name}`;
 const schemaDescription = {
   name,
   groupName,
-  format: "Avro",
+  format: KnownSchemaFormats.Avro,
   definition: JSON.stringify(schemaObject),
 };
 
