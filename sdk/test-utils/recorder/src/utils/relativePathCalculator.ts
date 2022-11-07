@@ -88,7 +88,7 @@ export function relativeRecordingsPath(): string {
  * @export
  * @returns {string} location of the relative path to discovered assets.json - `sdk/storage/storage-blob/assets.json` for example.
  */
-export function relativeAssetsPath(): string {
+export function relativeAssetsPath(): string | undefined {
   let result = resolveAssetsJson("");
   return result;
 }
