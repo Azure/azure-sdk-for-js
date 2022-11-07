@@ -6,10 +6,10 @@ import {
   RecorderStartOptions,
   assertEnvironmentVariable,
 } from "@azure-tools/test-recorder";
-import { SchemaRegistryClient } from "../../../src";
+import { KnownSchemaFormats, SchemaRegistryClient } from "../../../src";
 import { createTestCredential } from "@azure-tools/test-credential";
 
-export type Format = "Avro" | "json" | "custom";
+export type Format = keyof typeof KnownSchemaFormats;
 
 function getFQNSVarName(format: Format): string {
   return `SCHEMAREGISTRY_${format.toUpperCase()}_FULLY_QUALIFIED_NAMESPACE`;
@@ -20,9 +20,9 @@ export const recorderOptions: RecorderStartOptions = {
     AZURE_CLIENT_ID: "azure_client_id",
     AZURE_CLIENT_SECRET: "azure_client_secret",
     AZURE_TENANT_ID: "azuretenantid",
-    [getFQNSVarName("Avro")]: "https://endpoint",
-    [getFQNSVarName("json")]: "https://endpoint",
-    [getFQNSVarName("custom")]: "https://endpoint",
+    [getFQNSVarName(KnownSchemaFormats.Avro)]: "https://endpoint",
+    [getFQNSVarName(KnownSchemaFormats.json)]: "https://endpoint",
+    [getFQNSVarName(KnownSchemaFormats.custom)]: "https://endpoint",
     SCHEMA_REGISTRY_GROUP: "group-1",
   },
 };

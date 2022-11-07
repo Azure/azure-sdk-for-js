@@ -2,7 +2,13 @@
 // Licensed under the MIT license.
 
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { Schema, SchemaDescription, SchemaProperties, SchemaRegistryClient } from "../../src";
+import {
+  KnownSchemaFormats,
+  Schema,
+  SchemaDescription,
+  SchemaProperties,
+  SchemaRegistryClient,
+} from "../../src";
 import { assert, matrix } from "@azure/test-utils";
 import { createRecordedClient, Format, recorderOptions } from "./utils/recordedClient";
 import { ClientSecretCredential } from "@azure/identity";
@@ -148,7 +154,7 @@ function getSchema(inputs: { format: Format; groupName: string }) {
 }
 
 describe("SchemaRegistryClient", function () {
-  matrix([["Avro"]] as const, async function (format: Format) {
+  matrix([[KnownSchemaFormats.Avro]] as const, async function (format: Format) {
     describe(`Format: ${format}`, function () {
       let recorder: Recorder;
       let client: SchemaRegistryClient;
