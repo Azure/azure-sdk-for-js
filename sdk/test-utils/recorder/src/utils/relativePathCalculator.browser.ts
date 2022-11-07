@@ -1,8 +1,7 @@
+import { RecorderError } from "./utils";
+
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
-import { resolveAssetsJson } from "./utils";
-
 export function relativeRecordingsPath(): never {
   throw new Error("Attempted to use the function meant for node in a browser.");
 }

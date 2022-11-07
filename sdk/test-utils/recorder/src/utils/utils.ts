@@ -339,7 +339,7 @@ export function isPlaybackMode() {
   return !isRecordMode() && !isLiveMode();
 }
 
-export function resolveAssetsJson(testPath: string): string {
+export function resolveAssetsJson(testPath: string): string | undefined {
   if (!(typeof testPath === "undefined" || testPath == null)) {
     if (process === undefined) {
       throw new RecorderError(
@@ -374,7 +374,7 @@ export function resolveAssetsJson(testPath: string): string {
       );
     }
 
-    const targetPath = process.cwd();
+    let targetPath = process.cwd();
 
     while (true) {
       const prospectiveAssetsPath = path.join(targetPath, "assets.json");
@@ -395,7 +395,7 @@ export function resolveAssetsJson(testPath: string): string {
     }
   }
 
-  return "";
+  return undefined;
 }
 
 /**
