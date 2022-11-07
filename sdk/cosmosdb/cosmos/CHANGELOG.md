@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Fixed issue with path api not working with aadCredentials [#20689](https://github.com/Azure/azure-sdk-for-js/issues/20689)
+- Fixed issue with patch api not working with aadCredentials [#20689](https://github.com/Azure/azure-sdk-for-js/issues/20689)
 
 ### Other Changes
 
