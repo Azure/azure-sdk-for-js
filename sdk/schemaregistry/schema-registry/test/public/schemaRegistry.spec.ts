@@ -98,8 +98,8 @@ function getDefinition(format: Format): string {
           },
         ],
       });
-    case "json":
-    case "custom":
+    case "Json":
+    case "Custom":
       return JSON.stringify({
         $schema: "https://json-schema.org/draft/2020-12/schema",
         $id: "https://example.com/product.schema.json",
@@ -129,8 +129,8 @@ function getWhitespaceDefinition(format: Format): string {
         '  "fields": [{ "name": "X", "type": { "type": "string" } }]\n' +
         "}\n"
       );
-    case "json":
-    case "custom":
+    case "Json":
+    case "Custom":
       return (
         "{\n" +
         '  "$schema": "https://json-schema.org/draft/2020-12/schema",\n' +

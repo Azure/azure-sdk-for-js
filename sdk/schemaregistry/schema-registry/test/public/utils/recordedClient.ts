@@ -21,8 +21,8 @@ export const recorderOptions: RecorderStartOptions = {
     AZURE_CLIENT_SECRET: "azure_client_secret",
     AZURE_TENANT_ID: "azuretenantid",
     [getFQNSVarName(KnownSchemaFormats.Avro)]: "https://endpoint",
-    [getFQNSVarName(KnownSchemaFormats.json)]: "https://endpoint",
-    [getFQNSVarName(KnownSchemaFormats.custom)]: "https://endpoint",
+    [getFQNSVarName(KnownSchemaFormats.Json)]: "https://endpoint",
+    [getFQNSVarName(KnownSchemaFormats.Custom)]: "https://endpoint",
     SCHEMA_REGISTRY_GROUP: "group-1",
   },
 };

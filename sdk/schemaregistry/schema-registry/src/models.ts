@@ -61,9 +61,9 @@ export enum KnownSchemaFormats {
   /** Avro */
   Avro = "Avro",
   /** JSON */
-  json = "json",
-  /** Custom */
-  custom = "custom",
+  Json = "Json",
+  /** Schemas of the custom format will be treated as an opaque string */
+  Custom = "Custom",
 }
 
 /**
