@@ -4,7 +4,7 @@
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { Schema, SchemaDescription, SchemaProperties, SchemaRegistryClient } from "../../src";
 import { assert, matrix } from "@azure/test-utils";
-import { createRecordedClient, recorderOptions } from "./utils/recordedClient";
+import { createRecordedClient, Format, recorderOptions } from "./utils/recordedClient";
 import { ClientSecretCredential } from "@azure/identity";
 import { Context } from "mocha";
 import { HttpHeaders } from "@azure/core-rest-pipeline";
@@ -73,8 +73,6 @@ async function isRejected<T>(
     }
   }
 }
-
-type Format = "Avro" | "json" | "custom";
 
 function getDefinition(format: Format): string {
   switch (format) {
@@ -150,41 +148,34 @@ function getSchema(inputs: { format: Format; groupName: string }) {
 }
 
 describe("SchemaRegistryClient", function () {
-  let recorder: Recorder;
-  let client: SchemaRegistryClient;
-
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    client = createRecordedClient(recorder);
-  });
-
-  afterEach(async function () {
-    await recorder.stop();
-  });
-
-  it("sets fully qualified name space in constructor", () => {
-    const fullyQualifiedNamespace = "https://example.com/schemaregistry/";
-    const credential = new ClientSecretCredential("x", "y", "z");
-
-    const customClient = new SchemaRegistryClient(fullyQualifiedNamespace, credential);
-    assert.equal(customClient.fullyQualifiedNamespace, fullyQualifiedNamespace);
-  });
-
-  matrix([["json", "Avro", "custom"]] as const, async function (format: Format) {
+  matrix([["Avro"]] as const, async function (format: Format) {
     describe(`Format: ${format}`, function () {
+      let recorder: Recorder;
+      let client: SchemaRegistryClient;
       let groupName: string;
       let schema: SchemaDescription;
 
       beforeEach(async function (this: Context) {
         recorder = new Recorder(this.currentTest);
         await recorder.start(recorderOptions);
-        client = createRecordedClient(recorder);
+        client = createRecordedClient({ recorder, format });
         groupName = assertEnvironmentVariable("SCHEMA_REGISTRY_GROUP");
         schema = getSchema({
           format,
           groupName,
         });
+      });
+
+      afterEach(async function () {
+        await recorder.stop();
+      });
+
+      it("sets fully qualified name space in constructor", () => {
+        const fullyQualifiedNamespace = "https://example.com/schemaregistry/";
+        const credential = new ClientSecretCredential("x", "y", "z");
+
+        const customClient = new SchemaRegistryClient(fullyQualifiedNamespace, credential);
+        assert.equal(customClient.fullyQualifiedNamespace, fullyQualifiedNamespace);
       });
 
       it("rejects schema registration with invalid args", async () => {

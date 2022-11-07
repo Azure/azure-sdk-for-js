@@ -59,7 +59,7 @@ export interface Schema {
  */
 export interface SchemaRegistryClientOptions extends CommonClientOptions {
   /**
-   * The service API version to use in requests. The default is "2021-10".
+   * The service API version to use in requests. The default is "2022-10".
    */
   apiVersion?: string;
 }

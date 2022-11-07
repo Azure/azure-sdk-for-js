@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/never-registered:get-id?api-version=2022-10",
+      "RequestUri": "https://dealmahaschemaregistry-avro.servicebus.windows.net/$schemaGroups/group-1/schemas/never-registered:get-id?api-version=2022-10",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -11,7 +11,7 @@
         "Content-Length": "160",
         "Content-Type": "application/json; serialization=Avro",
         "User-Agent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "23bcce67-fcc1-46d4-ad68-b9a64566c11c"
+        "x-ms-client-request-id": "3d485c3c-a884-4948-9c43-1fa9d62e2ae5"
       },
       "RequestBody": {
         "type": "record",
@@ -31,7 +31,7 @@
       "StatusCode": 404,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Thu, 03 Nov 2022 00:35:33 GMT",
+        "Date": "Mon, 07 Nov 2022 07:51:55 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000",
         "Transfer-Encoding": "chunked",
@@ -40,7 +40,7 @@
       "ResponseBody": {
         "error": {
           "code": "ItemNotFound",
-          "message": "Schema group-1/never-registered does not exist. TrackingId:d297a690-6211-422b-a34e-54bf2cb3456a_G0, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups/group-1/schemas/never-registered:get-id, Timestamp:2022-11-03T00:35:33"
+          "message": "Schema group-1/never-registered does not exist. TrackingId:a780f9cc-d91c-482c-928c-50b5764455de_G22, SystemTracker:dealmahaschemaregistry-avro.servicebus.windows.net:$schemaGroups/group-1/schemas/never-registered:get-id, Timestamp:2022-11-07T07:51:56"
         }
       }
     }

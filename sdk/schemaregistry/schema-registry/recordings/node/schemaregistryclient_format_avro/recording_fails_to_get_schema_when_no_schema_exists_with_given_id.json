@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/$schemaGroups/$schemas/ffffffffffffffffffffffffffffffff?api-version=2022-10",
+      "RequestUri": "https://dealmahaschemaregistry-avro.servicebus.windows.net/$schemaGroups/$schemas/ffffffffffffffffffffffffffffffff?api-version=2022-10",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json; serialization=Avro, application/json; serialization=json, text/plain; charset=utf-8",
@@ -9,13 +9,13 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "3e803d35-5364-42f3-9929-a1a8cd331840"
+        "x-ms-client-request-id": "915dd9e0-5f65-48f8-be56-f038f11f3520"
       },
       "RequestBody": null,
       "StatusCode": 404,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Thu, 03 Nov 2022 00:35:35 GMT",
+        "Date": "Mon, 07 Nov 2022 07:51:58 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000",
         "Transfer-Encoding": "chunked",
@@ -24,7 +24,7 @@
       "ResponseBody": {
         "error": {
           "code": "ItemNotFound",
-          "message": "Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:eb283a78-5be3-4a5b-a5ab-e0a66654f8de_G0, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups/$schemas/ffffffffffffffffffffffffffffffff, Timestamp:2022-11-03T00:35:36"
+          "message": "Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:13be682b-2101-4943-b9ce-76c9ff442832_G22, SystemTracker:dealmahaschemaregistry-avro.servicebus.windows.net:$schemaGroups/$schemas/ffffffffffffffffffffffffffffffff, Timestamp:2022-11-07T07:51:58"
         }
       }
     }

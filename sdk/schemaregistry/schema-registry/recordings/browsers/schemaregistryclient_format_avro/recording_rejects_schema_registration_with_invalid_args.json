@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/azsdk_js_test?api-version=2022-10",
+      "RequestUri": "https://dealmahaschemaregistry-avro.servicebus.windows.net/$schemaGroups/group-1/schemas/azsdk_js_test?api-version=2022-10",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,7 +10,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "160",
-        "Content-Type": "application/json; serialization=Avro",
+        "Content-Type": "application/json; serialization=null",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
@@ -19,7 +19,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "eda7f181-1bd9-4ef8-8dbb-c593a8bced56",
+        "x-ms-client-request-id": "96768539-44ea-4583-bad0-39d0a47f3e07",
         "x-ms-useragent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": {
@@ -37,31 +37,33 @@
           }
         ]
       },
-      "StatusCode": 204,
+      "StatusCode": 415,
       "ResponseHeaders": {
-        "Content-Length": "0",
-        "Date": "Thu, 03 Nov 2022 00:36:19 GMT",
-        "Location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2022-10",
-        "Schema-Group-Name": "group-1",
-        "Schema-Id": "bbf801958fa1455cbb5b6b87cdfd9118",
-        "Schema-Id-Location": "https://endpoint:443/$schemagroups/$schemas/bbf801958fa1455cbb5b6b87cdfd9118?api-version=2022-10",
-        "Schema-Name": "azsdk_js_test",
-        "Schema-Version": "1",
-        "Schema-Versions-Location": "https://endpoint:443/$schemagroups/group-1/schemas/azsdk_js_test/versions?api-version=2022-10",
+        "Content-Type": "application/json",
+        "Date": "Mon, 07 Nov 2022 07:52:25 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
-        "Strict-Transport-Security": "max-age=31536000"
+        "Strict-Transport-Security": "max-age=31536000",
+        "Transfer-Encoding": "chunked",
+        "x-ms-error-code": "InvalidSchemaType"
       },
-      "ResponseBody": null
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidSchemaType",
+          "message": "Invalid schema type for PUT request. \u0027null\u0027 is not supported. TrackingId:6452dd93-1548-4842-901a-57ea7bc2a798_G19, SystemTracker:dealmahaschemaregistry-avro.servicebus.windows.net:$schemaGroups/group-1/schemas/azsdk_js_test, Timestamp:2022-11-07T07:52:25"
+        }
+      }
     },
     {
-      "RequestUri": "https://endpoint/$schemaGroups/$schemas/bbf801958fa1455cbb5b6b87cdfd9118?api-version=2022-10",
-      "RequestMethod": "GET",
+      "RequestUri": "https://dealmahaschemaregistry-avro.servicebus.windows.net/$schemaGroups/group-1/schemas/azsdk_js_test?api-version=2022-10",
+      "RequestMethod": "PUT",
       "RequestHeaders": {
-        "Accept": "application/json; serialization=Avro, application/json; serialization=json, text/plain; charset=utf-8",
+        "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
         "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
+        "Content-Length": "160",
+        "Content-Type": "application/json; serialization=not-valid",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
@@ -70,26 +72,10 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "27450a7a-09bc-4b93-b585-093c9ba84f9a",
+        "x-ms-client-request-id": "247cf8e3-56c8-42f2-823d-612c4546712f",
         "x-ms-useragent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Content-Type": "application/json; serialization=Avro",
-        "Date": "Thu, 03 Nov 2022 00:36:20 GMT",
-        "Location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2022-10",
-        "Schema-Group-Name": "group-1",
-        "Schema-Id": "bbf801958fa1455cbb5b6b87cdfd9118",
-        "Schema-Id-Location": "https://endpoint:443/$schemagroups/$schemas/bbf801958fa1455cbb5b6b87cdfd9118?api-version=2022-10",
-        "Schema-Name": "azsdk_js_test",
-        "Schema-Version": "1",
-        "Schema-Versions-Location": "https://endpoint:443/$schemagroups/group-1/schemas/azsdk_js_test/versions?api-version=2022-10",
-        "Server": "Microsoft-HTTPAPI/2.0",
-        "Strict-Transport-Security": "max-age=31536000",
-        "Transfer-Encoding": "chunked"
-      },
-      "ResponseBody": {
+      "RequestBody": {
         "type": "record",
         "name": "User",
         "namespace": "com.azure.schemaregistry.samples",
@@ -103,6 +89,21 @@
             "type": "int"
           }
         ]
+      },
+      "StatusCode": 415,
+      "ResponseHeaders": {
+        "Content-Type": "application/json",
+        "Date": "Mon, 07 Nov 2022 07:52:26 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000",
+        "Transfer-Encoding": "chunked",
+        "x-ms-error-code": "InvalidSchemaType"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidSchemaType",
+          "message": "Invalid schema type for PUT request. \u0027not-valid\u0027 is not supported. TrackingId:04a8f07b-db01-4c67-9d51-00dee7f5a658_G19, SystemTracker:dealmahaschemaregistry-avro.servicebus.windows.net:$schemaGroups/group-1/schemas/azsdk_js_test, Timestamp:2022-11-07T07:52:26"
+        }
       }
     }
   ],

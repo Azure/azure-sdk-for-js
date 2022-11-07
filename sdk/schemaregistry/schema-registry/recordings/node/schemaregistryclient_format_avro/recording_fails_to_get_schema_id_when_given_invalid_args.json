@@ -1,8 +1,8 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/azsdk_js_test?api-version=2022-10",
-      "RequestMethod": "PUT",
+      "RequestUri": "https://dealmahaschemaregistry-avro.servicebus.windows.net/$schemaGroups/group-1/schemas/azsdk_js_test:get-id?api-version=2022-10",
+      "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
@@ -11,7 +11,7 @@
         "Content-Length": "160",
         "Content-Type": "application/json; serialization=null",
         "User-Agent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "4ede3855-b637-49fa-a262-2b76b3f3499d"
+        "x-ms-client-request-id": "de7d9203-7554-485f-a85c-785f3cf33592"
       },
       "RequestBody": {
         "type": "record",
@@ -31,7 +31,7 @@
       "StatusCode": 415,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Thu, 03 Nov 2022 00:35:29 GMT",
+        "Date": "Mon, 07 Nov 2022 07:51:54 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000",
         "Transfer-Encoding": "chunked",
@@ -40,13 +40,13 @@
       "ResponseBody": {
         "error": {
           "code": "InvalidSchemaType",
-          "message": "Invalid schema type for PUT request. \u0027null\u0027 is not supported. TrackingId:b190e82a-f030-4d36-887e-aa7b1dfc8584_G0, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups/group-1/schemas/azsdk_js_test, Timestamp:2022-11-03T00:35:30"
+          "message": "Invalid schema type for POST request. \u0027null\u0027 is not supported. TrackingId:357e448c-1597-45f1-a8a5-08d616df2abf_G22, SystemTracker:dealmahaschemaregistry-avro.servicebus.windows.net:$schemaGroups/group-1/schemas/azsdk_js_test:get-id, Timestamp:2022-11-07T07:51:54"
         }
       }
     },
     {
-      "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/azsdk_js_test?api-version=2022-10",
-      "RequestMethod": "PUT",
+      "RequestUri": "https://dealmahaschemaregistry-avro.servicebus.windows.net/$schemaGroups/group-1/schemas/azsdk_js_test:get-id?api-version=2022-10",
+      "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
@@ -55,7 +55,7 @@
         "Content-Length": "160",
         "Content-Type": "application/json; serialization=not-valid",
         "User-Agent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "94419332-03ed-4240-ba51-2802ff9b1178"
+        "x-ms-client-request-id": "f3bffeb6-3e19-42a5-9d5e-e2f9e71cbc1d"
       },
       "RequestBody": {
         "type": "record",
@@ -75,7 +75,7 @@
       "StatusCode": 415,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Thu, 03 Nov 2022 00:35:30 GMT",
+        "Date": "Mon, 07 Nov 2022 07:51:54 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000",
         "Transfer-Encoding": "chunked",
@@ -84,7 +84,7 @@
       "ResponseBody": {
         "error": {
           "code": "InvalidSchemaType",
-          "message": "Invalid schema type for PUT request. \u0027not-valid\u0027 is not supported. TrackingId:1da66046-69a0-41b1-ba8e-8083e3e575f1_G0, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups/group-1/schemas/azsdk_js_test, Timestamp:2022-11-03T00:35:30"
+          "message": "Invalid schema type for POST request. \u0027not-valid\u0027 is not supported. TrackingId:9af111c1-8dab-43b4-96b4-fc81f27b7696_G22, SystemTracker:dealmahaschemaregistry-avro.servicebus.windows.net:$schemaGroups/group-1/schemas/azsdk_js_test:get-id, Timestamp:2022-11-07T07:51:54"
         }
       }
     }

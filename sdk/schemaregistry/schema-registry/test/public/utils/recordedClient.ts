@@ -19,10 +19,20 @@ export const recorderOptions: RecorderStartOptions = {
   },
 };
 
-export function createRecordedClient(recorder: Recorder): SchemaRegistryClient {
+export type Format = "Avro" | "json" | "custom";
+
+function getFQNSVarName(format: Format): string {
+  return `SCHEMAREGISTRY_${format.toUpperCase()}_FULLY_QUALIFIED_NAMESPACE`;
+}
+
+export function createRecordedClient(inputs: {
+  recorder: Recorder;
+  format: Format;
+}): SchemaRegistryClient {
+  const { format, recorder } = inputs;
   const credential = createTestCredential();
   const client = new SchemaRegistryClient(
-    assertEnvironmentVariable("SCHEMA_REGISTRY_ENDPOINT"),
+    assertEnvironmentVariable(getFQNSVarName(format)),
     credential,
     recorder.configureClientOptions({})
   );
