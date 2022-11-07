@@ -708,7 +708,7 @@ export type ExcludedODataTypes = Date | GeographyPoint;
  * Produces a union of valid Cognitive Search OData $select paths for T
  * using a post-order traversal of the field tree rooted at T.
  */
-export type SelectFields<T extends object> = T extends (infer U)[]
+export type SelectFields<T extends object> = T extends Array<infer U>
   ? // Allow selecting fields only from elements which are objects
     NonNullable<U> extends object
     ? SelectFields<NonNullable<U>>
@@ -720,7 +720,8 @@ export type SelectFields<T extends object> = T extends (infer U)[]
           ? // Excluded, so don't recur
             K
           : SelectFields<NonNullable<T[K]>> extends infer NextPaths
-          ? NextPaths extends string
+          ? // Narrow NextPaths' type for template literal
+            NextPaths extends string
             ? // Union this key with all the next paths separated with '/'
               K | `${K}/${NextPaths}`
             : // We didn't infer any nested paths, so just use this key
@@ -740,31 +741,34 @@ export type SearchPick<T extends object, Paths extends SelectFields<T>> =
     // Paths is a union or single string type, so if it's a union it will be _distributed_ over this conditional.
     // Fortunately, template literal types are not greedy, so we can infer the field name easily.
     Paths extends `${infer FieldName}/${infer RestPaths}`
-      ? FieldName extends Exclude<keyof T, symbol | number>
-        ? NonNullable<T[FieldName]> extends object
-          ? NonNullable<T[FieldName]> extends Array<infer U>
-            ? U extends object
-              ? // Extends clause is necessary to refine the constraint of RestPaths
-                RestPaths extends SelectFields<U>
-                ? // Narrow the type of every element in the array
-                  {
-                    [K in FieldName]:
-                      | Array<SearchPick<U, RestPaths>>
-                      | Extract<T[K], null | undefined>;
-                  }
+      ? // Symbols and numbers are invalid types for field names
+        FieldName extends Exclude<keyof T, symbol | number>
+        ? NonNullable<T[FieldName]> extends Array<infer U>
+          ? U extends object
+            ? // Extends clause is necessary to refine the constraint of RestPaths
+              RestPaths extends SelectFields<U>
+              ? // Narrow the type of every element in the array
+                {
+                  [K in FieldName]:
+                    | Array<SearchPick<U, RestPaths>>
+                    | Extract<T[K], null | undefined>;
+                }
+              : // Unreachable by construction
+                never
+            : // Don't recur on arrays of non-object types
+              never
+          : NonNullable<T[FieldName]> extends object
+          ? // Recur :)
+            {
+              [K in FieldName]: RestPaths extends SelectFields<T[K] & {}>
+                ? SearchPick<T[K] & {}, RestPaths> | Extract<T[K], null | undefined>
                 : // Unreachable by construction
-                  never
-              : never
-            : // Recur :)
-              {
-                [K in FieldName]: RestPaths extends SelectFields<T[K] & {}>
-                  ? SearchPick<T[K] & {}, RestPaths> | Extract<T[K], null | undefined>
-                  : // Unreachable by construction
-                    never;
-              }
+                  never;
+            }
           : // Unreachable by construction
             never
-        : never
+        : // Ignore symbols and numbers
+          never
       : // Otherwise, capture the paths that are simple keys of T itself
       Paths extends keyof T
       ? { [K in Paths]: T[K] }
