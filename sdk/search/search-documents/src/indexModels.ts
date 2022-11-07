@@ -719,11 +719,13 @@ export type SelectFields<T extends object> = T extends (infer U)[]
         ? NonNullable<T[K]> extends ExcludedODataTypes
           ? // Excluded, so don't recur
             K
-          : SelectFields<NonNullable<T[K]>> extends infer NextPaths extends string
-          ? // Union this key with all the next paths separated with '/'
-            K | `${K}/${NextPaths}`
-          : // We didn't infer any nested paths, so just use this key
-            K
+          : SelectFields<NonNullable<T[K]>> extends infer NextPaths
+          ? NextPaths extends string
+            ? // Union this key with all the next paths separated with '/'
+              K | `${K}/${NextPaths}`
+            : // We didn't infer any nested paths, so just use this key
+              K
+          : never
         : // Not an object, so can't recur
           K;
     }[Exclude<keyof T, symbol | number>];
@@ -737,26 +739,32 @@ export type SearchPick<T extends object, Paths extends SelectFields<T>> =
   UnionToIntersection<
     // Paths is a union or single string type, so if it's a union it will be _distributed_ over this conditional.
     // Fortunately, template literal types are not greedy, so we can infer the field name easily.
-    Paths extends `${infer FieldName extends Exclude<keyof T, symbol | number>}/${infer RestPaths}`
-      ? NonNullable<T[FieldName]> extends object
-        ? NonNullable<T[FieldName]> extends Array<infer U extends object>
-          ? // Extends clause is necessary to refine the constraint of RestPaths
-            RestPaths extends SelectFields<U>
-            ? // Narrow the type of every element in the array
-              {
-                [K in FieldName]: Array<SearchPick<U, RestPaths>> | Extract<T[K], null | undefined>;
-              }
-            : // Unreachable by construction
-              never
-          : // Recur :)
-            {
-              [K in FieldName]: RestPaths extends SelectFields<NonNullable<T[K]>>
-                ? SearchPick<NonNullable<T[K]>, RestPaths> | Extract<T[K], null | undefined>
+    Paths extends `${infer FieldName}/${infer RestPaths}`
+      ? FieldName extends Exclude<keyof T, symbol | number>
+        ? NonNullable<T[FieldName]> extends object
+          ? NonNullable<T[FieldName]> extends Array<infer U>
+            ? U extends object
+              ? // Extends clause is necessary to refine the constraint of RestPaths
+                RestPaths extends SelectFields<U>
+                ? // Narrow the type of every element in the array
+                  {
+                    [K in FieldName]:
+                      | Array<SearchPick<U, RestPaths>>
+                      | Extract<T[K], null | undefined>;
+                  }
                 : // Unreachable by construction
-                  never;
-            }
-        : // Unreachable by construction
-          never
+                  never
+              : never
+            : // Recur :)
+              {
+                [K in FieldName]: RestPaths extends SelectFields<T[K] & {}>
+                  ? SearchPick<T[K] & {}, RestPaths> | Extract<T[K], null | undefined>
+                  : // Unreachable by construction
+                    never;
+              }
+          : // Unreachable by construction
+            never
+        : never
       : // Otherwise, capture the paths that are simple keys of T itself
       Paths extends keyof T
       ? { [K in Paths]: T[K] }
