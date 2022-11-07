@@ -374,7 +374,7 @@ export function resolveAssetsJson(testPath: string): string {
       );
     }
 
-    let targetPath: string = path.dirname(path.join(rootPath, testPath));
+    const targetPath = process.cwd();
 
     while (true) {
       const prospectiveAssetsPath = path.join(targetPath, "assets.json");
