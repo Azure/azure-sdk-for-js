@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://dealmahaschemaregistry-avro.servicebus.windows.net/$schemaGroups/group-1/schemas/azsdk_js_test?api-version=2022-10",
+      "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/azsdk_js_test?api-version=2022-10",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "160",
         "Content-Type": "application/json; serialization=Avro",
-        "User-Agent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "be7232f8-3278-410b-be65-23f4d3942b2f"
+        "User-Agent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.1 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "5a1a2e23-8edc-4f97-84a7-aff112c4a47a"
       },
       "RequestBody": {
         "type": "record",
@@ -31,42 +31,42 @@
       "StatusCode": 204,
       "ResponseHeaders": {
         "Content-Length": "0",
-        "Date": "Mon, 07 Nov 2022 07:51:59 GMT",
-        "Location": "https://dealmahaschemaregistry-avro.servicebus.windows.net/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2022-10",
+        "Date": "Mon, 07 Nov 2022 21:24:07 GMT",
+        "Location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2022-10",
         "Schema-Group-Name": "group-1",
         "Schema-Id": "1f449019f5914647a9fa0b2535f3d097",
-        "Schema-Id-Location": "https://dealmahaschemaregistry-avro.servicebus.windows.net:443/$schemagroups/$schemas/1f449019f5914647a9fa0b2535f3d097?api-version=2022-10",
+        "Schema-Id-Location": "https://endpoint:443/$schemagroups/$schemas/1f449019f5914647a9fa0b2535f3d097?api-version=2022-10",
         "Schema-Name": "azsdk_js_test",
         "Schema-Version": "1",
-        "Schema-Versions-Location": "https://dealmahaschemaregistry-avro.servicebus.windows.net:443/$schemagroups/group-1/schemas/azsdk_js_test/versions?api-version=2022-10",
+        "Schema-Versions-Location": "https://endpoint:443/$schemagroups/group-1/schemas/azsdk_js_test/versions?api-version=2022-10",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://dealmahaschemaregistry-avro.servicebus.windows.net/$schemaGroups/$schemas/1f449019f5914647a9fa0b2535f3d097?api-version=2022-10",
+      "RequestUri": "https://endpoint/$schemaGroups/$schemas/1f449019f5914647a9fa0b2535f3d097?api-version=2022-10",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json; serialization=Avro, application/json; serialization=json, text/plain; charset=utf-8",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "1d893e5a-5b68-4f3f-bdb9-73638ea278d5"
+        "User-Agent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.1 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "cdfd92b9-ffa6-45a9-ba88-6778d43b8210"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Type": "application/json; serialization=Avro",
-        "Date": "Mon, 07 Nov 2022 07:52:00 GMT",
-        "Location": "https://dealmahaschemaregistry-avro.servicebus.windows.net/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2022-10",
+        "Date": "Mon, 07 Nov 2022 21:24:08 GMT",
+        "Location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2022-10",
         "Schema-Group-Name": "group-1",
         "Schema-Id": "1f449019f5914647a9fa0b2535f3d097",
-        "Schema-Id-Location": "https://dealmahaschemaregistry-avro.servicebus.windows.net:443/$schemagroups/$schemas/1f449019f5914647a9fa0b2535f3d097?api-version=2022-10",
+        "Schema-Id-Location": "https://endpoint:443/$schemagroups/$schemas/1f449019f5914647a9fa0b2535f3d097?api-version=2022-10",
         "Schema-Name": "azsdk_js_test",
         "Schema-Version": "1",
-        "Schema-Versions-Location": "https://dealmahaschemaregistry-avro.servicebus.windows.net:443/$schemagroups/group-1/schemas/azsdk_js_test/versions?api-version=2022-10",
+        "Schema-Versions-Location": "https://endpoint:443/$schemagroups/group-1/schemas/azsdk_js_test/versions?api-version=2022-10",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000",
         "Transfer-Encoding": "chunked"

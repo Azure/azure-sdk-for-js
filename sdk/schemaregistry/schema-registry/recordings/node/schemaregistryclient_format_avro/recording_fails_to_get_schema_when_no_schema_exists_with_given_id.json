@@ -1,21 +1,21 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://dealmahaschemaregistry-avro.servicebus.windows.net/$schemaGroups/$schemas/ffffffffffffffffffffffffffffffff?api-version=2022-10",
+      "RequestUri": "https://endpoint/$schemaGroups/$schemas/ffffffffffffffffffffffffffffffff?api-version=2022-10",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json; serialization=Avro, application/json; serialization=json, text/plain; charset=utf-8",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "915dd9e0-5f65-48f8-be56-f038f11f3520"
+        "User-Agent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.1 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "0764451a-a4cf-4619-8b42-dc45d7b1aac3"
       },
       "RequestBody": null,
       "StatusCode": 404,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Mon, 07 Nov 2022 07:51:58 GMT",
+        "Date": "Mon, 07 Nov 2022 21:24:06 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000",
         "Transfer-Encoding": "chunked",
@@ -24,7 +24,7 @@
       "ResponseBody": {
         "error": {
           "code": "ItemNotFound",
-          "message": "Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:13be682b-2101-4943-b9ce-76c9ff442832_G22, SystemTracker:dealmahaschemaregistry-avro.servicebus.windows.net:$schemaGroups/$schemas/ffffffffffffffffffffffffffffffff, Timestamp:2022-11-07T07:51:58"
+          "message": "Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:63ed6223-7496-4563-a60f-c462f3324a55_G1, SystemTracker:dealmahaschemaregistry-avro.servicebus.windows.net:$schemaGroups/$schemas/ffffffffffffffffffffffffffffffff, Timestamp:2022-11-07T21:24:07"
         }
       }
     }

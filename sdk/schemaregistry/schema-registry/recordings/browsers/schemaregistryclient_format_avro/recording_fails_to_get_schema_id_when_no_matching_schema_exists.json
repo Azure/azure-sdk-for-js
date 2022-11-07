@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://dealmahaschemaregistry-avro.servicebus.windows.net/$schemaGroups/group-1/schemas/never-registered:get-id?api-version=2022-10",
+      "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/never-registered:get-id?api-version=2022-10",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -19,8 +19,8 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "7ff53f79-f3f6-4ef6-9736-5d4ea8f278f3",
-        "x-ms-useragent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
+        "x-ms-client-request-id": "3cb9768e-44ed-423e-a934-a0bbf107807e",
+        "x-ms-useragent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": {
         "type": "record",
@@ -40,7 +40,7 @@
       "StatusCode": 404,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Mon, 07 Nov 2022 07:52:29 GMT",
+        "Date": "Mon, 07 Nov 2022 21:24:29 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000",
         "Transfer-Encoding": "chunked",
@@ -49,7 +49,7 @@
       "ResponseBody": {
         "error": {
           "code": "ItemNotFound",
-          "message": "Schema group-1/never-registered does not exist. TrackingId:f1753ab7-d091-4968-861e-b40d25a7e5d8_G19, SystemTracker:dealmahaschemaregistry-avro.servicebus.windows.net:$schemaGroups/group-1/schemas/never-registered:get-id, Timestamp:2022-11-07T07:52:29"
+          "message": "Schema group-1/never-registered does not exist. TrackingId:ec0a4132-4d77-4be7-9d0f-b1cd657242ed_G17, SystemTracker:dealmahaschemaregistry-avro.servicebus.windows.net:$schemaGroups/group-1/schemas/never-registered:get-id, Timestamp:2022-11-07T21:24:30"
         }
       }
     }
