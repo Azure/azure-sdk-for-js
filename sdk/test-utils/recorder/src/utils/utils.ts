@@ -388,7 +388,7 @@ export function resolveAssetsJson(testPath: string): string {
       }
 
       if (isGitRoot || isSysRoot) {
-        return "";
+        return undefined;
       }
 
       targetPath = path.dirname(targetPath);
