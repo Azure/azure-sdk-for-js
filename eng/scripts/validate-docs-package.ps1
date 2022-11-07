@@ -82,7 +82,18 @@ function DockerValidation() {
   return GetResult $true $Package $installOutput
 }
 
-
+function ValidateInRexTool() {
+  $tempFolder = Join-Path ([System.IO.Path]::GetTempPath()) "rexOutput"
+  & 'type2docfx' $package $tempFolder
+  $checkyamlFiles = Get-ChildItem $tempFolder
+  for ($i=1; $i -le 10; $i++) {
+    Write-Host $checkyamlFiles[$i].FullName
+  }
+}
+if (Get-Command 'type2docfx') {
+  ValidateInRexTool
+  return
+}
 if (!$DocValidationImageId) {
   FallbackValidation
 } 
