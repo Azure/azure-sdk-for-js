@@ -29,6 +29,9 @@
       "path": "sdk/communication/communication-common"
     },
     {
+      "path": "sdk/communication/communication-email"
+    },
+    {
       "name": "communication-identity",
       "path": "sdk/communication/communication-identity"
     },
@@ -147,6 +150,10 @@
     {
       "name": "maps-search",
       "path": "sdk/maps/maps-search"
+    },
+    {
+      "name": "maps-route-rest",
+      "path": "sdk/maps/maps-route-rest"
     },
     {
       "name": "metrics-advisor",

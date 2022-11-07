@@ -56,7 +56,10 @@ export interface AnalysisPollOperationState<TResult>
  * Common properties and methods of analysis Pollers.
  * @internal
  */
-export abstract class AnalysisPoller<TState, TResult> extends Poller<TState, TResult> {
+export abstract class AnalysisPoller<
+  TState extends PollOperationState<TResult>,
+  TResult
+> extends Poller<TState, TResult> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    */

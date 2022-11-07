@@ -33,6 +33,7 @@
     "sdk/purview/purview-scanning-rest/review/*.md",
     "sdk/quantum/quantum-jobs/review/*.md",
     "sdk/synapse/synapse-access-control/review/*.md",
+    "sdk/synapse/synapse-access-control-rest/review/*.md",
     "sdk/synapse/synapse-artifacts/review/*.md",
     "sdk/synapse/synapse-managed-private-endpoints/review/*.md",
     "sdk/synapse/synapse-monitoring/review/*.md",
@@ -161,7 +162,8 @@
         "reranker",
         "Rslp",
         "sorani",
-        "Sorani"
+        "Sorani",
+        "beider"
       ]
     },
     {
@@ -261,6 +263,10 @@
     {
       "filename": "sdk/maps/maps-search/review/maps-search.api.md",
       "words": ["bbox", "Neighbourhood", "Xstr"]
+    },
+    {
+      "filename": "sdk/maps/maps-route-rest/review/maps-route.api.md",
+      "words": ["bbox", "UTURN", "Hundredkm"]
     },
     {
       "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/api-management-custom-widgets-scaffolder.api.md",

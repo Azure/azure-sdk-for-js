@@ -12,9 +12,9 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specification/cognitiveservices/data-plane/Language/stable/2022-05-01/analyzetext.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/ac205086f477776e8d9aa4ff771e98f174afbea2/specification/cognitiveservices/data-plane/Language/preview/2022-10-01-preview/analyzetext.json
 add-credentials: false
-package-version: 1.0.1
+package-version: 1.1.0-beta.1
 v3: true
 hide-clients: true
 typescript: true
@@ -47,13 +47,11 @@ directive:
       $.properties.loggingOptOut.description = "If set to true, you opt-out of having your text input logged for troubleshooting. By default, Cognitive Language Service logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true, disables in logging and may limit our ability to remediate issues that occur.\n\nDefault is false.";
       $.properties.loggingOptOut["x-ms-client-name"] = "disableServiceLogs";
       $["x-ms-client-name"] = "ActionCommon";
-  - rename-model: 
-      from: PreBuiltTaskParameters
-      to: ActionPrebuilt
-  - where-model: ActionPrebuilt
+  - where-model: PreBuiltTaskParameters
     transform:
       $.properties.modelVersion.description = "The version of the model to be used by the action.";
       $.description = "Configuration common to all actions that use prebuilt models.";
+      $["x-ms-client-name"] = "ActionPrebuilt";
   - rename-model: 
       from: CustomTaskParameters
       to: ActionCustom
@@ -104,6 +102,7 @@ directive:
   - where-model: LanguageDetectionAction
     transform:
       $.description = "Options for a language detection action.";
+
   - rename-model:
       from: HealthcareTaskParameters
       to: HealthcareAction
@@ -133,14 +132,12 @@ directive:
   - where-model: CustomMultiLabelClassificationAction
     transform:
       $.description = "Options for a multi-label classification custom action";
-  - rename-model:
-      from: TaskIdentifier
-      to: BatchActionState
-  - where-model: BatchActionState
+  - where-model: TaskIdentifier
     transform:
       $.description = "The State of a batched action";
       $.properties.taskName.description = "The name of the action";
       $.properties.taskName["x-ms-client-name"] = "actionName";
+      $["x-ms-client-name"] = "BatchActionState";
 
   - rename-model:
       from: HealthcareEntityLink
@@ -200,6 +197,7 @@ directive:
       $.properties.validDocumentsCount["x-ms-client-name"] = "validDocumentCount";
       $.properties.erroneousDocumentsCount["x-ms-client-name"] = "erroneousDocumentCount";
       $.properties.transactionsCount["x-ms-client-name"] = "transactionCount";
+      $["x-ms-client-name"] = "TextDocumentBatchStatistics";
 
   - where-model: DocumentSentiment
     transform: $.properties.sentences["x-ms-client-name"] = "sentenceSentiments";
@@ -213,9 +211,6 @@ directive:
   - rename-model:
       from: DocumentStatistics
       to: TextDocumentStatistics
-  - rename-model:
-      from: RequestStatistics
-      to: TextDocumentBatchStatistics
   - from: swagger-document
     where: $.parameters.ShowStats
     transform: >
@@ -324,6 +319,20 @@ directive:
     where: $.definitions.JobState
     transform: $.properties.lastUpdatedDateTime["x-ms-client-name"] = "modifiedOn";
 
+  - from: swagger-document
+    where: $.definitions
+    transform: >
+      if (!$.DocumentDetectedLanguageForHealthcare) {
+          $.DocumentDetectedLanguageForHealthcare = { "type": "object", "properties": { "detectedLanguage": { "type": "string" } } };
+      }
+
+  - from: swagger-document
+    where: $.definitions.HealthcareResult.properties.documents.items.allOf
+    transform: >
+      if ($[1]["$ref"] === "#/definitions/DocumentDetectedLanguage") {
+          $[1]["$ref"] = "#/definitions/DocumentDetectedLanguageForHealthcare";
+      }
+
 # Enhance documentation strings for some exported swagger types
 
   - from: swagger-document
@@ -359,6 +368,23 @@ directive:
   - from: swagger-document    
     where: $.definitions.HealthcareAssertion
     transform: $.description = "An object that describes metadata about the healthcare entity such as whether it is hypothetical or conditional.";
+  - rename-model:
+      from: DynamicClassificationTaskParameters
+      to: DynamicClassificationAction
+  - where-model: DynamicClassificationAction
+    transform:
+      $.description = "Options for a dynamic classification action.";
+  - where-model: AbstractiveSummarizationTaskParametersBase
+    transform:
+      $.properties.sentenceCount.description = "The max number of sentences to be part of the summary.";
+      $.properties.sentenceCount["x-ms-client-name"] = "maxSentenceCount";
+  - rename-model:
+      from: AbstractiveSummarizationTaskParameters
+      to: AbstractiveSummarizationAction
+  - where-model: DocumentDetectedLanguage
+    transform: $.description = "The auto-detected language of the input document.";
+  - where-model: EntityWithResolution
+    transform: $.description = "An entity with resolution.";
 ```
 
 ## JS customizations
