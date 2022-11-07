@@ -32,10 +32,9 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
+    "types/keyvault-common.d.ts",
     "dist/",
     "dist-esm/src/",
-    "types/latest/",
-    "types/3.1/",
     "README.md",
     "LICENSE"
   ],

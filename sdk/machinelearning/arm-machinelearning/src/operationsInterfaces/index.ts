@@ -31,4 +31,5 @@ export * from "./modelContainers";
 export * from "./modelVersions";
 export * from "./onlineEndpoints";
 export * from "./onlineDeployments";
+export * from "./schedules";
 export * from "./workspaceFeatures";

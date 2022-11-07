@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { createFetchHttpClient } from "../../src/fetchHttpClient.js";
-import { createPipelineRequest } from "../../src/pipelineRequest.js";
-import { png } from "./mocks/encodedPng.js";
+import { createFetchHttpClient } from "../../src/fetchHttpClient";
+import { createPipelineRequest } from "../../src/pipelineRequest";
+import { png } from "./mocks/encodedPng";
 import sinon from "sinon";
-import { createHttpHeaders } from "../../src/httpHeaders.js";
+import { createHttpHeaders } from "../../src/httpHeaders";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { delay } from "../../src/util/helpers.js";
+import { delay } from "../../src/util/helpers";
 
 const streamBody = new ReadableStream({
   async start(controller) {
