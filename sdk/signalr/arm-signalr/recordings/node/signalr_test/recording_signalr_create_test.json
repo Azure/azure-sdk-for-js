@@ -1,0 +1,111 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/signalR/mySignalRService?api-version=2022-08-01-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "793",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-signalr/5.2.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "ec1ce5d2-129f-4867-9f22-9228420704ad"
+      },
+      "RequestBody": {
+        "location": "eastus",
+        "tags": {
+          "key1": "value1"
+        },
+        "sku": {
+          "name": "Free_F1",
+          "tier": "free",
+          "capacity": 1
+        },
+        "kind": "SignalR",
+        "identity": {
+          "type": "SystemAssigned"
+        },
+        "properties": {
+          "tls": {
+            "clientCertEnabled": false
+          },
+          "features": [
+            {
+              "flag": "ServiceMode",
+              "value": "Serverless",
+              "properties": {}
+            },
+            {
+              "flag": "EnableConnectivityLogs",
+              "value": "True",
+              "properties": {}
+            },
+            {
+              "flag": "EnableMessagingLogs",
+              "value": "False",
+              "properties": {}
+            },
+            {
+              "flag": "EnableLiveTrace",
+              "value": "False",
+              "properties": {}
+            }
+          ],
+          "cors": {
+            "allowedOrigins": [
+              "*"
+            ]
+          },
+          "serverless": {
+            "connectionTimeoutInSeconds": 30
+          },
+          "upstream": {
+            "templates": []
+          },
+          "networkACLs": {
+            "defaultAction": "Deny",
+            "publicNetwork": {
+              "allow": [
+                "ServerConnection",
+                "ClientConnection",
+                "RESTAPI",
+                "Trace"
+              ]
+            },
+            "privateEndpoints": []
+          },
+          "publicNetworkAccess": "Enabled",
+          "disableLocalAuth": false,
+          "disableAadAuth": false
+        }
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "73",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 07 Nov 2022 09:28:40 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "ec1ce5d2-129f-4867-9f22-9228420704ad",
+        "x-ms-correlation-request-id": "19168c1f-e9a5-4843-a64e-d2ed2b42423d",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "a196b93b-efbd-4f09-bc22-6b772a273f1d",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221107T092841Z:19168c1f-e9a5-4843-a64e-d2ed2b42423d",
+        "x-rp-server-mvid": "54bef194-19f7-4c41-9b83-6785272e94c3"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "BadArgument",
+          "message": "Domain name is already taken"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
