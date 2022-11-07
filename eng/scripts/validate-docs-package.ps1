@@ -85,6 +85,8 @@ function DockerValidation() {
 function ValidateInRexTool() {
   $tempFolder = Join-Path ([System.IO.Path]::GetTempPath()) "rexOutput"
   $packageName = $($Package.name) -replace "^@(.*)", '$1'
+  Write-Host $packageName
+  Write-Host "Validating..."
   & 'type2docfx' $packageName $tempFolder
   $checkyamlFiles = Get-ChildItem $tempFolder
   for ($i=1; $i -le 10; $i++) {
