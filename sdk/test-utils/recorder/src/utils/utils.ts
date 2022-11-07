@@ -377,7 +377,7 @@ export function resolveAssetsJson(testPath: string): string {
     let targetPath: string = path.dirname(path.join(rootPath, testPath));
 
     while (true) {
-      let prospectiveAssetsPath = path.join(targetPath, "assets.json");
+      const prospectiveAssetsPath = path.join(targetPath, "assets.json");
 
       let isGitRoot: boolean = fs.existsSync(path.join(targetPath, ".git"));
       let isSysRoot: boolean = path.dirname(targetPath) === targetPath;
