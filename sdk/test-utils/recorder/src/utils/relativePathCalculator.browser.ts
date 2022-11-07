@@ -30,7 +30,9 @@ export function relativeRecordingsPath(): never {
  * @export
  * @returns {string} location of the relative path to discovered assets.json - `sdk/storage/storage-blob/assets.json` for example.
  */
-export function relativeAssetsPath(): string {
-  let result = resolveAssetsJson("");
-  return result;
+export function relativeAssetsPath(): never {
+  throw new RecorderError(
+    "Unable to access the project object. This is likely occurring because the user requested a browser test" +
+    " run and RECORDING_ASSETS_PATH isn't yet defined. Set process.env variable RECORDING_ASSETS_PATH within karma configuration."
+  );
 }
