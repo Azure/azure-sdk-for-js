@@ -34,7 +34,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
   it("Create dev box", async function () {
     // Skip until test proxy recorder bug is fixed https://github.com/Azure/azure-sdk-for-js/issues/23420
     if (isPlaybackMode()) {
-        this.skip();
+      this.skip();
     }
 
     // Build client and fetch required parameters

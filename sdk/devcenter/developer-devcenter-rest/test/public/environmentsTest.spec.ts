@@ -35,7 +35,7 @@ describe("DevCenter Environments Operations Test", () => {
   it("Create environment", async function () {
     // Skip until test proxy recorder bug is fixed https://github.com/Azure/azure-sdk-for-js/issues/23420
     if (isPlaybackMode()) {
-        this.skip();
+      this.skip();
     }
 
     // Build client and fetch required parameters
