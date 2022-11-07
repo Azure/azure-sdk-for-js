@@ -267,7 +267,7 @@ type Writable<T> = {
 export function createUpdateAnalyzeState(docIds?: string[]) {
   return (state: AnalyzeBatchOperationState, lastResponse: LroResponse): void => {
     const { createdOn, modifiedOn, id, displayName, expiresOn, tasks, lastUpdateDateTime } =
-      lastResponse.flatResponse as AnalyzeTextJobStatusResponse & { lastUpdateDateTime: Date };
+      lastResponse.flatResponse as AnalyzeTextJobStatusResponse & { lastUpdateDateTime: string };
     const mutableState = state as Writable<AnalyzeBatchOperationState> & {
       docIds?: string[];
     };
