@@ -1662,6 +1662,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/kusto-ingest",
+      "projectFolder": "sdk/kusto/kusto-ingest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/core-http-compat",
       "projectFolder": "sdk/core/core-http-compat",
       "versionPolicyName": "core"

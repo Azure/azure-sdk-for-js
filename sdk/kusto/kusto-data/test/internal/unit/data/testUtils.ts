@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// licensed under the MIT License.
+// Licensed under the MIT license.
+
 
 const loginTestEnv = "LOGIN_TEST";
 const autoTestEnv = "AUTO_TEST";
