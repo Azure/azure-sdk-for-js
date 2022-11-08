@@ -115,6 +115,10 @@ export enum BlockBlobTier {
    */
   Cool = "Cool",
   /**
+   * Optimized for storing data that is rarely accessed.
+   */
+  Cold = "Cold",
+  /**
    * Optimized for storing data that is rarely accessed and stored for at least 180 days
    * with flexible latency requirements (on the order of hours).
    */

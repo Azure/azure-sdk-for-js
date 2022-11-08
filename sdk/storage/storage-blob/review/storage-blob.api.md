@@ -42,7 +42,7 @@ export interface AccessPolicy {
 }
 
 // @public
-export type AccessTier = "P4" | "P6" | "P10" | "P15" | "P20" | "P30" | "P40" | "P50" | "P60" | "P70" | "P80" | "Hot" | "Cool" | "Archive";
+export type AccessTier = "P4" | "P6" | "P10" | "P15" | "P20" | "P30" | "P40" | "P50" | "P60" | "P70" | "P80" | "Hot" | "Cool" | "Archive" | "Cold";
 
 // @public
 export type AccountKind = "Storage" | "BlobStorage" | "StorageV2" | "FileStorage" | "BlockBlobStorage";
@@ -1363,6 +1363,7 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
     sourceConditions?: MatchConditions & ModificationConditions;
     sourceContentMD5?: Uint8Array;
     tags?: Tags;
+    tier?: BlockBlobTier | PremiumPageBlobTier | string;
 }
 
 // @public (undocumented)
@@ -1638,6 +1639,7 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
 // @public
 export enum BlockBlobTier {
     Archive = "Archive",
+    Cold = "Cold",
     Cool = "Cool",
     Hot = "Hot"
 }
@@ -2230,7 +2232,7 @@ export type DeleteSnapshotsOptionType = "include" | "only";
 export { deserializationPolicy }
 
 // @public
-export type EncryptionAlgorithmType = "AES256";
+export type EncryptionAlgorithmType = string;
 
 // @public
 export interface FilterBlobItem {
