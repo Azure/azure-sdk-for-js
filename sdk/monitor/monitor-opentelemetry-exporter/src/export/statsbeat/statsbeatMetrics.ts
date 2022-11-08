@@ -228,7 +228,7 @@ export class StatsbeatMetrics {
       observableResult.observe(
         this._failureCountGauge,
         counter.totalFailedRequestCount[i].count,
-        attributes
+        { ...attributes }
       );
       counter.totalFailedRequestCount[i].count = 0;
     }
@@ -240,7 +240,11 @@ export class StatsbeatMetrics {
 
     for (let i = 0; i < counter.retryCount.length; i++) {
       attributes.statusCode = counter.retryCount[i].statusCode;
-      observableResult.observe(this._retryCountGauge, counter.retryCount[i].count, attributes);
+      observableResult.observe(
+        this._retryCountGauge,
+        counter.retryCount[i].count,
+        { ...attributes }
+      );
       counter.retryCount[i].count = 0;
     }
   }
@@ -254,7 +258,7 @@ export class StatsbeatMetrics {
       observableResult.observe(
         this._throttleCountGauge,
         counter.throttleCount[i].count,
-        attributes
+        { ...attributes }
       );
       counter.throttleCount[i].count = 0;
     }
@@ -269,7 +273,7 @@ export class StatsbeatMetrics {
       observableResult.observe(
         this._exceptionCountGauge,
         counter.exceptionCount[i].count,
-        attributes
+        { ...attributes }
       );
       counter.exceptionCount[i].count = 0;
     }

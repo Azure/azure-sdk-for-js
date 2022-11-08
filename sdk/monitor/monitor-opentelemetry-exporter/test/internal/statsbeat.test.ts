@@ -282,20 +282,35 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.strictEqual(metrics[0].dataPoints[0].value, 4);
 
         // Failed
-        assert.strictEqual(metrics[1].dataPoints[0].value, 1);
-        assert.strictEqual(metrics[1].dataPoints[0].attributes.statusCode, 502);
+        assert.strictEqual(metrics[1].dataPoints[0].value, 2);
+        assert.strictEqual(metrics[1].dataPoints[0].attributes.statusCode, 500);
+        
+        assert.strictEqual(metrics[1].dataPoints[1].value, 1);
+        assert.strictEqual(metrics[1].dataPoints[1].attributes.statusCode, 501);
+
+        assert.strictEqual(metrics[1].dataPoints[2].value, 1);
+        assert.strictEqual(metrics[1].dataPoints[2].attributes.statusCode, 502);
 
         // Retry
-        assert.strictEqual(metrics[2].dataPoints[0].value, 1);
-        assert.strictEqual(metrics[2].dataPoints[0].attributes.statusCode, 204);
+        assert.strictEqual(metrics[2].dataPoints[0].value, 2);
+        assert.strictEqual(metrics[2].dataPoints[0].attributes.statusCode, 206);
+
+        assert.strictEqual(metrics[2].dataPoints[1].value, 1);
+        assert.strictEqual(metrics[2].dataPoints[1].attributes.statusCode, 204);
 
         // Throttle
         assert.strictEqual(metrics[3].dataPoints[0].value, 1);
-        assert.strictEqual(metrics[3].dataPoints[0].attributes.statusCode, 439);
+        assert.strictEqual(metrics[3].dataPoints[0].attributes.statusCode, 402);
+
+        assert.strictEqual(metrics[3].dataPoints[1].value, 1);
+        assert.strictEqual(metrics[3].dataPoints[1].attributes.statusCode, 439);
 
         // Exception
         assert.strictEqual(metrics[4].dataPoints[0].value, 1);
-        assert.strictEqual(metrics[4].dataPoints[0].attributes.exceptionType, "Statsbeat2");
+        assert.strictEqual(metrics[4].dataPoints[0].attributes.exceptionType, "Statsbeat");
+
+        assert.strictEqual(metrics[4].dataPoints[1].value, 1);
+        assert.strictEqual(metrics[4].dataPoints[1].attributes.exceptionType, "Statsbeat2");
 
         // Average Duration
         assert.strictEqual(metrics[5].dataPoints[0].value, 137.5);
