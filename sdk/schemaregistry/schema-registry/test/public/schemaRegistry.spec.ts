@@ -185,20 +185,6 @@ describe("SchemaRegistryClient", function () {
       });
 
       it("rejects schema registration with invalid args", async () => {
-        await isRejected(client.registerSchema({ ...schema, name: null! }), {
-          messagePattern: /null/,
-        });
-        await isRejected(client.registerSchema({ ...schema, groupName: null! }), {
-          messagePattern: /null/,
-        });
-        await isRejected(client.registerSchema({ ...schema, definition: null! }), {
-          messagePattern: /null/,
-        });
-        await isRejected(client.registerSchema({ ...schema, format: null! }, errorOptions), {
-          messagePattern: /null/,
-          statusCode: 415,
-          errorCode: "InvalidSchemaType",
-        });
         await isRejected(client.registerSchema({ ...schema, format: "not-valid" }, errorOptions), {
           statusCode: 415,
           messagePattern: /not-valid/,
@@ -212,20 +198,6 @@ describe("SchemaRegistryClient", function () {
       });
 
       it("fails to get schema ID when given invalid args", async () => {
-        await isRejected(client.getSchemaProperties({ ...schema, name: null! }), {
-          messagePattern: /null/,
-        });
-        await isRejected(client.getSchemaProperties({ ...schema, groupName: null! }), {
-          messagePattern: /null/,
-        });
-        await isRejected(client.getSchemaProperties({ ...schema, definition: null! }), {
-          messagePattern: /null/,
-        });
-        await isRejected(client.getSchemaProperties({ ...schema, format: null! }, errorOptions), {
-          statusCode: 415,
-          messagePattern: /null/,
-          errorCode: "InvalidSchemaType",
-        });
         await isRejected(
           client.getSchemaProperties({ ...schema, format: "not-valid" }, errorOptions),
           {

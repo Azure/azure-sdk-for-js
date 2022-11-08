@@ -51,7 +51,7 @@ export function buildContentType(format: string): string {
   const lowercaseFormat = format.toLowerCase();
   return lowercaseFormat === customFormat.toLowerCase()
     ? customContentType
-    : `application/json; serialization=${lowercaseFormat}`;
+    : `application/json; serialization=${format}`;
 }
 
 /**
