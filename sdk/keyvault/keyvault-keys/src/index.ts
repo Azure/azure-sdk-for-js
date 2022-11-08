@@ -125,6 +125,7 @@ export {
   CreateKeyOptions,
   CreateRsaKeyOptions,
   CreateOctKeyOptions,
+  CreateOkpKeyOptions,
   CryptographyClient,
   CryptographyOptions,
   RsaEncryptionAlgorithm,

@@ -18,7 +18,7 @@ export { KeyType, KnownKeyTypes, KeyOperation };
 /**
  * The latest supported Key Vault service API version
  */
-export const LATEST_API_VERSION = "7.3";
+export const LATEST_API_VERSION = "7.4-preview.1";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient

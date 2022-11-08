@@ -7,12 +7,12 @@ import { createHash } from "crypto";
 import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 
-import { CryptographyClient, KeyClient, KeyVaultKey } from "../../src";
+import { CryptographyClient, KeyClient, KeyVaultKey, KnownSignatureAlgorithms } from "../../src";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
-import { getServiceVersion } from "./utils/common";
+import { getServiceVersion, onVersions } from "./utils/common";
 import { isNode } from "@azure/core-util";
 
 describe("CryptographyClient (all decrypts happen remotely)", () => {
@@ -391,5 +391,52 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
         await recorder.stop();
       });
     }
+  });
+
+  onVersions({ minVer: "7.4-preview.1" }).describe("with OKP keys", () => {
+    it("supports sign and verify", async () => {
+      const keyName = recorder.variable(
+        "okp-sign-verify",
+        `okp-sign-verify-${Math.floor(Math.random() * 100000)}`
+      );
+      keyVaultKey = await client.createOkpKey(keyName);
+      cryptoClient = client.getCryptographyClient(keyName);
+      const message = stringToUint8Array("Hello, world!");
+      const digest = createHash("SHA256").update(message).digest();
+
+      const signResult = await cryptoClient.sign(KnownSignatureAlgorithms.EdDSA, digest);
+      assert.equal(KnownSignatureAlgorithms.EdDSA, signResult.algorithm);
+      assert.exists(signResult.result);
+      assert.equal(signResult.keyID, keyVaultKey.id);
+
+      const verifyResult = await cryptoClient.verify(
+        KnownSignatureAlgorithms.EdDSA,
+        digest,
+        signResult.result
+      );
+      assert.isTrue(verifyResult.result);
+    });
+
+    it("supports signData and verifyData", async () => {
+      const keyName = recorder.variable(
+        "okp-sign-verify",
+        `okp-sign-verify-${Math.floor(Math.random() * 100000)}`
+      );
+      keyVaultKey = await client.createOkpKey(keyName);
+      cryptoClient = client.getCryptographyClient(keyName);
+      const message = stringToUint8Array("Hello, world!");
+
+      const signResult = await cryptoClient.signData(KnownSignatureAlgorithms.EdDSA, message);
+      assert.equal(KnownSignatureAlgorithms.EdDSA, signResult.algorithm);
+      assert.exists(signResult.result);
+      assert.equal(signResult.keyID, keyVaultKey.id);
+
+      const verifyResult = await cryptoClient.verifyData(
+        KnownSignatureAlgorithms.EdDSA,
+        message,
+        signResult.result
+      );
+      assert.isTrue(verifyResult.result);
+    });
   });
 });
