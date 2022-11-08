@@ -358,4 +358,4 @@ async function main() {
   console.log(await rehydratedFuzzySearchPoller.getResult());
 }
 
-main();
+main().catch((e) => console.error(e));
