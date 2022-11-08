@@ -284,7 +284,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         // Failed
         assert.strictEqual(metrics[1].dataPoints[0].value, 2);
         assert.strictEqual(metrics[1].dataPoints[0].attributes.statusCode, 500);
-        
+
         assert.strictEqual(metrics[1].dataPoints[1].value, 1);
         assert.strictEqual(metrics[1].dataPoints[1].attributes.statusCode, 501);
 

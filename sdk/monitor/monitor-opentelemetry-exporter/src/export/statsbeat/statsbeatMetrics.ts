@@ -225,11 +225,9 @@ export class StatsbeatMetrics {
     // For each { statusCode -> count } mapping, call observe, passing the count and attributes that include the statusCode
     for (let i = 0; i < counter.totalFailedRequestCount.length; i++) {
       attributes.statusCode = counter.totalFailedRequestCount[i].statusCode;
-      observableResult.observe(
-        this._failureCountGauge,
-        counter.totalFailedRequestCount[i].count,
-        { ...attributes }
-      );
+      observableResult.observe(this._failureCountGauge, counter.totalFailedRequestCount[i].count, {
+        ...attributes,
+      });
       counter.totalFailedRequestCount[i].count = 0;
     }
   }
@@ -240,11 +238,9 @@ export class StatsbeatMetrics {
 
     for (let i = 0; i < counter.retryCount.length; i++) {
       attributes.statusCode = counter.retryCount[i].statusCode;
-      observableResult.observe(
-        this._retryCountGauge,
-        counter.retryCount[i].count,
-        { ...attributes }
-      );
+      observableResult.observe(this._retryCountGauge, counter.retryCount[i].count, {
+        ...attributes,
+      });
       counter.retryCount[i].count = 0;
     }
   }
@@ -255,11 +251,9 @@ export class StatsbeatMetrics {
 
     for (let i = 0; i < counter.throttleCount.length; i++) {
       attributes.statusCode = counter.throttleCount[i].statusCode;
-      observableResult.observe(
-        this._throttleCountGauge,
-        counter.throttleCount[i].count,
-        { ...attributes }
-      );
+      observableResult.observe(this._throttleCountGauge, counter.throttleCount[i].count, {
+        ...attributes,
+      });
       counter.throttleCount[i].count = 0;
     }
   }
@@ -270,11 +264,9 @@ export class StatsbeatMetrics {
 
     for (let i = 0; i < counter.exceptionCount.length; i++) {
       attributes.exceptionType = counter.exceptionCount[i].exceptionType;
-      observableResult.observe(
-        this._exceptionCountGauge,
-        counter.exceptionCount[i].count,
-        { ...attributes }
-      );
+      observableResult.observe(this._exceptionCountGauge, counter.exceptionCount[i].count, {
+        ...attributes,
+      });
       counter.exceptionCount[i].count = 0;
     }
   }
