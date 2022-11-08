@@ -17439,11 +17439,12 @@ packages:
     dev: false
 
   file:projects/kusto-data.tgz:
-    resolution: {integrity: sha512-fs1auzvAK69S19XhuhN8Y5/+NPm/zMK3aHGtYOtTaDb5wFi/320L283XBMc+gmoPTeVFD7lN0swEEN4QrWF+jA==, tarball: file:projects/kusto-data.tgz}
+    resolution: {integrity: sha512-2wRl4XRxXQCNAYQLao9nfKKUla8nS/lUYynfLStft30oAeryWLAk9biIjrJ/aAk4zl+IPAiBud2+loimuOGx5g==, tarball: file:projects/kusto-data.tgz}
     name: '@rush-temp/kusto-data'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
+      '@azure/msal-browser': 2.30.0
       '@azure/msal-common': 7.6.0
       '@azure/msal-node': 1.14.2
       '@microsoft/api-extractor': 7.33.5

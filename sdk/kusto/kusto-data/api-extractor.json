@@ -11,7 +11,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/latest/template.d.ts"
+    "publicTrimmedFilePath": "./types/latest/kusto-data.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {

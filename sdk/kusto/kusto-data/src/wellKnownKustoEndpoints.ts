@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 export interface WellKnownKustoEndpoints {
   _Comments: string[];
   AllowedEndpointsByLogin: Record<string, WellKnownKustoEndpoint>;
@@ -8,8 +11,7 @@ export interface WellKnownKustoEndpoint {
   AllowedKustoHostnames: string[];
 }
 
-const json = 
-`{
+const json = `{
     "_Comments": [
         "KWE .linkedin.com suffix is excluded from list pending a more specific suffix",
         "LogAnalytics, AppInsigts & AzureMonitor are taken from https://msazure.visualstudio.com/One/_wiki/wikis/One.wiki/138095/Calling-the-ADX-Proxy following talk with Raz Ronen",

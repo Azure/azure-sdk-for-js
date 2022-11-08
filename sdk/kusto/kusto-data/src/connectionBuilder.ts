@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { DeviceCodeResponse } from "@azure/msal-common";
 import { KeyOfType } from "./typeUtils";
@@ -215,8 +215,9 @@ export class KustoConnectionStringBuilder {
     applicationCertificateX5c?: string
   ) {
     if (aadAppId.trim().length === 0) throw new Error("Invalid app id");
-    if (applicationCertificatePrivateKey.trim().length === 0)
+    if (applicationCertificatePrivateKey.trim().length === 0) {
       throw new Error("Invalid certificate");
+    }
     if (applicationCertificateThumbprint.trim().length === 0) throw new Error("Invalid thumbprint");
 
     const kcsb = new KustoConnectionStringBuilder(connectionString);

@@ -1,6 +1,4 @@
-# App Configuration client library for JavaScript
-
-<!-- NOTE: This is an example README copied from the real Azure App Configuration SDK. The real SDK has much more functionality than is exposed in the template/tutorial project, but this README can serve as an example to help you write a high-quality README for your own package. -->
+# Kusto Data client library for JavaScript
 
 [Azure App Configuration](https://docs.microsoft.com/azure/azure-app-configuration/overview) is a managed service that helps developers centralize their application and feature settings simply and securely.
 
