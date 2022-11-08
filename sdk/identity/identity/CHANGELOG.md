@@ -1,14 +1,11 @@
 # Release History
 
-## 3.1.0 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 3.1.0 (2022-11-08)
 
 ### Other Changes
+
+- Includes bug fix for `additionallyAllowedTenants` to pass through to MSAL Flow from 3.0.1 release
+- Includes Token Caching support to Managed Identity Credential from 3.1.0-beta.1 release
 
 ## 3.0.1 (2022-11-07)
 
