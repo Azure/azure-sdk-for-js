@@ -3,7 +3,7 @@
 
 import path from "path";
 import fs from "fs";
-import { RecorderError, resolveAssetsJson } from "./utils";
+import { RecorderError } from "./utils";
 
 /**
  * ONLY WORKS IN THE NODE.JS ENVIRONMENT
@@ -89,6 +89,40 @@ export function relativeRecordingsPath(): string {
  * @returns {string} location of the relative path to discovered assets.json - `sdk/storage/storage-blob/assets.json` for example.
  */
 export function relativeAssetsPath(): string | undefined {
-  let result = resolveAssetsJson("");
-  return result;
+  const currentPath = process.cwd(); // Gives the current working directory
+
+  let rootPath = undefined;
+  let expectedProjectPath = undefined;
+
+  if (fs.existsSync(path.join(currentPath, "package.json"))) {
+    // <root>/sdk/service/project/package.json
+    if (fs.existsSync(path.join(currentPath, "package.json"))) {
+      expectedProjectPath = currentPath; // <root>/sdk/service/project/
+      const expectedRootPath = path.join(currentPath, "..", "..", ".."); // <root>/
+      if (
+        fs.existsSync(path.join(expectedRootPath, "sdk/")) && // <root>/sdk
+        fs.existsSync(path.join(expectedRootPath, "rush.json")) // <root>/rush.json
+      ) {
+        // reached root path
+        rootPath = expectedRootPath;
+      }
+    }
+  } else {
+    throw new RecorderError(`'package.json' is not found at ${currentPath}`);
+  }
+
+  if (!(rootPath === undefined || expectedProjectPath === undefined)) {
+    // <root>/
+    // <root>/sdk/service/project/
+    return path
+      .join(path.relative(rootPath, expectedProjectPath), "assets.json")
+      .split(path.sep)
+      .join(path.posix.sep); // Converting "\" to "/" (needed for windows) so that the path.sep("\") is not treated as an escape character in the browsers
+    // => sdk/service/project/assets.json
+  } else {
+    throw new RecorderError(
+      "rootPath or expectedProjectPath could not be calculated properly from process.cwd()"
+    );
+  }
+
 }
