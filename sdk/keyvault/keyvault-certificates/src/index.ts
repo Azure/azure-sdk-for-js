@@ -101,7 +101,7 @@ import {
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { createChallengeCallbacks } from "../../keyvault-common/src";
+import { createKeyVaultChallengeCallbacks } from "../../keyvault-common/src";
 import { CreateCertificatePoller } from "./lro/create/poller";
 import { CertificateOperationPoller } from "./lro/operation/poller";
 import { DeleteCertificatePoller } from "./lro/delete/poller";
@@ -236,7 +236,7 @@ export class CertificateClient {
 
   /**
    * Creates an instance of CertificateClient.
-   * @param vaultUrl - the base URL to the vault.
+   * @param vaultUrl - the base URL to the vault. You should validate that this URL references a valid Key Vault resource. See https://aka.ms/azsdk/blog/vault-uri for details.
    * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
    * @param clientOptions - Pipeline options used to configure Key Vault API requests.
    *                          Omit this parameter to use the default pipeline configuration.
@@ -251,7 +251,7 @@ export class CertificateClient {
     const authPolicy = bearerTokenAuthenticationPolicy({
       credential,
       scopes: [],
-      challengeCallbacks: createChallengeCallbacks(),
+      challengeCallbacks: createKeyVaultChallengeCallbacks(clientOptions),
     });
 
     const internalClientPipelineOptions: InternalClientPipelineOptions = {

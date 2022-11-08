@@ -16,20 +16,14 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to Update the quota (service limits) of this resource to the requested value.
-
   • To get the quota information for specific resource, send a GET request.
-
   • To increase the quota, update the limit field from the GET response to a new value.
-
   • To update the quota value, submit the JSON response to the quota request API to update the quota.
   • To update the quota. use the PATCH operation.
  *
  * @summary Update the quota (service limits) of this resource to the requested value.
-
   • To get the quota information for specific resource, send a GET request.
-
   • To increase the quota, update the limit field from the GET response to a new value.
-
   • To update the quota value, submit the JSON response to the quota request API to update the quota.
   • To update the quota. use the PATCH operation.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2020-10-25/examples/patchComputeQuotaRequest.json

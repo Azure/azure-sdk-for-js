@@ -508,6 +508,17 @@ export interface ManagedClusterPodIdentityException {
   podLabels: { [propertyName: string]: string };
 }
 
+/** The OIDC issuer profile of the Managed Cluster. */
+export interface ManagedClusterOidcIssuerProfile {
+  /**
+   * The OIDC issuer url of the Managed Cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly issuerURL?: string;
+  /** Whether the OIDC issuer is enabled. */
+  enabled?: boolean;
+}
+
 /** Profile of network configuration. */
 export interface ContainerServiceNetworkProfile {
   /** Network plugin used for building the Kubernetes network. */
@@ -749,6 +760,8 @@ export interface ManagedClusterStorageProfile {
   fileCSIDriver?: ManagedClusterStorageProfileFileCSIDriver;
   /** Snapshot Controller settings for the storage profile. */
   snapshotController?: ManagedClusterStorageProfileSnapshotController;
+  /** AzureBlob CSI Driver settings for the storage profile. */
+  blobCSIDriver?: ManagedClusterStorageProfileBlobCSIDriver;
 }
 
 /** AzureDisk CSI Driver settings for the storage profile. */
@@ -766,6 +779,12 @@ export interface ManagedClusterStorageProfileFileCSIDriver {
 /** Snapshot Controller settings for the storage profile. */
 export interface ManagedClusterStorageProfileSnapshotController {
   /** Whether to enable Snapshot Controller. The default value is true. */
+  enabled?: boolean;
+}
+
+/** AzureBlob CSI Driver settings for the storage profile. */
+export interface ManagedClusterStorageProfileBlobCSIDriver {
+  /** Whether to enable AzureBlob CSI Driver. The default value is false. */
   enabled?: boolean;
 }
 
@@ -1382,6 +1401,8 @@ export interface ManagedCluster extends TrackedResource {
   addonProfiles?: { [propertyName: string]: ManagedClusterAddonProfile };
   /** See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on AAD pod identity integration. */
   podIdentityProfile?: ManagedClusterPodIdentityProfile;
+  /** The OIDC issuer profile of the Managed Cluster. */
+  oidcIssuerProfile?: ManagedClusterOidcIssuerProfile;
   /** The name of the resource group containing agent pool nodes. */
   nodeResourceGroup?: string;
   /** Whether to enable Kubernetes Role-Based Access Control. */
@@ -1458,6 +1479,11 @@ export interface Snapshot extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly enableFips?: boolean;
+}
+
+/** Defines headers for ManagedClusters_rotateServiceAccountSigningKeys operation. */
+export interface ManagedClustersRotateServiceAccountSigningKeysHeaders {
+  location?: string;
 }
 
 /** Defines headers for AgentPools_upgradeNodeImageVersion operation. */
@@ -2828,6 +2854,18 @@ export interface ManagedClustersRotateClusterCertificatesOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface ManagedClustersRotateServiceAccountSigningKeysOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the rotateServiceAccountSigningKeys operation. */
+export type ManagedClustersRotateServiceAccountSigningKeysResponse = ManagedClustersRotateServiceAccountSigningKeysHeaders;
 
 /** Optional parameters. */
 export interface ManagedClustersStopOptionalParams

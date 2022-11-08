@@ -4,6 +4,7 @@
 /**
  * Current version of the `@azure/identity` package.
  */
+
 export const SDK_VERSION = `3.0.2`;
 
 /**

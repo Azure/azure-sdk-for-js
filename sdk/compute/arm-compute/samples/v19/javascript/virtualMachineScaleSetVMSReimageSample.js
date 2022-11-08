@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
  *
  * @summary Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Reimage_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Reimage_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSReimageMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -45,7 +45,7 @@ virtualMachineScaleSetVMSReimageMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
  *
  * @summary Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Reimage_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Reimage_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSReimageMinimumSetGen() {
   const subscriptionId = "{subscription-id}";

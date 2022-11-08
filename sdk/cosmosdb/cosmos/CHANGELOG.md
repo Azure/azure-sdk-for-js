@@ -1,5 +1,17 @@
 # Release History
 
+## 3.17.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed issue with patch api not working with aadCredentials [#20689](https://github.com/Azure/azure-sdk-for-js/issues/20689)
+
+### Other Changes
+
 ## 3.17.1 (2022-09-12)
 
 ### Bugs Fixed

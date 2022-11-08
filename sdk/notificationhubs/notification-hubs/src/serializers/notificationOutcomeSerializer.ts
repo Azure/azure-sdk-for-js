@@ -15,8 +15,8 @@ export async function parseNotificationOutcome(
   const outcome = xml.NotificationOutcome;
 
   return {
-    success: getInteger(outcome.Success, "Success"),
-    failure: getInteger(outcome.Failure, "Failure"),
+    successCount: getInteger(outcome.Success, "Success"),
+    failureCount: getInteger(outcome.Failure, "Failure"),
     results: parseRegistrationResults(outcome.Results.RegistrationResult),
     state: "DetailedStateAvailable",
   };

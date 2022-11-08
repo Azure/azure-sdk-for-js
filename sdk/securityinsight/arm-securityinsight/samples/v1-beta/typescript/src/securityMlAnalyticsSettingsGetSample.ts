@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets the Security ML Analytics Settings.
  *
  * @summary Gets the Security ML Analytics Settings.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/securityMLAnalyticsSettings/GetAnomalySecurityMLAnalyticsSetting.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/securityMLAnalyticsSettings/GetAnomalySecurityMLAnalyticsSetting.json
  */
 async function getAAnomalySecurityMlAnalyticsSettings() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

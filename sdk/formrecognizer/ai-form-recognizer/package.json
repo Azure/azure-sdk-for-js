@@ -46,7 +46,7 @@
     ]
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -96,11 +96,11 @@
     "@azure/test-utils": "^1.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^2.0.0",
-    "@microsoft/api-extractor": "7.18.11",
+    "@microsoft/api-extractor": "^7.31.1",
     "@rollup/plugin-node-resolve": "~13.3.0",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^12.0.0",
+    "@types/node": "^14.0.0",
     "@types/prettier": "~2.6.3",
     "@types/sinon": "^9.0.4",
     "chai": "^4.2.0",
@@ -129,7 +129,7 @@
     "rollup": "~2.75.5",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
-    "typescript": "~4.6.0"
+    "typescript": "~4.8.0"
   },
   "//sampleConfiguration": {
     "skip": [

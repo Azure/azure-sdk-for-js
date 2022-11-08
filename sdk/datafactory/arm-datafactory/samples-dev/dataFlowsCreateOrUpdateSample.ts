@@ -30,8 +30,30 @@ async function dataFlowsCreate() {
       type: "MappingDataFlow",
       description:
         "Sample demo data flow to convert currencies showing usage of union, derive and conditional split transformation.",
-      script:
-        "source(output(PreviousConversionRate as double,Country as string,DateTime1 as string,CurrentConversionRate as double),allowSchemaDrift: false,validateSchema: false) ~> USDCurrency\nsource(output(PreviousConversionRate as double,Country as string,DateTime1 as string,CurrentConversionRate as double),allowSchemaDrift: true,validateSchema: false) ~> CADSource\nUSDCurrency, CADSource union(byName: true)~> Union\nUnion derive(NewCurrencyRate = round(CurrentConversionRate*1.25)) ~> NewCurrencyColumn\nNewCurrencyColumn split(Country == 'USD',Country == 'CAD',disjoint: false) ~> ConditionalSplit1@(USD, CAD)\nConditionalSplit1@USD sink(saveMode:'overwrite' ) ~> USDSink\nConditionalSplit1@CAD sink(saveMode:'overwrite' ) ~> CADSink",
+      scriptLines: [
+        "source(output(",
+        "PreviousConversionRate as double,",
+        "Country as string,",
+        "DateTime1 as string,",
+        "CurrentConversionRate as double",
+        "),",
+        "allowSchemaDrift: false,",
+        "validateSchema: false) ~> USDCurrency",
+        "source(output(",
+        "PreviousConversionRate as double,",
+        "Country as string,",
+        "DateTime1 as string,",
+        "CurrentConversionRate as double",
+        "),",
+        "allowSchemaDrift: true,",
+        "validateSchema: false) ~> CADSource",
+        "USDCurrency, CADSource union(byName: true)~> Union",
+        "Union derive(NewCurrencyRate = round(CurrentConversionRate*1.25)) ~> NewCurrencyColumn",
+        "NewCurrencyColumn split(Country == 'USD',",
+        "Country == 'CAD',disjoint: false) ~> ConditionalSplit1@(USD, CAD)",
+        "ConditionalSplit1@USD sink(saveMode:'overwrite' ) ~> USDSink",
+        "ConditionalSplit1@CAD sink(saveMode:'overwrite' ) ~> CADSink"
+      ],
       sinks: [
         {
           name: "USDSink",
@@ -89,8 +111,30 @@ async function dataFlowsUpdate() {
       type: "MappingDataFlow",
       description:
         "Sample demo data flow to convert currencies showing usage of union, derive and conditional split transformation.",
-      script:
-        "source(output(PreviousConversionRate as double,Country as string,DateTime1 as string,CurrentConversionRate as double),allowSchemaDrift: false,validateSchema: false) ~> USDCurrency\nsource(output(PreviousConversionRate as double,Country as string,DateTime1 as string,CurrentConversionRate as double),allowSchemaDrift: true,validateSchema: false) ~> CADSource\nUSDCurrency, CADSource union(byName: true)~> Union\nUnion derive(NewCurrencyRate = round(CurrentConversionRate*1.25)) ~> NewCurrencyColumn\nNewCurrencyColumn split(Country == 'USD',Country == 'CAD',disjoint: false) ~> ConditionalSplit1@(USD, CAD)\nConditionalSplit1@USD sink(saveMode:'overwrite' ) ~> USDSink\nConditionalSplit1@CAD sink(saveMode:'overwrite' ) ~> CADSink",
+      scriptLines: [
+        "source(output(",
+        "PreviousConversionRate as double,",
+        "Country as string,",
+        "DateTime1 as string,",
+        "CurrentConversionRate as double",
+        "),",
+        "allowSchemaDrift: false,",
+        "validateSchema: false) ~> USDCurrency",
+        "source(output(",
+        "PreviousConversionRate as double,",
+        "Country as string,",
+        "DateTime1 as string,",
+        "CurrentConversionRate as double",
+        "),",
+        "allowSchemaDrift: true,",
+        "validateSchema: false) ~> CADSource",
+        "USDCurrency, CADSource union(byName: true)~> Union",
+        "Union derive(NewCurrencyRate = round(CurrentConversionRate*1.25)) ~> NewCurrencyColumn",
+        "NewCurrencyColumn split(Country == 'USD',",
+        "Country == 'CAD',disjoint: false) ~> ConditionalSplit1@(USD, CAD)",
+        "ConditionalSplit1@USD sink(saveMode:'overwrite' ) ~> USDSink",
+        "ConditionalSplit1@CAD sink(saveMode:'overwrite' ) ~> CADSink"
+      ],
       sinks: [
         {
           name: "USDSink",

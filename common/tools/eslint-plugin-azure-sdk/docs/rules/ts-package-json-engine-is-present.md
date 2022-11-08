@@ -13,7 +13,7 @@ This rule is fixable using the `--fix` option.
 ```json
 {
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   }
 }
 ```
@@ -23,7 +23,7 @@ This rule is fixable using the `--fix` option.
 ```json
 {
   "engine": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   }
 }
 ```

@@ -607,9 +607,7 @@ main().catch((err) => {
 
 ## Troubleshooting
 
-### Form Recognizer errors
-
-For information about the error messages and codes produced by the Form Recognizer service, please refer to [the service's error documentation][fr-errors].
+For assistance with troubleshooting, see the [troubleshooting guide][trouble-shooting].
 
 ### Logging
 
@@ -648,7 +646,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 [fr-labeling-tool]: https://aka.ms/azsdk/formrecognizer/labelingtool
 [fr-studio]: https://formrecognizer.appliedai.azure.com/studio
 [fr-build-training-set]: https://aka.ms/azsdk/formrecognizer/buildtrainingset
-[fr-errors]: https://aka.ms/azsdk/formrecognizer/errors
 [fr-models]: https://aka.ms/azsdk/formrecognizer/models
 [samples-prebuilt]: https://github.com/azure/azure-sdk-for-js/tree/main/sdk/formrecognizer/ai-form-recognizer/samples-dev/prebuilt/
 [samples-prebuilt-businesscard]: https://github.com/azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples-dev/prebuilt/prebuilt-businessCard.ts
@@ -660,3 +657,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 [samples-prebuilt-read]: https://github.com/azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples-dev/prebuilt/prebuilt-read.ts
 [samples-prebuilt-receipt]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples-dev/prebuilt/prebuilt-receipt.ts
 [samples-prebuilt-tax.us.w2]: https://github.com/azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples-dev/prebuilt/prebuilt-tax.us.w2.ts
+[trouble-shooting]: https://github.com/azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/TROUBLESHOOTING.md

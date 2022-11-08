@@ -50,6 +50,8 @@ import {
   ManagedClusterAADProfile,
   ManagedClustersResetAADProfileOptionalParams,
   ManagedClustersRotateClusterCertificatesOptionalParams,
+  ManagedClustersRotateServiceAccountSigningKeysOptionalParams,
+  ManagedClustersRotateServiceAccountSigningKeysResponse,
   ManagedClustersStopOptionalParams,
   ManagedClustersStartOptionalParams,
   RunCommandRequest,
@@ -916,6 +918,96 @@ export class ManagedClustersImpl implements ManagedClusters {
   }
 
   /**
+   * Rotates the service account signing keys of a managed cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  async beginRotateServiceAccountSigningKeys(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        ManagedClustersRotateServiceAccountSigningKeysResponse
+      >,
+      ManagedClustersRotateServiceAccountSigningKeysResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ManagedClustersRotateServiceAccountSigningKeysResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, resourceName, options },
+      rotateServiceAccountSigningKeysOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Rotates the service account signing keys of a managed cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  async beginRotateServiceAccountSigningKeysAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams
+  ): Promise<ManagedClustersRotateServiceAccountSigningKeysResponse> {
+    const poller = await this.beginRotateServiceAccountSigningKeys(
+      resourceGroupName,
+      resourceName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * This can only be performed on Azure Virtual Machine Scale set backed clusters. Stopping a cluster
    * stops the control plane and agent nodes entirely, while maintaining all object and cluster state. A
    * cluster does not accrue charges while it is stopped. See [stopping a
@@ -1623,6 +1715,41 @@ const rotateClusterCertificatesOperationSpec: coreClient.OperationSpec = {
     201: {},
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const rotateServiceAccountSigningKeysOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateServiceAccountSigningKeys",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper:
+        Mappers.ManagedClustersRotateServiceAccountSigningKeysHeaders
+    },
+    201: {
+      headersMapper:
+        Mappers.ManagedClustersRotateServiceAccountSigningKeysHeaders
+    },
+    202: {
+      headersMapper:
+        Mappers.ManagedClustersRotateServiceAccountSigningKeysHeaders
+    },
+    204: {
+      headersMapper:
+        Mappers.ManagedClustersRotateServiceAccountSigningKeysHeaders
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
 import { CheckPrincipalAccessRequest, RoleAssignmentRequest } from "./models";
 
@@ -9,8 +10,19 @@ export interface RoleAssignmentsCheckPrincipalAccessBodyParam {
   body: CheckPrincipalAccessRequest;
 }
 
-export type RoleAssignmentsCheckPrincipalAccessParameters = RoleAssignmentsCheckPrincipalAccessBodyParam &
+export interface RoleAssignmentsCheckPrincipalAccessMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json" | "text/json";
+}
+
+export type RoleAssignmentsCheckPrincipalAccessParameters = RoleAssignmentsCheckPrincipalAccessMediaTypesParam &
+  RoleAssignmentsCheckPrincipalAccessBodyParam &
   RequestParameters;
+
+export interface RoleAssignmentsListRoleAssignmentsHeaders {
+  /** Continuation token. */
+  "x-ms-continuation"?: string;
+}
 
 export interface RoleAssignmentsListRoleAssignmentsQueryParamProperties {
   /** Synapse Built-In Role Id. */
@@ -25,7 +37,12 @@ export interface RoleAssignmentsListRoleAssignmentsQueryParam {
   queryParameters?: RoleAssignmentsListRoleAssignmentsQueryParamProperties;
 }
 
+export interface RoleAssignmentsListRoleAssignmentsHeaderParam {
+  headers: RawHttpHeadersInput & RoleAssignmentsListRoleAssignmentsHeaders;
+}
+
 export type RoleAssignmentsListRoleAssignmentsParameters = RoleAssignmentsListRoleAssignmentsQueryParam &
+  RoleAssignmentsListRoleAssignmentsHeaderParam &
   RequestParameters;
 
 export interface RoleAssignmentsCreateRoleAssignmentBodyParam {
@@ -33,7 +50,13 @@ export interface RoleAssignmentsCreateRoleAssignmentBodyParam {
   body: RoleAssignmentRequest;
 }
 
-export type RoleAssignmentsCreateRoleAssignmentParameters = RoleAssignmentsCreateRoleAssignmentBodyParam &
+export interface RoleAssignmentsCreateRoleAssignmentMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json" | "text/json";
+}
+
+export type RoleAssignmentsCreateRoleAssignmentParameters = RoleAssignmentsCreateRoleAssignmentMediaTypesParam &
+  RoleAssignmentsCreateRoleAssignmentBodyParam &
   RequestParameters;
 export type RoleAssignmentsGetRoleAssignmentByIdParameters = RequestParameters;
 
