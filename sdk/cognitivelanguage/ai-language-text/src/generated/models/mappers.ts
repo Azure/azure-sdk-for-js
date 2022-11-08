@@ -1025,6 +1025,21 @@ export const HealthcareRelationEntity: coreClient.CompositeMapper = {
   }
 };
 
+export const DocumentDetectedLanguageForHealthcare: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DocumentDetectedLanguageForHealthcare",
+    modelProperties: {
+      detectedLanguage: {
+        serializedName: "detectedLanguage",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const PreBuiltResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2818,17 +2833,6 @@ export const CustomLabelClassificationResultDocumentsItem: coreClient.CompositeM
   }
 };
 
-export const HealthcareResultDocumentsItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "HealthcareResultDocumentsItem",
-    modelProperties: {
-      ...HealthcareEntitiesDocumentResult.type.modelProperties,
-      ...DocumentDetectedLanguage.type.modelProperties
-    }
-  }
-};
-
 export const SentimentResponseDocumentsItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2902,6 +2906,17 @@ export const AbstractiveSummaryDocumentResultWithDetectedLanguage: coreClient.Co
     modelProperties: {
       ...AbstractiveSummaryDocumentResult.type.modelProperties,
       ...DocumentDetectedLanguage.type.modelProperties
+    }
+  }
+};
+
+export const HealthcareResultDocumentsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HealthcareResultDocumentsItem",
+    modelProperties: {
+      ...HealthcareEntitiesDocumentResult.type.modelProperties,
+      ...DocumentDetectedLanguageForHealthcare.type.modelProperties
     }
   }
 };

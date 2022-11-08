@@ -37,7 +37,7 @@ function createLiveTestRegistry(settings: {
   // implemented below, but if we're running live, then use the real
   // service for end-to-end integration testing.
   const client = new SchemaRegistryClient(
-    getEnvVar("SCHEMA_REGISTRY_ENDPOINT"),
+    getEnvVar("SCHEMAREGISTRY_AVRO_FULLY_QUALIFIED_NAMESPACE"),
     new ClientSecretCredential(
       getEnvVar("AZURE_TENANT_ID"),
       getEnvVar("AZURE_CLIENT_ID"),
