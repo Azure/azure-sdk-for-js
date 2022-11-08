@@ -222,6 +222,7 @@ specifiers:
   '@rush-temp/communication-short-codes': file:./projects/communication-short-codes.tgz
   '@rush-temp/communication-sms': file:./projects/communication-sms.tgz
   '@rush-temp/confidential-ledger': file:./projects/confidential-ledger.tgz
+  '@rush-temp/confidentialledger-test': file:./projects/confidentialledger-test.tgz
   '@rush-temp/container-registry': file:./projects/container-registry.tgz
   '@rush-temp/core-amqp': file:./projects/core-amqp.tgz
   '@rush-temp/core-auth': file:./projects/core-auth.tgz
@@ -545,6 +546,7 @@ dependencies:
   '@rush-temp/communication-short-codes': file:projects/communication-short-codes.tgz
   '@rush-temp/communication-sms': file:projects/communication-sms.tgz
   '@rush-temp/confidential-ledger': file:projects/confidential-ledger.tgz
+  '@rush-temp/confidentialledger-test': file:projects/confidentialledger-test.tgz
   '@rush-temp/container-registry': file:projects/container-registry.tgz
   '@rush-temp/core-amqp': file:projects/core-amqp.tgz
   '@rush-temp/core-auth': file:projects/core-auth.tgz
@@ -1234,7 +1236,7 @@ packages:
     dependencies:
       '@azure/core-auth': 1.4.0
       '@azure/core-client': 1.6.1
-      '@azure/core-rest-pipeline': 1.9.2
+      '@azure/core-rest-pipeline': 1.10.0
       '@azure/core-tracing': 1.0.1
       '@azure/logger': 1.0.3
       tslib: 2.4.1
@@ -2130,6 +2132,7 @@ packages:
 
   /@sinonjs/commons/1.8.4:
     resolution: {integrity: sha512-RpmQdHVo8hCEHDVpO39zToS9jOhR6nw+/lQAzRNq9ErrGV9IeHM71XCn68svVl/euFeVW6BWX4p35gkhbOcSIQ==}
+    deprecated: Breaks compatibility with ES5, use v1.8.5
     dependencies:
       type-detect: 4.0.8
     dev: false
@@ -2209,7 +2212,7 @@ packages:
     resolution: {integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==}
     dependencies:
       '@types/connect': 3.4.35
-      '@types/node': 14.18.33
+      '@types/node': 18.11.9
     dev: false
 
   /@types/chai-as-promised/7.1.5:
@@ -2231,7 +2234,7 @@ packages:
   /@types/connect/3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
-      '@types/node': 14.18.33
+      '@types/node': 18.11.9
     dev: false
 
   /@types/cookie/0.4.1:
@@ -2266,7 +2269,7 @@ packages:
   /@types/express-serve-static-core/4.17.31:
     resolution: {integrity: sha512-DxMhY+NAsTwMMFHBTtJFNp5qiHKJ7TeqOo23zVEM9alT1Ml27Q3xcTH0xwxn7Q0BbMcVEJOs/7aQtUWupUQN3Q==}
     dependencies:
-      '@types/node': 14.18.33
+      '@types/node': 18.11.9
       '@types/qs': 6.9.7
       '@types/range-parser': 1.2.4
     dev: false
@@ -2283,20 +2286,20 @@ packages:
   /@types/fs-extra/8.1.2:
     resolution: {integrity: sha512-SvSrYXfWSc7R4eqnOzbQF4TZmfpNSM9FrSWLU3EUnWBuyZqNBOrv1B1JA3byUDPUl9z4Ab3jeZG2eDdySlgNMg==}
     dependencies:
-      '@types/node': 14.18.33
+      '@types/node': 18.11.9
     dev: false
 
   /@types/fs-extra/9.0.13:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
     dependencies:
-      '@types/node': 14.18.33
+      '@types/node': 18.11.9
     dev: false
 
   /@types/glob/7.2.0:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 14.18.33
+      '@types/node': 18.11.9
     dev: false
 
   /@types/inquirer/8.2.4:
@@ -2308,7 +2311,7 @@ packages:
   /@types/is-buffer/2.0.0:
     resolution: {integrity: sha512-0f7N/e3BAz32qDYvgB4d2cqv1DqUwvGxHkXsrucICn8la1Vb6Yl6Eg8mPScGwUiqHJeE7diXlzaK+QMA9m4Gxw==}
     dependencies:
-      '@types/node': 14.18.33
+      '@types/node': 18.11.9
     dev: false
 
   /@types/json-schema/7.0.11:
@@ -2322,13 +2325,13 @@ packages:
   /@types/jsonwebtoken/8.5.9:
     resolution: {integrity: sha512-272FMnFGzAVMGtu9tkr29hRL6bZj4Zs1KZNeHLnKqAvp06tAIcarTMwOh8/8bz4FmKRcMxZhZNeUAQsNLoiPhg==}
     dependencies:
-      '@types/node': 14.18.33
+      '@types/node': 18.11.9
     dev: false
 
   /@types/jws/3.2.4:
     resolution: {integrity: sha512-aqtH4dPw1wUjFZaeMD1ak/pf8iXlu/odFe+trJrvw0g1sTh93i+SCykg0Ek8C6B7rVK3oBORbfZAsKO7P10etg==}
     dependencies:
-      '@types/node': 14.18.33
+      '@types/node': 18.11.9
     dev: false
 
   /@types/md5/2.3.2:
@@ -2364,13 +2367,13 @@ packages:
   /@types/mock-fs/4.13.1:
     resolution: {integrity: sha512-m6nFAJ3lBSnqbvDZioawRvpLXSaPyn52Srf7OfzjubYbYX8MTUdIgDxQl0wEapm4m/pNYSd9TXocpQ0TvZFlYA==}
     dependencies:
-      '@types/node': 14.18.33
+      '@types/node': 18.11.9
     dev: false
 
   /@types/mock-require/2.0.1:
     resolution: {integrity: sha512-O7U5DVGboY/Crueb5/huUCIRjKtRVRaLmRDbZJBlDQgJn966z3aiFDN+6AtYviu2ExwMkl34LjT/IiC0OPtKuQ==}
     dependencies:
-      '@types/node': 14.18.33
+      '@types/node': 18.11.9
     dev: false
 
   /@types/ms/0.7.31:
@@ -2388,7 +2391,7 @@ packages:
   /@types/node-fetch/2.6.2:
     resolution: {integrity: sha512-DHqhlq5jeESLy19TYhLakJ07kNumXWjcDdxXsLUMJZ6ue8VZJj4kLPQVE/2mdHh3xZziNF1xppu5lwmS53HR+A==}
     dependencies:
-      '@types/node': 14.18.33
+      '@types/node': 18.11.9
       form-data: 3.0.1
     dev: false
 
@@ -2443,7 +2446,7 @@ packages:
   /@types/resolve/1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
     dependencies:
-      '@types/node': 14.18.33
+      '@types/node': 18.11.9
     dev: false
 
   /@types/semaphore/1.1.1:
@@ -2454,7 +2457,7 @@ packages:
     resolution: {integrity: sha512-z5xyF6uh8CbjAu9760KDKsH2FcDxZ2tFCsA4HIMWE6IkiYMXfVoa+4f9KX+FN0ZLsaMw1WNG2ETLA6N+/YA+cg==}
     dependencies:
       '@types/mime': 3.0.1
-      '@types/node': 14.18.33
+      '@types/node': 18.11.9
     dev: false
 
   /@types/sinon/10.0.13:
@@ -2476,13 +2479,13 @@ packages:
   /@types/stoppable/1.1.1:
     resolution: {integrity: sha512-b8N+fCADRIYYrGZOcmOR8ZNBOqhktWTB/bMUl5LvGtT201QKJZOOH5UsFyI3qtteM6ZAJbJqZoBcLqqxKIwjhw==}
     dependencies:
-      '@types/node': 14.18.33
+      '@types/node': 18.11.9
     dev: false
 
   /@types/through/0.0.30:
     resolution: {integrity: sha512-FvnCJljyxhPM3gkRgWmxmDZyAQSiBQQWLI0A0VFL0K7W1oRUrPJSqNO0NvTnLkBcotdlp3lKvaT0JrnyRDkzOg==}
     dependencies:
-      '@types/node': 14.18.33
+      '@types/node': 18.11.9
     dev: false
 
   /@types/tough-cookie/4.0.2:
@@ -2496,13 +2499,13 @@ packages:
   /@types/tunnel/0.0.1:
     resolution: {integrity: sha512-AOqu6bQu5MSWwYvehMXLukFHnupHrpZ8nvgae5Ggie9UwzDR1CCwoXgSSWNZJuyOlCdfdsWMA5F2LlmvyoTv8A==}
     dependencies:
-      '@types/node': 14.18.33
+      '@types/node': 18.11.9
     dev: false
 
   /@types/tunnel/0.0.3:
     resolution: {integrity: sha512-sOUTGn6h1SfQ+gbgqC364jLFBw2lnFqkgF3q0WovEHRLMrVD1sd5aufqi/aJObLekJO+Aq5z646U4Oxy6shXMA==}
     dependencies:
-      '@types/node': 14.18.33
+      '@types/node': 18.11.9
     dev: false
 
   /@types/underscore/1.11.4:
@@ -2520,19 +2523,19 @@ packages:
   /@types/ws/7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 14.18.33
+      '@types/node': 18.11.9
     dev: false
 
   /@types/ws/8.5.3:
     resolution: {integrity: sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==}
     dependencies:
-      '@types/node': 14.18.33
+      '@types/node': 18.11.9
     dev: false
 
   /@types/xml2js/0.4.11:
     resolution: {integrity: sha512-JdigeAKmCyoJUiQljjr7tQG3if9NkqGUgwEUqBvV0N7LM4HyQk7UXCnusRa1lnvXAEYJ8mw8GtZWioagNztOwA==}
     dependencies:
-      '@types/node': 14.18.33
+      '@types/node': 18.11.9
     dev: false
 
   /@types/yargs-parser/21.0.0:
@@ -2549,7 +2552,7 @@ packages:
     resolution: {integrity: sha512-Cn6WYCm0tXv8p6k+A8PvbDG763EDpBoTzHdA+Q/MF6H3sapGjCm9NzoaJncJS9tUKSuCoDs9XHxYYsQDgxR6kw==}
     requiresBuild: true
     dependencies:
-      '@types/node': 14.18.33
+      '@types/node': 18.11.9
     dev: false
     optional: true
 
@@ -3618,7 +3621,7 @@ packages:
     resolution: {integrity: sha512-mel+jf7nrtEl5Pn1Qx46zARXKDpBbvzezse7p7LqINmdoIk8PYP5SySaxEmYv6TZ0JyEKA1hsCId6DIhgITtWQ==}
     deprecated: Debug versions >=3.2.0 <3.2.7 || >=4 <4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)
     dependencies:
-      ms: 2.1.1
+      ms: 2.1.3
     dev: false
 
   /debug/3.2.7:
@@ -3839,7 +3842,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 4.6.4
+      typescript: 4.8.4
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -3890,7 +3893,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.12
-      '@types/node': 14.18.33
+      '@types/node': 18.11.9
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.4.2
@@ -4901,7 +4904,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 3.0.4
+      minimatch: 3.1.2
       once: 1.4.0
       path-is-absolute: 1.0.1
     dev: false
@@ -15889,6 +15892,50 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/confidentialledger-test.tgz:
+    resolution: {integrity: sha512-uMr1b47NtPuR3q5F9jj7TBnE03OZeoaCDYObhEz7Mh/d+Wc2MZSBszGZdFWTXNJ/IsyoOZ6nJKi1TqtXbryTWA==, tarball: file:projects/confidentialledger-test.tgz}
+    name: '@rush-temp/confidentialledger-test'
+    version: 0.0.0
+    dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.10
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.33.5
+      '@types/chai': 4.3.3
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.33
+      autorest: 3.6.2
+      chai: 4.3.6
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 8.27.0
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.1
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 2.2.1
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.4.1
+      typescript: 4.6.4
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   file:projects/container-registry.tgz:
     resolution: {integrity: sha512-mcKDKwRCpubfPzDrxHdAkG6lsFA8UemmARZwmWXcAVCRJTltx1cW9Q1l0LXRwd3BZSqCIU8h+3XJ0ohIyXwQUQ==, tarball: file:projects/container-registry.tgz}
     name: '@rush-temp/container-registry'
@@ -17239,7 +17286,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-9AdSE6mAhgBug4+H/fztaInMQdm+ganESX31eqPsHje34Dm4hfo0Caa2ypdEBcTrUOIG99i6M5XUxrhWEb37mQ==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-hW9yN/ZH5rhLsDyngPRQEP2GwVprO95oKpLJoRjAxt+3g3s0liiCpNhsuvv1TkNM6sfzvAeZnENboeA/OtHO4g==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -18908,7 +18955,7 @@ packages:
     dev: false
 
   file:projects/storage-blob.tgz:
-    resolution: {integrity: sha512-s54hiuhDzRVOEjfW1UpeybQaGgyva8odSDGeX18mpsMrNykqgvv8QCKV2ZDIN2I1KL1GrldwJtJ/pSdSmx9qDA==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-gSRlGWebNmHQ0pm27D14SFCHKT2g6vgaRSwL/qho4Me/2wW2NJEG3WLOEq3G7LXivOUKhsHVug8sJlJVmtnOjA==, tarball: file:projects/storage-blob.tgz}
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:

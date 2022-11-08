@@ -1925,6 +1925,11 @@
       "packageName": "@azure/arm-appcomplianceautomation",
       "projectFolder": "sdk/appcomplianceautomation/arm-appcomplianceautomation",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/confidentialledger-test",
+      "projectFolder": "sdk/confidentialledger/azure-confidentialledger-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
