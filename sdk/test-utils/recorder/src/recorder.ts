@@ -43,6 +43,7 @@ import { setRecordingOptions } from "./options";
 import { isNode } from "@azure/core-util";
 import { env } from "./utils/env";
 import { decodeBase64 } from "./utils/encoding";
+import { isHttpHeadersLike } from "./utils/typeGuards";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -134,6 +135,36 @@ export class Recorder {
         // for core-v2
         request.agent = getHttpsAgent();
       }
+    }
+  }
+
+  /**
+   * unredirectRequest updates the request in record and playback modes back to the existing url.
+   * Works for both core-v1 and core-v2
+   *
+   * - WebResource -> core-v1
+   * - PipelineRequest -> core-v2 (recorderHttpPolicy calls this method after the request is made, undos the URL changes made in the "redirectRequest" method by the recorder to hit the test proxy after the response is received.)
+   */
+  private revertRequestChanges(request: WebResource | PipelineRequest): void {
+    logger.info(
+      `[Recorder#revertRequestChanges] undos the URL changes made by the recorder to hit the test proxy after the response is received,`,
+      request
+    );
+    const headers = request.headers;
+    if (isHttpHeadersLike(headers)) {
+      // core-v1
+      headers.remove("x-recording-id");
+      headers.remove("x-recording-mode");
+    } else {
+      // core-v2
+      headers.delete("x-recording-id");
+      headers.delete("x-recording-mode");
+    }
+    request.url = request.url.replace(Recorder.url, request.headers.get("x-recording-upstream-base-uri") || "dummy");
+
+    if (!(request instanceof WebResource)) {
+      // for core-v2
+      request.agent = undefined;
     }
   }
 
@@ -403,7 +434,7 @@ export class Recorder {
         this.redirectRequest(request);
         const response = await next(request);
         this.handleTestProxyErrors(response);
-
+        this.revertRequestChanges(request);
         return response;
       },
     };
