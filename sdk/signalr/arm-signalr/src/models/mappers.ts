@@ -856,6 +856,26 @@ export const SignalRCorsSettings: coreClient.CompositeMapper = {
   }
 };
 
+export const ServerlessSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServerlessSettings",
+    modelProperties: {
+      connectionTimeoutInSeconds: {
+        defaultValue: 30,
+        constraints: {
+          InclusiveMaximum: 120,
+          InclusiveMinimum: 1
+        },
+        serializedName: "connectionTimeoutInSeconds",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const ServerlessUpstreamSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1866,6 +1886,13 @@ export const SignalRResource: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SignalRCorsSettings"
+        }
+      },
+      serverless: {
+        serializedName: "properties.serverless",
+        type: {
+          name: "Composite",
+          className: "ServerlessSettings"
         }
       },
       upstream: {
