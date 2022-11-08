@@ -1,14 +1,13 @@
 # Release History
 
-## 4.10.1 (Unreleased)
+## 4.11.0 (2022-11-08)
 
 ### Features Added
 
-### Breaking Changes
+- Added new System Events:
 
-### Bugs Fixed
-
-### Other Changes
+  - `Microsoft.HealthcareApis.DicomImageCreated`
+  - `Microsoft.HealthcareApis.DicomImageDeleted`
 
 ## 4.10.0 (2022-07-11)
 

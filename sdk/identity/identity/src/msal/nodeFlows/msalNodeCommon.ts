@@ -83,7 +83,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected msalConfig: msalNode.Configuration;
   protected clientId: string;
   protected tenantId: string;
-  private additionallyAllowedTenantIds: string[];
+  protected additionallyAllowedTenantIds: string[];
   protected authorityHost?: string;
   protected identityClient?: IdentityClient;
   protected requiresConfidential: boolean = false;

@@ -9,7 +9,7 @@ trigger:
   paths:
     include:
       - sdk/web-pubsub/ci.mgmt.yml
-      - sdk/web-pubsub/arm-webpubsub/
+      - sdk/web-pubsub/arm-webpubsub
 pr:
   branches:
     include:
@@ -22,7 +22,7 @@ pr:
   paths:
     include:
       - sdk/web-pubsub/ci.mgmt.yml
-      - sdk/web-pubsub/arm-webpubsub/
+      - sdk/web-pubsub/arm-webpubsub
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
