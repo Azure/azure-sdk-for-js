@@ -2470,10 +2470,20 @@ packages:
       '@types/node': 18.11.9
     dev: false
 
+  /@types/stream-array/1.1.0:
+    resolution: {integrity: sha512-39nS0syUqgqYWKrgTa9TdBekZwzqeD8eVT/zzBekUgi28JAGlmtpRim+o8a3xuRI/Pa0s+/Jf/mYq+HNgUcY1A==}
+    dependencies:
+      '@types/node': 18.11.9
+    dev: false
+
   /@types/through/0.0.30:
     resolution: {integrity: sha512-FvnCJljyxhPM3gkRgWmxmDZyAQSiBQQWLI0A0VFL0K7W1oRUrPJSqNO0NvTnLkBcotdlp3lKvaT0JrnyRDkzOg==}
     dependencies:
       '@types/node': 18.11.9
+    dev: false
+
+  /@types/tmp/0.2.3:
+    resolution: {integrity: sha512-dDZH/tXzwjutnuk4UacGgFRwV+JSLaXL1ikvidfJprkb7L9Nx1njcRHHmi3Dsvt7pgqqTEeucQuOrWHPFgzVHA==}
     dev: false
 
   /@types/tough-cookie/4.0.2:
@@ -2502,6 +2512,10 @@ packages:
 
   /@types/unist/2.0.6:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
+    dev: false
+
+  /@types/uuid-validate/0.0.1:
+    resolution: {integrity: sha512-RbX9q0U00SLoV+l7loYX0Wrtv4QTClBC0QcdNts6x2b5G1HJN8NI9YlS1HNA6THrI9EH3OXSgya6eMQIlDjKFA==}
     dev: false
 
   /@types/uuid/8.3.4:
@@ -17530,7 +17544,7 @@ packages:
     dev: false
 
   file:projects/kusto-ingest.tgz:
-    resolution: {integrity: sha512-9qYZQM5XsGtIX8HWHatBd4zH4Wqy58fBzzz8++HG+xFn9zOKzq/jorS4b9d/Q8ho0An1xsznaNL7K8rzgfzUKg==, tarball: file:projects/kusto-ingest.tgz}
+    resolution: {integrity: sha512-HqA3tF1hA6xm9R4rUySiscnUnhPZujLDVIBVn1Ykgvn1EeLI3n/XWsFAqNaBH+8o7tGBPIDPHIKcRWTf8JQOKg==, tarball: file:projects/kusto-ingest.tgz}
     name: '@rush-temp/kusto-ingest'
     version: 0.0.0
     dependencies:
@@ -17542,7 +17556,10 @@ packages:
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
       '@types/node': 14.18.33
+      '@types/stream-array': 1.1.0
+      '@types/tmp': 0.2.3
       '@types/uuid': 8.3.4
+      '@types/uuid-validate': 0.0.1
       axios: 1.1.3
       chai: 4.3.6
       cross-env: 7.0.3

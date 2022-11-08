@@ -36,8 +36,6 @@ export class Client {
     endpoints: {
         [key in ExecutionType]: string;
     };
-    // Warning: (ae-forgotten-export) The symbol "KustoResponseDataSet" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     execute(db: string | null, query: string, properties?: ClientRequestProperties): Promise<KustoResponseDataSet>;
     // (undocumented)
@@ -208,6 +206,42 @@ declare namespace KustoDataErrors {
     }
 }
 export { KustoDataErrors }
+
+// @public (undocumented)
+export abstract class KustoResponseDataSet {
+    // Warning: (ae-forgotten-export) The symbol "Table" needs to be exported by the entry point index.d.ts
+    protected constructor(tables: Table[]);
+    // (undocumented)
+    abstract dataSetCompletion: {
+        HasErrors: boolean;
+        OneApiErrors?: any[];
+    } | null;
+    // (undocumented)
+    abstract getCridColumn(): string;
+    // (undocumented)
+    abstract getErrorColumn(): string;
+    // (undocumented)
+    getErrorsCount(): {
+        warnings: number;
+        errors: number;
+    };
+    // (undocumented)
+    getExceptions(): string[];
+    // (undocumented)
+    abstract getStatusColumn(): string;
+    // (undocumented)
+    getWarnings(): string[];
+    // (undocumented)
+    primaryResults: KustoResultTable[];
+    // (undocumented)
+    statusTable?: KustoResultTable;
+    // (undocumented)
+    tableNames: string[];
+    // Warning: (ae-forgotten-export) The symbol "KustoResultTable" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    tables: KustoResultTable[];
+}
 
 // @public (undocumented)
 class ThrottlingError extends Error {

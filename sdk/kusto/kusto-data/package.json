@@ -1,6 +1,6 @@
 {
   "name": "@azure/kusto-data",
-  "version": "1.0.0-beta.1",
+  "version": "4.0.0-beta1",
   "description": "Azure Data Explorer Query SDK",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -14,11 +14,11 @@
       }
     ]
   },
-  "types": "types/latest/template.d.ts",
+  "types": "types/latest/kusto-data.d.ts",
   "typesVersions": {
     "<3.6": {
       "*": [
-        "types/3.1/template.d.ts"
+        "types/3.1/kusto-data.d.ts"
       ]
     }
   },
