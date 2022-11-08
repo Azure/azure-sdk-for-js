@@ -39,10 +39,6 @@ export abstract class AzureMonitorBaseExporter {
     protected _exportEnvelopes(envelopes: TelemetryItem[]): Promise<ExportResult>;
     protected _instrumentationKey: string;
     protected _shutdown(): Promise<void>;
-    // Warning: (ae-forgotten-export) The symbol "StatsbeatMetrics" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    protected _statsbeatMetrics: StatsbeatMetrics | undefined;
 }
 
 // @public

@@ -51,7 +51,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       nock.cleanAll();
     });
 
-    describe("Initialization and connection string functions", () => {
+    describe("Initialization, shutdown, and connection string functions", () => {
       it("should pass the options to the exporter", () => {
         const exporter = new TestExporter();
         assert.ok(exporter["_options"]);
@@ -101,6 +101,42 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           "dc"
         );
         assert.strictEqual(statsbeat["_getShortHost"]("https://www.test.com"), "test");
+      });
+
+      it("should add correct network properites to the custom metric", (done) => {
+        const statsbeat = new StatsbeatMetrics(options);
+        statsbeat["_statsCollectionShortInterval"];
+        statsbeat.countSuccess(100);
+        let metric = statsbeat["_networkStatsbeatCollection"][0];
+        assert.strictEqual(metric.intervalRequestExecutionTime, 100);
+
+        // Ensure network statsbeat attributes are populated
+        assert.strictEqual(statsbeat["_attach"], "sdk");
+        assert.strictEqual(
+          statsbeat["_cikey"],
+          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;"
+        );
+        assert.strictEqual(statsbeat["_language"], "node");
+        assert.strictEqual(statsbeat["_resourceProvider"], "unknown");
+        assert.strictEqual(
+          statsbeat["_endpointUrl"],
+          "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com"
+        );
+        assert.ok(statsbeat["_os"]);
+        assert.ok(statsbeat["_runtimeVersion"]);
+        assert.ok(statsbeat["_version"]);
+
+        done();
+      });
+
+      it("should turn off statsbeat after max failures", async () => {
+        const exporter = new TestExporter();
+        const response = failedBreezeResponse(1, 200);
+        scope.reply(200, JSON.stringify(response));
+        exporter["_statsbeatFailureCount"] = 4;
+
+        const result = await exporter["_exportEnvelopes"]([envelope]);
+        assert.strictEqual(result.code, ExportResultCode.SUCCESS);
       });
     });
 
@@ -182,7 +218,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
     });
 
-    describe("Track statsbeats", () => {
+    describe("Track data from statsbeats", () => {
       let sandbox: sinon.SinonSandbox;
       let statsbeat: StatsbeatMetrics;
 
@@ -198,32 +234,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
       after(() => {
         statsbeat.shutdown();
-      });
-
-      it("should add correct network properites to the custom metric", (done) => {
-        const statsbeat = new StatsbeatMetrics(options);
-        statsbeat["_statsCollectionShortInterval"];
-        statsbeat.countSuccess(100);
-        let metric = statsbeat["_networkStatsbeatCollection"][0];
-        assert.strictEqual(metric.intervalRequestExecutionTime, 100);
-
-        // Ensure network statsbeat attributes are populated
-        assert.strictEqual(statsbeat["_attach"], "sdk");
-        assert.strictEqual(
-          statsbeat["_cikey"],
-          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;"
-        );
-        assert.strictEqual(statsbeat["_language"], "node");
-        assert.strictEqual(statsbeat["_resourceProvider"], "appsvc");
-        assert.strictEqual(
-          statsbeat["_endpointUrl"],
-          "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com"
-        );
-        assert.ok(statsbeat["_os"]);
-        assert.ok(statsbeat["_runtimeVersion"]);
-        assert.ok(statsbeat["_version"]);
-
-        done();
+        process.env.WEBSITE_SITE_NAME = undefined;
       });
 
       it("should track duration", async () => {
@@ -314,16 +325,6 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
         // Average Duration
         assert.strictEqual(metrics[5].dataPoints[0].value, 137.5);
-      });
-
-      it("should turn off statsbeat after max failures", async () => {
-        const exporter = new TestExporter();
-        const response = failedBreezeResponse(1, 200);
-        scope.reply(200, JSON.stringify(response));
-        exporter["_statsbeatFailureCount"] = 4;
-
-        const result = await exporter["_exportEnvelopes"]([envelope]);
-        assert.strictEqual(result.code, ExportResultCode.SUCCESS);
       });
     });
   });

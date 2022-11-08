@@ -28,7 +28,7 @@ export abstract class AzureMonitorBaseExporter {
   private readonly _sender: Sender;
   private _numConsecutiveRedirects: number;
   private _retryTimer: NodeJS.Timer | null;
-  protected _statsbeatMetrics: StatsbeatMetrics | undefined;
+  private _statsbeatMetrics: StatsbeatMetrics | undefined;
   private _isStatsbeatExporter: boolean;
   private _statsbeatFailureCount: number = 0;
   private _batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
