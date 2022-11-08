@@ -9,9 +9,8 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@azure/core-amqp": "^3.1.2-alpha.20221020.2",
-    "@azure/event-hubs": "^5.8.1-alpha.20221020.1",
-    "@azure/service-bus": "^7.7.3-alpha.20221019.2",
+    "@azure/event-hubs": "^5.8.0",
+    "@azure/service-bus": "^7.7.3",
     "@types/react": "~18.0.0",
     "@types/react-native": "~0.69.1",
     "expo": "~46.0.16",

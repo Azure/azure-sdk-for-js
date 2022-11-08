@@ -130,7 +130,7 @@ Add a `src` directory at the root of the project and add the following files
 - [ehReceiveEvents.ts](./src/ehReceiveEvents.ts) - contains the code to receive messages from Event Hub.
 - [sbSendMessages.ts](./src/sbSendMessages.ts) - contains the code to send messages to Service Bus.
 - [sbReceiveMessages.ts](./src/sbReceiveMessages.ts) - contains the code to receive messages from Service Bus.
-- [wsWrapper.ts](./src/wsWrapper.ts) - contains the code to wrap WebSocket implementation in React Native.
+- [wsWrapper.ts](./src/wsWrapper.ts) - contains the code to wrap `WebSocket` implementation in React Native to set default value of its `binaryType` property to `"blob"`.
 
 ### Add dependencies
 
@@ -139,7 +139,7 @@ We use `@babel/plugin-proposal-async-generator-functions` to help transform asyn
 We also use `babel-plugin-inline-dotenv` to help load secrets from our `.env` file while developing.
 
 ```shell
-yarn add @azure/event-hubs@dev @azure/service-bus@dev
+yarn add @azure/event-hubs @azure/service-bus
 yarn add --dev babel-plugin-inline-dotenv @babel/plugin-proposal-async-generator-functions
 ```
 
