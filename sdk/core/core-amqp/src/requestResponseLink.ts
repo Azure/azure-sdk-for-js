@@ -349,8 +349,8 @@ function onSenderError(
         `[${connectionId}] Sender closed due to error when sending request with message_id "${key}"`
       );
       promise.cleanupBeforeResolveOrReject();
-      responsesMap.delete(key);
       promise.reject(context.sender.error);
     }
+    responsesMap.clear();
   }
 }
