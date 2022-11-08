@@ -1228,6 +1228,20 @@ packages:
       uuid: 8.3.2
     dev: false
 
+  /@azure/schema-registry/1.2.0:
+    resolution: {integrity: sha512-c0941sREjSPE6/KMVd3vrLYKwwjrKZabOP/i1YOoBS4RquFIi3aA4wUPBvsVhOs4JzN79Ztcn7/ZvO4HyzrSVQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.4.0
+      '@azure/core-client': 1.6.1
+      '@azure/core-rest-pipeline': 1.9.2
+      '@azure/core-tracing': 1.0.1
+      '@azure/logger': 1.0.3
+      tslib: 2.4.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/search-documents/11.3.0-beta.7:
     resolution: {integrity: sha512-y+8GS1hjdWZA+ObTjyJIUZW+GB/be2LHBKy0VRajAGP2eJOSTVMBzzJmI19/B+DKQQvR/Sm/xyXJ6J68R+NMKQ==}
     engines: {node: '>=12.0.0'}
@@ -18293,11 +18307,12 @@ packages:
     dev: false
 
   file:projects/perf-schema-registry-avro.tgz:
-    resolution: {integrity: sha512-CCm3YQ+Pb90Oj4lGk+3bFS+1TESjUwOxM/bkmE9H30WDhNCF3YnHjNsafXzPEMvKgzuciIuWGgq1+u7BFRSd7Q==, tarball: file:projects/perf-schema-registry-avro.tgz}
+    resolution: {integrity: sha512-zVi7l9VYwUOe8fWTyUmfz/y5dTcI94l1aGopG6XWHk3eoCmsv7q8pdF/52J65H4OikE3wjeagl/Whxh7xV33jw==, tarball: file:projects/perf-schema-registry-avro.tgz}
     name: '@rush-temp/perf-schema-registry-avro'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
+      '@azure/schema-registry': 1.2.0
       '@types/node': 14.18.33
       dotenv: 8.6.0
       eslint: 8.27.0
@@ -18619,12 +18634,13 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-TFYLY5wRVwCwTEk4EF9y4EGgFdnjoBr6hGfnmLTz9cuVTCnAyK5CrLg5qr465r609dBTAlfuIT24CMHW/TFISw==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-SIDjYsrkieBZT4YGGZPxVprZP8CbBMz4uQyugTsR5dCW5cg3x3TUMCgTl8KcV6nvhdl7PllvNs3ZsPImQnCEkQ==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
+      '@azure/schema-registry': 1.2.0
       '@microsoft/api-extractor': 7.33.5
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-inject': 4.0.4_rollup@2.79.1
@@ -18676,7 +18692,7 @@ packages:
     dev: false
 
   file:projects/schema-registry.tgz:
-    resolution: {integrity: sha512-uPistcDbdNRfJWtSN2w7YYoyAA4VHp/+jzomdFSbpCEzyyrTRibHQo5c/njWkhD7V92xJqz45/x0yKCgguCvsg==, tarball: file:projects/schema-registry.tgz}
+    resolution: {integrity: sha512-nQIE67m2HMgt6rBvvqThDcdI10CovFgzd/dONKKaTfnPxPixmhWFx1N8ZDqrE0l6TfpbahyknY6Fn+JM5LR1RA==, tarball: file:projects/schema-registry.tgz}
     name: '@rush-temp/schema-registry'
     version: 0.0.0
     dependencies:
