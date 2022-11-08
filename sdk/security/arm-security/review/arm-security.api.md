@@ -995,7 +995,7 @@ export interface AwsCredsAuthenticationDetailsProperties extends AuthenticationD
 }
 
 // @public
-export interface AWSEnvironmentData extends EnvironmentData {
+export interface AwsEnvironmentData extends EnvironmentData {
     environmentType: "AwsAccount";
     organizationalData?: AwsOrganizationalDataUnion;
 }
@@ -1113,11 +1113,11 @@ export type CloudName = string;
 // @public
 export interface CloudOffering {
     readonly description?: string;
-    offeringType: "CspmMonitorAws" | "DefenderForContainersAws" | "DefenderForServersAws" | "DefenderForDatabasesAws" | "InformationProtectionAws" | "CspmMonitorGcp" | "DefenderForServersGcp" | "DefenderForDatabasesGcp" | "DefenderForContainersGcp" | "CspmMonitorGithub" | "CspmMonitorAzureDevOps";
+    offeringType: "CspmMonitorAws" | "DefenderForContainersAws" | "DefenderForServersAws" | "DefenderForDatabasesAws" | "InformationProtectionAws" | "CspmMonitorGcp" | "DefenderForServersGcp" | "DefenderForDatabasesGcp" | "DefenderForContainersGcp" | "CspmMonitorGithub" | "CspmMonitorAzureDevOps" | "DefenderCspmAws" | "DefenderCspmGcp" | "DefenderForDevOpsGithub" | "DefenderForDevOpsAzureDevOps";
 }
 
 // @public (undocumented)
-export type CloudOfferingUnion = CloudOffering | CspmMonitorAwsOffering | DefenderForContainersAwsOffering | DefenderForServersAwsOffering | DefenderFoDatabasesAwsOffering | InformationProtectionAwsOffering | CspmMonitorGcpOffering | DefenderForServersGcpOffering | DefenderForDatabasesGcpOffering | DefenderForContainersGcpOffering | CspmMonitorGithubOffering | CspmMonitorAzureDevOpsOffering;
+export type CloudOfferingUnion = CloudOffering | CspmMonitorAwsOffering | DefenderForContainersAwsOffering | DefenderForServersAwsOffering | DefenderFoDatabasesAwsOffering | InformationProtectionAwsOffering | CspmMonitorGcpOffering | DefenderForServersGcpOffering | DefenderForDatabasesGcpOffering | DefenderForContainersGcpOffering | CspmMonitorGithubOffering | CspmMonitorAzureDevOpsOffering | DefenderCspmAwsOffering | DefenderCspmGcpOffering | DefenderForDevOpsGithubOffering | DefenderForDevOpsAzureDevOpsOffering;
 
 // @public
 export interface Compliance extends Resource {
@@ -1544,23 +1544,48 @@ export interface DataExportSettings extends Setting {
 export type DataSource = string;
 
 // @public
+export interface DefenderCspmAwsOffering extends CloudOffering {
+    offeringType: "DefenderCspmAws";
+    vmScanners?: DefenderCspmAwsOfferingVmScanners;
+}
+
+// @public
+export interface DefenderCspmAwsOfferingVmScanners {
+    configuration?: DefenderCspmAwsOfferingVmScannersConfiguration;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderCspmAwsOfferingVmScannersConfiguration {
+    cloudRoleArn?: string;
+    exclusionTags?: {
+        [propertyName: string]: string;
+    };
+    scanningMode?: ScanningMode;
+}
+
+// @public
+export interface DefenderCspmGcpOffering extends CloudOffering {
+    offeringType: "DefenderCspmGcp";
+}
+
+// @public
 export interface DefenderFoDatabasesAwsOffering extends CloudOffering {
     arcAutoProvisioning?: DefenderFoDatabasesAwsOfferingArcAutoProvisioning;
     offeringType: "DefenderForDatabasesAws";
+    rds?: DefenderFoDatabasesAwsOfferingRds;
 }
 
 // @public
 export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioning {
     cloudRoleArn?: string;
     enabled?: boolean;
-    servicePrincipalSecretMetadata?: DefenderFoDatabasesAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata;
 }
 
 // @public
-export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata {
-    expiryDate?: Date;
-    parameterNameInStore?: string;
-    parameterStoreRegion?: string;
+export interface DefenderFoDatabasesAwsOfferingRds {
+    cloudRoleArn?: string;
+    enabled?: boolean;
 }
 
 // @public
@@ -1639,20 +1664,23 @@ export interface DefenderForDatabasesGcpOffering extends CloudOffering {
 
 // @public
 export interface DefenderForDatabasesGcpOfferingArcAutoProvisioning {
-    configuration?: DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration;
     enabled?: boolean;
-}
-
-// @public
-export interface DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration {
-    agentOnboardingServiceAccountNumericId?: string;
-    clientId?: string;
 }
 
 // @public
 export interface DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning {
     serviceAccountEmailAddress?: string;
     workloadIdentityProviderId?: string;
+}
+
+// @public
+export interface DefenderForDevOpsAzureDevOpsOffering extends CloudOffering {
+    offeringType: "DefenderForDevOpsAzureDevOps";
+}
+
+// @public
+export interface DefenderForDevOpsGithubOffering extends CloudOffering {
+    offeringType: "DefenderForDevOpsGithub";
 }
 
 // @public
@@ -1670,14 +1698,6 @@ export interface DefenderForServersAwsOffering extends CloudOffering {
 export interface DefenderForServersAwsOfferingArcAutoProvisioning {
     cloudRoleArn?: string;
     enabled?: boolean;
-    servicePrincipalSecretMetadata?: DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata;
-}
-
-// @public
-export interface DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata {
-    expiryDate?: string;
-    parameterNameInStore?: string;
-    parameterStoreRegion?: string;
 }
 
 // @public
@@ -1716,7 +1736,9 @@ export interface DefenderForServersAwsOfferingVmScanners {
 // @public
 export interface DefenderForServersAwsOfferingVmScannersConfiguration {
     cloudRoleArn?: string;
-    exclusionTags?: Record<string, unknown>;
+    exclusionTags?: {
+        [propertyName: string]: string;
+    };
     scanningMode?: ScanningMode;
 }
 
@@ -1732,14 +1754,7 @@ export interface DefenderForServersGcpOffering extends CloudOffering {
 
 // @public
 export interface DefenderForServersGcpOfferingArcAutoProvisioning {
-    configuration?: DefenderForServersGcpOfferingArcAutoProvisioningConfiguration;
     enabled?: boolean;
-}
-
-// @public
-export interface DefenderForServersGcpOfferingArcAutoProvisioningConfiguration {
-    agentOnboardingServiceAccountNumericId?: string;
-    clientId?: string;
 }
 
 // @public
@@ -1916,7 +1931,7 @@ export interface EnvironmentData {
 }
 
 // @public (undocumented)
-export type EnvironmentDataUnion = EnvironmentData | AWSEnvironmentData | GcpProjectEnvironmentData | GithubScopeEnvironmentData | AzureDevOpsScopeEnvironmentData;
+export type EnvironmentDataUnion = EnvironmentData | AwsEnvironmentData | GcpProjectEnvironmentData | GithubScopeEnvironmentData | AzureDevOpsScopeEnvironmentData;
 
 // @public
 export type EnvironmentType = string;
@@ -2091,6 +2106,9 @@ export interface GcpProjectEnvironmentData extends EnvironmentData {
     organizationalData?: GcpOrganizationalDataUnion;
     projectDetails?: GcpProjectDetails;
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GithubScopeEnvironmentData extends EnvironmentData {
@@ -2994,6 +3012,7 @@ export enum KnownAlertStatus {
 // @public
 export enum KnownApplicationConditionOperator {
     Contains = "Contains",
+    Equals = "Equals",
     In = "In"
 }
 
@@ -3276,10 +3295,14 @@ export enum KnownOfferingType {
     CspmMonitorAzureDevOps = "CspmMonitorAzureDevOps",
     CspmMonitorGcp = "CspmMonitorGcp",
     CspmMonitorGithub = "CspmMonitorGithub",
+    DefenderCspmAws = "DefenderCspmAws",
+    DefenderCspmGcp = "DefenderCspmGcp",
     DefenderForContainersAws = "DefenderForContainersAws",
     DefenderForContainersGcp = "DefenderForContainersGcp",
     DefenderForDatabasesAws = "DefenderForDatabasesAws",
     DefenderForDatabasesGcp = "DefenderForDatabasesGcp",
+    DefenderForDevOpsAzureDevOps = "DefenderForDevOpsAzureDevOps",
+    DefenderForDevOpsGithub = "DefenderForDevOpsGithub",
     DefenderForServersAws = "DefenderForServersAws",
     DefenderForServersGcp = "DefenderForServersGcp",
     InformationProtectionAws = "InformationProtectionAws"
