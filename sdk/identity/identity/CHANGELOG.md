@@ -1,14 +1,10 @@
 # Release History
 
-## 3.1.0 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 3.1.0 (2022-11-08)
 
 ### Other Changes
+
+- Docs improvements for cross-language alignment
 
 ## 3.0.1 (2022-11-07)
 
