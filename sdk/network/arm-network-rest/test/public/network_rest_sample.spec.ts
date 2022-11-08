@@ -69,7 +69,7 @@ describe("Network test", () => {
     client = createTestNetworkManagementClient(recorder, credential);
     location = "eastus";
     resourceGroupName = env.RESOURCE_GROUP_NAME || "";
-    virtualNetworkName = recorder.variable("virtual-network-name", "virtualnetworkzzz-" + Math.ceil(100 + Math.random() * 1000));
+    virtualNetworkName = "virtualnetworkzzz";
     subnet_name = "subnetnamexx";
     ipGroupName = "ipgroupyyy";
   });
