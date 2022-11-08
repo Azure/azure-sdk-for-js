@@ -51,12 +51,22 @@ describe("signalr test", () => {
     client = new SignalRManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
-    resourceName = "mySignalRService";
+    resourceName = "mySignalRService1";
   });
 
   afterEach(async function () {
     await recorder.stop();
   });
+
+  it("checkname test", async function () {
+    const res = await client.signalR.checkNameAvailability(
+      location,
+      {
+        name: resourceName,
+        type: "Microsoft.SignalRService/SignalR"
+      }
+    );
+  })
 
   it("signalr create test", async function () {
     const res = await client.signalR.beginCreateOrUpdateAndWait(
