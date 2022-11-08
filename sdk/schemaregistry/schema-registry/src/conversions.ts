@@ -40,6 +40,7 @@ export async function convertSchemaResponse(response: GeneratedSchemaResponse): 
 }
 
 const customContentType = "text/plain; charset=utf-8";
+const customFormat = "Custom";
 
 /**
  * @internal
@@ -47,7 +48,10 @@ const customContentType = "text/plain; charset=utf-8";
  * @returns corresponding content-type value
  */
 export function buildContentType(format: string): string {
-  return format === "custom" ? customContentType : `application/json; serialization=${format}`;
+  const lowercaseFormat = format.toLowerCase();
+  return lowercaseFormat === customFormat.toLowerCase()
+    ? customContentType
+    : `application/json; serialization=${lowercaseFormat}`;
 }
 
 /**
@@ -72,7 +76,7 @@ export function convertSchemaIdResponse(
 }
 
 function mapContentTypeToFormat(contentType: string): string {
-  if (contentType === customContentType) return "custom";
+  if (contentType === customContentType) return customFormat;
   const parts = /.*serialization=(.*)$/.exec(contentType);
   const schemaFormat = parts?.[1];
   if (schemaFormat) {
