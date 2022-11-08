@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix an issue in `RequestResponseLink` where sender error is not rejected [PR #23646](https://github.com/Azure/azure-sdk-for-js/pull/23646).
+
 ### Other Changes
 
 ## 3.1.1 (2022-09-01)
