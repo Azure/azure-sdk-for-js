@@ -19,7 +19,9 @@ export function createRecordingRequest(
   if (sessionFile !== undefined) {
     let body: any = { "x-recording-file": sessionFile };
 
-    if (assetsJson) {
+    // during browser tests the non-presence of an assets.json will result in the value "undefined" being set
+    // its easier to just explicitly handle this case rather than ensure that folks update their karma conf properly.
+    if (assetsJson && assetsJson !== "undefined") {
       body["x-recording-assets-file"] = assetsJson;
     }
 
