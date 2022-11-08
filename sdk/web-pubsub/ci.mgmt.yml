@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -10,6 +10,7 @@ trigger:
     include:
       - sdk/web-pubsub/ci.mgmt.yml
       - sdk/web-pubsub/arm-webpubsub/
+      - sdk/web-pubsub/arm-webpubsub
 pr:
   branches:
     include:
@@ -23,6 +24,7 @@ pr:
     include:
       - sdk/web-pubsub/ci.mgmt.yml
       - sdk/web-pubsub/arm-webpubsub/
+      - sdk/web-pubsub/arm-webpubsub
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
