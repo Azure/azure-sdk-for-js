@@ -25,7 +25,6 @@ dotenv.config();
 
 const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
 const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
-const apiVersion = "v1.1";
 const timeSeriesDataPath = "./samples-dev/example-data/request-data.csv";
 
 function read_series_from_file(path: string): Array<TimeSeriesPoint> {
@@ -40,7 +39,7 @@ function read_series_from_file(path: string): Array<TimeSeriesPoint> {
 
 export async function main() {
   const credential = new AzureKeyCredential(apiKey);
-  const client = AnomalyDetector(endpoint, credential, { apiVersion });
+  const client = AnomalyDetector(endpoint, credential);
   const options: DetectUnivariateChangePointParameters = {
     body: {
       granularity: "daily",
