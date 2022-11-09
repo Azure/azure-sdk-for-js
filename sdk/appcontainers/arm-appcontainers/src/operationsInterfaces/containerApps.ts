@@ -21,7 +21,9 @@ import {
   ContainerAppsListCustomHostNameAnalysisOptionalParams,
   ContainerAppsListCustomHostNameAnalysisResponse,
   ContainerAppsListSecretsOptionalParams,
-  ContainerAppsListSecretsResponse
+  ContainerAppsListSecretsResponse,
+  ContainerAppsGetAuthTokenOptionalParams,
+  ContainerAppsGetAuthTokenResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -155,4 +157,15 @@ export interface ContainerApps {
     containerAppName: string,
     options?: ContainerAppsListSecretsOptionalParams
   ): Promise<ContainerAppsListSecretsResponse>;
+  /**
+   * Get auth token for a container app
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param containerAppName Name of the Container App.
+   * @param options The options parameters.
+   */
+  getAuthToken(
+    resourceGroupName: string,
+    containerAppName: string,
+    options?: ContainerAppsGetAuthTokenOptionalParams
+  ): Promise<ContainerAppsGetAuthTokenResponse>;
 }

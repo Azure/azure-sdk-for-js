@@ -14,6 +14,10 @@ import {
  */
 export interface SerializedCommunicationIdentifier {
   /**
+   * Kind of the identifier, optional.
+   */
+  kind?: string;
+  /**
    * Raw Id of the identifier. Optional in requests, required in responses.
    */
   rawId?: string;
@@ -91,7 +95,7 @@ const assertNotNullOrUndefined = <
   if (prop in subObj) {
     return subObj[prop];
   }
-  throw new Error(`Property ${prop} is required for identifier of type ${subObjName}.`);
+  throw new Error(`Property ${String(prop)} is required for identifier of type ${subObjName}.`);
 };
 
 const assertMaximumOneNestedModel = (identifier: SerializedCommunicationIdentifier): void => {
@@ -150,6 +154,22 @@ export const serializeCommunicationIdentifier = (
   }
 };
 
+const getKind = (serializedIdentifier: SerializedCommunicationIdentifier): string => {
+  if (serializedIdentifier.communicationUser) {
+    return "communicationUser";
+  }
+
+  if (serializedIdentifier.phoneNumber) {
+    return "phoneNumber";
+  }
+
+  if (serializedIdentifier.microsoftTeamsUser) {
+    return "microsoftTeamsUser";
+  }
+
+  return "unknown";
+};
+
 /**
  * @hidden
  * Translates the serialized format of a communication identifier to CommunicationIdentifier.
@@ -161,20 +181,22 @@ export const deserializeCommunicationIdentifier = (
   assertMaximumOneNestedModel(serializedIdentifier);
 
   const { communicationUser, microsoftTeamsUser, phoneNumber } = serializedIdentifier;
-  if (communicationUser) {
+  const kind = serializedIdentifier.kind ?? getKind(serializedIdentifier);
+
+  if (kind === "communicationUser" && communicationUser) {
     return {
       kind: "communicationUser",
       communicationUserId: assertNotNullOrUndefined({ communicationUser }, "id"),
     };
   }
-  if (phoneNumber) {
+  if (kind === "phoneNumber" && phoneNumber) {
     return {
       kind: "phoneNumber",
       phoneNumber: assertNotNullOrUndefined({ phoneNumber }, "value"),
       rawId: assertNotNullOrUndefined({ phoneNumber: serializedIdentifier }, "rawId"),
     };
   }
-  if (microsoftTeamsUser) {
+  if (kind === "microsoftTeamsUser" && microsoftTeamsUser) {
     return {
       kind: "microsoftTeamsUser",
       microsoftTeamsUserId: assertNotNullOrUndefined({ microsoftTeamsUser }, "userId"),

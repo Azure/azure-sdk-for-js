@@ -72,7 +72,7 @@
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "keywords": [
     "node",
@@ -109,7 +109,7 @@
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^12.0.0",
+    "@types/node": "^14.0.0",
     "buffer": "^6.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
@@ -141,7 +141,7 @@
     "safe-buffer": "^5.2.1",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~4.6.0",
+    "typescript": "~4.8.0",
     "util": "^0.12.1"
   },
   "//sampleConfiguration": {

@@ -5,7 +5,6 @@
   "rules": {
     "@azure/azure-sdk/ts-package-json-module": "warn",
     "@typescript-eslint/no-this-alias": "off",
-    "no-use-before-define": "warn",
-    "sort-imports": "error"
+    "no-use-before-define": "warn"
   }
 }

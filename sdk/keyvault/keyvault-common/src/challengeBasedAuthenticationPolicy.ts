@@ -8,7 +8,7 @@ import {
   PipelineRequest,
   RequestBodyType,
 } from "@azure/core-rest-pipeline";
-import { ParsedWWWAuthenticate, parseWWWAuthenticate } from "./parseWWWAuthenticate";
+import { WWWAuthenticate, parseWWWAuthenticateHeader } from "./parseWWWAuthenticate";
 
 import { GetTokenOptions } from "@azure/core-auth";
 
@@ -37,6 +37,9 @@ type ChallengeState =
       scopes: string[];
     };
 
+/**
+ * Additional options for the challenge based authentication policy.
+ */
 export interface CreateChallengeCallbacksOptions {
   /**
    * Whether to disable verification that the challenge resource matches the Key Vault or Managed HSM domain.
@@ -64,8 +67,6 @@ function verifyChallengeResource(scope: string, request: PipelineRequest): void 
 }
 
 /**
- * @internal
- *
  * Creates challenge callback handlers to manage CAE lifecycle in Azure Key Vault.
  *
  * Key Vault supports other authentication schemes, but we ensure challenge authentication
@@ -78,9 +79,10 @@ function verifyChallengeResource(scope: string, request: PipelineRequest): void 
  * if possible.
  *
  */
-export function createChallengeCallbacks({
-  disableChallengeResourceVerification,
-}: CreateChallengeCallbacksOptions = {}): ChallengeCallbacks {
+export function createKeyVaultChallengeCallbacks(
+  options: CreateChallengeCallbacksOptions = {}
+): ChallengeCallbacks {
+  const { disableChallengeResourceVerification } = options;
   let challengeState: ChallengeState = { status: "none" };
 
   function requestToOptions(request: PipelineRequest): GetTokenOptions {
@@ -93,8 +95,10 @@ export function createChallengeCallbacks({
     };
   }
 
-  async function authorizeRequest(options: AuthorizeRequestOptions) {
-    const { request } = options;
+  async function authorizeRequest({
+    request,
+    getAccessToken,
+  }: AuthorizeRequestOptions): Promise<void> {
     const requestOptions: GetTokenOptions = requestToOptions(request);
 
     switch (challengeState.status) {
@@ -108,7 +112,7 @@ export function createChallengeCallbacks({
       case "started":
         break; // Retry, we should not overwrite the original body
       case "complete": {
-        const token = await options.getAccessToken(challengeState.scopes, requestOptions);
+        const token = await getAccessToken(challengeState.scopes, requestOptions);
         if (token) {
           request.headers.set("authorization", `Bearer ${token.token}`);
         }
@@ -118,11 +122,11 @@ export function createChallengeCallbacks({
     return Promise.resolve();
   }
 
-  async function authorizeRequestOnChallenge(
-    options: AuthorizeRequestOnChallengeOptions
-  ): Promise<boolean> {
-    const { request, response } = options;
-
+  async function authorizeRequestOnChallenge({
+    request,
+    response,
+    getAccessToken,
+  }: AuthorizeRequestOnChallengeOptions): Promise<boolean> {
     if (request.body === null && challengeState.status === "started") {
       // Reset the original body before doing anything else.
       // Note: If successful status will be "complete", otherwise "none" will
@@ -136,7 +140,7 @@ export function createChallengeCallbacks({
     if (!challenge) {
       throw new Error("Missing challenge.");
     }
-    const parsedChallenge: ParsedWWWAuthenticate = parseWWWAuthenticate(challenge) || {};
+    const parsedChallenge: WWWAuthenticate = parseWWWAuthenticateHeader(challenge) || {};
 
     const scope = parsedChallenge.resource
       ? parsedChallenge.resource + "/.default"
@@ -150,7 +154,7 @@ export function createChallengeCallbacks({
       verifyChallengeResource(scope, request);
     }
 
-    const accessToken = await options.getAccessToken([scope], {
+    const accessToken = await getAccessToken([scope], {
       ...getTokenOptions,
       tenantId: parsedChallenge.tenantId,
     });
@@ -159,7 +163,7 @@ export function createChallengeCallbacks({
       return false;
     }
 
-    options.request.headers.set("Authorization", `Bearer ${accessToken.token}`);
+    request.headers.set("Authorization", `Bearer ${accessToken.token}`);
 
     challengeState = {
       status: "complete",

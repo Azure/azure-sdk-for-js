@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates or updates a catalog.
  *
  * @summary Creates or updates a catalog.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-08-01-preview/examples/Catalogs_CreateAdo.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/Catalogs_CreateAdo.json
  */
 async function catalogsCreateOrUpdateAdo() {
   const subscriptionId = "{subscriptionId}";
@@ -49,7 +49,7 @@ catalogsCreateOrUpdateAdo().catch(console.error);
  * This sample demonstrates how to Creates or updates a catalog.
  *
  * @summary Creates or updates a catalog.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-08-01-preview/examples/Catalogs_CreateGitHub.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/Catalogs_CreateGitHub.json
  */
 async function catalogsCreateOrUpdateGitHub() {
   const subscriptionId = "{subscriptionId}";

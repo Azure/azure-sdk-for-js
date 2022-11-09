@@ -8,7 +8,7 @@ export const SDK_VERSION: string = "1.0.0-beta.2";
  *
  * Keys of known environment variables we look up.
  */
-export type KnownEnvironmentKey = "AZURE_HTTP_TRACING_DISABLED" | "AZURE_TRACING_DISABLED";
+export type KnownEnvironmentKey = "AZURE_HTTP_TRACING_CHILDREN_DISABLED" | "AZURE_TRACING_DISABLED";
 
 /**
  * @internal

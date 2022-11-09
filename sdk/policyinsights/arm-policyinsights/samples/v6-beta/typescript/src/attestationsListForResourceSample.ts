@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets all attestations for a resource.
  *
  * @summary Gets all attestations for a resource.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-01-01/examples/Attestations_ListResourceScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2022-09-01/examples/Attestations_ListResourceScope.json
  */
 async function listAttestationsAtIndividualResourceScope() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -39,7 +39,7 @@ listAttestationsAtIndividualResourceScope().catch(console.error);
  * This sample demonstrates how to Gets all attestations for a resource.
  *
  * @summary Gets all attestations for a resource.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-01-01/examples/Attestations_ListResourceScope_WithQuery.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2022-09-01/examples/Attestations_ListResourceScope_WithQuery.json
  */
 async function listAttestationsAtIndividualResourceScopeWithQueryParameters() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

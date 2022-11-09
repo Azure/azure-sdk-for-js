@@ -1,7 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as Mappers from "./generated/models/mappers";
+import * as Parameters from "./generated/models/parameters";
 import { AzureKeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { OperationOptions, OperationSpec, createSerializer } from "@azure/core-client";
+import {
+  createAzureMapsKeyCredentialPolicy,
+  createMapsClientIdPolicy,
+  createSendPollRequest,
+  getRawResponse,
+} from "@azure/maps-common";
+import {
+  EntityGeometry,
+  ReverseSearchAddressResult,
+  ReverseSearchCrossStreetAddressResult,
+  SearchAddressResult,
+} from "./models/results";
+import {
+  FuzzySearchBatchPoller,
+  ReverseSearchAddressBatchPoller,
+  SearchAddressBatchPoller,
+} from "./models/poller";
 import {
   GeoJsonCircleOrPolygonFeature,
   GeoJsonCircleOrPolygonFeatureCollection,
@@ -12,19 +32,6 @@ import {
   SearchGeometry,
   StructuredAddress,
 } from "./models/models";
-import {
-  BatchPoller,
-  BatchPollerProxy,
-  createAzureMapsKeyCredentialPolicy,
-  createMapsClientIdPolicy,
-} from "@azure/maps-common";
-import {
-  BatchResult,
-  EntityGeometry,
-  ReverseSearchAddressResult,
-  ReverseSearchCrossStreetAddressResult,
-  SearchAddressResult,
-} from "./models/results";
 import {
   FuzzySearchBatchOptions,
   FuzzySearchOptions,
@@ -56,11 +63,8 @@ import {
   SearchReverseSearchCrossStreetAddressOptionalParams as ReverseSearchCrossStreetAddressOptionalParams,
   SearchAddressBatchResult,
   SearchSearchAlongRouteOptionalParams as SearchAlongRouteOptionalParams,
-  SearchFuzzySearchBatchOptionalParams,
   SearchSearchInsideGeometryOptionalParams as SearchInsideGeometryOptionalParams,
   SearchSearchNearbyPointOfInterestOptionalParams as SearchNearbyPointOfInterestOptionalParams,
-  SearchReverseSearchAddressBatchOptionalParams,
-  SearchSearchAddressBatchOptionalParams,
   SearchSearchStructuredAddressOptionalParams as SearchStructuredAddressOptionalParams,
 } from "./generated/models";
 import {
@@ -71,10 +75,10 @@ import {
   createFuzzySearchBatchRequest,
   createReverseSearchAddressBatchRequest,
   createSearchAddressBatchRequest,
+  mapReverseSearchAddressBatchResult,
 } from "./models/mappers";
 import {
   mapFuzzySearchOptions,
-  mapReverseSearchAddressBatchResult,
   mapReverseSearchAddressResult,
   mapReverseSearchCrossStreetAddressResult,
   mapSearchAddressBatchResult,
@@ -82,11 +86,58 @@ import {
   mapSearchAddressResult,
   mapSearchPointOfInterestOptions,
 } from "./models/mappers";
+import { createHttpPoller } from "@azure/core-lro";
 import { GeneratedClient } from "./generated";
-import { OperationOptions } from "@azure/core-client";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { createSpan } from "./utils/tracing";
+import { TracingClient, createTracingClient } from "@azure/core-tracing";
 import { logger } from "./utils/logger";
+import { SDK_VERSION } from "./constants";
+
+const serializer = createSerializer(Mappers, false);
+
+const getFuzzySearchBatchOperationSpec: OperationSpec = {
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SearchAddressBatchResult,
+    },
+    202: {
+      headersMapper: Mappers.SearchGetFuzzySearchBatchHeaders,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.accept, Parameters.clientId],
+  serializer,
+};
+
+const getSearchAddressBatchOperationSpec: OperationSpec = {
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SearchAddressBatchResult,
+    },
+    202: {
+      headersMapper: Mappers.SearchGetSearchAddressBatchHeaders,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.accept, Parameters.clientId],
+  serializer,
+};
+
+const getReverseSearchAddressBatchOperationSpec: OperationSpec = {
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReverseSearchAddressBatchResult,
+    },
+    202: {
+      headersMapper: Mappers.SearchGetReverseSearchAddressBatchHeaders,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.accept, Parameters.clientId],
+  serializer,
+};
 
 const isMapsSearchClientOptions = (
   clientIdOrOptions: any
@@ -114,6 +165,7 @@ export class MapsSearchClient {
    */
   private readonly client: GeneratedClient;
   private readonly defaultFormat: string = "json";
+  private readonly tracing: TracingClient;
   /**
    * Creates an instance of MapsSearchClient from a subscription key.
    *
@@ -166,6 +218,11 @@ export class MapsSearchClient {
     };
 
     this.client = new GeneratedClient(internalPipelineOptions);
+    this.tracing = createTracingClient({
+      packageName: "@azure/maps-search",
+      packageVersion: SDK_VERSION,
+      namespace: "Microsoft.Maps",
+    });
     if (isTokenCredential(credential)) {
       const clientId = typeof clientIdOrOptions === "string" ? clientIdOrOptions : "";
       if (!clientId) {
@@ -197,31 +254,26 @@ export class MapsSearchClient {
       throw new Error("geometryIds must be a non-empty array");
     }
 
-    const { span, updatedOptions } = createSpan("MapsSearchClient-getGeometries", options);
-    const internalOptions = updatedOptions as ListPolygonsOptionalParams;
-    try {
-      const result = await this.client.search.listPolygons(
-        this.defaultFormat,
-        geometryIds,
-        internalOptions
-      );
-      return result.polygons
-        ? result.polygons.map((p) => {
-            return {
-              providerId: p.providerId,
-              geometryData: p.geometryData as GeoJsonFeatureCollection,
-            };
-          })
-        : [];
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return this.tracing.withSpan(
+      "MapsSearchClient.getGeometries",
+      options,
+      async (updatedOptions) => {
+        const internalOptions = updatedOptions as ListPolygonsOptionalParams;
+        const result = await this.client.search.listPolygons(
+          this.defaultFormat,
+          geometryIds,
+          internalOptions
+        );
+        return result.polygons
+          ? result.polygons.map((p) => {
+              return {
+                providerId: p.providerId,
+                geometryData: p.geometryData as GeoJsonFeatureCollection,
+              };
+            })
+          : [];
+      }
+    );
   }
 
   /**
@@ -234,38 +286,32 @@ export class MapsSearchClient {
     searchQuery: SearchQuery,
     options: FuzzySearchOptions & OperationOptions = {}
   ): Promise<SearchAddressResult> {
-    const { span, updatedOptions } = createSpan("MapsSearchClient-fuzzySearch", options);
     const { query, coordinates, countryCodeFilter } = searchQuery as {
       query: string;
       coordinates?: LatLon;
       countryCodeFilter?: string[];
     };
+    return this.tracing.withSpan(
+      "MapsSearchClient.fuzzySearch",
+      options,
+      async (updatedOptions) => {
+        const internalOptions = mapFuzzySearchOptions(updatedOptions);
+        if (coordinates) {
+          internalOptions.lat = coordinates[0];
+          internalOptions.lon = coordinates[1];
+        }
 
-    const internalOptions = mapFuzzySearchOptions(updatedOptions);
-    if (coordinates) {
-      internalOptions.lat = coordinates[0];
-      internalOptions.lon = coordinates[1];
-    }
-
-    if (countryCodeFilter) {
-      internalOptions.countryCodeFilter = countryCodeFilter;
-    }
-    try {
-      const result = await this.client.search.fuzzySearch(
-        this.defaultFormat,
-        query,
-        internalOptions
-      );
-      return mapSearchAddressResult(result);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        if (countryCodeFilter) {
+          internalOptions.countryCodeFilter = countryCodeFilter;
+        }
+        const result = await this.client.search.fuzzySearch(
+          this.defaultFormat,
+          query,
+          internalOptions
+        );
+        return mapSearchAddressResult(result);
+      }
+    );
   }
 
   /**
@@ -278,38 +324,33 @@ export class MapsSearchClient {
     searchQuery: SearchQuery,
     options: SearchPointOfInterestOptions = {}
   ): Promise<SearchAddressResult> {
-    const { span, updatedOptions } = createSpan("MapsSearchClient-searchPointOfInterest", options);
     const { query, coordinates, countryCodeFilter } = searchQuery as {
       query: string;
       coordinates?: LatLon;
       countryCodeFilter?: string[];
     };
+    return this.tracing.withSpan(
+      "MapsSearchClient.searchPointOfInterest",
+      options,
+      async (updatedOptions) => {
+        const internalOptions = mapSearchPointOfInterestOptions(updatedOptions);
+        if (coordinates) {
+          internalOptions.lat = coordinates[0];
+          internalOptions.lon = coordinates[1];
+        }
 
-    const internalOptions = mapSearchPointOfInterestOptions(updatedOptions);
-    if (coordinates) {
-      internalOptions.lat = coordinates[0];
-      internalOptions.lon = coordinates[1];
-    }
+        if (countryCodeFilter) {
+          internalOptions.countryCodeFilter = countryCodeFilter;
+        }
 
-    if (countryCodeFilter) {
-      internalOptions.countryCodeFilter = countryCodeFilter;
-    }
-    try {
-      const result = await this.client.search.searchPointOfInterest(
-        this.defaultFormat,
-        query,
-        internalOptions
-      );
-      return mapSearchAddressResult(result);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        const result = await this.client.search.searchPointOfInterest(
+          this.defaultFormat,
+          query,
+          internalOptions
+        );
+        return mapSearchAddressResult(result);
+      }
+    );
   }
 
   /**
@@ -322,28 +363,20 @@ export class MapsSearchClient {
     coordinates: LatLon,
     options: SearchNearbyPointOfInterestOptions = {}
   ): Promise<SearchAddressResult> {
-    const { span, updatedOptions } = createSpan(
-      "MapsSearchClient-searchNearbyPointOfInterest",
-      options
+    return this.tracing.withSpan(
+      "MapsSearchClient.searchNearbyPointOfInterest",
+      options,
+      async (updatedOptions) => {
+        const internalOptions: SearchNearbyPointOfInterestOptionalParams = updatedOptions;
+        const result = await this.client.search.searchNearbyPointOfInterest(
+          this.defaultFormat,
+          coordinates[0],
+          coordinates[1],
+          internalOptions
+        );
+        return mapSearchAddressResult(result);
+      }
     );
-    const internalOptions: SearchNearbyPointOfInterestOptionalParams = updatedOptions;
-    try {
-      const result = await this.client.search.searchNearbyPointOfInterest(
-        this.defaultFormat,
-        coordinates[0],
-        coordinates[1],
-        internalOptions
-      );
-      return mapSearchAddressResult(result);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -356,40 +389,32 @@ export class MapsSearchClient {
     searchQuery: SearchQuery,
     options: SearchPointOfInterestCategoryOptions = {}
   ): Promise<SearchAddressResult> {
-    const { span, updatedOptions } = createSpan(
-      "MapsSearchClient-searchPointOfInterestCategory",
-      options
-    );
-    const { query, coordinates, countryCodeFilter } = searchQuery as {
-      query: string;
-      coordinates?: LatLon;
-      countryCodeFilter?: string[];
-    };
-    const internalOptions = mapSearchPointOfInterestOptions(updatedOptions);
-    if (coordinates) {
-      internalOptions.lat = coordinates[0];
-      internalOptions.lon = coordinates[1];
-    }
+    return this.tracing.withSpan(
+      "MapsSearchClient.searchPointOfInterestCategory",
+      options,
+      async (updatedOptions) => {
+        const { query, coordinates, countryCodeFilter } = searchQuery as {
+          query: string;
+          coordinates?: LatLon;
+          countryCodeFilter?: string[];
+        };
+        const internalOptions = mapSearchPointOfInterestOptions(updatedOptions);
+        if (coordinates) {
+          internalOptions.lat = coordinates[0];
+          internalOptions.lon = coordinates[1];
+        }
 
-    if (countryCodeFilter) {
-      internalOptions.countryCodeFilter = countryCodeFilter;
-    }
-    try {
-      const result = await this.client.search.searchPointOfInterestCategory(
-        this.defaultFormat,
-        query,
-        internalOptions
-      );
-      return mapSearchAddressResult(result);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        if (countryCodeFilter) {
+          internalOptions.countryCodeFilter = countryCodeFilter;
+        }
+        const result = await this.client.search.searchPointOfInterestCategory(
+          this.defaultFormat,
+          query,
+          internalOptions
+        );
+        return mapSearchAddressResult(result);
+      }
+    );
   }
 
   /**
@@ -400,26 +425,18 @@ export class MapsSearchClient {
   public async getPointOfInterestCategories(
     options: GetPointOfInterestCategoriesOptions = {}
   ): Promise<PointOfInterestCategory[]> {
-    const { span, updatedOptions } = createSpan(
-      "MapsSearchClient-getPointOfInterestCategories",
-      options
+    return this.tracing.withSpan(
+      "MapsSearchClient.getPointOfInterestCategories",
+      options,
+      async (updatedOptions) => {
+        const internalOptions = updatedOptions as GetPointOfInterestCategoryTreeOptionalParams;
+        const result = await this.client.search.getPointOfInterestCategoryTree(
+          this.defaultFormat,
+          internalOptions
+        );
+        return result.categories ? result.categories : [];
+      }
     );
-    const internalOptions = updatedOptions as GetPointOfInterestCategoryTreeOptionalParams;
-    try {
-      const result = await this.client.search.getPointOfInterestCategoryTree(
-        this.defaultFormat,
-        internalOptions
-      );
-      return result.categories ? result.categories : [];
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -432,24 +449,19 @@ export class MapsSearchClient {
     query: string,
     options: SearchAddressOptions & OperationOptions = {}
   ): Promise<SearchAddressResult> {
-    const { span, updatedOptions } = createSpan("MapsSearchClient-searchAddress", options);
-    const internalOptions = mapSearchAddressOptions(updatedOptions);
-    try {
-      const result = await this.client.search.searchAddress(
-        this.defaultFormat,
-        query,
-        internalOptions
-      );
-      return mapSearchAddressResult(result);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return this.tracing.withSpan(
+      "MapsSearchClient.searchAddress",
+      options,
+      async (updatedOptions) => {
+        const internalOptions = mapSearchAddressOptions(updatedOptions);
+        const result = await this.client.search.searchAddress(
+          this.defaultFormat,
+          query,
+          internalOptions
+        );
+        return mapSearchAddressResult(result);
+      }
+    );
   }
 
   /**
@@ -462,24 +474,19 @@ export class MapsSearchClient {
     coordinates: LatLon,
     options: ReverseSearchAddressOptions & OperationOptions = {}
   ): Promise<ReverseSearchAddressResult> {
-    const { span, updatedOptions } = createSpan("MapsSearchClient-reverseSearchAddress", options);
-    const internalOptions = updatedOptions as ReverseSearchAddressOptionalParams;
-    try {
-      const result = await this.client.search.reverseSearchAddress(
-        this.defaultFormat,
-        [coordinates[0], coordinates[1]],
-        internalOptions
-      );
-      return mapReverseSearchAddressResult(result);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return this.tracing.withSpan(
+      "MapsSearchClient.reverseSearchAddress",
+      options,
+      async (updatedOptions) => {
+        const internalOptions = updatedOptions as ReverseSearchAddressOptionalParams;
+        const result = await this.client.search.reverseSearchAddress(
+          this.defaultFormat,
+          [coordinates[0], coordinates[1]],
+          internalOptions
+        );
+        return mapReverseSearchAddressResult(result);
+      }
+    );
   }
 
   /**
@@ -492,27 +499,19 @@ export class MapsSearchClient {
     coordinates: LatLon,
     options: ReverseSearchCrossStreetAddressOptions = {}
   ): Promise<ReverseSearchCrossStreetAddressResult> {
-    const { span, updatedOptions } = createSpan(
-      "MapsSearchClient-reverseSearchCrossStreetAddress",
-      options
+    return this.tracing.withSpan(
+      "MapsSearchClient.reverseSearchCrossStreetAddress",
+      options,
+      async (updatedOptions) => {
+        const internalOptions = updatedOptions as ReverseSearchCrossStreetAddressOptionalParams;
+        const result = await this.client.search.reverseSearchCrossStreetAddress(
+          this.defaultFormat,
+          [coordinates[0], coordinates[1]],
+          internalOptions
+        );
+        return mapReverseSearchCrossStreetAddressResult(result);
+      }
     );
-    const internalOptions = updatedOptions as ReverseSearchCrossStreetAddressOptionalParams;
-    try {
-      const result = await this.client.search.reverseSearchCrossStreetAddress(
-        this.defaultFormat,
-        [coordinates[0], coordinates[1]],
-        internalOptions
-      );
-      return mapReverseSearchCrossStreetAddressResult(result);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -525,31 +524,23 @@ export class MapsSearchClient {
     structuredAddress: StructuredAddress,
     options: SearchStructuredAddressOptions = {}
   ): Promise<SearchAddressResult> {
-    const { span, updatedOptions } = createSpan(
-      "MapsSearchClient-searchStructuredAddress",
-      options
+    return this.tracing.withSpan(
+      "MapsSearchClient.searchStructuredAddress",
+      options,
+      async (updatedOptions) => {
+        const { countryCode, ...structuredAddressOptions } = structuredAddress;
+        const internalOptions = {
+          ...updatedOptions,
+          ...structuredAddressOptions,
+        } as SearchStructuredAddressOptionalParams;
+        const result = await this.client.search.searchStructuredAddress(
+          this.defaultFormat,
+          countryCode,
+          internalOptions
+        );
+        return mapSearchAddressResult(result);
+      }
     );
-    const { countryCode, ...structuredAddressOptions } = structuredAddress;
-    const internalOptions = {
-      ...updatedOptions,
-      ...structuredAddressOptions,
-    } as SearchStructuredAddressOptionalParams;
-    try {
-      const result = await this.client.search.searchStructuredAddress(
-        this.defaultFormat,
-        countryCode,
-        internalOptions
-      );
-      return mapSearchAddressResult(result);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -566,41 +557,35 @@ export class MapsSearchClient {
     geometry: SearchGeometry,
     options: SearchInsideGeometryOptions = {}
   ): Promise<SearchAddressResult> {
-    const { span, updatedOptions } = createSpan("MapsSearchClient-searchInsideGeometry", options);
-    const internalOptions = updatedOptions as SearchInsideGeometryOptionalParams;
-    /** Patch an empty object to properties since it's required */
-    if (isGeoJsonCircleOrPolygonFeatureCollection(geometry)) {
-      console.log("is feature collection");
-      geometry.features = geometry.features.map((feature) => {
-        if (isGeoJsonPolygonFeature(feature)) {
-          console.log("is polygon");
-          return {
-            ...feature,
-            properties: {},
-          };
+    return this.tracing.withSpan(
+      "MapsSearchClient.searchInsideGeometry",
+      options,
+      async (updatedOptions) => {
+        const internalOptions = updatedOptions as SearchInsideGeometryOptionalParams;
+        /** Patch an empty object to properties since it's required */
+        if (isGeoJsonCircleOrPolygonFeatureCollection(geometry)) {
+          geometry.features = geometry.features.map((feature) => {
+            if (isGeoJsonPolygonFeature(feature)) {
+              return {
+                ...feature,
+                properties: {},
+              };
+            }
+            return feature;
+          });
         }
-        return feature;
-      });
-    }
-    try {
-      const result = await this.client.search.searchInsideGeometry(
-        this.defaultFormat,
-        query,
-        {
-          geometry: geometry as unknown as Record<string, unknown>,
-        },
-        internalOptions
-      );
-      return mapSearchAddressResult(result);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+
+        const result = await this.client.search.searchInsideGeometry(
+          this.defaultFormat,
+          query,
+          {
+            geometry: geometry as unknown as Record<string, unknown>,
+          },
+          internalOptions
+        );
+        return mapSearchAddressResult(result);
+      }
+    );
   }
 
   /**
@@ -617,26 +602,21 @@ export class MapsSearchClient {
     route: GeoJsonLineString,
     options: SearchAlongRouteOptions = {}
   ): Promise<SearchAddressResult> {
-    const { span, updatedOptions } = createSpan("MapsSearchClient-searchAlongRoute", options);
-    const internalOptions = updatedOptions as SearchAlongRouteOptionalParams;
-    try {
-      const result = await this.client.search.searchAlongRoute(
-        this.defaultFormat,
-        query,
-        maxDetourTimeInSeconds,
-        { route: route },
-        internalOptions
-      );
-      return mapSearchAddressResult(result);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return this.tracing.withSpan(
+      "MapsSearchClient.searchAlongRoute",
+      options,
+      async (updatedOptions) => {
+        const internalOptions = updatedOptions as SearchAlongRouteOptionalParams;
+        const result = await this.client.search.searchAlongRoute(
+          this.defaultFormat,
+          query,
+          maxDetourTimeInSeconds,
+          { route: route },
+          internalOptions
+        );
+        return mapSearchAddressResult(result);
+      }
+    );
   }
 
   /**
@@ -649,7 +629,7 @@ export class MapsSearchClient {
   public async beginFuzzySearchBatch(
     requests: FuzzySearchRequest[],
     options: FuzzySearchBatchOptions = {}
-  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
+  ): Promise<FuzzySearchBatchPoller> {
     return this.createFuzzySearchBatchPoller(requests, options);
   }
 
@@ -663,45 +643,60 @@ export class MapsSearchClient {
    * rehydratedPoller.poll()
    * ```
    *
-   * @param resumeFrom - The serialized state from the previous poller.
+   * @param restoreFrom - The serialized state from the previous poller.
    * @param options - Optional parameters for the operation.
    *
    */
   public async resumeFuzzySearchBatch(
-    resumeFrom: string,
+    restoreFrom: string,
     options: FuzzySearchBatchOptions = {}
-  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
-    return this.createFuzzySearchBatchPoller(undefined, { ...options, resumeFrom });
+  ): Promise<FuzzySearchBatchPoller> {
+    return this.createFuzzySearchBatchPoller(restoreFrom, options);
   }
 
   private async createFuzzySearchBatchPoller(
-    requests: FuzzySearchRequest[] = [],
-    options: SearchFuzzySearchBatchOptionalParams = {}
-  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
-    const { span, updatedOptions } = createSpan("MapsSearchClient-beginFuzzySearchBatch", options);
-    const batchRequest = createFuzzySearchBatchRequest(requests);
-    try {
-      const internalPoller = await this.client.search.beginFuzzySearchBatch(
-        this.defaultFormat,
-        batchRequest,
-        updatedOptions
-      );
-      const poller = new BatchPollerProxy<
-        BatchResult<SearchAddressResult>,
-        SearchAddressBatchResult
-      >(internalPoller, mapSearchAddressBatchResult);
+    requestsOrRestoreFrom: FuzzySearchRequest[] | string,
+    options: FuzzySearchBatchOptions = {}
+  ): Promise<FuzzySearchBatchPoller> {
+    return this.tracing.withSpan(
+      "MapsSearchClient.beginFuzzySearchBatch",
+      options,
+      async (updatedOptions) => {
+        const requests = Array.isArray(requestsOrRestoreFrom) ? requestsOrRestoreFrom : [];
+        const restoreFrom = typeof requestsOrRestoreFrom === "string" ? requestsOrRestoreFrom : "";
+        const batchRequest = createFuzzySearchBatchRequest(requests);
 
-      await poller.poll();
-      return poller;
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        const poller = await createHttpPoller(
+          {
+            sendInitialRequest: async () => {
+              return getRawResponse(
+                async (paramOptions) =>
+                  this.client.search.fuzzySearchBatch(
+                    this.defaultFormat,
+                    batchRequest,
+                    paramOptions
+                  ),
+                updatedOptions
+              );
+            },
+            sendPollRequest: createSendPollRequest({
+              client: this.client,
+              options: updatedOptions,
+              spec: getFuzzySearchBatchOperationSpec,
+            }),
+          },
+          {
+            intervalInMs: options.updateIntervalInMs,
+            processResult: (internalResult) =>
+              mapSearchAddressBatchResult(internalResult as SearchAddressBatchResult),
+            ...(restoreFrom && { restoreFrom }),
+          }
+        );
+
+        await poller.poll();
+        return poller;
+      }
+    );
   }
 
   /**
@@ -714,7 +709,7 @@ export class MapsSearchClient {
   public async beginSearchAddressBatch(
     requests: SearchAddressRequest[],
     options: SearchAddressBatchOptions = {}
-  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
+  ): Promise<SearchAddressBatchPoller> {
     return this.createSearchAddressBatchPoller(requests, options);
   }
 
@@ -728,48 +723,60 @@ export class MapsSearchClient {
    * rehydratedPoller.poll()
    * ```
    *
-   * @param resumeFrom - The serialized state from the previous poller.
+   * @param restoreFrom - The serialized state from the previous poller.
    * @param options - Optional parameters for the operation.
    *
    */
   public async resumeSearchAddressBatch(
-    resumeFrom: string,
+    restoreFrom: string,
     options: SearchAddressBatchOptions = {}
-  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
-    return this.createSearchAddressBatchPoller(undefined, { ...options, resumeFrom });
+  ): Promise<SearchAddressBatchPoller> {
+    return this.createSearchAddressBatchPoller(restoreFrom, options);
   }
 
   private async createSearchAddressBatchPoller(
-    requests: SearchAddressRequest[] = [],
-    options: SearchSearchAddressBatchOptionalParams = {}
-  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
-    const { span, updatedOptions } = createSpan(
-      "MapsSearchClient-beginSearchAddressBatch",
-      options
-    );
-    const batchRequest = createSearchAddressBatchRequest(requests);
-    try {
-      const internalPoller = await this.client.search.beginSearchAddressBatch(
-        this.defaultFormat,
-        batchRequest,
-        updatedOptions
-      );
-      const poller = new BatchPollerProxy<
-        BatchResult<SearchAddressResult>,
-        SearchAddressBatchResult
-      >(internalPoller, mapSearchAddressBatchResult);
+    requestsOrRestoreFrom: SearchAddressRequest[] | string,
+    options: SearchAddressBatchOptions = {}
+  ): Promise<SearchAddressBatchPoller> {
+    return this.tracing.withSpan(
+      "MapsSearchClient.beginSearchAddressBatch",
+      options,
+      async (updatedOptions) => {
+        const requests = Array.isArray(requestsOrRestoreFrom) ? requestsOrRestoreFrom : [];
+        const restoreFrom = typeof requestsOrRestoreFrom === "string" ? requestsOrRestoreFrom : "";
+        const batchRequest = createSearchAddressBatchRequest(requests);
 
-      await poller.poll();
-      return poller;
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        const poller = await createHttpPoller(
+          {
+            sendInitialRequest: async () => {
+              return getRawResponse(
+                async (paramOptions) =>
+                  this.client.search.searchAddressBatch(
+                    this.defaultFormat,
+                    batchRequest,
+                    paramOptions
+                  ),
+                updatedOptions
+              );
+            },
+            sendPollRequest: createSendPollRequest({
+              client: this.client,
+              options: updatedOptions,
+              spec: getSearchAddressBatchOperationSpec,
+            }),
+          },
+          {
+            intervalInMs: options.updateIntervalInMs,
+            processResult: (internalResult) =>
+              mapSearchAddressBatchResult(internalResult as SearchAddressBatchResult),
+            ...(restoreFrom && { restoreFrom }),
+          }
+        );
+
+        await poller.poll();
+        return poller;
+      }
+    );
   }
 
   /**
@@ -782,7 +789,7 @@ export class MapsSearchClient {
   public async beginReverseSearchAddressBatch(
     requests: ReverseSearchAddressRequest[],
     options: ReverseSearchAddressBatchOptions = {}
-  ): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>> {
+  ): Promise<ReverseSearchAddressBatchPoller> {
     return this.createReverseSearchAddressBatchPoller(requests, options);
   }
 
@@ -796,48 +803,58 @@ export class MapsSearchClient {
    * rehydratedPoller.poll()
    * ```
    *
-   * @param resumeFrom - The serialized state from the previous poller.
+   * @param restoreFrom - The serialized state from the previous poller.
    * @param options - Optional parameters for the operation.
    *
    */
   public async resumeReverseSearchAddressBatch(
-    resumeFrom: string,
+    restoreFrom: string,
     options: ReverseSearchAddressBatchOptions = {}
-  ): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>> {
-    return this.createReverseSearchAddressBatchPoller(undefined, { ...options, resumeFrom });
+  ): Promise<ReverseSearchAddressBatchPoller> {
+    return this.createReverseSearchAddressBatchPoller(restoreFrom, options);
   }
 
   private async createReverseSearchAddressBatchPoller(
-    requests: ReverseSearchAddressRequest[] = [],
-    options: SearchReverseSearchAddressBatchOptionalParams = {}
-  ): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>> {
-    const { span, updatedOptions } = createSpan(
-      "MapsSearchClient-beginReverseSearchAddressBatch",
-      options
+    requestsOrRestoreFrom: ReverseSearchAddressRequest[] | string,
+    options: ReverseSearchAddressBatchOptions = {}
+  ): Promise<ReverseSearchAddressBatchPoller> {
+    return this.tracing.withSpan(
+      "MapsSearchClient.beginReverseSearchAddressBatch",
+      options,
+      async (updatedOptions) => {
+        const requests = Array.isArray(requestsOrRestoreFrom) ? requestsOrRestoreFrom : [];
+        const restoreFrom = typeof requestsOrRestoreFrom === "string" ? requestsOrRestoreFrom : "";
+        const batchRequest = createReverseSearchAddressBatchRequest(requests);
+        const poller = await createHttpPoller(
+          {
+            sendInitialRequest: async () => {
+              return getRawResponse(
+                async (paramOptions) =>
+                  this.client.search.reverseSearchAddressBatch(
+                    this.defaultFormat,
+                    batchRequest,
+                    paramOptions
+                  ),
+                updatedOptions
+              );
+            },
+            sendPollRequest: createSendPollRequest({
+              client: this.client,
+              options: updatedOptions,
+              spec: getReverseSearchAddressBatchOperationSpec,
+            }),
+          },
+          {
+            intervalInMs: options.updateIntervalInMs,
+            processResult: (internalResult) =>
+              mapReverseSearchAddressBatchResult(internalResult as ReverseSearchAddressBatchResult),
+            ...(restoreFrom && { restoreFrom }),
+          }
+        );
+
+        await poller.poll();
+        return poller;
+      }
     );
-    const batchRequest = createReverseSearchAddressBatchRequest(requests);
-    try {
-      const internalPoller = await this.client.search.beginReverseSearchAddressBatch(
-        this.defaultFormat,
-        batchRequest,
-        updatedOptions
-      );
-
-      const poller = new BatchPollerProxy<
-        BatchResult<ReverseSearchAddressResult>,
-        ReverseSearchAddressBatchResult
-      >(internalPoller, mapReverseSearchAddressBatchResult);
-
-      await poller.poll();
-      return poller;
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: (e as any).message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 }

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists all the available Cognitive Services account operations.
  *
  * @summary Lists all the available Cognitive Services account operations.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-03-01/examples/GetOperations.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-10-01/examples/GetOperations.json
  */
 async function getOperations() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

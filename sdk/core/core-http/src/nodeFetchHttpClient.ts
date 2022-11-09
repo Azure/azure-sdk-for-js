@@ -206,7 +206,10 @@ export class NodeFetchHttpClient implements HttpClient {
       body: body,
       headers: httpRequest.headers.rawHeaders(),
       method: httpRequest.method,
-      signal: abortController.signal,
+      // the types for RequestInit are from the browser, which expects AbortSignal to
+      // have `reason` and `throwIfAborted`, but these don't exist on our polyfill
+      // for Node.
+      signal: abortController.signal as any,
       redirect: "manual",
       ...platformSpecificRequestInit,
     };
