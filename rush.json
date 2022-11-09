@@ -1925,6 +1925,11 @@
       "packageName": "@azure/arm-appcomplianceautomation",
       "projectFolder": "sdk/appcomplianceautomation/arm-appcomplianceautomation",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-devops",
+      "projectFolder": "sdk/devops/arm-devops",
+      "versionPolicyName": "management"
     }
   ]
 }

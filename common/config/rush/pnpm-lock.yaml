@@ -78,6 +78,7 @@ specifiers:
   '@rush-temp/arm-devhub': file:./projects/arm-devhub.tgz
   '@rush-temp/arm-deviceprovisioningservices': file:./projects/arm-deviceprovisioningservices.tgz
   '@rush-temp/arm-deviceupdate': file:./projects/arm-deviceupdate.tgz
+  '@rush-temp/arm-devops': file:./projects/arm-devops.tgz
   '@rush-temp/arm-devspaces': file:./projects/arm-devspaces.tgz
   '@rush-temp/arm-devtestlabs': file:./projects/arm-devtestlabs.tgz
   '@rush-temp/arm-digitaltwins': file:./projects/arm-digitaltwins.tgz
@@ -401,6 +402,7 @@ dependencies:
   '@rush-temp/arm-devhub': file:projects/arm-devhub.tgz
   '@rush-temp/arm-deviceprovisioningservices': file:projects/arm-deviceprovisioningservices.tgz
   '@rush-temp/arm-deviceupdate': file:projects/arm-deviceupdate.tgz
+  '@rush-temp/arm-devops': file:projects/arm-devops.tgz
   '@rush-temp/arm-devspaces': file:projects/arm-devspaces.tgz
   '@rush-temp/arm-devtestlabs': file:projects/arm-devtestlabs.tgz
   '@rush-temp/arm-digitaltwins': file:projects/arm-digitaltwins.tgz
@@ -3831,7 +3833,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221103
+      typescript: 5.0.0-dev.20221108
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8779,8 +8781,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221103:
-    resolution: {integrity: sha512-hfqcsmiJ+5ktli1OAkwu4PyDDJ3kWW3tiUofd2t1uxwmni3ZT3Mrv1m2dZFg9VNDKqHrkt49izB3tAtD2bsyGw==}
+  /typescript/5.0.0-dev.20221108:
+    resolution: {integrity: sha512-np7hLTLHztenzHetS6xnYYo/P+VcjgUYWkblyl8jCeKgrC7fHJt1QlcjL83uC7YQiHLz5o9zgMZKtZbQBHPzkg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11697,6 +11699,33 @@ packages:
   file:projects/arm-deviceupdate.tgz:
     resolution: {integrity: sha512-CDrLKYNm0mDrBwHbqJ7yH2o+LBcHIDHrnPYnce3TbRKN3wHWEPIqpoMhWBsBEGUIH7Bo1T/SNN0idR1wKeH1rg==, tarball: file:projects/arm-deviceupdate.tgz}
     name: '@rush-temp/arm-deviceupdate'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.33.5
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      tslib: 2.4.1
+      typescript: 4.6.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@types/node'
+      - supports-color
+    dev: false
+
+  file:projects/arm-devops.tgz:
+    resolution: {integrity: sha512-GfJrA6+5bkLuKzFgu2jAU2ggPvgaJ1pn3VwdNY73qxMqpXESFwI2Al3i5fwA7mM74jnvULCiRv6ZdhsSbuOUug==, tarball: file:projects/arm-devops.tgz}
+    name: '@rush-temp/arm-devops'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
