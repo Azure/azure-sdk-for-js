@@ -1,21 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as dotenv from "dotenv";
+import { EnvVarKeys, getEnvVars } from "../utils/testUtils.js";
 import { createClientContext, sendNotification } from "@azure/notification-hubs/api";
 import { assert } from "@azure/test-utils";
 import { createAppleNotification } from "@azure/notification-hubs/models";
 
-// Load the .env file if it exists
-dotenv.config();
+const env = getEnvVars();
 
 // Define connection string and hub name
-const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";
-const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
+const connectionString = env[EnvVarKeys.NOTIFICATIONHUBS_CONNECTION_STRING];
+const hubName = env[EnvVarKeys.NOTIFICATION_HUB_NAME];
 
 // Define message constants
 const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
-const deviceHandle = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
+const deviceHandle = env[EnvVarKeys.APNS_DEVICE_TOKEN] || DUMMY_DEVICE;
 
 describe("sendDirectNotification()", () => {
   it("should send a broadcast Apple Notification", async () => {
