@@ -17,16 +17,18 @@ import {
 } from "./settingsClientModels";
 
 function makeSetting(generatedSetting: GeneratedSetting): KeyVaultSetting {
-  if (generatedSetting.type !== "boolean") {
-    throw new Error(
-      `Unexpected setting type: ${generatedSetting.type}. Only settings of type "boolean" are supported.`
-    );
+  if (generatedSetting.type === "boolean") {
+    return {
+      name: generatedSetting.name,
+      value: generatedSetting.value === "true" ? true : false,
+      kind: "boolean",
+    };
+  } else {
+    return {
+      name: generatedSetting.name,
+      value: generatedSetting.value,
+    };
   }
-
-  return {
-    name: generatedSetting.name,
-    value: Boolean(generatedSetting.value),
-  };
 }
 
 /**

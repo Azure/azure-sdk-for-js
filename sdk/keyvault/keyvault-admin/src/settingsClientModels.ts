@@ -36,19 +36,49 @@ export interface GetSettingOptions extends OperationOptions {}
 export interface ListSettingsOptions extends OperationOptions {}
 
 /**
- * A Key Vault setting.
+ * Common attributes shared by Key Vault settings of all kinds.
  */
-export interface KeyVaultSetting {
+export interface KeyVaultSettingCommon {
   /**
    * The name of the setting.
    */
   name: string;
+}
 
+/**
+ * A Key Vault setting for which the type of the value is unknown.
+ */
+export interface UnknownKeyVaultSetting extends KeyVaultSettingCommon {
+  /**
+   * The value of the setting.
+   */
+  value: unknown;
+
+  /**
+   * The kind of the setting.
+   */
+  kind?: never;
+}
+
+/**
+ * A Key Vault setting with a boolean value.
+ */
+export interface BooleanKeyVaultSetting extends KeyVaultSettingCommon {
   /**
    * The value of the setting.
    */
   value: boolean;
+
+  /**
+   * The kind of the setting.
+   */
+  kind: "boolean";
 }
+
+/**
+ * A Key Vault setting.
+ */
+export type KeyVaultSetting = UnknownKeyVaultSetting | BooleanKeyVaultSetting;
 
 /**
  * An interface representing the response returned by {@link KeyVaultSettingsClient.listSettings}
