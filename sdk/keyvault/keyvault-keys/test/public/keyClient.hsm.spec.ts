@@ -226,7 +226,7 @@ onVersions({ minVer: "7.2" }).describe(
           "createKeyOkp",
           `createKeyOkp-${Math.floor(Math.random() * 100000)}`
         );
-        const key = await hsmClient.createKey(keyName, "OKP-HSM");
+        const key = await hsmClient.createKey(keyName, "OKP");
         assert.exists(key);
         assert.equal(key.keyType, "OKP-HSM");
         assert.equal(key.name, keyName);
@@ -238,12 +238,9 @@ onVersions({ minVer: "7.2" }).describe(
           "createKeyOkp",
           `createKeyOkp-${Math.floor(Math.random() * 100000)}`
         );
-        const key = await hsmClient.createOkpKey(keyName, {
-          curve: KnownKeyCurveNames.Ed25519,
-          hsm: true,
-        });
+        const key = await hsmClient.createOkpKey(keyName);
         assert.exists(key);
-        assert.equal(key.keyType, "OKP-HSM");
+        assert.equal(key.keyType, "OKP");
         assert.equal(key.name, keyName);
         assert.equal(key.key!.crv, KnownKeyCurveNames.Ed25519);
       });

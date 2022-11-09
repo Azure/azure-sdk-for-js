@@ -17,7 +17,6 @@ import {
   CreateEcKeyOptions,
   GetKeyOptions,
   KeyClient,
-  KnownKeyCurveNames,
   UpdateKeyPropertiesOptions,
 } from "../../src";
 import {
@@ -730,32 +729,6 @@ describe("Keys client - create, read, update and delete operations", () => {
         },
         ["KeyClient.releaseKey"]
       );
-    });
-  });
-
-  onVersions({ minVer: "7.4-preview.1" }).describe("OKP Key Type", () => {
-    it("supports creating OKP keys using createKey", async () => {
-      const keyName = recorder.variable(
-        "createKeyOkp",
-        `createKeyOkp-${Math.floor(Math.random() * 100000)}`
-      );
-      const key = await client.createKey(keyName, "OKP-HSM");
-      assert.exists(key);
-      assert.equal(key.keyType, "OKP-HSM");
-      assert.equal(key.name, keyName);
-      assert.equal(key.key!.crv, KnownKeyCurveNames.Ed25519);
-    });
-
-    it("supports creating OKP keys using createOkpKey", async () => {
-      const keyName = recorder.variable(
-        "createKeyOkp",
-        `createKeyOkp-${Math.floor(Math.random() * 100000)}`
-      );
-      const key = await client.createOkpKey(keyName, { curve: KnownKeyCurveNames.Ed25519 });
-      assert.exists(key);
-      assert.equal(key.keyType, "OKP-HSM");
-      assert.equal(key.name, keyName);
-      assert.equal(key.key!.crv, KnownKeyCurveNames.Ed25519);
     });
   });
 });
