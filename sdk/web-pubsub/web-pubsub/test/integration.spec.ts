@@ -35,13 +35,14 @@ class SimpleWebSocketFrame {
     }
   }
 
-  isEndSignal(): boolean {
+  isEndSignal(id: number | undefined = undefined): boolean {
     return (
       this.isBinary &&
       this.data instanceof Buffer &&
       this.data[0] === 5 &&
       this.data[1] === 1 &&
-      this.data[2] === 1
+      this.data[2] === 1 &&
+      (id === undefined || this.data[3] === id)
     );
   }
 
@@ -79,12 +80,15 @@ class PubSubWebSocketFrame {
   }
 }
 
-function getEndSignal(): Uint8Array {
+function getEndSignal(id: number | undefined = undefined): Uint8Array {
   // magic number 511
-  const payload = new Uint8Array(3);
+  const payload = new Uint8Array(id === undefined ? 3 : 4);
   payload[0] = 5;
   payload[1] = 1;
   payload[2] = 1;
+  if (id !== undefined) {
+    payload[3] = id;
+  }
   return payload;
 }
 
@@ -131,6 +135,61 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     assert.equal(messages.length, 2);
     assert.equal(messages[0].dataAsString, '{"message":"Hello world!"}');
     assert.equal(messages[1].dataAsString, "Hi there!");
+  });
+
+  it("Simple clients can can join group and receive group messages", async function (this: Context) {
+    if (!isLiveMode()) this.skip();
+    const hub = "SimpleClientCanReceiveGroupMessage";
+
+    const messages: SimpleWebSocketFrame[] = [];
+
+    // Get token
+    const serviceClient = new WebPubSubServiceClient(
+      assertEnvironmentVariable("WPS_CONNECTION_STRING"),
+      hub
+    );
+    const token = await serviceClient.getClientAccessToken({
+      groups: ["group1", "group2"],
+    });
+    const end1Signal = defer<void>();
+    const end2Signal = defer<void>();
+    // Start simple WebSocket connections
+    const client = new ws.WebSocket(token.url);
+    client.on("message", (data, isBinary) => {
+      const frame = new SimpleWebSocketFrame(data, isBinary);
+      console.log(frame.toString());
+      if (frame.isEndSignal(1)) {
+        end1Signal.resolve();
+      } else if (frame.isEndSignal(2)) {
+        end2Signal.resolve();
+      } else {
+        messages.push(frame);
+      }
+    });
+    client.on("open", async () => {
+      const group1Client = serviceClient.group("group1");
+      const group2Client = serviceClient.group("group2");
+      // send to all
+      // Send a JSON message
+      await group1Client.sendToAll({ message: "Hello world from group1!" });
+      await group2Client.sendToAll(getEndSignal(1));
+      // Send a plain text message
+      await group2Client.sendToAll("Hi there from group2!", { contentType: "text/plain" });
+
+      // Send the binary end signal message
+      await group2Client.sendToAll(getEndSignal(2));
+    });
+
+    await end1Signal.promise;
+    await end2Signal.promise;
+    client.close();
+    assert.equal(messages.length, 2);
+
+    // order from different groups is not guaranteed
+    assert.isTrue(
+      messages.findIndex((s) => s.dataAsString === '{"message":"Hello world from group1!"}') > -1
+    );
+    assert.isTrue(messages.findIndex((s) => s.dataAsString === "Hi there from group2!") > -1);
   });
 
   it("Subprotocol clients can receive expected messages with different content types", async function (this: Context) {
