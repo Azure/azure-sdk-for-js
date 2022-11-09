@@ -1,4 +1,7 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 import { IngestionPropertiesValidationError } from "./errors";
@@ -205,8 +208,9 @@ export class IngestionProperties {
   }
 
   validate() {
-    if (!this.database)
+    if (!this.database) {
       throw new IngestionPropertiesValidationError("Must define a target database");
+    }
     if (!this.table) throw new IngestionPropertiesValidationError("Must define a target table");
     if (!this.format) throw new IngestionPropertiesValidationError("Must define a data format");
 

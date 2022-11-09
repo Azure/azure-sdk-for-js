@@ -5,7 +5,12 @@
     "declarationDir": "./types",
     "paths": {
       "@azure/kusto-ingest": ["./src/index"]
-    }
+    },
+    "module": "NodeNext",
+    "moduleResolution": "Node"
+  },
+  "ts-node": {
+    "esm": true
   },
   "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

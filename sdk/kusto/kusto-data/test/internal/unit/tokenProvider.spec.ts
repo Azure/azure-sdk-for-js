@@ -3,7 +3,7 @@
 
 import { CloudSettings } from "../../../src/cloudSettings";
 import { UserPassTokenProvider } from "../../../src/tokenProvider";
-import assert from "assert";
+import { assert } from "@azure/test-utils";
 
 describe("CloudInfo", () => {
   describe("#CloudInfo", () => {

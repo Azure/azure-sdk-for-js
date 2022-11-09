@@ -1,4 +1,7 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/ban-types -- We legitimately want to use {} as a "any non-nullable type" */

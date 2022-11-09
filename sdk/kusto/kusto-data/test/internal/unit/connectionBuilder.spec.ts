@@ -3,7 +3,7 @@
 
 /* eslint-disable no-console */
 
-import assert from "assert";
+import { assert } from "@azure/test-utils";
 import { v4 as uuidv4 } from "uuid";
 import { KustoConnectionStringBuilder } from "../../../src/connectionBuilder";
 import { DeviceCodeResponse } from "@azure/msal-common";
@@ -159,7 +159,7 @@ describe("KustoConnectionStringBuilder", () => {
             "thumb"
           ),
         Error,
-        "Invalid app certificate"
+        "Invalid certificate"
       );
       assert.throws(
         () =>
@@ -170,7 +170,7 @@ describe("KustoConnectionStringBuilder", () => {
             " "
           ),
         Error,
-        "Invalid app thumbprint"
+        "Invalid thumbprint"
       );
     });
   });
