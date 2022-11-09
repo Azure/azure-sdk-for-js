@@ -1,5 +1,11 @@
 # Release History
 
+## 2.3.1 (2022-11-09)
+
+### Bugs Fixed
+
+- Undo PR #23660 so that released listing blobs works again in storage-blob.
+
 ## 2.3.0 (2022-11-03)
 
 ### Features Added
