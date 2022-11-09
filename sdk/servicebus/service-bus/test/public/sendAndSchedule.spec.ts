@@ -181,7 +181,7 @@ describe("Sender Tests", () => {
 
   it(noSessionTestClientType + "should reject with proper error instead of OperationTimeoutError", async function (): Promise<void> {
     await beforeEachTest(noSessionTestClientType);
-    const content = (new Array(256 * 1024)).join("x"); //Generate a Large Message Content of 265KB
+    const content = (new Array(256 * 1024)).join("x"); // Generate a Large Message Content of 265KB
     const largeMessage = {
       contentType: "application/json",
       subject: "Scientist",
