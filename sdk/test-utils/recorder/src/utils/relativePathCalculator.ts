@@ -112,10 +112,12 @@ export function relativeAssetsPath(): string | undefined {
   }
 
   if (!(rootPath === undefined || expectedProjectPath === undefined)) {
+    const assetsPath = path.join(expectedProjectPath, "assets.json")
+    if (!fs.existsSync(assetsPath)) return undefined;
     // <root>/
     // <root>/sdk/service/project/
     return path
-      .join(path.relative(rootPath, expectedProjectPath), "assets.json")
+      .join(path.relative(rootPath, assetsPath))
       .split(path.sep)
       .join(path.posix.sep); // Converting "\" to "/" (needed for windows) so that the path.sep("\") is not treated as an escape character in the browsers
     // => sdk/service/project/assets.json
@@ -124,5 +126,4 @@ export function relativeAssetsPath(): string | undefined {
       "rootPath or expectedProjectPath could not be calculated properly from process.cwd()"
     );
   }
-
 }
