@@ -17,7 +17,7 @@ export function createRecordingRequest(
   const req = createPipelineRequest({ url: url, method });
 
   if (sessionFile !== undefined) {
-    let body: any = { "x-recording-file": sessionFile };
+    const body: Record<string, string> = { "x-recording-file": sessionFile };
 
     // during browser tests the non-presence of an assets.json will result in the value "undefined" being set
     // its easier to just explicitly handle this case rather than ensure that folks update their karma conf properly.
