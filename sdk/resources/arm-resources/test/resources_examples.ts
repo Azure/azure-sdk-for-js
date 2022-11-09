@@ -128,7 +128,7 @@ describe("Resources test", () => {
     for await (let item of client.tagsOperations.list()) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 19);
+    assert.equal(resArray.length, 21);
   });
 
   it("resourceGroups delete test", async function () {

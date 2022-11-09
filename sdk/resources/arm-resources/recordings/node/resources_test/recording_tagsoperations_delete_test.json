@@ -8,23 +8,23 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-resources/5.1.0 core-rest-pipeline/1.10.0 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "46471654-b239-42e2-b548-1b9148c4c987"
+        "User-Agent": "azsdk-js-arm-resources/5.1.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "fc0e604b-4b42-4dbe-9b66-04ffd981d3bc"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
         "Content-Length": "0",
-        "Date": "Thu, 03 Nov 2022 05:32:20 GMT",
+        "Date": "Wed, 09 Nov 2022 07:40:01 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "8cb2ef67-caff-4840-b4cd-9b4a090c37ef",
+        "x-ms-correlation-request-id": "a8ec7ef6-c14f-4562-aa75-c82bf182c8a4",
         "x-ms-ratelimit-remaining-subscription-deletes": "14999",
-        "x-ms-request-id": "8cb2ef67-caff-4840-b4cd-9b4a090c37ef",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221103T053220Z:8cb2ef67-caff-4840-b4cd-9b4a090c37ef"
+        "x-ms-request-id": "a8ec7ef6-c14f-4562-aa75-c82bf182c8a4",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221109T074001Z:a8ec7ef6-c14f-4562-aa75-c82bf182c8a4"
       },
       "ResponseBody": null
     },
@@ -36,26 +36,26 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-resources/5.1.0 core-rest-pipeline/1.10.0 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "95095a7f-bc4d-4b4e-b5ea-c71b11f2c2c9"
+        "User-Agent": "azsdk-js-arm-resources/5.1.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "485288ed-54de-4a77-b8ce-86566dd26fcc"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
-        "Content-Length": "5000",
+        "Content-Length": "5550",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 03 Nov 2022 05:32:20 GMT",
+        "Date": "Wed, 09 Nov 2022 07:40:01 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "cb52b61a-d426-4a74-a8d3-0c36b3cf7577",
+        "x-ms-correlation-request-id": "e7a7dce1-eb1d-4ef7-a641-50659f80873b",
         "x-ms-ratelimit-remaining-subscription-reads": "11995",
-        "x-ms-request-id": "cb52b61a-d426-4a74-a8d3-0c36b3cf7577",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221103T053220Z:cb52b61a-d426-4a74-a8d3-0c36b3cf7577"
+        "x-ms-request-id": "e7a7dce1-eb1d-4ef7-a641-50659f80873b",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221109T074001Z:e7a7dce1-eb1d-4ef7-a641-50659f80873b"
       },
       "ResponseBody": {
         "value": [
@@ -136,7 +136,7 @@
             "tagName": "key1",
             "count": {
               "type": "Total",
-              "value": 1
+              "value": 4
             },
             "values": [
               {
@@ -144,7 +144,7 @@
                 "tagValue": "value1",
                 "count": {
                   "type": "Total",
-                  "value": 1
+                  "value": 4
                 }
               }
             ]
@@ -258,6 +258,42 @@
               {
                 "id": "/subscriptions/azure_subscription_id/tagNames/displayName/tagValues/UDR - Subnet",
                 "tagValue": "UDR - Subnet",
+                "count": {
+                  "type": "Total",
+                  "value": 1
+                }
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/tagNames/test",
+            "tagName": "test",
+            "count": {
+              "type": "Total",
+              "value": 3
+            },
+            "values": [
+              {
+                "id": "/subscriptions/azure_subscription_id/tagNames/test/tagValues/test",
+                "tagValue": "test",
+                "count": {
+                  "type": "Total",
+                  "value": 3
+                }
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/tagNames/additionalProperties",
+            "tagName": "additionalProperties",
+            "count": {
+              "type": "Total",
+              "value": 1
+            },
+            "values": [
+              {
+                "id": "/subscriptions/azure_subscription_id/tagNames/additionalProperties/tagValues/Tag1",
+                "tagValue": "Tag1",
                 "count": {
                   "type": "Total",
                   "value": 1

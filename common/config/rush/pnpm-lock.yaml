@@ -810,6 +810,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-resources/5.0.1:
+    resolution: {integrity: sha512-JbZtIqfEulsIA0rC3zM7jfF4KkOnye9aKcaO/jJqxJRm/gM6lAjEv7sL4njW8D+35l50P1f+UuH5OqN+UKJqNA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.4.0
+      '@azure/core-client': 1.6.1
+      '@azure/core-lro': 2.4.0
+      '@azure/core-paging': 1.4.0
+      '@azure/core-rest-pipeline': 1.10.0
+      tslib: 2.4.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-storage/17.2.1:
     resolution: {integrity: sha512-J2jmTPv8ZraSHDTz9l2Bx8gNL3ktfDDWo2mxWfzarn64O9Fjhb+l85YWyubGy2xUdeGuZPKzvQLltGv8bSu8eQ==}
     engines: {node: '>=12.0.0'}
@@ -3831,7 +3846,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221103
+      typescript: 5.0.0-dev.20221108
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8779,8 +8794,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221103:
-    resolution: {integrity: sha512-hfqcsmiJ+5ktli1OAkwu4PyDDJ3kWW3tiUofd2t1uxwmni3ZT3Mrv1m2dZFg9VNDKqHrkt49izB3tAtD2bsyGw==}
+  /typescript/5.0.0-dev.20221108:
+    resolution: {integrity: sha512-np7hLTLHztenzHetS6xnYYo/P+VcjgUYWkblyl8jCeKgrC7fHJt1QlcjL83uC7YQiHLz5o9zgMZKtZbQBHPzkg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -12616,11 +12631,12 @@ packages:
     dev: false
 
   file:projects/arm-links.tgz:
-    resolution: {integrity: sha512-Vdb/Dd+9IFLd8/yto66fCWhX5yjLE+N/v5pxRCYm6PaaUfLPJLXLxHgnqRlEAl++bMBr5CF0qRZPPBo3X/TNLQ==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-dA1SMN8GHZj+2vmT2rgeid6pvkP3DUoWQdzbhxPrJ5QgAgjA1dZ4yckeIgZEo8z93ZWD9LP8/QJVWHccEEdwVA==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
+      '@azure/arm-resources': 5.0.1
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.5
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
