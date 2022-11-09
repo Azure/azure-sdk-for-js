@@ -1,6 +1,8 @@
 # Release History
 
-## 4.6.1 (Unreleased)
+## 4.7.0-beta.1 (Unreleased)
+
+- Added support for [OKP](https://datatracker.ietf.org/doc/html/rfc8037) key types as well as `sign`, `verify`, `signData`, and `verifyData` cryptography operations when using OKP keys.
 
 ### Features Added
 
