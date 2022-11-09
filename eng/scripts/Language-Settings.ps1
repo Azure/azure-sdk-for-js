@@ -363,33 +363,33 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata, $PackageHist
   }
 
   $packageValidation = ValidatePackagesForDocs $outputPackages $DocValidationImageId
-  $validationHash = @{}
-  foreach ($result in $packageValidation) {
-    $validationHash[$result.Package.name] = $result
-  }
+  # $validationHash = @{}
+  # foreach ($result in $packageValidation) {
+  #   $validationHash[$result.Package.name] = $result
+  # }
 
   # Remove invalid packages
   # $finalOutput = @()
-  foreach ($package in $outputPackages) {
-    if (!$validationHash[$package.name].Success) {
-      LogWarning "Removing invalid package: $($package.name)"
-      if (!(Test-Path $PackageHistoryLogFile)) {
-        New-Item -Path $PackageHistoryLogFile -Type File
-      }
-      Add-Content -Path $PackageHistoryLogFile -Value "Removing invalid package: $($package.name)"
-      # If a package is removed create log entry for the removal
-#       Add-Content `
-#         -Path $PackageHistoryLogFile `
-#         -Value @"
-# Removed $($package.name) because of docs package validation failure on $(Get-Date -Format 'yyyy-MM-dd HH:mm K')
-# `t$($validationHash[$package.name].Output -join "`n`t")
-# "@
-      # continue
-    }
-    continue
+#   foreach ($package in $outputPackages) {
+#     if (!$validationHash[$package.name].Success) {
+#       LogWarning "Removing invalid package: $($package.name)"
+#       if (!(Test-Path $PackageHistoryLogFile)) {
+#         New-Item -Path $PackageHistoryLogFile -Type File
+#       }
+#       Add-Content -Path $PackageHistoryLogFile -Value "Removing invalid package: $($package.name)"
+#       # If a package is removed create log entry for the removal
+# #       Add-Content `
+# #         -Path $PackageHistoryLogFile `
+# #         -Value @"
+# # Removed $($package.name) because of docs package validation failure on $(Get-Date -Format 'yyyy-MM-dd HH:mm K')
+# # `t$($validationHash[$package.name].Output -join "`n`t")
+# # "@
+#       # continue
+#     }
+#     continue
 
     # $finalOutput += $package
-  }
+  # }
 
   # $packageConfig.npm_package_sources = $finalOutput
   # $packageConfig | ConvertTo-Json -Depth 100 | Set-Content $DocConfigFile
