@@ -59,7 +59,10 @@ export interface GroupSendToAllOptions extends OperationOptions {
  * Options for sending text messages to a group..
  */
 export interface GroupSendTextToAllOptions extends GroupSendToAllOptions {
-  contentType: "text/plain";
+  /**
+   * The content will be sent to the clients in plain text.
+   */
+   contentType: "text/plain";
 }
 
 /**

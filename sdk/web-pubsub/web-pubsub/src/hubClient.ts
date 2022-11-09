@@ -66,7 +66,10 @@ export interface HubSendToAllOptions extends OperationOptions {
  * Options for sending text messages to hubs.
  */
 export interface HubSendTextToAllOptions extends HubSendToAllOptions {
-  contentType: "text/plain";
+  /**
+   * The content will be sent to the clients in plain text.
+   */
+   contentType: "text/plain";
 }
 
 /**
@@ -156,7 +159,10 @@ export interface HubSendToUserOptions extends OperationOptions {
  * Options for sending a text message to a user.
  */
 export interface HubSendTextToUserOptions extends HubSendToUserOptions {
-  contentType: "text/plain";
+  /**
+   * The content will be sent to the clients in plain text.
+   */
+   contentType: "text/plain";
 }
 
 export type Permission = "joinLeaveGroup" | "sendToGroup";

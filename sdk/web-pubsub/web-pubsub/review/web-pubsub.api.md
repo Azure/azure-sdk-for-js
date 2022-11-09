@@ -58,7 +58,6 @@ export interface GroupRemoveUserOptions extends OperationOptions {
 
 // @public
 export interface GroupSendTextToAllOptions extends GroupSendToAllOptions {
-    // (undocumented)
     contentType: "text/plain";
 }
 
@@ -116,7 +115,6 @@ export interface HubRevokePermissionOptions extends OperationOptions {
 
 // @public
 export interface HubSendTextToAllOptions extends HubSendToAllOptions {
-    // (undocumented)
     contentType: "text/plain";
 }
 
@@ -128,7 +126,6 @@ export interface HubSendTextToConnectionOptions extends HubSendToConnectionOptio
 
 // @public
 export interface HubSendTextToUserOptions extends HubSendToUserOptions {
-    // (undocumented)
     contentType: "text/plain";
 }
 
@@ -149,6 +146,9 @@ export interface HubSendToUserOptions extends OperationOptions {
 
 // @public
 export type JSONTypes = string | number | boolean | object;
+
+// @public
+export function odata(strings: TemplateStringsArray, ...values: unknown[]): string;
 
 // @public (undocumented)
 export type Permission = "joinLeaveGroup" | "sendToGroup";
