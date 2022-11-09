@@ -16,7 +16,7 @@ input-file:
   - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/d78681a9d322bbd8d33ecaad7e6aaa2d513513b4/specification/keyvault/data-plane/Microsoft.KeyVault/preview/7.4-preview.1/settings.json
 output-folder: ../
 source-code-folder-path: ./src/generated
-package-version: 4.3.1
+package-version: 4.4.0-beta.1
 use-extension:
   "@autorest/typescript": "6.0.0-beta.15"
 ```

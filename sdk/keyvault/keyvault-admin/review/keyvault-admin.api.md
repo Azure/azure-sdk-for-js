@@ -179,9 +179,9 @@ export interface KeyVaultSetting {
 // @public
 export class KeyVaultSettingsClient {
     constructor(vaultUrl: string, credential: TokenCredential, options?: SettingsClientOptions);
-    getSetting(settingName: string, options: GetSettingOptions): Promise<KeyVaultSetting>;
-    listSettings(options: ListSettingsOptions): Promise<ListSettingsResponse>;
-    updateSetting(settingName: string, value: string, options: UpdateSettingOptions): Promise<KeyVaultSetting>;
+    getSetting(settingName: string, options?: GetSettingOptions): Promise<KeyVaultSetting>;
+    listSettings(options?: ListSettingsOptions): Promise<ListSettingsResponse>;
+    updateSetting(settingName: string, value: boolean, options?: UpdateSettingOptions): Promise<KeyVaultSetting>;
     readonly vaultUrl: string;
 }
 

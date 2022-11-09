@@ -98,10 +98,12 @@ export class KeyVaultSettingsClient {
    */
   async updateSetting(
     settingName: string,
-    value: string,
-    options: UpdateSettingOptions
+    value: boolean,
+    options: UpdateSettingOptions = {}
   ): Promise<KeyVaultSetting> {
-    return makeSetting(await this.client.updateSetting(this.vaultUrl, settingName, value, options));
+    return makeSetting(
+      await this.client.updateSetting(this.vaultUrl, settingName, String(value), options)
+    );
   }
 
   /**
@@ -110,7 +112,7 @@ export class KeyVaultSettingsClient {
    * @param settingName - the name of the setting.
    * @param options - the optional parameters.
    */
-  async getSetting(settingName: string, options: GetSettingOptions): Promise<KeyVaultSetting> {
+  async getSetting(settingName: string, options: GetSettingOptions = {}): Promise<KeyVaultSetting> {
     return makeSetting(await this.client.getSetting(this.vaultUrl, settingName, options));
   }
 
@@ -119,7 +121,7 @@ export class KeyVaultSettingsClient {
    *
    * @param options - the optional parameters.
    */
-  async listSettings(options: ListSettingsOptions): Promise<ListSettingsResponse> {
+  async listSettings(options: ListSettingsOptions = {}): Promise<ListSettingsResponse> {
     const { settings } = await this.client.getSettings(this.vaultUrl, options);
     return { settings: settings?.map(makeSetting) ?? [] };
   }
