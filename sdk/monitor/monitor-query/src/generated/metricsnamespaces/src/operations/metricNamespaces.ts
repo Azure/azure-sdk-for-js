@@ -10,7 +10,7 @@ import { MetricNamespaces } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { MonitorManagementClientContext } from "../monitorManagementClientContext";
+import { MonitorManagementClient } from "../monitorManagementClient";
 import {
   MetricNamespacesListOptionalParams,
   MetricNamespacesListResponse
@@ -18,13 +18,13 @@ import {
 
 /** Class containing MetricNamespaces operations. */
 export class MetricNamespacesImpl implements MetricNamespaces {
-  private readonly client: MonitorManagementClientContext;
+  private readonly client: MonitorManagementClient;
 
   /**
    * Initialize a new instance of the class MetricNamespaces class.
    * @param client Reference to the service client
    */
-  constructor(client: MonitorManagementClientContext) {
+  constructor(client: MonitorManagementClient) {
     this.client = client;
   }
 

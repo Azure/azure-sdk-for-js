@@ -109,18 +109,31 @@ export type ApiVersion201801 = string;
 
 /** Known values of {@link MetricUnit} that the service accepts. */
 export enum KnownMetricUnit {
+  /** Count */
   Count = "Count",
+  /** Bytes */
   Bytes = "Bytes",
+  /** Seconds */
   Seconds = "Seconds",
+  /** CountPerSecond */
   CountPerSecond = "CountPerSecond",
+  /** BytesPerSecond */
   BytesPerSecond = "BytesPerSecond",
+  /** Percent */
   Percent = "Percent",
+  /** MilliSeconds */
   MilliSeconds = "MilliSeconds",
+  /** ByteSeconds */
   ByteSeconds = "ByteSeconds",
+  /** Unspecified */
   Unspecified = "Unspecified",
+  /** Cores */
   Cores = "Cores",
+  /** MilliCores */
   MilliCores = "MilliCores",
+  /** NanoCores */
   NanoCores = "NanoCores",
+  /** BitsPerSecond */
   BitsPerSecond = "BitsPerSecond"
 }
 

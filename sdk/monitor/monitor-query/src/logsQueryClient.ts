@@ -161,6 +161,84 @@ export class LogsQueryClient {
   }
 
   /**
+   * Queries logs in a Log Analytics Resource.
+   *
+   * @param resourceId - The 'Resource Id' for the Log Analytics Resource
+   * @param query - A Kusto query.
+   * @param timespan - The timespan over which to query data. This is an ISO8601 time period value. This timespan is applied in addition to any that are specified in the query expression.
+   *  Some common durations can be found in the `Durations` object.
+   * @param options - Options to adjust various aspects of the request.
+   * @returns The result of the query.
+   */
+  async queryResource(
+    resourceId: string,
+    query: string,
+    timespan: QueryTimeInterval,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options: LogsQueryOptions = {}
+  ): Promise<LogsQueryResult> {
+    let timeInterval: string = "";
+    return tracingClient.withSpan(
+      "LogsQueryClient.queryResource",
+      options,
+      async (updatedOptions) => {
+        if (timespan) {
+          timeInterval = convertTimespanToInterval(timespan);
+        }
+        const { flatResponse, rawResponse } = await getRawResponse(
+          (paramOptions) =>
+            this._logAnalytics.query.resourceExecute(
+              resourceId,
+              {
+                query,
+                timespan: timeInterval,
+                workspaces: options?.additionalWorkspaces,
+              },
+              paramOptions
+            ),
+          {
+            ...updatedOptions,
+            requestOptions: {
+              customHeaders: {
+                ...formatPreferHeader(options),
+              },
+            },
+          }
+        );
+
+        const parsedBody = JSON.parse(rawResponse.bodyAsText!);
+        flatResponse.tables = parsedBody.tables;
+
+        const res = {
+          tables: flatResponse.tables.map(convertGeneratedTable),
+          statistics: flatResponse.statistics,
+          visualization: flatResponse.render,
+        };
+
+        if (!flatResponse.error) {
+          // if there is no error field, it is success
+          const result: LogsQuerySuccessfulResult = {
+            tables: res.tables,
+            statistics: res.statistics,
+            visualization: res.visualization,
+            status: LogsQueryResultStatus.Success,
+          };
+          return result;
+        } else {
+          const result: LogsQueryPartialResult = {
+            partialTables: res.tables,
+            status: LogsQueryResultStatus.PartialFailure,
+            partialError: mapError(flatResponse.error),
+            statistics: res.statistics,
+            visualization: res.visualization,
+          };
+          return result;
+        }
+      }
+    );
+  }
+
+  /**
    * Query Logs with multiple queries, in a batch.
    * @param batch - A batch of Kusto queries to execute. Each query can be configured to run against separate workspaces.
    * @param options - Options for querying logs in a batch.

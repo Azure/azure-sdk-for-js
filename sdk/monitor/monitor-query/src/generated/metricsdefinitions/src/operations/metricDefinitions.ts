@@ -10,7 +10,7 @@ import { MetricDefinitions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { MonitorManagementClientContext } from "../monitorManagementClientContext";
+import { MonitorManagementClient } from "../monitorManagementClient";
 import {
   MetricDefinitionsListOptionalParams,
   MetricDefinitionsListResponse
@@ -18,13 +18,13 @@ import {
 
 /** Class containing MetricDefinitions operations. */
 export class MetricDefinitionsImpl implements MetricDefinitions {
-  private readonly client: MonitorManagementClientContext;
+  private readonly client: MonitorManagementClient;
 
   /**
    * Initialize a new instance of the class MetricDefinitions class.
    * @param client Reference to the service client
    */
-  constructor(client: MonitorManagementClientContext) {
+  constructor(client: MonitorManagementClient) {
     this.client = client;
   }
 

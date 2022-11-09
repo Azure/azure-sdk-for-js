@@ -414,8 +414,8 @@ export interface BatchQueryRequest {
   headers?: { [propertyName: string]: string };
   /** The Analytics query. Learn more about the [Analytics query syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/) */
   body: QueryBody;
-  path?: "/query";
-  method?: "POST";
+  path?: Path;
+  method?: MethodType;
   /** Workspace Id to be included in the query */
   workspace: string;
 }
@@ -449,15 +449,25 @@ export interface BatchQueryResults {
 
 /** Known values of {@link LogsColumnType} that the service accepts. */
 export enum KnownLogsColumnType {
+  /** Bool */
   Bool = "bool",
+  /** Datetime */
   Datetime = "datetime",
+  /** Dynamic */
   Dynamic = "dynamic",
+  /** Int */
   Int = "int",
+  /** Long */
   Long = "long",
+  /** Real */
   Real = "real",
+  /** String */
   String = "string",
+  /** Guid */
   Guid = "guid",
+  /** Decimal */
   Decimal = "decimal",
+  /** Timespan */
   Timespan = "timespan"
 }
 
@@ -481,15 +491,25 @@ export type LogsColumnType = string;
 
 /** Known values of {@link MetadataColumnDataType} that the service accepts. */
 export enum KnownMetadataColumnDataType {
+  /** Bool */
   Bool = "bool",
+  /** Datetime */
   Datetime = "datetime",
+  /** Dynamic */
   Dynamic = "dynamic",
+  /** Int */
   Int = "int",
+  /** Long */
   Long = "long",
+  /** Real */
   Real = "real",
+  /** String */
   String = "string",
+  /** Guid */
   Guid = "guid",
+  /** Decimal */
   Decimal = "decimal",
+  /** Timespan */
   Timespan = "timespan"
 }
 
@@ -511,6 +531,36 @@ export enum KnownMetadataColumnDataType {
  */
 export type MetadataColumnDataType = string;
 
+/** Known values of {@link Path} that the service accepts. */
+export enum KnownPath {
+  /** Query */
+  Query = "/query"
+}
+
+/**
+ * Defines values for Path. \
+ * {@link KnownPath} can be used interchangeably with Path,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **\/query**
+ */
+export type Path = string;
+
+/** Known values of {@link MethodType} that the service accepts. */
+export enum KnownMethodType {
+  /** Post */
+  Post = "POST"
+}
+
+/**
+ * Defines values for MethodType. \
+ * {@link KnownMethodType} can be used interchangeably with MethodType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **POST**
+ */
+export type MethodType = string;
+
 /** Optional parameters. */
 export interface QueryGetOptionalParams extends coreClient.OperationOptions {
   /** Optional. The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression. */
@@ -531,10 +581,50 @@ export interface QueryExecuteOptionalParams
 export type QueryExecuteResponse = QueryResults;
 
 /** Optional parameters. */
+export interface QueryResourceGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional. The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression. */
+  timespan?: string;
+}
+
+/** Contains response data for the resourceGet operation. */
+export type QueryResourceGetResponse = QueryResults;
+
+/** Optional parameters. */
+export interface QueryResourceExecuteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional. The prefer header to set server timeout, query statistics and visualization information. */
+  prefer?: string;
+}
+
+/** Contains response data for the resourceExecute operation. */
+export type QueryResourceExecuteResponse = QueryResults;
+
+/** Optional parameters. */
 export interface QueryBatchOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the batch operation. */
 export type QueryBatchResponse = BatchResponse;
+
+/** Optional parameters. */
+export interface QueryResourceGetXmsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional. The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression. */
+  timespan?: string;
+}
+
+/** Contains response data for the resourceGetXms operation. */
+export type QueryResourceGetXmsResponse = QueryResults;
+
+/** Optional parameters. */
+export interface QueryResourceExecuteXmsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional. The prefer header to set server timeout, query statistics and visualization information. */
+  prefer?: string;
+}
+
+/** Contains response data for the resourceExecuteXms operation. */
+export type QueryResourceExecuteXmsResponse = QueryResults;
 
 /** Optional parameters. */
 export interface MetadataGetOptionalParams

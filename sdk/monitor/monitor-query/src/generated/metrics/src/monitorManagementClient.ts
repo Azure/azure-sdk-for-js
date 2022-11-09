@@ -6,16 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreClient from "@azure/core-client";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import { MetricsImpl } from "./operations";
 import { Metrics } from "./operationsInterfaces";
-import { MonitorManagementClientContext } from "./monitorManagementClientContext";
 import {
-  MonitorManagementClientOptionalParams,
-  ApiVersion201801
+  ApiVersion201801,
+  MonitorManagementClientOptionalParams
 } from "./models";
 
 /** @internal */
-export class MonitorManagementClient extends MonitorManagementClientContext {
+export class MonitorManagementClient extends coreClient.ServiceClient {
+  $host: string;
+  apiVersion: ApiVersion201801;
+
   /**
    * Initializes a new instance of the MonitorManagementClient class.
    * @param apiVersion Api Version
@@ -25,8 +33,69 @@ export class MonitorManagementClient extends MonitorManagementClientContext {
     apiVersion: ApiVersion201801,
     options?: MonitorManagementClientOptionalParams
   ) {
-    super(apiVersion, options);
+    if (apiVersion === undefined) {
+      throw new Error("'apiVersion' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: MonitorManagementClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8"
+    };
+
+    const packageDetails = `azsdk-js-monitor-metrics/1.0.1`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri:
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.apiVersion = apiVersion;
+
+    // Assigning values to Constant parameters
+    this.$host = options.$host || "https://management.azure.com";
     this.metrics = new MetricsImpl(this);
+    this.addCustomApiVersionPolicy(apiVersion);
+  }
+
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   metrics: Metrics;

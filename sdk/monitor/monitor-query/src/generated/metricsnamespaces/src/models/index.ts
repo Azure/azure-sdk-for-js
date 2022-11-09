@@ -59,8 +59,11 @@ export type ApiVersion20171201Preview = string;
 
 /** Known values of {@link NamespaceClassification} that the service accepts. */
 export enum KnownNamespaceClassification {
+  /** Platform */
   Platform = "Platform",
+  /** Custom */
   Custom = "Custom",
+  /** Qos */
   Qos = "Qos"
 }
 

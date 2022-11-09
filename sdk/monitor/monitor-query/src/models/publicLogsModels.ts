@@ -72,7 +72,7 @@ export enum LogsQueryResultStatus {
   Success = "Success",
 }
 
-/** Result type for Success Scenario for logs query workspace and query batch operations. */
+/** Result type for Success Scenario for logs query workspace, query resource and query batch operations. */
 export interface LogsQuerySuccessfulResult {
   /** Populated results from the query. */
   tables: LogsTable[];
@@ -84,7 +84,7 @@ export interface LogsQuerySuccessfulResult {
   visualization?: Record<string, unknown>;
 }
 
-/** Result type for Partial Failure Scenario for logs queryWorkspace and queryBatch operations. */
+/** Result type for Partial Failure Scenario for logs queryWorkspace, queryResource and queryBatch operations. */
 export interface LogsQueryPartialResult {
   /** Populated results from the query. */
   partialTables: LogsTable[];
@@ -98,7 +98,7 @@ export interface LogsQueryPartialResult {
   visualization?: Record<string, unknown>;
 }
 
-/** Result type for Failure Scenario representing error for logs queryWorkspace and queryBatch operations. */
+/** Result type for Failure Scenario representing error for logs queryWorkspace, queryResource and queryBatch operations. */
 export interface LogsQueryError extends Error {
   /** A machine readable error code. */
   code: string;

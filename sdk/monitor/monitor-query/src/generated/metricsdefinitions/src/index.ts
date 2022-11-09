@@ -8,5 +8,4 @@
 
 export * from "./models";
 export { MonitorManagementClient } from "./monitorManagementClient";
-export { MonitorManagementClientContext } from "./monitorManagementClientContext";
 export * from "./operationsInterfaces";

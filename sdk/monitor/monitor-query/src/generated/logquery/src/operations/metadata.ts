@@ -10,7 +10,7 @@ import { Metadata } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureLogAnalyticsContext } from "../azureLogAnalyticsContext";
+import { AzureLogAnalytics } from "../azureLogAnalytics";
 import {
   MetadataGetOptionalParams,
   MetadataGetResponse,
@@ -20,13 +20,13 @@ import {
 
 /** Class containing Metadata operations. */
 export class MetadataImpl implements Metadata {
-  private readonly client: AzureLogAnalyticsContext;
+  private readonly client: AzureLogAnalytics;
 
   /**
    * Initialize a new instance of the class Metadata class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureLogAnalyticsContext) {
+  constructor(client: AzureLogAnalytics) {
     this.client = client;
   }
 

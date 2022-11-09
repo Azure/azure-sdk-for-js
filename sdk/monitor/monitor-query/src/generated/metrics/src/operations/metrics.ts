@@ -10,18 +10,18 @@ import { Metrics } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { MonitorManagementClientContext } from "../monitorManagementClientContext";
+import { MonitorManagementClient } from "../monitorManagementClient";
 import { MetricsListOptionalParams, MetricsListResponse } from "../models";
 
 /** Class containing Metrics operations. */
 export class MetricsImpl implements Metrics {
-  private readonly client: MonitorManagementClientContext;
+  private readonly client: MonitorManagementClient;
 
   /**
    * Initialize a new instance of the class Metrics class.
    * @param client Reference to the service client
    */
-  constructor(client: MonitorManagementClientContext) {
+  constructor(client: MonitorManagementClient) {
     this.client = client;
   }
 

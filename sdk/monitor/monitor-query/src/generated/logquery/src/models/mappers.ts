@@ -1588,16 +1588,12 @@ export const BatchQueryRequest: coreClient.CompositeMapper = {
         }
       },
       path: {
-        defaultValue: "/query",
-        isConstant: true,
         serializedName: "path",
         type: {
           name: "String"
         }
       },
       method: {
-        defaultValue: "POST",
-        isConstant: true,
         serializedName: "method",
         type: {
           name: "String"

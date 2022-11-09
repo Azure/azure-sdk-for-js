@@ -61,6 +61,7 @@ export type LogsQueryBatchResult = Array<LogsQueryPartialResult | LogsQuerySucce
 export class LogsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
     queryBatch(batch: QueryBatch[], options?: LogsQueryBatchOptions): Promise<LogsQueryBatchResult>;
+    queryResource(resourceId: string, query: string, timespan: QueryTimeInterval, options?: LogsQueryOptions): Promise<LogsQueryResult>;
     queryWorkspace(workspaceId: string, query: string, timespan: QueryTimeInterval, options?: LogsQueryOptions): Promise<LogsQueryResult>;
 }
 
