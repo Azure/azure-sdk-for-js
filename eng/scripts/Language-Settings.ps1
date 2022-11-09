@@ -221,13 +221,19 @@ function ValidatePackagesForDocs($packages, $DocValidationImageId) {
   $tempDirectory = Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName())
   New-Item -ItemType Directory -Force -Path $tempDirectory | Out-Null
 
-  $scriptRoot = $PSScriptRoot
   # Run this in parallel as each step takes a long time to run
-  $validationOutput = $packages | Foreach-Object -Parallel {
+  # $validationOutput = $packages | Foreach-Object -Parallel {
+  #   # Get value for variables outside of the Foreach-Object scope
+  #   $scriptRoot = "$using:scriptRoot"
+  #   $workingDirectory = "$using:tempDirectory"
+  #   return ."$scriptRoot\validate-docs-package.ps1" -Package $_ -DocValidationImageId "$using:DocValidationImageId" -WorkingDirectory $workingDirectory 
+  # }
+  
+  foreach ($package in $packages) {
+    
     # Get value for variables outside of the Foreach-Object scope
-    $scriptRoot = "$using:scriptRoot"
-    $workingDirectory = "$using:tempDirectory"
-    return ."$scriptRoot\validate-docs-package.ps1" -Package $_ -DocValidationImageId "$using:DocValidationImageId" -WorkingDirectory $workingDirectory 
+    
+    $validationOutput =  ."$PSScriptRoot\validate-docs-package.ps1" -Package $package -WorkingDirectory $tempDirectory
   }
 
   # Clean up temp folder
@@ -363,27 +369,31 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata, $PackageHist
   }
 
   # Remove invalid packages
-  $finalOutput = @()
+  # $finalOutput = @()
   foreach ($package in $outputPackages) {
     if (!$validationHash[$package.name].Success) {
       LogWarning "Removing invalid package: $($package.name)"
-
+      if (!(Test-Path $PackageHistoryLogFile)) {
+        New-Item -Path $PackageHistoryLogFile -Type File
+      }
+      Add-Content -Path $PackageHistoryLogFile -Value "Removing invalid package: $($package.name)"
       # If a package is removed create log entry for the removal
-      Add-Content `
-        -Path $PackageHistoryLogFile `
-        -Value @"
-Removed $($package.name) because of docs package validation failure on $(Get-Date -Format 'yyyy-MM-dd HH:mm K')
-`t$($validationHash[$package.name].Output -join "`n`t")
-"@
-      continue
+#       Add-Content `
+#         -Path $PackageHistoryLogFile `
+#         -Value @"
+# Removed $($package.name) because of docs package validation failure on $(Get-Date -Format 'yyyy-MM-dd HH:mm K')
+# `t$($validationHash[$package.name].Output -join "`n`t")
+# "@
+      # continue
     }
+    continue
 
-    $finalOutput += $package
+    # $finalOutput += $package
   }
 
-  $packageConfig.npm_package_sources = $finalOutput
-  $packageConfig | ConvertTo-Json -Depth 100 | Set-Content $DocConfigFile
-  Write-Host "Onboarding configuration written to: $DocConfigFile"
+  # $packageConfig.npm_package_sources = $finalOutput
+  # $packageConfig | ConvertTo-Json -Depth 100 | Set-Content $DocConfigFile
+  # Write-Host "Onboarding configuration written to: $DocConfigFile"
 }
 
 # function is used to auto generate API View

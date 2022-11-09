@@ -121,15 +121,15 @@ jobs:
       #       -OutputLocation $(DocRepoLocation)/docs-ref-mapping/reference-unified.yml
       #   displayName: Generate ToC for Daily branch
 
-      # - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
-      #   parameters:
-      #     BaseRepoBranch: $(DailyDocsBranchName)
-      #     BaseRepoOwner: $(DocRepoOwner)
-      #     CommitMsg: "Update targeting packages based on release metadata. (Daily docs)"
-      #     TargetRepoName: $(DocRepoName)
-      #     TargetRepoOwner: $(DocRepoOwner)
-      #     WorkingDirectory: $(DocRepoLocation)
-      #     ScriptDirectory: $(Build.SourcesDirectory)/eng/common/scripts
+      - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
+        parameters:
+          BaseRepoBranch: $(DailyDocsBranchName)
+          BaseRepoOwner: $(DocRepoOwner)
+          CommitMsg: "Update targeting packages based on release metadata. (Daily docs)"
+          TargetRepoName: $(DocRepoName)
+          TargetRepoOwner: $(DocRepoOwner)
+          WorkingDirectory: $(DocRepoLocation)
+          ScriptDirectory: $(Build.SourcesDirectory)/eng/common/scripts
 
       - task: PowerShell@2
         displayName: Queue Docs CI build

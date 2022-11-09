@@ -85,23 +85,23 @@ function DockerValidation() {
 function ValidateInRexTool() {
   $tempFolder = Join-Path ([System.IO.Path]::GetTempPath()) "rexOutput"
   Write-Host "Validating $($Package.name) ..."
-  & 'type2docfx' $($Package.name) $tempFolder
-  $checkyamlFiles = Get-ChildItem $tempFolder
-  for ($i=1; $i -le 10; $i++) {
-    Write-Host $checkyamlFiles[$i].FullName
-  }
-}
-if (Get-Command 'type2docfx') {
   try {
-    ValidateInRexTool
+    & 'type2docfx' $($Package.name) $tempFolder
   }
   catch {
     Write-Warning "try sima: $package failed to run rex tool"
   }
   if ($LASTEXITCODE -ne 0) {
-    Write-Warning "sima: $package failed to run rex tool"
+    Write-Warning "exit $LASTEXITCODE : $package failed to run rex tool"
     $LASTEXITCODE = 0
   }
+  # $checkyamlFiles = Get-ChildItem $tempFolder
+  # for ($i=1; $i -le 10; $i++) {
+  #   Write-Host $checkyamlFiles[$i].FullName
+  # }
+}
+if (Get-Command 'type2docfx') {
+  ValidateInRexTool
   return
 }
 if (!$DocValidationImageId) {
