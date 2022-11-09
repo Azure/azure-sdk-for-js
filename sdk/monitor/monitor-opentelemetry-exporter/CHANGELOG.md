@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.10 (2022-11-09)
+
+### Features Added
+
+- Add network Statsbeat Metrics.
+
 ## 1.0.0-beta.9 (2022-10-20)
 
 ### Features Added
@@ -8,6 +14,7 @@
 - Added retriable behavior for 502, 503 and 504 status codes.
 - Export Metric attributes and Histogram Min/Max values.
 - Added new config options disableOfflineStorage, storageDirectory and exposed ApplicationInsightsClientOptionalParams for HTTP client extra configuration.
+- Added Network Statsbeat Metrics.
 
 ### Breaking Changes
 

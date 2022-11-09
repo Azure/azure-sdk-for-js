@@ -15,10 +15,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to List private clouds in a subscription
  *
  * @summary List private clouds in a subscription
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/PrivateClouds_ListInSubscription.json
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/PrivateClouds_ListInSubscription.json
  */
 async function privateCloudsListInSubscription() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
   const resArray = new Array();
@@ -34,10 +34,10 @@ privateCloudsListInSubscription().catch(console.error);
  * This sample demonstrates how to List private clouds in a subscription
  *
  * @summary List private clouds in a subscription
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/PrivateClouds_ListInSubscription_Stretched.json
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/PrivateClouds_ListInSubscription_Stretched.json
  */
 async function privateCloudsListInSubscriptionStretched() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
   const resArray = new Array();

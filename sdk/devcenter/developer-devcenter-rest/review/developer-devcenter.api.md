@@ -119,6 +119,9 @@ export interface CloudErrorOutput {
 }
 
 // @public
+function createClient(tenantId: string, devCenter: string, credentials: TokenCredential, options?: ClientOptions): AzureDevCenterClient;
+
+// @public
 function createClient(tenantId: string, devCenter: string, credentials: TokenCredential, devCenterDnsSuffix?: string, options?: ClientOptions): AzureDevCenterClient;
 export default createClient;
 

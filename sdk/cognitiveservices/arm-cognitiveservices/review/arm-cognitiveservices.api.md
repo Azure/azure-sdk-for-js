@@ -11,17 +11,17 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export type Account = AzureEntityResource & {
-    kind?: string;
-    sku?: Sku;
+export interface Account extends AzureEntityResource {
     identity?: Identity;
+    kind?: string;
+    location?: string;
+    properties?: AccountProperties;
+    sku?: Sku;
     readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
-    location?: string;
-    properties?: AccountProperties;
-};
+}
 
 // @public
 export interface AccountListResult {
@@ -30,15 +30,15 @@ export interface AccountListResult {
 }
 
 // @public
-export type AccountModel = DeploymentModel & {
+export interface AccountModel extends DeploymentModel {
     baseModel?: DeploymentModel;
-    maxCapacity?: number;
     capabilities?: {
         [propertyName: string]: string;
     };
     deprecation?: ModelDeprecationInfo;
+    maxCapacity?: number;
     readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface AccountModelListResult {
@@ -237,9 +237,9 @@ export interface ApiProperties {
 }
 
 // @public
-export type AzureEntityResource = Resource & {
+export interface AzureEntityResource extends Resource {
     readonly etag?: string;
-};
+}
 
 // @public
 export interface CallRateLimit {
@@ -332,11 +332,11 @@ export interface CommitmentPeriod {
 }
 
 // @public
-export type CommitmentPlan = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface CommitmentPlan extends ProxyResource {
     readonly etag?: string;
     properties?: CommitmentPlanProperties;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface CommitmentPlanListResult {
@@ -479,11 +479,11 @@ export interface DeletedAccountsPurgeOptionalParams extends coreClient.Operation
 }
 
 // @public
-export type Deployment = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface Deployment extends ProxyResource {
     readonly etag?: string;
     properties?: DeploymentProperties;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface DeploymentListResult {
@@ -493,6 +493,7 @@ export interface DeploymentListResult {
 
 // @public
 export interface DeploymentModel {
+    readonly callRateLimit?: CallRateLimit;
     format?: string;
     name?: string;
     version?: string;
@@ -500,8 +501,13 @@ export interface DeploymentModel {
 
 // @public
 export interface DeploymentProperties {
+    readonly callRateLimit?: CallRateLimit;
+    readonly capabilities?: {
+        [propertyName: string]: string;
+    };
     model?: DeploymentModel;
     readonly provisioningState?: DeploymentProvisioningState;
+    raiPolicyName?: string;
     scaleSettings?: DeploymentScaleSettings;
 }
 
@@ -634,179 +640,122 @@ export interface KeyVaultProperties {
 
 // @public
 export enum KnownActionType {
-    // (undocumented)
     Internal = "Internal"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDeploymentProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownDeploymentScaleType {
-    // (undocumented)
     Manual = "Manual",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownHostingModel {
-    // (undocumented)
     ConnectedContainer = "ConnectedContainer",
-    // (undocumented)
     DisconnectedContainer = "DisconnectedContainer",
-    // (undocumented)
     Web = "Web"
 }
 
 // @public
 export enum KnownKeySource {
-    // (undocumented)
     MicrosoftCognitiveServices = "Microsoft.CognitiveServices",
-    // (undocumented)
     MicrosoftKeyVault = "Microsoft.KeyVault"
 }
 
 // @public
 export enum KnownNetworkRuleAction {
-    // (undocumented)
     Allow = "Allow",
-    // (undocumented)
     Deny = "Deny"
 }
 
 // @public
 export enum KnownOrigin {
-    // (undocumented)
     System = "system",
-    // (undocumented)
     User = "user",
-    // (undocumented)
     UserSystem = "user,system"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     ResolvingDNS = "ResolvingDNS",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownQuotaUsageStatus {
-    // (undocumented)
     Blocked = "Blocked",
-    // (undocumented)
     Included = "Included",
-    // (undocumented)
     InOverage = "InOverage",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownResourceSkuRestrictionsReasonCode {
-    // (undocumented)
     NotAvailableForSubscription = "NotAvailableForSubscription",
-    // (undocumented)
     QuotaId = "QuotaId"
 }
 
 // @public
 export enum KnownSkuTier {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Enterprise = "Enterprise",
-    // (undocumented)
     Free = "Free",
-    // (undocumented)
     Premium = "Premium",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownUnitType {
-    // (undocumented)
     Bytes = "Bytes",
-    // (undocumented)
     BytesPerSecond = "BytesPerSecond",
-    // (undocumented)
     Count = "Count",
-    // (undocumented)
     CountPerSecond = "CountPerSecond",
-    // (undocumented)
     Milliseconds = "Milliseconds",
-    // (undocumented)
     Percent = "Percent",
-    // (undocumented)
     Seconds = "Seconds"
 }
 
@@ -883,11 +832,11 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = AzureEntityResource & {
+export interface PrivateEndpointConnection extends AzureEntityResource {
+    location?: string;
     properties?: PrivateEndpointConnectionProperties;
     readonly systemData?: SystemData;
-    location?: string;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -948,9 +897,9 @@ export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionLi
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
     properties?: PrivateLinkResourceProperties;
-};
+}
 
 // @public
 export interface PrivateLinkResourceListResult {
@@ -988,7 +937,8 @@ export interface PrivateLinkServiceConnectionState {
 export type ProvisioningState = string;
 
 // @public
-export type ProxyResource = Resource;
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export type PublicNetworkAccess = string;

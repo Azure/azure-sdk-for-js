@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Creates or updates a security connector. If a security connector is already created and a subsequent request is issued for the same security connector id, then it will be updated.
  *
  * @summary Creates or updates a security connector. If a security connector is already created and a subsequent request is issued for the same security connector id, then it will be updated.
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2022-05-01-preview/examples/SecurityConnectors/PutSecurityConnector_example.json
+ * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2022-08-01-preview/examples/SecurityConnectors/PutSecurityConnector_example.json
  */
 async function createOrUpdateASecurityConnector() {
   const subscriptionId = "a5caac9c-5c04-49af-b3d0-e204f40345d5";
@@ -25,7 +25,7 @@ async function createOrUpdateASecurityConnector() {
     environmentData: { environmentType: "AwsAccount" },
     environmentName: "AWS",
     etag: "etag value (must be supplied for update)",
-    hierarchyIdentifier: "HierarchyId1",
+    hierarchyIdentifier: "exampleHierarchyId",
     location: "Central US",
     offerings: [
       {

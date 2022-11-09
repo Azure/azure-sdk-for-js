@@ -576,6 +576,24 @@ export interface GenerateSharedAccessSignatureOptions {
 }
 
 // @public
+export interface HealthcareDicomImageCreatedEventData {
+    imageSeriesInstanceUid: string;
+    imageSopInstanceUid: string;
+    imageStudyInstanceUid: string;
+    sequenceNumber: number;
+    serviceHostName: string;
+}
+
+// @public
+export interface HealthcareDicomImageDeletedEventData {
+    imageSeriesInstanceUid: string;
+    imageSopInstanceUid: string;
+    imageStudyInstanceUid: string;
+    sequenceNumber: number;
+    serviceHostName: string;
+}
+
+// @public
 export interface HealthcareFhirResourceCreatedEventData {
     resourceFhirAccount: string;
     resourceFhirId: string;
@@ -1543,6 +1561,8 @@ export interface SystemEventNameToEventData {
     "Microsoft.EventGrid.SubscriptionDeletedEvent": SubscriptionDeletedEventData;
     "Microsoft.EventGrid.SubscriptionValidationEvent": SubscriptionValidationEventData;
     "Microsoft.EventHub.CaptureFileCreated": EventHubCaptureFileCreatedEventData;
+    "Microsoft.HealthcareApis.DicomImageCreated": HealthcareDicomImageCreatedEventData;
+    "Microsoft.HealthcareApis.DicomImageDeleted": HealthcareDicomImageDeletedEventData;
     "Microsoft.HealthcareApis.FhirDeletedCreated": HealthcareFhirResourceDeletedEventData;
     "Microsoft.HealthcareApis.FhirResourceCreated": HealthcareFhirResourceCreatedEventData;
     "Microsoft.HealthcareApis.FhirUpdatedCreated": HealthcareFhirResourceUpdatedEventData;
