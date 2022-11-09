@@ -4,17 +4,11 @@
 
 ### Features Added
 
+- Add support for `x-ms-text` [PR# 23631](https://github.com/Azure/azure-sdk-for-js/pull/23631)
+
 ### Breaking Changes
 
 ### Bugs Fixed
-
-### Other Changes
-
-## 2.3.0 (2022-11-03)
-
-### Features Added
-
-- Add support for `x-ms-text` [PR# 23631](https://github.com/Azure/azure-sdk-for-js/pull/23631)
 
 ### Other Changes
 
