@@ -17,7 +17,7 @@ import {
   bearerTokenAuthenticationPolicy,
 } from "@azure/core-rest-pipeline";
 import { TracingClient, createTracingClient } from "@azure/core-tracing";
-import { convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
+import { buildContentType, convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
 import { GeneratedSchemaRegistryClient } from "./generated/generatedSchemaRegistryClient";
 import { TokenCredential } from "@azure/core-auth";
 import { logger } from "./logger";
@@ -95,13 +95,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
       options,
       (updatedOptions) =>
         this._client.schema
-          .register(
-            groupName,
-            schemaName,
-            `application/json; serialization=${format}`,
-            schemaContent,
-            updatedOptions
-          )
+          .register(groupName, schemaName, buildContentType(format), schemaContent, updatedOptions)
           .then(convertSchemaIdResponse(format))
     );
   }
@@ -126,7 +120,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
           .queryIdByContent(
             groupName,
             schemaName,
-            `application/json; serialization=${format}`,
+            buildContentType(format),
             schemaContent,
             updatedOptions
           )
