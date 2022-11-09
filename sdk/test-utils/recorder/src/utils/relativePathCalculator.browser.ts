@@ -32,6 +32,6 @@ export function relativeRecordingsPath(): never {
 export function relativeAssetsPath(): never {
   throw new RecorderError(
     "Unable to access the project object. This is likely occurring because the user requested a browser test" +
-    " run and RECORDING_ASSETS_PATH isn't yet defined. Set process.env variable RECORDING_ASSETS_PATH within karma configuration."
+      " run and RECORDING_ASSETS_PATH isn't yet defined. Set process.env variable RECORDING_ASSETS_PATH within karma configuration."
   );
 }
