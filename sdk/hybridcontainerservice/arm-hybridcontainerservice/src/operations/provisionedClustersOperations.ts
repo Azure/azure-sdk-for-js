@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ProvisionedClustersOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,8 +19,10 @@ import {
   ProvisionedClustersResponse,
   ProvisionedClustersListByResourceGroupNextOptionalParams,
   ProvisionedClustersListByResourceGroupOptionalParams,
+  ProvisionedClustersListByResourceGroupResponse,
   ProvisionedClustersListBySubscriptionNextOptionalParams,
   ProvisionedClustersListBySubscriptionOptionalParams,
+  ProvisionedClustersListBySubscriptionResponse,
   ProvisionedClustersGetOptionalParams,
   ProvisionedClustersGetResponse,
   ProvisionedClusters,
@@ -29,8 +32,6 @@ import {
   ProvisionedClustersPatch,
   ProvisionedClustersUpdateOptionalParams,
   ProvisionedClustersUpdateResponse,
-  ProvisionedClustersListByResourceGroupResponse,
-  ProvisionedClustersListBySubscriptionResponse,
   ProvisionedClustersListByResourceGroupNextResponse,
   ProvisionedClustersListBySubscriptionNextResponse
 } from "../models";
@@ -66,19 +67,33 @@ export class ProvisionedClustersOperationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ProvisionedClustersListByResourceGroupOptionalParams
+    options?: ProvisionedClustersListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ProvisionedClustersResponse[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ProvisionedClustersListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -86,7 +101,9 @@ export class ProvisionedClustersOperationsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -117,22 +134,34 @@ export class ProvisionedClustersOperationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: ProvisionedClustersListBySubscriptionOptionalParams
+    options?: ProvisionedClustersListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ProvisionedClustersResponse[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ProvisionedClustersListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

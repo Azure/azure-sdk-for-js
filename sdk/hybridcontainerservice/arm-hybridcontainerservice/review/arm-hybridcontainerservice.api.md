@@ -274,6 +274,9 @@ export interface ErrorResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface HttpProxyConfig extends HttpProxyConfigResponse, HttpProxyConfigPassword {
 }
 

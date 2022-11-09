@@ -7,6 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
+export { getContinuationToken } from "./pagingHelper";
 export * from "./models";
 export { HybridContainerServiceClient } from "./hybridContainerServiceClient";
 export * from "./operationsInterfaces";
