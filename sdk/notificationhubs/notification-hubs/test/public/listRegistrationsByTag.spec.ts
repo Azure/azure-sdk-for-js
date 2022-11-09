@@ -5,15 +5,15 @@ import * as dotenv from "dotenv";
 import {
   AppleRegistrationDescription,
   createAppleRegistrationDescription,
-} from "@azure/notification-hubs/models/registration";
+} from "@azure/notification-hubs/models";
 import {
   NotificationHubsClientContext,
   createClientContext,
-} from "@azure/notification-hubs/client";
+  createRegistration,
+  deleteRegistration,
+  listRegistrationsByTag,
+} from "@azure/notification-hubs/api";
 import { assert } from "@azure/test-utils";
-import { createRegistration } from "@azure/notification-hubs/client/createRegistration";
-import { deleteRegistration } from "@azure/notification-hubs/client/deleteRegistration";
-import { listRegistrationsByTag } from "@azure/notification-hubs/client/listRegistrationsByTag";
 
 // Load the .env file if it exists
 dotenv.config();

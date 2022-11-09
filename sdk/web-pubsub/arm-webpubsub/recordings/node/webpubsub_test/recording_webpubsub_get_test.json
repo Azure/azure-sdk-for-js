@@ -1,0 +1,106 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/webPubSub/myWebPubSubService1?api-version=2022-08-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-webpubsub/1.1.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "11db7e55-2a78-4b8b-86e0-9b1aecebd706"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Nov 2022 03:09:52 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "11db7e55-2a78-4b8b-86e0-9b1aecebd706",
+        "x-ms-correlation-request-id": "70d788c7-3713-43b9-a899-a501057d1bf6",
+        "x-ms-ratelimit-remaining-subscription-reads": "11983",
+        "x-ms-request-id": "4bbc78a6-8944-4c02-aac2-fdaaf10af142",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221108T030953Z:70d788c7-3713-43b9-a899-a501057d1bf6",
+        "x-rp-server-mvid": "54bef194-19f7-4c41-9b83-6785272e94c3"
+      },
+      "ResponseBody": {
+        "sku": {
+          "name": "Free_F1",
+          "tier": "Free",
+          "size": "F1",
+          "capacity": 1
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "externalIP": "20.88.154.138",
+          "hostName": "mywebpubsubservice1.webpubsub.azure.com",
+          "publicPort": 443,
+          "serverPort": 443,
+          "version": "1.0",
+          "privateEndpointConnections": [],
+          "sharedPrivateLinkResources": [],
+          "tls": {
+            "clientCertEnabled": false
+          },
+          "hostNamePrefix": "mywebpubsubservice1",
+          "liveTraceConfiguration": {
+            "enabled": "false",
+            "categories": [
+              {
+                "name": "ConnectivityLogs",
+                "enabled": "true"
+              }
+            ]
+          },
+          "resourceLogConfiguration": null,
+          "networkACLs": {
+            "defaultAction": "Deny",
+            "publicNetwork": {
+              "allow": [
+                "ServerConnection",
+                "ClientConnection",
+                "RESTAPI",
+                "Trace"
+              ],
+              "deny": null
+            },
+            "privateEndpoints": []
+          },
+          "publicNetworkAccess": "Enabled",
+          "disableLocalAuth": false,
+          "disableAadAuth": false
+        },
+        "identity": {
+          "type": "SystemAssigned",
+          "principalId": "5eb86d36-1a68-4d8f-8449-eb4eaaf9a877",
+          "tenantId": "88888888-8888-8888-8888-888888888888"
+        },
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2022-11-08T03:09:09.336521Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2022-11-08T03:09:09.336521Z"
+        },
+        "location": "eastus",
+        "tags": {
+          "key1": "value1"
+        },
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/WebPubSub/myWebPubSubService1",
+        "name": "myWebPubSubService1",
+        "type": "Microsoft.SignalRService/WebPubSub"
+      }
+    }
+  ],
+  "Variables": {}
+}

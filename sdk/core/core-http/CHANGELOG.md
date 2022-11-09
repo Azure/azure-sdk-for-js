@@ -1,16 +1,24 @@
 # Release History
 
-## 2.3.0 (Unreleased)
+## 2.3.1 (Unreleased)
 
 ### Features Added
-
-- add support for `x-ms-text`
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.3.0 (2022-11-03)
+
+### Features Added
+
+- Add support for `x-ms-text` [PR# 23631](https://github.com/Azure/azure-sdk-for-js/pull/23631)
+
+### Other Changes
+
+- Update `engines` to `"node": ">=14.0.0"`
 
 ## 2.2.7 (2022-09-01)
 

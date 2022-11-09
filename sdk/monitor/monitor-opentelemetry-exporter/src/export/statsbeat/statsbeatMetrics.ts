@@ -70,8 +70,12 @@ export class StatsbeatMetrics {
   private _endpointUrl: string;
   private _host: string;
 
-  constructor(instrumentationKey: string, endpointUrl: string) {
-    this._connectionString = this._getConnectionString(endpointUrl);
+  constructor(options: {
+    instrumentationKey: string;
+    endpointUrl: string;
+    collectionInterval?: number;
+  }) {
+    this._connectionString = this._getConnectionString(options.endpointUrl);
     this._meterProvider = new MeterProvider();
 
     const exporterConfig: AzureMonitorExporterOptions = {
@@ -82,7 +86,7 @@ export class StatsbeatMetrics {
 
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter,
-      exportIntervalMillis: this._statsCollectionShortInterval, // 15 minutes
+      exportIntervalMillis: options.collectionInterval || this._statsCollectionShortInterval, // 15 minutes
     };
 
     // Exports Network Statsbeat every 15 minutes
@@ -90,12 +94,12 @@ export class StatsbeatMetrics {
     this._meterProvider.addMetricReader(this._metricReader);
     this._meter = this._meterProvider.getMeter("Azure Monitor NetworkStatsbeat");
 
-    this._endpointUrl = endpointUrl;
+    this._endpointUrl = options.endpointUrl;
     this._runtimeVersion = process.version;
     this._language = STATSBEAT_LANGUAGE;
     this._version = ai.packageVersion;
-    this._host = this._getShortHost(endpointUrl);
-    this._cikey = instrumentationKey;
+    this._host = this._getShortHost(options.endpointUrl);
+    this._cikey = options.instrumentationKey;
 
     this._successCountGauge = this._meter.createObservableGauge(StatsbeatCounter.SUCCESS_COUNT);
     this._failureCountGauge = this._meter.createObservableGauge(StatsbeatCounter.FAILURE_COUNT);
@@ -221,11 +225,9 @@ export class StatsbeatMetrics {
     // For each { statusCode -> count } mapping, call observe, passing the count and attributes that include the statusCode
     for (let i = 0; i < counter.totalFailedRequestCount.length; i++) {
       attributes.statusCode = counter.totalFailedRequestCount[i].statusCode;
-      observableResult.observe(
-        this._failureCountGauge,
-        counter.totalFailedRequestCount[i].count,
-        attributes
-      );
+      observableResult.observe(this._failureCountGauge, counter.totalFailedRequestCount[i].count, {
+        ...attributes,
+      });
       counter.totalFailedRequestCount[i].count = 0;
     }
   }
@@ -236,7 +238,9 @@ export class StatsbeatMetrics {
 
     for (let i = 0; i < counter.retryCount.length; i++) {
       attributes.statusCode = counter.retryCount[i].statusCode;
-      observableResult.observe(this._retryCountGauge, counter.retryCount[i].count, attributes);
+      observableResult.observe(this._retryCountGauge, counter.retryCount[i].count, {
+        ...attributes,
+      });
       counter.retryCount[i].count = 0;
     }
   }
@@ -247,11 +251,9 @@ export class StatsbeatMetrics {
 
     for (let i = 0; i < counter.throttleCount.length; i++) {
       attributes.statusCode = counter.throttleCount[i].statusCode;
-      observableResult.observe(
-        this._throttleCountGauge,
-        counter.throttleCount[i].count,
-        attributes
-      );
+      observableResult.observe(this._throttleCountGauge, counter.throttleCount[i].count, {
+        ...attributes,
+      });
       counter.throttleCount[i].count = 0;
     }
   }
@@ -262,11 +264,9 @@ export class StatsbeatMetrics {
 
     for (let i = 0; i < counter.exceptionCount.length; i++) {
       attributes.exceptionType = counter.exceptionCount[i].exceptionType;
-      observableResult.observe(
-        this._exceptionCountGauge,
-        counter.exceptionCount[i].count,
-        attributes
-      );
+      observableResult.observe(this._exceptionCountGauge, counter.exceptionCount[i].count, {
+        ...attributes,
+      });
       counter.exceptionCount[i].count = 0;
     }
   }
@@ -274,7 +274,22 @@ export class StatsbeatMetrics {
   private _durationCallback(observableResult: ObservableResult) {
     let counter: NetworkStatsbeat = this._getNetworkStatsbeatCounter(this._endpointUrl, this._host);
     let attributes = { ...this._networkProperties, ...this._commonProperties };
+    for (let i = 0; i < this._networkStatsbeatCollection.length; i++) {
+      let currentCounter = this._networkStatsbeatCollection[i];
+      currentCounter.time = Number(new Date());
+      let intervalRequests =
+        currentCounter.totalRequestCount - currentCounter.lastRequestCount || 0;
+      currentCounter.averageRequestExecutionTime =
+        (currentCounter.intervalRequestExecutionTime -
+          currentCounter.lastIntervalRequestExecutionTime) /
+          intervalRequests || 0;
+      currentCounter.lastIntervalRequestExecutionTime = currentCounter.intervalRequestExecutionTime; // reset
+
+      currentCounter.lastRequestCount = currentCounter.totalRequestCount;
+      currentCounter.lastTime = currentCounter.time;
+    }
     observableResult.observe(counter.averageRequestExecutionTime, attributes);
+
     counter.averageRequestExecutionTime = 0;
   }
 
@@ -352,23 +367,6 @@ export class StatsbeatMetrics {
       currentErrorCounter.count++;
     } else {
       counter.exceptionCount.push({ exceptionType: exceptionType.name, count: 1 });
-    }
-  }
-
-  public countAverageDuration() {
-    for (let i = 0; i < this._networkStatsbeatCollection.length; i++) {
-      let currentCounter = this._networkStatsbeatCollection[i];
-      currentCounter.time = Number(new Date());
-      let intervalRequests =
-        currentCounter.totalRequestCount - currentCounter.lastRequestCount || 0;
-      currentCounter.averageRequestExecutionTime =
-        (currentCounter.intervalRequestExecutionTime -
-          currentCounter.lastIntervalRequestExecutionTime) /
-          intervalRequests || 0;
-      currentCounter.lastIntervalRequestExecutionTime = currentCounter.intervalRequestExecutionTime; // reset
-
-      currentCounter.lastRequestCount = currentCounter.totalRequestCount;
-      currentCounter.lastTime = currentCounter.time;
     }
   }
 

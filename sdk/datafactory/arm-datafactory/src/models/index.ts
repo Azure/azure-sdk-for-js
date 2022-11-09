@@ -9968,6 +9968,8 @@ export interface ExecuteDataFlowActivity extends ExecutionActivity {
 export interface ScriptActivity extends ExecutionActivity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Script";
+  /** ScriptBlock execution timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
+  scriptBlockExecutionTimeout?: any;
   /** Array of script blocks. Type: array. */
   scripts?: ScriptActivityScriptBlock[];
   /** Log settings of script activity. */

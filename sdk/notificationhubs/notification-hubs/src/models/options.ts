@@ -24,10 +24,10 @@ export interface PolledOperationOptions extends OperationOptions {
  */
 export interface ScheduleNotificationOptions extends OperationOptions {
   /**
-   * The tags used to target the device for push notifications in either an array as "an || condition" or tag expression.
+   * A tag expression used to target devices. Use the `createTagExpression` function to create a tag expression from an array of tags.
    * If not set, this results in a broadcast notification to be scheduled.
    */
-  tags?: string | string[];
+  tagExpression?: string;
 }
 
 /**
@@ -35,10 +35,10 @@ export interface ScheduleNotificationOptions extends OperationOptions {
  */
 export interface SendNotificationOptions extends OperationOptions {
   /**
-   * The tags used to target the device for push notifications in either an array as "an || condition" or tag expression.
+   * A tag expression used to target devices. Use the `createTagExpression` function to create a tag expression from an array of tags.
    * If not set, this results in a broadcast notification to be sent.
    */
-  tags?: string | string[];
+  tagExpression?: string;
   /**
    * Set to true to enable test send.
    */

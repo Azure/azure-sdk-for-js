@@ -1416,6 +1416,13 @@ export const DeploymentModel: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      callRateLimit: {
+        serializedName: "callRateLimit",
+        type: {
+          name: "Composite",
+          className: "CallRateLimit"
+        }
       }
     }
   }
@@ -1990,6 +1997,27 @@ export const DeploymentProperties: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DeploymentScaleSettings"
+        }
+      },
+      capabilities: {
+        serializedName: "capabilities",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      raiPolicyName: {
+        serializedName: "raiPolicyName",
+        type: {
+          name: "String"
+        }
+      },
+      callRateLimit: {
+        serializedName: "callRateLimit",
+        type: {
+          name: "Composite",
+          className: "CallRateLimit"
         }
       }
     }

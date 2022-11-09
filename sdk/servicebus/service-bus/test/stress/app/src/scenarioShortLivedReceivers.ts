@@ -17,7 +17,7 @@ import {
 import { EventEmitter } from "stream";
 import { EventContext, ReceiverEvents } from "rhea-promise";
 import parsedArgs from "minimist";
-import { generateUuid } from "@azure/core-http";
+import { v4 as generateUuid } from "uuid";
 
 const messageNumberPropertyName = "messageNumber";
 
