@@ -13,6 +13,7 @@ import {
   ObservableResult,
 } from "@opentelemetry/api-metrics";
 import { Meter } from "@opentelemetry/api-metrics/build/src/types/Meter";
+import { InstrumentationNodeModuleDefinition } from "@opentelemetry/instrumentation";
 import {
   MeterProvider,
   PeriodicExportingMetricReader,
@@ -33,6 +34,9 @@ import {
   NON_EU_CONNECTION_STRING,
   CommonStatsbeatProperties,
   NetworkStatsbeatProperties,
+  StatsbeatInstrumentation,
+  StatsbeatFeature,
+  StatsbeatFeatureType
 } from "./types";
 
 const os = require("os");
@@ -40,13 +44,16 @@ const os = require("os");
 export class StatsbeatMetrics {
   private _commonProperties: CommonStatsbeatProperties;
   private _networkProperties: NetworkStatsbeatProperties;
-  private _meter: Meter;
+  private _networkStatsbeatMeter: Meter;
+  private _longIntervalStatsbeatMeter: Meter;
   private _isInitialized: boolean = false;
   private _networkStatsbeatCollection: Array<NetworkStatsbeat> = [];
   private _meterProvider: MeterProvider;
   private _azureExporter: _AzureMonitorStatsbeatExporter;
-  private _metricReader: PeriodicExportingMetricReader;
+  private _networkMetricReader: PeriodicExportingMetricReader;
+  private _longIntervalMetricReader: PeriodicExportingMetricReader;
   private _statsCollectionShortInterval: number = 900000; // 15 minutes
+  private _statsCollectionLongInterval: number = 86400000; // 1 day
 
   // Custom dimensions
   private _resourceProvider: string = StatsbeatResourceProvider.unknown;
@@ -57,6 +64,9 @@ export class StatsbeatMetrics {
   private _version: string;
   private _attach: string = "sdk";
 
+  private _feature: number = StatsbeatFeature.NONE;
+  private _instrumentation: number = StatsbeatInstrumentation.NONE;
+
   // Observable Gauges
   private _successCountGauge: ObservableGauge;
   private _failureCountGauge: ObservableGauge;
@@ -64,6 +74,8 @@ export class StatsbeatMetrics {
   private _throttleCountGauge: ObservableGauge;
   private _exceptionCountGauge: ObservableGauge;
   private _averageDurationGauge: ObservableGauge;
+  private _featureStatsbeatGauge: ObservableGauge;
+  private _attachStatsbeatGauge: ObservableGauge;
 
   // Network attributes
   private _connectionString: string;
@@ -84,15 +96,16 @@ export class StatsbeatMetrics {
 
     this._azureExporter = new _AzureMonitorStatsbeatExporter(exporterConfig);
 
-    const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
+
+    // Exports Network Statsbeat every 15 minutes
+    const networkMetricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter,
       exportIntervalMillis: options.collectionInterval || this._statsCollectionShortInterval, // 15 minutes
     };
 
-    // Exports Network Statsbeat every 15 minutes
-    this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-    this._meterProvider.addMetricReader(this._metricReader);
-    this._meter = this._meterProvider.getMeter("Azure Monitor NetworkStatsbeat");
+    this._networkMetricReader = new PeriodicExportingMetricReader(networkMetricReaderOptions);
+    this._meterProvider.addMetricReader(this._networkMetricReader);
+    this._networkStatsbeatMeter = this._meterProvider.getMeter("Azure Monitor NetworkStatsbeat");
 
     this._endpointUrl = options.endpointUrl;
     this._runtimeVersion = process.version;
@@ -101,14 +114,32 @@ export class StatsbeatMetrics {
     this._host = this._getShortHost(options.endpointUrl);
     this._cikey = options.instrumentationKey;
 
-    this._successCountGauge = this._meter.createObservableGauge(StatsbeatCounter.SUCCESS_COUNT);
-    this._failureCountGauge = this._meter.createObservableGauge(StatsbeatCounter.FAILURE_COUNT);
-    this._retryCountGauge = this._meter.createObservableGauge(StatsbeatCounter.RETRY_COUNT);
-    this._throttleCountGauge = this._meter.createObservableGauge(StatsbeatCounter.THROTTLE_COUNT);
-    this._exceptionCountGauge = this._meter.createObservableGauge(StatsbeatCounter.EXCEPTION_COUNT);
-    this._averageDurationGauge = this._meter.createObservableGauge(
+    this._successCountGauge = this._networkStatsbeatMeter.createObservableGauge(StatsbeatCounter.SUCCESS_COUNT);
+    this._failureCountGauge = this._networkStatsbeatMeter.createObservableGauge(StatsbeatCounter.FAILURE_COUNT);
+    this._retryCountGauge = this._networkStatsbeatMeter.createObservableGauge(StatsbeatCounter.RETRY_COUNT);
+    this._throttleCountGauge = this._networkStatsbeatMeter.createObservableGauge(StatsbeatCounter.THROTTLE_COUNT);
+    this._exceptionCountGauge = this._networkStatsbeatMeter.createObservableGauge(StatsbeatCounter.EXCEPTION_COUNT);
+    this._averageDurationGauge = this._networkStatsbeatMeter.createObservableGauge(
       StatsbeatCounter.AVERAGE_DURATION
     );
+
+    // Export Long Interval Statsbeats every day
+     const longIntervalMetricReaderOptions: PeriodicExportingMetricReaderOptions = {
+      exporter: this._azureExporter,
+      // TODO: Get this to export once immediately once statsbeat starts up and then once a day after that.
+      exportIntervalMillis: options.collectionInterval || this._statsCollectionLongInterval, // 1 day
+    };
+
+    this._longIntervalMetricReader = new PeriodicExportingMetricReader(longIntervalMetricReaderOptions);
+    this._meterProvider.addMetricReader(this._longIntervalMetricReader);
+    this._longIntervalStatsbeatMeter = this._meterProvider.getMeter("Azure Monitor LongIntervalStatsbeat");
+
+    /*
+     To follow the patterns laid out in the spec - feature and instrumentation statsbeats will be on the same gauge as
+     separate dimensions.
+    */
+    this._featureStatsbeatGauge = this._longIntervalStatsbeatMeter.createObservableGauge(StatsbeatCounter.FEATURE);
+    this._attachStatsbeatGauge = this._longIntervalStatsbeatMeter.createObservableGauge(StatsbeatCounter.ATTACH);
 
     this._commonProperties = {
       os: this._os,
@@ -186,16 +217,16 @@ export class StatsbeatMetrics {
 
       // Add observable callbacks
       this._successCountGauge.addCallback(this._successCallback.bind(this));
-      this._meter.addBatchObservableCallback(this._failureCallback.bind(this), [
+      this._networkStatsbeatMeter.addBatchObservableCallback(this._failureCallback.bind(this), [
         this._failureCountGauge,
       ]);
-      this._meter.addBatchObservableCallback(this._retryCallback.bind(this), [
+      this._networkStatsbeatMeter.addBatchObservableCallback(this._retryCallback.bind(this), [
         this._retryCountGauge,
       ]);
-      this._meter.addBatchObservableCallback(this._throttleCallback.bind(this), [
+      this._networkStatsbeatMeter.addBatchObservableCallback(this._throttleCallback.bind(this), [
         this._throttleCountGauge,
       ]);
-      this._meter.addBatchObservableCallback(this._exceptionCallback.bind(this), [
+      this._networkStatsbeatMeter.addBatchObservableCallback(this._exceptionCallback.bind(this), [
         this._exceptionCountGauge,
       ]);
       this._averageDurationGauge.addCallback(this._durationCallback.bind(this));
@@ -368,6 +399,23 @@ export class StatsbeatMetrics {
     } else {
       counter.exceptionCount.push({ exceptionType: exceptionType.name, count: 1 });
     }
+  }
+
+  // Long interval statsbeat methods
+  public addFeature(feature: StatsbeatFeature) {
+    this._feature |= feature;
+  }
+
+  public removeFeature(feature: StatsbeatFeature) {
+    this._feature &= ~feature;
+  }
+
+  public addInstrumentation(instrumentation: StatsbeatInstrumentation) {
+    this._instrumentation |= instrumentation;
+  }
+
+  public removeInstrumentation(instrumentation: StatsbeatInstrumentation) {
+    this._instrumentation &= ~instrumentation;
   }
 
   // Gets a networkStatsbeat counter if one exists for the given endpoint
