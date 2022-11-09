@@ -3,7 +3,7 @@
 
 import { TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { createKeyVaultChallengeCallbacks } from "../../keyvault-common/src";
+import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
 import { LATEST_API_VERSION } from "./constants";
 import { KeyVaultClient, Setting as GeneratedSetting } from "./generated";
 import { logger } from "./log";
