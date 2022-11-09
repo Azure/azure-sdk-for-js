@@ -103,7 +103,9 @@ describe("RequestResponseLink", function () {
           send: (request: any) => {
             req = request;
           },
-          on: () => { /* no_op */ },
+          on: () => {
+            /* no_op */
+          },
         });
       },
       createReceiver: () => {
