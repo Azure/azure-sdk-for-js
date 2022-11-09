@@ -715,8 +715,8 @@ describe("bulk/batch item operations", function () {
       assert(isOperationResponse(deleteResponse.result[0]));
     });
 
-    function isOperationResponse(object: any): boolean {
-      return "statusCode" in object && "requestCharge" in object;
+    function isOperationResponse(object: unknown): object is OperationResponse {
+      return typeof object === "object" && object !== null && Object.prototype.hasOwnProperty.call(object, "statusCode") && Object.prototype.hasOwnProperty.call(object, "requestCharge");
     }
   });
 });
