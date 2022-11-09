@@ -114,12 +114,12 @@ onVersions({ minVer: "7.2" }).describe(
       });
 
       it("supports sign and verify", async () => {
-        const keyName = recorder.variable(
+        const okpKeyName = recorder.variable(
           "okp-sign-verify",
           `okp-sign-verify-${Math.floor(Math.random() * 100000)}`
         );
-        keyVaultKey = await hsmClient.createOkpKey(keyName);
-        cryptoClient = hsmClient.getCryptographyClient(keyName);
+        keyVaultKey = await hsmClient.createOkpKey(okpKeyName);
+        cryptoClient = hsmClient.getCryptographyClient(okpKeyName);
         const message = stringToUint8Array("Hello, world!");
         const digest = createHash("SHA256").update(message).digest();
 
@@ -137,12 +137,12 @@ onVersions({ minVer: "7.2" }).describe(
       });
 
       it("supports signData and verifyData", async () => {
-        const keyName = recorder.variable(
+        const okpKeyName = recorder.variable(
           "okp-sign-verify",
           `okp-sign-verify-${Math.floor(Math.random() * 100000)}`
         );
-        keyVaultKey = await hsmClient.createOkpKey(keyName);
-        cryptoClient = hsmClient.getCryptographyClient(keyName);
+        keyVaultKey = await hsmClient.createOkpKey(okpKeyName);
+        cryptoClient = hsmClient.getCryptographyClient(okpKeyName);
         const message = stringToUint8Array("Hello, world!");
 
         const signResult = await cryptoClient.signData(KnownSignatureAlgorithms.EdDSA, message);
