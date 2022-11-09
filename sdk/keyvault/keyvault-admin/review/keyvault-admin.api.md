@@ -20,6 +20,12 @@ export interface AccessControlClientOptions extends CommonClientOptions {
 }
 
 // @public
+export interface BooleanKeyVaultSetting extends KeyVaultSettingCommon {
+    kind: "boolean";
+    value: boolean;
+}
+
+// @public
 export interface CreateRoleAssignmentOptions extends OperationOptions {
 }
 
@@ -171,9 +177,11 @@ export interface KeyVaultSelectiveKeyRestoreResult {
 }
 
 // @public
-export interface KeyVaultSetting {
+export type KeyVaultSetting = UnknownKeyVaultSetting | BooleanKeyVaultSetting;
+
+// @public
+export interface KeyVaultSettingCommon {
     name: string;
-    value: boolean;
 }
 
 // @public
@@ -279,6 +287,12 @@ export interface SettingsClientOptions extends CommonClientOptions {
 
 // @public
 export type SUPPORTED_API_VERSIONS = "7.2" | "7.3" | "7.4-preview.1";
+
+// @public
+export interface UnknownKeyVaultSetting extends KeyVaultSettingCommon {
+    kind?: never;
+    value: unknown;
+}
 
 // @public
 export interface UpdateSettingOptions extends OperationOptions {
