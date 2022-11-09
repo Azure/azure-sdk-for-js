@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { SubscriptionName, SubscriptionClient } from "@azure/arm-subscriptions";
-import { DefaultAzureCredential } from "@azure/identity";
+const { SubscriptionClient } = require("@azure/arm-subscriptions");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to The operation to rename a subscription
@@ -19,13 +19,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function renameSubscription() {
   const subscriptionId = "83aa47df-e3e9-49ff-877b-94304bf3d3ad";
-  const body: SubscriptionName = { subscriptionName: "Test Sub" };
+  const body = { subscriptionName: "Test Sub" };
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
-  const result = await client.subscriptionOperations.rename(
-    subscriptionId,
-    body
-  );
+  const result = await client.subscription.rename(subscriptionId, body);
   console.log(result);
 }
 

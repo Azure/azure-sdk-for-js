@@ -58,7 +58,7 @@ const getPolicyOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseBody
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.billingAccountId],
   headerParameters: [Parameters.accept],
   serializer

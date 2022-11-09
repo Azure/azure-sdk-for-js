@@ -21,7 +21,7 @@ async function enableSubscription() {
   const subscriptionId = "7948bcee-488c-47ce-941c-38e20ede803d";
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
-  const result = await client.subscriptionOperations.enable(subscriptionId);
+  const result = await client.subscription.enable(subscriptionId);
   console.log(result);
 }
 

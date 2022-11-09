@@ -8,130 +8,13 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Location list operation response. */
-export interface LocationListResult {
-  /** An array of locations. */
-  value?: Location[];
-}
-
-/** Location information. */
-export interface Location {
-  /**
-   * The fully qualified ID of the location. For example, /subscriptions/00000000-0000-0000-0000-000000000000/locations/westus.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The subscription ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subscriptionId?: string;
-  /**
-   * The location name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The display name of the location.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /**
-   * The latitude of the location.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly latitude?: string;
-  /**
-   * The longitude of the location.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly longitude?: string;
-}
-
-/** Subscription information. */
-export interface Subscription {
-  /**
-   * The fully qualified ID for the subscription. For example, /subscriptions/00000000-0000-0000-0000-000000000000.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The subscription ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subscriptionId?: string;
-  /**
-   * The subscription display name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /**
-   * The subscription state. Possible values are Enabled, Warned, PastDue, Disabled, and Deleted.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: SubscriptionState;
-  /** The subscription policies. */
-  subscriptionPolicies?: SubscriptionPolicies;
-  /** The authorization source of the request. Valid values are one or more combinations of Legacy, RoleBased, Bypassed, Direct and Management. For example, 'Legacy, RoleBased'. */
-  authorizationSource?: string;
-}
-
-/** Subscription policies. */
-export interface SubscriptionPolicies {
-  /**
-   * The subscription location placement ID. The ID indicates which regions are visible for a subscription. For example, a subscription with a location placement Id of Public_2014-09-01 has access to Azure public regions.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly locationPlacementId?: string;
-  /**
-   * The subscription quota ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly quotaId?: string;
-  /**
-   * The subscription spending limit.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly spendingLimit?: SpendingLimit;
-}
-
-/** Subscription list operation response. */
-export interface SubscriptionListResult {
-  /** An array of subscriptions. */
-  value?: Subscription[];
-  /** The URL to get the next set of results. */
-  nextLink: string;
-}
-
-/** Tenant Ids information. */
-export interface TenantListResult {
-  /** An array of tenants. */
-  value?: TenantIdDescription[];
-  /** The URL to use for getting the next set of results. */
-  nextLink: string;
-}
-
-/** Tenant Id information. */
-export interface TenantIdDescription {
-  /**
-   * The fully qualified ID of the tenant. For example, /tenants/00000000-0000-0000-0000-000000000000.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The tenant ID. For example, 00000000-0000-0000-0000-000000000000.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-}
-
 /** The ID of the canceled subscription */
 export interface CanceledSubscriptionId {
   /**
    * The ID of the canceled subscription
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly subscriptionId?: string;
+  readonly value?: string;
 }
 
 /** Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. */
@@ -164,7 +47,7 @@ export interface RenamedSubscriptionId {
    * The ID of the subscriptions that is being renamed
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly subscriptionId?: string;
+  readonly value?: string;
 }
 
 /** The ID of the subscriptions that is being enabled */
@@ -173,7 +56,7 @@ export interface EnabledSubscriptionId {
    * The ID of the subscriptions that is being enabled
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly subscriptionId?: string;
+  readonly value?: string;
 }
 
 /** Result of the request to list operations. It contains a list of operations and a URL link to get the next set of results. */
@@ -307,8 +190,6 @@ export interface SubscriptionAliasResponseProperties {
   subscriptionOwnerId?: string;
   /** The Management Group Id. */
   managementGroupId?: string;
-  /** Created Time */
-  createdTime?: string;
   /** Tags for the subscription */
   tags?: { [propertyName: string]: string };
 }
@@ -501,7 +382,9 @@ export interface SubscriptionAcceptOwnershipHeaders {
 
 /** Known values of {@link Workload} that the service accepts. */
 export enum KnownWorkload {
+  /** Production */
   Production = "Production",
+  /** DevTest */
   DevTest = "DevTest"
 }
 
@@ -517,8 +400,11 @@ export type Workload = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Accepted */
   Accepted = "Accepted",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -535,8 +421,11 @@ export type ProvisioningState = string;
 
 /** Known values of {@link AcceptOwnership} that the service accepts. */
 export enum KnownAcceptOwnership {
+  /** Pending */
   Pending = "Pending",
+  /** Completed */
   Completed = "Completed",
+  /** Expired */
   Expired = "Expired"
 }
 
@@ -553,9 +442,13 @@ export type AcceptOwnership = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -570,57 +463,6 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
-/** Defines values for SubscriptionState. */
-export type SubscriptionState =
-  | "Enabled"
-  | "Warned"
-  | "PastDue"
-  | "Disabled"
-  | "Deleted";
-/** Defines values for SpendingLimit. */
-export type SpendingLimit = "On" | "Off" | "CurrentPeriodOff";
-
-/** Optional parameters. */
-export interface SubscriptionsListLocationsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listLocations operation. */
-export type SubscriptionsListLocationsResponse = LocationListResult;
-
-/** Optional parameters. */
-export interface SubscriptionsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SubscriptionsGetResponse = Subscription;
-
-/** Optional parameters. */
-export interface SubscriptionsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SubscriptionsListResponse = SubscriptionListResult;
-
-/** Optional parameters. */
-export interface SubscriptionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type SubscriptionsListNextResponse = SubscriptionListResult;
-
-/** Optional parameters. */
-export interface TenantsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type TenantsListResponse = TenantListResult;
-
-/** Optional parameters. */
-export interface TenantsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type TenantsListNextResponse = TenantListResult;
 
 /** Optional parameters. */
 export interface SubscriptionCancelOptionalParams
@@ -743,6 +585,8 @@ export interface SubscriptionClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
+  /** Api Version */
+  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }
