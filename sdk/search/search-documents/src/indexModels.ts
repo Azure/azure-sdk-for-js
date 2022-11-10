@@ -150,7 +150,7 @@ export type AutocompleteOptions<T extends object> = OperationOptions & Autocompl
 /**
  * Options for committing a full search request.
  */
-export type SearchOptions<T extends object, Fields extends SelectFields<T>> = OperationOptions &
+export type SearchOptions<T extends object, Fields> = OperationOptions &
   SearchRequestOptions<T, Fields>;
 /**
  * Options for retrieving suggestions based on the searchText.
@@ -315,7 +315,7 @@ export interface SearchRequest {
 /**
  * Parameters for filtering, sorting, faceting, paging, and other search query behaviors.
  */
-export interface SearchRequestOptions<T extends object, Fields extends SelectFields<T>> {
+export interface SearchRequestOptions<T extends object, Fields> {
   /**
    * A value that specifies whether to fetch the total count of results. Default is false. Setting
    * this value to true may have a performance impact. Note that the count returned is an
@@ -422,7 +422,7 @@ export interface SearchRequestOptions<T extends object, Fields extends SelectFie
    * The list of fields to retrieve. If unspecified, all fields marked as
    * retrievable in the schema are included.
    */
-  select?: Fields[];
+  select?: string extends Fields ? string[] : Fields[];
   /**
    * The number of search results to skip. This value cannot be greater than 100,000. If you need
    * to scan documents in sequence, but cannot use skip due to this limitation, consider using
@@ -759,23 +759,41 @@ export type SearchPick<T extends object, Paths extends SelectFields<T>> =
               never
           : NonNullable<T[FieldName]> extends object
           ? // Recur :)
-            {
-              [K in FieldName]: RestPaths extends SelectFields<
-                T[K] & {
-                  // This empty intersection fixes `NonNullable<T[K]>` not being narrowed to an object type in older versions of TS
-                }
-              >
-                ?
-                    | SearchPick<
-                        T[K] & {
-                          // Ditto
-                        },
-                        RestPaths
-                      >
-                    | Extract<T[K], null | undefined>
-                : // Unreachable by construction
-                  never;
-            }
+            undefined extends T[FieldName]
+            ? {
+                [K in FieldName]?: RestPaths extends SelectFields<
+                  T[K] & {
+                    // This empty intersection fixes `NonNullable<T[K]>` not being narrowed to an object type in older versions of TS
+                  }
+                >
+                  ?
+                      | SearchPick<
+                          T[K] & {
+                            // Ditto
+                          },
+                          RestPaths
+                        >
+                      | (null extends T[K] ? null : never)
+                  : // Unreachable by construction
+                    never;
+              }
+            : {
+                [K in FieldName]: RestPaths extends SelectFields<
+                  T[K] & {
+                    // This empty intersection fixes `NonNullable<T[K]>` not being narrowed to an object type in older versions of TS
+                  }
+                >
+                  ?
+                      | SearchPick<
+                          T[K] & {
+                            // Ditto
+                          },
+                          RestPaths
+                        >
+                      | (null extends T[K] ? null : never)
+                  : // Unreachable by construction
+                    never;
+              }
           : // Unreachable by construction
             never
         : // Ignore symbols and numbers
@@ -791,3 +809,12 @@ export type SearchPick<T extends object, Paths extends SelectFields<T>> =
     // sure the type always yields an object, this intersection does not alter the type
     // at all, only the display string of the type.
   };
+
+// Computes a deeply partial model
+export type DeepPartial<T extends object> = {
+  [K in keyof T]?: T[K] extends ExcludedODataTypes
+    ? T[K]
+    : T[K] extends object
+    ? DeepPartial<T[K]>
+    : T[K];
+};

@@ -38,6 +38,7 @@ import {
   SuggestDocumentsResult,
   SuggestOptions,
   UploadDocumentsOptions,
+  DeepPartial,
 } from "./indexModels";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
@@ -394,8 +395,16 @@ export class SearchClient<T extends object> implements IndexDocumentsClient<T> {
    */
   public async search<Fields extends SelectFields<T>>(
     searchText?: string,
-    options: SearchOptions<T, Fields> = {}
-  ): Promise<SearchDocumentsResult<SearchPick<T, Fields>>> {
+    options?: SearchOptions<T, Fields>
+  ): Promise<SearchDocumentsResult<SearchPick<T, Fields>>>;
+  public async search(
+    searchText?: string,
+    options?: SearchOptions<T, string>
+  ): Promise<SearchDocumentsResult<DeepPartial<T>>>;
+  public async search(
+    searchText?: string,
+    options: SearchOptions<object, never> = {}
+  ): Promise<SearchDocumentsResult<object>> {
     const { span, updatedOptions } = createSpan("SearchClient-search", options);
 
     try {
