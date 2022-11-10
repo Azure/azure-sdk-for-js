@@ -311,7 +311,10 @@ export class SearchIndexingBufferedSender<Model extends object> {
    * @param event - Event to be emitted
    * @param listener - Event Listener
    */
-  public on(event: "batchAdded", listener: (e: { action: string; documents: Model[] }) => void): void;
+  public on(
+    event: "batchAdded",
+    listener: (e: { action: string; documents: Model[] }) => void
+  ): void;
   /**
    * Attach Batch Sent Event
    *
@@ -346,7 +349,10 @@ export class SearchIndexingBufferedSender<Model extends object> {
    * @param event - Event to be emitted
    * @param listener - Event Listener
    */
-  public off(event: "batchAdded", listener: (e: { action: string; documents: Model[] }) => void): void;
+  public off(
+    event: "batchAdded",
+    listener: (e: { action: string; documents: Model[] }) => void
+  ): void;
   /**
    * Detach Batch Sent Event
    *

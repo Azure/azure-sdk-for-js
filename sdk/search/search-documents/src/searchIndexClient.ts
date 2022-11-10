@@ -817,6 +817,11 @@ export class SearchIndexClient {
     indexName: string,
     options?: GetSearchClientOptions
   ): SearchClient<Model> {
-    return new SearchClient<Model>(this.endpoint, indexName, this.credential, options || this.options);
+    return new SearchClient<Model>(
+      this.endpoint,
+      indexName,
+      this.credential,
+      options || this.options
+    );
   }
 }

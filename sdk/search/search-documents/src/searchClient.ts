@@ -486,14 +486,14 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * @param key - The primary key value of the document
    * @param options - Additional options
    */
-  public async getDocument<Fields extends Extract<keyof Model, string>>(
+  public async getDocument<Fields extends SelectFields<Model>>(
     key: string,
     options: GetDocumentOptions<Fields> = {}
-  ): Promise<Model> {
+  ): Promise<SearchPick<Model, Fields>> {
     const { span, updatedOptions } = createSpan("SearchClient-getDocument", options);
     try {
       const result = await this.client.documents.get(key, updatedOptions);
-      return deserialize<Model>(result);
+      return deserialize<SearchPick<Model, Fields>>(result);
     } catch (e: any) {
       span.setStatus({
         status: "error",

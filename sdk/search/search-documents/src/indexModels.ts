@@ -764,7 +764,7 @@ export type SearchPick<T extends object, Paths extends SelectFields<T>> =
             ? {
                 [K in FieldName]?: RestPaths extends SelectFields<
                   T[K] & {
-                    // This empty intersection fixes `NonNullable<T[K]>` not being narrowed to an object type in older versions of TS
+                    // This empty intersection fixes `NonNullable<Model[K]>` not being narrowed to an object type in older versions of TS
                   }
                 >
                   ?
@@ -781,7 +781,7 @@ export type SearchPick<T extends object, Paths extends SelectFields<T>> =
             : {
                 [K in FieldName]: RestPaths extends SelectFields<
                   T[K] & {
-                    // This empty intersection fixes `NonNullable<T[K]>` not being narrowed to an object type in older versions of TS
+                    // This empty intersection fixes `NonNullable<Model[K]>` not being narrowed to an object type in older versions of TS
                   }
                 >
                   ?

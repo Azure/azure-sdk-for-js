@@ -2052,7 +2052,7 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
     deleteDocuments(documents: Model[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     deleteDocuments(keyName: keyof Model, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
-    getDocument<Fields extends Extract<keyof Model, string>>(key: string, options?: GetDocumentOptions<Fields>): Promise<Model>;
+    getDocument<Fields extends SelectFields<Model>>(key: string, options?: GetDocumentOptions<Fields>): Promise<SearchPick<Model, Fields>>;
     getDocumentsCount(options?: CountDocumentsOptions): Promise<number>;
     indexDocuments(batch: IndexDocumentsBatch<Model>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly indexName: string;
