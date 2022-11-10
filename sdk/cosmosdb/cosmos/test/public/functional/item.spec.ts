@@ -2,7 +2,13 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { Suite } from "mocha";
-import { Container, CosmosClient, PatchOperation, PatchOperationType } from "../../../src";
+import {
+  Container,
+  CosmosClient,
+  OperationResponse,
+  PatchOperation,
+  PatchOperationType,
+} from "../../../src";
 import { ItemDefinition } from "../../../src";
 import {
   bulkDeleteItems,
@@ -716,7 +722,12 @@ describe("bulk/batch item operations", function () {
     });
 
     function isOperationResponse(object: unknown): object is OperationResponse {
-      return typeof object === "object" && object !== null && Object.prototype.hasOwnProperty.call(object, "statusCode") && Object.prototype.hasOwnProperty.call(object, "requestCharge");
+      return (
+        typeof object === "object" &&
+        object !== null &&
+        Object.prototype.hasOwnProperty.call(object, "statusCode") &&
+        Object.prototype.hasOwnProperty.call(object, "requestCharge")
+      );
     }
   });
 });
