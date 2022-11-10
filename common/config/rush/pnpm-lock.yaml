@@ -814,6 +814,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-resources/5.0.1:
+    resolution: {integrity: sha512-JbZtIqfEulsIA0rC3zM7jfF4KkOnye9aKcaO/jJqxJRm/gM6lAjEv7sL4njW8D+35l50P1f+UuH5OqN+UKJqNA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.4.0
+      '@azure/core-client': 1.6.1
+      '@azure/core-lro': 2.4.0
+      '@azure/core-paging': 1.4.0
+      '@azure/core-rest-pipeline': 1.10.0
+      tslib: 2.4.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-storage/17.2.1:
     resolution: {integrity: sha512-J2jmTPv8ZraSHDTz9l2Bx8gNL3ktfDDWo2mxWfzarn64O9Fjhb+l85YWyubGy2xUdeGuZPKzvQLltGv8bSu8eQ==}
     engines: {node: '>=12.0.0'}
@@ -12675,11 +12690,12 @@ packages:
     dev: false
 
   file:projects/arm-links.tgz:
-    resolution: {integrity: sha512-Vdb/Dd+9IFLd8/yto66fCWhX5yjLE+N/v5pxRCYm6PaaUfLPJLXLxHgnqRlEAl++bMBr5CF0qRZPPBo3X/TNLQ==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-dA1SMN8GHZj+2vmT2rgeid6pvkP3DUoWQdzbhxPrJ5QgAgjA1dZ4yckeIgZEo8z93ZWD9LP8/QJVWHccEEdwVA==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
+      '@azure/arm-resources': 5.0.1
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.5
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
@@ -14314,7 +14330,7 @@ packages:
     dev: false
 
   file:projects/arm-resources.tgz:
-    resolution: {integrity: sha512-/bqYSaWaEdRslQxOTwX1YyA5RPcx4lnudPwrfuHMh7wXCgUHovGr6ep9Fy6Jl4p//M/VhThT8FYrPhXBYrJd/w==, tarball: file:projects/arm-resources.tgz}
+    resolution: {integrity: sha512-yfRrlJ8rdEfD5Lv7DEpuf/mk41z8JL6zjl4huSgddGNRHVCj0qK7OQsfRqpiySY240MvR9b1Ox97J34jKrErBg==, tarball: file:projects/arm-resources.tgz}
     name: '@rush-temp/arm-resources'
     version: 0.0.0
     dependencies:
@@ -14335,7 +14351,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color

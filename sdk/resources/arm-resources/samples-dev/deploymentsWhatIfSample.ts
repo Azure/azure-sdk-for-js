@@ -25,11 +25,7 @@ async function predictTemplateChangesAtResourceGroupScope() {
   const resourceGroupName = "my-resource-group";
   const deploymentName = "my-deployment";
   const parameters: DeploymentWhatIf = {
-    properties: {
-      mode: "Incremental",
-      parameters: {},
-      templateLink: { uri: "https://example.com/exampleTemplate.json" }
-    }
+    properties: { mode: "Incremental", parameters: {}, templateLink: {} }
   };
   const credential = new DefaultAzureCredential();
   const client = new ResourceManagementClient(credential, subscriptionId);
