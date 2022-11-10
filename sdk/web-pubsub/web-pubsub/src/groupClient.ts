@@ -51,6 +51,7 @@ export interface GroupSendToAllOptions extends OperationOptions {
    * Examples:
    *  * Exclude connections from `user1` and `user2`: `userId ne 'user1' and userId ne 'user2'`
    *  * Exclude connections in `group1`: `not('group1' in groups)`
+   * Details about `filter` syntax please see [OData filter syntax for Azure Web PubSub](https://aka.ms/awps/filter-syntax).
    */
   filter?: string;
 }
@@ -62,7 +63,7 @@ export interface GroupSendTextToAllOptions extends GroupSendToAllOptions {
   /**
    * The content will be sent to the clients in plain text.
    */
-   contentType: "text/plain";
+  contentType: "text/plain";
 }
 
 /**

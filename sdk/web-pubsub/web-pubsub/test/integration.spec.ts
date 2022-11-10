@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /* eslint-disable no-invalid-this */
-import { WebPubSubServiceClient } from "../src/index";
+import { WebPubSubServiceClient, odata } from "../src/index";
 import { isLiveMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { assert } from "chai";
@@ -246,5 +246,53 @@ describe("ServiceClient to manage the connected WebSocket connections", function
       messages[2].dataAsString,
       '{"type":"message","from":"server","dataType":"text","data":"Hi there!"}'
     );
+  });
+
+  it("Clients can receive messages with filters", async function (this: Context) {
+    if (!isLiveMode()) this.skip();
+    const hub = "ClientCanReceiveMessageWithFilters";
+
+    const messages: SimpleWebSocketFrame[] = [];
+
+    // Get token
+    const serviceClient = new WebPubSubServiceClient(
+      assertEnvironmentVariable("WPS_CONNECTION_STRING"),
+      hub
+    );
+    const token = await serviceClient.getClientAccessToken({ groups: ["groupA"] });
+    const endSignal = defer<void>();
+    // Start simple WebSocket connections
+    const client = new ws.WebSocket(token.url);
+    client.on("message", (data, isBinary) => {
+      const frame = new SimpleWebSocketFrame(data, isBinary);
+      console.log(frame.toString());
+      if (frame.isEndSignal()) {
+        endSignal.resolve();
+        client.close();
+      } else {
+        messages.push(frame);
+      }
+    });
+    client.on("open", async () => {
+      // Send a JSON message to anonymous connections
+      await serviceClient.sendToAll({ message: "Hello world!" }, { filter: "userId eq null" });
+      // Send a text message to connections in groupA but not in groupB
+      const groupA = "groupA";
+      const groupB = "groupB";
+      await serviceClient.sendToAll("Hello world!", {
+        contentType: "text/plain",
+        // use plain text "'groupA' in groups and not('groupB' in groups)"
+        // or use the odata helper method
+        filter: odata`${groupA} in groups and not(${groupB} in groups)`,
+      });
+      // Send the binary end signal message
+      await serviceClient.sendToAll(getEndSignal());
+    });
+
+    await endSignal.promise;
+
+    assert.equal(messages.length, 2);
+    assert.equal(messages[0].dataAsString, '{"message":"Hello world!"}');
+    assert.equal(messages[1].dataAsString, "Hello world!");
   });
 });

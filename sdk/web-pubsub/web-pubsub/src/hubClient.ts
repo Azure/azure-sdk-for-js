@@ -58,6 +58,7 @@ export interface HubSendToAllOptions extends OperationOptions {
    * Examples:
    *  * Exclude connections from `user1` and `user2`: `userId ne 'user1' and userId ne 'user2'`
    *  * Exclude connections in `group1`: `not('group1' in groups)`
+   * Details about `filter` syntax please see [OData filter syntax for Azure Web PubSub](https://aka.ms/awps/filter-syntax).
    */
   filter?: string;
 }
@@ -69,7 +70,7 @@ export interface HubSendTextToAllOptions extends HubSendToAllOptions {
   /**
    * The content will be sent to the clients in plain text.
    */
-   contentType: "text/plain";
+  contentType: "text/plain";
 }
 
 /**
@@ -151,6 +152,7 @@ export interface HubSendToUserOptions extends OperationOptions {
    * Examples:
    *  * Exclude connections in `group1`: `not('group1' in groups)`
    *  * Send to connections in `group1` or `group2`: `'group1' in groups or `group2` in groups`
+   * Details about `filter` syntax please see [OData filter syntax for Azure Web PubSub](https://aka.ms/awps/filter-syntax).
    */
   filter?: string;
 }
@@ -162,7 +164,7 @@ export interface HubSendTextToUserOptions extends HubSendToUserOptions {
   /**
    * The content will be sent to the clients in plain text.
    */
-   contentType: "text/plain";
+  contentType: "text/plain";
 }
 
 export type Permission = "joinLeaveGroup" | "sendToGroup";

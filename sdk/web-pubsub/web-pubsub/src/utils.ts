@@ -78,7 +78,7 @@ function escapeQuotesIfString(input: unknown, previous: string): string | unknow
  * @param strings - Array of strings for the expression
  * @param values - Array of values for the expression
  */
- export function odata(strings: TemplateStringsArray, ...values: unknown[]): string {
+export function odata(strings: TemplateStringsArray, ...values: unknown[]): string {
   const results = [];
   for (let i = 0; i < strings.length; i++) {
     results.push(strings[i]);
