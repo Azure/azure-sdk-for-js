@@ -7,6 +7,7 @@
 ### Breaking Changes
 
 ### Bugs Fixed
+- Fix issue with Item batch method signature
 
 ### Other Changes
 
