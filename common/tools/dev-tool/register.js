@@ -16,11 +16,21 @@
 const path = require("path");
 const cwd = process.cwd();
 
-// This is the calling module, which will be the node repl context.
+// This is the calling module, which will be the node repl context or whoever imported us.
 const main = require.main || module.parent;
 
 // We need to know which package name to monkey patch
-const { name: hostPackageName } = main.require("./package.json");
+let hostPackageName;
+
+try {
+  // First of all, just try to use the REPL's relative require to load package.json.
+  // This might throw if there is no package.json relative to the current REPL.
+  hostPackageName = main.require("./package.json").name;
+} catch {}
+
+// If we didn't set a host name above, We are being hosted by some kind of tool like Mocha, so load the package name
+// relative to CWD explicitly.
+if (!hostPackageName) hostPackageName = require(path.join(cwd, "package.json")).name;
 
 // We need to use whatever version of TypeScript the calling package uses to inspect syntax nodes, because
 // that is what the ts-node invocation will use, and we need to agree with it on syntax brands.
