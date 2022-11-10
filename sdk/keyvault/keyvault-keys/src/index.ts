@@ -341,7 +341,7 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeyClient(url, credentials);
+   * const client = new KeyClient(url, credentials);
    * let result = await client.createOkpKey("MyKey");
    * ```
    * Creates a new key, stores it, then returns key parameters and properties to the client.
