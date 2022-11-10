@@ -76,7 +76,7 @@ export interface SearchClientOptions extends ExtendedCommonClientOptions {
  * including querying documents in the index as well as
  * adding, updating, and removing them.
  */
-export class SearchClient<T extends object> implements IndexDocumentsClient<T> {
+export class SearchClient<Model extends object> implements IndexDocumentsClient<Model> {
   /// Maintenance note: when updating supported API versions,
   /// the ContinuationToken logic will need to be updated below.
 
@@ -234,10 +234,10 @@ export class SearchClient<T extends object> implements IndexDocumentsClient<T> {
    * @param suggesterName - The name of the suggester as specified in the suggesters collection that's part of the index definition.
    * @param options - Options to the autocomplete operation.
    */
-  public async autocomplete<Fields extends SelectFields<T>>(
+  public async autocomplete<Fields extends SelectFields<Model>>(
     searchText: string,
     suggesterName: string,
-    options: AutocompleteOptions<SearchPick<T, Fields>> = {}
+    options: AutocompleteOptions<SearchPick<Model, Fields>> = {}
   ): Promise<AutocompleteResult> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
     const { searchFields, ...nonFieldOptions } = restOptions;
@@ -272,11 +272,11 @@ export class SearchClient<T extends object> implements IndexDocumentsClient<T> {
     }
   }
 
-  private async searchDocuments<Fields extends SelectFields<T>>(
+  private async searchDocuments<Fields extends SelectFields<Model>>(
     searchText?: string,
-    options: SearchOptions<T, Fields> = {},
+    options: SearchOptions<Model, Fields> = {},
     nextPageParameters: SearchRequest = {}
-  ): Promise<SearchDocumentsPageResult<SearchPick<T, Fields>>> {
+  ): Promise<SearchDocumentsPageResult<SearchPick<Model, Fields>>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
     const { select, searchFields, orderBy, semanticFields, ...nonFieldOptions } = restOptions;
     const fullOptions: SearchRequest = {
@@ -302,9 +302,9 @@ export class SearchClient<T extends object> implements IndexDocumentsClient<T> {
 
       const { results, count, coverage, facets, answers, nextLink } = result;
 
-      const modifiedResults = utils.generatedSearchResultToPublicSearchResult<T>(results);
+      const modifiedResults = utils.generatedSearchResultToPublicSearchResult<Model>(results);
 
-      const converted: SearchDocumentsPageResult<T> = {
+      const converted: SearchDocumentsPageResult<Model> = {
         results: modifiedResults,
         count,
         coverage,
@@ -313,7 +313,7 @@ export class SearchClient<T extends object> implements IndexDocumentsClient<T> {
         continuationToken: this.encodeContinuationToken(nextLink, result.nextPageParameters),
       };
 
-      return deserialize<SearchDocumentsPageResult<SearchPick<T, Fields>>>(converted);
+      return deserialize<SearchDocumentsPageResult<SearchPick<Model, Fields>>>(converted);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -325,11 +325,11 @@ export class SearchClient<T extends object> implements IndexDocumentsClient<T> {
     }
   }
 
-  private async *listSearchResultsPage<Fields extends SelectFields<T>>(
+  private async *listSearchResultsPage<Fields extends SelectFields<Model>>(
     searchText?: string,
-    options: SearchOptions<T, Fields> = {},
+    options: SearchOptions<Model, Fields> = {},
     settings: ListSearchResultsPageSettings = {}
-  ): AsyncIterableIterator<SearchDocumentsPageResult<SearchPick<T, Fields>>> {
+  ): AsyncIterableIterator<SearchDocumentsPageResult<SearchPick<Model, Fields>>> {
     let decodedContinuation = this.decodeContinuationToken(settings.continuationToken);
     let result = await this.searchDocuments(
       searchText,
@@ -352,11 +352,11 @@ export class SearchClient<T extends object> implements IndexDocumentsClient<T> {
     }
   }
 
-  private async *listSearchResultsAll<Fields extends SelectFields<T>>(
-    firstPage: SearchDocumentsPageResult<SearchPick<T, Fields>>,
+  private async *listSearchResultsAll<Fields extends SelectFields<Model>>(
+    firstPage: SearchDocumentsPageResult<SearchPick<Model, Fields>>,
     searchText?: string,
-    options: SearchOptions<T, Fields> = {}
-  ): AsyncIterableIterator<SearchResult<SearchPick<T, Fields>>> {
+    options: SearchOptions<Model, Fields> = {}
+  ): AsyncIterableIterator<SearchResult<SearchPick<Model, Fields>>> {
     yield* firstPage.results;
     if (firstPage.continuationToken) {
       for await (const page of this.listSearchResultsPage(searchText, options, {
@@ -367,11 +367,11 @@ export class SearchClient<T extends object> implements IndexDocumentsClient<T> {
     }
   }
 
-  private listSearchResults<Fields extends SelectFields<T>>(
-    firstPage: SearchDocumentsPageResult<SearchPick<T, Fields>>,
+  private listSearchResults<Fields extends SelectFields<Model>>(
+    firstPage: SearchDocumentsPageResult<SearchPick<Model, Fields>>,
     searchText?: string,
-    options: SearchOptions<T, Fields> = {}
-  ): SearchIterator<SearchPick<T, Fields>> {
+    options: SearchOptions<Model, Fields> = {}
+  ): SearchIterator<SearchPick<Model, Fields>> {
     const iter = this.listSearchResultsAll(firstPage, searchText, options);
 
     return {
@@ -393,14 +393,14 @@ export class SearchClient<T extends object> implements IndexDocumentsClient<T> {
    * @param searchText - Text to search
    * @param options - Options for the search operation.
    */
-  public async search<Fields extends SelectFields<T>>(
+  public async search<Fields extends SelectFields<Model>>(
     searchText?: string,
-    options?: SearchOptions<T, Fields>
-  ): Promise<SearchDocumentsResult<SearchPick<T, Fields>>>;
+    options?: SearchOptions<Model, Fields>
+  ): Promise<SearchDocumentsResult<SearchPick<Model, Fields>>>;
   public async search(
     searchText?: string,
-    options?: SearchOptions<T, string>
-  ): Promise<SearchDocumentsResult<DeepPartial<T>>>;
+    options?: SearchOptions<Model, string>
+  ): Promise<SearchDocumentsResult<DeepPartial<Model>>>;
   public async search(
     searchText?: string,
     options: SearchOptions<object, never> = {}
@@ -437,11 +437,11 @@ export class SearchClient<T extends object> implements IndexDocumentsClient<T> {
    * @param suggesterName - The name of the suggester as specified in the suggesters collection that's part of the index definition.
    * @param options - Options for the suggest operation
    */
-  public async suggest<Fields extends SelectFields<T> = never>(
+  public async suggest<Fields extends SelectFields<Model> = never>(
     searchText: string,
     suggesterName: string,
-    options: SuggestOptions<T, Fields> = {}
-  ): Promise<SuggestDocumentsResult<SearchPick<T, Fields>>> {
+    options: SuggestOptions<Model, Fields> = {}
+  ): Promise<SuggestDocumentsResult<SearchPick<Model, Fields>>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
     const { select, searchFields, orderBy, ...nonFieldOptions } = restOptions;
     const fullOptions: SuggestRequest = {
@@ -467,9 +467,9 @@ export class SearchClient<T extends object> implements IndexDocumentsClient<T> {
       const result = await this.client.documents.suggestPost(fullOptions, updatedOptions);
 
       const modifiedResult =
-        utils.generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<T>(result);
+        utils.generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<Model>(result);
 
-      return deserialize<SuggestDocumentsResult<SearchPick<T, Fields>>>(modifiedResult);
+      return deserialize<SuggestDocumentsResult<SearchPick<Model, Fields>>>(modifiedResult);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -486,14 +486,14 @@ export class SearchClient<T extends object> implements IndexDocumentsClient<T> {
    * @param key - The primary key value of the document
    * @param options - Additional options
    */
-  public async getDocument<Fields extends Extract<keyof T, string>>(
+  public async getDocument<Fields extends Extract<keyof Model, string>>(
     key: string,
     options: GetDocumentOptions<Fields> = {}
-  ): Promise<T> {
+  ): Promise<Model> {
     const { span, updatedOptions } = createSpan("SearchClient-getDocument", options);
     try {
       const result = await this.client.documents.get(key, updatedOptions);
-      return deserialize<T>(result);
+      return deserialize<Model>(result);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -517,7 +517,7 @@ export class SearchClient<T extends object> implements IndexDocumentsClient<T> {
    */
   public async indexDocuments(
     // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-    batch: IndexDocumentsBatch<T>,
+    batch: IndexDocumentsBatch<Model>,
     options: IndexDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-indexDocuments", options);
@@ -553,12 +553,12 @@ export class SearchClient<T extends object> implements IndexDocumentsClient<T> {
    * @param options - Additional options.
    */
   public async uploadDocuments(
-    documents: T[],
+    documents: Model[],
     options: UploadDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-uploadDocuments", options);
 
-    const batch = new IndexDocumentsBatch<T>();
+    const batch = new IndexDocumentsBatch<Model>();
     batch.upload(documents);
 
     try {
@@ -581,12 +581,12 @@ export class SearchClient<T extends object> implements IndexDocumentsClient<T> {
    * @param options - Additional options.
    */
   public async mergeDocuments(
-    documents: T[],
+    documents: Model[],
     options: MergeDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-mergeDocuments", options);
 
-    const batch = new IndexDocumentsBatch<T>();
+    const batch = new IndexDocumentsBatch<Model>();
     batch.merge(documents);
 
     try {
@@ -609,12 +609,12 @@ export class SearchClient<T extends object> implements IndexDocumentsClient<T> {
    * @param options - Additional options.
    */
   public async mergeOrUploadDocuments(
-    documents: T[],
+    documents: Model[],
     options: MergeOrUploadDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-mergeDocuments", options);
 
-    const batch = new IndexDocumentsBatch<T>();
+    const batch = new IndexDocumentsBatch<Model>();
     batch.mergeOrUpload(documents);
 
     try {
@@ -636,7 +636,7 @@ export class SearchClient<T extends object> implements IndexDocumentsClient<T> {
    * @param options - Additional options.
    */
   public async deleteDocuments(
-    documents: T[],
+    documents: Model[],
     options?: DeleteDocumentsOptions
   ): Promise<IndexDocumentsResult>;
 
@@ -647,23 +647,23 @@ export class SearchClient<T extends object> implements IndexDocumentsClient<T> {
    * @param options - Additional options.
    */
   public async deleteDocuments(
-    keyName: keyof T,
+    keyName: keyof Model,
     keyValues: string[],
     options?: DeleteDocumentsOptions
   ): Promise<IndexDocumentsResult>;
 
   public async deleteDocuments(
-    keyNameOrDocuments: keyof T | T[],
+    keyNameOrDocuments: keyof Model | Model[],
     keyValuesOrOptions?: string[] | DeleteDocumentsOptions,
     options: DeleteDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-deleteDocuments", options);
 
-    const batch = new IndexDocumentsBatch<T>();
+    const batch = new IndexDocumentsBatch<Model>();
     if (typeof keyNameOrDocuments === "string") {
       batch.delete(keyNameOrDocuments, keyValuesOrOptions as string[]);
     } else {
-      batch.delete(keyNameOrDocuments as T[]);
+      batch.delete(keyNameOrDocuments as Model[]);
     }
 
     try {
@@ -742,14 +742,14 @@ export class SearchClient<T extends object> implements IndexDocumentsClient<T> {
     };
   }
 
-  private convertSelect<Fields extends SelectFields<T>>(select?: Fields[]): string | undefined {
+  private convertSelect<Fields extends SelectFields<Model>>(select?: Fields[]): string | undefined {
     if (select) {
       return select.join(",");
     }
     return select;
   }
 
-  private convertSearchFields(searchFields?: SelectFields<T>[]): string | undefined {
+  private convertSearchFields(searchFields?: SelectFields<Model>[]): string | undefined {
     if (searchFields) {
       return searchFields.join(",");
     }

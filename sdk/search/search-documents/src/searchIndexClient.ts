@@ -813,10 +813,10 @@ export class SearchIndexClient {
    * @param indexName - Name of the index
    * @param options - SearchClient Options
    */
-  public getSearchClient<T extends object>(
+  public getSearchClient<Model extends object>(
     indexName: string,
     options?: GetSearchClientOptions
-  ): SearchClient<T> {
-    return new SearchClient<T>(this.endpoint, indexName, this.credential, options || this.options);
+  ): SearchClient<Model> {
+    return new SearchClient<Model>(this.endpoint, indexName, this.credential, options || this.options);
   }
 }

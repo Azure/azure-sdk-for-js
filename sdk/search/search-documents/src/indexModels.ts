@@ -146,26 +146,27 @@ export interface ListSearchResultsPageSettings {
 /**
  * Options for retrieving completion text for a partial searchText.
  */
-export type AutocompleteOptions<T extends object> = OperationOptions & AutocompleteRequest<T>;
+export type AutocompleteOptions<Model extends object> = OperationOptions &
+  AutocompleteRequest<Model>;
 /**
  * Options for committing a full search request.
  */
-export type SearchOptions<T extends object, Fields> = OperationOptions &
-  SearchRequestOptions<T, Fields>;
+export type SearchOptions<Model extends object, Fields> = OperationOptions &
+  SearchRequestOptions<Model, Fields>;
 /**
  * Options for retrieving suggestions based on the searchText.
  */
-export type SuggestOptions<T extends object, Fields extends SelectFields<T>> = OperationOptions &
-  SuggestRequest<T, Fields>;
+export type SuggestOptions<Model extends object, Fields> = OperationOptions &
+  SuggestRequest<Model, Fields>;
 
 /**
  * An iterator for search results of a paticular query. Will make requests
  * as needed during iteration. Use .byPage() to make one request to the server
  * per iteration.
  */
-export type SearchIterator<T extends object> = PagedAsyncIterableIterator<
-  SearchResult<T>,
-  SearchDocumentsPageResult<T>,
+export type SearchIterator<Model extends object> = PagedAsyncIterableIterator<
+  SearchResult<Model>,
+  SearchDocumentsPageResult<Model>,
   ListSearchResultsPageSettings
 >;
 
@@ -315,7 +316,7 @@ export interface SearchRequest {
 /**
  * Parameters for filtering, sorting, faceting, paging, and other search query behaviors.
  */
-export interface SearchRequestOptions<T extends object, Fields> {
+export interface SearchRequestOptions<Model extends object, Fields> {
   /**
    * A value that specifies whether to fetch the total count of results. Default is false. Setting
    * this value to true may have a performance impact. Note that the count returned is an
@@ -383,7 +384,7 @@ export interface SearchRequestOptions<T extends object, Fields> {
    * fielded search (fieldName:searchExpression) in a full Lucene query, the field names of each
    * fielded search expression take precedence over any field names listed in this parameter.
    */
-  searchFields?: SelectFields<T>[];
+  searchFields?: SelectFields<Model>[];
   /**
    * The language of the query.
    */
@@ -452,7 +453,7 @@ export interface SearchRequestOptions<T extends object, Fields> {
 /**
  * Contains a document found by a search query, plus associated metadata.
  */
-export type SearchResult<T extends object> = {
+export type SearchResult<Model extends object> = {
   /**
    * The relevance score of the document compared to other documents returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -468,14 +469,14 @@ export type SearchResult<T extends object> = {
    * applicable field; null if hit highlighting was not enabled for the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly highlights?: { [k in SelectFields<T>]?: string[] };
+  readonly highlights?: { [k in SelectFields<Model>]?: string[] };
   /**
    * Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type 'semantic'.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly captions?: CaptionResult[];
 
-  document: T;
+  document: Model;
 };
 
 /**
@@ -513,23 +514,23 @@ export interface SearchDocumentsResultBase {
 /**
  * Response containing search results from an index.
  */
-export interface SearchDocumentsResult<T extends object> extends SearchDocumentsResultBase {
+export interface SearchDocumentsResult<Model extends object> extends SearchDocumentsResultBase {
   /**
    * The sequence of results returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly results: SearchIterator<T>;
+  readonly results: SearchIterator<Model>;
 }
 
 /**
  * Response containing search page results from an index.
  */
-export interface SearchDocumentsPageResult<T extends object> extends SearchDocumentsResultBase {
+export interface SearchDocumentsPageResult<Model extends object> extends SearchDocumentsResultBase {
   /**
    * The sequence of results returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly results: SearchResult<T>[];
+  readonly results: SearchResult<Model>[];
   /**
    * A token used for retrieving the next page of results when the server
    * enforces pagination.
@@ -540,7 +541,7 @@ export interface SearchDocumentsPageResult<T extends object> extends SearchDocum
 /**
  * Parameters for filtering, sorting, fuzzy matching, and other suggestions query behaviors.
  */
-export interface SuggestRequest<T extends object, Fields extends SelectFields<T>> {
+export interface SuggestRequest<Model extends object, Fields> {
   /**
    * An OData expression that filters the documents considered for suggestions.
    */
@@ -583,7 +584,7 @@ export interface SuggestRequest<T extends object, Fields extends SelectFields<T>
    * The comma-separated list of field names to search for the specified search text. Target fields
    * must be included in the specified suggester.
    */
-  searchFields?: SelectFields<T>[];
+  searchFields?: SelectFields<Model>[];
   /**
    * The list of fields to retrieve. If unspecified, only the key field will be
    * included in the results.
@@ -628,7 +629,7 @@ export interface SuggestDocumentsResult<T> {
 /**
  * Parameters for fuzzy matching, and other autocomplete query behaviors.
  */
-export interface AutocompleteRequest<T extends object> {
+export interface AutocompleteRequest<Model extends object> {
   /**
    * Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles
    * and 'oneTermWithContext' to use the current context while producing auto-completed terms.
@@ -669,7 +670,7 @@ export interface AutocompleteRequest<T extends object> {
    * The comma-separated list of field names to consider when querying for auto-completed terms.
    * Target fields must be included in the specified suggester.
    */
-  searchFields?: SelectFields<T>[];
+  searchFields?: SelectFields<Model>[];
   /**
    * The number of auto-completed terms to retrieve. This must be a value between 1 and 100. The
    * default is 5.

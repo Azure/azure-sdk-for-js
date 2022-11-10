@@ -62,11 +62,11 @@ export const DEFAULT_MAX_RETRY_DELAY: number = 60000;
  * Class used to perform buffered operations against a search index,
  * including adding, updating, and removing them.
  */
-export class SearchIndexingBufferedSender<T extends object> {
+export class SearchIndexingBufferedSender<Model extends object> {
   /**
    * Search Client used to call the underlying IndexBatch operations.
    */
-  private client: IndexDocumentsClient<T>;
+  private client: IndexDocumentsClient<Model>;
   /**
    * Indicates if autoFlush is enabled.
    */
@@ -94,7 +94,7 @@ export class SearchIndexingBufferedSender<T extends object> {
   /**
    * Batch object used to complete the service call.
    */
-  private batchObject: IndexDocumentsBatch<T>;
+  private batchObject: IndexDocumentsBatch<Model>;
   /**
    * Clean up for the timer
    */
@@ -106,7 +106,7 @@ export class SearchIndexingBufferedSender<T extends object> {
   /**
    * Method to retrieve the document key
    */
-  private documentKeyRetriever: (document: T) => string;
+  private documentKeyRetriever: (document: Model) => string;
 
   /**
    * Creates a new instance of SearchIndexingBufferedSender.
@@ -116,8 +116,8 @@ export class SearchIndexingBufferedSender<T extends object> {
    *
    */
   constructor(
-    client: IndexDocumentsClient<T>,
-    documentKeyRetriever: (document: T) => string,
+    client: IndexDocumentsClient<Model>,
+    documentKeyRetriever: (document: Model) => string,
     options: SearchIndexingBufferedSenderOptions = {}
   ) {
     this.client = client;
@@ -131,7 +131,7 @@ export class SearchIndexingBufferedSender<T extends object> {
     this.maxRetriesPerAction = options.maxRetriesPerAction ?? DEFAULT_RETRY_COUNT;
     this.maxThrottlingDelayInMs = options.maxThrottlingDelayInMs ?? DEFAULT_MAX_RETRY_DELAY;
 
-    this.batchObject = new IndexDocumentsBatch<T>();
+    this.batchObject = new IndexDocumentsBatch<Model>();
     if (this.autoFlush) {
       const interval = setInterval(() => this.flush(), this.flushWindowInMs);
       interval?.unref();
@@ -148,7 +148,7 @@ export class SearchIndexingBufferedSender<T extends object> {
    * @param options - Upload options.
    */
   public async uploadDocuments(
-    documents: T[],
+    documents: Model[],
     options: SearchIndexingBufferedSenderUploadDocumentsOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan(
@@ -180,7 +180,7 @@ export class SearchIndexingBufferedSender<T extends object> {
    * @param options - Upload options.
    */
   public async mergeDocuments(
-    documents: T[],
+    documents: Model[],
     options: SearchIndexingBufferedSenderMergeDocumentsOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan(
@@ -212,7 +212,7 @@ export class SearchIndexingBufferedSender<T extends object> {
    * @param options - Upload options.
    */
   public async mergeOrUploadDocuments(
-    documents: T[],
+    documents: Model[],
     options: SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan(
@@ -244,7 +244,7 @@ export class SearchIndexingBufferedSender<T extends object> {
    * @param options - Upload options.
    */
   public async deleteDocuments(
-    documents: T[],
+    documents: Model[],
     options: SearchIndexingBufferedSenderDeleteDocumentsOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan(
@@ -311,14 +311,14 @@ export class SearchIndexingBufferedSender<T extends object> {
    * @param event - Event to be emitted
    * @param listener - Event Listener
    */
-  public on(event: "batchAdded", listener: (e: { action: string; documents: T[] }) => void): void;
+  public on(event: "batchAdded", listener: (e: { action: string; documents: Model[] }) => void): void;
   /**
    * Attach Batch Sent Event
    *
    * @param event - Event to be emitted
    * @param listener - Event Listener
    */
-  public on(event: "beforeDocumentSent", listener: (e: IndexDocumentsAction<T>) => void): void;
+  public on(event: "beforeDocumentSent", listener: (e: IndexDocumentsAction<Model>) => void): void;
   /**
    * Attach Batch Succeeded Event
    *
@@ -346,14 +346,14 @@ export class SearchIndexingBufferedSender<T extends object> {
    * @param event - Event to be emitted
    * @param listener - Event Listener
    */
-  public off(event: "batchAdded", listener: (e: { action: string; documents: T[] }) => void): void;
+  public off(event: "batchAdded", listener: (e: { action: string; documents: Model[] }) => void): void;
   /**
    * Detach Batch Sent Event
    *
    * @param event - Event to be emitted
    * @param listener - Event Listener
    */
-  public off(event: "beforeDocumentSent", listener: (e: IndexDocumentsAction<T>) => void): void;
+  public off(event: "beforeDocumentSent", listener: (e: IndexDocumentsAction<Model>) => void): void;
   /**
    * Detach Batch Succeeded Event
    *
@@ -382,8 +382,8 @@ export class SearchIndexingBufferedSender<T extends object> {
   private async internalFlush(force: boolean, options: OperationOptions = {}): Promise<void> {
     if (force || (this.autoFlush && this.isBatchReady())) {
       // Split it
-      const actions: IndexDocumentsAction<T>[] = this.batchObject.actions;
-      this.batchObject = new IndexDocumentsBatch<T>();
+      const actions: IndexDocumentsAction<Model>[] = this.batchObject.actions;
+      this.batchObject = new IndexDocumentsBatch<Model>();
       while (actions.length > 0) {
         const actionsToSend = actions.splice(0, this.initialBatchActionCount);
         const { batchToSubmit, submitLater } = this.pruneActions(actionsToSend);
@@ -393,16 +393,16 @@ export class SearchIndexingBufferedSender<T extends object> {
     }
   }
 
-  private pruneActions(batch: IndexDocumentsAction<T>[]): {
-    batchToSubmit: IndexDocumentsAction<T>[];
-    submitLater: IndexDocumentsAction<T>[];
+  private pruneActions(batch: IndexDocumentsAction<Model>[]): {
+    batchToSubmit: IndexDocumentsAction<Model>[];
+    submitLater: IndexDocumentsAction<Model>[];
   } {
     const hashSet: Set<string> = new Set<string>();
-    const resultBatch: IndexDocumentsAction<T>[] = [];
-    const pruned: IndexDocumentsAction<T>[] = [];
+    const resultBatch: IndexDocumentsAction<Model>[] = [];
+    const pruned: IndexDocumentsAction<Model>[] = [];
 
     for (const document of batch) {
-      const key = this.documentKeyRetriever(document as unknown as T);
+      const key = this.documentKeyRetriever(document as unknown as Model);
       if (hashSet.has(key)) {
         pruned.push(document);
       } else {
@@ -414,7 +414,7 @@ export class SearchIndexingBufferedSender<T extends object> {
   }
 
   private async submitDocuments(
-    actionsToSend: IndexDocumentsAction<T>[],
+    actionsToSend: IndexDocumentsAction<Model>[],
     options: OperationOptions,
     retryAttempt: number = 1
   ): Promise<void> {
@@ -423,7 +423,7 @@ export class SearchIndexingBufferedSender<T extends object> {
         this.emitter.emit("beforeDocumentSent", action);
       }
       const result = await this.client.indexDocuments(
-        new IndexDocumentsBatch<T>(actionsToSend),
+        new IndexDocumentsBatch<Model>(actionsToSend),
         options
       );
       // raise success event

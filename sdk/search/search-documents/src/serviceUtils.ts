@@ -460,10 +460,10 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
   };
 }
 
-export function generatedSearchResultToPublicSearchResult<T extends object>(
+export function generatedSearchResultToPublicSearchResult<Model extends object>(
   results: GeneratedSearchResult[]
-): SearchResult<T>[] {
-  const returnValues: SearchResult<T>[] = results.map<SearchResult<T>>((result) => {
+): SearchResult<Model>[] {
+  const returnValues: SearchResult<Model>[] = results.map<SearchResult<Model>>((result) => {
     const { _score, _highlights, rerankerScore, captions, ...restProps } = result;
     const doc: { [key: string]: any } = {
       ...restProps,
@@ -475,15 +475,15 @@ export function generatedSearchResultToPublicSearchResult<T extends object>(
       captions,
       document: doc,
     };
-    return obj as SearchResult<T>;
+    return obj as SearchResult<Model>;
   });
   return returnValues;
 }
 
-export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<T>(
+export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<Model>(
   searchDocumentsResult: GeneratedSuggestDocumentsResult
-): SuggestDocumentsResult<T> {
-  const results = searchDocumentsResult.results.map<SuggestResult<T>>((element) => {
+): SuggestDocumentsResult<Model> {
+  const results = searchDocumentsResult.results.map<SuggestResult<Model>>((element) => {
     const { _text, ...restProps } = element;
 
     const doc: { [key: string]: any } = {
@@ -495,10 +495,10 @@ export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<T>
       document: doc,
     };
 
-    return obj as SuggestResult<T>;
+    return obj as SuggestResult<Model>;
   });
 
-  const result: SuggestDocumentsResult<T> = {
+  const result: SuggestDocumentsResult<Model> = {
     results: results,
     coverage: searchDocumentsResult.coverage,
   };
