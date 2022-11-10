@@ -49,6 +49,7 @@ module.exports = function (config) {
     envPreprocessor: [
       "TEST_MODE",
       "COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING",
+      "COMMUNICATION_SAMPLES_CONNECTION_STRING",
       "BASE_URL",
       "COMMUNICATION_ENDPOINT",
       "RECORDINGS_RELATIVE_PATH",
