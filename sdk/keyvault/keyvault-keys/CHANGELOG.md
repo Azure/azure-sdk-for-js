@@ -2,7 +2,8 @@
 
 ## 4.7.0-beta.1 (Unreleased)
 
-- Added support for [OKP](https://datatracker.ietf.org/doc/html/rfc8037) key types as well as `sign`, `verify`, `signData`, and `verifyData` cryptography operations when using OKP keys.
+- Added support for [Octet Key Pair (OKP)](https://datatracker.ietf.org/doc/html/rfc8037) key types as well as `sign`, `verify`, `signData`, and `verifyData` cryptography operations when using OKP keys.
+  - Added support for the Ed25519 curve for the creation of OKP keys.
 
 ### Features Added
 
