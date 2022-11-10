@@ -302,7 +302,7 @@ export class KeyClient {
    * ```
    * Creates a new key, stores it, then returns key parameters and properties to the client.
    * @param name - The name of the key.
-   * @param keyType - The type of the key. One of the following: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', 'OKP', 'OKP-HSM'
+   * @param keyType - The type of the key. One of the following: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', 'OKP', 'OKP-HSM'.
    * @param options - The optional parameters.
    */
   public createKey(
