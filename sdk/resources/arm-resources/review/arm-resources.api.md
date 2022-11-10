@@ -809,9 +809,9 @@ export interface DeploymentWhatIf {
 }
 
 // @public
-export type DeploymentWhatIfProperties = DeploymentProperties & {
+export interface DeploymentWhatIfProperties extends DeploymentProperties {
     whatIfSettings?: DeploymentWhatIfSettings;
-};
+}
 
 // @public
 export interface DeploymentWhatIfSettings {
@@ -857,21 +857,21 @@ export interface ExtendedLocation {
 export type ExtendedLocationType = string;
 
 // @public
-export type GenericResource = Resource & {
-    plan?: Plan;
-    properties?: Record<string, unknown>;
+export interface GenericResource extends Resource {
+    identity?: Identity;
     kind?: string;
     managedBy?: string;
+    plan?: Plan;
+    properties?: Record<string, unknown>;
     sku?: Sku;
-    identity?: Identity;
-};
+}
 
 // @public
-export type GenericResourceExpanded = GenericResource & {
-    readonly createdTime?: Date;
+export interface GenericResourceExpanded extends GenericResource {
     readonly changedTime?: Date;
+    readonly createdTime?: Date;
     readonly provisioningState?: string;
-};
+}
 
 // @public
 export interface GenericResourceFilter {
@@ -879,6 +879,9 @@ export interface GenericResourceFilter {
     tagname?: string;
     tagvalue?: string;
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface HttpMessage {
@@ -921,57 +924,37 @@ export enum KnownAliasPathTokenType {
 
 // @public
 export enum KnownExpressionEvaluationOptionsScopeType {
-    // (undocumented)
     Inner = "Inner",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Outer = "Outer"
 }
 
 // @public
 export enum KnownExtendedLocationType {
-    // (undocumented)
     EdgeZone = "EdgeZone"
 }
 
 // @public
 export enum KnownProviderAuthorizationConsentState {
-    // (undocumented)
     Consented = "Consented",
-    // (undocumented)
     NotRequired = "NotRequired",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Required = "Required"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Created = "Created",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Ready = "Ready",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 

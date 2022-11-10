@@ -1,16 +1,6 @@
 # Release History
-
-## 6.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 6.0.0-beta.1 (2022-09-14)
+    
+## 6.0.0-beta.2 (2022-11-08)
     
 **Features**
 
@@ -66,7 +56,7 @@
   - Added Interface AutoProvisioningSetting
   - Added Interface AwAssumeRoleAuthenticationDetailsProperties
   - Added Interface AwsCredsAuthenticationDetailsProperties
-  - Added Interface AWSEnvironmentData
+  - Added Interface AwsEnvironmentData
   - Added Interface AwsOrganizationalData
   - Added Interface AwsOrganizationalDataMaster
   - Added Interface AwsOrganizationalDataMember
@@ -91,9 +81,13 @@
   - Added Interface CustomAssessmentAutomationRequest
   - Added Interface CustomEntityStoreAssignment
   - Added Interface DataExportSettings
+  - Added Interface DefenderCspmAwsOffering
+  - Added Interface DefenderCspmAwsOfferingVmScanners
+  - Added Interface DefenderCspmAwsOfferingVmScannersConfiguration
+  - Added Interface DefenderCspmGcpOffering
   - Added Interface DefenderFoDatabasesAwsOffering
   - Added Interface DefenderFoDatabasesAwsOfferingArcAutoProvisioning
-  - Added Interface DefenderFoDatabasesAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata
+  - Added Interface DefenderFoDatabasesAwsOfferingRds
   - Added Interface DefenderForContainersAwsOffering
   - Added Interface DefenderForContainersAwsOfferingContainerVulnerabilityAssessment
   - Added Interface DefenderForContainersAwsOfferingContainerVulnerabilityAssessmentTask
@@ -102,8 +96,9 @@
   - Added Interface DefenderForContainersGcpOfferingNativeCloudConnection
   - Added Interface DefenderForDatabasesGcpOffering
   - Added Interface DefenderForDatabasesGcpOfferingArcAutoProvisioning
-  - Added Interface DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration
   - Added Interface DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning
+  - Added Interface DefenderForDevOpsAzureDevOpsOffering
+  - Added Interface DefenderForDevOpsGithubOffering
   - Added Interface DefenderForServersAwsOffering
   - Added Interface DefenderForServersAwsOfferingMdeAutoProvisioning
   - Added Interface DefenderForServersAwsOfferingSubPlan
@@ -113,7 +108,6 @@
   - Added Interface DefenderForServersAwsOfferingVmScannersConfiguration
   - Added Interface DefenderForServersGcpOffering
   - Added Interface DefenderForServersGcpOfferingArcAutoProvisioning
-  - Added Interface DefenderForServersGcpOfferingArcAutoProvisioningConfiguration
   - Added Interface DefenderForServersGcpOfferingDefenderForServers
   - Added Interface DefenderForServersGcpOfferingMdeAutoProvisioning
   - Added Interface DefenderForServersGcpOfferingSubPlan
@@ -240,6 +234,7 @@
   - Added Type Alias ApplicationsListResponse
   - Added Type Alias ApplicationSourceResourceType
   - Added Type Alias AwsOrganizationalDataUnion
+  - Added Type Alias ConnectionType
   - Added Type Alias EnvironmentDataUnion
   - Added Type Alias EnvironmentType
   - Added Type Alias GcpOrganizationalDataUnion
@@ -305,9 +300,13 @@
   - Enum KnownOfferingType has a new value CspmMonitorAzureDevOps
   - Enum KnownOfferingType has a new value CspmMonitorGcp
   - Enum KnownOfferingType has a new value CspmMonitorGithub
+  - Enum KnownOfferingType has a new value DefenderCspmAws
+  - Enum KnownOfferingType has a new value DefenderCspmGcp
   - Enum KnownOfferingType has a new value DefenderForContainersGcp
   - Enum KnownOfferingType has a new value DefenderForDatabasesAws
   - Enum KnownOfferingType has a new value DefenderForDatabasesGcp
+  - Enum KnownOfferingType has a new value DefenderForDevOpsAzureDevOps
+  - Enum KnownOfferingType has a new value DefenderForDevOpsGithub
   - Enum KnownOfferingType has a new value DefenderForServersGcp
   - Enum KnownSettingName has a new value WdatpUnifiedSolution
 
@@ -315,6 +314,8 @@
 
   - Removed operation Alerts.simulate
   - Removed operation SecurityContacts.update
+  - Operation AllowedConnections.get has a new signature
+  - Interface DefenderForServersAwsOfferingArcAutoProvisioning no longer has parameter servicePrincipalSecretMetadata
   - Removed Enum KnownAlertNotifications
   - Removed Enum KnownAlertsToAdmins
     

@@ -88,6 +88,10 @@ export interface CreateOctKeyOptions extends CreateKeyOptions {
 }
 
 // @public
+export interface CreateOkpKeyOptions extends CreateKeyOptions {
+}
+
+// @public
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
     publicExponent?: number;
 }
@@ -236,6 +240,7 @@ export class KeyClient {
     createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey>;
     createKey(name: string, keyType: KeyType_2, options?: CreateKeyOptions): Promise<KeyVaultKey>;
     createOctKey(name: string, options?: CreateOctKeyOptions): Promise<KeyVaultKey>;
+    createOkpKey(name: string, options?: CreateOkpKeyOptions): Promise<KeyVaultKey>;
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey>;
     getCryptographyClient(keyName: string, options?: GetCryptographyClientOptions): CryptographyClient;
     getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
@@ -385,6 +390,7 @@ export enum KnownEncryptionAlgorithms {
 
 // @public
 export enum KnownKeyCurveNames {
+    Ed25519 = "Ed25519",
     P256 = "P-256",
     P256K = "P-256K",
     P384 = "P-384",
@@ -415,12 +421,15 @@ export enum KnownKeyTypes {
     ECHSM = "EC-HSM",
     Oct = "oct",
     OctHSM = "oct-HSM",
+    OKP = "OKP",
+    OKPHSM = "OKP-HSM",
     RSA = "RSA",
     RSAHSM = "RSA-HSM"
 }
 
 // @public
 export enum KnownSignatureAlgorithms {
+    EdDSA = "EdDSA",
     ES256 = "ES256",
     ES256K = "ES256K",
     ES384 = "ES384",
