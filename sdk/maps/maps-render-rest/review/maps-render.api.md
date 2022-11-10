@@ -8,10 +8,18 @@ import { AzureKeyCredential } from '@azure/core-auth';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
+import { LatLon } from '@azure/maps-common';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
+
+// @public
+export interface CircularPathOptions {
+    lineColor?: string;
+    lineOpacity?: number;
+    lineWidth?: number;
+}
 
 // @public
 export interface CopyrightCaptionOutput {
@@ -25,6 +33,12 @@ export interface CopyrightOutput {
     generalCopyrights?: Array<string>;
     regions?: Array<RegionCopyrightsOutput>;
 }
+
+// @public
+export function createPathQuery(center: LatLon, radiusInMeters: number, options?: CircularPathOptions): string;
+
+// @public
+export function createPathQuery(coordinates: LatLon[], options?: PolygonalPathOptions): string;
 
 // @public
 export interface ErrorAdditionalInfoOutput {
@@ -153,6 +167,18 @@ export interface MapTilesetOutput {
     tiles: Array<string>;
     version?: string;
 }
+
+// @public
+export interface PolygonalPathOptions extends CircularPathOptions {
+    fillColor?: string;
+    fillOpacity?: number;
+}
+
+// @public
+export function positionToTileXY(position: LatLon, zoom: number, tileSize: "512" | "256"): {
+    x: number;
+    y: number;
+};
 
 // @public
 export interface RegionCopyrightsCountryOutput {
