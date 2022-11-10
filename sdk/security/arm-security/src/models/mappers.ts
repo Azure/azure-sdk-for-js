@@ -5066,42 +5066,6 @@ export const DefenderForServersAwsOfferingArcAutoProvisioning: coreClient.Compos
         type: {
           name: "String"
         }
-      },
-      servicePrincipalSecretMetadata: {
-        serializedName: "servicePrincipalSecretMetadata",
-        type: {
-          name: "Composite",
-          className:
-            "DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata"
-        }
-      }
-    }
-  }
-};
-
-export const DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className:
-      "DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata",
-    modelProperties: {
-      expiryDate: {
-        serializedName: "expiryDate",
-        type: {
-          name: "String"
-        }
-      },
-      parameterStoreRegion: {
-        serializedName: "parameterStoreRegion",
-        type: {
-          name: "String"
-        }
-      },
-      parameterNameInStore: {
-        serializedName: "parameterNameInStore",
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -5225,7 +5189,7 @@ export const DefenderForServersAwsOfferingVmScannersConfiguration: coreClient.Co
         serializedName: "exclusionTags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
+          value: { type: { name: "String" } }
         }
       }
     }
@@ -5248,39 +5212,24 @@ export const DefenderFoDatabasesAwsOfferingArcAutoProvisioning: coreClient.Compo
         type: {
           name: "String"
         }
-      },
-      servicePrincipalSecretMetadata: {
-        serializedName: "servicePrincipalSecretMetadata",
-        type: {
-          name: "Composite",
-          className:
-            "DefenderFoDatabasesAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata"
-        }
       }
     }
   }
 };
 
-export const DefenderFoDatabasesAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata: coreClient.CompositeMapper = {
+export const DefenderFoDatabasesAwsOfferingRds: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className:
-      "DefenderFoDatabasesAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata",
+    className: "DefenderFoDatabasesAwsOfferingRds",
     modelProperties: {
-      expiryDate: {
-        serializedName: "expiryDate",
+      enabled: {
+        serializedName: "enabled",
         type: {
-          name: "DateTime"
+          name: "Boolean"
         }
       },
-      parameterStoreRegion: {
-        serializedName: "parameterStoreRegion",
-        type: {
-          name: "String"
-        }
-      },
-      parameterNameInStore: {
-        serializedName: "parameterNameInStore",
+      cloudRoleArn: {
+        serializedName: "cloudRoleArn",
         type: {
           name: "String"
         }
@@ -5355,35 +5304,6 @@ export const DefenderForServersGcpOfferingArcAutoProvisioning: coreClient.Compos
         serializedName: "enabled",
         type: {
           name: "Boolean"
-        }
-      },
-      configuration: {
-        serializedName: "configuration",
-        type: {
-          name: "Composite",
-          className:
-            "DefenderForServersGcpOfferingArcAutoProvisioningConfiguration"
-        }
-      }
-    }
-  }
-};
-
-export const DefenderForServersGcpOfferingArcAutoProvisioningConfiguration: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DefenderForServersGcpOfferingArcAutoProvisioningConfiguration",
-    modelProperties: {
-      clientId: {
-        serializedName: "clientId",
-        type: {
-          name: "String"
-        }
-      },
-      agentOnboardingServiceAccountNumericId: {
-        serializedName: "agentOnboardingServiceAccountNumericId",
-        type: {
-          name: "String"
         }
       }
     }
@@ -5475,36 +5395,6 @@ export const DefenderForDatabasesGcpOfferingArcAutoProvisioning: coreClient.Comp
         type: {
           name: "Boolean"
         }
-      },
-      configuration: {
-        serializedName: "configuration",
-        type: {
-          name: "Composite",
-          className:
-            "DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration"
-        }
-      }
-    }
-  }
-};
-
-export const DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className:
-      "DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration",
-    modelProperties: {
-      clientId: {
-        serializedName: "clientId",
-        type: {
-          name: "String"
-        }
-      },
-      agentOnboardingServiceAccountNumericId: {
-        serializedName: "agentOnboardingServiceAccountNumericId",
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -5569,6 +5459,56 @@ export const DefenderForContainersGcpOfferingDataPipelineNativeCloudConnection: 
         serializedName: "workloadIdentityProviderId",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DefenderCspmAwsOfferingVmScanners: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DefenderCspmAwsOfferingVmScanners",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      configuration: {
+        serializedName: "configuration",
+        type: {
+          name: "Composite",
+          className: "DefenderCspmAwsOfferingVmScannersConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const DefenderCspmAwsOfferingVmScannersConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DefenderCspmAwsOfferingVmScannersConfiguration",
+    modelProperties: {
+      cloudRoleArn: {
+        serializedName: "cloudRoleArn",
+        type: {
+          name: "String"
+        }
+      },
+      scanningMode: {
+        serializedName: "scanningMode",
+        type: {
+          name: "String"
+        }
+      },
+      exclusionTags: {
+        serializedName: "exclusionTags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }
@@ -9287,6 +9227,13 @@ export const DefenderFoDatabasesAwsOffering: coreClient.CompositeMapper = {
           name: "Composite",
           className: "DefenderFoDatabasesAwsOfferingArcAutoProvisioning"
         }
+      },
+      rds: {
+        serializedName: "rds",
+        type: {
+          name: "Composite",
+          className: "DefenderFoDatabasesAwsOfferingRds"
+        }
       }
     }
   }
@@ -9480,11 +9427,70 @@ export const CspmMonitorAzureDevOpsOffering: coreClient.CompositeMapper = {
   }
 };
 
-export const AWSEnvironmentData: coreClient.CompositeMapper = {
+export const DefenderCspmAwsOffering: coreClient.CompositeMapper = {
+  serializedName: "DefenderCspmAws",
+  type: {
+    name: "Composite",
+    className: "DefenderCspmAwsOffering",
+    uberParent: "CloudOffering",
+    polymorphicDiscriminator: CloudOffering.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...CloudOffering.type.modelProperties,
+      vmScanners: {
+        serializedName: "vmScanners",
+        type: {
+          name: "Composite",
+          className: "DefenderCspmAwsOfferingVmScanners"
+        }
+      }
+    }
+  }
+};
+
+export const DefenderCspmGcpOffering: coreClient.CompositeMapper = {
+  serializedName: "DefenderCspmGcp",
+  type: {
+    name: "Composite",
+    className: "DefenderCspmGcpOffering",
+    uberParent: "CloudOffering",
+    polymorphicDiscriminator: CloudOffering.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...CloudOffering.type.modelProperties
+    }
+  }
+};
+
+export const DefenderForDevOpsGithubOffering: coreClient.CompositeMapper = {
+  serializedName: "DefenderForDevOpsGithub",
+  type: {
+    name: "Composite",
+    className: "DefenderForDevOpsGithubOffering",
+    uberParent: "CloudOffering",
+    polymorphicDiscriminator: CloudOffering.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...CloudOffering.type.modelProperties
+    }
+  }
+};
+
+export const DefenderForDevOpsAzureDevOpsOffering: coreClient.CompositeMapper = {
+  serializedName: "DefenderForDevOpsAzureDevOps",
+  type: {
+    name: "Composite",
+    className: "DefenderForDevOpsAzureDevOpsOffering",
+    uberParent: "CloudOffering",
+    polymorphicDiscriminator: CloudOffering.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...CloudOffering.type.modelProperties
+    }
+  }
+};
+
+export const AwsEnvironmentData: coreClient.CompositeMapper = {
   serializedName: "AwsAccount",
   type: {
     name: "Composite",
-    className: "AWSEnvironmentData",
+    className: "AwsEnvironmentData",
     uberParent: "EnvironmentData",
     polymorphicDiscriminator: EnvironmentData.type.polymorphicDiscriminator,
     modelProperties: {
@@ -10423,7 +10429,11 @@ export let discriminators = {
   "CloudOffering.DefenderForContainersGcp": DefenderForContainersGcpOffering,
   "CloudOffering.CspmMonitorGithub": CspmMonitorGithubOffering,
   "CloudOffering.CspmMonitorAzureDevOps": CspmMonitorAzureDevOpsOffering,
-  "EnvironmentData.AwsAccount": AWSEnvironmentData,
+  "CloudOffering.DefenderCspmAws": DefenderCspmAwsOffering,
+  "CloudOffering.DefenderCspmGcp": DefenderCspmGcpOffering,
+  "CloudOffering.DefenderForDevOpsGithub": DefenderForDevOpsGithubOffering,
+  "CloudOffering.DefenderForDevOpsAzureDevOps": DefenderForDevOpsAzureDevOpsOffering,
+  "EnvironmentData.AwsAccount": AwsEnvironmentData,
   "EnvironmentData.GcpProject": GcpProjectEnvironmentData,
   "EnvironmentData.GithubScope": GithubScopeEnvironmentData,
   "EnvironmentData.AzureDevOpsScope": AzureDevOpsScopeEnvironmentData,

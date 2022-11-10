@@ -32,3 +32,5 @@ https://docs.microsoft.com/javascript/api/@azure-rest/load-testing
 https://docs.microsoft.com/javascript/api/@azure-rest/ai-anomaly-detector?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-elasticsan?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-appcomplianceautomation?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-elastic?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-hybridcontainerservice?view=azure-node-preview

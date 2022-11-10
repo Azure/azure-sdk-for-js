@@ -5,8 +5,8 @@ import { assert } from "chai";
 import * as sinon from "sinon";
 import GeographyPoint from "../../src/geographyPoint";
 
-describe("geographyPoint", () => {
-  it("JSON.stringify", () => {
+describe("geographyPoint", function () {
+  it("JSON.stringify", function () {
     const geoPoint = new GeographyPoint({
       longitude: -122.123889,
       latitude: 47.669444,
@@ -19,7 +19,7 @@ describe("geographyPoint", () => {
     });
   });
 
-  afterEach(() => {
+  afterEach(function () {
     sinon.restore();
   });
 });
