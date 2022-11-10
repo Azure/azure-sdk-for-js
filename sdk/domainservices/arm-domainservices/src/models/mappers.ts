@@ -537,6 +537,20 @@ export const DomainSecuritySettings: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      ldapSigning: {
+        defaultValue: "Disabled",
+        serializedName: "ldapSigning",
+        type: {
+          name: "String"
+        }
+      },
+      channelBinding: {
+        defaultValue: "Disabled",
+        serializedName: "channelBinding",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -961,6 +975,12 @@ export const DomainService: coreClient.CompositeMapper = {
       },
       filteredSync: {
         serializedName: "properties.filteredSync",
+        type: {
+          name: "String"
+        }
+      },
+      syncScope: {
+        serializedName: "properties.syncScope",
         type: {
           name: "String"
         }

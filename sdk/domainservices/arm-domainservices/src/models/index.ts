@@ -241,6 +241,10 @@ export interface DomainSecuritySettings {
   kerberosRc4Encryption?: KerberosRc4Encryption;
   /** A flag to determine whether or not KerberosArmoring is enabled or disabled. */
   kerberosArmoring?: KerberosArmoring;
+  /** A flag to determine whether or not LdapSigning is enabled or disabled. */
+  ldapSigning?: LdapSigning;
+  /** A flag to determine whether or not ChannelBinding is enabled or disabled. */
+  channelBinding?: ChannelBinding;
 }
 
 /** Settings for notification */
@@ -376,7 +380,7 @@ export interface ContainerAccount {
 }
 
 /** Domain service. */
-export type DomainService = Resource & {
+export interface DomainService extends Resource {
   /**
    * Data Model Version
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -413,6 +417,8 @@ export type DomainService = Resource & {
   sku?: string;
   /** Enabled or Disabled flag to turn on Group-based filtered sync */
   filteredSync?: FilteredSync;
+  /** All or CloudOnly, All users in AAD are synced to AAD DS domain or only users actively syncing in the cloud */
+  syncScope?: SyncScope;
   /** Notification Settings */
   notificationSettings?: NotificationSettings;
   /**
@@ -427,10 +433,10 @@ export type DomainService = Resource & {
   readonly provisioningState?: string;
   /** Configuration diagnostics data containing latest execution from client. */
   configDiagnostics?: ConfigDiagnostics;
-};
+}
 
 /** Resource for OuContainer. */
-export type OuContainer = Resource & {
+export interface OuContainer extends Resource {
   /**
    * Azure Active Directory tenant id
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -468,11 +474,13 @@ export type OuContainer = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** Known values of {@link Ldaps} that the service accepts. */
 export enum KnownLdaps {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -488,7 +496,9 @@ export type Ldaps = string;
 
 /** Known values of {@link ExternalAccess} that the service accepts. */
 export enum KnownExternalAccess {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -504,7 +514,9 @@ export type ExternalAccess = string;
 
 /** Known values of {@link NtlmV1} that the service accepts. */
 export enum KnownNtlmV1 {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -520,7 +532,9 @@ export type NtlmV1 = string;
 
 /** Known values of {@link TlsV1} that the service accepts. */
 export enum KnownTlsV1 {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -536,7 +550,9 @@ export type TlsV1 = string;
 
 /** Known values of {@link SyncNtlmPasswords} that the service accepts. */
 export enum KnownSyncNtlmPasswords {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -552,7 +568,9 @@ export type SyncNtlmPasswords = string;
 
 /** Known values of {@link SyncKerberosPasswords} that the service accepts. */
 export enum KnownSyncKerberosPasswords {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -568,7 +586,9 @@ export type SyncKerberosPasswords = string;
 
 /** Known values of {@link SyncOnPremPasswords} that the service accepts. */
 export enum KnownSyncOnPremPasswords {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -584,7 +604,9 @@ export type SyncOnPremPasswords = string;
 
 /** Known values of {@link KerberosRc4Encryption} that the service accepts. */
 export enum KnownKerberosRc4Encryption {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -600,7 +622,9 @@ export type KerberosRc4Encryption = string;
 
 /** Known values of {@link KerberosArmoring} that the service accepts. */
 export enum KnownKerberosArmoring {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -614,9 +638,47 @@ export enum KnownKerberosArmoring {
  */
 export type KerberosArmoring = string;
 
+/** Known values of {@link LdapSigning} that the service accepts. */
+export enum KnownLdapSigning {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for LdapSigning. \
+ * {@link KnownLdapSigning} can be used interchangeably with LdapSigning,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type LdapSigning = string;
+
+/** Known values of {@link ChannelBinding} that the service accepts. */
+export enum KnownChannelBinding {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for ChannelBinding. \
+ * {@link KnownChannelBinding} can be used interchangeably with ChannelBinding,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ChannelBinding = string;
+
 /** Known values of {@link FilteredSync} that the service accepts. */
 export enum KnownFilteredSync {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -630,9 +692,29 @@ export enum KnownFilteredSync {
  */
 export type FilteredSync = string;
 
+/** Known values of {@link SyncScope} that the service accepts. */
+export enum KnownSyncScope {
+  /** All */
+  All = "All",
+  /** CloudOnly */
+  CloudOnly = "CloudOnly"
+}
+
+/**
+ * Defines values for SyncScope. \
+ * {@link KnownSyncScope} can be used interchangeably with SyncScope,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **All** \
+ * **CloudOnly**
+ */
+export type SyncScope = string;
+
 /** Known values of {@link NotifyGlobalAdmins} that the service accepts. */
 export enum KnownNotifyGlobalAdmins {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -648,7 +730,9 @@ export type NotifyGlobalAdmins = string;
 
 /** Known values of {@link NotifyDcAdmins} that the service accepts. */
 export enum KnownNotifyDcAdmins {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -664,11 +748,17 @@ export type NotifyDcAdmins = string;
 
 /** Known values of {@link Status} that the service accepts. */
 export enum KnownStatus {
+  /** None */
   None = "None",
+  /** Running */
   Running = "Running",
+  /** OK */
   OK = "OK",
+  /** Failure */
   Failure = "Failure",
+  /** Warning */
   Warning = "Warning",
+  /** Skipped */
   Skipped = "Skipped"
 }
 
@@ -688,9 +778,13 @@ export type Status = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 

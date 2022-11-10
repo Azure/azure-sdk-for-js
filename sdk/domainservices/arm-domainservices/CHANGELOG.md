@@ -1,15 +1,20 @@
 # Release History
+    
+## 4.1.0 (2022-11-10)
+    
+**Features**
 
-## 4.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface DomainService
+  - Added Interface OuContainer
+  - Added Type Alias ChannelBinding
+  - Added Type Alias LdapSigning
+  - Added Type Alias SyncScope
+  - Interface DomainSecuritySettings has a new optional parameter channelBinding
+  - Interface DomainSecuritySettings has a new optional parameter ldapSigning
+  - Added Enum KnownChannelBinding
+  - Added Enum KnownLdapSigning
+  - Added Enum KnownSyncScope
+    
 ## 4.0.1 (2022-04-18)
 
 **features**

@@ -11,6 +11,9 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
+export type ChannelBinding = string;
+
+// @public
 export interface CloudError {
     error?: CloudErrorBody;
 }
@@ -55,8 +58,10 @@ export type CreatedByType = string;
 
 // @public
 export interface DomainSecuritySettings {
+    channelBinding?: ChannelBinding;
     kerberosArmoring?: KerberosArmoring;
     kerberosRc4Encryption?: KerberosRc4Encryption;
+    ldapSigning?: LdapSigning;
     ntlmV1?: NtlmV1;
     syncKerberosPasswords?: SyncKerberosPasswords;
     syncNtlmPasswords?: SyncNtlmPasswords;
@@ -65,24 +70,25 @@ export interface DomainSecuritySettings {
 }
 
 // @public
-export type DomainService = Resource & {
-    readonly version?: number;
-    readonly tenantId?: string;
-    domainName?: string;
-    readonly deploymentId?: string;
-    readonly syncOwner?: string;
-    replicaSets?: ReplicaSet[];
-    ldapsSettings?: LdapsSettings;
-    resourceForestSettings?: ResourceForestSettings;
-    domainSecuritySettings?: DomainSecuritySettings;
-    domainConfigurationType?: string;
-    sku?: string;
-    filteredSync?: FilteredSync;
-    notificationSettings?: NotificationSettings;
-    readonly migrationProperties?: MigrationProperties;
-    readonly provisioningState?: string;
+export interface DomainService extends Resource {
     configDiagnostics?: ConfigDiagnostics;
-};
+    readonly deploymentId?: string;
+    domainConfigurationType?: string;
+    domainName?: string;
+    domainSecuritySettings?: DomainSecuritySettings;
+    filteredSync?: FilteredSync;
+    ldapsSettings?: LdapsSettings;
+    readonly migrationProperties?: MigrationProperties;
+    notificationSettings?: NotificationSettings;
+    readonly provisioningState?: string;
+    replicaSets?: ReplicaSet[];
+    resourceForestSettings?: ResourceForestSettings;
+    sku?: string;
+    readonly syncOwner?: string;
+    syncScope?: SyncScope;
+    readonly tenantId?: string;
+    readonly version?: number;
+}
 
 // @public
 export interface DomainServiceListResult {
@@ -247,131 +253,118 @@ export type KerberosArmoring = string;
 export type KerberosRc4Encryption = string;
 
 // @public
+export enum KnownChannelBinding {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownExternalAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownFilteredSync {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownKerberosArmoring {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownKerberosRc4Encryption {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownLdaps {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownLdapSigning {
+    Disabled = "Disabled",
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownNotifyDcAdmins {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownNotifyGlobalAdmins {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownNtlmV1 {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownStatus {
-    // (undocumented)
     Failure = "Failure",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     OK = "OK",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Skipped = "Skipped",
-    // (undocumented)
     Warning = "Warning"
 }
 
 // @public
 export enum KnownSyncKerberosPasswords {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownSyncNtlmPasswords {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownSyncOnPremPasswords {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
+export enum KnownSyncScope {
+    All = "All",
+    CloudOnly = "CloudOnly"
+}
+
+// @public
 export enum KnownTlsV1 {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export type Ldaps = string;
+
+// @public
+export type LdapSigning = string;
 
 // @public
 export interface LdapsSettings {
@@ -435,16 +428,16 @@ export interface OperationEntityListResult {
 }
 
 // @public
-export type OuContainer = Resource & {
-    readonly tenantId?: string;
-    readonly domainName?: string;
-    readonly deploymentId?: string;
-    readonly containerId?: string;
+export interface OuContainer extends Resource {
     accounts?: ContainerAccount[];
-    readonly serviceStatus?: string;
+    readonly containerId?: string;
+    readonly deploymentId?: string;
     readonly distinguishedName?: string;
+    readonly domainName?: string;
     readonly provisioningState?: string;
-};
+    readonly serviceStatus?: string;
+    readonly tenantId?: string;
+}
 
 // @public
 export interface OuContainerCreateOptionalParams extends coreClient.OperationOptions {
@@ -572,6 +565,9 @@ export type SyncNtlmPasswords = string;
 
 // @public
 export type SyncOnPremPasswords = string;
+
+// @public
+export type SyncScope = string;
 
 // @public
 export interface SystemData {
