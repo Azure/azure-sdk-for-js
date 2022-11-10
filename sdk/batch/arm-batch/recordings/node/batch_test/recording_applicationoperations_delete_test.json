@@ -1,44 +1,44 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Batch/batchAccounts/myaccountxxx/applications/myapplicationxxx?api-version=2022-06-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Batch/batchAccounts/myaccountxxx/applications/myapplicationxxx?api-version=2022-10-01",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-batch/7.2.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "1d93cc58-6ec3-4311-8406-81f378250de0"
+        "User-Agent": "azsdk-js-arm-batch/8.0.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "811b527d-8138-4a94-8aaf-c8cc084e8574"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
         "Content-Length": "0",
-        "Date": "Tue, 19 Jul 2022 08:35:17 GMT",
+        "Date": "Thu, 10 Nov 2022 07:32:00 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "d142ef73-0cda-4c89-af52-6db57bbde2ad",
+        "x-ms-correlation-request-id": "490fb245-3fdd-4229-a050-6ad21c9013fa",
         "x-ms-ratelimit-remaining-subscription-deletes": "14997",
-        "x-ms-request-id": "43216ea8-1662-4a1c-bd6e-63535c9058a3",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220719T083518Z:d142ef73-0cda-4c89-af52-6db57bbde2ad"
+        "x-ms-request-id": "a9b86305-dc0b-4943-96d2-f65992ab0a0c",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221110T073201Z:490fb245-3fdd-4229-a050-6ad21c9013fa"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Batch/batchAccounts/myaccountxxx/applications?api-version=2022-06-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Batch/batchAccounts/myaccountxxx/applications?api-version=2022-10-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-batch/7.2.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "459a78bf-f6d1-481e-806e-086e81586f04"
+        "User-Agent": "azsdk-js-arm-batch/8.0.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "0620a7b5-82a8-4aa5-b375-c9ce0cb93138"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -46,7 +46,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 19 Jul 2022 08:35:17 GMT",
+        "Date": "Thu, 10 Nov 2022 07:32:01 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
@@ -54,10 +54,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "629dd4ba-9849-447b-8a8a-f45bd5f84759",
-        "x-ms-ratelimit-remaining-subscription-reads": "11977",
-        "x-ms-request-id": "6ca82657-5094-4e8c-a10e-d6870cebf31b",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220719T083518Z:629dd4ba-9849-447b-8a8a-f45bd5f84759"
+        "x-ms-correlation-request-id": "35f991a9-76b2-43ec-a49b-a82f66e6b247",
+        "x-ms-ratelimit-remaining-subscription-reads": "11983",
+        "x-ms-request-id": "fe1bb647-3811-4e81-89f2-76b87b53e5f6",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221110T073201Z:35f991a9-76b2-43ec-a49b-a82f66e6b247"
       },
       "ResponseBody": {
         "value": []

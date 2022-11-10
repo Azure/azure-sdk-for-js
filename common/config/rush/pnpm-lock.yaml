@@ -10599,7 +10599,7 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-3D36iZHpAl+iPABGQh5eQEtvdsSsLzM04bPSQ8+pp/CKNYLFm01lTM8K6F8LhPdmsjWMzuV8e7zo2cBrGG9JrA==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-BtovOUqCBkiF8Hb+3XtHYg8u9iVDRUcFlyU5GM2JidX8OD2mdSiNm0I3csgcCxNAvOGbvYL8EEDFvsi1afsEyA==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
@@ -10611,18 +10611,18 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.3
+      '@types/node': 14.18.33
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -12690,7 +12690,7 @@ packages:
     dev: false
 
   file:projects/arm-links.tgz:
-    resolution: {integrity: sha512-dA1SMN8GHZj+2vmT2rgeid6pvkP3DUoWQdzbhxPrJ5QgAgjA1dZ4yckeIgZEo8z93ZWD9LP8/QJVWHccEEdwVA==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-Vdb/Dd+9IFLd8/yto66fCWhX5yjLE+N/v5pxRCYm6PaaUfLPJLXLxHgnqRlEAl++bMBr5CF0qRZPPBo3X/TNLQ==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
     version: 0.0.0
     dependencies:

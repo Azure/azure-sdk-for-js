@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Batch/batchAccounts/myaccountxxx?api-version=2022-06-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Batch/batchAccounts/myaccountxxx?api-version=2022-10-01",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "42",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-batch/7.2.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "409804cb-a21e-467c-aa2c-2bc5c1a0b135"
+        "User-Agent": "azsdk-js-arm-batch/8.0.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "fff87921-0d51-4985-b838-da196f24ad0e"
       },
       "RequestBody": {
         "tags": {
@@ -24,20 +24,20 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 19 Jul 2022 08:33:35 GMT",
-        "ETag": "\u00220x8DA69615EA9276B\u0022",
+        "Date": "Thu, 10 Nov 2022 07:28:30 GMT",
+        "ETag": "\u00220x8DAC2ED2A383511\u0022",
         "Expires": "-1",
-        "Last-Modified": "Tue, 19 Jul 2022 08:33:34 GMT",
+        "Last-Modified": "Thu, 10 Nov 2022 07:28:29 GMT",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "702481fe-a9de-4dd6-ba01-93f273faa37f",
-        "x-ms-ratelimit-remaining-subscription-writes": "1197",
-        "x-ms-request-id": "97e9cd05-64d1-4350-9900-af64de40cbca",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220719T083336Z:702481fe-a9de-4dd6-ba01-93f273faa37f"
+        "x-ms-correlation-request-id": "559fff59-64a3-4069-a23f-3b5977d016c3",
+        "x-ms-ratelimit-remaining-subscription-writes": "1198",
+        "x-ms-request-id": "4d2078f7-d0ac-4a41-9435-a8c30d08bc8d",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221110T072831Z:559fff59-64a3-4069-a23f-3b5977d016c3"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Batch/batchAccounts/myaccountxxx",
@@ -46,64 +46,65 @@
         "location": "eastus",
         "properties": {
           "accountEndpoint": "myaccountxxx.eastus.batch.azure.com",
+          "nodeManagementEndpoint": "bbf8d9df-99a5-4033-89d1-7ef333e699a0.eastus.service.batch.azure.com",
           "provisioningState": "Succeeded",
-          "dedicatedCoreQuota": 0,
+          "dedicatedCoreQuota": 500,
           "dedicatedCoreQuotaPerVMFamily": [
             {
               "name": "standardAv2Family",
-              "coreQuota": 0
+              "coreQuota": 500
             },
             {
               "name": "standardDv2Family",
-              "coreQuota": 0
+              "coreQuota": 250
             },
             {
               "name": "standardDv3Family",
-              "coreQuota": 0
+              "coreQuota": 500
             },
             {
               "name": "standardEv3Family",
-              "coreQuota": 0
+              "coreQuota": 500
             },
             {
               "name": "standardDSv2Family",
-              "coreQuota": 0
+              "coreQuota": 250
             },
             {
               "name": "standardDSv3Family",
-              "coreQuota": 0
+              "coreQuota": 500
             },
             {
               "name": "standardESv3Family",
-              "coreQuota": 0
+              "coreQuota": 500
             },
             {
               "name": "standardFSv2Family",
-              "coreQuota": 0
+              "coreQuota": 100
             },
             {
               "name": "standardNCFamily",
-              "coreQuota": 0
+              "coreQuota": 24
             },
             {
               "name": "standardNVFamily",
-              "coreQuota": 0
+              "coreQuota": 24
             },
             {
               "name": "standardDDv4Family",
-              "coreQuota": 0
+              "coreQuota": 100
             },
             {
               "name": "standardDDSv4Family",
-              "coreQuota": 0
+              "coreQuota": 100
             },
             {
               "name": "standardEDv4Family",
-              "coreQuota": 0
+              "coreQuota": 100
             },
             {
               "name": "standardEDSv4Family",
-              "coreQuota": 0
+              "coreQuota": 100
             },
             {
               "name": "standardA0_A7Family",
@@ -283,12 +284,12 @@
             }
           ],
           "dedicatedCoreQuotaPerVMFamilyEnforced": true,
-          "lowPriorityCoreQuota": 0,
+          "lowPriorityCoreQuota": 500,
           "poolQuota": 100,
           "activeJobAndJobScheduleQuota": 300,
           "autoStorage": {
             "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountxxx111",
-            "lastKeySync": "2022-07-19T08:33:26.0749888Z",
+            "lastKeySync": "2022-11-10T07:28:06.2629176Z",
             "authenticationMode": "StorageKeys"
           },
           "poolAllocationMode": "BatchService",
