@@ -18,8 +18,8 @@ onVersions({ minVer: "7.4-preview.1" }).describe("KeyVaultSettingsClient", () =>
     await recorder.stop();
   });
 
-  it("listSettings lists all settings", async () => {
-    const { settings } = await client.listSettings();
+  it("getSettings lists all settings", async () => {
+    const { settings } = await client.getSettings();
 
     assert.exists(settings);
     assert.isTrue(settings.length > 0);

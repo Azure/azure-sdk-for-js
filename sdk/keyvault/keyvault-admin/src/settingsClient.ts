@@ -123,7 +123,7 @@ export class KeyVaultSettingsClient {
    *
    * @param options - the optional parameters.
    */
-  async listSettings(options: ListSettingsOptions = {}): Promise<ListSettingsResponse> {
+  async getSettings(options: ListSettingsOptions = {}): Promise<ListSettingsResponse> {
     const { settings } = await this.client.getSettings(this.vaultUrl, options);
     return { settings: settings?.map(makeSetting) ?? [] };
   }
