@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Deletes a security connector.
  *
  * @summary Deletes a security connector.
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2022-05-01-preview/examples/SecurityConnectors/DeleteSecurityConnector_example.json
+ * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2022-08-01-preview/examples/SecurityConnectors/DeleteSecurityConnector_example.json
  */
 async function deleteASecurityConnector() {
   const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";

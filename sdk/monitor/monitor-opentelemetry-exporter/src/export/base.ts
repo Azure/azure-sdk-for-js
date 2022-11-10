@@ -68,7 +68,10 @@ export abstract class AzureMonitorBaseExporter {
 
     if (!this._isStatsbeatExporter) {
       // Initialize statsbeatMetrics
-      this._statsbeatMetrics = new StatsbeatMetrics(this._instrumentationKey, this._endpointUrl);
+      this._statsbeatMetrics = new StatsbeatMetrics({
+        instrumentationKey: this._instrumentationKey,
+        endpointUrl: this._endpointUrl,
+      });
     }
     this._retryTimer = null;
     diag.debug("AzureMonitorExporter was successfully setup");

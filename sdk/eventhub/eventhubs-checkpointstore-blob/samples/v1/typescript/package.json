@@ -34,7 +34,7 @@
     "@azure/event-hubs": "^5.5.0"
   },
   "devDependencies": {
-    "typescript": "~4.6.0",
+    "typescript": "~4.8.0",
     "rimraf": "latest"
   }
 }

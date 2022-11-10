@@ -225,6 +225,10 @@
       "words": ["rpmsg", "xlsb"]
     },
     {
+      "filename": "sdk/eventgrid/eventgrid/review/**/*.md",
+      "words": ["Dicom"]
+    },
+    {
       "filename": "sdk/iot/iot-modelsrepository/review/**/*.md",
       "words": ["Dtmi", "dtmis"]
     },

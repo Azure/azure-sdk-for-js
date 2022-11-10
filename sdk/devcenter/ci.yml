@@ -8,7 +8,7 @@ trigger:
       - hotfix/*
   paths:
     include:
-      - sdk/devcenter/developer-devcenter-arm
+      - sdk/devcenter/developer-devcenter-rest
       - sdk/devcenter/ci.yml
     exclude:
       - sdk/devcenter/arm-devcenter
@@ -24,7 +24,7 @@ pr:
       - feature/v4
   paths:
     include:
-      - sdk/devcenter/developer-devcenter-arm
+      - sdk/devcenter/developer-devcenter-rest
       - sdk/devcenter/ci.yml
     exclude:
       - sdk/devcenter/arm-devcenter

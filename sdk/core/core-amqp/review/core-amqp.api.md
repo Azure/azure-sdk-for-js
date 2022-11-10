@@ -196,8 +196,8 @@ export interface ConnectionConfig {
 
 // @public
 export const ConnectionConfig: {
-    create(connectionString: string, path?: string | undefined): ConnectionConfig;
-    validate(config: ConnectionConfig, options?: ConnectionConfigOptions | undefined): void;
+    create(connectionString: string, path?: string): ConnectionConfig;
+    validate(config: ConnectionConfig, options?: ConnectionConfigOptions): void;
 };
 
 // @public

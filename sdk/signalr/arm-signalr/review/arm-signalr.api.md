@@ -17,13 +17,13 @@ export type ACLAction = string;
 export type CreatedByType = string;
 
 // @public
-export type CustomCertificate = ProxyResource & {
-    readonly systemData?: SystemData;
-    readonly provisioningState?: ProvisioningState;
+export interface CustomCertificate extends ProxyResource {
     keyVaultBaseUri: string;
     keyVaultSecretName: string;
     keyVaultSecretVersion?: string;
-};
+    readonly provisioningState?: ProvisioningState;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface CustomCertificateList {
@@ -32,12 +32,12 @@ export interface CustomCertificateList {
 }
 
 // @public
-export type CustomDomain = ProxyResource & {
-    readonly systemData?: SystemData;
-    readonly provisioningState?: ProvisioningState;
-    domainName: string;
+export interface CustomDomain extends ProxyResource {
     customCertificate: ResourceReference;
-};
+    domainName: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface CustomDomainList {
@@ -77,156 +77,110 @@ export interface ErrorResponse {
 export type FeatureFlags = string;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 type KeyType_2 = string;
 export { KeyType_2 as KeyType }
 
 // @public
 export enum KnownACLAction {
-    // (undocumented)
     Allow = "Allow",
-    // (undocumented)
     Deny = "Deny"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownFeatureFlags {
-    // (undocumented)
     EnableConnectivityLogs = "EnableConnectivityLogs",
-    // (undocumented)
     EnableLiveTrace = "EnableLiveTrace",
-    // (undocumented)
     EnableMessagingLogs = "EnableMessagingLogs",
-    // (undocumented)
     ServiceMode = "ServiceMode"
 }
 
 // @public
 export enum KnownKeyType {
-    // (undocumented)
     Primary = "Primary",
-    // (undocumented)
     Salt = "Salt",
-    // (undocumented)
     Secondary = "Secondary"
 }
 
 // @public
 export enum KnownManagedIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownPrivateLinkServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownScaleType {
-    // (undocumented)
     Automatic = "Automatic",
-    // (undocumented)
     Manual = "Manual",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownServiceKind {
-    // (undocumented)
     RawWebSockets = "RawWebSockets",
-    // (undocumented)
     SignalR = "SignalR"
 }
 
 // @public
 export enum KnownSharedPrivateLinkResourceStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected",
-    // (undocumented)
     Timeout = "Timeout"
 }
 
 // @public
 export enum KnownSignalRRequestType {
-    // (undocumented)
     ClientConnection = "ClientConnection",
-    // (undocumented)
     Restapi = "RESTAPI",
-    // (undocumented)
     ServerConnection = "ServerConnection",
-    // (undocumented)
     Trace = "Trace"
 }
 
 // @public
 export enum KnownSignalRSkuTier {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Free = "Free",
-    // (undocumented)
     Premium = "Premium",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownUpstreamAuthType {
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     None = "None"
 }
 
@@ -350,18 +304,18 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointACL = NetworkACL & {
+export interface PrivateEndpointACL extends NetworkACL {
     name: string;
-};
+}
 
 // @public
-export type PrivateEndpointConnection = ProxyResource & {
-    readonly systemData?: SystemData;
-    readonly provisioningState?: ProvisioningState;
-    privateEndpoint?: PrivateEndpoint;
+export interface PrivateEndpointConnection extends ProxyResource {
     readonly groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-};
+    readonly provisioningState?: ProvisioningState;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface PrivateEndpointConnectionList {
@@ -370,12 +324,12 @@ export interface PrivateEndpointConnectionList {
 }
 
 // @public
-export type PrivateLinkResource = ProxyResource & {
+export interface PrivateLinkResource extends ProxyResource {
     groupId?: string;
     requiredMembers?: string[];
     requiredZoneNames?: string[];
     shareablePrivateLinkResourceTypes?: ShareablePrivateLinkResourceType[];
-};
+}
 
 // @public
 export interface PrivateLinkResourceList {
@@ -397,7 +351,8 @@ export type PrivateLinkServiceConnectionStatus = string;
 export type ProvisioningState = string;
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface RegenerateKeyParameters {
@@ -440,6 +395,11 @@ export interface ResourceSku {
 export type ScaleType = string;
 
 // @public
+export interface ServerlessSettings {
+    connectionTimeoutInSeconds?: number;
+}
+
+// @public
 export interface ServerlessUpstreamSettings {
     templates?: UpstreamTemplate[];
 }
@@ -467,14 +427,14 @@ export interface ShareablePrivateLinkResourceType {
 }
 
 // @public
-export type SharedPrivateLinkResource = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface SharedPrivateLinkResource extends ProxyResource {
     groupId?: string;
     privateLinkResourceId?: string;
     readonly provisioningState?: ProvisioningState;
     requestMessage?: string;
     readonly status?: SharedPrivateLinkResourceStatus;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface SharedPrivateLinkResourceList {
@@ -803,31 +763,32 @@ export type SignalRRegenerateKeyResponse = SignalRKeys;
 export type SignalRRequestType = string;
 
 // @public
-export type SignalRResource = TrackedResource & {
-    sku?: ResourceSku;
-    kind?: ServiceKind;
-    identity?: ManagedIdentity;
-    readonly systemData?: SystemData;
-    readonly provisioningState?: ProvisioningState;
-    readonly externalIP?: string;
-    readonly hostName?: string;
-    readonly publicPort?: number;
-    readonly serverPort?: number;
-    readonly version?: string;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
-    tls?: SignalRTlsSettings;
-    readonly hostNamePrefix?: string;
-    features?: SignalRFeature[];
-    liveTraceConfiguration?: LiveTraceConfiguration;
-    resourceLogConfiguration?: ResourceLogConfiguration;
+export interface SignalRResource extends TrackedResource {
     cors?: SignalRCorsSettings;
-    upstream?: ServerlessUpstreamSettings;
-    networkACLs?: SignalRNetworkACLs;
-    publicNetworkAccess?: string;
-    disableLocalAuth?: boolean;
     disableAadAuth?: boolean;
-};
+    disableLocalAuth?: boolean;
+    readonly externalIP?: string;
+    features?: SignalRFeature[];
+    readonly hostName?: string;
+    readonly hostNamePrefix?: string;
+    identity?: ManagedIdentity;
+    kind?: ServiceKind;
+    liveTraceConfiguration?: LiveTraceConfiguration;
+    networkACLs?: SignalRNetworkACLs;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: string;
+    readonly publicPort?: number;
+    resourceLogConfiguration?: ResourceLogConfiguration;
+    serverless?: ServerlessSettings;
+    readonly serverPort?: number;
+    readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
+    sku?: ResourceSku;
+    readonly systemData?: SystemData;
+    tls?: SignalRTlsSettings;
+    upstream?: ServerlessUpstreamSettings;
+    readonly version?: string;
+}
 
 // @public
 export interface SignalRResourceList {
@@ -958,12 +919,12 @@ export interface SystemData {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
     location?: string;
     tags?: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
 export interface UpstreamAuthSettings {

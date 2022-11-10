@@ -459,9 +459,7 @@ export class BatchingReceiverLite {
         // silently dropped on the floor.
         if (brokeredMessages.length > args.maxMessageCount) {
           logger.warning(
-            `More messages arrived than were expected: ${args.maxMessageCount} vs ${
-              brokeredMessages.length + 1
-            }`
+            `More messages arrived than expected: ${args.maxMessageCount} vs ${brokeredMessages.length}`
           );
         }
       } catch (err: any) {
@@ -472,7 +470,7 @@ export class BatchingReceiverLite {
         );
         reject(errObj);
       }
-      if (brokeredMessages.length === args.maxMessageCount) {
+      if (brokeredMessages.length >= args.maxMessageCount) {
         this._finalAction!();
       }
     };
