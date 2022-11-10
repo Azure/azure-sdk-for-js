@@ -62,7 +62,7 @@ export interface CircularPathOptions {
   /** The line opacity of the path. Range from 0 to 1. */
   lineOpacity?: number;
   /** The line width of the line. Should be greater than 0. */
-  lineWidth?: number;
+  lineWidthInPixels?: number;
 }
 
 /**
@@ -84,7 +84,7 @@ const optionKeyMap: Record<keyof PathOptionsForRequest, string> = {
   lineOpacity: "la",
   fillColor: "fc",
   fillOpacity: "fa",
-  lineWidth: "lw",
+  lineWidthInPixels: "lw",
   radius: "ra",
 };
 
@@ -100,7 +100,7 @@ function isOptionKey(key: any): key is keyof PathOptionsForRequest {
  * const response = await client.path("/map/static/{format}", "png").get({
  *  queryParameters: {
  *    bbox: [13.228,52.4559,13.5794,52.629],
- *    path: createPathQuery([52.4559, 13.228], 10000, { lineColor: "000000", lineOpacity: 0.9, lineWidth: 2 })
+ *    path: createPathQuery([52.4559, 13.228], 10000, { lineColor: "000000", lineOpacity: 0.9, lineWidthInPixels: 2 })
  *  }
  * })
  * ```
@@ -129,7 +129,7 @@ export function createPathQuery(
  *    {
  *      lineColor: "000000",
  *      lineOpacity: 0.9,
- *      lineWidth: 2,
+ *      lineWidthInPixels: 2,
  *    }
  *  );
  * // Create a polygonal path.
@@ -143,7 +143,7 @@ export function createPathQuery(
  *    {
  *      lineColor: "000000",
  *      lineOpacity: 0.9,
- *      lineWidth: 2,
+ *      lineWidthInPixels: 2,
  *      fillColor: "FFFFFF",
  *      fillOpacity: 0.8
  *    }

@@ -15,7 +15,7 @@ describe("createPathQuery", () => {
     const actual = createPathQuery([52.4559, 13.228], 10000, {
       lineColor: "000000",
       lineOpacity: 0.9,
-      lineWidth: 2,
+      lineWidthInPixels: 2,
     });
     assert.equal(actual, encodeURIComponent("lc000000|la0.9|lw2|ra10000||13.228 52.4559"));
   });
@@ -30,7 +30,7 @@ describe("createPathQuery", () => {
       {
         lineColor: "000000",
         lineOpacity: 0.9,
-        lineWidth: 2,
+        lineWidthInPixels: 2,
       }
     );
     assert.equal(
@@ -49,7 +49,7 @@ describe("createPathQuery", () => {
       {
         lineColor: "000000",
         lineOpacity: 0.9,
-        lineWidth: 2,
+        lineWidthInPixels: 2,
         fillColor: "FFFFFF",
         fillOpacity: 0.8,
       }
