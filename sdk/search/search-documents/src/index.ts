@@ -11,6 +11,7 @@ export {
   AutocompleteRequest,
   AutocompleteOptions,
   CountDocumentsOptions,
+  DeepPartial,
   DeleteDocumentsOptions,
   GetDocumentOptions,
   IndexDocumentsAction,

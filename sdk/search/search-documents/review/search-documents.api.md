@@ -2054,6 +2054,10 @@ export class SearchClient<T extends object> implements IndexDocumentsClient<T> {
     mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
     mergeOrUploadDocuments(documents: T[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
     search<Fields extends SelectFields<T>>(searchText?: string, options?: SearchOptions<T, Fields>): Promise<SearchDocumentsResult<SearchPick<T, Fields>>>;
+    // Warning: (ae-forgotten-export) The symbol "DeepPartial" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    search(searchText?: string, options?: SearchOptions<T, string>): Promise<SearchDocumentsResult<DeepPartial<T>>>;
     readonly serviceVersion: string;
     suggest<Fields extends SelectFields<T> = never>(searchText: string, suggesterName: string, options?: SuggestOptions<T, Fields>): Promise<SuggestDocumentsResult<SearchPick<T, Fields>>>;
     uploadDocuments(documents: T[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
@@ -2403,13 +2407,15 @@ export type SearchIterator<T extends object> = PagedAsyncIterableIterator<Search
 export type SearchMode = "any" | "all";
 
 // @public
-export type SearchOptions<T extends object, Fields extends SelectFields<T>> = OperationOptions & SearchRequestOptions<T, Fields>;
+export type SearchOptions<T extends object, Fields> = OperationOptions & SearchRequestOptions<T, Fields>;
 
 // @public
 export type SearchPick<T extends object, Paths extends SelectFields<T>> = UnionToIntersection<Paths extends `${infer FieldName}/${infer RestPaths}` ? FieldName extends Exclude<keyof T, symbol | number> ? NonNullable<T[FieldName]> extends Array<infer U> ? U extends object ? RestPaths extends SelectFields<U> ? {
     [K in FieldName]: Array<SearchPick<U, RestPaths>> | Extract<T[K], null | undefined>;
-} : never : never : NonNullable<T[FieldName]> extends object ? {
-    [K in FieldName]: RestPaths extends SelectFields<T[K] & {}> ? SearchPick<T[K] & {}, RestPaths> | Extract<T[K], null | undefined> : never;
+} : never : never : NonNullable<T[FieldName]> extends object ? undefined extends T[FieldName] ? {
+    [K in FieldName]?: RestPaths extends SelectFields<T[K] & {}> ? SearchPick<T[K] & {}, RestPaths> | (null extends T[K] ? null : never) : never;
+} : {
+    [K in FieldName]: RestPaths extends SelectFields<T[K] & {}> ? SearchPick<T[K] & {}, RestPaths> | (null extends T[K] ? null : never) : never;
 } : never : never : Paths extends keyof T ? {
     [K in Paths]: T[K];
 } : never> & {};
@@ -2444,7 +2450,7 @@ export interface SearchRequest {
 }
 
 // @public
-export interface SearchRequestOptions<T extends object, Fields extends SelectFields<T>> {
+export interface SearchRequestOptions<T extends object, Fields> {
     answers?: Answers;
     captions?: Captions;
     facets?: string[];
@@ -2462,7 +2468,7 @@ export interface SearchRequestOptions<T extends object, Fields extends SelectFie
     scoringStatistics?: ScoringStatistics;
     searchFields?: SelectFields<T>[];
     searchMode?: SearchMode;
-    select?: Fields[];
+    select?: string extends Fields ? string[] : Fields[];
     semanticFields?: string[];
     sessionId?: string;
     skip?: number;
