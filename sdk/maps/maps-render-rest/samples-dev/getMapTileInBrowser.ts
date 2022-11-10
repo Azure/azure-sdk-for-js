@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { positionToTileXY } from "../src/helper";
-import MapsRender from "../src/mapsRender";
+import MapsRender, { positionToTileXY } from "@azure-rest/maps-render";
 
 /**
  * @summary How to get the map tile and render on the browser.

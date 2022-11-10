@@ -18,7 +18,7 @@ import { TokenCredential } from '@azure/core-auth';
 export interface CircularPathOptions {
     lineColor?: string;
     lineOpacity?: number;
-    lineWidth?: number;
+    lineWidthInPixels?: number;
 }
 
 // @public
@@ -39,6 +39,12 @@ export function createPathQuery(center: LatLon, radiusInMeters: number, options?
 
 // @public
 export function createPathQuery(coordinates: LatLon[], options?: PolygonalPathOptions): string;
+
+// @public
+export function createPinsQuery(pins: Pin[], options?: PinOptions): string;
+
+// @public
+export function createPinsQuery(pins: Pin[], pinImage: "default" | "none" | string, options?: PinOptions): string;
 
 // @public
 export interface ErrorAdditionalInfoOutput {
@@ -166,6 +172,24 @@ export interface MapTilesetOutput {
     tilejson: string;
     tiles: Array<string>;
     version?: string;
+}
+
+// @public
+export interface Pin {
+    coordinate: LatLon;
+    label?: string;
+}
+
+// @public
+export interface PinOptions {
+    labelAnchor?: [number, number];
+    labelColor?: string;
+    labelSizeInPixels?: number;
+    opacity?: number;
+    pinAnchor?: [number, number];
+    pinColor?: string;
+    rotationInDegree?: number;
+    scale?: number;
 }
 
 // @public

@@ -7,7 +7,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import MapsRender, { isUnexpected, MapsRenderClient, positionToTileXY } from "../../src";
+import MapsRender, { isUnexpected, MapsRenderClient } from "../../src";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 describe("Authentication", function () {
@@ -179,26 +179,6 @@ describe("MapsRender", () => {
         zoom: 6,
         x: 10,
         y: 22,
-      },
-    });
-
-    if (isUnexpected(response)) {
-      assert.fail(response.body.error?.message || "Unexpected error.");
-    }
-    assert.isNotEmpty(response.body);
-  });
-
-  it("can get map tile with helper function", async function () {
-    const zoom = 10;
-    const tileSize = "512";
-    const tileIndex = positionToTileXY([52.517, 13.3854], zoom, tileSize);
-    const response = await client.path("/map/tile").get({
-      queryParameters: {
-        tilesetId: "microsoft.base",
-        zoom,
-        x: tileIndex.x,
-        y: tileIndex.y,
-        tileSize,
       },
     });
 

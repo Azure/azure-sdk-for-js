@@ -3,8 +3,7 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createWriteStream } from "fs";
-import { positionToTileXY } from "../src/helper";
-import MapsRender from "../src/mapsRender";
+import MapsRender, { positionToTileXY } from "@azure-rest/maps-render";
 
 /**
  * @summary How to get the map tile and store it as a file in Node.js
