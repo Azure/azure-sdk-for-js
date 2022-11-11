@@ -1,15 +1,22 @@
 # Release History
+    
+## 5.1.0 (2022-11-11)
+    
+**Features**
 
-## 5.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias Provisioning
+  - Interface AcceptOwnershipStatusResponse has a new optional parameter provisioningState
+  - Interface Subscription has a new optional parameter tags
+  - Interface Subscription has a new optional parameter tenantId
+  - Interface TenantIdDescription has a new optional parameter country
+  - Interface TenantIdDescription has a new optional parameter countryCode
+  - Interface TenantIdDescription has a new optional parameter defaultDomain
+  - Interface TenantIdDescription has a new optional parameter displayName
+  - Interface TenantIdDescription has a new optional parameter domains
+  - Interface TenantIdDescription has a new optional parameter tenantCategory
+  - Interface TenantIdDescription has a new optional parameter tenantType
+  - Added Enum KnownProvisioning
+    
 ## 5.0.1 (2022-05-05)
 
 **Features**
