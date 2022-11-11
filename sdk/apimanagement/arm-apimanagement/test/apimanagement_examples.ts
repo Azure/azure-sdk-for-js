@@ -143,7 +143,7 @@ describe("Apimanagement test", () => {
     assert.equal(resArray.length, 2);
   })
 
-  it.only("backend delete test", async function () {
+  it("backend delete test", async function () {
     const res1 = await client.backend.delete(
       resourceGroupName,
       serviceName,
