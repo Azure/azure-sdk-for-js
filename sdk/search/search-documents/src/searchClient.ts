@@ -234,10 +234,10 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * @param suggesterName - The name of the suggester as specified in the suggesters collection that's part of the index definition.
    * @param options - Options to the autocomplete operation.
    */
-  public async autocomplete<Fields extends SelectFields<Model>>(
+  public async autocomplete(
     searchText: string,
     suggesterName: string,
-    options: AutocompleteOptions<SearchPick<Model, Fields>> = {}
+    options: AutocompleteOptions<Model> = {}
   ): Promise<AutocompleteResult> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
     const { searchFields, ...nonFieldOptions } = restOptions;
