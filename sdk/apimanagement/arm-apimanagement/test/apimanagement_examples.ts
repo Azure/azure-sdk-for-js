@@ -135,7 +135,7 @@ describe("Apimanagement test", () => {
     );
   })
 
-  it.only("backend list test", async function () {
+  it("backend list test", async function () {
     const resArray = new Array();
     for await (let item of client.backend.listByService(resourceGroupName, serviceName, { top: 1 })) {
       resArray.push(item);
@@ -143,7 +143,7 @@ describe("Apimanagement test", () => {
     assert.equal(resArray.length, 2);
   })
 
-  it("backend delete test", async function () {
+  it.only("backend delete test", async function () {
     const res1 = await client.backend.delete(
       resourceGroupName,
       serviceName,
