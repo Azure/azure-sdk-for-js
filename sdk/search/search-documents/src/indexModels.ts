@@ -423,7 +423,7 @@ export interface SearchRequestOptions<Model extends object, Fields> {
    * The list of fields to retrieve. If unspecified, all fields marked as
    * retrievable in the schema are included.
    */
-  select?: string extends Fields ? string[] : Fields[];
+  select?: Fields[];
   /**
    * The number of search results to skip. This value cannot be greater than 100,000. If you need
    * to scan documents in sequence, but cannot use skip due to this limitation, consider using
@@ -760,41 +760,23 @@ export type SearchPick<T extends object, Paths extends SelectFields<T>> =
               never
           : NonNullable<T[FieldName]> extends object
           ? // Recur :)
-            undefined extends T[FieldName]
-            ? {
-                [K in FieldName]?: RestPaths extends SelectFields<
-                  T[K] & {
-                    // This empty intersection fixes `NonNullable<Model[K]>` not being narrowed to an object type in older versions of TS
-                  }
-                >
-                  ?
-                      | SearchPick<
-                          T[K] & {
-                            // Ditto
-                          },
-                          RestPaths
-                        >
-                      | (null extends T[K] ? null : never)
-                  : // Unreachable by construction
-                    never;
-              }
-            : {
-                [K in FieldName]: RestPaths extends SelectFields<
-                  T[K] & {
-                    // This empty intersection fixes `NonNullable<Model[K]>` not being narrowed to an object type in older versions of TS
-                  }
-                >
-                  ?
-                      | SearchPick<
-                          T[K] & {
-                            // Ditto
-                          },
-                          RestPaths
-                        >
-                      | (null extends T[K] ? null : never)
-                  : // Unreachable by construction
-                    never;
-              }
+            {
+              [K in FieldName]: RestPaths extends SelectFields<
+                T[K] & {
+                  // This empty intersection fixes `NonNullable<T[K]>` not being narrowed to an object type in older versions of TS
+                }
+              >
+                ?
+                    | SearchPick<
+                        T[K] & {
+                          // Ditto
+                        },
+                        RestPaths
+                      >
+                    | Extract<T[K], null | undefined>
+                : // Unreachable by construction
+                  never;
+            }
           : // Unreachable by construction
             never
         : // Ignore symbols and numbers

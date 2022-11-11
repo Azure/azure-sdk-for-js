@@ -2415,10 +2415,8 @@ export type SearchOptions<Model extends object, Fields> = OperationOptions & Sea
 // @public
 export type SearchPick<T extends object, Paths extends SelectFields<T>> = UnionToIntersection<Paths extends `${infer FieldName}/${infer RestPaths}` ? FieldName extends Exclude<keyof T, symbol | number> ? NonNullable<T[FieldName]> extends Array<infer U> ? U extends object ? RestPaths extends SelectFields<U> ? {
     [K in FieldName]: Array<SearchPick<U, RestPaths>> | Extract<T[K], null | undefined>;
-} : never : never : NonNullable<T[FieldName]> extends object ? undefined extends T[FieldName] ? {
-    [K in FieldName]?: RestPaths extends SelectFields<T[K] & {}> ? SearchPick<T[K] & {}, RestPaths> | (null extends T[K] ? null : never) : never;
-} : {
-    [K in FieldName]: RestPaths extends SelectFields<T[K] & {}> ? SearchPick<T[K] & {}, RestPaths> | (null extends T[K] ? null : never) : never;
+} : never : never : NonNullable<T[FieldName]> extends object ? {
+    [K in FieldName]: RestPaths extends SelectFields<T[K] & {}> ? SearchPick<T[K] & {}, RestPaths> | Extract<T[K], null | undefined> : never;
 } : never : never : Paths extends keyof T ? {
     [K in Paths]: T[K];
 } : never> & {};

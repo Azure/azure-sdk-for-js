@@ -396,15 +396,7 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
   public async search<Fields extends SelectFields<Model>>(
     searchText?: string,
     options?: SearchOptions<Model, Fields>
-  ): Promise<SearchDocumentsResult<SearchPick<Model, Fields>>>;
-  public async search(
-    searchText?: string,
-    options?: SearchOptions<Model, string>
-  ): Promise<SearchDocumentsResult<DeepPartial<Model>>>;
-  public async search(
-    searchText?: string,
-    options: SearchOptions<object, never> = {}
-  ): Promise<SearchDocumentsResult<object>> {
+  ): Promise<SearchDocumentsResult<SearchPick<Model, Fields>>> {
     const { span, updatedOptions } = createSpan("SearchClient-search", options);
 
     try {
