@@ -6,7 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./subscription";
+export * from "./subscriptions";
+export * from "./tenants";
+export * from "./subscriptionOperations";
 export * from "./operations";
 export * from "./alias";
 export * from "./subscriptionPolicy";

@@ -22,7 +22,10 @@ async function renameSubscription() {
   const body: SubscriptionName = { subscriptionName: "Test Sub" };
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
-  const result = await client.subscription.rename(subscriptionId, body);
+  const result = await client.subscriptionOperations.rename(
+    subscriptionId,
+    body
+  );
   console.log(result);
 }
 

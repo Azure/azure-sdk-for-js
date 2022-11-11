@@ -8,26 +8,26 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Operations } from "../operationsInterfaces";
+import { Tenants } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SubscriptionClient } from "../subscriptionClient";
 import {
-  Operation,
-  OperationsListNextOptionalParams,
-  OperationsListOptionalParams,
-  OperationsListResponse,
-  OperationsListNextResponse
+  TenantIdDescription,
+  TenantsListNextOptionalParams,
+  TenantsListOptionalParams,
+  TenantsListResponse,
+  TenantsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Operations operations. */
-export class OperationsImpl implements Operations {
+/** Class containing Tenants operations. */
+export class TenantsImpl implements Tenants {
   private readonly client: SubscriptionClient;
 
   /**
-   * Initialize a new instance of the class Operations class.
+   * Initialize a new instance of the class Tenants class.
    * @param client Reference to the service client
    */
   constructor(client: SubscriptionClient) {
@@ -35,12 +35,12 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Lists all of the available Microsoft.Subscription API operations.
+   * Gets the tenants for your account.
    * @param options The options parameters.
    */
   public list(
-    options?: OperationsListOptionalParams
-  ): PagedAsyncIterableIterator<Operation> {
+    options?: TenantsListOptionalParams
+  ): PagedAsyncIterableIterator<TenantIdDescription> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -59,10 +59,10 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listPagingPage(
-    options?: OperationsListOptionalParams,
+    options?: TenantsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Operation[]> {
-    let result: OperationsListResponse;
+  ): AsyncIterableIterator<TenantIdDescription[]> {
+    let result: TenantsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
@@ -81,20 +81,20 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listPagingAll(
-    options?: OperationsListOptionalParams
-  ): AsyncIterableIterator<Operation> {
+    options?: TenantsListOptionalParams
+  ): AsyncIterableIterator<TenantIdDescription> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Lists all of the available Microsoft.Subscription API operations.
+   * Gets the tenants for your account.
    * @param options The options parameters.
    */
   private _list(
-    options?: OperationsListOptionalParams
-  ): Promise<OperationsListResponse> {
+    options?: TenantsListOptionalParams
+  ): Promise<TenantsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -105,8 +105,8 @@ export class OperationsImpl implements Operations {
    */
   private _listNext(
     nextLink: string,
-    options?: OperationsListNextOptionalParams
-  ): Promise<OperationsListNextResponse> {
+    options?: TenantsListNextOptionalParams
+  ): Promise<TenantsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec
@@ -117,17 +117,14 @@ export class OperationsImpl implements Operations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Subscription/operations",
+  path: "/tenants",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseBody
+      bodyMapper: Mappers.TenantListResult
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
   serializer
@@ -137,13 +134,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseBody
+      bodyMapper: Mappers.TenantListResult
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

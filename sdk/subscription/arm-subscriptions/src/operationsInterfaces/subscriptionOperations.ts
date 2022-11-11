@@ -22,8 +22,8 @@ import {
   SubscriptionAcceptOwnershipStatusResponse
 } from "../models";
 
-/** Interface representing a Subscription. */
-export interface Subscription {
+/** Interface representing a SubscriptionOperations. */
+export interface SubscriptionOperations {
   /**
    * The operation to cancel a subscription
    * @param subscriptionId Subscription Id.

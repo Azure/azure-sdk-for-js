@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { SubscriptionClient } from "@azure/arm-subscriptions";
-import { DefaultAzureCredential } from "@azure/identity";
+const { SubscriptionClient } = require("@azure/arm-subscriptions");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to The operation to enable a subscription

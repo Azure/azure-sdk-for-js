@@ -8,22 +8,21 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { SubscriptionName, SubscriptionClient } from "@azure/arm-subscriptions";
+import { SubscriptionClient } from "@azure/arm-subscriptions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to The operation to rename a subscription
+ * This sample demonstrates how to Gets details about a specified subscription.
  *
- * @summary The operation to rename a subscription
- * x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/examples/renameSubscription.json
+ * @summary Gets details about a specified subscription.
+ * x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2016-06-01/examples/getSubscription.json
  */
-async function renameSubscription() {
+async function getSubscription() {
   const subscriptionId = "83aa47df-e3e9-49ff-877b-94304bf3d3ad";
-  const body: SubscriptionName = { subscriptionName: "Test Sub" };
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
-  const result = await client.subscription.rename(subscriptionId, body);
+  const result = await client.subscriptions.get(subscriptionId);
   console.log(result);
 }
 
-renameSubscription().catch(console.error);
+getSubscription().catch(console.error);

@@ -31,7 +31,7 @@ async function acceptOwnership() {
   };
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
-  const result = await client.subscription.beginAcceptOwnershipAndWait(
+  const result = await client.subscriptionOperations.beginAcceptOwnershipAndWait(
     subscriptionId,
     body
   );

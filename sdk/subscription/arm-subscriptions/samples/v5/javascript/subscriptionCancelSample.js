@@ -12,17 +12,17 @@ const { SubscriptionClient } = require("@azure/arm-subscriptions");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Accept subscription ownership status.
+ * This sample demonstrates how to The operation to cancel a subscription
  *
- * @summary Accept subscription ownership status.
- * x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/examples/acceptOwnershipStatus.json
+ * @summary The operation to cancel a subscription
+ * x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/examples/cancelSubscription.json
  */
-async function acceptOwnershipStatus() {
-  const subscriptionId = "291bba3f-e0a5-47bc-a099-3bdcb2a50a05";
+async function cancelSubscription() {
+  const subscriptionId = "83aa47df-e3e9-49ff-877b-94304bf3d3ad";
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
-  const result = await client.subscription.acceptOwnershipStatus(subscriptionId);
+  const result = await client.subscriptionOperations.cancel(subscriptionId);
   console.log(result);
 }
 
-acceptOwnershipStatus().catch(console.error);
+cancelSubscription().catch(console.error);

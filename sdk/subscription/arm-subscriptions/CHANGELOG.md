@@ -1,29 +1,21 @@
 # Release History
     
-## 6.0.0 (2022-11-09)
+## 5.1.0 (2022-11-11)
     
 **Features**
 
-  - Added operation group Subscription
-  - Interface CanceledSubscriptionId has a new optional parameter value
-  - Interface EnabledSubscriptionId has a new optional parameter value
-  - Interface RenamedSubscriptionId has a new optional parameter value
-  - Interface SubscriptionClientOptionalParams has a new optional parameter apiVersion
-  - Class SubscriptionClient has a new parameter apiVersion
-  - Class SubscriptionClient has a new parameter subscription
-
-**Breaking Changes**
-
-  - Removed operation group SubscriptionOperations
-  - Removed operation group Subscriptions
-  - Removed operation group Tenants
-  - Interface CanceledSubscriptionId no longer has parameter subscriptionId
-  - Interface EnabledSubscriptionId no longer has parameter subscriptionId
-  - Interface RenamedSubscriptionId no longer has parameter subscriptionId
-  - Interface SubscriptionAliasResponseProperties no longer has parameter createdTime
-  - Class SubscriptionClient no longer has parameter subscriptionOperations
-  - Class SubscriptionClient no longer has parameter subscriptions
-  - Class SubscriptionClient no longer has parameter tenants
+  - Added Type Alias Provisioning
+  - Interface AcceptOwnershipStatusResponse has a new optional parameter provisioningState
+  - Interface Subscription has a new optional parameter tags
+  - Interface Subscription has a new optional parameter tenantId
+  - Interface TenantIdDescription has a new optional parameter country
+  - Interface TenantIdDescription has a new optional parameter countryCode
+  - Interface TenantIdDescription has a new optional parameter defaultDomain
+  - Interface TenantIdDescription has a new optional parameter displayName
+  - Interface TenantIdDescription has a new optional parameter domains
+  - Interface TenantIdDescription has a new optional parameter tenantCategory
+  - Interface TenantIdDescription has a new optional parameter tenantType
+  - Added Enum KnownProvisioning
     
 ## 5.0.1 (2022-05-05)
 

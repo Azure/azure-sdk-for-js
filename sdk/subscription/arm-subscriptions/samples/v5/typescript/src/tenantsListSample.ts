@@ -12,17 +12,19 @@ import { SubscriptionClient } from "@azure/arm-subscriptions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to The operation to cancel a subscription
+ * This sample demonstrates how to Gets the tenants for your account.
  *
- * @summary The operation to cancel a subscription
- * x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/examples/cancelSubscription.json
+ * @summary Gets the tenants for your account.
+ * x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2016-06-01/examples/listTenants.json
  */
-async function cancelSubscription() {
-  const subscriptionId = "83aa47df-e3e9-49ff-877b-94304bf3d3ad";
+async function listTenants() {
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
-  const result = await client.subscriptionOperations.cancel(subscriptionId);
-  console.log(result);
+  const resArray = new Array();
+  for await (let item of client.tenants.list()) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
-cancelSubscription().catch(console.error);
+listTenants().catch(console.error);
