@@ -955,6 +955,16 @@ packages:
       - encoding
     dev: false
 
+  /@azure/core-lro/2.2.4:
+    resolution: {integrity: sha512-e1I2v2CZM0mQo8+RSix0x091Av493e4bnT22ds2fcQGslTHzM2oTbswkB65nP4iEpCxBrFxOSDPKExmTmjCVtQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/logger': 1.0.3
+      tslib: 2.4.1
+    dev: false
+
   /@azure/core-lro/2.4.0:
     resolution: {integrity: sha512-F65+rYkll1dpw3RGm8/SSiSj+/QkMeYDanzS/QKlM1dmuneVyXbO46C88V1MRHluLGdMP6qfD3vDRYALn0z0tQ==}
     engines: {node: '>=12.0.0'}
@@ -3880,7 +3890,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221109
+      typescript: 5.0.0-dev.20221110
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8828,8 +8838,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221109:
-    resolution: {integrity: sha512-DAVRpl2535lb8CL7WjpHAb0dnhsbsTUVLQW5jBxS4RyRYA5Tq17kDGYQTvT0JryOwp6PksgjDdUKG2B9ElU5wg==}
+  /typescript/5.0.0-dev.20221110:
+    resolution: {integrity: sha512-2ErQCfMJ/il4ipW6NRIqJdQvJ84k8nafDIXGCpjaedCdnF/ejRmtHAhPuS5m54AKhRz/uc31LxzKpcSOxVuJHQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10629,7 +10639,7 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-3D36iZHpAl+iPABGQh5eQEtvdsSsLzM04bPSQ8+pp/CKNYLFm01lTM8K6F8LhPdmsjWMzuV8e7zo2cBrGG9JrA==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-BtovOUqCBkiF8Hb+3XtHYg8u9iVDRUcFlyU5GM2JidX8OD2mdSiNm0I3csgcCxNAvOGbvYL8EEDFvsi1afsEyA==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
@@ -10641,18 +10651,18 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.3
+      '@types/node': 14.18.33
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -12720,7 +12730,7 @@ packages:
     dev: false
 
   file:projects/arm-links.tgz:
-    resolution: {integrity: sha512-dA1SMN8GHZj+2vmT2rgeid6pvkP3DUoWQdzbhxPrJ5QgAgjA1dZ4yckeIgZEo8z93ZWD9LP8/QJVWHccEEdwVA==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-Vdb/Dd+9IFLd8/yto66fCWhX5yjLE+N/v5pxRCYm6PaaUfLPJLXLxHgnqRlEAl++bMBr5CF0qRZPPBo3X/TNLQ==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
     version: 0.0.0
     dependencies:
@@ -15052,7 +15062,7 @@ packages:
     dev: false
 
   file:projects/arm-subscriptions.tgz:
-    resolution: {integrity: sha512-BBkOfkNAIjSNbT2J4wEDnHTCHVOGHOTVMG05KQt0DPEErdiwROm0YE8Ms/JraP0UU3kVN2R+lqhigVmwwrLatA==, tarball: file:projects/arm-subscriptions.tgz}
+    resolution: {integrity: sha512-RdUl8VLqf9kjh910JSSxLwVx1X0MlnEPrdV76cbiZ9CUI+SSb01lpa6ZqstwVUvYY2MTcZAugPu+ntDw98yfAw==, tarball: file:projects/arm-subscriptions.tgz}
     name: '@rush-temp/arm-subscriptions'
     version: 0.0.0
     dependencies:
@@ -15063,18 +15073,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      '@types/node': 14.18.33
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -18618,10 +18629,11 @@ packages:
     dev: false
 
   file:projects/purview-catalog.tgz:
-    resolution: {integrity: sha512-4SnBqfn4jWNnJdhuXBxhvIItmsWCPAHeTO03HkqytmnVT3TIuc1VrxsQEKZHIAjNNY03RpJ9Kz3eOP3mTM+leA==, tarball: file:projects/purview-catalog.tgz}
+    resolution: {integrity: sha512-ftiemePQg6i3Ux8dtTBCgjetWVemYMSXesaUBlZx73cV55zKydaPawZUC9eoFrTGOjL/POZPDcBVpNBBU8iLCQ==, tarball: file:projects/purview-catalog.tgz}
     name: '@rush-temp/purview-catalog'
     version: 0.0.0
     dependencies:
+      '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.5
       '@types/chai': 4.3.3
