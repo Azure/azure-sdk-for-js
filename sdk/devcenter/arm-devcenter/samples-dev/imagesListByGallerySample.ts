@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists images for a gallery.
  *
  * @summary Lists images for a gallery.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/Images_ListByGallery.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-10-12-preview/examples/Images_ListByGallery.json
  */
 async function imagesListByGallery() {
   const subscriptionId = "{subscriptionId}";

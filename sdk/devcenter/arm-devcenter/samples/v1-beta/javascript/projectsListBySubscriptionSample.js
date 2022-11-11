@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Lists all projects in the subscription.
  *
  * @summary Lists all projects in the subscription.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/Projects_ListBySubscription.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-10-12-preview/examples/Projects_ListBySubscription.json
  */
 async function projectsListBySubscription() {
   const subscriptionId = "{subscriptionId}";

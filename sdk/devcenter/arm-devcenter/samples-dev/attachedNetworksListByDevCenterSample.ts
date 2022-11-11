@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists the attached NetworkConnections for a DevCenter.
  *
  * @summary Lists the attached NetworkConnections for a DevCenter.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/AttachedNetworks_ListByDevCenter.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-10-12-preview/examples/AttachedNetworks_ListByDevCenter.json
  */
 async function attachedNetworksListByDevCenter() {
   const subscriptionId = "{subscriptionId}";
