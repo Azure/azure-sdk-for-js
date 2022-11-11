@@ -8,7 +8,12 @@ import { SipRoutingClient } from "../../../src";
 
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { SipTrunk, SipTrunkRoute } from "../../../src/models";
-import { clearSipConfiguration, createRecordedClient, createRecordedClientWithToken, getFqdn } from "./utils/recordedClient";
+import {
+  clearSipConfiguration,
+  createRecordedClient,
+  createRecordedClientWithToken,
+  getUniqueFqdn,
+} from "./utils/recordedClient";
 import { matrix } from "@azure/test-utils";
 
 matrix([[true, false]], async function (useAad) {
@@ -16,12 +21,14 @@ matrix([[true, false]], async function (useAad) {
     let client: SipRoutingClient;
     let recorder: Recorder;
 
-    const firstFqdn = getFqdn("first");
-    const secondFqdn = getFqdn("second");
+    const firstFqdn = getUniqueFqdn("first");
+    const secondFqdn = getUniqueFqdn("second");
 
     before(async function (this: Context) {
-      !isPlaybackMode() && clearSipConfiguration();
-    })
+      if (!isPlaybackMode()) {
+        clearSipConfiguration();
+      }
+    });
 
     beforeEach(async function (this: Context) {
       ({ client, recorder } = useAad
@@ -228,11 +235,11 @@ matrix([[true, false]], async function (useAad) {
 
       const trunks: SipTrunk[] = [
         {
-          fqdn: getFqdn("random3"),
+          fqdn: getUniqueFqdn("random3"),
           sipSignalingPort: 5678,
         },
         {
-          fqdn: getFqdn("random4"),
+          fqdn: getUniqueFqdn("random4"),
           sipSignalingPort: 5678,
         },
       ];

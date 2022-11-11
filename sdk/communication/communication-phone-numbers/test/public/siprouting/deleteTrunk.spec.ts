@@ -8,7 +8,12 @@ import { SipRoutingClient } from "../../../src";
 
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { SipTrunk } from "../../../src/models";
-import { clearSipConfiguration, createRecordedClient, createRecordedClientWithToken, getFqdn } from "./utils/recordedClient";
+import {
+  clearSipConfiguration,
+  createRecordedClient,
+  createRecordedClientWithToken,
+  getUniqueFqdn,
+} from "./utils/recordedClient";
 import { matrix } from "@azure/test-utils";
 
 matrix([[true, false]], async function (useAad) {
@@ -16,11 +21,13 @@ matrix([[true, false]], async function (useAad) {
     let client: SipRoutingClient;
     let recorder: Recorder;
 
-    const firstFqdn = getFqdn("first");
+    const firstFqdn = getUniqueFqdn("first");
 
     before(async function (this: Context) {
-      !isPlaybackMode() && clearSipConfiguration();
-    })
+      if (!isPlaybackMode()) {
+        clearSipConfiguration();
+      }
+    });
 
     beforeEach(async function (this: Context) {
       ({ client, recorder } = useAad

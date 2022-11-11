@@ -55,7 +55,7 @@ const sanitizerOptions: SanitizerOptions = {
       target: `[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}`,
       value: `sanitized`,
     },
-    { regex: true, target: `([a-z]+[0-9]?).[0-9]{12}.com`, value: `$1\.com`, },
+    { regex: true, target: `([a-z]+[0-9]?).[0-9]{12}.com`, value: `$1.com` },
   ],
 };
 
@@ -120,13 +120,13 @@ export async function createRecordedClientWithToken(
   return { client, recorder };
 }
 
-export async function clearSipConfiguration() {
+export async function clearSipConfiguration(): Promise<void> {
   const client = new SipRoutingClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? "");
   await client.setRoutes([]);
   await client.setTrunks([]);
 }
 
-export function getFqdn(order: string) {
+export function getUniqueFqdn(order: string): string {
   const length = 12;
   let random = 0;
   do {
