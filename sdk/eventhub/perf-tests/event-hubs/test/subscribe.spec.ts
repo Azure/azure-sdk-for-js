@@ -20,7 +20,7 @@ interface ReceiverOptions {
 
 const connectionString = getEnvVar("EVENTHUB_CONNECTION_STRING");
 const eventHubName = getEnvVar("EVENTHUB_NAME");
-const consumerGroup = getEnvVar("CONSUMER_GROUP_NAME");
+const consumerGroup = process.env.CONSUMER_GROUP_NAME || "$Default";
 
 const consumer = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName);
 
@@ -40,8 +40,8 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
       required: true,
       description: "Size of each event in bytes",
       shortName: "size",
-      longName: "size-in-bytes",
-      defaultValue: 2000,
+      longName: "event-size",
+      defaultValue: 1024,
     },
     partitions: {
       required: true,

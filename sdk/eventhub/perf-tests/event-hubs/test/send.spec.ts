@@ -25,14 +25,14 @@ export class SendTest extends PerfTest<SendTestOptions> {
       required: true,
       description: "Size in bytes",
       shortName: "sz",
-      longName: "size",
+      longName: "body-size",
       defaultValue: 1024,
     },
     numberOfEvents: {
       required: true,
       description: "Number of events per send",
       shortName: "num",
-      longName: "numberOfEvents",
+      longName: "batch-size",
       defaultValue: 10,
     },
   };
