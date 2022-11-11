@@ -117,7 +117,6 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
       );
     });
 
-
     it("redirected request gets reverted", async () => {
       await recorder.start({ envSetupForPlayback: {} });
       const req = createPipelineRequest({
@@ -126,7 +125,11 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         allowInsecureConnection: isLiveMode(),
       });
       await client.sendRequest(req);
-      assert.strictEqual(req.url, getTestServerUrl() + "/sample_response", "Looks like the url is not the same");
+      assert.strictEqual(
+        req.url,
+        getTestServerUrl() + "/sample_response",
+        "Looks like the url is not the same"
+      );
     });
 
     // Matchers
@@ -279,8 +282,9 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           await makeRequestAndVerifyResponse(
             client,
             {
-              path: `/sample_response${isPlaybackMode() ? "?first=abc&second=def" : "?second=def&first=abc"
-                }`,
+              path: `/sample_response${
+                isPlaybackMode() ? "?first=abc&second=def" : "?second=def&first=abc"
+              }`,
               body: undefined,
               method: "POST",
               headers: [{ headerName: "Content-Type", value: "text/plain" }],
