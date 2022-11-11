@@ -3,6 +3,7 @@
 
 import { ServiceClient } from "@azure/core-client";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
+import assert from "assert";
 import { expect } from "chai";
 import { CustomMatcherOptions, isPlaybackMode, Recorder } from "../src";
 import { isLiveMode, TestMode } from "../src/utils/utils";
@@ -114,6 +115,18 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         { path: "///multiple_slashes", method: "GET" },
         { val: "abc" }
       );
+    });
+
+
+    it("redirected request gets reverted", async () => {
+      await recorder.start({ envSetupForPlayback: {} });
+      const req = createPipelineRequest({
+        url: getTestServerUrl() + "/sample_response",
+        method: "GET",
+        allowInsecureConnection: isLiveMode(),
+      });
+      await client.sendRequest(req);
+      assert.strictEqual(req.url, getTestServerUrl() + "/sample_response", "Looks like the url is not the same");
     });
 
     // Matchers
@@ -266,9 +279,8 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           await makeRequestAndVerifyResponse(
             client,
             {
-              path: `/sample_response${
-                isPlaybackMode() ? "?first=abc&second=def" : "?second=def&first=abc"
-              }`,
+              path: `/sample_response${isPlaybackMode() ? "?first=abc&second=def" : "?second=def&first=abc"
+                }`,
               body: undefined,
               method: "POST",
               headers: [{ headerName: "Content-Type", value: "text/plain" }],
