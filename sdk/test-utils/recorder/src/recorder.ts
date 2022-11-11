@@ -42,6 +42,7 @@ import { setRecordingOptions } from "./options";
 import { isNode } from "@azure/core-util";
 import { env } from "./utils/env";
 import { decodeBase64 } from "./utils/encoding";
+import { isHttpHeadersLike } from "./utils/typeGuards";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -134,6 +135,40 @@ export class Recorder {
         request.allowInsecureConnection = true;
       }
     }
+  }
+
+  /**
+   * revertRequestChanges reverts the request in record and playback modes back to the existing url.
+   * Works for both core-v1 and core-v2
+   *
+   * - WebResource -> core-v1
+   * - PipelineRequest -> core-v2
+   *
+   * Wrokflow:
+   *   1. recorderHttpPolicy calls this method after the request is made
+   *   2. "redirectRequest" method is called to update the request with the proxy-tool url
+   *   3. Request hits the proxy tool, proxy-tool hits the service and returns the response
+   *   4. Using `revertRequestChanges`, we revert the request back to the original url
+   */
+  private revertRequestChanges(request: WebResource | PipelineRequest): void {
+    logger.info(
+      `[Recorder#revertRequestChanges] "undo"s the URL changes made by the recorder to hit the test proxy after the response is received,`,
+      request
+    );
+    const headers = request.headers;
+    if (isHttpHeadersLike(headers)) {
+      // core-v1
+      headers.remove("x-recording-id");
+      headers.remove("x-recording-mode");
+    } else {
+      // core-v2
+      headers.delete("x-recording-id");
+      headers.delete("x-recording-mode");
+    }
+    request.url = request.url.replace(
+      Recorder.url,
+      request.headers.get("x-recording-upstream-base-uri") || "dummy"
+    );
   }
 
   /**
@@ -405,7 +440,7 @@ export class Recorder {
         this.redirectRequest(request);
         const response = await next(request);
         this.handleTestProxyErrors(response);
-
+        this.revertRequestChanges(request);
         return response;
       },
     };
