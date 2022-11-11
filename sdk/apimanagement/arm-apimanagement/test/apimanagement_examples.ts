@@ -163,7 +163,7 @@ describe("Apimanagement test", () => {
     assert.equal(resArray.length, 0);
   })
 
-  it("apiManagementService delete test", async function () {
+  it.only("apiManagementService delete test", async function () {
     let count = 0;
     while (count < 20) {
       count++;

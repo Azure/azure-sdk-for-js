@@ -26,7 +26,7 @@ async function httpConnectivityCheck() {
     protocolConfiguration: {
       httpConfiguration: {
         method: "GET",
-        headers: [{ name: "Authorization", value: "Bearer myPreciousToken" }],
+        headers: [{ name: "", value: "" }],
         validStatusCodes: [200, 204],
       },
     },
