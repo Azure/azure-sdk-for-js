@@ -67,7 +67,7 @@ describe("Network test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = createTestNetworkManagementClient(recorder, credential);
-    location = "eastus";    
+    location = "eastus";
     resourceGroupName = env.RESOURCE_GROUP_NAME || "myjstest";
     virtualNetworkName = "virtualnetworkzzz";
     subnet_name = "subnetnamexx";
