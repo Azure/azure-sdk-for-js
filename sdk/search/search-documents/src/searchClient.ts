@@ -39,6 +39,7 @@ import {
   UploadDocumentsOptions,
   TResult,
   TSuggestResult,
+  Widen,
 } from "./indexModels";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
@@ -511,7 +512,7 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    */
   public async indexDocuments(
     // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-    batch: IndexDocumentsBatch<Model>,
+    batch: IndexDocumentsBatch<Widen<Model>>,
     options: IndexDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-indexDocuments", options);
@@ -547,12 +548,12 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * @param options - Additional options.
    */
   public async uploadDocuments(
-    documents: Model[],
+    documents: Widen<Model>[],
     options: UploadDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-uploadDocuments", options);
 
-    const batch = new IndexDocumentsBatch<Model>();
+    const batch = new IndexDocumentsBatch<Widen<Model>>();
     batch.upload(documents);
 
     try {
@@ -575,12 +576,12 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * @param options - Additional options.
    */
   public async mergeDocuments(
-    documents: Model[],
+    documents: Widen<Model>[],
     options: MergeDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-mergeDocuments", options);
 
-    const batch = new IndexDocumentsBatch<Model>();
+    const batch = new IndexDocumentsBatch<Widen<Model>>();
     batch.merge(documents);
 
     try {
@@ -603,12 +604,12 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * @param options - Additional options.
    */
   public async mergeOrUploadDocuments(
-    documents: Model[],
+    documents: Widen<Model>[],
     options: MergeOrUploadDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-mergeDocuments", options);
 
-    const batch = new IndexDocumentsBatch<Model>();
+    const batch = new IndexDocumentsBatch<Widen<Model>>();
     batch.mergeOrUpload(documents);
 
     try {
@@ -630,7 +631,7 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * @param options - Additional options.
    */
   public async deleteDocuments(
-    documents: Model[],
+    documents: Widen<Model>[],
     options?: DeleteDocumentsOptions
   ): Promise<IndexDocumentsResult>;
 
@@ -641,23 +642,23 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * @param options - Additional options.
    */
   public async deleteDocuments(
-    keyName: keyof Model,
+    keyName: keyof Widen<Model>,
     keyValues: string[],
     options?: DeleteDocumentsOptions
   ): Promise<IndexDocumentsResult>;
 
   public async deleteDocuments(
-    keyNameOrDocuments: keyof Model | Model[],
+    keyNameOrDocuments: keyof Widen<Model> | Widen<Model>[],
     keyValuesOrOptions?: string[] | DeleteDocumentsOptions,
     options: DeleteDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-deleteDocuments", options);
 
-    const batch = new IndexDocumentsBatch<Model>();
+    const batch = new IndexDocumentsBatch<Widen<Model>>();
     if (typeof keyNameOrDocuments === "string") {
       batch.delete(keyNameOrDocuments, keyValuesOrOptions as string[]);
     } else {
-      batch.delete(keyNameOrDocuments as Model[]);
+      batch.delete(keyNameOrDocuments as Widen<Model>[]);
     }
 
     try {

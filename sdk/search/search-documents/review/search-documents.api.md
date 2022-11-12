@@ -2044,21 +2044,22 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
     // @deprecated
     readonly apiVersion: string;
     autocomplete(searchText: string, suggesterName: string, options?: AutocompleteOptions<Model>): Promise<AutocompleteResult>;
-    deleteDocuments(documents: Model[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
-    deleteDocuments(keyName: keyof Model, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
+    deleteDocuments(documents: Widen<Model>[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
+    deleteDocuments(keyName: keyof Widen<Model>, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
     getDocument<Fields extends SelectFields<Model>>(key: string, options?: GetDocumentOptions<Fields>): Promise<TResult<Model, Fields>>;
     getDocumentsCount(options?: CountDocumentsOptions): Promise<number>;
-    indexDocuments(batch: IndexDocumentsBatch<Model>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
+    // Warning: (ae-forgotten-export) The symbol "Widen" needs to be exported by the entry point index.d.ts
+    indexDocuments(batch: IndexDocumentsBatch<Widen<Model>>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly indexName: string;
-    mergeDocuments(documents: Model[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
-    mergeOrUploadDocuments(documents: Model[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
+    mergeDocuments(documents: Widen<Model>[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
+    mergeOrUploadDocuments(documents: Widen<Model>[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
     // Warning: (ae-forgotten-export) The symbol "TResult" needs to be exported by the entry point index.d.ts
     search<Fields extends SelectFields<Model> | null = null>(searchText?: string, options?: SearchOptions<Model, Fields>): Promise<SearchDocumentsResult<TResult<Model, Fields>>>;
     readonly serviceVersion: string;
     // Warning: (ae-forgotten-export) The symbol "TSuggestResult" needs to be exported by the entry point index.d.ts
     suggest<Fields extends SelectFields<Model> | null = null>(searchText: string, suggesterName: string, options?: SuggestOptions<Model, Fields>): Promise<SuggestDocumentsResult<TSuggestResult<Model, Fields>>>;
-    uploadDocuments(documents: Model[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
+    uploadDocuments(documents: Widen<Model>[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
 }
 
 // @public

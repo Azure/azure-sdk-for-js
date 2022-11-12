@@ -806,6 +806,8 @@ type DeepNullable<T> = T extends object
     : { [K in keyof T]: DeepNullable<T[K]> } | null
   : T | null;
 
+export type Widen<Model extends object> = DeepPartial<Exclude<DeepNullable<Model>, null>>;
+
 export type TResult<
   Model extends object,
   Fields extends SelectFields<Model> | null
@@ -814,7 +816,7 @@ export type TResult<
     null extends Fields
       ? DeepNullable<Model>
       : Exclude<SelectFields<Model>, Fields> extends never
-      ? DeepPartial<Exclude<DeepNullable<Model>, null>>
+      ? Widen<Model>
       : Fields extends SelectFields<Model>
       ? DeepNullable<SearchPick<Model, Fields>>
       : never,
