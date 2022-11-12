@@ -32,7 +32,7 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
       required: true,
       description: "Size of each message body in bytes",
       shortName: "size",
-      longName: "size-in-bytes",
+      longName: "body-size",
       defaultValue: 2000,
     },
     "max-concurrent-calls": {
