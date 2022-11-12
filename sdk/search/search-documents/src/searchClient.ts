@@ -33,12 +33,12 @@ import {
   SearchOptions,
   SearchRequest,
   SelectFields,
-  SearchPick,
   SearchResult,
   SuggestDocumentsResult,
   SuggestOptions,
   UploadDocumentsOptions,
-  DeepPartial,
+  TResult,
+  TSuggestResult,
 } from "./indexModels";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
@@ -272,17 +272,18 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
     }
   }
 
-  private async searchDocuments<Fields extends SelectFields<Model>>(
+  private async searchDocuments<Fields extends SelectFields<Model> | null>(
     searchText?: string,
     options: SearchOptions<Model, Fields> = {},
     nextPageParameters: SearchRequest = {}
-  ): Promise<SearchDocumentsPageResult<SearchPick<Model, Fields>>> {
+  ): Promise<SearchDocumentsPageResult<TResult<Model, Fields>>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
     const { select, searchFields, orderBy, semanticFields, ...nonFieldOptions } = restOptions;
+    type NarrowedFields = Fields extends SelectFields<Model> ? Fields : never;
     const fullOptions: SearchRequest = {
       searchFields: this.convertSearchFields(searchFields),
       semanticFields: this.convertSemanticFields(semanticFields),
-      select: this.convertSelect<Fields>(select),
+      select: this.convertSelect<NarrowedFields>(select) || "*",
       orderBy: this.convertOrderBy(orderBy),
       ...nonFieldOptions,
       ...nextPageParameters,
@@ -313,7 +314,7 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
         continuationToken: this.encodeContinuationToken(nextLink, result.nextPageParameters),
       };
 
-      return deserialize<SearchDocumentsPageResult<SearchPick<Model, Fields>>>(converted);
+      return deserialize<SearchDocumentsPageResult<TResult<Model, Fields>>>(converted);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -325,11 +326,11 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
     }
   }
 
-  private async *listSearchResultsPage<Fields extends SelectFields<Model>>(
+  private async *listSearchResultsPage<Fields extends SelectFields<Model> | null>(
     searchText?: string,
     options: SearchOptions<Model, Fields> = {},
     settings: ListSearchResultsPageSettings = {}
-  ): AsyncIterableIterator<SearchDocumentsPageResult<SearchPick<Model, Fields>>> {
+  ): AsyncIterableIterator<SearchDocumentsPageResult<TResult<Model, Fields>>> {
     let decodedContinuation = this.decodeContinuationToken(settings.continuationToken);
     let result = await this.searchDocuments(
       searchText,
@@ -352,11 +353,11 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
     }
   }
 
-  private async *listSearchResultsAll<Fields extends SelectFields<Model>>(
-    firstPage: SearchDocumentsPageResult<SearchPick<Model, Fields>>,
+  private async *listSearchResultsAll<Fields extends SelectFields<Model> | null>(
+    firstPage: SearchDocumentsPageResult<TResult<Model, Fields>>,
     searchText?: string,
     options: SearchOptions<Model, Fields> = {}
-  ): AsyncIterableIterator<SearchResult<SearchPick<Model, Fields>>> {
+  ): AsyncIterableIterator<SearchResult<TResult<Model, Fields>>> {
     yield* firstPage.results;
     if (firstPage.continuationToken) {
       for await (const page of this.listSearchResultsPage(searchText, options, {
@@ -367,11 +368,11 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
     }
   }
 
-  private listSearchResults<Fields extends SelectFields<Model>>(
-    firstPage: SearchDocumentsPageResult<SearchPick<Model, Fields>>,
+  private listSearchResults<Fields extends SelectFields<Model> | null>(
+    firstPage: SearchDocumentsPageResult<TResult<Model, Fields>>,
     searchText?: string,
     options: SearchOptions<Model, Fields> = {}
-  ): SearchIterator<SearchPick<Model, Fields>> {
+  ): SearchIterator<TResult<Model, Fields>> {
     const iter = this.listSearchResultsAll(firstPage, searchText, options);
 
     return {
@@ -393,10 +394,10 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * @param searchText - Text to search
    * @param options - Options for the search operation.
    */
-  public async search<Fields extends SelectFields<Model>>(
+  public async search<Fields extends SelectFields<Model> | null = null>(
     searchText?: string,
     options?: SearchOptions<Model, Fields>
-  ): Promise<SearchDocumentsResult<SearchPick<Model, Fields>>> {
+  ): Promise<SearchDocumentsResult<TResult<Model, Fields>>> {
     const { span, updatedOptions } = createSpan("SearchClient-search", options);
 
     try {
@@ -429,18 +430,19 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * @param suggesterName - The name of the suggester as specified in the suggesters collection that's part of the index definition.
    * @param options - Options for the suggest operation
    */
-  public async suggest<Fields extends SelectFields<Model> = never>(
+  public async suggest<Fields extends SelectFields<Model> | null = null>(
     searchText: string,
     suggesterName: string,
     options: SuggestOptions<Model, Fields> = {}
-  ): Promise<SuggestDocumentsResult<SearchPick<Model, Fields>>> {
+  ): Promise<SuggestDocumentsResult<TSuggestResult<Model, Fields>>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
     const { select, searchFields, orderBy, ...nonFieldOptions } = restOptions;
+    type NarrowedFields = Fields extends SelectFields<Model> ? Fields : never;
     const fullOptions: SuggestRequest = {
       searchText: searchText,
       suggesterName: suggesterName,
       searchFields: this.convertSearchFields(searchFields),
-      select: this.convertSelect<Fields>(select),
+      select: this.convertSelect<NarrowedFields>(select),
       orderBy: this.convertOrderBy(orderBy),
       ...nonFieldOptions,
     };
@@ -461,7 +463,7 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
       const modifiedResult =
         utils.generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<Model>(result);
 
-      return deserialize<SuggestDocumentsResult<SearchPick<Model, Fields>>>(modifiedResult);
+      return deserialize<SuggestDocumentsResult<TSuggestResult<Model, Fields>>>(modifiedResult);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -481,11 +483,11 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
   public async getDocument<Fields extends SelectFields<Model>>(
     key: string,
     options: GetDocumentOptions<Fields> = {}
-  ): Promise<SearchPick<Model, Fields>> {
+  ): Promise<TResult<Model, Fields>> {
     const { span, updatedOptions } = createSpan("SearchClient-getDocument", options);
     try {
       const result = await this.client.documents.get(key, updatedOptions);
-      return deserialize<SearchPick<Model, Fields>>(result);
+      return deserialize<TResult<Model, Fields>>(result);
     } catch (e: any) {
       span.setStatus({
         status: "error",

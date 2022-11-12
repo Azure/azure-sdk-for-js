@@ -393,11 +393,6 @@ export type DataChangeDetectionPolicy = HighWaterMarkChangeDetectionPolicy | Sql
 // @public
 export type DataDeletionDetectionPolicy = SoftDeleteColumnDeletionDetectionPolicy;
 
-// @public (undocumented)
-export type DeepPartial<T extends object> = {
-    [K in keyof T]?: T[K] extends ExcludedODataTypes ? T[K] : T[K] extends object ? DeepPartial<T[K]> : T[K];
-};
-
 // @public
 export const DEFAULT_BATCH_SIZE: number;
 
@@ -589,7 +584,7 @@ export type GetDataSourceConnectionOptions = OperationOptions;
 
 // @public
 export interface GetDocumentOptions<Fields> extends OperationOptions {
-    selectedFields?: Fields[];
+    selectedFields?: null extends Fields ? string[] : Fields[];
 }
 
 // @public
@@ -2048,21 +2043,21 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
     constructor(endpoint: string, indexName: string, credential: KeyCredential | TokenCredential, options?: SearchClientOptions);
     // @deprecated
     readonly apiVersion: string;
-    autocomplete<Fields extends SelectFields<Model>>(searchText: string, suggesterName: string, options?: AutocompleteOptions<SearchPick<Model, Fields>>): Promise<AutocompleteResult>;
+    autocomplete(searchText: string, suggesterName: string, options?: AutocompleteOptions<Model>): Promise<AutocompleteResult>;
     deleteDocuments(documents: Model[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     deleteDocuments(keyName: keyof Model, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
-    getDocument<Fields extends SelectFields<Model>>(key: string, options?: GetDocumentOptions<Fields>): Promise<SearchPick<Model, Fields>>;
+    getDocument<Fields extends SelectFields<Model>>(key: string, options?: GetDocumentOptions<Fields>): Promise<TResult<Model, Fields>>;
     getDocumentsCount(options?: CountDocumentsOptions): Promise<number>;
     indexDocuments(batch: IndexDocumentsBatch<Model>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly indexName: string;
     mergeDocuments(documents: Model[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
     mergeOrUploadDocuments(documents: Model[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
-    search<Fields extends SelectFields<Model>>(searchText?: string, options?: SearchOptions<Model, Fields>): Promise<SearchDocumentsResult<SearchPick<Model, Fields>>>;
-    // (undocumented)
-    search(searchText?: string, options?: SearchOptions<Model, string>): Promise<SearchDocumentsResult<DeepPartial<Model>>>;
+    // Warning: (ae-forgotten-export) The symbol "TResult" needs to be exported by the entry point index.d.ts
+    search<Fields extends SelectFields<Model> | null = null>(searchText?: string, options?: SearchOptions<Model, Fields>): Promise<SearchDocumentsResult<TResult<Model, Fields>>>;
     readonly serviceVersion: string;
-    suggest<Fields extends SelectFields<Model> = never>(searchText: string, suggesterName: string, options?: SuggestOptions<Model, Fields>): Promise<SuggestDocumentsResult<SearchPick<Model, Fields>>>;
+    // Warning: (ae-forgotten-export) The symbol "TSuggestResult" needs to be exported by the entry point index.d.ts
+    suggest<Fields extends SelectFields<Model> | null = null>(searchText: string, suggesterName: string, options?: SuggestOptions<Model, Fields>): Promise<SuggestDocumentsResult<TSuggestResult<Model, Fields>>>;
     uploadDocuments(documents: Model[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
 }
 
@@ -2413,15 +2408,6 @@ export type SearchMode = "any" | "all";
 export type SearchOptions<Model extends object, Fields> = OperationOptions & SearchRequestOptions<Model, Fields>;
 
 // @public
-export type SearchPick<T extends object, Paths extends SelectFields<T>> = UnionToIntersection<Paths extends `${infer FieldName}/${infer RestPaths}` ? FieldName extends Exclude<keyof T, symbol | number> ? NonNullable<T[FieldName]> extends Array<infer U> ? U extends object ? RestPaths extends SelectFields<U> ? {
-    [K in FieldName]: Array<SearchPick<U, RestPaths>> | Extract<T[K], null | undefined>;
-} : never : never : NonNullable<T[FieldName]> extends object ? {
-    [K in FieldName]: RestPaths extends SelectFields<T[K] & {}> ? SearchPick<T[K] & {}, RestPaths> | Extract<T[K], null | undefined> : never;
-} : never : never : Paths extends keyof T ? {
-    [K in Paths]: T[K];
-} : never> & {};
-
-// @public
 export interface SearchRequest {
     answers?: QueryAnswerType;
     captions?: QueryCaptionType;
@@ -2469,7 +2455,7 @@ export interface SearchRequestOptions<Model extends object, Fields> {
     scoringStatistics?: ScoringStatistics;
     searchFields?: SelectFields<Model>[];
     searchMode?: SearchMode;
-    select?: string extends Fields ? string[] : Fields[];
+    select?: null extends Fields ? string[] : Fields[];
     semanticFields?: string[];
     sessionId?: string;
     skip?: number;
@@ -2697,7 +2683,7 @@ export interface SuggestRequest<Model extends object, Fields> {
     minimumCoverage?: number;
     orderBy?: string[];
     searchFields?: SelectFields<Model>[];
-    select?: Fields[];
+    select?: null extends Fields ? string[] : Fields[];
     top?: number;
     useFuzzyMatching?: boolean;
 }

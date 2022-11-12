@@ -136,17 +136,6 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         }
       }
 
-      // The compiler may not be able to infer the type of this array, so the result should at least have these fields but may have more.
-      const select: string[] = ["hotelId", "address/city", "rooms/type"];
-      const stringSelectResults = await searchClient.search("New", {
-        select,
-      });
-      for await (const result of stringSelectResults.results) {
-        assert.hasAllKeys(result.document, ["hotelId", "address", "rooms"]);
-        assert.hasAllKeys(result.document.address, ["city"]);
-        assert.hasAllKeys(result.document.rooms![0], ["type"]);
-      }
-
       const searchFieldsResults = await searchClient.search("New", {
         searchFields: ["address/city"],
       });

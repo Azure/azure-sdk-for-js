@@ -92,7 +92,7 @@ export interface GetDocumentOptions<Fields> extends OperationOptions {
    * List of field names to retrieve for the document; Any field not retrieved will be missing from
    * the returned document.
    */
-  selectedFields?: Fields[];
+  selectedFields?: null extends Fields ? string[] : Fields[];
 }
 
 /**
@@ -423,7 +423,7 @@ export interface SearchRequestOptions<Model extends object, Fields> {
    * The list of fields to retrieve. If unspecified, all fields marked as
    * retrievable in the schema are included.
    */
-  select?: Fields[];
+  select?: null extends Fields ? string[] : Fields[];
   /**
    * The number of search results to skip. This value cannot be greater than 100,000. If you need
    * to scan documents in sequence, but cannot use skip due to this limitation, consider using
@@ -589,7 +589,7 @@ export interface SuggestRequest<Model extends object, Fields> {
    * The list of fields to retrieve. If unspecified, only the key field will be
    * included in the results.
    */
-  select?: Fields[];
+  select?: null extends Fields ? string[] : Fields[];
   /**
    * The number of suggestions to retrieve. This must be a value between 1 and 100. The default is
    * 5.
@@ -702,7 +702,7 @@ export type UnionToIntersection<U> =
     ? I
     : never;
 
-// Types that should not be included in SelectPaths recursion
+// Types that should not be included in SelectFields recursion
 export type ExcludedODataTypes = Date | GeographyPoint;
 
 /**
@@ -736,7 +736,7 @@ export type SelectFields<T extends object> = T extends Array<infer U>
  * Deeply pick fields of T using valid Cognitive Search OData $select
  * paths.
  */
-export type SearchPick<T extends object, Paths extends SelectFields<T>> =
+type SearchPick<T extends object, Paths extends SelectFields<T>> =
   // We're going to get a union of individual interfaces for each field in T that's selected, so convert that to an intersection.
   UnionToIntersection<
     // Paths is a union or single string type, so if it's a union it will be _distributed_ over this conditional.
@@ -750,9 +750,7 @@ export type SearchPick<T extends object, Paths extends SelectFields<T>> =
               RestPaths extends SelectFields<U>
               ? // Narrow the type of every element in the array
                 {
-                  [K in FieldName]:
-                    | Array<SearchPick<U, RestPaths>>
-                    | Extract<T[K], null | undefined>;
+                  [K in FieldName]-?: Array<SearchPick<U, RestPaths>>;
                 }
               : // Unreachable by construction
                 never
@@ -761,19 +759,17 @@ export type SearchPick<T extends object, Paths extends SelectFields<T>> =
           : NonNullable<T[FieldName]> extends object
           ? // Recur :)
             {
-              [K in FieldName]: RestPaths extends SelectFields<
+              [K in FieldName]-?: RestPaths extends SelectFields<
                 T[K] & {
                   // This empty intersection fixes `NonNullable<T[K]>` not being narrowed to an object type in older versions of TS
                 }
               >
-                ?
-                    | SearchPick<
-                        T[K] & {
-                          // Ditto
-                        },
-                        RestPaths
-                      >
-                    | Extract<T[K], null | undefined>
+                ? SearchPick<
+                    T[K] & {
+                      // Ditto
+                    },
+                    RestPaths
+                  >
                 : // Unreachable by construction
                   never;
             }
@@ -783,7 +779,7 @@ export type SearchPick<T extends object, Paths extends SelectFields<T>> =
           never
       : // Otherwise, capture the paths that are simple keys of T itself
       Paths extends keyof T
-      ? { [K in Paths]: T[K] }
+      ? { [K in Paths]-?: NonNullable<T[K]> }
       : // Unreachable by construction
         never
   > & {
@@ -794,10 +790,62 @@ export type SearchPick<T extends object, Paths extends SelectFields<T>> =
   };
 
 // Computes a deeply partial model
-export type DeepPartial<T extends object> = {
+type DeepPartial<T extends object> = {
   [K in keyof T]?: T[K] extends ExcludedODataTypes
     ? T[K]
     : T[K] extends object
     ? DeepPartial<T[K]>
     : T[K];
 };
+
+type DeepNullable<T> = T extends object
+  ? T extends ExcludedODataTypes
+    ? T | null
+    : T extends Array<infer U>
+    ? Array<Exclude<DeepNullable<U>, null>> | null
+    : { [K in keyof T]: DeepNullable<T[K]> } | null
+  : T | null;
+
+export type TResult<
+  Model extends object,
+  Fields extends SelectFields<Model> | null
+> = UnionToIntersection<
+  Exclude<
+    null extends Fields
+      ? DeepNullable<Model>
+      : Exclude<SelectFields<Model>, Fields> extends never
+      ? DeepPartial<Exclude<DeepNullable<Model>, null>>
+      : Fields extends SelectFields<Model>
+      ? DeepNullable<SearchPick<Model, Fields>>
+      : never,
+    null
+  >
+> extends infer U
+  ? U extends object
+    ? U
+    : never
+  : never;
+
+export type TSuggestResult<
+  Model extends object,
+  Fields extends SelectFields<Model> | null
+> = Exclude<DeepNullable<Model>, null> extends infer U
+  ? U extends object
+    ? UnionToIntersection<
+        Exclude<
+          null extends Fields
+            ? DeepPartial<U>
+            : Exclude<SelectFields<Model>, Fields> extends never
+            ? DeepPartial<U>
+            : Fields extends SelectFields<Model>
+            ? DeepNullable<SearchPick<Model, Fields>>
+            : never,
+          null
+        >
+      > extends infer U
+      ? U extends object
+        ? U
+        : never
+      : never
+    : never
+  : never;
