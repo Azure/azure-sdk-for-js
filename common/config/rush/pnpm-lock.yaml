@@ -1727,6 +1727,7 @@ packages:
   /@opentelemetry/api-metrics/0.33.0:
     resolution: {integrity: sha512-78evfPRRRnJA6uZ3xuBuS3VZlXTO/LRs+Ff1iv3O/7DgibCtq9k27T6Zlj8yRdJDFmcjcbQrvC0/CpDpWHaZYA==}
     engines: {node: '>=14'}
+    deprecated: Please use @opentelemetry/api >= 1.3.0
     dependencies:
       '@opentelemetry/api': 1.2.0
     dev: false
@@ -3890,7 +3891,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221110
+      typescript: 5.0.0-dev.20221113
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8838,8 +8839,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221110:
-    resolution: {integrity: sha512-2ErQCfMJ/il4ipW6NRIqJdQvJ84k8nafDIXGCpjaedCdnF/ejRmtHAhPuS5m54AKhRz/uc31LxzKpcSOxVuJHQ==}
+  /typescript/5.0.0-dev.20221113:
+    resolution: {integrity: sha512-iNVo0p5OwpkxLl3hzf7zLw5fjcQnrFIgHwPh2BZgZOofcaFNxj42SOhR/OoZMYSbqkkRFrOi1gzVcsgw6ehDFg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10039,7 +10040,7 @@ packages:
     dev: false
 
   file:projects/arm-advisor.tgz:
-    resolution: {integrity: sha512-xnexSrkxHEjQOevHW15YPdltHEkIQmh/lTrvWfM15/1g+sMjP3tM5YSKfj1p23/lNW2ko51DnQewx6meGWXC7Q==, tarball: file:projects/arm-advisor.tgz}
+    resolution: {integrity: sha512-v8TbBfh3Cd6ewFL8lt6++w0N3hZDNmvA2WlfJRWP0q6gm4kJCyZ9ir2tCI65cTpSC8iMp6+X6jrHKb7kdiK9sA==, tarball: file:projects/arm-advisor.tgz}
     name: '@rush-temp/arm-advisor'
     version: 0.0.0
     dependencies:
@@ -10050,23 +10051,24 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      '@types/node': 14.18.33
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
   file:projects/arm-agrifood.tgz:
-    resolution: {integrity: sha512-SRUhoa6EzJb8/EF6VQg5dy28StH5phW5eAE48D3XJR6x8G6TsUKjUH4hUVcbueAIdzvScPmnqXzRR9sorGQW/A==, tarball: file:projects/arm-agrifood.tgz}
+    resolution: {integrity: sha512-gVxo5i35p+KzXDAsQFlsfNFmw3I24n7K1pQDcvMJe5rkVTEE5KgjJkhE0WInzUcHLtI1oXOfC2fAZmY66jrIog==, tarball: file:projects/arm-agrifood.tgz}
     name: '@rush-temp/arm-agrifood'
     version: 0.0.0
     dependencies:
@@ -10077,23 +10079,23 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.3
+      '@types/node': 14.18.33
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
   file:projects/arm-analysisservices.tgz:
-    resolution: {integrity: sha512-Ldqb5ro4dQi4mV4SkHD0hnBJoQRpJLceJq9UqiZNfdYhbFigNt/KKJ4ib2q+nTV0Frngul18X3RVUBcNBbzrkA==, tarball: file:projects/arm-analysisservices.tgz}
+    resolution: {integrity: sha512-MvTQ9iEX+lWhzfM8ajtw92btkZvNUKv3Aqt54pHXh4Dc3/n9yUgX9PCiNry1mf8tMpemWN8tEanWVcihs3+rlg==, tarball: file:projects/arm-analysisservices.tgz}
     name: '@rush-temp/arm-analysisservices'
     version: 0.0.0
     dependencies:
@@ -10104,18 +10106,18 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.3
+      '@types/node': 14.18.33
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 

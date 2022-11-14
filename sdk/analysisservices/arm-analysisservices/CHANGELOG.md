@@ -1,14 +1,8 @@
 # Release History
 
-## 4.1.3 (Unreleased)
+## 4.1.3 (2022-11-14)
 
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+-  Bugs Fixed
 
 ## 4.1.2 (2022-10-08)
 
