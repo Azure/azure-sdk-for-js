@@ -23,5 +23,7 @@
   "git.ignoreLimitWarning": true,
   "cSpell.words": [
     "datalake"
-  ]
+  ],
+  "deno.enable": true,
+  "deno.unstable": true
 }
