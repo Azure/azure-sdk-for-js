@@ -62,6 +62,32 @@ function isOptionKeyMap(key: any): key is keyof PinOptions {
 /**
  * Create a default pin image query string for _get map static image_
  *
+ * @example
+ * ```ts
+ *
+ * const pins = createPinsQuery(
+ *  [
+ *    { coordinate: [52.577, 13.35], label: "Label start" },
+ *    { coordinate: [52.6, 13.2988], label: "Label end" },
+ *  ],
+ *  {
+ *    scale: 0.9,
+ *    pinColor: "FF0000",
+ *    labelColor: "0000FF",
+ *    labelSizeInPixels: 18,
+ *  }
+ * );
+ * const res = await client
+ *  .path("/map/static/{format}", "png")
+ *  .get({
+ *    queryParameters: {
+ *      bbox: [13.228, 52.4559, 13.5794, 52.62],
+ *      zoom: 10,
+ *      pins: [pins],
+ *    },
+ *  })
+ * ```
+ *
  * @param pins - An array of {@link Pin} that specify the positions and label text of each pin.
  * @param options - The style options of the pins. See {@link PinOptions}
  * @returns - The composed query string.
@@ -69,6 +95,33 @@ function isOptionKeyMap(key: any): key is keyof PinOptions {
 export function createPinsQuery(pins: Pin[], options?: PinOptions): string;
 /**
  * Create a pin query string for _get map static image_
+ *
+ * @example
+ * ```ts
+ *
+ * const pins = createPinsQuery(
+ *  [
+ *    { coordinate: [52.577, 13.35], label: "Label start" },
+ *    { coordinate: [52.6, 13.2988], label: "Label end" },
+ *  ],
+ *  "<image source url>"
+ *  {
+ *    scale: 0.9,
+ *    pinColor: "FF0000",
+ *    labelColor: "0000FF",
+ *    labelSizeInPixels: 18,
+ *  }
+ * );
+ * const res = await client
+ *  .path("/map/static/{format}", "png")
+ *  .get({
+ *    queryParameters: {
+ *      bbox: [13.228, 52.4559, 13.5794, 52.62],
+ *      zoom: 10,
+ *      pins: [pins],
+ *    },
+ *  })
+ * ```
  *
  * @param pins - An array of {@link Pin} that specify the positions and label text of each pin.
  * @param pinImage - Specify the image source for custom pin. Set this to "none" if you don't want to show a pin image.
