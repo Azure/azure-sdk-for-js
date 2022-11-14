@@ -1,0 +1,760 @@
+Found configuration in C:\Users\minhanhphan\Documents\GitHub\azure-sdk-for-js\rush.json
+
+[1mRush Multi-Project Build Tool 5.63.0[22m - Node.js 16.17.0 (LTS)
+> "dev-tool run test:node-ts-input -- --timeout 1200000 \"test/**/*.spec.ts\""
+
+[test-info] ===TEST_MODE="live"===
+[node-tests] 
+[node-tests] 
+[node-tests]   [APIKey] TextAnalysisClient
+[node-tests]     analyzeBatch
+[node-tests]       actions
+[node-tests]         prebuilt
+[node-tests] [{"kind":"EntityRecognition","results":[{"id":"0","warnings":[],"entities":[{"text":"14 inches","category":"Quantity","subCategory":"Dimension","offset":11,"length":9,"confidenceScore":0.8,"resolutions":[{"resolutionKind":"LengthResolution","value":14,"unit":"Inch"}]},{"text":"20 lbs","category":"Quantity","subCategory":"Dimension","offset":37,"length":6,"confidenceScore":0.8,"resolutions":[{"resolutionKind":"WeightResolution","value":20,"unit":"Pound"}]},{"text":"5 years old","category":"Quantity","subCategory":"Age","offset":51,"length":11,"confidenceScore":0.98,"resolutions":[{"resolutionKind":"AgeResolution","value":5,"unit":"Year"}]}]},{"id":"1","warnings":[],"entities":[{"text":"first","category":"Quantity","subCategory":"Ordinal","offset":12,"length":5,"confidenceScore":0.8,"resolutions":[{"resolutionKind":"OrdinalResolution","offset":"1","relativeTo":"Start","value":"1"}]},{"text":"aircraft","category":"Product","offset":18,"length":8,"confidenceScore":0.8},{"text":"1,300 meter per second","category":"Quantity","subCategory":"Dimension","offset":59,"length":22,"confidenceScore":0.8,"resolutions":[{"resolutionKind":"SpeedResolution","value":1300,"unit":"MeterPerSecond"}]},{"text":"65-80","category":"Quantity","subCategory":"NumberRange","offset":92,"length":5,"confidenceScore":0.85,"resolutions":[{"resolutionKind":"NumericRangeResolution","rangeKind":"Number","minimum":65,"maximum":80}]},{"text":"passengers","category":"PersonType","offset":98,"length":10,"confidenceScore":0.96}]},{"id":"2","warnings":[],"entities":[{"text":"apartment","category":"Location","offset":4,"length":9,"confidenceScore":0.81},{"text":"840 sqft","category":"Quantity","subCategory":"Dimension","offset":17,"length":8,"confidenceScore":0.8,"resolutions":[{"resolutionKind":"AreaResolution","value":840,"unit":"SquareFoot"}]},{"text":"2","category":"Quantity","subCategory":"Number","offset":38,"length":1,"confidenceScore":0.98,"resolutions":[{"resolutionKind":"NumberResolution","numberKind":"Integer","value":2}]},{"text":"bedrooms","category":"Location","offset":40,"length":8,"confidenceScore":0.66},{"text":"2,000 US dollars","category":"Quantity","subCategory":"Currency","offset":59,"length":16,"confidenceScore":0.99,"resolutions":[{"resolutionKind":"CurrencyResolution","value":2000,"unit":"United States dollar","iso4217":"USD"}]},{"text":"11/01/2022","category":"DateTime","subCategory":"Date","offset":111,"length":10,"confidenceScore":0.99,"resolutions":[{"resolutionKind":"DateTimeResolution","timex":"2022-11-01","dateTimeSubKind":"Date","value":"2022-11-01"}]}]},{"id":"3","warnings":[],"entities":[{"text":"1","category":"Quantity","subCategory":"Number","offset":4,"length":1,"confidenceScore":0.69,"resolutions":[{"resolutionKind":"NumberResolution","numberKind":"Integer","value":1}]},{"text":"1 cup","category":"Quantity","subCategory":"Dimension","offset":4,"length":5,"confidenceScore":0.8,"resolutions":[{"resolutionKind":"VolumeResolution","value":1,"unit":"Cup"}]},{"text":"sugar","category":"Product","offset":13,"length":5,"confidenceScore":0.92},{"text":"60 minutes","category":"DateTime","subCategory":"Duration","offset":43,"length":10,"confidenceScore":0.95,"resolutions":[{"resolutionKind":"TemporalSpanResolution","duration":"PT60M"}]},{"text":"oven","category":"Product","offset":60,"length":4,"confidenceScore":0.87},{"text":"350 degrees F","category":"Quantity","subCategory":"Temperature","offset":78,"length":13,"confidenceScore":0.8,"resolutions":[{"resolutionKind":"TemperatureResolution","value":350,"unit":"Fahrenheit"}]}]},{"id":"4","warnings":[],"entities":[{"text":"200 terabytes","category":"Quantity","subCategory":"Dimension","offset":15,"length":13,"confidenceScore":0.8,"resolutions":[{"resolutionKind":"InformationResolution","value":200,"unit":"Terabyte"}]},{"text":"between October 24th, 2022 and October 28th, 2022","category":"DateTime","subCategory":"DateRange","offset":37,"length":49,"confidenceScore":0.69,"resolutions":[{"resolutionKind":"TemporalSpanResolution","begin":"2022-10-24","end":"2022-10-28","duration":"P4D"}]}]}],"completedOn":"2022-11-14T21:13:51.403Z","modelVersion":"2022-10-01-preview"}]
+[node-tests]           1) entity recognition with resolution
+[node-tests] 
+[node-tests]   [AAD] TextAnalysisClient
+[node-tests]     analyzeBatch
+[node-tests]       actions
+[node-tests]         prebuilt
+[node-tests] [{"kind":"EntityRecognition","results":[{"id":"0","warnings":[],"entities":[{"text":"14 inches","category":"Quantity","subCategory":"Dimension","offset":11,"length":9,"confidenceScore":0.8,"resolutions":[{"resolutionKind":"LengthResolution","value":14,"unit":"Inch"}]},{"text":"20 lbs","category":"Quantity","subCategory":"Dimension","offset":37,"length":6,"confidenceScore":0.8,"resolutions":[{"resolutionKind":"WeightResolution","value":20,"unit":"Pound"}]},{"text":"5 years old","category":"Quantity","subCategory":"Age","offset":51,"length":11,"confidenceScore":0.98,"resolutions":[{"resolutionKind":"AgeResolution","value":5,"unit":"Year"}]}]},{"id":"1","warnings":[],"entities":[{"text":"first","category":"Quantity","subCategory":"Ordinal","offset":12,"length":5,"confidenceScore":0.8,"resolutions":[{"resolutionKind":"OrdinalResolution","offset":"1","relativeTo":"Start","value":"1"}]},{"text":"aircraft","category":"Product","offset":18,"length":8,"confidenceScore":0.8},{"text":"1,300 meter per second","category":"Quantity","subCategory":"Dimension","offset":59,"length":22,"confidenceScore":0.8,"resolutions":[{"resolutionKind":"SpeedResolution","value":1300,"unit":"MeterPerSecond"}]},{"text":"65-80","category":"Quantity","subCategory":"NumberRange","offset":92,"length":5,"confidenceScore":0.85,"resolutions":[{"resolutionKind":"NumericRangeResolution","rangeKind":"Number","minimum":65,"maximum":80}]},{"text":"passengers","category":"PersonType","offset":98,"length":10,"confidenceScore":0.96}]},{"id":"2","warnings":[],"entities":[{"text":"apartment","category":"Location","offset":4,"length":9,"confidenceScore":0.81},{"text":"840 sqft","category":"Quantity","subCategory":"Dimension","offset":17,"length":8,"confidenceScore":0.8,"resolutions":[{"resolutionKind":"AreaResolution","value":840,"unit":"SquareFoot"}]},{"text":"2","category":"Quantity","subCategory":"Number","offset":38,"length":1,"confidenceScore":0.98,"resolutions":[{"resolutionKind":"NumberResolution","numberKind":"Integer","value":2}]},{"text":"bedrooms","category":"Location","offset":40,"length":8,"confidenceScore":0.66},{"text":"2,000 US dollars","category":"Quantity","subCategory":"Currency","offset":59,"length":16,"confidenceScore":0.99,"resolutions":[{"resolutionKind":"CurrencyResolution","value":2000,"unit":"United States dollar","iso4217":"USD"}]},{"text":"11/01/2022","category":"DateTime","subCategory":"Date","offset":111,"length":10,"confidenceScore":0.99,"resolutions":[{"resolutionKind":"DateTimeResolution","timex":"2022-11-01","dateTimeSubKind":"Date","value":"2022-11-01"}]}]},{"id":"3","warnings":[],"entities":[{"text":"1","category":"Quantity","subCategory":"Number","offset":4,"length":1,"confidenceScore":0.69,"resolutions":[{"resolutionKind":"NumberResolution","numberKind":"Integer","value":1}]},{"text":"1 cup","category":"Quantity","subCategory":"Dimension","offset":4,"length":5,"confidenceScore":0.8,"resolutions":[{"resolutionKind":"VolumeResolution","value":1,"unit":"Cup"}]},{"text":"sugar","category":"Product","offset":13,"length":5,"confidenceScore":0.92},{"text":"60 minutes","category":"DateTime","subCategory":"Duration","offset":43,"length":10,"confidenceScore":0.95,"resolutions":[{"resolutionKind":"TemporalSpanResolution","duration":"PT60M"}]},{"text":"oven","category":"Product","offset":60,"length":4,"confidenceScore":0.87},{"text":"350 degrees F","category":"Quantity","subCategory":"Temperature","offset":78,"length":13,"confidenceScore":0.8,"resolutions":[{"resolutionKind":"TemperatureResolution","value":350,"unit":"Fahrenheit"}]}]},{"id":"4","warnings":[],"entities":[{"text":"200 terabytes","category":"Quantity","subCategory":"Dimension","offset":15,"length":13,"confidenceScore":0.8,"resolutions":[{"resolutionKind":"InformationResolution","value":200,"unit":"Terabyte"}]},{"text":"between October 24th, 2022 and October 28th, 2022","category":"DateTime","subCategory":"DateRange","offset":37,"length":49,"confidenceScore":0.69,"resolutions":[{"resolutionKind":"TemporalSpanResolution","begin":"2022-10-24","end":"2022-10-28","duration":"P4D"}]}]}],"completedOn":"2022-11-14T21:14:01.000Z","modelVersion":"2022-10-01-preview"}]
+[node-tests]           2) entity recognition with resolution
+[node-tests] 
+[node-tests] 
+[node-tests]   0 passing (16s)
+[node-tests]   2 failing
+[node-tests] 
+[node-tests]   1) [APIKey] TextAnalysisClient
+[node-tests]        analyzeBatch
+[node-tests]          actions
+[node-tests]            prebuilt
+[node-tests]              entity recognition with resolution:
+[node-tests] 
+[node-tests]       AssertionError: expected { results: [ { ...(3) }, ...(4) ], ...(1) } to deeply equal { kind: 'EntityRecognition', ...(1) }
+[node-tests]       + expected - actual
+[node-tests] 
+[node-tests]          "results": [
+[node-tests]            {
+[node-tests]              "entities": [
+[node-tests]                {
+[node-tests]       -          "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.8
+[node-tests]       -          "length": 9
+[node-tests]       -          "offset": 11
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "resolutionKind": "LengthResolution"
+[node-tests]       -              "unit": "Inch"
+[node-tests]       -              "value": 14
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Dimension"
+[node-tests]       -          "text": "14 inches"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.8
+[node-tests]       -          "length": 6
+[node-tests]       -          "offset": 37
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "resolutionKind": "WeightResolution"
+[node-tests]       -              "unit": "Pound"
+[node-tests]       -              "value": 20
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Dimension"
+[node-tests]       -          "text": "20 lbs"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.98
+[node-tests]       -          "length": 11
+[node-tests]       -          "offset": 51
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "resolutionKind": "AgeResolution"
+[node-tests]       -              "unit": "Year"
+[node-tests]       -              "value": 5
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Age"
+[node-tests]       -          "text": "5 years old"
+[node-tests]       -        }
+[node-tests]       -      ]
+[node-tests]       -      "id": "0"
+[node-tests]       -      "warnings": []
+[node-tests]       -    }
+[node-tests]       -    {
+[node-tests]       -      "entities": [
+[node-tests]       -        {
+[node-tests]       -          "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.8
+[node-tests]       -          "length": 5
+[node-tests]       -          "offset": 12
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "offset": "1"
+[node-tests]       -              "relativeTo": "Start"
+[node-tests]       -              "resolutionKind": "OrdinalResolution"
+[node-tests]       -              "value": "1"
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Ordinal"
+[node-tests]       -          "text": "first"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]                  "category": "Product"
+[node-tests]       -          "confidenceScore": 0.8
+[node-tests]       -          "length": 8
+[node-tests]       -          "offset": 18
+[node-tests]       -          "text": "aircraft"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.8
+[node-tests]       -          "length": 22
+[node-tests]       -          "offset": 59
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "resolutionKind": "SpeedResolution"
+[node-tests]       -              "unit": "MeterPerSecond"
+[node-tests]       -              "value": 1300
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Dimension"
+[node-tests]       -          "text": "1,300 meter per second"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.85
+[node-tests]       -          "length": 5
+[node-tests]       -          "offset": 92
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "maximum": 80
+[node-tests]       -              "minimum": 65
+[node-tests]       -              "rangeKind": "Number"
+[node-tests]       -              "resolutionKind": "NumericRangeResolution"
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "NumberRange"
+[node-tests]       -          "text": "65-80"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "PersonType"
+[node-tests]       -          "confidenceScore": 0.96
+[node-tests]       -          "length": 10
+[node-tests]       -          "offset": 98
+[node-tests]       -          "text": "passengers"
+[node-tests]       -        }
+[node-tests]       -      ]
+[node-tests]       -      "id": "1"
+[node-tests]       -      "warnings": []
+[node-tests]       -    }
+[node-tests]       -    {
+[node-tests]       -      "entities": [
+[node-tests]       -        {
+[node-tests]       -          "category": "Location"
+[node-tests]       -          "confidenceScore": 0.81
+[node-tests]       -          "length": 9
+[node-tests]       -          "offset": 4
+[node-tests]       -          "text": "apartment"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.8
+[node-tests]       -          "length": 8
+[node-tests]       +          "confidenceScore": 0.87
+[node-tests]       +          "length": 7
+[node-tests]                  "offset": 17
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "resolutionKind": "AreaResolution"
+[node-tests]       -              "unit": "SquareFoot"
+[node-tests]       -              "value": 840
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Dimension"
+[node-tests]       -          "text": "840 sqft"
+[node-tests]       +          "text": "sneaker"
+[node-tests]                }
+[node-tests]                {
+[node-tests]                  "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.98
+[node-tests]       -          "length": 1
+[node-tests]       -          "offset": 38
+[node-tests]       +          "confidenceScore": 1
+[node-tests]       +          "length": 7
+[node-tests]       +          "offset": 28
+[node-tests]                  "resolutions": [
+[node-tests]                    {
+[node-tests]       -              "numberKind": "Integer"
+[node-tests]       -              "resolutionKind": "NumberResolution"
+[node-tests]       -              "value": 2
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Number"
+[node-tests]       -          "text": "2"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "Location"
+[node-tests]       -          "confidenceScore": 0.66
+[node-tests]       -          "length": 8
+[node-tests]       -          "offset": 40
+[node-tests]       -          "text": "bedrooms"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.99
+[node-tests]       -          "length": 16
+[node-tests]       -          "offset": 59
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "iso4217": "USD"
+[node-tests]       +              "iso4217": "EUR"
+[node-tests]                      "resolutionKind": "CurrencyResolution"
+[node-tests]       -              "unit": "United States dollar"
+[node-tests]       -              "value": 2000
+[node-tests]       +              "unit": "Euro"
+[node-tests]       +              "value": 120
+[node-tests]                    }
+[node-tests]                  ]
+[node-tests]                  "subCategory": "Currency"
+[node-tests]       -          "text": "2,000 US dollars"
+[node-tests]       +          "text": "120 EUR"
+[node-tests]                }
+[node-tests]       -        {
+[node-tests]       -          "category": "DateTime"
+[node-tests]       -          "confidenceScore": 0.99
+[node-tests]       -          "length": 10
+[node-tests]       -          "offset": 111
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "dateTimeSubKind": "Date"
+[node-tests]       -              "resolutionKind": "DateTimeResolution"
+[node-tests]       -              "timex": "2022-11-01"
+[node-tests]       -              "value": "2022-11-01"
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Date"
+[node-tests]       -          "text": "11/01/2022"
+[node-tests]       -        }
+[node-tests]              ]
+[node-tests]       -      "id": "2"
+[node-tests]       +      "id": "0"
+[node-tests]              "warnings": []
+[node-tests]            }
+[node-tests]            {
+[node-tests]              "entities": [
+[node-tests]                {
+[node-tests]       -          "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.69
+[node-tests]       -          "length": 1
+[node-tests]       -          "offset": 4
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "numberKind": "Integer"
+[node-tests]       -              "resolutionKind": "NumberResolution"
+[node-tests]       -              "value": 1
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Number"
+[node-tests]       -          "text": "1"
+[node-tests]       +          "category": "Person"
+[node-tests]       +          "confidenceScore": 0.98
+[node-tests]       +          "length": 10
+[node-tests]       +          "offset": 0
+[node-tests]       +          "text": "Bill Gates"
+[node-tests]                }
+[node-tests]                {
+[node-tests]                  "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.8
+[node-tests]       -          "length": 5
+[node-tests]       -          "offset": 4
+[node-tests]       +          "confidenceScore": 0.96
+[node-tests]       +          "length": 12
+[node-tests]       +          "offset": 14
+[node-tests]                  "resolutions": [
+[node-tests]                    {
+[node-tests]       -              "resolutionKind": "VolumeResolution"
+[node-tests]       -              "unit": "Cup"
+[node-tests]       -              "value": 1
+[node-tests]       +              "resolutionKind": "AgeResolution"
+[node-tests]       +              "unit": "Year"
+[node-tests]       +              "value": 66
+[node-tests]                    }
+[node-tests]                  ]
+[node-tests]       -          "subCategory": "Dimension"
+[node-tests]       -          "text": "1 cup"
+[node-tests]       +          "subCategory": "Age"
+[node-tests]       +          "text": "66 years old"
+[node-tests]                }
+[node-tests]                {
+[node-tests]       -          "category": "Product"
+[node-tests]       -          "confidenceScore": 0.92
+[node-tests]       -          "length": 5
+[node-tests]       -          "offset": 13
+[node-tests]       -          "text": "sugar"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]                  "category": "DateTime"
+[node-tests]       -          "confidenceScore": 0.95
+[node-tests]       -          "length": 10
+[node-tests]       -          "offset": 43
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "duration": "PT60M"
+[node-tests]       -              "resolutionKind": "TemporalSpanResolution"
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Duration"
+[node-tests]       -          "text": "60 minutes"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "Product"
+[node-tests]       -          "confidenceScore": 0.87
+[node-tests]       +          "confidenceScore": 0.97
+[node-tests]                  "length": 4
+[node-tests]       -          "offset": 60
+[node-tests]       -          "text": "oven"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.8
+[node-tests]       -          "length": 13
+[node-tests]       -          "offset": 78
+[node-tests]       +          "offset": 30
+[node-tests]                  "resolutions": [
+[node-tests]                    {
+[node-tests]       -              "resolutionKind": "TemperatureResolution"
+[node-tests]       -              "unit": "Fahrenheit"
+[node-tests]       -              "value": 350
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Temperature"
+[node-tests]       -          "text": "350 degrees F"
+[node-tests]       -        }
+[node-tests]       -      ]
+[node-tests]       -      "id": "3"
+[node-tests]       -      "warnings": []
+[node-tests]       -    }
+[node-tests]       -    {
+[node-tests]       -      "entities": [
+[node-tests]       -        {
+[node-tests]       -          "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.8
+[node-tests]       -          "length": 13
+[node-tests]       -          "offset": 15
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "resolutionKind": "InformationResolution"
+[node-tests]       -              "unit": "Terabyte"
+[node-tests]       -              "value": 200
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Dimension"
+[node-tests]       -          "text": "200 terabytes"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "DateTime"
+[node-tests]       -          "confidenceScore": 0.69
+[node-tests]       -          "length": 49
+[node-tests]       -          "offset": 37
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "begin": "2022-10-24"
+[node-tests]       -              "duration": "P4D"
+[node-tests]       -              "end": "2022-10-28"
+[node-tests]       +              "begin": "2022-01-01"
+[node-tests]       +              "end": "2023-01-01"
+[node-tests]                      "resolutionKind": "TemporalSpanResolution"
+[node-tests]                    }
+[node-tests]                  ]
+[node-tests]                  "subCategory": "DateRange"
+[node-tests]       -          "text": "between October 24th, 2022 and October 28th, 2022"
+[node-tests]       +          "text": "2022"
+[node-tests]                }
+[node-tests]              ]
+[node-tests]       -      "id": "4"
+[node-tests]       +      "id": "1"
+[node-tests]              "warnings": []
+[node-tests]            }
+[node-tests]          ]
+[node-tests]        }
+[node-tests]       
+[node-tests]       at Function.<anonymous> (C:\Users\minhanhphan\Documents\GitHub\azure-sdk-for-js\common\temp\node_modules\.pnpm\chai-exclude@2.1.0_chai@4.3.6\node_modules\chai-exclude\chai-exclude.js:142:66)
+[node-tests]       at Function.methodWrapper (C:\Users\minhanhphan\Documents\GitHub\azure-sdk-for-js\common\temp\node_modules\.pnpm\chai@4.3.6\node_modules\chai\lib\chai\utils\addMethod.js:57:25)
+[node-tests]       at assertActionsResults (C:\Users\minhanhphan\Documents\GitHub\azure-sdk-for-js\sdk\cognitivelanguage\ai-language-text\test\public\utils\resultHelper.ts:15:24)
+[node-tests]       at processTicksAndRejections (node:internal/process/task_queues:96:5)
+[node-tests]       at async Context.<anonymous> (C:\Users\minhanhphan\Documents\GitHub\azure-sdk-for-js\sdk\cognitivelanguage\ai-language-text\test\public\analyzeBatch.spec.ts:77:25)
+[node-tests] 
+[node-tests]   2) [AAD] TextAnalysisClient
+[node-tests]        analyzeBatch
+[node-tests]          actions
+[node-tests]            prebuilt
+[node-tests]              entity recognition with resolution:
+[node-tests] 
+[node-tests]       AssertionError: expected { results: [ { ...(3) }, ...(4) ], ...(1) } to deeply equal { kind: 'EntityRecognition', ...(1) }
+[node-tests]       + expected - actual
+[node-tests] 
+[node-tests]          "results": [
+[node-tests]            {
+[node-tests]              "entities": [
+[node-tests]                {
+[node-tests]       -          "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.8
+[node-tests]       -          "length": 9
+[node-tests]       -          "offset": 11
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "resolutionKind": "LengthResolution"
+[node-tests]       -              "unit": "Inch"
+[node-tests]       -              "value": 14
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Dimension"
+[node-tests]       -          "text": "14 inches"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.8
+[node-tests]       -          "length": 6
+[node-tests]       -          "offset": 37
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "resolutionKind": "WeightResolution"
+[node-tests]       -              "unit": "Pound"
+[node-tests]       -              "value": 20
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Dimension"
+[node-tests]       -          "text": "20 lbs"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.98
+[node-tests]       -          "length": 11
+[node-tests]       -          "offset": 51
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "resolutionKind": "AgeResolution"
+[node-tests]       -              "unit": "Year"
+[node-tests]       -              "value": 5
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Age"
+[node-tests]       -          "text": "5 years old"
+[node-tests]       -        }
+[node-tests]       -      ]
+[node-tests]       -      "id": "0"
+[node-tests]       -      "warnings": []
+[node-tests]       -    }
+[node-tests]       -    {
+[node-tests]       -      "entities": [
+[node-tests]       -        {
+[node-tests]       -          "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.8
+[node-tests]       -          "length": 5
+[node-tests]       -          "offset": 12
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "offset": "1"
+[node-tests]       -              "relativeTo": "Start"
+[node-tests]       -              "resolutionKind": "OrdinalResolution"
+[node-tests]       -              "value": "1"
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Ordinal"
+[node-tests]       -          "text": "first"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]                  "category": "Product"
+[node-tests]       -          "confidenceScore": 0.8
+[node-tests]       -          "length": 8
+[node-tests]       -          "offset": 18
+[node-tests]       -          "text": "aircraft"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.8
+[node-tests]       -          "length": 22
+[node-tests]       -          "offset": 59
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "resolutionKind": "SpeedResolution"
+[node-tests]       -              "unit": "MeterPerSecond"
+[node-tests]       -              "value": 1300
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Dimension"
+[node-tests]       -          "text": "1,300 meter per second"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.85
+[node-tests]       -          "length": 5
+[node-tests]       -          "offset": 92
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "maximum": 80
+[node-tests]       -              "minimum": 65
+[node-tests]       -              "rangeKind": "Number"
+[node-tests]       -              "resolutionKind": "NumericRangeResolution"
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "NumberRange"
+[node-tests]       -          "text": "65-80"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "PersonType"
+[node-tests]       -          "confidenceScore": 0.96
+[node-tests]       -          "length": 10
+[node-tests]       -          "offset": 98
+[node-tests]       -          "text": "passengers"
+[node-tests]       -        }
+[node-tests]       -      ]
+[node-tests]       -      "id": "1"
+[node-tests]       -      "warnings": []
+[node-tests]       -    }
+[node-tests]       -    {
+[node-tests]       -      "entities": [
+[node-tests]       -        {
+[node-tests]       -          "category": "Location"
+[node-tests]       -          "confidenceScore": 0.81
+[node-tests]       -          "length": 9
+[node-tests]       -          "offset": 4
+[node-tests]       -          "text": "apartment"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.8
+[node-tests]       -          "length": 8
+[node-tests]       +          "confidenceScore": 0.87
+[node-tests]       +          "length": 7
+[node-tests]                  "offset": 17
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "resolutionKind": "AreaResolution"
+[node-tests]       -              "unit": "SquareFoot"
+[node-tests]       -              "value": 840
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Dimension"
+[node-tests]       -          "text": "840 sqft"
+[node-tests]       +          "text": "sneaker"
+[node-tests]                }
+[node-tests]                {
+[node-tests]                  "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.98
+[node-tests]       -          "length": 1
+[node-tests]       -          "offset": 38
+[node-tests]       +          "confidenceScore": 1
+[node-tests]       +          "length": 7
+[node-tests]       +          "offset": 28
+[node-tests]                  "resolutions": [
+[node-tests]                    {
+[node-tests]       -              "numberKind": "Integer"
+[node-tests]       -              "resolutionKind": "NumberResolution"
+[node-tests]       -              "value": 2
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Number"
+[node-tests]       -          "text": "2"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "Location"
+[node-tests]       -          "confidenceScore": 0.66
+[node-tests]       -          "length": 8
+[node-tests]       -          "offset": 40
+[node-tests]       -          "text": "bedrooms"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.99
+[node-tests]       -          "length": 16
+[node-tests]       -          "offset": 59
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "iso4217": "USD"
+[node-tests]       +              "iso4217": "EUR"
+[node-tests]                      "resolutionKind": "CurrencyResolution"
+[node-tests]       -              "unit": "United States dollar"
+[node-tests]       -              "value": 2000
+[node-tests]       +              "unit": "Euro"
+[node-tests]       +              "value": 120
+[node-tests]                    }
+[node-tests]                  ]
+[node-tests]                  "subCategory": "Currency"
+[node-tests]       -          "text": "2,000 US dollars"
+[node-tests]       +          "text": "120 EUR"
+[node-tests]                }
+[node-tests]       -        {
+[node-tests]       -          "category": "DateTime"
+[node-tests]       -          "confidenceScore": 0.99
+[node-tests]       -          "length": 10
+[node-tests]       -          "offset": 111
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "dateTimeSubKind": "Date"
+[node-tests]       -              "resolutionKind": "DateTimeResolution"
+[node-tests]       -              "timex": "2022-11-01"
+[node-tests]       -              "value": "2022-11-01"
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Date"
+[node-tests]       -          "text": "11/01/2022"
+[node-tests]       -        }
+[node-tests]              ]
+[node-tests]       -      "id": "2"
+[node-tests]       +      "id": "0"
+[node-tests]              "warnings": []
+[node-tests]            }
+[node-tests]            {
+[node-tests]              "entities": [
+[node-tests]                {
+[node-tests]       -          "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.69
+[node-tests]       -          "length": 1
+[node-tests]       -          "offset": 4
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "numberKind": "Integer"
+[node-tests]       -              "resolutionKind": "NumberResolution"
+[node-tests]       -              "value": 1
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Number"
+[node-tests]       -          "text": "1"
+[node-tests]       +          "category": "Person"
+[node-tests]       +          "confidenceScore": 0.98
+[node-tests]       +          "length": 10
+[node-tests]       +          "offset": 0
+[node-tests]       +          "text": "Bill Gates"
+[node-tests]                }
+[node-tests]                {
+[node-tests]                  "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.8
+[node-tests]       -          "length": 5
+[node-tests]       -          "offset": 4
+[node-tests]       +          "confidenceScore": 0.96
+[node-tests]       +          "length": 12
+[node-tests]       +          "offset": 14
+[node-tests]                  "resolutions": [
+[node-tests]                    {
+[node-tests]       -              "resolutionKind": "VolumeResolution"
+[node-tests]       -              "unit": "Cup"
+[node-tests]       -              "value": 1
+[node-tests]       +              "resolutionKind": "AgeResolution"
+[node-tests]       +              "unit": "Year"
+[node-tests]       +              "value": 66
+[node-tests]                    }
+[node-tests]                  ]
+[node-tests]       -          "subCategory": "Dimension"
+[node-tests]       -          "text": "1 cup"
+[node-tests]       +          "subCategory": "Age"
+[node-tests]       +          "text": "66 years old"
+[node-tests]                }
+[node-tests]                {
+[node-tests]       -          "category": "Product"
+[node-tests]       -          "confidenceScore": 0.92
+[node-tests]       -          "length": 5
+[node-tests]       -          "offset": 13
+[node-tests]       -          "text": "sugar"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]                  "category": "DateTime"
+[node-tests]       -          "confidenceScore": 0.95
+[node-tests]       -          "length": 10
+[node-tests]       -          "offset": 43
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "duration": "PT60M"
+[node-tests]       -              "resolutionKind": "TemporalSpanResolution"
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Duration"
+[node-tests]       -          "text": "60 minutes"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "Product"
+[node-tests]       -          "confidenceScore": 0.87
+[node-tests]       +          "confidenceScore": 0.97
+[node-tests]                  "length": 4
+[node-tests]       -          "offset": 60
+[node-tests]       -          "text": "oven"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.8
+[node-tests]       -          "length": 13
+[node-tests]       -          "offset": 78
+[node-tests]       +          "offset": 30
+[node-tests]                  "resolutions": [
+[node-tests]                    {
+[node-tests]       -              "resolutionKind": "TemperatureResolution"
+[node-tests]       -              "unit": "Fahrenheit"
+[node-tests]       -              "value": 350
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Temperature"
+[node-tests]       -          "text": "350 degrees F"
+[node-tests]       -        }
+[node-tests]       -      ]
+[node-tests]       -      "id": "3"
+[node-tests]       -      "warnings": []
+[node-tests]       -    }
+[node-tests]       -    {
+[node-tests]       -      "entities": [
+[node-tests]       -        {
+[node-tests]       -          "category": "Quantity"
+[node-tests]       -          "confidenceScore": 0.8
+[node-tests]       -          "length": 13
+[node-tests]       -          "offset": 15
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "resolutionKind": "InformationResolution"
+[node-tests]       -              "unit": "Terabyte"
+[node-tests]       -              "value": 200
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Dimension"
+[node-tests]       -          "text": "200 terabytes"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "DateTime"
+[node-tests]       -          "confidenceScore": 0.69
+[node-tests]       -          "length": 49
+[node-tests]       -          "offset": 37
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "begin": "2022-10-24"
+[node-tests]       -              "duration": "P4D"
+[node-tests]       -              "end": "2022-10-28"
+[node-tests]       +              "begin": "2022-01-01"
+[node-tests]       +              "end": "2023-01-01"
+[node-tests]                      "resolutionKind": "TemporalSpanResolution"
+[node-tests]                    }
+[node-tests]                  ]
+[node-tests]                  "subCategory": "DateRange"
+[node-tests]       -          "text": "between October 24th, 2022 and October 28th, 2022"
+[node-tests]       +          "text": "2022"
+[node-tests]                }
+[node-tests]              ]
+[node-tests]       -      "id": "4"
+[node-tests]       +      "id": "1"
+[node-tests]              "warnings": []
+[node-tests]            }
+[node-tests]          ]
+[node-tests]        }
+[node-tests]       
+[node-tests]       at Function.<anonymous> (C:\Users\minhanhphan\Documents\GitHub\azure-sdk-for-js\common\temp\node_modules\.pnpm\chai-exclude@2.1.0_chai@4.3.6\node_modules\chai-exclude\chai-exclude.js:142:66)
+[node-tests]       at Function.methodWrapper (C:\Users\minhanhphan\Documents\GitHub\azure-sdk-for-js\common\temp\node_modules\.pnpm\chai@4.3.6\node_modules\chai\lib\chai\utils\addMethod.js:57:25)
+[node-tests]       at assertActionsResults (C:\Users\minhanhphan\Documents\GitHub\azure-sdk-for-js\sdk\cognitivelanguage\ai-language-text\test\public\utils\resultHelper.ts:15:24)
+[node-tests]       at processTicksAndRejections (node:internal/process/task_queues:96:5)
+[node-tests]       at async Context.<anonymous> (C:\Users\minhanhphan\Documents\GitHub\azure-sdk-for-js\sdk\cognitivelanguage\ai-language-text\test\public\analyzeBatch.spec.ts:77:25)
+[node-tests] 
+[node-tests] 
+[node-tests] 
+[node-tests] mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace --timeout 1200000 "test/**/*.spec.ts" exited with code 2
+[31mThe script failed with exit code 1[39m
