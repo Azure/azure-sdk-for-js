@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureKeyCredential } from "@azure/core-auth";
-import { createWriteStream } from "fs";
-import MapsRender, { positionToTileXY } from "@azure-rest/maps-render";
+const { AzureKeyCredential } = require("@azure/core-auth");
+const MapsRender = require("@azure-rest/maps-render").default,
+  { positionToTileXY } = require("@azure-rest/maps-render");
 
 /**
- * @summary How to get the map tile and store it as a file in Node.js.
+ * @summary How to get the map tile and render on the browser.
  */
 async function main() {
   /**
@@ -41,12 +41,32 @@ async function main() {
         y,
       },
     })
-    .asNodeStream();
+    .asBrowserStream();
 
-  if (!response.body) {
-    throw Error("No response body");
-  }
-  response.body.pipe(createWriteStream("tile.png"));
+  if (!response.body) throw Error("No response body");
+
+  /**
+   * Create a blob to host the response stream, so we can feed the blob to an image object.
+   * Reference: https://developer.mozilla.org/en-US/docs/Web/API/Streams_API/Using_readable_streams#reading_the_stream
+   */
+  const reader = response.body.getReader();
+  const stream = new ReadableStream({
+    async start(controller) {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+          break;
+        }
+        controller.enqueue(value);
+      }
+      controller.close();
+      reader.releaseLock();
+    },
+  });
+  const blob = await new Response(stream).blob();
+  // Create a new Image object and feed the blob URL to it.
+  const image = new Image();
+  image.src = URL.createObjectURL(blob);
 }
 
 main().catch((err) => {

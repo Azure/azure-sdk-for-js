@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureKeyCredential } from "@azure/core-auth";
-import { createWriteStream } from "fs";
-import MapsRender, { positionToTileXY } from "@azure-rest/maps-render";
+const { AzureKeyCredential } = require("@azure/core-auth");
+const { createWriteStream } = require("fs");
+const MapsRender = require("@azure-rest/maps-render").default,
+  { positionToTileXY } = require("@azure-rest/maps-render");
 
 /**
  * @summary How to get the map tile and store it as a file in Node.js.

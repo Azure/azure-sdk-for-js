@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureKeyCredential } from "@azure/core-auth";
-import { isUnexpected } from "../src/generated";
-import MapsRender from "../src/mapsRender";
+const { AzureKeyCredential } = require("@azure/core-auth");
+const { isUnexpected } = require("../src/generated");
+const MapsRender = require("../src/mapsRender").default;
 
 /**
  * @summary How to get the copyright attribution of a certain tileset.

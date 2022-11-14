@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureKeyCredential } from "@azure/core-auth";
-import { isUnexpected } from "../src/generated";
-import MapsRender from "../src/mapsRender";
+const { positionToTileXY } = require("@azure-rest/maps-render");
+const { AzureKeyCredential } = require("@azure/core-auth");
+const { isUnexpected } = require("../src/generated");
+const MapsRender = require("../src/mapsRender").default;
 
 /**
- * @summary How to get the metadata of a certain tileset.
+ * @summary How to get the copyright of a certain tile.
  */
 async function main() {
   /**
@@ -29,9 +30,17 @@ async function main() {
   // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
   // const client = MapsRender(credential, mapsClientId);
 
-  const response = await client.path("/map/tileset").get({
+  const zoom = 10;
+  const tileSize = "512";
+  const tileIndex = positionToTileXY([47.6101, -122.34255], zoom, tileSize);
+
+  const response = await client.path("/map/copyright/tile/{format}", "json").get({
     queryParameters: {
-      tilesetId: "microsoft.base",
+      zoom,
+      x: tileIndex.x,
+      y: tileIndex.y,
+      /** Optional, default to yes. If set to no, the textual data (generalCopyrights, copyrights under regions) won't present. */
+      text: "yes",
     },
   });
 
@@ -39,12 +48,16 @@ async function main() {
     throw response.body.error;
   }
 
-  console.log("The metadata of Microsoft Base tileset: ");
-  const { maxzoom, minzoom, bounds = [] } = response.body;
-  console.log(`The zoom range started from ${minzoom} to ${maxzoom}`);
-  console.log(
-    `The left bound is ${bounds[0]}, bottom bound is ${bounds[1]}, right bound is ${bounds[2]}, and top bound is ${bounds[3]}`
-  );
+  console.log("General copyrights:");
+  console.log(response.body.generalCopyrights && response.body.generalCopyrights.join("\n"));
+
+  console.log("Copyright by regions");
+  response.body.regions &&
+    response.body.regions.forEach(({ country, copyrights }) => {
+      console.log(`${country.ISO3}, ${country.label}: `);
+      console.log(copyrights.join("\n"));
+      console.log("==========");
+    });
 }
 
 main().catch((err) => {

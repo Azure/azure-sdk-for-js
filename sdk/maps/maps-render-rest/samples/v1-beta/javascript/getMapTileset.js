@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureKeyCredential } from "@azure/core-auth";
-import { createWriteStream } from "fs";
-import MapsRender, { positionToTileXY } from "@azure-rest/maps-render";
+const { AzureKeyCredential } = require("@azure/core-auth");
+const { isUnexpected } = require("../src/generated");
+const MapsRender = require("../src/mapsRender").default;
 
 /**
- * @summary How to get the map tile and store it as a file in Node.js.
+ * @summary How to get the metadata of a certain tileset.
  */
 async function main() {
   /**
@@ -29,24 +29,22 @@ async function main() {
   // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
   // const client = MapsRender(credential, mapsClientId);
 
-  const zoom = 6;
-  const { x, y } = positionToTileXY([47.61559, -122.33817], 6, "256");
-  const response = await client
-    .path("/map/tile")
-    .get({
-      queryParameters: {
-        tilesetId: "microsoft.base.road",
-        zoom,
-        x,
-        y,
-      },
-    })
-    .asNodeStream();
+  const response = await client.path("/map/tileset").get({
+    queryParameters: {
+      tilesetId: "microsoft.base",
+    },
+  });
 
-  if (!response.body) {
-    throw Error("No response body");
+  if (isUnexpected(response)) {
+    throw response.body.error;
   }
-  response.body.pipe(createWriteStream("tile.png"));
+
+  console.log("The metadata of Microsoft Base tileset: ");
+  const { maxzoom, minzoom, bounds = [] } = response.body;
+  console.log(`The zoom range started from ${minzoom} to ${maxzoom}`);
+  console.log(
+    `The left bound is ${bounds[0]}, bottom bound is ${bounds[1]}, right bound is ${bounds[2]}, and top bound is ${bounds[3]}`
+  );
 }
 
 main().catch((err) => {

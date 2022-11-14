@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureKeyCredential } from "@azure/core-auth";
-import { createWriteStream } from "fs";
-import MapsRender, { positionToTileXY } from "@azure-rest/maps-render";
+const { AzureKeyCredential } = require("@azure/core-auth");
+const { isUnexpected } = require("../src/generated");
+const MapsRender = require("../src/mapsRender").default;
 
 /**
- * @summary How to get the map tile and store it as a file in Node.js.
+ * @summary How to get the copyright caption.
  */
 async function main() {
   /**
@@ -29,24 +29,12 @@ async function main() {
   // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
   // const client = MapsRender(credential, mapsClientId);
 
-  const zoom = 6;
-  const { x, y } = positionToTileXY([47.61559, -122.33817], 6, "256");
-  const response = await client
-    .path("/map/tile")
-    .get({
-      queryParameters: {
-        tilesetId: "microsoft.base.road",
-        zoom,
-        x,
-        y,
-      },
-    })
-    .asNodeStream();
+  const response = await client.path("/map/copyright/caption/{format}", "json").get();
 
-  if (!response.body) {
-    throw Error("No response body");
+  if (isUnexpected(response)) {
+    throw response.body.error;
   }
-  response.body.pipe(createWriteStream("tile.png"));
+  console.log(response.body.copyrightsCaption);
 }
 
 main().catch((err) => {

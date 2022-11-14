@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureKeyCredential } from "@azure/core-auth";
-import { createWriteStream } from "fs";
-import MapsRender, { positionToTileXY } from "@azure-rest/maps-render";
+const { AzureKeyCredential } = require("@azure/core-auth");
+const { isUnexpected } = require("../src/generated");
+const MapsRender = require("../src/mapsRender").default;
 
 /**
- * @summary How to get the map tile and store it as a file in Node.js.
+ * @summary How to get the copyright of tiles in a given bounding box.
  */
 async function main() {
   /**
@@ -29,24 +29,29 @@ async function main() {
   // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
   // const client = MapsRender(credential, mapsClientId);
 
-  const zoom = 6;
-  const { x, y } = positionToTileXY([47.61559, -122.33817], 6, "256");
-  const response = await client
-    .path("/map/tile")
-    .get({
-      queryParameters: {
-        tilesetId: "microsoft.base.road",
-        zoom,
-        x,
-        y,
-      },
-    })
-    .asNodeStream();
+  const response = await client.path("/map/copyright/bounding/{format}", "json").get({
+    queryParameters: {
+      mincoordinates: [52.41064, 4.84228],
+      maxcoordinates: [52.41072, 4.84239],
+      /** Optional, default to yes. If set to no, the textual data (generalCopyrights, copyrights under regions) won't present. */
+      text: "yes",
+    },
+  });
 
-  if (!response.body) {
-    throw Error("No response body");
+  if (isUnexpected(response)) {
+    throw response.body.error;
   }
-  response.body.pipe(createWriteStream("tile.png"));
+
+  console.log("General copyrights:");
+  console.log(response.body.generalCopyrights && response.body.generalCopyrights.join("\n"));
+
+  console.log("Copyright by regions");
+  response.body.regions &&
+    response.body.regions.forEach(({ country, copyrights }) => {
+      console.log(`${country.ISO3}, ${country.label}: `);
+      console.log(copyrights.join("\n"));
+      console.log("==========");
+    });
 }
 
 main().catch((err) => {
