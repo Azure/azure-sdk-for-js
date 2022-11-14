@@ -4,6 +4,7 @@ import { multicoreUtils, WorkerData, WorkerMulticoreUtils } from "./multicore";
 import { PerfTestBase, PerfTestConstructor } from "./perfTestBase";
 import { PerfProgram } from "./program";
 import { DefaultPerfOptions, ParsedPerfOptions } from "./options";
+import { runWithCpuProfile } from "./utils/profiling";
 
 export class WorkerPerfProgram implements PerfProgram {
   private testClass: PerfTestConstructor;
@@ -83,7 +84,9 @@ export class WorkerPerfProgram implements PerfProgram {
 
     for (let iteration = 0; iteration < this.options.iterations.value!; ++iteration) {
       await enterStage("test");
-      await this.runTests(this.options.duration.value!);
+      await runWithCpuProfile(async () => {
+        await this.runTests(this.options.duration.value!);
+      });
       await exitStage("test");
     }
 

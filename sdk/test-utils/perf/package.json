@@ -73,6 +73,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@types/node": "^14.0.0",
     "@types/node-fetch": "^2.5.0",
+    "@types/util.promisify": "1.0.4",
     "eslint": "^8.0.0",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
