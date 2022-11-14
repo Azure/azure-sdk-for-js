@@ -10,6 +10,7 @@ trigger:
     include:
       - sdk/loadtestservice/ci.mgmt.yml
       - sdk/loadtestservice/arm-loadtestservice
+      - sdk/loadtestservice/arm-loadtesting
 pr:
   branches:
     include:
@@ -23,6 +24,7 @@ pr:
     include:
       - sdk/loadtestservice/ci.mgmt.yml
       - sdk/loadtestservice/arm-loadtestservice
+      - sdk/loadtestservice/arm-loadtesting
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -30,3 +32,5 @@ extends:
     Artifacts:
       - name: azure-arm-loadtestservice
         safeName: azurearmloadtestservice
+      - name: azure-arm-loadtesting
+        safeName: azurearmloadtesting
