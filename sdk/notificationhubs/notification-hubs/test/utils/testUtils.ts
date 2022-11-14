@@ -8,7 +8,10 @@ dotenv.config();
 declare const self: any;
 
 export const isNode =
-  !!globalThis.process && !!globalThis.process.version && !!globalThis.process.versions && !!globalThis.process.versions.node;
+  !!globalThis.process &&
+  !!globalThis.process.version &&
+  !!globalThis.process.versions &&
+  !!globalThis.process.versions.node;
 
 export enum EnvVarKeys {
   NOTIFICATIONHUBS_CONNECTION_STRING = "NOTIFICATIONHUBS_CONNECTION_STRING",
@@ -42,12 +45,15 @@ export function getEnvVars(): Omit<{ [key in EnvVarKeys]: any }, EnvVarKeys.TEST
     injectEnvironmentVariables({
       [EnvVarKeys.NOTIFICATIONHUBS_CONNECTION_STRING]: `Endpoint=sb://localhost/;SharedAccessKeyName=Foo;SharedAccessKey=Bar`,
       [EnvVarKeys.NOTIFICATION_HUB_NAME]: "mock-hub",
-      [EnvVarKeys.APNS_DEVICE_TOKEN]: "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0",
+      [EnvVarKeys.APNS_DEVICE_TOKEN]:
+        "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0",
     });
   }
 
   return {
-    [EnvVarKeys.NOTIFICATIONHUBS_CONNECTION_STRING]: getEnvVarValue(EnvVarKeys.NOTIFICATIONHUBS_CONNECTION_STRING),
+    [EnvVarKeys.NOTIFICATIONHUBS_CONNECTION_STRING]: getEnvVarValue(
+      EnvVarKeys.NOTIFICATIONHUBS_CONNECTION_STRING
+    ),
     [EnvVarKeys.NOTIFICATION_HUB_NAME]: getEnvVarValue(EnvVarKeys.NOTIFICATION_HUB_NAME),
     [EnvVarKeys.APNS_DEVICE_TOKEN]: getEnvVarValue(EnvVarKeys.APNS_DEVICE_TOKEN),
   };
