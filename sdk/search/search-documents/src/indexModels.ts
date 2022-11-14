@@ -831,14 +831,14 @@ export type TResult<
 export type TSuggestResult<
   Model extends object,
   Fields extends SelectFields<Model> | null
-> = Exclude<DeepNullable<Model>, null> extends infer U
-  ? U extends object
+> = Exclude<DeepNullable<Model>, null> extends infer T
+  ? T extends object
     ? UnionToIntersection<
         Exclude<
           null extends Fields
-            ? DeepPartial<U>
+            ? DeepPartial<T>
             : Exclude<SelectFields<Model>, Fields> extends never
-            ? DeepPartial<U>
+            ? DeepPartial<T>
             : Fields extends SelectFields<Model>
             ? DeepNullable<SearchPick<Model, Fields>>
             : never,
