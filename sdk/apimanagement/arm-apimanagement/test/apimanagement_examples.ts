@@ -108,6 +108,61 @@ describe("Apimanagement test", () => {
     }
   }).timeout(3600000);
 
+
+  it("backend create test1", async function () {
+    const result = await client.backend.createOrUpdate(
+      resourceGroupName,
+      serviceName,
+      "sfbackend1",
+      {
+        description: "Service Fabric Test App 1",
+        url: "https://backendname26441",
+        protocol: "http"
+      },
+    );
+  })
+
+  it("backend create test2", async function () {
+    const result = await client.backend.createOrUpdate(
+      resourceGroupName,
+      serviceName,
+      "sfbackend2",
+      {
+        description: "Service Fabric Test App 1",
+        url: "https://backendname26442",
+        protocol: "http"
+      },
+    );
+  })
+
+  it("backend list test", async function () {
+    const resArray = new Array();
+    for await (let item of client.backend.listByService(resourceGroupName, serviceName, { top: 1 })) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 2);
+  })
+
+  it("backend delete test", async function () {
+    const res1 = await client.backend.delete(
+      resourceGroupName,
+      serviceName,
+      "sfbackend1",
+      "*"
+    );
+    const res2 = await client.backend.delete(
+      resourceGroupName,
+      serviceName,
+      "sfbackend2",
+      "*"
+    );
+    const resArray = new Array();
+    for await (let item of client.backend.listByService(resourceGroupName, serviceName)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
+  })
+
   it("apiManagementService delete test", async function () {
     let count = 0;
     while (count < 20) {
