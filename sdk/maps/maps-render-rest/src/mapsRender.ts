@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { ClientOptions } from "@azure-rest/core-client";
 import { AzureKeyCredential, isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
@@ -48,7 +51,7 @@ export default function MapsRender(
   credential: TokenCredential | AzureKeyCredential,
   clientIdOrOptions: string | ClientOptions = {},
   maybeOptions: ClientOptions = {}
-) {
+): MapsRenderClient {
   const options = typeof clientIdOrOptions === "string" ? maybeOptions : clientIdOrOptions;
 
   /**

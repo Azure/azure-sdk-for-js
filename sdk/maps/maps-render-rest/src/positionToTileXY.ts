@@ -26,9 +26,9 @@ const MAX_LONGITUDE = 180;
  *   })
  * ```
  *
- * @param position Position coordinate in the format [latitude, longitude].
- * @param zoom Zoom level.
- * @param tileSize The size of the tiles in the tile pyramid.
+ * @param position - Position coordinate in the format [latitude, longitude].
+ * @param zoom - Zoom level.
+ * @param tileSize - The size of the tiles in the tile pyramid.
  * @returns Tile XY coordinates.
  */
 export function positionToTileXY(

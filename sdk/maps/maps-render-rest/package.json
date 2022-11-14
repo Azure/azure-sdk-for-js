@@ -15,7 +15,7 @@
   "license": "MIT",
   "main": "dist/index.js",
   "module": "./dist-esm/src/index.js",
-  "types": "./types/maps-render.d.ts",
+  "types": "./types/maps-render-rest.d.ts",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -23,7 +23,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/maps-render.d.ts",
+    "types/maps-render-rest.d.ts",
     "README.md",
     "LICENSE",
     "review/*"

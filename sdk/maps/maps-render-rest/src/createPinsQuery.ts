@@ -23,7 +23,7 @@ export interface PinOptions {
    * The labels are centered at the pushpin 'label anchor.' The anchor location is predefined for built-in pushpins and is at the top center of custom pushpins (see below).
    * To override the label anchor, using the _labelAnchor_ option and provide X and Y pixel coordinates for the anchor.
    * These coordinates are relative to the top left corner of the pushpin image. Positive X values move the anchor to the right, and positive Y values move the anchor down.
-   * For example, to position the label anchor 10 pixels right and 4 pixels above the top left corner of the pushpin image, use {labelAnchor: [10, -4]}
+   * For example, to position the label anchor 10 pixels right and 4 pixels above the top left corner of the pushpin image, use \{labelAnchor: [10, -4]\}
    * */
   labelAnchor?: [number, number];
   /** Color of the label. Range from 000000 to FFFFFF */
@@ -33,7 +33,7 @@ export interface PinOptions {
   /**
    * By default, custom pushpin images are drawn centered at the pin coordinates. This usually isn't ideal as it obscures the location that you're trying to highlight.
    * To override the anchor location of the pin image, use the _pinAnchor_ option. This uses the same format as the _labelAnchor_ options.
-   * For example, if your custom pin image has the tip of the pin at the top left corner of the image, you can set the anchor to that spot by using {pinAnchor: [0, 0]}
+   * For example, if your custom pin image has the tip of the pin at the top left corner of the image, you can set the anchor to that spot by using \{pinAnchor: [0, 0]\}
    */
   pinAnchor?: [number, number];
   /** The ration of the pin. Range from -360 to 360*/
@@ -137,7 +137,7 @@ export function createPinsQuery(
   pins: Pin[],
   pinImageOrOptions?: "default" | "none" | string | PinOptions,
   maybeOptions?: PinOptions
-) {
+): string {
   const pinImage = typeof pinImageOrOptions === "string" ? pinImageOrOptions : "default";
   const options = (typeof pinImageOrOptions === "string" ? maybeOptions : pinImageOrOptions) || {};
   // compose the pins' position query string
@@ -150,7 +150,8 @@ export function createPinsQuery(
     if (Array.isArray(val)) return (queryStr += `|${optionKeyMap[key]}${val[0]} ${val[1]}`);
     return (queryStr += `|${optionKeyMap[key]}${val}`);
   }, "");
-  if (pinImage === "none" || pinImage === "default")
+  if (pinImage === "none" || pinImage === "default") {
     return `${pinImage}${optionsQueryStr}||${pinsQueryStr}`;
+  }
   return `custom${optionsQueryStr}||${pinsQueryStr}||${pinImage}`;
 }

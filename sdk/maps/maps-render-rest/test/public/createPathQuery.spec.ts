@@ -63,8 +63,8 @@ describe("create path query helper", () => {
         path: [pathQuery],
       },
     });
-    // @ts-ignore
-    if (isUnexpected(res)) assert.fail(res.body.path);
+
+    if (isUnexpected(res)) assert.fail(res.body.error?.message || "Unexpected error");
 
     assert.isNotEmpty(res.body);
   });
@@ -97,8 +97,7 @@ describe("create path query helper", () => {
         path: [pathQuery],
       },
     });
-    // @ts-ignore
-    if (isUnexpected(res)) assert.fail(res.body.path);
+    if (isUnexpected(res)) assert.fail(res.body.error?.message || "Unexpected error");
 
     assert.isNotEmpty(res.body);
   });

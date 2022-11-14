@@ -128,7 +128,7 @@ export function createPathQuery(
   // compose the options query string
   const optionsQueryStr = Object.entries(options).reduce<string>((queryStr, [key, val]) => {
     if (!isOptionKey(key)) throw Error(`Unknown key ${key}`);
-    queryStr += `${Boolean(queryStr) ? "|" : ""}${optionKeyMap[key]}${val}`;
+    queryStr += `${queryStr ? "|" : ""}${optionKeyMap[key]}${val}`;
     return queryStr;
   }, "");
   return optionsQueryStr + "||" + coordinatesQueryStr;
