@@ -11,7 +11,7 @@ generate-test: true
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-package-version: 1.0.0-beta.1
+package-version: 1.0.0-beta.2
 rest-level-client: true
 security: AADToken
 security-scopes: https://devcenter.azure.com/.default

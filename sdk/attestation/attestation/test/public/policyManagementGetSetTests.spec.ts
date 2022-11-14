@@ -34,7 +34,7 @@ describe("PolicyManagementTests ", function () {
     await recorder.stop();
   });
 
-  it("#getPolicyCertificates - AAD", async () => {
+  it("#getPolicyCertificates - AAD", async function () {
     const client = createRecordedAdminClient(recorder, "AAD");
 
     const policyResult = await client.getPolicyManagementCertificates();
@@ -43,7 +43,7 @@ describe("PolicyManagementTests ", function () {
     assert(result, "Expected a token from the service but did not receive one");
   });
 
-  it("#getPolicyCertificates - Shared", async () => {
+  it("#getPolicyCertificates - Shared", async function () {
     const client = createRecordedAdminClient(recorder, "Shared");
     const policyResult = await client.getPolicyManagementCertificates();
 
@@ -52,7 +52,7 @@ describe("PolicyManagementTests ", function () {
     assert(result, "Expected a token from the service but did not receive one");
   });
 
-  it("#getPolicyCertificates - Isolated", async () => {
+  it("#getPolicyCertificates - Isolated", async function () {
     const client = createRecordedAdminClient(recorder, "Isolated");
     const policyResult = await client.getPolicyManagementCertificates();
 
@@ -62,7 +62,7 @@ describe("PolicyManagementTests ", function () {
     assert(policyResult.body.length !== 0);
   });
 
-  it("Add Policy Certificates failure conditions", async () => {
+  it("Add Policy Certificates failure conditions", async function () {
     const adminClient = createRecordedAdminClient(recorder, "Isolated");
 
     const [rsaKey, rsapubKey] = createRSAKey();
@@ -78,7 +78,7 @@ describe("PolicyManagementTests ", function () {
     ).to.be.rejectedWith("Key does not match Certificate");
   });
 
-  it("Remove Policy failure conditions", async () => {
+  it("Remove Policy failure conditions", async function () {
     const adminClient = createRecordedAdminClient(recorder, "Isolated");
 
     const [rsaKey, rsapubKey] = createRSAKey();

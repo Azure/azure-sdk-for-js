@@ -84,6 +84,10 @@ app.all("/content_length_test", function (req, res) {
   }
 });
 
+app.get("///multiple_slashes", (_, res) => {
+  res.send({ val: "abc" });
+});
+
 app.listen(port, () => {
   console.log(`server started at ${TEST_SERVER_URL}`);
 });

@@ -34,3 +34,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-elasticsan?view=azure-node-
 https://docs.microsoft.com/javascript/api/@azure/arm-appcomplianceautomation?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-elastic?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-hybridcontainerservice?view=azure-node-preview
+https://docs.microsoft.com/en-us/azure/batch/batch-virtual-network

@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { createSynonymMapFromFile } from "../../../src/synonymMapHelper.browser";
 
-describe("synonymmap", () => {
+describe("synonymmap", function () {
   it("create synonymmap from file(browser)", async function () {
     let errorThrown = false;
     try {
