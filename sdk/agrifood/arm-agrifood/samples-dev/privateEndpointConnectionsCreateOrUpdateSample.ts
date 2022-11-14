@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PrivateEndpointConnection,
-  AzureAgFoodPlatformRPService
+  AgriFoodMgmtClient
 } from "@azure/arm-agrifood";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -32,7 +32,7 @@ async function privateEndpointConnectionsCreateOrUpdate() {
     }
   };
   const credential = new DefaultAzureCredential();
-  const client = new AzureAgFoodPlatformRPService(credential, subscriptionId);
+  const client = new AgriFoodMgmtClient(credential, subscriptionId);
   const result = await client.privateEndpointConnections.createOrUpdate(
     resourceGroupName,
     farmBeatsResourceName,

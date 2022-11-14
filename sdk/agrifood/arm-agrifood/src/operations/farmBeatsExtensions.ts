@@ -12,7 +12,7 @@ import { FarmBeatsExtensions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureAgFoodPlatformRPService } from "../azureAgFoodPlatformRPService";
+import { AgriFoodMgmtClient } from "../agriFoodMgmtClient";
 import {
   FarmBeatsExtension,
   FarmBeatsExtensionsListNextOptionalParams,
@@ -26,13 +26,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing FarmBeatsExtensions operations. */
 export class FarmBeatsExtensionsImpl implements FarmBeatsExtensions {
-  private readonly client: AzureAgFoodPlatformRPService;
+  private readonly client: AgriFoodMgmtClient;
 
   /**
    * Initialize a new instance of the class FarmBeatsExtensions class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureAgFoodPlatformRPService) {
+  constructor(client: AgriFoodMgmtClient) {
     this.client = client;
   }
 

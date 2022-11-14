@@ -32,15 +32,15 @@ import {
   PrivateEndpointConnections,
   PrivateLinkResources
 } from "./operationsInterfaces";
-import { AzureAgFoodPlatformRPServiceOptionalParams } from "./models";
+import { AgriFoodMgmtClientOptionalParams } from "./models";
 
-export class AzureAgFoodPlatformRPService extends coreClient.ServiceClient {
+export class AgriFoodMgmtClient extends coreClient.ServiceClient {
   $host: string;
   subscriptionId: string;
   apiVersion: string;
 
   /**
-   * Initializes a new instance of the AzureAgFoodPlatformRPService class.
+   * Initializes a new instance of the AgriFoodMgmtClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
@@ -48,7 +48,7 @@ export class AzureAgFoodPlatformRPService extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: AzureAgFoodPlatformRPServiceOptionalParams
+    options?: AgriFoodMgmtClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -61,7 +61,7 @@ export class AzureAgFoodPlatformRPService extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: AzureAgFoodPlatformRPServiceOptionalParams = {
+    const defaults: AgriFoodMgmtClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials
     };
