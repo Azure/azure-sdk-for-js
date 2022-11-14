@@ -8,7 +8,7 @@
         "Accept-Encoding": "gzip, deflate, br",
         "Accept-Language": "en-US",
         "Connection": "keep-alive",
-        "Content-Length": "266",
+        "Content-Length": "781",
         "Content-Type": "application/json",
         "ocp-apim-subscription-key": "api_key",
         "Referer": "http://localhost:9876/",
@@ -18,21 +18,36 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "ed86eab9-248d-4589-a3b8-3765e1a25bb7",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "2f07b15c-7351-474f-8408-0832b0649e55",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.1 OS/Win32"
       },
       "RequestBody": {
         "analysisInput": {
           "documents": [
             {
               "id": "0",
-              "text": "Average price of sneaker is 120 EUR",
+              "text": "The dog is 14 inches tall and weighs 20 lbs. It is 5 years old.",
               "language": "en"
             },
             {
               "id": "1",
-              "text": "Bill Gates is 66 years old in 2022",
+              "text": "This is the first aircraft of its kind. It can fly at over 1,300 meter per second and carry 65-80 passengers.",
+              "language": "en"
+            },
+            {
+              "id": "2",
+              "text": "The apartment is 840 sqft. and it has 2 bedrooms. It costs 2,000 US dollars per month and will be available on 11/01/2022.",
+              "language": "en"
+            },
+            {
+              "id": "3",
+              "text": "Mix 1 cup of sugar. Bake for approximately 60 minutes in an oven preheated to 350 degrees F.",
+              "language": "en"
+            },
+            {
+              "id": "4",
+              "text": "They retrieved 200 terabytes of data between October 24th, 2022 and October 28th, 2022.",
               "language": "en"
             }
           ]
@@ -48,19 +63,19 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "0f3558ee-8449-4378-8f0d-e245fd749c14",
+        "apim-request-id": "e241c36e-8ba4-4b86-af4e-4e7b5e9bbe28",
         "Content-Length": "0",
-        "Date": "Tue, 01 Nov 2022 22:59:50 GMT",
-        "operation-location": "https://endpoint/language/analyze-text/jobs/691086c5-d763-4892-ae0f-b13f82315adc?api-version=2022-10-01-preview",
+        "Date": "Tue, 15 Nov 2022 16:50:38 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/614fe543-e721-4ddc-9152-448dd34400aa?api-version=2022-10-01-preview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "232",
-        "x-ms-region": "East US"
+        "x-envoy-upstream-service-time": "178",
+        "x-ms-region": "West US 2"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/691086c5-d763-4892-ae0f-b13f82315adc?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/614fe543-e721-4ddc-9152-448dd34400aa?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -75,28 +90,124 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "25853eb7-ff3f-4a01-b427-192df141feee",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "d5dca704-f6f7-4340-8e19-33b66530afee",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.1 OS/Win32"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "23d6012c-e09c-48dd-aca1-5b4f68c19067",
+        "apim-request-id": "403d79c2-3266-46ef-a2d2-2ab1cb2ddd72",
         "Content-Length": "282",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 01 Nov 2022 22:59:50 GMT",
+        "Date": "Tue, 15 Nov 2022 16:50:38 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "5",
+        "x-ms-region": "West US 2"
+      },
+      "ResponseBody": {
+        "jobId": "614fe543-e721-4ddc-9152-448dd34400aa",
+        "lastUpdateDateTime": "2022-11-15T16:50:39Z",
+        "createdDateTime": "2022-11-15T16:50:39Z",
+        "expirationDateTime": "2022-11-16T16:50:39Z",
+        "status": "notStarted",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/614fe543-e721-4ddc-9152-448dd34400aa?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "776fb9b8-36d6-419f-b6fa-556de8e89ec5",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "61735e17-b7b0-4fe7-9481-0ac05f8d9155",
+        "Content-Length": "279",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 15 Nov 2022 16:50:38 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "6",
+        "x-ms-region": "West US 2"
+      },
+      "ResponseBody": {
+        "jobId": "614fe543-e721-4ddc-9152-448dd34400aa",
+        "lastUpdateDateTime": "2022-11-15T16:50:39Z",
+        "createdDateTime": "2022-11-15T16:50:39Z",
+        "expirationDateTime": "2022-11-16T16:50:39Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/614fe543-e721-4ddc-9152-448dd34400aa?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "edf8d8a4-42b8-4584-a2eb-f67199dd27df",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "3edac063-2923-4511-ac24-8e053098c568",
+        "Content-Length": "279",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 15 Nov 2022 16:50:40 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
         "x-envoy-upstream-service-time": "9",
-        "x-ms-region": "East US"
+        "x-ms-region": "West US 2"
       },
       "ResponseBody": {
-        "jobId": "691086c5-d763-4892-ae0f-b13f82315adc",
-        "lastUpdateDateTime": "2022-11-01T22:59:50Z",
-        "createdDateTime": "2022-11-01T22:59:50Z",
-        "expirationDateTime": "2022-11-02T22:59:50Z",
-        "status": "notStarted",
+        "jobId": "614fe543-e721-4ddc-9152-448dd34400aa",
+        "lastUpdateDateTime": "2022-11-15T16:50:39Z",
+        "createdDateTime": "2022-11-15T16:50:39Z",
+        "expirationDateTime": "2022-11-16T16:50:39Z",
+        "status": "running",
         "errors": [],
         "tasks": {
           "completed": 0,
@@ -108,7 +219,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/691086c5-d763-4892-ae0f-b13f82315adc?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/614fe543-e721-4ddc-9152-448dd34400aa?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -123,28 +234,28 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "9144b600-cdc6-422c-993e-899047c36949",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "933240be-1cf1-41bd-bb74-b4fb7f2171b3",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.1 OS/Win32"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "1866a70d-c1ed-4360-9eb5-2f2a395c4061",
-        "Content-Length": "282",
+        "apim-request-id": "215a1f08-be3f-4fce-8033-496703875a45",
+        "Content-Length": "279",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 01 Nov 2022 22:59:50 GMT",
+        "Date": "Tue, 15 Nov 2022 16:50:42 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "8",
-        "x-ms-region": "East US"
+        "x-envoy-upstream-service-time": "7",
+        "x-ms-region": "West US 2"
       },
       "ResponseBody": {
-        "jobId": "691086c5-d763-4892-ae0f-b13f82315adc",
-        "lastUpdateDateTime": "2022-11-01T22:59:50Z",
-        "createdDateTime": "2022-11-01T22:59:50Z",
-        "expirationDateTime": "2022-11-02T22:59:50Z",
-        "status": "notStarted",
+        "jobId": "614fe543-e721-4ddc-9152-448dd34400aa",
+        "lastUpdateDateTime": "2022-11-15T16:50:39Z",
+        "createdDateTime": "2022-11-15T16:50:39Z",
+        "expirationDateTime": "2022-11-16T16:50:39Z",
+        "status": "running",
         "errors": [],
         "tasks": {
           "completed": 0,
@@ -156,7 +267,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/691086c5-d763-4892-ae0f-b13f82315adc?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/614fe543-e721-4ddc-9152-448dd34400aa?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -171,27 +282,75 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "580ed1d3-0be9-434d-af11-2f3437dfe124",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "af16abdf-de1d-4ab3-8e47-398e685502f4",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.1 OS/Win32"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "8f00c118-fb07-4d01-a7b9-ae67225fe854",
-        "Content-Length": "1328",
+        "apim-request-id": "f5bd5758-66fd-4a8a-8f14-4a29aa1d4f44",
+        "Content-Length": "279",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 01 Nov 2022 22:59:52 GMT",
+        "Date": "Tue, 15 Nov 2022 16:50:44 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "55",
-        "x-ms-region": "East US"
+        "x-envoy-upstream-service-time": "6",
+        "x-ms-region": "West US 2"
       },
       "ResponseBody": {
-        "jobId": "691086c5-d763-4892-ae0f-b13f82315adc",
-        "lastUpdateDateTime": "2022-11-01T22:59:52Z",
-        "createdDateTime": "2022-11-01T22:59:50Z",
-        "expirationDateTime": "2022-11-02T22:59:50Z",
+        "jobId": "614fe543-e721-4ddc-9152-448dd34400aa",
+        "lastUpdateDateTime": "2022-11-15T16:50:39Z",
+        "createdDateTime": "2022-11-15T16:50:39Z",
+        "expirationDateTime": "2022-11-16T16:50:39Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/614fe543-e721-4ddc-9152-448dd34400aa?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "688e5c5e-b764-4cf6-841f-6986adc8a44d",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "346146f0-98a2-4f6a-84c3-290df082f175",
+        "Content-Length": "4547",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 15 Nov 2022 16:50:47 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "103",
+        "x-ms-region": "West US 2"
+      },
+      "ResponseBody": {
+        "jobId": "614fe543-e721-4ddc-9152-448dd34400aa",
+        "lastUpdateDateTime": "2022-11-15T16:50:45Z",
+        "createdDateTime": "2022-11-15T16:50:39Z",
+        "expirationDateTime": "2022-11-16T16:50:39Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -202,7 +361,7 @@
           "items": [
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-11-01T22:59:52.5869577Z",
+              "lastUpdateDateTime": "2022-11-15T16:50:45.7483825Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -210,25 +369,47 @@
                     "id": "0",
                     "entities": [
                       {
-                        "text": "sneaker",
-                        "category": "Product",
-                        "offset": 17,
-                        "length": 7,
-                        "confidenceScore": 0.87
-                      },
-                      {
-                        "text": "120 EUR",
+                        "text": "14 inches",
                         "category": "Quantity",
-                        "subcategory": "Currency",
-                        "offset": 28,
-                        "length": 7,
-                        "confidenceScore": 1.0,
+                        "subcategory": "Dimension",
+                        "offset": 11,
+                        "length": 9,
+                        "confidenceScore": 0.8,
                         "resolutions": [
                           {
-                            "resolutionKind": "CurrencyResolution",
-                            "unit": "Euro",
-                            "iso4217": "EUR",
-                            "value": 120.0
+                            "resolutionKind": "LengthResolution",
+                            "unit": "Inch",
+                            "value": 14.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "20 lbs",
+                        "category": "Quantity",
+                        "subcategory": "Dimension",
+                        "offset": 37,
+                        "length": 6,
+                        "confidenceScore": 0.8,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "WeightResolution",
+                            "unit": "Pound",
+                            "value": 20.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "5 years old",
+                        "category": "Quantity",
+                        "subcategory": "Age",
+                        "offset": 51,
+                        "length": 11,
+                        "confidenceScore": 0.98,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "AgeResolution",
+                            "unit": "Year",
+                            "value": 5.0
                           }
                         ]
                       }
@@ -239,39 +420,261 @@
                     "id": "1",
                     "entities": [
                       {
-                        "text": "Bill Gates",
-                        "category": "Person",
-                        "offset": 0,
-                        "length": 10,
-                        "confidenceScore": 0.98
-                      },
-                      {
-                        "text": "66 years old",
+                        "text": "first",
                         "category": "Quantity",
-                        "subcategory": "Age",
-                        "offset": 14,
-                        "length": 12,
-                        "confidenceScore": 0.96,
+                        "subcategory": "Ordinal",
+                        "offset": 12,
+                        "length": 5,
+                        "confidenceScore": 0.8,
                         "resolutions": [
                           {
-                            "resolutionKind": "AgeResolution",
-                            "unit": "Year",
-                            "value": 66.0
+                            "resolutionKind": "OrdinalResolution",
+                            "offset": "1",
+                            "relativeTo": "Start",
+                            "value": "1"
                           }
                         ]
                       },
                       {
-                        "text": "2022",
+                        "text": "aircraft",
+                        "category": "Product",
+                        "offset": 18,
+                        "length": 8,
+                        "confidenceScore": 0.8
+                      },
+                      {
+                        "text": "1,300 meter per second",
+                        "category": "Quantity",
+                        "subcategory": "Dimension",
+                        "offset": 59,
+                        "length": 22,
+                        "confidenceScore": 0.8,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "SpeedResolution",
+                            "unit": "MeterPerSecond",
+                            "value": 1300.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "65-80",
+                        "category": "Quantity",
+                        "subcategory": "NumberRange",
+                        "offset": 92,
+                        "length": 5,
+                        "confidenceScore": 0.85,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "NumericRangeResolution",
+                            "rangeKind": "Number",
+                            "minimum": 65.0,
+                            "maximum": 80.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "passengers",
+                        "category": "PersonType",
+                        "offset": 98,
+                        "length": 10,
+                        "confidenceScore": 0.96
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "2",
+                    "entities": [
+                      {
+                        "text": "apartment",
+                        "category": "Location",
+                        "offset": 4,
+                        "length": 9,
+                        "confidenceScore": 0.81
+                      },
+                      {
+                        "text": "840 sqft",
+                        "category": "Quantity",
+                        "subcategory": "Dimension",
+                        "offset": 17,
+                        "length": 8,
+                        "confidenceScore": 0.8,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "AreaResolution",
+                            "unit": "SquareFoot",
+                            "value": 840.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "2",
+                        "category": "Quantity",
+                        "subcategory": "Number",
+                        "offset": 38,
+                        "length": 1,
+                        "confidenceScore": 0.98,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "NumberResolution",
+                            "numberKind": "Integer",
+                            "value": 2.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "bedrooms",
+                        "category": "Location",
+                        "offset": 40,
+                        "length": 8,
+                        "confidenceScore": 0.66
+                      },
+                      {
+                        "text": "2,000 US dollars",
+                        "category": "Quantity",
+                        "subcategory": "Currency",
+                        "offset": 59,
+                        "length": 16,
+                        "confidenceScore": 0.99,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "CurrencyResolution",
+                            "unit": "United States dollar",
+                            "iso4217": "USD",
+                            "value": 2000.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "11/01/2022",
                         "category": "DateTime",
-                        "subcategory": "DateRange",
-                        "offset": 30,
-                        "length": 4,
-                        "confidenceScore": 0.97,
+                        "subcategory": "Date",
+                        "offset": 111,
+                        "length": 10,
+                        "confidenceScore": 0.99,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "DateTimeResolution",
+                            "dateTimeSubKind": "Date",
+                            "timex": "2022-11-01",
+                            "value": "2022-11-01"
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "3",
+                    "entities": [
+                      {
+                        "text": "1",
+                        "category": "Quantity",
+                        "subcategory": "Number",
+                        "offset": 4,
+                        "length": 1,
+                        "confidenceScore": 0.69,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "NumberResolution",
+                            "numberKind": "Integer",
+                            "value": 1.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "1 cup",
+                        "category": "Quantity",
+                        "subcategory": "Dimension",
+                        "offset": 4,
+                        "length": 5,
+                        "confidenceScore": 0.8,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "VolumeResolution",
+                            "unit": "Cup",
+                            "value": 1.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "sugar",
+                        "category": "Product",
+                        "offset": 13,
+                        "length": 5,
+                        "confidenceScore": 0.92
+                      },
+                      {
+                        "text": "60 minutes",
+                        "category": "DateTime",
+                        "subcategory": "Duration",
+                        "offset": 43,
+                        "length": 10,
+                        "confidenceScore": 0.95,
                         "resolutions": [
                           {
                             "resolutionKind": "TemporalSpanResolution",
-                            "begin": "2022-01-01",
-                            "end": "2023-01-01"
+                            "duration": "PT60M"
+                          }
+                        ]
+                      },
+                      {
+                        "text": "oven",
+                        "category": "Product",
+                        "offset": 60,
+                        "length": 4,
+                        "confidenceScore": 0.87
+                      },
+                      {
+                        "text": "350 degrees F",
+                        "category": "Quantity",
+                        "subcategory": "Temperature",
+                        "offset": 78,
+                        "length": 13,
+                        "confidenceScore": 0.8,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "TemperatureResolution",
+                            "unit": "Fahrenheit",
+                            "value": 350.0
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "4",
+                    "entities": [
+                      {
+                        "text": "200 terabytes",
+                        "category": "Quantity",
+                        "subcategory": "Dimension",
+                        "offset": 15,
+                        "length": 13,
+                        "confidenceScore": 0.8,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "InformationResolution",
+                            "unit": "Terabyte",
+                            "value": 200.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "between October 24th, 2022 and October 28th, 2022",
+                        "category": "DateTime",
+                        "subcategory": "DateRange",
+                        "offset": 37,
+                        "length": 49,
+                        "confidenceScore": 0.69,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "TemporalSpanResolution",
+                            "duration": "P4D",
+                            "begin": "2022-10-24",
+                            "end": "2022-10-28"
                           }
                         ]
                       }
@@ -288,7 +691,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/language/analyze-text/jobs/691086c5-d763-4892-ae0f-b13f82315adc?api-version=2022-10-01-preview",
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/614fe543-e721-4ddc-9152-448dd34400aa?api-version=2022-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -303,27 +706,27 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "dcc1f244-f230-4966-b04e-a0875adcaa0e",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "462f679b-f25b-4604-95b8-f46ce4c97072",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.1 OS/Win32"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "65feacb6-53b2-49eb-8ffb-81ffae6e0d6e",
-        "Content-Length": "1328",
+        "apim-request-id": "92f58546-6375-47d9-a728-76d815ecf2c8",
+        "Content-Length": "4547",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 01 Nov 2022 22:59:52 GMT",
+        "Date": "Tue, 15 Nov 2022 16:50:47 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "42",
-        "x-ms-region": "East US"
+        "x-envoy-upstream-service-time": "79",
+        "x-ms-region": "West US 2"
       },
       "ResponseBody": {
-        "jobId": "691086c5-d763-4892-ae0f-b13f82315adc",
-        "lastUpdateDateTime": "2022-11-01T22:59:52Z",
-        "createdDateTime": "2022-11-01T22:59:50Z",
-        "expirationDateTime": "2022-11-02T22:59:50Z",
+        "jobId": "614fe543-e721-4ddc-9152-448dd34400aa",
+        "lastUpdateDateTime": "2022-11-15T16:50:45Z",
+        "createdDateTime": "2022-11-15T16:50:39Z",
+        "expirationDateTime": "2022-11-16T16:50:39Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -334,7 +737,7 @@
           "items": [
             {
               "kind": "EntityRecognitionLROResults",
-              "lastUpdateDateTime": "2022-11-01T22:59:52.5869577Z",
+              "lastUpdateDateTime": "2022-11-15T16:50:45.7483825Z",
               "status": "succeeded",
               "results": {
                 "documents": [
@@ -342,25 +745,47 @@
                     "id": "0",
                     "entities": [
                       {
-                        "text": "sneaker",
-                        "category": "Product",
-                        "offset": 17,
-                        "length": 7,
-                        "confidenceScore": 0.87
-                      },
-                      {
-                        "text": "120 EUR",
+                        "text": "14 inches",
                         "category": "Quantity",
-                        "subcategory": "Currency",
-                        "offset": 28,
-                        "length": 7,
-                        "confidenceScore": 1.0,
+                        "subcategory": "Dimension",
+                        "offset": 11,
+                        "length": 9,
+                        "confidenceScore": 0.8,
                         "resolutions": [
                           {
-                            "resolutionKind": "CurrencyResolution",
-                            "unit": "Euro",
-                            "iso4217": "EUR",
-                            "value": 120.0
+                            "resolutionKind": "LengthResolution",
+                            "unit": "Inch",
+                            "value": 14.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "20 lbs",
+                        "category": "Quantity",
+                        "subcategory": "Dimension",
+                        "offset": 37,
+                        "length": 6,
+                        "confidenceScore": 0.8,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "WeightResolution",
+                            "unit": "Pound",
+                            "value": 20.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "5 years old",
+                        "category": "Quantity",
+                        "subcategory": "Age",
+                        "offset": 51,
+                        "length": 11,
+                        "confidenceScore": 0.98,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "AgeResolution",
+                            "unit": "Year",
+                            "value": 5.0
                           }
                         ]
                       }
@@ -371,39 +796,261 @@
                     "id": "1",
                     "entities": [
                       {
-                        "text": "Bill Gates",
-                        "category": "Person",
-                        "offset": 0,
-                        "length": 10,
-                        "confidenceScore": 0.98
-                      },
-                      {
-                        "text": "66 years old",
+                        "text": "first",
                         "category": "Quantity",
-                        "subcategory": "Age",
-                        "offset": 14,
-                        "length": 12,
-                        "confidenceScore": 0.96,
+                        "subcategory": "Ordinal",
+                        "offset": 12,
+                        "length": 5,
+                        "confidenceScore": 0.8,
                         "resolutions": [
                           {
-                            "resolutionKind": "AgeResolution",
-                            "unit": "Year",
-                            "value": 66.0
+                            "resolutionKind": "OrdinalResolution",
+                            "offset": "1",
+                            "relativeTo": "Start",
+                            "value": "1"
                           }
                         ]
                       },
                       {
-                        "text": "2022",
+                        "text": "aircraft",
+                        "category": "Product",
+                        "offset": 18,
+                        "length": 8,
+                        "confidenceScore": 0.8
+                      },
+                      {
+                        "text": "1,300 meter per second",
+                        "category": "Quantity",
+                        "subcategory": "Dimension",
+                        "offset": 59,
+                        "length": 22,
+                        "confidenceScore": 0.8,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "SpeedResolution",
+                            "unit": "MeterPerSecond",
+                            "value": 1300.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "65-80",
+                        "category": "Quantity",
+                        "subcategory": "NumberRange",
+                        "offset": 92,
+                        "length": 5,
+                        "confidenceScore": 0.85,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "NumericRangeResolution",
+                            "rangeKind": "Number",
+                            "minimum": 65.0,
+                            "maximum": 80.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "passengers",
+                        "category": "PersonType",
+                        "offset": 98,
+                        "length": 10,
+                        "confidenceScore": 0.96
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "2",
+                    "entities": [
+                      {
+                        "text": "apartment",
+                        "category": "Location",
+                        "offset": 4,
+                        "length": 9,
+                        "confidenceScore": 0.81
+                      },
+                      {
+                        "text": "840 sqft",
+                        "category": "Quantity",
+                        "subcategory": "Dimension",
+                        "offset": 17,
+                        "length": 8,
+                        "confidenceScore": 0.8,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "AreaResolution",
+                            "unit": "SquareFoot",
+                            "value": 840.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "2",
+                        "category": "Quantity",
+                        "subcategory": "Number",
+                        "offset": 38,
+                        "length": 1,
+                        "confidenceScore": 0.98,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "NumberResolution",
+                            "numberKind": "Integer",
+                            "value": 2.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "bedrooms",
+                        "category": "Location",
+                        "offset": 40,
+                        "length": 8,
+                        "confidenceScore": 0.66
+                      },
+                      {
+                        "text": "2,000 US dollars",
+                        "category": "Quantity",
+                        "subcategory": "Currency",
+                        "offset": 59,
+                        "length": 16,
+                        "confidenceScore": 0.99,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "CurrencyResolution",
+                            "unit": "United States dollar",
+                            "iso4217": "USD",
+                            "value": 2000.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "11/01/2022",
                         "category": "DateTime",
-                        "subcategory": "DateRange",
-                        "offset": 30,
-                        "length": 4,
-                        "confidenceScore": 0.97,
+                        "subcategory": "Date",
+                        "offset": 111,
+                        "length": 10,
+                        "confidenceScore": 0.99,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "DateTimeResolution",
+                            "dateTimeSubKind": "Date",
+                            "timex": "2022-11-01",
+                            "value": "2022-11-01"
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "3",
+                    "entities": [
+                      {
+                        "text": "1",
+                        "category": "Quantity",
+                        "subcategory": "Number",
+                        "offset": 4,
+                        "length": 1,
+                        "confidenceScore": 0.69,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "NumberResolution",
+                            "numberKind": "Integer",
+                            "value": 1.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "1 cup",
+                        "category": "Quantity",
+                        "subcategory": "Dimension",
+                        "offset": 4,
+                        "length": 5,
+                        "confidenceScore": 0.8,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "VolumeResolution",
+                            "unit": "Cup",
+                            "value": 1.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "sugar",
+                        "category": "Product",
+                        "offset": 13,
+                        "length": 5,
+                        "confidenceScore": 0.92
+                      },
+                      {
+                        "text": "60 minutes",
+                        "category": "DateTime",
+                        "subcategory": "Duration",
+                        "offset": 43,
+                        "length": 10,
+                        "confidenceScore": 0.95,
                         "resolutions": [
                           {
                             "resolutionKind": "TemporalSpanResolution",
-                            "begin": "2022-01-01",
-                            "end": "2023-01-01"
+                            "duration": "PT60M"
+                          }
+                        ]
+                      },
+                      {
+                        "text": "oven",
+                        "category": "Product",
+                        "offset": 60,
+                        "length": 4,
+                        "confidenceScore": 0.87
+                      },
+                      {
+                        "text": "350 degrees F",
+                        "category": "Quantity",
+                        "subcategory": "Temperature",
+                        "offset": 78,
+                        "length": 13,
+                        "confidenceScore": 0.8,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "TemperatureResolution",
+                            "unit": "Fahrenheit",
+                            "value": 350.0
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "4",
+                    "entities": [
+                      {
+                        "text": "200 terabytes",
+                        "category": "Quantity",
+                        "subcategory": "Dimension",
+                        "offset": 15,
+                        "length": 13,
+                        "confidenceScore": 0.8,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "InformationResolution",
+                            "unit": "Terabyte",
+                            "value": 200.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "between October 24th, 2022 and October 28th, 2022",
+                        "category": "DateTime",
+                        "subcategory": "DateRange",
+                        "offset": 37,
+                        "length": 49,
+                        "confidenceScore": 0.69,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "TemporalSpanResolution",
+                            "duration": "P4D",
+                            "begin": "2022-10-24",
+                            "end": "2022-10-28"
                           }
                         ]
                       }
