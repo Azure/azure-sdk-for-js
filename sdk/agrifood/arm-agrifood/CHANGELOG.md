@@ -4,12 +4,7 @@
     
 **Features**
 
-  - Added Interface AzureAgFoodPlatformRPServiceOptionalParams
-  - Added Class AzureAgFoodPlatformRPService
-
-**Breaking Changes**
-
-  - Deleted Class AgriFoodMgmtClient
+  - Bugs Fixed
     
 ## 1.0.0-beta.3 (2022-10-08)
 
