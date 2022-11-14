@@ -32,15 +32,15 @@ import {
   PrivateEndpointConnections,
   PrivateLinkResources
 } from "./operationsInterfaces";
-import { AgriFoodMgmtClientOptionalParams } from "./models";
+import { AzureAgFoodPlatformRPServiceOptionalParams } from "./models";
 
-export class AgriFoodMgmtClient extends coreClient.ServiceClient {
+export class AzureAgFoodPlatformRPService extends coreClient.ServiceClient {
   $host: string;
   subscriptionId: string;
   apiVersion: string;
 
   /**
-   * Initializes a new instance of the AgriFoodMgmtClient class.
+   * Initializes a new instance of the AzureAgFoodPlatformRPService class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
@@ -48,7 +48,7 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: AgriFoodMgmtClientOptionalParams
+    options?: AzureAgFoodPlatformRPServiceOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -61,7 +61,7 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: AgriFoodMgmtClientOptionalParams = {
+    const defaults: AzureAgFoodPlatformRPServiceOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials
     };
@@ -72,16 +72,13 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
@@ -107,7 +104,9 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
               coreClient.authorizeRequestOnClaimChallenge

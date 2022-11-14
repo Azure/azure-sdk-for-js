@@ -10,7 +10,7 @@ import { Locations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AgriFoodMgmtClient } from "../agriFoodMgmtClient";
+import { AzureAgFoodPlatformRPService } from "../azureAgFoodPlatformRPService";
 import {
   CheckNameAvailabilityRequest,
   LocationsCheckNameAvailabilityOptionalParams,
@@ -19,13 +19,13 @@ import {
 
 /** Class containing Locations operations. */
 export class LocationsImpl implements Locations {
-  private readonly client: AgriFoodMgmtClient;
+  private readonly client: AzureAgFoodPlatformRPService;
 
   /**
    * Initialize a new instance of the class Locations class.
    * @param client Reference to the service client
    */
-  constructor(client: AgriFoodMgmtClient) {
+  constructor(client: AzureAgFoodPlatformRPService) {
     this.client = client;
   }
 

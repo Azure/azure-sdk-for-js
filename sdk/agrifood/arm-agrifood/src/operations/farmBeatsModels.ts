@@ -6,20 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { FarmBeatsModels } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AgriFoodMgmtClient } from "../agriFoodMgmtClient";
+import { AzureAgFoodPlatformRPService } from "../azureAgFoodPlatformRPService";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   FarmBeats,
   FarmBeatsModelsListBySubscriptionNextOptionalParams,
   FarmBeatsModelsListBySubscriptionOptionalParams,
+  FarmBeatsModelsListBySubscriptionResponse,
   FarmBeatsModelsListByResourceGroupNextOptionalParams,
   FarmBeatsModelsListByResourceGroupOptionalParams,
+  FarmBeatsModelsListByResourceGroupResponse,
   FarmBeatsModelsGetOptionalParams,
   FarmBeatsModelsGetResponse,
   FarmBeatsModelsCreateOrUpdateOptionalParams,
@@ -28,8 +31,6 @@ import {
   FarmBeatsModelsUpdateOptionalParams,
   FarmBeatsModelsUpdateResponse,
   FarmBeatsModelsDeleteOptionalParams,
-  FarmBeatsModelsListBySubscriptionResponse,
-  FarmBeatsModelsListByResourceGroupResponse,
   FarmBeatsModelsGetOperationResultOptionalParams,
   FarmBeatsModelsGetOperationResultResponse,
   FarmBeatsModelsListBySubscriptionNextResponse,
@@ -39,13 +40,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing FarmBeatsModels operations. */
 export class FarmBeatsModelsImpl implements FarmBeatsModels {
-  private readonly client: AgriFoodMgmtClient;
+  private readonly client: AzureAgFoodPlatformRPService;
 
   /**
    * Initialize a new instance of the class FarmBeatsModels class.
    * @param client Reference to the service client
    */
-  constructor(client: AgriFoodMgmtClient) {
+  constructor(client: AzureAgFoodPlatformRPService) {
     this.client = client;
   }
 
@@ -64,22 +65,34 @@ export class FarmBeatsModelsImpl implements FarmBeatsModels {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: FarmBeatsModelsListBySubscriptionOptionalParams
+    options?: FarmBeatsModelsListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<FarmBeats[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: FarmBeatsModelsListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -108,19 +121,33 @@ export class FarmBeatsModelsImpl implements FarmBeatsModels {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: FarmBeatsModelsListByResourceGroupOptionalParams
+    options?: FarmBeatsModelsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<FarmBeats[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: FarmBeatsModelsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -128,7 +155,9 @@ export class FarmBeatsModelsImpl implements FarmBeatsModels {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

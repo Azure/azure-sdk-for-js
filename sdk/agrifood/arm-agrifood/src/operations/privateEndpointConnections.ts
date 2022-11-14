@@ -6,36 +6,36 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { PrivateEndpointConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AgriFoodMgmtClient } from "../agriFoodMgmtClient";
+import { AzureAgFoodPlatformRPService } from "../azureAgFoodPlatformRPService";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListByResourceOptionalParams,
+  PrivateEndpointConnectionsListByResourceResponse,
   PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   PrivateEndpointConnectionsCreateOrUpdateResponse,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsGetResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateEndpointConnectionsListByResourceResponse
+  PrivateEndpointConnectionsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateEndpointConnections operations. */
 export class PrivateEndpointConnectionsImpl
   implements PrivateEndpointConnections {
-  private readonly client: AgriFoodMgmtClient;
+  private readonly client: AzureAgFoodPlatformRPService;
 
   /**
    * Initialize a new instance of the class PrivateEndpointConnections class.
    * @param client Reference to the service client
    */
-  constructor(client: AgriFoodMgmtClient) {
+  constructor(client: AzureAgFoodPlatformRPService) {
     this.client = client;
   }
 
@@ -62,11 +62,15 @@ export class PrivateEndpointConnectionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByResourcePagingPage(
           resourceGroupName,
           farmBeatsResourceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -75,9 +79,11 @@ export class PrivateEndpointConnectionsImpl
   private async *listByResourcePagingPage(
     resourceGroupName: string,
     farmBeatsResourceName: string,
-    options?: PrivateEndpointConnectionsListByResourceOptionalParams
+    options?: PrivateEndpointConnectionsListByResourceOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<PrivateEndpointConnection[]> {
-    let result = await this._listByResource(
+    let result: PrivateEndpointConnectionsListByResourceResponse;
+    result = await this._listByResource(
       resourceGroupName,
       farmBeatsResourceName,
       options

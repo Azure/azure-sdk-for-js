@@ -1,15 +1,16 @@
 # Release History
+    
+## 1.0.0-beta.4 (2022-11-14)
+    
+**Features**
 
-## 1.0.0-beta.4 (Unreleased)
+  - Added Interface AzureAgFoodPlatformRPServiceOptionalParams
+  - Added Class AzureAgFoodPlatformRPService
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Deleted Class AgriFoodMgmtClient
+    
 ## 1.0.0-beta.3 (2022-10-08)
 
 **Bugs Fixed**

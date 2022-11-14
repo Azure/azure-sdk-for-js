@@ -6,16 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Extensions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AgriFoodMgmtClient } from "../agriFoodMgmtClient";
+import { AzureAgFoodPlatformRPService } from "../azureAgFoodPlatformRPService";
 import {
   Extension,
   ExtensionsListByFarmBeatsNextOptionalParams,
   ExtensionsListByFarmBeatsOptionalParams,
+  ExtensionsListByFarmBeatsResponse,
   ExtensionsCreateOptionalParams,
   ExtensionsCreateResponse,
   ExtensionsGetOptionalParams,
@@ -23,20 +25,19 @@ import {
   ExtensionsUpdateOptionalParams,
   ExtensionsUpdateResponse,
   ExtensionsDeleteOptionalParams,
-  ExtensionsListByFarmBeatsResponse,
   ExtensionsListByFarmBeatsNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Extensions operations. */
 export class ExtensionsImpl implements Extensions {
-  private readonly client: AgriFoodMgmtClient;
+  private readonly client: AzureAgFoodPlatformRPService;
 
   /**
    * Initialize a new instance of the class Extensions class.
    * @param client Reference to the service client
    */
-  constructor(client: AgriFoodMgmtClient) {
+  constructor(client: AzureAgFoodPlatformRPService) {
     this.client = client;
   }
 
@@ -63,11 +64,15 @@ export class ExtensionsImpl implements Extensions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByFarmBeatsPagingPage(
           resourceGroupName,
           farmBeatsResourceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -76,15 +81,22 @@ export class ExtensionsImpl implements Extensions {
   private async *listByFarmBeatsPagingPage(
     resourceGroupName: string,
     farmBeatsResourceName: string,
-    options?: ExtensionsListByFarmBeatsOptionalParams
+    options?: ExtensionsListByFarmBeatsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Extension[]> {
-    let result = await this._listByFarmBeats(
-      resourceGroupName,
-      farmBeatsResourceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ExtensionsListByFarmBeatsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByFarmBeats(
+        resourceGroupName,
+        farmBeatsResourceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByFarmBeatsNext(
         resourceGroupName,
@@ -93,7 +105,9 @@ export class ExtensionsImpl implements Extensions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AgriFoodMgmtClient } from "@azure/arm-agrifood";
+import { AzureAgFoodPlatformRPService } from "@azure/arm-agrifood";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -23,7 +23,7 @@ async function privateLinkResourcesGet() {
   const farmBeatsResourceName = "examples-farmbeatsResourceName";
   const subResourceName = "farmbeats";
   const credential = new DefaultAzureCredential();
-  const client = new AgriFoodMgmtClient(credential, subscriptionId);
+  const client = new AzureAgFoodPlatformRPService(credential, subscriptionId);
   const result = await client.privateLinkResources.get(
     resourceGroupName,
     farmBeatsResourceName,
