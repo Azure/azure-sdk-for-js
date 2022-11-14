@@ -40,16 +40,19 @@ async function main() {
     throw response.body.error;
   }
 
-  console.log("General copyrights:");
-  console.log(response.body.generalCopyrights && response.body.generalCopyrights.join("\n"));
+  if (response.body.generalCopyrights) {
+    console.log("General copyrights:");
+    console.log(response.body.generalCopyrights.join("\n"));
+  }
 
-  console.log("Copyright by regions");
-  response.body.regions &&
+  if (response.body.regions) {
+    console.log("Copyright by regions");
     response.body.regions.forEach(({ country, copyrights }) => {
       console.log(`${country.ISO3}, ${country.label}: `);
       console.log(copyrights.join("\n"));
       console.log("==========");
     });
+  }
 }
 
 main().catch((err) => {
