@@ -2,327 +2,366 @@
 // Licensed under the MIT license.
 
 import {
-  AppComponentCreateOrUpdateAppComponentsParameters,
-  AppComponentDeleteAppComponentsParameters,
-  AppComponentGetAppComponentByNameParameters,
-  AppComponentGetAppComponentParameters,
-  ServerMetricsCreateOrUpdateServerMetricsConfigParameters,
-  ServerMetricsGetServerMetricsConfigByNameParameters,
-  ServerMetricsDeleteServerMetricsConfigParameters,
-  ServerMetricsGetServerMetricsConfigParameters,
-  ServerMetricsGetServerDefaultMetricsConfigParameters,
-  ServerMetricsListSupportedResourceTypesParameters,
-  TestCreateOrUpdateTestParameters,
-  TestDeleteLoadTestParameters,
-  TestGetLoadTestParameters,
-  TestListLoadTestSearchParameters,
-  TestUploadTestFileParameters,
-  TestGetTestFileParameters,
-  TestDeleteTestFileParameters,
-  TestListTestFilesParameters,
-  TestRunDeleteTestRunParameters,
-  TestRunCreateOrUpdateTestRunParameters,
-  TestRunGetTestRunParameters,
-  TestRunGetTestRunFileParameters,
-  TestRunListTestRunsParameters,
-  TestRunStopTestRunParameters,
-  TestRunGetTestRunClientMetricsParameters,
-  TestRunGetTestRunClientMetricsFiltersParameters,
+  LoadTestAdministrationCreateOrUpdateTestParameters,
+  LoadTestAdministrationDeleteTestParameters,
+  LoadTestAdministrationGetTestParameters,
+  LoadTestAdministrationListTestsParameters,
+  LoadTestAdministrationUploadFileParameters,
+  LoadTestAdministrationGetFileParameters,
+  LoadTestAdministrationDeleteFileParameters,
+  LoadTestAdministrationListFilesTestParameters,
+  LoadTestAdministrationCreateOrUpdateAppComponentTestParameters,
+  LoadTestAdministrationGetAppComponentsTestParameters,
+  LoadTestAdministrationCreateOrUpdateServerMetricsConfigTestParameters,
+  LoadTestAdministrationGetServerMetricsConfigTestParameters,
+  TestRunDeleteParameters,
+  TestRunCreateOrUpdateParameters,
+  TestRunGetParameters,
+  TestRunGetFileParameters,
+  TestRunListParameters,
+  TestRunStopParameters,
+  TestRunListMetricNamespacesParameters,
+  TestRunListMetricDefinitionsParameters,
+  TestRunGetMetricsParameters,
+  TestRunCreateOrUpdateAppComponentParameters,
+  TestRunGetAppComponentsParameters,
+  TestRunCreateOrUpdateServerMetricsConfigParameters,
+  TestRunGetServerMetricsConfigParameters
 } from "./parameters";
 import {
-  AppComponentCreateOrUpdateAppComponents200Response,
-  AppComponentCreateOrUpdateAppComponents201Response,
-  AppComponentCreateOrUpdateAppComponentsdefaultResponse,
-  AppComponentDeleteAppComponents204Response,
-  AppComponentDeleteAppComponentsdefaultResponse,
-  AppComponentGetAppComponentByName200Response,
-  AppComponentGetAppComponentByNamedefaultResponse,
-  AppComponentGetAppComponent200Response,
-  AppComponentGetAppComponentdefaultResponse,
-  ServerMetricsCreateOrUpdateServerMetricsConfig200Response,
-  ServerMetricsCreateOrUpdateServerMetricsConfig201Response,
-  ServerMetricsCreateOrUpdateServerMetricsConfigdefaultResponse,
-  ServerMetricsGetServerMetricsConfigByName200Response,
-  ServerMetricsGetServerMetricsConfigByNamedefaultResponse,
-  ServerMetricsDeleteServerMetricsConfig204Response,
-  ServerMetricsDeleteServerMetricsConfigdefaultResponse,
-  ServerMetricsGetServerMetricsConfig200Response,
-  ServerMetricsGetServerMetricsConfigdefaultResponse,
-  ServerMetricsGetServerDefaultMetricsConfig200Response,
-  ServerMetricsGetServerDefaultMetricsConfigdefaultResponse,
-  ServerMetricsListSupportedResourceTypes200Response,
-  ServerMetricsListSupportedResourceTypesdefaultResponse,
-  TestCreateOrUpdateTest200Response,
-  TestCreateOrUpdateTest201Response,
-  TestCreateOrUpdateTestdefaultResponse,
-  TestDeleteLoadTest204Response,
-  TestDeleteLoadTestdefaultResponse,
-  TestGetLoadTest200Response,
-  TestGetLoadTestdefaultResponse,
-  TestListLoadTestSearch200Response,
-  TestListLoadTestSearchdefaultResponse,
-  TestUploadTestFile201Response,
-  TestUploadTestFiledefaultResponse,
-  TestGetTestFile200Response,
-  TestGetTestFiledefaultResponse,
-  TestDeleteTestFile204Response,
-  TestDeleteTestFiledefaultResponse,
-  TestListTestFiles200Response,
-  TestListTestFilesdefaultResponse,
-  TestRunDeleteTestRun204Response,
-  TestRunDeleteTestRundefaultResponse,
-  TestRunCreateOrUpdateTestRun200Response,
-  TestRunCreateOrUpdateTestRundefaultResponse,
-  TestRunGetTestRun200Response,
-  TestRunGetTestRundefaultResponse,
-  TestRunGetTestRunFile200Response,
-  TestRunGetTestRunFiledefaultResponse,
-  TestRunListTestRuns200Response,
-  TestRunListTestRunsdefaultResponse,
-  TestRunStopTestRun200Response,
-  TestRunStopTestRundefaultResponse,
-  TestRunGetTestRunClientMetrics200Response,
-  TestRunGetTestRunClientMetricsdefaultResponse,
-  TestRunGetTestRunClientMetricsFilters200Response,
-  TestRunGetTestRunClientMetricsFiltersdefaultResponse,
+  LoadTestAdministrationCreateOrUpdateTest200Response,
+  LoadTestAdministrationCreateOrUpdateTest201Response,
+  LoadTestAdministrationCreateOrUpdateTestdefaultResponse,
+  LoadTestAdministrationDeleteTest204Response,
+  LoadTestAdministrationDeleteTestdefaultResponse,
+  LoadTestAdministrationGetTest200Response,
+  LoadTestAdministrationGetTestdefaultResponse,
+  LoadTestAdministrationListTests200Response,
+  LoadTestAdministrationListTestsdefaultResponse,
+  LoadTestAdministrationUploadFile201Response,
+  LoadTestAdministrationUploadFiledefaultResponse,
+  LoadTestAdministrationGetFile200Response,
+  LoadTestAdministrationGetFiledefaultResponse,
+  LoadTestAdministrationDeleteFile204Response,
+  LoadTestAdministrationDeleteFiledefaultResponse,
+  LoadTestAdministrationListFilesTest200Response,
+  LoadTestAdministrationListFilesTestdefaultResponse,
+  LoadTestAdministrationCreateOrUpdateAppComponentTest200Response,
+  LoadTestAdministrationCreateOrUpdateAppComponentTest201Response,
+  LoadTestAdministrationCreateOrUpdateAppComponentTestdefaultResponse,
+  LoadTestAdministrationGetAppComponentsTest200Response,
+  LoadTestAdministrationGetAppComponentsTestdefaultResponse,
+  LoadTestAdministrationCreateOrUpdateServerMetricsConfigTest200Response,
+  LoadTestAdministrationCreateOrUpdateServerMetricsConfigTest201Response,
+  LoadTestAdministrationCreateOrUpdateServerMetricsConfigTestdefaultResponse,
+  LoadTestAdministrationGetServerMetricsConfigTest200Response,
+  LoadTestAdministrationGetServerMetricsConfigTestdefaultResponse,
+  TestRunDelete204Response,
+  TestRunDeletedefaultResponse,
+  TestRunCreateOrUpdate200Response,
+  TestRunCreateOrUpdatedefaultResponse,
+  TestRunGet200Response,
+  TestRunGetdefaultResponse,
+  TestRunGetFile200Response,
+  TestRunGetFiledefaultResponse,
+  TestRunList200Response,
+  TestRunListdefaultResponse,
+  TestRunStop200Response,
+  TestRunStopdefaultResponse,
+  TestRunListMetricNamespaces200Response,
+  TestRunListMetricNamespacesdefaultResponse,
+  TestRunListMetricDefinitions200Response,
+  TestRunListMetricDefinitionsdefaultResponse,
+  TestRunGetMetrics200Response,
+  TestRunGetMetricsdefaultResponse,
+  TestRunCreateOrUpdateAppComponent200Response,
+  TestRunCreateOrUpdateAppComponent201Response,
+  TestRunCreateOrUpdateAppComponentdefaultResponse,
+  TestRunGetAppComponents200Response,
+  TestRunGetAppComponentsdefaultResponse,
+  TestRunCreateOrUpdateServerMetricsConfig200Response,
+  TestRunCreateOrUpdateServerMetricsConfig201Response,
+  TestRunCreateOrUpdateServerMetricsConfigdefaultResponse,
+  TestRunGetServerMetricsConfig200Response,
+  TestRunGetServerMetricsConfigdefaultResponse
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
-export interface AppComponentCreateOrUpdateAppComponents {
-  /** Associate an App Component (Azure resource) to a test or test run. */
+export interface LoadTestAdministrationCreateOrUpdateTest {
+  /** Create a new test or update an existing test. */
   patch(
-    options: AppComponentCreateOrUpdateAppComponentsParameters
+    options: LoadTestAdministrationCreateOrUpdateTestParameters
   ): StreamableMethod<
-    | AppComponentCreateOrUpdateAppComponents200Response
-    | AppComponentCreateOrUpdateAppComponents201Response
-    | AppComponentCreateOrUpdateAppComponentsdefaultResponse
-  >;
-  /** Delete an App Component. */
-  delete(
-    options?: AppComponentDeleteAppComponentsParameters
-  ): StreamableMethod<
-    AppComponentDeleteAppComponents204Response | AppComponentDeleteAppComponentsdefaultResponse
-  >;
-  /** Get App Component details by App Component name. */
-  get(
-    options?: AppComponentGetAppComponentByNameParameters
-  ): StreamableMethod<
-    AppComponentGetAppComponentByName200Response | AppComponentGetAppComponentByNamedefaultResponse
-  >;
-}
-
-export interface AppComponentGetAppComponent {
-  /** Get App Components for a test or a test run by its name. */
-  get(
-    options?: AppComponentGetAppComponentParameters
-  ): StreamableMethod<
-    AppComponentGetAppComponent200Response | AppComponentGetAppComponentdefaultResponse
-  >;
-}
-
-export interface ServerMetricsCreateOrUpdateServerMetricsConfig {
-  /** Configure server metrics for a test or test run */
-  patch(
-    options: ServerMetricsCreateOrUpdateServerMetricsConfigParameters
-  ): StreamableMethod<
-    | ServerMetricsCreateOrUpdateServerMetricsConfig200Response
-    | ServerMetricsCreateOrUpdateServerMetricsConfig201Response
-    | ServerMetricsCreateOrUpdateServerMetricsConfigdefaultResponse
-  >;
-  /** Get server metrics configuration by its name. */
-  get(
-    options?: ServerMetricsGetServerMetricsConfigByNameParameters
-  ): StreamableMethod<
-    | ServerMetricsGetServerMetricsConfigByName200Response
-    | ServerMetricsGetServerMetricsConfigByNamedefaultResponse
-  >;
-  /** Delete server metrics configuration by its name */
-  delete(
-    options?: ServerMetricsDeleteServerMetricsConfigParameters
-  ): StreamableMethod<
-    | ServerMetricsDeleteServerMetricsConfig204Response
-    | ServerMetricsDeleteServerMetricsConfigdefaultResponse
-  >;
-}
-
-export interface ServerMetricsGetServerMetricsConfig {
-  /** Get server metrics configuration for a test or test run by its name. */
-  get(
-    options?: ServerMetricsGetServerMetricsConfigParameters
-  ): StreamableMethod<
-    | ServerMetricsGetServerMetricsConfig200Response
-    | ServerMetricsGetServerMetricsConfigdefaultResponse
-  >;
-}
-
-export interface ServerMetricsGetServerDefaultMetricsConfig {
-  /** Get all default server metrics configuration for supported resource types. */
-  get(
-    options?: ServerMetricsGetServerDefaultMetricsConfigParameters
-  ): StreamableMethod<
-    | ServerMetricsGetServerDefaultMetricsConfig200Response
-    | ServerMetricsGetServerDefaultMetricsConfigdefaultResponse
-  >;
-}
-
-export interface ServerMetricsListSupportedResourceTypes {
-  /** Get all supported resource types for App Components(Azure resource types). */
-  get(
-    options?: ServerMetricsListSupportedResourceTypesParameters
-  ): StreamableMethod<
-    | ServerMetricsListSupportedResourceTypes200Response
-    | ServerMetricsListSupportedResourceTypesdefaultResponse
-  >;
-}
-
-export interface TestCreateOrUpdateTest {
-  /** Create a new test or Update an existing test. */
-  patch(
-    options: TestCreateOrUpdateTestParameters
-  ): StreamableMethod<
-    | TestCreateOrUpdateTest200Response
-    | TestCreateOrUpdateTest201Response
-    | TestCreateOrUpdateTestdefaultResponse
+    | LoadTestAdministrationCreateOrUpdateTest200Response
+    | LoadTestAdministrationCreateOrUpdateTest201Response
+    | LoadTestAdministrationCreateOrUpdateTestdefaultResponse
   >;
   /** Delete a test by its name. */
   delete(
-    options?: TestDeleteLoadTestParameters
-  ): StreamableMethod<TestDeleteLoadTest204Response | TestDeleteLoadTestdefaultResponse>;
+    options?: LoadTestAdministrationDeleteTestParameters
+  ): StreamableMethod<
+    | LoadTestAdministrationDeleteTest204Response
+    | LoadTestAdministrationDeleteTestdefaultResponse
+  >;
   /** Get load test details by test name */
   get(
-    options?: TestGetLoadTestParameters
-  ): StreamableMethod<TestGetLoadTest200Response | TestGetLoadTestdefaultResponse>;
+    options?: LoadTestAdministrationGetTestParameters
+  ): StreamableMethod<
+    | LoadTestAdministrationGetTest200Response
+    | LoadTestAdministrationGetTestdefaultResponse
+  >;
 }
 
-export interface TestListLoadTestSearch {
+export interface LoadTestAdministrationListTests {
   /** Get all load tests by the fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}. */
   get(
-    options?: TestListLoadTestSearchParameters
-  ): StreamableMethod<TestListLoadTestSearch200Response | TestListLoadTestSearchdefaultResponse>;
+    options?: LoadTestAdministrationListTestsParameters
+  ): StreamableMethod<
+    | LoadTestAdministrationListTests200Response
+    | LoadTestAdministrationListTestsdefaultResponse
+  >;
 }
 
-export interface TestUploadTestFile {
+export interface LoadTestAdministrationUploadFile {
   /** Upload input file for a given test name. File size can't be more than 50 MB. Existing file with same name for the given test will be overwritten. File should be provided in the request body as multipart/form-data. */
   put(
-    options: TestUploadTestFileParameters
-  ): StreamableMethod<TestUploadTestFile201Response | TestUploadTestFiledefaultResponse>;
+    options: LoadTestAdministrationUploadFileParameters
+  ): StreamableMethod<
+    | LoadTestAdministrationUploadFile201Response
+    | LoadTestAdministrationUploadFiledefaultResponse
+  >;
   /** Get test file by the file name. */
   get(
-    options?: TestGetTestFileParameters
-  ): StreamableMethod<TestGetTestFile200Response | TestGetTestFiledefaultResponse>;
-  /** Delete file by the file name for a test. */
+    options?: LoadTestAdministrationGetFileParameters
+  ): StreamableMethod<
+    | LoadTestAdministrationGetFile200Response
+    | LoadTestAdministrationGetFiledefaultResponse
+  >;
+  /** Delete file by the file name for a test */
   delete(
-    options?: TestDeleteTestFileParameters
-  ): StreamableMethod<TestDeleteTestFile204Response | TestDeleteTestFiledefaultResponse>;
+    options?: LoadTestAdministrationDeleteFileParameters
+  ): StreamableMethod<
+    | LoadTestAdministrationDeleteFile204Response
+    | LoadTestAdministrationDeleteFiledefaultResponse
+  >;
 }
 
-export interface TestListTestFiles {
+export interface LoadTestAdministrationListFilesTest {
   /** Get all test files. */
   get(
-    options?: TestListTestFilesParameters
-  ): StreamableMethod<TestListTestFiles200Response | TestListTestFilesdefaultResponse>;
+    options?: LoadTestAdministrationListFilesTestParameters
+  ): StreamableMethod<
+    | LoadTestAdministrationListFilesTest200Response
+    | LoadTestAdministrationListFilesTestdefaultResponse
+  >;
 }
 
-export interface TestRunDeleteTestRun {
+export interface LoadTestAdministrationCreateOrUpdateAppComponentTest {
+  /** Associate an app component (collection of azure resources) to a test */
+  patch(
+    options: LoadTestAdministrationCreateOrUpdateAppComponentTestParameters
+  ): StreamableMethod<
+    | LoadTestAdministrationCreateOrUpdateAppComponentTest200Response
+    | LoadTestAdministrationCreateOrUpdateAppComponentTest201Response
+    | LoadTestAdministrationCreateOrUpdateAppComponentTestdefaultResponse
+  >;
+  /** Get associated app component (collection of azure resources) for the given test. */
+  get(
+    options?: LoadTestAdministrationGetAppComponentsTestParameters
+  ): StreamableMethod<
+    | LoadTestAdministrationGetAppComponentsTest200Response
+    | LoadTestAdministrationGetAppComponentsTestdefaultResponse
+  >;
+}
+
+export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfigTest {
+  /** Configure server metrics for a test */
+  patch(
+    options: LoadTestAdministrationCreateOrUpdateServerMetricsConfigTestParameters
+  ): StreamableMethod<
+    | LoadTestAdministrationCreateOrUpdateServerMetricsConfigTest200Response
+    | LoadTestAdministrationCreateOrUpdateServerMetricsConfigTest201Response
+    | LoadTestAdministrationCreateOrUpdateServerMetricsConfigTestdefaultResponse
+  >;
+  /** Get server metric configuration for the given test. */
+  get(
+    options?: LoadTestAdministrationGetServerMetricsConfigTestParameters
+  ): StreamableMethod<
+    | LoadTestAdministrationGetServerMetricsConfigTest200Response
+    | LoadTestAdministrationGetServerMetricsConfigTestdefaultResponse
+  >;
+}
+
+export interface TestRunDelete {
   /** Delete a test run by its name. */
   delete(
-    options?: TestRunDeleteTestRunParameters
-  ): StreamableMethod<TestRunDeleteTestRun204Response | TestRunDeleteTestRundefaultResponse>;
+    options?: TestRunDeleteParameters
+  ): StreamableMethod<TestRunDelete204Response | TestRunDeletedefaultResponse>;
   /** Create and start a new test run with the given name. */
   patch(
-    options: TestRunCreateOrUpdateTestRunParameters
+    options: TestRunCreateOrUpdateParameters
   ): StreamableMethod<
-    TestRunCreateOrUpdateTestRun200Response | TestRunCreateOrUpdateTestRundefaultResponse
+    TestRunCreateOrUpdate200Response | TestRunCreateOrUpdatedefaultResponse
   >;
   /** Get test run details by name. */
   get(
-    options?: TestRunGetTestRunParameters
-  ): StreamableMethod<TestRunGetTestRun200Response | TestRunGetTestRundefaultResponse>;
+    options?: TestRunGetParameters
+  ): StreamableMethod<TestRunGet200Response | TestRunGetdefaultResponse>;
 }
 
-export interface TestRunGetTestRunFile {
+export interface TestRunGetFile {
   /** Get test run file by file name. */
   get(
-    options?: TestRunGetTestRunFileParameters
-  ): StreamableMethod<TestRunGetTestRunFile200Response | TestRunGetTestRunFiledefaultResponse>;
-}
-
-export interface TestRunListTestRuns {
-  /** Get all test runs with given filters */
-  get(
-    options?: TestRunListTestRunsParameters
-  ): StreamableMethod<TestRunListTestRuns200Response | TestRunListTestRunsdefaultResponse>;
-}
-
-export interface TestRunStopTestRun {
-  /** Stop test run by name. */
-  post(
-    options?: TestRunStopTestRunParameters
-  ): StreamableMethod<TestRunStopTestRun200Response | TestRunStopTestRundefaultResponse>;
-}
-
-export interface TestRunGetTestRunClientMetrics {
-  /** Get all client metrics for a load test run. */
-  post(
-    options: TestRunGetTestRunClientMetricsParameters
+    options?: TestRunGetFileParameters
   ): StreamableMethod<
-    TestRunGetTestRunClientMetrics200Response | TestRunGetTestRunClientMetricsdefaultResponse
+    TestRunGetFile200Response | TestRunGetFiledefaultResponse
   >;
 }
 
-export interface TestRunGetTestRunClientMetricsFilters {
-  /** Get all filters that are supported for client metrics for a given load test run */
+export interface TestRunList {
+  /** Get all test runs with given filters */
   get(
-    options?: TestRunGetTestRunClientMetricsFiltersParameters
+    options?: TestRunListParameters
+  ): StreamableMethod<TestRunList200Response | TestRunListdefaultResponse>;
+}
+
+export interface TestRunStop {
+  /** Stop test run by name. */
+  post(
+    options?: TestRunStopParameters
+  ): StreamableMethod<TestRunStop200Response | TestRunStopdefaultResponse>;
+}
+
+export interface TestRunListMetricNamespaces {
+  /** Lists the metric namespaces for a load test run. */
+  get(
+    options?: TestRunListMetricNamespacesParameters
   ): StreamableMethod<
-    | TestRunGetTestRunClientMetricsFilters200Response
-    | TestRunGetTestRunClientMetricsFiltersdefaultResponse
+    | TestRunListMetricNamespaces200Response
+    | TestRunListMetricNamespacesdefaultResponse
+  >;
+}
+
+export interface TestRunListMetricDefinitions {
+  /** Lists the metric definitions for a load test run. */
+  get(
+    options: TestRunListMetricDefinitionsParameters
+  ): StreamableMethod<
+    | TestRunListMetricDefinitions200Response
+    | TestRunListMetricDefinitionsdefaultResponse
+  >;
+}
+
+export interface TestRunGetMetrics {
+  /** Lists the metric values for a load test run. */
+  post(
+    options: TestRunGetMetricsParameters
+  ): StreamableMethod<
+    TestRunGetMetrics200Response | TestRunGetMetricsdefaultResponse
+  >;
+}
+
+export interface TestRunCreateOrUpdateAppComponent {
+  /** Associate an app component (collection of azure resources) to a test run */
+  patch(
+    options: TestRunCreateOrUpdateAppComponentParameters
+  ): StreamableMethod<
+    | TestRunCreateOrUpdateAppComponent200Response
+    | TestRunCreateOrUpdateAppComponent201Response
+    | TestRunCreateOrUpdateAppComponentdefaultResponse
+  >;
+  /** Get associated app component (collection of azure resources) for the given test run. */
+  get(
+    options?: TestRunGetAppComponentsParameters
+  ): StreamableMethod<
+    TestRunGetAppComponents200Response | TestRunGetAppComponentsdefaultResponse
+  >;
+}
+
+export interface TestRunCreateOrUpdateServerMetricsConfig {
+  /** Configure server metrics for a test run */
+  patch(
+    options: TestRunCreateOrUpdateServerMetricsConfigParameters
+  ): StreamableMethod<
+    | TestRunCreateOrUpdateServerMetricsConfig200Response
+    | TestRunCreateOrUpdateServerMetricsConfig201Response
+    | TestRunCreateOrUpdateServerMetricsConfigdefaultResponse
+  >;
+  /** Get server metric configuration for the given test run. */
+  get(
+    options?: TestRunGetServerMetricsConfigParameters
+  ): StreamableMethod<
+    | TestRunGetServerMetricsConfig200Response
+    | TestRunGetServerMetricsConfigdefaultResponse
   >;
 }
 
 export interface Routes {
-  /** Resource for '/appcomponents/\{name\}' has methods for the following verbs: patch, delete, get */
-  (path: "/appcomponents/{name}", name: string): AppComponentCreateOrUpdateAppComponents;
-  /** Resource for '/appcomponents' has methods for the following verbs: get */
-  (path: "/appcomponents"): AppComponentGetAppComponent;
-  /** Resource for '/serverMetricsConfig/\{name\}' has methods for the following verbs: patch, get, delete */
+  /** Resource for '/tests/\{testId\}' has methods for the following verbs: patch, delete, get */
   (
-    path: "/serverMetricsConfig/{name}",
-    name: string
-  ): ServerMetricsCreateOrUpdateServerMetricsConfig;
-  /** Resource for '/serverMetricsConfig' has methods for the following verbs: get */
-  (path: "/serverMetricsConfig"): ServerMetricsGetServerMetricsConfig;
-  /** Resource for '/serverMetricsConfig/default' has methods for the following verbs: get */
-  (path: "/serverMetricsConfig/default"): ServerMetricsGetServerDefaultMetricsConfig;
-  /** Resource for '/serverMetricsConfig/supportedResourceTypes' has methods for the following verbs: get */
-  (path: "/serverMetricsConfig/supportedResourceTypes"): ServerMetricsListSupportedResourceTypes;
-  /** Resource for '/loadtests/\{testId\}' has methods for the following verbs: patch, delete, get */
-  (path: "/loadtests/{testId}", testId: string): TestCreateOrUpdateTest;
-  /** Resource for '/loadtests/sortAndFilter' has methods for the following verbs: get */
-  (path: "/loadtests/sortAndFilter"): TestListLoadTestSearch;
-  /** Resource for '/loadtests/\{testId\}/files/\{fileId\}' has methods for the following verbs: put, get, delete */
-  (path: "/loadtests/{testId}/files/{fileId}", testId: string, fileId: string): TestUploadTestFile;
-  /** Resource for '/loadtests/\{testId\}/files' has methods for the following verbs: get */
-  (path: "/loadtests/{testId}/files", testId: string): TestListTestFiles;
-  /** Resource for '/testruns/\{testRunId\}' has methods for the following verbs: delete, patch, get */
-  (path: "/testruns/{testRunId}", testRunId: string): TestRunDeleteTestRun;
-  /** Resource for '/testruns/\{testRunId\}/files/\{fileId\}' has methods for the following verbs: get */
+    path: "/tests/{testId}",
+    testId: string
+  ): LoadTestAdministrationCreateOrUpdateTest;
+  /** Resource for '/tests' has methods for the following verbs: get */
+  (path: "/tests"): LoadTestAdministrationListTests;
+  /** Resource for '/tests/\{testId\}/files/\{fileId\}' has methods for the following verbs: put, get, delete */
   (
-    path: "/testruns/{testRunId}/files/{fileId}",
+    path: "/tests/{testId}/files/{fileId}",
+    testId: string,
+    fileId: string
+  ): LoadTestAdministrationUploadFile;
+  /** Resource for '/tests/\{testId\}/files' has methods for the following verbs: get */
+  (
+    path: "/tests/{testId}/files",
+    testId: string
+  ): LoadTestAdministrationListFilesTest;
+  /** Resource for '/tests/\{testId\}/app-components' has methods for the following verbs: patch, get */
+  (
+    path: "/tests/{testId}/app-components",
+    testId: string
+  ): LoadTestAdministrationCreateOrUpdateAppComponentTest;
+  /** Resource for '/tests/\{testId\}/server-metric-configs' has methods for the following verbs: patch, get */
+  (
+    path: "/tests/{testId}/server-metric-configs",
+    testId: string
+  ): LoadTestAdministrationCreateOrUpdateServerMetricsConfigTest;
+  /** Resource for '/test-runs/\{testRunId\}' has methods for the following verbs: delete, patch, get */
+  (path: "/test-runs/{testRunId}", testRunId: string): TestRunDelete;
+  /** Resource for '/test-runs/\{testRunId\}/files/\{fileId\}' has methods for the following verbs: get */
+  (
+    path: "/test-runs/{testRunId}/files/{fileId}",
     testRunId: string,
     fileId: string
-  ): TestRunGetTestRunFile;
-  /** Resource for '/testruns/sortAndFilter' has methods for the following verbs: get */
-  (path: "/testruns/sortAndFilter"): TestRunListTestRuns;
-  /** Resource for '/testruns/\{testRunId\}:stop' has methods for the following verbs: post */
-  (path: "/testruns/{testRunId}:stop", testRunId: string): TestRunStopTestRun;
-  /** Resource for '/testruns/\{testRunId\}/clientMetrics' has methods for the following verbs: post */
-  (path: "/testruns/{testRunId}/clientMetrics", testRunId: string): TestRunGetTestRunClientMetrics;
-  /** Resource for '/testruns/\{testRunId\}/clientMetricsFilters' has methods for the following verbs: get */
+  ): TestRunGetFile;
+  /** Resource for '/test-runs' has methods for the following verbs: get */
+  (path: "/test-runs"): TestRunList;
+  /** Resource for '/test-runs/\{testRunId\}:stop' has methods for the following verbs: post */
+  (path: "/test-runs/{testRunId}:stop", testRunId: string): TestRunStop;
+  /** Resource for '/test-runs/\{testRunId\}/metric-namespaces' has methods for the following verbs: get */
   (
-    path: "/testruns/{testRunId}/clientMetricsFilters",
+    path: "/test-runs/{testRunId}/metric-namespaces",
     testRunId: string
-  ): TestRunGetTestRunClientMetricsFilters;
+  ): TestRunListMetricNamespaces;
+  /** Resource for '/test-runs/\{testRunId\}/metric-definitions' has methods for the following verbs: get */
+  (
+    path: "/test-runs/{testRunId}/metric-definitions",
+    testRunId: string
+  ): TestRunListMetricDefinitions;
+  /** Resource for '/test-runs/\{testRunId\}/metrics' has methods for the following verbs: post */
+  (
+    path: "/test-runs/{testRunId}/metrics",
+    testRunId: string
+  ): TestRunGetMetrics;
+  /** Resource for '/test-runs/\{testRunId\}/app-components' has methods for the following verbs: patch, get */
+  (
+    path: "/test-runs/{testRunId}/app-components",
+    testRunId: string
+  ): TestRunCreateOrUpdateAppComponent;
+  /** Resource for '/test-runs/\{testRunId\}/server-metric-configs' has methods for the following verbs: patch, get */
+  (
+    path: "/test-runs/{testRunId}/server-metric-configs",
+    testRunId: string
+  ): TestRunCreateOrUpdateServerMetricsConfig;
 }
 
 export type AzureLoadTestingClient = Client & {

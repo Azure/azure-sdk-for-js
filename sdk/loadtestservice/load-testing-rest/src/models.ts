@@ -1,26 +1,172 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export interface AppComponentsMap {
-  /** Azure Load Testing resource Id */
-  resourceId?: string;
-  /** [Required, if testRunId is not given] Load test unique identifier */
+export interface Test {
+  /** Pass fail criteria for a test. */
+  passFailCriteria?: PassFailCriteria;
+  /** Secrets can be stored in an Azure Key Vault or any other secret store. If the secret is stored in an Azure Key Vault, the value should be the secret identifier and the type should be AKV_SECRET_URI. If the secret is stored elsewhere, the secret value should be provided directly and the type should be SECRET_VALUE. */
+  secrets?: Record<string, Secret>;
+  /** Certificates metadata */
+  certificate?: CertificateMetadata;
+  /** Environment variables which are defined as a set of <name,value> pairs. */
+  environmentVariables?: Record<string, string>;
+  /** The load test configuration. */
+  loadTestConfiguration?: LoadTestConfiguration;
+  /** The input artifacts for the test. */
+  inputArtifacts?: TestInputArtifacts;
+  /** Unique test name as identifier. */
   testId?: string;
-  /** [Required if testId is not given] Load test run unique identifier */
-  testRunId?: string;
-  /** AppComponent name */
+  /** The test description. */
+  description?: string;
+  /** Display name of a test. */
+  displayName?: string;
+  /** Subnet ID on which the load test instances should run. */
+  subnetId?: string;
+  /** Type of the managed identity referencing the Key vault. */
+  keyvaultReferenceIdentityType?: string;
+  /** Resource Id of the managed identity referencing the Key vault. */
+  keyvaultReferenceIdentityId?: string;
+  /** The creation datetime(ISO 8601 literal format). */
+  createdDateTime?: Date | string;
+  /** The user that created. */
+  createdBy?: string;
+  /** The last Modified datetime(ISO 8601 literal format). */
+  lastModifiedDateTime?: Date | string;
+  /** The user that last modified. */
+  lastModifiedBy?: string;
+}
+
+export interface PassFailCriteria {
+  /** Map of id and pass fail metrics { id  : pass fail metrics }. */
+  passFailMetrics?: Record<string, PassFailMetric>;
+}
+
+export interface PassFailMetric {
+  /** The client metric on which the criteria should be applied. */
+  clientmetric?:
+    | "response_time_ms"
+    | "latency"
+    | "error"
+    | "requests"
+    | "requests_per_sec";
+  /** The aggregation function to be applied on the client metric. Allowed functions - ‘percentage’ - for error metric , ‘avg’, ‘p50’, ‘p90’, ‘p95’, ‘p99’, ‘min’, ‘max’ - for response_time_ms and latency metric, ‘avg’ - for requests_per_sec, ‘count’ - for requests */
+  aggregate?:
+    | "count"
+    | "percentage"
+    | "avg"
+    | "p50"
+    | "p90"
+    | "p95"
+    | "p99"
+    | "min"
+    | "max";
+  /** The comparison operator. Supported types ‘>’, ‘<’ */
+  condition?: string;
+  /** Request name for which the Pass fail criteria has to be applied */
+  requestName?: string;
+  /** The value to compare with the client metric. Allowed values - ‘error : [0.0 , 100.0] unit- % ’, response_time_ms and latency : any integer value unit- ms. */
+  value?: number;
+  /** Action taken after the threshold is met. Default is ‘continue’. */
+  action?: "stop" | "continue";
+  /** The actual value of the client metric for the test run. */
+  actualValue?: number;
+  /** Outcome of the test run. */
+  result?: "passed" | "undetermined" | "failed";
+}
+
+export interface Secret {
+  /** The value of the secret for the respective type */
+  value?: string;
+  /** Type of secret */
+  type?: "AKV_SECRET_URI" | "SECRET_VALUE";
+}
+
+export interface CertificateMetadata {
+  /** The value of the certificate for respective type */
+  value?: string;
+  /** Type of certificate */
+  type?: "AKV_CERT_URI";
+  /** Name of the certificate. */
   name?: string;
-  /** AppComponents Map { resource id (Fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}) : resource object } */
-  value: Record<string, AppComponent>;
+}
+
+export interface LoadTestConfiguration {
+  /** The number of engine instances to execute load test. Supported values are in range of 1-45. Required for creating a new test. */
+  engineInstances?: number;
+  /** If false, Azure Load Testing copies and processes your input files unmodified across all test engine instances. If true, Azure Load Testing splits the CSV input data evenly across all engine instances. If you provide multiple CSV files, each file will be split evenly. */
+  splitAllCSVs?: boolean;
+  /** If true, optionalLoadTestConfig is required and JMX script for the load test is not required to upload. */
+  quickStartTest?: boolean;
+  /** Optional load test config */
+  optionalLoadTestConfig?: OptionalLoadTestConfig;
+}
+
+export interface OptionalLoadTestConfig {
+  /** Test URL. Provide the complete HTTP URL. For example, http://contoso-app.azurewebsites.net/login */
+  endpointUrl?: string;
+  /** No of concurrent virtual users */
+  vusers?: number;
+  /** Ramp up time */
+  rampUpTime?: number;
+  /** Test run duration */
+  duration?: number;
+}
+
+export interface TestInputArtifacts {
+  /** File info */
+  configFileInfo?: FileInfo;
+  /** File info */
+  testScriptFileInfo?: FileInfo;
+  /** File info */
+  userPropFileInfo?: FileInfo;
+  /** File info */
+  inputArtifactsZipFileInfo?: FileInfo;
+  /** Additional supported files for the test run */
+  additionalFileInfo?: Array<FileInfo>;
+}
+
+export interface FileInfo {
+  /** File URL. */
+  url?: string;
+  /** Unique name for test file. */
+  fileId?: string;
+  /** Name of the file. */
+  filename?: string;
+  /** File type */
+  fileType?: "JMX_FILE" | "USER_PROPERTIES" | "ADDITIONAL_ARTIFACTS";
+  /** Expiry time of the file (ISO 8601 literal format) */
+  expireDateTime?: Date | string;
+  /** Validation status of the file */
+  validationStatus?:
+    | "NOT_VALIDATED"
+    | "VALIDATION_SUCCESS"
+    | "VALIDATION_FAILURE"
+    | "VALIDATION_INITIATED"
+    | "VALIDATION_NOT_REQUIRED";
+}
+
+export interface TestAppComponents {
+  /** Test identifier */
+  testId?: string;
+  /** Azure resource collection { resource id (fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}) : resource object } */
+  components: Record<string, AppComponent>;
+  /** The creation datetime(ISO 8601 literal format). */
+  createdDateTime?: Date | string;
+  /** The user that created. */
+  createdBy?: string;
+  /** The last Modified datetime(ISO 8601 literal format). */
+  lastModifiedDateTime?: Date | string;
+  /** The user that last modified. */
+  lastModifiedBy?: string;
 }
 
 export interface AppComponent {
-  /** Fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName} */
-  resourceId: string;
-  /** Azure resource name */
-  resourceName: string;
-  /** Azure resource type */
-  resourceType: string;
+  /** fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName} */
+  resourceId?: string;
+  /** Azure resource name, required while creating the app component. */
+  resourceName?: string;
+  /** Azure resource type, required while creating the app component. */
+  resourceType?: string;
   /** Azure resource display name */
   displayName?: string;
   /** Resource group name of the Azure resource */
@@ -31,28 +177,32 @@ export interface AppComponent {
   kind?: string;
 }
 
-export interface ServerMetricsModel {
-  /** Server metrics config name. */
-  name?: string;
-  /** [Required, if testRunId is not given] Load test unique identifier */
+export interface TestServerMetricConfig {
+  /** Test identifier */
   testId?: string;
-  /** [Required, if testId is not given] Load test run unique identifier */
-  testRunId?: string;
-  /** Metrics map {metric id : metrics object} (Refer : https://docs.microsoft.com/en-us/rest/api/monitor/metric-definitions/list#metricdefinition for metric id). */
-  metrics?: Record<string, ResourceMetricModel>;
+  /** Azure resource metrics collection {metric id : metrics object} (Refer : https://docs.microsoft.com/en-us/rest/api/monitor/metric-definitions/list#metricdefinition for metric id). */
+  metrics?: Record<string, ResourceMetric>;
+  /** The creation datetime(ISO 8601 literal format). */
+  createdDateTime?: Date | string;
+  /** The user that created. */
+  createdBy?: string;
+  /** The last Modified datetime(ISO 8601 literal format). */
+  lastModifiedDateTime?: Date | string;
+  /** The user that last modified. */
+  lastModifiedBy?: string;
 }
 
-export interface ResourceMetricModel {
-  /** Unique identifier for metric. */
+export interface ResourceMetric {
+  /** Unique name for metric. */
   id?: string;
-  /** Azure resource Id. */
+  /** Azure resource id. */
   resourceId: string;
   /** Metric name space. */
-  metricnamespace: string;
+  metricNamespace: string;
   /** Metric description. */
   displayDescription?: string;
-  /** Metric name object. */
-  name: ServerMetricName;
+  /** The localizable string class. */
+  name: LocalizableString;
   /** Metric aggregation. */
   aggregation: string;
   /** Metric unit. */
@@ -61,179 +211,88 @@ export interface ResourceMetricModel {
   resourceType: string;
 }
 
-export interface ServerMetricName {
-  /** Metric name value. */
-  value: string;
-  /** Metric localized name. */
-  localizedValue: string;
+export interface LocalizableString {
+  /** The locale specific value. */
+  localizedValue?: string;
+  /** The invariant value. */
+  value?: string;
 }
 
-export interface TestModel {
-  /** Unique test name as identifier. */
-  testId?: string;
-  /** The test description. */
-  description?: string;
-  /** Display name of a test. */
-  displayName?: string;
-  /** Fully qualified resource Id e.g /subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}. */
-  resourceId?: string;
-  /** The load test configuration. */
-  loadTestConfig?: LoadTestConfig;
+export interface TestRun {
   /** Pass fail criteria for a test. */
   passFailCriteria?: PassFailCriteria;
-  /** The created DateTime(ISO 8601 literal format) of the test model. */
-  createdDateTime?: Date | string;
-  /** The user that created the test model. */
-  createdBy?: string;
-  /** The last Modified DateTime(ISO 8601 literal format) of the test model. */
-  lastModifiedDateTime?: Date | string;
-  /** The user that last modified the test model. */
-  lastModifiedBy?: string;
-  /** The input artifacts for the test. */
-  inputArtifacts?: InputTestArtifacts;
   /** Secrets can be stored in an Azure Key Vault or any other secret store. If the secret is stored in an Azure Key Vault, the value should be the secret identifier and the type should be AKV_SECRET_URI. If the secret is stored elsewhere, the secret value should be provided directly and the type should be SECRET_VALUE. */
-  secrets?: Record<string, SecretMetadata>;
+  secrets?: Record<string, Secret>;
+  /** Certificates metadata */
+  certificate?: CertificateMetadata;
   /** Environment variables which are defined as a set of <name,value> pairs. */
   environmentVariables?: Record<string, string>;
-  /** Subnet ID on which the load test instances should run. */
-  subnetId?: string;
-  /** Type of the managed identity referencing the Key vault. */
-  keyvaultReferenceIdentityType?: string;
-  /** Resource Id of the managed identity referencing the Key vault. */
-  keyvaultReferenceIdentityId?: string;
-}
-
-export interface LoadTestConfig {
-  /** The number of engine instances to execute load test. Supported values are in range of 1-45. Required for creating a new test. */
-  engineInstances?: number;
-  /** Whether all the input CSV files should be split evenly across all engines. */
-  splitAllCSVs?: boolean;
-}
-
-export interface PassFailCriteria {
-  /** Map of id and pass fail metrics { id  : pass fail metrics }. */
-  passFailMetrics?: Record<string, PassFailMetric>;
-}
-
-export interface PassFailMetric {
-  /** The client metric on which the criteria should be applied. Allowed values - ‘response_time_ms’ , ‘latency’, ‘error’, ‘requests’, ‘requests_per_sec’. */
-  clientmetric?: string;
-  /** The aggregation function to be applied on the client metric. Allowed functions - ‘percentage’ - for error metric ,‘avg’, ‘p50’, ‘p90’, ‘p95’, ‘p99’, ‘min’, ‘max’ - for response_time_ms and latency metric, ‘avg’ - for requests_per_sec, ‘count’ - for requests. */
-  aggregate?: string;
-  /** The comparison operator. Supported types ‘>’ */
-  condition?: string;
-  /** Request name for which the Pass fail criteria has to be applied. */
-  requestName?: string;
-  /** The value to compare with the client metric. Allowed values - ‘error : [0.0 , 100.0] unit- % ’, response_time_ms and latency : any integer value unit- ms. */
-  value?: number;
-  /** Either ‘stop’ or ‘continue’ after the threshold is met. Default is ‘continue’. */
-  action?: string;
-  /** The actual value of the client metric for the test run. */
-  actualValue?: number;
-  /** Outcome of the test run. possible outcome - ‘passed’ , ‘failed’ , ‘undetermined’. */
-  result?: string;
-}
-
-export interface InputTestArtifacts {
-  /** FileUrl Model. */
-  configUrl?: FileUrl;
-  /** FileUrl Model. */
-  testScriptUrl?: FileUrl;
-  /** FileUrl Model. */
-  userPropUrl?: FileUrl;
-  /** FileUrl Model. */
-  inputArtifactsZipFileurl?: FileUrl;
-  /** The input artifacts file { name : url } map for the test run. */
-  additionalUrls?: Array<FileUrl>;
-}
-
-export interface FileUrl {
-  /** File URL. */
-  url?: string;
-  /** File unique identifier. */
-  fileId?: string;
-  /** Name of the file. */
-  filename?: string;
-  /** Integer representation of the file type (0 = JMX_FILE, 1 = USER_PROPERTIES, 2 = ADDITIONAL_ARTIFACTS) */
-  fileType?: "0" | "1" | "2";
-  /** Expiry time of the file */
-  expireTime?: Date | string;
-  /** Validation status of the file */
-  validationStatus?: string;
-}
-
-export interface SecretMetadata {
-  /** The value of the secret, of type AKV_SECRET_URI or SECRET_VALUE */
-  value?: string;
-  /** Type of secret. eg. AKV_SECRET_URI/SECRET_VALUE */
-  type?: string;
-}
-
-export interface TestRunModel {
-  /** Unique test run name as identifier. */
+  /** Error details if there is any failure in load test run */
+  errorDetails?: Array<ErrorDetails>;
+  /** Test run statistics. */
+  testRunStatistics?: Record<string, TestRunStatistics>;
+  /** The load test configuration. */
+  loadTestConfiguration?: LoadTestConfiguration;
+  /** Collection of test run artifacts */
+  testArtifacts?: TestRunArtifacts;
+  /** Test result for pass/Fail criteria used during the test run. */
+  testResult?: "PASSED" | "NOT_APPLICABLE" | "FAILED";
+  /** Unique test run name as identifier */
   testRunId?: string;
-  /** Display name of a test run. */
+  /** Display name of a testRun. */
   displayName?: string;
   /** Associated test Id. */
   testId?: string;
-  /** Load test resource Id. */
-  resourceId?: string;
   /** The test run description. */
   description?: string;
   /** The test run status. */
-  status?: string;
+  status?:
+    | "ACCEPTED"
+    | "NOTSTARTED"
+    | "PROVISIONING"
+    | "PROVISIONED"
+    | "CONFIGURING"
+    | "CONFIGURED"
+    | "EXECUTING"
+    | "EXECUTED"
+    | "DEPROVISIONING"
+    | "DEPROVISIONED"
+    | "DONE"
+    | "CANCELLING"
+    | "CANCELLED"
+    | "FAILED"
+    | "VALIDATION_SUCCESS"
+    | "VALIDATION_FAILURE";
   /** The test run start DateTime(ISO 8601 literal format). */
   startDateTime?: Date | string;
   /** The test run end DateTime(ISO 8601 literal format). */
   endDateTime?: Date | string;
-  /** The load test configuration. */
-  loadTestConfig?: LoadTestConfig;
-  /** Test result for pass/Fail criteria used during the test run. possible outcome - ‘Passed’ , ‘Failed’ , ‘Not Applicable’. */
-  testResult?: string;
-  /** Pass fail criteria for a test. */
-  passFailCriteria?: PassFailCriteria;
-  testArtifacts?: TestArtifacts;
-  /** Test run initiated time */
+  /** Test run initiated time. */
   executedDateTime?: Date | string;
   /** Number of virtual users, for which test has been run. */
   vusers?: number;
-  /** Test run statistics */
-  testRunStatistics?: Record<string, TestRunStatisticsModel>;
-  /** The created DateTime(ISO 8601 literal format) of the test run. */
-  createdDateTime?: Date | string;
-  /** The user that created the test run. */
-  createdBy?: string;
-  /** The last updated  DateTime(ISO 8601 literal format) of the test run. */
-  lastModifiedDateTime?: Date | string;
-  /** The user that updated the test run. */
-  lastModifiedBy?: string;
   /** Portal url. */
   portalUrl?: string;
-  /** Secrets can be stored in an Azure Key Vault or any other secret store. If the secret is stored in an Azure Key Vault, the value should be the secret identifier and the type should be AKV_SECRET_URI. If the secret is stored elsewhere, the secret value should be provided directly and the type should be SECRET_VALUE. */
-  secrets?: Record<string, SecretMetadata>;
-  /** Environment variables which are defined as a set of <name,value> pairs. */
-  environmentVariables?: Record<string, string>;
   /** Test run duration in milliseconds. */
   duration?: number;
   /** Subnet ID on which the load test instances should run. */
   subnetId?: string;
+  /** The creation datetime(ISO 8601 literal format). */
+  createdDateTime?: Date | string;
+  /** The user that created. */
+  createdBy?: string;
+  /** The last Modified datetime(ISO 8601 literal format). */
+  lastModifiedDateTime?: Date | string;
+  /** The user that last modified. */
+  lastModifiedBy?: string;
 }
 
-export interface TestArtifacts {
-  /** The input artifacts for the test. */
-  inputArtifacts: InputTestArtifacts;
-  /** The output artifacts for the test run. */
-  outputArtifacts?: OutputTestArtifacts;
+export interface ErrorDetails {
+  /** Error details in case test run was not successfully run. */
+  message?: string;
 }
 
-export interface OutputTestArtifacts {
-  /** FileUrl Model. */
-  resultUrl?: FileUrl;
-  /** FileUrl Model. */
-  logsUrl?: FileUrl;
-}
-
-export interface TestRunStatisticsModel {
+export interface TestRunStatistics {
   /** Transaction name. */
   transaction?: string;
   /** Sampler count. */
@@ -260,21 +319,75 @@ export interface TestRunStatisticsModel {
   throughput?: number;
   /** Received network bytes. */
   receivedKBytesPerSec?: number;
-  /** Sent network bytes. */
+  /** Send network bytes. */
   sentKBytesPerSec?: number;
 }
 
-export interface ClientMetricsRequestModel {
-  /** List of request samplers, maximum supported samplers for queries are 20. In case of empty, it will return metrics for maximum 20 samplers */
-  requestSamplers?: Array<string>;
-  /** List of errors, maximum supported errors for queries are 20. In case of empty, by default will return metrics for maximum 20 errors */
-  errors?: Array<string>;
-  /** List of percentiles values for response time, supported values 50,90,99,95. Default value is 50th percentile. */
-  percentiles?: Array<string>;
-  /** For test duration less than 10 minutes group by time interval can be any one of 5s,10s,1m,5m.\n\nFor test duration greater than 10 minutes, group by time interval can be any one of 1m,5m,1h. Default value is 1m. */
-  groupByInterval?: string;
-  /** Start time */
-  startTime: Date | string;
-  /** End time */
-  endTime: Date | string;
+export interface TestRunArtifacts {
+  /** The input artifacts for the test run. */
+  inputArtifacts?: TestRunInputArtifacts;
+  /** The output artifacts for the test run. */
+  outputArtifacts?: TestRunOutputArtifacts;
+}
+
+export interface TestRunInputArtifacts {
+  /** File info */
+  configFileInfo?: FileInfo;
+  /** File info */
+  testScriptFileInfo?: FileInfo;
+  /** File info */
+  userPropFileInfo?: FileInfo;
+  /** File info */
+  inputArtifactsZipFileInfo?: FileInfo;
+  /** Additional supported files for the test run */
+  additionalFileInfo?: Array<FileInfo>;
+}
+
+export interface TestRunOutputArtifacts {
+  /** File info */
+  resultUrl?: FileInfo;
+  /** File info */
+  logsUrl?: FileInfo;
+}
+
+export interface MetricRequestPayload {
+  /** The MetadataFilter is used to reduce the set of metric data returned. Example: Metric contains metadata like SamplerName, Error. To retrieve all the time series data where SamplerName is equals to HTTPRequest1 or HTTPRequest2, the MetadataFilter value will be {"SamplerName", ["HTTPRequest1", "HTTPRequest2"} */
+  filters?: Array<MetadataFilter>;
+}
+
+export interface MetadataFilter {
+  /** The invariant metadata name */
+  name?: string;
+  /** The metadata values. Maximum values can be 20. */
+  values?: Array<string>;
+}
+
+export interface TestRunAppComponents {
+  /** Test run identifier */
+  testRunId?: string;
+  /** Azure resource collection { resource id (fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}) : resource object } */
+  components: Record<string, AppComponent>;
+  /** The creation datetime(ISO 8601 literal format). */
+  createdDateTime?: Date | string;
+  /** The user that created. */
+  createdBy?: string;
+  /** The last Modified datetime(ISO 8601 literal format). */
+  lastModifiedDateTime?: Date | string;
+  /** The user that last modified. */
+  lastModifiedBy?: string;
+}
+
+export interface TestRunServerMetricConfig {
+  /** Test run identifier */
+  testRunId?: string;
+  /** Azure resource metrics collection {metric id : metrics object} (Refer : https://docs.microsoft.com/en-us/rest/api/monitor/metric-definitions/list#metricdefinition for metric id). */
+  metrics?: Record<string, ResourceMetric>;
+  /** The creation datetime(ISO 8601 literal format). */
+  createdDateTime?: Date | string;
+  /** The user that created. */
+  createdBy?: string;
+  /** The last Modified datetime(ISO 8601 literal format). */
+  lastModifiedDateTime?: Date | string;
+  /** The user that last modified. */
+  lastModifiedBy?: string;
 }
