@@ -10068,7 +10068,7 @@ packages:
     dev: false
 
   file:projects/arm-agrifood.tgz:
-    resolution: {integrity: sha512-SRUhoa6EzJb8/EF6VQg5dy28StH5phW5eAE48D3XJR6x8G6TsUKjUH4hUVcbueAIdzvScPmnqXzRR9sorGQW/A==, tarball: file:projects/arm-agrifood.tgz}
+    resolution: {integrity: sha512-gVxo5i35p+KzXDAsQFlsfNFmw3I24n7K1pQDcvMJe5rkVTEE5KgjJkhE0WInzUcHLtI1oXOfC2fAZmY66jrIog==, tarball: file:projects/arm-agrifood.tgz}
     name: '@rush-temp/arm-agrifood'
     version: 0.0.0
     dependencies:
@@ -10079,18 +10079,18 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.3
+      '@types/node': 14.18.33
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
