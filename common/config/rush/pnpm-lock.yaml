@@ -1182,6 +1182,25 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/keyvault-secrets/4.6.0:
+    resolution: {integrity: sha512-MDqsyODCGC2srqLKmO6MFw9WdgLrbPsfCNxgbekHXEd6XKM6KKyBlup5joj96EmdfZnXDFriecAIpj0Dtu81RQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.4.0
+      '@azure/core-client': 1.6.1
+      '@azure/core-http-compat': 1.3.0
+      '@azure/core-lro': 2.4.0
+      '@azure/core-paging': 1.4.0
+      '@azure/core-rest-pipeline': 1.10.0
+      '@azure/core-tracing': 1.0.1
+      '@azure/core-util': 1.1.1
+      '@azure/logger': 1.0.3
+      tslib: 2.4.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/logger-js/1.3.2:
     resolution: {integrity: sha512-h58oEROO2tniBTSmFmuHBGvuiFuYsHQBWTVdpT2AiOED4F2Kgf7rs0MPYPXiBcDvihC70M7QPRhIQ3JK1H/ygw==}
     dependencies:
@@ -1736,6 +1755,7 @@ packages:
   /@opentelemetry/api-metrics/0.33.0:
     resolution: {integrity: sha512-78evfPRRRnJA6uZ3xuBuS3VZlXTO/LRs+Ff1iv3O/7DgibCtq9k27T6Zlj8yRdJDFmcjcbQrvC0/CpDpWHaZYA==}
     engines: {node: '>=14'}
+    deprecated: Please use @opentelemetry/api >= 1.3.0
     dependencies:
       '@opentelemetry/api': 1.2.0
     dev: false
@@ -3899,7 +3919,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221110
+      typescript: 5.0.0-dev.20221114
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8847,8 +8867,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221110:
-    resolution: {integrity: sha512-2ErQCfMJ/il4ipW6NRIqJdQvJ84k8nafDIXGCpjaedCdnF/ejRmtHAhPuS5m54AKhRz/uc31LxzKpcSOxVuJHQ==}
+  /typescript/5.0.0-dev.20221114:
+    resolution: {integrity: sha512-lMcxw0oxEhQR0HIZyxhmCiwFqXfPQGtakbc+792/hmPP/pyICuaUUIKyY/7Cl6QPGTplHcGjDPEVbVE46gPVrA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9998,12 +10018,13 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-vO7hWG0AAYTFC6qf1tcU2u33faob73FxLBByfMk5Ch36U3NMbHXNjbpjBCFF/fDyL75SKUvv8qdPcxc48yfnLw==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-qMJ4lF5xn+N1xqlLqtBC2XUXjlcK4Zkdje7AIRdRJg7b1nNZSyRffxYAD2pbxHtVTNvMJH128ZP/FOL1pbMkyg==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
       '@azure/eventgrid': 4.9.0
       '@azure/identity': 2.1.0
+      '@azure/keyvault-secrets': 4.6.0
       '@microsoft/api-extractor': 7.33.5
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
@@ -17401,11 +17422,12 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-tN+u8x9/M7tFzXUoQzRkAfhi0v+iYF+LURMDHyLK4CYS6+RBtLSOYwYGyiFlx2UN0nhMKHpq7urKZ2V9/qdKkQ==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-XUmp9vdDSncV2cw14RVqWlVqyb6Xc0BGJW9eMNPFw0KZWWtHjQriXAs+PR2x2f1AcBlsv0qtPgcylkI18URH9A==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
+      '@azure/keyvault-secrets': 4.6.0
       '@microsoft/api-extractor': 7.33.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.33
@@ -18379,11 +18401,12 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-secrets.tgz:
-    resolution: {integrity: sha512-JhUlAPhZ2oBP8IivYhj7RUXwmVk0zrGNqHa62Pnq9FRgRMqmbJF/l035GZ1TmXNcn+J47bPAo4LBb40ZUpLs9Q==, tarball: file:projects/perf-keyvault-secrets.tgz}
+    resolution: {integrity: sha512-/nxtV5BHzsXZ2e3l3XT4DrR3svzpyaQr30nxRHe43LvATtTFVADWQVCRSQ+I3Nf8lkC3hrvJP8h8DmazHGdzhQ==, tarball: file:projects/perf-keyvault-secrets.tgz}
     name: '@rush-temp/perf-keyvault-secrets'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
+      '@azure/keyvault-secrets': 4.6.0
       '@types/node': 14.18.33
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
