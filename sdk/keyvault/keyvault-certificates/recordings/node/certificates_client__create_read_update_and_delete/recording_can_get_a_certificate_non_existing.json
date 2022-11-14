@@ -1,14 +1,14 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cangetacertificateNonExisting-/?api-version=7.3",
+      "RequestUri": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cangetacertificateNonExisting-/?api-version=7.4-preview.1",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-keyvault-certificates/4.7.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "2d1df9bc-ae9f-4871-a1a3-e7d328811353"
+        "x-ms-client-request-id": "3efc7ed3-cb0e-43a6-abcd-12732c4e606f"
       },
       "RequestBody": null,
       "StatusCode": 401,
@@ -16,17 +16,17 @@
         "Cache-Control": "no-cache",
         "Content-Length": "97",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 10 Nov 2022 23:17:16 GMT",
+        "Date": "Mon, 14 Nov 2022 17:58:03 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
         "WWW-Authenticate": "Bearer authorization=\u0022https://login.windows.net/12345678-1234-1234-1234-123456789012\u0022, resource=\u0022https://vault.azure.net\u0022",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "2d1df9bc-ae9f-4871-a1a3-e7d328811353",
+        "x-ms-client-request-id": "3efc7ed3-cb0e-43a6-abcd-12732c4e606f",
         "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.80.222;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "australiacentral",
+        "x-ms-keyvault-region": "westus",
         "x-ms-keyvault-service-version": "1.9.576.1",
-        "x-ms-request-id": "1629b52f-d7fb-4bc3-8d60-947eaa331a7a"
+        "x-ms-request-id": "ca941399-dae9-4def-815c-e967336e8273"
       },
       "ResponseBody": {
         "error": {
@@ -36,7 +36,7 @@
       }
     },
     {
-      "RequestUri": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cangetacertificateNonExisting-/?api-version=7.3",
+      "RequestUri": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cangetacertificateNonExisting-/?api-version=7.4-preview.1",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -44,7 +44,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-keyvault-certificates/4.7.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "2d1df9bc-ae9f-4871-a1a3-e7d328811353"
+        "x-ms-client-request-id": "3efc7ed3-cb0e-43a6-abcd-12732c4e606f"
       },
       "RequestBody": null,
       "StatusCode": 404,
@@ -52,18 +52,18 @@
         "Cache-Control": "no-cache",
         "Content-Length": "362",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 10 Nov 2022 23:17:16 GMT",
+        "Date": "Mon, 14 Nov 2022 17:58:03 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "2d1df9bc-ae9f-4871-a1a3-e7d328811353",
+        "x-ms-client-request-id": "3efc7ed3-cb0e-43a6-abcd-12732c4e606f",
         "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.80.222;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-rbac-assignment-id": "e0879cc6-53b1-5604-999d-586eba05a46e",
-        "x-ms-keyvault-rbac-cache": "ra_age=58;da_age=58;rd_age=58;brd_age=19635;ra_notif_age=2480;dec_lev=1;",
-        "x-ms-keyvault-region": "australiacentral",
+        "x-ms-keyvault-rbac-assignment-id": "11b60d6c-8980-5d26-b0d4-b20d478eb273",
+        "x-ms-keyvault-rbac-cache": "ra_age=53;da_age=53;rd_age=53;brd_age=9198;ra_notif_age=496;dec_lev=1;",
+        "x-ms-keyvault-region": "westus",
         "x-ms-keyvault-service-version": "1.9.576.1",
-        "x-ms-request-id": "c91e6a25-ba12-49a8-b06e-a2767222c608"
+        "x-ms-request-id": "b9a55476-a25c-43d3-89ed-a3073b472d9a"
       },
       "ResponseBody": {
         "error": {
