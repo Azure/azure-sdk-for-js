@@ -1,9 +1,11 @@
 Getting Started - Generate the RLC rest-level client libraries with Swagger
 ===========================================================================
 
-# Prerequisites
+# Before you start
 
-You may refer to this [link](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for the environment set up prerequisites in azure-sdk-for-js repository.
+Please refer to this [link](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for the environment set up prerequisites in azure-sdk-for-js repository. We highly recommand to read [this blog](https://devblogs.microsoft.com/azure-sdk/azure-rest-libraries-for-javascript/) to get familiar with REST libraries for JavaScript. 
+
+:warning: Note: if you’re still generating from Swagger with RLC, please read [this doc](./RLC-Swagger-quickstart.md) for Swagger specific details.
 
 # Project folder and name convention
 
@@ -35,6 +37,7 @@ We are working on to automatically generate everything right now, but currently 
     description: Farmbeats Client
     generate-metadata: true
     generate-test: true
+    generate-sample: true
     license-header: MICROSOFT_MIT_NO_VERSION
     output-folder: ../
     source-code-folder-path: ./src
