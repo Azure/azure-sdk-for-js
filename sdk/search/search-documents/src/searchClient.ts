@@ -37,7 +37,6 @@ import {
   SuggestDocumentsResult,
   SuggestOptions,
   UploadDocumentsOptions,
-  NarrowedModel,
 } from "./indexModels";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
@@ -556,40 +555,16 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * Retrieve a particular document from the index by key.
    * @param key - The primary key value of the document
    * @param options - Additional options
-   * @example
-   * ```ts
-   * import {
-   *   AzureKeyCredential,
-   *   SearchClient,
-   *   SelectFields,
-   * } from "@azure/search-documents";
-   *
-   * type Model = {
-   *   key: string;
-   *   azure?: { sdk: string | null } | null;
-   * };
-   *
-   * const client = new SearchClient<Model>(
-   *   "endpoint.azure",
-   *   "indexName",
-   *   new AzureKeyCredential("key")
-   * );
-   *
-   * const fields: SelectFields<Model>[] = ["azure/sdk"];
-   *
-   * const document = await client.getDocument("field", {
-   *   selectedFields: fields,
-   * });
-   * ```
    */
   public async getDocument<Fields extends SelectFields<Model>>(
     key: string,
     options: GetDocumentOptions<Fields> = {}
-  ): Promise<NarrowedModel<Model, Fields>> {
+  ): Promise<Model> {
+    //TODO: Narrow result type for next major version
     const { span, updatedOptions } = createSpan("SearchClient-getDocument", options);
     try {
       const result = await this.client.documents.get(key, updatedOptions);
-      return deserialize<NarrowedModel<Model, Fields>>(result);
+      return deserialize<Model>(result);
     } catch (e: any) {
       span.setStatus({
         status: "error",

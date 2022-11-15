@@ -801,7 +801,7 @@ type SearchPick<T extends object, Paths extends SelectFields<T>> =
     // at all, only the display string of the type.
   };
 
-export type NarrowedModel<Model extends object, Fields extends SelectFields<Model>> =
+type NarrowedModel<Model extends object, Fields extends SelectFields<Model>> =
   // Avoid calculating the type if every field is specified
   SelectFields<Model> extends Fields ? Model : SearchPick<Model, Fields>;
 
