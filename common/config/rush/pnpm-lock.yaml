@@ -3891,7 +3891,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221113
+      typescript: 5.0.0-dev.20221114
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8839,8 +8839,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221113:
-    resolution: {integrity: sha512-iNVo0p5OwpkxLl3hzf7zLw5fjcQnrFIgHwPh2BZgZOofcaFNxj42SOhR/OoZMYSbqkkRFrOi1gzVcsgw6ehDFg==}
+  /typescript/5.0.0-dev.20221114:
+    resolution: {integrity: sha512-lMcxw0oxEhQR0HIZyxhmCiwFqXfPQGtakbc+792/hmPP/pyICuaUUIKyY/7Cl6QPGTplHcGjDPEVbVE46gPVrA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10176,7 +10176,7 @@ packages:
     dev: false
 
   file:projects/arm-appcomplianceautomation.tgz:
-    resolution: {integrity: sha512-PyYytTvRVP2Y6CN4jc6Zn4u/SGC9Za1CWAejnZpOIx7KGoi5Y1cxbhrrj7aTJK2lBZiSW8luEwqaLUS503t8Bw==, tarball: file:projects/arm-appcomplianceautomation.tgz}
+    resolution: {integrity: sha512-IzY+M/zM/I5ZTncppl4pAvPZ76KnP2Qx8tK2ONOJESdY7yzQHUlpJr+P9YSs2eCi2bnRP8j5ljzeM/9jOhrFSg==, tarball: file:projects/arm-appcomplianceautomation.tgz}
     name: '@rush-temp/arm-appcomplianceautomation'
     version: 0.0.0
     dependencies:
@@ -10196,7 +10196,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -10641,7 +10641,7 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-BtovOUqCBkiF8Hb+3XtHYg8u9iVDRUcFlyU5GM2JidX8OD2mdSiNm0I3csgcCxNAvOGbvYL8EEDFvsi1afsEyA==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-itk/e/Xa/k+K6/Y1RHs4eFBE4U1YJCZqd8RrgFJv1kfS28gCbbC85CMt7+JP5gXsSokL2R8HfrHy/Pu6OhDYeA==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
@@ -15200,7 +15200,7 @@ packages:
     dev: false
 
   file:projects/arm-trafficmanager.tgz:
-    resolution: {integrity: sha512-Faq0zxI3akYqIUEuXmnxDzMIYe7lS+egPwAAjrBERe7VXjzDmy2ALYH9Jmyj2YzBcquZaUoBSe1O8W+LHOVz+g==, tarball: file:projects/arm-trafficmanager.tgz}
+    resolution: {integrity: sha512-FGvzk94zIgPaQNaEXrBrNIIRmKUi10uxgpH2OWbKVl4NvGyeLmepGRnLXDVgJV6Qf1z5YdvlisHfEyjAKKABOg==, tarball: file:projects/arm-trafficmanager.tgz}
     name: '@rush-temp/arm-trafficmanager'
     version: 0.0.0
     dependencies:
@@ -15211,18 +15211,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      '@types/node': 14.18.33
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
