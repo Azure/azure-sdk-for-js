@@ -54,7 +54,11 @@ export function checkAndFormatIfAndIfNoneMatch(
   options: HttpOnlyIfChangedField & HttpOnlyIfUnchangedField
 ): { ifMatch: string | undefined; ifNoneMatch: string | undefined } {
   if (options.onlyIfChanged && options.onlyIfUnchanged) {
-    logger.error("onlyIfChanged and onlyIfUnchanged are both specified", options.onlyIfChanged, options.onlyIfUnchanged);
+    logger.error(
+      "onlyIfChanged and onlyIfUnchanged are both specified",
+      options.onlyIfChanged,
+      options.onlyIfUnchanged
+    );
     throw new Error("onlyIfChanged and onlyIfUnchanged are mutually-exclusive");
   }
 

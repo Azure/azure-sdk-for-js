@@ -59,7 +59,7 @@ export const FeatureFlagHelper = {
   ): ConfigurationSettingParam => {
     logger.info("Encoding FeatureFlag value in a ConfigurationSetting:", featureFlag);
     if (!featureFlag.value) {
-      logger.error("FeatureFlag has an unexpected value", featureFlag)
+      logger.error("FeatureFlag has an unexpected value", featureFlag);
       throw new TypeError(`FeatureFlag has an unexpected value - ${featureFlag.value}`);
     }
     let key = featureFlag.key;
@@ -91,7 +91,7 @@ export const FeatureFlagHelper = {
 export function parseFeatureFlag(
   setting: ConfigurationSetting
 ): ConfigurationSetting<FeatureFlagValue> {
-  logger.info('Parsing the value to return the FeatureFlagValue', setting);
+  logger.info("Parsing the value to return the FeatureFlagValue", setting);
   if (!isFeatureFlag(setting)) {
     logger.error("Invalid FeatureFlag input", setting);
     throw TypeError(
