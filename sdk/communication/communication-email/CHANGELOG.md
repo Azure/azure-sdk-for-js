@@ -2,6 +2,10 @@
 
 ## 1.0.0-beta.2 (Unreleased)
 
+### Features Added
+
+- Updated to `@azure/communication-common` 2.2.0.
+
 ### Breaking Changes
 
 - The EmailRecipients "cC" and "bCC" properties have been changed to "cc" and "bcc"
