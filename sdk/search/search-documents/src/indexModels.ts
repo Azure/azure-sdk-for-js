@@ -92,7 +92,7 @@ export interface GetDocumentOptions<Fields> extends OperationOptions {
    * List of field names to retrieve for the document; Any field not retrieved will be missing from
    * the returned document.
    */
-  selectedFields?: null extends Fields ? string[] : Fields[];
+  selectedFields?: Fields[];
 }
 
 /**
@@ -423,7 +423,7 @@ export interface SearchRequestOptions<Model extends object, Fields> {
    * The list of fields to retrieve. If unspecified, all fields marked as
    * retrievable in the schema are included.
    */
-  select?: null extends Fields ? string[] : Fields[];
+  select?: Fields[];
   /**
    * The number of search results to skip. This value cannot be greater than 100,000. If you need
    * to scan documents in sequence, but cannot use skip due to this limitation, consider using
@@ -589,7 +589,7 @@ export interface SuggestRequest<Model extends object, Fields> {
    * The list of fields to retrieve. If unspecified, only the key field will be
    * included in the results.
    */
-  select?: null extends Fields ? string[] : Fields[];
+  select?: Fields[];
   /**
    * The number of suggestions to retrieve. This must be a value between 1 and 100. The default is
    * 5.

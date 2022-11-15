@@ -584,7 +584,7 @@ export type GetDataSourceConnectionOptions = OperationOptions;
 
 // @public
 export interface GetDocumentOptions<Fields> extends OperationOptions {
-    selectedFields?: null extends Fields ? string[] : Fields[];
+    selectedFields?: Fields[];
 }
 
 // @public
@@ -2455,7 +2455,7 @@ export interface SearchRequestOptions<Model extends object, Fields> {
     scoringStatistics?: ScoringStatistics;
     searchFields?: SelectFields<Model>[];
     searchMode?: SearchMode;
-    select?: null extends Fields ? string[] : Fields[];
+    select?: Fields[];
     semanticFields?: string[];
     sessionId?: string;
     skip?: number;
@@ -2683,7 +2683,7 @@ export interface SuggestRequest<Model extends object, Fields> {
     minimumCoverage?: number;
     orderBy?: string[];
     searchFields?: SelectFields<Model>[];
-    select?: null extends Fields ? string[] : Fields[];
+    select?: Fields[];
     top?: number;
     useFuzzyMatching?: boolean;
 }
