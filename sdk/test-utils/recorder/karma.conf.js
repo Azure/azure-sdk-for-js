@@ -4,6 +4,7 @@ process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config({ path: "../.env" });
 
 process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
+process.env.RECORDING_ASSETS_PATH = relativeAssetsPath();
 
 module.exports = function (config) {
   config.set({

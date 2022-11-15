@@ -37,12 +37,6 @@ export function relativeRecordingsPath(): string {
  * @export
  * @returns {string} location of the relative path to discovered assets.json - `sdk/storage/storage-blob/assets.json` for example.
  */
-export function relativeAssetsPath(): string {
-  if (env.RECORDINGS_RELATIVE_PATH) {
-    return `${env.RECORDINGS_RELATIVE_PATH}/../assets.json`;
-  } else {
-    throw new RecorderError(
-      "RECORDINGS_RELATIVE_PATH was not set while in browser mode. Ensure that process.env.RELATIVE_RECORDINGS_PATH has been set properly in your Karma configuration."
-    );
-  }
+export function relativeAssetsPath(): string | undefined {
+  return env.RECORDING_ASSETS_PATH;
 }

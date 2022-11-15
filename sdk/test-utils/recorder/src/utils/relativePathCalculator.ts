@@ -96,8 +96,9 @@ export function relativeRecordingsPath(): string {
  * `x-recording-assets-file` to playback|record/Start. Doing so enables the proxy to auto-restore files from a remote location.
  *
  * @export
- * @returns {string} location of the relative path to discovered assets.json - `sdk/storage/storage-blob/assets.json` for example.
+ * @returns {string} location of the relative path to discovered assets.json - `sdk/storage/storage-blob/assets.json` for example, or undefined if the path does not exist
  */
 export function relativeAssetsPath(): string | undefined {
-  return toSafePath(path.join(relativePackagePath(), "assets.json"));
+  const assetsJsonPath = path.join(relativePackagePath(), "assets.json");
+  return fs.existsSync(assetsJsonPath) ? toSafePath(assetsJsonPath) : undefined;
 }
