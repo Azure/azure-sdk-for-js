@@ -17,8 +17,8 @@
         "Sec-Fetch-Site": "same-site",
         "subscription-key": "azure_maps_subscription_key",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "e0ce7f36-8324-414c-845c-222dcc8cccb7",
-        "x-ms-useragent": "azsdk-js-maps-render-rest/1.0.0-beta.1 core-rest-pipeline/1.9.0 OS/Linuxx86_64"
+        "x-ms-client-request-id": "194e1fa6-68e3-4216-851d-043d0bedfdb8",
+        "x-ms-useragent": "azsdk-js-maps-render-rest/1.0.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -26,7 +26,7 @@
         "Cache-Control": "max-age=86400",
         "Content-Encoding": "br",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 03 Nov 2022 08:43:50 GMT",
+        "Date": "Tue, 15 Nov 2022 03:17:19 GMT",
         "ETag": "W/\u0022d6959e64c4fed1e434c1f802c0669fbe\u0022",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -34,23 +34,47 @@
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: 3A131CB207BB4824891C3783282B91C1 Ref B: SG2EDGE3615 Ref C: 2022-11-03T08:43:50Z"
+        "X-MSEdge-Ref": "Ref A: BCD241048CC1408B9A01B6F57BD2EF02 Ref B: SG2EDGE3606 Ref C: 2022-11-15T03:17:20Z"
       },
-      "ResponseBody": [
-        "\u001B\uFFFD\u001D\u0000,\u0006\uFFFD\uFFFD\uFFFD\u0018\uFFFD\u0013\uFFFD\uFFFD\uFFFD\uFFFD\u2681\uFFFD\u0006\u0019!\u026C\u0006kK\uFFFDPODQ\uFFFD;:L{!E\u001A\uFFFD\uFFFD3\uFFFD\uFFFDX*\uFFFD\uFFFD\uFFFDpaDj7\uFFFD\uFFFD\u0014\u0748^\uFFFD6\uFFFD|\u002B\uFFFD\u049A\uFFFD1\uFFFD\u0003\uFFFD\uFFFD\u0005\uFFFD\uFFFDV\u0060\uFFFDIc\uFFFD\uFFFDo*\u0000\uFFFDSH\uFFFD\uFFFD\u079E\uFFFD\uFFFD\uFFFDeB\u000E\n",
-        "\uFFFDw\t)[\u0014\uFFFD\fY!\uFFFD\uFFFD|4\n",
-        "\uFFFD\uFFFD8\u0005B\u0022\uFFFDDw\uFFFD\uFFFD!!\uFFFD\uFFFD\uFFFD\uFFFD\u007F\u0276\n",
-        "\u0016B\uEC16\uFFFD\uFFFD\u0788\uFFFD\uFFFD\u0004\uFFFD\u06DB\uFFFDwb\uFFFD\u0006\n",
-        "\uFFFDq\u0007y*7*\u001A\uFFFD\uFFFD2\u064A\uFFFD\uFFFD\uFFFD\uFFFDx\u0001{{\uFFFD\uFFFD\u0003hE\n",
-        "p\uFFFD\b\uFFFD8V\\\uFFFD\uFFFD7\uFFFDm\uFFFDm\uFFFDb, \uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\u0013\uFFFD\n",
-        "u\uFFFDG\uFFFD\u0014\uFFFD\uFFFD,y\uFFFD\u0000\uFFFD\uFFFD\uFFFD\r",
-        ":\uFFFD\\\uFFFDV\uFFFD\u0011?\uFFFD\uFFFD\uFFFDF\uFFFD\uFFFD\uFFFD\uFFFD0(\uFFFD\u003C\uFFFD\uFFFDCR\uFFFD\u000FW\u0011x\u0006ka\uFFFD\uFFFD\uFFFD%\uFFFD\uFFFD\u0000Z\uFFFD-H\uFFFD\u0018\uFFFDh\uFFFDJA\uFFFD\\\uFFFDh\uFFFDNleJ\uFFFD\u0013\uFFFDN\uFFFDw\uFFFD\uFFFD\uFFFD(\uFFFD_\uFFFD\u0022S\uFFFD\uFFFDqh\uFFFD\uFFFD\u0289\uFFFD\uFFFD\uFFFD\f\u001D%\uFFFD\uFFFDH[\uFFFDse\uFFFD\uFFFDH\uFFFD\u02E2z5\uFFFD\uFFFD)\uFFFDx\uFFFD\uFFFD\uFFFDl\uFFFD\uFFFD\u0454-\uFFFDBc@\uFFFD\u0017\uFFFD\uFFFD9\uFFFD\uFFFD\uFFFD\uFFFD)\u0016\uFFFD]5\uFFFD\u0007mcd-W\uFFFD7\uFFFD\uFFFDW\uFFFD\uFFFD\uFFFDH\u0027\uFFFDr\uFFFDIu\u0011\uFFFD\uFFFD\uFFFD\uFFFDl\uFFFD\tr\uFFFD\u011D\u003CB\uFFFD\uFFFD1\uFFFD\uFFFD$6\uFFFD\uFFFD\u0013\uFFFD\uFFFD\uFFFD\u00019\u0060\u0007\uFFFDl\u03F1\b(@\uFFFDP\uFFFDc\u0006\u07A2?\u0016\uFFFD\uFFFD\u0015\uFFFD\uFFFD\uFFFD(\u001C;\uFFFD u\uFFFD\u0088\uFFFDm\uFFFDG\uFFFD\uFFFD\uFFFD\u000B\uFFFD\u001D8\u003EP\uFFFD\uFFFDu6\u003C\uFFFD,b\u03D2;[97\u03BE\uFFFDK\fe[G\r",
-        "\uFFFDm\uFFFD*\uFFFD\u0060_p\u03F16\u0273K\uFFFD\uFFFD\uFFFD\u0010\u0000f\u00069Ds\uFFFD\uFFFD\uFFFD\uFFFD;\uFFFD88\u0022\uFFFD\uFFFD7\uFFFD\uFFFD\u000ELm\uFFFD.~a\uFFFDG\uFFFD4\uFFFD?\u0016ep\uFFFD\uFFFD\uFFFD\u003E\u0007\uFFFD\uFFFD\u0509\uFFFDg\uFFFDm\uFFFDQav\uFFFD\u0091\u001FSP@\uFFFD1\u0026]\u0018\u0019\uFFFD6\uFFFDG\uFFFD\u002B\u0188\u0776\uFFFD\u1630\uFFFD\tA}*9}X)t\uFFFDRs\uFFFD,n\u0495\uFFFD{\u02C4iFM\uFFFD\r",
-        "\uFFFD\uFFFD\uFFFDk;\uFFFD)\uFFFDZ\uFFFD\uFFFD\uFFFD\u0004\u001F\uFFFDf\uFFFD\uFFFD\uFFFD\u00011\u000B\uFFFD\uFFFD\uFFFD\u0004BD\uFFFD\uFFFDdp(e!\u045Ah;\uFFFD\uFFFD(\uFFFD\uFFFD8\u003CnY\uFFFD\u0010\uFFFD{rOX\u03A4\uFFFDY\u000F\u05EB\uFFFD\u0017:\u001C\u001F\uFFFD\u003CG J\uFFFD\uFFFDH\uFFFDg\uFFFDq\uFFFD\u001D$\uFFFDs\uFFFD\uFFFDp\u003E\uFFFD\u0027\uFFFDa\uFFFD\f\u001A\u001C\uFFFD=\uFFFD\uFFFD\u001F\uFFFD\uFFFD\uFFFD\uFFFD_u;\uFFFDp\uFFFD\uFFFDHmH\u000B\tZ\uFFFD\u0005!\u000E\uFFFDt\uFFFD\uFFFD\uFFFDv\uFFFD\uFFFDh\u001D\u001F\uFFFD\u0060\uFFFD\uFFFD\uFFFD\u0001\u0011\uFFFD\uFFFDt\uFFFD\uFFFD{W\u03E3\uFFFDk4\uFFFD\uFFFD\u0000\u003C\u0000u\uFFFDnliS/\uFFFD\u0006F\uFFFD\uFFFD\u0002\u000B\u000B\uFFFD|\uFFFD\uFFFD;\uFFFD\uFFFD\u001B\uFFFD\uFFFDS\uFFFDJ9\u0014\uFFFD@\u001F\u0005\uFFFD\uFFFD\u2D66\u0060\uFFFD\uFFFD|P\uFFFD\uFFFD\uFFFD\u000B\uFFFD\uFFFD\uFFFD%\uFFFD\uFFFD\uFFFD\u0011\u001A\uFFFD5C\u001A\u02D1\uFFFD@\uFFFDP\uFFFDR\uFFFD\uFFFDa.-\uFFFD9c\u001Dy\uFFFD[\uFFFD\u0006\uFFFD\uFFFD\u0026\uFFFD2X\uFFFD\u0060eP\uFFFD\u0015\uFFFDU\uFFFDW\uFFFD\u0022\uFFFDQ\u0019\u001C\uFFFD\uFFFDU3[\uFFFD]],B\uFFFD\uFFFD\uFFFD\uFFFD\u0013\uFFFD \u0026\u0011\u0406\uFFFD\uFFFD2\uFFFD\u0013\u9630\u0001sP#\uFFFDR\uFFFD2\u000F\uFFFD\u003E0\uFFFD2z\uFFFDW\uFFFDV\uFFFDtF\uFFFD39\uFFFDT\uFFFD\f\uFFFDI\uFFFD(\uFFFD\uFFFDv\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD6r\uFFFD\uFFFD\uFFFDg\uFFFD]v\uFFFD\uFFFDKZ\u00040\u0003\uFFFD\b\uFFFD\\\uFFFD\uFFFD\u013D\uFFFD\u00136y\uFFFD\uFFFD\uFFFD\u0011\u0000\uFFFD\u001E\uFFFDM\uFFFD\uFFFD\uFFFD{\uFFFD\u0022\u000E\u0027\uFFFDt!j\u0002\uFFFDki\uFFFDUf\u0005\uFFFDEJ\uFFFD\u0001\uFFFDKN\u0006\uFFFD\u0311\u0005\u0010z\uFFFD\uFFFDPd\u00002\uFFFDrh\u0011\uFFFD\uFFFDjO0\u06E1!_\u00065h\uFFFDS\uFFFD\uFFFDV\u0772kD\u001BF\uFFFD\uFFFD\u002B\u06A3\uFFFDHr P.\uFFFD\u051F\uFFFD\u0244nFb\uFFFD\u0002j\uFFFD\uFFFD\uFFFD}\uFFFD\uFFFD_* 4g\uFFFD.\uDB11\uDFAACWD\uFFFD\uFFFD\uFFFD7\u003C\u000E\uFFFD\uFFFD@\uFFFD0\u0012\uFFFD\uFFFD?\uFFFD^\u0002\uFFFD=\uFFFDJ\uFFFD\u003C?\uFFFD%\f\uFFFDH\uFFFD\u0018fe\uFFFD2- \uFFFD\fXx\uFFFD\u0005VHE\uFFFDX\uFFFDj9e_\uFFFD\uFFFDU\uFFFD\u0060\uFFFD\uFFFD\uFFFD\uFFFDt\uFFFD\uFFFDw\uFFFDm\uFFFDb\uFFFDP-\uFFFD,\u0016y\uFFFDb\u0013\uFFFDCo\u001F3r\u002Bu\uFFFD\uFFFDq\uFFFDL\uFFFD#7:\u0011\uFFFD\u07D3\u0026\uFFFD\uFFFDp\uFFFD\uFFFD\uFFFD\uFFFD\uFFFDw\u0018:\uFFFDj\b\u0210\u0006\uFFFD\uFFFD\u000B\uFFFDsN\uFFFD\u3716I\uFFFDT\uFFFD\uFFFD\uFFFDH\uFFFD\uFFFD\uFFFDJ\uFFFD6\uFFFD\uFFFD\uFFFDH\r",
-        "\u0001ZD8\uFFFDi\u0410\uFFFD\uFFFD\u0013\uFFFD6\uFFFD\faua\uFFFD\u0018h\u007F\u0004\u000FA\u0014\uFFFDP\r",
-        "\uFFFD\uFFFD\uFFFD\uFFFDs\uFFFD{\uFFFD\uFFFD\u0007X\uFFFD\uFFFD\u02A3\uFFFD\uFFFDg\uFFFD#\uFFFD\uFFFD\uFFFDi\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD%$\u07E5\uFFFD\uFFFDr\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\u000F\u002B\uFFFD/ygP\\^\uFFFD\t\uFFFDV\u0004SY\uFFFD]c\u000B\uFFFD\uFFFD#\u0019E\uFFFD\uFFFD\uFFFD\u0163\uFFFD9W\uFFFDk\uFFFDc\uFFFDX\u0027\u001E-x\uFFFD\u0012\uFFFD\uFFFDKt\t\uFFFD\uFFFD\uFFFDX(\uFFFD\u0012\uFFFD3N\uFFFDu\uFFFDs\uFFFD\u00A1\uFFFD(y\uFFFD\uFFFD-Fq\uFFFD\uFFFD\uFFFD,G\uFFFDO\uFFFD\uFFFD\uFFFD\uFFFD\uFFFDm\uFFFDB\uFFFD:\uFFFD\uFFFD]\u288F\u001F4\n",
-        "\uFFFDa~\u0760L\uFFFD\uFFFDQsQ)\uFFFD\uFFFD6D\uFFFDD#\uFFFD\uFFFD\uFFFD\u0022\uFFFD\uFFFD\u0060\uFFFD\u0014[\uFFFDl\uFFFD\uFFFDU\uFFFD\uFFFDLJ\uFFFD\uFFFD\uFFFDX\uFFFD\uFFFD=\uFFFD;\uFFFD\u0060K\u0016\uFFFDx\u0060\u0007y,Mrq\uFFFD\u0027\uFFFD)\uFFFD\u002B^\uFFFDQ\uFFFD\uFFFDH\uFFFD\uFFFDH\uFFFD\u077E\uFFFD\u0018\uFFFDl\tL\uFFFD\u0004\u0022\uFFFD\u0027\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD[R\uFFFD\u000E\u0002\t\u0027eC\uFFFD\uFFFDH\uFFFD\uFFFD\uFFFD\uFFFD\u05C05.\uFFFD\uFFFD\u03E1\u000Ef\uFFFD }\uFFFD\uFFFD\u0026\uFFFD\uFFFD\uFFFD/F\uFFFD\uFFFD0\u0015\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\u00B9\uFFFDy38\uFFFD#\uFFFDe\uFFFDj\uFFFD=\uFFFD\uFFFD\u0010\u0000 0\u000Ef\uFFFD\uFFFD\u0014\uFFFDC\uFFFD\u0002"
-      ]
+      "ResponseBody": {
+        "formatVersion": "0.0.1",
+        "generalCopyrights": [
+          "\u00A9 1992 - 2022 TomTom. All rights reserved. This material is proprietary and the subject of copyright protection, database right protection and other intellectual property rights owned by TomTom or its suppliers. The use of this material is subject to the terms of a license agreement. Any unauthorized copying or disclosure of this material will lead to criminal and civil liabilities.",
+          "Data Source \u00A9 2022 TomTom",
+          "based on"
+        ],
+        "regions": [
+          {
+            "country": {
+              "ISO3": "NLD",
+              "label": "Netherlands"
+            },
+            "copyrights": [
+              "You agree to include as soon as practically possible, but no later than the first new release of the Authorized Application following Your receipt of any 3D Landmarks, any copyright notices related to the display of such landmarks on every Authorized Application and in the \u201Cabout box\u201D of the Authorized Application.  Notwithstanding the aforementioned, TomTom has the right to decide, at its sole discretion, to remove specific 3D Landmarks in subsequent releases of the Licensed Products. In such case, You will remove those 3D Landmarks from the Authorized Application as soon as practically possible, but not later than the first new release of the Authorized Application following Your receipt of the Update to the Licensed Product. TomTom shall not be held responsible for any possible damages, costs or expenses incurred by You related to such removal of a 3D Landmark by TomTom from the Licensed Product or failure to remove a 3D Landmark by You from the Authorized Application.",
+              "TomTom hereby grants to You a non-exclusive, non-transferable license to use the Software Licensed Products for the sole and limited purpose of assisting You in viewing, analyzing and sectioning the Licensed Products. In no event shall You use the Software Licensed Products to view, analyze, section or in any way manipulate spatial map data that is not provided by TomTom. You shall not derive or attempt to derive the source code of all or any portion of the Licensed Products by reverse engineering, disassembly, decompilation, translation or any other means. You shall affix the following copyright notice on any copy of the GDF Viewer, or any portion of the Licensed Products: \u201CSoftware \u00A92011-2020 TomTom North America, Inc. All rights reserved.",
+              "Neither the Data nor the Licensed Products such as Speed Profiles or TomTom Traffic or any derivatives thereof shall be used for the purpose of enforcement of traffic laws including but not limited to the selection of potential locations for the installation of speed cameras, speed traps or other speed tracking devices. With regards to Speed Profiles, You acknowledge and agrees that the actual speeds may not reflect the legally imposed speed limits.",
+              "You specifically agree that it shall not: (i) store the data for more than twenty-four (24) hours on Your servers; (ii) broadcast or make Live Services Licensed Products available except to authorized End Users; and (iii) use the feed or information received via the feed for historical data purposes (including but not limited to collection or analysis).",
+              "Contains data licensed under CC-BY 4.0. For more information visit:  * Kadaster Top10NL http://nationaalgeoregister.nl/geonetwork/srv/dut/catalog.search#/metadata/29d5310f-dd0d-45ba-abad-b4ffc6b8785f?tab=general  * Kadaster BGT http://nationaalgeoregister.nl/geonetwork/srv/dut/catalog.search#/metadata/2cb4769c-b56e-48fa-8685-c48f61b9a319?tab=general  * CBS Bestand Bodemgebruik http://nationaalgeoregister.nl/geonetwork/srv/dut/catalog.search#/metadata/2d3dd6d2-2d2b-4b5f-9e30-86e19ed77a56?tab=general",
+              "Contains data licensed under CC-BY 2.0. For more information visit:  * Municipality of Amsterdam Datasets Parkeergarages https://data.amsterdam.nl/index.html#?dte=https:%2F%2Fapi.datapunt.amsterdam.nl%2Fcatalogus%2Fapi%2F3%2Faction%2Fpackage_show%3Fid%3Df06f5a77-04f6-432f-9fd9-ce9d740631aa\u0026dtfs=T\u0026mpb=topografie\u0026mpz=9\u0026mpv=52.3719:4.9012",
+              "Contains data licensed under CC-BY 3.0. For more information visit:  * Municipality of Amsterdam Multiple cat POI\u0027s https://data.amsterdam.nl/index.html#?dsd=dcatd\u0026dsp=1\u0026dsq=open%2520data\u0026dsv=CATALOG\u0026mpb=topografie\u0026mpz=11\u0026mpv=52.3731081:4.8932945",
+              "This product contains public transport stops data made available under 9292 Open Data framework as documented on March 2013. This is specified in their terms available here: http://9292opendata.org/sla",
+              "This product contains traffic incident information made available by NDW under open source data policy:\u00A0https://www.ndw.nu/pagina/nl/103/datalevering/120/open_data/"
+            ]
+          },
+          {
+            "country": {
+              "ISO3": "ONL",
+              "label": ""
+            },
+            "copyrights": [
+              "You agree to include as soon as practically possible, but no later than the first new release of the Authorized Application following Your receipt of any 3D Landmarks, any copyright notices related to the display of such landmarks on every Authorized Application and in the \u201Cabout box\u201D of the Authorized Application.  Notwithstanding the aforementioned, TomTom has the right to decide, at its sole discretion, to remove specific 3D Landmarks in subsequent releases of the Licensed Products. In such case, You will remove those 3D Landmarks from the Authorized Application as soon as practically possible, but not later than the first new release of the Authorized Application following Your receipt of the Update to the Licensed Product. TomTom shall not be held responsible for any possible damages, costs or expenses incurred by You related to such removal of a 3D Landmark by TomTom from the Licensed Product or failure to remove a 3D Landmark by You from the Authorized Application.",
+              "TomTom hereby grants to You a non-exclusive, non-transferable license to use the Software Licensed Products for the sole and limited purpose of assisting You in viewing, analyzing and sectioning the Licensed Products. In no event shall You use the Software Licensed Products to view, analyze, section or in any way manipulate spatial map data that is not provided by TomTom. You shall not derive or attempt to derive the source code of all or any portion of the Licensed Products by reverse engineering, disassembly, decompilation, translation or any other means. You shall affix the following copyright notice on any copy of the GDF Viewer, or any portion of the Licensed Products: \u201CSoftware \u00A92011-2020 TomTom North America, Inc. All rights reserved.",
+              "Neither the Data nor the Licensed Products such as Speed Profiles or TomTom Traffic or any derivatives thereof shall be used for the purpose of enforcement of traffic laws including but not limited to the selection of potential locations for the installation of speed cameras, speed traps or other speed tracking devices. With regards to Speed Profiles, You acknowledge and agrees that the actual speeds may not reflect the legally imposed speed limits.",
+              "You specifically agree that it shall not: (i) store the data for more than twenty-four (24) hours on Your servers; (ii) broadcast or make Live Services Licensed Products available except to authorized End Users; and (iii) use the feed or information received via the feed for historical data purposes (including but not limited to collection or analysis)."
+            ]
+          }
+        ]
+      }
     }
   ],
   "Variables": {}
