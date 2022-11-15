@@ -7,6 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
+export { getContinuationToken } from "./pagingHelper";
 export * from "./models";
 export { AppComplianceAutomationToolForMicrosoft365 } from "./appComplianceAutomationToolForMicrosoft365";
 export * from "./operationsInterfaces";
