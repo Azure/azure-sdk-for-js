@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Lists the Microsoft.DevCenter SKUs available in a subscription
  *
  * @summary Lists the Microsoft.DevCenter SKUs available in a subscription
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/Skus_ListBySubscription.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-10-12-preview/examples/Skus_ListBySubscription.json
  */
 async function skusListBySubscription() {
   const subscriptionId = "{subscriptionId}";

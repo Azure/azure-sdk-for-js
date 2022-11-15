@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates or updates a Dev Box definition.
  *
  * @summary Creates or updates a Dev Box definition.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/DevBoxDefinitions_Create.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-10-12-preview/examples/DevBoxDefinitions_Create.json
  */
 async function devBoxDefinitionsCreate() {
   const subscriptionId = "{subscriptionId}";
