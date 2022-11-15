@@ -2,15 +2,19 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import {
+  Recorder,
+  RecorderStartOptions,
+  assertEnvironmentVariable,
+} from "@azure-tools/test-recorder";
 import "./env";
+import AnomalyDetector, { AnomalyDetectorRestClient } from "../../../src";
+import { AzureKeyCredential } from "@azure/core-auth";
 
 const envSetupForPlayback: Record<string, string> = {
-  ENDPOINT: "https://endpoint",
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id",
+  ANOMALY_DETECTOR_ENDPOINT: "https://endpoint",
+  ANOMALY_DETECTOR_API_KEY: "fake_key",
+  ANOMALY_DETECTOR_DATA_URL: "https://endpoint-docs/data",
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
@@ -26,4 +30,11 @@ export async function createRecorder(context: Context): Promise<Recorder> {
   const recorder = new Recorder(context.currentTest);
   await recorder.start(recorderEnvSetup);
   return recorder;
+}
+
+export async function createClient(recorder: Recorder): Promise<AnomalyDetectorRestClient> {
+  const endpoint = assertEnvironmentVariable("ANOMALY_DETECTOR_ENDPOINT");
+  const key = assertEnvironmentVariable("ANOMALY_DETECTOR_API_KEY");
+  const credential = new AzureKeyCredential(key);
+  return AnomalyDetector(endpoint, credential, recorder.configureClientOptions({}));
 }

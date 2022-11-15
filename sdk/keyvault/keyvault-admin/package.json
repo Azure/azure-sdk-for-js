@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-admin",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.3.1",
+  "version": "4.4.0-beta.1",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's administrative functions.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/README.md",
@@ -24,7 +24,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "main": "./dist/index.js",
-  "module": "dist-esm/keyvault-admin/src/index.js",
+  "module": "dist-esm/src/index.js",
   "types": "./types/keyvault-admin.d.ts",
   "engines": {
     "node": ">=14.0.0"
@@ -32,8 +32,7 @@
   "files": [
     "types/keyvault-admin.d.ts",
     "dist/",
-    "dist-esm/keyvault-admin/src",
-    "dist-esm/keyvault-common/src",
+    "dist-esm/src",
     "README.md",
     "LICENSE"
   ],
@@ -109,6 +108,7 @@
     "@azure/core-paging": "^1.1.1",
     "@azure/core-rest-pipeline": "^1.1.0",
     "@azure/core-tracing": "^1.0.0",
+    "@azure/keyvault-common": "^1.0.0-beta.1",
     "@azure/logger": "^1.0.0",
     "@types/uuid": "^8.0.0",
     "tslib": "^2.2.0",
@@ -138,6 +138,6 @@
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
-    "typescript": "~4.6.0"
+    "typescript": "~4.8.0"
   }
 }

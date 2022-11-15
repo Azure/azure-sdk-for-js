@@ -51,6 +51,7 @@ import {
   expectation32,
   expectation30,
   expectation31,
+  expectation71,
 } from "./expectations";
 import { windows365ArticlePart1, windows365ArticlePart2 } from "./inputs";
 import { getDocIDsFromState } from "../../src/lro";
@@ -861,6 +862,43 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           await assertActionsResults(await poller.pollUntilDone(), expectation15);
         });
 
+        it("whole batch input with auto language detection", async function () {
+          const docs = [
+            "I will go to the park.",
+            "Este es un document escrito en Español.",
+            "猫は幸せ",
+          ];
+          const poller = await client.beginAnalyzeBatch(
+            [
+              {
+                kind: AnalyzeBatchActionNames.EntityRecognition,
+              },
+              {
+                kind: AnalyzeBatchActionNames.PiiEntityRecognition,
+              },
+              {
+                kind: AnalyzeBatchActionNames.SentimentAnalysis,
+              },
+              {
+                kind: AnalyzeBatchActionNames.KeyPhraseExtraction,
+              },
+              {
+                kind: AnalyzeBatchActionNames.EntityLinking,
+              },
+              {
+                kind: AnalyzeBatchActionNames.Healthcare,
+              },
+            ],
+            docs,
+            "auto",
+            {
+              updateIntervalInMs: pollingInterval,
+              defaultLanguage: "en",
+            }
+          );
+          await assertActionsResults(await poller.pollUntilDone(), expectation71);
+        });
+
         it("invalid language hint", async function () {
           const docs = ["This should fail because we're passing in an invalid language hint"];
           const poller = await client.beginAnalyzeBatch(
@@ -926,8 +964,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           poller.onProgress((state) => {
             assert.ok(state.createdOn, "createdOn is undefined!");
             assert.ok(state.expiresOn, "expiresOn is undefined!");
-            // FIXME uncomment this line when the service fixes the issue
-            // assert.ok(state.modifiedOn, "modifiedOn is undefined!");
+            assert.ok(state.modifiedOn, "modifiedOn is undefined!");
             assert.ok(state.status, "status is undefined!");
             assert.ok(state.id, "id is undefined!");
             assert.equal(state.displayName, "testJob");

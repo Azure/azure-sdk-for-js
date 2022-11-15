@@ -1093,7 +1093,7 @@ export const softwareName: OperationURLParameter = {
 export const apiVersion17: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-05-01-preview",
+    defaultValue: "2022-08-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {

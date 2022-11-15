@@ -1105,51 +1105,28 @@ export const OperationDisplay: coreClient.CompositeMapper = {
   }
 };
 
-export const OperationStatus: coreClient.CompositeMapper = {
+export const OperationStatusResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "OperationStatus",
+    className: "OperationStatusResult",
     modelProperties: {
       id: {
         serializedName: "id",
-        readOnly: true,
         type: {
           name: "String"
         }
       },
       name: {
         serializedName: "name",
-        readOnly: true,
         type: {
           name: "String"
         }
       },
       status: {
         serializedName: "status",
-        readOnly: true,
+        required: true,
         type: {
           name: "String"
-        }
-      },
-      resourceId: {
-        serializedName: "resourceId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      startTime: {
-        serializedName: "startTime",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      endTime: {
-        serializedName: "endTime",
-        readOnly: true,
-        type: {
-          name: "DateTime"
         }
       },
       percentComplete: {
@@ -1158,34 +1135,49 @@ export const OperationStatus: coreClient.CompositeMapper = {
           InclusiveMinimum: 0
         },
         serializedName: "percentComplete",
-        readOnly: true,
         type: {
           name: "Number"
         }
       },
-      properties: {
-        serializedName: "properties",
-        readOnly: true,
+      startTime: {
+        serializedName: "startTime",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      operations: {
+        serializedName: "operations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OperationStatusResult"
+            }
+          }
         }
       },
       error: {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "OperationStatusError"
+          className: "ErrorDetail"
         }
       }
     }
   }
 };
 
-export const OperationStatusError: coreClient.CompositeMapper = {
+export const ErrorDetail: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "OperationStatusError",
+    className: "ErrorDetail",
     modelProperties: {
       code: {
         serializedName: "code",
@@ -1199,6 +1191,63 @@ export const OperationStatusError: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail"
+            }
+          }
+        }
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -1754,6 +1803,13 @@ export const Catalog: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      syncState: {
+        serializedName: "properties.syncState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       lastSyncTime: {
         serializedName: "properties.lastSyncTime",
         readOnly: true,
@@ -2169,6 +2225,13 @@ export const CatalogProperties: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      syncState: {
+        serializedName: "syncState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       lastSyncTime: {
         serializedName: "lastSyncTime",
         readOnly: true,
@@ -2271,6 +2334,31 @@ export const DevCenterSku: coreClient.CompositeMapper = {
               className: "Capability"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const OperationStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationStatus",
+    modelProperties: {
+      ...OperationStatusResult.type.modelProperties,
+      resourceId: {
+        serializedName: "resourceId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }

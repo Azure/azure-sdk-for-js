@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { createRecordedClient, createRecorder } from "./utils/recordedClient";
@@ -33,6 +33,11 @@ describe("DevCenter Environments Operations Test", () => {
   });
 
   it("Create environment", async function () {
+    // Skip until test proxy recorder bug is fixed https://github.com/Azure/azure-sdk-for-js/issues/23420
+    if (isPlaybackMode()) {
+      this.skip();
+    }
+
     // Build client and fetch required parameters
     const projectName = env["DEFAULT_PROJECT_NAME"] || "sdk-default-project";
     const catalogName = env["DEFAULT_CATALOG_NAME"] || "sdk-default-catalog";
