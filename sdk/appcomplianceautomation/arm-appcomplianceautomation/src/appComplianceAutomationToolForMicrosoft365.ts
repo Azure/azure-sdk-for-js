@@ -56,7 +56,7 @@ export class AppComplianceAutomationToolForMicrosoft365 extends coreClient.Servi
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appcomplianceautomation/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-appcomplianceautomation/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
