@@ -48,7 +48,7 @@ module.exports = function (config) {
     // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
       "TEST_MODE",
-      "COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING",
+      "COMMUNICATION_CONNECTION_STRING_ROOMS",
       "COMMUNICATION_SAMPLES_CONNECTION_STRING",
       "BASE_URL",
       "COMMUNICATION_ENDPOINT",
