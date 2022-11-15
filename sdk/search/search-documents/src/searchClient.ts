@@ -39,7 +39,6 @@ import {
   UploadDocumentsOptions,
   TResult,
   TSuggestResult,
-  Widen,
 } from "./indexModels";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
@@ -273,18 +272,17 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
     }
   }
 
-  private async searchDocuments<Fields extends SelectFields<Model> | null>(
+  private async searchDocuments<Fields extends SelectFields<Model>>(
     searchText?: string,
     options: SearchOptions<Model, Fields> = {},
     nextPageParameters: SearchRequest = {}
   ): Promise<SearchDocumentsPageResult<TResult<Model, Fields>>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
     const { select, searchFields, orderBy, semanticFields, ...nonFieldOptions } = restOptions;
-    type NarrowedFields = Fields extends SelectFields<Model> ? Fields : never;
     const fullOptions: SearchRequest = {
       searchFields: this.convertSearchFields(searchFields),
       semanticFields: this.convertSemanticFields(semanticFields),
-      select: this.convertSelect<NarrowedFields>(select) || "*",
+      select: this.convertSelect<Fields>(select) || "*",
       orderBy: this.convertOrderBy(orderBy),
       ...nonFieldOptions,
       ...nextPageParameters,
@@ -327,7 +325,7 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
     }
   }
 
-  private async *listSearchResultsPage<Fields extends SelectFields<Model> | null>(
+  private async *listSearchResultsPage<Fields extends SelectFields<Model>>(
     searchText?: string,
     options: SearchOptions<Model, Fields> = {},
     settings: ListSearchResultsPageSettings = {}
@@ -354,7 +352,7 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
     }
   }
 
-  private async *listSearchResultsAll<Fields extends SelectFields<Model> | null>(
+  private async *listSearchResultsAll<Fields extends SelectFields<Model>>(
     firstPage: SearchDocumentsPageResult<TResult<Model, Fields>>,
     searchText?: string,
     options: SearchOptions<Model, Fields> = {}
@@ -369,7 +367,7 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
     }
   }
 
-  private listSearchResults<Fields extends SelectFields<Model> | null>(
+  private listSearchResults<Fields extends SelectFields<Model>>(
     firstPage: SearchDocumentsPageResult<TResult<Model, Fields>>,
     searchText?: string,
     options: SearchOptions<Model, Fields> = {}
@@ -395,7 +393,7 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * @param searchText - Text to search
    * @param options - Options for the search operation.
    */
-  public async search<Fields extends SelectFields<Model> | null = null>(
+  public async search<Fields extends SelectFields<Model>>(
     searchText?: string,
     options?: SearchOptions<Model, Fields>
   ): Promise<SearchDocumentsResult<TResult<Model, Fields>>> {
@@ -512,7 +510,7 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    */
   public async indexDocuments(
     // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-    batch: IndexDocumentsBatch<Widen<Model>>,
+    batch: IndexDocumentsBatch<Model>,
     options: IndexDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-indexDocuments", options);
@@ -548,12 +546,12 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * @param options - Additional options.
    */
   public async uploadDocuments(
-    documents: Widen<Model>[],
+    documents: Model[],
     options: UploadDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-uploadDocuments", options);
 
-    const batch = new IndexDocumentsBatch<Widen<Model>>();
+    const batch = new IndexDocumentsBatch<Model>();
     batch.upload(documents);
 
     try {
@@ -576,12 +574,12 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * @param options - Additional options.
    */
   public async mergeDocuments(
-    documents: Widen<Model>[],
+    documents: Model[],
     options: MergeDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-mergeDocuments", options);
 
-    const batch = new IndexDocumentsBatch<Widen<Model>>();
+    const batch = new IndexDocumentsBatch<Model>();
     batch.merge(documents);
 
     try {
@@ -604,12 +602,12 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * @param options - Additional options.
    */
   public async mergeOrUploadDocuments(
-    documents: Widen<Model>[],
+    documents: Model[],
     options: MergeOrUploadDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-mergeDocuments", options);
 
-    const batch = new IndexDocumentsBatch<Widen<Model>>();
+    const batch = new IndexDocumentsBatch<Model>();
     batch.mergeOrUpload(documents);
 
     try {
@@ -631,7 +629,7 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * @param options - Additional options.
    */
   public async deleteDocuments(
-    documents: Widen<Model>[],
+    documents: Model[],
     options?: DeleteDocumentsOptions
   ): Promise<IndexDocumentsResult>;
 
@@ -642,23 +640,23 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * @param options - Additional options.
    */
   public async deleteDocuments(
-    keyName: keyof Widen<Model>,
+    keyName: keyof Model,
     keyValues: string[],
     options?: DeleteDocumentsOptions
   ): Promise<IndexDocumentsResult>;
 
   public async deleteDocuments(
-    keyNameOrDocuments: keyof Widen<Model> | Widen<Model>[],
+    keyNameOrDocuments: keyof Model | Model[],
     keyValuesOrOptions?: string[] | DeleteDocumentsOptions,
     options: DeleteDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-deleteDocuments", options);
 
-    const batch = new IndexDocumentsBatch<Widen<Model>>();
+    const batch = new IndexDocumentsBatch<Model>();
     if (typeof keyNameOrDocuments === "string") {
       batch.delete(keyNameOrDocuments, keyValuesOrOptions as string[]);
     } else {
-      batch.delete(keyNameOrDocuments as Widen<Model>[]);
+      batch.delete(keyNameOrDocuments as Model[]);
     }
 
     try {

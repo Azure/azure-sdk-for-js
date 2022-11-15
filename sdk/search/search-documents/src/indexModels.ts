@@ -750,7 +750,9 @@ type SearchPick<T extends object, Paths extends SelectFields<T>> =
               RestPaths extends SelectFields<U>
               ? // Narrow the type of every element in the array
                 {
-                  [K in FieldName]-?: Array<SearchPick<U, RestPaths>>;
+                  [K in FieldName]:
+                    | Array<SearchPick<U, RestPaths> | Extract<U, null | undefined>>
+                    | Extract<T[K], undefined>;
                 }
               : // Unreachable by construction
                 never
@@ -759,17 +761,19 @@ type SearchPick<T extends object, Paths extends SelectFields<T>> =
           : NonNullable<T[FieldName]> extends object
           ? // Recur :)
             {
-              [K in FieldName]-?: RestPaths extends SelectFields<
+              [K in FieldName]: RestPaths extends SelectFields<
                 T[K] & {
                   // This empty intersection fixes `NonNullable<T[K]>` not being narrowed to an object type in older versions of TS
                 }
               >
-                ? SearchPick<
-                    T[K] & {
-                      // Ditto
-                    },
-                    RestPaths
-                  >
+                ?
+                    | SearchPick<
+                        T[K] & {
+                          // Ditto
+                        },
+                        RestPaths
+                      >
+                    | Extract<T[K], null | undefined>
                 : // Unreachable by construction
                   never;
             }
@@ -779,7 +783,7 @@ type SearchPick<T extends object, Paths extends SelectFields<T>> =
           never
       : // Otherwise, capture the paths that are simple keys of T itself
       Paths extends keyof T
-      ? { [K in Paths]-?: NonNullable<T[K]> }
+      ? { [K in Paths]: T[K] }
       : // Unreachable by construction
         never
   > & {
@@ -789,65 +793,24 @@ type SearchPick<T extends object, Paths extends SelectFields<T>> =
     // at all, only the display string of the type.
   };
 
-// Computes a deeply partial model
-type DeepPartial<T extends object> = {
-  [K in keyof T]?: T[K] extends ExcludedODataTypes
-    ? T[K]
-    : T[K] extends object
-    ? DeepPartial<T[K]>
-    : T[K];
-};
+export type TResult<Model extends object, Fields extends SelectFields<Model>> =
+  // Avoid calculating the type if every field is specified
+  SelectFields<Model> extends Fields ? Model : SearchPick<Model, Fields>;
 
-type DeepNullable<T> = T extends object
-  ? T extends ExcludedODataTypes
-    ? T | null
-    : T extends Array<infer U>
-    ? Array<Exclude<DeepNullable<U>, null>> | null
-    : { [K in keyof T]: DeepNullable<T[K]> } | null
-  : T | null;
-
-export type Widen<Model extends object> = DeepPartial<Exclude<DeepNullable<Model>, null>>;
-
-export type TResult<
-  Model extends object,
-  Fields extends SelectFields<Model> | null
-> = UnionToIntersection<
-  Exclude<
-    null extends Fields
-      ? DeepNullable<Model>
-      : Exclude<SelectFields<Model>, Fields> extends never
-      ? Widen<Model>
-      : Fields extends SelectFields<Model>
-      ? DeepNullable<SearchPick<Model, Fields>>
-      : never,
-    null
-  >
-> extends infer U
-  ? U extends object
-    ? U
-    : never
-  : never;
-
-export type TSuggestResult<
-  Model extends object,
-  Fields extends SelectFields<Model> | null
-> = Exclude<DeepNullable<Model>, null> extends infer T
-  ? T extends object
-    ? UnionToIntersection<
-        Exclude<
-          null extends Fields
-            ? DeepPartial<T>
-            : Exclude<SelectFields<Model>, Fields> extends never
-            ? DeepPartial<T>
-            : Fields extends SelectFields<Model>
-            ? DeepNullable<SearchPick<Model, Fields>>
-            : never,
-          null
-        >
-      > extends infer U
-      ? U extends object
-        ? U
-        : never
-      : never
-    : never
-  : never;
+export type TSuggestResult<Model extends object, Fields extends SelectFields<Model> | null> =
+  // null represents the default case (no fields specified as selected)
+  null extends Fields
+    ? // Filter nullable (i.e. non-key) fields from the model, as they're not returned by the service by default
+      {
+        [K in keyof Model as Extract<Model[K], null | undefined> extends never
+          ? // Keys must have string type
+            Model[K] extends string
+            ? K
+            : never
+          : never]: Model[K];
+      }
+    : // Fields isn't narrowed to exclude null by the first condition, so it needs to be narrowed here
+    Fields extends SelectFields<Model>
+    ? TResult<Model, Fields>
+    : // Unreachable by construction
+      never;
