@@ -164,9 +164,12 @@ export type SuggestOptions<Model extends object, Fields> = OperationOptions &
  * as needed during iteration. Use .byPage() to make one request to the server
  * per iteration.
  */
-export type SearchIterator<Model extends object> = PagedAsyncIterableIterator<
-  SearchResult<Model>,
-  SearchDocumentsPageResult<Model>,
+export type SearchIterator<
+  Model extends object,
+  Fields extends SelectFields<Model>
+> = PagedAsyncIterableIterator<
+  SearchResult<Model, Fields>,
+  SearchDocumentsPageResult<Model, Fields>,
   ListSearchResultsPageSettings
 >;
 
@@ -453,7 +456,7 @@ export interface SearchRequestOptions<Model extends object, Fields> {
 /**
  * Contains a document found by a search query, plus associated metadata.
  */
-export type SearchResult<Model extends object> = {
+export type SearchResult<Model extends object, Fields extends SelectFields<Model>> = {
   /**
    * The relevance score of the document compared to other documents returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -476,7 +479,7 @@ export type SearchResult<Model extends object> = {
    */
   readonly captions?: CaptionResult[];
 
-  document: Model;
+  document: NarrowedModel<Model, Fields>;
 };
 
 /**
@@ -514,23 +517,25 @@ export interface SearchDocumentsResultBase {
 /**
  * Response containing search results from an index.
  */
-export interface SearchDocumentsResult<Model extends object> extends SearchDocumentsResultBase {
+export interface SearchDocumentsResult<Model extends object, Fields extends SelectFields<Model>>
+  extends SearchDocumentsResultBase {
   /**
    * The sequence of results returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly results: SearchIterator<Model>;
+  readonly results: SearchIterator<Model, Fields>;
 }
 
 /**
  * Response containing search page results from an index.
  */
-export interface SearchDocumentsPageResult<Model extends object> extends SearchDocumentsResultBase {
+export interface SearchDocumentsPageResult<Model extends object, Fields extends SelectFields<Model>>
+  extends SearchDocumentsResultBase {
   /**
    * The sequence of results returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly results: SearchResult<Model>[];
+  readonly results: SearchResult<Model, Fields>[];
   /**
    * A token used for retrieving the next page of results when the server
    * enforces pagination.
@@ -600,24 +605,27 @@ export interface SuggestRequest<Model extends object, Fields> {
 /**
  * A result containing a document found by a suggestion query, plus associated metadata.
  */
-export type SuggestResult<T> = {
+export type SuggestResult<Model extends object, Fields extends SelectFields<Model> | null> = {
   /**
    * The text of the suggestion result.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly text: string;
-  document: T;
+  document: SuggestNarrowedModel<Model, Fields>;
 };
 
 /**
  * Response containing suggestion query results from an index.
  */
-export interface SuggestDocumentsResult<T> {
+export interface SuggestDocumentsResult<
+  Model extends object,
+  Fields extends SelectFields<Model> | null
+> {
   /**
    * The sequence of results returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly results: SuggestResult<T>[];
+  readonly results: SuggestResult<Model, Fields>[];
   /**
    * A value indicating the percentage of the index that was included in the query, or null if
    * minimumCoverage was not set in the request.
@@ -797,7 +805,7 @@ export type NarrowedModel<Model extends object, Fields extends SelectFields<Mode
   // Avoid calculating the type if every field is specified
   SelectFields<Model> extends Fields ? Model : SearchPick<Model, Fields>;
 
-export type SuggestNarrowedModel<Model extends object, Fields extends SelectFields<Model> | null> =
+type SuggestNarrowedModel<Model extends object, Fields extends SelectFields<Model> | null> =
   // null represents the default case (no fields specified as selected)
   null extends Fields
     ? // Filter nullable (i.e. non-key) fields from the model, as they're not returned by the service by default

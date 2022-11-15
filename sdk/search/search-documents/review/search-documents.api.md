@@ -530,9 +530,6 @@ export type EntityRecognitionSkillV3 = BaseSearchIndexerSkill & {
     modelVersion?: string;
 };
 
-// @public (undocumented)
-export type ExcludedODataTypes = Date | GeographyPoint;
-
 // @public
 export interface FacetResult {
     [property: string]: any;
@@ -2047,17 +2044,16 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
     deleteDocuments(documents: Model[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     deleteDocuments(keyName: keyof Model, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
-    getDocument<Fields extends SelectFields<Model>>(key: string, options?: GetDocumentOptions<Fields>): Promise<TResult<Model, Fields>>;
+    // Warning: (ae-forgotten-export) The symbol "NarrowedModel" needs to be exported by the entry point index.d.ts
+    getDocument<Fields extends SelectFields<Model>>(key: string, options?: GetDocumentOptions<Fields>): Promise<NarrowedModel<Model, Fields>>;
     getDocumentsCount(options?: CountDocumentsOptions): Promise<number>;
     indexDocuments(batch: IndexDocumentsBatch<Model>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly indexName: string;
     mergeDocuments(documents: Model[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
     mergeOrUploadDocuments(documents: Model[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
-    // Warning: (ae-forgotten-export) The symbol "TResult" needs to be exported by the entry point index.d.ts
-    search<Fields extends SelectFields<Model>>(searchText?: string, options?: SearchOptions<Model, Fields>): Promise<SearchDocumentsResult<TResult<Model, Fields>>>;
+    search<Fields extends SelectFields<Model>>(searchText?: string, options?: SearchOptions<Model, Fields>): Promise<SearchDocumentsResult<Model, Fields>>;
     readonly serviceVersion: string;
-    // Warning: (ae-forgotten-export) The symbol "TSuggestResult" needs to be exported by the entry point index.d.ts
-    suggest<Fields extends SelectFields<Model> | null = null>(searchText: string, suggesterName: string, options?: SuggestOptions<Model, Fields>): Promise<SuggestDocumentsResult<TSuggestResult<Model, Fields>>>;
+    suggest<Fields extends SelectFields<Model> | null = null>(searchText: string, suggesterName: string, options?: SuggestOptions<Model, Fields>): Promise<SuggestDocumentsResult<Model, Fields>>;
     uploadDocuments(documents: Model[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
 }
 
@@ -2070,14 +2066,14 @@ export interface SearchClientOptions extends ExtendedCommonClientOptions {
 }
 
 // @public
-export interface SearchDocumentsPageResult<Model extends object> extends SearchDocumentsResultBase {
+export interface SearchDocumentsPageResult<Model extends object, Fields extends SelectFields<Model>> extends SearchDocumentsResultBase {
     continuationToken?: string;
-    readonly results: SearchResult<Model>[];
+    readonly results: SearchResult<Model, Fields>[];
 }
 
 // @public
-export interface SearchDocumentsResult<Model extends object> extends SearchDocumentsResultBase {
-    readonly results: SearchIterator<Model>;
+export interface SearchDocumentsResult<Model extends object, Fields extends SelectFields<Model>> extends SearchDocumentsResultBase {
+    readonly results: SearchIterator<Model, Fields>;
 }
 
 // @public
@@ -2399,7 +2395,7 @@ export interface SearchIndexStatistics {
 }
 
 // @public
-export type SearchIterator<Model extends object> = PagedAsyncIterableIterator<SearchResult<Model>, SearchDocumentsPageResult<Model>, ListSearchResultsPageSettings>;
+export type SearchIterator<Model extends object, Fields extends SelectFields<Model>> = PagedAsyncIterableIterator<SearchResult<Model, Fields>, SearchDocumentsPageResult<Model, Fields>, ListSearchResultsPageSettings>;
 
 // @public
 export type SearchMode = "any" | "all";
@@ -2474,14 +2470,14 @@ export interface SearchResourceEncryptionKey {
 }
 
 // @public
-export type SearchResult<Model extends object> = {
+export type SearchResult<Model extends object, Fields extends SelectFields<Model>> = {
     readonly score: number;
     readonly rerankerScore?: number;
     readonly highlights?: {
         [k in SelectFields<Model>]?: string[];
     };
     readonly captions?: CaptionResult[];
-    document: Model;
+    document: NarrowedModel<Model, Fields>;
 };
 
 // @public
@@ -2497,6 +2493,8 @@ export interface SearchSuggester {
     sourceFields: string[];
 }
 
+// Warning: (ae-forgotten-export) The symbol "ExcludedODataTypes" needs to be exported by the entry point index.d.ts
+//
 // @public
 export type SelectFields<T extends object> = T extends Array<infer U> ? NonNullable<U> extends object ? SelectFields<NonNullable<U>> : never : {
     [K in Exclude<keyof T, symbol | number>]: NonNullable<T[K]> extends object ? NonNullable<T[K]> extends ExcludedODataTypes ? K : SelectFields<NonNullable<T[K]>> extends infer NextPaths ? NextPaths extends string ? // Union this key with all the next paths separated with '/'
@@ -2667,9 +2665,9 @@ export type StopwordsTokenFilter = BaseTokenFilter & {
 };
 
 // @public
-export interface SuggestDocumentsResult<T> {
+export interface SuggestDocumentsResult<Model extends object, Fields extends SelectFields<Model> | null> {
     readonly coverage?: number;
-    readonly results: SuggestResult<T>[];
+    readonly results: SuggestResult<Model, Fields>[];
 }
 
 // @public
@@ -2689,9 +2687,9 @@ export interface SuggestRequest<Model extends object, Fields> {
 }
 
 // @public
-export type SuggestResult<T> = {
+export type SuggestResult<Model extends object, Fields extends SelectFields<Model> | null> = {
     readonly text: string;
-    document: T;
+    document: SuggestNarrowedModel<Model, Fields>;
 };
 
 // @public
@@ -2763,9 +2761,6 @@ export type UaxUrlEmailTokenizer = BaseLexicalTokenizer & {
     maxTokenLength?: number;
 };
 
-// @public (undocumented)
-export type UnionToIntersection<U> = (U extends unknown ? (_: U) => unknown : never) extends (_: infer I) => unknown ? I : never;
-
 // @public
 export type UniqueTokenFilter = BaseTokenFilter & {
     odatatype: "#Microsoft.Azure.Search.UniqueTokenFilter";
@@ -2805,6 +2800,10 @@ export type WordDelimiterTokenFilter = BaseTokenFilter & {
     stemEnglishPossessive?: boolean;
     protectedWords?: string[];
 };
+
+// Warnings were encountered during analysis:
+//
+// src/indexModels.ts:614:3 - (ae-forgotten-export) The symbol "SuggestNarrowedModel" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
