@@ -233,6 +233,33 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * @param searchText - The search text on which to base autocomplete results.
    * @param suggesterName - The name of the suggester as specified in the suggesters collection that's part of the index definition.
    * @param options - Options to the autocomplete operation.
+   * @example
+   * ```ts
+   * import {
+   *   AzureKeyCredential,
+   *   SearchClient,
+   *   SelectFields,
+   * } from "@azure/search-documents";
+   *
+   * type Model = {
+   *   key: string;
+   *   azure?: { sdk: string | null } | null;
+   * };
+   *
+   * const client = new SearchClient<Model>(
+   *   "endpoint.azure",
+   *   "indexName",
+   *   new AzureKeyCredential("key")
+   * );
+   *
+   * const fields: SelectFields<Model>[] = ["azure/sdk"];
+   *
+   * const autocompleteResult = await client.autocomplete(
+   *   "searchText",
+   *   "suggesterName",
+   *   { searchFields: fields }
+   * );
+   * ```
    */
   public async autocomplete(
     searchText: string,
@@ -392,6 +419,29 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * the specified arguments.
    * @param searchText - Text to search
    * @param options - Options for the search operation.
+   * @example
+   * ```ts
+   * import {
+   *   AzureKeyCredential,
+   *   SearchClient,
+   *   SelectFields,
+   * } from "@azure/search-documents";
+   *
+   * type Model = {
+   *   key: string;
+   *   azure?: { sdk: string | null } | null;
+   * };
+   *
+   * const client = new SearchClient<Model>(
+   *   "endpoint.azure",
+   *   "indexName",
+   *   new AzureKeyCredential("key")
+   * );
+   *
+   * const fields: SelectFields<Model>[] = ["azure/sdk"];
+   *
+   * const searchResult = await client.search("searchText", { select: fields });
+   * ```
    */
   public async search<Fields extends SelectFields<Model>>(
     searchText?: string,
@@ -428,6 +478,31 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * @param searchText - The search text to use to suggest documents. Must be at least 1 character, and no more than 100 characters.
    * @param suggesterName - The name of the suggester as specified in the suggesters collection that's part of the index definition.
    * @param options - Options for the suggest operation
+   * @example
+   * ```ts
+   * import {
+   *   AzureKeyCredential,
+   *   SearchClient,
+   *   SelectFields,
+   * } from "@azure/search-documents";
+   *
+   * type Model = {
+   *   key: string;
+   *   azure?: { sdk: string | null } | null;
+   * };
+   *
+   * const client = new SearchClient<Model>(
+   *   "endpoint.azure",
+   *   "indexName",
+   *   new AzureKeyCredential("key")
+   * );
+   *
+   * const fields: SelectFields<Model>[] = ["azure/sdk"];
+   *
+   * const suggestResult = await client.suggest("searchText", "suggesterName", {
+   *   select: fields,
+   * });
+   * ```
    */
   public async suggest<Fields extends SelectFields<Model> | null = null>(
     searchText: string,
@@ -478,6 +553,31 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * Retrieve a particular document from the index by key.
    * @param key - The primary key value of the document
    * @param options - Additional options
+   * @example
+   * ```ts
+   * import {
+   *   AzureKeyCredential,
+   *   SearchClient,
+   *   SelectFields,
+   * } from "@azure/search-documents";
+   *
+   * type Model = {
+   *   key: string;
+   *   azure?: { sdk: string | null } | null;
+   * };
+   *
+   * const client = new SearchClient<Model>(
+   *   "endpoint.azure",
+   *   "indexName",
+   *   new AzureKeyCredential("key")
+   * );
+   *
+   * const fields: SelectFields<Model>[] = ["azure/sdk"];
+   *
+   * const document = await client.getDocument("field", {
+   *   selectedFields: fields,
+   * });
+   * ```
    */
   public async getDocument<Fields extends SelectFields<Model>>(
     key: string,
