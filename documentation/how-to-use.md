@@ -34,7 +34,7 @@ In this document, we will give a brief introduction on how to use the JavaScript
     eg：
     ```
         import { DefaultAzureCredential } from "@azure/identity";.
-        import{TargetManagementClient} from "@azure/arm-target"
+        import{ TargetManagementClient } from "@azure/arm-target"
 
         const subscriptionId = process.env.SUBSCRIPTION_ID || '';
         const creds=new DefaultAzureCredential();
