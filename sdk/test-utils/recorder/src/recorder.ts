@@ -69,12 +69,7 @@ export class Recorder {
     if (isRecordMode() || isPlaybackMode()) {
       if (this.testContext) {
         this.sessionFile = sessionFilePath(this.testContext);
-
-        if (!isNode) {
-          this.assetsJson = env.RECORDING_ASSETS_PATH;
-        } else {
-          this.assetsJson = relativeAssetsPath();
-        }
+        this.assetsJson = relativeAssetsPath();
 
         logger.info(`[Recorder#constructor] Using a session file located at ${this.sessionFile}`);
         this.httpClient = createDefaultHttpClient();

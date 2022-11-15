@@ -1,9 +1,17 @@
-import { RecorderError } from "./utils";
-
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-export function relativeRecordingsPath(): never {
-  throw new Error("Attempted to use the function meant for node in a browser.");
+
+import { env } from "./env";
+import { RecorderError } from "./utils";
+
+export function relativeRecordingsPath(): string {
+  if (env.RECORDINGS_RELATIVE_PATH) {
+    return env.RECORDINGS_RELATIVE_PATH;
+  } else {
+    throw new RecorderError(
+      "RECORDINGS_RELATIVE_PATH was not set while in browser mode. Ensure that process.env.RELATIVE_RECORDINGS_PATH has been set properly in your Karma configuration."
+    );
+  }
 }
 
 /**
@@ -29,9 +37,12 @@ export function relativeRecordingsPath(): never {
  * @export
  * @returns {string} location of the relative path to discovered assets.json - `sdk/storage/storage-blob/assets.json` for example.
  */
-export function relativeAssetsPath(): never {
-  throw new RecorderError(
-    "Unable to access the project object. This is likely occurring because the user requested a browser test" +
-      " run and RECORDING_ASSETS_PATH isn't yet defined. Set process.env variable RECORDING_ASSETS_PATH within karma configuration."
-  );
+export function relativeAssetsPath(): string {
+  if (env.RECORDINGS_RELATIVE_PATH) {
+    return `${env.RECORDINGS_RELATIVE_PATH}/../assets.json`;
+  } else {
+    throw new RecorderError(
+      "RECORDINGS_RELATIVE_PATH was not set while in browser mode. Ensure that process.env.RELATIVE_RECORDINGS_PATH has been set properly in your Karma configuration."
+    );
+  }
 }
