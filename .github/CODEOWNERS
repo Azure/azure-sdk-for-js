@@ -41,10 +41,13 @@
 /sdk/attestation/ @LarryOsterman @deyaaeldeen @anilba06 @gkostal
 
 # PRLabel: %Batch
-/sdk/batch/ @dpwatrous @paterasMSFT @zfengms @deyaaeldeen
+/sdk/batch/ @dpwatrous @paterasMSFT @zfengms @NickKouds @deyaaeldeen
+
+# PRLabel: %Communication
+/sdk/communication/
 
 # PRLabel: %Communication - Identity
-/sdk/communication/communication-identity/ @petrsvihlik @AikoBB @maximrytych-ms
+/sdk/communication/communication-identity/ @petrsvihlik @AikoBB @maximrytych-ms @ostoliarova-msft
 
 # PRLabel: %Communication - Chat
 /sdk/communication/communication-chat/ @LuChen-Microsoft
@@ -62,19 +65,16 @@
 /sdk/communication/communication-short-codes/ @guilhermeluizsp @danielav7
 
 # PRLabel: %Communication - Common
-/sdk/communication/communication-common/ @petrsvihlik @AikoBB @maximrytych-ms
-
-# PRLabel: %Communication
-/sdk/communication/communication/ @petrsvihlik @AikoBB @maximrytych-ms
+/sdk/communication/communication-common/ @petrsvihlik @AikoBB @maximrytych-ms @ostoliarova-msft
 
 # PRLabel: %Container Registry
 /sdk/containerregistry/ @jeremymeng @timovv
 
 # PRLabel: %Cosmos
-/sdk/cosmosdb/ @kushagraThapar @kirankumarkolli
+/sdk/cosmosdb/ @kushagraThapar @kirankumarkolli @abkolant-MSFT
 
 # ServiceLabel: %Cosmos %Service Attention
-#/<NotInRepo>/ @sajeetharan @simorenoh @pjohari-ms
+#/<NotInRepo>/ @sajeetharan @abkolant-MSFT @pjohari-ms
 
 # PRLabel: %Digital Twins
 /sdk/digitaltwins/ @johngallardo @olivakar @sjiherzig
@@ -148,7 +148,7 @@
 /sdk/metricsadvisor/ @KarishmaGhiya @jeremymeng
 
 # PRLabel: %Search
-/sdk/search/ @sarangan12 @xirzec
+/sdk/search/ @dgetu @xirzec
 
 # PRLabel: %Mixed Reality
 /sdk/mixedreality/ @craigktreasure
@@ -915,7 +915,7 @@ sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 #/<NotInRepo>/          @assafi
 
 # ServiceLabel: %Cognitive - Form Recognizer %Service Attention
-#/<NotInRepo>/          @ctstone @anrothMSFT
+#/<NotInRepo>/          @ctstone @vkurpad
 
 # ServiceLabel: %Cognitive - Anomaly Detector %Service Attention
 #/<NotInRepo>/          @yingqunpku @bowgong
@@ -1210,7 +1210,7 @@ sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 #/<NotInRepo>/          @sunilagarwal @lfittl-msft @sr-msft @niklarin
 
 # ServiceLabel: %Recovery Services Backup %Service Attention
-#/<NotInRepo>/          @pvrk @adityabalaji-msft
+#/<NotInRepo>/          @pvrk @adityabalaji-msft @Daya-Patil
 
 # ServiceLabel: %Recovery Services Site-Recovery %Service Attention
 #/<NotInRepo>/          @Sharmistha-Rai

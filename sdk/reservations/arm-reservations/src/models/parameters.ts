@@ -18,6 +18,8 @@ import {
   Patch as PatchMapper,
   PurchaseRequest as PurchaseRequestMapper,
   ChangeDirectoryRequest as ChangeDirectoryRequestMapper,
+  CalculateRefundRequest as CalculateRefundRequestMapper,
+  RefundRequest as RefundRequestMapper,
   CalculateExchangeRequest as CalculateExchangeRequestMapper,
   ExchangeRequest as ExchangeRequestMapper,
   CurrentQuotaLimitBase as CurrentQuotaLimitBaseMapper
@@ -278,10 +280,20 @@ export const body4: OperationParameter = {
 
 export const body5: OperationParameter = {
   parameterPath: "body",
-  mapper: CalculateExchangeRequestMapper
+  mapper: CalculateRefundRequestMapper
 };
 
 export const body6: OperationParameter = {
+  parameterPath: "body",
+  mapper: RefundRequestMapper
+};
+
+export const body7: OperationParameter = {
+  parameterPath: "body",
+  mapper: CalculateExchangeRequestMapper
+};
+
+export const body8: OperationParameter = {
   parameterPath: "body",
   mapper: ExchangeRequestMapper
 };

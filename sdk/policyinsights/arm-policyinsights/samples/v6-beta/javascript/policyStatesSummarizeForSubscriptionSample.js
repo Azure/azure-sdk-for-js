@@ -20,14 +20,13 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function summarizeAtSubscriptionScope() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyStatesSummaryResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 5;
   const options = { queryOptions: { top: top } };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const result = await client.policyStates.summarizeForSubscription(
     policyStatesSummaryResource,
-    subscriptionId2,
+    subscriptionId,
     options
   );
   console.log(result);
@@ -44,7 +43,6 @@ summarizeAtSubscriptionScope().catch(console.error);
 async function summarizeAtSubscriptionScopeForAPolicyDefinitionGroup() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyStatesSummaryResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 1;
   const filter = "'group1' IN PolicyDefinitionGroupNames";
   const options = {

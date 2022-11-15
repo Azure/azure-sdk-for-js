@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists galleries for a devcenter.
  *
  * @summary Lists galleries for a devcenter.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-08-01-preview/examples/Galleries_List.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-10-12-preview/examples/Galleries_List.json
  */
 async function galleriesListByDevCenter() {
   const subscriptionId = "{subscriptionId}";

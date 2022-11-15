@@ -64,7 +64,7 @@ function prepareRequestOptions(
  * Retrieves the file contents at the given path using promises.
  * Useful since `fs`'s readFileSync locks the thread, and to avoid extra dependencies.
  */
-function readFileAsync(path: string, options: { encoding: string }): Promise<string> {
+function readFileAsync(path: string, options: { encoding: BufferEncoding }): Promise<string> {
   return new Promise((resolve, reject) =>
     readFile(path, options, (err, data) => {
       if (err) {

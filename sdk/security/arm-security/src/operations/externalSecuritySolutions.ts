@@ -6,19 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ExternalSecuritySolutions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityCenter } from "../securityCenter";
 import {
-  ExternalSecuritySolutionUnion,
+  ExternalSecuritySolution,
   ExternalSecuritySolutionsListNextOptionalParams,
   ExternalSecuritySolutionsListOptionalParams,
+  ExternalSecuritySolutionsListResponse,
   ExternalSecuritySolutionsListByHomeRegionNextOptionalParams,
   ExternalSecuritySolutionsListByHomeRegionOptionalParams,
-  ExternalSecuritySolutionsListResponse,
   ExternalSecuritySolutionsListByHomeRegionResponse,
   ExternalSecuritySolutionsGetOptionalParams,
   ExternalSecuritySolutionsGetResponse,
@@ -46,7 +47,7 @@ export class ExternalSecuritySolutionsImpl
    */
   public list(
     options?: ExternalSecuritySolutionsListOptionalParams
-  ): PagedAsyncIterableIterator<ExternalSecuritySolutionUnion> {
+  ): PagedAsyncIterableIterator<ExternalSecuritySolution> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -55,28 +56,40 @@ export class ExternalSecuritySolutionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ExternalSecuritySolutionsListOptionalParams
-  ): AsyncIterableIterator<ExternalSecuritySolutionUnion[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    options?: ExternalSecuritySolutionsListOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<ExternalSecuritySolution[]> {
+    let result: ExternalSecuritySolutionsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
   private async *listPagingAll(
     options?: ExternalSecuritySolutionsListOptionalParams
-  ): AsyncIterableIterator<ExternalSecuritySolutionUnion> {
+  ): AsyncIterableIterator<ExternalSecuritySolution> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
@@ -91,7 +104,7 @@ export class ExternalSecuritySolutionsImpl
   public listByHomeRegion(
     ascLocation: string,
     options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams
-  ): PagedAsyncIterableIterator<ExternalSecuritySolutionUnion> {
+  ): PagedAsyncIterableIterator<ExternalSecuritySolution> {
     const iter = this.listByHomeRegionPagingAll(ascLocation, options);
     return {
       next() {
@@ -100,19 +113,29 @@ export class ExternalSecuritySolutionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByHomeRegionPagingPage(ascLocation, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByHomeRegionPagingPage(ascLocation, options, settings);
       }
     };
   }
 
   private async *listByHomeRegionPagingPage(
     ascLocation: string,
-    options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams
-  ): AsyncIterableIterator<ExternalSecuritySolutionUnion[]> {
-    let result = await this._listByHomeRegion(ascLocation, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<ExternalSecuritySolution[]> {
+    let result: ExternalSecuritySolutionsListByHomeRegionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByHomeRegion(ascLocation, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByHomeRegionNext(
         ascLocation,
@@ -120,14 +143,16 @@ export class ExternalSecuritySolutionsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
   private async *listByHomeRegionPagingAll(
     ascLocation: string,
     options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams
-  ): AsyncIterableIterator<ExternalSecuritySolutionUnion> {
+  ): AsyncIterableIterator<ExternalSecuritySolution> {
     for await (const page of this.listByHomeRegionPagingPage(
       ascLocation,
       options
@@ -236,7 +261,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -253,7 +278,7 @@ const listByHomeRegionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -274,7 +299,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -296,7 +321,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -316,7 +341,7 @@ const listByHomeRegionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

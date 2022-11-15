@@ -1,14 +1,19 @@
 # Release History
 
-## 4.2.3 (Unreleased)
+## 4.4.0-beta.1 (2022-11-10)
 
 ### Features Added
 
+- Added `KeyVaultSettingsClient` to get and update Managed HSM settings.
+- Added support for service version `7.4-preview.1`.
+
+## 4.3.0 (2022-09-20)
+
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
+- Verify the challenge resource matches the vault domain.
+  This should affect few customers who can set `disableChallengeResourceVerification` in the options bag to `true` to disable.
+  See https://aka.ms/azsdk/blog/vault-uri for more information.
 
 ## 4.2.2 (2022-08-09)
 

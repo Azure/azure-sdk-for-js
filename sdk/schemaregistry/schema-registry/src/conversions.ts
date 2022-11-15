@@ -39,6 +39,21 @@ export async function convertSchemaResponse(response: GeneratedSchemaResponse): 
   };
 }
 
+const customContentType = "text/plain; charset=utf-8";
+const customFormat = "Custom";
+
+/**
+ * @internal
+ * @param format - schema format
+ * @returns corresponding content-type value
+ */
+export function buildContentType(format: string): string {
+  const lowercaseFormat = format.toLowerCase();
+  return lowercaseFormat === customFormat.toLowerCase()
+    ? customContentType
+    : `application/json; serialization=${format}`;
+}
+
 /**
  * Converts generated client's response to SchemaIdentityResponse.
  *
@@ -61,6 +76,7 @@ export function convertSchemaIdResponse(
 }
 
 function mapContentTypeToFormat(contentType: string): string {
+  if (contentType === customContentType) return customFormat;
   const parts = /.*serialization=(.*)$/.exec(contentType);
   const schemaFormat = parts?.[1];
   if (schemaFormat) {

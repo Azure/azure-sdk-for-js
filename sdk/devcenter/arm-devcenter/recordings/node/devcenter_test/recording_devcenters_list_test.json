@@ -1,0 +1,70 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DevCenter/devcenters?api-version=2022-10-12-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-devcenter/1.0.0-beta.3 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "94fcd386-64e8-4d2b-9432-d24a0dbe1f2f"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "520",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 07 Nov 2022 01:48:27 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "73f8f252-64da-4da2-ac40-eb9908323b05",
+        "x-ms-original-request-ids": [
+          "a334acc1-c5f7-490f-aee7-d38a88c7dfa2",
+          "c1e37009-08ae-4a96-bb89-81cd079ed252",
+          "a84f24cc-f115-49a6-aff1-3978b542717b",
+          "0bce75db-d88e-4f9b-91b2-c8c0c7271735",
+          "4e5fa2aa-ae83-4cfc-ba8d-e3c093b41706",
+          "66a90713-210b-45c9-ba78-3ae872e91c10",
+          "ff145b47-538d-4601-825d-d2f4ac6ddc86",
+          "b3907ae6-08f3-475d-8bd5-29ae74f8295a",
+          "e49739c5-9c1a-4f49-9541-ad9d432e34bb"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": "11937",
+        "x-ms-request-id": "73f8f252-64da-4da2-ac40-eb9908323b05",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221107T014827Z:73f8f252-64da-4da2-ac40-eb9908323b05"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DevCenter/devcenters/Contoso1",
+            "name": "Contoso1",
+            "type": "microsoft.devcenter/devcenters",
+            "location": "eastus",
+            "tags": {
+              "costCode": "12345"
+            },
+            "systemData": {
+              "createdBy": "azure_client_id",
+              "createdByType": "Application",
+              "createdAt": "2022-11-07T01:45:56.3531156Z",
+              "lastModifiedBy": "azure_client_id",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2022-11-07T01:45:56.3531156Z"
+            },
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

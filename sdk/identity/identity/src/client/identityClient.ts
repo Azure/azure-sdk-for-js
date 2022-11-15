@@ -18,6 +18,10 @@ import { DefaultAuthorityHost, SDK_VERSION } from "../constants";
 import { tracingClient } from "../util/tracing";
 import { logger } from "../util/logging";
 import { TokenCredentialOptions } from "../tokenCredentialOptions";
+import {
+  TokenResponseParsedBody,
+  parseExpiresOn,
+} from "../credentials/managedIdentityCredential/utils";
 
 const noCorrelationId = "noCorrelationId";
 
@@ -35,19 +39,6 @@ export interface TokenResponse {
    * The refresh token if the 'offline_access' scope was used.
    */
   refreshToken?: string;
-}
-
-/**
- * Internal type roughly matching the raw responses of the authentication endpoints.
- *
- * @internal
- */
-export interface TokenResponseParsedBody {
-  token?: string;
-  access_token?: string;
-  refresh_token?: string;
-  expires_in: number;
-  expires_on?: number | string;
 }
 
 /**
@@ -106,18 +97,9 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     this.allowLoggingAccountIdentifiers = options?.loggingOptions?.allowLoggingAccountIdentifiers;
   }
 
-  async sendTokenRequest(
-    request: PipelineRequest,
-    expiresOnParser?: (responseBody: TokenResponseParsedBody) => number
-  ): Promise<TokenResponse | null> {
+  async sendTokenRequest(request: PipelineRequest): Promise<TokenResponse | null> {
     logger.info(`IdentityClient: sending token request to [${request.url}]`);
     const response = await this.sendRequest(request);
-
-    expiresOnParser =
-      expiresOnParser ||
-      ((responseBody: TokenResponseParsedBody) => {
-        return Date.now() + responseBody.expires_in * 1000;
-      });
 
     if (response.bodyAsText && (response.status === 200 || response.status === 201)) {
       const parsedBody: TokenResponseParsedBody = JSON.parse(response.bodyAsText);
@@ -131,7 +113,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       const token = {
         accessToken: {
           token: parsedBody.access_token,
-          expiresOnTimestamp: expiresOnParser(parsedBody),
+          expiresOnTimestamp: parseExpiresOn(parsedBody),
         },
         refreshToken: parsedBody.refresh_token,
       };
@@ -155,7 +137,6 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     scopes: string,
     refreshToken: string | undefined,
     clientSecret: string | undefined,
-    expiresOnParser?: (responseBody: TokenResponseParsedBody) => number,
     options: GetTokenOptions = {}
   ): Promise<TokenResponse | null> {
     if (refreshToken === undefined) {
@@ -196,7 +177,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
             tracingOptions: updatedOptions.tracingOptions,
           });
 
-          const response = await this.sendTokenRequest(request, expiresOnParser);
+          const response = await this.sendTokenRequest(request);
           logger.info(`IdentityClient: refreshed token for client ID: ${clientId}`);
           return response;
         } catch (err: any) {

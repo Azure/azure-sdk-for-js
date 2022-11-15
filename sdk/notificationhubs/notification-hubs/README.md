@@ -20,7 +20,7 @@ Key links:
 
 ### Currently supported environments
 
-- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - Latest versions of Safari, Chrome, Edge, and Firefox.
 
 See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
@@ -57,7 +57,7 @@ import {
   createAppleInstallation 
 } from "@azure/notification-hubs";
 
-const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
+const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
 const installation = createAppleInstallation({
   installationId: "<installation-id>",
@@ -70,24 +70,17 @@ const result = await client.createOrUpdateInstallation(installation);
 
 The modular approach allows the developer to pick and choose which functions to import as each method is exposed individually.  This approach uses subpath-exports with ES-Modules to expose the methods via direct imports.  With the individual exports, this creates a better tree-shaking experience and smaller bundle sizes that the developer can take advantage of.  
 
-Note that creating a client is exposed through the `"@azure/notification-hubs/client"` subpath and all client methods are exposed through the `"@azure/notification-hubs/client"` subpath.  Each function exported takes the `client` as the first parameter and the rest of the parameters remain unchanged.  
+Note that creating a client is exposed through the `"@azure/notification-hubs/api"` subpath and all client methods are exposed through the `"@azure/notification-hubs/api"` subpath.  Each function exported takes the `client` as the first parameter and the rest of the parameters remain unchanged.  
 
 The following subpaths are exposed:
 
-- `@azure/notification-hubs/client` - The main entry point for the client via `createClientContext`
-- `@azure/notification-hubs/client/*` - The client methods such as `getInstallation` or `sendNotification`
-- `@azure/notification-hubs/models/installation` - The installation models and factory methods.
-- `@azure/notification-hubs/models/notification` - The notification models and factory methods.
-- `@azure/notification-hubs/models/notificationBuilder` - The notification builder models and factory methods.
-- `@azure/notification-hubs/models/options` - The method options such as `SendOperationOptions`.
-- `@azure/notification-hubs/models/registration` - The registration models and factory methods.
+- `@azure/notification-hubs/api` - The main entry point for the client via `createClientContext` and client methods such as `getInstallation` or `sendNotification`
+- `@azure/notification-hubs/models` - The Notification Hubs models and factory methods.
 
 The above code snippet then becomes the following:
 
 ```typescript
-import { createClientContext } from "@azure/notification-hubs/client";
-import { createAppleInstallation } from "@azure/notification-hubs/models/installation";
-import { createOrUpdateInstallation } from "@azure/notification-hubs/client/createOrUpdateInstallation";
+import { createClientContext, createOrUpdateInstallation } from "@azure/notification-hubs/api";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
@@ -102,22 +95,22 @@ const result = await createOrUpdateInstallation(context, installation);
 
 ### Authenticate the client
 
-Interaction with an Azure Notification Hub starts with the `NotificationHubServiceClient` which supports [Shared Access Signature connection strings](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-security).  This includes the following permission levels: **Listen**, **Manage**, **Send**.
+Interaction with an Azure Notification Hub starts with the `NotificationHubsClient` which supports [Shared Access Signature connection strings](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-security).  This includes the following permission levels: **Listen**, **Manage**, **Send**.
 
 Listen allows for a client to register itself via the Registration and Installations API. Send allows for the client to send notifications to devices using the send APIs. Finally, Manage allows the user to do Registration and Installation management, such as queries.
 
-A new `NotificationHubServiceClient` client can be created using the constructor with the connection string and Notification Hub name.
+A new `NotificationHubsClient` client can be created using the constructor with the connection string and Notification Hub name.
 
 ```typescript
-import { NotificationHubServiceClient } from "@azure/notification-hubs";
+import { NotificationHubsClient } from "@azure/notification-hubs";
 
-const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
+const client = new NotificationHubsClient("<connection string>", "<hub name>");
 ```
 
-Using the modular approach, the `createClientContext` can be imported via the `"@azure/notification-hubs/client"` subpath.
+Using the modular approach, the `createClientContext` can be imported via the `"@azure/notification-hubs/api"` subpath.
 
 ```typescript
-import { createClientContext } from "@azure/notification-hubs/client";
+import { createClientContext } from "@azure/notification-hubs/api";
 
 const context = createClientContext("<connection string>", "<hub name>");
 ```
@@ -145,10 +138,10 @@ Installations are a newer and native JSON approach to device management that con
 Installations can be created through the `createOrUpdateInstallation` method such as the following:
 
 ```typescript
-import { NotificationHubServiceClient, createAppleInstallation } from "@azure/notification-hubs";
+import { NotificationHubsClient, createAppleInstallation } from "@azure/notification-hubs";
 import { v4 as uuid } from "uuid";
 
-const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
+const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
 // Create an installation for APNs
 let installation = createAppleInstallation({
@@ -163,9 +156,8 @@ installation = await client.createOrUpdateInstallation(installation);
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { createClientContext } from "@azure/notification-hubs/client";
-import { createAppleInstallation } from "@azure/notification-hubs/models/installation";
-import { createOrUpdateInstallation } from "@azure/notification-hubs/client/createOrUpdateInstallation";
+import { createClientContext, createOrUpdateInstallation } from "@azure/notification-hubs/api";
+import { createAppleInstallation } from "@azure/notification-hubs/models";
 import { v4 as uuid } from "uuid";
 
 const context = createClientContext("<connection string>", "<hub name>");
@@ -183,9 +175,9 @@ installation = await createOrUpdateInstallation(context, installation);
 An update to an installation can be made through the JSON Patch schema such as adding a tag and a user ID using the `updateInstallation` method.
 
 ```typescript
-import { NotificationHubServiceClient, JsonPatch } from "@azure/notification-hubs";
+import { NotificationHubsClient, JsonPatch } from "@azure/notification-hubs";
 
-const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
+const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
 const installationId = "<unique installation ID>";
 
@@ -200,9 +192,8 @@ const installation = await client.updateInstallation(installationId, updates);
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { createClientContext } from "@azure/notification-hubs/client";
-import { JsonPatch, createAppleInstallation } from "@azure/notification-hubs/models/installation";
-import { updateInstallation } from "@azure/notification-hubs/client/updateInstallation";
+import { createClientContext, updateInstallation } from "@azure/notification-hubs/api";
+import { JsonPatch, createAppleInstallation } from "@azure/notification-hubs/models";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
@@ -219,9 +210,9 @@ const installation = await updateInstallation(context, installationId, updates);
 To retrieve an existing installation, use the `getInstallation` method with your existing unique installation ID.
 
 ```typescript
-import { NotificationHubServiceClient } from "@azure/notification-hubs";
+import { NotificationHubsClient } from "@azure/notification-hubs";
 
-const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
+const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
 const installationId = "<unique installation ID>";
 
@@ -231,8 +222,7 @@ const installation = client.getInstallation(installationId);
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { createClientContext } from "@azure/notification-hubs/client";
-import { getInstallation } from "@azure/notification-hubs/client/getInstallation";
+import { createClientContext, getInstallation } from "@azure/notification-hubs/api";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
@@ -249,11 +239,11 @@ An installation may be created in one of two ways, first by getting a registrati
 
 ```typescript
 import {
-  NotificationHubServiceClient,
+  NotificationHubsClient,
   createAppleRegistrationDescription,
 } from "@azure/notification-hubs";
 
-const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
+const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
 let registration = createAppleRegistrationDescription({
   deviceToken: "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0",
@@ -268,9 +258,8 @@ console.log(`New Registration ID: ${registration.registrationId}`);
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { createClientContext } from "@azure/notification-hubs/client";
-import { createAppleRegistrationDescription } from "@azure/notification-hubs/models/registration";
-import { createRegistration } from "@azure/notification-hubs/client/createRegistration";
+import { createClientContext, createRegistration } from "@azure/notification-hubs/api";
+import { createAppleRegistrationDescription } from "@azure/notification-hubs/models";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
@@ -287,9 +276,9 @@ console.log(`New Registration ID: ${registration.registrationId}`);
 Updates can be done via the `updateRegistration` method but unlike installations, does not support incremental updates.  Querying for an existing registration can be done with the `getRegistration` method.
 
 ```typescript
-import { NotificationHubServiceClient } from "@azure/notification-hubs";
+import { NotificationHubsClient } from "@azure/notification-hubs";
 
-const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
+const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
 const registrationId = "<unique Registration ID>";
 
@@ -303,9 +292,11 @@ registration = await client.updateRegistration(registration);
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { createClientContext } from "@azure/notification-hubs/client";
-import { getRegistration } from "@azure/notification-hubs/client/getRegistration";
-import { updateRegistration } from "@azure/notification-hubs/client/updateRegistration";
+import { 
+  createClientContext, 
+  getRegistration, 
+  updateRegistration 
+} from "@azure/notification-hubs/api";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
@@ -318,12 +309,12 @@ registration.tags.push("likes_sports");
 registration = await updateRegistration(context, registration);
 ```
 
-Registrations, unlike installations, can be queried to get all registrations, matching registrations to a condition, or by tags.  Registrations can be queried using the `listRegistrations` and `listRegistrationsByTag` method.  Both methods support limiting via the `top` option and support asynchronous paging.
+Registrations, unlike installations, can be queried to get all registrations, matching registrations to a condition, or by tags.  Registrations can be queried using the `listRegistrations`, `listRegistrationsByChannel` and `listRegistrationsByTag` method.  All methods support limiting via the `top` option and support asynchronous paging.
 
 ```typescript
-import { NotificationHubServiceClient } from "@azure/notification-hubs/client";
+import { NotificationHubsClient } from "@azure/notification-hubs/api";
 
-const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
+const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
 const registrations = await client.listRegistrationsByTag("likes_hockey");
 
@@ -339,8 +330,7 @@ for await (const pages of registrations.byPage()) {
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { createClientContext } from "@azure/notification-hubs/client";
-import { listRegistrationsByTag } from "@azure/notification-hubs/client/listRegistrationsByTag";
+import { createClientContext, listRegistrationsByTag } from "@azure/notification-hubs/api";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
@@ -359,19 +349,18 @@ for await (const pages of registrations.byPage()) {
 
 Notification Hubs supports sending notifications to devices either directly using the unique PNS provided identifier, using tags for audience send, or a general broadcast to all devices.  Using the Standard SKU and above, [scheduled send](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-send-push-notifications-scheduled) allows the user to schedule notifications up to seven days in advance.  All send operations return a Tracking ID and Correlation ID which can be used for Notification Hubs support cases.  With the Standard SKU and above, a Notification ID is also returned which can be used to get notification telemetry via the `getNotificationOutcomeDetails` method.
 
-For debugging purposes, the `enableTestSend` options can be set to `true` which gets immediate feedback from the PNS on the `sendNotification` or `sendBroadcastNotification` methods, however, is not supported in production scenarios.  This is not supported on the scheduled send methods.
+For debugging purposes, the `enableTestSend` options can be set to `true` which gets immediate feedback from the PNS on the `sendNotification` method, however, is not supported in production scenarios.  This is not supported on the scheduled send methods.
 
-Raw JSON or XML strings can be sent to the send or scheduled send methods, or the notification builders can be used which helps construct messages per PNS such as APNs, Firebase, Baidu, ADM and WNS.  These builders will build the native message format and fill in associated HTTP headers so there is no guessing about which fields are available for each PNS.
+Raw JSON or XML strings can be sent to the send or scheduled send methods, or the notification builders can be used which helps construct messages per PNS such as APNs, Firebase, Baidu, ADM and WNS.  These builders will build the native message format so there is no guessing about which fields are available for each PNS.
 
 ```typescript
 // Using the class-based approach
-import { buildAppleNativeMessage } from "@azure/notification-hubs";
+import { createAppleNotificationBody } from "@azure/notification-hubs";
 
 // Using the modular approach
-import { buildAppleNativeMessage } from "@azure/notification-hubs/models/notificationBuilder";
+import { createAppleNotification, createAppleNotificationBody } from "@azure/notification-hubs/models";
 
-
-const apnsMessage = buildAppleNativeMessage({
+const apnsBody = createAppleNotificationBody({
   alert: {
     title: "Notification Title",
     subtitle: "Notification Subtitle",
@@ -382,20 +371,22 @@ const apnsMessage = buildAppleNativeMessage({
 });
 
 // Send the message using the modular approach
+const notification = createAppleNotification({
+  body: apnsBody
+})
 
-const result = await sendBroadcastNotification(context, apnsMessage);
+const result = await sendNotification(context, notification);
 ```
 
 #### Broadcast Send
 
-Notification Hubs can be used to send notifications to all registered devices per platform using broadcast send through the `sendBroadcastNotification` method.
+Notification Hubs can be used to send notifications to all registered devices per platform using broadcast send through the `sendNotification` method.
 
 ```typescript
 import { 
-  NotificationHubServiceClient,
-  SendOperationOptions,
+  NotificationHubsClient,
   createAppleNotification,
-} from "@azure/notification-hubs/client";
+} from "@azure/notification-hubs/api";
 
 const context = createClientContext(connectionString, hubName);
 
@@ -409,9 +400,7 @@ const message = createAppleNotification({
   },
 });
 
-// Not required but can set test send to true for debugging purposes.
-const sendOptions: SendOperationOptions = { enableTestSend: false };
-const result = await client.sendBroadcastNotification(message, sendOptions);
+const result = await client.sendNotification(message);
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -425,10 +414,8 @@ if (result.notificationId) {
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { SendOperationOptions } from "@azure/notification-hubs/models/options";
-import { createClientContext } from "@azure/notification-hubs/client";
-import { createAppleNotification } from "@azure/notification-hubs/models/notification";
-import { sendBroadcastNotification } from "@azure/notification-hubs/client/sendBroadcastNotification";
+import { createClientContext, sendNotification } from "@azure/notification-hubs/api";
+import { createAppleNotification } from "@azure/notification-hubs/models";
 
 const context = createClientContext(connectionString, hubName);
 
@@ -442,9 +429,7 @@ const message = createAppleNotification({
   },
 });
 
-// Not required but can set test send to true for debugging purposes.
-const sendOptions: SendOperationOptions = { enableTestSend: false };
-const result = await sendBroadcastNotification(context, message, sendOptions);
+const result = await sendNotification(context, message);
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -457,18 +442,17 @@ if (result.notificationId) {
 
 #### Direct Send
 
-To send directly a device, the user can send using the platform provided unique identifier such as APNs device token by calling the `sendDirectNotification` method.  
+To send directly a device, the user can send using the platform provided unique identifier such as APNs device token by calling the `sendNotification` method with a `deviceHandle` parameter.  
 
 ```typescript
 import {
-  NotificationHubServiceClient,
-  SendOperationOptions,
+  NotificationHubsClient,
   createAppleNotification,
 } from "@azure/notification-hubs";
 
-const client = new NotificationHubServiceClient(connectionString, hubName);
+const client = new NotificationHubsClient(connectionString, hubName);
 
-const deviceToken = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
+const deviceHandle = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 
 const message = createAppleNotification({
@@ -479,7 +463,7 @@ const message = createAppleNotification({
   },
 });
 
-const result = await client.sendDirectNotification(devicetoken, message);
+const result = await client.sendNotification(message, { deviceHandle });
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -493,14 +477,12 @@ if (result.notificationId) {
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { SendOperationOptions } from "@azure/notification-hubs/models/options";
-import { createClientContext } from "@azure/notification-hubs/client";
-import { createAppleNotification } from "@azure/notification-hubs/models/notification";
-import { sendDirectNotification } from "@azure/notification-hubs/client/sendDirectNotification";
+import { createClientContext, sendDirectNotification } from "@azure/notification-hubs/api";
+import { createAppleNotification } from "@azure/notification-hubs/models";
 
 const context = createClientContext(connectionString, hubName);
 
-const deviceToken = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
+const deviceHandle = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 
 const message = createAppleNotification({
@@ -511,7 +493,7 @@ const message = createAppleNotification({
   },
 });
 
-const result = await sendDirectNotification(context, devicetoken, message, sendOptions);
+const result = await sendNotification(context, message, { deviceHandle });
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -526,19 +508,36 @@ if (result.notificationId) {
 
 In addition to targeting a single device, a user can target multiple devices using tags.  These tags can be supplied as a list of tags, which then creates a tag expression to match registered devices, or via a tag expression which can then use Boolean logic to target the right audience.  For more information about tags and tags expressions, see [Routing and Tag Expressions](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-tags-segment-push-message).
 
+If you wish to create a tag expression from an array of tags, there is a Tag Expression Builder available with the `createTagExpression` method which is exposed at the top level import or `@azure/notification-hubs/models/tagExpressionBuilder` modular import which creates an "or tag expression" from the tags.
+
+```typescript
+// Top level import
+import { createTagExpression } from "@azure/notification-hubs";
+
+// Modular import
+import { createTagExpression } from "@azure/notification-hubs/models";
+
+const tags = ["likes_football", "likes_hockey"];
+const tagExpression = createTagExpression(tags);
+
+console.log(tagExpression);
+// likes_football||likes_hockey
+```
+
+Tag expression messages can be sent using the following code:
+
 ```typescript
 import {
-  NotificationHubServiceClient,
-  SendOperationOptions,
-  createAppleMessage,
+  NotificationHubsClient,
+  createAppleNotification,
 } from "@azure/notification-hubs";
 
-const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
+const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
 const tagExpression = "likes_hockey && likes_football";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 
-const message = createAppleMessage({
+const notification = createAppleNotification({
   body: messageBody,
   headers: {
     "apns-priority": "10",
@@ -546,10 +545,7 @@ const message = createAppleMessage({
   },
 });
 
-
-// Not required but can set test send to true for debugging purposes.
-const sendOptions: SendOperationOptions = { enableTestSend: false };
-const result = await client.sendNotification(tagExpression, message, sendOptions);
+const result = await client.sendNotification(notification, { tagExpression });
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -563,17 +559,15 @@ if (result.notificationId) {
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { SendOperationOptions } from "@azure/notification-hubs/models/options";
-import { createClientContext } from "@azure/notification-hubs/client";
-import { createAppleNotification } from "@azure/notification-hubs/models/notification";
-import { sendNotification } from "@azure/notification-hubs/client/sendNotification";
+import { createClientContext, sendNotification } from "@azure/notification-hubs/api";
+import { createAppleNotification } from "@azure/notification-hubs/models";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
 const tagExpression = "likes_hockey && likes_football";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 
-const message = createAppleMessage({
+const notification = createAppleNotification({
   body: messageBody,
   headers: {
     "apns-priority": "10",
@@ -581,10 +575,7 @@ const message = createAppleMessage({
   },
 });
 
-
-// Not required but can set test send to true for debugging purposes.
-const sendOptions: SendOperationOptions = { enableTestSend: false };
-const result = await sendNotification(context, tagExpression, message, sendOptions);
+const result = await sendNotification(context, notification, { tagExpression });
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -597,21 +588,20 @@ if (result.notificationId) {
 
 #### Scheduled Send
 
-Push notifications can be scheduled up to seven days in advance with Standard SKU namespaces and above using the `scheduleBroadcastNotification` method to send to devices with tags or a general broadcast with the `scheduleBroadcastNotification`.  This returns a notification ID which can be then used to cancel if necessary via the `cancelScheduledNotification` method.
+Push notifications can be scheduled up to seven days in advance with Standard SKU namespaces and above using the `scheduleBroadcastNotification` method to send to devices with tags or a general broadcast.  This returns a notification ID which can be then used to cancel if necessary via the `cancelScheduledNotification` method.
 
 ```typescript
 import {
-  NotificationHubServiceClient,
-  SendOperationOptions,
+  NotificationHubsClient,
   createAppleNotification,
 } from "@azure/notification-hubs";
 
-const client = new NotificationHubServiceClient("<connection string>", "<hub name>");
+const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
 const tagExpression = "likes_hockey && likes_football";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 
-// Schedule 8 hours from nows
+// Schedule 8 hours from now
 const scheduledTime = new Date(Date.now() + (8 * 60 * 60 * 1000));
 
 const message = createAppleNotification({
@@ -622,7 +612,7 @@ const message = createAppleNotification({
   },
 });
 
-const result = await client.scheduleNotification(scheduledTime, tagExpression, message);
+const result = await client.scheduleNotification(scheduledTime, message, { tagExpression });
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -634,17 +624,15 @@ console.log(`Notification ID: ${result.notificationId}`);
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { SendOperationOptions } from "@azure/notification-hubs/models/options";
-import { createClientContext } from "@azure/notification-hubs/client";
-import { createAppleNotification } from "@azure/notification-hubs/models/notification";
-import { scheduleNotification } from "@azure/notification-hubs/client/scheduleNotification";
+import { createClientContext, scheduleNotification } from "@azure/notification-hubs/api";
+import { createAppleNotification } from "@azure/notification-hubs/models";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
 const tagExpression = "likes_hockey && likes_football";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 
-// Schedule 8 hours from nows
+// Schedule 8 hours from now
 const scheduledTime = new Date(Date.now() + (8 * 60 * 60 * 1000));
 
 const message = createAppleNotification({
@@ -655,7 +643,7 @@ const message = createAppleNotification({
   },
 });
 
-const result = await scheduleNotification(context, scheduledTime, tagExpression, message);
+const result = await scheduleNotification(context, scheduledTime, message, { tagExpression });
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -673,8 +661,11 @@ Azure Notification Hubs has a complete guide to troubleshooting problems with dr
 [Test send](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer#enabletestsend-property) is supported supported in the `sendNotification` method with the `enableTestSend` option:
 
 ```typescript
-const sendOptions: SendOperationOptions = { enableTestSend: true };
-const result = await client.sendNotification(tags, message, sendOptions);
+// Using the client
+const result = await client.sendNotification(notification, { tags, enableTestSend: true });
+
+// Using the modular approach
+const result = await sendNotification(context, notification, { tags, enableTestSend: true });
 ```
 
 ### Logging

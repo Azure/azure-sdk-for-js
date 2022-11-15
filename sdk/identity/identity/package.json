@@ -1,7 +1,7 @@
 {
   "name": "@azure/identity",
   "sdk-type": "client",
-  "version": "3.0.0-beta.1",
+  "version": "3.1.0",
   "description": "Provides credential implementations for Azure SDK libraries that can authenticate with Azure Active Directory",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -25,7 +25,7 @@
     "./dist-esm/src/credentials/azureApplicationCredential.js": "./dist-esm/src/credentials/azureApplicationCredential.browser.js",
     "./dist-esm/src/credentials/onBehalfOfCredential.js": "./dist-esm/src/credentials/onBehalfOfCredential.browser.js",
     "./dist-esm/src/util/authHostEnv.js": "./dist-esm/src/util/authHostEnv.browser.js",
-    "./dist-esm/src/util/validateMultiTenant.js": "./dist-esm/src/util/validateMultiTenant.browser.js",
+    "./dist-esm/src/util/processMultiTenantRequest.js": "./dist-esm/src/util/processMultiTenantRequest.browser.js",
     "./dist-esm/src/tokenCache/TokenCachePersistence.js": "./dist-esm/src/tokenCache/TokenCachePersistence.browser.js",
     "./dist-esm/src/plugins/consumer.js": "./dist-esm/src/plugins/consumer.browser.js",
     "./dist-esm/test/httpRequests.js": "./dist-esm/test/httpRequests.browser.js"
@@ -81,7 +81,7 @@
     ]
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
@@ -112,7 +112,7 @@
     "@azure/logger": "^1.0.0",
     "@azure/msal-browser": "^2.26.0",
     "@azure/msal-common": "^7.0.0",
-    "@azure/msal-node": "^1.10.0",
+    "@azure/msal-node": "^1.14.2",
     "events": "^3.0.0",
     "jws": "^4.0.0",
     "open": "^8.0.0",
@@ -126,13 +126,13 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/keyvault-keys": "4.2.0",
     "@azure/test-utils": "^1.0.0",
-    "@microsoft/api-extractor": "7.18.11",
+    "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/jsonwebtoken": "~8.5.0",
     "@types/jws": "^3.2.2",
     "@types/mocha": "^7.0.2",
     "@types/ms": "^0.7.31",
-    "@types/node": "^12.0.0",
+    "@types/node": "^14.0.0",
     "@types/sinon": "^9.0.4",
     "@types/stoppable": "^1.1.0",
     "@types/uuid": "^8.0.0",
@@ -158,7 +158,7 @@
     "puppeteer": "^14.0.0",
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
-    "typescript": "~4.6.0",
+    "typescript": "~4.8.0",
     "util": "^0.12.1",
     "uuid": "^8.3.2"
   }

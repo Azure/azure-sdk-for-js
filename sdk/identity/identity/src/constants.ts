@@ -4,7 +4,8 @@
 /**
  * Current version of the `@azure/identity` package.
  */
-export const SDK_VERSION = `3.0.0-beta.1`;
+
+export const SDK_VERSION = `3.1.0`;
 
 /**
  * The default client ID for authentication
@@ -47,3 +48,8 @@ export enum AzureAuthorityHosts {
  * The default authority host.
  */
 export const DefaultAuthorityHost = AzureAuthorityHosts.AzurePublicCloud;
+
+/**
+ * Allow acquiring tokens for any tenant for multi-tentant auth.
+ */
+export const ALL_TENANTS: string[] = ["*"];

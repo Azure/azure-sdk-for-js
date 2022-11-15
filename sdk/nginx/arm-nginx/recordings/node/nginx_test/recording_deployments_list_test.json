@@ -1,0 +1,45 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Nginx.NginxPlus/nginxDeployments?api-version=2022-08-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-nginx/2.0.0 core-rest-pipeline/1.10.0 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "b485fb39-dad5-425f-99d4-975c691545d5"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "12",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 21 Oct 2022 09:02:39 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "ea1fb14c-65ec-4969-bcdf-1614039d0431",
+        "x-ms-original-request-ids": [
+          "ff47bd8d-3342-403e-81f1-feaaea9c30ad",
+          "dfbc7374-7fee-44a9-9a04-d73279f696d8",
+          "6efcc4bc-22b9-4e6c-b54e-ef5961c7b938",
+          "ceafa50d-79cb-46f0-9957-c184ee748e7b",
+          "b00b132c-9f05-46f8-93f5-5a8387f0fa53"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": "11999",
+        "x-ms-request-id": "ea1fb14c-65ec-4969-bcdf-1614039d0431",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221021T090239Z:ea1fb14c-65ec-4969-bcdf-1614039d0431"
+      },
+      "ResponseBody": {
+        "value": []
+      }
+    }
+  ],
+  "Variables": {}
+}

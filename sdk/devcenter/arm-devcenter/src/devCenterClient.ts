@@ -23,6 +23,7 @@ import {
   ImageVersionsImpl,
   CatalogsImpl,
   EnvironmentTypesImpl,
+  ProjectAllowedEnvironmentTypesImpl,
   ProjectEnvironmentTypesImpl,
   DevBoxDefinitionsImpl,
   OperationsImpl,
@@ -42,6 +43,7 @@ import {
   ImageVersions,
   Catalogs,
   EnvironmentTypes,
+  ProjectAllowedEnvironmentTypes,
   ProjectEnvironmentTypes,
   DevBoxDefinitions,
   Operations,
@@ -62,8 +64,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the DevCenterClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Unique identifier of the Azure subscription. This is a GUID-formatted string
-   *                       (e.g. 00000000-0000-0000-0000-000000000000).
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
@@ -87,22 +88,19 @@ export class DevCenterClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-devcenter/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-devcenter/1.0.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
@@ -128,7 +126,9 @@ export class DevCenterClient extends coreClient.ServiceClient {
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
               coreClient.authorizeRequestOnClaimChallenge
@@ -141,7 +141,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-08-01-preview";
+    this.apiVersion = options.apiVersion || "2022-10-12-preview";
     this.devCenters = new DevCentersImpl(this);
     this.projects = new ProjectsImpl(this);
     this.attachedNetworks = new AttachedNetworksImpl(this);
@@ -150,6 +150,9 @@ export class DevCenterClient extends coreClient.ServiceClient {
     this.imageVersions = new ImageVersionsImpl(this);
     this.catalogs = new CatalogsImpl(this);
     this.environmentTypes = new EnvironmentTypesImpl(this);
+    this.projectAllowedEnvironmentTypes = new ProjectAllowedEnvironmentTypesImpl(
+      this
+    );
     this.projectEnvironmentTypes = new ProjectEnvironmentTypesImpl(this);
     this.devBoxDefinitions = new DevBoxDefinitionsImpl(this);
     this.operations = new OperationsImpl(this);
@@ -198,6 +201,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
   imageVersions: ImageVersions;
   catalogs: Catalogs;
   environmentTypes: EnvironmentTypes;
+  projectAllowedEnvironmentTypes: ProjectAllowedEnvironmentTypes;
   projectEnvironmentTypes: ProjectEnvironmentTypes;
   devBoxDefinitions: DevBoxDefinitions;
   operations: Operations;

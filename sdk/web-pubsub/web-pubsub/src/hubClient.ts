@@ -76,6 +76,28 @@ export interface WebPubSubServiceClientOptions extends CommonClientOptions {
    * Reverse proxy endpoint (for example, your Azure API management endpoint)
    */
   reverseProxyEndpoint?: string;
+  /**
+   * Options to configure the logging options.
+   */
+  loggingOptions?: WebPubSubServiceClientLogOptions;
+}
+
+/**
+ * Options to configure the logging options.
+ */
+export declare interface WebPubSubServiceClientLogOptions {
+  /**
+   * Header names whose values will be logged when logging is enabled.
+   * Defaults include a list of well-known safe headers. Any headers
+   * specified in this field will be added to that list.  Any other values will
+   * be written to logs as "REDACTED".
+   */
+  additionalAllowedHeaderNames?: string[];
+  /**
+   * Query string names whose values will be logged when logging is enabled. By default no
+   * query string values are logged.
+   */
+  additionalAllowedQueryParameters?: string[];
 }
 
 /**
@@ -287,6 +309,10 @@ export class WebPubSubServiceClient {
       ...{
         apiVersion: this.apiVersion,
         loggingOptions: {
+          additionalAllowedHeaderNames:
+            this.clientOptions?.loggingOptions?.additionalAllowedHeaderNames,
+          additionalAllowedQueryParameters:
+            this.clientOptions?.loggingOptions?.additionalAllowedQueryParameters,
           logger: logger.info,
         },
       },

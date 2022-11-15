@@ -1,0 +1,75 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Security/securityContacts/default?api-version=2020-01-01-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "199",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-security/6.0.0-beta.2 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "bc01fe6b-76d0-497d-b20a-1b02bcb1a541"
+      },
+      "RequestBody": {
+        "properties": {
+          "emails": "john@contoso.com;jane@contoso.com",
+          "phone": "\u002B214-2754038",
+          "alertNotifications": {
+            "state": "On",
+            "minimalSeverity": "Low"
+          },
+          "notificationsByRole": {
+            "state": "On",
+            "roles": [
+              "Owner"
+            ]
+          }
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2020-01-01-preview",
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Nov 2022 06:47:25 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "dc07ff90-7561-45ee-ba9d-3a2dace589ca",
+        "x-ms-ratelimit-remaining-subscription-resource-requests": "249",
+        "x-ms-request-id": "dc07ff90-7561-45ee-ba9d-3a2dace589ca",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221108T064726Z:dc07ff90-7561-45ee-ba9d-3a2dace589ca"
+      },
+      "ResponseBody": {
+        "properties": {
+          "notificationsByRole": {
+            "state": "On",
+            "roles": [
+              "Owner"
+            ]
+          },
+          "emails": "john@contoso.com;jane@contoso.com",
+          "phone": "\u002B214-2754038",
+          "alertNotifications": {
+            "state": "On",
+            "minimalSeverity": "Low"
+          }
+        },
+        "id": "/subscriptions/azure_subscription_id/providers/Microsoft.Security/securityContacts/default",
+        "name": "default",
+        "type": "Microsoft.Security/securityContacts",
+        "etag": "\u002253020247-0000-0d00-0000-6369fb7e0000\u0022",
+        "location": "West Europe"
+      }
+    }
+  ],
+  "Variables": {}
+}

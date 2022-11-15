@@ -41,7 +41,10 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
         .getTracer(spanOptions.packageName, spanOptions.packageVersion)
         .startSpan(name, toSpanOptions(spanOptions), ctx);
 
-      if (envVarToBoolean("AZURE_HTTP_TRACING_DISABLED") && name.toUpperCase().startsWith("HTTP")) {
+      if (
+        envVarToBoolean("AZURE_HTTP_TRACING_CHILDREN_DISABLED") &&
+        name.toUpperCase().startsWith("HTTP")
+      ) {
         // disable downstream spans
         ctx = suppressTracing(ctx);
       }

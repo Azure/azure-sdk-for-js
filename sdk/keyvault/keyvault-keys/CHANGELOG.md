@@ -1,14 +1,17 @@
 # Release History
 
-## 4.5.1 (Unreleased)
+## 4.7.0-beta.1 (2022-11-10)
 
-### Features Added
+- Added support for [Octet Key Pair (OKP)](https://datatracker.ietf.org/doc/html/rfc8037) key types as well as `sign`, `verify`, `signData`, and `verifyData` cryptography operations when using OKP keys.
+  - Added support for the Ed25519 curve for the creation of OKP keys.
+
+## 4.6.0 (2022-09-20)
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
+- Verify the challenge resource matches the vault domain.
+  This should affect few customers who can set `disableChallengeResourceVerification` in the options bag to `true` to disable.
+  See https://aka.ms/azsdk/blog/vault-uri for more information.
 
 ## 4.5.0 (2022-08-09)
 

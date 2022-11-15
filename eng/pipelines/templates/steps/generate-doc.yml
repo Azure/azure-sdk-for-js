@@ -3,16 +3,17 @@ parameters:
 
 steps:
   - script: |
-      npm i -g typedoc@0.16.x
-    displayName: "Install typedoc"
-
-  - script: |
       npm install
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/generate-doc
     displayName: "Install tool dependencies"
 
+  - script: |
+      npm run build
+    workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/generate-doc
+    displayName: "Compile tool"
+
   - pwsh: |
-      node $(Build.SourcesDirectory)/eng/tools/generate-doc/index.js --dgOp "dg" -i "inc" --inc "${{parameters.ServiceDirectory}}"
+      node $(Build.SourcesDirectory)/eng/tools/generate-doc/dist/index.js --serviceDir "${{parameters.ServiceDirectory}}"
     displayName: "Run Typedoc Docs"
 
   - pwsh: |

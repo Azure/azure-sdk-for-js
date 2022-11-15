@@ -1,5 +1,20 @@
 # Release History
     
+## 17.2.0 (2022-11-02)
+    
+**Features**
+
+  - Added operation ManagedClusters.beginRotateServiceAccountSigningKeys
+  - Added operation ManagedClusters.beginRotateServiceAccountSigningKeysAndWait
+  - Added Interface ManagedClusterOidcIssuerProfile
+  - Added Interface ManagedClustersRotateServiceAccountSigningKeysHeaders
+  - Added Interface ManagedClustersRotateServiceAccountSigningKeysOptionalParams
+  - Added Interface ManagedClusterStorageProfileBlobCSIDriver
+  - Added Type Alias ManagedClustersRotateServiceAccountSigningKeysResponse
+  - Interface ManagedCluster has a new optional parameter oidcIssuerProfile
+  - Interface ManagedClusterStorageProfile has a new optional parameter blobCSIDriver
+    
+    
 ## 17.1.0 (2022-08-25)
     
 **Features**

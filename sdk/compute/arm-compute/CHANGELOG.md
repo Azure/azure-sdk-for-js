@@ -1,6 +1,6 @@
 # Release History
 
-## 19.1.1 (Unreleased)
+## 19.2.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,34 @@
 
 ### Other Changes
 
+## 19.2.0 (2022-09-21)
+    
+**Features**
+
+  - Added Interface PriorityMixPolicy
+  - Added Type Alias DiskControllerTypes
+  - Interface CapacityReservation has a new optional parameter platformFaultDomainCount
+  - Interface CapacityReservationUpdate has a new optional parameter platformFaultDomainCount
+  - Interface CapacityReservationUtilization has a new optional parameter currentCapacity
+  - Interface CreationData has a new optional parameter performancePlus
+  - Interface Disk has a new optional parameter burstingEnabledTime
+  - Interface Disk has a new optional parameter optimizedForFrequentAttach
+  - Interface DiskUpdate has a new optional parameter optimizedForFrequentAttach
+  - Interface LinuxConfiguration has a new optional parameter enableVMAgentPlatformUpdates
+  - Interface Snapshot has a new optional parameter incrementalSnapshotFamilyId
+  - Interface StorageProfile has a new optional parameter diskControllerType
+  - Interface SupportedCapabilities has a new optional parameter diskControllerTypes
+  - Interface VirtualMachineNetworkInterfaceConfiguration has a new optional parameter disableTcpStateTracking
+  - Interface VirtualMachineScaleSet has a new optional parameter priorityMixPolicy
+  - Interface VirtualMachineScaleSetNetworkConfiguration has a new optional parameter disableTcpStateTracking
+  - Interface VirtualMachineScaleSetStorageProfile has a new optional parameter diskControllerType
+  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration has a new optional parameter disableTcpStateTracking
+  - Interface VirtualMachineScaleSetUpdateStorageProfile has a new optional parameter diskControllerType
+  - Interface VirtualMachineScaleSetUpdateVMProfile has a new optional parameter hardwareProfile
+  - Interface WindowsConfiguration has a new optional parameter enableVMAgentPlatformUpdates
+  - Added Enum KnownDiskControllerTypes
+    
+    
 ## 19.1.0 (2022-06-27)
     
 **Features**

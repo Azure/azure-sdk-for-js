@@ -1,15 +1,22 @@
 # Release History
+    
+## 10.10.0 (2022-11-04)
+    
+**Features**
 
-## 10.8.1 (Unreleased)
+  - Interface ScriptActivity has a new optional parameter scriptBlockExecutionTimeout
+    
+    
+## 10.9.0 (2022-10-17)
+    
+**Features**
 
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AzureSynapseArtifactsLinkedService has a new optional parameter workspaceResourceId
+  - Interface FactoryRepoConfiguration has a new optional parameter disablePublish
+  - Interface SynapseSparkJobDefinitionActivity has a new optional parameter filesV2
+  - Interface SynapseSparkJobDefinitionActivity has a new optional parameter pythonCodeReference
+    
+    
 ## 10.8.0 (2022-09-07)
     
 **Features**

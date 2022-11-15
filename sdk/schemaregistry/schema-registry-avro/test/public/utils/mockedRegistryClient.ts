@@ -17,6 +17,8 @@ import { isLive } from "./isLive";
 import { testSchemaIds } from "./dummies";
 import { v4 as uuid } from "uuid";
 
+type UpdatedSchemaDescription = Required<Omit<SchemaDescription, "version">>;
+
 function getEnvVar(name: string): string {
   const value = env[name];
   if (!value) {
@@ -35,7 +37,7 @@ function createLiveTestRegistry(settings: {
   // implemented below, but if we're running live, then use the real
   // service for end-to-end integration testing.
   const client = new SchemaRegistryClient(
-    getEnvVar("SCHEMA_REGISTRY_ENDPOINT"),
+    getEnvVar("SCHEMAREGISTRY_AVRO_FULLY_QUALIFIED_NAMESPACE"),
     new ClientSecretCredential(
       getEnvVar("AZURE_TENANT_ID"),
       getEnvVar("AZURE_CLIENT_ID"),
@@ -59,7 +61,7 @@ function createMockedTestRegistry(): SchemaRegistry {
   return { registerSchema, getSchemaProperties, getSchema };
 
   async function registerSchema(
-    schema: SchemaDescription,
+    schema: UpdatedSchemaDescription,
     _options?: RegisterSchemaOptions
   ): Promise<SchemaProperties> {
     let result = mapByContent.get(schema.definition);
@@ -93,7 +95,7 @@ function createMockedTestRegistry(): SchemaRegistry {
   }
 
   async function getSchemaProperties(
-    schema: SchemaDescription,
+    schema: UpdatedSchemaDescription,
     _options?: GetSchemaPropertiesOptions
   ): Promise<SchemaProperties> {
     const storedSchema = mapByContent.get(schema.definition);

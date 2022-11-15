@@ -1,6 +1,6 @@
 # Release History
 
-## 1.9.3 (Unreleased)
+## 1.10.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,16 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.10.0 (2022-11-03)
+
+### Bugs Fixed
+
+- Fixed an issue where policies added to a cloned Pipeline would also be added to the original (and vice versa) until policies were removed from either. [#23316](https://github.com/Azure/azure-sdk-for-js/pull/23316)
+
+### Other Changes
+
+- Update `engines` to `"node": ">=14.0.0"`
 
 ## 1.9.2 (2022-09-01)
 

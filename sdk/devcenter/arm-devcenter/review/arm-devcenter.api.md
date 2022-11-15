@@ -14,6 +14,17 @@ import { PollOperationState } from '@azure/core-lro';
 export type ActionType = string;
 
 // @public
+export interface AllowedEnvironmentType extends Resource {
+    readonly provisioningState?: string;
+}
+
+// @public
+export interface AllowedEnvironmentTypeListResult {
+    readonly nextLink?: string;
+    readonly value?: AllowedEnvironmentType[];
+}
+
+// @public
 export interface AttachedNetworkConnection extends Resource {
     readonly domainJoinType?: DomainJoinType;
     readonly healthCheckStatus?: HealthCheckStatus;
@@ -113,6 +124,7 @@ export interface Catalog extends Resource {
     gitHub?: GitCatalog;
     readonly lastSyncTime?: Date;
     readonly provisioningState?: string;
+    readonly syncState?: CatalogSyncState;
 }
 
 // @public
@@ -125,6 +137,7 @@ export interface CatalogListResult {
 export interface CatalogProperties extends CatalogUpdateProperties {
     readonly lastSyncTime?: Date;
     readonly provisioningState?: string;
+    readonly syncState?: CatalogSyncState;
 }
 
 // @public
@@ -193,6 +206,9 @@ export interface CatalogsUpdateOptionalParams extends coreClient.OperationOption
 
 // @public
 export type CatalogsUpdateResponse = Catalog;
+
+// @public
+export type CatalogSyncState = string;
 
 // @public
 export interface CatalogUpdate {
@@ -385,6 +401,8 @@ export class DevCenterClient extends coreClient.ServiceClient {
     operationStatuses: OperationStatuses;
     // (undocumented)
     pools: Pools;
+    // (undocumented)
+    projectAllowedEnvironmentTypes: ProjectAllowedEnvironmentTypes;
     // (undocumented)
     projectEnvironmentTypes: ProjectEnvironmentTypes;
     // (undocumented)
@@ -584,6 +602,21 @@ export interface EnvironmentTypeUpdate {
 }
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
 export interface Galleries {
     beginCreateOrUpdate(resourceGroupName: string, devCenterName: string, galleryName: string, body: Gallery, options?: GalleriesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<GalleriesCreateOrUpdateResponse>, GalleriesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, devCenterName: string, galleryName: string, body: Gallery, options?: GalleriesCreateOrUpdateOptionalParams): Promise<GalleriesCreateOrUpdateResponse>;
@@ -642,6 +675,9 @@ export interface GalleryListResult {
     readonly nextLink?: string;
     readonly value?: Gallery[];
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GitCatalog {
@@ -804,6 +840,14 @@ export type ImageVersionsListByImageResponse = ImageVersionListResult;
 // @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownCatalogSyncState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -1105,21 +1149,9 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
-export interface OperationStatus {
-    readonly endTime?: Date;
-    error?: OperationStatusError;
-    readonly id?: string;
-    readonly name?: string;
-    readonly percentComplete?: number;
+export interface OperationStatus extends OperationStatusResult {
     readonly properties?: Record<string, unknown>;
-    readonly startTime?: Date;
-    readonly status?: string;
-}
-
-// @public
-export interface OperationStatusError {
-    readonly code?: string;
-    readonly message?: string;
+    readonly resourceId?: string;
 }
 
 // @public
@@ -1133,6 +1165,18 @@ export interface OperationStatusesGetOptionalParams extends coreClient.Operation
 
 // @public
 export type OperationStatusesGetResponse = OperationStatus;
+
+// @public
+export interface OperationStatusResult {
+    endTime?: Date;
+    error?: ErrorDetail;
+    id?: string;
+    name?: string;
+    operations?: OperationStatusResult[];
+    percentComplete?: number;
+    startTime?: Date;
+    status: string;
+}
 
 // @public
 export type Origin = string;
@@ -1238,6 +1282,35 @@ export interface Project extends TrackedResource {
     devCenterId?: string;
     readonly provisioningState?: string;
 }
+
+// @public
+export interface ProjectAllowedEnvironmentTypes {
+    get(resourceGroupName: string, projectName: string, environmentTypeName: string, options?: ProjectAllowedEnvironmentTypesGetOptionalParams): Promise<ProjectAllowedEnvironmentTypesGetResponse>;
+    list(resourceGroupName: string, projectName: string, options?: ProjectAllowedEnvironmentTypesListOptionalParams): PagedAsyncIterableIterator<AllowedEnvironmentType>;
+}
+
+// @public
+export interface ProjectAllowedEnvironmentTypesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProjectAllowedEnvironmentTypesGetResponse = AllowedEnvironmentType;
+
+// @public
+export interface ProjectAllowedEnvironmentTypesListNextOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type ProjectAllowedEnvironmentTypesListNextResponse = AllowedEnvironmentTypeListResult;
+
+// @public
+export interface ProjectAllowedEnvironmentTypesListOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type ProjectAllowedEnvironmentTypesListResponse = AllowedEnvironmentTypeListResult;
 
 // @public
 export interface ProjectEnvironmentType extends Resource {
@@ -1503,8 +1576,8 @@ export interface Schedules {
     beginCreateOrUpdateAndWait(resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, body: Schedule, options?: SchedulesCreateOrUpdateOptionalParams): Promise<SchedulesCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, options?: SchedulesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, options?: SchedulesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, body: ScheduleUpdate, options?: SchedulesUpdateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginUpdateAndWait(resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, body: ScheduleUpdate, options?: SchedulesUpdateOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, body: ScheduleUpdate, options?: SchedulesUpdateOptionalParams): Promise<PollerLike<PollOperationState<SchedulesUpdateResponse>, SchedulesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, body: ScheduleUpdate, options?: SchedulesUpdateOptionalParams): Promise<SchedulesUpdateResponse>;
     get(resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, options?: SchedulesGetOptionalParams): Promise<SchedulesGetResponse>;
     listByPool(resourceGroupName: string, projectName: string, poolName: string, options?: SchedulesListByPoolOptionalParams): PagedAsyncIterableIterator<Schedule>;
 }
@@ -1556,6 +1629,9 @@ export interface SchedulesUpdateOptionalParams extends coreClient.OperationOptio
     top?: number;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type SchedulesUpdateResponse = Schedule;
 
 // @public
 export interface ScheduleUpdate extends TrackedResourceUpdate {

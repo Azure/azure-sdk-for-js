@@ -1,6 +1,6 @@
 # Release History
 
-## 2.3.2 (Unreleased)
+## 2.4.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,17 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.4.0 (2022-09-29)
+
+### Features Added
+
+- Add `resolveOnUnsuccessful` to `CreateHttpPollerOptions` and `LroEngineOptions` to control whether to throw an error if the operation failed or was canceled.
+
+### Bugs Fixed
+
+- Precisely detect when an operation failed without relying on exceptions raised by the underlying core library.
+- Handle bad status fields.
 
 ## 2.3.1 (2022-09-09)
 

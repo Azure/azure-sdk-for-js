@@ -169,6 +169,12 @@ export const AnalyzeTextJobsInput: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      defaultLanguage: {
+        serializedName: "defaultLanguage",
+        type: {
+          name: "String"
+        }
+      },
       analysisInput: {
         serializedName: "analysisInput",
         type: {
@@ -433,6 +439,7 @@ export const TextDocumentBatchStatistics: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TextDocumentBatchStatistics",
+    additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       documentCount: {
         serializedName: "documentsCount",
@@ -532,65 +539,6 @@ export const ActionCommon: coreClient.CompositeMapper = {
   }
 };
 
-export const PreBuiltResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PreBuiltResult",
-    modelProperties: {
-      errors: {
-        serializedName: "errors",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DocumentError"
-            }
-          }
-        }
-      },
-      statistics: {
-        serializedName: "statistics",
-        type: {
-          name: "Composite",
-          className: "TextDocumentBatchStatistics"
-        }
-      },
-      modelVersion: {
-        serializedName: "modelVersion",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DocumentError: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DocumentError",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorModel"
-        }
-      }
-    }
-  }
-};
-
 export const CustomResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -625,6 +573,50 @@ export const CustomResult: coreClient.CompositeMapper = {
       },
       deploymentName: {
         serializedName: "deploymentName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DocumentError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DocumentError",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorModel"
+        }
+      }
+    }
+  }
+};
+
+export const BaseResolution: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BaseResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: {
+      serializedName: "resolutionKind",
+      clientName: "resolutionKind"
+    },
+    modelProperties: {
+      resolutionKind: {
+        serializedName: "resolutionKind",
         required: true,
         type: {
           name: "String"
@@ -760,6 +752,58 @@ export const TextDocumentStatistics: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const DocumentDetectedLanguage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DocumentDetectedLanguage",
+    modelProperties: {
+      detectedLanguage: {
+        serializedName: "detectedLanguage",
+        type: {
+          name: "Composite",
+          className: "DetectedLanguage"
+        }
+      }
+    }
+  }
+};
+
+export const DetectedLanguage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DetectedLanguage",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      iso6391Name: {
+        serializedName: "iso6391Name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      confidenceScore: {
+        serializedName: "confidenceScore",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      script: {
+        serializedName: "script",
+        type: {
+          name: "String"
         }
       }
     }
@@ -935,6 +979,12 @@ export const HealthcareRelation: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      confidenceScore: {
+        serializedName: "confidenceScore",
+        type: {
+          name: "Number"
+        }
+      },
       entities: {
         serializedName: "entities",
         required: true,
@@ -969,6 +1019,80 @@ export const HealthcareRelationEntity: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DocumentDetectedLanguageForHealthcare: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DocumentDetectedLanguageForHealthcare",
+    modelProperties: {
+      detectedLanguage: {
+        serializedName: "detectedLanguage",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PreBuiltResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PreBuiltResult",
+    modelProperties: {
+      errors: {
+        serializedName: "errors",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InputError"
+            }
+          }
+        }
+      },
+      statistics: {
+        serializedName: "statistics",
+        type: {
+          name: "Composite",
+          className: "TextDocumentBatchStatistics"
+        }
+      },
+      modelVersion: {
+        serializedName: "modelVersion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const InputError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InputError",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorModel"
         }
       }
     }
@@ -1330,27 +1454,34 @@ export const Match: coreClient.CompositeMapper = {
   }
 };
 
-export const DetectedLanguage: coreClient.CompositeMapper = {
+export const SummarySentence: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DetectedLanguage",
+    className: "SummarySentence",
     modelProperties: {
-      name: {
-        serializedName: "name",
+      text: {
+        serializedName: "text",
         required: true,
         type: {
           name: "String"
         }
       },
-      iso6391Name: {
-        serializedName: "iso6391Name",
+      rankScore: {
+        serializedName: "rankScore",
         required: true,
         type: {
-          name: "String"
+          name: "Number"
         }
       },
-      confidenceScore: {
-        serializedName: "confidenceScore",
+      offset: {
+        serializedName: "offset",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      length: {
+        serializedName: "length",
         required: true,
         type: {
           name: "Number"
@@ -1375,21 +1506,111 @@ export const Pagination: coreClient.CompositeMapper = {
   }
 };
 
-export const JobErrors: coreClient.CompositeMapper = {
+export const AbstractiveSummarizationTaskParametersBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "JobErrors",
+    className: "AbstractiveSummarizationTaskParametersBase",
     modelProperties: {
-      errors: {
-        serializedName: "errors",
+      maxSentenceCount: {
+        serializedName: "sentenceCount",
+        type: {
+          name: "Number"
+        }
+      },
+      stringIndexType: {
+        defaultValue: "Utf16CodeUnit",
+        serializedName: "stringIndexType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AbstractiveSummarizationResultBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AbstractiveSummarizationResultBase",
+    modelProperties: {
+      documents: {
+        serializedName: "documents",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "ErrorModel"
+              className: "AbstractiveSummaryDocumentResultWithDetectedLanguage"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const AbstractiveSummary: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AbstractiveSummary",
+    modelProperties: {
+      text: {
+        serializedName: "text",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      contexts: {
+        serializedName: "contexts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SummaryContext"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SummaryContext: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SummaryContext",
+    modelProperties: {
+      offset: {
+        serializedName: "offset",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      length: {
+        serializedName: "length",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const QuantityResolution: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QuantityResolution",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Number"
         }
       }
     }
@@ -1558,6 +1779,33 @@ export const AnalyzeTextSentimentAnalysisInput: coreClient.CompositeMapper = {
   }
 };
 
+export const AnalyzeTextDynamicClassificationInput: coreClient.CompositeMapper = {
+  serializedName: "DynamicClassification",
+  type: {
+    name: "Composite",
+    className: "AnalyzeTextDynamicClassificationInput",
+    uberParent: "AnalyzeAction",
+    polymorphicDiscriminator: AnalyzeAction.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AnalyzeAction.type.modelProperties,
+      analysisInput: {
+        serializedName: "analysisInput",
+        type: {
+          name: "Composite",
+          className: "MultiLanguageAnalysisInput"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Composite",
+          className: "DynamicClassificationAction"
+        }
+      }
+    }
+  }
+};
+
 export const SentimentTaskResult: coreClient.CompositeMapper = {
   serializedName: "SentimentAnalysisResults",
   type: {
@@ -1684,6 +1932,27 @@ export const LanguageDetectionTaskResult: coreClient.CompositeMapper = {
   }
 };
 
+export const DynamicClassificationTaskResult: coreClient.CompositeMapper = {
+  serializedName: "DynamicClassificationResults",
+  type: {
+    name: "Composite",
+    className: "DynamicClassificationTaskResult",
+    uberParent: "AnalyzeTextTaskResult",
+    polymorphicDiscriminator:
+      AnalyzeTextTaskResult.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AnalyzeTextTaskResult.type.modelProperties,
+      results: {
+        serializedName: "results",
+        type: {
+          name: "Composite",
+          className: "DynamicClassificationResult"
+        }
+      }
+    }
+  }
+};
+
 export const AnalyzeBatchAction: coreClient.CompositeMapper = {
   serializedName: "AnalyzeBatchAction",
   type: {
@@ -1743,6 +2012,38 @@ export const AnalyzeTextJobState: coreClient.CompositeMapper = {
   }
 };
 
+export const DocumentRequestStatistics: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DocumentRequestStatistics",
+    additionalProperties: { type: { name: "Object" } },
+    modelProperties: {
+      ...TextDocumentBatchStatistics.type.modelProperties,
+      documentsCount: {
+        serializedName: "documentsCount",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      validDocumentsCount: {
+        serializedName: "validDocumentsCount",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      erroneousDocumentsCount: {
+        serializedName: "erroneousDocumentsCount",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const ActionPrebuilt: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1780,6 +2081,842 @@ export const ActionCustom: coreClient.CompositeMapper = {
           name: "String"
         }
       }
+    }
+  }
+};
+
+export const CustomEntitiesResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomEntitiesResult",
+    modelProperties: {
+      ...CustomResult.type.modelProperties,
+      documents: {
+        serializedName: "documents",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CustomEntitiesResultDocumentsItem"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CustomLabelClassificationResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomLabelClassificationResult",
+    modelProperties: {
+      ...CustomResult.type.modelProperties,
+      documents: {
+        serializedName: "documents",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CustomLabelClassificationResultDocumentsItem"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AgeResolution: coreClient.CompositeMapper = {
+  serializedName: "AgeResolution",
+  type: {
+    name: "Composite",
+    className: "AgeResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      ...QuantityResolution.type.modelProperties,
+      unit: {
+        serializedName: "unit",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VolumeResolution: coreClient.CompositeMapper = {
+  serializedName: "VolumeResolution",
+  type: {
+    name: "Composite",
+    className: "VolumeResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      ...QuantityResolution.type.modelProperties,
+      unit: {
+        serializedName: "unit",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SpeedResolution: coreClient.CompositeMapper = {
+  serializedName: "SpeedResolution",
+  type: {
+    name: "Composite",
+    className: "SpeedResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      ...QuantityResolution.type.modelProperties,
+      unit: {
+        serializedName: "unit",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AreaResolution: coreClient.CompositeMapper = {
+  serializedName: "AreaResolution",
+  type: {
+    name: "Composite",
+    className: "AreaResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      ...QuantityResolution.type.modelProperties,
+      unit: {
+        serializedName: "unit",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LengthResolution: coreClient.CompositeMapper = {
+  serializedName: "LengthResolution",
+  type: {
+    name: "Composite",
+    className: "LengthResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      ...QuantityResolution.type.modelProperties,
+      unit: {
+        serializedName: "unit",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const InformationResolution: coreClient.CompositeMapper = {
+  serializedName: "InformationResolution",
+  type: {
+    name: "Composite",
+    className: "InformationResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      ...QuantityResolution.type.modelProperties,
+      unit: {
+        serializedName: "unit",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TemperatureResolution: coreClient.CompositeMapper = {
+  serializedName: "TemperatureResolution",
+  type: {
+    name: "Composite",
+    className: "TemperatureResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      ...QuantityResolution.type.modelProperties,
+      unit: {
+        serializedName: "unit",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WeightResolution: coreClient.CompositeMapper = {
+  serializedName: "WeightResolution",
+  type: {
+    name: "Composite",
+    className: "WeightResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      ...QuantityResolution.type.modelProperties,
+      unit: {
+        serializedName: "unit",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CurrencyResolution: coreClient.CompositeMapper = {
+  serializedName: "CurrencyResolution",
+  type: {
+    name: "Composite",
+    className: "CurrencyResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      ...QuantityResolution.type.modelProperties,
+      iso4217: {
+        serializedName: "ISO4217",
+        type: {
+          name: "String"
+        }
+      },
+      unit: {
+        serializedName: "unit",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BooleanResolution: coreClient.CompositeMapper = {
+  serializedName: "BooleanResolution",
+  type: {
+    name: "Composite",
+    className: "BooleanResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const DateTimeResolution: coreClient.CompositeMapper = {
+  serializedName: "DateTimeResolution",
+  type: {
+    name: "Composite",
+    className: "DateTimeResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      timex: {
+        serializedName: "timex",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      dateTimeSubKind: {
+        serializedName: "dateTimeSubKind",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifier: {
+        serializedName: "modifier",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NumberResolution: coreClient.CompositeMapper = {
+  serializedName: "NumberResolution",
+  type: {
+    name: "Composite",
+    className: "NumberResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      numberKind: {
+        serializedName: "numberKind",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OrdinalResolution: coreClient.CompositeMapper = {
+  serializedName: "OrdinalResolution",
+  type: {
+    name: "Composite",
+    className: "OrdinalResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      offset: {
+        serializedName: "offset",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      relativeTo: {
+        serializedName: "relativeTo",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TemporalSpanResolution: coreClient.CompositeMapper = {
+  serializedName: "TemporalSpanResolution",
+  type: {
+    name: "Composite",
+    className: "TemporalSpanResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      begin: {
+        serializedName: "begin",
+        type: {
+          name: "String"
+        }
+      },
+      end: {
+        serializedName: "end",
+        type: {
+          name: "String"
+        }
+      },
+      duration: {
+        serializedName: "duration",
+        type: {
+          name: "String"
+        }
+      },
+      modifier: {
+        serializedName: "modifier",
+        type: {
+          name: "String"
+        }
+      },
+      timex: {
+        serializedName: "timex",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NumericRangeResolution: coreClient.CompositeMapper = {
+  serializedName: "NumericRangeResolution",
+  type: {
+    name: "Composite",
+    className: "NumericRangeResolution",
+    uberParent: "BaseResolution",
+    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResolution.type.modelProperties,
+      rangeKind: {
+        serializedName: "rangeKind",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      minimum: {
+        serializedName: "minimum",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      maximum: {
+        serializedName: "maximum",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const EntityWithResolution: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EntityWithResolution",
+    modelProperties: {
+      ...Entity.type.modelProperties,
+      resolutions: {
+        serializedName: "resolutions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BaseResolution"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const EntitiesDocumentResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EntitiesDocumentResult",
+    modelProperties: {
+      ...DocumentResult.type.modelProperties,
+      entities: {
+        serializedName: "entities",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EntityWithResolution"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ClassificationDocumentResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClassificationDocumentResult",
+    modelProperties: {
+      ...DocumentResult.type.modelProperties,
+      class: {
+        serializedName: "class",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ClassificationCategory"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const HealthcareEntitiesDocumentResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HealthcareEntitiesDocumentResult",
+    modelProperties: {
+      ...DocumentResult.type.modelProperties,
+      entities: {
+        serializedName: "entities",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "HealthcareEntity"
+            }
+          }
+        }
+      },
+      relations: {
+        serializedName: "relations",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "HealthcareRelation"
+            }
+          }
+        }
+      },
+      fhirBundle: {
+        serializedName: "fhirBundle",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const SentimentDocumentResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SentimentDocumentResult",
+    modelProperties: {
+      ...DocumentResult.type.modelProperties,
+      sentiment: {
+        serializedName: "sentiment",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["positive", "neutral", "negative", "mixed"]
+        }
+      },
+      confidenceScores: {
+        serializedName: "confidenceScores",
+        type: {
+          name: "Composite",
+          className: "SentimentConfidenceScores"
+        }
+      },
+      sentences: {
+        serializedName: "sentences",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SentenceSentiment"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const LinkedEntitiesDocumentResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkedEntitiesDocumentResult",
+    modelProperties: {
+      ...DocumentResult.type.modelProperties,
+      entities: {
+        serializedName: "entities",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LinkedEntity"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PiiEntitiesDocumentResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PiiEntitiesDocumentResult",
+    modelProperties: {
+      ...DocumentResult.type.modelProperties,
+      redactedText: {
+        serializedName: "redactedText",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      entities: {
+        serializedName: "entities",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Entity"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ExtractedSummaryDocumentResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExtractedSummaryDocumentResult",
+    modelProperties: {
+      ...DocumentResult.type.modelProperties,
+      sentences: {
+        serializedName: "sentences",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SummarySentence"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const KeyPhrasesDocumentResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyPhrasesDocumentResult",
+    modelProperties: {
+      ...DocumentResult.type.modelProperties,
+      keyPhrases: {
+        serializedName: "keyPhrases",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const LanguageDetectionDocumentResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LanguageDetectionDocumentResult",
+    modelProperties: {
+      ...DocumentResult.type.modelProperties,
+      detectedLanguage: {
+        serializedName: "detectedLanguage",
+        type: {
+          name: "Composite",
+          className: "DetectedLanguage"
+        }
+      }
+    }
+  }
+};
+
+export const AbstractiveSummaryDocumentResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AbstractiveSummaryDocumentResult",
+    modelProperties: {
+      ...DocumentResult.type.modelProperties,
+      summaries: {
+        serializedName: "summaries",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AbstractiveSummary"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CustomEntitiesResultDocumentsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomEntitiesResultDocumentsItem",
+    modelProperties: {
+      ...EntitiesDocumentResult.type.modelProperties,
+      ...DocumentDetectedLanguage.type.modelProperties
+    }
+  }
+};
+
+export const CustomLabelClassificationResultDocumentsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomLabelClassificationResultDocumentsItem",
+    modelProperties: {
+      ...ClassificationDocumentResult.type.modelProperties,
+      ...DocumentDetectedLanguage.type.modelProperties
+    }
+  }
+};
+
+export const SentimentResponseDocumentsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SentimentResponseDocumentsItem",
+    modelProperties: {
+      ...SentimentDocumentResult.type.modelProperties,
+      ...DocumentDetectedLanguage.type.modelProperties
+    }
+  }
+};
+
+export const EntitiesResultDocumentsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EntitiesResultDocumentsItem",
+    modelProperties: {
+      ...EntitiesDocumentResult.type.modelProperties,
+      ...DocumentDetectedLanguage.type.modelProperties
+    }
+  }
+};
+
+export const EntityLinkingResultDocumentsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EntityLinkingResultDocumentsItem",
+    modelProperties: {
+      ...LinkedEntitiesDocumentResult.type.modelProperties,
+      ...DocumentDetectedLanguage.type.modelProperties
+    }
+  }
+};
+
+export const PiiResultDocumentsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PiiResultDocumentsItem",
+    modelProperties: {
+      ...PiiEntitiesDocumentResult.type.modelProperties,
+      ...DocumentDetectedLanguage.type.modelProperties
+    }
+  }
+};
+
+export const ExtractedSummaryDocumentResultWithDetectedLanguage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExtractedSummaryDocumentResultWithDetectedLanguage",
+    modelProperties: {
+      ...ExtractedSummaryDocumentResult.type.modelProperties,
+      ...DocumentDetectedLanguage.type.modelProperties
+    }
+  }
+};
+
+export const KeyPhraseResultDocumentsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyPhraseResultDocumentsItem",
+    modelProperties: {
+      ...KeyPhrasesDocumentResult.type.modelProperties,
+      ...DocumentDetectedLanguage.type.modelProperties
+    }
+  }
+};
+
+export const AbstractiveSummaryDocumentResultWithDetectedLanguage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AbstractiveSummaryDocumentResultWithDetectedLanguage",
+    modelProperties: {
+      ...AbstractiveSummaryDocumentResult.type.modelProperties,
+      ...DocumentDetectedLanguage.type.modelProperties
+    }
+  }
+};
+
+export const HealthcareResultDocumentsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HealthcareResultDocumentsItem",
+    modelProperties: {
+      ...HealthcareEntitiesDocumentResult.type.modelProperties,
+      ...DocumentDetectedLanguageForHealthcare.type.modelProperties
     }
   }
 };
@@ -1899,6 +3036,29 @@ export const PiiResult: coreClient.CompositeMapper = {
   }
 };
 
+export const ExtractiveSummarizationResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExtractiveSummarizationResult",
+    modelProperties: {
+      ...PreBuiltResult.type.modelProperties,
+      documents: {
+        serializedName: "documents",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExtractedSummaryDocumentResultWithDetectedLanguage"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const KeyPhraseResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1945,12 +3105,12 @@ export const LanguageDetectionResult: coreClient.CompositeMapper = {
   }
 };
 
-export const CustomEntitiesResult: coreClient.CompositeMapper = {
+export const DynamicClassificationResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CustomEntitiesResult",
+    className: "DynamicClassificationResult",
     modelProperties: {
-      ...CustomResult.type.modelProperties,
+      ...PreBuiltResult.type.modelProperties,
       documents: {
         serializedName: "documents",
         required: true,
@@ -1959,7 +3119,7 @@ export const CustomEntitiesResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CustomEntitiesResultDocumentsItem"
+              className: "DynamicClassificationResultDocumentsItem"
             }
           }
         }
@@ -1968,237 +3128,24 @@ export const CustomEntitiesResult: coreClient.CompositeMapper = {
   }
 };
 
-export const CustomLabelClassificationResult: coreClient.CompositeMapper = {
+export const AbstractiveSummarizationResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CustomLabelClassificationResult",
+    className: "AbstractiveSummarizationResult",
     modelProperties: {
-      ...CustomResult.type.modelProperties,
-      documents: {
-        serializedName: "documents",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CustomLabelClassificationResultDocumentsItem"
-            }
-          }
-        }
-      }
+      ...AbstractiveSummarizationResultBase.type.modelProperties,
+      ...PreBuiltResult.type.modelProperties
     }
   }
 };
 
-export const EntitiesDocumentResult: coreClient.CompositeMapper = {
+export const AbstractiveSummarizationAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "EntitiesDocumentResult",
+    className: "AbstractiveSummarizationAction",
     modelProperties: {
-      ...DocumentResult.type.modelProperties,
-      entities: {
-        serializedName: "entities",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Entity"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ClassificationDocumentResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ClassificationDocumentResult",
-    modelProperties: {
-      ...DocumentResult.type.modelProperties,
-      class: {
-        serializedName: "class",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ClassificationCategory"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const HealthcareEntitiesDocumentResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "HealthcareEntitiesDocumentResult",
-    modelProperties: {
-      ...DocumentResult.type.modelProperties,
-      entities: {
-        serializedName: "entities",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "HealthcareEntity"
-            }
-          }
-        }
-      },
-      relations: {
-        serializedName: "relations",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "HealthcareRelation"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const SentimentDocumentResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SentimentDocumentResult",
-    modelProperties: {
-      ...DocumentResult.type.modelProperties,
-      sentiment: {
-        serializedName: "sentiment",
-        required: true,
-        type: {
-          name: "Enum",
-          allowedValues: ["positive", "neutral", "negative", "mixed"]
-        }
-      },
-      confidenceScores: {
-        serializedName: "confidenceScores",
-        type: {
-          name: "Composite",
-          className: "SentimentConfidenceScores"
-        }
-      },
-      sentences: {
-        serializedName: "sentences",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SentenceSentiment"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const LinkedEntitiesDocumentResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LinkedEntitiesDocumentResult",
-    modelProperties: {
-      ...DocumentResult.type.modelProperties,
-      entities: {
-        serializedName: "entities",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "LinkedEntity"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const PiiEntitiesDocumentResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PiiEntitiesDocumentResult",
-    modelProperties: {
-      ...DocumentResult.type.modelProperties,
-      redactedText: {
-        serializedName: "redactedText",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      entities: {
-        serializedName: "entities",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Entity"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const KeyPhrasesDocumentResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "KeyPhrasesDocumentResult",
-    modelProperties: {
-      ...DocumentResult.type.modelProperties,
-      keyPhrases: {
-        serializedName: "keyPhrases",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const LanguageDetectionDocumentResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LanguageDetectionDocumentResult",
-    modelProperties: {
-      ...DocumentResult.type.modelProperties,
-      detectedLanguage: {
-        serializedName: "detectedLanguage",
-        type: {
-          name: "Composite",
-          className: "DetectedLanguage"
-        }
-      }
+      ...AbstractiveSummarizationTaskParametersBase.type.modelProperties,
+      ...ActionPrebuilt.type.modelProperties
     }
   }
 };
@@ -2208,8 +3155,8 @@ export const CustomEntitiesLROTask: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CustomEntitiesLROTask",
-    uberParent: "BatchActionState",
-    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeBatchAction",
+    polymorphicDiscriminator: AnalyzeBatchAction.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -2228,8 +3175,8 @@ export const CustomSingleLabelClassificationLROTask: coreClient.CompositeMapper 
   type: {
     name: "Composite",
     className: "CustomSingleLabelClassificationLROTask",
-    uberParent: "BatchActionState",
-    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeBatchAction",
+    polymorphicDiscriminator: AnalyzeBatchAction.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -2248,8 +3195,8 @@ export const CustomMultiLabelClassificationLROTask: coreClient.CompositeMapper =
   type: {
     name: "Composite",
     className: "CustomMultiLabelClassificationLROTask",
-    uberParent: "BatchActionState",
-    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeBatchAction",
+    polymorphicDiscriminator: AnalyzeBatchAction.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -2268,8 +3215,8 @@ export const HealthcareLROTask: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "HealthcareLROTask",
-    uberParent: "BatchActionState",
-    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeBatchAction",
+    polymorphicDiscriminator: AnalyzeBatchAction.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -2288,8 +3235,8 @@ export const SentimentAnalysisLROTask: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SentimentAnalysisLROTask",
-    uberParent: "BatchActionState",
-    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeBatchAction",
+    polymorphicDiscriminator: AnalyzeBatchAction.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -2308,8 +3255,8 @@ export const EntitiesLROTask: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EntitiesLROTask",
-    uberParent: "BatchActionState",
-    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeBatchAction",
+    polymorphicDiscriminator: AnalyzeBatchAction.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -2328,8 +3275,8 @@ export const EntityLinkingLROTask: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EntityLinkingLROTask",
-    uberParent: "BatchActionState",
-    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeBatchAction",
+    polymorphicDiscriminator: AnalyzeBatchAction.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -2348,8 +3295,8 @@ export const PiiLROTask: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PiiLROTask",
-    uberParent: "BatchActionState",
-    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeBatchAction",
+    polymorphicDiscriminator: AnalyzeBatchAction.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -2363,13 +3310,33 @@ export const PiiLROTask: coreClient.CompositeMapper = {
   }
 };
 
+export const ExtractiveSummarizationLROTask: coreClient.CompositeMapper = {
+  serializedName: "ExtractiveSummarization",
+  type: {
+    name: "Composite",
+    className: "ExtractiveSummarizationLROTask",
+    uberParent: "AnalyzeBatchAction",
+    polymorphicDiscriminator: AnalyzeBatchAction.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AnalyzeBatchAction.type.modelProperties,
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Composite",
+          className: "ExtractiveSummarizationAction"
+        }
+      }
+    }
+  }
+};
+
 export const KeyPhraseLROTask: coreClient.CompositeMapper = {
   serializedName: "KeyPhraseExtraction",
   type: {
     name: "Composite",
     className: "KeyPhraseLROTask",
-    uberParent: "BatchActionState",
-    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeBatchAction",
+    polymorphicDiscriminator: AnalyzeBatchAction.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -2383,13 +3350,34 @@ export const KeyPhraseLROTask: coreClient.CompositeMapper = {
   }
 };
 
+export const AbstractiveSummarizationLROTask: coreClient.CompositeMapper = {
+  serializedName: "AbstractiveSummarization",
+  type: {
+    name: "Composite",
+    className: "AbstractiveSummarizationLROTask",
+    uberParent: "AnalyzeBatchAction",
+    polymorphicDiscriminator: AnalyzeBatchAction.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AnalyzeBatchAction.type.modelProperties,
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Composite",
+          className: "AbstractiveSummarizationAction"
+        }
+      }
+    }
+  }
+};
+
 export const EntityRecognitionLROResult: coreClient.CompositeMapper = {
   serializedName: "EntityRecognitionLROResults",
   type: {
     name: "Composite",
     className: "EntityRecognitionLROResult",
-    uberParent: "TaskState",
-    polymorphicDiscriminator: TaskState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeTextLROResult",
+    polymorphicDiscriminator:
+      AnalyzeTextLROResult.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeTextLROResult.type.modelProperties,
       results: {
@@ -2408,8 +3396,9 @@ export const CustomEntityRecognitionLROResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CustomEntityRecognitionLROResult",
-    uberParent: "TaskState",
-    polymorphicDiscriminator: TaskState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeTextLROResult",
+    polymorphicDiscriminator:
+      AnalyzeTextLROResult.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeTextLROResult.type.modelProperties,
       results: {
@@ -2428,8 +3417,9 @@ export const CustomSingleLabelClassificationLROResult: coreClient.CompositeMappe
   type: {
     name: "Composite",
     className: "CustomSingleLabelClassificationLROResult",
-    uberParent: "TaskState",
-    polymorphicDiscriminator: TaskState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeTextLROResult",
+    polymorphicDiscriminator:
+      AnalyzeTextLROResult.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeTextLROResult.type.modelProperties,
       results: {
@@ -2448,8 +3438,9 @@ export const CustomMultiLabelClassificationLROResult: coreClient.CompositeMapper
   type: {
     name: "Composite",
     className: "CustomMultiLabelClassificationLROResult",
-    uberParent: "TaskState",
-    polymorphicDiscriminator: TaskState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeTextLROResult",
+    polymorphicDiscriminator:
+      AnalyzeTextLROResult.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeTextLROResult.type.modelProperties,
       results: {
@@ -2468,8 +3459,9 @@ export const EntityLinkingLROResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EntityLinkingLROResult",
-    uberParent: "TaskState",
-    polymorphicDiscriminator: TaskState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeTextLROResult",
+    polymorphicDiscriminator:
+      AnalyzeTextLROResult.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeTextLROResult.type.modelProperties,
       results: {
@@ -2488,8 +3480,9 @@ export const PiiEntityRecognitionLROResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PiiEntityRecognitionLROResult",
-    uberParent: "TaskState",
-    polymorphicDiscriminator: TaskState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeTextLROResult",
+    polymorphicDiscriminator:
+      AnalyzeTextLROResult.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeTextLROResult.type.modelProperties,
       results: {
@@ -2503,13 +3496,35 @@ export const PiiEntityRecognitionLROResult: coreClient.CompositeMapper = {
   }
 };
 
+export const ExtractiveSummarizationLROResult: coreClient.CompositeMapper = {
+  serializedName: "ExtractiveSummarizationLROResults",
+  type: {
+    name: "Composite",
+    className: "ExtractiveSummarizationLROResult",
+    uberParent: "AnalyzeTextLROResult",
+    polymorphicDiscriminator:
+      AnalyzeTextLROResult.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AnalyzeTextLROResult.type.modelProperties,
+      results: {
+        serializedName: "results",
+        type: {
+          name: "Composite",
+          className: "ExtractiveSummarizationResult"
+        }
+      }
+    }
+  }
+};
+
 export const HealthcareLROResult: coreClient.CompositeMapper = {
   serializedName: "HealthcareLROResults",
   type: {
     name: "Composite",
     className: "HealthcareLROResult",
-    uberParent: "TaskState",
-    polymorphicDiscriminator: TaskState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeTextLROResult",
+    polymorphicDiscriminator:
+      AnalyzeTextLROResult.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeTextLROResult.type.modelProperties,
       results: {
@@ -2528,8 +3543,9 @@ export const SentimentLROResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SentimentLROResult",
-    uberParent: "TaskState",
-    polymorphicDiscriminator: TaskState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeTextLROResult",
+    polymorphicDiscriminator:
+      AnalyzeTextLROResult.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeTextLROResult.type.modelProperties,
       results: {
@@ -2548,8 +3564,9 @@ export const KeyPhraseExtractionLROResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyPhraseExtractionLROResult",
-    uberParent: "TaskState",
-    polymorphicDiscriminator: TaskState.type.polymorphicDiscriminator,
+    uberParent: "AnalyzeTextLROResult",
+    polymorphicDiscriminator:
+      AnalyzeTextLROResult.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeTextLROResult.type.modelProperties,
       results: {
@@ -2557,6 +3574,27 @@ export const KeyPhraseExtractionLROResult: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "KeyPhraseResult"
+        }
+      }
+    }
+  }
+};
+
+export const AbstractiveSummarizationLROResult: coreClient.CompositeMapper = {
+  serializedName: "AbstractiveSummarizationLROResults",
+  type: {
+    name: "Composite",
+    className: "AbstractiveSummarizationLROResult",
+    uberParent: "AnalyzeTextLROResult",
+    polymorphicDiscriminator:
+      AnalyzeTextLROResult.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AnalyzeTextLROResult.type.modelProperties,
+      results: {
+        serializedName: "results",
+        type: {
+          name: "Composite",
+          className: "AbstractiveSummarizationResult"
         }
       }
     }
@@ -2679,12 +3717,84 @@ export const SentimentAnalysisAction: coreClient.CompositeMapper = {
   }
 };
 
+export const DynamicClassificationAction: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DynamicClassificationAction",
+    modelProperties: {
+      ...ActionPrebuilt.type.modelProperties,
+      classificationType: {
+        defaultValue: "Multi",
+        serializedName: "classificationType",
+        type: {
+          name: "String"
+        }
+      },
+      categories: {
+        serializedName: "categories",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const HealthcareAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "HealthcareAction",
     modelProperties: {
       ...ActionPrebuilt.type.modelProperties,
+      fhirVersion: {
+        serializedName: "fhirVersion",
+        type: {
+          name: "String"
+        }
+      },
+      documentType: {
+        serializedName: "documentType",
+        type: {
+          name: "String"
+        }
+      },
+      stringIndexType: {
+        defaultValue: "Utf16CodeUnit",
+        serializedName: "stringIndexType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ExtractiveSummarizationAction: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExtractiveSummarizationAction",
+    modelProperties: {
+      ...ActionPrebuilt.type.modelProperties,
+      maxSentenceCount: {
+        defaultValue: 3,
+        serializedName: "sentenceCount",
+        type: {
+          name: "Number"
+        }
+      },
+      orderBy: {
+        defaultValue: "Offset",
+        serializedName: "sortBy",
+        type: {
+          name: "String"
+        }
+      },
       stringIndexType: {
         defaultValue: "Utf16CodeUnit",
         serializedName: "stringIndexType",
@@ -2733,90 +3843,20 @@ export const CustomMultiLabelClassificationAction: coreClient.CompositeMapper = 
   }
 };
 
-export const CustomEntitiesResultDocumentsItem: coreClient.CompositeMapper = {
+export const DynamicClassificationResultDocumentsItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CustomEntitiesResultDocumentsItem",
-    modelProperties: {
-      ...EntitiesDocumentResult.type.modelProperties
-    }
-  }
-};
-
-export const EntitiesResultDocumentsItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EntitiesResultDocumentsItem",
-    modelProperties: {
-      ...EntitiesDocumentResult.type.modelProperties
-    }
-  }
-};
-
-export const CustomLabelClassificationResultDocumentsItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CustomLabelClassificationResultDocumentsItem",
+    className: "DynamicClassificationResultDocumentsItem",
     modelProperties: {
       ...ClassificationDocumentResult.type.modelProperties
     }
   }
 };
 
-export const HealthcareResultDocumentsItem: coreClient.CompositeMapper = {
+export const GeneratedClientAnalyzeBatchHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "HealthcareResultDocumentsItem",
-    modelProperties: {
-      ...HealthcareEntitiesDocumentResult.type.modelProperties
-    }
-  }
-};
-
-export const SentimentResponseDocumentsItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SentimentResponseDocumentsItem",
-    modelProperties: {
-      ...SentimentDocumentResult.type.modelProperties
-    }
-  }
-};
-
-export const EntityLinkingResultDocumentsItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EntityLinkingResultDocumentsItem",
-    modelProperties: {
-      ...LinkedEntitiesDocumentResult.type.modelProperties
-    }
-  }
-};
-
-export const PiiResultDocumentsItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PiiResultDocumentsItem",
-    modelProperties: {
-      ...PiiEntitiesDocumentResult.type.modelProperties
-    }
-  }
-};
-
-export const KeyPhraseResultDocumentsItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "KeyPhraseResultDocumentsItem",
-    modelProperties: {
-      ...KeyPhrasesDocumentResult.type.modelProperties
-    }
-  }
-};
-
-export const AnalyzeTextSubmitJobHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AnalyzeTextSubmitJobHeaders",
+    className: "GeneratedClientAnalyzeBatchHeaders",
     modelProperties: {
       operationLocation: {
         serializedName: "operation-location",
@@ -2846,36 +3886,58 @@ export const AnalyzeTextCancelJobHeaders: coreClient.CompositeMapper = {
 export let discriminators = {
   AnalyzeAction: AnalyzeAction,
   AnalyzeTextTaskResult: AnalyzeTextTaskResult,
+  BaseResolution: BaseResolution,
   "AnalyzeAction.EntityLinking": AnalyzeTextEntityLinkingInput,
   "AnalyzeAction.EntityRecognition": AnalyzeTextEntityRecognitionInput,
   "AnalyzeAction.KeyPhraseExtraction": AnalyzeTextKeyPhraseExtractionInput,
   "AnalyzeAction.PiiEntityRecognition": AnalyzeTextPiiEntitiesRecognitionInput,
   "AnalyzeAction.LanguageDetection": AnalyzeTextLanguageDetectionInput,
   "AnalyzeAction.SentimentAnalysis": AnalyzeTextSentimentAnalysisInput,
+  "AnalyzeAction.DynamicClassification": AnalyzeTextDynamicClassificationInput,
   "AnalyzeTextTaskResult.SentimentAnalysisResults": SentimentTaskResult,
   "AnalyzeTextTaskResult.EntityRecognitionResults": EntitiesTaskResult,
   "AnalyzeTextTaskResult.EntityLinkingResults": EntityLinkingTaskResult,
   "AnalyzeTextTaskResult.PiiEntityRecognitionResults": PiiTaskResult,
   "AnalyzeTextTaskResult.KeyPhraseExtractionResults": KeyPhraseTaskResult,
   "AnalyzeTextTaskResult.LanguageDetectionResults": LanguageDetectionTaskResult,
+  "AnalyzeTextTaskResult.DynamicClassificationResults": DynamicClassificationTaskResult,
   "BatchActionState.AnalyzeBatchAction": AnalyzeBatchAction,
   "TaskState.AnalyzeTextLROResult": AnalyzeTextLROResult,
-  "BatchActionState.CustomEntityRecognition": CustomEntitiesLROTask,
-  "BatchActionState.CustomSingleLabelClassification": CustomSingleLabelClassificationLROTask,
-  "BatchActionState.CustomMultiLabelClassification": CustomMultiLabelClassificationLROTask,
-  "BatchActionState.Healthcare": HealthcareLROTask,
-  "BatchActionState.SentimentAnalysis": SentimentAnalysisLROTask,
-  "BatchActionState.EntityRecognition": EntitiesLROTask,
-  "BatchActionState.EntityLinking": EntityLinkingLROTask,
-  "BatchActionState.PiiEntityRecognition": PiiLROTask,
-  "BatchActionState.KeyPhraseExtraction": KeyPhraseLROTask,
-  "TaskState.EntityRecognitionLROResults": EntityRecognitionLROResult,
-  "TaskState.CustomEntityRecognitionLROResults": CustomEntityRecognitionLROResult,
-  "TaskState.CustomSingleLabelClassificationLROResults": CustomSingleLabelClassificationLROResult,
-  "TaskState.CustomMultiLabelClassificationLROResults": CustomMultiLabelClassificationLROResult,
-  "TaskState.EntityLinkingLROResults": EntityLinkingLROResult,
-  "TaskState.PiiEntityRecognitionLROResults": PiiEntityRecognitionLROResult,
-  "TaskState.HealthcareLROResults": HealthcareLROResult,
-  "TaskState.SentimentAnalysisLROResults": SentimentLROResult,
-  "TaskState.KeyPhraseExtractionLROResults": KeyPhraseExtractionLROResult
+  "BaseResolution.AgeResolution": AgeResolution,
+  "BaseResolution.VolumeResolution": VolumeResolution,
+  "BaseResolution.SpeedResolution": SpeedResolution,
+  "BaseResolution.AreaResolution": AreaResolution,
+  "BaseResolution.LengthResolution": LengthResolution,
+  "BaseResolution.InformationResolution": InformationResolution,
+  "BaseResolution.TemperatureResolution": TemperatureResolution,
+  "BaseResolution.WeightResolution": WeightResolution,
+  "BaseResolution.CurrencyResolution": CurrencyResolution,
+  "BaseResolution.BooleanResolution": BooleanResolution,
+  "BaseResolution.DateTimeResolution": DateTimeResolution,
+  "BaseResolution.NumberResolution": NumberResolution,
+  "BaseResolution.OrdinalResolution": OrdinalResolution,
+  "BaseResolution.TemporalSpanResolution": TemporalSpanResolution,
+  "BaseResolution.NumericRangeResolution": NumericRangeResolution,
+  "AnalyzeBatchAction.CustomEntityRecognition": CustomEntitiesLROTask,
+  "AnalyzeBatchAction.CustomSingleLabelClassification": CustomSingleLabelClassificationLROTask,
+  "AnalyzeBatchAction.CustomMultiLabelClassification": CustomMultiLabelClassificationLROTask,
+  "AnalyzeBatchAction.Healthcare": HealthcareLROTask,
+  "AnalyzeBatchAction.SentimentAnalysis": SentimentAnalysisLROTask,
+  "AnalyzeBatchAction.EntityRecognition": EntitiesLROTask,
+  "AnalyzeBatchAction.EntityLinking": EntityLinkingLROTask,
+  "AnalyzeBatchAction.PiiEntityRecognition": PiiLROTask,
+  "AnalyzeBatchAction.ExtractiveSummarization": ExtractiveSummarizationLROTask,
+  "AnalyzeBatchAction.KeyPhraseExtraction": KeyPhraseLROTask,
+  "AnalyzeBatchAction.AbstractiveSummarization": AbstractiveSummarizationLROTask,
+  "AnalyzeTextLROResult.EntityRecognitionLROResults": EntityRecognitionLROResult,
+  "AnalyzeTextLROResult.CustomEntityRecognitionLROResults": CustomEntityRecognitionLROResult,
+  "AnalyzeTextLROResult.CustomSingleLabelClassificationLROResults": CustomSingleLabelClassificationLROResult,
+  "AnalyzeTextLROResult.CustomMultiLabelClassificationLROResults": CustomMultiLabelClassificationLROResult,
+  "AnalyzeTextLROResult.EntityLinkingLROResults": EntityLinkingLROResult,
+  "AnalyzeTextLROResult.PiiEntityRecognitionLROResults": PiiEntityRecognitionLROResult,
+  "AnalyzeTextLROResult.ExtractiveSummarizationLROResults": ExtractiveSummarizationLROResult,
+  "AnalyzeTextLROResult.HealthcareLROResults": HealthcareLROResult,
+  "AnalyzeTextLROResult.SentimentAnalysisLROResults": SentimentLROResult,
+  "AnalyzeTextLROResult.KeyPhraseExtractionLROResults": KeyPhraseExtractionLROResult,
+  "AnalyzeTextLROResult.AbstractiveSummarizationLROResults": AbstractiveSummarizationLROResult
 };

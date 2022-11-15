@@ -28,6 +28,7 @@ import { senderLogger as logger } from "./log";
 import { toSpanOptions, tracingClient } from "./diagnostics/tracing";
 import { ensureValidIdentifier } from "./util/utils";
 import { ServiceBusError } from "./serviceBusError";
+import { instrumentMessage } from "./diagnostics/instrumentServiceBusMessage";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -213,11 +214,20 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     if (!isServiceBusMessageBatch(messages) && !Array.isArray(messages)) {
       // Case 1: Single message
       throwIfNotValidServiceBusMessage(messages, errorInvalidMessageTypeSingleOrArray);
+      const originalMessage = messages as ServiceBusMessage | AmqpAnnotatedMessage;
+      const { message, spanContext } = instrumentMessage(
+        originalMessage,
+        options ?? {},
+        this.entityPath,
+        this._context.config.host
+      );
+      const spanLinks: TracingSpanLink[] = spanContext ? [{ tracingContext: spanContext }] : [];
       return tracingClient.withSpan(
         "ServiceBusSender.send",
         options ?? {},
-        (updatedOptions) => this._sender.send(messages, updatedOptions),
+        (updatedOptions) => this._sender.send(message, updatedOptions),
         {
+          spanLinks,
           ...toSpanOptions(
             { entityPath: this.entityPath, host: this._context.config.host },
             "client"

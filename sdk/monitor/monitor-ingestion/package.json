@@ -1,6 +1,6 @@
 {
   "name": "@azure/monitor-ingestion",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "Azure Monitor Ingestion library",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -71,7 +71,7 @@
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "keywords": [
     "azure",
@@ -104,10 +104,10 @@
     "@azure/identity": "^2.0.5",
     "@azure/monitor-query": "1.0.2",
     "@azure/test-utils": "^1.0.0",
-    "@microsoft/api-extractor": "7.18.11",
+    "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^12.0.0",
+    "@types/node": "^14.0.0",
     "@types/pako": "^2.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
