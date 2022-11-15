@@ -56,7 +56,7 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
     assert.equal(poller.getOperationState().result!.name, secretName);
   });
 
-  it.skip("can resume from a stopped poller", async function (this: Context) {
+  it("can resume from a stopped poller", async function (this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
