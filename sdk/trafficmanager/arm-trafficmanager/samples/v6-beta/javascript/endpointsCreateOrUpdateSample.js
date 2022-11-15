@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  Endpoint,
-  TrafficManagerManagementClient
-} from "@azure/arm-trafficmanager";
-import { DefaultAzureCredential } from "@azure/identity";
+const { TrafficManagerManagementClient } = require("@azure/arm-trafficmanager");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Create or update a Traffic Manager endpoint.
@@ -26,13 +23,13 @@ async function endpointPutExternalWithAlwaysServe() {
   const profileName = "azsmnet6386";
   const endpointType = "ExternalEndpoints";
   const endpointName = "azsmnet7187";
-  const parameters: Endpoint = {
+  const parameters = {
     name: "azsmnet7187",
     type: "Microsoft.network/TrafficManagerProfiles/ExternalEndpoints",
     alwaysServe: "Enabled",
     endpointLocation: "North Europe",
     endpointStatus: "Enabled",
-    target: "foobar.contoso.com"
+    target: "foobar.contoso.com",
   };
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -60,16 +57,16 @@ async function endpointPutExternalWithCustomHeaders() {
   const profileName = "azsmnet6386";
   const endpointType = "ExternalEndpoints";
   const endpointName = "azsmnet7187";
-  const parameters: Endpoint = {
+  const parameters = {
     name: "azsmnet7187",
     type: "Microsoft.network/TrafficManagerProfiles/ExternalEndpoints",
     customHeaders: [
       { name: "header-1", value: "value-1" },
-      { name: "header-2", value: "value-2" }
+      { name: "header-2", value: "value-2" },
     ],
     endpointLocation: "North Europe",
     endpointStatus: "Enabled",
-    target: "foobar.contoso.com"
+    target: "foobar.contoso.com",
   };
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -97,12 +94,12 @@ async function endpointPutExternalWithGeoMapping() {
   const profileName = "azuresdkfornetautoresttrafficmanager8224";
   const endpointType = "ExternalEndpoints";
   const endpointName = "My%20external%20endpoint";
-  const parameters: Endpoint = {
+  const parameters = {
     name: "My external endpoint",
     type: "Microsoft.network/TrafficManagerProfiles/ExternalEndpoints",
     endpointStatus: "Enabled",
     geoMapping: ["GEO-AS", "GEO-AF"],
-    target: "foobar.contoso.com"
+    target: "foobar.contoso.com",
   };
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -130,12 +127,12 @@ async function endpointPutExternalWithLocation() {
   const profileName = "azsmnet6386";
   const endpointType = "ExternalEndpoints";
   const endpointName = "azsmnet7187";
-  const parameters: Endpoint = {
+  const parameters = {
     name: "azsmnet7187",
     type: "Microsoft.network/TrafficManagerProfiles/ExternalEndpoints",
     endpointLocation: "North Europe",
     endpointStatus: "Enabled",
-    target: "foobar.contoso.com"
+    target: "foobar.contoso.com",
   };
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -163,15 +160,15 @@ async function endpointPutExternalWithSubnetMapping() {
   const profileName = "azuresdkfornetautoresttrafficmanager8224";
   const endpointType = "ExternalEndpoints";
   const endpointName = "My%20external%20endpoint";
-  const parameters: Endpoint = {
+  const parameters = {
     name: "My external endpoint",
     type: "Microsoft.network/TrafficManagerProfiles/ExternalEndpoints",
     endpointStatus: "Enabled",
     subnets: [
       { first: "1.2.3.0", scope: 24 },
-      { first: "25.26.27.28", last: "29.30.31.32" }
+      { first: "25.26.27.28", last: "29.30.31.32" },
     ],
-    target: "foobar.contoso.com"
+    target: "foobar.contoso.com",
   };
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential, subscriptionId);

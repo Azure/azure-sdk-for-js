@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  Profile,
-  TrafficManagerManagementClient
-} from "@azure/arm-trafficmanager";
-import { DefaultAzureCredential } from "@azure/identity";
+const { TrafficManagerManagementClient } = require("@azure/arm-trafficmanager");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Create or update a Traffic Manager profile.
@@ -24,22 +21,18 @@ async function profilePutMultiValue() {
   const subscriptionId = "{subscription-id}";
   const resourceGroupName = "azuresdkfornetautoresttrafficmanager1421";
   const profileName = "azsmnet6386";
-  const parameters: Profile = {
+  const parameters = {
     dnsConfig: { relativeName: "azsmnet6386", ttl: 35 },
     location: "global",
     maxReturn: 2,
     monitorConfig: { path: "/testpath.aspx", port: 80, protocol: "HTTP" },
     profileStatus: "Enabled",
     trafficRoutingMethod: "MultiValue",
-    trafficViewEnrollmentStatus: "Disabled"
+    trafficViewEnrollmentStatus: "Disabled",
   };
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
-  const result = await client.profiles.createOrUpdate(
-    resourceGroupName,
-    profileName,
-    parameters
-  );
+  const result = await client.profiles.createOrUpdate(resourceGroupName, profileName, parameters);
   console.log(result);
 }
 
@@ -55,20 +48,16 @@ async function profilePutNoEndpoints() {
   const subscriptionId = "{subscription-id}";
   const resourceGroupName = "azuresdkfornetautoresttrafficmanager1421";
   const profileName = "azsmnet6386";
-  const parameters: Profile = {
+  const parameters = {
     dnsConfig: { relativeName: "azsmnet6386", ttl: 35 },
     location: "global",
     monitorConfig: { path: "/testpath.aspx", port: 80, protocol: "HTTP" },
     profileStatus: "Enabled",
-    trafficRoutingMethod: "Performance"
+    trafficRoutingMethod: "Performance",
   };
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
-  const result = await client.profiles.createOrUpdate(
-    resourceGroupName,
-    profileName,
-    parameters
-  );
+  const result = await client.profiles.createOrUpdate(resourceGroupName, profileName, parameters);
   console.log(result);
 }
 
@@ -84,11 +73,11 @@ async function profilePutWithAliasing() {
   const subscriptionId = "{subscription-id}";
   const resourceGroupName = "azuresdkfornetautoresttrafficmanager2583";
   const profileName = "azuresdkfornetautoresttrafficmanager6192";
-  const parameters: Profile = {
+  const parameters = {
     allowedEndpointRecordTypes: ["DomainName"],
     dnsConfig: {
       relativeName: "azuresdkfornetautoresttrafficmanager6192",
-      ttl: 35
+      ttl: 35,
     },
     endpoints: [
       {
@@ -96,8 +85,8 @@ async function profilePutWithAliasing() {
         type: "Microsoft.network/TrafficManagerProfiles/ExternalEndpoints",
         endpointLocation: "North Europe",
         endpointStatus: "Enabled",
-        target: "foobar.contoso.com"
-      }
+        target: "foobar.contoso.com",
+      },
     ],
     location: "global",
     monitorConfig: {
@@ -106,18 +95,14 @@ async function profilePutWithAliasing() {
       port: 80,
       timeoutInSeconds: 5,
       toleratedNumberOfFailures: 2,
-      protocol: "HTTP"
+      protocol: "HTTP",
     },
     profileStatus: "Enabled",
-    trafficRoutingMethod: "Performance"
+    trafficRoutingMethod: "Performance",
   };
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
-  const result = await client.profiles.createOrUpdate(
-    resourceGroupName,
-    profileName,
-    parameters
-  );
+  const result = await client.profiles.createOrUpdate(resourceGroupName, profileName, parameters);
   console.log(result);
 }
 
@@ -133,10 +118,10 @@ async function profilePutWithCustomHeaders() {
   const subscriptionId = "{subscription-id}";
   const resourceGroupName = "azuresdkfornetautoresttrafficmanager2583";
   const profileName = "azuresdkfornetautoresttrafficmanager6192";
-  const parameters: Profile = {
+  const parameters = {
     dnsConfig: {
       relativeName: "azuresdkfornetautoresttrafficmanager6192",
-      ttl: 35
+      ttl: 35,
     },
     endpoints: [
       {
@@ -145,37 +130,33 @@ async function profilePutWithCustomHeaders() {
         customHeaders: [{ name: "header-2", value: "value-2-overridden" }],
         endpointLocation: "North Europe",
         endpointStatus: "Enabled",
-        target: "foobar.contoso.com"
-      }
+        target: "foobar.contoso.com",
+      },
     ],
     location: "global",
     monitorConfig: {
       path: "/testpath.aspx",
       customHeaders: [
         { name: "header-1", value: "value-1" },
-        { name: "header-2", value: "value-2" }
+        { name: "header-2", value: "value-2" },
       ],
       expectedStatusCodeRanges: [
         { max: 205, min: 200 },
-        { max: 410, min: 400 }
+        { max: 410, min: 400 },
       ],
       intervalInSeconds: 10,
       port: 80,
       timeoutInSeconds: 5,
       toleratedNumberOfFailures: 2,
-      protocol: "HTTP"
+      protocol: "HTTP",
     },
     profileStatus: "Enabled",
     trafficRoutingMethod: "Performance",
-    trafficViewEnrollmentStatus: "Disabled"
+    trafficViewEnrollmentStatus: "Disabled",
   };
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
-  const result = await client.profiles.createOrUpdate(
-    resourceGroupName,
-    profileName,
-    parameters
-  );
+  const result = await client.profiles.createOrUpdate(resourceGroupName, profileName, parameters);
   console.log(result);
 }
 
@@ -191,10 +172,10 @@ async function profilePutWithEndpoints() {
   const subscriptionId = "{subscription-id}";
   const resourceGroupName = "azuresdkfornetautoresttrafficmanager2583";
   const profileName = "azuresdkfornetautoresttrafficmanager6192";
-  const parameters: Profile = {
+  const parameters = {
     dnsConfig: {
       relativeName: "azuresdkfornetautoresttrafficmanager6192",
-      ttl: 35
+      ttl: 35,
     },
     endpoints: [
       {
@@ -202,8 +183,8 @@ async function profilePutWithEndpoints() {
         type: "Microsoft.network/TrafficManagerProfiles/ExternalEndpoints",
         endpointLocation: "North Europe",
         endpointStatus: "Enabled",
-        target: "foobar.contoso.com"
-      }
+        target: "foobar.contoso.com",
+      },
     ],
     location: "global",
     monitorConfig: {
@@ -212,18 +193,14 @@ async function profilePutWithEndpoints() {
       port: 80,
       timeoutInSeconds: 5,
       toleratedNumberOfFailures: 2,
-      protocol: "HTTP"
+      protocol: "HTTP",
     },
     profileStatus: "Enabled",
-    trafficRoutingMethod: "Performance"
+    trafficRoutingMethod: "Performance",
   };
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
-  const result = await client.profiles.createOrUpdate(
-    resourceGroupName,
-    profileName,
-    parameters
-  );
+  const result = await client.profiles.createOrUpdate(resourceGroupName, profileName, parameters);
   console.log(result);
 }
 
@@ -239,7 +216,7 @@ async function profilePutWithNestedEndpoints() {
   const subscriptionId = "{subscription-id}";
   const resourceGroupName = "myresourcegroup";
   const profileName = "parentprofile";
-  const parameters: Profile = {
+  const parameters = {
     dnsConfig: { relativeName: "parentprofile", ttl: 35 },
     endpoints: [
       {
@@ -251,7 +228,7 @@ async function profilePutWithNestedEndpoints() {
         minChildEndpointsIPv6: 2,
         priority: 1,
         target: "firstnestedprofile.tmpreview.watmtest.azure-test.net",
-        weight: 1
+        weight: 1,
       },
       {
         name: "MySecondNestedEndpoint",
@@ -262,8 +239,8 @@ async function profilePutWithNestedEndpoints() {
         minChildEndpointsIPv6: 1,
         priority: 2,
         target: "secondnestedprofile.tmpreview.watmtest.azure-test.net",
-        weight: 1
-      }
+        weight: 1,
+      },
     ],
     location: "global",
     monitorConfig: {
@@ -272,18 +249,14 @@ async function profilePutWithNestedEndpoints() {
       port: 80,
       timeoutInSeconds: 5,
       toleratedNumberOfFailures: 2,
-      protocol: "HTTP"
+      protocol: "HTTP",
     },
     profileStatus: "Enabled",
-    trafficRoutingMethod: "Priority"
+    trafficRoutingMethod: "Priority",
   };
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
-  const result = await client.profiles.createOrUpdate(
-    resourceGroupName,
-    profileName,
-    parameters
-  );
+  const result = await client.profiles.createOrUpdate(resourceGroupName, profileName, parameters);
   console.log(result);
 }
 

@@ -12,7 +12,7 @@ import { HeatMapGetOptionalParams, HeatMapGetResponse } from "../models";
 export interface HeatMap {
   /**
    * Gets latest heatmap for Traffic Manager profile.
-   * @param resourceGroupName The name of the resource group containing the Traffic Manager endpoint.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName The name of the Traffic Manager profile.
    * @param options The options parameters.
    */
