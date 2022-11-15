@@ -11,10 +11,10 @@
         "Content-Length": "275",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-arm-trafficmanager/6.1.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "c63e1fcf-9339-4127-908d-7a47dfea06c7"
+        "x-ms-client-request-id": "aaedf172-7fba-4fb7-b6dd-04523dd359f0"
       },
       "RequestBody": {
-        "location": "eastus",
+        "location": "global",
         "properties": {
           "profileStatus": "Enabled",
           "trafficRoutingMethod": "MultiValue",
@@ -31,25 +31,47 @@
           "maxReturn": 2
         }
       },
-      "StatusCode": 400,
+      "StatusCode": 201,
       "ResponseHeaders": {
-        "Cache-Control": "no-cache",
-        "Content-Length": "367",
+        "Cache-Control": "private",
+        "Content-Length": "651",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 04 Nov 2022 08:22:28 GMT",
-        "Expires": "-1",
-        "Pragma": "no-cache",
+        "Date": "Tue, 15 Nov 2022 02:17:02 GMT",
+        "Server": "Microsoft-IIS/10.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-AspNet-Version": "4.0.30319",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "a340c9fd-26a2-43b3-b881-5f8fcf703e27",
-        "x-ms-failure-cause": "gateway",
-        "x-ms-request-id": "a340c9fd-26a2-43b3-b881-5f8fcf703e27",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221104T082229Z:a340c9fd-26a2-43b3-b881-5f8fcf703e27"
+        "x-ms-correlation-request-id": "6a375204-ac7c-4da2-89b2-611cdd3a5577",
+        "x-ms-ratelimit-remaining-subscription-resource-requests": "4499",
+        "x-ms-request-id": "aaedf172-7fba-4fb7-b6dd-04523dd359f0",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221115T021703Z:6a375204-ac7c-4da2-89b2-611cdd3a5577",
+        "X-Powered-By": "ASP.NET"
       },
       "ResponseBody": {
-        "error": {
-          "code": "NoRegisteredProviderFound",
-          "message": "No registered resource provider found for location \u0027eastus\u0027 and API version \u00272022-04-01-preview\u0027 for type \u0027trafficmanagerprofiles\u0027. The supported api-versions are \u00272015-04-28-preview, 2015-11-01, 2017-03-01, 2017-05-01, 2018-02-01, 2018-03-01, 2018-04-01, 2018-08-01\u0027. The supported locations are \u0027, global\u0027."
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/trafficManagerProfiles/azsmnet6386",
+        "name": "azsmnet6386",
+        "type": "Microsoft.Network/trafficManagerProfiles",
+        "location": "global",
+        "properties": {
+          "profileStatus": "Enabled",
+          "trafficRoutingMethod": "MultiValue",
+          "dnsConfig": {
+            "relativeName": "azsmnet6386",
+            "fqdn": "azsmnet6386.trafficmanager.net",
+            "ttl": 35
+          },
+          "monitorConfig": {
+            "profileMonitorStatus": "Inactive",
+            "protocol": "HTTP",
+            "port": 80,
+            "path": "/testpath.aspx",
+            "intervalInSeconds": 30,
+            "toleratedNumberOfFailures": 3,
+            "timeoutInSeconds": 10
+          },
+          "endpoints": [],
+          "trafficViewEnrollmentStatus": "Disabled",
+          "maxReturn": 2
         }
       }
     }

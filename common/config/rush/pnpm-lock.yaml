@@ -1693,6 +1693,7 @@ packages:
   /@opentelemetry/api-metrics/0.33.0:
     resolution: {integrity: sha512-78evfPRRRnJA6uZ3xuBuS3VZlXTO/LRs+Ff1iv3O/7DgibCtq9k27T6Zlj8yRdJDFmcjcbQrvC0/CpDpWHaZYA==}
     engines: {node: '>=14'}
+    deprecated: Please use @opentelemetry/api >= 1.3.0
     dependencies:
       '@opentelemetry/api': 1.2.0
     dev: false
@@ -2185,6 +2186,7 @@ packages:
 
   /@sinonjs/commons/1.8.4:
     resolution: {integrity: sha512-RpmQdHVo8hCEHDVpO39zToS9jOhR6nw+/lQAzRNq9ErrGV9IeHM71XCn68svVl/euFeVW6BWX4p35gkhbOcSIQ==}
+    deprecated: Breaks compatibility with ES5, use v1.8.5
     dependencies:
       type-detect: 4.0.8
     dev: false
@@ -3885,7 +3887,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221103
+      typescript: 5.0.0-dev.20221114
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8843,8 +8845,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221103:
-    resolution: {integrity: sha512-hfqcsmiJ+5ktli1OAkwu4PyDDJ3kWW3tiUofd2t1uxwmni3ZT3Mrv1m2dZFg9VNDKqHrkt49izB3tAtD2bsyGw==}
+  /typescript/5.0.0-dev.20221114:
+    resolution: {integrity: sha512-lMcxw0oxEhQR0HIZyxhmCiwFqXfPQGtakbc+792/hmPP/pyICuaUUIKyY/7Cl6QPGTplHcGjDPEVbVE46gPVrA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -15165,7 +15167,7 @@ packages:
     dev: false
 
   file:projects/arm-trafficmanager.tgz:
-    resolution: {integrity: sha512-3q9wwdAJrWVOtcdpzojHV23g088XQ8g+IJBQ1+mNDupY1+PJ/xFoNi7dR5NgPWfZ0tqsNnBa2P+dlFjNfzj+pA==, tarball: file:projects/arm-trafficmanager.tgz}
+    resolution: {integrity: sha512-FGvzk94zIgPaQNaEXrBrNIIRmKUi10uxgpH2OWbKVl4NvGyeLmepGRnLXDVgJV6Qf1z5YdvlisHfEyjAKKABOg==, tarball: file:projects/arm-trafficmanager.tgz}
     name: '@rush-temp/arm-trafficmanager'
     version: 0.0.0
     dependencies:
@@ -15186,7 +15188,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color

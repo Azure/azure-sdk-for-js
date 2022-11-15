@@ -9,21 +9,23 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-trafficmanager/6.1.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "f1909377-b0c1-409f-91d0-523ae83c06e9"
+        "x-ms-client-request-id": "b58a6275-c330-4c09-9e4f-fc81f8e1ec2f"
       },
       "RequestBody": null,
-      "StatusCode": 204,
+      "StatusCode": 200,
       "ResponseHeaders": {
-        "Cache-Control": "no-cache",
-        "Date": "Fri, 04 Nov 2022 08:22:32 GMT",
-        "Expires": "-1",
-        "Pragma": "no-cache",
+        "Cache-Control": "private",
+        "Content-Length": "0",
+        "Date": "Tue, 15 Nov 2022 02:17:15 GMT",
+        "Server": "Microsoft-IIS/10.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-AspNet-Version": "4.0.30319",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "a4ddd62c-b40f-4c3c-82b5-2afc68400b20",
+        "x-ms-correlation-request-id": "09a2b7bc-54c3-4238-bc07-07b3c01ee1bf",
         "x-ms-ratelimit-remaining-subscription-resource-requests": "499",
-        "x-ms-request-id": "a4ddd62c-b40f-4c3c-82b5-2afc68400b20",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221104T082232Z:a4ddd62c-b40f-4c3c-82b5-2afc68400b20"
+        "x-ms-request-id": "b58a6275-c330-4c09-9e4f-fc81f8e1ec2f",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221115T021716Z:09a2b7bc-54c3-4238-bc07-07b3c01ee1bf",
+        "X-Powered-By": "ASP.NET"
       },
       "ResponseBody": null
     },
@@ -36,29 +38,29 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-trafficmanager/6.1.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "b5ed5032-0464-4486-af49-66b66a9641e0"
+        "x-ms-client-request-id": "f95f920b-ba69-43b6-8de4-47565bb0fd98"
       },
       "RequestBody": null,
-      "StatusCode": 404,
+      "StatusCode": 200,
       "ResponseHeaders": {
-        "Cache-Control": "no-cache",
-        "Content-Length": "319",
+        "Cache-Control": "private",
+        "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 04 Nov 2022 08:22:32 GMT",
-        "Expires": "-1",
-        "Pragma": "no-cache",
+        "Date": "Tue, 15 Nov 2022 02:17:16 GMT",
+        "Server": "Microsoft-IIS/10.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-AspNet-Version": "4.0.30319",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "f1b27836-6069-4269-8521-3d04d3f89182",
-        "x-ms-failure-cause": "gateway",
-        "x-ms-request-id": "f1b27836-6069-4269-8521-3d04d3f89182",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221104T082233Z:f1b27836-6069-4269-8521-3d04d3f89182"
+        "x-ms-correlation-request-id": "4a14ea3a-32bd-48dc-9ecb-d257ed6cddd0",
+        "x-ms-ratelimit-remaining-subscription-resource-requests": "1997",
+        "x-ms-request-id": "f95f920b-ba69-43b6-8de4-47565bb0fd98",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221115T021716Z:4a14ea3a-32bd-48dc-9ecb-d257ed6cddd0",
+        "X-Powered-By": "ASP.NET"
       },
       "ResponseBody": {
-        "error": {
-          "code": "InvalidResourceType",
-          "message": "The resource type \u0027trafficmanagerprofiles\u0027 could not be found in the namespace \u0027Microsoft.Network\u0027 for api version \u00272022-04-01-preview\u0027. The supported api-versions are \u00272015-04-28-preview,2015-11-01,2017-03-01,2017-05-01,2018-02-01,2018-03-01,2018-04-01,2018-08-01\u0027."
-        }
+        "value": []
       }
     }
   ],
