@@ -1,73 +1,68 @@
-Getting Started - Generate the RLC rest-level client libraries with Cadl
-========================================================================
+Getting Started - Generate the RLC rest-level client libraries with Swagger
+===========================================================================
 
-# Before you start
+# Prerequisites
 
-Please refer to this [link](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for the environment set up prerequisites in azure-sdk-for-js repository. We highly recommand to read [this blog](https://devblogs.microsoft.com/azure-sdk/azure-rest-libraries-for-javascript/) to get familiar with REST libraries for JavaScript. 
-
-:warning: Note: if you’re still generating from Swagger with RLC, please read [this doc](./RLC-Swagger-quickstart.md) for Swagger specific details
-
+You may refer to this [link](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for the environment set up prerequisites in azure-sdk-for-js repository.
 
 # Project folder and name convention
 
-We probably should get to know the project folder and name convention for RLC libraries.
+Before we start, we probably should get to know the project folder and name convention for RLC libraries.
 
-1. SDK Repo Root.
-   The generated libraries should be the [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repo, so fork and clone it in your local then the absolute path is called **${SDK_REPO_ROOT} folder**.
-
-1. Project Folder Structure.  
-   Normally, the folder structure would be something like `sdk/{servicename}/{servicename}-{modulename}-rest`. For example, we have `sdk/agrifood/agrifood-farming-rest` folder for Farmbeats account modules under {SDK_REPO_ROOT}. That folder will be your **${PROJECT_ROOT} folder**.  
+1. Project Folder structure.  
+   normally, the folder structure would be something like `sdk/{servicename}/{servicename}-{modulename}-rest`. For example, we have `sdk/agrifood/agrifood-farming-rest` folder for Farmbeats account modules. That folder will be your **${PROJECT_ROOT} folder**.  
 1. Package Name Convention.  
    The package name for RLC is something like `@azure-rest/{servicename}-{modulename}`. For example, the package name for Farmbeats module is `@azure-rest/agrifood-farming`.
-
 
 # How to generate RLC
 
 We are working on to automatically generate everything right now, but currently we still need some manual work to get a releasable package. Here're the steps of how to get the package.
 
-1. **Add typescript emitter dependency in package.json**  
-   
-   In Cadl project, modify `package.json` to add dependency for typescript emitter, then run `npm install` again to install `@azure-tools/cadl-typescript`.
+1. **Create a swagger/README.md file.under ${PROJECT_ROOT} folder**  
+    We are using autorest to generate the code, but there's a lot of command options and in order to make the regenerate process easier in the cases of refresh the rest api input or change the code generator version, you need to document the generate command parameters.  
+    Here's an example of the swagger/README.md
 
-   ```json
-   "dependencies": {
-     ...
-     "@azure-tools/cadl-typescript": "1.0.0-beta.3"
-   },
-   ```
-
-   ---
-   **NOTE**
-    It's always recommended to replace the version of emitter cadl-typescript with the latest version you can find in [npmjs.com](https://www.npmjs.com/package/@azure-tools/cadl-typescript) in latest tag.
-
-   ---
-
-1. **Configure typescript emitter in cadl-project.yaml**
-
-    In Cadl project, modify (or create) `cadl-project.yaml` and configure the SDK generated, using the emitter options on `@azure-tools/cadl-typescript`
+    ~~~
+    
+    # Azure  Farmbeats TypeScript Protocol Layer
+    
+    > see https://aka.ms/autorest
+    ## Configuration
     
     ```yaml
-    emitters:
-      "@azure-tools/cadl-typescript":
-        generateMetadata: true
-        generateTest: true
-        packageDetails:
-          name: "@azure-rest/agrifood-farming"
-          description: "Farmbeats Client"
-          version: "1.0.0-beta.1"
+    package-name: "@azure-rest/agrifood-farming"
+    title: Farmbeats
+    description: Farmbeats Client
+    generate-metadata: true
+    generate-test: true
+    license-header: MICROSOFT_MIT_NO_VERSION
+    output-folder: ../
+    source-code-folder-path: ./src
+    input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/683e3f4849ee1d84629d0d0fa17789e80a9cee08/specification/agfood/data-plane/Microsoft.AgFoodPlatform/preview/2021-03-31-preview/agfood.json
+    package-version: 1.0.0-beta.2
+    rest-level-client: true
+    security: AADToken
+    security-scopes: https://farmbeats.azure.net/.default
+    use-extension:
+      "@autorest/typescript": "6.0.0-rc.1"
     ```
+    ~~~
 
-    Here, we need to replace the value in `name`,`description`, `version`  in `packageDetails` to **your own service's** package details.
+    Here, we need to replace the value in `package-name`, `title`, `description`, `input-file`, `package-version`,  `security`,`security-scopes` into **your own service's** `package-name`, `title`, `description` etc. See [security configurations](#how-to-configure-authentication) for more details.
 
-    ---  
+    ---
     **NOTE**
 
-    After the first generation, you need to switch `generate-metadata: false` as we have some manual changes in this file and don't want them get overwrite by generated ones.
+    It's always recommended to replace the version of code generator @autorest/typescript with the latest version you can find in [npmjs.com](https://www.npmjs.com/package/@autorest/typescript) in latest tag. 
 
-    --- 
+    If the `input-file` is followed by an `. md` file, you need to replace the `input-file` with `require`. If it is a `JSON` file, do not change it 
 
-1. **Edit rush.json**  
-    As the libraries in azure-sdk-for-js repository are managed by rush, you need to add an entry in rush.json under projects section for the first time to make sure it works. For example:
+    **After the first generation, you need to switch `generate-metadata: false`  as we have some manual changes in this file and don't want them get overwrite by generated ones.**
+
+    ---  
+  
+1. **edit rush.json**  
+    As the libraries in this azure-sdk-for-js repository are managed by rush, you need to add an entry in rush.json under projects section for the first time to make sure it works. For example:
 
     ```
         {
@@ -84,19 +79,17 @@ We are working on to automatically generate everything right now, but currently 
 
     About the `versionPolicyName`, if the library you are working on is for data-plane, then it should be `client`, if the library you are working on is for control plane, then it should be `mgmt`.  
 
-    --- 
+    ---  
 
-1. **Run command to generate the SDK**  
+1. **run autorest to generate the SDK**  
 
-    We need to configure `--output-dir` to put generated code. The output dir contains two parts: the {SDK_REPO_ROOT} and {PROJECT_ROOT}.
-    
-    Assume **{SDK_REPO_ROOT}** is `D:/azure-sdk-for-js` and **{PROJECT_ROOT}** is `sdk/agrifood/agrifood-farming-rest` then we could run this command in **your local Cadl project** to generate the SDK: 
+    Now you can run this command in swagger folder you just created.
 
     ```shell
-    cadl compile . --emit=@azure-tools/cadl-typescript --output-dir=D:/azure-sdk-for-js/sdk/agrifood/agrifood-farming-rest
+    autorest --typescript ./README.md
     ```
 
-    After this finishes, you will see the generated code in `src` folder in your project root.  
+    After this finishes, you will see the generated code in `${PROJECT_ROOT}/src` folder.  
     After that, you can get a workable package, and run the following commands to get a artifact if you like.
 
     ```shell
@@ -243,3 +236,32 @@ You may also want to create API View when submitting a PR. You can do it easily 
 There is many information about the SDK that AutoRest will never know, so you may want to do your customizations based on generated code. 
 
 We collect some common customization cases and you can read [Customization on the RLC rest-level client libraries](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-customization.md) for more details.
+
+# How to configure authentication
+Autorest only support two types of authentication: Azure Key Credential(AzureKey) and Token credential(AADToken), any other will need to be handled manually. 
+
+This could be either configured in OpenAPI spec or configuration file e.g `README.md`. You could learn more in [Authentication in AutoRest](https://github.com/Azure/autorest/blob/main/docs/generate/authentication.md).
+
+Here are the details if we configure in README.md file.
+- Support AAD token authentication
+```yaml
+security: AzureKey
+security-header-name: Your-Subscription-Key
+```
+- Support key authentication
+```yaml
+security: AADToken
+security-scopes: https://yourendpoint.azure.com/.default
+```
+- Support both credentials
+```yaml
+security:
+  - AADToken
+  - AzureKey
+security-header-name: Your-Subscription-Key
+security-scopes: https://yourendpoint.azure.com/.default
+```
+- Disable neither authentications
+```yaml
+add-credentials: false
+```
