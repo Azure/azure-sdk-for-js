@@ -33,14 +33,14 @@ In this document, we will give a brief introduction on how to use the JavaScript
 1. Create a ts file (free name and copy follow code into this file) eg: test_1.ts
     eg：
     ```
-        import { DefaultAzureCredential } from "@azure/identity";.
-        import{ TargetManagementClient } from "@azure/arm-target"
+        import { DefaultAzureCredential } from "@azure/identity";
+        import{ TargetManagementClient } from "@azure/arm-target";
 
         const subscriptionId = process.env.SUBSCRIPTION_ID || '';
-        const creds=new DefaultAzureCredential();
+        const credentials=new DefaultAzureCredential();
 
         async function test() {
-            const client = new TargetManagementClient(creds, subscriptionId);
+            const client = new TargetManagementClient(credentials, subscriptionId);
             const result = await client.operations.list();
             // you can test that you need test operation
             console.log("The result is:\n");
@@ -53,8 +53,8 @@ In this document, we will give a brief introduction on how to use the JavaScript
     for example：  
     ```
     const client = new ComputeManagementClient(credentials, subscriptionID);
-    await client.galleries.createOrUpdate(resourceGroupName, galleryName, gallery);
-    await client.galleryImages.createOrUpdate(resourceGroupName, galleryName, galleryImageName, galleryImage);
+    const result= await client.galleries.beginCreateOrUpdateAndWait(resourceGroupName, galleryName, gallery);
+    const result= await client.galleryImages.begincreateOrUpdateAndWait(resourceGroupName, galleryName, galleryImageName, galleryImage);
     ```
     
 1. Install all the dependencies 
