@@ -143,6 +143,9 @@ export interface GatewayListStatusLive {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface IPv4FirewallRule {
     firewallRuleName?: string;
     rangeEnd?: string;
