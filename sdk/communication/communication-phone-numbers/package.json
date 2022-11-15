@@ -110,7 +110,15 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/src/phoneNumbersClientContext.ts",
+        "path": "src/generated/src/phoneNumbersClient.ts",
+        "prefix": "packageDetails"
+      },
+      {
+        "path": "src/generated/src/tracing.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/generated/src/siprouting/sipRoutingClientContext.ts",
         "prefix": "packageDetails"
       },
       {
@@ -119,6 +127,10 @@
       },
       {
         "path": "swagger/README.md",
+        "prefix": "package-version"
+      },
+      {
+        "path": "swagger/README-SipRouting.md",
         "prefix": "package-version"
       }
     ]

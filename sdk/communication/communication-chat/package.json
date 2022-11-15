@@ -118,8 +118,12 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/src/chatApiClientContext.ts",
+        "path": "src/generated/src/chatApiClient.ts",
         "prefix": "packageDetails"
+      },
+      {
+        "path": "src/generated/src/tracing.ts",
+        "prefix": "packageVersion"
       },
       {
         "path": "swagger/README.md",

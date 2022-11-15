@@ -116,8 +116,12 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/src/smsApiClientContext.ts",
+        "path": "src/generated/src/smsApiClient.ts",
         "prefix": "packageDetails"
+      },
+      {
+        "path": "src/generated/src/tracing.ts",
+        "prefix": "packageVersion"
       },
       {
         "path": "src/constants.ts",
