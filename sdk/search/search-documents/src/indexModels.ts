@@ -793,11 +793,11 @@ type SearchPick<T extends object, Paths extends SelectFields<T>> =
     // at all, only the display string of the type.
   };
 
-export type TResult<Model extends object, Fields extends SelectFields<Model>> =
+export type NarrowedModel<Model extends object, Fields extends SelectFields<Model>> =
   // Avoid calculating the type if every field is specified
   SelectFields<Model> extends Fields ? Model : SearchPick<Model, Fields>;
 
-export type TSuggestResult<Model extends object, Fields extends SelectFields<Model> | null> =
+export type SuggestNarrowedModel<Model extends object, Fields extends SelectFields<Model> | null> =
   // null represents the default case (no fields specified as selected)
   null extends Fields
     ? // Filter nullable (i.e. non-key) fields from the model, as they're not returned by the service by default
@@ -811,6 +811,6 @@ export type TSuggestResult<Model extends object, Fields extends SelectFields<Mod
       }
     : // Fields isn't narrowed to exclude null by the first condition, so it needs to be narrowed here
     Fields extends SelectFields<Model>
-    ? TResult<Model, Fields>
+    ? NarrowedModel<Model, Fields>
     : // Unreachable by construction
       never;
