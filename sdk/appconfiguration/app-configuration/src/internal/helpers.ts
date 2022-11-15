@@ -20,6 +20,7 @@ import {
   secretReferenceContentType,
 } from "../secretReference";
 import { isDefined } from "@azure/core-util";
+import { logger } from "../logger";
 
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
@@ -53,6 +54,7 @@ export function checkAndFormatIfAndIfNoneMatch(
   options: HttpOnlyIfChangedField & HttpOnlyIfUnchangedField
 ): { ifMatch: string | undefined; ifNoneMatch: string | undefined } {
   if (options.onlyIfChanged && options.onlyIfUnchanged) {
+    logger.error("onlyIfChanged and onlyIfUnchanged are both specified", options.onlyIfChanged, options.onlyIfUnchanged);
     throw new Error("onlyIfChanged and onlyIfUnchanged are mutually-exclusive");
   }
 
@@ -122,6 +124,7 @@ export function extractAfterTokenFromNextLink(nextLink: string): string {
   const afterToken = searchParams.get("after");
 
   if (afterToken == null || Array.isArray(afterToken)) {
+    logger.error("Invalid nextLink - invalid after token", afterToken, Array.isArray(afterToken));
     throw new Error("Invalid nextLink - invalid after token");
   }
 
@@ -223,6 +226,7 @@ export function serializeAsConfigurationSettingParam(
   } catch (error: any) {
     return setting as ConfigurationSettingParam;
   }
+  logger.error("Unable to serialize to a configuration setting", setting);
   throw new TypeError(
     `Unable to serialize the setting with key "${setting.key}" as a configuration setting`
   );
