@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { NetworkConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,13 +19,14 @@ import {
   NetworkConnection,
   NetworkConnectionsListBySubscriptionNextOptionalParams,
   NetworkConnectionsListBySubscriptionOptionalParams,
+  NetworkConnectionsListBySubscriptionResponse,
   NetworkConnectionsListByResourceGroupNextOptionalParams,
   NetworkConnectionsListByResourceGroupOptionalParams,
+  NetworkConnectionsListByResourceGroupResponse,
   HealthCheckStatusDetails,
   NetworkConnectionsListHealthDetailsNextOptionalParams,
   NetworkConnectionsListHealthDetailsOptionalParams,
-  NetworkConnectionsListBySubscriptionResponse,
-  NetworkConnectionsListByResourceGroupResponse,
+  NetworkConnectionsListHealthDetailsResponse,
   NetworkConnectionsGetOptionalParams,
   NetworkConnectionsGetResponse,
   NetworkConnectionsCreateOrUpdateOptionalParams,
@@ -33,7 +35,6 @@ import {
   NetworkConnectionsUpdateOptionalParams,
   NetworkConnectionsUpdateResponse,
   NetworkConnectionsDeleteOptionalParams,
-  NetworkConnectionsListHealthDetailsResponse,
   NetworkConnectionsGetHealthDetailsOptionalParams,
   NetworkConnectionsGetHealthDetailsResponse,
   NetworkConnectionsRunHealthChecksOptionalParams,
@@ -70,22 +71,34 @@ export class NetworkConnectionsImpl implements NetworkConnections {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: NetworkConnectionsListBySubscriptionOptionalParams
+    options?: NetworkConnectionsListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetworkConnection[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: NetworkConnectionsListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -99,7 +112,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * Lists network connections in a resource group
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -114,19 +127,33 @@ export class NetworkConnectionsImpl implements NetworkConnections {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: NetworkConnectionsListByResourceGroupOptionalParams
+    options?: NetworkConnectionsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetworkConnection[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: NetworkConnectionsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -134,7 +161,9 @@ export class NetworkConnectionsImpl implements NetworkConnections {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -152,7 +181,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * Lists health check status details
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param options The options parameters.
    */
@@ -173,11 +202,15 @@ export class NetworkConnectionsImpl implements NetworkConnections {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listHealthDetailsPagingPage(
           resourceGroupName,
           networkConnectionName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -186,15 +219,22 @@ export class NetworkConnectionsImpl implements NetworkConnections {
   private async *listHealthDetailsPagingPage(
     resourceGroupName: string,
     networkConnectionName: string,
-    options?: NetworkConnectionsListHealthDetailsOptionalParams
+    options?: NetworkConnectionsListHealthDetailsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<HealthCheckStatusDetails[]> {
-    let result = await this._listHealthDetails(
-      resourceGroupName,
-      networkConnectionName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: NetworkConnectionsListHealthDetailsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listHealthDetails(
+        resourceGroupName,
+        networkConnectionName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listHealthDetailsNext(
         resourceGroupName,
@@ -203,7 +243,9 @@ export class NetworkConnectionsImpl implements NetworkConnections {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -236,7 +278,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * Lists network connections in a resource group
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -251,7 +293,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * Gets a network connection resource
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param options The options parameters.
    */
@@ -268,7 +310,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * Creates or updates a Network Connections resource
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param body Represents network connection
    * @param options The options parameters.
@@ -339,7 +381,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * Creates or updates a Network Connections resource
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param body Represents network connection
    * @param options The options parameters.
@@ -361,7 +403,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * Partially updates a Network Connection
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param body Represents network connection
    * @param options The options parameters.
@@ -432,7 +474,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * Partially updates a Network Connection
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param body Represents network connection
    * @param options The options parameters.
@@ -454,7 +496,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * Deletes a Network Connections resource
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param options The options parameters.
    */
@@ -518,7 +560,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * Deletes a Network Connections resource
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param options The options parameters.
    */
@@ -537,7 +579,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * Lists health check status details
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param options The options parameters.
    */
@@ -554,7 +596,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * Gets health check status details.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param options The options parameters.
    */
@@ -572,7 +614,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
   /**
    * Triggers a new health check run. The execution and health check result can be tracked via the
    * network Connection health check details
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param options The options parameters.
    */
@@ -604,7 +646,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
@@ -621,7 +663,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * ListHealthDetailsNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param nextLink The nextLink from the previous successful call to the ListHealthDetails method.
    * @param options The options parameters.

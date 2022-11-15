@@ -29,6 +29,9 @@
       "path": "sdk/communication/communication-common"
     },
     {
+      "path": "sdk/communication/communication-email"
+    },
+    {
       "name": "communication-identity",
       "path": "sdk/communication/communication-identity"
     },

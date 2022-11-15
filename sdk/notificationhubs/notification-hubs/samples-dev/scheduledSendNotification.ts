@@ -16,9 +16,8 @@
  */
 
 import * as dotenv from "dotenv";
-import { createClientContext } from "@azure/notification-hubs/client";
-import { createAppleNotification } from "@azure/notification-hubs/models/notification";
-import { scheduleNotification } from "@azure/notification-hubs/client/scheduleNotification";
+import { createClientContext, scheduleNotification } from "@azure/notification-hubs/api";
+import { createAppleNotification } from "@azure/notification-hubs/models";
 
 // Load the .env file if it exists
 dotenv.config();
@@ -45,7 +44,7 @@ async function main() {
   const scheduledTime = new Date(Date.now() + 8 * 60 * 60 * 1000);
 
   const result = await scheduleNotification(context, scheduledTime, notification, {
-    tags: tagExpression,
+    tagExpression,
   });
 
   console.log(`Scheduled send Tracking ID: ${result.trackingId}`);

@@ -1723,6 +1723,152 @@ describe("msrest", function () {
 
         assert.deepEqual(result, { encoded: true, content: "dir%EF%BF%BE0166562954291707607" });
       });
+
+      it("should handle xmlIsMsText flag with customized XML_CHARKEY", function () {
+        const stringEncoded: msRest.CompositeMapper = {
+          serializedName: "StringEncoded",
+          type: {
+            name: "Composite",
+            className: "StringEncoded",
+            modelProperties: {
+              encoded: {
+                serializedName: "Encoded",
+                xmlName: "Encoded",
+                xmlIsAttribute: true,
+                type: {
+                  name: "Boolean",
+                },
+              },
+              content: {
+                serializedName: "content",
+                xmlName: "content",
+                xmlIsMsText: true,
+                type: {
+                  name: "String",
+                },
+              },
+            },
+          },
+        };
+
+        const mappers = {
+          StringEncoded: stringEncoded,
+        };
+        const serializer = new msRest.Serializer(mappers, true);
+        const result: any = serializer.deserialize(
+          stringEncoded,
+          { $: { Encoded: true }, "#": "dir%EF%BF%BE0166562954291707607" },
+          "mockedStringEncoded",
+          {
+            xmlCharKey: "#",
+          }
+        );
+
+        assert.deepEqual(result, { encoded: true, content: "dir%EF%BF%BE0166562954291707607" });
+      });
+
+      it("should handle xmlIsMsText flag for degenerated string case", function () {
+        const stringEncoded: msRest.CompositeMapper = {
+          serializedName: "StringEncoded",
+          type: {
+            name: "Composite",
+            className: "StringEncoded",
+            modelProperties: {
+              encoded: {
+                serializedName: "Encoded",
+                xmlName: "Encoded",
+                xmlIsAttribute: true,
+                type: {
+                  name: "Boolean",
+                },
+              },
+              content: {
+                serializedName: "content",
+                xmlName: "content",
+                xmlIsMsText: true,
+                type: {
+                  name: "String",
+                },
+              },
+            },
+          },
+        };
+
+        const mappers = {
+          StringEncoded: stringEncoded,
+        };
+        const serializer = new msRest.Serializer(mappers, true);
+        const result: any = serializer.deserialize(
+          stringEncoded,
+          "justastring",
+          "mockedStringEncoded"
+        );
+
+        assert.equal(result.content, "justastring");
+        assert.equal(result.encoded, undefined);
+      });
+
+      it("should not copy extra properties when xmlName is different from serializedName", function () {
+        const DirectoryItem: msRest.CompositeMapper = {
+          serializedName: "DirectoryItem",
+          xmlName: "Directory",
+          type: {
+            name: "Composite",
+            className: "DirectoryItem",
+            modelProperties: {
+              name: {
+                serializedName: "Name",
+                xmlName: "Name",
+                type: {
+                  name: "String",
+                },
+              },
+            },
+          },
+        };
+
+        const FilesAndDirectoriesListSegment: msRest.CompositeMapper = {
+          serializedName: "FilesAndDirectoriesListSegment",
+          xmlName: "Entries",
+          type: {
+            name: "Composite",
+            className: "FilesAndDirectoriesListSegment",
+            modelProperties: {
+              directoryItems: {
+                serializedName: "DirectoryItems",
+                required: true,
+                xmlName: "DirectoryItems",
+                xmlElementName: "Directory",
+                type: {
+                  name: "Sequence",
+                  element: {
+                    type: {
+                      name: "Composite",
+                      className: "DirectoryItem",
+                    },
+                  },
+                },
+              },
+            },
+          },
+        };
+        const mappers = {
+          FilesAndDirectoriesListSegment,
+          DirectoryItem,
+        };
+        const serializer = new msRest.Serializer(mappers, true);
+
+        const value = {
+          Directory: [{ Name: "d1" }, { Name: "d2" }],
+        };
+        const result: any = serializer.deserialize(
+          FilesAndDirectoriesListSegment,
+          value,
+          "mockedEntries"
+        );
+
+        assert.deepEqual(result, { directoryItems: [{ name: "d1" }, { name: "d2" }] });
+      });
     });
 
     describe("polymorphic composite type array", () => {

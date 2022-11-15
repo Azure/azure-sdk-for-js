@@ -107,6 +107,15 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         })
       ));
 
+    it("allows multiple consecutive slashes at the start of the path", async () => {
+      await recorder.start({ envSetupForPlayback: {} });
+      await makeRequestAndVerifyResponse(
+        client,
+        { path: "///multiple_slashes", method: "GET" },
+        { val: "abc" }
+      );
+    });
+
     // Matchers
     describe("Matchers", () => {
       it("BodilessMatcher", async () => {

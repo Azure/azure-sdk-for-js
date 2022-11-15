@@ -1,6 +1,6 @@
 # Release History
 
-## 7.7.3 (Unreleased)
+## 7.7.4 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 7.7.3 (2022-11-08)
+
+### Bugs Fixed
+
+- Fix React-Native bundling issue by adding a `react-native` mapping to ESM entrypoint file. (PR #23524)[https://github.com/Azure/azure-sdk-for-js/pull/23524]
 
 ## 7.7.2 (2022-10-11)
 
