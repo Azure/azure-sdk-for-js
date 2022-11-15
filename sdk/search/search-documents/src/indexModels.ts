@@ -801,6 +801,10 @@ type SearchPick<T extends object, Paths extends SelectFields<T>> =
     // at all, only the display string of the type.
   };
 
+type ExtractDocumentKey<Model> = {
+  [K in keyof Model as Model[K] extends string | undefined ? K : never]: Model[K];
+};
+
 type NarrowedModel<Model extends object, Fields extends SelectFields<Model>> =
   // Avoid calculating the type if every field is specified
   SelectFields<Model> extends Fields ? Model : SearchPick<Model, Fields>;
@@ -808,15 +812,11 @@ type NarrowedModel<Model extends object, Fields extends SelectFields<Model>> =
 type SuggestNarrowedModel<Model extends object, Fields extends SelectFields<Model> | null> =
   // null represents the default case (no fields specified as selected)
   null extends Fields
-    ? // Filter nullable (i.e. non-key) fields from the model, as they're not returned by the service by default
-      {
-        [K in keyof Model as Extract<Model[K], null | undefined> extends never
-          ? // Keys must have string type
-            Model[K] extends string
-            ? K
-            : never
-          : never]: Model[K];
-      }
+    ? // Filter nullable (i.e. non-key) properties from the model, as they're not returned by the service by default
+      keyof ExtractDocumentKey<Model> extends never
+      ? // Return the original model if none of the properties are non-nullable
+        Model
+      : ExtractDocumentKey<Model>
     : // Fields isn't narrowed to exclude null by the first condition, so it needs to be narrowed here
     Fields extends SelectFields<Model>
     ? NarrowedModel<Model, Fields>
