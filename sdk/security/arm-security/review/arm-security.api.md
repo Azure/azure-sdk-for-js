@@ -551,6 +551,68 @@ export interface AmqpD2CMessagesNotInAllowedRange extends TimeWindowCustomAlertR
 }
 
 // @public
+export interface APICollection {
+    get(resourceGroupName: string, serviceName: string, apiCollectionId: string, options?: APICollectionGetOptionalParams): Promise<APICollectionGetResponse>;
+    list(resourceGroupName: string, serviceName: string, options?: APICollectionListOptionalParams): PagedAsyncIterableIterator<ApiCollectionResponse>;
+}
+
+// @public
+export interface APICollectionGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type APICollectionGetResponse = ApiCollectionResponse;
+
+// @public
+export interface APICollectionListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type APICollectionListNextResponse = ApiCollectionResponseList;
+
+// @public
+export interface APICollectionListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type APICollectionListResponse = ApiCollectionResponseList;
+
+// @public
+export interface APICollectionOffboarding {
+    delete(resourceGroupName: string, serviceName: string, apiCollectionId: string, options?: APICollectionOffboardingDeleteOptionalParams): Promise<void>;
+}
+
+// @public
+export interface APICollectionOffboardingDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface APICollectionOnboarding {
+    create(resourceGroupName: string, serviceName: string, apiCollectionId: string, options?: APICollectionOnboardingCreateOptionalParams): Promise<APICollectionOnboardingCreateResponse>;
+}
+
+// @public
+export interface APICollectionOnboardingCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type APICollectionOnboardingCreateResponse = ApiCollectionResponse;
+
+// @public
+export interface ApiCollectionResponse extends Resource {
+    additionalData?: {
+        [propertyName: string]: string;
+    };
+    displayName?: string;
+}
+
+// @public
+export interface ApiCollectionResponseList {
+    readonly nextLink?: string;
+    readonly value?: ApiCollectionResponse[];
+}
+
+// @public
 export interface Application extends Resource {
     conditionSets?: Record<string, unknown>[];
     description?: string;
@@ -1940,6 +2002,20 @@ export type EnvironmentType = string;
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -4702,6 +4778,12 @@ export class SecurityCenter extends coreClient.ServiceClient {
     alertsSuppressionRules: AlertsSuppressionRules;
     // (undocumented)
     allowedConnections: AllowedConnections;
+    // (undocumented)
+    aPICollection: APICollection;
+    // (undocumented)
+    aPICollectionOffboarding: APICollectionOffboarding;
+    // (undocumented)
+    aPICollectionOnboarding: APICollectionOnboarding;
     // (undocumented)
     applicationOperations: ApplicationOperations;
     // (undocumented)
