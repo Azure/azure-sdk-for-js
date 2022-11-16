@@ -1395,6 +1395,9 @@ export interface ForwardProxy {
 export type ForwardProxyConvention = "NoProxy" | "Standard" | "Custom";
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GitHub {
     enabled?: boolean;
     login?: LoginScopes;
