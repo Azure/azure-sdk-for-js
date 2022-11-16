@@ -259,11 +259,11 @@ You may also want to create API View when submitting a PR. You can do it easily 
 
 # Prepare PR
 
-RLC can only help you generate SDK code, there is something you need to update manually:
+Cadl emitter can only help you generate SDK code, there is something you need to update manually:
 
 ## CHANGELOG.md
 
-CHANGELOG can help customers know the change of new version quicky, so you need to update the it according to the change of this new version. It is also necessary to update release date like `1.0.0-beta.1 (2022-11-11)`(rough time is fine and no need to be very accurate).
+CHANGELOG can help customers know the change of new version quickly, so you need to update the it according to the change of this new version. It is also necessary to update release date like `1.0.0-beta.1 (2022-11-11)`(rough time is fine and no need to be very accurate).
 
 ## Version Number
 
