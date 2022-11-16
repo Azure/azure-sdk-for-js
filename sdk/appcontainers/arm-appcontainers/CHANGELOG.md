@@ -2,6 +2,10 @@
     
 ## 2.0.0-beta.2 (2022-11-15)
     
+  - Bugs Fixed
+
+## 2.0.0-beta.1 (2022-10-12)
+
 **Features**
 
   - Added operation group AvailableWorkloadProfiles
