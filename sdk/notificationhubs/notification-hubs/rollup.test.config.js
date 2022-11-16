@@ -6,6 +6,7 @@ import nodeResolve from "@rollup/plugin-node-resolve";
 import replace from "@rollup/plugin-replace";
 import shim from "rollup-plugin-shim";
 import sourcemaps from "rollup-plugin-sourcemaps";
+import typescript from "@rollup/plugin-typescript";
 import { makeConfig, makeBrowserTestConfig } from "@azure/dev-tool/shared-config/rollup";
 
 const inputs = makeConfig(require("./package.json"));
@@ -52,6 +53,9 @@ function makeBrowserTestConfigPatch() {
       exclude: ["./**/package.json"],
     }),
     json(),
+    typescript({
+      exclude: ["test/**/*.spec.ts"]
+    })
   ];
 
   return config;

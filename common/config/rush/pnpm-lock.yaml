@@ -2114,6 +2114,26 @@ packages:
       rollup: 2.79.1
     dev: false
 
+  /@rollup/plugin-typescript/9.0.2_2134b95e5f084c6888166b77c1c1e2e1:
+    resolution: {integrity: sha512-/sS93vmHUMjzDUsl5scNQr1mUlNE1QjBBvOhmRwJCH8k2RRhDIm3c977B3wdu3t3Ap17W6dDeXP3hj1P1Un1bA==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^2.14.0||^3.0.0
+      tslib: '*'
+      typescript: '>=3.7.0'
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+      tslib:
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': 5.0.2_rollup@2.79.1
+      resolve: 1.22.1
+      rollup: 2.79.1
+      tslib: 2.4.1
+      typescript: 4.8.4
+    dev: false
+
   /@rollup/plugin-virtual/2.1.0_rollup@2.79.1:
     resolution: {integrity: sha512-CPPAtlKT53HFqC8jFHb/V5WErpU8Hrq2TyCR0A7kPQMlF2wNUf0o1xuAc+Qxj8NCZM0Z3Yvl+FbUXfJjVWqDwA==}
     engines: {node: '>=8.0.0'}
@@ -2155,6 +2175,21 @@ packages:
     dependencies:
       '@types/estree': 0.0.39
       estree-walker: 1.0.1
+      picomatch: 2.3.1
+      rollup: 2.79.1
+    dev: false
+
+  /@rollup/pluginutils/5.0.2_rollup@2.79.1:
+    resolution: {integrity: sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      '@types/estree': 1.0.0
+      estree-walker: 2.0.2
       picomatch: 2.3.1
       rollup: 2.79.1
     dev: false
@@ -3910,7 +3945,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221113
+      typescript: 5.0.0-dev.20221114
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8915,8 +8950,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221113:
-    resolution: {integrity: sha512-iNVo0p5OwpkxLl3hzf7zLw5fjcQnrFIgHwPh2BZgZOofcaFNxj42SOhR/OoZMYSbqkkRFrOi1gzVcsgw6ehDFg==}
+  /typescript/5.0.0-dev.20221114:
+    resolution: {integrity: sha512-lMcxw0oxEhQR0HIZyxhmCiwFqXfPQGtakbc+792/hmPP/pyICuaUUIKyY/7Cl6QPGTplHcGjDPEVbVE46gPVrA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10730,7 +10765,7 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-BtovOUqCBkiF8Hb+3XtHYg8u9iVDRUcFlyU5GM2JidX8OD2mdSiNm0I3csgcCxNAvOGbvYL8EEDFvsi1afsEyA==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-itk/e/Xa/k+K6/Y1RHs4eFBE4U1YJCZqd8RrgFJv1kfS28gCbbC85CMt7+JP5gXsSokL2R8HfrHy/Pu6OhDYeA==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
@@ -18087,11 +18122,12 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-z4KVUip/ZAOBi/HzpSTy3NsIqgYx0wTy50M4KPlzz9lBt2NeyQ0gzGB24OENTpHfZ6pt1dujZvI2lkfypCNplQ==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-KnDyGR1ko/XHdJb7RQ+tN5VpYd7MYv7tMyqE+NeTMG4mXsZVjoHNWz1YVPZjHrobKTQLjRe8npk1xpUiTspkXg==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.33.5
+      '@rollup/plugin-typescript': 9.0.2_2134b95e5f084c6888166b77c1c1e2e1
       '@types/chai': 4.3.3
       '@types/mocha': 10.0.0
       '@types/node': 14.18.33
