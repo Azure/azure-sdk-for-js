@@ -1,0 +1,29 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/test-runs/abcde?api-version=2022-11-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-load-testing-rest/1.0.0 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.19045)",
+        "x-ms-client-request-id": "a10c94f2-762f-4ec6-8f13-c239eaec0d0a"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Connection": "keep-alive",
+        "Date": "Wed, 16 Nov 2022 13:16:28 GMT",
+        "mise-correlation-id": "5d8eae22-0211-4cb5-9e7a-f56287dbc86f",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "7485edc9-d2fb-4e39-9c3d-406ab6e4f46d"
+      },
+      "ResponseBody": "TmF2aWdhdGUgdG8gL2hlYWx0aCB0byBzZWUgdGhlIGhlYWx0aCBzdGF0dXMu"
+    }
+  ],
+  "Variables": {}
+}

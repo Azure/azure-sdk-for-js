@@ -1,25 +1,22 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/tests/abc?api-version=2022-11-01",
+      "RequestUri": "https://endpoint/test-runs/abcde?api-version=2022-11-01",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "113",
+        "Content-Length": "59",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.19045)",
-        "x-ms-client-request-id": "78a2740e-9778-4210-9291-2004b595cf26"
+        "x-ms-client-request-id": "c014e92c-f815-41cf-b571-5458cbf6ab0d"
       },
       "RequestBody": {
-        "displayName": "sample_test",
-        "description": "",
-        "loadTestConfiguration": {
-          "engineInstances": 1,
-          "splitAllCSVs": false
-        }
+        "testId": "abc",
+        "displayName": "sample_testrun",
+        "vusers": 10
       },
       "StatusCode": 405,
       "ResponseHeaders": {
@@ -27,10 +24,10 @@
         "Connection": "keep-alive",
         "Content-Length": "0",
         "Date": "Wed, 16 Nov 2022 13:16:28 GMT",
-        "mise-correlation-id": "d8e1e8aa-bc62-4fc3-b00a-fc1e1af4c0b4",
+        "mise-correlation-id": "3247b7c8-0d27-4aad-aba5-16f2e8348b9a",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "7eb47496-c322-4a76-baa4-30a80fe76394"
+        "x-ms-correlation-request-id": "eee10b2f-355b-46dc-a960-264cf94a23c0"
       },
       "ResponseBody": null
     }

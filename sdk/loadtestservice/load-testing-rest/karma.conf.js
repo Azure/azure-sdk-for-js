@@ -55,11 +55,12 @@ module.exports = function(config) {
 
     envPreprocessor: [
       "TEST_MODE",
-      "ENDPOINT",
+      "LOADTESTSERVICE_ENDPOINT",
       "AZURE_CLIENT_SECRET",
       "AZURE_CLIENT_ID",
       "AZURE_TENANT_ID",
-      "SUBSCRIPTION_ID"
+      "SUBSCRIPTION_ID",
+      "RECORDINGS_RELATIVE_PATH",
     ],
 
     // test results reporter to use
@@ -107,7 +108,7 @@ module.exports = function(config) {
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: "ChromeHeadless",
-        flags: ["--no-sandbox", "--disable-web-security"]
+        flags: ["--no-sandbox", "--disable-web-security", "--lang=en-US"]
       }
     },
 
