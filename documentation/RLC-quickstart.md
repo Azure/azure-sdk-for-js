@@ -50,6 +50,7 @@ We are working on to automatically generate everything right now, but currently 
     ```yaml
     emitters:
       "@azure-tools/cadl-typescript":
+        title: Farmbeats
         generateMetadata: true
         generateTest: true
         packageDetails:
@@ -58,7 +59,7 @@ We are working on to automatically generate everything right now, but currently 
           version: "1.0.0-beta.1"
     ```
 
-    Here, we need to replace the value in `name`,`description`, `version`  in `packageDetails` to **your own service's** package details. Also we have some other options, you could refer to [the link](https://github.com/Azure/autorest.typescript/tree/main/packages/cadl-typescript#emitter-options) for more details.
+    Here, we need to replace the value in `name`,`description`, `version` in `packageDetails` to **your own service's** package details. Also we have some other options, you could refer to [the link](https://github.com/Azure/autorest.typescript/tree/main/packages/cadl-typescript#emitter-options) for more details.
 
     ---  
     **NOTE**
