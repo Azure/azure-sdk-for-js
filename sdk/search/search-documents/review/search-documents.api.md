@@ -2045,7 +2045,8 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
     deleteDocuments(documents: Model[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     deleteDocuments(keyName: keyof Model, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
-    getDocument<Fields extends SelectFields<Model>>(key: string, options?: GetDocumentOptions<Model, Fields>): Promise<Model>;
+    // Warning: (ae-forgotten-export) The symbol "NarrowedModel" needs to be exported by the entry point index.d.ts
+    getDocument<Fields extends SelectFields<Model>>(key: string, options?: GetDocumentOptions<Model, Fields>): Promise<NarrowedModel<Model, Fields>>;
     getDocumentsCount(options?: CountDocumentsOptions): Promise<number>;
     indexDocuments(batch: IndexDocumentsBatch<Model>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly indexName: string;
@@ -2803,8 +2804,7 @@ export type WordDelimiterTokenFilter = BaseTokenFilter & {
 
 // Warnings were encountered during analysis:
 //
-// src/indexModels.ts:493:3 - (ae-forgotten-export) The symbol "NarrowedModel" needs to be exported by the entry point index.d.ts
-// src/indexModels.ts:625:3 - (ae-forgotten-export) The symbol "SuggestNarrowedModel" needs to be exported by the entry point index.d.ts
+// src/indexModels.ts:626:3 - (ae-forgotten-export) The symbol "SuggestNarrowedModel" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

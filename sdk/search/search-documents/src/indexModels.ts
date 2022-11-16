@@ -817,7 +817,7 @@ type ExtractDocumentKey<Model> = {
   [K in keyof Model as Model[K] extends string | undefined ? K : never]: Model[K];
 };
 
-type NarrowedModel<Model extends object, Fields extends SelectFields<Model>> =
+export type NarrowedModel<Model extends object, Fields extends SelectFields<Model>> =
   // Avoid calculating the type if every field is specified
   SelectFields<Model> extends Fields ? Model : SearchPick<Model, Fields>;
 

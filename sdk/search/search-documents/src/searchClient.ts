@@ -37,6 +37,7 @@ import {
   SuggestDocumentsResult,
   SuggestOptions,
   UploadDocumentsOptions,
+  NarrowedModel,
 } from "./indexModels";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
@@ -559,12 +560,11 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
   public async getDocument<Fields extends SelectFields<Model>>(
     key: string,
     options: GetDocumentOptions<Model, Fields> = {}
-  ): Promise<Model> {
-    //TODO: Narrow result type for next major version
+  ): Promise<NarrowedModel<Model, Fields>> {
     const { span, updatedOptions } = createSpan("SearchClient-getDocument", options);
     try {
       const result = await this.client.documents.get(key, updatedOptions);
-      return deserialize<Model>(result);
+      return deserialize<NarrowedModel<Model, Fields>>(result);
     } catch (e: any) {
       span.setStatus({
         status: "error",
