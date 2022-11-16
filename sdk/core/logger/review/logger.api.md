@@ -34,12 +34,17 @@ export interface Debugger {
     namespace: string;
 }
 
+// @public (undocumented)
+export function getIncludesDate(): boolean;
+
 // @public
 export function getLogLevel(): AzureLogLevel | undefined;
 
+// @public (undocumented)
+export function setIncludesDate(includesDate: boolean): void;
+
 // @public
 export function setLogLevel(level?: AzureLogLevel): void;
-
 
 // (No @packageDocumentation comment for this package)
 

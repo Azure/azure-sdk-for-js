@@ -3,6 +3,24 @@
 
 import { log } from "./log";
 
+
+let includesDateInLog: boolean = false;
+
+/**
+ * Specifies whether to prefix logs with date strings (ISO format).
+ * @param includesDate - true to include date string as prefix; by default it is not included.
+ */
+export function setIncludesDate(includesDate: boolean) {
+  includesDateInLog = includesDate;
+}
+
+/**
+ * Retrieves current setting of whether to prefix logs with date string.
+ */
+export function getIncludesDate() {
+  return includesDateInLog;
+}
+
 /**
  * A simple mechanism for enabling logging.
  * Intended to mimic the publicly available `debug` package.
@@ -147,6 +165,11 @@ function createDebugger(namespace: string): Debugger {
     if (args.length > 0) {
       args[0] = `${namespace} ${args[0]}`;
     }
+
+    if (getIncludesDate()) {
+      args[0] = `${new Date().toISOString()} ${args[0]}`;
+    }
+
     newDebugger.log(...args);
   }
 

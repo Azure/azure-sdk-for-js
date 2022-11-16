@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import debug, { Debugger } from "./debug";
-export { Debugger } from "./debug";
+export { Debugger, getIncludesDate, setIncludesDate } from "./debug";
 
 const registeredLoggers = new Set<AzureDebugger>();
 const logLevelFromEnv =
