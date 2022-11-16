@@ -134,7 +134,7 @@ Add a `src` directory at the root of the project and add the following files
 
 ### Add dependencies
 
-We need to JavaScript Client SDK libraries for Event Hubs and Service Bus as dependencies.
+We need to add JavaScript Client SDK libraries for Event Hubs and Service Bus as dependencies.
 We use `@babel/plugin-proposal-async-generator-functions` to help transform async iterator usage.
 We also use `babel-plugin-inline-dotenv` to help load secrets from our `.env` file while developing.
 
@@ -170,7 +170,7 @@ EVENTHUB_NAME=
 CONSUMER_GROUP_NAME=
 ```
 
-**Note**: if you update the .env file again, you would need to clear expo cache and rebuild. It can be done by passing `-c` to the start command, for example, in `package.json`
+**Note**: Whenever you update the .env file again, you need to clear expo cache and rebuild. It can be done by passing `-c` to the start command, for example, in `package.json`
 
 ```diff
 -    "android": "expo start --android",
@@ -179,7 +179,7 @@ CONSUMER_GROUP_NAME=
 
 ### Add polyfills for NodeJS modules
 
-Our dependency `rhea` depends a few NodeJS modules. We need to provide polyfills for them. In this sample, We will be using `node-libs-react-native` and `react-native-get-random-values`. **Note** that it may be possible to slim the polyfills further as the SDK really only needs `process`, `Buffer` at runtime.
+Our dependency `rhea` depends a few NodeJS modules. We need to provide polyfills for them. In this sample, We will be using `node-libs-react-native` and `react-native-get-random-values`. **Note** that it may be possible to slim the polyfills further as the SDK really only needs `process`, and `Buffer` at runtime.
 
 ```bash
 yarn add node-libs-react-native react-native-get-random-values
