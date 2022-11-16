@@ -55,5 +55,4 @@ if (isNode) {
       assert.equal(registration.registrationId, registrationId);
     });
   });
-
 }

@@ -54,8 +54,8 @@ function makeBrowserTestConfigPatch() {
     }),
     json(),
     typescript({
-      exclude: ["test/**/*.spec.ts"]
-    })
+      exclude: ["test/**/*.spec.ts"],
+    }),
   ];
 
   return config;

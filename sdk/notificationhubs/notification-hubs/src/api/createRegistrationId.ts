@@ -4,6 +4,7 @@
 import { createRequest, sendRequest } from "./internal/_client.js";
 import { NotificationHubsClientContext } from "./index.js";
 import { OperationOptions } from "@azure/core-client";
+import { RestError } from "@azure/core-rest-pipeline";
 import { tracingClient } from "../utils/tracing.js";
 
 const OPERATION_NAME = "createRegistrationId";
@@ -33,6 +34,13 @@ export function createRegistrationId(
 
       // In the form: https://{namespace}.servicebus.windows.net/{NotificationHub}/registrations/<registrationId>
       const locationHeader = response.headers.get("Location");
+      if (!locationHeader || !locationHeader.startsWith("https://")) {
+        throw new RestError(`Location header ${locationHeader} is an invalid URL`, {
+          statusCode: 500,
+          request,
+          response,
+        });
+      }
       const locationUrl = new URL(locationHeader!);
       const registrationId = locationUrl.pathname.split("/")[3];
 
