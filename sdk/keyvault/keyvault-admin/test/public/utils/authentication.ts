@@ -86,10 +86,14 @@ export async function authenticate(
     credential,
     recorder.configureClientOptions({ serviceVersion, disableChallengeResourceVerification: true })
   );
-  const settingsClient = new KeyVaultSettingsClient(keyVaultHsmUrl, credential, {
-    serviceVersion,
-    disableChallengeResourceVerification: true,
-  });
+  const settingsClient = new KeyVaultSettingsClient(
+    keyVaultHsmUrl,
+    credential,
+    recorder.configureClientOptions({
+      serviceVersion,
+      disableChallengeResourceVerification: true,
+    })
+  );
 
   return {
     recorder,
