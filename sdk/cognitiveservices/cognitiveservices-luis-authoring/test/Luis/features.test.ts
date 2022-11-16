@@ -10,8 +10,8 @@ import { LUISAuthoringClient } from "../../src/lUISAuthoringClient";
 import { BaseTest } from "../baseTest";
 
 
-describe("Features Module Functionality", () => {
-  it('should list features', async () => {
+describe("Features Module Functionality", function () {
+  it('should list features', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       await fs.readFile("test/SessionRecords/ImportApp.json", "utf-8", async (err, data) => {
         if (err) {
@@ -27,7 +27,7 @@ describe("Features Module Functionality", () => {
     });
   });
 
-    it('should add required feature', async () => {
+    it('should add required feature', async function () {
       await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
         var entityId = await client.model.addEntity(BaseTest.GlobalAppId, BaseTest.GlobalVersionId, {name: "flat entity"});
         var featureEntityId = await client.model.addEntity(BaseTest.GlobalAppId, BaseTest.GlobalVersionId, {name: "feature entity"});

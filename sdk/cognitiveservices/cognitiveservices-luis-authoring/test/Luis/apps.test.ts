@@ -12,9 +12,9 @@ import { AppsAddResponse } from "../../src/models";
 const trainedAppID = BaseTest.GlobalAppId;
 let testingApp: AppsAddResponse; 
 
-describe("Apps Module Functionality Tests", () => {
+describe("Apps Module Functionality Tests", function () {
 
-  before('add new app to test on', async () => {
+  before('add new app to test on', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
     testingApp = await client.apps.add({
         name: "Existing LUIS App",
@@ -26,13 +26,13 @@ describe("Apps Module Functionality Tests", () => {
     });
   });
 
-  after('delete testing app', async () => {
+  after('delete testing app', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       await client.apps.deleteMethod(testingApp.body);
     });
   });
 
-  it('should list all luis applications', async () => {
+  it('should list all luis applications', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
      
       const list = await client.apps.list();
@@ -43,7 +43,7 @@ describe("Apps Module Functionality Tests", () => {
     });
   });
 
-  it("should add application", async () => {
+  it("should add application", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const appId = await client.apps.add({
         name: "New LUIS App",
@@ -68,7 +68,7 @@ describe("Apps Module Functionality Tests", () => {
       chai.expect(saved_app.usageScenario).to.eql("IoT");
     });
 
-    it("should get application", async () => {
+    it("should get application", async function () {
       await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       
         let result = await client.apps.get(testingApp.body);
@@ -82,7 +82,7 @@ describe("Apps Module Functionality Tests", () => {
     });
   });
 
-  it("should update application", async () => {
+  it("should update application", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
      
       await client.apps.update(testingApp.body, { name: "LUIS App name updated", description: "LUIS App description updated" });
@@ -94,7 +94,7 @@ describe("Apps Module Functionality Tests", () => {
     });
   });
 
-  it("should delete application", async () => {
+  it("should delete application", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
 
       const appId = await client.apps.add({
@@ -115,7 +115,7 @@ describe("Apps Module Functionality Tests", () => {
     });
   });
 
-  it("should list all endpoints", async () => {
+  it("should list all endpoints", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const result = await client.apps.listEndpoints(testingApp.body);
 
@@ -127,7 +127,7 @@ describe("Apps Module Functionality Tests", () => {
     });
   });
 
-  it("should publish application", async () => {
+  it("should publish application", async function () {
 
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const result = await client.apps.publish(trainedAppID, {
@@ -140,7 +140,7 @@ describe("Apps Module Functionality Tests", () => {
     });
   });
 
-  it("download query logs", async () => {
+  it("download query logs", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
      
       const stream = await client.apps.downloadQueryLogs(testingApp.body);
@@ -150,7 +150,7 @@ describe("Apps Module Functionality Tests", () => {
     });
   });
 
-  it("should get settings", async () => {
+  it("should get settings", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       
 
@@ -161,7 +161,7 @@ describe("Apps Module Functionality Tests", () => {
     });
   });
 
-  it("should update settings", async () => {
+  it("should update settings", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       
       await client.apps.updateSettings(testingApp.body, {
@@ -174,7 +174,7 @@ describe("Apps Module Functionality Tests", () => {
 
   });
 
-  it("should get publish settings", async () => {
+  it("should get publish settings", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       
       const settings = await client.apps.getPublishSettings(testingApp.body);
@@ -186,7 +186,7 @@ describe("Apps Module Functionality Tests", () => {
     });
   });
 
-  it("should update publish settings", async () => {
+  it("should update publish settings", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       
       await client.apps.updatePublishSettings(testingApp.body, {
@@ -203,7 +203,7 @@ describe("Apps Module Functionality Tests", () => {
   });
 
 
-  it("should list domains", async () => {
+  it("should list domains", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const result = await client.apps.listDomains();
       for (let domain of result) {
@@ -212,7 +212,7 @@ describe("Apps Module Functionality Tests", () => {
     });
   });
 
-  it("should list supported cultures", async () => {
+  it("should list supported cultures", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let cultures_map = {
         'en-us': 'English',
@@ -245,7 +245,7 @@ describe("Apps Module Functionality Tests", () => {
     });
   });
 
-  it("should list usage scenarios", async () => {
+  it("should list usage scenarios", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
 
       const result = await client.apps.listUsageScenarios();
@@ -255,7 +255,7 @@ describe("Apps Module Functionality Tests", () => {
     });
   });
 
-  it("should list available custom prebuild domains", async () => {
+  it("should list available custom prebuild domains", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
 
       const result = await client.apps.listAvailableCustomPrebuiltDomains();
@@ -268,7 +268,7 @@ describe("Apps Module Functionality Tests", () => {
     });
   });
 
-  it.skip("should list available custom prebuilt domains for culture", async () => {
+  it.skip("should list available custom prebuilt domains for culture", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let resultsUS = await client.apps.listAvailableCustomPrebuiltDomainsForCulture("en-us");
       let resultsCN = await client.apps.listAvailableCustomPrebuiltDomainsForCulture("zh-cn");
@@ -283,7 +283,7 @@ describe("Apps Module Functionality Tests", () => {
   });
 
 
-  it("should add custom prebuilt application", async () => {
+  it("should add custom prebuilt application", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const appId = await client.apps.addCustomPrebuiltDomain({
         culture: "en-us",

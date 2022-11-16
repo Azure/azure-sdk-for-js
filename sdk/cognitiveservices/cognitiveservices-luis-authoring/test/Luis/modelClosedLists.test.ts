@@ -27,8 +27,8 @@ var closedListSample = {
 };
 
 
-describe("Model Closed Lists Tests", () => {
-  it("should list closed lists", async () => {
+describe("Model Closed Lists Tests", function () {
+  it("should list closed lists", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const listId = await client.model.addClosedList(BaseTest.GlobalAppId, "0.1", closedListSample);
       const result = await client.model.listClosedLists(BaseTest.GlobalAppId, "0.1");
@@ -37,7 +37,7 @@ describe("Model Closed Lists Tests", () => {
     });
   });
 
-  it("should add closed list", async () => {
+  it("should add closed list", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
 
       const listId = await client.model.addClosedList(BaseTest.GlobalAppId, "0.1", closedListSample);
@@ -45,7 +45,7 @@ describe("Model Closed Lists Tests", () => {
       chai.expect(listId).not.to.eql(BaseTest.EmptyId);
     });
   });
-  it("should get closed list", async () => {
+  it("should get closed list", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const listId = await client.model.addClosedList(BaseTest.GlobalAppId, "0.1", closedListSample);
       const result = await client.model.getClosedList(BaseTest.GlobalAppId, "0.1", listId.body);
@@ -55,7 +55,7 @@ describe("Model Closed Lists Tests", () => {
     });
   });
 
-  it("should update closed list", async () => {
+  it("should update closed list", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const listId = await client.model.addClosedList(BaseTest.GlobalAppId, "0.1", closedListSample);
       await client.model.updateClosedList(BaseTest.GlobalAppId, "0.1", listId.body, {
@@ -72,7 +72,7 @@ describe("Model Closed Lists Tests", () => {
     });
   });
 
-  it("should delete closed list", async () => {
+  it("should delete closed list", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const listId = await client.model.addClosedList(BaseTest.GlobalAppId, "0.1", closedListSample);
       await client.model.deleteClosedList(BaseTest.GlobalAppId, "0.1", listId.body);
@@ -81,7 +81,7 @@ describe("Model Closed Lists Tests", () => {
     });
   });
 
-  it("should patch closed list", async () => {
+  it("should patch closed list", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const listId = await client.model.addClosedList(BaseTest.GlobalAppId, "0.1", closedListSample);
       await client.model.patchClosedList(BaseTest.GlobalAppId, "0.1", listId.body, {
@@ -103,7 +103,7 @@ describe("Model Closed Lists Tests", () => {
 
 
 
-  it("should add sublist", async () => {
+  it("should add sublist", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const listId = await client.model.addClosedList(BaseTest.GlobalAppId, "0.1", closedListSample);
       await client.model.addSubList(BaseTest.GlobalAppId, "0.1", listId.body, { canonicalForm: "Texas", list: ["tx", "texas"] });
@@ -114,7 +114,7 @@ describe("Model Closed Lists Tests", () => {
     });
   });
 
-  it("should delete sublist", async () => {
+  it("should delete sublist", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const listId = await client.model.addClosedList(BaseTest.GlobalAppId, "0.1", closedListSample);
       let list = await client.model.getClosedList(BaseTest.GlobalAppId, "0.1", listId.body);
@@ -132,7 +132,7 @@ describe("Model Closed Lists Tests", () => {
     });
   });
 
-  it("should update sublist", async () => {
+  it("should update sublist", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const listId = await client.model.addClosedList(BaseTest.GlobalAppId, "0.1", closedListSample);
       const list = await client.model.getClosedList(BaseTest.GlobalAppId, "0.1", listId.body);

@@ -11,9 +11,9 @@ import { ModelCreatePrebuiltEntityRoleResponse } from "../../src/models";
 
 let entityId :string;
 let roleId:  ModelCreatePrebuiltEntityRoleResponse;
-describe("Prebuilt Entity Role Tests", () => {
+describe("Prebuilt Entity Role Tests", function () {
     
-    beforeEach("add prebuilt entitiy to test", async () => {
+    beforeEach("add prebuilt entitiy to test", async function () {
         await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
             entityId = (await client.model.addPrebuilt(BaseTest.GlobalAppId, "0.1", ["email"]))[0].id;
             roleId = await client.model.createPrebuiltEntityRole(BaseTest.GlobalAppId, "0.1", entityId, { name: "simple role" });
@@ -21,35 +21,35 @@ describe("Prebuilt Entity Role Tests", () => {
         });
     });
 
-    afterEach("delete prebuilt entitiy", async () => {
+    afterEach("delete prebuilt entitiy", async function () {
         await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
             await client.model.deletePrebuilt(BaseTest.GlobalAppId, "0.1", entityId);
         });
     });
 
 
-    it("should add prebuilt entitiy role", async () => {
+    it("should add prebuilt entitiy role", async function () {
         await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
           const roles = await client.model.listPrebuiltEntityRoles(BaseTest.GlobalAppId, "0.1", entityId);
           chai.expect(BaseTest.doesListContain(roles, "name", "simple role")).to.be.true;
         });
     });
 
-    it("should add prebuilt entitiy role", async () => {
+    it("should add prebuilt entitiy role", async function () {
         await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
           const roles = await client.model.listPrebuiltEntityRoles(BaseTest.GlobalAppId, "0.1", entityId);
           chai.expect(BaseTest.doesListContain(roles, "name", "simple role")).to.be.true;
         });
     });
 
-    it("should get prebuilt entity role", async () => {
+    it("should get prebuilt entity role", async function () {
         await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
             const role = await client.model.getPrebuiltEntityRole(BaseTest.GlobalAppId, "0.1", entityId, roleId.body);
           chai.expect(role.name).to.eql("simple role");
         });
     });
 
-    it("should update prebuilt entity role", async () => {
+    it("should update prebuilt entity role", async function () {
         await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
           await client.model.updatePrebuiltEntityRole(BaseTest.GlobalAppId, "0.1", entityId, roleId.body, { name: "simple role 2" });
           const role = await client.model.getPrebuiltEntityRole(BaseTest.GlobalAppId, "0.1", entityId, roleId.body);
@@ -57,14 +57,14 @@ describe("Prebuilt Entity Role Tests", () => {
         });
     });
 
-    it("should get prebuilt entity role", async () => {
+    it("should get prebuilt entity role", async function () {
         await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
           const role = await client.model.getPrebuiltEntityRole(BaseTest.GlobalAppId, "0.1", entityId, roleId.body);
           chai.expect(role.name).to.eql("simple role");
         });
     });
 
-    it("should delete prebuilt entity role", async () => {
+    it("should delete prebuilt entity role", async function () {
         await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
           await client.model.deletePrebuiltEntityRole(BaseTest.GlobalAppId, "0.1", entityId, roleId.body);
           const roles = await client.model.listPrebuiltEntityRoles(BaseTest.GlobalAppId, "0.1", entityId);

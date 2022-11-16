@@ -12,9 +12,9 @@ import { delay } from "@azure/ms-rest-js";
 
 let appIds: Array<string> = [];
 
-describe("Import Tests", () => {
+describe("Import Tests", function () {
 
-  it("should import version", async () => {
+  it("should import version", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       fs.readFile("test/SessionRecords/ImportApp.json", "utf-8", async (err, data) => {
         if (err) {
@@ -40,7 +40,7 @@ describe("Import Tests", () => {
     });
   });
    
-  it("should import version in Lu format", async () => {
+  it("should import version in Lu format", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       fs.readFile("test/SessionRecords/ImportLuApp.json", "utf-8", async (err, app) => {
         if (err) {
@@ -65,7 +65,7 @@ describe("Import Tests", () => {
     });
   });
 
-  it("should import v2 version", async () => {
+  it("should import v2 version", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       fs.readFile("test/SessionRecords/ImportV2App.json", "utf-8", async (err, data) => {
         if (err) {

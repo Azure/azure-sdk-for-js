@@ -10,8 +10,8 @@ import * as chai from "chai";
 
 let closedListSample = { name: "closed list model", subLists: [{ canonicalForm: "Test", list: [] }] };
 
-describe("Entity Role Tests", () => {
-  it("should add simple entity role", async () => {
+describe("Entity Role Tests", function () {
+  it("should add simple entity role", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.addEntity(BaseTest.GlobalAppId, "0.1", { name: "simple entity" });
       await client.model.createEntityRole(BaseTest.GlobalAppId, "0.1", entityId.body, { name: "simple role" });
@@ -21,7 +21,7 @@ describe("Entity Role Tests", () => {
     });
   });
 
-  it("should add closed list entity role", async () => {
+  it("should add closed list entity role", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.addClosedList(BaseTest.GlobalAppId, "0.1", closedListSample);
       await client.model.createClosedListEntityRole(BaseTest.GlobalAppId, "0.1", entityId.body, { name: "simple role" });
@@ -31,7 +31,7 @@ describe("Entity Role Tests", () => {
     });
   });
 
-  it("should add regex entity role", async () => {
+  it("should add regex entity role", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.createRegexEntityModel(BaseTest.GlobalAppId, "0.1", { name: "regex model", regexPattern: "a+" });
       await client.model.createRegexEntityRole(BaseTest.GlobalAppId, "0.1", entityId.body, { name: "simple role" });
@@ -42,7 +42,7 @@ describe("Entity Role Tests", () => {
   });
 
 
-  it("should add patternAny entity role", async () => {
+  it("should add patternAny entity role", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.createPatternAnyEntityModel(BaseTest.GlobalAppId, "0.1", { name: "Pattern.Any model", explicitList: [] });
       await client.model.createPatternAnyEntityRole(BaseTest.GlobalAppId, "0.1", entityId.body, { name: "simple role" });
@@ -53,7 +53,7 @@ describe("Entity Role Tests", () => {
   });
 
 
-  it("should add custom prebuilt domain entity role", async () => {
+  it("should add custom prebuilt domain entity role", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.addCustomPrebuiltEntity(BaseTest.GlobalAppId, "0.1", { modelName: "ContactName", domainName: "Communication" });
       await client.model.createCustomPrebuiltEntityRole(BaseTest.GlobalAppId, "0.1", entityId.body, { name: "simple role" });
@@ -63,7 +63,7 @@ describe("Entity Role Tests", () => {
     });
   });
 
-  it("should get simple entity role", async () => {
+  it("should get simple entity role", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.addEntity(BaseTest.GlobalAppId, "0.1", { name: "simple entity" });
       const roleId = await client.model.createEntityRole(BaseTest.GlobalAppId, "0.1", entityId.body, { name: "simple role" });
@@ -73,7 +73,7 @@ describe("Entity Role Tests", () => {
     });
   });
 
-  it("should get closed list entity role", async () => {
+  it("should get closed list entity role", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.addClosedList(BaseTest.GlobalAppId, "0.1", closedListSample);
       const roleId = await client.model.createClosedListEntityRole(BaseTest.GlobalAppId, "0.1", entityId.body, { name: "simple role" });
@@ -83,7 +83,7 @@ describe("Entity Role Tests", () => {
     });
   });
 
-  it("should get regex entity role", async () => {
+  it("should get regex entity role", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.createRegexEntityModel(BaseTest.GlobalAppId, "0.1", { name: "regex model", regexPattern: "a+" });
       const roleId = await client.model.createRegexEntityRole(BaseTest.GlobalAppId, "0.1", entityId.body, { name: "simple role" });
@@ -93,7 +93,7 @@ describe("Entity Role Tests", () => {
     });
   });
 
-  it("should get patterAny entity role", async () => {
+  it("should get patterAny entity role", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.createPatternAnyEntityModel(BaseTest.GlobalAppId, "0.1", { name: "Pattern.Any model", explicitList: [] });
       const roleId = await client.model.createPatternAnyEntityRole(BaseTest.GlobalAppId, "0.1", entityId.body, { name: "simple role" });
@@ -103,7 +103,7 @@ describe("Entity Role Tests", () => {
     });
   });
 
-  it("should get custom prebuilt domain entity role", async () => {
+  it("should get custom prebuilt domain entity role", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.addCustomPrebuiltEntity(BaseTest.GlobalAppId, "0.1", { modelName: "ContactName", domainName: "Communication" });
       const roleId = await client.model.createCustomPrebuiltEntityRole(BaseTest.GlobalAppId, "0.1", entityId.body, { name: "simple role" });
@@ -113,7 +113,7 @@ describe("Entity Role Tests", () => {
     });
   });
 
-  it("should get simple entity roles", async () => {
+  it("should get simple entity roles", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.addEntity(BaseTest.GlobalAppId, "0.1", { name: "simple entity" });
       await client.model.createEntityRole(BaseTest.GlobalAppId, "0.1", entityId.body, { name: "simple role" });
@@ -124,7 +124,7 @@ describe("Entity Role Tests", () => {
     });
   });
 
-  it("should get closed list entity roles", async () => {
+  it("should get closed list entity roles", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.addClosedList(BaseTest.GlobalAppId, "0.1", closedListSample);
       const roleId = await client.model.createClosedListEntityRole(BaseTest.GlobalAppId, "0.1", entityId.body, { name: "simple role" });
@@ -135,7 +135,7 @@ describe("Entity Role Tests", () => {
     });
   });
 
-  it("should get regex entity roles", async () => {
+  it("should get regex entity roles", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.createRegexEntityModel(BaseTest.GlobalAppId, "0.1", { name: "regex model", regexPattern: "a+" });
 
@@ -150,7 +150,7 @@ describe("Entity Role Tests", () => {
     });
   });
 
-  it("should get patterAny entity roles", async () => {
+  it("should get patterAny entity roles", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.createPatternAnyEntityModel(BaseTest.GlobalAppId, "0.1", { name: "Pattern.Any model", explicitList: [] });
 
@@ -162,7 +162,7 @@ describe("Entity Role Tests", () => {
     });
   });
 
-  it("should get custom prebuilt domain entity roles", async () => {
+  it("should get custom prebuilt domain entity roles", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.addCustomPrebuiltEntity(BaseTest.GlobalAppId, "0.1", { modelName: "ContactName", domainName: "Communication" });
       await client.model.createCustomPrebuiltEntityRole(BaseTest.GlobalAppId, "0.1", entityId.body, { name: "simple role" });
@@ -173,7 +173,7 @@ describe("Entity Role Tests", () => {
     });
   });
 
-  it("should update simple entity role", async () => {
+  it("should update simple entity role", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.addEntity(BaseTest.GlobalAppId, "0.1", { name: "simple entity" });
       const roleId = await client.model.createEntityRole(BaseTest.GlobalAppId, "0.1", entityId.body, { name: "simple role" });
@@ -185,7 +185,7 @@ describe("Entity Role Tests", () => {
     });
   });
 
-  it("should update closed list entity role", async () => {
+  it("should update closed list entity role", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.addClosedList(BaseTest.GlobalAppId, "0.1", closedListSample);
       const roleId = await client.model.createClosedListEntityRole(BaseTest.GlobalAppId, "0.1", entityId.body, { name: "simple role" });
@@ -196,7 +196,7 @@ describe("Entity Role Tests", () => {
     });
   });
 
-  it("should update regex entity role", async () => {
+  it("should update regex entity role", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.createRegexEntityModel(BaseTest.GlobalAppId, "0.1", { name: "regex model", regexPattern: "a+" });
       const roleId = await client.model.createRegexEntityRole(BaseTest.GlobalAppId, "0.1", entityId.body, { name: "simple role" });
@@ -207,7 +207,7 @@ describe("Entity Role Tests", () => {
     });
   });
 
-  it("should update patterAny entity role", async () => {
+  it("should update patterAny entity role", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.createPatternAnyEntityModel(BaseTest.GlobalAppId, "0.1", { name: "Pattern.Any model", explicitList: [] });
       const roleId = await client.model.createPatternAnyEntityRole(BaseTest.GlobalAppId, "0.1", entityId.body, { name: "simple role" });
@@ -219,7 +219,7 @@ describe("Entity Role Tests", () => {
   });
 
 
-  it("should update custom prebuilt domain entity role", async () => {
+  it("should update custom prebuilt domain entity role", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.addCustomPrebuiltEntity(BaseTest.GlobalAppId, "0.1", { modelName: "ContactName", domainName: "Communication" });
       const roleId = await client.model.createCustomPrebuiltEntityRole(BaseTest.GlobalAppId, "0.1", entityId.body, { name: "simple role" });
@@ -230,7 +230,7 @@ describe("Entity Role Tests", () => {
     });
   });
 
-  it("should delete simple entity role", async () => {
+  it("should delete simple entity role", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.addEntity(BaseTest.GlobalAppId, "0.1", { name: "simple entity" });
       const roleId = await client.model.createEntityRole(BaseTest.GlobalAppId, "0.1", entityId.body, { name: "simple role" });
@@ -241,7 +241,7 @@ describe("Entity Role Tests", () => {
     });
   });
 
-  it("should delete closed list entity role", async () => {
+  it("should delete closed list entity role", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.addClosedList(BaseTest.GlobalAppId, "0.1", closedListSample);
       const roleId = await client.model.createClosedListEntityRole(BaseTest.GlobalAppId, "0.1", entityId.body, { name: "simple role" });
@@ -253,7 +253,7 @@ describe("Entity Role Tests", () => {
     });
   });
 
-  it("should delete regex entity role", async () => {
+  it("should delete regex entity role", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.createRegexEntityModel(BaseTest.GlobalAppId, "0.1", { name: "regex model", regexPattern: "a+" });
       const roleId = await client.model.createRegexEntityRole(BaseTest.GlobalAppId, "0.1", entityId.body, { name: "simple role" });
@@ -264,7 +264,7 @@ describe("Entity Role Tests", () => {
     });
   });
 
-  it("should delete patterAny entity role", async () => {
+  it("should delete patterAny entity role", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.createPatternAnyEntityModel(BaseTest.GlobalAppId, "0.1", { name: "Pattern.Any model", explicitList: [] });
       const roleId = await client.model.createPatternAnyEntityRole(BaseTest.GlobalAppId, "0.1", entityId.body, { name: "simple role" });
@@ -275,7 +275,7 @@ describe("Entity Role Tests", () => {
     });
   });
 
-  it("should delete custom prebuilt domain entity role", async () => {
+  it("should delete custom prebuilt domain entity role", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const entityId = await client.model.addCustomPrebuiltEntity(BaseTest.GlobalAppId, "0.1", { modelName: "ContactName", domainName: "Communication" });
       const roleId = await client.model.createCustomPrebuiltEntityRole(BaseTest.GlobalAppId, "0.1", entityId.body, { name: "simple role" });

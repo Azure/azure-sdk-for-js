@@ -13,9 +13,9 @@ const appName = "LUIS App Version Export";
 const newVersionID = "0.2";
 const defaultVersionID = "0.1";
 
-describe("Export Tests", () => {
+describe("Export Tests", function () {
 
-    before("add app for app version testing", async () => {
+    before("add app for app version testing", async function () {
         await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
           appId = await client.apps.add({
             name: appName,
@@ -27,13 +27,13 @@ describe("Export Tests", () => {
         });
       });
     
-      after("delete app added for app version testing", async () => {
+      after("delete app added for app version testing", async function () {
         await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
           await client.apps.deleteMethod(appId.body);
         });
       });
     
-      it("should export version", async () => {
+      it("should export version", async function () {
         await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
          
           const luisApp = await client.versions.exportMethod(appId.body, defaultVersionID);
@@ -43,7 +43,7 @@ describe("Export Tests", () => {
         });
       });
     
-      it("should export version Lu format", async () => {
+      it("should export version Lu format", async function () {
           await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
             
             const luisApp = await client.versions.exportLuFormat(appId.body, defaultVersionID);

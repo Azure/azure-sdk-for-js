@@ -8,9 +8,9 @@ import { BaseTest } from "../baseTest";
 import { LUISAuthoringClient } from "../../src/lUISAuthoringClient";
 import * as chai from "chai";
 
-describe("featuresPhraseLists.test.ts", () => {
+describe("featuresPhraseLists.test.ts", function () {
 
-  it("should add phrase list", async () => {
+  it("should add phrase list", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const id = await client.features.addPhraseList(BaseTest.GlobalAppId, "0.1", {
         name: "DayOfWeekToAdd",
@@ -26,7 +26,7 @@ describe("featuresPhraseLists.test.ts", () => {
   });
 
 
-  it("should list phrase lists", async () => {
+  it("should list phrase lists", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const id = await client.features.addPhraseList(BaseTest.GlobalAppId, "0.1", {
         name: "DayOfWeekToList",
@@ -40,7 +40,7 @@ describe("featuresPhraseLists.test.ts", () => {
     });
   });
 
-  it("should get phrase list", async () => {
+  it("should get phrase list", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const id = await client.features.addPhraseList(BaseTest.GlobalAppId, "0.1", {
         name: "DayOfWeekToGet",
@@ -58,7 +58,7 @@ describe("featuresPhraseLists.test.ts", () => {
   });
 
 
-  it("should update phrase list", async () => {
+  it("should update phrase list", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const id = await client.features.addPhraseList(BaseTest.GlobalAppId, "0.1", {
         name: "DayOfWeekToUpdate",
@@ -83,7 +83,7 @@ describe("featuresPhraseLists.test.ts", () => {
     });
   });
 
-  it("should delete phrase list", async () => {
+  it("should delete phrase list", async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const id = await client.features.addPhraseList(BaseTest.GlobalAppId, "0.1", {
         name: "DayOfWeekToDelete",

@@ -15,9 +15,9 @@ let prebuiltEntitiesToAdd : string[]
 let prebuiltEntitiesToAddList : string[]
 const defautlVersionId = "0.1";
 
-describe("Patterns Module Functionality Tests", () => {
+describe("Patterns Module Functionality Tests", function () {
 
-  before('add prebuiltEntities', async () => {
+  before('add prebuiltEntities', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       prebuiltEntitiesToAdd = ["temperature"];
       prebuiltEntitiesToAddList = ["datetimeV2", "age"];
@@ -26,7 +26,7 @@ describe("Patterns Module Functionality Tests", () => {
     });
   });
 
-  after('delete prebuiltEntities', async () => {
+  after('delete prebuiltEntities', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
     for (let added of prebuiltEntitiesAdded) {
        await client.model.deletePrebuilt(BaseTest.GlobalAppId, defautlVersionId, added.id);
@@ -38,7 +38,7 @@ describe("Patterns Module Functionality Tests", () => {
   });
 
 
-  it('should add pattern', async () => {
+  it('should add pattern', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let result = await client.pattern.addPattern(BaseTest.GlobalAppId, "0.1", { intent: "None", pattern: "This is a {temperature}" });
       await client.pattern.deletePattern(BaseTest.GlobalAppId, "0.1", result.id);
@@ -50,7 +50,7 @@ describe("Patterns Module Functionality Tests", () => {
     });
   });
 
-  it('should add patterns', async () => {
+  it('should add patterns', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let patterns = [{ intent: "None", pattern: "This is a {age}" }, { intent: "None", pattern: "This is a {datetimeV2}" }]
       let result = await client.pattern.batchAddPatterns(BaseTest.GlobalAppId, "0.1", patterns);
@@ -64,7 +64,7 @@ describe("Patterns Module Functionality Tests", () => {
     });
   });
 
-  it('should update pattern', async () => {
+  it('should update pattern', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let pattern = { intent: "None", pattern: "This is a {temperature}" };
       let updatedPattern = { intent: "None", pattern: "This [is] a {temperature}" };
@@ -80,7 +80,7 @@ describe("Patterns Module Functionality Tests", () => {
     });
   });
 
-  it('should update patterns', async () => {
+  it('should update patterns', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let patterns = [{ intent: "None", pattern: "This is a {age}" }];
       let addResult = await client.pattern.batchAddPatterns(BaseTest.GlobalAppId, "0.1", patterns);
@@ -100,7 +100,7 @@ describe("Patterns Module Functionality Tests", () => {
     });
   });
 
-  it('should get patterns', async () => {
+  it('should get patterns', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let patternsToAdd = [{ intent: "None", pattern: "This is a {age}" }, { intent: "None", pattern: "This is a {datetimeV2}" }]
       let result = await client.pattern.batchAddPatterns(BaseTest.GlobalAppId, "0.1", patternsToAdd);
@@ -117,7 +117,7 @@ describe("Patterns Module Functionality Tests", () => {
   });
 
 
-  it('should get intent patterns', async () => {
+  it('should get intent patterns', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let patternsToAdd = [{ intent: "None", pattern: "This is a {age}" }, { intent: "None", pattern: "This is a {datetimeV2}" }]
       let result = await client.pattern.batchAddPatterns(BaseTest.GlobalAppId, "0.1", patternsToAdd);
@@ -134,7 +134,7 @@ describe("Patterns Module Functionality Tests", () => {
     });
   });
 
-  it('should delete pattern', async () => {
+  it('should delete pattern', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let pattern = { intent: "None", pattern: "This is a {temperature}" };
       let result = await client.pattern.addPattern(BaseTest.GlobalAppId, "0.1", pattern);
@@ -144,7 +144,7 @@ describe("Patterns Module Functionality Tests", () => {
     });
   });
 
-  it('should delete patterns', async () => {
+  it('should delete patterns', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
      let patterns = [{ intent: "None", pattern: "This is a {age}" }, { intent: "None", pattern: "This is a {datetimeV2}" }]
       let result = await client.pattern.batchAddPatterns(BaseTest.GlobalAppId, "0.1", patterns);
