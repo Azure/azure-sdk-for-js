@@ -31,7 +31,7 @@ az maps account create --resource-group <resource-group-name> --name <map-accoun
 
 ### Install the `@azure-rest/maps-render` package
 
-Install the Azure MapsRender REST client REST client library for JavaScript with `npm`:
+Install the Azure Maps Render REST client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure-rest/maps-render
