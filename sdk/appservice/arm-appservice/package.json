@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for WebSiteManagementClient.",
-  "version": "13.0.3",
+  "version": "13.0.4",
   "engines": {
     "node": ">=14.0.0"
   },
