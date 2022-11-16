@@ -10,44 +10,47 @@ import {
   deleteRegistration,
   getRegistration,
 } from "@azure/notification-hubs/api";
-import { assert } from "@azure/test-utils";
+import { assert, isNode } from "@azure/test-utils";
 import { createAppleRegistrationDescription } from "@azure/notification-hubs/models";
 
-const env = getEnvVars();
+if (isNode) {
+  const env = getEnvVars();
 
-// Define connection string and hub name
-const connectionString = env[EnvVarKeys.NOTIFICATIONHUBS_CONNECTION_STRING];
-const hubName = env[EnvVarKeys.NOTIFICATION_HUB_NAME];
+  // Define connection string and hub name
+  const connectionString = env[EnvVarKeys.NOTIFICATIONHUBS_CONNECTION_STRING];
+  const hubName = env[EnvVarKeys.NOTIFICATION_HUB_NAME];
 
-// Define message constants
-const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
-const deviceToken = env[EnvVarKeys.APNS_DEVICE_TOKEN] || DUMMY_DEVICE;
+  // Define message constants
+  const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
+  const deviceToken = env[EnvVarKeys.APNS_DEVICE_TOKEN] || DUMMY_DEVICE;
 
-let registrationId: string;
-let context: NotificationHubsClientContext;
+  let registrationId: string;
+  let context: NotificationHubsClientContext;
 
-describe("createRegistrationId()", () => {
-  beforeEach(async () => {
-    context = createClientContext(connectionString, hubName);
+  describe("createRegistrationId()", () => {
+    beforeEach(async () => {
+      context = createClientContext(connectionString, hubName);
 
-    registrationId = await createRegistrationId(context);
+      registrationId = await createRegistrationId(context);
 
-    const registration = createAppleRegistrationDescription({
-      registrationId,
-      deviceToken,
-      tags: ["likes_football", "likes_hockey"],
+      const registration = createAppleRegistrationDescription({
+        registrationId,
+        deviceToken,
+        tags: ["likes_football", "likes_hockey"],
+      });
+
+      await createOrUpdateRegistration(context, registration);
     });
 
-    await createOrUpdateRegistration(context, registration);
+    afterEach(async () => {
+      await deleteRegistration(context, registrationId);
+    });
+
+    it("should get a registration by the given registration ID", async () => {
+      const registration = await getRegistration(context!, registrationId!);
+
+      assert.equal(registration.registrationId, registrationId);
+    });
   });
 
-  afterEach(async () => {
-    await deleteRegistration(context, registrationId);
-  });
-
-  it("should get a registration by the given registration ID", async () => {
-    const registration = await getRegistration(context!, registrationId!);
-
-    assert.equal(registration.registrationId, registrationId);
-  });
-});
+}
