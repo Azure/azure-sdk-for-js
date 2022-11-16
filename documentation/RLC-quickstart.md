@@ -124,6 +124,7 @@ See the [Javascript Codegen Quick Start for Test](./Test-quickstart.md) for info
     To record and playback the tests, [Docker](https://www.docker.com/) is required when we run the test, as the [test proxy server](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy) is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it.
 
 1. **Write the test**
+    
     You could follow [the link](./Test-quickstart.md#example-1-basic-rlc-test-interaction-and-recording-for-azure-data-plane-service) to write your test step by step.
 
 1. **Run the test**  
