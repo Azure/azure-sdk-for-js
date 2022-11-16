@@ -121,12 +121,6 @@ export class BatchingReceiver extends MessageReceiver {
   ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context);
     try {
-      logger.verbose(
-        "[%s] Receiver '%s', setting max concurrent calls to 0.",
-        this.logPrefix,
-        this.name
-      );
-
       const messages = await this._batchingReceiverLite.receiveMessages({
         maxMessageCount,
         maxWaitTimeInMs,
