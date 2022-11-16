@@ -14454,7 +14454,7 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-VEHphyt2xd+/r/JHQP/0tjrMUQKdcMYccID626Cg8KRbT6RLEHEX37pftbqVigpDsCNxdsE9mlcqnT1X2qgsJA==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-Tm7ys+lUtb50Hxkp1TwkF+KpSCTOPXwUHIlUt1CdwuaMmndqR+20QJPqW2NtQsXVgcnHtL6W6FWtX6PQO8NRkQ==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
@@ -14474,7 +14474,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
