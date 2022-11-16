@@ -20,7 +20,6 @@ require("dotenv").config();
 // You will need to set this environment variables or edit the following values
 const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
 const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
-const apiVersion = "v1.1";
 const timeSeriesDataPath = "./samples-dev/example-data/request-data.csv";
 
 function read_series_from_file(path) {
@@ -36,7 +35,8 @@ function read_series_from_file(path) {
 async function main() {
   // create client
   const credential = new AzureKeyCredential(apiKey);
-  const client = AnomalyDetector(endpoint, credential, { apiVersion });
+  const apiVersion = "v1.1";
+  const client = AnomalyDetector(endpoint, apiVersion, credential);
 
   // construct request
   const options = {

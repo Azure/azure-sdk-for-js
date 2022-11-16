@@ -8,7 +8,7 @@
  */
 
 import AnomalyDetector, {
-  DetectUnivariateLastPointParameters,
+  UnivariateDetectUnivariateLastPointParameters,
   isUnexpected,
   TimeSeriesPoint,
 } from "@azure-rest/ai-anomaly-detector";
@@ -39,10 +39,11 @@ function read_series_from_file(path: string): Array<TimeSeriesPoint> {
 export async function main() {
   // create client
   const credential = new AzureKeyCredential(apiKey);
-  const client = AnomalyDetector(endpoint, credential);
+  const apiVersion = "v1.1";
+  const client = AnomalyDetector(endpoint, apiVersion, credential);
 
   // construct request
-  const options: DetectUnivariateLastPointParameters = {
+  const options: UnivariateDetectUnivariateLastPointParameters = {
     body: {
       granularity: "daily",
       imputeFixedValue: 800,

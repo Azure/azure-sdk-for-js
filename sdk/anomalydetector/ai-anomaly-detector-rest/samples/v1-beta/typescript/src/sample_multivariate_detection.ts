@@ -8,9 +8,9 @@
  */
 
 import AnomalyDetector, {
-  DetectMultivariateBatchAnomalyParameters,
-  CreateAndTrainMultivariateModelParameters,
-  ListMultivariateModelsParameters,
+  MultivariateDetectMultivariateBatchAnomalyParameters,
+  MultivariateCreateAndTrainMultivariateModelParameters,
+  MultivariateListMultivariateModelsParameters,
   paginate,
   isUnexpected,
 } from "@azure-rest/ai-anomaly-detector";
@@ -23,7 +23,6 @@ dotenv.config();
 // You will need to set this environment variables or edit the following values
 const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
 const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
-const apiVersion = "v1.1";
 const dataSource = "<your data source>";
 
 function sleep(time: number): Promise<NodeJS.Timer> {
@@ -33,10 +32,11 @@ function sleep(time: number): Promise<NodeJS.Timer> {
 export async function main() {
   // create client
   const credential = new AzureKeyCredential(apiKey);
-  const client = AnomalyDetector(endpoint, credential, { apiVersion });
+  const apiVersion = "v1.1";
+  const client = AnomalyDetector(endpoint, apiVersion, credential);
 
   // Already available models
-  const options: ListMultivariateModelsParameters = {
+  const options: MultivariateListMultivariateModelsParameters = {
     queryParameters: { skip: 0, top: 10 },
   };
   const initialResponse = await client.path(`/multivariate/models`).get(options);
@@ -48,7 +48,7 @@ export async function main() {
   console.log(listModelsResult);
 
   // construct model request (notice that the start and end time are local time and may not align with your data source)
-  const createMultivariateModelParameters: CreateAndTrainMultivariateModelParameters = {
+  const createMultivariateModelParameters: MultivariateCreateAndTrainMultivariateModelParameters = {
     body: {
       alignPolicy: {
         alignMode: "Outer",
@@ -112,7 +112,7 @@ export async function main() {
   console.log("TRAINING FINISHED.");
 
   // get result
-  const batchDetectAnomalyParameters: DetectMultivariateBatchAnomalyParameters = {
+  const batchDetectAnomalyParameters: MultivariateDetectMultivariateBatchAnomalyParameters = {
     body: {
       dataSource: dataSource,
       endTime: "2021-01-02T05:00:00Z",
