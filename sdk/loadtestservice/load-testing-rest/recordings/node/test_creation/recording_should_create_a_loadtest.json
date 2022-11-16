@@ -1,0 +1,39 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/tests/abc?api-version=2022-11-01",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "113",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-load-testing-rest/1.0.0 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.19045)",
+        "x-ms-client-request-id": "d827bd4c-dc23-4853-8c87-84bcecb73f05"
+      },
+      "RequestBody": {
+        "displayName": "sample_test",
+        "description": "",
+        "loadTestConfiguration": {
+          "engineInstances": 1,
+          "splitAllCSVs": false
+        }
+      },
+      "StatusCode": 405,
+      "ResponseHeaders": {
+        "Allow": "GET",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Date": "Wed, 16 Nov 2022 12:22:54 GMT",
+        "mise-correlation-id": "ffdd9464-0c3f-44be-a2b6-9a7d20b9ee2e",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "22fd8bc5-d8fd-4fc9-97b4-d249d3df76a7"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}
