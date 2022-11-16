@@ -9,7 +9,7 @@ Please refer to this [link](https://github.com/Azure/azure-sdk-for-js/blob/main/
 
 # Project folder and name convention
 
-Before we start, we probably should get to know the project folder and name convention for RLC libraries.
+Please follow the Azure SDK guidance and discuss with architects to decide the project folder and name convention for RLC libraries.
 
 1. Project Folder structure.  
    normally, the folder structure would be something like `sdk/{servicename}/{servicename}-{modulename}-rest`. For example, we have `sdk/agrifood/agrifood-farming-rest` folder for Farmbeats account modules. That folder will be your **${PROJECT_ROOT} folder**.  
@@ -237,13 +237,35 @@ Please change the paths.include value as your own project path, and change the A
 
 If there's already a ci.yml file in your project path. then the only thing you need to do is to add the Artifacts name and safeName of yours into that ci.yml.  
 
+Please notice the Artifacts name should align with your package name. Here the package name is `@azure-rest/agrifood-farming` so the relevant Artifacts name is `azure-rest-agrifood-farming`.
+
 # Create API View
 You may also want to create API View when submitting a PR. You can do it easily by uploading a json file to [API View Website](https://apiview.dev/). The json file is under `<you-sdk-folder>/temp`, and its name ends with `api.json`. For example: `sdk/compute/arm-compute/temp/arm-compute.api.json`.
 
-# How to do customizations
-There is many information about the SDK that AutoRest will never know, so you may want to do your customizations based on generated code. 
 
-We collect some common customization cases and you can read [Customization on the RLC rest-level client libraries](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-customization.md) for more details.
+# Prepare PR
+
+RLC can only help you generate SDK code, there is something you need to update manually:
+
+## CHANGELOG.md
+
+CHANGELOG can help customers know the change of new version quicky, so you need to update the it according to the change of this new version. It is also necessary to update release date like `1.0.0-beta.1 (2022-11-11)`(rough time is fine and no need to be very accurate).
+
+## Version Number
+
+You shall update the version number according to [semantic versioning rule](https://semver.org/).
+
+## Test recordings
+
+Please ensure that your test recordings are committed together with your code.
+
+## Fix CI for PR
+You may meet the CI failures after submitting the PR, so please refer to [Troubleshoot CI Failure](./Troubleshoot-ci-failure.md) to fix it.
+
+
+# Release
+
+After the PR is merged, it is time to release package. Here is the [Release Checklist](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/8/Release-Checklist?anchor=prepare-release-script) you should know before release.
 
 # How to configure authentication
 Autorest only support two types of authentication: Azure Key Credential(AzureKey) and Token credential(AADToken), any other will need to be handled manually. 

@@ -107,7 +107,7 @@ We are working on to automatically generate everything right now, but currently 
     rushx pack
     ```
 
-    But we still need to add some tests for it.
+    The generated code is not enough to release at once and you need to update it for better usage experience.
 
 # Improve README.md document
 
