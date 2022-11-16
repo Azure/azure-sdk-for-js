@@ -58,7 +58,9 @@ We are working on to automatically generate everything right now, but currently 
 
     It's always recommended to replace the version of code generator @autorest/typescript with the latest version you can find in [npmjs.com](https://www.npmjs.com/package/@autorest/typescript) in latest tag. 
 
-    If the `input-file` is followed by an `. md` file, you need to replace the `input-file` with `require`. If it is a `JSON` file, do not change it 
+    If the `input-file` is followed by an `. md` file, you need to replace the `input-file` with `require`. If it is a `JSON` file, do not change it.
+
+    We enable the samples generation by default, this may fail the generation due to the example quality or codegen issue. You could turn this option off by `generate-sample: false` to non-block your process.
 
     **After the first generation, you need to switch `generate-metadata: false`  as we have some manual changes in this file and don't want them get overwrite by generated ones.**
 
