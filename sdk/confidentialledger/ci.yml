@@ -19,6 +19,8 @@ pr:
       - feature/*
       - release/*
       - hotfix/*
+    exclude:
+      - feature/v4
   paths:
     include:
       - sdk/confidentialledger/
@@ -32,3 +34,5 @@ extends:
     Artifacts:
       - name: azure-rest-confidential-ledger
         safeName: azurerestconfidentialledger
+      - name: azure-rest-confidentialledger-test
+        safeName: azurerestconfidentialledgertest
