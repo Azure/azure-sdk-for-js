@@ -74,7 +74,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [createorupdatetest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/load-testing-rest/samples/v1/typescript/src/createOrUpdateTest.ts
 [createtestrunandgetmetrics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/load-testing-rest/samples/v1/typescript/src/createTestRunAndGetMetrics.ts
 [fileupload]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/load-testing-rest/samples/v1/typescript/src/fileUpload.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/load-testing
+[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/load-testing
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureloadtestingserviceinstance]: https://learn.microsoft.com/azure/load-testing/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtestservice/load-testing-rest/README.md
