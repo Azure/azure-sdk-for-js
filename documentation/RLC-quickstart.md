@@ -13,7 +13,7 @@ Please refer to this [link](https://github.com/Azure/azure-sdk-for-js/blob/main/
 Please follow the Azure SDK guidance and discuss with architects to decide the project folder and name convention for RLC libraries.
 
 1. SDK Repo Root.
-   The generated libraries should be the [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repo, so fork and clone it in your local then the absolute path is called **${SDK_REPO_ROOT} folder**.
+   The generated libraries should be in the [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repo, so fork and clone it in your local then the absolute path is called **${SDK_REPO_ROOT} folder**.
 
 1. Project Folder Structure.  
    Normally, the folder structure would be something like `sdk/{servicename}/{servicename}-{modulename}-rest`. For example, we have `sdk/agrifood/agrifood-farming-rest` folder for Farmbeats account modules under {SDK_REPO_ROOT}. That folder will be your **${PROJECT_ROOT} folder**.  
@@ -38,7 +38,7 @@ We are working on to automatically generate everything right now, but currently 
 
    ---
    **NOTE**
-   
+
     It's always recommended to replace the version of emitter cadl-typescript with the latest version you can find in [npmjs.com](https://www.npmjs.com/package/@azure-tools/cadl-typescript) in latest tag.
 
    ---
