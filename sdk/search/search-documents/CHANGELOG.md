@@ -9,6 +9,7 @@
 ### Breaking Changes
 
 - Update `SearchIndexerDataNoneIdentity.odatatype`. [#23495](https://github.com/Azure/azure-sdk-for-js/pull/23495)
+- Fix `SearchClient.getDocument` with `selectedFields` option returning a wide result with `undefined` non-optional fields [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
 
 ### Bugs Fixed
 
