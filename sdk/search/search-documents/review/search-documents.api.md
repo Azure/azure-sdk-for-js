@@ -580,8 +580,9 @@ export type GetAliasOptions = OperationOptions;
 export type GetDataSourceConnectionOptions = OperationOptions;
 
 // @public
-export interface GetDocumentOptions<Fields> extends OperationOptions {
-    selectedFields?: Fields[];
+export interface GetDocumentOptions<Model extends object, Fields extends SelectFields<Model>> extends OperationOptions {
+    // Warning: (ae-forgotten-export) The symbol "GenericFields" needs to be exported by the entry point index.d.ts
+    selectedFields?: GenericFields<Model, Fields>;
 }
 
 // @public
@@ -2044,7 +2045,7 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
     deleteDocuments(documents: Model[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     deleteDocuments(keyName: keyof Model, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
-    getDocument<Fields extends SelectFields<Model>>(key: string, options?: GetDocumentOptions<Fields>): Promise<Model>;
+    getDocument<Fields extends SelectFields<Model>>(key: string, options?: GetDocumentOptions<Model, Fields>): Promise<Model>;
     getDocumentsCount(options?: CountDocumentsOptions): Promise<number>;
     indexDocuments(batch: IndexDocumentsBatch<Model>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly indexName: string;
@@ -2400,7 +2401,7 @@ export type SearchIterator<Model extends object, Fields extends SelectFields<Mod
 export type SearchMode = "any" | "all";
 
 // @public
-export type SearchOptions<Model extends object, Fields> = OperationOptions & SearchRequestOptions<Model, Fields>;
+export type SearchOptions<Model extends object, Fields extends SelectFields<Model>> = OperationOptions & SearchRequestOptions<Model, Fields>;
 
 // @public
 export interface SearchRequest {
@@ -2432,7 +2433,7 @@ export interface SearchRequest {
 }
 
 // @public
-export interface SearchRequestOptions<Model extends object, Fields> {
+export interface SearchRequestOptions<Model extends object, Fields extends SelectFields<Model>> {
     answers?: Answers;
     captions?: Captions;
     facets?: string[];
@@ -2450,7 +2451,7 @@ export interface SearchRequestOptions<Model extends object, Fields> {
     scoringStatistics?: ScoringStatistics;
     searchFields?: SelectFields<Model>[];
     searchMode?: SearchMode;
-    select?: Fields[];
+    select?: GenericFields<Model, Fields>;
     semanticFields?: string[];
     sessionId?: string;
     skip?: number;
@@ -2670,17 +2671,17 @@ export interface SuggestDocumentsResult<Model extends object, Fields extends Sel
 }
 
 // @public
-export type SuggestOptions<Model extends object, Fields> = OperationOptions & SuggestRequest<Model, Fields>;
+export type SuggestOptions<Model extends object, Fields extends SelectFields<Model> | null> = OperationOptions & SuggestRequest<Model, Fields>;
 
 // @public
-export interface SuggestRequest<Model extends object, Fields> {
+export interface SuggestRequest<Model extends object, Fields extends SelectFields<Model> | null> {
     filter?: string;
     highlightPostTag?: string;
     highlightPreTag?: string;
     minimumCoverage?: number;
     orderBy?: string[];
     searchFields?: SelectFields<Model>[];
-    select?: Fields[];
+    select?: GenericFields<Model, Extract<Fields, SelectFields<Model>>>;
     top?: number;
     useFuzzyMatching?: boolean;
 }
@@ -2802,8 +2803,8 @@ export type WordDelimiterTokenFilter = BaseTokenFilter & {
 
 // Warnings were encountered during analysis:
 //
-// src/indexModels.ts:482:3 - (ae-forgotten-export) The symbol "NarrowedModel" needs to be exported by the entry point index.d.ts
-// src/indexModels.ts:614:3 - (ae-forgotten-export) The symbol "SuggestNarrowedModel" needs to be exported by the entry point index.d.ts
+// src/indexModels.ts:493:3 - (ae-forgotten-export) The symbol "NarrowedModel" needs to be exported by the entry point index.d.ts
+// src/indexModels.ts:625:3 - (ae-forgotten-export) The symbol "SuggestNarrowedModel" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

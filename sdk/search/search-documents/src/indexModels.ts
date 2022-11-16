@@ -84,15 +84,23 @@ export type SearchIndexingBufferedSenderDeleteDocumentsOptions = OperationOption
  */
 export type SearchIndexingBufferedSenderFlushDocumentsOptions = OperationOptions;
 
+// Allows for selecting fields when the client's model isn't specified
+type GenericFields<Model extends object, Fields extends SelectFields<Model>> = {
+  [K in Fields]: any;
+} extends Record<Fields, never>
+  ? string[]
+  : Fields[];
+
 /**
  * Options for retrieving a single document.
  */
-export interface GetDocumentOptions<Fields> extends OperationOptions {
+export interface GetDocumentOptions<Model extends object, Fields extends SelectFields<Model>>
+  extends OperationOptions {
   /**
    * List of field names to retrieve for the document; Any field not retrieved will be missing from
    * the returned document.
    */
-  selectedFields?: Fields[];
+  selectedFields?: GenericFields<Model, Fields>;
 }
 
 /**
@@ -151,13 +159,17 @@ export type AutocompleteOptions<Model extends object> = OperationOptions &
 /**
  * Options for committing a full search request.
  */
-export type SearchOptions<Model extends object, Fields> = OperationOptions &
-  SearchRequestOptions<Model, Fields>;
+export type SearchOptions<
+  Model extends object,
+  Fields extends SelectFields<Model>
+> = OperationOptions & SearchRequestOptions<Model, Fields>;
 /**
  * Options for retrieving suggestions based on the searchText.
  */
-export type SuggestOptions<Model extends object, Fields> = OperationOptions &
-  SuggestRequest<Model, Fields>;
+export type SuggestOptions<
+  Model extends object,
+  Fields extends SelectFields<Model> | null
+> = OperationOptions & SuggestRequest<Model, Fields>;
 
 /**
  * An iterator for search results of a paticular query. Will make requests
@@ -319,7 +331,7 @@ export interface SearchRequest {
 /**
  * Parameters for filtering, sorting, faceting, paging, and other search query behaviors.
  */
-export interface SearchRequestOptions<Model extends object, Fields> {
+export interface SearchRequestOptions<Model extends object, Fields extends SelectFields<Model>> {
   /**
    * A value that specifies whether to fetch the total count of results. Default is false. Setting
    * this value to true may have a performance impact. Note that the count returned is an
@@ -426,7 +438,7 @@ export interface SearchRequestOptions<Model extends object, Fields> {
    * The list of fields to retrieve. If unspecified, all fields marked as
    * retrievable in the schema are included.
    */
-  select?: Fields[];
+  select?: GenericFields<Model, Fields>;
   /**
    * The number of search results to skip. This value cannot be greater than 100,000. If you need
    * to scan documents in sequence, but cannot use skip due to this limitation, consider using
@@ -546,7 +558,7 @@ export interface SearchDocumentsPageResult<Model extends object, Fields extends 
 /**
  * Parameters for filtering, sorting, fuzzy matching, and other suggestions query behaviors.
  */
-export interface SuggestRequest<Model extends object, Fields> {
+export interface SuggestRequest<Model extends object, Fields extends SelectFields<Model> | null> {
   /**
    * An OData expression that filters the documents considered for suggestions.
    */
@@ -594,7 +606,7 @@ export interface SuggestRequest<Model extends object, Fields> {
    * The list of fields to retrieve. If unspecified, only the key field will be
    * included in the results.
    */
-  select?: Fields[];
+  select?: GenericFields<Model, Extract<Fields, SelectFields<Model>>>;
   /**
    * The number of suggestions to retrieve. This must be a value between 1 and 100. The default is
    * 5.

@@ -558,7 +558,7 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    */
   public async getDocument<Fields extends SelectFields<Model>>(
     key: string,
-    options: GetDocumentOptions<Fields> = {}
+    options: GetDocumentOptions<Model, Fields> = {}
   ): Promise<Model> {
     //TODO: Narrow result type for next major version
     const { span, updatedOptions } = createSpan("SearchClient-getDocument", options);
