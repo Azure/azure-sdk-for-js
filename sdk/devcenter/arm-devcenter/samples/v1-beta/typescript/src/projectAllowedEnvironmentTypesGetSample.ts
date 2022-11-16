@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets an allowed environment type.
  *
  * @summary Gets an allowed environment type.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/ProjectAllowedEnvironmentTypes_Get.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-10-12-preview/examples/ProjectAllowedEnvironmentTypes_Get.json
  */
 async function projectAllowedEnvironmentTypesGet() {
   const subscriptionId = "{subscriptionId}";

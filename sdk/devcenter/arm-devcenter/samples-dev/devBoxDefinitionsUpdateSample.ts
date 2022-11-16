@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Partially updates a Dev Box definition.
  *
  * @summary Partially updates a Dev Box definition.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/DevBoxDefinitions_Patch.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-10-12-preview/examples/DevBoxDefinitions_Patch.json
  */
 async function devBoxDefinitionsPatch() {
   const subscriptionId = "{subscriptionId}";

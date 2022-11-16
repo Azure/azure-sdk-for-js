@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Bindings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   BindingResource,
   BindingsListNextOptionalParams,
   BindingsListOptionalParams,
+  BindingsListResponse,
   BindingsGetOptionalParams,
   BindingsGetResponse,
   BindingsCreateOrUpdateOptionalParams,
@@ -25,7 +27,6 @@ import {
   BindingsDeleteOptionalParams,
   BindingsUpdateOptionalParams,
   BindingsUpdateResponse,
-  BindingsListResponse,
   BindingsListNextResponse
 } from "../models";
 
@@ -69,12 +70,16 @@ export class BindingsImpl implements Bindings {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           serviceName,
           appName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -84,16 +89,23 @@ export class BindingsImpl implements Bindings {
     resourceGroupName: string,
     serviceName: string,
     appName: string,
-    options?: BindingsListOptionalParams
+    options?: BindingsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<BindingResource[]> {
-    let result = await this._list(
-      resourceGroupName,
-      serviceName,
-      appName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: BindingsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        serviceName,
+        appName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -103,7 +115,9 @@ export class BindingsImpl implements Bindings {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

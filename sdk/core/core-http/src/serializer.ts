@@ -843,6 +843,7 @@ function deserializeCompositeType(
   objectName: string,
   options: Required<SerializerOptions>
 ): any {
+  const xmlCharKey = options.xmlCharKey ?? XML_CHARKEY;
   if (getPolymorphicDiscriminatorRecursively(serializer, mapper)) {
     mapper = getPolymorphicMapper(serializer, mapper, responseBody, "serializedName");
   }
@@ -886,8 +887,8 @@ function deserializeCompositeType(
           options
         );
       } else if (propertyMapper.xmlIsMsText) {
-        if (responseBody[XML_CHARKEY] !== undefined) {
-          instance[key] = responseBody[XML_CHARKEY];
+        if (responseBody[xmlCharKey] !== undefined) {
+          instance[key] = responseBody[xmlCharKey];
         } else if (typeof responseBody === "string") {
           // The special case where xml parser parses "<Name>content</Name>" into JSON of
           //   `{ name: "content"}` instead of `{ name: { "_": "content" }}`
@@ -918,6 +919,7 @@ function deserializeCompositeType(
             propertyObjectName,
             options
           );
+          handledPropertyNames.push(xmlName!);
         } else {
           const property = responseBody[propertyName!];
           instance[key] = serializer.deserialize(
@@ -926,6 +928,7 @@ function deserializeCompositeType(
             propertyObjectName,
             options
           );
+          handledPropertyNames.push(propertyName!);
         }
       }
     } else {

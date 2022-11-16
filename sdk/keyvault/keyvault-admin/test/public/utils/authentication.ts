@@ -7,7 +7,12 @@ import { KeyClient } from "@azure/keyvault-keys";
 import { v4 as uuidv4 } from "uuid";
 import { Context } from "mocha";
 
-import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "../../../src";
+import {
+  KeyVaultAccessControlClient,
+  KeyVaultBackupClient,
+  KeyVaultSettingsClient,
+} from "../../../src";
+
 import { getEnvironmentVariable, getServiceVersion } from "./common";
 
 export async function authenticate(
@@ -81,6 +86,18 @@ export async function authenticate(
     credential,
     recorder.configureClientOptions({ serviceVersion, disableChallengeResourceVerification: true })
   );
+  const settingsClient = new KeyVaultSettingsClient(keyVaultHsmUrl, credential, {
+    serviceVersion,
+    disableChallengeResourceVerification: true,
+  });
 
-  return { recorder, accessControlClient, backupClient, keyClient, suffix, generateFakeUUID };
+  return {
+    recorder,
+    accessControlClient,
+    backupClient,
+    keyClient,
+    settingsClient,
+    suffix,
+    generateFakeUUID,
+  };
 }

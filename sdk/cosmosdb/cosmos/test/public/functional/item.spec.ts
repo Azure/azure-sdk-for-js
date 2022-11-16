@@ -2,7 +2,13 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { Suite } from "mocha";
-import { Container, CosmosClient, PatchOperation, PatchOperationType } from "../../../src";
+import {
+  Container,
+  CosmosClient,
+  OperationResponse,
+  PatchOperation,
+  PatchOperationType,
+} from "../../../src";
 import { ItemDefinition } from "../../../src";
 import {
   bulkDeleteItems,
@@ -391,30 +397,6 @@ describe("bulk/batch item operations", function () {
             condition: "from c where NOT IS_DEFINED(c.newImproved)",
           },
         },
-        {
-          operationType: BulkOperationType.Patch,
-          partitionKey: 5,
-          id: patchItemId,
-          resourceBody: {
-            operations: [{ op: PatchOperationType.add, path: "/goodKey", value: "goodValue" }],
-          },
-        },
-        {
-          operationType: BulkOperationType.Patch,
-          partitionKey: 5,
-          id: patchItemId,
-          resourceBody: {
-            operations: [{ op: PatchOperationType.add, path: "/greatKey", value: "greatValue" }],
-          },
-        },
-        {
-          operationType: BulkOperationType.Patch,
-          partitionKey: 5,
-          id: patchItemId,
-          resourceBody: {
-            operations: [{ op: PatchOperationType.move, from: "/greatKey", path: "/goodKey" }],
-          },
-        },
       ];
       const response = await v2Container.items.bulk(operations);
       // Create
@@ -431,12 +413,9 @@ describe("bulk/batch item operations", function () {
       // Replace
       assert.strictEqual(response[4].resourceBody.name, "nice");
       assert.strictEqual(response[4].statusCode, 200);
-      // Patch add
+      // Patch
       assert.strictEqual(response[5].resourceBody.great, "goodValue");
       assert.strictEqual(response[5].statusCode, 200);
-      // Patch move
-      assert.strictEqual(response[9].resourceBody.goodKey, "greatValue");
-      assert.strictEqual(response[9].statusCode, 200);
     });
     it("respects order", async function () {
       readItemId = addEntropy("item1");
@@ -715,6 +694,7 @@ describe("bulk/batch item operations", function () {
       ];
 
       const response = await container.items.batch(operations, "A");
+      assert(isOperationResponse(response.result[0]));
       assert.strictEqual(response.result[0].statusCode, 201);
       assert.strictEqual(response.result[1].statusCode, 201);
       assert.strictEqual(response.result[2].statusCode, 200);
@@ -738,7 +718,17 @@ describe("bulk/batch item operations", function () {
       assert.strictEqual(deleteResponse.result[1].statusCode, 404);
       const { resource: readItem } = await container.item(otherItemId).read();
       assert.strictEqual(readItem, undefined);
+      assert(isOperationResponse(deleteResponse.result[0]));
     });
+
+    function isOperationResponse(object: unknown): object is OperationResponse {
+      return (
+        typeof object === "object" &&
+        object !== null &&
+        Object.prototype.hasOwnProperty.call(object, "statusCode") &&
+        Object.prototype.hasOwnProperty.call(object, "requestCharge")
+      );
+    }
   });
 });
 describe("patch operations", function () {

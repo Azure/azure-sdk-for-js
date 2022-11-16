@@ -41,7 +41,7 @@
 /sdk/attestation/ @LarryOsterman @deyaaeldeen @anilba06 @gkostal
 
 # PRLabel: %Batch
-/sdk/batch/ @dpwatrous @paterasMSFT @zfengms @deyaaeldeen
+/sdk/batch/ @dpwatrous @paterasMSFT @zfengms @NickKouds @deyaaeldeen
 
 # PRLabel: %Communication
 /sdk/communication/
@@ -148,7 +148,7 @@
 /sdk/metricsadvisor/ @KarishmaGhiya @jeremymeng
 
 # PRLabel: %Search
-/sdk/search/ @sarangan12 @xirzec
+/sdk/search/ @dgetu @xirzec
 
 # PRLabel: %Mixed Reality
 /sdk/mixedreality/ @craigktreasure

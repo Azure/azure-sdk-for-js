@@ -187,7 +187,7 @@
       }
     },
     {
-      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/users/me/environments/SdkTest-Environment?api-version=2022-03-01-preview\u0026api-version=2022-03-01-preview",
+      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/users/me/environments/SdkTest-Environment?api-version=2022-03-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",

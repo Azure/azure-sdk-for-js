@@ -25,7 +25,7 @@ import {
 export interface EnvironmentTypes {
   /**
    * Lists environment types for the devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -36,7 +36,7 @@ export interface EnvironmentTypes {
   ): PagedAsyncIterableIterator<EnvironmentType>;
   /**
    * Gets an environment type.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param environmentTypeName The name of the environment type.
    * @param options The options parameters.
@@ -49,7 +49,7 @@ export interface EnvironmentTypes {
   ): Promise<EnvironmentTypesGetResponse>;
   /**
    * Creates or updates an environment type.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param environmentTypeName The name of the environment type.
    * @param body Represents an Environment Type.
@@ -64,7 +64,7 @@ export interface EnvironmentTypes {
   ): Promise<EnvironmentTypesCreateOrUpdateResponse>;
   /**
    * Partially updates an environment type.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param environmentTypeName The name of the environment type.
    * @param body Updatable environment type properties.
@@ -79,7 +79,7 @@ export interface EnvironmentTypes {
   ): Promise<EnvironmentTypesUpdateResponse>;
   /**
    * Deletes an environment type.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param environmentTypeName The name of the environment type.
    * @param options The options parameters.
