@@ -1,28 +1,6 @@
 # Release History
-
-## 2.1.0-beta.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 2.1.0-beta.3 (2022-10-08)
-
-**Bugs Fixed**
-
-  -  revert credential scopes
-
-## 2.1.0-beta.2 (2022-09-30)
-
-**Bugs Fixed**
-
-  -  fix better user experience of credential scopes in government cloud
-
-## 2.1.0-beta.1 (2022-09-09)
+    
+## 2.1.0-beta.4 (2022-11-16)
     
 **Features**
 
