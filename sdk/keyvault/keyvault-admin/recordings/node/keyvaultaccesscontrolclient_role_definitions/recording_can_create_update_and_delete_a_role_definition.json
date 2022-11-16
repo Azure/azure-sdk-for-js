@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/providers/Microsoft.Authorization/roleDefinitions/060f7684-9309-437b-aefd-ee8779bc8c9a?api-version=7.4-preview.1",
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net///providers/Microsoft.Authorization/roleDefinitions/e65117e2-b335-4793-ac6a-b439ce7810d6?api-version=7.4-preview.1",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,7 +10,7 @@
         "Content-Length": "0",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-keyvault-admin/4.4.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "4ff4bf0f-da38-4c57-b308-0390932d4a39"
+        "x-ms-client-request-id": "8558f8f4-e9ca-43d5-b5bd-66f2f14c48f1"
       },
       "RequestBody": null,
       "StatusCode": 401,
@@ -23,13 +23,13 @@
         "WWW-Authenticate": "Bearer authorization=\u0022https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012\u0022, resource=\u0022https://managedhsm.azure.net\u0022",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "SAMEORIGIN",
-        "x-ms-request-id": "db029b88-65e0-11ed-b1ac-0022488d29c2",
-        "x-ms-server-latency": "0"
+        "x-ms-request-id": "f0447610-65e5-11ed-bc87-0022488d4c2b",
+        "x-ms-server-latency": "1"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/providers/Microsoft.Authorization/roleDefinitions/060f7684-9309-437b-aefd-ee8779bc8c9a?api-version=7.4-preview.1",
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net///providers/Microsoft.Authorization/roleDefinitions/e65117e2-b335-4793-ac6a-b439ce7810d6?api-version=7.4-preview.1",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -39,7 +39,7 @@
         "Content-Length": "330",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-keyvault-admin/4.4.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "4ff4bf0f-da38-4c57-b308-0390932d4a39"
+        "x-ms-client-request-id": "8558f8f4-e9ca-43d5-b5bd-66f2f14c48f1"
       },
       "RequestBody": {
         "properties": {
@@ -73,12 +73,12 @@
         "X-Frame-Options": "SAMEORIGIN",
         "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=Ipv4;",
         "x-ms-keyvault-region": "northus",
-        "x-ms-request-id": "db3bb454-65e0-11ed-b1ac-0022488d29c2",
-        "x-ms-server-latency": "47"
+        "x-ms-request-id": "f071398e-65e5-11ed-bc87-0022488d4c2b",
+        "x-ms-server-latency": "38"
       },
       "ResponseBody": {
-        "id": "Microsoft.KeyVault/providers/Microsoft.Authorization/roleDefinitions/060f7684-9309-437b-aefd-ee8779bc8c9a",
-        "name": "060f7684-9309-437b-aefd-ee8779bc8c9a",
+        "id": "Microsoft.KeyVault/providers/Microsoft.Authorization/roleDefinitions/e65117e2-b335-4793-ac6a-b439ce7810d6",
+        "name": "e65117e2-b335-4793-ac6a-b439ce7810d6",
         "properties": {
           "assignableScopes": [
             "/"
@@ -102,7 +102,7 @@
       }
     },
     {
-      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/providers/Microsoft.Authorization/roleDefinitions/060f7684-9309-437b-aefd-ee8779bc8c9a?api-version=7.4-preview.1",
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net///providers/Microsoft.Authorization/roleDefinitions/e65117e2-b335-4793-ac6a-b439ce7810d6?api-version=7.4-preview.1",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -112,7 +112,7 @@
         "Content-Length": "449",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-keyvault-admin/4.4.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "ee12e33e-95a9-4aca-aa84-70d3f19ae95b"
+        "x-ms-client-request-id": "8fe256d5-613e-43c5-9c51-3863f18cae59"
       },
       "RequestBody": {
         "properties": {
@@ -154,12 +154,12 @@
         "X-Frame-Options": "SAMEORIGIN",
         "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=Ipv4;",
         "x-ms-keyvault-region": "northus",
-        "x-ms-request-id": "db4cb484-65e0-11ed-b1ac-0022488d29c2",
+        "x-ms-request-id": "f080fb08-65e5-11ed-bc87-0022488d4c2b",
         "x-ms-server-latency": "40"
       },
       "ResponseBody": {
-        "id": "Microsoft.KeyVault/providers/Microsoft.Authorization/roleDefinitions/060f7684-9309-437b-aefd-ee8779bc8c9a",
-        "name": "060f7684-9309-437b-aefd-ee8779bc8c9a",
+        "id": "Microsoft.KeyVault/providers/Microsoft.Authorization/roleDefinitions/e65117e2-b335-4793-ac6a-b439ce7810d6",
+        "name": "e65117e2-b335-4793-ac6a-b439ce7810d6",
         "properties": {
           "assignableScopes": [
             "/"
@@ -191,7 +191,7 @@
       }
     },
     {
-      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/providers/Microsoft.Authorization/roleDefinitions/060f7684-9309-437b-aefd-ee8779bc8c9a?api-version=7.4-preview.1",
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net///providers/Microsoft.Authorization/roleDefinitions/e65117e2-b335-4793-ac6a-b439ce7810d6?api-version=7.4-preview.1",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -199,7 +199,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-keyvault-admin/4.4.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "8159f233-a154-4a93-a065-4b45847978fe"
+        "x-ms-client-request-id": "a5cce83e-cf4d-42c2-9a58-6240890a2763"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -213,12 +213,12 @@
         "X-Frame-Options": "SAMEORIGIN",
         "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=Ipv4;",
         "x-ms-keyvault-region": "northus",
-        "x-ms-request-id": "db5bc9e2-65e0-11ed-b1ac-0022488d29c2",
-        "x-ms-server-latency": "41"
+        "x-ms-request-id": "f090d744-65e5-11ed-bc87-0022488d4c2b",
+        "x-ms-server-latency": "38"
       },
       "ResponseBody": {
-        "id": "Microsoft.KeyVault/providers/Microsoft.Authorization/roleDefinitions/060f7684-9309-437b-aefd-ee8779bc8c9a",
-        "name": "060f7684-9309-437b-aefd-ee8779bc8c9a",
+        "id": "Microsoft.KeyVault/providers/Microsoft.Authorization/roleDefinitions/e65117e2-b335-4793-ac6a-b439ce7810d6",
+        "name": "e65117e2-b335-4793-ac6a-b439ce7810d6",
         "properties": {
           "assignableScopes": [
             "/"
@@ -250,7 +250,7 @@
       }
     },
     {
-      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/providers/Microsoft.Authorization/roleDefinitions?api-version=7.4-preview.1",
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net///providers/Microsoft.Authorization/roleDefinitions?api-version=7.4-preview.1",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -258,7 +258,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-keyvault-admin/4.4.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "ecaeb03d-8e5b-4748-8d14-5dac5e0a2303"
+        "x-ms-client-request-id": "cc146a18-fa75-40ee-a5c3-73b82679e10f"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -273,7 +273,7 @@
         "x-ms-build-version": "1.0.20221108-2-9cd4079e-1.0.20221020-1-945ffe56-develop",
         "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=Ipv4;",
         "x-ms-keyvault-region": "northus",
-        "x-ms-request-id": "db6af656-65e0-11ed-b1ac-0022488d29c2",
+        "x-ms-request-id": "f0a01c90-65e5-11ed-bc87-0022488d4c2b",
         "x-ms-server-latency": "0"
       },
       "ResponseBody": {
@@ -522,7 +522,7 @@
     }
   ],
   "Variables": {
-    "suffix": "suffix-436377",
-    "uuid-1": "060f7684-9309-437b-aefd-ee8779bc8c9a"
+    "suffix": "suffix-764959",
+    "uuid-1": "e65117e2-b335-4793-ac6a-b439ce7810d6"
   }
 }

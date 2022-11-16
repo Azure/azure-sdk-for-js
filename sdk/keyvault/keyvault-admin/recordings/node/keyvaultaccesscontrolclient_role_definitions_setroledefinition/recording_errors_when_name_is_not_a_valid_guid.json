@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/providers/Microsoft.Authorization/roleDefinitions/foo%20unique%20value?api-version=7.4-preview.1",
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net///providers/Microsoft.Authorization/roleDefinitions/foo%20unique%20value?api-version=7.4-preview.1",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,7 +10,7 @@
         "Content-Length": "0",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-keyvault-admin/4.4.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "6b44f420-5ecd-4af2-acb3-814bed49b9d2"
+        "x-ms-client-request-id": "02a770f5-b56b-4af7-bd8f-bf73b592f9fa"
       },
       "RequestBody": null,
       "StatusCode": 401,
@@ -23,13 +23,13 @@
         "WWW-Authenticate": "Bearer authorization=\u0022https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012\u0022, resource=\u0022https://managedhsm.azure.net\u0022",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "SAMEORIGIN",
-        "x-ms-request-id": "dc00fbf6-65e0-11ed-b1ac-0022488d29c2",
+        "x-ms-request-id": "f13ac7f4-65e5-11ed-bc87-0022488d4c2b",
         "x-ms-server-latency": "0"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/providers/Microsoft.Authorization/roleDefinitions/foo%20unique%20value?api-version=7.4-preview.1",
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net///providers/Microsoft.Authorization/roleDefinitions/foo%20unique%20value?api-version=7.4-preview.1",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -39,7 +39,7 @@
         "Content-Length": "116",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-keyvault-admin/4.4.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "6b44f420-5ecd-4af2-acb3-814bed49b9d2"
+        "x-ms-client-request-id": "02a770f5-b56b-4af7-bd8f-bf73b592f9fa"
       },
       "RequestBody": {
         "properties": {
@@ -60,18 +60,18 @@
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "SAMEORIGIN",
-        "x-ms-request-id": "dc36d6ae-65e0-11ed-b1ac-0022488d29c2",
-        "x-ms-server-latency": "1"
+        "x-ms-request-id": "f168d568-65e5-11ed-bc87-0022488d4c2b",
+        "x-ms-server-latency": "3"
       },
       "ResponseBody": {
         "error": {
           "code": "BadParameter",
-          "message": "Role definition name must be a GUID (Activity ID: dc36d6ae-65e0-11ed-b1ac-0022488d29c2)"
+          "message": "Role definition name must be a GUID (Activity ID: f168d568-65e5-11ed-bc87-0022488d4c2b)"
         }
       }
     }
   ],
   "Variables": {
-    "suffix": "suffix-113337"
+    "suffix": "suffix-785792"
   }
 }
