@@ -3891,7 +3891,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221114
+      typescript: 5.0.0-dev.20221115
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8839,8 +8839,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221114:
-    resolution: {integrity: sha512-lMcxw0oxEhQR0HIZyxhmCiwFqXfPQGtakbc+792/hmPP/pyICuaUUIKyY/7Cl6QPGTplHcGjDPEVbVE46gPVrA==}
+  /typescript/5.0.0-dev.20221115:
+    resolution: {integrity: sha512-h2MaHsq3nKjUZF9t/UCwOmitFUC9cFE1bNKHHHvQcoRUoVfriTvvg82RedkT6ixtrqC7RRhYcEJd7S23YioNkw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10407,7 +10407,7 @@ packages:
     dev: false
 
   file:projects/arm-attestation.tgz:
-    resolution: {integrity: sha512-TeVCKFr8yjQaTss4IQ6Z7PQSIxHnj0jM94LL5zN7g8Ur6XFTUIt62/MnY+Zf5b72mVtuVpwYyz8DOOdBhvEPsw==, tarball: file:projects/arm-attestation.tgz}
+    resolution: {integrity: sha512-K8vGs5hOXHnqEfrX76hagnRCKIcLKXXmvkzoZMemNs3ohKbj9Any3gestr8TroUlsVIMwSQtF7TwV12Va0c54Q==, tarball: file:projects/arm-attestation.tgz}
     name: '@rush-temp/arm-attestation'
     version: 0.0.0
     dependencies:
@@ -10418,18 +10418,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      '@types/node': 14.18.33
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
