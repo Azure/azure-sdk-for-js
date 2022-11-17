@@ -6,7 +6,7 @@ Billing client provides access to billing resources for Azure subscriptions.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/billing/arm-billing) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-billing) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-billing) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-billing?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
