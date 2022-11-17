@@ -2,7 +2,7 @@ parameters:
 - name: Location
   displayName: Location
   type: string
-  default: eastuseuap
+  default: eastus2euap
 
 trigger: none
 
