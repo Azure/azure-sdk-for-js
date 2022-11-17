@@ -14,9 +14,8 @@ export const _retryAfterUtil = { ...retryAfterUtil };
  * An iterator factory for failover hosts. Yields the next host to retry, or yields undefined if failover should be skipped.
  */
 export type FailoverHostDelegate = (
-  retryState: RetryInformation,
-  options: InternalPipelineRetryOptions
-) => Iterator<FailoverHostState | undefined, void, RetryInformation>;
+  requestOptions: InternalPipelineRetryOptions
+) => (retryState: RetryInformation) => FailoverHostState | undefined;
 
 /**
  * A host for failover and its associated state.
@@ -56,32 +55,32 @@ export function readWriteFailoverHostDelegate(options: {
   readHosts?: string[];
   writeHosts?: string[];
 }): FailoverHostDelegate {
-  const { readHosts, writeHosts } = options;
-  const readHostStateList: FailoverHosts = {
-    index: 0,
-    hostStates: (readHosts ?? []).map((url) => {
-      const host = new URL(url).host;
-      return { host, retryCount: 0 };
-    }),
-  };
-  const writeHostStateList: FailoverHosts = {
-    index: 0,
-    hostStates: (writeHosts ?? []).map((url) => {
-      const host = new URL(url).host;
-      return { host, retryCount: 0 };
-    }),
-  };
+  return function (requestOptions) {
+    const { readHosts, writeHosts } = options;
+    const readHostStateList: FailoverHosts = {
+      index: 0,
+      hostStates: (readHosts ?? []).map((url) => {
+        const host = new URL(url).host;
+        return { host, retryCount: 0 };
+      }),
+    };
+    const writeHostStateList: FailoverHosts = {
+      index: 0,
+      hostStates: (writeHosts ?? []).map((url) => {
+        const host = new URL(url).host;
+        return { host, retryCount: 0 };
+      }),
+    };
 
-  return function* (retryState, factoryOptions) {
     // Optimization for the case where no retry hosts are specified
     if (!readHostStateList.hostStates.length && !writeHostStateList.hostStates.length) {
-      return;
+      return () => undefined;
     }
 
-    const retryDelayInMs = factoryOptions.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
-    const maxRetryDelayInMs = factoryOptions.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
+    const retryDelayInMs = requestOptions.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
+    const maxRetryDelayInMs = requestOptions.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
 
-    while (true) {
+    return function (retryState) {
       const request = retryState.response?.request || retryState.responseError?.request;
       if (!request) {
         throw Error("Request should be defined.");
@@ -92,26 +91,24 @@ export function readWriteFailoverHostDelegate(options: {
       const currentStateList = isSafeMethod ? readHostStateList : writeHostStateList;
 
       if (currentStateList.hostStates.length === 0) {
-        retryState = yield undefined;
-        continue;
+        return undefined;
       }
+
       const hostState = currentStateList.hostStates[currentStateList.index];
 
       const requestFireTime = Math.max(hostState.retryAt?.valueOf() ?? -Infinity, Date.now());
-
-      retryState = yield hostState;
-
       const exponentialDelay = _retryAfterUtil.exponentialDelayInMs(
-        hostState.retryCount,
+        hostState.retryCount - 1,
         retryDelayInMs,
         maxRetryDelayInMs
       );
-      const nextRetryAt = new Date(requestFireTime + exponentialDelay);
-      hostState.retryAt = nextRetryAt;
+      hostState.retryAt = new Date(requestFireTime + exponentialDelay);
 
       currentStateList.index = (currentStateList.index + 1) % currentStateList.hostStates.length;
       hostState.retryCount++;
-    }
+
+      return hostState;
+    };
   };
 }
 
@@ -136,20 +133,14 @@ export function failoverRetryStrategy(options: InternalPipelineRetryOptions): Re
 
       // Register a delegate for failover hosts for this request (and all of its retries)
       if (!delegateMap.has(request)) {
-        delegateMap.set(request, options.failoverHostDelegate(state, options));
+        delegateMap.set(request, options.failoverHostDelegate(options));
       }
 
       // Get the next host for this request
       const failoverHosts = delegateMap.get(request)!;
-      const hostResult = failoverHosts.next(state);
-
-      // Skip if there are no fallback hosts
-      if (hostResult.done) {
-        return { skipStrategy: true };
-      }
+      const hostState = failoverHosts(state);
 
       // Skip if the delegate decides not to failover
-      const hostState = hostResult.value;
       if (!hostState) {
         return { skipStrategy: true };
       }

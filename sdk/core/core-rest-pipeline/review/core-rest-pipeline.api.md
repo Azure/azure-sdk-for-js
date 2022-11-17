@@ -110,7 +110,7 @@ export interface ExponentialRetryPolicyOptions {
 }
 
 // @public
-export type FailoverHostDelegate = (retryState: RetryInformation, options: InternalPipelineRetryOptions) => Iterator<FailoverHostState | undefined, void, RetryInformation>;
+export type FailoverHostDelegate = (requestOptions: InternalPipelineRetryOptions) => (retryState: RetryInformation) => FailoverHostState | undefined;
 
 // @public
 export interface FailoverHostState {
