@@ -5,7 +5,6 @@ Getting Started - Generate the RLC rest-level client libraries with Swagger
 
 Please refer to this [link](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for the environment set up prerequisites in azure-sdk-for-js repository. We highly recommand to read [this blog](https://devblogs.microsoft.com/azure-sdk/azure-rest-libraries-for-javascript/) to get familiar with REST libraries for JavaScript. 
 
-:warning: Note: if you’re still generating from Swagger with RLC, please read [this doc](./RLC-Swagger-quickstart.md) for Swagger specific details.
 
 # Project folder and name convention
 
