@@ -2,7 +2,7 @@ parameters:
 - name: Location
   displayName: Location
   type: string
-  default: uksouth
+  default: centraluseuap
 
 trigger: none
 
