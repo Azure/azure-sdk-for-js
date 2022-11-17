@@ -97,6 +97,8 @@ async function main() {
       queryParameters: {
         bbox: [13.228, 52.4559, 13.5794, 52.62],
         zoom: 10,
+        // TODO: core client doesn't support collectionFormat: multi now, which means passing more than one path/pinSet will cause failure.
+        // Add multiple path/pinsSet once the core-client support multi.
         path: [path],
         pins: [pinsSet1],
       },
