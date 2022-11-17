@@ -120,7 +120,7 @@ describe("Web test", () => {
 
   it("webApps list test", async function () {
     const resArray = new Array();
-    for await (let item of client.webApps.list()) {
+    for await (let item of client.webApps.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -145,7 +145,7 @@ describe("Web test", () => {
   it("webApps delete test", async function () {
     const res = await client.webApps.delete(resourceGroup, name);
     const resArray = new Array();
-    for await (let item of client.webApps.list()) {
+    for await (let item of client.webApps.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

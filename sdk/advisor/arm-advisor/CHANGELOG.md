@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.4 (Unreleased)
+## 3.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,14 @@
 
 ### Other Changes
 
+## 3.1.0 (2022-11-14)
+    
+**Features**
+
+  - Added Interface ConfigData
+  - Added Interface ResourceRecommendationBase
+  - Added Interface SuppressionContract
+    
 ## 3.0.3 (2022-10-08)
 
 **Bugs Fixed**

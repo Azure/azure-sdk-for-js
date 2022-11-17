@@ -12,7 +12,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://github.com/Azure/azure-rest-api-specs/blob/ac205086f477776e8d9aa4ff771e98f174afbea2/specification/cognitiveservices/data-plane/Language/preview/2022-10-01-preview/analyzetext.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/b32e1896f30e6ea155449cb49719a6286e32b961/specification/cognitiveservices/data-plane/Language/preview/2022-10-01-preview/analyzetext.json
 add-credentials: false
 package-version: 1.1.0-beta.1
 v3: true
@@ -174,9 +174,7 @@ directive:
   - where-model: PiiCategories
     transform: $.items["x-ms-enum"].name = "PiiEntityCategory";
 
-  - where-model: SingleClassificationDocumentResult
-    transform: $.properties.class["x-ms-client-name"] = "classification";
-  - where-model: MultiClassificationDocumentResult
+  - where-model: ClassificationDocumentResult
     transform: $.properties.class["x-ms-client-name"] = "classifications";
   - rename-model:
       from: ClassificationResult

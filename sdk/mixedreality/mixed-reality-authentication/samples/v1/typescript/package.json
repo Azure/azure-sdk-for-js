@@ -33,7 +33,7 @@
     "@azure/core-auth": "^1.3.0"
   },
   "devDependencies": {
-    "typescript": "~4.6.0",
+    "typescript": "~4.8.0",
     "rimraf": "latest"
   }
 }

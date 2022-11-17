@@ -397,6 +397,11 @@ export interface HealthcareRelationEntity {
   role: string;
 }
 
+export interface DocumentDetectedLanguageString {
+  /** If 'language' is set to 'auto' for the document in the request this field will contain a 2 letter ISO 639-1 representation of the language detected for this document. */
+  detectedLanguage?: string;
+}
+
 export interface PreBuiltResult {
   /** Errors by document id. */
   errors: InputError[];
@@ -518,6 +523,12 @@ export interface Match {
   length: number;
 }
 
+/** Represents resolutions for quantities. */
+export interface QuantityResolution {
+  /** The numeric value that the extracted text denotes. */
+  value: number;
+}
+
 /** A sentence that is part of the extracted summary. */
 export interface SummarySentence {
   /** The extracted sentence text. */
@@ -566,12 +577,6 @@ export interface SummaryContext {
   offset: number;
   /** The length of the context. Use of different 'stringIndexType' values can affect the length returned. */
   length: number;
-}
-
-/** Represents resolutions for quantities. */
-export interface QuantityResolution {
-  /** The numeric value that the extracted text denotes. */
-  value: number;
 }
 
 export interface AnalyzeTextEntityLinkingInput extends AnalyzeAction {
@@ -827,7 +832,7 @@ export interface NumberResolution extends BaseResolution {
   /** The type of the extracted number entity. */
   numberKind: NumberKind;
   /** A numeric representation of what the extracted text denotes. */
-  value: string;
+  value: number;
 }
 
 /** A resolution for ordinal numbers entity instances. */
@@ -882,7 +887,7 @@ export interface EntitiesDocumentResult extends DocumentResult {
 }
 
 export interface ClassificationDocumentResult extends DocumentResult {
-  class: ClassificationCategory[];
+  classifications: ClassificationCategory[];
 }
 
 export interface HealthcareEntitiesDocumentResult extends DocumentResult {
@@ -944,23 +949,19 @@ export interface CustomLabelClassificationResultDocumentsItem
   extends ClassificationDocumentResult,
     DocumentDetectedLanguage {}
 
-export interface HealthcareResultDocumentsItem
-  extends HealthcareEntitiesDocumentResult,
-    DocumentDetectedLanguage {}
-
 export interface SentimentResponseDocumentsItem
   extends SentimentDocumentResult,
     DocumentDetectedLanguage {}
 
-export interface EntitiesResultDocumentsItem
+export interface EntitiesResultWithDetectedLanguage
   extends EntitiesDocumentResult,
     DocumentDetectedLanguage {}
 
-export interface EntityLinkingResultDocumentsItem
+export interface EntityLinkingResultWithDetectedLanguage
   extends LinkedEntitiesDocumentResult,
     DocumentDetectedLanguage {}
 
-export interface PiiResultDocumentsItem
+export interface PIIResultWithDetectedLanguage
   extends PiiEntitiesDocumentResult,
     DocumentDetectedLanguage {}
 
@@ -977,8 +978,12 @@ export interface AbstractiveSummaryDocumentResultWithDetectedLanguage
   extends AbstractiveSummaryDocumentResult,
     DocumentDetectedLanguage {}
 
+export interface HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage
+  extends HealthcareEntitiesDocumentResult,
+    DocumentDetectedLanguageString {}
+
 export interface HealthcareResult extends PreBuiltResult {
-  documents: HealthcareResultDocumentsItem[];
+  documents: HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage[];
 }
 
 export interface SentimentResponse extends PreBuiltResult {
@@ -988,17 +993,17 @@ export interface SentimentResponse extends PreBuiltResult {
 
 export interface EntitiesResult extends PreBuiltResult {
   /** Response by document */
-  documents: EntitiesResultDocumentsItem[];
+  documents: EntitiesResultWithDetectedLanguage[];
 }
 
 export interface EntityLinkingResult extends PreBuiltResult {
   /** Response by document */
-  documents: EntityLinkingResultDocumentsItem[];
+  documents: EntityLinkingResultWithDetectedLanguage[];
 }
 
 export interface PiiResult extends PreBuiltResult {
   /** Response by document */
-  documents: PiiResultDocumentsItem[];
+  documents: PIIResultWithDetectedLanguage[];
 }
 
 export interface ExtractiveSummarizationResult extends PreBuiltResult {
@@ -2548,24 +2553,6 @@ export enum KnownRelationType {
  */
 export type RelationType = string;
 
-/** Known values of {@link ExtractiveSummarizationOrderingCriteria} that the service accepts. */
-export enum KnownExtractiveSummarizationOrderingCriteria {
-  /** Indicates that results should be sorted in order of appearance in the text. */
-  Offset = "Offset",
-  /** Indicates that results should be sorted in order of importance (i.e. rank score) according to the model. */
-  Rank = "Rank"
-}
-
-/**
- * Defines values for ExtractiveSummarizationOrderingCriteria. \
- * {@link KnownExtractiveSummarizationOrderingCriteria} can be used interchangeably with ExtractiveSummarizationOrderingCriteria,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Offset**: Indicates that results should be sorted in order of appearance in the text. \
- * **Rank**: Indicates that results should be sorted in order of importance (i.e. rank score) according to the model.
- */
-export type ExtractiveSummarizationOrderingCriteria = string;
-
 /** Known values of {@link AgeUnit} that the service accepts. */
 export enum KnownAgeUnit {
   /** Unspecified */
@@ -2693,32 +2680,32 @@ export type VolumeUnit = string;
 export enum KnownSpeedUnit {
   /** Unspecified */
   Unspecified = "Unspecified",
-  /** MetersPerSecond */
-  MetersPerSecond = "MetersPerSecond",
-  /** KilometersPerHour */
-  KilometersPerHour = "KilometersPerHour",
-  /** KilometersPerMinute */
-  KilometersPerMinute = "KilometersPerMinute",
-  /** KilometersPerSecond */
-  KilometersPerSecond = "KilometersPerSecond",
-  /** MilesPerHour */
-  MilesPerHour = "MilesPerHour",
+  /** MeterPerSecond */
+  MeterPerSecond = "MeterPerSecond",
+  /** KilometerPerHour */
+  KilometerPerHour = "KilometerPerHour",
+  /** KilometerPerMinute */
+  KilometerPerMinute = "KilometerPerMinute",
+  /** KilometerPerSecond */
+  KilometerPerSecond = "KilometerPerSecond",
+  /** MilePerHour */
+  MilePerHour = "MilePerHour",
   /** Knot */
   Knot = "Knot",
   /** FootPerSecond */
   FootPerSecond = "FootPerSecond",
   /** FootPerMinute */
   FootPerMinute = "FootPerMinute",
-  /** YardsPerMinute */
-  YardsPerMinute = "YardsPerMinute",
-  /** YardsPerSecond */
-  YardsPerSecond = "YardsPerSecond",
-  /** MetersPerMillisecond */
-  MetersPerMillisecond = "MetersPerMillisecond",
-  /** CentimetersPerMillisecond */
-  CentimetersPerMillisecond = "CentimetersPerMillisecond",
-  /** KilometersPerMillisecond */
-  KilometersPerMillisecond = "KilometersPerMillisecond"
+  /** YardPerMinute */
+  YardPerMinute = "YardPerMinute",
+  /** YardPerSecond */
+  YardPerSecond = "YardPerSecond",
+  /** MeterPerMillisecond */
+  MeterPerMillisecond = "MeterPerMillisecond",
+  /** CentimeterPerMillisecond */
+  CentimeterPerMillisecond = "CentimeterPerMillisecond",
+  /** KilometerPerMillisecond */
+  KilometerPerMillisecond = "KilometerPerMillisecond"
 }
 
 /**
@@ -2727,19 +2714,19 @@ export enum KnownSpeedUnit {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Unspecified** \
- * **MetersPerSecond** \
- * **KilometersPerHour** \
- * **KilometersPerMinute** \
- * **KilometersPerSecond** \
- * **MilesPerHour** \
+ * **MeterPerSecond** \
+ * **KilometerPerHour** \
+ * **KilometerPerMinute** \
+ * **KilometerPerSecond** \
+ * **MilePerHour** \
  * **Knot** \
  * **FootPerSecond** \
  * **FootPerMinute** \
- * **YardsPerMinute** \
- * **YardsPerSecond** \
- * **MetersPerMillisecond** \
- * **CentimetersPerMillisecond** \
- * **KilometersPerMillisecond**
+ * **YardPerMinute** \
+ * **YardPerSecond** \
+ * **MeterPerMillisecond** \
+ * **CentimeterPerMillisecond** \
+ * **KilometerPerMillisecond**
  */
 export type SpeedUnit = string;
 
@@ -3180,6 +3167,24 @@ export enum KnownRangeKind {
  * **Currency**
  */
 export type RangeKind = string;
+
+/** Known values of {@link ExtractiveSummarizationOrderingCriteria} that the service accepts. */
+export enum KnownExtractiveSummarizationOrderingCriteria {
+  /** Indicates that results should be sorted in order of appearance in the text. */
+  Offset = "Offset",
+  /** Indicates that results should be sorted in order of importance (i.e. rank score) according to the model. */
+  Rank = "Rank"
+}
+
+/**
+ * Defines values for ExtractiveSummarizationOrderingCriteria. \
+ * {@link KnownExtractiveSummarizationOrderingCriteria} can be used interchangeably with ExtractiveSummarizationOrderingCriteria,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Offset**: Indicates that results should be sorted in order of appearance in the text. \
+ * **Rank**: Indicates that results should be sorted in order of importance (i.e. rank score) according to the model.
+ */
+export type ExtractiveSummarizationOrderingCriteria = string;
 /** Defines values for EntityConditionality. */
 export type EntityConditionality = "hypothetical" | "conditional";
 /** Defines values for EntityCertainty. */

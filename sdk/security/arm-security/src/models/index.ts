@@ -50,10 +50,14 @@ export type CloudOfferingUnion =
   | DefenderForDatabasesGcpOffering
   | DefenderForContainersGcpOffering
   | CspmMonitorGithubOffering
-  | CspmMonitorAzureDevOpsOffering;
+  | CspmMonitorAzureDevOpsOffering
+  | DefenderCspmAwsOffering
+  | DefenderCspmGcpOffering
+  | DefenderForDevOpsGithubOffering
+  | DefenderForDevOpsAzureDevOpsOffering;
 export type EnvironmentDataUnion =
   | EnvironmentData
-  | AWSEnvironmentData
+  | AwsEnvironmentData
   | GcpProjectEnvironmentData
   | GithubScopeEnvironmentData
   | AzureDevOpsScopeEnvironmentData;
@@ -1794,7 +1798,11 @@ export interface CloudOffering {
     | "DefenderForDatabasesGcp"
     | "DefenderForContainersGcp"
     | "CspmMonitorGithub"
-    | "CspmMonitorAzureDevOps";
+    | "CspmMonitorAzureDevOps"
+    | "DefenderCspmAws"
+    | "DefenderCspmGcp"
+    | "DefenderForDevOpsGithub"
+    | "DefenderForDevOpsAzureDevOps";
   /**
    * The offering description.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1909,6 +1917,55 @@ export interface ApplicationsList {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** Page of a list of API collections as represented by Defender for APIs. */
+export interface ApiCollectionResponseList {
+  /**
+   * API collections in this page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ApiCollectionResponse[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
 /** CVSS details */
@@ -2068,18 +2125,6 @@ export interface DefenderForServersAwsOfferingArcAutoProvisioning {
   enabled?: boolean;
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
-  /** Metadata of Service Principal secret for autoprovisioning */
-  servicePrincipalSecretMetadata?: DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata;
-}
-
-/** Metadata of Service Principal secret for autoprovisioning */
-export interface DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata {
-  /** expiration date of service principal secret */
-  expiryDate?: string;
-  /** region of parameter store where secret is kept */
-  parameterStoreRegion?: string;
-  /** name of secret resource in parameter store */
-  parameterNameInStore?: string;
 }
 
 /** The Vulnerability Assessment autoprovisioning configuration */
@@ -2125,7 +2170,7 @@ export interface DefenderForServersAwsOfferingVmScannersConfiguration {
   /** The scanning mode for the vm scan. */
   scanningMode?: ScanningMode;
   /** VM tags that indicates that VM should not be scanned */
-  exclusionTags?: Record<string, unknown>;
+  exclusionTags?: { [propertyName: string]: string };
 }
 
 /** The ARC autoprovisioning configuration */
@@ -2134,18 +2179,14 @@ export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioning {
   enabled?: boolean;
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
-  /** Metadata of Service Principal secret for autoprovisioning */
-  servicePrincipalSecretMetadata?: DefenderFoDatabasesAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata;
 }
 
-/** Metadata of Service Principal secret for autoprovisioning */
-export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata {
-  /** expiration date of service principal secret */
-  expiryDate?: Date;
-  /** region of parameter store where secret is kept */
-  parameterStoreRegion?: string;
-  /** name of secret resource in parameter store */
-  parameterNameInStore?: string;
+/** The RDS configuration */
+export interface DefenderFoDatabasesAwsOfferingRds {
+  /** Is RDS protection enabled */
+  enabled?: boolean;
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
 }
 
 /** The native cloud connection configuration */
@@ -2174,16 +2215,6 @@ export interface DefenderForServersGcpOfferingDefenderForServers {
 export interface DefenderForServersGcpOfferingArcAutoProvisioning {
   /** Is arc auto provisioning enabled */
   enabled?: boolean;
-  /** Configuration for ARC autoprovisioning */
-  configuration?: DefenderForServersGcpOfferingArcAutoProvisioningConfiguration;
-}
-
-/** Configuration for ARC autoprovisioning */
-export interface DefenderForServersGcpOfferingArcAutoProvisioningConfiguration {
-  /** The Azure service principal client id for agent onboarding */
-  clientId?: string;
-  /** The agent onboarding service account numeric id */
-  agentOnboardingServiceAccountNumericId?: string;
 }
 
 /** The Vulnerability Assessment autoprovisioning configuration */
@@ -2218,16 +2249,6 @@ export interface DefenderForServersGcpOfferingSubPlan {
 export interface DefenderForDatabasesGcpOfferingArcAutoProvisioning {
   /** Is arc auto provisioning enabled */
   enabled?: boolean;
-  /** Configuration for ARC autoprovisioning */
-  configuration?: DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration;
-}
-
-/** Configuration for ARC autoprovisioning */
-export interface DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration {
-  /** The Azure service principal client id for agent onboarding */
-  clientId?: string;
-  /** The agent onboarding service account numeric id */
-  agentOnboardingServiceAccountNumericId?: string;
 }
 
 /** The native cloud connection configuration */
@@ -2252,6 +2273,24 @@ export interface DefenderForContainersGcpOfferingDataPipelineNativeCloudConnecti
   serviceAccountEmailAddress?: string;
   /** The data collection GCP workload identity provider id for this offering */
   workloadIdentityProviderId?: string;
+}
+
+/** The Microsoft Defender for Server VM scanning configuration */
+export interface DefenderCspmAwsOfferingVmScanners {
+  /** Is Microsoft Defender for Server VM scanning enabled */
+  enabled?: boolean;
+  /** configuration for Microsoft Defender for Server VM scanning */
+  configuration?: DefenderCspmAwsOfferingVmScannersConfiguration;
+}
+
+/** configuration for Microsoft Defender for Server VM scanning */
+export interface DefenderCspmAwsOfferingVmScannersConfiguration {
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
+  /** The scanning mode for the vm scan. */
+  scanningMode?: ScanningMode;
+  /** VM tags that indicates that VM should not be scanned */
+  exclusionTags?: { [propertyName: string]: string };
 }
 
 /** Governance rule's condition */
@@ -3392,6 +3431,14 @@ export interface Application extends Resource {
   conditionSets?: Record<string, unknown>[];
 }
 
+/** An API collection as represented by Defender for APIs. */
+export interface ApiCollectionResponse extends Resource {
+  /** The display name of the Azure API Management API. */
+  displayName?: string;
+  /** Additional data regarding the API collection. */
+  additionalData?: { [propertyName: string]: string };
+}
+
 /** Security assessment metadata */
 export interface SecurityAssessmentMetadata extends Resource {
   /** User friendly display name of the assessment */
@@ -3832,6 +3879,8 @@ export interface DefenderFoDatabasesAwsOffering extends CloudOffering {
   offeringType: "DefenderForDatabasesAws";
   /** The ARC autoprovisioning configuration */
   arcAutoProvisioning?: DefenderFoDatabasesAwsOfferingArcAutoProvisioning;
+  /** The RDS configuration */
+  rds?: DefenderFoDatabasesAwsOfferingRds;
 }
 
 /** The information protection for AWS offering */
@@ -3904,8 +3953,34 @@ export interface CspmMonitorAzureDevOpsOffering extends CloudOffering {
   offeringType: "CspmMonitorAzureDevOps";
 }
 
+/** The CSPM P1 for Aws offering */
+export interface DefenderCspmAwsOffering extends CloudOffering {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "DefenderCspmAws";
+  /** The Microsoft Defender for Server VM scanning configuration */
+  vmScanners?: DefenderCspmAwsOfferingVmScanners;
+}
+
+/** The CSPM P1 for GCP offering */
+export interface DefenderCspmGcpOffering extends CloudOffering {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "DefenderCspmGcp";
+}
+
+/** The Defender for DevOps for Github offering */
+export interface DefenderForDevOpsGithubOffering extends CloudOffering {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "DefenderForDevOpsGithub";
+}
+
+/** The Defender for DevOps for Azure DevOps offering */
+export interface DefenderForDevOpsAzureDevOpsOffering extends CloudOffering {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "DefenderForDevOpsAzureDevOps";
+}
+
 /** The aws connector environment data */
-export interface AWSEnvironmentData extends EnvironmentData {
+export interface AwsEnvironmentData extends EnvironmentData {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   environmentType: "AwsAccount";
   /** The AWS account's organizational data */
@@ -6406,7 +6481,15 @@ export enum KnownOfferingType {
   /** DefenderForContainersGcp */
   DefenderForContainersGcp = "DefenderForContainersGcp",
   /** DefenderForDatabasesGcp */
-  DefenderForDatabasesGcp = "DefenderForDatabasesGcp"
+  DefenderForDatabasesGcp = "DefenderForDatabasesGcp",
+  /** DefenderCspmAws */
+  DefenderCspmAws = "DefenderCspmAws",
+  /** DefenderCspmGcp */
+  DefenderCspmGcp = "DefenderCspmGcp",
+  /** DefenderForDevOpsGithub */
+  DefenderForDevOpsGithub = "DefenderForDevOpsGithub",
+  /** DefenderForDevOpsAzureDevOps */
+  DefenderForDevOpsAzureDevOps = "DefenderForDevOpsAzureDevOps"
 }
 
 /**
@@ -6424,7 +6507,11 @@ export enum KnownOfferingType {
  * **CspmMonitorAzureDevOps** \
  * **DefenderForServersGcp** \
  * **DefenderForContainersGcp** \
- * **DefenderForDatabasesGcp**
+ * **DefenderForDatabasesGcp** \
+ * **DefenderCspmAws** \
+ * **DefenderCspmGcp** \
+ * **DefenderForDevOpsGithub** \
+ * **DefenderForDevOpsAzureDevOps**
  */
 export type OfferingType = string;
 
@@ -6669,6 +6756,8 @@ export type GovernanceRuleConditionOperator = string;
 export enum KnownApplicationConditionOperator {
   /** Checks that the string value of the data defined in Property contains the given value */
   Contains = "Contains",
+  /** Checks that the string value of the data defined in Property equals the given value */
+  Equals = "Equals",
   /** Checks that the string value of the data defined in Property equals any of the given values (exact fit) */
   In = "In"
 }
@@ -6679,6 +6768,7 @@ export enum KnownApplicationConditionOperator {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Contains**: Checks that the string value of the data defined in Property contains the given value \
+ * **Equals**: Checks that the string value of the data defined in Property equals the given value \
  * **In**: Checks that the string value of the data defined in Property equals any of the given values (exact fit)
  */
 export type ApplicationConditionOperator = string;
@@ -8592,6 +8682,38 @@ export type SecurityConnectorApplicationCreateOrUpdateResponse = Application;
 
 /** Optional parameters. */
 export interface SecurityConnectorApplicationDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface APICollectionListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type APICollectionListResponse = ApiCollectionResponseList;
+
+/** Optional parameters. */
+export interface APICollectionGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type APICollectionGetResponse = ApiCollectionResponse;
+
+/** Optional parameters. */
+export interface APICollectionListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type APICollectionListNextResponse = ApiCollectionResponseList;
+
+/** Optional parameters. */
+export interface APICollectionOnboardingCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type APICollectionOnboardingCreateResponse = ApiCollectionResponse;
+
+/** Optional parameters. */
+export interface APICollectionOffboardingDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */

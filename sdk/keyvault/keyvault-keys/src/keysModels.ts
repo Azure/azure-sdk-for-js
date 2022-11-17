@@ -18,7 +18,7 @@ export { KeyType, KnownKeyTypes, KeyOperation };
 /**
  * The latest supported Key Vault service API version
  */
-export const LATEST_API_VERSION = "7.3";
+export const LATEST_API_VERSION = "7.4-preview.1";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -384,6 +384,12 @@ export interface BeginDeleteKeyOptions extends KeyPollerOptions {}
  * passed to {@link beginRecoverDeletedKey}
  */
 export interface BeginRecoverDeletedKeyOptions extends KeyPollerOptions {}
+
+/**
+ * An interface representing the optional parameters that can be
+ * passed to {@link createOkpKey}
+ */
+export interface CreateOkpKeyOptions extends CreateKeyOptions {}
 
 /**
  * An interface representing the optional parameters that can be

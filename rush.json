@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -364,6 +364,11 @@
     {
       "packageName": "@azure/ai-anomaly-detector",
       "projectFolder": "sdk/anomalydetector/ai-anomaly-detector",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/ai-anomaly-detector",
+      "projectFolder": "sdk/anomalydetector/ai-anomaly-detector-rest",
       "versionPolicyName": "client"
     },
     {
@@ -1919,6 +1924,16 @@
     {
       "packageName": "@azure/arm-appcomplianceautomation",
       "projectFolder": "sdk/appcomplianceautomation/arm-appcomplianceautomation",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-elastic",
+      "projectFolder": "sdk/elastic/arm-elastic",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hybridcontainerservice",
+      "projectFolder": "sdk/hybridcontainerservice/arm-hybridcontainerservice",
       "versionPolicyName": "management"
     }
   ]

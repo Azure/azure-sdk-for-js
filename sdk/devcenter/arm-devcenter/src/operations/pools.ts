@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Pools } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -45,7 +46,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Lists pools for a project
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -66,11 +67,15 @@ export class PoolsImpl implements Pools {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByProjectPagingPage(
           resourceGroupName,
           projectName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -79,15 +84,22 @@ export class PoolsImpl implements Pools {
   private async *listByProjectPagingPage(
     resourceGroupName: string,
     projectName: string,
-    options?: PoolsListByProjectOptionalParams
+    options?: PoolsListByProjectOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Pool[]> {
-    let result = await this._listByProject(
-      resourceGroupName,
-      projectName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PoolsListByProjectResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByProject(
+        resourceGroupName,
+        projectName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByProjectNext(
         resourceGroupName,
@@ -96,7 +108,9 @@ export class PoolsImpl implements Pools {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -116,7 +130,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Lists pools for a project
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -133,7 +147,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Gets a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param options The options parameters.
@@ -152,7 +166,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Creates or updates a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param body Represents a machine pool
@@ -225,7 +239,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Creates or updates a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param body Represents a machine pool
@@ -250,7 +264,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Partially updates a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param body Represents a machine pool
@@ -320,7 +334,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Partially updates a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param body Represents a machine pool
@@ -345,7 +359,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Deletes a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param options The options parameters.
@@ -411,7 +425,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * Deletes a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param options The options parameters.
@@ -433,7 +447,7 @@ export class PoolsImpl implements Pools {
 
   /**
    * ListByProjectNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param nextLink The nextLink from the previous successful call to the ListByProject method.
    * @param options The options parameters.

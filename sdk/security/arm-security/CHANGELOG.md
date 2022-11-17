@@ -1,19 +1,12 @@
 # Release History
-
-## 6.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 6.0.0-beta.1 (2022-09-14)
+    
+## 6.0.0-beta.2 (2022-11-15)
     
 **Features**
 
+  - Added operation group APICollection
+  - Added operation group APICollectionOffboarding
+  - Added operation group APICollectionOnboarding
   - Added operation group ApplicationOperations
   - Added operation group Applications
   - Added operation group GovernanceAssignments
@@ -47,6 +40,13 @@
   - Added Interface AmqpC2DMessagesNotInAllowedRange
   - Added Interface AmqpC2DRejectedMessagesNotInAllowedRange
   - Added Interface AmqpD2CMessagesNotInAllowedRange
+  - Added Interface APICollectionGetOptionalParams
+  - Added Interface APICollectionListNextOptionalParams
+  - Added Interface APICollectionListOptionalParams
+  - Added Interface APICollectionOffboardingDeleteOptionalParams
+  - Added Interface APICollectionOnboardingCreateOptionalParams
+  - Added Interface ApiCollectionResponse
+  - Added Interface ApiCollectionResponseList
   - Added Interface Application
   - Added Interface ApplicationCondition
   - Added Interface ApplicationCreateOrUpdateOptionalParams
@@ -66,7 +66,7 @@
   - Added Interface AutoProvisioningSetting
   - Added Interface AwAssumeRoleAuthenticationDetailsProperties
   - Added Interface AwsCredsAuthenticationDetailsProperties
-  - Added Interface AWSEnvironmentData
+  - Added Interface AwsEnvironmentData
   - Added Interface AwsOrganizationalData
   - Added Interface AwsOrganizationalDataMaster
   - Added Interface AwsOrganizationalDataMember
@@ -91,9 +91,13 @@
   - Added Interface CustomAssessmentAutomationRequest
   - Added Interface CustomEntityStoreAssignment
   - Added Interface DataExportSettings
+  - Added Interface DefenderCspmAwsOffering
+  - Added Interface DefenderCspmAwsOfferingVmScanners
+  - Added Interface DefenderCspmAwsOfferingVmScannersConfiguration
+  - Added Interface DefenderCspmGcpOffering
   - Added Interface DefenderFoDatabasesAwsOffering
   - Added Interface DefenderFoDatabasesAwsOfferingArcAutoProvisioning
-  - Added Interface DefenderFoDatabasesAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata
+  - Added Interface DefenderFoDatabasesAwsOfferingRds
   - Added Interface DefenderForContainersAwsOffering
   - Added Interface DefenderForContainersAwsOfferingContainerVulnerabilityAssessment
   - Added Interface DefenderForContainersAwsOfferingContainerVulnerabilityAssessmentTask
@@ -102,8 +106,9 @@
   - Added Interface DefenderForContainersGcpOfferingNativeCloudConnection
   - Added Interface DefenderForDatabasesGcpOffering
   - Added Interface DefenderForDatabasesGcpOfferingArcAutoProvisioning
-  - Added Interface DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration
   - Added Interface DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning
+  - Added Interface DefenderForDevOpsAzureDevOpsOffering
+  - Added Interface DefenderForDevOpsGithubOffering
   - Added Interface DefenderForServersAwsOffering
   - Added Interface DefenderForServersAwsOfferingMdeAutoProvisioning
   - Added Interface DefenderForServersAwsOfferingSubPlan
@@ -113,7 +118,6 @@
   - Added Interface DefenderForServersAwsOfferingVmScannersConfiguration
   - Added Interface DefenderForServersGcpOffering
   - Added Interface DefenderForServersGcpOfferingArcAutoProvisioning
-  - Added Interface DefenderForServersGcpOfferingArcAutoProvisioningConfiguration
   - Added Interface DefenderForServersGcpOfferingDefenderForServers
   - Added Interface DefenderForServersGcpOfferingMdeAutoProvisioning
   - Added Interface DefenderForServersGcpOfferingSubPlan
@@ -124,6 +128,8 @@
   - Added Interface DirectMethodInvokesNotInAllowedRange
   - Added Interface DiscoveredSecuritySolution
   - Added Interface EnvironmentData
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
   - Added Interface ExecuteGovernanceRuleParams
   - Added Interface ExecuteRuleStatus
   - Added Interface ExternalSecuritySolution
@@ -233,6 +239,10 @@
   - Added Interface UnauthorizedOperationsNotInAllowedRange
   - Added Interface UpdateIotSecuritySolutionData
   - Added Interface WorkspaceSetting
+  - Added Type Alias APICollectionGetResponse
+  - Added Type Alias APICollectionListNextResponse
+  - Added Type Alias APICollectionListResponse
+  - Added Type Alias APICollectionOnboardingCreateResponse
   - Added Type Alias ApplicationConditionOperator
   - Added Type Alias ApplicationCreateOrUpdateResponse
   - Added Type Alias ApplicationGetResponse
@@ -240,6 +250,7 @@
   - Added Type Alias ApplicationsListResponse
   - Added Type Alias ApplicationSourceResourceType
   - Added Type Alias AwsOrganizationalDataUnion
+  - Added Type Alias ConnectionType
   - Added Type Alias EnvironmentDataUnion
   - Added Type Alias EnvironmentType
   - Added Type Alias GcpOrganizationalDataUnion
@@ -275,6 +286,9 @@
   - Interface AlertsSimulateOptionalParams has a new optional parameter resumeFrom
   - Interface AlertsSimulateOptionalParams has a new optional parameter updateIntervalInMs
   - Interface DefenderForServersAwsOfferingArcAutoProvisioning has a new optional parameter cloudRoleArn
+  - Class SecurityCenter has a new parameter aPICollection
+  - Class SecurityCenter has a new parameter aPICollectionOffboarding
+  - Class SecurityCenter has a new parameter aPICollectionOnboarding
   - Class SecurityCenter has a new parameter applicationOperations
   - Class SecurityCenter has a new parameter applications
   - Class SecurityCenter has a new parameter governanceAssignments
@@ -305,9 +319,13 @@
   - Enum KnownOfferingType has a new value CspmMonitorAzureDevOps
   - Enum KnownOfferingType has a new value CspmMonitorGcp
   - Enum KnownOfferingType has a new value CspmMonitorGithub
+  - Enum KnownOfferingType has a new value DefenderCspmAws
+  - Enum KnownOfferingType has a new value DefenderCspmGcp
   - Enum KnownOfferingType has a new value DefenderForContainersGcp
   - Enum KnownOfferingType has a new value DefenderForDatabasesAws
   - Enum KnownOfferingType has a new value DefenderForDatabasesGcp
+  - Enum KnownOfferingType has a new value DefenderForDevOpsAzureDevOps
+  - Enum KnownOfferingType has a new value DefenderForDevOpsGithub
   - Enum KnownOfferingType has a new value DefenderForServersGcp
   - Enum KnownSettingName has a new value WdatpUnifiedSolution
 
@@ -315,6 +333,8 @@
 
   - Removed operation Alerts.simulate
   - Removed operation SecurityContacts.update
+  - Operation AllowedConnections.get has a new signature
+  - Interface DefenderForServersAwsOfferingArcAutoProvisioning no longer has parameter servicePrincipalSecretMetadata
   - Removed Enum KnownAlertNotifications
   - Removed Enum KnownAlertsToAdmins
     

@@ -26,7 +26,7 @@ import {
 export interface Pools {
   /**
    * Lists pools for a project
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -37,7 +37,7 @@ export interface Pools {
   ): PagedAsyncIterableIterator<Pool>;
   /**
    * Gets a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param options The options parameters.
@@ -50,7 +50,7 @@ export interface Pools {
   ): Promise<PoolsGetResponse>;
   /**
    * Creates or updates a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param body Represents a machine pool
@@ -70,7 +70,7 @@ export interface Pools {
   >;
   /**
    * Creates or updates a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param body Represents a machine pool
@@ -85,7 +85,7 @@ export interface Pools {
   ): Promise<PoolsCreateOrUpdateResponse>;
   /**
    * Partially updates a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param body Represents a machine pool
@@ -102,7 +102,7 @@ export interface Pools {
   >;
   /**
    * Partially updates a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param body Represents a machine pool
@@ -117,7 +117,7 @@ export interface Pools {
   ): Promise<PoolsUpdateResponse>;
   /**
    * Deletes a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param options The options parameters.
@@ -130,7 +130,7 @@ export interface Pools {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param options The options parameters.

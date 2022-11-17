@@ -8494,3 +8494,237 @@ export const expectation70: DynamicClassificationResult[] = [
     ],
   },
 ];
+
+export const expectation71: any = [
+  {
+    kind: "EntityRecognition",
+    results: [
+      {
+        id: "0",
+        warnings: [],
+        entities: [
+          { text: "park", category: "Location", offset: 17, length: 4, confidenceScore: 0.99 },
+        ],
+        detectedLanguage: { name: "English", iso6391Name: "en", confidenceScore: 0.98 },
+        isLanguageDefaulted: false,
+      },
+      {
+        id: "1",
+        warnings: [],
+        entities: [
+          {
+            text: "un",
+            category: "Quantity",
+            subCategory: "Number",
+            offset: 8,
+            length: 2,
+            confidenceScore: 0.8,
+          },
+          { text: "Español", category: "Skill", offset: 31, length: 7, confidenceScore: 0.94 },
+        ],
+        detectedLanguage: { name: "Spanish", iso6391Name: "es", confidenceScore: 0.75 },
+        isLanguageDefaulted: false,
+      },
+      {
+        id: "2",
+        warnings: [],
+        entities: [
+          { text: "猫", category: "Product", offset: 0, length: 1, confidenceScore: 0.42 },
+        ],
+        detectedLanguage: { name: "Japanese", iso6391Name: "ja", confidenceScore: 1 },
+        isLanguageDefaulted: false,
+      },
+    ],
+    completedOn,
+    modelVersion,
+  },
+  {
+    kind: "PiiEntityRecognition",
+    results: [
+      {
+        id: "0",
+        warnings: [],
+        redactedText: "I will go to the park.",
+        entities: [],
+        detectedLanguage: { name: "English", iso6391Name: "en", confidenceScore: 0.98 },
+        isLanguageDefaulted: false,
+      },
+      {
+        id: "1",
+        warnings: [],
+        redactedText: "Este es un document escrito en Español.",
+        entities: [],
+        detectedLanguage: { name: "Spanish", iso6391Name: "es", confidenceScore: 0.75 },
+        isLanguageDefaulted: false,
+      },
+      {
+        id: "2",
+        warnings: [],
+        redactedText: "猫は幸せ",
+        entities: [],
+        detectedLanguage: { name: "Japanese", iso6391Name: "ja", confidenceScore: 1 },
+        isLanguageDefaulted: false,
+      },
+    ],
+    completedOn,
+    modelVersion,
+  },
+  {
+    kind: "SentimentAnalysis",
+    results: [
+      {
+        id: "0",
+        warnings: [],
+        sentiment: "neutral",
+        confidenceScores: { positive: 0, neutral: 0.99, negative: 0 },
+        detectedLanguage: { name: "English", iso6391Name: "en", confidenceScore: 0.98 },
+        isLanguageDefaulted: false,
+        sentences: [
+          {
+            text: "I will go to the park.",
+            sentiment: "neutral",
+            confidenceScores: { positive: 0, neutral: 0.99, negative: 0 },
+            offset: 0,
+            length: 22,
+            opinions: [],
+          },
+        ],
+      },
+      {
+        id: "1",
+        warnings: [],
+        sentiment: "neutral",
+        confidenceScores: { positive: 0.04, neutral: 0.92, negative: 0.04 },
+        detectedLanguage: { name: "Spanish", iso6391Name: "es", confidenceScore: 0.75 },
+        isLanguageDefaulted: false,
+        sentences: [
+          {
+            text: "Este es un document escrito en Español.",
+            sentiment: "neutral",
+            confidenceScores: { positive: 0.04, neutral: 0.92, negative: 0.04 },
+            offset: 0,
+            length: 39,
+            opinions: [],
+          },
+        ],
+      },
+      {
+        id: "2",
+        warnings: [],
+        sentiment: "positive",
+        confidenceScores: { positive: 0.99, neutral: 0.01, negative: 0 },
+        detectedLanguage: { name: "Japanese", iso6391Name: "ja", confidenceScore: 1 },
+        isLanguageDefaulted: false,
+        sentences: [
+          {
+            text: "猫は幸せ",
+            sentiment: "positive",
+            confidenceScores: { positive: 0.99, neutral: 0.01, negative: 0 },
+            offset: 0,
+            length: 4,
+            opinions: [],
+          },
+        ],
+      },
+    ],
+    completedOn,
+    modelVersion,
+  },
+  {
+    kind: "KeyPhraseExtraction",
+    results: [
+      {
+        id: "0",
+        warnings: [],
+        keyPhrases: ["park"],
+        detectedLanguage: { name: "English", iso6391Name: "en", confidenceScore: 0.98 },
+        isLanguageDefaulted: false,
+      },
+      {
+        id: "1",
+        warnings: [],
+        keyPhrases: ["Español", "document"],
+        detectedLanguage: { name: "Spanish", iso6391Name: "es", confidenceScore: 0.75 },
+        isLanguageDefaulted: false,
+      },
+      {
+        id: "2",
+        warnings: [],
+        keyPhrases: [],
+        detectedLanguage: { name: "Japanese", iso6391Name: "ja", confidenceScore: 1 },
+        isLanguageDefaulted: false,
+      },
+    ],
+    completedOn,
+    modelVersion,
+  },
+  {
+    kind: "EntityLinking",
+    results: [
+      {
+        id: "0",
+        warnings: [],
+        entities: [],
+        detectedLanguage: { name: "English", iso6391Name: "en", confidenceScore: 0.98 },
+        isLanguageDefaulted: false,
+      },
+      {
+        id: "1",
+        error: {
+          code: "UnsupportedLanguageCode",
+          message:
+            "Invalid language code 'es'. Supported languages: en. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+        },
+      },
+      {
+        id: "2",
+        error: {
+          code: "UnsupportedLanguageCode",
+          message:
+            "Invalid language code 'ja'. Supported languages: en,es. For additional details see https://aka.ms/text-analytics/language-support?tabs=entity-linking",
+        },
+      },
+    ],
+    completedOn,
+    modelVersion,
+  },
+  {
+    kind: "Healthcare",
+    results: [
+      {
+        entities: [],
+        entityRelations: [],
+        id: "0",
+        warnings: [],
+        detectedLanguage: { iso6391Name: "en" },
+        isLanguageDefaulted: false,
+      },
+      {
+        id: "1",
+        error: {
+          code: "UnsupportedLanguageCode",
+          message:
+            "Invalid language code 'es'. Supported languages: en. For additional details see https://aka.ms/text-analytics/language-support",
+        },
+      },
+      {
+        id: "2",
+        error: {
+          code: "UnsupportedLanguageCode",
+          message:
+            "Invalid language code 'ja'. Supported languages: en. For additional details see https://aka.ms/text-analytics/language-support",
+        },
+      },
+    ],
+    completedOn,
+    modelVersion,
+  },
+];
+
+export const expectation72: LanguageDetectionResult[] = [
+  {
+    primaryLanguage: { name: "Hindi", iso6391Name: "hi", confidenceScore: 1, script: "Latin" },
+    id: "0",
+    warnings: [],
+  },
+];

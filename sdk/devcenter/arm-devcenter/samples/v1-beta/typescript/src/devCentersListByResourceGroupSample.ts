@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists all devcenters in a resource group.
  *
  * @summary Lists all devcenters in a resource group.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/DevCenters_ListByResourceGroup.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-10-12-preview/examples/DevCenters_ListByResourceGroup.json
  */
 async function devCentersListByResourceGroup() {
   const subscriptionId = "{subscriptionId}";

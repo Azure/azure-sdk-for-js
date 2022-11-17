@@ -107,8 +107,7 @@ async function gcpCredentialsCreateACloudAccountConnectorForASubscription() {
       clientX509CertUrl:
         "https://www.googleapis.com/robot/v1/metadata/x509/asc-135%40asc-project-1234.iam.gserviceaccount.com",
       organizationId: "AscDemoOrg",
-      privateKey:
-        "",
+      privateKey: "",
       privateKeyId: "6efg587hra2568as34d22326b044cc20dc2af",
       projectId: "asc-project-1234",
       tokenUri: "https://oauth2.googleapis.com/token"

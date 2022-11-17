@@ -6,7 +6,6 @@ import {
   AnalyzeResponse,
   AnalyzeTextLROResultUnion,
   AssessmentSentiment,
-  ClassificationDocumentResult,
   CustomEntityRecognitionLROResult,
   CustomMultiLabelClassificationLROResult,
   CustomSingleLabelClassificationLROResult,
@@ -19,7 +18,6 @@ import {
   ErrorModel,
   ErrorResponse,
   ExtractiveSummarizationLROResult,
-  CustomLabelClassificationResult as GeneratedCustomClassificationResult,
   DynamicClassificationResult as GeneratedDynamicClassification,
   EntityLinkingResult as GeneratedEntityLinkingResult,
   EntitiesResult as GeneratedEntityRecognitionResult,
@@ -30,7 +28,6 @@ import {
   PiiResult as GeneratedPiiEntityRecognitionResult,
   SentenceSentiment as GeneratedSentenceSentiment,
   SentimentResponse as GeneratedSentimentAnalysisResult,
-  HealthcareEntitiesDocumentResult,
   HealthcareLROResult,
   HealthcareRelation,
   HealthcareRelationEntity,
@@ -45,18 +42,16 @@ import {
   SentimentLROResult,
   SentimentTaskResult,
   TargetRelation,
-  DynamicClassificationResultDocumentsItem,
-  ClassificationCategory,
   CustomEntitiesResultDocumentsItem,
   ExtractedSummaryDocumentResultWithDetectedLanguage,
   AbstractiveSummaryDocumentResultWithDetectedLanguage,
+  HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage,
+  CustomLabelClassificationResultDocumentsItem,
 } from "./generated";
 import {
   AnalyzeActionName,
   AnalyzeBatchResult,
   AnalyzeResult,
-  CustomSingleLabelClassificationResult,
-  CustomSingleLabelClassificationSuccessResult,
   DynamicClassificationResult,
   EntityLinkingResult,
   EntityRecognitionResult,
@@ -74,6 +69,7 @@ import {
   TextAnalysisError,
   TextAnalysisErrorResult,
   TextAnalysisSuccessResult,
+  WithDetectedLanguage,
 } from "./models";
 import {
   AssessmentIndex,
@@ -175,23 +171,7 @@ function toDynamicClassificationResult(
   docIds: string[],
   results: GeneratedDynamicClassification
 ): DynamicClassificationResult[] {
-  return transformDocumentResults(docIds, results, {
-    // FIXME: Fixing a service bug, see https://github.com/Azure/azure-sdk-for-js/issues/23617
-    processSuccess: ({
-      class: classes,
-      id,
-      warnings,
-      statistics,
-      classifications,
-    }: DynamicClassificationResultDocumentsItem & {
-      classifications?: ClassificationCategory[];
-    }) => ({
-      id,
-      warnings,
-      classifications: classes ? classes : classifications ?? [],
-      ...(statistics ? { statistics } : {}),
-    }),
-  });
+  return transformDocumentResults(docIds, results);
 }
 
 /**
@@ -392,33 +372,17 @@ function toHealthcareResult(
       ),
     });
   }
-  return transformDocumentResults<HealthcareEntitiesDocumentResult, HealthcareSuccessResult>(
-    docIds,
-    results,
-    {
-      processSuccess: ({ entities, relations, ...rest }) => {
-        const newEntities = entities.map(makeHealthcareEntity);
-        return {
-          entities: newEntities,
-          entityRelations: relations.map(makeHealthcareRelation(newEntities)),
-          ...rest,
-        };
-      },
-    }
-  );
-}
-
-function toCustomSingleLabelClassificationResult(
-  docIds: string[],
-  results: GeneratedCustomClassificationResult
-): CustomSingleLabelClassificationResult[] {
   return transformDocumentResults<
-    ClassificationDocumentResult,
-    CustomSingleLabelClassificationSuccessResult
+    HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage,
+    WithDetectedLanguage<HealthcareSuccessResult>
   >(docIds, results, {
-    processSuccess: ({ class: classification, ...rest }) => {
+    processSuccess: ({ entities, relations, detectedLanguage, ...rest }) => {
+      const newEntities = entities.map(makeHealthcareEntity);
       return {
-        classifications: classification,
+        entities: newEntities,
+        entityRelations: relations.map(makeHealthcareRelation(newEntities)),
+        // FIXME: remove this mitigation when the API fixes the representation on their end
+        ...(detectedLanguage ? { detectedLanguage: { iso6391Name: detectedLanguage } as any } : {}),
         ...rest,
       };
     },
@@ -525,7 +489,10 @@ export function transformAnalyzeBatchResults(
         const { deploymentName, projectName, statistics } = results;
         return {
           kind: "CustomSingleLabelClassification",
-          results: toCustomSingleLabelClassificationResult(docIds, results),
+          results: transformDocumentResults<CustomLabelClassificationResultDocumentsItem>(
+            docIds,
+            results
+          ),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),
@@ -538,7 +505,10 @@ export function transformAnalyzeBatchResults(
         const { deploymentName, projectName, statistics } = results;
         return {
           kind: "CustomMultiLabelClassification",
-          results: toCustomSingleLabelClassificationResult(docIds, results),
+          results: transformDocumentResults<CustomLabelClassificationResultDocumentsItem>(
+            docIds,
+            results
+          ),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),
