@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import { PipelineRetryOptions } from "@azure/core-rest-pipeline";
 import { TableGetAccessPolicyHeaders, TableInsertEntityHeaders } from "./generated/models";
 
 /**
@@ -23,13 +24,20 @@ export type UpdateEntityAction =
 export type TransactionAction = CreateDeleteEntityAction | UpdateEntityAction;
 
 /**
+ * Client options that control how to retry failed requests
+ */
+export interface TableServiceClientRetryOptions extends PipelineRetryOptions {
+  readFailoverHosts?: string[];
+  writeFailoverHosts?: string[];
+}
+
+/**
  * Client options used to configure Tables Api requests
  */
 export type TableServiceClientOptions = CommonClientOptions & {
   endpoint?: string;
   version?: string;
-  readFailoverHosts?: string[];
-  writeFailoverHosts?: string[];
+  retryOptions?: TableServiceClientRetryOptions;
 };
 
 /**

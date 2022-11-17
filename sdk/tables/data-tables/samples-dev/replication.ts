@@ -27,9 +27,11 @@ const tablesUrls = [
 async function replication() {
   console.log("Working with table replicas");
   const options = {
-    readFailoverHosts: tablesUrls,
-    // Table Storage RA-GRS replicas are read-only. Cosmos replicas can also be configured to be read-only. In these cases, omit this field.
-    writeFailoverHosts: tablesUrls,
+    retryOptions: {
+      readFailoverHosts: tablesUrls,
+      // Table Storage RA-GRS replicas are read-only. Cosmos replicas can also be configured to be read-only. In these cases, omit this field.
+      writeFailoverHosts: tablesUrls,
+    },
   };
 
   const client = new TableClient(

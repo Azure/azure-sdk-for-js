@@ -249,11 +249,15 @@ export class TableClient {
       },
     };
 
-    if (this.clientOptions.readFailoverHosts || this.clientOptions.writeFailoverHosts) {
+    if (
+      this.clientOptions.retryOptions &&
+      (this.clientOptions.retryOptions.readFailoverHosts ||
+        this.clientOptions.retryOptions.writeFailoverHosts)
+    ) {
       internalPipelineOptions.retryOptions = {
         failoverHostDelegate: readWriteFailoverHostDelegate({
-          readHosts: this.clientOptions.readFailoverHosts,
-          writeHosts: this.clientOptions.writeFailoverHosts,
+          readHosts: this.clientOptions.retryOptions.readFailoverHosts,
+          writeHosts: this.clientOptions.retryOptions.writeFailoverHosts,
         }),
         ...internalPipelineOptions.retryOptions,
       };

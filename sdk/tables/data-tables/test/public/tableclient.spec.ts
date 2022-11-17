@@ -757,7 +757,7 @@ describe("regional failover", () => {
       const tempClient = await createTableClient(tableName, "SASConnectionString");
       const secondaryUrl = getSecondaryUrlFromPrimary(tempClient.url);
       return createTableClient(tableName, "SASConnectionString", rec, {
-        readFailoverHosts: [secondaryUrl],
+        retryOptions: { readFailoverHosts: [secondaryUrl] },
       });
     } else {
       const tempClient = await createTableClient(tableName, "CosmosConnectionString");
@@ -766,8 +766,7 @@ describe("regional failover", () => {
         env.COSMOS_SECONDARY_LOCATION!,
       ]);
       return createTableClient(tableName, "CosmosConnectionString", rec, {
-        readFailoverHosts: hosts,
-        writeFailoverHosts: hosts,
+        retryOptions: { readFailoverHosts: hosts, writeFailoverHosts: hosts },
       });
     }
   }

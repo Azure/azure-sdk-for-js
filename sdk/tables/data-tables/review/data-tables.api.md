@@ -12,6 +12,7 @@ import { NamedKeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline } from '@azure/core-rest-pipeline';
+import { PipelineRetryOptions } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import { SASCredential } from '@azure/core-auth';
 import { TokenCredential } from '@azure/core-auth';
@@ -395,9 +396,16 @@ export class TableServiceClient {
 export type TableServiceClientOptions = CommonClientOptions & {
     endpoint?: string;
     version?: string;
-    readFailoverHosts?: string[];
-    writeFailoverHosts?: string[];
+    retryOptions?: TableServiceClientRetryOptions;
 };
+
+// @public
+export interface TableServiceClientRetryOptions extends PipelineRetryOptions {
+    // (undocumented)
+    readFailoverHosts?: string[];
+    // (undocumented)
+    writeFailoverHosts?: string[];
+}
 
 // @public
 export interface TableServiceStats {
