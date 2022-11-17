@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ServiceBusClient, WebSocketImpl } from "@azure/service-bus";
+import { ServiceBusClient } from "@azure/service-bus";
 import { WebSocketWrapper } from "./wsWrapper";
 
 // Define connection string and related Service Bus entity names here
@@ -11,7 +11,7 @@ const queueName = process.env.QUEUE_NAME || "<queue name>";
 export async function main() {
   const sbClient = new ServiceBusClient(connectionString, {
     webSocketOptions: {
-      webSocket: WebSocketWrapper as WebSocketImpl,
+      webSocket: WebSocketWrapper,
     },
   });
 

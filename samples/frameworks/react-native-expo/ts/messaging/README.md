@@ -224,7 +224,7 @@ Then update our testing code to pass the `webSocketOptions` via the client optio
 
 ```diff
 -import { ServiceBusClient, ServiceBusMessage, ServiceBusMessageBatch } from "@azure/service-bus";
-+import { ServiceBusClient, ServiceBusMessage, ServiceBusMessageBatch, WebSocketImpl } from "@azure/service-bus";
++import { ServiceBusClient, ServiceBusMessage, ServiceBusMessageBatch } from "@azure/service-bus";
 +import { WebSocketWrapper } from "./wsWrapper";
 
 // ...
@@ -233,7 +233,7 @@ Then update our testing code to pass the `webSocketOptions` via the client optio
 -  const sbClient = new ServiceBusClient(connectionString);
 +  const sbClient = new ServiceBusClient(connectionString, {
 +    webSocketOptions: {
-+      webSocket: WebSocketWrapper as WebSocketImpl,
++      webSocket: WebSocketWrapper,
 +    },
 +  });
 ```

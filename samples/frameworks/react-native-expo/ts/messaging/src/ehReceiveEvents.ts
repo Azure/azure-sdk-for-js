@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EventHubConsumerClient, earliestEventPosition, WebSocketImpl } from "@azure/event-hubs";
+import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
 import { WebSocketWrapper } from "./wsWrapper";
 
 const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
@@ -13,7 +13,7 @@ export async function main() {
 
   const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName, {
     webSocketOptions: {
-      webSocket: WebSocketWrapper as WebSocketImpl,
+      webSocket: WebSocketWrapper,
     },
   });
 
@@ -33,10 +33,11 @@ export async function main() {
     { startPosition: earliestEventPosition }
   );
 
+  console.log(`Receiving for 10 seconds then stopping...`);
   // Wait for a bit before cleaning up the sample
   setTimeout(async () => {
     await subscription.close();
     await consumerClient.close();
     console.log(`Exiting receiveEvents sample`);
-  }, 30 * 1000);
+  }, 10 * 1000);
 }

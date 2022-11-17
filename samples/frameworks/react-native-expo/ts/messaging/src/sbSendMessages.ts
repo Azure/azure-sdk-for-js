@@ -32,7 +32,7 @@ const secondSetOfMessages: ServiceBusMessage[] = [
 export async function main() {
   const sbClient = new ServiceBusClient(connectionString, {
     webSocketOptions: {
-      webSocket: WebSocketWrapper as WebSocketImpl,
+      webSocket: WebSocketWrapper,
     },
   });
 
