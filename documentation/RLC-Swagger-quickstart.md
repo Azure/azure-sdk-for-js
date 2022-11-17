@@ -274,7 +274,7 @@ Please notice the Artifacts name should align with your package name. Here the p
 
 # Prepare PR
 
-RLC can only help you generate SDK code, there is something you need to update manually:
+The codegen can only help you generate SDK code, there is something you need to update manually:
 
 ## CHANGELOG.md
 
