@@ -5,12 +5,13 @@
 ### Features Added
 
 - Supports service version 2022-10-01-preview by default instead of 2022-05-01.
-- Adds support for extractive summarization and FHIR.
-- Adds support for abstractive summarization.
-- Adds support for dynamic classification.
-- Adds support for script detection and automatic language detection.
+- Adds support for extractive summarization and FHIR in `analyzeBatch`.
+- Adds support for abstractive summarization in `analyzeBatch`.
+- Adds support for dynamic classification in `analyze`.
+- Adds support for script detection (use model version "2022-04-10-preview")
+- Adds automatic language detection in `analyzeBatch`.
 - Adds support for document types in healthcare analysis.
-- Adds support for entity resolution in entity recognition.
+- Adds support for entity resolution in entity recognition (use model version "2022-10-01-preview").
 - Adds support for confidence scores in healthcare relations.
 
 ### Breaking Changes
