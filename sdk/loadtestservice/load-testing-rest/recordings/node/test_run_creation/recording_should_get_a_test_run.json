@@ -9,20 +9,20 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.19045)",
-        "x-ms-client-request-id": "a10c94f2-762f-4ec6-8f13-c239eaec0d0a"
+        "x-ms-client-request-id": "ced75f75-30a9-44c8-8a4f-bd752bdb5f17"
       },
       "RequestBody": null,
-      "StatusCode": 200,
+      "StatusCode": 401,
       "ResponseHeaders": {
         "Connection": "keep-alive",
-        "Date": "Wed, 16 Nov 2022 13:16:28 GMT",
-        "mise-correlation-id": "5d8eae22-0211-4cb5-9e7a-f56287dbc86f",
+        "Content-Length": "0",
+        "Date": "Thu, 17 Nov 2022 06:33:32 GMT",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "Transfer-Encoding": "chunked",
+        "WWW-Authenticate": "Bearer error=\u0022invalid_token\u0022, error_description=\u0022S2S17001: SAL was able to validate the protocol, but validation failed as none of the inbound policies were satisfied. Validation failures: \u0027c6aaf243-fcf4-4525-9da4-e04d3f86b1de: InvalidIssuer.\u0022",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "7485edc9-d2fb-4e39-9c3d-406ab6e4f46d"
+        "x-ms-correlation-request-id": "7f148af2-4edb-42d4-ab5a-6853de7e7af1"
       },
-      "ResponseBody": "TmF2aWdhdGUgdG8gL2hlYWx0aCB0byBzZWUgdGhlIGhlYWx0aCBzdGF0dXMu"
+      "ResponseBody": null
     }
   ],
   "Variables": {}

@@ -1,0 +1,38 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/test-runs/abcde?api-version=2022-11-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "2c4e8509-36f1-40a0-932d-081518d8bbe8",
+        "x-ms-useragent": "azsdk-js-load-testing-rest/1.0.0 core-rest-pipeline/1.10.0 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 401,
+      "ResponseHeaders": {
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Date": "Thu, 17 Nov 2022 06:41:40 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "WWW-Authenticate": "Bearer error=\u0022invalid_token\u0022, error_description=\u0022S2S17001: SAL was able to validate the protocol, but validation failed as none of the inbound policies were satisfied. Validation failures: \u00273a943b2f-5f2b-48e6-a7e5-0e06cd31bdff: InvalidIssuer.\u0022",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "f55e0ffc-2ebd-41b7-97ee-d4cbc461456d"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}
