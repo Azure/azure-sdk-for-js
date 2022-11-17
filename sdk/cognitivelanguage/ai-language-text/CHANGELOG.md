@@ -14,12 +14,6 @@
 - Adds support for entity resolution in entity recognition (use model version "2022-10-01-preview").
 - Adds support for confidence scores in healthcare relations.
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
 ## 1.0.0 (2022-09-08)
 
 ### Features Added
