@@ -6949,52 +6949,6 @@ export const expectation33: AnalyzeBatchResult[] = [
         warnings: [],
         entities: [
           {
-            text: "1",
-            category: "Quantity",
-            subCategory: "Number",
-            offset: 4,
-            length: 1,
-            confidenceScore: 0.69,
-            resolutions: [{ resolutionKind: "NumberResolution", numberKind: "Integer", value: 1 }],
-          },
-          {
-            text: "1 cup",
-            category: "Quantity",
-            subCategory: "Dimension",
-            offset: 4,
-            length: 5,
-            confidenceScore: 0.8,
-            resolutions: [{ resolutionKind: "VolumeResolution", value: 1, unit: "Cup" }],
-          },
-          { text: "sugar", category: "Product", offset: 13, length: 5, confidenceScore: 0.92 },
-          {
-            text: "60 minutes",
-            category: "DateTime",
-            subCategory: "Duration",
-            offset: 43,
-            length: 10,
-            confidenceScore: 0.95,
-            resolutions: [{ resolutionKind: "TemporalSpanResolution", duration: "PT60M" }],
-          },
-          { text: "oven", category: "Product", offset: 60, length: 4, confidenceScore: 0.87 },
-          {
-            text: "350 degrees F",
-            category: "Quantity",
-            subCategory: "Temperature",
-            offset: 78,
-            length: 13,
-            confidenceScore: 0.8,
-            resolutions: [
-              { resolutionKind: "TemperatureResolution", value: 350, unit: "Fahrenheit" },
-            ],
-          },
-        ],
-      },
-      {
-        id: "4",
-        warnings: [],
-        entities: [
-          {
             text: "200 terabytes",
             category: "Quantity",
             subCategory: "Dimension",
