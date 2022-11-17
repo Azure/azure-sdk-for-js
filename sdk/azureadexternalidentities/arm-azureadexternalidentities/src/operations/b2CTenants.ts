@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { B2CTenants } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,11 +17,11 @@ import { LroImpl } from "../lroImpl";
 import {
   B2CTenantResource,
   B2CTenantsListByResourceGroupOptionalParams,
+  B2CTenantsListByResourceGroupResponse,
   B2CTenantsListBySubscriptionOptionalParams,
+  B2CTenantsListBySubscriptionResponse,
   B2CTenantsCheckNameAvailabilityOptionalParams,
   B2CTenantsCheckNameAvailabilityResponse,
-  B2CTenantsListByResourceGroupResponse,
-  B2CTenantsListBySubscriptionResponse,
   B2CTenantsGetOptionalParams,
   B2CTenantsGetResponse,
   B2CTenantsCreateOptionalParams,
@@ -61,17 +61,26 @@ export class B2CTenantsImpl implements B2CTenants {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: B2CTenantsListByResourceGroupOptionalParams
+    options?: B2CTenantsListByResourceGroupOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<B2CTenantResource[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
+    let result: B2CTenantsListByResourceGroupResponse;
+    result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
   }
 
@@ -102,16 +111,21 @@ export class B2CTenantsImpl implements B2CTenants {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: B2CTenantsListBySubscriptionOptionalParams
+    options?: B2CTenantsListBySubscriptionOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<B2CTenantResource[]> {
-    let result = await this._listBySubscription(options);
+    let result: B2CTenantsListBySubscriptionResponse;
+    result = await this._listBySubscription(options);
     yield result.value || [];
   }
 

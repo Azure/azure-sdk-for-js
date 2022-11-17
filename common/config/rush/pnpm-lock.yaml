@@ -10408,7 +10408,7 @@ packages:
     dev: false
 
   file:projects/arm-attestation.tgz:
-    resolution: {integrity: sha512-TeVCKFr8yjQaTss4IQ6Z7PQSIxHnj0jM94LL5zN7g8Ur6XFTUIt62/MnY+Zf5b72mVtuVpwYyz8DOOdBhvEPsw==, tarball: file:projects/arm-attestation.tgz}
+    resolution: {integrity: sha512-K8vGs5hOXHnqEfrX76hagnRCKIcLKXXmvkzoZMemNs3ohKbj9Any3gestr8TroUlsVIMwSQtF7TwV12Va0c54Q==, tarball: file:projects/arm-attestation.tgz}
     name: '@rush-temp/arm-attestation'
     version: 0.0.0
     dependencies:
@@ -10419,18 +10419,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      '@types/node': 14.18.33
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -10561,7 +10562,7 @@ packages:
     dev: false
 
   file:projects/arm-azureadexternalidentities.tgz:
-    resolution: {integrity: sha512-3gtWucGIGOJbFadEh4sVLl20szQjaeESqd9RRRUt1s2qkY6nhsXpGTkr0qIY6tWmPgKrtU3I3H7Fqu3UG8v7YA==, tarball: file:projects/arm-azureadexternalidentities.tgz}
+    resolution: {integrity: sha512-BVB3mVEhdhGrIdWRRxpeBCKy3UJUvK0y0KeOfUYnZ9/DXEhOb2D4Tcw/6d1yleW4iDhhg8CM6Gi4iikQBIsRwQ==, tarball: file:projects/arm-azureadexternalidentities.tgz}
     name: '@rush-temp/arm-azureadexternalidentities'
     version: 0.0.0
     dependencies:
@@ -10572,23 +10573,24 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      '@types/node': 14.18.33
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
   file:projects/arm-azurestack.tgz:
-    resolution: {integrity: sha512-GWqiLjn/cQdVpJXosakBW7+sg8SVtNh7+VBjhK0C7zgMkXlGnODHDWedWGrVn6OsXsSHBYmlrA+ooSLgQfE7zA==, tarball: file:projects/arm-azurestack.tgz}
+    resolution: {integrity: sha512-V6nVtGJWYAnPOgZKb6tSqC+kQMXJPp7BsnTf4RqvhtlHycZcm7JqiFNTE8M2lWrSBFaq/IzkvmxC/SzomaBpGw==, tarball: file:projects/arm-azurestack.tgz}
     name: '@rush-temp/arm-azurestack'
     version: 0.0.0
     dependencies:
@@ -10599,23 +10601,24 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      '@types/node': 14.18.33
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
   file:projects/arm-azurestackhci.tgz:
-    resolution: {integrity: sha512-ThFQ7fAg3tHNjRA91Br7ssSWnLJobS3bckyt68c7vh2lPPlgkAc+viILviZfq7jeJleCY6docyTuN+JwG/OhDg==, tarball: file:projects/arm-azurestackhci.tgz}
+    resolution: {integrity: sha512-iatUDqY0G9Z+ekH143A0i71SBAdfE2NWiJUtthnsImFkrdR+5HMAUF/K5y5v8ArX+GRh790FgMRueGFLE6ZBmw==, tarball: file:projects/arm-azurestackhci.tgz}
     name: '@rush-temp/arm-azurestackhci'
     version: 0.0.0
     dependencies:
@@ -10626,18 +10629,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      '@types/node': 14.18.33
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
