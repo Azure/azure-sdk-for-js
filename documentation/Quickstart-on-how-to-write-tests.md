@@ -15,8 +15,8 @@ This page is to help you write and run tests quickly for Javascript Codegen SDK 
     - [Client authentication](#client-authentication)
       - [AzureAD OAuth2 Authentication](#azuread-oauth2-authentication)
       - [API Key Authentication](#api-key-authentication)
-  - [Example 1: Basic Azure data-plane service interaction and recording](#example-1-basic-azure-data-plane-service-interaction-and-recording)
-  - [Example 2: Basic Azure management service interaction and recording](#example-2-basic-azure-management-service-interaction-and-recording)
+  - [Example 1: Basic RLC test interaction and recording for Azure data-plane service](#example-1-basic-rlc-test-interaction-and-recording-for-azure-data-plane-service)
+  - [Example 2: Basic HLC test interaction and recording for Azure management service](#example-2-basic-hlc-test-interaction-and-recording-for-azure-management-service)
 
 # Background
 
@@ -199,7 +199,7 @@ await recorder.start(recorderEnvSetup);
 
 API key authentication would hit the service's endpoint directly so these traffic will be recorded. It doesn't require any customization in tests. However we must secure the sensitive data and not leak into our recordings, so add a sanitizer to replace your API keys. You could read more on how to add sanitizer at [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md).
 
-## Example 1: Basic Azure data-plane service interaction and recording
+## Example 1: Basic RLC test interaction and recording for Azure data-plane service
 
 At the code structure [section](#code-structure) we described we'll generate sample file for you, if you are the first time to write test cases you could grow up your own based on them.
 
@@ -242,7 +242,7 @@ describe("My test", () => {
   // Step 1: Create your test case
   it("Should create a glossary", async () => {
     // Step 3: Add your test cases
-    const glossary = await client.path("/atlas/v2/glossary").post({
+    const glossaryResponse = await client.path("/atlas/v2/glossary").post({
       body: {
         name: glossaryName,
         shortDescription: "Example Short Description",
@@ -251,8 +251,11 @@ describe("My test", () => {
         usage: "Example Glossary",
       },
     });
+    if (isUnexpected(glossaryResponse)) {
+      throw new Error(glossaryResponse.body?.error.message);
+    }
     // Step 5: Add your assertions
-    assert.strictEqual(glossary.status, "200");
+    assert.strictEqual(glossaryResponse.status, "200");
   });
 });
 ```
@@ -300,7 +303,7 @@ export function createClient(recorder: Recorder, options?: ClientOptions): Purvi
 }
 ```
 
-## Example 2: Basic Azure management service interaction and recording
+## Example 2: Basic HLC test interaction and recording for Azure management service
 
 At the code structure [section](#code-structure) we described if your SDK is generated base on HLC we'll generate a sample test named `sampleTest.ts` for you.
 

@@ -1,75 +1,102 @@
-Getting Started - Generate the RLC rest-level client libraries with Cadl
-========================================================================
+Getting Started - Generate the RLC rest-level client libraries with Swagger
+===========================================================================
 
 # Before you start
 
 Please refer to this [link](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for the environment set up prerequisites in azure-sdk-for-js repository. We highly recommand to read [this blog](https://devblogs.microsoft.com/azure-sdk/azure-rest-libraries-for-javascript/) to get familiar with REST libraries for JavaScript. 
 
-:warning: Note: if you’re still generating from Swagger with RLC, please read [this doc](./RLC-Swagger-quickstart.md) for Swagger specific details.
 
-
-# Project folder structure and name convention
+# Project folder and name convention
 
 If you are the first time to prepare the SDK, please follow the Azure SDK guidance and discuss with architects to decide the project folder and name convention for RLC libraries.
 
-1. SDK Repo Root.
-   The generated libraries should be in the [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repo, so fork and clone it in your local then the absolute path is called **${SDK_REPO_ROOT} folder**.
-
-1. Project Folder Structure.  
-   Normally, the folder structure would be something like `sdk/{servicename}/{servicename}-{modulename}-rest`. For example, we have `sdk/agrifood/agrifood-farming-rest` folder for Farmbeats account modules under {SDK_REPO_ROOT}. That folder will be your **${PROJECT_ROOT} folder**.  
+1. Project Folder structure.  
+   normally, the folder structure would be something like `sdk/{servicename}/{servicename}-{modulename}-rest`. For example, we have `sdk/agrifood/agrifood-farming-rest` folder for Farmbeats account modules. That folder will be your **${PROJECT_ROOT} folder**.  
 1. Package Name Convention.  
    The package name for RLC is something like `@azure-rest/{servicename}-{modulename}`. For example, the package name for Farmbeats module is `@azure-rest/agrifood-farming`.
-
 
 # How to generate RLC
 
 We are working on to automatically generate everything right now, but currently we still need some manual work to get a releasable package. Here're the steps of how to get the package.
 
-1. **Add Typescript emitter dependency in package.json**  
-   
-   In Cadl project, modify `package.json` to add dependency for Typescript emitter, then run `npm install` again to install `@azure-tools/cadl-typescript`.
+1. **Create a swagger/README.md file.under ${PROJECT_ROOT} folder**  
+    We are using autorest to generate the code, but there's a lot of command options and in order to make the regenerate process easier in the cases of refresh the rest api input or change the code generator version, you need to document the generate command parameters.  
+    Here's an example of the swagger/README.md
 
-   ```json
-   "dependencies": {
-     ...
-     "@azure-tools/cadl-typescript": "1.0.0-beta.4"
-   },
-   ```
-
-   ---
-   **NOTE**
-
-    It's always recommended to replace the version of emitter cadl-typescript with the latest version you can find in [npmjs.com](https://www.npmjs.com/package/@azure-tools/cadl-typescript) in latest tag.
-
-   ---
-
-1. **Configure Typescript emitter in cadl-project.yaml**
-
-    In Cadl project, modify (or create) `cadl-project.yaml` and configure the SDK generated, using the emitter options on `@azure-tools/cadl-typescript`
+    ~~~
+    
+    # Azure  Farmbeats TypeScript Protocol Layer
+    
+    > see https://aka.ms/autorest
+    ## Configuration
     
     ```yaml
-    emitters:
-      "@azure-tools/cadl-typescript":
-        title: Farmbeats
-        generateMetadata: true
-        generateTest: true
-        packageDetails:
-          name: "@azure-rest/agrifood-farming"
-          description: "Farmbeats Client"
-          version: "1.0.0-beta.1"
+    package-name: "@azure-rest/agrifood-farming"
+    title: Farmbeats
+    description: Farmbeats Client
+    generate-metadata: true
+    generate-test: true
+    generate-sample: true
+    license-header: MICROSOFT_MIT_NO_VERSION
+    output-folder: ../
+    source-code-folder-path: ./src
+    input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/683e3f4849ee1d84629d0d0fa17789e80a9cee08/specification/agfood/data-plane/Microsoft.AgFoodPlatform/preview/2021-03-31-preview/agfood.json
+    package-version: 1.0.0-beta.2
+    rest-level-client: true
+    security: AADToken
+    security-scopes: https://farmbeats.azure.net/.default
+    use-extension:
+      "@autorest/typescript": "6.0.0-rc.1"
     ```
+    ~~~
 
-    Here, we need to replace the value in `name`,`description`, `version` in `packageDetails` to **your own service's** package details. Also we have some other options, you could refer to [the link](https://github.com/Azure/autorest.typescript/tree/main/packages/cadl-typescript#emitter-options) for more details.
+    Here, we need to replace the value in `package-name`, `title`, `description`, `input-file`, `package-version`,  `security`,`security-scopes` into **your own service's** `package-name`, `title`, `description` etc.
 
-    ---  
+    **How to configure authentication**
+    
+    Autorest only support two types of authentication: Azure Key Credential(AzureKey) and Token credential(AADToken), any other will need to be handled manually. 
+
+    This could be either configured in OpenAPI spec or configuration file e.g `README.md`. You could learn more in [Authentication in AutoRest](https://github.com/Azure/autorest/blob/main/docs/generate/authentication.md).
+
+    Here are the details if we configure in README.md file.
+    - Support AAD token authentication
+    ```yaml
+    security: AzureKey
+    security-header-name: Your-Subscription-Key
+    ```
+    - Support key authentication
+    ```yaml
+    security: AADToken
+    security-scopes: https://yourendpoint.azure.com/.default
+    ```
+    - Support both credentials
+    ```yaml
+    security:
+      - AADToken
+      - AzureKey
+    security-header-name: Your-Subscription-Key
+    security-scopes: https://yourendpoint.azure.com/.default
+    ```
+    - Disable neither authentications
+    ```yaml
+    add-credentials: false
+    ```
+  
+    ---
     **NOTE**
 
-    After the first generation, you need to switch `generateMetadata: false` as we have some manual changes in this file and don't want them get overwrite by generated ones.
+    It's always recommended to replace the version of code generator @autorest/typescript with the latest version you can find in [npmjs.com](https://www.npmjs.com/package/@autorest/typescript) in latest tag. 
 
-    --- 
+    If the `input-file` is followed by an `. md` file, you need to replace the `input-file` with `require`. If it is a `JSON` file, do not change it.
 
+    We enable the samples generation by default, this may fail the generation due to the example quality or codegen issue. You could turn this option off by `generate-sample: false` to non-block your process.
+
+    **After the first generation, you need to switch `generate-metadata: false`  as we have some manual changes in this file and don't want them get overwrite by generated ones.**
+
+    ---  
+  
 1. **Edit rush.json**  
-    As the libraries in azure-sdk-for-js repository are managed by rush, you need to add an entry in rush.json under projects section for the first time to make sure it works. For example:
+    As the libraries in this azure-sdk-for-js repository are managed by rush, you need to add an entry in rush.json under projects section for the first time to make sure it works. For example:
 
     ```
         {
@@ -86,19 +113,17 @@ We are working on to automatically generate everything right now, but currently 
 
     About the `versionPolicyName`, if the library you are working on is for data-plane, then it should be `client`, if the library you are working on is for control plane, then it should be `mgmt`.  
 
-    --- 
+    ---  
 
-1. **Run command to generate the SDK**  
+1. **Run autorest to generate the SDK**  
 
-    We need to configure `--output-dir` to put generated code. The output dir contains two parts: the {SDK_REPO_ROOT} and {PROJECT_ROOT}.
-    
-    Assume **{SDK_REPO_ROOT}** is `D:/azure-sdk-for-js` and **{PROJECT_ROOT}** is `sdk/agrifood/agrifood-farming-rest` then we could run this command in **your local Cadl project** to generate the SDK: 
+    Now you can run this command in swagger folder you just created.
 
     ```shell
-    cadl compile . --emit=@azure-tools/cadl-typescript --output-dir=D:/azure-sdk-for-js/sdk/agrifood/agrifood-farming-rest
+    autorest --typescript ./README.md
     ```
 
-    After this finishes, you will see the generated code in `src` folder in your **{PROJECT_ROOT}**.  
+    After this finishes, you will see the generated code in `${PROJECT_ROOT}/src` folder.  
     After that, you can get a workable package, and run the following commands to get a artifact if you like.
 
     ```shell
@@ -108,15 +133,16 @@ We are working on to automatically generate everything right now, but currently 
     rushx pack
     ```
 
-    The generated code is not good enough to release yet and you need to update it for better usage experience.
+    But we still need to add some tests for it.
 
 # Improve README.md document
 
-A minimal README.md is generated by TypeScript emitter and you could improve it with meaningful information to let customers know more about your service.
+A minimal README.md is generated by our codegen and you could improve it with more meaningful information.
+
 
 # How to write test for RLC
 
-In order to release it, we need to add some tests for it to make sure we are delivering high quality packages. But before we add the test, we need to add a `generateTest: true` make the codegen generate the necessary change in `package.json` and `tsconfig.json` so that test framework can work. Once the generation finished, you will see a `sampleTest.spec.ts` file in your `{PROJECT_ROOT}/test/public` folder, which only has an empty test and you may change them into test against your own services.
+In order to release it, we need to add some tests for it to make sure we are delivering high quality packages. But before we add the test, we need to add a `generate-test: true` make the codegen generate the necessary change in `package.json` and `tsconfig.json` so that test framework can work. Once the generation finished, you will see a `sampleTest.spec.ts` file in your `{PROJECT_ROOT}/test/public` folder, which only has an empty test and you may change them into test against your own services.
 
 See the [Javascript Codegen Quick Start for Test](./Quickstart-on-how-to-write-tests.md) for information on how to write and run tests for the Javascript SDK.
 
@@ -126,7 +152,7 @@ See the [Javascript Codegen Quick Start for Test](./Quickstart-on-how-to-write-t
 
 1. **Write the test**
     
-    You could follow the [basic RLC test interaction and recording example](./Quickstart-on-how-to-write-tests.md#example-1-basic-rlc-test-interaction-and-recording-for-azure-data-plane-service) to write your test step by step.
+    You could follow the [basic RLC test interaction and recording example](./Quickstart-on-how-to-write-tests.md#example-1-basic-rlc-test-interaction-and-recording-for-azure-data-plane-service) to write your own test step by step.
 
 1. **Run the test**  
     Now, you can run the test like this. If you are the first time to run test, you need to set the environment variable `TEST_MODE` to `record`. This will generate recordings for your test they could be used in `playback` mode.
@@ -152,31 +178,16 @@ See the [Javascript Codegen Quick Start for Test](./Quickstart-on-how-to-write-t
     SET TEST_MODE=playback&& rushx test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
+
 # How to write samples
 
-We author TypeScript samples under the `samples-dev` folder. You can use sample-dev template for reference [samples-dev folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/samples-dev) folder and update the relevant information for your service such as package-name, sample code, description, etc.  
-After the samples-dev folder change is finished, you will need to change the tsconfig.json to make sure the dev samples can be compiled and build correctly.  
+If you enable `generate-sample: true` option the codegen would do two things for you:
+- Add samples metadata in `tsconfig.json` and `package.json`
+- Generate a collection of Typescript sample files (based on x-ms-examples in OpenAPI specs) under `samples-dev` folder.
 
-You will need to add this part to the "compilerOptions" of your tsconfig.json file so that the Samples engine could resolve the sample-dev package against the source code of the SDK.  
-``` json
-    "paths": { "@azure-rest/agrifood-farming": ["./src/index"] } 
-```
-And change the *"include"* part into 
-```json
-  "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"],
-```
+Please notice that the generated samples might not be directly usable as runnable codes, however we could get the basic idea on how code works, and update them to be more valuable samples.
 
-Then, we provide tools to automatically change it into workable samples in both TypeScript and JavaScript. and you just need to add a sampleConfiguration in your package.json.  
-
-You will need to add a sample configuration section in your package.json file and put the following content into it.
-```json
-  "//sampleConfiguration": {
-    "productName": "A description of your services",
-    "productSlugs": ["azure"],
-    "disableDocsMs": true,
-    "apiRefLink": "<the-link-to-your-service-on-docs.microsoft.com>"
-  }
-```
+And the errors may come from two kinds, the codegen issue or swagger example issue. For the former one we need to report them with codegen owner while as for the latter one we need to fix our swagger examples.
 
 Now, you can generate both JavaScript and TypeScript workable samples with the following commands.
 ```shell
@@ -204,14 +215,9 @@ And we could use `lint:fix` if there are any errors.
 cd ${PROJECT_ROOT} && rushx lint:fix
 ```
 
-# How to do customizations
-There is many information about the SDK that AutoRest will never know, so you may want to do your customizations based on generated code. 
-
-We collect some common customization cases and you can read [Customization on the RLC rest-level client libraries](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-customization.md) for more details.
-
 # How to create package
 
-Now we can use the exact same steps to build a releasable artifact.
+Now we can use the exact same steps to build an releasable artifact.
 
 ```shell
 rush update
@@ -268,11 +274,11 @@ Please notice the Artifacts name should align with your package name. Here the p
 
 # Prepare PR
 
-Cadl emitter can only help you generate SDK code, there is something you need to update manually:
+The codegen can only help you generate SDK code, there is something you need to update manually:
 
 ## CHANGELOG.md
 
-CHANGELOG can help customers know the change of new version quickly, so you need to update the it according to the change of this new version. It is also necessary to update release date like `1.0.0-beta.1 (2022-11-11)`(rough time is fine and no need to be very accurate).
+CHANGELOG can help customers know the change of new version quicky, so you need to update the it according to the change of this new version. It is also necessary to update release date like `1.0.0-beta.1 (2022-11-11)`(rough time is fine and no need to be very accurate).
 
 ## Version Number
 
@@ -286,7 +292,8 @@ Please ensure that your test recordings are committed together with your code.
 You may meet the CI failures after submitting the PR, so please refer to [Troubleshoot CI Failure](./Troubleshoot-ci-failure.md) to fix it.
 
 # Create API View
-When submitting a PR our pipeline would automatically prepare the API view in [API View Website](https://apiview.dev/). You could see an [example link](https://github.com/Azure/azure-sdk-for-js/pull/23866#issuecomment-1316259448) here. Then you could click the API view link in that comment to know more details.
+When submitting a PR our pipeline would automatically prepare the API view in [API View Website](https://apiview.dev/). You could see an [example link](https://github.com/Azure/azure-sdk-for-js/pull/23866#issuecomment-1316259448) here. You could click the API view link in that comment to know more details. 
+
 # Release
 
 After the PR is merged, it is time to release package. Here is the [Release Checklist](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/8/Release-Checklist?anchor=prepare-release-script) you should know before release.
