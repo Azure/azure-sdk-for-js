@@ -683,7 +683,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           await assertActionsResults(await poller.pollUntilDone(), expectation11, FIXME1);
         });
 
-        it("output order is same as the input's one with multiple actions", async function () {
+        it.only("output order is same as the input's one with multiple actions", async function () {
           const docs = [
             { id: "1", text: "one" },
             { id: "2", text: "two" },
@@ -691,24 +691,34 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             { id: "4", text: "four" },
             { id: "5", text: "five" },
           ];
-          const poller = await client.beginAnalyzeBatch(
-            [
+
+          async function helper() {
+            const poller = await client.beginAnalyzeBatch(
+              [
+                {
+                  kind: AnalyzeBatchActionNames.EntityRecognition,
+                },
+                {
+                  kind: AnalyzeBatchActionNames.PiiEntityRecognition,
+                },
+                {
+                  kind: AnalyzeBatchActionNames.KeyPhraseExtraction,
+                },
+              ],
+              docs,
               {
-                kind: AnalyzeBatchActionNames.EntityRecognition,
-              },
-              {
-                kind: AnalyzeBatchActionNames.PiiEntityRecognition,
-              },
-              {
-                kind: AnalyzeBatchActionNames.KeyPhraseExtraction,
-              },
-            ],
-            docs,
-            {
-              updateIntervalInMs: pollingInterval,
-            }
-          );
-          await assertActionsResults(await poller.pollUntilDone(), expectation12);
+                updateIntervalInMs: pollingInterval,
+                onResponse: (rawResponse) =>
+                  console.log(`Request ID: ${rawResponse.headers.get("x-ms-client-request-id")}`),
+              }
+            );
+            poller.onProgress((state) => console.log(`status: ${state.status}`));
+            await assertActionsResults(await poller.pollUntilDone(), expectation12);
+          }
+
+          for (let i = 0; i < 100; ++i) {
+            await helper();
+          }
         });
 
         it("out of order input IDs with multiple actions", async function () {
