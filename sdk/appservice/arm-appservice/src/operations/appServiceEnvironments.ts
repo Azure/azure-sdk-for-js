@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { AppServiceEnvironments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,62 +19,82 @@ import {
   AppServiceEnvironmentResource,
   AppServiceEnvironmentsListNextOptionalParams,
   AppServiceEnvironmentsListOptionalParams,
+  AppServiceEnvironmentsListResponse,
   AppServiceEnvironmentsListByResourceGroupNextOptionalParams,
   AppServiceEnvironmentsListByResourceGroupOptionalParams,
+  AppServiceEnvironmentsListByResourceGroupResponse,
   StampCapacity,
   AppServiceEnvironmentsListCapacitiesNextOptionalParams,
   AppServiceEnvironmentsListCapacitiesOptionalParams,
+  AppServiceEnvironmentsListCapacitiesResponse,
   Site,
   VirtualNetworkProfile,
   AppServiceEnvironmentsChangeVnetNextOptionalParams,
   AppServiceEnvironmentsChangeVnetOptionalParams,
+  AppServiceEnvironmentsChangeVnetResponse,
   InboundEnvironmentEndpoint,
   AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsNextOptionalParams,
   AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsOptionalParams,
+  AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsResponse,
   WorkerPoolResource,
   AppServiceEnvironmentsListMultiRolePoolsNextOptionalParams,
   AppServiceEnvironmentsListMultiRolePoolsOptionalParams,
+  AppServiceEnvironmentsListMultiRolePoolsResponse,
   ResourceMetricDefinition,
   AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsNextOptionalParams,
   AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsOptionalParams,
+  AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsResponse,
   AppServiceEnvironmentsListMultiRoleMetricDefinitionsNextOptionalParams,
   AppServiceEnvironmentsListMultiRoleMetricDefinitionsOptionalParams,
+  AppServiceEnvironmentsListMultiRoleMetricDefinitionsResponse,
   SkuInfo,
   AppServiceEnvironmentsListMultiRolePoolSkusNextOptionalParams,
   AppServiceEnvironmentsListMultiRolePoolSkusOptionalParams,
+  AppServiceEnvironmentsListMultiRolePoolSkusResponse,
   Usage,
   AppServiceEnvironmentsListMultiRoleUsagesNextOptionalParams,
   AppServiceEnvironmentsListMultiRoleUsagesOptionalParams,
+  AppServiceEnvironmentsListMultiRoleUsagesResponse,
   OutboundEnvironmentEndpoint,
   AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsNextOptionalParams,
   AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsOptionalParams,
+  AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsResponse,
   RemotePrivateEndpointConnectionARMResource,
   AppServiceEnvironmentsGetPrivateEndpointConnectionListNextOptionalParams,
   AppServiceEnvironmentsGetPrivateEndpointConnectionListOptionalParams,
+  AppServiceEnvironmentsGetPrivateEndpointConnectionListResponse,
   AppServiceEnvironmentsResumeNextOptionalParams,
   AppServiceEnvironmentsResumeOptionalParams,
+  AppServiceEnvironmentsResumeResponse,
   AppServicePlan,
   AppServiceEnvironmentsListAppServicePlansNextOptionalParams,
   AppServiceEnvironmentsListAppServicePlansOptionalParams,
+  AppServiceEnvironmentsListAppServicePlansResponse,
   AppServiceEnvironmentsListWebAppsNextOptionalParams,
   AppServiceEnvironmentsListWebAppsOptionalParams,
+  AppServiceEnvironmentsListWebAppsResponse,
   AppServiceEnvironmentsSuspendNextOptionalParams,
   AppServiceEnvironmentsSuspendOptionalParams,
+  AppServiceEnvironmentsSuspendResponse,
   CsmUsageQuota,
   AppServiceEnvironmentsListUsagesNextOptionalParams,
   AppServiceEnvironmentsListUsagesOptionalParams,
+  AppServiceEnvironmentsListUsagesResponse,
   AppServiceEnvironmentsListWorkerPoolsNextOptionalParams,
   AppServiceEnvironmentsListWorkerPoolsOptionalParams,
+  AppServiceEnvironmentsListWorkerPoolsResponse,
   AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsNextOptionalParams,
   AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsOptionalParams,
+  AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsResponse,
   AppServiceEnvironmentsListWebWorkerMetricDefinitionsNextOptionalParams,
   AppServiceEnvironmentsListWebWorkerMetricDefinitionsOptionalParams,
+  AppServiceEnvironmentsListWebWorkerMetricDefinitionsResponse,
   AppServiceEnvironmentsListWorkerPoolSkusNextOptionalParams,
   AppServiceEnvironmentsListWorkerPoolSkusOptionalParams,
+  AppServiceEnvironmentsListWorkerPoolSkusResponse,
   AppServiceEnvironmentsListWebWorkerUsagesNextOptionalParams,
   AppServiceEnvironmentsListWebWorkerUsagesOptionalParams,
-  AppServiceEnvironmentsListResponse,
-  AppServiceEnvironmentsListByResourceGroupResponse,
+  AppServiceEnvironmentsListWebWorkerUsagesResponse,
   AppServiceEnvironmentsGetOptionalParams,
   AppServiceEnvironmentsGetResponse,
   AppServiceEnvironmentsCreateOrUpdateOptionalParams,
@@ -82,10 +103,8 @@ import {
   AppServiceEnvironmentPatchResource,
   AppServiceEnvironmentsUpdateOptionalParams,
   AppServiceEnvironmentsUpdateResponse,
-  AppServiceEnvironmentsListCapacitiesResponse,
   AppServiceEnvironmentsGetVipInfoOptionalParams,
   AppServiceEnvironmentsGetVipInfoResponse,
-  AppServiceEnvironmentsChangeVnetResponse,
   AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationOptionalParams,
   AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationResponse,
   CustomDnsSuffixConfiguration,
@@ -102,24 +121,16 @@ import {
   AppServiceEnvironmentsListDiagnosticsResponse,
   AppServiceEnvironmentsGetDiagnosticsItemOptionalParams,
   AppServiceEnvironmentsGetDiagnosticsItemResponse,
-  AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsResponse,
-  AppServiceEnvironmentsListMultiRolePoolsResponse,
   AppServiceEnvironmentsGetMultiRolePoolOptionalParams,
   AppServiceEnvironmentsGetMultiRolePoolResponse,
   AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams,
   AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse,
   AppServiceEnvironmentsUpdateMultiRolePoolOptionalParams,
   AppServiceEnvironmentsUpdateMultiRolePoolResponse,
-  AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsResponse,
-  AppServiceEnvironmentsListMultiRoleMetricDefinitionsResponse,
-  AppServiceEnvironmentsListMultiRolePoolSkusResponse,
   AppServiceEnvironmentsTestUpgradeAvailableNotificationOptionalParams,
   AppServiceEnvironmentsUpgradeOptionalParams,
-  AppServiceEnvironmentsListMultiRoleUsagesResponse,
   AppServiceEnvironmentsListOperationsOptionalParams,
   AppServiceEnvironmentsListOperationsResponse,
-  AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsResponse,
-  AppServiceEnvironmentsGetPrivateEndpointConnectionListResponse,
   AppServiceEnvironmentsGetPrivateEndpointConnectionOptionalParams,
   AppServiceEnvironmentsGetPrivateEndpointConnectionResponse,
   PrivateLinkConnectionApprovalRequestResource,
@@ -130,22 +141,12 @@ import {
   AppServiceEnvironmentsGetPrivateLinkResourcesOptionalParams,
   AppServiceEnvironmentsGetPrivateLinkResourcesResponse,
   AppServiceEnvironmentsRebootOptionalParams,
-  AppServiceEnvironmentsResumeResponse,
-  AppServiceEnvironmentsListAppServicePlansResponse,
-  AppServiceEnvironmentsListWebAppsResponse,
-  AppServiceEnvironmentsSuspendResponse,
-  AppServiceEnvironmentsListUsagesResponse,
-  AppServiceEnvironmentsListWorkerPoolsResponse,
   AppServiceEnvironmentsGetWorkerPoolOptionalParams,
   AppServiceEnvironmentsGetWorkerPoolResponse,
   AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams,
   AppServiceEnvironmentsCreateOrUpdateWorkerPoolResponse,
   AppServiceEnvironmentsUpdateWorkerPoolOptionalParams,
   AppServiceEnvironmentsUpdateWorkerPoolResponse,
-  AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsResponse,
-  AppServiceEnvironmentsListWebWorkerMetricDefinitionsResponse,
-  AppServiceEnvironmentsListWorkerPoolSkusResponse,
-  AppServiceEnvironmentsListWebWorkerUsagesResponse,
   AppServiceEnvironmentsListNextResponse,
   AppServiceEnvironmentsListByResourceGroupNextResponse,
   AppServiceEnvironmentsListCapacitiesNextResponse,
@@ -198,22 +199,34 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: AppServiceEnvironmentsListOptionalParams
+    options?: AppServiceEnvironmentsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AppServiceEnvironmentResource[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceEnvironmentsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -242,19 +255,33 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: AppServiceEnvironmentsListByResourceGroupOptionalParams
+    options?: AppServiceEnvironmentsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AppServiceEnvironmentResource[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceEnvironmentsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -262,7 +289,9 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -297,8 +326,16 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listCapacitiesPagingPage(resourceGroupName, name, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listCapacitiesPagingPage(
+          resourceGroupName,
+          name,
+          options,
+          settings
+        );
       }
     };
   }
@@ -306,11 +343,18 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   private async *listCapacitiesPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: AppServiceEnvironmentsListCapacitiesOptionalParams
+    options?: AppServiceEnvironmentsListCapacitiesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<StampCapacity[]> {
-    let result = await this._listCapacities(resourceGroupName, name, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceEnvironmentsListCapacitiesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listCapacities(resourceGroupName, name, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listCapacitiesNext(
         resourceGroupName,
@@ -319,7 +363,9 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -363,12 +409,16 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.changeVnetPagingPage(
           resourceGroupName,
           name,
           vnetInfo,
-          options
+          options,
+          settings
         );
       }
     };
@@ -378,17 +428,24 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     resourceGroupName: string,
     name: string,
     vnetInfo: VirtualNetworkProfile,
-    options?: AppServiceEnvironmentsChangeVnetOptionalParams
+    options?: AppServiceEnvironmentsChangeVnetOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Site[]> {
-    const poller = await this._changeVnet(
-      resourceGroupName,
-      name,
-      vnetInfo,
-      options
-    );
-    let result: any = await poller.pollUntilDone();
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceEnvironmentsChangeVnetResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      const poller = await this._changeVnet(
+        resourceGroupName,
+        name,
+        vnetInfo,
+        options
+      );
+      result = await poller.pollUntilDone();
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._changeVnetNext(
         resourceGroupName,
@@ -398,7 +455,9 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -441,11 +500,15 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.getInboundNetworkDependenciesEndpointsPagingPage(
           resourceGroupName,
           name,
-          options
+          options,
+          settings
         );
       }
     };
@@ -454,15 +517,22 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   private async *getInboundNetworkDependenciesEndpointsPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsOptionalParams
+    options?: AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<InboundEnvironmentEndpoint[]> {
-    let result = await this._getInboundNetworkDependenciesEndpoints(
-      resourceGroupName,
-      name,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getInboundNetworkDependenciesEndpoints(
+        resourceGroupName,
+        name,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._getInboundNetworkDependenciesEndpointsNext(
         resourceGroupName,
@@ -471,7 +541,9 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -512,11 +584,15 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMultiRolePoolsPagingPage(
           resourceGroupName,
           name,
-          options
+          options,
+          settings
         );
       }
     };
@@ -525,15 +601,18 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   private async *listMultiRolePoolsPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: AppServiceEnvironmentsListMultiRolePoolsOptionalParams
+    options?: AppServiceEnvironmentsListMultiRolePoolsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<WorkerPoolResource[]> {
-    let result = await this._listMultiRolePools(
-      resourceGroupName,
-      name,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceEnvironmentsListMultiRolePoolsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listMultiRolePools(resourceGroupName, name, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listMultiRolePoolsNext(
         resourceGroupName,
@@ -542,7 +621,9 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -587,12 +668,16 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMultiRolePoolInstanceMetricDefinitionsPagingPage(
           resourceGroupName,
           name,
           instance,
-          options
+          options,
+          settings
         );
       }
     };
@@ -602,16 +687,23 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     resourceGroupName: string,
     name: string,
     instance: string,
-    options?: AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsOptionalParams
+    options?: AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ResourceMetricDefinition[]> {
-    let result = await this._listMultiRolePoolInstanceMetricDefinitions(
-      resourceGroupName,
-      name,
-      instance,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listMultiRolePoolInstanceMetricDefinitions(
+        resourceGroupName,
+        name,
+        instance,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listMultiRolePoolInstanceMetricDefinitionsNext(
         resourceGroupName,
@@ -621,7 +713,9 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -664,11 +758,15 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMultiRoleMetricDefinitionsPagingPage(
           resourceGroupName,
           name,
-          options
+          options,
+          settings
         );
       }
     };
@@ -677,15 +775,22 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   private async *listMultiRoleMetricDefinitionsPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: AppServiceEnvironmentsListMultiRoleMetricDefinitionsOptionalParams
+    options?: AppServiceEnvironmentsListMultiRoleMetricDefinitionsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ResourceMetricDefinition[]> {
-    let result = await this._listMultiRoleMetricDefinitions(
-      resourceGroupName,
-      name,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceEnvironmentsListMultiRoleMetricDefinitionsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listMultiRoleMetricDefinitions(
+        resourceGroupName,
+        name,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listMultiRoleMetricDefinitionsNext(
         resourceGroupName,
@@ -694,7 +799,9 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -735,11 +842,15 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMultiRolePoolSkusPagingPage(
           resourceGroupName,
           name,
-          options
+          options,
+          settings
         );
       }
     };
@@ -748,15 +859,22 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   private async *listMultiRolePoolSkusPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: AppServiceEnvironmentsListMultiRolePoolSkusOptionalParams
+    options?: AppServiceEnvironmentsListMultiRolePoolSkusOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SkuInfo[]> {
-    let result = await this._listMultiRolePoolSkus(
-      resourceGroupName,
-      name,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceEnvironmentsListMultiRolePoolSkusResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listMultiRolePoolSkus(
+        resourceGroupName,
+        name,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listMultiRolePoolSkusNext(
         resourceGroupName,
@@ -765,7 +883,9 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -806,11 +926,15 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMultiRoleUsagesPagingPage(
           resourceGroupName,
           name,
-          options
+          options,
+          settings
         );
       }
     };
@@ -819,15 +943,22 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   private async *listMultiRoleUsagesPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: AppServiceEnvironmentsListMultiRoleUsagesOptionalParams
+    options?: AppServiceEnvironmentsListMultiRoleUsagesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Usage[]> {
-    let result = await this._listMultiRoleUsages(
-      resourceGroupName,
-      name,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceEnvironmentsListMultiRoleUsagesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listMultiRoleUsages(
+        resourceGroupName,
+        name,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listMultiRoleUsagesNext(
         resourceGroupName,
@@ -836,7 +967,9 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -878,11 +1011,15 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.getOutboundNetworkDependenciesEndpointsPagingPage(
           resourceGroupName,
           name,
-          options
+          options,
+          settings
         );
       }
     };
@@ -891,15 +1028,22 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   private async *getOutboundNetworkDependenciesEndpointsPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<OutboundEnvironmentEndpoint[]> {
-    let result = await this._getOutboundNetworkDependenciesEndpoints(
-      resourceGroupName,
-      name,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getOutboundNetworkDependenciesEndpoints(
+        resourceGroupName,
+        name,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._getOutboundNetworkDependenciesEndpointsNext(
         resourceGroupName,
@@ -908,7 +1052,9 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -949,11 +1095,15 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.getPrivateEndpointConnectionListPagingPage(
           resourceGroupName,
           name,
-          options
+          options,
+          settings
         );
       }
     };
@@ -962,15 +1112,22 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   private async *getPrivateEndpointConnectionListPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: AppServiceEnvironmentsGetPrivateEndpointConnectionListOptionalParams
+    options?: AppServiceEnvironmentsGetPrivateEndpointConnectionListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RemotePrivateEndpointConnectionARMResource[]> {
-    let result = await this._getPrivateEndpointConnectionList(
-      resourceGroupName,
-      name,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceEnvironmentsGetPrivateEndpointConnectionListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getPrivateEndpointConnectionList(
+        resourceGroupName,
+        name,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._getPrivateEndpointConnectionListNext(
         resourceGroupName,
@@ -979,7 +1136,9 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -1016,8 +1175,16 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.resumePagingPage(resourceGroupName, name, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.resumePagingPage(
+          resourceGroupName,
+          name,
+          options,
+          settings
+        );
       }
     };
   }
@@ -1025,12 +1192,19 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   private async *resumePagingPage(
     resourceGroupName: string,
     name: string,
-    options?: AppServiceEnvironmentsResumeOptionalParams
+    options?: AppServiceEnvironmentsResumeOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Site[]> {
-    const poller = await this._resume(resourceGroupName, name, options);
-    let result: any = await poller.pollUntilDone();
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceEnvironmentsResumeResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      const poller = await this._resume(resourceGroupName, name, options);
+      result = await poller.pollUntilDone();
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._resumeNext(
         resourceGroupName,
@@ -1039,7 +1213,9 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -1080,11 +1256,15 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listAppServicePlansPagingPage(
           resourceGroupName,
           name,
-          options
+          options,
+          settings
         );
       }
     };
@@ -1093,15 +1273,22 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   private async *listAppServicePlansPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: AppServiceEnvironmentsListAppServicePlansOptionalParams
+    options?: AppServiceEnvironmentsListAppServicePlansOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AppServicePlan[]> {
-    let result = await this._listAppServicePlans(
-      resourceGroupName,
-      name,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceEnvironmentsListAppServicePlansResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAppServicePlans(
+        resourceGroupName,
+        name,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAppServicePlansNext(
         resourceGroupName,
@@ -1110,7 +1297,9 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -1147,8 +1336,16 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listWebAppsPagingPage(resourceGroupName, name, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listWebAppsPagingPage(
+          resourceGroupName,
+          name,
+          options,
+          settings
+        );
       }
     };
   }
@@ -1156,11 +1353,18 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   private async *listWebAppsPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: AppServiceEnvironmentsListWebAppsOptionalParams
+    options?: AppServiceEnvironmentsListWebAppsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Site[]> {
-    let result = await this._listWebApps(resourceGroupName, name, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceEnvironmentsListWebAppsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listWebApps(resourceGroupName, name, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listWebAppsNext(
         resourceGroupName,
@@ -1169,7 +1373,9 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -1206,8 +1412,16 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.suspendPagingPage(resourceGroupName, name, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.suspendPagingPage(
+          resourceGroupName,
+          name,
+          options,
+          settings
+        );
       }
     };
   }
@@ -1215,12 +1429,19 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   private async *suspendPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: AppServiceEnvironmentsSuspendOptionalParams
+    options?: AppServiceEnvironmentsSuspendOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Site[]> {
-    const poller = await this._suspend(resourceGroupName, name, options);
-    let result: any = await poller.pollUntilDone();
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceEnvironmentsSuspendResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      const poller = await this._suspend(resourceGroupName, name, options);
+      result = await poller.pollUntilDone();
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._suspendNext(
         resourceGroupName,
@@ -1229,7 +1450,9 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -1266,8 +1489,16 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listUsagesPagingPage(resourceGroupName, name, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listUsagesPagingPage(
+          resourceGroupName,
+          name,
+          options,
+          settings
+        );
       }
     };
   }
@@ -1275,11 +1506,18 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   private async *listUsagesPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: AppServiceEnvironmentsListUsagesOptionalParams
+    options?: AppServiceEnvironmentsListUsagesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<CsmUsageQuota[]> {
-    let result = await this._listUsages(resourceGroupName, name, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceEnvironmentsListUsagesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listUsages(resourceGroupName, name, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listUsagesNext(
         resourceGroupName,
@@ -1288,7 +1526,9 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -1329,8 +1569,16 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listWorkerPoolsPagingPage(resourceGroupName, name, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listWorkerPoolsPagingPage(
+          resourceGroupName,
+          name,
+          options,
+          settings
+        );
       }
     };
   }
@@ -1338,11 +1586,18 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   private async *listWorkerPoolsPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: AppServiceEnvironmentsListWorkerPoolsOptionalParams
+    options?: AppServiceEnvironmentsListWorkerPoolsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<WorkerPoolResource[]> {
-    let result = await this._listWorkerPools(resourceGroupName, name, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceEnvironmentsListWorkerPoolsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listWorkerPools(resourceGroupName, name, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listWorkerPoolsNext(
         resourceGroupName,
@@ -1351,7 +1606,9 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -1399,13 +1656,17 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listWorkerPoolInstanceMetricDefinitionsPagingPage(
           resourceGroupName,
           name,
           workerPoolName,
           instance,
-          options
+          options,
+          settings
         );
       }
     };
@@ -1416,17 +1677,24 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     name: string,
     workerPoolName: string,
     instance: string,
-    options?: AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsOptionalParams
+    options?: AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ResourceMetricDefinition[]> {
-    let result = await this._listWorkerPoolInstanceMetricDefinitions(
-      resourceGroupName,
-      name,
-      workerPoolName,
-      instance,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listWorkerPoolInstanceMetricDefinitions(
+        resourceGroupName,
+        name,
+        workerPoolName,
+        instance,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listWorkerPoolInstanceMetricDefinitionsNext(
         resourceGroupName,
@@ -1437,7 +1705,9 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -1485,12 +1755,16 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listWebWorkerMetricDefinitionsPagingPage(
           resourceGroupName,
           name,
           workerPoolName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -1500,16 +1774,23 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     resourceGroupName: string,
     name: string,
     workerPoolName: string,
-    options?: AppServiceEnvironmentsListWebWorkerMetricDefinitionsOptionalParams
+    options?: AppServiceEnvironmentsListWebWorkerMetricDefinitionsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ResourceMetricDefinition[]> {
-    let result = await this._listWebWorkerMetricDefinitions(
-      resourceGroupName,
-      name,
-      workerPoolName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceEnvironmentsListWebWorkerMetricDefinitionsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listWebWorkerMetricDefinitions(
+        resourceGroupName,
+        name,
+        workerPoolName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listWebWorkerMetricDefinitionsNext(
         resourceGroupName,
@@ -1519,7 +1800,9 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -1565,12 +1848,16 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listWorkerPoolSkusPagingPage(
           resourceGroupName,
           name,
           workerPoolName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -1580,16 +1867,23 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     resourceGroupName: string,
     name: string,
     workerPoolName: string,
-    options?: AppServiceEnvironmentsListWorkerPoolSkusOptionalParams
+    options?: AppServiceEnvironmentsListWorkerPoolSkusOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SkuInfo[]> {
-    let result = await this._listWorkerPoolSkus(
-      resourceGroupName,
-      name,
-      workerPoolName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceEnvironmentsListWorkerPoolSkusResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listWorkerPoolSkus(
+        resourceGroupName,
+        name,
+        workerPoolName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listWorkerPoolSkusNext(
         resourceGroupName,
@@ -1599,7 +1893,9 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -1645,12 +1941,16 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listWebWorkerUsagesPagingPage(
           resourceGroupName,
           name,
           workerPoolName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -1660,16 +1960,23 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     resourceGroupName: string,
     name: string,
     workerPoolName: string,
-    options?: AppServiceEnvironmentsListWebWorkerUsagesOptionalParams
+    options?: AppServiceEnvironmentsListWebWorkerUsagesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Usage[]> {
-    let result = await this._listWebWorkerUsages(
-      resourceGroupName,
-      name,
-      workerPoolName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppServiceEnvironmentsListWebWorkerUsagesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listWebWorkerUsages(
+        resourceGroupName,
+        name,
+        workerPoolName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listWebWorkerUsagesNext(
         resourceGroupName,
@@ -1679,7 +1986,9 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
