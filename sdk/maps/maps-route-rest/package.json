@@ -39,7 +39,8 @@
     ],
     "requiredResources": {
       "Azure Maps Resource": "https://docs.microsoft.com/azure/azure-maps/how-to-create-template"
-    }
+    },
+    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure-rest/maps-route"
   },
   "//metadata": {
     "constantPaths": [
