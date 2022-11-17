@@ -24,7 +24,7 @@ async function main() {
     body: {
       testId: testId,
       displayName: displayName,
-      vusers: 10,
+      virtualUsers: 10,
     },
   });
 

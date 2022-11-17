@@ -5,6 +5,11 @@ import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 import { AzureLoadTestingClient } from "./clientDefinitions";
 
+/**
+ * Initialize a new instance of the class AzureLoadTestingClient class.
+ * @param Endpoint type: string URL to perform data plane API operations on the resource.
+ * @param credentials type: TokenCredential
+ */
 export default function createClient(
   Endpoint: string,
   credentials: TokenCredential,

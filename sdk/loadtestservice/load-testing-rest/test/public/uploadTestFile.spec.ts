@@ -28,11 +28,9 @@ describe("File Upload", () => {
   });
 
   it("should upload the test file", async () => {
-    const result = await client.path("/tests/{testId}/files/{fileId}", "abc", "xyz12365").put({
-      contentType: "multipart/form-data",
-      body: {
-        file: readStream,
-      },
+    const result = await client.path("/tests/{testId}/files/{fileName}", "abc", "xyz12365").put({
+      contentType: "application/octet-stream",
+      body: readStream,
     });
 
     assert.include(["201"], result.status);

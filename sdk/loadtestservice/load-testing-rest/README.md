@@ -101,12 +101,12 @@ var DISPLAY_NAME = "my-load-test";
 
 const Client: AzureLoadTestingClient = AzureLoadTesting(Endpoint, new DefaultAzureCredential());
 
-await Client.path("/loadtests/{testId}", TEST_ID).patch({
+await Client.path("/tests/{testId}", TEST_ID).patch({
   contentType: "application/merge-patch+json",
   body: {
     displayName: DISPLAY_NAME,
     description: "",
-    loadTestConfig: {
+    loadTestConfiguration: {
       engineInstances: 1,
       splitAllCSVs: false,
     },
@@ -130,7 +130,7 @@ const readStream = createReadStream("./sample.jmx");
 
 const Client: AzureLoadTestingClient = AzureLoadTesting(Endpoint, new DefaultAzureCredential());
 
-await Client.path("/loadtests/{testId}/files/{fileId}", TEST_ID, FILE_ID).put({
+await Client.path("/tests/{testId}/files/{fileId}", TEST_ID, FILE_ID).put({
   contentType: "multipart/form-data",
   body: {
     file: readStream,
@@ -150,7 +150,7 @@ var DISPLAY_NAME = "my-load-test-run";
 
 const Client: AzureLoadTestingClient = AzureLoadTesting(Endpoint, new DefaultAzureCredential());
 
-await Client.path("/testruns/{testRunId}", TEST_RUN_ID).patch({
+await Client.path("/test-runs/{testRunId}", TEST_RUN_ID).patch({
   contentType: "application/merge-patch+json",
   body: {
     testId: TEST_ID,
@@ -158,7 +158,7 @@ await Client.path("/testruns/{testRunId}", TEST_RUN_ID).patch({
   },
 });
 
-var result = await client.path("/testruns/{testRunId}", TEST_RUN_ID).get();
+var result = await client.path("/test-runs/{testRunId}", TEST_RUN_ID).get();
 console.log(result);
 ```
 

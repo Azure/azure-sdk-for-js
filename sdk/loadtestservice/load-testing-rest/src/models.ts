@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/** Load test model */
 export interface Test {
   /** Pass fail criteria for a test. */
   passFailCriteria?: PassFailCriteria;
@@ -36,14 +37,16 @@ export interface Test {
   lastModifiedBy?: string;
 }
 
+/** Pass fail criteria for a test. */
 export interface PassFailCriteria {
   /** Map of id and pass fail metrics { id  : pass fail metrics }. */
   passFailMetrics?: Record<string, PassFailMetric>;
 }
 
+/** Pass fail metric */
 export interface PassFailMetric {
   /** The client metric on which the criteria should be applied. */
-  clientmetric?: "response_time_ms" | "latency" | "error" | "requests" | "requests_per_sec";
+  clientMetric?: "response_time_ms" | "latency" | "error" | "requests" | "requests_per_sec";
   /** The aggregation function to be applied on the client metric. Allowed functions - ‘percentage’ - for error metric , ‘avg’, ‘p50’, ‘p90’, ‘p95’, ‘p99’, ‘min’, ‘max’ - for response_time_ms and latency metric, ‘avg’ - for requests_per_sec, ‘count’ - for requests */
   aggregate?: "count" | "percentage" | "avg" | "p50" | "p90" | "p95" | "p99" | "min" | "max";
   /** The comparison operator. Supported types ‘>’, ‘<’ */
@@ -60,6 +63,7 @@ export interface PassFailMetric {
   result?: "passed" | "undetermined" | "failed";
 }
 
+/** Secret */
 export interface Secret {
   /** The value of the secret for the respective type */
   value?: string;
@@ -67,6 +71,7 @@ export interface Secret {
   type?: "AKV_SECRET_URI" | "SECRET_VALUE";
 }
 
+/** Certificates metadata */
 export interface CertificateMetadata {
   /** The value of the certificate for respective type */
   value?: string;
@@ -76,6 +81,7 @@ export interface CertificateMetadata {
   name?: string;
 }
 
+/** The load test configuration. */
 export interface LoadTestConfiguration {
   /** The number of engine instances to execute load test. Supported values are in range of 1-45. Required for creating a new test. */
   engineInstances?: number;
@@ -87,17 +93,19 @@ export interface LoadTestConfiguration {
   optionalLoadTestConfig?: OptionalLoadTestConfig;
 }
 
+/** Optional load test config */
 export interface OptionalLoadTestConfig {
   /** Test URL. Provide the complete HTTP URL. For example, http://contoso-app.azurewebsites.net/login */
   endpointUrl?: string;
   /** No of concurrent virtual users */
-  vusers?: number;
+  virtualUsers?: number;
   /** Ramp up time */
   rampUpTime?: number;
   /** Test run duration */
   duration?: number;
 }
 
+/** The input artifacts for the test. */
 export interface TestInputArtifacts {
   /** File info */
   configFileInfo?: FileInfo;
@@ -111,11 +119,10 @@ export interface TestInputArtifacts {
   additionalFileInfo?: Array<FileInfo>;
 }
 
+/** File info */
 export interface FileInfo {
   /** File URL. */
   url?: string;
-  /** Unique name for test file. */
-  fileId?: string;
   /** Name of the file. */
   filename?: string;
   /** File type */
@@ -131,6 +138,7 @@ export interface FileInfo {
     | "VALIDATION_NOT_REQUIRED";
 }
 
+/** Test app component */
 export interface TestAppComponents {
   /** Test identifier */
   testId?: string;
@@ -146,6 +154,7 @@ export interface TestAppComponents {
   lastModifiedBy?: string;
 }
 
+/** An Azure resource object (Refer azure generic resource model : https://docs.microsoft.com/en-us/rest/api/resources/resources/get-by-id#genericresource) */
 export interface AppComponent {
   /** fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName} */
   resourceId?: string;
@@ -163,6 +172,7 @@ export interface AppComponent {
   kind?: string;
 }
 
+/** Test server metric configuration */
 export interface TestServerMetricConfig {
   /** Test identifier */
   testId?: string;
@@ -178,6 +188,7 @@ export interface TestServerMetricConfig {
   lastModifiedBy?: string;
 }
 
+/** Associated metric definition for particular metrics of the azure resource ( Refer : https://docs.microsoft.com/en-us/rest/api/monitor/metric-definitions/list#metricdefinition). */
 export interface ResourceMetric {
   /** Unique name for metric. */
   id?: string;
@@ -187,8 +198,8 @@ export interface ResourceMetric {
   metricNamespace: string;
   /** Metric description. */
   displayDescription?: string;
-  /** The localizable string class. */
-  name: LocalizableString;
+  /** The invariant value of metric name */
+  name: string;
   /** Metric aggregation. */
   aggregation: string;
   /** Metric unit. */
@@ -197,13 +208,7 @@ export interface ResourceMetric {
   resourceType: string;
 }
 
-export interface LocalizableString {
-  /** The locale specific value. */
-  localizedValue?: string;
-  /** The invariant value. */
-  value?: string;
-}
-
+/** Load test run model */
 export interface TestRun {
   /** Pass fail criteria for a test. */
   passFailCriteria?: PassFailCriteria;
@@ -256,7 +261,7 @@ export interface TestRun {
   /** Test run initiated time. */
   executedDateTime?: Date | string;
   /** Number of virtual users, for which test has been run. */
-  vusers?: number;
+  virtualUsers?: number;
   /** Portal url. */
   portalUrl?: string;
   /** Test run duration in milliseconds. */
@@ -273,11 +278,13 @@ export interface TestRun {
   lastModifiedBy?: string;
 }
 
+/** Error details if there is any failure in load test run */
 export interface ErrorDetails {
   /** Error details in case test run was not successfully run. */
   message?: string;
 }
 
+/** Test run statistics. */
 export interface TestRunStatistics {
   /** Transaction name. */
   transaction?: string;
@@ -309,6 +316,7 @@ export interface TestRunStatistics {
   sentKBytesPerSec?: number;
 }
 
+/** Collection of test run artifacts */
 export interface TestRunArtifacts {
   /** The input artifacts for the test run. */
   inputArtifacts?: TestRunInputArtifacts;
@@ -316,6 +324,7 @@ export interface TestRunArtifacts {
   outputArtifacts?: TestRunOutputArtifacts;
 }
 
+/** The input artifacts for the test run. */
 export interface TestRunInputArtifacts {
   /** File info */
   configFileInfo?: FileInfo;
@@ -329,6 +338,7 @@ export interface TestRunInputArtifacts {
   additionalFileInfo?: Array<FileInfo>;
 }
 
+/** The output artifacts for the test run. */
 export interface TestRunOutputArtifacts {
   /** File info */
   resultUrl?: FileInfo;
@@ -336,18 +346,21 @@ export interface TestRunOutputArtifacts {
   logsUrl?: FileInfo;
 }
 
+/** Filters to fetch the set of metric */
 export interface MetricRequestPayload {
-  /** The MetadataFilter is used to reduce the set of metric data returned. Example: Metric contains metadata like SamplerName, Error. To retrieve all the time series data where SamplerName is equals to HTTPRequest1 or HTTPRequest2, the MetadataFilter value will be {"SamplerName", ["HTTPRequest1", "HTTPRequest2"} */
-  filters?: Array<MetadataFilter>;
+  /** Get metrics for specific dimension values. Example: Metric contains dimension like SamplerName, Error. To retrieve all the time series data where SamplerName is equals to HTTPRequest1 or HTTPRequest2, the DimensionFilter value will be {"SamplerName", ["HTTPRequest1", "HTTPRequest2"} */
+  filters?: Array<DimensionFilter>;
 }
 
-export interface MetadataFilter {
-  /** The invariant metadata name */
+/** Dimension name and values to filter */
+export interface DimensionFilter {
+  /** The dimension name */
   name?: string;
-  /** The metadata values. Maximum values can be 20. */
+  /** The dimension values. Maximum values can be 20. */
   values?: Array<string>;
 }
 
+/** Test run app component */
 export interface TestRunAppComponents {
   /** Test run identifier */
   testRunId?: string;
@@ -363,6 +376,7 @@ export interface TestRunAppComponents {
   lastModifiedBy?: string;
 }
 
+/** Test run server metric configuration */
 export interface TestRunServerMetricConfig {
   /** Test run identifier */
   testRunId?: string;

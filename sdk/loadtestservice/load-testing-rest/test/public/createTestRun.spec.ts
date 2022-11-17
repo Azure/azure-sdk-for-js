@@ -26,7 +26,7 @@ describe("Test Run Creation", () => {
       body: {
         testId: "abc",
         displayName: "sample_testrun",
-        vusers: 10,
+        virtualUsers: 10,
       },
     });
 

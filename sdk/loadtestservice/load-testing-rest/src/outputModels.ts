@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/** Load test model */
 export interface TestOutput {
   /** Pass fail criteria for a test. */
   passFailCriteria?: PassFailCriteriaOutput;
@@ -36,14 +37,16 @@ export interface TestOutput {
   lastModifiedBy?: string;
 }
 
+/** Pass fail criteria for a test. */
 export interface PassFailCriteriaOutput {
   /** Map of id and pass fail metrics { id  : pass fail metrics }. */
   passFailMetrics?: Record<string, PassFailMetricOutput>;
 }
 
+/** Pass fail metric */
 export interface PassFailMetricOutput {
   /** The client metric on which the criteria should be applied. */
-  clientmetric?: "response_time_ms" | "latency" | "error" | "requests" | "requests_per_sec";
+  clientMetric?: "response_time_ms" | "latency" | "error" | "requests" | "requests_per_sec";
   /** The aggregation function to be applied on the client metric. Allowed functions - ‘percentage’ - for error metric , ‘avg’, ‘p50’, ‘p90’, ‘p95’, ‘p99’, ‘min’, ‘max’ - for response_time_ms and latency metric, ‘avg’ - for requests_per_sec, ‘count’ - for requests */
   aggregate?: "count" | "percentage" | "avg" | "p50" | "p90" | "p95" | "p99" | "min" | "max";
   /** The comparison operator. Supported types ‘>’, ‘<’ */
@@ -60,6 +63,7 @@ export interface PassFailMetricOutput {
   result?: "passed" | "undetermined" | "failed";
 }
 
+/** Secret */
 export interface SecretOutput {
   /** The value of the secret for the respective type */
   value?: string;
@@ -67,6 +71,7 @@ export interface SecretOutput {
   type?: "AKV_SECRET_URI" | "SECRET_VALUE";
 }
 
+/** Certificates metadata */
 export interface CertificateMetadataOutput {
   /** The value of the certificate for respective type */
   value?: string;
@@ -76,6 +81,7 @@ export interface CertificateMetadataOutput {
   name?: string;
 }
 
+/** The load test configuration. */
 export interface LoadTestConfigurationOutput {
   /** The number of engine instances to execute load test. Supported values are in range of 1-45. Required for creating a new test. */
   engineInstances?: number;
@@ -87,17 +93,19 @@ export interface LoadTestConfigurationOutput {
   optionalLoadTestConfig?: OptionalLoadTestConfigOutput;
 }
 
+/** Optional load test config */
 export interface OptionalLoadTestConfigOutput {
   /** Test URL. Provide the complete HTTP URL. For example, http://contoso-app.azurewebsites.net/login */
   endpointUrl?: string;
   /** No of concurrent virtual users */
-  vusers?: number;
+  virtualUsers?: number;
   /** Ramp up time */
   rampUpTime?: number;
   /** Test run duration */
   duration?: number;
 }
 
+/** The input artifacts for the test. */
 export interface TestInputArtifactsOutput {
   /** File info */
   configFileInfo?: FileInfoOutput;
@@ -111,11 +119,10 @@ export interface TestInputArtifactsOutput {
   additionalFileInfo?: Array<FileInfoOutput>;
 }
 
+/** File info */
 export interface FileInfoOutput {
   /** File URL. */
   url?: string;
-  /** Unique name for test file. */
-  fileId?: string;
   /** Name of the file. */
   filename?: string;
   /** File type */
@@ -131,11 +138,13 @@ export interface FileInfoOutput {
     | "VALIDATION_NOT_REQUIRED";
 }
 
+/** The definition of an error object. */
 export interface ErrorResponseBodyOutput {
   /** Error from a REST request. */
   error: ErrorModelOutput;
 }
 
+/** Error from a REST request. */
 export interface ErrorModelOutput {
   /** The error code. */
   code: string;
@@ -147,6 +156,7 @@ export interface ErrorModelOutput {
   details?: Array<ErrorModelOutput>;
 }
 
+/** Collection of tests */
 export interface TestsListOutput {
   /** List of tests */
   value: Array<TestOutput>;
@@ -154,6 +164,7 @@ export interface TestsListOutput {
   nextLink?: string;
 }
 
+/** Collection of files. */
 export interface FileInfoListOutput {
   /** List of file info. */
   value: Array<FileInfoOutput>;
@@ -161,6 +172,7 @@ export interface FileInfoListOutput {
   nextLink?: string;
 }
 
+/** Test app component */
 export interface TestAppComponentsOutput {
   /** Test identifier */
   testId?: string;
@@ -176,6 +188,7 @@ export interface TestAppComponentsOutput {
   lastModifiedBy?: string;
 }
 
+/** An Azure resource object (Refer azure generic resource model : https://docs.microsoft.com/en-us/rest/api/resources/resources/get-by-id#genericresource) */
 export interface AppComponentOutput {
   /** fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName} */
   resourceId?: string;
@@ -193,6 +206,7 @@ export interface AppComponentOutput {
   kind?: string;
 }
 
+/** Test server metric configuration */
 export interface TestServerMetricConfigOutput {
   /** Test identifier */
   testId?: string;
@@ -208,6 +222,7 @@ export interface TestServerMetricConfigOutput {
   lastModifiedBy?: string;
 }
 
+/** Associated metric definition for particular metrics of the azure resource ( Refer : https://docs.microsoft.com/en-us/rest/api/monitor/metric-definitions/list#metricdefinition). */
 export interface ResourceMetricOutput {
   /** Unique name for metric. */
   id?: string;
@@ -217,8 +232,8 @@ export interface ResourceMetricOutput {
   metricNamespace: string;
   /** Metric description. */
   displayDescription?: string;
-  /** The localizable string class. */
-  name: LocalizableStringOutput;
+  /** The invariant value of metric name */
+  name: string;
   /** Metric aggregation. */
   aggregation: string;
   /** Metric unit. */
@@ -227,13 +242,7 @@ export interface ResourceMetricOutput {
   resourceType: string;
 }
 
-export interface LocalizableStringOutput {
-  /** The locale specific value. */
-  localizedValue?: string;
-  /** The invariant value. */
-  value?: string;
-}
-
+/** Load test run model */
 export interface TestRunOutput {
   /** Pass fail criteria for a test. */
   passFailCriteria?: PassFailCriteriaOutput;
@@ -286,7 +295,7 @@ export interface TestRunOutput {
   /** Test run initiated time. */
   executedDateTime?: string;
   /** Number of virtual users, for which test has been run. */
-  vusers?: number;
+  virtualUsers?: number;
   /** Portal url. */
   portalUrl?: string;
   /** Test run duration in milliseconds. */
@@ -303,11 +312,13 @@ export interface TestRunOutput {
   lastModifiedBy?: string;
 }
 
+/** Error details if there is any failure in load test run */
 export interface ErrorDetailsOutput {
   /** Error details in case test run was not successfully run. */
   message?: string;
 }
 
+/** Test run statistics. */
 export interface TestRunStatisticsOutput {
   /** Transaction name. */
   transaction?: string;
@@ -339,6 +350,7 @@ export interface TestRunStatisticsOutput {
   sentKBytesPerSec?: number;
 }
 
+/** Collection of test run artifacts */
 export interface TestRunArtifactsOutput {
   /** The input artifacts for the test run. */
   inputArtifacts?: TestRunInputArtifactsOutput;
@@ -346,6 +358,7 @@ export interface TestRunArtifactsOutput {
   outputArtifacts?: TestRunOutputArtifactsOutput;
 }
 
+/** The input artifacts for the test run. */
 export interface TestRunInputArtifactsOutput {
   /** File info */
   configFileInfo?: FileInfoOutput;
@@ -359,6 +372,7 @@ export interface TestRunInputArtifactsOutput {
   additionalFileInfo?: Array<FileInfoOutput>;
 }
 
+/** The output artifacts for the test run. */
 export interface TestRunOutputArtifactsOutput {
   /** File info */
   resultUrl?: FileInfoOutput;
@@ -366,6 +380,7 @@ export interface TestRunOutputArtifactsOutput {
   logsUrl?: FileInfoOutput;
 }
 
+/** Collection of test runs */
 export interface TestRunsListOutput {
   /** List of test runs */
   value: Array<TestRunOutput>;
@@ -373,44 +388,46 @@ export interface TestRunsListOutput {
   nextLink?: string;
 }
 
+/** Represents collection of metric namespaces. */
 export interface MetricNamespaceCollectionOutput {
   /** The values for the metric namespaces. */
   value: Array<MetricNamespaceOutput>;
 }
 
+/** Metric namespace class specifies the metadata for a metric namespace. */
 export interface MetricNamespaceOutput {
-  /** The escaped name of the namespace. */
+  /** The namespace description. */
+  description?: string;
+  /** The metric namespace name. */
   name?: string;
-  /** The fully qualified metric namespace name. */
-  metricNamespaceName?: string;
 }
 
+/** Represents collection of metric definitions. */
 export interface MetricDefinitionCollectionOutput {
   /** the values for the metric definitions. */
   value: Array<MetricDefinitionOutput>;
 }
 
+/** Metric definition */
 export interface MetricDefinitionOutput {
-  /** The name and the display name of the dimension, i.e. it is a localizable string. */
-  dimensions?: Array<LocalizableStringOutput>;
-  /** Detailed description of this metric. */
-  displayDescription?: string;
-  /** The localizable string class. */
-  name?: LocalizableStringOutput;
+  /** List of dimensions */
+  dimensions?: Array<NameAndDescOutput>;
+  /** The metric description */
+  description?: string;
+  /** The metric name */
+  name?: string;
   /** The namespace the metric belongs to. */
   namespace?: string;
-  /** the primary aggregation type value defining how to use the values for display. */
+  /** The primary aggregation type value defining how to use the values for display. */
   primaryAggregationType?:
     | "Average"
     | "Count"
-    | "Minimum"
-    | "Maximum"
     | "None"
     | "Total"
     | "Percentile90"
     | "Percentile95"
     | "Percentile99";
-  /** the collection of what aggregation types are supported. */
+  /** The collection of what all aggregation types are supported. */
   supportedAggregationTypes?: Array<string>;
   /** The unit of the metric. */
   unit?:
@@ -422,80 +439,65 @@ export interface MetricDefinitionOutput {
     | "Bytes"
     | "BytesPerSecond"
     | "CountPerSecond";
-  /** Metric availability specifies the time grain (aggregation interval or frequency) and the retention period for that time grain. */
+  /** Metric availability specifies the time grain (aggregation interval or frequency). */
   metricAvailabilities?: Array<MetricAvailabilityOutput>;
 }
 
+/** The name and description */
+export interface NameAndDescOutput {
+  /** The description */
+  description?: string;
+  /** The name */
+  name?: string;
+}
+
+/** Metric availability specifies the time grain (aggregation interval or frequency) */
 export interface MetricAvailabilityOutput {
   /** The time grain specifies the aggregation interval for the metric. Expressed as a duration 'PT1M', 'PT1H', etc. */
   timeGrain?: "PT5S" | "PT10S" | "PT1M" | "PT5M" | "PT1H";
 }
 
-export interface ResponseOutput {
-  /** Test run identifier */
-  testRunId?: string;
-  /** The interval (window size) for which the metric data was returned in. This may be adjusted in the future and returned back from what was originally requested. This is not present if a metadata request was made. */
-  interval?: string;
-  /** The namespace of the metrics being queried. */
-  namespace?: string;
-  /** The timespan for which the data was retrieved. Its value consists of two datetimes concatenated, separated by '/'. This may be adjusted in the future and returned back from what was originally requested. */
-  timespan?: string;
-  /** The result data of a query. */
-  value?: MetricOutput;
-}
-
-export interface MetricOutput {
-  /** The localizable string class. */
-  name?: LocalizableStringOutput;
-  /** The time series returned when a data query is performed. */
+/** The response to a metrics query. */
+export interface MetricsOutput {
+  /** Timeseries data for metric query. */
   timeseries?: Array<TimeSeriesElementOutput>;
-  /** The unit of the metric. */
-  unit?:
-    | "NotSpecified"
-    | "Percent"
-    | "Count"
-    | "Seconds"
-    | "Milliseconds"
-    | "Bytes"
-    | "BytesPerSecond"
-    | "CountPerSecond";
+  /** Link for the next set of timeseries in case of paginated results, if applicable */
+  nextLink?: string;
 }
 
+/** The time series returned when a data query is performed. */
 export interface TimeSeriesElementOutput {
-  /** An array of data points representing the metric values. This is only returned if a result type of "Data" is specified. */
+  /** An array of data points representing the metric values. */
   data?: Array<MetricValueOutput>;
-  /** The metadata values */
-  metadatavalues?: Array<MetadataValueOutput>;
+  /** The dimension values */
+  dimensionValues?: Array<DimensionValueOutput>;
 }
 
+/** Represents a metric value. */
 export interface MetricValueOutput {
-  /** The average value in the time range. */
-  average?: number;
-  /** The number of samples in the time range. Can be used to determine the number of values that contributed to the average value. */
-  count?: number;
-  /** The greatest value in the time range. */
-  maximum?: number;
-  /** The least value in the time range. */
-  minimum?: number;
   /** The timestamp for the metric value in ISO 8601 format. */
-  timeStamp?: string;
-  /** The sum of all of the values in the time range. */
-  total?: number;
-  /** 90th percentile value in the time range. */
-  percentile90?: number;
-  /** 95th percentile value in the time range. */
-  percentile95?: number;
-  /** 99th percentile value in the time range. */
-  percentile99?: number;
+  timestamp?: string;
+  /** The metric value. */
+  value?: number;
 }
 
-export interface MetadataValueOutput {
-  /** The localizable string class. */
-  name?: LocalizableStringOutput;
-  /** The value of the metadata. */
+/** Represents a metric dimension value. */
+export interface DimensionValueOutput {
+  /** The name of the dimension. */
+  name?: string;
+  /** The value of the dimension. */
   value?: string;
 }
 
+/** Metrics dimension values. */
+export interface DimensionValueListOutput {
+  /** The dimension values */
+  value?: Array<string>;
+  /** Link for the next set of values in case of paginated results, if applicable */
+  nextLink?: string;
+}
+
+/** Test run app component */
 export interface TestRunAppComponentsOutput {
   /** Test run identifier */
   testRunId?: string;
@@ -511,6 +513,7 @@ export interface TestRunAppComponentsOutput {
   lastModifiedBy?: string;
 }
 
+/** Test run server metric configuration */
 export interface TestRunServerMetricConfigOutput {
   /** Test run identifier */
   testRunId?: string;

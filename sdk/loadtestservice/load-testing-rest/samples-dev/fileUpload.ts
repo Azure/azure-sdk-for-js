@@ -45,12 +45,10 @@ async function main() {
 
   // Uploading .jmx file to a test
   const fileUploadResult = await client
-    .path("/tests/{testId}/files/{fileId}", testCreationResult.body.testId, fileId)
+    .path("/tests/{testId}/files/{fileName}", testCreationResult.body.testId, fileId)
     .put({
-      contentType: "multipart/form-data",
-      body: {
-        file: readStream,
-      },
+      contentType: "application/octet-stream",
+      body: readStream,
     });
 
   if (isUnexpected(fileUploadResult)) {
