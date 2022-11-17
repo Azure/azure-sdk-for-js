@@ -505,19 +505,18 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * });
    * ```
    */
-  public async suggest<Fields extends SelectFields<Model> | null = null>(
+  public async suggest<Fields extends SelectFields<Model>>(
     searchText: string,
     suggesterName: string,
     options: SuggestOptions<Model, Fields> = {}
   ): Promise<SuggestDocumentsResult<Model, Fields>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
     const { select, searchFields, orderBy, ...nonFieldOptions } = restOptions;
-    type NarrowedFields = Fields extends SelectFields<Model> ? Fields : never;
     const fullOptions: SuggestRequest = {
       searchText: searchText,
       suggesterName: suggesterName,
       searchFields: this.convertSearchFields(searchFields),
-      select: this.convertSelect<NarrowedFields>(select),
+      select: this.convertSelect<Fields>(select),
       orderBy: this.convertOrderBy(orderBy),
       ...nonFieldOptions,
     };

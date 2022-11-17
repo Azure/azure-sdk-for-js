@@ -485,7 +485,7 @@ export function generatedSearchResultToPublicSearchResult<
 
 export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<
   Model extends object,
-  Fields extends SelectFields<Model> | null
+  Fields extends SelectFields<Model>
 >(searchDocumentsResult: GeneratedSuggestDocumentsResult): SuggestDocumentsResult<Model, Fields> {
   const results = searchDocumentsResult.results.map<SuggestResult<Model, Fields>>((element) => {
     const { _text, ...restProps } = element;

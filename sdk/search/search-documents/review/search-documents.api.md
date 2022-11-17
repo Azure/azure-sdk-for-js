@@ -581,8 +581,7 @@ export type GetDataSourceConnectionOptions = OperationOptions;
 
 // @public
 export interface GetDocumentOptions<Model extends object, Fields extends SelectFields<Model>> extends OperationOptions {
-    // Warning: (ae-forgotten-export) The symbol "GenericFields" needs to be exported by the entry point index.d.ts
-    selectedFields?: GenericFields<Model, Fields>;
+    selectedFields?: [Fields] extends [never] ? string[] : Fields[];
 }
 
 // @public
@@ -2054,7 +2053,7 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
     mergeOrUploadDocuments(documents: Model[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
     search<Fields extends SelectFields<Model>>(searchText?: string, options?: SearchOptions<Model, Fields>): Promise<SearchDocumentsResult<Model, Fields>>;
     readonly serviceVersion: string;
-    suggest<Fields extends SelectFields<Model> | null = null>(searchText: string, suggesterName: string, options?: SuggestOptions<Model, Fields>): Promise<SuggestDocumentsResult<Model, Fields>>;
+    suggest<Fields extends SelectFields<Model>>(searchText: string, suggesterName: string, options?: SuggestOptions<Model, Fields>): Promise<SuggestDocumentsResult<Model, Fields>>;
     uploadDocuments(documents: Model[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
 }
 
@@ -2452,7 +2451,7 @@ export interface SearchRequestOptions<Model extends object, Fields extends Selec
     scoringStatistics?: ScoringStatistics;
     searchFields?: SelectFields<Model>[];
     searchMode?: SearchMode;
-    select?: GenericFields<Model, Fields>;
+    select?: [Fields] extends [never] ? string[] : Fields[];
     semanticFields?: string[];
     sessionId?: string;
     skip?: number;
@@ -2666,29 +2665,29 @@ export type StopwordsTokenFilter = BaseTokenFilter & {
 };
 
 // @public
-export interface SuggestDocumentsResult<Model extends object, Fields extends SelectFields<Model> | null> {
+export interface SuggestDocumentsResult<Model extends object, Fields extends SelectFields<Model>> {
     readonly coverage?: number;
     readonly results: SuggestResult<Model, Fields>[];
 }
 
 // @public
-export type SuggestOptions<Model extends object, Fields extends SelectFields<Model> | null> = OperationOptions & SuggestRequest<Model, Fields>;
+export type SuggestOptions<Model extends object, Fields extends SelectFields<Model>> = OperationOptions & SuggestRequest<Model, Fields>;
 
 // @public
-export interface SuggestRequest<Model extends object, Fields extends SelectFields<Model> | null> {
+export interface SuggestRequest<Model extends object, Fields extends SelectFields<Model>> {
     filter?: string;
     highlightPostTag?: string;
     highlightPreTag?: string;
     minimumCoverage?: number;
     orderBy?: string[];
     searchFields?: SelectFields<Model>[];
-    select?: GenericFields<Model, Extract<Fields, SelectFields<Model>>>;
+    select?: [Fields] extends [never] ? string[] : Fields[];
     top?: number;
     useFuzzyMatching?: boolean;
 }
 
 // @public
-export type SuggestResult<Model extends object, Fields extends SelectFields<Model> | null> = {
+export type SuggestResult<Model extends object, Fields extends SelectFields<Model>> = {
     readonly text: string;
     document: SuggestNarrowedModel<Model, Fields>;
 };
@@ -2804,7 +2803,7 @@ export type WordDelimiterTokenFilter = BaseTokenFilter & {
 
 // Warnings were encountered during analysis:
 //
-// src/indexModels.ts:626:3 - (ae-forgotten-export) The symbol "SuggestNarrowedModel" needs to be exported by the entry point index.d.ts
+// src/indexModels.ts:620:3 - (ae-forgotten-export) The symbol "SuggestNarrowedModel" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

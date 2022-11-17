@@ -84,13 +84,6 @@ export type SearchIndexingBufferedSenderDeleteDocumentsOptions = OperationOption
  */
 export type SearchIndexingBufferedSenderFlushDocumentsOptions = OperationOptions;
 
-// Allows for selecting fields when the client's model isn't specified
-type GenericFields<Model extends object, Fields extends SelectFields<Model>> = {
-  [K in Fields]: any;
-} extends Record<Fields, never>
-  ? string[]
-  : Fields[];
-
 /**
  * Options for retrieving a single document.
  */
@@ -100,7 +93,7 @@ export interface GetDocumentOptions<Model extends object, Fields extends SelectF
    * List of field names to retrieve for the document; Any field not retrieved will be missing from
    * the returned document.
    */
-  selectedFields?: GenericFields<Model, Fields>;
+  selectedFields?: [Fields] extends [never] ? string[] : Fields[];
 }
 
 /**
@@ -168,7 +161,7 @@ export type SearchOptions<
  */
 export type SuggestOptions<
   Model extends object,
-  Fields extends SelectFields<Model> | null
+  Fields extends SelectFields<Model>
 > = OperationOptions & SuggestRequest<Model, Fields>;
 
 /**
@@ -438,7 +431,7 @@ export interface SearchRequestOptions<Model extends object, Fields extends Selec
    * The list of fields to retrieve. If unspecified, all fields marked as
    * retrievable in the schema are included.
    */
-  select?: GenericFields<Model, Fields>;
+  select?: [Fields] extends [never] ? string[] : Fields[];
   /**
    * The number of search results to skip. This value cannot be greater than 100,000. If you need
    * to scan documents in sequence, but cannot use skip due to this limitation, consider using
@@ -558,7 +551,7 @@ export interface SearchDocumentsPageResult<Model extends object, Fields extends 
 /**
  * Parameters for filtering, sorting, fuzzy matching, and other suggestions query behaviors.
  */
-export interface SuggestRequest<Model extends object, Fields extends SelectFields<Model> | null> {
+export interface SuggestRequest<Model extends object, Fields extends SelectFields<Model>> {
   /**
    * An OData expression that filters the documents considered for suggestions.
    */
@@ -606,7 +599,8 @@ export interface SuggestRequest<Model extends object, Fields extends SelectField
    * The list of fields to retrieve. If unspecified, only the key field will be
    * included in the results.
    */
-  select?: GenericFields<Model, Extract<Fields, SelectFields<Model>>>;
+  select?: [Fields] extends [never] ? string[] : Fields[];
+  /**
   /**
    * The number of suggestions to retrieve. This must be a value between 1 and 100. The default is
    * 5.
@@ -617,7 +611,7 @@ export interface SuggestRequest<Model extends object, Fields extends SelectField
 /**
  * A result containing a document found by a suggestion query, plus associated metadata.
  */
-export type SuggestResult<Model extends object, Fields extends SelectFields<Model> | null> = {
+export type SuggestResult<Model extends object, Fields extends SelectFields<Model>> = {
   /**
    * The text of the suggestion result.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -629,10 +623,7 @@ export type SuggestResult<Model extends object, Fields extends SelectFields<Mode
 /**
  * Response containing suggestion query results from an index.
  */
-export interface SuggestDocumentsResult<
-  Model extends object,
-  Fields extends SelectFields<Model> | null
-> {
+export interface SuggestDocumentsResult<Model extends object, Fields extends SelectFields<Model>> {
   /**
    * The sequence of results returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -756,62 +747,63 @@ export type SelectFields<T extends object> = T extends Array<infer U>
  * Deeply pick fields of T using valid Cognitive Search OData $select
  * paths.
  */
-type SearchPick<T extends object, Paths extends SelectFields<T>> =
-  // We're going to get a union of individual interfaces for each field in T that's selected, so convert that to an intersection.
-  UnionToIntersection<
-    // Paths is a union or single string type, so if it's a union it will be _distributed_ over this conditional.
-    // Fortunately, template literal types are not greedy, so we can infer the field name easily.
-    Paths extends `${infer FieldName}/${infer RestPaths}`
-      ? // Symbols and numbers are invalid types for field names
-        FieldName extends Exclude<keyof T, symbol | number>
-        ? NonNullable<T[FieldName]> extends Array<infer U>
-          ? U extends object
-            ? // Extends clause is necessary to refine the constraint of RestPaths
-              RestPaths extends SelectFields<U>
-              ? // Narrow the type of every element in the array
-                {
-                  [K in FieldName]:
-                    | Array<SearchPick<U, RestPaths> | Extract<U, null | undefined>>
-                    | Extract<T[K], undefined>;
-                }
-              : // Unreachable by construction
-                never
-            : // Don't recur on arrays of non-object types
-              never
-          : NonNullable<T[FieldName]> extends object
-          ? // Recur :)
-            {
-              [K in FieldName]: RestPaths extends SelectFields<
-                T[K] & {
-                  // This empty intersection fixes `NonNullable<T[K]>` not being narrowed to an object type in older versions of TS
-                }
-              >
-                ?
-                    | SearchPick<
-                        T[K] & {
-                          // Ditto
-                        },
-                        RestPaths
-                      >
-                    | Extract<T[K], null | undefined>
+type SearchPick<T extends object, Paths extends SelectFields<T>> = [T] extends [never]
+  ? object
+  : // We're going to get a union of individual interfaces for each field in T that's selected, so convert that to an intersection.
+    UnionToIntersection<
+      // Paths is a union or single string type, so if it's a union it will be _distributed_ over this conditional.
+      // Fortunately, template literal types are not greedy, so we can infer the field name easily.
+      Paths extends `${infer FieldName}/${infer RestPaths}`
+        ? // Symbols and numbers are invalid types for field names
+          FieldName extends Exclude<keyof T, symbol | number>
+          ? NonNullable<T[FieldName]> extends Array<infer U>
+            ? U extends object
+              ? // Extends clause is necessary to refine the constraint of RestPaths
+                RestPaths extends SelectFields<U>
+                ? // Narrow the type of every element in the array
+                  {
+                    [K in FieldName]:
+                      | Array<SearchPick<U, RestPaths> | Extract<U, null | undefined>>
+                      | Extract<T[K], undefined>;
+                  }
                 : // Unreachable by construction
-                  never;
-            }
-          : // Unreachable by construction
+                  never
+              : // Don't recur on arrays of non-object types
+                never
+            : NonNullable<T[FieldName]> extends object
+            ? // Recur :)
+              {
+                [K in FieldName]: RestPaths extends SelectFields<
+                  T[K] & {
+                    // This empty intersection fixes `NonNullable<T[K]>` not being narrowed to an object type in older versions of TS
+                  }
+                >
+                  ?
+                      | SearchPick<
+                          T[K] & {
+                            // Ditto
+                          },
+                          RestPaths
+                        >
+                      | Extract<T[K], null | undefined>
+                  : // Unreachable by construction
+                    never;
+              }
+            : // Unreachable by construction
+              never
+          : // Ignore symbols and numbers
             never
-        : // Ignore symbols and numbers
+        : // Otherwise, capture the paths that are simple keys of T itself
+        Paths extends keyof T
+        ? { [K in Paths]: T[K] }
+        : // Unreachable by construction
           never
-      : // Otherwise, capture the paths that are simple keys of T itself
-      Paths extends keyof T
-      ? { [K in Paths]: T[K] }
-      : // Unreachable by construction
-        never
-  > & {
-    // This useless intersection actually prevents the TypeScript language server from
-    // expanding the definition of SearchPick<T, Paths> in IntelliSense. Since we're
-    // sure the type always yields an object, this intersection does not alter the type
-    // at all, only the display string of the type.
-  };
+    > & {
+      // This useless intersection actually prevents the TypeScript language server from
+      // expanding the definition of SearchPick<T, Paths> in IntelliSense. Since we're
+      // sure the type always yields an object, this intersection does not alter the type
+      // at all, only the display string of the type.
+    };
 
 type ExtractDocumentKey<Model> = {
   [K in keyof Model as Model[K] extends string | undefined ? K : never]: Model[K];
@@ -821,16 +813,20 @@ export type NarrowedModel<Model extends object, Fields extends SelectFields<Mode
   // Avoid calculating the type if every field is specified
   SelectFields<Model> extends Fields ? Model : SearchPick<Model, Fields>;
 
-type SuggestNarrowedModel<Model extends object, Fields extends SelectFields<Model> | null> =
-  // null represents the default case (no fields specified as selected)
-  null extends Fields
-    ? // Filter nullable (i.e. non-key) properties from the model, as they're not returned by the service by default
-      keyof ExtractDocumentKey<Model> extends never
-      ? // Return the original model if none of the properties are non-nullable
-        Model
-      : ExtractDocumentKey<Model>
-    : // Fields isn't narrowed to exclude null by the first condition, so it needs to be narrowed here
-    Fields extends SelectFields<Model>
-    ? NarrowedModel<Model, Fields>
-    : // Unreachable by construction
-      never;
+type SuggestNarrowedModel<Model extends object, Fields extends SelectFields<Model>> = [
+  Model
+] extends [never]
+  ? // The client was instantiated with no model, so the narrowest possible result type is `object`
+    object
+  : // null represents the default case (no fields specified as selected)
+  [Fields] extends [never]
+  ? // Filter nullable (i.e. non-key) properties from the model, as they're not returned by the service by default
+    keyof ExtractDocumentKey<Model> extends never
+    ? // Return the original model if none of the properties are non-nullable
+      Model
+    : ExtractDocumentKey<Model>
+  : // Fields isn't narrowed to exclude null by the first condition, so it needs to be narrowed here
+  Fields extends SelectFields<Model>
+  ? NarrowedModel<Model, Fields>
+  : // Unreachable by construction
+    never;
