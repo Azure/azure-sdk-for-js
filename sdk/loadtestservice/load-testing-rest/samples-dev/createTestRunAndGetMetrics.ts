@@ -58,6 +58,5 @@ async function main() {
   }
 
   console.log(getTestRunResult);
-
 }
 main().catch(console.error);

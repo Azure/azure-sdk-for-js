@@ -56,7 +56,7 @@ import {
   TestRunCreateOrUpdateServerMetricsConfig201Response,
   TestRunCreateOrUpdateServerMetricsConfigdefaultResponse,
   TestRunGetServerMetricsConfig200Response,
-  TestRunGetServerMetricsConfigdefaultResponse
+  TestRunGetServerMetricsConfigdefaultResponse,
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
@@ -84,7 +84,7 @@ const responseMap: Record<string, string[]> = {
   "PATCH /test-runs/{testRunId}/app-components": ["200", "201"],
   "GET /test-runs/{testRunId}/app-components": ["200"],
   "PATCH /test-runs/{testRunId}/server-metric-configs": ["200", "201"],
-  "GET /test-runs/{testRunId}/server-metric-configs": ["200"]
+  "GET /test-runs/{testRunId}/server-metric-configs": ["200"],
 };
 
 export function isUnexpected(
@@ -99,9 +99,7 @@ export function isUnexpected(
     | LoadTestAdministrationDeleteTestdefaultResponse
 ): response is LoadTestAdministrationDeleteTestdefaultResponse;
 export function isUnexpected(
-  response:
-    | LoadTestAdministrationGetTest200Response
-    | LoadTestAdministrationGetTestdefaultResponse
+  response: LoadTestAdministrationGetTest200Response | LoadTestAdministrationGetTestdefaultResponse
 ): response is LoadTestAdministrationGetTestdefaultResponse;
 export function isUnexpected(
   response:
@@ -114,9 +112,7 @@ export function isUnexpected(
     | LoadTestAdministrationUploadFiledefaultResponse
 ): response is LoadTestAdministrationUploadFiledefaultResponse;
 export function isUnexpected(
-  response:
-    | LoadTestAdministrationGetFile200Response
-    | LoadTestAdministrationGetFiledefaultResponse
+  response: LoadTestAdministrationGetFile200Response | LoadTestAdministrationGetFiledefaultResponse
 ): response is LoadTestAdministrationGetFiledefaultResponse;
 export function isUnexpected(
   response:
@@ -154,9 +150,7 @@ export function isUnexpected(
   response: TestRunDelete204Response | TestRunDeletedefaultResponse
 ): response is TestRunDeletedefaultResponse;
 export function isUnexpected(
-  response:
-    | TestRunCreateOrUpdate200Response
-    | TestRunCreateOrUpdatedefaultResponse
+  response: TestRunCreateOrUpdate200Response | TestRunCreateOrUpdatedefaultResponse
 ): response is TestRunCreateOrUpdatedefaultResponse;
 export function isUnexpected(
   response: TestRunGet200Response | TestRunGetdefaultResponse
@@ -171,14 +165,10 @@ export function isUnexpected(
   response: TestRunStop200Response | TestRunStopdefaultResponse
 ): response is TestRunStopdefaultResponse;
 export function isUnexpected(
-  response:
-    | TestRunListMetricNamespaces200Response
-    | TestRunListMetricNamespacesdefaultResponse
+  response: TestRunListMetricNamespaces200Response | TestRunListMetricNamespacesdefaultResponse
 ): response is TestRunListMetricNamespacesdefaultResponse;
 export function isUnexpected(
-  response:
-    | TestRunListMetricDefinitions200Response
-    | TestRunListMetricDefinitionsdefaultResponse
+  response: TestRunListMetricDefinitions200Response | TestRunListMetricDefinitionsdefaultResponse
 ): response is TestRunListMetricDefinitionsdefaultResponse;
 export function isUnexpected(
   response: TestRunGetMetrics200Response | TestRunGetMetricsdefaultResponse
@@ -190,9 +180,7 @@ export function isUnexpected(
     | TestRunCreateOrUpdateAppComponentdefaultResponse
 ): response is TestRunCreateOrUpdateAppComponentdefaultResponse;
 export function isUnexpected(
-  response:
-    | TestRunGetAppComponents200Response
-    | TestRunGetAppComponentsdefaultResponse
+  response: TestRunGetAppComponents200Response | TestRunGetAppComponentsdefaultResponse
 ): response is TestRunGetAppComponentsdefaultResponse;
 export function isUnexpected(
   response:
@@ -201,9 +189,7 @@ export function isUnexpected(
     | TestRunCreateOrUpdateServerMetricsConfigdefaultResponse
 ): response is TestRunCreateOrUpdateServerMetricsConfigdefaultResponse;
 export function isUnexpected(
-  response:
-    | TestRunGetServerMetricsConfig200Response
-    | TestRunGetServerMetricsConfigdefaultResponse
+  response: TestRunGetServerMetricsConfig200Response | TestRunGetServerMetricsConfigdefaultResponse
 ): response is TestRunGetServerMetricsConfigdefaultResponse;
 export function isUnexpected(
   response:
@@ -311,17 +297,11 @@ function geParametrizedPathSuccess(path: string): string[] {
 
     // If the candidate and actual paths don't match in size
     // we move on to the next candidate path
-    if (
-      candidateParts.length === pathParts.length &&
-      hasParametrizedPath(key)
-    ) {
+    if (candidateParts.length === pathParts.length && hasParametrizedPath(key)) {
       // track if we have found a match to return the values found.
       let found = true;
       for (let i = 0; i < candidateParts.length; i++) {
-        if (
-          candidateParts[i].startsWith("{") &&
-          candidateParts[i].endsWith("}")
-        ) {
+        if (candidateParts[i].startsWith("{") && candidateParts[i].endsWith("}")) {
           // If the current part of the candidate is a "template" part
           // it is a match with the actual path part on hand
           // skip as the parameterized part can match anything

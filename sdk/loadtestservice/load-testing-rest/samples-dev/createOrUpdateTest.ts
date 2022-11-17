@@ -8,7 +8,7 @@
  * @azsdk-weight 10
  */
 
-import AzureLoadTesting/*, { isUnexpected }*/ from "@azure-rest/load-testing";
+import AzureLoadTesting /*, { isUnexpected }*/ from "@azure-rest/load-testing";
 import { DefaultAzureCredential } from "@azure/identity";
 import { v4 as uuidv4 } from "uuid";
 
@@ -26,12 +26,11 @@ async function main() {
     body: {
       displayName: displayName,
       description: "",
-      loadTestConfiguration : {
+      loadTestConfiguration: {
         engineInstances: 1, // number of engine instances to run test
       },
     },
   });
-  
 }
 
 main().catch(console.error);

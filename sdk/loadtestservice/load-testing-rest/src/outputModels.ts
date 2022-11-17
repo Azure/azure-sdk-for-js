@@ -43,23 +43,9 @@ export interface PassFailCriteriaOutput {
 
 export interface PassFailMetricOutput {
   /** The client metric on which the criteria should be applied. */
-  clientmetric?:
-    | "response_time_ms"
-    | "latency"
-    | "error"
-    | "requests"
-    | "requests_per_sec";
+  clientmetric?: "response_time_ms" | "latency" | "error" | "requests" | "requests_per_sec";
   /** The aggregation function to be applied on the client metric. Allowed functions - ‘percentage’ - for error metric , ‘avg’, ‘p50’, ‘p90’, ‘p95’, ‘p99’, ‘min’, ‘max’ - for response_time_ms and latency metric, ‘avg’ - for requests_per_sec, ‘count’ - for requests */
-  aggregate?:
-    | "count"
-    | "percentage"
-    | "avg"
-    | "p50"
-    | "p90"
-    | "p95"
-    | "p99"
-    | "min"
-    | "max";
+  aggregate?: "count" | "percentage" | "avg" | "p50" | "p90" | "p95" | "p99" | "min" | "max";
   /** The comparison operator. Supported types ‘>’, ‘<’ */
   condition?: string;
   /** Request name for which the Pass fail criteria has to be applied */

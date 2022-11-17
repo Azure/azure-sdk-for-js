@@ -9,7 +9,7 @@ import {
   TestRun,
   MetricRequestPayload,
   TestRunAppComponents,
-  TestRunServerMetricConfig
+  TestRunServerMetricConfig,
 } from "./models";
 
 export interface LoadTestAdministrationCreateOrUpdateTestBodyParam {
@@ -60,11 +60,7 @@ export interface LoadTestAdministrationUploadFileFormBody {
    *
    * Value may contain any sequence of octets
    */
-  file:
-    | string
-    | Uint8Array
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream;
+  file: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
 }
 
 export interface LoadTestAdministrationUploadFileQueryParamProperties {

@@ -12,7 +12,6 @@ import AzureLoadTesting, { isUnexpected } from "@azure-rest/load-testing";
 import { DefaultAzureCredential } from "@azure/identity";
 import { v4 as uuidv4 } from "uuid";
 
-
 async function main() {
   const endpoint = process.env["LOADTESTSERVICE_ENDPOINT"] || "";
   const displayName = "some-load-test";
@@ -59,7 +58,7 @@ async function main() {
       },
     });
 
-    if (isUnexpected(appComponentCreationResult)) {
+  if (isUnexpected(appComponentCreationResult)) {
     throw appComponentCreationResult.body.error;
   }
 }

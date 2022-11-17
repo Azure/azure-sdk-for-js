@@ -17,19 +17,17 @@ import {
   MetricDefinitionCollectionOutput,
   ResponseOutput,
   TestRunAppComponentsOutput,
-  TestRunServerMetricConfigOutput
+  TestRunServerMetricConfigOutput,
 } from "./outputModels";
 
 /** Create a new test or update an existing test. */
-export interface LoadTestAdministrationCreateOrUpdateTest200Response
-  extends HttpResponse {
+export interface LoadTestAdministrationCreateOrUpdateTest200Response extends HttpResponse {
   status: "200";
   body: TestOutput;
 }
 
 /** Create a new test or update an existing test. */
-export interface LoadTestAdministrationCreateOrUpdateTest201Response
-  extends HttpResponse {
+export interface LoadTestAdministrationCreateOrUpdateTest201Response extends HttpResponse {
   status: "201";
   body: TestOutput;
 }
@@ -40,17 +38,14 @@ export interface LoadTestAdministrationCreateOrUpdateTestdefaultHeaders {
 }
 
 /** Create a new test or update an existing test. */
-export interface LoadTestAdministrationCreateOrUpdateTestdefaultResponse
-  extends HttpResponse {
+export interface LoadTestAdministrationCreateOrUpdateTestdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
-  headers: RawHttpHeaders &
-    LoadTestAdministrationCreateOrUpdateTestdefaultHeaders;
+  headers: RawHttpHeaders & LoadTestAdministrationCreateOrUpdateTestdefaultHeaders;
 }
 
 /** Delete a test by its name. */
-export interface LoadTestAdministrationDeleteTest204Response
-  extends HttpResponse {
+export interface LoadTestAdministrationDeleteTest204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
@@ -61,8 +56,7 @@ export interface LoadTestAdministrationDeleteTestdefaultHeaders {
 }
 
 /** Delete a test by its name. */
-export interface LoadTestAdministrationDeleteTestdefaultResponse
-  extends HttpResponse {
+export interface LoadTestAdministrationDeleteTestdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders & LoadTestAdministrationDeleteTestdefaultHeaders;
@@ -80,16 +74,14 @@ export interface LoadTestAdministrationGetTestdefaultHeaders {
 }
 
 /** Get load test details by test name */
-export interface LoadTestAdministrationGetTestdefaultResponse
-  extends HttpResponse {
+export interface LoadTestAdministrationGetTestdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders & LoadTestAdministrationGetTestdefaultHeaders;
 }
 
 /** Get all load tests by the fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}. */
-export interface LoadTestAdministrationListTests200Response
-  extends HttpResponse {
+export interface LoadTestAdministrationListTests200Response extends HttpResponse {
   status: "200";
   body: TestsListOutput;
 }
@@ -100,16 +92,14 @@ export interface LoadTestAdministrationListTestsdefaultHeaders {
 }
 
 /** Get all load tests by the fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}. */
-export interface LoadTestAdministrationListTestsdefaultResponse
-  extends HttpResponse {
+export interface LoadTestAdministrationListTestsdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders & LoadTestAdministrationListTestsdefaultHeaders;
 }
 
 /** Upload input file for a given test name. File size can't be more than 50 MB. Existing file with same name for the given test will be overwritten. File should be provided in the request body as multipart/form-data. */
-export interface LoadTestAdministrationUploadFile201Response
-  extends HttpResponse {
+export interface LoadTestAdministrationUploadFile201Response extends HttpResponse {
   status: "201";
   body: FileInfoOutput;
 }
@@ -120,8 +110,7 @@ export interface LoadTestAdministrationUploadFiledefaultHeaders {
 }
 
 /** Upload input file for a given test name. File size can't be more than 50 MB. Existing file with same name for the given test will be overwritten. File should be provided in the request body as multipart/form-data. */
-export interface LoadTestAdministrationUploadFiledefaultResponse
-  extends HttpResponse {
+export interface LoadTestAdministrationUploadFiledefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders & LoadTestAdministrationUploadFiledefaultHeaders;
@@ -139,16 +128,14 @@ export interface LoadTestAdministrationGetFiledefaultHeaders {
 }
 
 /** Get test file by the file name. */
-export interface LoadTestAdministrationGetFiledefaultResponse
-  extends HttpResponse {
+export interface LoadTestAdministrationGetFiledefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders & LoadTestAdministrationGetFiledefaultHeaders;
 }
 
 /** Delete file by the file name for a test */
-export interface LoadTestAdministrationDeleteFile204Response
-  extends HttpResponse {
+export interface LoadTestAdministrationDeleteFile204Response extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
@@ -159,16 +146,14 @@ export interface LoadTestAdministrationDeleteFiledefaultHeaders {
 }
 
 /** Delete file by the file name for a test */
-export interface LoadTestAdministrationDeleteFiledefaultResponse
-  extends HttpResponse {
+export interface LoadTestAdministrationDeleteFiledefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders & LoadTestAdministrationDeleteFiledefaultHeaders;
 }
 
 /** Get all test files. */
-export interface LoadTestAdministrationListFilesTest200Response
-  extends HttpResponse {
+export interface LoadTestAdministrationListFilesTest200Response extends HttpResponse {
   status: "200";
   body: FileInfoListOutput;
 }
@@ -179,8 +164,7 @@ export interface LoadTestAdministrationListFilesTestdefaultHeaders {
 }
 
 /** Get all test files. */
-export interface LoadTestAdministrationListFilesTestdefaultResponse
-  extends HttpResponse {
+export interface LoadTestAdministrationListFilesTestdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders & LoadTestAdministrationListFilesTestdefaultHeaders;
@@ -210,13 +194,11 @@ export interface LoadTestAdministrationCreateOrUpdateAppComponentTestdefaultResp
   extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
-  headers: RawHttpHeaders &
-    LoadTestAdministrationCreateOrUpdateAppComponentTestdefaultHeaders;
+  headers: RawHttpHeaders & LoadTestAdministrationCreateOrUpdateAppComponentTestdefaultHeaders;
 }
 
 /** Get associated app component (collection of azure resources) for the given test. */
-export interface LoadTestAdministrationGetAppComponentsTest200Response
-  extends HttpResponse {
+export interface LoadTestAdministrationGetAppComponentsTest200Response extends HttpResponse {
   status: "200";
   body: TestAppComponentsOutput;
 }
@@ -227,12 +209,10 @@ export interface LoadTestAdministrationGetAppComponentsTestdefaultHeaders {
 }
 
 /** Get associated app component (collection of azure resources) for the given test. */
-export interface LoadTestAdministrationGetAppComponentsTestdefaultResponse
-  extends HttpResponse {
+export interface LoadTestAdministrationGetAppComponentsTestdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
-  headers: RawHttpHeaders &
-    LoadTestAdministrationGetAppComponentsTestdefaultHeaders;
+  headers: RawHttpHeaders & LoadTestAdministrationGetAppComponentsTestdefaultHeaders;
 }
 
 /** Configure server metrics for a test */
@@ -264,8 +244,7 @@ export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfigTestdefa
 }
 
 /** Get server metric configuration for the given test. */
-export interface LoadTestAdministrationGetServerMetricsConfigTest200Response
-  extends HttpResponse {
+export interface LoadTestAdministrationGetServerMetricsConfigTest200Response extends HttpResponse {
   status: "200";
   body: TestServerMetricConfigOutput;
 }
@@ -280,8 +259,7 @@ export interface LoadTestAdministrationGetServerMetricsConfigTestdefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
-  headers: RawHttpHeaders &
-    LoadTestAdministrationGetServerMetricsConfigTestdefaultHeaders;
+  headers: RawHttpHeaders & LoadTestAdministrationGetServerMetricsConfigTestdefaultHeaders;
 }
 
 /** Delete a test run by its name. */
@@ -404,8 +382,7 @@ export interface TestRunListMetricNamespacesdefaultHeaders {
 }
 
 /** Lists the metric namespaces for a load test run. */
-export interface TestRunListMetricNamespacesdefaultResponse
-  extends HttpResponse {
+export interface TestRunListMetricNamespacesdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders & TestRunListMetricNamespacesdefaultHeaders;
@@ -423,8 +400,7 @@ export interface TestRunListMetricDefinitionsdefaultHeaders {
 }
 
 /** Lists the metric definitions for a load test run. */
-export interface TestRunListMetricDefinitionsdefaultResponse
-  extends HttpResponse {
+export interface TestRunListMetricDefinitionsdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders & TestRunListMetricDefinitionsdefaultHeaders;
@@ -449,15 +425,13 @@ export interface TestRunGetMetricsdefaultResponse extends HttpResponse {
 }
 
 /** Associate an app component (collection of azure resources) to a test run */
-export interface TestRunCreateOrUpdateAppComponent200Response
-  extends HttpResponse {
+export interface TestRunCreateOrUpdateAppComponent200Response extends HttpResponse {
   status: "200";
   body: TestRunAppComponentsOutput;
 }
 
 /** Associate an app component (collection of azure resources) to a test run */
-export interface TestRunCreateOrUpdateAppComponent201Response
-  extends HttpResponse {
+export interface TestRunCreateOrUpdateAppComponent201Response extends HttpResponse {
   status: "201";
   body: TestRunAppComponentsOutput;
 }
@@ -468,8 +442,7 @@ export interface TestRunCreateOrUpdateAppComponentdefaultHeaders {
 }
 
 /** Associate an app component (collection of azure resources) to a test run */
-export interface TestRunCreateOrUpdateAppComponentdefaultResponse
-  extends HttpResponse {
+export interface TestRunCreateOrUpdateAppComponentdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders & TestRunCreateOrUpdateAppComponentdefaultHeaders;
@@ -494,15 +467,13 @@ export interface TestRunGetAppComponentsdefaultResponse extends HttpResponse {
 }
 
 /** Configure server metrics for a test run */
-export interface TestRunCreateOrUpdateServerMetricsConfig200Response
-  extends HttpResponse {
+export interface TestRunCreateOrUpdateServerMetricsConfig200Response extends HttpResponse {
   status: "200";
   body: TestRunServerMetricConfigOutput;
 }
 
 /** Configure server metrics for a test run */
-export interface TestRunCreateOrUpdateServerMetricsConfig201Response
-  extends HttpResponse {
+export interface TestRunCreateOrUpdateServerMetricsConfig201Response extends HttpResponse {
   status: "201";
   body: TestRunServerMetricConfigOutput;
 }
@@ -513,12 +484,10 @@ export interface TestRunCreateOrUpdateServerMetricsConfigdefaultHeaders {
 }
 
 /** Configure server metrics for a test run */
-export interface TestRunCreateOrUpdateServerMetricsConfigdefaultResponse
-  extends HttpResponse {
+export interface TestRunCreateOrUpdateServerMetricsConfigdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
-  headers: RawHttpHeaders &
-    TestRunCreateOrUpdateServerMetricsConfigdefaultHeaders;
+  headers: RawHttpHeaders & TestRunCreateOrUpdateServerMetricsConfigdefaultHeaders;
 }
 
 /** Get server metric configuration for the given test run. */
@@ -533,8 +502,7 @@ export interface TestRunGetServerMetricsConfigdefaultHeaders {
 }
 
 /** Get server metric configuration for the given test run. */
-export interface TestRunGetServerMetricsConfigdefaultResponse
-  extends HttpResponse {
+export interface TestRunGetServerMetricsConfigdefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders & TestRunGetServerMetricsConfigdefaultHeaders;

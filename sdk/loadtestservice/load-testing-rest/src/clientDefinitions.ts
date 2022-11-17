@@ -26,7 +26,7 @@ import {
   TestRunCreateOrUpdateAppComponentParameters,
   TestRunGetAppComponentsParameters,
   TestRunCreateOrUpdateServerMetricsConfigParameters,
-  TestRunGetServerMetricsConfigParameters
+  TestRunGetServerMetricsConfigParameters,
 } from "./parameters";
 import {
   LoadTestAdministrationCreateOrUpdateTest200Response,
@@ -83,7 +83,7 @@ import {
   TestRunCreateOrUpdateServerMetricsConfig201Response,
   TestRunCreateOrUpdateServerMetricsConfigdefaultResponse,
   TestRunGetServerMetricsConfig200Response,
-  TestRunGetServerMetricsConfigdefaultResponse
+  TestRunGetServerMetricsConfigdefaultResponse,
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -100,15 +100,13 @@ export interface LoadTestAdministrationCreateOrUpdateTest {
   delete(
     options?: LoadTestAdministrationDeleteTestParameters
   ): StreamableMethod<
-    | LoadTestAdministrationDeleteTest204Response
-    | LoadTestAdministrationDeleteTestdefaultResponse
+    LoadTestAdministrationDeleteTest204Response | LoadTestAdministrationDeleteTestdefaultResponse
   >;
   /** Get load test details by test name */
   get(
     options?: LoadTestAdministrationGetTestParameters
   ): StreamableMethod<
-    | LoadTestAdministrationGetTest200Response
-    | LoadTestAdministrationGetTestdefaultResponse
+    LoadTestAdministrationGetTest200Response | LoadTestAdministrationGetTestdefaultResponse
   >;
 }
 
@@ -117,8 +115,7 @@ export interface LoadTestAdministrationListTests {
   get(
     options?: LoadTestAdministrationListTestsParameters
   ): StreamableMethod<
-    | LoadTestAdministrationListTests200Response
-    | LoadTestAdministrationListTestsdefaultResponse
+    LoadTestAdministrationListTests200Response | LoadTestAdministrationListTestsdefaultResponse
   >;
 }
 
@@ -127,22 +124,19 @@ export interface LoadTestAdministrationUploadFile {
   put(
     options: LoadTestAdministrationUploadFileParameters
   ): StreamableMethod<
-    | LoadTestAdministrationUploadFile201Response
-    | LoadTestAdministrationUploadFiledefaultResponse
+    LoadTestAdministrationUploadFile201Response | LoadTestAdministrationUploadFiledefaultResponse
   >;
   /** Get test file by the file name. */
   get(
     options?: LoadTestAdministrationGetFileParameters
   ): StreamableMethod<
-    | LoadTestAdministrationGetFile200Response
-    | LoadTestAdministrationGetFiledefaultResponse
+    LoadTestAdministrationGetFile200Response | LoadTestAdministrationGetFiledefaultResponse
   >;
   /** Delete file by the file name for a test */
   delete(
     options?: LoadTestAdministrationDeleteFileParameters
   ): StreamableMethod<
-    | LoadTestAdministrationDeleteFile204Response
-    | LoadTestAdministrationDeleteFiledefaultResponse
+    LoadTestAdministrationDeleteFile204Response | LoadTestAdministrationDeleteFiledefaultResponse
   >;
 }
 
@@ -200,9 +194,7 @@ export interface TestRunDelete {
   /** Create and start a new test run with the given name. */
   patch(
     options: TestRunCreateOrUpdateParameters
-  ): StreamableMethod<
-    TestRunCreateOrUpdate200Response | TestRunCreateOrUpdatedefaultResponse
-  >;
+  ): StreamableMethod<TestRunCreateOrUpdate200Response | TestRunCreateOrUpdatedefaultResponse>;
   /** Get test run details by name. */
   get(
     options?: TestRunGetParameters
@@ -213,9 +205,7 @@ export interface TestRunGetFile {
   /** Get test run file by file name. */
   get(
     options?: TestRunGetFileParameters
-  ): StreamableMethod<
-    TestRunGetFile200Response | TestRunGetFiledefaultResponse
-  >;
+  ): StreamableMethod<TestRunGetFile200Response | TestRunGetFiledefaultResponse>;
 }
 
 export interface TestRunList {
@@ -237,8 +227,7 @@ export interface TestRunListMetricNamespaces {
   get(
     options?: TestRunListMetricNamespacesParameters
   ): StreamableMethod<
-    | TestRunListMetricNamespaces200Response
-    | TestRunListMetricNamespacesdefaultResponse
+    TestRunListMetricNamespaces200Response | TestRunListMetricNamespacesdefaultResponse
   >;
 }
 
@@ -247,8 +236,7 @@ export interface TestRunListMetricDefinitions {
   get(
     options: TestRunListMetricDefinitionsParameters
   ): StreamableMethod<
-    | TestRunListMetricDefinitions200Response
-    | TestRunListMetricDefinitionsdefaultResponse
+    TestRunListMetricDefinitions200Response | TestRunListMetricDefinitionsdefaultResponse
   >;
 }
 
@@ -256,9 +244,7 @@ export interface TestRunGetMetrics {
   /** Lists the metric values for a load test run. */
   post(
     options: TestRunGetMetricsParameters
-  ): StreamableMethod<
-    TestRunGetMetrics200Response | TestRunGetMetricsdefaultResponse
-  >;
+  ): StreamableMethod<TestRunGetMetrics200Response | TestRunGetMetricsdefaultResponse>;
 }
 
 export interface TestRunCreateOrUpdateAppComponent {
@@ -273,9 +259,7 @@ export interface TestRunCreateOrUpdateAppComponent {
   /** Get associated app component (collection of azure resources) for the given test run. */
   get(
     options?: TestRunGetAppComponentsParameters
-  ): StreamableMethod<
-    TestRunGetAppComponents200Response | TestRunGetAppComponentsdefaultResponse
-  >;
+  ): StreamableMethod<TestRunGetAppComponents200Response | TestRunGetAppComponentsdefaultResponse>;
 }
 
 export interface TestRunCreateOrUpdateServerMetricsConfig {
@@ -291,17 +275,13 @@ export interface TestRunCreateOrUpdateServerMetricsConfig {
   get(
     options?: TestRunGetServerMetricsConfigParameters
   ): StreamableMethod<
-    | TestRunGetServerMetricsConfig200Response
-    | TestRunGetServerMetricsConfigdefaultResponse
+    TestRunGetServerMetricsConfig200Response | TestRunGetServerMetricsConfigdefaultResponse
   >;
 }
 
 export interface Routes {
   /** Resource for '/tests/\{testId\}' has methods for the following verbs: patch, delete, get */
-  (
-    path: "/tests/{testId}",
-    testId: string
-  ): LoadTestAdministrationCreateOrUpdateTest;
+  (path: "/tests/{testId}", testId: string): LoadTestAdministrationCreateOrUpdateTest;
   /** Resource for '/tests' has methods for the following verbs: get */
   (path: "/tests"): LoadTestAdministrationListTests;
   /** Resource for '/tests/\{testId\}/files/\{fileId\}' has methods for the following verbs: put, get, delete */
@@ -311,10 +291,7 @@ export interface Routes {
     fileId: string
   ): LoadTestAdministrationUploadFile;
   /** Resource for '/tests/\{testId\}/files' has methods for the following verbs: get */
-  (
-    path: "/tests/{testId}/files",
-    testId: string
-  ): LoadTestAdministrationListFilesTest;
+  (path: "/tests/{testId}/files", testId: string): LoadTestAdministrationListFilesTest;
   /** Resource for '/tests/\{testId\}/app-components' has methods for the following verbs: patch, get */
   (
     path: "/tests/{testId}/app-components",
@@ -348,10 +325,7 @@ export interface Routes {
     testRunId: string
   ): TestRunListMetricDefinitions;
   /** Resource for '/test-runs/\{testRunId\}/metrics' has methods for the following verbs: post */
-  (
-    path: "/test-runs/{testRunId}/metrics",
-    testRunId: string
-  ): TestRunGetMetrics;
+  (path: "/test-runs/{testRunId}/metrics", testRunId: string): TestRunGetMetrics;
   /** Resource for '/test-runs/\{testRunId\}/app-components' has methods for the following verbs: patch, get */
   (
     path: "/test-runs/{testRunId}/app-components",
