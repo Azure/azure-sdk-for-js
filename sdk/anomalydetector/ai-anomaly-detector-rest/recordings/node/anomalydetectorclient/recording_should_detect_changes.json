@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/anomalydetector/v1.1/timeseries/changepoint/detect",
+      "RequestUri": "https://endpointanomalydetector/v1.1/timeseries/changepoint/detect",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Content-Length": "2760",
         "Content-Type": "application/json; charset=UTF-8",
         "Ocp-Apim-Subscription-Key": "fake_key",
-        "User-Agent": "azsdk-js-ai-anomaly-detector-rest/1.0.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Linux-5.4.0-1094-azure)",
-        "x-ms-client-request-id": "da0f2328-07c3-4103-a60c-95e3af8cce01"
+        "User-Agent": "azsdk-js-ai-anomaly-detector-rest/1.0.0-beta.1 core-rest-pipeline/1.10.1 Node/v14.17.6 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "e9fef040-501e-4149-9ead-3157f6275907"
       },
       "RequestBody": {
         "series": [
@@ -208,16 +208,16 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "59873498-e32d-4409-8778-f74ee89752af",
-        "Content-Length": "1273",
+        "apim-request-id": "69e5b8ce-d91e-479e-91f8-b52d6d9f1fd9",
+        "Content-Length": "1275",
         "Content-Type": "application/json",
         "csp-billing-usage": "CognitiveServices.AnomalyDetector.DataPoints=1",
-        "Date": "Sat, 05 Nov 2022 04:07:31 GMT",
+        "Date": "Thu, 17 Nov 2022 15:06:16 GMT",
         "model-id": "60",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "16",
-        "x-ms-region": "West US 2"
+        "x-envoy-upstream-service-time": "15",
+        "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
         "confidenceScores": [
@@ -225,10 +225,10 @@
           3.4933177600615167e-15,
           1.7466588800307583e-15,
           0.0001802983311627988,
-          0.0002403977748819851,
+          0.00024039777487499844,
           0.0002086171040525728,
           0.0004417101783327612,
-          0.0010305134967024988,
+          0.0010305134967059921,
           0.0013739797059854765,
           0.005995423102374702,
           0.010929176182266976,
@@ -239,35 +239,35 @@
           0.06319334137835343,
           0.07254566198477644,
           0.07858313707325576,
-          0.08303129787041359,
+          0.08303129787041884,
           0.09363036130108665,
           0.12394107974251839,
           3.4933177600615167e-15,
-          5.239976640092275e-15,
-          0.0013637783433381966,
-          0.001818371124454422,
+          1.7466588800307583e-15,
+          0.00136377834333645,
+          0.0018183711244561687,
           0.013534416450583547,
-          0.02127575206397004,
-          0.24776417093336886,
+          0.0212757520639648,
+          0.24776417093337236,
           0.0,
-          0.07819891257886404,
-          0.09383869509464103,
-          0.03537183760959472,
+          0.07819891257886578,
+          0.09383869509464278,
+          0.03537183760958598,
           0.005846103682923545,
-          0.04728275644955462,
+          0.04728275644955986,
           0.0769611816254694,
           0.03696191671373943,
           0.01010854483125586,
-          0.02221533780077826,
-          0.04472300712079572,
-          0.0718394462852747,
+          0.022215337800776513,
+          0.04472300712080096,
+          0.07183944628526946,
           0.09129890160472946,
           0.06895302781018517,
-          0.051193691220218364,
-          0.02253817060044379,
+          0.05119369122022011,
+          0.022538170600436808,
           0.00038398714742631163,
           0.02105755538267086,
-          0.03779147258669402
+          0.03779147258669227
         ],
         "isChangePoint": [
           false,

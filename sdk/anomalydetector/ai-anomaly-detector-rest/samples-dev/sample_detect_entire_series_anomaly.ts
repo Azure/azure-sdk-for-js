@@ -61,12 +61,30 @@ export async function main() {
   }
 
   if (result.body.isAnomaly) {
-    console.log("The latest point is detected as anomaly.");
+    result.body.isAnomaly.forEach(function (anomaly, index) {
+      if (anomaly === true) {
+        console.log(index);
+      }
+    });
   } else {
-    console.log("The latest point is not detected as anomaly.");
+    console.log("There is no anomaly detected from the series.");
   }
-  // output
-  // The latest point is not detected as anomaly.
+  // output:
+  // Anomalies were detected from the series at index:
+  // 3
+  // 18
+  // 21
+  // 22
+  // 23
+  // 24
+  // 25
+  // 28
+  // 29
+  // 30
+  // 31
+  // 32
+  // 35
+  // 44
 }
 
 main().catch((err) => {
