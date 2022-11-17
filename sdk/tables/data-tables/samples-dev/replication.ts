@@ -17,9 +17,9 @@ dotenv.config();
 const accountName = process.env["ACCOUNT_NAME"] || "";
 const accountKey = process.env["ACCOUNT_KEY"] || "";
 
+const endpoint = "https://accountname-region1.table.cosmos.azure.com:443/";
 // TableClient also supports Table Storage RA-GRS replicas.
 const tablesUrls = [
-  "https://accountname-region1.table.cosmos.azure.com:443/",
   "https://accountname-region2.table.cosmos.azure.com:443/",
   "https://accountname-region3.table.cosmos.azure.com:443/",
 ];
@@ -27,14 +27,13 @@ const tablesUrls = [
 async function replication() {
   console.log("Working with table replicas");
   const options = {
-    // Use all but the first URL for failover.
-    readFailoverHosts: tablesUrls.slice(1),
+    readFailoverHosts: tablesUrls,
     // Table Storage RA-GRS replicas are read-only. Cosmos replicas can also be configured to be read-only. In these cases, omit this field.
-    writeFailoverHosts: tablesUrls.slice(1),
+    writeFailoverHosts: tablesUrls,
   };
 
   const client = new TableClient(
-    tablesUrls[0],
+    endpoint,
     "testreplication",
     new AzureNamedKeyCredential(accountName, accountKey),
     options
