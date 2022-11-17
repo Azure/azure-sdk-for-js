@@ -10697,7 +10697,7 @@ packages:
     dev: false
 
   file:projects/arm-botservice.tgz:
-    resolution: {integrity: sha512-kUwgAnz2AwtpbdSmBf+i8lZelOhdimkAPuqflxlRf/ZlTChXpj9nVvL80JeHcA15kxe9ETOdbYCRl7hXh5fGbQ==, tarball: file:projects/arm-botservice.tgz}
+    resolution: {integrity: sha512-OhboRZnHhPIw1+Ihx3F/620tXTg2A3Ym9OS4kPDibvVO+EhCmjXQGXilzn2/9K7IlytwuCRG5LTEtjtAmjxnIQ==, tarball: file:projects/arm-botservice.tgz}
     name: '@rush-temp/arm-botservice'
     version: 0.0.0
     dependencies:
@@ -10708,18 +10708,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      '@types/node': 14.18.33
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
