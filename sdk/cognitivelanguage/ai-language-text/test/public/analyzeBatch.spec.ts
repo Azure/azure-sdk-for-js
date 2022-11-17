@@ -709,7 +709,9 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               {
                 updateIntervalInMs: pollingInterval,
                 onResponse: (rawResponse) =>
-                  console.log(`Request ID: ${rawResponse.headers.get("x-ms-client-request-id")}`),
+                  console.log(
+                    `Request ID: ${rawResponse.request.headers.get("x-ms-client-request-id")}`
+                  ),
               }
             );
             poller.onProgress((state) => console.log(`status: ${state.status}`));
