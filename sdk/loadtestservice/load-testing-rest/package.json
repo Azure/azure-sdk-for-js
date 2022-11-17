@@ -28,6 +28,15 @@
     "LICENSE",
     "review/*"
   ],
+  "//sampleConfiguration": {
+    "productName": "Azure Load Testing rest",
+    "productSlugs": [
+      "azure"
+    ],
+    "requiredResources": {
+      "Azure LoadTesting Service instance": "https://learn.microsoft.com/azure/load-testing/"
+    }
+  },
   "engines": {
     "node": ">=14.0.0"
   },
