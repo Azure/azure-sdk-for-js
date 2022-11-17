@@ -10889,7 +10889,7 @@ packages:
     dev: false
 
   file:projects/arm-commerce.tgz:
-    resolution: {integrity: sha512-8Am81mU7kb+YS5ULi4ldCpPiXCdQtcSjerNd+QhwXRmcNNLpbWDqZ0kb/zQs/IzMepGVRr0yJNtgFI5ijPW+uQ==, tarball: file:projects/arm-commerce.tgz}
+    resolution: {integrity: sha512-Wf/ZBKBn7v4avmXzwOWjYfUBF+N3nKwYfSOOjxwu0T6a1Rg4Jj8LNqQD5ZTDfzxul/VV+tYg5y4CIfb3tK5s/A==, tarball: file:projects/arm-commerce.tgz}
     name: '@rush-temp/arm-commerce'
     version: 0.0.0
     dependencies:
@@ -10900,18 +10900,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      '@types/node': 14.18.33
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
