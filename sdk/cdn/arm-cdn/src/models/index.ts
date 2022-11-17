@@ -1012,10 +1012,10 @@ export interface ResourceUsage {
    */
   readonly resourceType?: string;
   /**
-   * Unit of the usage. e.g. Count.
+   * Unit of the usage. e.g. count.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly unit?: string;
+  readonly unit?: ResourceUsageUnit;
   /**
    * Actual value of usage on the specified resource type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1104,14 +1104,14 @@ export interface HttpErrorRangeParameters {
   end?: number;
 }
 
-/** The JSON object that contains the properties to secure a custom domain. */
-export interface CustomDomainHttpsParameters {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  certificateSource: "Cdn" | "AzureKeyVault";
-  /** Defines the TLS extension protocol that is used for secure delivery. */
-  protocolType: ProtocolType;
-  /** TLS protocol version that will be used for Https */
-  minimumTlsVersion?: MinimumTlsVersion;
+/** Custom domains created on the CDN endpoint. */
+export interface DeepCreatedCustomDomain {
+  /** Custom domain name. */
+  name: string;
+  /** The host name of the custom domain. Must be a domain name. */
+  hostName?: string;
+  /** Special validation or data may be required when delivering CDN to some regions due to local compliance reasons. E.g. ICP license number of a custom domain is required to deliver content in China. */
+  validationData?: string;
 }
 
 /** The JSON object containing endpoint update parameters. */
@@ -1358,6 +1358,16 @@ export interface CustomDomainListResult {
   readonly value?: CustomDomain[];
   /** URL to get the next set of custom domain objects if there are any. */
   nextLink?: string;
+}
+
+/** The JSON object that contains the properties to secure a custom domain. */
+export interface CustomDomainHttpsParameters {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  certificateSource: "Cdn" | "AzureKeyVault";
+  /** Defines the TLS extension protocol that is used for secure delivery. */
+  protocolType: ProtocolType;
+  /** TLS protocol version that will be used for Https */
+  minimumTlsVersion?: MinimumTlsVersion;
 }
 
 /** The customDomain JSON object required for custom domain creation or update. */
@@ -1631,7 +1641,7 @@ export interface ManagedRuleSet {
 export interface ManagedRuleGroupOverride {
   /** Describes the managed rule group within the rule set to override */
   ruleGroupName: string;
-  /** List of rules that will be disabled. If none specified, all rules in the group will be disabled. */
+  /** List of rules that will be enabled. If none specified, all rules in the group will be disabled. */
   rules?: ManagedRuleOverride[];
 }
 
@@ -2125,61 +2135,67 @@ export interface KeyVaultCertificateSourceParameters {
 }
 
 /** The JSON object that contains the properties of the domain to create. */
-export type AFDDomainProperties = AFDDomainUpdatePropertiesParameters &
-  AFDStateProperties & {
-    /**
-     * Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step. DCV stands for DomainControlValidation.
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly domainValidationState?: DomainValidationState;
-    /** The host name of the domain. Must be a domain name. */
-    hostName: string;
-    /**
-     * Values the customer needs to validate domain ownership
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly validationProperties?: DomainValidationProperties;
-  };
+export interface AFDDomainProperties
+  extends AFDDomainUpdatePropertiesParameters,
+    AFDStateProperties {
+  /**
+   * Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step. DCV stands for DomainControlValidation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly domainValidationState?: DomainValidationState;
+  /** The host name of the domain. Must be a domain name. */
+  hostName: string;
+  /**
+   * Values the customer needs to validate domain ownership
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly validationProperties?: DomainValidationProperties;
+}
 
 /** The JSON object that contains the properties required to create an endpoint. */
-export type AFDEndpointProperties = AFDEndpointPropertiesUpdateParameters &
-  AFDStateProperties & {
-    /**
-     * The host name of the endpoint structured as {endpointName}.{DNSZone}, e.g. contoso.azureedge.net
-     * NOTE: This property will not be serialized. It can only be populated by the server.
-     */
-    readonly hostName?: string;
-    /** Indicates the endpoint name reuse scope. The default value is TenantReuse. */
-    autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
-  };
+export interface AFDEndpointProperties
+  extends AFDEndpointPropertiesUpdateParameters,
+    AFDStateProperties {
+  /**
+   * The host name of the endpoint structured as {endpointName}.{DNSZone}, e.g. contoso.azureedge.net
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostName?: string;
+  /** Indicates the endpoint name reuse scope. The default value is TenantReuse. */
+  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
+}
 
 /** The JSON object that contains the properties of the origin group. */
-export type AFDOriginGroupProperties = AFDOriginGroupUpdatePropertiesParameters &
-  AFDStateProperties & {};
+export interface AFDOriginGroupProperties
+  extends AFDOriginGroupUpdatePropertiesParameters,
+    AFDStateProperties {}
 
 /** The JSON object that contains the properties of the origin. */
-export type AFDOriginProperties = AFDOriginUpdatePropertiesParameters &
-  AFDStateProperties & {};
+export interface AFDOriginProperties
+  extends AFDOriginUpdatePropertiesParameters,
+    AFDStateProperties {}
 
 /** The JSON object that contains the properties of the Routes to create. */
-export type RouteProperties = RouteUpdatePropertiesParameters &
-  AFDStateProperties & {};
+export interface RouteProperties
+  extends RouteUpdatePropertiesParameters,
+    AFDStateProperties {}
 
 /** The JSON object that contains the properties of the Rule Set to create. */
-export type RuleSetProperties = AFDStateProperties & {
+export interface RuleSetProperties extends AFDStateProperties {
   /**
    * The name of the profile which holds the rule set.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly profileName?: string;
-};
+}
 
 /** The JSON object that contains the properties of the Rules to create. */
-export type RuleProperties = RuleUpdatePropertiesParameters &
-  AFDStateProperties & {};
+export interface RuleProperties
+  extends RuleUpdatePropertiesParameters,
+    AFDStateProperties {}
 
 /** The json object that contains properties required to create a security policy */
-export type SecurityPolicyProperties = AFDStateProperties & {
+export interface SecurityPolicyProperties extends AFDStateProperties {
   /**
    * The name of the profile which holds the security policy.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2187,10 +2203,10 @@ export type SecurityPolicyProperties = AFDStateProperties & {
   readonly profileName?: string;
   /** object which contains security policy parameters */
   parameters?: SecurityPolicyPropertiesParametersUnion;
-};
+}
 
 /** The JSON object that contains the properties of the Secret to create. */
-export type SecretProperties = AFDStateProperties & {
+export interface SecretProperties extends AFDStateProperties {
   /**
    * The name of the profile which holds the secret.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2198,21 +2214,21 @@ export type SecretProperties = AFDStateProperties & {
   readonly profileName?: string;
   /** object which contains secret parameters */
   parameters?: SecretParametersUnion;
-};
+}
 
 /** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** The resource model definition for a ARM tracked top level resource. */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource location. */
   location: string;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-};
+}
 
 /** Describes a managed rule set definition. */
-export type ManagedRuleSetDefinition = Resource & {
+export interface ManagedRuleSetDefinition extends Resource {
   /** The pricing tier (defines a CDN provider, feature list and rate) of the CdnWebApplicationFirewallPolicy. */
   sku?: Sku;
   /**
@@ -2235,244 +2251,261 @@ export type ManagedRuleSetDefinition = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ruleGroups?: ManagedRuleGroupDefinition[];
-};
+}
 
 /** Defines the RemoteAddress condition for the delivery rule. */
-export type DeliveryRuleRemoteAddressCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleRemoteAddressCondition
+  extends DeliveryRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "RemoteAddress";
   /** Defines the parameters for the condition. */
   parameters: RemoteAddressMatchConditionParameters;
-};
+}
 
 /** Defines the RequestMethod condition for the delivery rule. */
-export type DeliveryRuleRequestMethodCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleRequestMethodCondition
+  extends DeliveryRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "RequestMethod";
   /** Defines the parameters for the condition. */
   parameters: RequestMethodMatchConditionParameters;
-};
+}
 
 /** Defines the QueryString condition for the delivery rule. */
-export type DeliveryRuleQueryStringCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleQueryStringCondition
+  extends DeliveryRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "QueryString";
   /** Defines the parameters for the condition. */
   parameters: QueryStringMatchConditionParameters;
-};
+}
 
 /** Defines the PostArgs condition for the delivery rule. */
-export type DeliveryRulePostArgsCondition = DeliveryRuleCondition & {
+export interface DeliveryRulePostArgsCondition extends DeliveryRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "PostArgs";
   /** Defines the parameters for the condition. */
   parameters: PostArgsMatchConditionParameters;
-};
+}
 
 /** Defines the RequestUri condition for the delivery rule. */
-export type DeliveryRuleRequestUriCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleRequestUriCondition extends DeliveryRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "RequestUri";
   /** Defines the parameters for the condition. */
   parameters: RequestUriMatchConditionParameters;
-};
+}
 
 /** Defines the RequestHeader condition for the delivery rule. */
-export type DeliveryRuleRequestHeaderCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleRequestHeaderCondition
+  extends DeliveryRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "RequestHeader";
   /** Defines the parameters for the condition. */
   parameters: RequestHeaderMatchConditionParameters;
-};
+}
 
 /** Defines the RequestBody condition for the delivery rule. */
-export type DeliveryRuleRequestBodyCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleRequestBodyCondition
+  extends DeliveryRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "RequestBody";
   /** Defines the parameters for the condition. */
   parameters: RequestBodyMatchConditionParameters;
-};
+}
 
 /** Defines the RequestScheme condition for the delivery rule. */
-export type DeliveryRuleRequestSchemeCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleRequestSchemeCondition
+  extends DeliveryRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "RequestScheme";
   /** Defines the parameters for the condition. */
   parameters: RequestSchemeMatchConditionParameters;
-};
+}
 
 /** Defines the UrlPath condition for the delivery rule. */
-export type DeliveryRuleUrlPathCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleUrlPathCondition extends DeliveryRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "UrlPath";
   /** Defines the parameters for the condition. */
   parameters: UrlPathMatchConditionParameters;
-};
+}
 
 /** Defines the UrlFileExtension condition for the delivery rule. */
-export type DeliveryRuleUrlFileExtensionCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleUrlFileExtensionCondition
+  extends DeliveryRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "UrlFileExtension";
   /** Defines the parameters for the condition. */
   parameters: UrlFileExtensionMatchConditionParameters;
-};
+}
 
 /** Defines the UrlFileName condition for the delivery rule. */
-export type DeliveryRuleUrlFileNameCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleUrlFileNameCondition
+  extends DeliveryRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "UrlFileName";
   /** Defines the parameters for the condition. */
   parameters: UrlFileNameMatchConditionParameters;
-};
+}
 
 /** Defines the HttpVersion condition for the delivery rule. */
-export type DeliveryRuleHttpVersionCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleHttpVersionCondition
+  extends DeliveryRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "HttpVersion";
   /** Defines the parameters for the condition. */
   parameters: HttpVersionMatchConditionParameters;
-};
+}
 
 /** Defines the Cookies condition for the delivery rule. */
-export type DeliveryRuleCookiesCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleCookiesCondition extends DeliveryRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "Cookies";
   /** Defines the parameters for the condition. */
   parameters: CookiesMatchConditionParameters;
-};
+}
 
 /** Defines the IsDevice condition for the delivery rule. */
-export type DeliveryRuleIsDeviceCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleIsDeviceCondition extends DeliveryRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "IsDevice";
   /** Defines the parameters for the condition. */
   parameters: IsDeviceMatchConditionParameters;
-};
+}
 
 /** Defines the SocketAddress condition for the delivery rule. */
-export type DeliveryRuleSocketAddrCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleSocketAddrCondition extends DeliveryRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "SocketAddr";
   /** Defines the parameters for the condition. */
   parameters: SocketAddrMatchConditionParameters;
-};
+}
 
 /** Defines the ClientPort condition for the delivery rule. */
-export type DeliveryRuleClientPortCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleClientPortCondition extends DeliveryRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "ClientPort";
   /** Defines the parameters for the condition. */
   parameters: ClientPortMatchConditionParameters;
-};
+}
 
 /** Defines the ServerPort condition for the delivery rule. */
-export type DeliveryRuleServerPortCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleServerPortCondition extends DeliveryRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "ServerPort";
   /** Defines the parameters for the condition. */
   parameters: ServerPortMatchConditionParameters;
-};
+}
 
 /** Defines the HostName condition for the delivery rule. */
-export type DeliveryRuleHostNameCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleHostNameCondition extends DeliveryRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "HostName";
   /** Defines the parameters for the condition. */
   parameters: HostNameMatchConditionParameters;
-};
+}
 
 /** Defines the SslProtocol condition for the delivery rule. */
-export type DeliveryRuleSslProtocolCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleSslProtocolCondition
+  extends DeliveryRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "SslProtocol";
   /** Defines the parameters for the condition. */
   parameters: SslProtocolMatchConditionParameters;
-};
+}
 
 /** Defines the url redirect action for the delivery rule. */
-export type UrlRedirectAction = DeliveryRuleActionAutoGenerated & {
+export interface UrlRedirectAction extends DeliveryRuleActionAutoGenerated {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "UrlRedirect";
   /** Defines the parameters for the action. */
   parameters: UrlRedirectActionParameters;
-};
+}
 
 /** Defines the url signing action for the delivery rule. */
-export type UrlSigningAction = DeliveryRuleActionAutoGenerated & {
+export interface UrlSigningAction extends DeliveryRuleActionAutoGenerated {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "UrlSigning";
   /** Defines the parameters for the action. */
   parameters: UrlSigningActionParameters;
-};
+}
 
 /** Defines the origin group override action for the delivery rule. */
-export type OriginGroupOverrideAction = DeliveryRuleActionAutoGenerated & {
+export interface OriginGroupOverrideAction
+  extends DeliveryRuleActionAutoGenerated {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "OriginGroupOverride";
   /** Defines the parameters for the action. */
   parameters: OriginGroupOverrideActionParameters;
-};
+}
 
 /** Defines the url rewrite action for the delivery rule. */
-export type UrlRewriteAction = DeliveryRuleActionAutoGenerated & {
+export interface UrlRewriteAction extends DeliveryRuleActionAutoGenerated {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "UrlRewrite";
   /** Defines the parameters for the action. */
   parameters: UrlRewriteActionParameters;
-};
+}
 
 /** Defines the request header action for the delivery rule. */
-export type DeliveryRuleRequestHeaderAction = DeliveryRuleActionAutoGenerated & {
+export interface DeliveryRuleRequestHeaderAction
+  extends DeliveryRuleActionAutoGenerated {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "ModifyRequestHeader";
   /** Defines the parameters for the action. */
   parameters: HeaderActionParameters;
-};
+}
 
 /** Defines the response header action for the delivery rule. */
-export type DeliveryRuleResponseHeaderAction = DeliveryRuleActionAutoGenerated & {
+export interface DeliveryRuleResponseHeaderAction
+  extends DeliveryRuleActionAutoGenerated {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "ModifyResponseHeader";
   /** Defines the parameters for the action. */
   parameters: HeaderActionParameters;
-};
+}
 
 /** Defines the cache expiration action for the delivery rule. */
-export type DeliveryRuleCacheExpirationAction = DeliveryRuleActionAutoGenerated & {
+export interface DeliveryRuleCacheExpirationAction
+  extends DeliveryRuleActionAutoGenerated {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "CacheExpiration";
   /** Defines the parameters for the action. */
   parameters: CacheExpirationActionParameters;
-};
+}
 
 /** Defines the cache-key query string action for the delivery rule. */
-export type DeliveryRuleCacheKeyQueryStringAction = DeliveryRuleActionAutoGenerated & {
+export interface DeliveryRuleCacheKeyQueryStringAction
+  extends DeliveryRuleActionAutoGenerated {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "CacheKeyQueryString";
   /** Defines the parameters for the action. */
   parameters: CacheKeyQueryStringActionParameters;
-};
+}
 
 /** Defines the route configuration override action for the delivery rule. Only applicable to Frontdoor Standard/Premium Profiles. */
-export type DeliveryRuleRouteConfigurationOverrideAction = DeliveryRuleActionAutoGenerated & {
+export interface DeliveryRuleRouteConfigurationOverrideAction
+  extends DeliveryRuleActionAutoGenerated {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   name: "RouteConfigurationOverride";
   /** Defines the parameters for the action. */
   parameters: RouteConfigurationOverrideActionParameters;
-};
+}
 
 /** The json object containing security policy waf parameters */
-export type SecurityPolicyWebApplicationFirewallParameters = SecurityPolicyPropertiesParameters & {
+export interface SecurityPolicyWebApplicationFirewallParameters
+  extends SecurityPolicyPropertiesParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "WebApplicationFirewall";
   /** Resource ID. */
   wafPolicy?: ResourceReference;
   /** Waf associations */
   associations?: SecurityPolicyWebApplicationFirewallAssociation[];
-};
+}
 
 /** Url signing key parameters */
-export type UrlSigningKeyParameters = SecretParameters & {
+export interface UrlSigningKeyParameters extends SecretParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "UrlSigningKey";
   /** Defines the customer defined key Id. This id will exist in the incoming request to indicate the key used to form the hash. */
@@ -2481,10 +2514,10 @@ export type UrlSigningKeyParameters = SecretParameters & {
   secretSource: ResourceReference;
   /** Version of the secret to be used */
   secretVersion?: string;
-};
+}
 
 /** Managed Certificate used for https */
-export type ManagedCertificateParameters = SecretParameters & {
+export interface ManagedCertificateParameters extends SecretParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ManagedCertificate";
   /**
@@ -2497,10 +2530,10 @@ export type ManagedCertificateParameters = SecretParameters & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly expirationDate?: string;
-};
+}
 
 /** Customer Certificate used for https */
-export type CustomerCertificateParameters = SecretParameters & {
+export interface CustomerCertificateParameters extends SecretParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CustomerCertificate";
   /** Resource reference to the Azure Key Vault certificate. Expected to be in format of /subscriptions/{​​​​​​​​​subscriptionId}​​​​​​​​​/resourceGroups/{​​​​​​​​​resourceGroupName}​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​/providers/Microsoft.KeyVault/vaults/{vaultName}​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​/secrets/{certificateName}​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​ */
@@ -2531,32 +2564,17 @@ export type CustomerCertificateParameters = SecretParameters & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly thumbprint?: string;
-};
+}
 
 /** Azure FirstParty Managed Certificate provided by other first party resource providers to enable HTTPS. */
-export type AzureFirstPartyManagedCertificateParameters = SecretParameters & {
+export interface AzureFirstPartyManagedCertificateParameters
+  extends SecretParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureFirstPartyManagedCertificate";
-};
-
-/** Defines the certificate source parameters using CDN managed certificate for enabling SSL. */
-export type CdnManagedHttpsParameters = CustomDomainHttpsParameters & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  certificateSource: "Cdn";
-  /** Defines the certificate source parameters using CDN managed certificate for enabling SSL. */
-  certificateSourceParameters: CdnCertificateSourceParameters;
-};
-
-/** Defines the certificate source parameters using user's keyvault certificate for enabling SSL. */
-export type UserManagedHttpsParameters = CustomDomainHttpsParameters & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  certificateSource: "AzureKeyVault";
-  /** Defines the certificate source parameters using user's keyvault certificate for enabling SSL. */
-  certificateSourceParameters: KeyVaultCertificateSourceParameters;
-};
+}
 
 /** The JSON object that contains the properties required to create an endpoint. */
-export type EndpointProperties = EndpointPropertiesUpdateParameters & {
+export interface EndpointProperties extends EndpointPropertiesUpdateParameters {
   /**
    * The host name of the endpoint structured as {endpointName}.{DNSZone}, e.g. contoso.azureedge.net
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2570,7 +2588,7 @@ export type EndpointProperties = EndpointPropertiesUpdateParameters & {
    * The custom domains under the endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly customDomains?: CustomDomain[];
+  readonly customDomains?: DeepCreatedCustomDomain[];
   /**
    * Resource status of the endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2580,11 +2598,11 @@ export type EndpointProperties = EndpointPropertiesUpdateParameters & {
    * Provisioning status of the endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
-};
+  readonly provisioningState?: EndpointProvisioningState;
+}
 
 /** The JSON object that contains the properties of the origin. */
-export type OriginProperties = OriginUpdatePropertiesParameters & {
+export interface OriginProperties extends OriginUpdatePropertiesParameters {
   /**
    * Resource status of the origin.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2594,16 +2612,17 @@ export type OriginProperties = OriginUpdatePropertiesParameters & {
    * Provisioning status of the origin.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: OriginProvisioningState;
   /**
    * The approval status for the connection to the Private Link
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointStatus?: PrivateEndpointStatus;
-};
+}
 
 /** The JSON object that contains the properties of the origin group. */
-export type OriginGroupProperties = OriginGroupUpdatePropertiesParameters & {
+export interface OriginGroupProperties
+  extends OriginGroupUpdatePropertiesParameters {
   /**
    * Resource status of the origin group.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2613,22 +2632,39 @@ export type OriginGroupProperties = OriginGroupUpdatePropertiesParameters & {
    * Provisioning status of the origin group.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
-};
+  readonly provisioningState?: OriginGroupProvisioningState;
+}
+
+/** Defines the certificate source parameters using CDN managed certificate for enabling SSL. */
+export interface CdnManagedHttpsParameters extends CustomDomainHttpsParameters {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  certificateSource: "Cdn";
+  /** Defines the certificate source parameters using CDN managed certificate for enabling SSL. */
+  certificateSourceParameters: CdnCertificateSourceParameters;
+}
+
+/** Defines the certificate source parameters using user's keyvault certificate for enabling SSL. */
+export interface UserManagedHttpsParameters
+  extends CustomDomainHttpsParameters {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  certificateSource: "AzureKeyVault";
+  /** Defines the certificate source parameters using user's keyvault certificate for enabling SSL. */
+  certificateSourceParameters: KeyVaultCertificateSourceParameters;
+}
 
 /** Defines a rate limiting rule that can be included in a waf policy */
-export type RateLimitRule = CustomRule & {
+export interface RateLimitRule extends CustomRule {
   /** Defines rate limit threshold. */
   rateLimitThreshold: number;
   /** Defines rate limit duration. Default is 1 minute. */
   rateLimitDurationInMinutes: number;
-};
+}
 
 /** Managed Certificate used for https */
-export type ManagedCertificate = Certificate & {};
+export interface ManagedCertificate extends Certificate {}
 
 /** Customer Certificate used for https */
-export type CustomerCertificate = Certificate & {
+export interface CustomerCertificate extends Certificate {
   /** Resource reference to the Azure Key Vault certificate. Expected to be in format of /subscriptions/{​​​​​​​​​subscriptionId}​​​​​​​​​/resourceGroups/{​​​​​​​​​resourceGroupName}​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​/providers/Microsoft.KeyVault/vaults/{vaultName}​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​/secrets/{certificateName}​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​ */
   secretSource?: ResourceReference;
   /** Certificate version. */
@@ -2647,13 +2683,13 @@ export type CustomerCertificate = Certificate & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly thumbprint?: string;
-};
+}
 
 /** Azure FirstParty Managed Certificate provided by other first party resource providers to enable HTTPS. */
-export type AzureFirstPartyManagedCertificate = Certificate & {};
+export interface AzureFirstPartyManagedCertificate extends Certificate {}
 
 /** Friendly domain name mapping to the endpoint hostname that the customer provides for branding purposes, e.g. www.contoso.com. */
-export type AFDDomain = ProxyResource & {
+export interface AFDDomain extends ProxyResource {
   /**
    * The name of the profile which holds the domain.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2684,10 +2720,10 @@ export type AFDDomain = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly validationProperties?: DomainValidationProperties;
-};
+}
 
 /** AFDOrigin group comprising of origins is used for load balancing to origins when the content cannot be served from CDN. */
-export type AFDOriginGroup = ProxyResource & {
+export interface AFDOriginGroup extends ProxyResource {
   /**
    * The name of the profile which holds the origin group.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2708,10 +2744,10 @@ export type AFDOriginGroup = ProxyResource & {
   readonly provisioningState?: AfdProvisioningState;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly deploymentStatus?: DeploymentStatus;
-};
+}
 
 /** CDN origin is the source of the content being delivered via CDN. When the edge nodes represented by an endpoint do not have the requested content cached, they attempt to fetch it from one or more of the configured origins. */
-export type AFDOrigin = ProxyResource & {
+export interface AFDOrigin extends ProxyResource {
   /**
    * The name of the origin group which contains this origin.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2744,10 +2780,10 @@ export type AFDOrigin = ProxyResource & {
   readonly provisioningState?: AfdProvisioningState;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly deploymentStatus?: DeploymentStatus;
-};
+}
 
 /** Friendly Routes name mapping to the any Routes or secret related information. */
-export type Route = ProxyResource & {
+export interface Route extends ProxyResource {
   /**
    * The name of the endpoint which holds the route.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2782,10 +2818,10 @@ export type Route = ProxyResource & {
   readonly provisioningState?: AfdProvisioningState;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly deploymentStatus?: DeploymentStatus;
-};
+}
 
 /** Friendly RuleSet name mapping to the any RuleSet or secret related information. */
-export type RuleSet = ProxyResource & {
+export interface RuleSet extends ProxyResource {
   /**
    * Provisioning status
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2798,10 +2834,10 @@ export type RuleSet = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly profileName?: string;
-};
+}
 
 /** Friendly Rules name mapping to the any Rules or secret related information. */
-export type Rule = ProxyResource & {
+export interface Rule extends ProxyResource {
   /**
    * The name of the rule set containing the rule.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2822,10 +2858,10 @@ export type Rule = ProxyResource & {
   readonly provisioningState?: AfdProvisioningState;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly deploymentStatus?: DeploymentStatus;
-};
+}
 
 /** SecurityPolicy association for AzureFrontDoor profile */
-export type SecurityPolicy = ProxyResource & {
+export interface SecurityPolicy extends ProxyResource {
   /**
    * Provisioning status
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2840,10 +2876,10 @@ export type SecurityPolicy = ProxyResource & {
   readonly profileName?: string;
   /** object which contains security policy parameters */
   parameters?: SecurityPolicyPropertiesParametersUnion;
-};
+}
 
 /** Friendly Secret name mapping to the any Secret or secret related information. */
-export type Secret = ProxyResource & {
+export interface Secret extends ProxyResource {
   /**
    * Provisioning status
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2858,40 +2894,10 @@ export type Secret = ProxyResource & {
   readonly profileName?: string;
   /** object which contains secret parameters */
   parameters?: SecretParametersUnion;
-};
-
-/** Friendly domain name mapping to the endpoint hostname that the customer provides for branding purposes, e.g. www.contoso.com. */
-export type CustomDomain = ProxyResource & {
-  /** The host name of the custom domain. Must be a domain name. */
-  hostName?: string;
-  /**
-   * Resource status of the custom domain.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceState?: CustomDomainResourceState;
-  /**
-   * Provisioning status of Custom Https of the custom domain.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly customHttpsProvisioningState?: CustomHttpsProvisioningState;
-  /**
-   * Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly customHttpsProvisioningSubstate?: CustomHttpsProvisioningSubstate;
-  /** Certificate parameters for securing custom HTTPS */
-  customHttpsParameters?: CustomDomainHttpsParametersUnion;
-  /** Special validation or data may be required when delivering CDN to some regions due to local compliance reasons. E.g. ICP license number of a custom domain is required to deliver content in China. */
-  validationData?: string;
-  /**
-   * Provisioning status of the custom domain.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-};
+}
 
 /** CDN origin is the source of the content being delivered via CDN. When the edge nodes represented by an endpoint do not have the requested content cached, they attempt to fetch it from one or more of the configured origins. */
-export type Origin = ProxyResource & {
+export interface Origin extends ProxyResource {
   /** The address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.This should be unique across all origins in an endpoint. */
   hostName?: string;
   /** The value of the HTTP port. Must be between 1 and 65535. */
@@ -2923,16 +2929,16 @@ export type Origin = ProxyResource & {
    * Provisioning status of the origin.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: OriginProvisioningState;
   /**
    * The approval status for the connection to the Private Link
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointStatus?: PrivateEndpointStatus;
-};
+}
 
 /** Origin group comprising of origins is used for load balancing to origins when the content cannot be served from CDN. */
-export type OriginGroup = ProxyResource & {
+export interface OriginGroup extends ProxyResource {
   /** Health probe settings to the origin that is used to determine the health of the origin. */
   healthProbeSettings?: HealthProbeParameters;
   /** The source of the content being delivered via CDN within given origin group. */
@@ -2950,17 +2956,47 @@ export type OriginGroup = ProxyResource & {
    * Provisioning status of the origin group.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
-};
+  readonly provisioningState?: OriginGroupProvisioningState;
+}
+
+/** Friendly domain name mapping to the endpoint hostname that the customer provides for branding purposes, e.g. www.contoso.com. */
+export interface CustomDomain extends ProxyResource {
+  /** The host name of the custom domain. Must be a domain name. */
+  hostName?: string;
+  /**
+   * Resource status of the custom domain.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceState?: CustomDomainResourceState;
+  /**
+   * Provisioning status of the custom domain.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customHttpsProvisioningState?: CustomHttpsProvisioningState;
+  /**
+   * Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customHttpsProvisioningSubstate?: CustomHttpsProvisioningSubstate;
+  /** Certificate parameters for securing custom HTTPS */
+  customHttpsParameters?: CustomDomainHttpsParametersUnion;
+  /** Special validation or data may be required when delivering CDN to some regions due to local compliance reasons. E.g. ICP license number of a custom domain is required to deliver content in China. */
+  validationData?: string;
+  /**
+   * Provisioning status of Custom Https of the custom domain.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: CustomHttpsProvisioningState;
+}
 
 /** Edgenode is a global Point of Presence (POP) location used to deliver CDN content to end users. */
-export type EdgeNode = ProxyResource & {
+export interface EdgeNode extends ProxyResource {
   /** List of ip address groups. */
   ipAddressGroups?: IpAddressGroup[];
-};
+}
 
 /** CDN endpoint is the entity within a CDN profile containing configuration information such as origin, protocol, content caching and delivery behavior. The AzureFrontDoor endpoint uses the URL format <endpointname>.azureedge.net. */
-export type AFDEndpoint = TrackedResource & {
+export interface AFDEndpoint extends TrackedResource {
   /**
    * The name of the profile which holds the endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2982,10 +3018,10 @@ export type AFDEndpoint = TrackedResource & {
   readonly hostName?: string;
   /** Indicates the endpoint name reuse scope. The default value is TenantReuse. */
   autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
-};
+}
 
 /** A profile is a logical grouping of endpoints that share the same settings. */
-export type Profile = TrackedResource & {
+export interface Profile extends TrackedResource {
   /** The pricing tier (defines Azure Front Door Standard or Premium or a CDN provider, feature list and rate) of the profile. */
   sku: Sku;
   /**
@@ -3002,7 +3038,7 @@ export type Profile = TrackedResource & {
    * Provisioning status of the profile.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProfileProvisioningState;
   /**
    * The Id of the frontdoor.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3010,10 +3046,10 @@ export type Profile = TrackedResource & {
   readonly frontDoorId?: string;
   /** Send and receive timeout on forwarding request to the origin. When timeout is reached, the request fails and returns. */
   originResponseTimeoutSeconds?: number;
-};
+}
 
 /** CDN endpoint is the entity within a CDN profile containing configuration information such as origin, protocol, content caching and delivery behavior. The CDN endpoint uses the URL format <endpointname>.azureedge.net. */
-export type Endpoint = TrackedResource & {
+export interface Endpoint extends TrackedResource {
   /** A directory path on the origin that CDN can use to retrieve content from, e.g. contoso.cloudapp.net/originpath. */
   originPath?: string;
   /** List of content types on which compression applies. The value should be a valid MIME type. */
@@ -3055,7 +3091,7 @@ export type Endpoint = TrackedResource & {
    * The custom domains under the endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly customDomains?: CustomDomain[];
+  readonly customDomains?: DeepCreatedCustomDomain[];
   /**
    * Resource status of the endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3065,11 +3101,11 @@ export type Endpoint = TrackedResource & {
    * Provisioning status of the endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
-};
+  readonly provisioningState?: EndpointProvisioningState;
+}
 
 /** Defines web application firewall policy for Azure CDN. */
-export type CdnWebApplicationFirewallPolicy = TrackedResource & {
+export interface CdnWebApplicationFirewallPolicy extends TrackedResource {
   /** Gets a unique read-only string that changes whenever the resource is updated. */
   etag?: string;
   /** The pricing tier (defines a CDN provider, feature list and rate) of the CdnWebApplicationFirewallPolicy. */
@@ -3097,11 +3133,13 @@ export type CdnWebApplicationFirewallPolicy = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceState?: PolicyResourceState;
-};
+}
 
 /** Known values of {@link ResourceType} that the service accepts. */
 export enum KnownResourceType {
+  /** MicrosoftCdnProfilesEndpoints */
   MicrosoftCdnProfilesEndpoints = "Microsoft.Cdn/Profiles/Endpoints",
+  /** MicrosoftCdnProfilesAfdEndpoints */
   MicrosoftCdnProfilesAfdEndpoints = "Microsoft.Cdn/Profiles/AfdEndpoints"
 }
 
@@ -3117,9 +3155,13 @@ export type ResourceType = string;
 
 /** Known values of {@link AutoGeneratedDomainNameLabelScope} that the service accepts. */
 export enum KnownAutoGeneratedDomainNameLabelScope {
+  /** TenantReuse */
   TenantReuse = "TenantReuse",
+  /** SubscriptionReuse */
   SubscriptionReuse = "SubscriptionReuse",
+  /** ResourceGroupReuse */
   ResourceGroupReuse = "ResourceGroupReuse",
+  /** NoReuse */
   NoReuse = "NoReuse"
 }
 
@@ -3137,6 +3179,7 @@ export type AutoGeneratedDomainNameLabelScope = string;
 
 /** Known values of {@link UsageUnit} that the service accepts. */
 export enum KnownUsageUnit {
+  /** Count */
   Count = "Count"
 }
 
@@ -3151,14 +3194,23 @@ export type UsageUnit = string;
 
 /** Known values of {@link DomainValidationState} that the service accepts. */
 export enum KnownDomainValidationState {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Submitting */
   Submitting = "Submitting",
+  /** Pending */
   Pending = "Pending",
+  /** Rejected */
   Rejected = "Rejected",
+  /** TimedOut */
   TimedOut = "TimedOut",
+  /** PendingRevalidation */
   PendingRevalidation = "PendingRevalidation",
+  /** Approved */
   Approved = "Approved",
+  /** RefreshingValidationToken */
   RefreshingValidationToken = "RefreshingValidationToken",
+  /** InternalError */
   InternalError = "InternalError"
 }
 
@@ -3181,8 +3233,11 @@ export type DomainValidationState = string;
 
 /** Known values of {@link AfdCertificateType} that the service accepts. */
 export enum KnownAfdCertificateType {
+  /** CustomerCertificate */
   CustomerCertificate = "CustomerCertificate",
+  /** ManagedCertificate */
   ManagedCertificate = "ManagedCertificate",
+  /** AzureFirstPartyManagedCertificate */
   AzureFirstPartyManagedCertificate = "AzureFirstPartyManagedCertificate"
 }
 
@@ -3199,10 +3254,15 @@ export type AfdCertificateType = string;
 
 /** Known values of {@link AfdProvisioningState} that the service accepts. */
 export enum KnownAfdProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Creating */
   Creating = "Creating"
 }
 
@@ -3221,9 +3281,13 @@ export type AfdProvisioningState = string;
 
 /** Known values of {@link DeploymentStatus} that the service accepts. */
 export enum KnownDeploymentStatus {
+  /** NotStarted */
   NotStarted = "NotStarted",
+  /** InProgress */
   InProgress = "InProgress",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -3241,9 +3305,13 @@ export type DeploymentStatus = string;
 
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
+  /** User */
   User = "user",
+  /** Application */
   Application = "application",
+  /** ManagedIdentity */
   ManagedIdentity = "managedIdentity",
+  /** Key */
   Key = "key"
 }
 
@@ -3261,7 +3329,9 @@ export type IdentityType = string;
 
 /** Known values of {@link EnabledState} that the service accepts. */
 export enum KnownEnabledState {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -3277,7 +3347,9 @@ export type EnabledState = string;
 
 /** Known values of {@link AFDEndpointProtocols} that the service accepts. */
 export enum KnownAFDEndpointProtocols {
+  /** Http */
   Http = "Http",
+  /** Https */
   Https = "Https"
 }
 
@@ -3293,9 +3365,13 @@ export type AFDEndpointProtocols = string;
 
 /** Known values of {@link AfdQueryStringCachingBehavior} that the service accepts. */
 export enum KnownAfdQueryStringCachingBehavior {
+  /** IgnoreQueryString */
   IgnoreQueryString = "IgnoreQueryString",
+  /** UseQueryString */
   UseQueryString = "UseQueryString",
+  /** IgnoreSpecifiedQueryStrings */
   IgnoreSpecifiedQueryStrings = "IgnoreSpecifiedQueryStrings",
+  /** IncludeSpecifiedQueryStrings */
   IncludeSpecifiedQueryStrings = "IncludeSpecifiedQueryStrings"
 }
 
@@ -3313,8 +3389,11 @@ export type AfdQueryStringCachingBehavior = string;
 
 /** Known values of {@link ForwardingProtocol} that the service accepts. */
 export enum KnownForwardingProtocol {
+  /** HttpOnly */
   HttpOnly = "HttpOnly",
+  /** HttpsOnly */
   HttpsOnly = "HttpsOnly",
+  /** MatchRequest */
   MatchRequest = "MatchRequest"
 }
 
@@ -3331,7 +3410,9 @@ export type ForwardingProtocol = string;
 
 /** Known values of {@link LinkToDefaultDomain} that the service accepts. */
 export enum KnownLinkToDefaultDomain {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -3347,7 +3428,9 @@ export type LinkToDefaultDomain = string;
 
 /** Known values of {@link HttpsRedirect} that the service accepts. */
 export enum KnownHttpsRedirect {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -3363,24 +3446,43 @@ export type HttpsRedirect = string;
 
 /** Known values of {@link MatchVariable} that the service accepts. */
 export enum KnownMatchVariable {
+  /** RemoteAddress */
   RemoteAddress = "RemoteAddress",
+  /** RequestMethod */
   RequestMethod = "RequestMethod",
+  /** QueryString */
   QueryString = "QueryString",
+  /** PostArgs */
   PostArgs = "PostArgs",
+  /** RequestUri */
   RequestUri = "RequestUri",
+  /** RequestHeader */
   RequestHeader = "RequestHeader",
+  /** RequestBody */
   RequestBody = "RequestBody",
+  /** RequestScheme */
   RequestScheme = "RequestScheme",
+  /** UrlPath */
   UrlPath = "UrlPath",
+  /** UrlFileExtension */
   UrlFileExtension = "UrlFileExtension",
+  /** UrlFileName */
   UrlFileName = "UrlFileName",
+  /** HttpVersion */
   HttpVersion = "HttpVersion",
+  /** Cookies */
   Cookies = "Cookies",
+  /** IsDevice */
   IsDevice = "IsDevice",
+  /** SocketAddr */
   SocketAddr = "SocketAddr",
+  /** ClientPort */
   ClientPort = "ClientPort",
+  /** ServerPort */
   ServerPort = "ServerPort",
+  /** HostName */
   HostName = "HostName",
+  /** SslProtocol */
   SslProtocol = "SslProtocol"
 }
 
@@ -3413,14 +3515,23 @@ export type MatchVariable = string;
 
 /** Known values of {@link DeliveryRuleAction} that the service accepts. */
 export enum KnownDeliveryRuleAction {
+  /** CacheExpiration */
   CacheExpiration = "CacheExpiration",
+  /** CacheKeyQueryString */
   CacheKeyQueryString = "CacheKeyQueryString",
+  /** ModifyRequestHeader */
   ModifyRequestHeader = "ModifyRequestHeader",
+  /** ModifyResponseHeader */
   ModifyResponseHeader = "ModifyResponseHeader",
+  /** UrlRedirect */
   UrlRedirect = "UrlRedirect",
+  /** UrlRewrite */
   UrlRewrite = "UrlRewrite",
+  /** UrlSigning */
   UrlSigning = "UrlSigning",
+  /** OriginGroupOverride */
   OriginGroupOverride = "OriginGroupOverride",
+  /** RouteConfigurationOverride */
   RouteConfigurationOverride = "RouteConfigurationOverride"
 }
 
@@ -3443,7 +3554,9 @@ export type DeliveryRuleAction = string;
 
 /** Known values of {@link MatchProcessingBehavior} that the service accepts. */
 export enum KnownMatchProcessingBehavior {
+  /** Continue */
   Continue = "Continue",
+  /** Stop */
   Stop = "Stop"
 }
 
@@ -3459,6 +3572,7 @@ export type MatchProcessingBehavior = string;
 
 /** Known values of {@link SecurityPolicyType} that the service accepts. */
 export enum KnownSecurityPolicyType {
+  /** WebApplicationFirewall */
   WebApplicationFirewall = "WebApplicationFirewall"
 }
 
@@ -3473,9 +3587,13 @@ export type SecurityPolicyType = string;
 
 /** Known values of {@link SecretType} that the service accepts. */
 export enum KnownSecretType {
+  /** UrlSigningKey */
   UrlSigningKey = "UrlSigningKey",
+  /** CustomerCertificate */
   CustomerCertificate = "CustomerCertificate",
+  /** ManagedCertificate */
   ManagedCertificate = "ManagedCertificate",
+  /** AzureFirstPartyManagedCertificate */
   AzureFirstPartyManagedCertificate = "AzureFirstPartyManagedCertificate"
 }
 
@@ -3493,9 +3611,13 @@ export type SecretType = string;
 
 /** Known values of {@link Status} that the service accepts. */
 export enum KnownStatus {
+  /** Valid */
   Valid = "Valid",
+  /** Invalid */
   Invalid = "Invalid",
+  /** AccessDenied */
   AccessDenied = "AccessDenied",
+  /** CertificateExpired */
   CertificateExpired = "CertificateExpired"
 }
 
@@ -3513,11 +3635,17 @@ export type Status = string;
 
 /** Known values of {@link LogMetric} that the service accepts. */
 export enum KnownLogMetric {
+  /** ClientRequestCount */
   ClientRequestCount = "clientRequestCount",
+  /** ClientRequestTraffic */
   ClientRequestTraffic = "clientRequestTraffic",
+  /** ClientRequestBandwidth */
   ClientRequestBandwidth = "clientRequestBandwidth",
+  /** OriginRequestTraffic */
   OriginRequestTraffic = "originRequestTraffic",
+  /** OriginRequestBandwidth */
   OriginRequestBandwidth = "originRequestBandwidth",
+  /** TotalLatency */
   TotalLatency = "totalLatency"
 }
 
@@ -3537,8 +3665,11 @@ export type LogMetric = string;
 
 /** Known values of {@link LogMetricsGranularity} that the service accepts. */
 export enum KnownLogMetricsGranularity {
+  /** PT5M */
   PT5M = "PT5M",
+  /** PT1H */
   PT1H = "PT1H",
+  /** P1D */
   P1D = "P1D"
 }
 
@@ -3555,10 +3686,15 @@ export type LogMetricsGranularity = string;
 
 /** Known values of {@link LogMetricsGroupBy} that the service accepts. */
 export enum KnownLogMetricsGroupBy {
+  /** HttpStatusCode */
   HttpStatusCode = "httpStatusCode",
+  /** Protocol */
   Protocol = "protocol",
+  /** CacheStatus */
   CacheStatus = "cacheStatus",
+  /** CountryOrRegion */
   CountryOrRegion = "countryOrRegion",
+  /** CustomDomain */
   CustomDomain = "customDomain"
 }
 
@@ -3577,8 +3713,11 @@ export type LogMetricsGroupBy = string;
 
 /** Known values of {@link MetricsResponseGranularity} that the service accepts. */
 export enum KnownMetricsResponseGranularity {
+  /** PT5M */
   PT5M = "PT5M",
+  /** PT1H */
   PT1H = "PT1H",
+  /** P1D */
   P1D = "P1D"
 }
 
@@ -3595,9 +3734,13 @@ export type MetricsResponseGranularity = string;
 
 /** Known values of {@link MetricsResponseSeriesItemUnit} that the service accepts. */
 export enum KnownMetricsResponseSeriesItemUnit {
+  /** Count */
   Count = "count",
+  /** Bytes */
   Bytes = "bytes",
+  /** BitsPerSecond */
   BitsPerSecond = "bitsPerSecond",
+  /** MilliSeconds */
   MilliSeconds = "milliSeconds"
 }
 
@@ -3615,10 +3758,15 @@ export type MetricsResponseSeriesItemUnit = string;
 
 /** Known values of {@link LogRanking} that the service accepts. */
 export enum KnownLogRanking {
+  /** Url */
   Url = "url",
+  /** Referrer */
   Referrer = "referrer",
+  /** Browser */
   Browser = "browser",
+  /** UserAgent */
   UserAgent = "userAgent",
+  /** CountryOrRegion */
   CountryOrRegion = "countryOrRegion"
 }
 
@@ -3637,11 +3785,17 @@ export type LogRanking = string;
 
 /** Known values of {@link LogRankingMetric} that the service accepts. */
 export enum KnownLogRankingMetric {
+  /** ClientRequestCount */
   ClientRequestCount = "clientRequestCount",
+  /** ClientRequestTraffic */
   ClientRequestTraffic = "clientRequestTraffic",
+  /** HitCount */
   HitCount = "hitCount",
+  /** MissCount */
   MissCount = "missCount",
+  /** UserErrorCount */
   UserErrorCount = "userErrorCount",
+  /** ErrorCount */
   ErrorCount = "errorCount"
 }
 
@@ -3661,6 +3815,7 @@ export type LogRankingMetric = string;
 
 /** Known values of {@link WafMetric} that the service accepts. */
 export enum KnownWafMetric {
+  /** ClientRequestCount */
   ClientRequestCount = "clientRequestCount"
 }
 
@@ -3675,8 +3830,11 @@ export type WafMetric = string;
 
 /** Known values of {@link WafGranularity} that the service accepts. */
 export enum KnownWafGranularity {
+  /** PT5M */
   PT5M = "PT5M",
+  /** PT1H */
   PT1H = "PT1H",
+  /** P1D */
   P1D = "P1D"
 }
 
@@ -3693,9 +3851,13 @@ export type WafGranularity = string;
 
 /** Known values of {@link WafAction} that the service accepts. */
 export enum KnownWafAction {
+  /** Allow */
   Allow = "allow",
+  /** Block */
   Block = "block",
+  /** Log */
   Log = "log",
+  /** Redirect */
   Redirect = "redirect"
 }
 
@@ -3713,7 +3875,9 @@ export type WafAction = string;
 
 /** Known values of {@link WafRankingGroupBy} that the service accepts. */
 export enum KnownWafRankingGroupBy {
+  /** HttpStatusCode */
   HttpStatusCode = "httpStatusCode",
+  /** CustomDomain */
   CustomDomain = "customDomain"
 }
 
@@ -3729,8 +3893,11 @@ export type WafRankingGroupBy = string;
 
 /** Known values of {@link WafRuleType} that the service accepts. */
 export enum KnownWafRuleType {
+  /** Managed */
   Managed = "managed",
+  /** Custom */
   Custom = "custom",
+  /** Bot */
   Bot = "bot"
 }
 
@@ -3747,8 +3914,11 @@ export type WafRuleType = string;
 
 /** Known values of {@link WafMetricsResponseGranularity} that the service accepts. */
 export enum KnownWafMetricsResponseGranularity {
+  /** PT5M */
   PT5M = "PT5M",
+  /** PT1H */
   PT1H = "PT1H",
+  /** P1D */
   P1D = "P1D"
 }
 
@@ -3765,13 +3935,21 @@ export type WafMetricsResponseGranularity = string;
 
 /** Known values of {@link WafRankingType} that the service accepts. */
 export enum KnownWafRankingType {
+  /** Action */
   Action = "action",
+  /** RuleGroup */
   RuleGroup = "ruleGroup",
+  /** RuleId */
   RuleId = "ruleId",
+  /** UserAgent */
   UserAgent = "userAgent",
+  /** ClientIp */
   ClientIp = "clientIp",
+  /** Url */
   Url = "url",
+  /** CountryOrRegion */
   CountryOrRegion = "countryOrRegion",
+  /** RuleType */
   RuleType = "ruleType"
 }
 
@@ -3793,18 +3971,31 @@ export type WafRankingType = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
+  /** StandardVerizon */
   StandardVerizon = "Standard_Verizon",
+  /** PremiumVerizon */
   PremiumVerizon = "Premium_Verizon",
+  /** CustomVerizon */
   CustomVerizon = "Custom_Verizon",
+  /** StandardAkamai */
   StandardAkamai = "Standard_Akamai",
+  /** StandardChinaCdn */
   StandardChinaCdn = "Standard_ChinaCdn",
+  /** StandardMicrosoft */
   StandardMicrosoft = "Standard_Microsoft",
+  /** StandardAzureFrontDoor */
   StandardAzureFrontDoor = "Standard_AzureFrontDoor",
+  /** PremiumAzureFrontDoor */
   PremiumAzureFrontDoor = "Premium_AzureFrontDoor",
+  /** Standard955BandWidthChinaCdn */
   Standard955BandWidthChinaCdn = "Standard_955BandWidth_ChinaCdn",
+  /** StandardAvgBandWidthChinaCdn */
   StandardAvgBandWidthChinaCdn = "Standard_AvgBandWidth_ChinaCdn",
+  /** StandardPlusChinaCdn */
   StandardPlusChinaCdn = "StandardPlus_ChinaCdn",
+  /** StandardPlus955BandWidthChinaCdn */
   StandardPlus955BandWidthChinaCdn = "StandardPlus_955BandWidth_ChinaCdn",
+  /** StandardPlusAvgBandWidthChinaCdn */
   StandardPlusAvgBandWidthChinaCdn = "StandardPlus_AvgBandWidth_ChinaCdn"
 }
 
@@ -3831,9 +4022,13 @@ export type SkuName = string;
 
 /** Known values of {@link ProfileResourceState} that the service accepts. */
 export enum KnownProfileResourceState {
+  /** Creating */
   Creating = "Creating",
+  /** Active */
   Active = "Active",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -3849,12 +4044,44 @@ export enum KnownProfileResourceState {
  */
 export type ProfileResourceState = string;
 
+/** Known values of {@link ProfileProvisioningState} that the service accepts. */
+export enum KnownProfileProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Creating */
+  Creating = "Creating"
+}
+
+/**
+ * Defines values for ProfileProvisioningState. \
+ * {@link KnownProfileProvisioningState} can be used interchangeably with ProfileProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Updating** \
+ * **Deleting** \
+ * **Creating**
+ */
+export type ProfileProvisioningState = string;
+
 /** Known values of {@link OptimizationType} that the service accepts. */
 export enum KnownOptimizationType {
+  /** GeneralWebDelivery */
   GeneralWebDelivery = "GeneralWebDelivery",
+  /** GeneralMediaStreaming */
   GeneralMediaStreaming = "GeneralMediaStreaming",
+  /** VideoOnDemandMediaStreaming */
   VideoOnDemandMediaStreaming = "VideoOnDemandMediaStreaming",
+  /** LargeFileDownload */
   LargeFileDownload = "LargeFileDownload",
+  /** DynamicSiteAcceleration */
   DynamicSiteAcceleration = "DynamicSiteAcceleration"
 }
 
@@ -3871,12 +4098,32 @@ export enum KnownOptimizationType {
  */
 export type OptimizationType = string;
 
+/** Known values of {@link ResourceUsageUnit} that the service accepts. */
+export enum KnownResourceUsageUnit {
+  /** Count */
+  Count = "count"
+}
+
+/**
+ * Defines values for ResourceUsageUnit. \
+ * {@link KnownResourceUsageUnit} can be used interchangeably with ResourceUsageUnit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **count**
+ */
+export type ResourceUsageUnit = string;
+
 /** Known values of {@link PrivateEndpointStatus} that the service accepts. */
 export enum KnownPrivateEndpointStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected",
+  /** Disconnected */
   Disconnected = "Disconnected",
+  /** Timeout */
   Timeout = "Timeout"
 }
 
@@ -3893,10 +4140,166 @@ export enum KnownPrivateEndpointStatus {
  */
 export type PrivateEndpointStatus = string;
 
+/** Known values of {@link EndpointResourceState} that the service accepts. */
+export enum KnownEndpointResourceState {
+  /** Creating */
+  Creating = "Creating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Running */
+  Running = "Running",
+  /** Starting */
+  Starting = "Starting",
+  /** Stopped */
+  Stopped = "Stopped",
+  /** Stopping */
+  Stopping = "Stopping"
+}
+
+/**
+ * Defines values for EndpointResourceState. \
+ * {@link KnownEndpointResourceState} can be used interchangeably with EndpointResourceState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Deleting** \
+ * **Running** \
+ * **Starting** \
+ * **Stopped** \
+ * **Stopping**
+ */
+export type EndpointResourceState = string;
+
+/** Known values of {@link EndpointProvisioningState} that the service accepts. */
+export enum KnownEndpointProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Creating */
+  Creating = "Creating"
+}
+
+/**
+ * Defines values for EndpointProvisioningState. \
+ * {@link KnownEndpointProvisioningState} can be used interchangeably with EndpointProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Updating** \
+ * **Deleting** \
+ * **Creating**
+ */
+export type EndpointProvisioningState = string;
+
+/** Known values of {@link OriginResourceState} that the service accepts. */
+export enum KnownOriginResourceState {
+  /** Creating */
+  Creating = "Creating",
+  /** Active */
+  Active = "Active",
+  /** Deleting */
+  Deleting = "Deleting"
+}
+
+/**
+ * Defines values for OriginResourceState. \
+ * {@link KnownOriginResourceState} can be used interchangeably with OriginResourceState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Active** \
+ * **Deleting**
+ */
+export type OriginResourceState = string;
+
+/** Known values of {@link OriginProvisioningState} that the service accepts. */
+export enum KnownOriginProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Creating */
+  Creating = "Creating"
+}
+
+/**
+ * Defines values for OriginProvisioningState. \
+ * {@link KnownOriginProvisioningState} can be used interchangeably with OriginProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Updating** \
+ * **Deleting** \
+ * **Creating**
+ */
+export type OriginProvisioningState = string;
+
+/** Known values of {@link OriginGroupResourceState} that the service accepts. */
+export enum KnownOriginGroupResourceState {
+  /** Creating */
+  Creating = "Creating",
+  /** Active */
+  Active = "Active",
+  /** Deleting */
+  Deleting = "Deleting"
+}
+
+/**
+ * Defines values for OriginGroupResourceState. \
+ * {@link KnownOriginGroupResourceState} can be used interchangeably with OriginGroupResourceState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Active** \
+ * **Deleting**
+ */
+export type OriginGroupResourceState = string;
+
+/** Known values of {@link OriginGroupProvisioningState} that the service accepts. */
+export enum KnownOriginGroupProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Creating */
+  Creating = "Creating"
+}
+
+/**
+ * Defines values for OriginGroupProvisioningState. \
+ * {@link KnownOriginGroupProvisioningState} can be used interchangeably with OriginGroupProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Updating** \
+ * **Deleting** \
+ * **Creating**
+ */
+export type OriginGroupProvisioningState = string;
+
 /** Known values of {@link CustomDomainResourceState} that the service accepts. */
 export enum KnownCustomDomainResourceState {
+  /** Creating */
   Creating = "Creating",
+  /** Active */
   Active = "Active",
+  /** Deleting */
   Deleting = "Deleting"
 }
 
@@ -3913,10 +4316,15 @@ export type CustomDomainResourceState = string;
 
 /** Known values of {@link CustomHttpsProvisioningState} that the service accepts. */
 export enum KnownCustomHttpsProvisioningState {
+  /** Enabling */
   Enabling = "Enabling",
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabling */
   Disabling = "Disabling",
+  /** Disabled */
   Disabled = "Disabled",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -3935,15 +4343,25 @@ export type CustomHttpsProvisioningState = string;
 
 /** Known values of {@link CustomHttpsProvisioningSubstate} that the service accepts. */
 export enum KnownCustomHttpsProvisioningSubstate {
+  /** SubmittingDomainControlValidationRequest */
   SubmittingDomainControlValidationRequest = "SubmittingDomainControlValidationRequest",
+  /** PendingDomainControlValidationREquestApproval */
   PendingDomainControlValidationREquestApproval = "PendingDomainControlValidationREquestApproval",
+  /** DomainControlValidationRequestApproved */
   DomainControlValidationRequestApproved = "DomainControlValidationRequestApproved",
+  /** DomainControlValidationRequestRejected */
   DomainControlValidationRequestRejected = "DomainControlValidationRequestRejected",
+  /** DomainControlValidationRequestTimedOut */
   DomainControlValidationRequestTimedOut = "DomainControlValidationRequestTimedOut",
+  /** IssuingCertificate */
   IssuingCertificate = "IssuingCertificate",
+  /** DeployingCertificate */
   DeployingCertificate = "DeployingCertificate",
+  /** CertificateDeployed */
   CertificateDeployed = "CertificateDeployed",
+  /** DeletingCertificate */
   DeletingCertificate = "DeletingCertificate",
+  /** CertificateDeleted */
   CertificateDeleted = "CertificateDeleted"
 }
 
@@ -3967,7 +4385,9 @@ export type CustomHttpsProvisioningSubstate = string;
 
 /** Known values of {@link CertificateSource} that the service accepts. */
 export enum KnownCertificateSource {
+  /** AzureKeyVault */
   AzureKeyVault = "AzureKeyVault",
+  /** Cdn */
   Cdn = "Cdn"
 }
 
@@ -3983,7 +4403,9 @@ export type CertificateSource = string;
 
 /** Known values of {@link ProtocolType} that the service accepts. */
 export enum KnownProtocolType {
+  /** ServerNameIndication */
   ServerNameIndication = "ServerNameIndication",
+  /** IPBased */
   IPBased = "IPBased"
 }
 
@@ -3997,69 +4419,11 @@ export enum KnownProtocolType {
  */
 export type ProtocolType = string;
 
-/** Known values of {@link EndpointResourceState} that the service accepts. */
-export enum KnownEndpointResourceState {
-  Creating = "Creating",
-  Deleting = "Deleting",
-  Running = "Running",
-  Starting = "Starting",
-  Stopped = "Stopped",
-  Stopping = "Stopping"
-}
-
-/**
- * Defines values for EndpointResourceState. \
- * {@link KnownEndpointResourceState} can be used interchangeably with EndpointResourceState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Creating** \
- * **Deleting** \
- * **Running** \
- * **Starting** \
- * **Stopped** \
- * **Stopping**
- */
-export type EndpointResourceState = string;
-
-/** Known values of {@link OriginResourceState} that the service accepts. */
-export enum KnownOriginResourceState {
-  Creating = "Creating",
-  Active = "Active",
-  Deleting = "Deleting"
-}
-
-/**
- * Defines values for OriginResourceState. \
- * {@link KnownOriginResourceState} can be used interchangeably with OriginResourceState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Creating** \
- * **Active** \
- * **Deleting**
- */
-export type OriginResourceState = string;
-
-/** Known values of {@link OriginGroupResourceState} that the service accepts. */
-export enum KnownOriginGroupResourceState {
-  Creating = "Creating",
-  Active = "Active",
-  Deleting = "Deleting"
-}
-
-/**
- * Defines values for OriginGroupResourceState. \
- * {@link KnownOriginGroupResourceState} can be used interchangeably with OriginGroupResourceState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Creating** \
- * **Active** \
- * **Deleting**
- */
-export type OriginGroupResourceState = string;
-
 /** Known values of {@link PolicyEnabledState} that the service accepts. */
 export enum KnownPolicyEnabledState {
+  /** Disabled */
   Disabled = "Disabled",
+  /** Enabled */
   Enabled = "Enabled"
 }
 
@@ -4075,7 +4439,9 @@ export type PolicyEnabledState = string;
 
 /** Known values of {@link PolicyMode} that the service accepts. */
 export enum KnownPolicyMode {
+  /** Prevention */
   Prevention = "Prevention",
+  /** Detection */
   Detection = "Detection"
 }
 
@@ -4091,10 +4457,15 @@ export type PolicyMode = string;
 
 /** Known values of {@link PolicySettingsDefaultCustomBlockResponseStatusCode} that the service accepts. */
 export enum KnownPolicySettingsDefaultCustomBlockResponseStatusCode {
+  /** TwoHundred */
   TwoHundred = 200,
+  /** FourHundredThree */
   FourHundredThree = 403,
+  /** FourHundredFive */
   FourHundredFive = 405,
+  /** FourHundredSix */
   FourHundredSix = 406,
+  /** FourHundredTwentyNine */
   FourHundredTwentyNine = 429
 }
 
@@ -4113,7 +4484,9 @@ export type PolicySettingsDefaultCustomBlockResponseStatusCode = number;
 
 /** Known values of {@link CustomRuleEnabledState} that the service accepts. */
 export enum KnownCustomRuleEnabledState {
+  /** Disabled */
   Disabled = "Disabled",
+  /** Enabled */
   Enabled = "Enabled"
 }
 
@@ -4129,14 +4502,23 @@ export type CustomRuleEnabledState = string;
 
 /** Known values of {@link WafMatchVariable} that the service accepts. */
 export enum KnownWafMatchVariable {
+  /** RemoteAddr */
   RemoteAddr = "RemoteAddr",
+  /** SocketAddr */
   SocketAddr = "SocketAddr",
+  /** RequestMethod */
   RequestMethod = "RequestMethod",
+  /** RequestHeader */
   RequestHeader = "RequestHeader",
+  /** RequestUri */
   RequestUri = "RequestUri",
+  /** QueryString */
   QueryString = "QueryString",
+  /** RequestBody */
   RequestBody = "RequestBody",
+  /** Cookies */
   Cookies = "Cookies",
+  /** PostArgs */
   PostArgs = "PostArgs"
 }
 
@@ -4159,17 +4541,29 @@ export type WafMatchVariable = string;
 
 /** Known values of {@link Operator} that the service accepts. */
 export enum KnownOperator {
+  /** Any */
   Any = "Any",
+  /** IPMatch */
   IPMatch = "IPMatch",
+  /** GeoMatch */
   GeoMatch = "GeoMatch",
+  /** Equal */
   Equal = "Equal",
+  /** Contains */
   Contains = "Contains",
+  /** LessThan */
   LessThan = "LessThan",
+  /** GreaterThan */
   GreaterThan = "GreaterThan",
+  /** LessThanOrEqual */
   LessThanOrEqual = "LessThanOrEqual",
+  /** GreaterThanOrEqual */
   GreaterThanOrEqual = "GreaterThanOrEqual",
+  /** BeginsWith */
   BeginsWith = "BeginsWith",
+  /** EndsWith */
   EndsWith = "EndsWith",
+  /** RegEx */
   RegEx = "RegEx"
 }
 
@@ -4195,11 +4589,17 @@ export type Operator = string;
 
 /** Known values of {@link TransformType} that the service accepts. */
 export enum KnownTransformType {
+  /** Lowercase */
   Lowercase = "Lowercase",
+  /** Uppercase */
   Uppercase = "Uppercase",
+  /** Trim */
   Trim = "Trim",
+  /** UrlDecode */
   UrlDecode = "UrlDecode",
+  /** UrlEncode */
   UrlEncode = "UrlEncode",
+  /** RemoveNulls */
   RemoveNulls = "RemoveNulls"
 }
 
@@ -4219,9 +4619,13 @@ export type TransformType = string;
 
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
+  /** Allow */
   Allow = "Allow",
+  /** Block */
   Block = "Block",
+  /** Log */
   Log = "Log",
+  /** Redirect */
   Redirect = "Redirect"
 }
 
@@ -4239,7 +4643,9 @@ export type ActionType = string;
 
 /** Known values of {@link ManagedRuleEnabledState} that the service accepts. */
 export enum KnownManagedRuleEnabledState {
+  /** Disabled */
   Disabled = "Disabled",
+  /** Enabled */
   Enabled = "Enabled"
 }
 
@@ -4255,8 +4661,11 @@ export type ManagedRuleEnabledState = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -4273,11 +4682,17 @@ export type ProvisioningState = string;
 
 /** Known values of {@link PolicyResourceState} that the service accepts. */
 export enum KnownPolicyResourceState {
+  /** Creating */
   Creating = "Creating",
+  /** Enabling */
   Enabling = "Enabling",
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabling */
   Disabling = "Disabling",
+  /** Disabled */
   Disabled = "Disabled",
+  /** Deleting */
   Deleting = "Deleting"
 }
 
@@ -4297,8 +4712,11 @@ export type PolicyResourceState = string;
 
 /** Known values of {@link RemoteAddressOperator} that the service accepts. */
 export enum KnownRemoteAddressOperator {
+  /** Any */
   Any = "Any",
+  /** IPMatch */
   IPMatch = "IPMatch",
+  /** GeoMatch */
   GeoMatch = "GeoMatch"
 }
 
@@ -4315,11 +4733,17 @@ export type RemoteAddressOperator = string;
 
 /** Known values of {@link Transform} that the service accepts. */
 export enum KnownTransform {
+  /** Lowercase */
   Lowercase = "Lowercase",
+  /** Uppercase */
   Uppercase = "Uppercase",
+  /** Trim */
   Trim = "Trim",
+  /** UrlDecode */
   UrlDecode = "UrlDecode",
+  /** UrlEncode */
   UrlEncode = "UrlEncode",
+  /** RemoveNulls */
   RemoveNulls = "RemoveNulls"
 }
 
@@ -4339,6 +4763,7 @@ export type Transform = string;
 
 /** Known values of {@link RequestMethodOperator} that the service accepts. */
 export enum KnownRequestMethodOperator {
+  /** Equal */
   Equal = "Equal"
 }
 
@@ -4353,12 +4778,19 @@ export type RequestMethodOperator = string;
 
 /** Known values of {@link RequestMethodMatchConditionParametersMatchValuesItem} that the service accepts. */
 export enum KnownRequestMethodMatchConditionParametersMatchValuesItem {
+  /** GET */
   GET = "GET",
+  /** Head */
   Head = "HEAD",
+  /** Post */
   Post = "POST",
+  /** PUT */
   PUT = "PUT",
+  /** Delete */
   Delete = "DELETE",
+  /** Options */
   Options = "OPTIONS",
+  /** Trace */
   Trace = "TRACE"
 }
 
@@ -4379,15 +4811,25 @@ export type RequestMethodMatchConditionParametersMatchValuesItem = string;
 
 /** Known values of {@link QueryStringOperator} that the service accepts. */
 export enum KnownQueryStringOperator {
+  /** Any */
   Any = "Any",
+  /** Equal */
   Equal = "Equal",
+  /** Contains */
   Contains = "Contains",
+  /** BeginsWith */
   BeginsWith = "BeginsWith",
+  /** EndsWith */
   EndsWith = "EndsWith",
+  /** LessThan */
   LessThan = "LessThan",
+  /** LessThanOrEqual */
   LessThanOrEqual = "LessThanOrEqual",
+  /** GreaterThan */
   GreaterThan = "GreaterThan",
+  /** GreaterThanOrEqual */
   GreaterThanOrEqual = "GreaterThanOrEqual",
+  /** RegEx */
   RegEx = "RegEx"
 }
 
@@ -4411,15 +4853,25 @@ export type QueryStringOperator = string;
 
 /** Known values of {@link PostArgsOperator} that the service accepts. */
 export enum KnownPostArgsOperator {
+  /** Any */
   Any = "Any",
+  /** Equal */
   Equal = "Equal",
+  /** Contains */
   Contains = "Contains",
+  /** BeginsWith */
   BeginsWith = "BeginsWith",
+  /** EndsWith */
   EndsWith = "EndsWith",
+  /** LessThan */
   LessThan = "LessThan",
+  /** LessThanOrEqual */
   LessThanOrEqual = "LessThanOrEqual",
+  /** GreaterThan */
   GreaterThan = "GreaterThan",
+  /** GreaterThanOrEqual */
   GreaterThanOrEqual = "GreaterThanOrEqual",
+  /** RegEx */
   RegEx = "RegEx"
 }
 
@@ -4443,15 +4895,25 @@ export type PostArgsOperator = string;
 
 /** Known values of {@link RequestUriOperator} that the service accepts. */
 export enum KnownRequestUriOperator {
+  /** Any */
   Any = "Any",
+  /** Equal */
   Equal = "Equal",
+  /** Contains */
   Contains = "Contains",
+  /** BeginsWith */
   BeginsWith = "BeginsWith",
+  /** EndsWith */
   EndsWith = "EndsWith",
+  /** LessThan */
   LessThan = "LessThan",
+  /** LessThanOrEqual */
   LessThanOrEqual = "LessThanOrEqual",
+  /** GreaterThan */
   GreaterThan = "GreaterThan",
+  /** GreaterThanOrEqual */
   GreaterThanOrEqual = "GreaterThanOrEqual",
+  /** RegEx */
   RegEx = "RegEx"
 }
 
@@ -4475,15 +4937,25 @@ export type RequestUriOperator = string;
 
 /** Known values of {@link RequestHeaderOperator} that the service accepts. */
 export enum KnownRequestHeaderOperator {
+  /** Any */
   Any = "Any",
+  /** Equal */
   Equal = "Equal",
+  /** Contains */
   Contains = "Contains",
+  /** BeginsWith */
   BeginsWith = "BeginsWith",
+  /** EndsWith */
   EndsWith = "EndsWith",
+  /** LessThan */
   LessThan = "LessThan",
+  /** LessThanOrEqual */
   LessThanOrEqual = "LessThanOrEqual",
+  /** GreaterThan */
   GreaterThan = "GreaterThan",
+  /** GreaterThanOrEqual */
   GreaterThanOrEqual = "GreaterThanOrEqual",
+  /** RegEx */
   RegEx = "RegEx"
 }
 
@@ -4507,15 +4979,25 @@ export type RequestHeaderOperator = string;
 
 /** Known values of {@link RequestBodyOperator} that the service accepts. */
 export enum KnownRequestBodyOperator {
+  /** Any */
   Any = "Any",
+  /** Equal */
   Equal = "Equal",
+  /** Contains */
   Contains = "Contains",
+  /** BeginsWith */
   BeginsWith = "BeginsWith",
+  /** EndsWith */
   EndsWith = "EndsWith",
+  /** LessThan */
   LessThan = "LessThan",
+  /** LessThanOrEqual */
   LessThanOrEqual = "LessThanOrEqual",
+  /** GreaterThan */
   GreaterThan = "GreaterThan",
+  /** GreaterThanOrEqual */
   GreaterThanOrEqual = "GreaterThanOrEqual",
+  /** RegEx */
   RegEx = "RegEx"
 }
 
@@ -4539,7 +5021,9 @@ export type RequestBodyOperator = string;
 
 /** Known values of {@link RequestSchemeMatchConditionParametersMatchValuesItem} that the service accepts. */
 export enum KnownRequestSchemeMatchConditionParametersMatchValuesItem {
+  /** Http */
   Http = "HTTP",
+  /** Https */
   Https = "HTTPS"
 }
 
@@ -4555,16 +5039,27 @@ export type RequestSchemeMatchConditionParametersMatchValuesItem = string;
 
 /** Known values of {@link UrlPathOperator} that the service accepts. */
 export enum KnownUrlPathOperator {
+  /** Any */
   Any = "Any",
+  /** Equal */
   Equal = "Equal",
+  /** Contains */
   Contains = "Contains",
+  /** BeginsWith */
   BeginsWith = "BeginsWith",
+  /** EndsWith */
   EndsWith = "EndsWith",
+  /** LessThan */
   LessThan = "LessThan",
+  /** LessThanOrEqual */
   LessThanOrEqual = "LessThanOrEqual",
+  /** GreaterThan */
   GreaterThan = "GreaterThan",
+  /** GreaterThanOrEqual */
   GreaterThanOrEqual = "GreaterThanOrEqual",
+  /** Wildcard */
   Wildcard = "Wildcard",
+  /** RegEx */
   RegEx = "RegEx"
 }
 
@@ -4589,15 +5084,25 @@ export type UrlPathOperator = string;
 
 /** Known values of {@link UrlFileExtensionOperator} that the service accepts. */
 export enum KnownUrlFileExtensionOperator {
+  /** Any */
   Any = "Any",
+  /** Equal */
   Equal = "Equal",
+  /** Contains */
   Contains = "Contains",
+  /** BeginsWith */
   BeginsWith = "BeginsWith",
+  /** EndsWith */
   EndsWith = "EndsWith",
+  /** LessThan */
   LessThan = "LessThan",
+  /** LessThanOrEqual */
   LessThanOrEqual = "LessThanOrEqual",
+  /** GreaterThan */
   GreaterThan = "GreaterThan",
+  /** GreaterThanOrEqual */
   GreaterThanOrEqual = "GreaterThanOrEqual",
+  /** RegEx */
   RegEx = "RegEx"
 }
 
@@ -4621,15 +5126,25 @@ export type UrlFileExtensionOperator = string;
 
 /** Known values of {@link UrlFileNameOperator} that the service accepts. */
 export enum KnownUrlFileNameOperator {
+  /** Any */
   Any = "Any",
+  /** Equal */
   Equal = "Equal",
+  /** Contains */
   Contains = "Contains",
+  /** BeginsWith */
   BeginsWith = "BeginsWith",
+  /** EndsWith */
   EndsWith = "EndsWith",
+  /** LessThan */
   LessThan = "LessThan",
+  /** LessThanOrEqual */
   LessThanOrEqual = "LessThanOrEqual",
+  /** GreaterThan */
   GreaterThan = "GreaterThan",
+  /** GreaterThanOrEqual */
   GreaterThanOrEqual = "GreaterThanOrEqual",
+  /** RegEx */
   RegEx = "RegEx"
 }
 
@@ -4653,6 +5168,7 @@ export type UrlFileNameOperator = string;
 
 /** Known values of {@link HttpVersionOperator} that the service accepts. */
 export enum KnownHttpVersionOperator {
+  /** Equal */
   Equal = "Equal"
 }
 
@@ -4667,15 +5183,25 @@ export type HttpVersionOperator = string;
 
 /** Known values of {@link CookiesOperator} that the service accepts. */
 export enum KnownCookiesOperator {
+  /** Any */
   Any = "Any",
+  /** Equal */
   Equal = "Equal",
+  /** Contains */
   Contains = "Contains",
+  /** BeginsWith */
   BeginsWith = "BeginsWith",
+  /** EndsWith */
   EndsWith = "EndsWith",
+  /** LessThan */
   LessThan = "LessThan",
+  /** LessThanOrEqual */
   LessThanOrEqual = "LessThanOrEqual",
+  /** GreaterThan */
   GreaterThan = "GreaterThan",
+  /** GreaterThanOrEqual */
   GreaterThanOrEqual = "GreaterThanOrEqual",
+  /** RegEx */
   RegEx = "RegEx"
 }
 
@@ -4699,6 +5225,7 @@ export type CookiesOperator = string;
 
 /** Known values of {@link IsDeviceOperator} that the service accepts. */
 export enum KnownIsDeviceOperator {
+  /** Equal */
   Equal = "Equal"
 }
 
@@ -4713,7 +5240,9 @@ export type IsDeviceOperator = string;
 
 /** Known values of {@link IsDeviceMatchConditionParametersMatchValuesItem} that the service accepts. */
 export enum KnownIsDeviceMatchConditionParametersMatchValuesItem {
+  /** Mobile */
   Mobile = "Mobile",
+  /** Desktop */
   Desktop = "Desktop"
 }
 
@@ -4729,7 +5258,9 @@ export type IsDeviceMatchConditionParametersMatchValuesItem = string;
 
 /** Known values of {@link SocketAddrOperator} that the service accepts. */
 export enum KnownSocketAddrOperator {
+  /** Any */
   Any = "Any",
+  /** IPMatch */
   IPMatch = "IPMatch"
 }
 
@@ -4745,15 +5276,25 @@ export type SocketAddrOperator = string;
 
 /** Known values of {@link ClientPortOperator} that the service accepts. */
 export enum KnownClientPortOperator {
+  /** Any */
   Any = "Any",
+  /** Equal */
   Equal = "Equal",
+  /** Contains */
   Contains = "Contains",
+  /** BeginsWith */
   BeginsWith = "BeginsWith",
+  /** EndsWith */
   EndsWith = "EndsWith",
+  /** LessThan */
   LessThan = "LessThan",
+  /** LessThanOrEqual */
   LessThanOrEqual = "LessThanOrEqual",
+  /** GreaterThan */
   GreaterThan = "GreaterThan",
+  /** GreaterThanOrEqual */
   GreaterThanOrEqual = "GreaterThanOrEqual",
+  /** RegEx */
   RegEx = "RegEx"
 }
 
@@ -4777,15 +5318,25 @@ export type ClientPortOperator = string;
 
 /** Known values of {@link ServerPortOperator} that the service accepts. */
 export enum KnownServerPortOperator {
+  /** Any */
   Any = "Any",
+  /** Equal */
   Equal = "Equal",
+  /** Contains */
   Contains = "Contains",
+  /** BeginsWith */
   BeginsWith = "BeginsWith",
+  /** EndsWith */
   EndsWith = "EndsWith",
+  /** LessThan */
   LessThan = "LessThan",
+  /** LessThanOrEqual */
   LessThanOrEqual = "LessThanOrEqual",
+  /** GreaterThan */
   GreaterThan = "GreaterThan",
+  /** GreaterThanOrEqual */
   GreaterThanOrEqual = "GreaterThanOrEqual",
+  /** RegEx */
   RegEx = "RegEx"
 }
 
@@ -4809,15 +5360,25 @@ export type ServerPortOperator = string;
 
 /** Known values of {@link HostNameOperator} that the service accepts. */
 export enum KnownHostNameOperator {
+  /** Any */
   Any = "Any",
+  /** Equal */
   Equal = "Equal",
+  /** Contains */
   Contains = "Contains",
+  /** BeginsWith */
   BeginsWith = "BeginsWith",
+  /** EndsWith */
   EndsWith = "EndsWith",
+  /** LessThan */
   LessThan = "LessThan",
+  /** LessThanOrEqual */
   LessThanOrEqual = "LessThanOrEqual",
+  /** GreaterThan */
   GreaterThan = "GreaterThan",
+  /** GreaterThanOrEqual */
   GreaterThanOrEqual = "GreaterThanOrEqual",
+  /** RegEx */
   RegEx = "RegEx"
 }
 
@@ -4841,6 +5402,7 @@ export type HostNameOperator = string;
 
 /** Known values of {@link SslProtocolOperator} that the service accepts. */
 export enum KnownSslProtocolOperator {
+  /** Equal */
   Equal = "Equal"
 }
 
@@ -4855,8 +5417,11 @@ export type SslProtocolOperator = string;
 
 /** Known values of {@link SslProtocol} that the service accepts. */
 export enum KnownSslProtocol {
+  /** TLSv1 */
   TLSv1 = "TLSv1",
+  /** TLSv11 */
   TLSv11 = "TLSv1.1",
+  /** TLSv12 */
   TLSv12 = "TLSv1.2"
 }
 
@@ -4873,9 +5438,13 @@ export type SslProtocol = string;
 
 /** Known values of {@link RedirectType} that the service accepts. */
 export enum KnownRedirectType {
+  /** Moved */
   Moved = "Moved",
+  /** Found */
   Found = "Found",
+  /** TemporaryRedirect */
   TemporaryRedirect = "TemporaryRedirect",
+  /** PermanentRedirect */
   PermanentRedirect = "PermanentRedirect"
 }
 
@@ -4893,8 +5462,11 @@ export type RedirectType = string;
 
 /** Known values of {@link DestinationProtocol} that the service accepts. */
 export enum KnownDestinationProtocol {
+  /** MatchRequest */
   MatchRequest = "MatchRequest",
+  /** Http */
   Http = "Http",
+  /** Https */
   Https = "Https"
 }
 
@@ -4911,6 +5483,7 @@ export type DestinationProtocol = string;
 
 /** Known values of {@link Algorithm} that the service accepts. */
 export enum KnownAlgorithm {
+  /** SHA256 */
   SHA256 = "SHA256"
 }
 
@@ -4925,8 +5498,11 @@ export type Algorithm = string;
 
 /** Known values of {@link ParamIndicator} that the service accepts. */
 export enum KnownParamIndicator {
+  /** Expires */
   Expires = "Expires",
+  /** KeyId */
   KeyId = "KeyId",
+  /** Signature */
   Signature = "Signature"
 }
 
@@ -4943,8 +5519,11 @@ export type ParamIndicator = string;
 
 /** Known values of {@link HeaderAction} that the service accepts. */
 export enum KnownHeaderAction {
+  /** Append */
   Append = "Append",
+  /** Overwrite */
   Overwrite = "Overwrite",
+  /** Delete */
   Delete = "Delete"
 }
 
@@ -4961,8 +5540,11 @@ export type HeaderAction = string;
 
 /** Known values of {@link CacheBehavior} that the service accepts. */
 export enum KnownCacheBehavior {
+  /** BypassCache */
   BypassCache = "BypassCache",
+  /** Override */
   Override = "Override",
+  /** SetIfMissing */
   SetIfMissing = "SetIfMissing"
 }
 
@@ -4979,6 +5561,7 @@ export type CacheBehavior = string;
 
 /** Known values of {@link CacheType} that the service accepts. */
 export enum KnownCacheType {
+  /** All */
   All = "All"
 }
 
@@ -4993,9 +5576,13 @@ export type CacheType = string;
 
 /** Known values of {@link QueryStringBehavior} that the service accepts. */
 export enum KnownQueryStringBehavior {
+  /** Include */
   Include = "Include",
+  /** IncludeAll */
   IncludeAll = "IncludeAll",
+  /** Exclude */
   Exclude = "Exclude",
+  /** ExcludeAll */
   ExcludeAll = "ExcludeAll"
 }
 
@@ -5013,9 +5600,13 @@ export type QueryStringBehavior = string;
 
 /** Known values of {@link RuleQueryStringCachingBehavior} that the service accepts. */
 export enum KnownRuleQueryStringCachingBehavior {
+  /** IgnoreQueryString */
   IgnoreQueryString = "IgnoreQueryString",
+  /** UseQueryString */
   UseQueryString = "UseQueryString",
+  /** IgnoreSpecifiedQueryStrings */
   IgnoreSpecifiedQueryStrings = "IgnoreSpecifiedQueryStrings",
+  /** IncludeSpecifiedQueryStrings */
   IncludeSpecifiedQueryStrings = "IncludeSpecifiedQueryStrings"
 }
 
@@ -5033,7 +5624,9 @@ export type RuleQueryStringCachingBehavior = string;
 
 /** Known values of {@link RuleIsCompressionEnabled} that the service accepts. */
 export enum KnownRuleIsCompressionEnabled {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -5049,8 +5642,11 @@ export type RuleIsCompressionEnabled = string;
 
 /** Known values of {@link RuleCacheBehavior} that the service accepts. */
 export enum KnownRuleCacheBehavior {
+  /** HonorOrigin */
   HonorOrigin = "HonorOrigin",
+  /** OverrideAlways */
   OverrideAlways = "OverrideAlways",
+  /** OverrideIfOriginMissing */
   OverrideIfOriginMissing = "OverrideIfOriginMissing"
 }
 
@@ -5067,7 +5663,9 @@ export type RuleCacheBehavior = string;
 
 /** Known values of {@link CertificateType} that the service accepts. */
 export enum KnownCertificateType {
+  /** Shared */
   Shared = "Shared",
+  /** Dedicated */
   Dedicated = "Dedicated"
 }
 
@@ -5083,6 +5681,7 @@ export type CertificateType = string;
 
 /** Known values of {@link UpdateRule} that the service accepts. */
 export enum KnownUpdateRule {
+  /** NoAction */
   NoAction = "NoAction"
 }
 
@@ -5097,6 +5696,7 @@ export type UpdateRule = string;
 
 /** Known values of {@link DeleteRule} that the service accepts. */
 export enum KnownDeleteRule {
+  /** NoAction */
   NoAction = "NoAction"
 }
 
@@ -5126,8 +5726,6 @@ export type ResponseBasedDetectedErrorTypes =
   | "None"
   | "TcpErrorsOnly"
   | "TcpAndHttpErrors";
-/** Defines values for MinimumTlsVersion. */
-export type MinimumTlsVersion = "None" | "TLS10" | "TLS12";
 /** Defines values for QueryStringCachingBehavior. */
 export type QueryStringCachingBehavior =
   | "IgnoreQueryString"
@@ -5136,6 +5734,8 @@ export type QueryStringCachingBehavior =
   | "NotSet";
 /** Defines values for GeoFilterActions. */
 export type GeoFilterActions = "Block" | "Allow";
+/** Defines values for MinimumTlsVersion. */
+export type MinimumTlsVersion = "None" | "TLS10" | "TLS12";
 
 /** Optional parameters. */
 export interface CheckEndpointNameAvailabilityOptionalParams
@@ -6132,7 +6732,12 @@ export interface CustomDomainsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface CustomDomainsDisableCustomHttpsOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the disableCustomHttps operation. */
 export type CustomDomainsDisableCustomHttpsResponse = CustomDomain;
@@ -6142,6 +6747,10 @@ export interface CustomDomainsEnableCustomHttpsOptionalParams
   extends coreClient.OperationOptions {
   /** The configuration specifying how to enable HTTPS for the custom domain - using CDN managed certificate or user's own certificate. If not specified, enabling ssl uses CDN managed certificate by default. */
   customDomainHttpsParameters?: CustomDomainHttpsParametersUnion;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
 /** Contains response data for the enableCustomHttps operation. */

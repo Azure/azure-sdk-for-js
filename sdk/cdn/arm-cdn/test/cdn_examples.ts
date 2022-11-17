@@ -8,29 +8,25 @@
 
 import {
   env,
-  record,
-  RecorderEnvironmentSetup,
-  Recorder
+  Recorder,
+  RecorderStartOptions,
+  delay,
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import * as assert from "assert";
-import { ClientSecretCredential } from "@azure/identity";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { assert } from "chai";
+import { Context } from "mocha";
 import { CdnManagementClient } from "../src/cdnManagementClient";
 
-const recorderEnvSetup: RecorderEnvironmentSetup = {
-  replaceableVariables: {
-    AZURE_CLIENT_ID: "azure_client_id",
-    AZURE_CLIENT_SECRET: "azure_client_secret",
-    AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-    SUBSCRIPTION_ID: "azure_subscription_id"
-  },
-  customizationsOnRecordings: [
-    (recording: any): any =>
-      recording.replace(
-        /"access_token":"[^"]*"/g,
-        `"access_token":"access_token"`
-      )
-  ],
-  queryParametersToSkip: []
+const replaceableVariables: Record<string, string> = {
+  AZURE_CLIENT_ID: "azure_client_id",
+  AZURE_CLIENT_SECRET: "azure_client_secret",
+  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+  SUBSCRIPTION_ID: "azure_subscription_id"
+};
+
+const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback: replaceableVariables
 };
 
 describe("Cdn test", () => {
@@ -42,16 +38,13 @@ describe("Cdn test", () => {
   let profileName: string;
   let endpointName: string;
 
-  beforeEach(async function () {
-    recorder = record(this, recorderEnvSetup);
-    subscriptionId = env.SUBSCRIPTION_ID;
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
-    const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
-    );
-    client = new CdnManagementClient(credential, subscriptionId);
+    const credential = createTestCredential();
+    client = new CdnManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
     profileName = "myprofilexxx";
@@ -157,10 +150,5 @@ describe("Cdn test", () => {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
-  });
-
-  it("customDomains enable test", async function () {
-    const res = await client.customDomains.enableCustomHttps(resourceGroup, profileName, endpointName, "www-qiaozha-xyz");
-    assert.equal(res.name, "www-qiaozha-xyz");
   });
 });
