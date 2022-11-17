@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure/test-utils";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, env, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure/test-utils";
 
 import {
@@ -233,7 +233,7 @@ describe("KeyVaultAccessControlClient", () => {
         globalScope,
         assignmentName,
         roleDefinition.id,
-        env.CLIENT_OBJECT_ID
+        assertEnvironmentVariable("CLIENT_OBJECT_ID")
       );
       assert.equal(assignment.name, assignmentName);
       assert.equal(assignment.properties?.roleDefinitionId, roleDefinition.id);
@@ -281,7 +281,7 @@ describe("KeyVaultAccessControlClient", () => {
             globalScope,
             roleAssignmentName,
             roleDefinition.id,
-            env.CLIENT_OBJECT_ID,
+            assertEnvironmentVariable("CLIENT_OBJECT_ID"),
             options
           );
           await client.getRoleAssignment(KnownRoleScope.Global, roleAssignmentName, options);
