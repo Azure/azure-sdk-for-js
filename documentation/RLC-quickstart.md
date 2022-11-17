@@ -191,6 +191,18 @@ After you have finished the generation and added your own tests or samples, You 
 ```shell
 cd ${PROJECT_ROOT} && rushx format
 ```
+ 
+Also we'll recommand you to run `lint` command to analyze your code and quickly find any problems.
+
+```shell
+cd ${PROJECT_ROOT} && rushx lint
+```
+
+And we could use `lint:fix` if there are any errors.
+
+```shell
+cd ${PROJECT_ROOT} && rushx lint:fix
+```
 
 # How to do customizations
 There is many information about the SDK that AutoRest will never know, so you may want to do your customizations based on generated code. 
