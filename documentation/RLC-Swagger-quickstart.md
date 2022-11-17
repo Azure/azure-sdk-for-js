@@ -53,6 +53,7 @@ We are working on to automatically generate everything right now, but currently 
     Here, we need to replace the value in `package-name`, `title`, `description`, `input-file`, `package-version`,  `security`,`security-scopes` into **your own service's** `package-name`, `title`, `description` etc.
 
     **How to configure authentication**
+    
     Autorest only support two types of authentication: Azure Key Credential(AzureKey) and Token credential(AADToken), any other will need to be handled manually. 
 
     This could be either configured in OpenAPI spec or configuration file e.g `README.md`. You could learn more in [Authentication in AutoRest](https://github.com/Azure/autorest/blob/main/docs/generate/authentication.md).
