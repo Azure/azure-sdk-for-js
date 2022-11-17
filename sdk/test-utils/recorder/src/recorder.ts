@@ -43,6 +43,7 @@ import { isNode } from "@azure/core-util";
 import { env } from "./utils/env";
 import { decodeBase64 } from "./utils/encoding";
 import { isHttpHeadersLike } from "./utils/typeGuards";
+import { relativeAssetsPath } from "./utils/relativePathCalculator";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -61,6 +62,7 @@ export class Recorder {
   private stateManager = new RecordingStateManager();
   private httpClient?: HttpClient;
   private sessionFile?: string;
+  private assetsJson?: string;
   private variables: Record<string, string>;
 
   constructor(private testContext?: Test | undefined) {
@@ -68,6 +70,8 @@ export class Recorder {
     if (isRecordMode() || isPlaybackMode()) {
       if (this.testContext) {
         this.sessionFile = sessionFilePath(this.testContext);
+        this.assetsJson = relativeAssetsPath();
+
         logger.info(`[Recorder#constructor] Using a session file located at ${this.sessionFile}`);
         this.httpClient = createDefaultHttpClient();
       } else {
@@ -249,7 +253,14 @@ export class Recorder {
       const startUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${
         paths.start
       }`;
-      const req = createRecordingRequest(startUri, this.sessionFile, this.recordingId);
+
+      const req = createRecordingRequest(
+        startUri,
+        this.sessionFile,
+        this.recordingId,
+        "POST",
+        this.assetsJson
+      );
 
       if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
         logger.verbose("[Recorder#start] Setting redirect mode");
@@ -306,6 +317,7 @@ export class Recorder {
       const stopUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${
         paths.stop
       }`;
+
       const req = createRecordingRequest(stopUri, undefined, this.recordingId);
       req.headers.set("x-recording-save", "true");
 

@@ -32,7 +32,7 @@ async function apiManagementCreateBackendProxyBackend() {
     proxy: {
       password: "<password>",
       url: "http://192.168.1.1:8080",
-      username: "Contosoadmin"
+      username: "Contoso\\admin"
     },
     tls: { validateCertificateChain: true, validateCertificateName: true },
     url: "https://backendname2644/",

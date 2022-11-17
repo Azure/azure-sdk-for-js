@@ -93,7 +93,6 @@ TestResults/*
 .vscode/*
 ./**/.vscode/*
 
-
 # Node #
 **/node_modules/
 **/cjs/
@@ -154,6 +153,9 @@ sdk/cosmosdb/cosmos/lib
 *.test.js.map
 *lintReport.html
 tsdoc-metadata.json
+
+# locally cloned assets
+.assets
 
 # autorest generated files
 swagger/*.json
