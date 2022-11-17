@@ -98,7 +98,7 @@ We are working on to automatically generate everything right now, but currently 
     cadl compile . --emit=@azure-tools/cadl-typescript --output-dir=D:/azure-sdk-for-js/sdk/agrifood/agrifood-farming-rest
     ```
 
-    After this finishes, you will see the generated code in `src` folder in your project root.  
+    After this finishes, you will see the generated code in `src` folder in your **{PROJECT_ROOT}**.  
     After that, you can get a workable package, and run the following commands to get a artifact if you like.
 
     ```shell
