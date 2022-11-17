@@ -151,23 +151,13 @@ See the [Javascript Codegen Quick Start for Test](./Test-quickstart.md) for info
 
 # How to write samples
 
-If you enable `generateSample: true` option the codegen would do two things for you 
+If you enable `generate-sample: true` option the codegen would do two things for you:
 - Add samples metadata in `tsconfig.json` and `package.json`
 - Generate a collection of Typescript sample files (based on x-ms-examples in OpenAPI specs) under `samples-dev` folder.
 
 Please notice that the generated samples might not be directly usable as runnable codes, however we could get the basic idea on how code works, and update them to be more meaningful samples.
 
-And the errors may come from two kinds 1) the codegen issue or 2) swagger example issue. For the former one we need to report them with codegen owner while for the latter one we need to fix our swagger examples.
-
-Then, we provide tools to automatically change it into workable samples in both TypeScript and JavaScript. And we need to improve the sample configuration section in your `package.json` file to reflect your service information.
-```json
-  "//sampleConfiguration": {
-    "productName": "A description of your services",
-    "productSlugs": ["azure"],
-    "disableDocsMs": true,
-    "apiRefLink": "<the-link-to-your-service-on-docs.microsoft.com>"
-  }
-```
+And the errors may come from two kinds, the codegen issue or swagger example issue. For the former one we need to report them with codegen owner while as for the latter one we need to fix our swagger examples.
 
 Now, you can generate both JavaScript and TypeScript workable samples with the following commands.
 ```shell
