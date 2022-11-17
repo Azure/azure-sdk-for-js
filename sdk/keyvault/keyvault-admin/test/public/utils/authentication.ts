@@ -41,11 +41,6 @@ export async function authenticate(
     sanitizerOptions: {
       generalSanitizers: [
         {
-          target: `"access_token": "[^"]*"`,
-          regex: true,
-          value: '"access_token": "<REDACTED>"',
-        },
-        {
           target: `keyvault_name\.[a-z-]+\.azure[a-z-]*\.net`,
           regex: true,
           value: `keyvault_name.managedhsm.azure.net`,
