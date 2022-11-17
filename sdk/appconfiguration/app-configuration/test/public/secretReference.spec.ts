@@ -71,11 +71,20 @@ describe("AppConfigurationClient - SecretReference", () => {
     });
 
     afterEach(async () => {
+      await client.setReadOnly(
+        {
+          key: baseSetting.key,
+          label: baseSetting.label,
+        },
+        false
+      );
       await client.deleteConfigurationSetting({
         key: baseSetting.key,
+        label: baseSetting.label,
       });
     });
 
+    // Does not clean up after itself
     it("can add and get SecretReference", async () => {
       assertSecretReferenceProps(addResponse, baseSetting);
       const getResponse = await client.getConfigurationSetting({
@@ -165,7 +174,11 @@ describe("AppConfigurationClient - SecretReference", () => {
         0,
         "Unexpected number of SecretReferences seen after updating"
       );
-      await client.deleteConfigurationSetting({ key: secondSetting.key });
+      await client.setReadOnly({ key: secondSetting.key, label: secondSetting.label }, false);
+      await client.deleteConfigurationSetting({
+        key: secondSetting.key,
+        label: secondSetting.label,
+      });
     });
   });
 

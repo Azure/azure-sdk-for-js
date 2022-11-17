@@ -45,5 +45,7 @@ describe("supports tracing", () => {
         "AppConfigurationClient.deleteConfigurationSetting",
       ]
     );
+    await client.setReadOnly({ key: key }, false);
+    await client.deleteConfigurationSetting({ key: key });
   });
 });
