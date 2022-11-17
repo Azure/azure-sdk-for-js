@@ -1,0 +1,36 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/test-runs/abcde?api-version=2022-11-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-load-testing-rest/1.0.0 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.19045)",
+        "x-ms-client-request-id": "00fa65d7-e768-40e4-ae77-cc0ff2e79be6"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
+        "Connection": "keep-alive",
+        "Content-Length": "94",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 17 Nov 2022 16:48:27 GMT",
+        "mise-correlation-id": "7744acda-c871-47d1-9b7c-dbd62cf9736d",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "c7e51952-d266-49c4-8e58-38943db3b4f7"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "TestRunNotFound",
+          "message": "Test run not found with given name \u0022abcde\u0022."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
