@@ -1,73 +1,68 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { spawn } from "child_process";
-import path from "path";
+import { ChildProcess, spawn } from "child_process";
+import { createWriteStream } from "fs";
+import { createReadStream } from "fs-extra";
 import { IncomingMessage, request, RequestOptions } from "http";
-import fs from "fs-extra";
-import os from "os";
 import { createPrinter } from "./printer";
 import { resolveRoot } from "./resolveProject";
 
 const log = createPrinter("test-proxy");
 
-const CONTAINER_NAME = "js-azsdk-test-proxy";
-
-export async function startProxyTool(): Promise<void> {
-  log.info(
-    `Attempting to start test proxy at http://localhost:${
-      process.env.TEST_PROXY_HTTP_PORT ?? 5000
-    } & https://localhost:${process.env.TEST_PROXY_HTTPS_PORT ?? 5001}.\n`
-  );
-
-  const subprocess = spawn(await getDockerRunCommand(), [], {
-    shell: true,
-  });
-
-  const outFileName = "test-proxy-output.log";
-  const out = fs.createWriteStream(`./${outFileName}`, { flags: "a" });
-  subprocess.stdout.pipe(out);
-  subprocess.stderr.pipe(out);
-
-  log.info(`Check the output file "${outFileName}" for test-proxy logs.`);
-
-  await new Promise<void>((resolve, reject) => {
-    subprocess.on("exit", (code) => {
-      if (code === 0) {
-        resolve();
-      } else {
-        fs.readFile(`./${outFileName}`, (_err, data) => {
-          const lines = data.toString().split(os.EOL);
-          reject(
-            new Error(
-              `Could not start test proxy. Below is the last 10 lines of output. See ${outFileName} for the full output.\n${lines
-                .slice(-10)
-                .join("\n")}`
-            )
-          );
-        });
-      }
-    });
-  });
+export interface TestProxyCommandRun {
+  result: Promise<void>;
+  command: ChildProcess;
 }
 
-export async function stopProxyTool(): Promise<void> {
-  log.info("Attempting to stop the test proxy if it is running");
+async function getTestProxyExecutable(): Promise<string> {
+  // TODO: once the binaries are being published, download them to a nice location (detecting OS and architecture for which binary to download)
+  // For now, provide an environment variable.
 
-  const stopProcess = spawn(`docker stop ${CONTAINER_NAME}`, [], { shell: true });
-  return new Promise((resolve) => stopProcess.on("close", resolve));
+  const testProxyExe = process.env.TEST_PROXY_EXE;
+
+  if (testProxyExe === undefined) {
+    throw new Error("Need to set process.env.TEST_PROXY_EXE");
+  }
+
+  return testProxyExe;
 }
 
-async function getDockerRunCommand() {
-  const repoRoot = await resolveRoot(); // /workspaces/azure-sdk-for-js/
-  const testProxyRecordingsLocation = "/srv/testproxy";
-  const allowLocalhostAccess = "--add-host host.docker.internal:host-gateway";
-  const imageToLoad = `azsdkengsys.azurecr.io/engsys/testproxy-lin:${await getImageTag()}`;
-  return `docker run --rm --name ${CONTAINER_NAME} -v ${repoRoot}:${testProxyRecordingsLocation} -p ${
-    process.env.TEST_PROXY_HTTPS_PORT ?? 5001
-  }:5001 -p ${
-    process.env.TEST_PROXY_HTTP_PORT ?? 5000
-  }:5000 ${allowLocalhostAccess} ${imageToLoad}`;
+export async function runTestProxyCommand(
+  argv: string[],
+  stdio: "inherit" | "log" = "inherit"
+): Promise<TestProxyCommandRun> {
+  const command = spawn(await getTestProxyExecutable(), argv, {
+    stdio: stdio === "inherit" ? ["inherit", "inherit", "inherit"] : undefined,
+  });
+
+  if (stdio === "log") {
+    const out = createWriteStream("./testProxyOutput.log", { flags: "a" });
+    command.stderr?.pipe(out);
+    command.stdout?.pipe(out);
+  }
+
+  // Stop on exit
+  process.on("exit", () => {
+    command.kill("SIGINT");
+  });
+
+  return {
+    command,
+    result: new Promise<void>((resolve, reject) => {
+      command.on("exit", (exitCode, signal) => {
+        if (exitCode === 0) {
+          resolve();
+        } else if (!signal) {
+          reject(new Error(`Test proxy exited with code ${exitCode}`));
+        }
+      });
+    }),
+  };
+}
+
+export async function startTestProxy() {
+  return runTestProxyCommand(["start", "-l", await resolveRoot()], "log");
 }
 
 export async function isProxyToolActive(): Promise<boolean> {
@@ -95,29 +90,29 @@ async function makeRequest(uri: string, requestOptions: RequestOptions): Promise
   });
 }
 
-async function getImageTag() {
-  // Grab the tag from the `/eng/common/testproxy/target_version.txt` file [..is used to control the default version]
-  // Example content:
-  //
-  // 1.0.0-dev.20220224.2
-  // (Bot regularly updates the tag in the file above.)
-  try {
-    const contentInVersionFile = await fs.readFile(
-      `${path.join(await resolveRoot(), "eng/common/testproxy/target_version.txt")}`,
-      "utf-8"
-    );
+// async function getTargetVersion() {
+//   // Grab the tag from the `/eng/common/testproxy/target_version.txt` file [..is used to control the default version]
+//   // Example content:
+//   //
+//   // 1.0.0-dev.20220224.2
+//   // (Bot regularly updates the tag in the file above.)
+//   try {
+//     const contentInVersionFile = await fs.readFile(
+//       `${path.join(await resolveRoot(), "eng/common/testproxy/target_version.txt")}`,
+//       "utf-8"
+//     );
 
-    const tag = contentInVersionFile.trim();
-    if (tag === undefined) {
-      throw new Error();
-    }
+//     const tag = contentInVersionFile.trim();
+//     if (tag === undefined) {
+//       throw new Error();
+//     }
 
-    log.info(`Image tag obtained from the powershell script => ${tag}\n`);
-    return tag;
-  } catch (_: any) {
-    log.warn(
-      `Unable to get the image tag from the powershell script, trying "latest" tag instead\n`
-    );
-    return "latest";
-  }
-}
+//     log.info(`Image tag obtained from the powershell script => ${tag}\n`);
+//     return tag;
+//   } catch (_: any) {
+//     log.warn(
+//       `Unable to get the image tag from the powershell script, trying "latest" tag instead\n`
+//     );
+//     return "latest";
+//   }
+// }
