@@ -18,6 +18,12 @@
 
 - Fixed bug to update "expiresOnTimestamp" field in Managed Identity to be in seconds and not milliseconds.
 
+## 3.1.1 (2022-11-18)
+
+### Bugs Fixed
+
+- Fixed bug to update "expiresOnTimestamp" field in Managed Identity to be in seconds and not milliseconds.
+
 ## 3.1.0 (2022-11-08)
 
 ### Other Changes
