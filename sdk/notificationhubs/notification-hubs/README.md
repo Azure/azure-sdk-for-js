@@ -53,7 +53,7 @@ This SDK for JavaScript offers two ways of interacting with Azure Notification H
 
 ```typescript
 import { 
-  NotificationHubsServiceClient
+  NotificationHubsClient,
   createAppleInstallation 
 } from "@azure/notification-hubs";
 
@@ -81,6 +81,7 @@ The above code snippet then becomes the following:
 
 ```typescript
 import { createClientContext, createOrUpdateInstallation } from "@azure/notification-hubs/api";
+import { createAppleInstallation } from "@azure/notification-hubs/models";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
@@ -193,7 +194,7 @@ Using the modular approach, the code would be as follows:
 
 ```typescript
 import { createClientContext, updateInstallation } from "@azure/notification-hubs/api";
-import { JsonPatch, createAppleInstallation } from "@azure/notification-hubs/models";
+import { JsonPatch } from "@azure/notification-hubs/models";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
