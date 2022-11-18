@@ -55,7 +55,10 @@ export const SecretReferenceHelper = {
 export function parseSecretReference(
   setting: ConfigurationSetting
 ): ConfigurationSetting<SecretReferenceValue> {
-  logger.info("Parsing the value to return the SecretReferenceValue", setting);
+  logger.info(
+    "[parseSecretReference] Parsing the value to return the SecretReferenceValue",
+    setting
+  );
   if (!isSecretReference(setting)) {
     logger.error("Invalid SecretReference input", setting);
     throw TypeError(

@@ -7,6 +7,7 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
+import { logger } from "../logger";
 
 /**
  * The sync token header, as described here:
@@ -29,7 +30,7 @@ export function syncTokenPolicy(syncTokens: SyncTokens): PipelinePolicy {
       if (syncTokenHeaderValue) {
         request.headers.set(SyncTokenHeaderName, syncTokenHeaderValue);
       }
-
+      logger.info("[syncTokenPolicy] Getting the next request");
       const response = await next(request);
       syncTokens.addSyncTokenFromHeaderValue(response.headers.get(SyncTokenHeaderName));
       return response;
