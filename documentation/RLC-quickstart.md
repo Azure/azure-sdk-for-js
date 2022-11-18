@@ -205,7 +205,7 @@ cd ${PROJECT_ROOT} && rushx lint:fix
 ```
 
 # How to do customizations
-There is many information about the SDK that AutoRest will never know, so you may want to do your customizations based on generated code. 
+There is many information about the SDK that Typescript emitter will never know, so you may want to do your customizations based on generated code. 
 
 We collect some common customization cases and you can read [Customization on the RLC rest-level client libraries](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-customization.md) for more details.
 
