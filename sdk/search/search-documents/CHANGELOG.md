@@ -1,5 +1,11 @@
 # Release History
 
+## 11.3.1 (2022-11-18)
+
+### Bugs Fixed
+
+- Addressed an issue where `similarity` settings on indexes wouldn't populate correctly. See [#23811](https://github.com/Azure/azure-sdk-for-js/issues/23811)
+
 ## 11.3.0 (2022-09-06)
 
 ### Features Added
