@@ -369,8 +369,6 @@ async function processTables(tablesFromResult: LogsTable[]) {
 
 A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryBatch.ts).
 
- For information on request throttling at the Log Analytics service level, see [Query API](https://learn.microsoft.com/azure/azure-monitor/service-limits#la-query-api).
-
 ### Advanced logs query scenarios
 
 #### Set logs query timeout
