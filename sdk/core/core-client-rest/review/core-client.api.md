@@ -47,6 +47,20 @@ export type ClientOptions = PipelineOptions & {
 export function createRestError(message: string, response: PathUncheckedResponse): RestError;
 
 // @public
+export interface ErrorModel {
+    code: string;
+    details: Array<ErrorModel>;
+    innererror?: InnerError;
+    message: string;
+    target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error: ErrorModel;
+}
+
+// @public
 export function getClient(baseUrl: string, options?: ClientOptions): Client;
 
 // @public
@@ -68,6 +82,23 @@ export type HttpResponse = {
     headers: RawHttpHeaders;
     body: unknown;
     status: string;
+};
+
+// @public
+export interface InnerError {
+    code: string;
+    innererror?: InnerError;
+}
+
+// @public (undocumented)
+export interface LongRunningOperationLocationHeaders {
+    "operation-location": string;
+}
+
+// @public (undocumented)
+export type Paged<T> = {
+    value: T[];
+    nextLink?: string;
 };
 
 // @public
