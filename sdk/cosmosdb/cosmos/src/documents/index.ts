@@ -10,6 +10,8 @@ export * from "./IndexingMode";
 export * from "./IndexingPolicy";
 export * from "./IndexKind";
 export * from "./PartitionKey";
+export * from "./PartitionKeyDefinitionVersion"
+export * from "./PartitionKind"
 export * from "./PartitionKeyDefinition";
 export * from "./PermissionMode";
 export * from "./TriggerOperation";

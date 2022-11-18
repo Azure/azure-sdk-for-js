@@ -17,16 +17,16 @@ import { ItemResponse } from "./ItemResponse";
 import {
   Batch,
   isKeyInRange,
-  Operation,
-  getPartitionKeyToHash,
-  decorateOperation,
+  prepareOperations,
   OperationResponse,
   OperationInput,
   BulkOptions,
   decorateBatchOperation,
+  hasResource,
 } from "../../utils/batch";
-import { hashV1PartitionKey } from "../../utils/hashing/v1";
-import { hashV2PartitionKey } from "../../utils/hashing/v2";
+import { stripUndefined } from "../../utils/typeChecks";
+import { hashPartitionKey } from "../../utils/hashing/hash";
+import { PartitionKeyDefinition } from "../../documents";
 
 /**
  * @hidden
@@ -408,7 +408,8 @@ export class Items {
     const { resources: partitionKeyRanges } = await this.container
       .readPartitionKeyRanges()
       .fetchAll();
-    const { resource: definition } = await this.container.getPartitionKeyDefinition();
+    let { resource } = await this.container.readPartitionKeyDefinition();
+    const partitionDefinition = stripUndefined(resource, "PartitionKeyDefinition.");
     const batches: Batch[] = partitionKeyRanges.map((keyRange: PartitionKeyRange) => {
       return {
         min: keyRange.minInclusive,
@@ -418,19 +419,8 @@ export class Items {
         operations: [],
       };
     });
-    operations
-      .map((operation) => decorateOperation(operation, definition, options))
-      .forEach((operation: Operation, index: number) => {
-        const partitionProp = definition.paths[0].replace("/", "");
-        const isV2 = definition.version && definition.version === 2;
-        const toHashKey = getPartitionKeyToHash(operation, partitionProp);
-        const hashed = isV2 ? hashV2PartitionKey(toHashKey) : hashV1PartitionKey(toHashKey);
-        const batchForKey = batches.find((batch: Batch) => {
-          return isKeyInRange(batch.min, batch.max, hashed);
-        });
-        batchForKey.operations.push(operation);
-        batchForKey.indexes.push(index);
-      });
+
+    this.groupOperationsBasedOnPartitionKey(operations, partitionDefinition, options, batches);
 
     const path = getPathFromLink(this.container.url, ResourceType.item);
 
@@ -460,7 +450,7 @@ export class Items {
             // partition key types as well since we don't support them, so for now we throw
             if (err.code === 410) {
               throw new Error(
-                "Partition key error. Either the partitions have split or an operation has an unsupported partitionKey type"
+                "Partition key error. Either the partitions have split or an operation has an unsupported partitionKey type" +  err.message
               );
             }
             throw new Error(`Bulk request errored with: ${err.message}`);
@@ -468,6 +458,27 @@ export class Items {
         })
     );
     return orderedResponses;
+  }
+
+  /**
+   * Function to create batches based of partition key Ranges.
+   * 1. if {@link operation} has {@link hasResource} then {@link PartitionKey} is extracted from there.
+   * @param operations 
+   * @param partitionDefinition 
+   * @param options 
+   * @param batches 
+   */
+  private groupOperationsBasedOnPartitionKey(operations: OperationInput[], partitionDefinition: PartitionKeyDefinition, options: RequestOptions | undefined, batches: Batch[]) {
+    operations
+      .forEach((operationInput, index: number) => {
+        const { operation, partitionKey } = prepareOperations(operationInput, partitionDefinition, options);
+        const hashed = hashPartitionKey(stripUndefined(partitionKey, "PartitionKey"), partitionDefinition);
+        const batchForKey = stripUndefined(batches.find((batch: Batch) => {
+          return isKeyInRange(batch.min, batch.max, hashed);
+        }), "No suitable Batch found.");
+        batchForKey.operations.push(operation);
+        batchForKey.indexes.push(index);
+      });
   }
 
   /**
