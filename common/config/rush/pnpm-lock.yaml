@@ -3892,7 +3892,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221116
+      typescript: 5.0.0-dev.20221117
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8840,8 +8840,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221116:
-    resolution: {integrity: sha512-zLbvvDaFHHwquRZH6P42X5JOjP+BAYZvebvA+IuNjaaj8A8XKWYJbaoZ9qg/PL2E85oAsOTjuZOsp4Mk1ZSWKA==}
+  /typescript/5.0.0-dev.20221117:
+    resolution: {integrity: sha512-ey3t3RLhzH/bqAbH9oC0G6oV2B0tr8uWPkf5pjdxuQJq7l1EzToizBl7zSZAnY4q21iXyGSTGCgUqhYva+wu5Q==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10889,7 +10889,7 @@ packages:
     dev: false
 
   file:projects/arm-commerce.tgz:
-    resolution: {integrity: sha512-Wf/ZBKBn7v4avmXzwOWjYfUBF+N3nKwYfSOOjxwu0T6a1Rg4Jj8LNqQD5ZTDfzxul/VV+tYg5y4CIfb3tK5s/A==, tarball: file:projects/arm-commerce.tgz}
+    resolution: {integrity: sha512-8Am81mU7kb+YS5ULi4ldCpPiXCdQtcSjerNd+QhwXRmcNNLpbWDqZ0kb/zQs/IzMepGVRr0yJNtgFI5ijPW+uQ==, tarball: file:projects/arm-commerce.tgz}
     name: '@rush-temp/arm-commerce'
     version: 0.0.0
     dependencies:
@@ -10908,11 +10908,13 @@ packages:
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.1
-      typescript: 4.8.4
+      typescript: 4.2.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - '@types/node'
+      - encoding
       - supports-color
     dev: false
 
