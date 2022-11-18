@@ -25,9 +25,9 @@ If you are the first time to prepare the SDK, please follow the Azure SDK guidan
 
 We are working on to automatically generate everything right now, but currently we still need some manual work to get a releasable package. Here're the steps of how to get the package.
 
-1. **Add Typescript emitter dependency in package.json**  
+1. **Add TypeScript emitter dependency in package.json**  
    
-   In Cadl project, modify `package.json` to add dependency for Typescript emitter, then run `npm install` again to install `@azure-tools/cadl-typescript`.
+   In Cadl project, modify `package.json` to add dependency for TypeScript emitter, then run `npm install` again to install `@azure-tools/cadl-typescript`.
 
    ```json
    "dependencies": {
@@ -43,7 +43,7 @@ We are working on to automatically generate everything right now, but currently 
 
    ---
 
-1. **Configure Typescript emitter in cadl-project.yaml**
+1. **Configure TypeScript emitter in cadl-project.yaml**
 
     In Cadl project, modify (or create) `cadl-project.yaml` and configure the SDK generated, using the emitter options on `@azure-tools/cadl-typescript`
     
@@ -205,9 +205,8 @@ cd ${PROJECT_ROOT} && rushx lint:fix
 ```
 
 # How to do customizations
-There is many information about the SDK that Typescript emitter will never know, so you may want to do your customizations based on generated code. 
 
-We collect some common customization cases and you can read [Customization on the RLC rest-level client libraries](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-customization.md) for more details.
+You may want to do your customizations based on generated code. We collect some common customization cases and you can read [Customization on the RLC rest-level client libraries](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-customization.md) for more details.
 
 # How to create package
 
