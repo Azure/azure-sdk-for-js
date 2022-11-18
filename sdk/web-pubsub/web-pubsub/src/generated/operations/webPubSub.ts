@@ -11,63 +11,48 @@ import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { GeneratedClientContext } from "../generatedClientContext";
+import { GeneratedClient } from "../generatedClient";
 import {
+  WebPubSubCloseAllConnectionsOptionalParams,
   WebPubSubGenerateClientTokenOptionalParams,
   WebPubSubGenerateClientTokenResponse,
-  WebPubSubCloseAllConnectionsOptionalParams,
   ContentType,
   WebPubSubSendToAll$binaryOptionalParams,
   WebPubSubSendToAll$textOptionalParams,
-  WebPubSubConnectionExistsOptionalParams,
   WebPubSubCloseConnectionOptionalParams,
+  WebPubSubConnectionExistsOptionalParams,
   WebPubSubSendToConnection$binaryOptionalParams,
   WebPubSubSendToConnection$textOptionalParams,
+  WebPubSubRemoveConnectionFromAllGroupsOptionalParams,
   WebPubSubGroupExistsOptionalParams,
   WebPubSubCloseGroupConnectionsOptionalParams,
   WebPubSubSendToGroup$binaryOptionalParams,
   WebPubSubSendToGroup$textOptionalParams,
-  WebPubSubAddConnectionToGroupOptionalParams,
   WebPubSubRemoveConnectionFromGroupOptionalParams,
+  WebPubSubAddConnectionToGroupOptionalParams,
+  WebPubSubPermission,
+  WebPubSubRevokePermissionOptionalParams,
+  WebPubSubCheckPermissionOptionalParams,
+  WebPubSubGrantPermissionOptionalParams,
   WebPubSubUserExistsOptionalParams,
   WebPubSubCloseUserConnectionsOptionalParams,
   WebPubSubSendToUser$binaryOptionalParams,
   WebPubSubSendToUser$textOptionalParams,
-  WebPubSubAddUserToGroupOptionalParams,
-  WebPubSubRemoveUserFromGroupOptionalParams,
   WebPubSubRemoveUserFromAllGroupsOptionalParams,
-  WebPubSubPermission,
-  WebPubSubGrantPermissionOptionalParams,
-  WebPubSubRevokePermissionOptionalParams,
-  WebPubSubCheckPermissionOptionalParams
+  WebPubSubRemoveUserFromGroupOptionalParams,
+  WebPubSubAddUserToGroupOptionalParams
 } from "../models";
 
 /** Class containing WebPubSub operations. */
 export class WebPubSubImpl implements WebPubSub {
-  private readonly client: GeneratedClientContext;
+  private readonly client: GeneratedClient;
 
   /**
    * Initialize a new instance of the class WebPubSub class.
    * @param client Reference to the service client
    */
-  constructor(client: GeneratedClientContext) {
+  constructor(client: GeneratedClient) {
     this.client = client;
-  }
-
-  /**
-   * Generate token for the client to connect Azure Web PubSub service.
-   * @param hub Target hub name, which should start with alphabetic characters and only contain
-   *            alpha-numeric characters or underscore.
-   * @param options The options parameters.
-   */
-  generateClientToken(
-    hub: string,
-    options?: WebPubSubGenerateClientTokenOptionalParams
-  ): Promise<WebPubSubGenerateClientTokenResponse> {
-    return this.client.sendOperationRequest(
-      { hub, options },
-      generateClientTokenOperationSpec
-    );
   }
 
   /**
@@ -83,6 +68,22 @@ export class WebPubSubImpl implements WebPubSub {
     return this.client.sendOperationRequest(
       { hub, options },
       closeAllConnectionsOperationSpec
+    );
+  }
+
+  /**
+   * Generate token for the client to connect Azure Web PubSub service.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param options The options parameters.
+   */
+  generateClientToken(
+    hub: string,
+    options?: WebPubSubGenerateClientTokenOptionalParams
+  ): Promise<WebPubSubGenerateClientTokenResponse> {
+    return this.client.sendOperationRequest(
+      { hub, options },
+      generateClientTokenOperationSpec
     );
   }
 
@@ -162,24 +163,6 @@ export class WebPubSubImpl implements WebPubSub {
   }
 
   /**
-   * Check if the connection with the given connectionId exists.
-   * @param hub Target hub name, which should start with alphabetic characters and only contain
-   *            alpha-numeric characters or underscore.
-   * @param connectionId The connection Id.
-   * @param options The options parameters.
-   */
-  connectionExists(
-    hub: string,
-    connectionId: string,
-    options?: WebPubSubConnectionExistsOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { hub, connectionId, options },
-      connectionExistsOperationSpec
-    );
-  }
-
-  /**
    * Close the client connection.
    * @param hub Target hub name, which should start with alphabetic characters and only contain
    *            alpha-numeric characters or underscore.
@@ -194,6 +177,24 @@ export class WebPubSubImpl implements WebPubSub {
     return this.client.sendOperationRequest(
       { hub, connectionId, options },
       closeConnectionOperationSpec
+    );
+  }
+
+  /**
+   * Check if the connection with the given connectionId exists.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param connectionId The connection Id.
+   * @param options The options parameters.
+   */
+  connectionExists(
+    hub: string,
+    connectionId: string,
+    options?: WebPubSubConnectionExistsOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { hub, connectionId, options },
+      connectionExistsOperationSpec
     );
   }
 
@@ -283,6 +284,24 @@ export class WebPubSubImpl implements WebPubSub {
     }
     operationArguments.options = options || {};
     return this.client.sendOperationRequest(operationArguments, operationSpec);
+  }
+
+  /**
+   * Remove a connection from all groups.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param connectionId Target connection Id.
+   * @param options The options parameters.
+   */
+  removeConnectionFromAllGroups(
+    hub: string,
+    connectionId: string,
+    options?: WebPubSubRemoveConnectionFromAllGroupsOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { hub, connectionId, options },
+      removeConnectionFromAllGroupsOperationSpec
+    );
   }
 
   /**
@@ -410,6 +429,26 @@ export class WebPubSubImpl implements WebPubSub {
   }
 
   /**
+   * Remove a connection from the target group.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param group Target group name, which length should be greater than 0 and less than 1025.
+   * @param connectionId Target connection Id.
+   * @param options The options parameters.
+   */
+  removeConnectionFromGroup(
+    hub: string,
+    group: string,
+    connectionId: string,
+    options?: WebPubSubRemoveConnectionFromGroupOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { hub, group, connectionId, options },
+      removeConnectionFromGroupOperationSpec
+    );
+  }
+
+  /**
    * Add a connection to the target group.
    * @param hub Target hub name, which should start with alphabetic characters and only contain
    *            alpha-numeric characters or underscore.
@@ -430,22 +469,62 @@ export class WebPubSubImpl implements WebPubSub {
   }
 
   /**
-   * Remove a connection from the target group.
+   * Revoke permission for the connection.
    * @param hub Target hub name, which should start with alphabetic characters and only contain
    *            alpha-numeric characters or underscore.
-   * @param group Target group name, which length should be greater than 0 and less than 1025.
+   * @param permission The permission: current supported actions are joinLeaveGroup and sendToGroup.
    * @param connectionId Target connection Id.
    * @param options The options parameters.
    */
-  removeConnectionFromGroup(
+  revokePermission(
     hub: string,
-    group: string,
+    permission: WebPubSubPermission,
     connectionId: string,
-    options?: WebPubSubRemoveConnectionFromGroupOptionalParams
+    options?: WebPubSubRevokePermissionOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { hub, group, connectionId, options },
-      removeConnectionFromGroupOperationSpec
+      { hub, permission, connectionId, options },
+      revokePermissionOperationSpec
+    );
+  }
+
+  /**
+   * Check if a connection has permission to the specified action.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param permission The permission: current supported actions are joinLeaveGroup and sendToGroup.
+   * @param connectionId Target connection Id.
+   * @param options The options parameters.
+   */
+  checkPermission(
+    hub: string,
+    permission: WebPubSubPermission,
+    connectionId: string,
+    options?: WebPubSubCheckPermissionOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { hub, permission, connectionId, options },
+      checkPermissionOperationSpec
+    );
+  }
+
+  /**
+   * Grant permission to the connection.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param permission The permission: current supported actions are joinLeaveGroup and sendToGroup.
+   * @param connectionId Target connection Id.
+   * @param options The options parameters.
+   */
+  grantPermission(
+    hub: string,
+    permission: WebPubSubPermission,
+    connectionId: string,
+    options?: WebPubSubGrantPermissionOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { hub, permission, connectionId, options },
+      grantPermissionOperationSpec
     );
   }
 
@@ -574,22 +653,20 @@ export class WebPubSubImpl implements WebPubSub {
   }
 
   /**
-   * Add a user to the target group.
+   * Remove a user from all groups.
    * @param hub Target hub name, which should start with alphabetic characters and only contain
    *            alpha-numeric characters or underscore.
-   * @param group Target group name, which length should be greater than 0 and less than 1025.
    * @param userId Target user Id.
    * @param options The options parameters.
    */
-  addUserToGroup(
+  removeUserFromAllGroups(
     hub: string,
-    group: string,
     userId: string,
-    options?: WebPubSubAddUserToGroupOptionalParams
+    options?: WebPubSubRemoveUserFromAllGroupsOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { hub, group, userId, options },
-      addUserToGroupOperationSpec
+      { hub, userId, options },
+      removeUserFromAllGroupsOperationSpec
     );
   }
 
@@ -614,108 +691,28 @@ export class WebPubSubImpl implements WebPubSub {
   }
 
   /**
-   * Remove a user from all groups.
+   * Add a user to the target group.
    * @param hub Target hub name, which should start with alphabetic characters and only contain
    *            alpha-numeric characters or underscore.
+   * @param group Target group name, which length should be greater than 0 and less than 1025.
    * @param userId Target user Id.
    * @param options The options parameters.
    */
-  removeUserFromAllGroups(
+  addUserToGroup(
     hub: string,
+    group: string,
     userId: string,
-    options?: WebPubSubRemoveUserFromAllGroupsOptionalParams
+    options?: WebPubSubAddUserToGroupOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { hub, userId, options },
-      removeUserFromAllGroupsOperationSpec
-    );
-  }
-
-  /**
-   * Grant permission to the connection.
-   * @param hub Target hub name, which should start with alphabetic characters and only contain
-   *            alpha-numeric characters or underscore.
-   * @param permission The permission: current supported actions are joinLeaveGroup and sendToGroup.
-   * @param connectionId Target connection Id.
-   * @param options The options parameters.
-   */
-  grantPermission(
-    hub: string,
-    permission: WebPubSubPermission,
-    connectionId: string,
-    options?: WebPubSubGrantPermissionOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { hub, permission, connectionId, options },
-      grantPermissionOperationSpec
-    );
-  }
-
-  /**
-   * Revoke permission for the connection.
-   * @param hub Target hub name, which should start with alphabetic characters and only contain
-   *            alpha-numeric characters or underscore.
-   * @param permission The permission: current supported actions are joinLeaveGroup and sendToGroup.
-   * @param connectionId Target connection Id.
-   * @param options The options parameters.
-   */
-  revokePermission(
-    hub: string,
-    permission: WebPubSubPermission,
-    connectionId: string,
-    options?: WebPubSubRevokePermissionOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { hub, permission, connectionId, options },
-      revokePermissionOperationSpec
-    );
-  }
-
-  /**
-   * Check if a connection has permission to the specified action.
-   * @param hub Target hub name, which should start with alphabetic characters and only contain
-   *            alpha-numeric characters or underscore.
-   * @param permission The permission: current supported actions are joinLeaveGroup and sendToGroup.
-   * @param connectionId Target connection Id.
-   * @param options The options parameters.
-   */
-  checkPermission(
-    hub: string,
-    permission: WebPubSubPermission,
-    connectionId: string,
-    options?: WebPubSubCheckPermissionOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { hub, permission, connectionId, options },
-      checkPermissionOperationSpec
+      { hub, group, userId, options },
+      addUserToGroupOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const generateClientTokenOperationSpec: coreClient.OperationSpec = {
-  path: "/api/hubs/{hub}/:generateToken",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ClientTokenResponse
-    },
-    default: {
-      bodyMapper: Mappers.ErrorDetail,
-      headersMapper: Mappers.WebPubSubGenerateClientTokenExceptionHeaders
-    }
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.userId,
-    Parameters.roles,
-    Parameters.expirationTimeInMinutes
-  ],
-  urlParameters: [Parameters.endpoint, Parameters.hub],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const closeAllConnectionsOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/:closeConnections",
   httpMethod: "POST",
@@ -735,6 +732,29 @@ const closeAllConnectionsOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const generateClientTokenOperationSpec: coreClient.OperationSpec = {
+  path: "/api/hubs/{hub}/:generateToken",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ClientTokenResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubGenerateClientTokenExceptionHeaders
+    }
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.userId,
+    Parameters.roles,
+    Parameters.expirationTimeInMinutes,
+    Parameters.groups
+  ],
+  urlParameters: [Parameters.endpoint, Parameters.hub],
+  headerParameters: [Parameters.accept1],
+  serializer
+};
 const sendToAll$binaryOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/:send",
   httpMethod: "POST",
@@ -746,9 +766,13 @@ const sendToAll$binaryOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.message,
-  queryParameters: [Parameters.apiVersion, Parameters.excludedConnections],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.excludedConnections,
+    Parameters.filter
+  ],
   urlParameters: [Parameters.endpoint, Parameters.hub],
-  headerParameters: [Parameters.contentType, Parameters.accept1],
+  headerParameters: [Parameters.contentType, Parameters.accept2],
   mediaType: "binary",
   serializer
 };
@@ -763,26 +787,14 @@ const sendToAll$textOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.message1,
-  queryParameters: [Parameters.apiVersion, Parameters.excludedConnections],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.excludedConnections,
+    Parameters.filter
+  ],
   urlParameters: [Parameters.endpoint, Parameters.hub],
-  headerParameters: [Parameters.contentType1, Parameters.accept2],
+  headerParameters: [Parameters.contentType1, Parameters.accept3],
   mediaType: "text",
-  serializer
-};
-const connectionExistsOperationSpec: coreClient.OperationSpec = {
-  path: "/api/hubs/{hub}/connections/{connectionId}",
-  httpMethod: "HEAD",
-  responses: {
-    200: {},
-    404: {},
-    default: {
-      bodyMapper: Mappers.ErrorDetail,
-      headersMapper: Mappers.WebPubSubConnectionExistsExceptionHeaders
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.connectionId],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const closeConnectionOperationSpec: coreClient.OperationSpec = {
@@ -800,6 +812,20 @@ const closeConnectionOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const connectionExistsOperationSpec: coreClient.OperationSpec = {
+  path: "/api/hubs/{hub}/connections/{connectionId}",
+  httpMethod: "HEAD",
+  responses: {
+    200: {},
+    404: {},
+    default: {
+      headersMapper: Mappers.WebPubSubConnectionExistsExceptionHeaders
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.connectionId],
+  serializer
+};
 const sendToConnection$binaryOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/connections/{connectionId}/:send",
   httpMethod: "POST",
@@ -813,7 +839,7 @@ const sendToConnection$binaryOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.message,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.connectionId],
-  headerParameters: [Parameters.contentType, Parameters.accept1],
+  headerParameters: [Parameters.contentType, Parameters.accept2],
   mediaType: "binary",
   serializer
 };
@@ -830,8 +856,24 @@ const sendToConnection$textOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.message1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.connectionId],
-  headerParameters: [Parameters.contentType1, Parameters.accept2],
+  headerParameters: [Parameters.contentType1, Parameters.accept3],
   mediaType: "text",
+  serializer
+};
+const removeConnectionFromAllGroupsOperationSpec: coreClient.OperationSpec = {
+  path: "/api/hubs/{hub}/connections/{connectionId}/groups",
+  httpMethod: "DELETE",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper:
+        Mappers.WebPubSubRemoveConnectionFromAllGroupsExceptionHeaders
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.connectionId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const groupExistsOperationSpec: coreClient.OperationSpec = {
@@ -841,13 +883,11 @@ const groupExistsOperationSpec: coreClient.OperationSpec = {
     200: {},
     404: {},
     default: {
-      bodyMapper: Mappers.ErrorDetail,
       headersMapper: Mappers.WebPubSubGroupExistsExceptionHeaders
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.group],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const closeGroupConnectionsOperationSpec: coreClient.OperationSpec = {
@@ -880,9 +920,13 @@ const sendToGroup$binaryOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.message,
-  queryParameters: [Parameters.apiVersion, Parameters.excludedConnections],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.excludedConnections,
+    Parameters.filter
+  ],
   urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.group],
-  headerParameters: [Parameters.contentType, Parameters.accept1],
+  headerParameters: [Parameters.contentType, Parameters.accept2],
   mediaType: "binary",
   serializer
 };
@@ -897,31 +941,14 @@ const sendToGroup$textOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.message1,
-  queryParameters: [Parameters.apiVersion, Parameters.excludedConnections],
-  urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.group],
-  headerParameters: [Parameters.contentType1, Parameters.accept2],
-  mediaType: "text",
-  serializer
-};
-const addConnectionToGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/api/hubs/{hub}/groups/{group}/connections/{connectionId}",
-  httpMethod: "PUT",
-  responses: {
-    200: {},
-    404: {},
-    default: {
-      bodyMapper: Mappers.ErrorDetail,
-      headersMapper: Mappers.WebPubSubAddConnectionToGroupExceptionHeaders
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.hub,
-    Parameters.connectionId,
-    Parameters.group
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.excludedConnections,
+    Parameters.filter
   ],
-  headerParameters: [Parameters.accept],
+  urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.group],
+  headerParameters: [Parameters.contentType1, Parameters.accept3],
+  mediaType: "text",
   serializer
 };
 const removeConnectionFromGroupOperationSpec: coreClient.OperationSpec = {
@@ -944,6 +971,85 @@ const removeConnectionFromGroupOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const addConnectionToGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/api/hubs/{hub}/groups/{group}/connections/{connectionId}",
+  httpMethod: "PUT",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubAddConnectionToGroupExceptionHeaders
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.hub,
+    Parameters.connectionId,
+    Parameters.group
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const revokePermissionOperationSpec: coreClient.OperationSpec = {
+  path: "/api/hubs/{hub}/permissions/{permission}/connections/{connectionId}",
+  httpMethod: "DELETE",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubRevokePermissionExceptionHeaders
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.targetName],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.hub,
+    Parameters.connectionId,
+    Parameters.permission
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const checkPermissionOperationSpec: coreClient.OperationSpec = {
+  path: "/api/hubs/{hub}/permissions/{permission}/connections/{connectionId}",
+  httpMethod: "HEAD",
+  responses: {
+    200: {},
+    404: {},
+    default: {
+      headersMapper: Mappers.WebPubSubCheckPermissionExceptionHeaders
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.targetName],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.hub,
+    Parameters.connectionId,
+    Parameters.permission
+  ],
+  serializer
+};
+const grantPermissionOperationSpec: coreClient.OperationSpec = {
+  path: "/api/hubs/{hub}/permissions/{permission}/connections/{connectionId}",
+  httpMethod: "PUT",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubGrantPermissionExceptionHeaders
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.targetName],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.hub,
+    Parameters.connectionId,
+    Parameters.permission
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const userExistsOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/users/{userId}",
   httpMethod: "HEAD",
@@ -951,13 +1057,11 @@ const userExistsOperationSpec: coreClient.OperationSpec = {
     200: {},
     404: {},
     default: {
-      bodyMapper: Mappers.ErrorDetail,
       headersMapper: Mappers.WebPubSubUserExistsExceptionHeaders
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.userId1],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const closeUserConnectionsOperationSpec: coreClient.OperationSpec = {
@@ -990,9 +1094,9 @@ const sendToUser$binaryOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.message,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.userId1],
-  headerParameters: [Parameters.contentType, Parameters.accept1],
+  headerParameters: [Parameters.contentType, Parameters.accept2],
   mediaType: "binary",
   serializer
 };
@@ -1007,30 +1111,24 @@ const sendToUser$textOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.message1,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.userId1],
-  headerParameters: [Parameters.contentType1, Parameters.accept2],
+  headerParameters: [Parameters.contentType1, Parameters.accept3],
   mediaType: "text",
   serializer
 };
-const addUserToGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/api/hubs/{hub}/users/{userId}/groups/{group}",
-  httpMethod: "PUT",
+const removeUserFromAllGroupsOperationSpec: coreClient.OperationSpec = {
+  path: "/api/hubs/{hub}/users/{userId}/groups",
+  httpMethod: "DELETE",
   responses: {
-    200: {},
-    404: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorDetail,
-      headersMapper: Mappers.WebPubSubAddUserToGroupExceptionHeaders
+      headersMapper: Mappers.WebPubSubRemoveUserFromAllGroupsExceptionHeaders
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.hub,
-    Parameters.group,
-    Parameters.userId1
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.userId1],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -1054,78 +1152,22 @@ const removeUserFromGroupOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const removeUserFromAllGroupsOperationSpec: coreClient.OperationSpec = {
-  path: "/api/hubs/{hub}/users/{userId}/groups",
-  httpMethod: "DELETE",
-  responses: {
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorDetail,
-      headersMapper: Mappers.WebPubSubRemoveUserFromAllGroupsExceptionHeaders
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.userId1],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const grantPermissionOperationSpec: coreClient.OperationSpec = {
-  path: "/api/hubs/{hub}/permissions/{permission}/connections/{connectionId}",
+const addUserToGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/api/hubs/{hub}/users/{userId}/groups/{group}",
   httpMethod: "PUT",
   responses: {
     200: {},
     default: {
       bodyMapper: Mappers.ErrorDetail,
-      headersMapper: Mappers.WebPubSubGrantPermissionExceptionHeaders
+      headersMapper: Mappers.WebPubSubAddUserToGroupExceptionHeaders
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.targetName],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.endpoint,
     Parameters.hub,
-    Parameters.connectionId,
-    Parameters.permission
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const revokePermissionOperationSpec: coreClient.OperationSpec = {
-  path: "/api/hubs/{hub}/permissions/{permission}/connections/{connectionId}",
-  httpMethod: "DELETE",
-  responses: {
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorDetail,
-      headersMapper: Mappers.WebPubSubRevokePermissionExceptionHeaders
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.targetName],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.hub,
-    Parameters.connectionId,
-    Parameters.permission
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const checkPermissionOperationSpec: coreClient.OperationSpec = {
-  path: "/api/hubs/{hub}/permissions/{permission}/connections/{connectionId}",
-  httpMethod: "HEAD",
-  responses: {
-    200: {},
-    404: {},
-    default: {
-      bodyMapper: Mappers.ErrorDetail,
-      headersMapper: Mappers.WebPubSubCheckPermissionExceptionHeaders
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.targetName],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.hub,
-    Parameters.connectionId,
-    Parameters.permission
+    Parameters.group,
+    Parameters.userId1
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -118,10 +118,14 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation3);
           });
 
+          // FIXME: add the input for the VolumeResolution once the service is consistent
           it("entity recognition with resolution", async function () {
             const docs = [
-              "Average price of sneaker is 120 EUR",
-              "Bill Gates is 66 years old in 2022",
+              "The dog is 14 inches tall and weighs 20 lbs. It is 5 years old.",
+              "This is the first aircraft of its kind. It can fly at over 1,300 meter per second and carry 65-80 passengers.",
+              "The apartment is 840 sqft. and it has 2 bedrooms. It costs 2,000 US dollars per month and will be available on 11/01/2022.",
+              /* "Mix 1 cup of sugar. Bake for approximately 60 minutes in an oven preheated to 350 degrees F.", */
+              "They retrieved 200 terabytes of data between October 24th, 2022 and October 28th, 2022.",
             ];
             const poller = await client.beginAnalyzeBatch(
               [

@@ -12,7 +12,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/webpubsub/data-plane/WebPubSub/stable/2021-10-01/webpubsub.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/webpubsub/data-plane/WebPubSub/stable/2022-11-01/webpubsub.json
 add-credentials: false
 package-version: 1.1.0
 v3: true
@@ -36,6 +36,9 @@ directive:
         for(let i = 0; i < $.length; i++) {
           if ($[i] &&  $[i]["name"] == "role") {
             $[i]["x-ms-client-name"] = "roles";
+          }
+          if ($[i] &&  $[i]["name"] == "group") {
+            $[i]["x-ms-client-name"] = "groups";
           }
           if ($[i] &&  $[i]["name"] == "minutesToExpire") {
             $[i]["x-ms-client-name"] = "expirationTimeInMinutes";

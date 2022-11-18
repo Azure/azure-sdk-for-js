@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 
 import { KeyVaultAccessControlClient } from "../../src";
@@ -61,9 +61,15 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
     controller.abort();
 
     await assertThrowsAbortError(async () => {
-      await client.createRoleAssignment(globalScope, name, roleDefinitionId, env.CLIENT_OBJECT_ID, {
-        abortSignal: controller.signal,
-      });
+      await client.createRoleAssignment(
+        globalScope,
+        name,
+        roleDefinitionId,
+        assertEnvironmentVariable("CLIENT_OBJECT_ID"),
+        {
+          abortSignal: controller.signal,
+        }
+      );
     });
   });
 
