@@ -5,11 +5,12 @@ import { subCommand, makeCommandInfo } from "../../framework/command";
 
 export const commandInfo = makeCommandInfo(
   "test-proxy",
-  "runs the proxy-tool with the `docker run ...` command"
+  "runs the proxy-tool using the .NET standalone executable"
 );
 
 export default subCommand(commandInfo, {
-  start: () => import("./start"),
-  stop: () => import("./stop"),
   "wait-for-proxy-endpoint": () => import("./waitForProxyEndpoint"),
+  push: () => import("./push"),
+  restore: () => import("./restore"),
+  reset: () => import("./reset"),
 });
