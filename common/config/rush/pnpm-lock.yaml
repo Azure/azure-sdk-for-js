@@ -3945,7 +3945,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221115
+      typescript: 5.0.0-dev.20221118
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8950,8 +8950,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221115:
-    resolution: {integrity: sha512-h2MaHsq3nKjUZF9t/UCwOmitFUC9cFE1bNKHHHvQcoRUoVfriTvvg82RedkT6ixtrqC7RRhYcEJd7S23YioNkw==}
+  /typescript/5.0.0-dev.20221118:
+    resolution: {integrity: sha512-qhm49ypT99QpVWeUNjsgriRvjnWHoeETIX/Xtk8AlyLDAxEJVkr0/QAurza7emkFpyOzzGt2VOIpNPOx1gCXRA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -16637,7 +16637,7 @@ packages:
     dev: false
 
   file:projects/core-xml.tgz:
-    resolution: {integrity: sha512-f44K9CbT+wlwiApa/LwhYUKAs1E4oXq+CHZECJFk5O6wjj3dmFjmOGE6WtBVy2I+ifj3hhYegyuLG1QErIYgzg==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-RaP3Q9I/p0rh4KUZdUP0vY1D9xNE2PxdSFS521Lsdeb7mKu4YM65Ob7BzXRQY9HBVEZ4BGLNMSUGjQQkKsD1Sg==, tarball: file:projects/core-xml.tgz}
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
@@ -16669,10 +16669,13 @@ packages:
       prettier: 2.7.1
       rimraf: 3.0.2
       sinon: 9.2.4
+      ts-node: 10.9.1_c386e8b7aaca4ce6057194a7156a4f00
       tslib: 2.4.1
       typescript: 4.8.4
       util: 0.12.5
     transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
       - bufferutil
       - debug
       - supports-color
@@ -18123,7 +18126,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-KnDyGR1ko/XHdJb7RQ+tN5VpYd7MYv7tMyqE+NeTMG4mXsZVjoHNWz1YVPZjHrobKTQLjRe8npk1xpUiTspkXg==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-F/F13rtiA7GpNpIPq6NEM4vYK/ZFf/QabtI/jA+Vg7C1SB2o3cPQl7oIpkgRBJx1PVsVupuOkFoswLqUfnCWxg==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
