@@ -890,6 +890,10 @@ export interface ClassificationDocumentResult extends DocumentResult {
   classifications: ClassificationCategory[];
 }
 
+export interface DynamicClassificationDocumentResult extends DocumentResult {
+  classifications: ClassificationCategory[];
+}
+
 export interface HealthcareEntitiesDocumentResult extends DocumentResult {
   /** Healthcare entities. */
   entities: HealthcareEntity[];
@@ -1305,7 +1309,7 @@ export interface CustomSingleLabelClassificationAction extends ActionCustom {}
 export interface CustomMultiLabelClassificationAction extends ActionCustom {}
 
 export interface DynamicClassificationResultDocumentsItem
-  extends ClassificationDocumentResult {}
+  extends DynamicClassificationDocumentResult {}
 
 /** Defines headers for GeneratedClient_analyzeBatch operation. */
 export interface GeneratedClientAnalyzeBatchHeaders {

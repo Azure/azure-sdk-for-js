@@ -2592,6 +2592,29 @@ export const ClassificationDocumentResult: coreClient.CompositeMapper = {
   }
 };
 
+export const DynamicClassificationDocumentResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DynamicClassificationDocumentResult",
+    modelProperties: {
+      ...DocumentResult.type.modelProperties,
+      classifications: {
+        serializedName: "classifications",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ClassificationCategory"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const HealthcareEntitiesDocumentResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3849,7 +3872,7 @@ export const DynamicClassificationResultDocumentsItem: coreClient.CompositeMappe
     name: "Composite",
     className: "DynamicClassificationResultDocumentsItem",
     modelProperties: {
-      ...ClassificationDocumentResult.type.modelProperties
+      ...DynamicClassificationDocumentResult.type.modelProperties
     }
   }
 };
