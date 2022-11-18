@@ -779,8 +779,11 @@ export interface SlackChannelProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastSubmissionId?: string;
-  /** Whether to register the settings before OAuth validation is performed. Recommended to True. */
-  registerBeforeOAuthFlow?: boolean;
+  /**
+   * Whether to register the settings before OAuth validation is performed. Recommended to True.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly registerBeforeOAuthFlow?: boolean;
   /**
    * Whether this channel is validated for the bot
    * NOTE: This property will not be serialized. It can only be populated by the server.

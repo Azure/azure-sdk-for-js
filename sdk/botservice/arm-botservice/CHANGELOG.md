@@ -1,6 +1,6 @@
 # Release History
     
-## 4.0.0-beta.5 (2022-11-17)
+## 4.0.0-beta.5 (2022-11-18)
 
 The package of @azure/arm-botservice is using our next generation design principles since version 4.0.0-beta.5, which contains breaking changes.
 
