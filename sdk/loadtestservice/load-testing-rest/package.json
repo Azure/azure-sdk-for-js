@@ -75,7 +75,8 @@
     "@azure/core-paging": "^1.2.0",
     "@azure/core-rest-pipeline": "^1.8.0",
     "@azure/logger": "^1.0.0",
-    "tslib": "^2.2.0"
+    "tslib": "^2.2.0",
+    "@azure/core-lro": "~2.4.1"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "~1.0.0",

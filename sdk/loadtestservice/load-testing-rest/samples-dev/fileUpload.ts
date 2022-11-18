@@ -8,7 +8,7 @@
  * @azsdk-weight 10
  */
 
-import AzureLoadTesting, { isUnexpected } from "@azure-rest/load-testing";
+import AzureLoadTesting, { isUnexpected, beginFileValidation } from "@azure-rest/load-testing";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createReadStream } from "fs";
 import { v4 as uuidv4 } from "uuid";
@@ -19,7 +19,7 @@ async function main() {
   const endpoint = process.env["LOADTESTSERVICE_ENDPOINT"] || "";
   const displayName = "some-load-test";
   const testId = uuidv4(); // ID to be assigned to a test
-  const fileId = uuidv4(); // ID to be assigned to the file being uploaded
+  const fileName = uuidv4(); // ID to be assigned to the file being uploaded
 
   // Build a client through AAD
   const client = AzureLoadTesting(endpoint, new DefaultAzureCredential());
@@ -44,7 +44,7 @@ async function main() {
     throw new Error("Test ID returned as undefined.");
 
   // Uploading .jmx file to a test
-  const fileUploadResult = await client
+  /*const fileUploadResult = await client
     .path("/tests/{testId}/files/{fileName}", testCreationResult.body.testId, fileId)
     .put({
       contentType: "application/octet-stream",
@@ -53,7 +53,14 @@ async function main() {
 
   if (isUnexpected(fileUploadResult)) {
     throw fileUploadResult.body.error;
-  }
+  }*/
+  
+  const TEST_ID = testCreationResult.body.testId;
+  const fileValidationPoller = await beginFileValidation(client, TEST_ID, fileName, readStream);
+  const fileValidationResult = await fileValidationPoller.pollUntilDone();
+  console.log(
+    `Provisioned environment with state ${fileValidationResult.body.validationStatus}.`
+  );
 }
 
 main().catch(console.error);
