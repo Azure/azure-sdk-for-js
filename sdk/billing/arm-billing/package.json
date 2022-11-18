@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for BillingManagementClient.",
-  "version": "4.1.0-beta.1",
+  "version": "4.1.0",
   "engines": {
     "node": ">=14.0.0"
   },
