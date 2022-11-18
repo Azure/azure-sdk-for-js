@@ -2,10 +2,12 @@
 // Licensed under the MIT License.
 
 /**
- * This sample program extracts a summary of two sentences at max from an article.
+ * This sample program generates a summary of two sentences at max for an article.
  * For more information, see the feature documentation: {@link https://learn.microsoft.com/azure/cognitive-services/language-service/summarization/overview}
+ * The abstractive summarization feature is part of a gated preview. Access can
+ * be request in {@link https://aka.ms/applyforgatedsummarizationfeatures}.
  *
- * @summary extracts a summary from an article
+ * @summary generates a summary for an article
  */
 
 import {
@@ -37,12 +39,12 @@ const documents = [
 ];
 
 export async function main() {
-  console.log("== Extractive Summarization Sample ==");
+  console.log("== Abstractive Summarization Sample ==");
 
   const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
   const actions: AnalyzeBatchAction[] = [
     {
-      kind: "ExtractiveSummarization",
+      kind: "AbstractiveSummarization",
       maxSentenceCount: 2,
     },
   ];
@@ -59,8 +61,8 @@ export async function main() {
   const results = await poller.pollUntilDone();
 
   for await (const actionResult of results) {
-    if (actionResult.kind !== "ExtractiveSummarization") {
-      throw new Error(`Expected extractive summarization results but got: ${actionResult.kind}`);
+    if (actionResult.kind !== "AbstractiveSummarization") {
+      throw new Error(`Expected abstractive summarization results but got: ${actionResult.kind}`);
     }
     if (actionResult.error) {
       const { code, message } = actionResult.error;
@@ -72,8 +74,10 @@ export async function main() {
         const { code, message } = result.error;
         throw new Error(`Unexpected error (${code}): ${message}`);
       }
-      console.log("Summary:");
-      console.log(result.sentences.map((sentence) => sentence.text).join("\n"));
+      console.log("\t- Summary:");
+      for (const summary of result.summaries) {
+        console.log(summary.text);
+      }
     }
   }
 }
