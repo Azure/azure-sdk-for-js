@@ -90,9 +90,7 @@ export async function createRecordedRoomsClientWithToken(
   const recorder = await createRecorder(context.currentTest);
 
   let credential: TokenCredential;
-  const endpoint = parseConnectionString(
-    env.COMMUNICATION_CONNECTION_STRING_ROOMS ?? ""
-  ).endpoint;
+  const endpoint = parseConnectionString(env.COMMUNICATION_CONNECTION_STRING_ROOMS ?? "").endpoint;
 
   if (isPlaybackMode()) {
     credential = {
