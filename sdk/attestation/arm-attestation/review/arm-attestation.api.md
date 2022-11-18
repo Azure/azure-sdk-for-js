@@ -33,13 +33,13 @@ export interface AttestationManagementClientOptionalParams extends coreClient.Se
 }
 
 // @public
-export type AttestationProvider = TrackedResource & {
-    readonly systemData?: SystemData;
-    trustModel?: string;
-    status?: AttestationServiceStatus;
+export interface AttestationProvider extends TrackedResource {
     attestUri?: string;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
-};
+    status?: AttestationServiceStatus;
+    readonly systemData?: SystemData;
+    trustModel?: string;
+}
 
 // @public
 export interface AttestationProviderListResult {
@@ -150,6 +150,9 @@ export interface CloudErrorBody {
 // @public
 export type CreatedByType = string;
 
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
+
 // @public (undocumented)
 interface JsonWebKey_2 {
     alg?: string;
@@ -179,45 +182,31 @@ export interface JsonWebKeySet {
 
 // @public
 export enum KnownAttestationServiceStatus {
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     NotReady = "NotReady",
-    // (undocumented)
     Ready = "Ready"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
@@ -259,11 +248,11 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -334,12 +323,12 @@ export interface SystemData {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // (No @packageDocumentation comment for this package)
 

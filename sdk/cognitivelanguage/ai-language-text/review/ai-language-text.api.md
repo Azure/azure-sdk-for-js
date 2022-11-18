@@ -1012,20 +1012,20 @@ export enum KnownScriptKind {
 
 // @public
 export enum KnownSpeedUnit {
-    CentimetersPerMillisecond = "CentimetersPerMillisecond",
+    CentimeterPerMillisecond = "CentimeterPerMillisecond",
     FootPerMinute = "FootPerMinute",
     FootPerSecond = "FootPerSecond",
-    KilometersPerHour = "KilometersPerHour",
-    KilometersPerMillisecond = "KilometersPerMillisecond",
-    KilometersPerMinute = "KilometersPerMinute",
-    KilometersPerSecond = "KilometersPerSecond",
+    KilometerPerHour = "KilometerPerHour",
+    KilometerPerMillisecond = "KilometerPerMillisecond",
+    KilometerPerMinute = "KilometerPerMinute",
+    KilometerPerSecond = "KilometerPerSecond",
     Knot = "Knot",
-    MetersPerMillisecond = "MetersPerMillisecond",
-    MetersPerSecond = "MetersPerSecond",
-    MilesPerHour = "MilesPerHour",
+    MeterPerMillisecond = "MeterPerMillisecond",
+    MeterPerSecond = "MeterPerSecond",
+    MilePerHour = "MilePerHour",
     Unspecified = "Unspecified",
-    YardsPerMinute = "YardsPerMinute",
-    YardsPerSecond = "YardsPerSecond"
+    YardPerMinute = "YardPerMinute",
+    YardPerSecond = "YardPerSecond"
 }
 
 // @public
@@ -1208,7 +1208,7 @@ export type NumberKind = string;
 export interface NumberResolution extends BaseResolution {
     numberKind: NumberKind;
     resolutionKind: "NumberResolution";
-    value: string;
+    value: number;
 }
 
 // @public
