@@ -288,7 +288,7 @@ export interface InnerError {
 export type Paged<T> = {
   value: T[];
   nextLink?: string;
-}
+};
 
 export interface LongRunningOperationLocationHeaders {
   /** The location for monitoring the operation state. */
