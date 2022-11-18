@@ -84,7 +84,6 @@ describe("AppConfigurationClient - SecretReference", () => {
       });
     });
 
-    // Does not clean up after itself
     it("can add and get SecretReference", async () => {
       assertSecretReferenceProps(addResponse, baseSetting);
       const getResponse = await client.getConfigurationSetting({
