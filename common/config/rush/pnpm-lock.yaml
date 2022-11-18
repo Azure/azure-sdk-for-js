@@ -3892,7 +3892,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221116
+      typescript: 5.0.0-dev.20221117
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8840,8 +8840,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221116:
-    resolution: {integrity: sha512-zLbvvDaFHHwquRZH6P42X5JOjP+BAYZvebvA+IuNjaaj8A8XKWYJbaoZ9qg/PL2E85oAsOTjuZOsp4Mk1ZSWKA==}
+  /typescript/5.0.0-dev.20221117:
+    resolution: {integrity: sha512-ey3t3RLhzH/bqAbH9oC0G6oV2B0tr8uWPkf5pjdxuQJq7l1EzToizBl7zSZAnY4q21iXyGSTGCgUqhYva+wu5Q==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10755,7 +10755,7 @@ packages:
     dev: false
 
   file:projects/arm-changeanalysis.tgz:
-    resolution: {integrity: sha512-zqlqeZTqgcrvbH7kkltfe99BcP2D5fjzFzzU7tPol5EVi7IZrtSFl4HmjhNhAbryjEG/8vmeBfeRmeXCx17Z8g==, tarball: file:projects/arm-changeanalysis.tgz}
+    resolution: {integrity: sha512-wLP2KeMkKJg3BOoxxNJeMscv246KdKxgLQSfqIuIzfxjpuQdOfLvkEN7YH7ROVeGry/zCkbcCQLizFutZmf5HA==, tarball: file:projects/arm-changeanalysis.tgz}
     name: '@rush-temp/arm-changeanalysis'
     version: 0.0.0
     dependencies:
@@ -10766,23 +10766,24 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      '@types/node': 14.18.33
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
   file:projects/arm-changes.tgz:
-    resolution: {integrity: sha512-tMBkQffEQ58pppZ7ZfL8AiXFxmqTyV7ZtSro8lifz8cQ3l+MAh+KD0fvh5w2VsFK7yL0jk6aSlaiYTiL9Or/iQ==, tarball: file:projects/arm-changes.tgz}
+    resolution: {integrity: sha512-pbgSizSD6fqUc3TJ6Um2g9rFWWYq/9QnuI4F76c6aT86S3dBO2HjQkFt3GXBgKBAi8LypRKj5+5f59I8y3zmrQ==, tarball: file:projects/arm-changes.tgz}
     name: '@rush-temp/arm-changes'
     version: 0.0.0
     dependencies:
@@ -10793,18 +10794,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      '@types/node': 14.18.33
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -10902,6 +10904,9 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      '@types/node': 14.18.33
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -16253,7 +16258,7 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/logger-js': 1.3.2
       '@microsoft/api-extractor': 7.33.5
-      '@opentelemetry/api': 1.2.0
+      '@opentelemetry/api': 1.3.0
       '@types/chai': 4.3.3
       '@types/express': 4.17.14
       '@types/mocha': 7.0.2
@@ -16390,7 +16395,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.33.5
-      '@opentelemetry/api': 1.2.0
+      '@opentelemetry/api': 1.3.0
       '@types/chai': 4.3.3
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
