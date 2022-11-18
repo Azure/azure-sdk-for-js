@@ -560,7 +560,7 @@ describe("ManagedIdentityCredential", function () {
       "URL does not have expected version"
     );
     if (authDetails.result?.token) {
-      assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000000);
+      assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000);
     } else {
       assert.fail("No token was returned!");
     }
@@ -598,7 +598,7 @@ describe("ManagedIdentityCredential", function () {
       "URL does not have expected version"
     );
     if (authDetails.result?.token) {
-      assert.equal(authDetails.result.expiresOnTimestamp, 1624157878000000);
+      assert.equal(authDetails.result.expiresOnTimestamp, 1624157878000);
     } else {
       assert.fail("No token was returned!");
     }
@@ -636,7 +636,7 @@ describe("ManagedIdentityCredential", function () {
       "URL does not have expected version"
     );
     if (authDetails.result?.token) {
-      assert.equal(authDetails.result.expiresOnTimestamp, 1624157878000000);
+      assert.equal(authDetails.result.expiresOnTimestamp, 1624157878000);
     } else {
       assert.fail("No token was returned!");
     }
@@ -977,7 +977,7 @@ describe("ManagedIdentityCredential", function () {
 
     if (authDetails.result!.token) {
       // We use Date.now underneath.
-      assert.equal(authDetails.result!.expiresOnTimestamp, 1000000);
+      assert.equal(authDetails.result!.expiresOnTimestamp, 1000);
     } else {
       assert.fail("No token was returned!");
     }
@@ -1019,7 +1019,7 @@ describe("ManagedIdentityCredential", function () {
 
     if (authDetails.result!.token) {
       // We use Date.now underneath.
-      assert.equal(authDetails.result!.expiresOnTimestamp, 1000000);
+      assert.equal(authDetails.result!.expiresOnTimestamp, 1000);
     } else {
       assert.fail("No token was returned!");
     }
@@ -1046,7 +1046,7 @@ describe("ManagedIdentityCredential", function () {
     assert.equal(confidentialSpy.callCount, 1);
 
     if (authDetails.result?.token) {
-      assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000000);
+      assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000);
     } else {
       assert.fail("No token was returned!");
     }
@@ -1101,7 +1101,7 @@ describe("ManagedIdentityCredential", function () {
       );
       assert.strictEqual(decodeURIComponent(body.get("scope")!), "https://service/.default");
       assert.strictEqual(authDetails.result!.token, "token");
-      assert.strictEqual(authDetails.result!.expiresOnTimestamp, 1000000);
+      assert.strictEqual(authDetails.result!.expiresOnTimestamp, 1000);
     });
     it("reads from the token file again only after 5 minutes have passed", async function (this: Mocha.Context) {
       // Keep in mind that in this test we're also testing:
@@ -1198,7 +1198,7 @@ describe("ManagedIdentityCredential", function () {
       // For this reason, there is no subsequent requests being passed as before to the STS,
       // since the token is already retrieved from the double caching.
       assert.equal(authDetails.requests.length, 0);
-      assert.equal(authDetails.result?.expiresOnTimestamp, 1000000);
+      assert.equal(authDetails.result?.expiresOnTimestamp, 1000);
       assert.equal(authDetails.result?.token, "token");
 
       // More than 5 minutes means we read the file again.
@@ -1216,7 +1216,7 @@ describe("ManagedIdentityCredential", function () {
         ],
       });
       assert.equal(authDetails.requests.length, 0);
-      assert.equal(authDetails.result?.expiresOnTimestamp, 1000000);
+      assert.equal(authDetails.result?.expiresOnTimestamp, 1000);
       assert.equal(authDetails.result?.token, "token");
     });
 
