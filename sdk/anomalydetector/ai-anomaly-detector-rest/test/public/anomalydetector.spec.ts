@@ -187,8 +187,8 @@ describe("AnomalyDetectorClient", () => {
     }
     let modelStatus = modelResponse.body.modelInfo.status;
 
-    while (modelStatus != "READY" && modelStatus != "FAILED") {
-      await sleep(2000).then(() => {});
+    while (modelStatus !== "READY" && modelStatus !== "FAILED") {
+      await sleep(2000);
       modelResponse = await client.path("/multivariate/models/{modelId}", modelId).get();
 
       if (isUnexpected(modelResponse)) {
@@ -200,7 +200,7 @@ describe("AnomalyDetectorClient", () => {
       modelStatus = modelResponse.body.modelInfo.status;
     }
 
-    if (modelStatus == "FAILED") {
+    if (modelStatus === "FAILED") {
       console.log("Training failed.\nErrors:");
       for (const error of modelResponse.body.modelInfo.errors || []) {
         console.log("Error code: " + error.code + ". Message: " + error.message);
@@ -240,8 +240,8 @@ describe("AnomalyDetectorClient", () => {
 
     let resultStatus = getDetectionResultResponse.body.summary.status;
 
-    while (resultStatus != "READY" && resultStatus != "FAILED") {
-      await sleep(1000).then(() => {});
+    while (resultStatus !== "READY" && resultStatus !== "FAILED") {
+      await sleep(1000);
       getDetectionResultResponse = await client
         .path("/multivariate/detect-batch/{resultId}", resultId)
         .get();
@@ -252,10 +252,10 @@ describe("AnomalyDetectorClient", () => {
       resultStatus = getDetectionResultResponse.body.summary.status;
     }
 
-    if (resultStatus == "FAILED") {
+    if (resultStatus === "FAILED") {
       console.log("Detection failed.");
       console.log("Errors:");
-      for (let error of getDetectionResultResponse.body.summary.errors || []) {
+      for (const error of getDetectionResultResponse.body.summary.errors || []) {
         console.log("Error code: " + error.code + ". Message: " + error.message);
       }
       return;
