@@ -444,6 +444,7 @@ export class StatsbeatMetrics {
       if (res != null && res.length > 1) {
         shortHost = res[1];
       }
+      shortHost = shortHost.replace(".in.applicationinsights.azure.com", "");
     } catch (error) {
       diag.debug("Failed to get the short host name.");
     }
