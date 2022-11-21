@@ -651,7 +651,8 @@ export interface HiveMetastoreListResult {
 }
 
 /** The account specific properties that are associated with an underlying Data Lake Analytics account. Returned only when retrieving a specific account. */
-export type DataLakeAnalyticsAccountProperties = DataLakeAnalyticsAccountPropertiesBasic & {
+export interface DataLakeAnalyticsAccountProperties
+  extends DataLakeAnalyticsAccountPropertiesBasic {
   /**
    * The type of the default Data Lake Store account associated with this account.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -748,10 +749,10 @@ export type DataLakeAnalyticsAccountProperties = DataLakeAnalyticsAccountPropert
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly debugDataAccessLevel?: DebugDataAccessLevel;
-};
+}
 
 /** A Data Lake Analytics account object, containing all information associated with the named Data Lake Analytics account. */
-export type DataLakeAnalyticsAccountBasic = Resource & {
+export interface DataLakeAnalyticsAccountBasic extends Resource {
   /**
    * The unique identifier associated with this Data Lake Analytics account.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -782,10 +783,10 @@ export type DataLakeAnalyticsAccountBasic = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly endpoint?: string;
-};
+}
 
 /** A Data Lake Analytics account object, containing all information associated with the named Data Lake Analytics account. */
-export type DataLakeAnalyticsAccount = Resource & {
+export interface DataLakeAnalyticsAccount extends Resource {
   /**
    * The unique identifier associated with this Data Lake Analytics account.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -912,28 +913,28 @@ export type DataLakeAnalyticsAccount = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly debugDataAccessLevel?: DebugDataAccessLevel;
-};
+}
 
 /** Data Lake Store account information. */
-export type DataLakeStoreAccountInformation = SubResource & {
+export interface DataLakeStoreAccountInformation extends SubResource {
   /**
    * The optional suffix for the Data Lake Store account.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly suffix?: string;
-};
+}
 
 /** Azure Storage account information. */
-export type StorageAccountInformation = SubResource & {
+export interface StorageAccountInformation extends SubResource {
   /**
    * The optional suffix for the storage account.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly suffix?: string;
-};
+}
 
 /** Data Lake Analytics compute policy information. */
-export type ComputePolicy = SubResource & {
+export interface ComputePolicy extends SubResource {
   /**
    * The AAD object identifier for the entity to create a policy for.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -954,9 +955,9 @@ export type ComputePolicy = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly minPriorityPerJob?: number;
-};
+}
 
-export type HiveMetastore = SubResource & {
+export interface HiveMetastore extends SubResource {
   /**
    * The serverUri for the Hive MetaStore
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -987,10 +988,10 @@ export type HiveMetastore = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nestedResourceProvisioningState?: NestedResourceProvisioningState;
-};
+}
 
 /** Data Lake Analytics  VirtualNetwork Rule information. */
-export type VirtualNetworkRule = SubResource & {
+export interface VirtualNetworkRule extends SubResource {
   /**
    * The resource identifier for the subnet
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1001,10 +1002,10 @@ export type VirtualNetworkRule = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly virtualNetworkRuleState?: VirtualNetworkRuleState;
-};
+}
 
 /** Data Lake Analytics firewall rule information. */
-export type FirewallRule = SubResource & {
+export interface FirewallRule extends SubResource {
   /**
    * The start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1015,21 +1016,24 @@ export type FirewallRule = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly endIpAddress?: string;
-};
+}
 
 /** Azure Storage blob container information. */
-export type StorageContainer = SubResource & {
+export interface StorageContainer extends SubResource {
   /**
    * The last modified time of the blob container.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastModifiedTime?: Date;
-};
+}
 
 /** Known values of {@link AADObjectType} that the service accepts. */
 export enum KnownAADObjectType {
+  /** User */
   User = "User",
+  /** Group */
   Group = "Group",
+  /** ServicePrincipal */
   ServicePrincipal = "ServicePrincipal"
 }
 
@@ -1046,8 +1050,11 @@ export type AADObjectType = string;
 
 /** Known values of {@link OperationOrigin} that the service accepts. */
 export enum KnownOperationOrigin {
+  /** User */
   User = "user",
+  /** System */
   System = "system",
+  /** UserSystem */
   UserSystem = "user,system"
 }
 
@@ -1064,10 +1071,15 @@ export type OperationOrigin = string;
 
 /** Known values of {@link SubscriptionState} that the service accepts. */
 export enum KnownSubscriptionState {
+  /** Registered */
   Registered = "Registered",
+  /** Suspended */
   Suspended = "Suspended",
+  /** Deleted */
   Deleted = "Deleted",
+  /** Unregistered */
   Unregistered = "Unregistered",
+  /** Warned */
   Warned = "Warned"
 }
 
