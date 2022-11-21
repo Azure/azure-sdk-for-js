@@ -1,0 +1,49 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/never-registered:get-id?api-version=2022-10",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "160",
+        "Content-Type": "application/json; serialization=Avro",
+        "User-Agent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.1 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "7b6136ff-bb78-4cfb-9a91-7c5f4697b4b3"
+      },
+      "RequestBody": {
+        "type": "record",
+        "name": "User",
+        "namespace": "com.azure.schemaregistry.samples",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "favoriteNumber",
+            "type": "int"
+          }
+        ]
+      },
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Content-Type": "application/json",
+        "Date": "Mon, 07 Nov 2022 21:24:03 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000",
+        "Transfer-Encoding": "chunked",
+        "x-ms-error-code": "ItemNotFound"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "ItemNotFound",
+          "message": "Schema group-1/never-registered does not exist. TrackingId:f77b91b8-f251-41ae-ad90-f83c08978417_G1, SystemTracker:dealmahaschemaregistry-avro.servicebus.windows.net:$schemaGroups/group-1/schemas/never-registered:get-id, Timestamp:2022-11-07T21:24:04"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

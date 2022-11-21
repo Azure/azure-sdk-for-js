@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { BillingPermissions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,15 +17,15 @@ import {
   BillingPermissionsProperties,
   BillingPermissionsListByCustomerNextOptionalParams,
   BillingPermissionsListByCustomerOptionalParams,
+  BillingPermissionsListByCustomerResponse,
   BillingPermissionsListByBillingAccountNextOptionalParams,
   BillingPermissionsListByBillingAccountOptionalParams,
+  BillingPermissionsListByBillingAccountResponse,
   BillingPermissionsListByInvoiceSectionsNextOptionalParams,
   BillingPermissionsListByInvoiceSectionsOptionalParams,
+  BillingPermissionsListByInvoiceSectionsResponse,
   BillingPermissionsListByBillingProfileNextOptionalParams,
   BillingPermissionsListByBillingProfileOptionalParams,
-  BillingPermissionsListByCustomerResponse,
-  BillingPermissionsListByBillingAccountResponse,
-  BillingPermissionsListByInvoiceSectionsResponse,
   BillingPermissionsListByBillingProfileResponse,
   BillingPermissionsListByCustomerNextResponse,
   BillingPermissionsListByBillingAccountNextResponse,
@@ -68,11 +69,15 @@ export class BillingPermissionsImpl implements BillingPermissions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByCustomerPagingPage(
           billingAccountName,
           customerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -81,15 +86,22 @@ export class BillingPermissionsImpl implements BillingPermissions {
   private async *listByCustomerPagingPage(
     billingAccountName: string,
     customerName: string,
-    options?: BillingPermissionsListByCustomerOptionalParams
+    options?: BillingPermissionsListByCustomerOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<BillingPermissionsProperties[]> {
-    let result = await this._listByCustomer(
-      billingAccountName,
-      customerName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: BillingPermissionsListByCustomerResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByCustomer(
+        billingAccountName,
+        customerName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByCustomerNext(
         billingAccountName,
@@ -98,7 +110,9 @@ export class BillingPermissionsImpl implements BillingPermissions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -136,19 +150,33 @@ export class BillingPermissionsImpl implements BillingPermissions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByBillingAccountPagingPage(billingAccountName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByBillingAccountPagingPage(
+          billingAccountName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByBillingAccountPagingPage(
     billingAccountName: string,
-    options?: BillingPermissionsListByBillingAccountOptionalParams
+    options?: BillingPermissionsListByBillingAccountOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<BillingPermissionsProperties[]> {
-    let result = await this._listByBillingAccount(billingAccountName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: BillingPermissionsListByBillingAccountResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByBillingAccount(billingAccountName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByBillingAccountNext(
         billingAccountName,
@@ -156,7 +184,9 @@ export class BillingPermissionsImpl implements BillingPermissions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -198,12 +228,16 @@ export class BillingPermissionsImpl implements BillingPermissions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByInvoiceSectionsPagingPage(
           billingAccountName,
           billingProfileName,
           invoiceSectionName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -213,16 +247,23 @@ export class BillingPermissionsImpl implements BillingPermissions {
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    options?: BillingPermissionsListByInvoiceSectionsOptionalParams
+    options?: BillingPermissionsListByInvoiceSectionsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<BillingPermissionsProperties[]> {
-    let result = await this._listByInvoiceSections(
-      billingAccountName,
-      billingProfileName,
-      invoiceSectionName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: BillingPermissionsListByInvoiceSectionsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByInvoiceSections(
+        billingAccountName,
+        billingProfileName,
+        invoiceSectionName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByInvoiceSectionsNext(
         billingAccountName,
@@ -232,7 +273,9 @@ export class BillingPermissionsImpl implements BillingPermissions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -275,11 +318,15 @@ export class BillingPermissionsImpl implements BillingPermissions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByBillingProfilePagingPage(
           billingAccountName,
           billingProfileName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -288,15 +335,22 @@ export class BillingPermissionsImpl implements BillingPermissions {
   private async *listByBillingProfilePagingPage(
     billingAccountName: string,
     billingProfileName: string,
-    options?: BillingPermissionsListByBillingProfileOptionalParams
+    options?: BillingPermissionsListByBillingProfileOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<BillingPermissionsProperties[]> {
-    let result = await this._listByBillingProfile(
-      billingAccountName,
-      billingProfileName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: BillingPermissionsListByBillingProfileResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByBillingProfile(
+        billingAccountName,
+        billingProfileName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByBillingProfileNext(
         billingAccountName,
@@ -305,7 +359,9 @@ export class BillingPermissionsImpl implements BillingPermissions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Partially updates a Scheduled.
  *
  * @summary Partially updates a Scheduled.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/Schedules_Patch.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-10-12-preview/examples/Schedules_Patch.json
  */
 async function schedulesUpdate() {
   const subscriptionId = "{subscriptionId}";
