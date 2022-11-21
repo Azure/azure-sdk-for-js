@@ -1049,7 +1049,7 @@ export interface EnrollmentAccountContext {
 }
 
 /** An invoice section. */
-export type InvoiceSection = Resource & {
+export interface InvoiceSection extends Resource {
   /** The name of the invoice section. */
   displayName?: string;
   /** Dictionary of metadata associated with the invoice section. */
@@ -1071,10 +1071,10 @@ export type InvoiceSection = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly targetCloud?: TargetCloud;
-};
+}
 
 /** A billing profile. */
-export type BillingProfile = Resource & {
+export interface BillingProfile extends Resource {
   /** The name of the billing profile. */
   displayName?: string;
   /** The purchase order name that will appear on the invoices generated for the billing profile. */
@@ -1139,10 +1139,10 @@ export type BillingProfile = Resource & {
   readonly targetClouds?: TargetCloud[];
   /** Tags of billing profiles. */
   tags?: { [propertyName: string]: string };
-};
+}
 
 /** An enrollment account. */
-export type EnrollmentAccount = Resource & {
+export interface EnrollmentAccount extends Resource {
   /** The name of the enrollment account. */
   accountName?: string;
   /** The cost center associated with the enrollment account. */
@@ -1159,10 +1159,10 @@ export type EnrollmentAccount = Resource & {
   endDate?: Date;
   /** Associated department. By default this is not populated, unless it's specified in $expand. */
   department?: Department;
-};
+}
 
 /** A department. */
-export type Department = Resource & {
+export interface Department extends Resource {
   /** The name of the department. */
   departmentName?: string;
   /** The cost center associated with the department. */
@@ -1171,10 +1171,10 @@ export type Department = Resource & {
   status?: string;
   /** Associated enrollment accounts. By default this is not populated, unless it's specified in $expand. */
   enrollmentAccounts?: EnrollmentAccount[];
-};
+}
 
 /** A billing account. */
-export type BillingAccount = Resource & {
+export interface BillingAccount extends Resource {
   /** The billing account name. */
   displayName?: string;
   /** The address of the individual or organization that is responsible for the billing account. */
@@ -1212,19 +1212,19 @@ export type BillingAccount = Resource & {
   readonly hasReadAccess?: boolean;
   /** Notification email address, only for legacy accounts */
   notificationEmailAddress?: string;
-};
+}
 
 /** The latest Azure credit balance. This is the balance available for pay now. */
-export type AvailableBalance = Resource & {
+export interface AvailableBalance extends Resource {
   /**
    * Balance amount.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly amount?: Amount;
-};
+}
 
 /** An instruction. */
-export type Instruction = Resource & {
+export interface Instruction extends Resource {
   /** The amount budgeted for this billing instruction. */
   amount?: number;
   /** The date this billing instruction goes into effect. */
@@ -1233,10 +1233,10 @@ export type Instruction = Resource & {
   endDate?: Date;
   /** The date this billing instruction was created. */
   creationDate?: Date;
-};
+}
 
 /** A partner's customer. */
-export type Customer = Resource & {
+export interface Customer extends Resource {
   /**
    * The ID of the billing profile for the invoice section.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1253,10 +1253,10 @@ export type Customer = Resource & {
   enabledAzurePlans?: AzurePlan[];
   /** The list of resellers for which an Azure plan is enabled for the customer. */
   resellers?: Reseller[];
-};
+}
 
 /** A billing subscription. */
-export type BillingSubscription = Resource & {
+export interface BillingSubscription extends Resource {
   /**
    * The name of the subscription.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1328,10 +1328,10 @@ export type BillingSubscription = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly suspensionReasons?: string[];
-};
+}
 
 /** A product. */
-export type Product = Resource & {
+export interface Product extends Resource {
   /** Indicates whether auto renewal is turned on or off for a product. */
   autoRenew?: AutoRenew;
   /**
@@ -1433,10 +1433,10 @@ export type Product = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly reseller?: Reseller;
-};
+}
 
 /** An invoice. */
-export type Invoice = Resource & {
+export interface Invoice extends Resource {
   /**
    * The due date for the invoice.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1562,10 +1562,10 @@ export type Invoice = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly subscriptionId?: string;
-};
+}
 
 /** A transaction. */
-export type Transaction = Resource & {
+export interface Transaction extends Resource {
   /** The kind of transaction. Options are all or reservation. */
   kind?: TransactionTypeKind;
   /**
@@ -1740,26 +1740,26 @@ export type Transaction = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly unitType?: string;
-};
+}
 
 /** A policy. */
-export type Policy = Resource & {
+export interface Policy extends Resource {
   /** The policy that controls whether Azure marketplace purchases are allowed for a billing profile. */
   marketplacePurchases?: MarketplacePurchasesPolicy;
   /** The policy that controls whether Azure reservation purchases are allowed for a billing profile. */
   reservationPurchases?: ReservationPurchasesPolicy;
   /** The policy that controls whether users with Azure RBAC access to a subscription can view its charges. */
   viewCharges?: ViewChargesPolicy;
-};
+}
 
 /** The customer's Policy. */
-export type CustomerPolicy = Resource & {
+export interface CustomerPolicy extends Resource {
   /** The policy that controls whether the users in customer's organization can view charges at pay-as-you-go prices. */
   viewCharges?: ViewCharges;
-};
+}
 
 /** A billing property. */
-export type BillingProperty = Resource & {
+export interface BillingProperty extends Resource {
   /**
    * The email address on which the account admin gets all Azure notifications.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1842,10 +1842,10 @@ export type BillingProperty = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly skuDescription?: string;
-};
+}
 
 /** The properties of a role definition. */
-export type BillingRoleDefinition = Resource & {
+export interface BillingRoleDefinition extends Resource {
   /**
    * The role description
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1858,10 +1858,10 @@ export type BillingRoleDefinition = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly roleName?: string;
-};
+}
 
 /** The role assignment */
-export type BillingRoleAssignment = Resource & {
+export interface BillingRoleAssignment extends Resource {
   /**
    * The date the role assignment was created.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1897,10 +1897,10 @@ export type BillingRoleAssignment = Resource & {
   userAuthenticationType?: string;
   /** The email address of the user. */
   userEmailAddress?: string;
-};
+}
 
 /** An agreement. */
-export type Agreement = Resource & {
+export interface Agreement extends Resource {
   /**
    * The URL to download the agreement.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1933,19 +1933,19 @@ export type Agreement = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: string;
-};
+}
 
 /** An enrollment account resource. */
-export type EnrollmentAccountSummary = Resource & {
+export interface EnrollmentAccountSummary extends Resource {
   /**
    * The account owner's principal name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly principalName?: string;
-};
+}
 
 /** A billing period resource. */
-export type BillingPeriod = Resource & {
+export interface BillingPeriod extends Resource {
   /**
    * The start of the date range covered by the billing period.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1961,7 +1961,7 @@ export type BillingPeriod = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly invoiceIds?: string[];
-};
+}
 
 /** Defines headers for BillingProfiles_createOrUpdate operation. */
 export interface BillingProfilesCreateOrUpdateHeaders {
@@ -2029,9 +2029,13 @@ export interface InvoicesDownloadMultipleBillingSubscriptionInvoicesHeaders {
 
 /** Known values of {@link AgreementType} that the service accepts. */
 export enum KnownAgreementType {
+  /** MicrosoftCustomerAgreement */
   MicrosoftCustomerAgreement = "MicrosoftCustomerAgreement",
+  /** EnterpriseAgreement */
   EnterpriseAgreement = "EnterpriseAgreement",
+  /** MicrosoftOnlineServicesProgram */
   MicrosoftOnlineServicesProgram = "MicrosoftOnlineServicesProgram",
+  /** MicrosoftPartnerAgreement */
   MicrosoftPartnerAgreement = "MicrosoftPartnerAgreement"
 }
 
@@ -2049,8 +2053,11 @@ export type AgreementType = string;
 
 /** Known values of {@link AccountType} that the service accepts. */
 export enum KnownAccountType {
+  /** Enterprise */
   Enterprise = "Enterprise",
+  /** Individual */
   Individual = "Individual",
+  /** Partner */
   Partner = "Partner"
 }
 
@@ -2067,12 +2074,19 @@ export type AccountType = string;
 
 /** Known values of {@link AccountStatus} that the service accepts. */
 export enum KnownAccountStatus {
+  /** Active */
   Active = "Active",
+  /** Deleted */
   Deleted = "Deleted",
+  /** Disabled */
   Disabled = "Disabled",
+  /** Expired */
   Expired = "Expired",
+  /** Transferred */
   Transferred = "Transferred",
+  /** Extended */
   Extended = "Extended",
+  /** Terminated */
   Terminated = "Terminated"
 }
 
@@ -2093,9 +2107,13 @@ export type AccountStatus = string;
 
 /** Known values of {@link BillingRelationshipType} that the service accepts. */
 export enum KnownBillingRelationshipType {
+  /** Direct */
   Direct = "Direct",
+  /** IndirectCustomer */
   IndirectCustomer = "IndirectCustomer",
+  /** IndirectPartner */
   IndirectPartner = "IndirectPartner",
+  /** CSPPartner */
   CSPPartner = "CSPPartner"
 }
 
@@ -2113,7 +2131,9 @@ export type BillingRelationshipType = string;
 
 /** Known values of {@link InvoiceSectionState} that the service accepts. */
 export enum KnownInvoiceSectionState {
+  /** Active */
   Active = "Active",
+  /** Restricted */
   Restricted = "Restricted"
 }
 
@@ -2129,8 +2149,11 @@ export type InvoiceSectionState = string;
 
 /** Known values of {@link TargetCloud} that the service accepts. */
 export enum KnownTargetCloud {
+  /** USGov */
   USGov = "USGov",
+  /** USNat */
   USNat = "USNat",
+  /** USSec */
   USSec = "USSec"
 }
 
@@ -2147,8 +2170,11 @@ export type TargetCloud = string;
 
 /** Known values of {@link BillingProfileStatus} that the service accepts. */
 export enum KnownBillingProfileStatus {
+  /** Active */
   Active = "Active",
+  /** Disabled */
   Disabled = "Disabled",
+  /** Warned */
   Warned = "Warned"
 }
 
@@ -2165,8 +2191,11 @@ export type BillingProfileStatus = string;
 
 /** Known values of {@link StatusReasonCode} that the service accepts. */
 export enum KnownStatusReasonCode {
+  /** PastDue */
   PastDue = "PastDue",
+  /** SpendingLimitReached */
   SpendingLimitReached = "SpendingLimitReached",
+  /** SpendingLimitExpired */
   SpendingLimitExpired = "SpendingLimitExpired"
 }
 
@@ -2183,7 +2212,9 @@ export type StatusReasonCode = string;
 
 /** Known values of {@link SpendingLimit} that the service accepts. */
 export enum KnownSpendingLimit {
+  /** Off */
   Off = "Off",
+  /** On */
   On = "On"
 }
 
@@ -2199,8 +2230,11 @@ export type SpendingLimit = string;
 
 /** Known values of {@link StatusReasonCodeForBillingProfile} that the service accepts. */
 export enum KnownStatusReasonCodeForBillingProfile {
+  /** PastDue */
   PastDue = "PastDue",
+  /** SpendingLimitReached */
   SpendingLimitReached = "SpendingLimitReached",
+  /** SpendingLimitExpired */
   SpendingLimitExpired = "SpendingLimitExpired"
 }
 
@@ -2217,7 +2251,9 @@ export type StatusReasonCodeForBillingProfile = string;
 
 /** Known values of {@link SpendingLimitForBillingProfile} that the service accepts. */
 export enum KnownSpendingLimitForBillingProfile {
+  /** Off */
   Off = "Off",
+  /** On */
   On = "On"
 }
 
@@ -2233,7 +2269,9 @@ export type SpendingLimitForBillingProfile = string;
 
 /** Known values of {@link AddressValidationStatus} that the service accepts. */
 export enum KnownAddressValidationStatus {
+  /** Valid */
   Valid = "Valid",
+  /** Invalid */
   Invalid = "Invalid"
 }
 
@@ -2249,10 +2287,15 @@ export type AddressValidationStatus = string;
 
 /** Known values of {@link BillingSubscriptionStatusType} that the service accepts. */
 export enum KnownBillingSubscriptionStatusType {
+  /** Active */
   Active = "Active",
+  /** Inactive */
   Inactive = "Inactive",
+  /** Abandoned */
   Abandoned = "Abandoned",
+  /** Deleted */
   Deleted = "Deleted",
+  /** Warning */
   Warning = "Warning"
 }
 
@@ -2271,7 +2314,9 @@ export type BillingSubscriptionStatusType = string;
 
 /** Known values of {@link AutoRenew} that the service accepts. */
 export enum KnownAutoRenew {
+  /** Off */
   Off = "Off",
+  /** On */
   On = "On"
 }
 
@@ -2287,13 +2332,21 @@ export type AutoRenew = string;
 
 /** Known values of {@link ProductStatusType} that the service accepts. */
 export enum KnownProductStatusType {
+  /** Active */
   Active = "Active",
+  /** Inactive */
   Inactive = "Inactive",
+  /** PastDue */
   PastDue = "PastDue",
+  /** Expiring */
   Expiring = "Expiring",
+  /** Expired */
   Expired = "Expired",
+  /** Disabled */
   Disabled = "Disabled",
+  /** Cancelled */
   Cancelled = "Cancelled",
+  /** AutoRenew */
   AutoRenew = "AutoRenew"
 }
 
@@ -2315,8 +2368,11 @@ export type ProductStatusType = string;
 
 /** Known values of {@link BillingFrequency} that the service accepts. */
 export enum KnownBillingFrequency {
+  /** OneTime */
   OneTime = "OneTime",
+  /** Monthly */
   Monthly = "Monthly",
+  /** UsageBased */
   UsageBased = "UsageBased"
 }
 
@@ -2333,9 +2389,13 @@ export type BillingFrequency = string;
 
 /** Known values of {@link InvoiceStatus} that the service accepts. */
 export enum KnownInvoiceStatus {
+  /** Due */
   Due = "Due",
+  /** OverDue */
   OverDue = "OverDue",
+  /** Paid */
   Paid = "Paid",
+  /** Void */
   Void = "Void"
 }
 
@@ -2353,8 +2413,11 @@ export type InvoiceStatus = string;
 
 /** Known values of {@link InvoiceType} that the service accepts. */
 export enum KnownInvoiceType {
+  /** AzureService */
   AzureService = "AzureService",
+  /** AzureMarketplace */
   AzureMarketplace = "AzureMarketplace",
+  /** AzureSupport */
   AzureSupport = "AzureSupport"
 }
 
@@ -2371,9 +2434,13 @@ export type InvoiceType = string;
 
 /** Known values of {@link DocumentType} that the service accepts. */
 export enum KnownDocumentType {
+  /** Invoice */
   Invoice = "Invoice",
+  /** VoidNote */
   VoidNote = "VoidNote",
+  /** TaxReceipt */
   TaxReceipt = "TaxReceipt",
+  /** CreditNote */
   CreditNote = "CreditNote"
 }
 
@@ -2391,7 +2458,9 @@ export type DocumentType = string;
 
 /** Known values of {@link DocumentSource} that the service accepts. */
 export enum KnownDocumentSource {
+  /** DRS */
   DRS = "DRS",
+  /** ENF */
   ENF = "ENF"
 }
 
@@ -2407,9 +2476,13 @@ export type DocumentSource = string;
 
 /** Known values of {@link PaymentMethodFamily} that the service accepts. */
 export enum KnownPaymentMethodFamily {
+  /** Credits */
   Credits = "Credits",
+  /** CheckWire */
   CheckWire = "CheckWire",
+  /** CreditCard */
   CreditCard = "CreditCard",
+  /** None */
   None = "None"
 }
 
@@ -2427,7 +2500,9 @@ export type PaymentMethodFamily = string;
 
 /** Known values of {@link InvoiceDocumentType} that the service accepts. */
 export enum KnownInvoiceDocumentType {
+  /** Invoice */
   Invoice = "Invoice",
+  /** CreditNote */
   CreditNote = "CreditNote"
 }
 
@@ -2443,25 +2518,45 @@ export type InvoiceDocumentType = string;
 
 /** Known values of {@link SubscriptionTransferValidationErrorCode} that the service accepts. */
 export enum KnownSubscriptionTransferValidationErrorCode {
+  /** BillingAccountInactive */
   BillingAccountInactive = "BillingAccountInactive",
+  /** CrossBillingAccountNotAllowed */
   CrossBillingAccountNotAllowed = "CrossBillingAccountNotAllowed",
+  /** DestinationBillingProfileInactive */
   DestinationBillingProfileInactive = "DestinationBillingProfileInactive",
+  /** DestinationBillingProfileNotFound */
   DestinationBillingProfileNotFound = "DestinationBillingProfileNotFound",
+  /** DestinationBillingProfilePastDue */
   DestinationBillingProfilePastDue = "DestinationBillingProfilePastDue",
+  /** DestinationInvoiceSectionInactive */
   DestinationInvoiceSectionInactive = "DestinationInvoiceSectionInactive",
+  /** DestinationInvoiceSectionNotFound */
   DestinationInvoiceSectionNotFound = "DestinationInvoiceSectionNotFound",
+  /** InsufficientPermissionOnDestination */
   InsufficientPermissionOnDestination = "InsufficientPermissionOnDestination",
+  /** InsufficientPermissionOnSource */
   InsufficientPermissionOnSource = "InsufficientPermissionOnSource",
+  /** InvalidDestination */
   InvalidDestination = "InvalidDestination",
+  /** InvalidSource */
   InvalidSource = "InvalidSource",
+  /** MarketplaceNotEnabledOnDestination */
   MarketplaceNotEnabledOnDestination = "MarketplaceNotEnabledOnDestination",
+  /** NotAvailableForDestinationMarket */
   NotAvailableForDestinationMarket = "NotAvailableForDestinationMarket",
+  /** ProductInactive */
   ProductInactive = "ProductInactive",
+  /** ProductNotFound */
   ProductNotFound = "ProductNotFound",
+  /** ProductTypeNotSupported */
   ProductTypeNotSupported = "ProductTypeNotSupported",
+  /** SourceBillingProfilePastDue */
   SourceBillingProfilePastDue = "SourceBillingProfilePastDue",
+  /** SourceInvoiceSectionInactive */
   SourceInvoiceSectionInactive = "SourceInvoiceSectionInactive",
+  /** SubscriptionNotActive */
   SubscriptionNotActive = "SubscriptionNotActive",
+  /** SubscriptionTypeNotSupported */
   SubscriptionTypeNotSupported = "SubscriptionTypeNotSupported"
 }
 
@@ -2495,14 +2590,23 @@ export type SubscriptionTransferValidationErrorCode = string;
 
 /** Known values of {@link ProductTransferValidationErrorCode} that the service accepts. */
 export enum KnownProductTransferValidationErrorCode {
+  /** InvalidSource */
   InvalidSource = "InvalidSource",
+  /** ProductNotActive */
   ProductNotActive = "ProductNotActive",
+  /** InsufficientPermissionOnSource */
   InsufficientPermissionOnSource = "InsufficientPermissionOnSource",
+  /** InsufficientPermissionOnDestination */
   InsufficientPermissionOnDestination = "InsufficientPermissionOnDestination",
+  /** DestinationBillingProfilePastDue */
   DestinationBillingProfilePastDue = "DestinationBillingProfilePastDue",
+  /** ProductTypeNotSupported */
   ProductTypeNotSupported = "ProductTypeNotSupported",
+  /** CrossBillingAccountNotAllowed */
   CrossBillingAccountNotAllowed = "CrossBillingAccountNotAllowed",
+  /** NotAvailableForDestinationMarket */
   NotAvailableForDestinationMarket = "NotAvailableForDestinationMarket",
+  /** OneTimePurchaseProductTransferNotAllowed */
   OneTimePurchaseProductTransferNotAllowed = "OneTimePurchaseProductTransferNotAllowed"
 }
 
@@ -2525,7 +2629,9 @@ export type ProductTransferValidationErrorCode = string;
 
 /** Known values of {@link TransactionTypeKind} that the service accepts. */
 export enum KnownTransactionTypeKind {
+  /** All */
   All = "all",
+  /** Reservation */
   Reservation = "reservation"
 }
 
@@ -2541,7 +2647,9 @@ export type TransactionTypeKind = string;
 
 /** Known values of {@link ReservationType} that the service accepts. */
 export enum KnownReservationType {
+  /** Purchase */
   Purchase = "Purchase",
+  /** UsageCharge */
   UsageCharge = "Usage Charge"
 }
 
@@ -2557,8 +2665,11 @@ export type ReservationType = string;
 
 /** Known values of {@link MarketplacePurchasesPolicy} that the service accepts. */
 export enum KnownMarketplacePurchasesPolicy {
+  /** AllAllowed */
   AllAllowed = "AllAllowed",
+  /** OnlyFreeAllowed */
   OnlyFreeAllowed = "OnlyFreeAllowed",
+  /** NotAllowed */
   NotAllowed = "NotAllowed"
 }
 
@@ -2575,7 +2686,9 @@ export type MarketplacePurchasesPolicy = string;
 
 /** Known values of {@link ReservationPurchasesPolicy} that the service accepts. */
 export enum KnownReservationPurchasesPolicy {
+  /** Allowed */
   Allowed = "Allowed",
+  /** NotAllowed */
   NotAllowed = "NotAllowed"
 }
 
@@ -2591,7 +2704,9 @@ export type ReservationPurchasesPolicy = string;
 
 /** Known values of {@link ViewChargesPolicy} that the service accepts. */
 export enum KnownViewChargesPolicy {
+  /** Allowed */
   Allowed = "Allowed",
+  /** NotAllowed */
   NotAllowed = "NotAllowed"
 }
 
@@ -2607,7 +2722,9 @@ export type ViewChargesPolicy = string;
 
 /** Known values of {@link ViewCharges} that the service accepts. */
 export enum KnownViewCharges {
+  /** Allowed */
   Allowed = "Allowed",
+  /** NotAllowed */
   NotAllowed = "NotAllowed"
 }
 
@@ -2623,8 +2740,11 @@ export type ViewCharges = string;
 
 /** Known values of {@link BillingProfileStatusReasonCode} that the service accepts. */
 export enum KnownBillingProfileStatusReasonCode {
+  /** PastDue */
   PastDue = "PastDue",
+  /** SpendingLimitReached */
   SpendingLimitReached = "SpendingLimitReached",
+  /** SpendingLimitExpired */
   SpendingLimitExpired = "SpendingLimitExpired"
 }
 
@@ -2641,7 +2761,9 @@ export type BillingProfileStatusReasonCode = string;
 
 /** Known values of {@link BillingProfileSpendingLimit} that the service accepts. */
 export enum KnownBillingProfileSpendingLimit {
+  /** Off */
   Off = "Off",
+  /** On */
   On = "On"
 }
 
@@ -2657,8 +2779,11 @@ export type BillingProfileSpendingLimit = string;
 
 /** Known values of {@link Category} that the service accepts. */
 export enum KnownCategory {
+  /** MicrosoftCustomerAgreement */
   MicrosoftCustomerAgreement = "MicrosoftCustomerAgreement",
+  /** AffiliatePurchaseTerms */
   AffiliatePurchaseTerms = "AffiliatePurchaseTerms",
+  /** Other */
   Other = "Other"
 }
 
@@ -2675,8 +2800,11 @@ export type Category = string;
 
 /** Known values of {@link AcceptanceMode} that the service accepts. */
 export enum KnownAcceptanceMode {
+  /** ClickToAccept */
   ClickToAccept = "ClickToAccept",
+  /** ESignEmbedded */
   ESignEmbedded = "ESignEmbedded",
+  /** ESignOffline */
   ESignOffline = "ESignOffline"
 }
 

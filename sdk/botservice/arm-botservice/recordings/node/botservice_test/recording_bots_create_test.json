@@ -1,0 +1,111 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.BotService/botServices/mybotxxx?api-version=2021-05-01-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "504",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-botservice/4.0.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "9a62689f-c29e-4333-b2f1-5ac9f6f11424"
+      },
+      "RequestBody": {
+        "location": "global",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        },
+        "sku": {
+          "name": "S1"
+        },
+        "kind": "sdk",
+        "etag": "etag1",
+        "properties": {
+          "displayName": "this is a test bot",
+          "description": "The description of the bot",
+          "endpoint": "https://bing.com/messages/",
+          "msaAppId": "41a220b9-6571-4f0b-bbd2-43f1c1d82f51",
+          "developerAppInsightKey": "59513bad-10a7-4d41-b4d0-b1c34c6af52a",
+          "developerAppInsightsApiKey": "w24iw5ocbhcig71su7ibaj63hey5ieaozeuwdv2r",
+          "developerAppInsightsApplicationId": "cf03484e-3fdb-4b5e-9ad7-94bde32e5a2b"
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "1427",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 17 Nov 2022 02:10:37 GMT",
+        "ETag": "\u00223f000398-0000-1800-0000-6375981b0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "7fbae8cd-7aaf-4f48-b1bf-9cda31d6ed3e",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "efebf346-4fca-4906-8e01-e038b5e9b598",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221117T021037Z:7fbae8cd-7aaf-4f48-b1bf-9cda31d6ed3e"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.BotService/botServices/mybotxxx",
+        "name": "mybotxxx",
+        "type": "Microsoft.BotService/botServices",
+        "etag": "\u00223f000398-0000-1800-0000-6375981b0000\u0022",
+        "location": "global",
+        "sku": {
+          "name": "S1"
+        },
+        "kind": "sdk",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        },
+        "properties": {
+          "displayName": "this is a test bot",
+          "description": "The description of the bot",
+          "iconUrl": "https://docs.botframework.com/static/devportal/client/images/bot-framework-default.png",
+          "endpoint": "https://bing.com/messages/",
+          "msaAppId": "41a220b9-6571-4f0b-bbd2-43f1c1d82f51",
+          "msaAppTenantId": null,
+          "msaAppType": null,
+          "msaAppMSIResourceId": null,
+          "developerAppInsightKey": "59513bad-10a7-4d41-b4d0-b1c34c6af52a",
+          "developerAppInsightsApplicationId": "cf03484e-3fdb-4b5e-9ad7-94bde32e5a2b",
+          "luisAppIds": [],
+          "endpointVersion": "3.0",
+          "configuredChannels": [
+            "webchat"
+          ],
+          "enabledChannels": [
+            "webchat",
+            "directline"
+          ],
+          "isDeveloperAppInsightsApiKeySet": true,
+          "isStreamingSupported": false,
+          "schemaTransformationVersion": "1.3",
+          "publishingCredentials": null,
+          "parameters": null,
+          "allSettings": null,
+          "manifestUrl": null,
+          "storageResourceId": null,
+          "tenantId": "88888888-8888-8888-8888-888888888888",
+          "migrationToken": null,
+          "isCmekEnabled": false,
+          "cmekKeyVaultUrl": null,
+          "openWithHint": null,
+          "appPasswordHint": null,
+          "publicNetworkAccess": null,
+          "disableLocalAuth": false,
+          "cmekEncryptionStatus": "Off",
+          "provisioningState": "Succeeded"
+        },
+        "zones": []
+      }
+    }
+  ],
+  "Variables": {}
+}

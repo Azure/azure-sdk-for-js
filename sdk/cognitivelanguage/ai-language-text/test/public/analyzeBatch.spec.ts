@@ -687,7 +687,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           await assertActionsResults(await poller.pollUntilDone(), expectation11, FIXME1);
         });
 
-        it("output order is same as the input's one with multiple actions", async function () {
+        // see https://github.com/Azure/azure-sdk-for-js/issues/23900
+        it.skip("output order is same as the input's one with multiple actions", async function () {
           const docs = [
             { id: "1", text: "one" },
             { id: "2", text: "two" },

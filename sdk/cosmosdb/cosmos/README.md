@@ -133,7 +133,7 @@ const cities = [
   { id: "3", name: "Chicago", state: "IL", isCapitol: false }
 ];
 for (const city of cities) {
-  container.items.create(city);
+  await container.items.create(city);
 }
 ```
 
