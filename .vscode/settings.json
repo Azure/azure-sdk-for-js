@@ -8,7 +8,7 @@
   "eslint.validate": [
     "javascript",
     "javascriptreact",
-    { "language": "typescript", "autoFix": true }
+    "typescript",
   ],
   "files.exclude": {
     "**/.git": true,
@@ -23,5 +23,7 @@
   "git.ignoreLimitWarning": true,
   "cSpell.words": [
     "datalake"
-  ]
+  ],
+  "deno.enable": true,
+  "deno.unstable": true
 }

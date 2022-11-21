@@ -1,0 +1,7 @@
+{
+  "imports": {
+    "dotenv/": "https://deno.land/x/dotenv@v3.2.0/",
+    "node/": "https://deno.land/std@0.104.0/node/",
+    "uuid": "npm:uuid@^9.0.0"
+  }
+}
