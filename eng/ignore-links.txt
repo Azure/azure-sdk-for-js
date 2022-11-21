@@ -35,3 +35,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-appcomplianceautomation?vie
 https://docs.microsoft.com/javascript/api/@azure/arm-elastic?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-hybridcontainerservice?view=azure-node-preview
 https://docs.microsoft.com/en-us/azure/batch/batch-virtual-network
+https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/udr
