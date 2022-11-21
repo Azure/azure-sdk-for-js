@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpointanomalydetector/v1.1/multivariate/models?skip=0\u0026top=10",
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models?skip=0\u0026top=10",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,22 +9,236 @@
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "fake_key",
         "User-Agent": "azsdk-js-ai-anomaly-detector-rest/1.0.0-beta.1 core-rest-pipeline/1.10.1 Node/v14.17.6 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "97791d4c-ce06-4ebc-8096-084fe4c9c3cc"
+        "x-ms-client-request-id": "e76db32b-007f-40c9-a810-5c095959196c"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "056bc340-117d-4b12-9305-382ddc112ce0",
-        "Content-Length": "15556",
+        "apim-request-id": "b65431a2-bdfa-4d50-b687-d0656d3f38ff",
+        "Content-Length": "19794",
         "Content-Type": "application/json",
-        "Date": "Thu, 17 Nov 2022 15:06:18 GMT",
+        "Date": "Fri, 18 Nov 2022 07:22:51 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "218",
+        "x-envoy-upstream-service-time": "133",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
         "models": [
+          {
+            "modelId": "86f1202e-6689-11ed-aae6-564bc5278e11",
+            "createdTime": "2022-11-17T15:07:17Z",
+            "lastUpdatedTime": "2022-11-17T15:08:06Z",
+            "modelInfo": {
+              "dataSource": "https://mvaddataset.blob.core.windows.net/sample-multitable/sample_data_20_3000",
+              "dataSchema": "MultiTable",
+              "startTime": "2021-01-02T00:00:00Z",
+              "endTime": "2021-01-02T05:00:00Z",
+              "displayName": "Devops-MultiAD",
+              "slidingWindow": 200,
+              "alignPolicy": {
+                "alignMode": "Outer",
+                "fillNAMethod": "Linear",
+                "paddingValue": 0.0
+              },
+              "status": "READY",
+              "errors": [],
+              "diagnosticsInfo": {
+                "modelState": {
+                  "epochIds": [
+                    10,
+                    20,
+                    30,
+                    40,
+                    50,
+                    60,
+                    70,
+                    80,
+                    90,
+                    100
+                  ],
+                  "trainLosses": [
+                    3.024805575609207,
+                    1.6303358376026154,
+                    1.2970665097236633,
+                    1.4798658192157745,
+                    1.3931093215942383,
+                    1.2897053956985474,
+                    1.2366772890090942,
+                    1.2081778943538666,
+                    1.219917356967926,
+                    1.2086971998214722
+                  ],
+                  "validationLosses": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "latenciesInSeconds": [
+                    0.4399130344390869,
+                    0.435361385345459,
+                    0.4281132221221924,
+                    0.4248020648956299,
+                    0.44940972328186035,
+                    0.44712352752685547,
+                    0.42465925216674805,
+                    0.43262600898742676,
+                    0.4366312026977539,
+                    0.44931769371032715
+                  ]
+                },
+                "variableStates": [
+                  {
+                    "variable": "series_0",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_1",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_10",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_11",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_12",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_13",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_14",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_15",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_16",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_17",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_18",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_19",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_2",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_3",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_4",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_5",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_6",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_7",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_8",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  },
+                  {
+                    "variable": "series_9",
+                    "filledNARatio": 0.0,
+                    "effectiveCount": 301,
+                    "firstTimestamp": "2021-01-02T00:00:00Z",
+                    "lastTimestamp": "2021-01-02T05:00:00Z"
+                  }
+                ]
+              }
+            }
+          },
           {
             "modelId": "3b2cfb36-6689-11ed-a4d9-0e422370e43b",
             "createdTime": "2022-11-17T15:05:10Z",
@@ -811,7 +1025,7 @@
             }
           }
         ],
-        "currentCount": 5,
+        "currentCount": 6,
         "maxCount": 1000,
         "nextLink": ""
       }
