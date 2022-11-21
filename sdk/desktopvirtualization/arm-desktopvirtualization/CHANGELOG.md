@@ -1,15 +1,31 @@
 # Release History
+    
+## 1.0.0-beta.4 (2022-11-21)
+    
+**Features**
 
-## 1.0.0-beta.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface Application
+  - Added Interface ApplicationGroup
+  - Added Interface ApplicationGroupPatch
+  - Added Interface Desktop
+  - Added Interface ExpandMsixImage
+  - Added Interface HostPool
+  - Added Interface HostPoolPatch
+  - Added Interface MsixPackage
+  - Added Interface MsixPackagePatch
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateEndpointConnectionWithSystemData
+  - Added Interface PrivateLinkResource
+  - Added Interface ResourceModelWithAllowedPropertySetIdentity
+  - Added Interface ResourceModelWithAllowedPropertySetPlan
+  - Added Interface ResourceModelWithAllowedPropertySetSku
+  - Added Interface ScalingPlan
+  - Added Interface SessionHost
+  - Added Interface SessionHostPatch
+  - Added Interface StartMenuItem
+  - Added Interface UserSession
+  - Added Interface Workspace
+    
 ## 1.0.0-beta.3 (2022-04-18)
 
 **features**

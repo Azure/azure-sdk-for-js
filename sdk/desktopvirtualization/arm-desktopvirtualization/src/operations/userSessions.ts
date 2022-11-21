@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { UserSessions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,13 +17,13 @@ import {
   UserSession,
   UserSessionsListByHostPoolNextOptionalParams,
   UserSessionsListByHostPoolOptionalParams,
+  UserSessionsListByHostPoolResponse,
   UserSessionsListNextOptionalParams,
   UserSessionsListOptionalParams,
-  UserSessionsListByHostPoolResponse,
+  UserSessionsListResponse,
   UserSessionsGetOptionalParams,
   UserSessionsGetResponse,
   UserSessionsDeleteOptionalParams,
-  UserSessionsListResponse,
   UserSessionsDisconnectOptionalParams,
   UserSessionsSendMessageOptionalParams,
   UserSessionsListByHostPoolNextResponse,
@@ -65,11 +66,15 @@ export class UserSessionsImpl implements UserSessions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByHostPoolPagingPage(
           resourceGroupName,
           hostPoolName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -78,15 +83,22 @@ export class UserSessionsImpl implements UserSessions {
   private async *listByHostPoolPagingPage(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: UserSessionsListByHostPoolOptionalParams
+    options?: UserSessionsListByHostPoolOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<UserSession[]> {
-    let result = await this._listByHostPool(
-      resourceGroupName,
-      hostPoolName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: UserSessionsListByHostPoolResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByHostPool(
+        resourceGroupName,
+        hostPoolName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByHostPoolNext(
         resourceGroupName,
@@ -95,7 +107,9 @@ export class UserSessionsImpl implements UserSessions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -139,12 +153,16 @@ export class UserSessionsImpl implements UserSessions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           hostPoolName,
           sessionHostName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -154,16 +172,23 @@ export class UserSessionsImpl implements UserSessions {
     resourceGroupName: string,
     hostPoolName: string,
     sessionHostName: string,
-    options?: UserSessionsListOptionalParams
+    options?: UserSessionsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<UserSession[]> {
-    let result = await this._list(
-      resourceGroupName,
-      hostPoolName,
-      sessionHostName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: UserSessionsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        hostPoolName,
+        sessionHostName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -173,7 +198,9 @@ export class UserSessionsImpl implements UserSessions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
