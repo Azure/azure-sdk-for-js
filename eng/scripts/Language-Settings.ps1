@@ -381,7 +381,7 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata, $PackageHist
   # Remove invalid packages
   $finalOutput = @()
   foreach ($package in $outputPackages) {
-    if (!$validationHash[$package.name].Success) {
+    if ($validationHash[$package.name] -and !$validationHash[$package.name].Success) {
       LogWarning "Removing invalid package: $($package.name)"
 
       # If a package is removed create log entry for the removal
