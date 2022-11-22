@@ -216,18 +216,29 @@ function Get-DocsMsPackageName($packageName, $packageVersion) {
 #   registry = "<url>";
 #   ...
 # }
+function GetResult($success, $package, $output) { 
+  return @{ Success = $success; Package = $package; Output = $output }
+}
+
+function RexToolValidation($package, $output) {
+  $validateOutput = type2docfx $package $output
+  if ($LASTEXITCODE -ne 0) {
+    LogError "Package $package failed the rex tool validation. Check error details by runing the following command:"
+    LogError "type2docfx $package $outputTempFolder"
+    return GetResult $false $package $validateOutput
+  }
+  return GetResult $true $package $validateOutput
+}
+
 function ValidatePackagesForDocs($packages, $DocValidationImageId) {
   # Using GetTempPath because it works on linux and windows
   $tempDirectory = Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName())
   New-Item -ItemType Directory -Force -Path $tempDirectory | Out-Null
 
-  $scriptRoot = $PSScriptRoot
   # Run this in parallel as each step takes a long time to run
-  $validationOutput = $packages | Foreach-Object -Parallel {
-    # Get value for variables outside of the Foreach-Object scope
-    $scriptRoot = "$using:scriptRoot"
-    $workingDirectory = "$using:tempDirectory"
-    return ."$scriptRoot\validate-docs-package.ps1" -Package $_ -DocValidationImageId "$using:DocValidationImageId" -WorkingDirectory $workingDirectory 
+  $validationOutput = @()
+  foreach ($pkg in $packages) {
+    $validationOutput += (RexToolValidation -package $pkg -output $tempDirectory)
   }
 
   # Clean up temp folder
@@ -253,22 +264,21 @@ function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata, $Doc
   (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json') `
     'preview' `
     $FilteredMetadata `
-  (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json.log') `
-    $DocValidationImageId
+  (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json.log')
   
   UpdateDocsMsPackages `
   (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json') `
     'latest' `
     $FilteredMetadata `
-  (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json.log') `
-    $DocValidationImageId
+  (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json.log')
 }
 
-function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata, $PackageHistoryLogFile, $DocValidationImageId) {
+function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata, $PackageHistoryLogFile) {
   Write-Host "Updating configuration: $DocConfigFile with mode: $Mode"
   $packageConfig = Get-Content $DocConfigFile -Raw | ConvertFrom-Json
 
   $outputPackages = @()
+  $versionMismatchedPackages = @()
   foreach ($package in $packageConfig.npm_package_sources) {
     $packageName = Get-PackageNameFromDocsMsConfig $package.name
     # If Get-PackageNameFromDocsMsConfig cannot find the package name, keep the
@@ -316,6 +326,10 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata, $PackageHist
     # package which are not accounted for in this code (e.g. "folder" in JS 
     # packages)
     $package.name = Get-DocsMsPackageName $package.name $packageVersion
+    # Check if the updated package name the same as original one. If not, put it into validation list.
+    if ($package.name -ne $packageName) {
+      $versionMismatchedPackages += $package
+    }
     Write-Host "Keep tracked package: $($package.name)"
     $outputPackages += $package
   }
@@ -352,11 +366,13 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata, $PackageHist
       $packageVersion = $package.VersionPreview
     }
     $packageName = Get-DocsMsPackageName $package.Package $packageVersion
+
     Write-Host "Add new package from metadata: $packageName"
     $outputPackages += @{ name = $packageName }
+    # The remaining ones are all need to validate before update to ci-config.
+    $versionMismatchedPackages += @{ name = $packageName }
   }
-
-  $packageValidation = ValidatePackagesForDocs $outputPackages $DocValidationImageId
+  $packageValidation = ValidatePackagesForDocs $versionMismatchedPackages
   $validationHash = @{}
   foreach ($result in $packageValidation) {
     $validationHash[$result.Package.name] = $result
@@ -446,7 +462,7 @@ function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRep
     $PackageInfos = @($PackageInfo)
   }
 
-  $outputPackages = @()
+  $versionMismatchedPackages = @()
 
   foreach ($packageInfo in $PackageInfos) {
     $fileLocation = ""
@@ -465,15 +481,16 @@ function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRep
     $outputPackage = $packageInfo
     
     foreach ($package in $packageConfig.npm_package_sources) {
-      if ($package.name -eq $packageInfo.Name) {
+      # First, check package in package.json matches the one from metadata or not.
+      # Second, check metadata json has version info or not.
+      # Last, check if the two versions match or not. If mismatch, then do the validation. Otherwise, we can keep the package as it is. 
+      if ($package.name -contains $packageInfo.Name -and $packageInfo.Version -and ($package.name -ne "$($packageInfo.Name)@$($packageInfo.Version)")) {
         $outputPackage = $package
-        $outputPackage.name = Get-DocsMsPackageName $package.name $packageInfo.Version
+        $outputPackage.name = Get-DocsMsPackageName $packageInfo.Name $packageInfo.Version
+        $versionMismatchedPackages += $outputPackage
         break
       }
     }
-
-    $outputPackages += $outputPackage
   }
-
-  ValidatePackagesForDocs -packages $outputPackages -DocValidationImageId $DocValidationImageId
+  ValidatePackagesForDocs -packages $versionMismatchedPackages
 }
