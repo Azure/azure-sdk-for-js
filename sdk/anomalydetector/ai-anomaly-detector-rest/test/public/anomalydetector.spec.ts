@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import {
@@ -188,7 +188,7 @@ describe("AnomalyDetectorClient", () => {
     let modelStatus = modelResponse.body.modelInfo.status;
 
     while (modelStatus !== "READY" && modelStatus !== "FAILED") {
-      await sleep(2000);
+      if (!isPlaybackMode) await sleep(2000);
       modelResponse = await client.path("/multivariate/models/{modelId}", modelId).get();
 
       if (isUnexpected(modelResponse)) {
@@ -241,7 +241,7 @@ describe("AnomalyDetectorClient", () => {
     let resultStatus = getDetectionResultResponse.body.summary.status;
 
     while (resultStatus !== "READY" && resultStatus !== "FAILED") {
-      await sleep(1000);
+      if (!isPlaybackMode) await sleep(1000);
       getDetectionResultResponse = await client
         .path("/multivariate/detect-batch/{resultId}", resultId)
         .get();
