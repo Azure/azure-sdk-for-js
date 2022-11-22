@@ -2,19 +2,22 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
 import "./env";
+import { ClientOptions } from "@azure-rest/core-client";
+import MapsGeolocation, { MapsGeolocationClient } from "../../../src/";
+import { AzureKeyCredential } from "@azure/core-auth";
 
 const envSetupForPlayback: Record<string, string> = {
-  ENDPOINT: "https://endpoint",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  MAPS_CLIENT_ID: "azure_maps_client_id",
+  MAPS_SUBSCRIPTION_KEY: "azure_maps_subscription_key",
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
-  envSetupForPlayback
+  envSetupForPlayback,
 };
 
 /**
@@ -26,4 +29,9 @@ export async function createRecorder(context: Context): Promise<Recorder> {
   const recorder = new Recorder(context.currentTest);
   await recorder.start(recorderEnvSetup);
   return recorder;
+}
+
+export function createClient(options?: ClientOptions): MapsGeolocationClient {
+  const credential = new AzureKeyCredential(env["MAPS_SUBSCRIPTION_KEY"] ?? "");
+  return MapsGeolocation(credential, options);
 }
