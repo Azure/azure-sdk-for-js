@@ -8,13 +8,13 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "344",
+        "Content-Length": "306",
         "Content-Type": "application/json",
         "repeatability-first-sent": "Sanitized",
         "repeatability-request-id": "Sanitized",
         "User-Agent": "azsdk-js-communication-email/1.0.0-beta.2 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.25236)",
         "x-ms-client-request-id": "Sanitized",
-        "x-ms-content-sha256": "fCdOrSv6702AQjXq4\u002BNMv6sNsj8SX3QBL6/pNiUuarA=",
+        "x-ms-content-sha256": "3DXkwHcpjOtwfkx8BCNP05Z8m//Ls9RnifiIAJ\u002BbDfo=",
         "x-ms-date": "Sanitized"
       },
       "RequestBody": {
@@ -25,27 +25,26 @@
           "html": "\u003Chtml\u003E\u003Ch1\u003EsomeHtmlBody\u003C/html\u003E"
         },
         "recipients": {
-          "to": [
+          "CC": [
+            {
+              "email": "someRecipient@domain.com",
+              "displayName": "someRecipient"
+            }
+          ],
+          "bCC": [
             {
               "email": "someRecipient@domain.com",
               "displayName": "someRecipient"
             }
           ]
-        },
-        "attachments": [
-          {
-            "name": "readme.txt",
-            "attachmentType": "txt",
-            "contentBytesBase64": "ZW1haWwgdGVzdCBhdHRhY2htZW50"
-          }
-        ]
+        }
       },
       "StatusCode": 202,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-01-preview",
         "Content-Length": "0",
         "Date": "Sanitized",
-        "mise-correlation-id": "676c2c26-db68-45b9-851d-f5fcd3824434",
+        "mise-correlation-id": "7155124d-cd0a-4fcd-82ea-2ffca728829e",
         "Operation-Location": "https://someEndpoint/emails/someMessageId/status",
         "Repeatability-Result": "accepted",
         "X-Azure-Ref": "Sanitized",
