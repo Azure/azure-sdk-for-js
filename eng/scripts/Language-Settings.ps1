@@ -230,7 +230,7 @@ function RexToolValidation($package, $output) {
   return GetResult $true $package $validateOutput
 }
 
-function ValidatePackagesForDocs($packages, $DocValidationImageId) {
+function ValidatePackagesForDocs($packages) {
   # Using GetTempPath because it works on linux and windows
   $tempDirectory = Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName())
   New-Item -ItemType Directory -Force -Path $tempDirectory | Out-Null
@@ -253,28 +253,29 @@ $PackageExclusions = @{
   '@azure/identity-cache-persistence' = 'Fails typedoc2fx execution https://github.com/Azure/azure-sdk-for-js/issues/16310';
 }
 
-function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata, $DocValidationImageId) {
+function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata, $DocValidationImageId, $SkipValidation=$false) {
   Write-Host "Excluded packages:"
   foreach ($excludedPackage in $PackageExclusions.Keys) {
     Write-Host "  $excludedPackage - $($PackageExclusions[$excludedPackage])"
   }
 
   $FilteredMetadata = $DocsMetadata.Where({ !($PackageExclusions.ContainsKey($_.Package)) })
-
   UpdateDocsMsPackages `
   (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json') `
     'preview' `
     $FilteredMetadata `
-  (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json.log')
-  
+  (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json.log') `
+  $SkipValidation
+
   UpdateDocsMsPackages `
   (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json') `
     'latest' `
     $FilteredMetadata `
-  (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json.log')
+  (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json.log') `
+  $SkipValidation
 }
 
-function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata, $PackageHistoryLogFile) {
+function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata, $PackageHistoryLogFile, $SkipValidation) {
   Write-Host "Updating configuration: $DocConfigFile with mode: $Mode"
   $packageConfig = Get-Content $DocConfigFile -Raw | ConvertFrom-Json
 
@@ -373,7 +374,11 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata, $PackageHist
     # The remaining ones are all need to validate before update to ci-config.
     $versionMismatchedPackages += @{ name = $packageName }
   }
-  $packageValidation = ValidatePackagesForDocs $versionMismatchedPackages
+  $packageValidation = @()
+  if (!$SkipValidation) {
+    $packageValidation = ValidatePackagesForDocs $versionMismatchedPackages
+  }
+  
   $validationHash = @{}
   foreach ($result in $packageValidation) {
     $validationHash[$result.Package.name] = $result
@@ -458,7 +463,7 @@ function GetExistingPackageVersions ($PackageName, $GroupId = $null) {
   }
 }
 
-function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRepoLocation, $DocValidationImageId) { 
+function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRepoLocation, $DocValidationImageId, $SkipValidation) { 
   if (!$PackageInfos) {
     $PackageInfos = @($PackageInfo)
   }
@@ -493,5 +498,7 @@ function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRep
       }
     }
   }
-  ValidatePackagesForDocs -packages $versionMismatchedPackages
+  if (!$SkipValidation) {
+    ValidatePackagesForDocs -packages $versionMismatchedPackages
+  }
 }
