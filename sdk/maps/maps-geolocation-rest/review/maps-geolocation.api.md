@@ -4,21 +4,18 @@
 
 ```ts
 
+import { AzureKeyCredential } from '@azure/core-auth';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
-import { KeyCredential } from '@azure/core-auth';
 import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface CountryRegionOutput {
     isoCode?: string;
 }
-
-// @public
-function createClient(credentials: KeyCredential, options?: ClientOptions): MapsGeolocationClient;
-export default createClient;
 
 // @public
 export interface ErrorAdditionalInfoOutput {
@@ -83,6 +80,13 @@ export interface IpAddressToLocationResultOutput {
 
 // @public (undocumented)
 export function isUnexpected(response: GeolocationGetLocation200Response | GeolocationGetLocationDefaultResponse): response is GeolocationGetLocationDefaultResponse;
+
+// @public
+function MapsGeolocation(credential: AzureKeyCredential, options?: ClientOptions): MapsGeolocationClient;
+
+// @public
+function MapsGeolocation(credential: TokenCredential, mapsAccountClientId: string, options?: ClientOptions): MapsGeolocationClient;
+export default MapsGeolocation;
 
 // @public (undocumented)
 export type MapsGeolocationClient = Client & {

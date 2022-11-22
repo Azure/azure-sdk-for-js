@@ -1,4 +1,4 @@
-import MapsGeolocationClient from "./generated";
+import MapsGeolocation from "./MapsGeolocation";
 
 export * from "./generated";
-export default MapsGeolocationClient;
+export default MapsGeolocation;
