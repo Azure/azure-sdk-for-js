@@ -305,12 +305,8 @@ stages:
         - pwsh: |
             Get-ChildItem -Recurse $(Pipeline.Workspace)/${{parameters.ArtifactName}}/
           displayName: Show visible artifacts
-        # Pull and build the docker image.
-        - template: /eng/common/pipelines/templates/steps/docker-pull-image.yml
-          parameters:
-            ContainerRegistryClientId: $(azuresdkimages-cr-clientid)
-            ContainerRegistryClientSecret: $(azuresdkimages-cr-clientsecret)
-            ImageId: "$(DocValidationImageId)"
+        - task: Npm@1 
+          command: install type2docfx -g
         - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
           parameters:
             PackageInfoLocations:
@@ -327,4 +323,3 @@ stages:
               - metadata/
               - ci-configs/packages-latest.json
               - ci-configs/packages-preview.json
-            DocValidationImageId: "$(DocValidationImageId)"
