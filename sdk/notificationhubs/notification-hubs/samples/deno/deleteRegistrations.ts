@@ -7,7 +7,6 @@
  * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-registration-management
  * to learn about registrations.
  *
- *
  * @summary Demonstrates how to delete all registrations using Azure Notification Hubs
  * @azsdk-weight 100
  */
@@ -37,7 +36,9 @@ async function main() {
     for (const item of pages) {
       const result = await deleteRegistration(context, item.registrationId!);
       console.log(`Delete Registration Tracking ID: ${result.trackingId}`);
-      console.log(`Delete Registration Correlation ID: ${result.correlationId}`);
+      console.log(
+        `Delete Registration Correlation ID: ${result.correlationId}`,
+      );
     }
   }
 }

@@ -8,7 +8,6 @@
  * See https://docs.microsoft.com/azure/notification-hubs/export-modify-registrations-bulk
  * to learn about Export and Import Registrations in Azure Notification Hubs.
  *
- *
  * @summary Demonstrates how to import registrations into a Notification Hub.
  * @azsdk-weight 100
  */
@@ -45,7 +44,10 @@ async function main() {
   importJob = await submitNotificationHubJob(context, importJob);
 
   let count = 0;
-  while (importJob.status !== "Completed" && importJob.status !== "Failed" && count++ < 10) {
+  while (
+    importJob.status !== "Completed" && importJob.status !== "Failed" &&
+    count++ < 10
+  ) {
     importJob = await getNotificationHubJob(context, importJob.jobId!);
     await delay(1000);
   }

@@ -9,21 +9,20 @@
  * See https://docs.microsoft.com/rest/api/notificationhubs/direct-send
  * to learn about Direct Send.
  *
- *
  * @summary Demonstrates how to send direct notifications using Azure Notification Hubs
  * @azsdk-weight 100
  */
 
 import * as process from "node/process.ts";
 import {
+  createAppleNotification,
   NotificationDetails,
   NotificationOutcomeState,
-  createAppleNotification,
 } from "npm:@azure/notification-hubs@1.0.0-beta.7/models";
 import {
-  NotificationHubsClientContext,
   createClientContext,
   getNotificationOutcomeDetails,
+  NotificationHubsClientContext,
   sendNotification,
 } from "npm:@azure/notification-hubs@1.0.0-beta.7/api";
 import { isRestError } from "npm:@azure/core-rest-pipeline@1.10.0";
@@ -37,12 +36,13 @@ const connectionString = enviromentVariables.NOTIFICATIONHUBS_CONNECTION_STRING;
 const hubName = enviromentVariables.NOTIFICATION_HUB_NAME;
 
 // Define message constants
-const deviceHandle = enviromentVariables.APNS_DEVICE_TOKEN 
+const deviceHandle = enviromentVariables.APNS_DEVICE_TOKEN;
 
 async function main(): Promise<void> {
   const context = createClientContext(connectionString, hubName);
 
-  const messageBody = `{ "aps" : { "alert" : { title: "Hello", body: "Hello there sample!" } } }`;
+  const messageBody =
+    `{ "aps" : { "alert" : { title: "Hello", body: "Hello there sample!" } } }`;
 
   const notification = createAppleNotification({
     body: messageBody,
@@ -52,7 +52,9 @@ async function main(): Promise<void> {
     },
   });
 
-  const result = await sendNotification(context, notification, { deviceHandle });
+  const result = await sendNotification(context, notification, {
+    deviceHandle,
+  });
 
   console.log(`Direct send Tracking ID: ${result.trackingId}`);
   console.log(`Direct send Correlation ID: ${result.correlationId}`);
@@ -61,7 +63,10 @@ async function main(): Promise<void> {
   if (result.notificationId) {
     console.log(`Direct send Notification ID: ${result.notificationId}`);
 
-    const results = await getNotificationDetails(context, result.notificationId);
+    const results = await getNotificationDetails(
+      context,
+      result.notificationId,
+    );
     if (results) {
       console.log(JSON.stringify(results, null, 2));
     }
@@ -70,7 +75,7 @@ async function main(): Promise<void> {
 
 async function getNotificationDetails(
   context: NotificationHubsClientContext,
-  notificationId: string
+  notificationId: string,
 ): Promise<NotificationDetails | undefined> {
   let state: NotificationOutcomeState = "Enqueued";
   let count = 0;

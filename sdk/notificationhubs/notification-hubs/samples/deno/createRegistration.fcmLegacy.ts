@@ -8,13 +8,15 @@
  * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-registration-management
  * to learn about registrations.
  *
- *
  * @summary Demonstrates how to create a registration description using Azure Notification hubs.
  * @azsdk-weight 100
  */
 
 import * as dotenv from "dotenv";
-import { createClientContext, createRegistration } from "@azure/notification-hubs/api";
+import {
+  createClientContext,
+  createRegistration,
+} from "@azure/notification-hubs/api";
 import { createFcmLegacyRegistrationDescription } from "@azure/notification-hubs/models";
 
 // Load the .env file if it exists

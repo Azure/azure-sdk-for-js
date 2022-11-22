@@ -8,13 +8,15 @@
  * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-registration-management
  * to learn about registrations.
  *
- *
  * @summary Demonstrates how to create a registration description using Azure Notification hubs.
  * @azsdk-weight 100
  */
 
 import * as process from "node/process.ts";
-import { createClientContext, createRegistration } from "npm:@azure/notification-hubs@1.0.0-beta.7/api";
+import {
+  createClientContext,
+  createRegistration,
+} from "npm:@azure/notification-hubs@1.0.0-beta.7/api";
 import { createAppleRegistrationDescription } from "npm:@azure/notification-hubs@1.0.0-beta.7/models";
 
 // Load the .env file if it exists

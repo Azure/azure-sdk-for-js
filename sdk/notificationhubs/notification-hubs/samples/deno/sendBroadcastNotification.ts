@@ -9,16 +9,15 @@
  * See https://docs.microsoft.com/rest/api/notificationhubs/send-apns-native-notification
  * to learn about sending a notification to an Apple device.
  *
- *
  * @summary Demonstrates how to send tag expression notifications using Azure Notification Hubs
  * @azsdk-weight 100
  */
 
 import * as process from "node/process.ts";
 import {
-  NotificationHubsClientContext,
   createClientContext,
   getNotificationOutcomeDetails,
+  NotificationHubsClientContext,
   sendNotification,
 } from "npm:@azure/notification-hubs@1.0.0-beta.7/api";
 import {
@@ -49,7 +48,9 @@ async function main() {
   });
 
   // Can set enableTestSend to true for debugging purposes
-  const result = await sendNotification(context, notification, { enableTestSend: false });
+  const result = await sendNotification(context, notification, {
+    enableTestSend: false,
+  });
 
   console.log(`Tag List send Tracking ID: ${result.trackingId}`);
   console.log(`Tag List Correlation ID: ${result.correlationId}`);
@@ -58,7 +59,10 @@ async function main() {
   if (result.notificationId) {
     console.log(`Tag List send Notification ID: ${result.notificationId}`);
 
-    const results = await getNotificationDetails(context, result.notificationId);
+    const results = await getNotificationDetails(
+      context,
+      result.notificationId,
+    );
     if (results) {
       console.log(JSON.stringify(results, null, 2));
     }
@@ -67,7 +71,7 @@ async function main() {
 
 async function getNotificationDetails(
   context: NotificationHubsClientContext,
-  notificationId: string
+  notificationId: string,
 ): Promise<NotificationDetails | undefined> {
   let state: NotificationOutcomeState = "Enqueued";
   let count = 0;

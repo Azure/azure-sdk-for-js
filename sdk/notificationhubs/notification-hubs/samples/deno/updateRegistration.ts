@@ -8,7 +8,6 @@
  * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-registration-management
  * to learn about registrations.
  *
- *
  * @summary Demonstrates how to update an installation using Azure Notification Hubs
  * @azsdk-weight 100
  */

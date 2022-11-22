@@ -9,21 +9,20 @@
  * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-tags-segment-push-message
  * to learn about Routing and Tag Expressions.
  *
- *
  * @summary Demonstrates how to send tag expression notifications using Azure Notification Hubs
  * @azsdk-weight 100
  */
 
 import * as process from "node/process.ts";
 import {
+  createAppleNotification,
   NotificationDetails,
   NotificationOutcomeState,
-  createAppleNotification,
 } from "npm:@azure/notification-hubs@1.0.0-beta.7/models";
 import {
-  NotificationHubsClientContext,
   createClientContext,
   getNotificationOutcomeDetails,
+  NotificationHubsClientContext,
   sendNotification,
 } from "npm:@azure/notification-hubs@1.0.0-beta.7/api";
 import { isRestError } from "npm:@azure/core-rest-pipeline@1.10.0";
@@ -61,9 +60,14 @@ async function main() {
 
   // Only available in Standard SKU and above
   if (result.notificationId) {
-    console.log(`Tag Expression send Notification ID: ${result.notificationId}`);
+    console.log(
+      `Tag Expression send Notification ID: ${result.notificationId}`,
+    );
 
-    const results = await getNotificationDetails(context, result.notificationId);
+    const results = await getNotificationDetails(
+      context,
+      result.notificationId,
+    );
     if (results) {
       console.log(JSON.stringify(results, null, 2));
     }
@@ -72,7 +76,7 @@ async function main() {
 
 async function getNotificationDetails(
   context: NotificationHubsClientContext,
-  notificationId: string
+  notificationId: string,
 ): Promise<NotificationDetails | undefined> {
   let state: NotificationOutcomeState = "Enqueued";
   let count = 0;

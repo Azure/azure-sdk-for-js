@@ -10,13 +10,15 @@
  * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-send-push-notifications-scheduled
  * to learn about scheduled send.
  *
- *
  * @summary Demonstrates how to send tag expression notifications using Azure Notification Hubs
  * @azsdk-weight 100
  */
 
 import * as process from "node/process.ts";
-import { createClientContext, scheduleNotification } from "npm:@azure/notification-hubs@1.0.0-beta.7/api";
+import {
+  createClientContext,
+  scheduleNotification,
+} from "npm:@azure/notification-hubs@1.0.0-beta.7/api";
 import { createAppleNotification } from "npm:@azure/notification-hubs@1.0.0-beta.7/models";
 
 // Load the .env file if it exists
@@ -43,7 +45,11 @@ async function main() {
   // Schedule 8 hours from nows
   const scheduledTime = new Date(Date.now() + 8 * 60 * 60 * 1000);
 
-  const result = await scheduleNotification(context, scheduledTime, notification);
+  const result = await scheduleNotification(
+    context,
+    scheduledTime,
+    notification,
+  );
 
   console.log(`Scheduled send Tracking ID: ${result.trackingId}`);
   console.log(`Scheduled send Correlation ID: ${result.correlationId}`);

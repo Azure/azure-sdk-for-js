@@ -8,13 +8,15 @@
  * See https://docs.microsoft.com/azure/notification-hubs/export-modify-registrations-bulk
  * to learn about Export and Import Registrations in Azure Notification Hubs.
  *
- *
  * @summary Demonstrates how to export registrations from a Notification Hub.
  * @azsdk-weight 100
  */
 
 import * as process from "node/process.ts";
-import { beginSubmitNotificationHubJob, createClientContext } from "npm:@azure/notification-hubs@1.0.0-beta.7/api";
+import {
+  beginSubmitNotificationHubJob,
+  createClientContext,
+} from "npm:@azure/notification-hubs@1.0.0-beta.7/api";
 import { NotificationHubJob } from "npm:@azure/notification-hubs@1.0.0-beta.7/models";
 
 // Load the .env file if it exists

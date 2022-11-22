@@ -9,21 +9,20 @@
  * See https://docs.microsoft.com/rest/api/notificationhubs/direct-send
  * to learn about Direct Send.
  *
- *
  * @summary Demonstrates how to send direct notifications using Azure Notification Hubs
  * @azsdk-weight 100
  */
 
 import * as process from "node/process.ts";
 import {
+  createFcmLegacyNotification,
   NotificationDetails,
   NotificationOutcomeState,
-  createFcmLegacyNotification,
 } from "npm:@azure/notification-hubs@1.0.0-beta.7/models";
 import {
-  NotificationHubsClientContext,
   createClientContext,
   getNotificationOutcomeDetails,
+  NotificationHubsClientContext,
   sendNotification,
 } from "npm:@azure/notification-hubs@1.0.0-beta.7/api";
 import { isRestError } from "npm:@azure/core-rest-pipeline@1.10.0";
@@ -57,7 +56,9 @@ async function main() {
     body: messageBody,
   });
 
-  const result = await sendNotification(context, notification, { deviceHandle: gcmRegistrationId });
+  const result = await sendNotification(context, notification, {
+    deviceHandle: gcmRegistrationId,
+  });
 
   console.log(`Direct send Tracking ID: ${result.trackingId}`);
   console.log(`Direct send Correlation ID: ${result.correlationId}`);
@@ -66,7 +67,10 @@ async function main() {
   if (result.notificationId) {
     console.log(`Direct send Notification ID: ${result.notificationId}`);
 
-    const results = await getNotificationDetails(context, result.notificationId);
+    const results = await getNotificationDetails(
+      context,
+      result.notificationId,
+    );
     if (results) {
       console.log(JSON.stringify(results, null, 2));
     }
@@ -75,7 +79,7 @@ async function main() {
 
 async function getNotificationDetails(
   context: NotificationHubsClientContext,
-  notificationId: string
+  notificationId: string,
 ): Promise<NotificationDetails | undefined> {
   let state: NotificationOutcomeState = "Enqueued";
   let count = 0;

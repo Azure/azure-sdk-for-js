@@ -9,7 +9,6 @@
  * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-registration-management
  * to learn about registrations.
  *
- *
  * @summary Demonstrates how to create or update a registration using Azure Notification Hubs.
  * @azsdk-weight 100
  */
@@ -17,8 +16,8 @@
 import * as process from "node/process.ts";
 import {
   createClientContext,
-  createRegistrationId,
   createOrUpdateRegistration,
+  createRegistrationId,
 } from "npm:@azure/notification-hubs@1.0.0-beta.7/api";
 import { createAppleRegistrationDescription } from "npm:@azure/notification-hubs@1.0.0-beta.7/models";
 
@@ -27,11 +26,14 @@ import { config } from "dotenv/mod.ts";
 
 // Define connection string and hub name
 const enviromentVariables = config({ safe: true });
-const connectionString = enviromentVariables.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";
+const connectionString =
+  enviromentVariables.NOTIFICATIONHUBS_CONNECTION_STRING ||
+  "<connection string>";
 const hubName = enviromentVariables.NOTIFICATION_HUB_NAME || "<hub name>";
 
 // Define message constants
-const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
+const DUMMY_DEVICE =
+  "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 const deviceToken = enviromentVariables.APNS_DEVICE_TOKEN;
 
 async function main() {
@@ -46,7 +48,10 @@ async function main() {
     tags: ["likes_football", "likes_hockey"],
   });
 
-  const registrationResponse = await createOrUpdateRegistration(context, registration);
+  const registrationResponse = await createOrUpdateRegistration(
+    context,
+    registration,
+  );
 
   console.log(`Registration ID: ${registrationResponse.registrationId}`);
 }

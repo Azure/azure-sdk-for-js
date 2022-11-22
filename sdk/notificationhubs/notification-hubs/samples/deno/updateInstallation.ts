@@ -9,13 +9,15 @@
  * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-registration-management
  * to learn about installations.
  *
- *
  * @summary Demonstrates how to update an installation using Azure Notification Hubs
  * @azsdk-weight 100
  */
 
 import * as process from "node/process.ts";
-import { createClientContext, updateInstallation } from "npm:@azure/notification-hubs@1.0.0-beta.7/api";
+import {
+  createClientContext,
+  updateInstallation,
+} from "npm:@azure/notification-hubs@1.0.0-beta.7/api";
 import { JsonPatch } from "npm:@azure/notification-hubs@1.0.0-beta.7/models";
 
 // Load the .env file if it exists
