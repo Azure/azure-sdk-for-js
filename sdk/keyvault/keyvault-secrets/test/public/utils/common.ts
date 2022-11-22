@@ -14,7 +14,6 @@ export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<vo
   } catch (e: any) {
     console.log(`name: ${e.name}, message: ${e.message}`);
     assert.equal(e.name, "AbortError");
-    assert.equal(e.message, "The operation was aborted.");
   }
 
   if (passed) {
