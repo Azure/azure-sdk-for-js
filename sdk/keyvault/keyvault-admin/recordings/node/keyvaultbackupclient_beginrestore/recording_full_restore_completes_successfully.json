@@ -1,0 +1,444 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/backup?api-version=7.4-preview.1",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-keyvault-admin/4.4.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "1d45d753-c956-4adc-bf46-916b038d0194"
+      },
+      "RequestBody": null,
+      "StatusCode": 401,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "0",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "WWW-Authenticate": "Bearer authorization=\u0022https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012\u0022, resource=\u0022https://managedhsm.azure.net\u0022",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-request-id": "4d22b35a-65e2-11ed-985a-000d3a602e9a",
+        "x-ms-server-latency": "1"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/backup?api-version=7.4-preview.1",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "95",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-keyvault-admin/4.4.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "1d45d753-c956-4adc-bf46-916b038d0194"
+      },
+      "RequestBody": {
+        "storageResourceUri": "https://uri.blob.core.windows.net/uri",
+        "token": "blob_storage_sas_token"
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "api-supported-versions": "20180927, 20211111",
+        "azure-asyncoperation": "https://azure_managedhsm.managedhsm.azure.net/backup/d585e62421814b17a11eb7e20392d209/pending",
+        "Cache-Control": "no-cache",
+        "Content-Length": "174",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 16 Nov 2022 19:10:15 GMT",
+        "Retry-After": "10",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=Ipv4;",
+        "x-ms-keyvault-region": "northus",
+        "x-ms-request-id": "4d58f1f4-65e2-11ed-985a-000d3a602e9a",
+        "x-ms-server-latency": "656"
+      },
+      "ResponseBody": {
+        "status": "InProgress",
+        "statusDetails": null,
+        "error": null,
+        "startTime": 1668625815,
+        "endTime": null,
+        "jobId": "d585e62421814b17a11eb7e20392d209",
+        "azureStorageBlobContainerUri": null
+      }
+    },
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/backup/d585e62421814b17a11eb7e20392d209/pending?api-version=7.4-preview.1",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-keyvault-admin/4.4.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "543cce46-a542-4896-b84c-d3c9a52156b1"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "20180927, 20211111",
+        "Cache-Control": "no-cache",
+        "Content-Length": "174",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 16 Nov 2022 19:10:15 GMT",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-build-version": "1.0.20221108-2-9cd4079e-1.0.20221020-1-945ffe56-develop",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=Ipv4;",
+        "x-ms-keyvault-region": "northus",
+        "x-ms-request-id": "4dc729bc-65e2-11ed-985a-000d3a602e9a",
+        "x-ms-server-latency": "439"
+      },
+      "ResponseBody": {
+        "azureStorageBlobContainerUri": null,
+        "endTime": null,
+        "error": null,
+        "jobId": "d585e62421814b17a11eb7e20392d209",
+        "startTime": 1668625815,
+        "status": "InProgress",
+        "statusDetails": null
+      }
+    },
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/backup/d585e62421814b17a11eb7e20392d209/pending?api-version=7.4-preview.1",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-keyvault-admin/4.4.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "0bd9b99c-1977-4767-a240-38c3e08e2416"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "20180927, 20211111",
+        "Cache-Control": "no-cache",
+        "Content-Length": "174",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 16 Nov 2022 19:10:21 GMT",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-build-version": "1.0.20221108-2-9cd4079e-1.0.20221020-1-945ffe56-develop",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=Ipv4;",
+        "x-ms-keyvault-region": "northus",
+        "x-ms-request-id": "510f88e4-65e2-11ed-985a-000d3a602e9a",
+        "x-ms-server-latency": "283"
+      },
+      "ResponseBody": {
+        "azureStorageBlobContainerUri": null,
+        "endTime": null,
+        "error": null,
+        "jobId": "d585e62421814b17a11eb7e20392d209",
+        "startTime": 1668625815,
+        "status": "InProgress",
+        "statusDetails": null
+      }
+    },
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/backup/d585e62421814b17a11eb7e20392d209/pending?api-version=7.4-preview.1",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-keyvault-admin/4.4.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "634737d0-da91-42d8-ba48-3ef28a6d8074"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "20180927, 20211111",
+        "Cache-Control": "no-cache",
+        "Content-Length": "253",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 16 Nov 2022 19:10:26 GMT",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-build-version": "1.0.20221108-2-9cd4079e-1.0.20221020-1-945ffe56-develop",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=Ipv4;",
+        "x-ms-keyvault-region": "northus",
+        "x-ms-request-id": "54405084-65e2-11ed-985a-000d3a602e9a",
+        "x-ms-server-latency": "292"
+      },
+      "ResponseBody": {
+        "azureStorageBlobContainerUri": "https://uri.blob.core.windows.net/uri/mhsm-timovkeyvaulthsm-2022111619101572",
+        "endTime": 1668625823,
+        "error": null,
+        "jobId": "d585e62421814b17a11eb7e20392d209",
+        "startTime": 1668625815,
+        "status": "Succeeded",
+        "statusDetails": null
+      }
+    },
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/restore?api-version=7.4-preview.1",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "177",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-keyvault-admin/4.4.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "61747670-7230-4784-8482-af4ed6e1d3fe"
+      },
+      "RequestBody": {
+        "sasTokenParameters": {
+          "storageResourceUri": "https://uri.blob.core.windows.net/uri",
+          "token": "blob_storage_sas_token"
+        },
+        "folderToRestore": "mhsm-timovkeyvaulthsm-2022111619101572"
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "api-supported-versions": "20180927, 20211111",
+        "azure-asyncoperation": "https://azure_managedhsm.managedhsm.azure.net/restore/77e1763e96354707ba19ecbc4aa96caa/pending",
+        "Cache-Control": "no-cache",
+        "Content-Length": "138",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 16 Nov 2022 19:10:27 GMT",
+        "Retry-After": "10",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=Ipv4;",
+        "x-ms-keyvault-region": "northus",
+        "x-ms-request-id": "54766a8e-65e2-11ed-985a-000d3a602e9a",
+        "x-ms-server-latency": "427"
+      },
+      "ResponseBody": {
+        "endTime": null,
+        "error": null,
+        "jobId": "77e1763e96354707ba19ecbc4aa96caa",
+        "startTime": 1668625827,
+        "status": "InProgress",
+        "statusDetails": null
+      }
+    },
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/restore/77e1763e96354707ba19ecbc4aa96caa/pending?api-version=7.4-preview.1",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-keyvault-admin/4.4.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "89caef73-573c-431b-8df3-3fbdd2e7fff9"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "20180927, 20211111",
+        "Cache-Control": "no-cache",
+        "Content-Length": "138",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 16 Nov 2022 19:10:27 GMT",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-build-version": "1.0.20221108-2-9cd4079e-1.0.20221020-1-945ffe56-develop",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=Ipv4;",
+        "x-ms-keyvault-region": "northus",
+        "x-ms-request-id": "54c1b980-65e2-11ed-985a-000d3a602e9a",
+        "x-ms-server-latency": "240"
+      },
+      "ResponseBody": {
+        "endTime": null,
+        "error": null,
+        "jobId": "77e1763e96354707ba19ecbc4aa96caa",
+        "startTime": 1668625827,
+        "status": "InProgress",
+        "statusDetails": null
+      }
+    },
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/restore/77e1763e96354707ba19ecbc4aa96caa/pending?api-version=7.4-preview.1",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-keyvault-admin/4.4.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "2b78b016-9a1e-4dc7-93a3-29c87db6dd70"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "20180927, 20211111",
+        "Cache-Control": "no-cache",
+        "Content-Length": "138",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 16 Nov 2022 19:10:27 GMT",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-build-version": "1.0.20221108-2-9cd4079e-1.0.20221020-1-945ffe56-develop",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=Ipv4;",
+        "x-ms-keyvault-region": "northus",
+        "x-ms-request-id": "54f025e0-65e2-11ed-985a-000d3a602e9a",
+        "x-ms-server-latency": "383"
+      },
+      "ResponseBody": {
+        "endTime": null,
+        "error": null,
+        "jobId": "77e1763e96354707ba19ecbc4aa96caa",
+        "startTime": 1668625827,
+        "status": "InProgress",
+        "statusDetails": null
+      }
+    },
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/restore/77e1763e96354707ba19ecbc4aa96caa/pending?api-version=7.4-preview.1",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-keyvault-admin/4.4.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "76c52a22-4144-4b4d-b3f2-eb41a549f130"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "20180927, 20211111",
+        "Cache-Control": "no-cache",
+        "Content-Length": "138",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 16 Nov 2022 19:10:28 GMT",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-build-version": "1.0.20221108-2-9cd4079e-1.0.20221020-1-945ffe56-develop",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=Ipv4;",
+        "x-ms-keyvault-region": "northus",
+        "x-ms-request-id": "55342344-65e2-11ed-985a-000d3a602e9a",
+        "x-ms-server-latency": "254"
+      },
+      "ResponseBody": {
+        "endTime": null,
+        "error": null,
+        "jobId": "77e1763e96354707ba19ecbc4aa96caa",
+        "startTime": 1668625827,
+        "status": "InProgress",
+        "statusDetails": null
+      }
+    },
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/restore/77e1763e96354707ba19ecbc4aa96caa/pending?api-version=7.4-preview.1",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-keyvault-admin/4.4.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "f19f0363-dd83-437a-a258-866f676ac7dc"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "20180927, 20211111",
+        "Cache-Control": "no-cache",
+        "Content-Length": "138",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 16 Nov 2022 19:10:33 GMT",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-build-version": "1.0.20221108-2-9cd4079e-1.0.20221020-1-945ffe56-develop",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=Ipv4;",
+        "x-ms-keyvault-region": "northus",
+        "x-ms-request-id": "585fead0-65e2-11ed-985a-000d3a602e9a",
+        "x-ms-server-latency": "200"
+      },
+      "ResponseBody": {
+        "endTime": null,
+        "error": null,
+        "jobId": "77e1763e96354707ba19ecbc4aa96caa",
+        "startTime": 1668625827,
+        "status": "InProgress",
+        "statusDetails": null
+      }
+    },
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/restore/77e1763e96354707ba19ecbc4aa96caa/pending?api-version=7.4-preview.1",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-keyvault-admin/4.4.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "7c5dbbbe-3b28-44d5-a2d3-5aa446375f57"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "20180927, 20211111",
+        "Cache-Control": "no-cache",
+        "Content-Length": "143",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 16 Nov 2022 19:10:38 GMT",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-build-version": "1.0.20221108-2-9cd4079e-1.0.20221020-1-945ffe56-develop",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.81.158;act_addr_fam=Ipv4;",
+        "x-ms-keyvault-region": "northus",
+        "x-ms-request-id": "5b841a38-65e2-11ed-985a-000d3a602e9a",
+        "x-ms-server-latency": "188"
+      },
+      "ResponseBody": {
+        "endTime": 1668625838,
+        "error": null,
+        "jobId": "77e1763e96354707ba19ecbc4aa96caa",
+        "startTime": 1668625827,
+        "status": "Succeeded",
+        "statusDetails": null
+      }
+    }
+  ],
+  "Variables": {
+    "suffix": "suffix-227912"
+  }
+}

@@ -82,7 +82,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
     }
   }
 
-  private _trackRequest(url: RequestInfo, request?: RequestInit) {
+  private _trackRequest(url: RequestInfo, request?: RequestInit): void {
     const headers = new Headers(request?.headers);
     const rawHeaders: Record<string, string> = {};
 

@@ -13,7 +13,7 @@ import { GeneratedClientContext } from "./generatedClientContext";
 import {
   GeneratedClientOptionalParams,
   EventGridEvent,
-  GeneratedClientPublishEventsOptionalParams,
+  GeneratedClientPublishEventGridEventsOptionalParams,
   CloudEvent,
   GeneratedClientPublishCloudEventEventsOptionalParams,
   GeneratedClientPublishCustomEventEventsOptionalParams
@@ -35,14 +35,14 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param events An array of events to be published to Event Grid.
    * @param options The options parameters.
    */
-  publishEvents(
+  publishEventGridEvents(
     topicHostname: string,
     events: EventGridEvent[],
-    options?: GeneratedClientPublishEventsOptionalParams
+    options?: GeneratedClientPublishEventGridEventsOptionalParams
   ): Promise<void> {
     return this.sendOperationRequest(
       { topicHostname, events, options },
-      publishEventsOperationSpec
+      publishEventGridEventsOperationSpec
     );
   }
 
@@ -83,7 +83,7 @@ export class GeneratedClient extends GeneratedClientContext {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const publishEventsOperationSpec: coreClient.OperationSpec = {
+const publishEventGridEventsOperationSpec: coreClient.OperationSpec = {
   path: "",
   httpMethod: "POST",
   responses: { 200: {}, default: {} },

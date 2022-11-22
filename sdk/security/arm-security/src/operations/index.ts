@@ -66,3 +66,6 @@ export * from "./applications";
 export * from "./applicationOperations";
 export * from "./securityConnectorApplications";
 export * from "./securityConnectorApplication";
+export * from "./aPICollection";
+export * from "./aPICollectionOnboarding";
+export * from "./aPICollectionOffboarding";

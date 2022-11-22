@@ -11,10 +11,10 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export type AlexaChannel = Channel & {
+export interface AlexaChannel extends Channel {
     channelName: "AlexaChannel";
     properties?: AlexaChannelProperties;
-};
+}
 
 // @public
 export interface AlexaChannelProperties {
@@ -61,14 +61,14 @@ export interface AzureBotServiceOptionalParams extends coreClient.ServiceClientO
 }
 
 // @public
-export type Bot = Resource & {
+export interface Bot extends Resource {
     properties?: BotProperties;
-};
+}
 
 // @public
-export type BotChannel = Resource & {
+export interface BotChannel extends Resource {
     properties?: ChannelUnion;
-};
+}
 
 // @public
 export interface BotConnection {
@@ -376,9 +376,9 @@ export interface ConnectionItemName {
 }
 
 // @public
-export type ConnectionSetting = Resource & {
+export interface ConnectionSetting extends Resource {
     properties?: ConnectionSettingProperties;
-};
+}
 
 // @public
 export interface ConnectionSettingParameter {
@@ -412,10 +412,10 @@ export interface DirectLine {
 }
 
 // @public
-export type DirectLineChannel = Channel & {
+export interface DirectLineChannel extends Channel {
     channelName: "DirectLineChannel";
     properties?: DirectLineChannelProperties;
-};
+}
 
 // @public
 export interface DirectLineChannelProperties {
@@ -445,10 +445,10 @@ export interface DirectLineSite {
 }
 
 // @public
-export type DirectLineSpeechChannel = Channel & {
+export interface DirectLineSpeechChannel extends Channel {
     channelName: "DirectLineSpeechChannel";
     properties?: DirectLineSpeechChannelProperties;
-};
+}
 
 // @public
 export interface DirectLineSpeechChannelProperties {
@@ -461,10 +461,10 @@ export interface DirectLineSpeechChannelProperties {
 }
 
 // @public
-export type EmailChannel = Channel & {
+export interface EmailChannel extends Channel {
     channelName: "EmailChannel";
     properties?: EmailChannelProperties;
-};
+}
 
 // @public
 export interface EmailChannelProperties {
@@ -485,10 +485,10 @@ export interface ErrorModel {
 }
 
 // @public
-export type FacebookChannel = Channel & {
+export interface FacebookChannel extends Channel {
     channelName: "FacebookChannel";
     properties?: FacebookChannelProperties;
-};
+}
 
 // @public
 export interface FacebookChannelProperties {
@@ -505,6 +505,9 @@ export interface FacebookPage {
     accessToken?: string;
     id: string;
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface HostSettings {
@@ -534,10 +537,10 @@ export interface HostSettingsResponse {
 export type Key = "key1" | "key2";
 
 // @public
-export type KikChannel = Channel & {
+export interface KikChannel extends Channel {
     channelName: "KikChannel";
     properties?: KikChannelProperties;
-};
+}
 
 // @public
 export interface KikChannelProperties {
@@ -552,93 +555,67 @@ export type Kind = string;
 
 // @public
 export enum KnownKind {
-    // (undocumented)
     Azurebot = "azurebot",
-    // (undocumented)
     Bot = "bot",
-    // (undocumented)
     Designer = "designer",
-    // (undocumented)
     Function = "function",
-    // (undocumented)
     Sdk = "sdk"
 }
 
 // @public
 export enum KnownMsaAppType {
-    // (undocumented)
     MultiTenant = "MultiTenant",
-    // (undocumented)
     SingleTenant = "SingleTenant",
-    // (undocumented)
     UserAssignedMSI = "UserAssignedMSI"
 }
 
 // @public
 export enum KnownOperationResultStatus {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Requested = "Requested",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownSkuName {
-    // (undocumented)
     F0 = "F0",
-    // (undocumented)
     S1 = "S1"
 }
 
 // @public
 export enum KnownSkuTier {
-    // (undocumented)
     Free = "Free",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
-export type LineChannel = Channel & {
+export interface LineChannel extends Channel {
     channelName: "LineChannel";
     properties?: LineChannelProperties;
-};
+}
 
 // @public
 export interface LineChannelProperties {
@@ -655,22 +632,22 @@ export interface LineRegistration {
 }
 
 // @public
-export type ListChannelWithKeysResponse = BotChannel & {
+export interface ListChannelWithKeysResponse extends BotChannel {
+    changedTime?: string;
+    entityTag?: string;
+    provisioningState?: string;
     resource?: ChannelUnion;
     setting?: ChannelSettings;
-    provisioningState?: string;
-    entityTag?: string;
-    changedTime?: string;
-};
+}
 
 // @public
 export type MsaAppType = string;
 
 // @public
-export type MsTeamsChannel = Channel & {
+export interface MsTeamsChannel extends Channel {
     channelName: "MsTeamsChannel";
     properties?: MsTeamsChannelProperties;
-};
+}
 
 // @public
 export interface MsTeamsChannelProperties {
@@ -755,11 +732,11 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = PrivateLinkResourceBase & {
+export interface PrivateEndpointConnection extends PrivateLinkResourceBase {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -806,11 +783,11 @@ export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionLi
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export type PrivateLinkResource = PrivateLinkResourceBase & {
+export interface PrivateLinkResource extends PrivateLinkResourceBase {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
-};
+}
 
 // @public
 export interface PrivateLinkResourceBase {
@@ -907,10 +884,10 @@ export interface ServiceProviderResponseList {
 }
 
 // @public
-export type Site = WebChatSite & DirectLineSite & {
-    isTokenEnabled?: boolean;
+export interface Site extends WebChatSite, DirectLineSite {
     eTag?: string;
-};
+    isTokenEnabled?: boolean;
+}
 
 // @public
 export interface SiteInfo {
@@ -931,10 +908,10 @@ export type SkuName = string;
 export type SkuTier = string;
 
 // @public
-export type SkypeChannel = Channel & {
+export interface SkypeChannel extends Channel {
     channelName: "SkypeChannel";
     properties?: SkypeChannelProperties;
-};
+}
 
 // @public
 export interface SkypeChannelProperties {
@@ -951,10 +928,10 @@ export interface SkypeChannelProperties {
 }
 
 // @public
-export type SlackChannel = Channel & {
+export interface SlackChannel extends Channel {
     channelName: "SlackChannel";
     properties?: SlackChannelProperties;
-};
+}
 
 // @public
 export interface SlackChannelProperties {
@@ -972,10 +949,10 @@ export interface SlackChannelProperties {
 }
 
 // @public
-export type SmsChannel = Channel & {
+export interface SmsChannel extends Channel {
     channelName: "SmsChannel";
     properties?: SmsChannelProperties;
-};
+}
 
 // @public
 export interface SmsChannelProperties {
@@ -987,10 +964,10 @@ export interface SmsChannelProperties {
 }
 
 // @public
-export type TelegramChannel = Channel & {
+export interface TelegramChannel extends Channel {
     channelName: "TelegramChannel";
     properties?: TelegramChannelProperties;
-};
+}
 
 // @public
 export interface TelegramChannelProperties {
@@ -1000,10 +977,10 @@ export interface TelegramChannelProperties {
 }
 
 // @public
-export type WebChatChannel = Channel & {
+export interface WebChatChannel extends Channel {
     channelName: "WebChatChannel";
     properties?: WebChatChannelProperties;
-};
+}
 
 // @public
 export interface WebChatChannelProperties {

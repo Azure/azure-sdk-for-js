@@ -242,10 +242,8 @@ If you'd like to contribute to this library, please read the [contributing guide
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fmaps%2Fmaps-route-rest%2FREADME.png)
 
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest
-
-<!-- [npm_link]: https://www.npmjs.com/package/@azure-rest/maps-route -->
-<!-- [api_ref]: https://docs.microsoft.com/javascript/api/@azure-rest/maps-route?view=azure-node-preview -->
-
+[npm_link]: https://www.npmjs.com/package/@azure-rest/maps-route
+[api_ref]: https://docs.microsoft.com/javascript/api/@azure-rest/maps-route
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/samples
 [azure_cli]: https://docs.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
