@@ -80,7 +80,7 @@ const MapsRender = require("@azure-rest/maps-render").default;
 const AzureKeyCredential = require("@azure/core-auth");
 
 const credential = new AzureKeyCredential("<subscription-key>");
-const client = new MapsRenderClient(credential);
+const client = MapsRender(credential);
 ```
 
 ## Key concepts
