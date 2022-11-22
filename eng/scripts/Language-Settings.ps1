@@ -238,8 +238,8 @@ function ValidatePackagesForDocs($packages, $DocValidationImageId) {
   # Run this in parallel as each step takes a long time to run
   $validationOutput = @()
   foreach ($pkg in $packages) {
-    LogDebug "Validating $pkg['name']..."
-    $validationOutput += (RexToolValidation -package $pkg['name'] -output $tempDirectory)
+    LogDebug "Validating $($pkg.name)..."
+    $validationOutput += (RexToolValidation -package $pkg.name -output $tempDirectory)
   }
 
   # Clean up temp folder
