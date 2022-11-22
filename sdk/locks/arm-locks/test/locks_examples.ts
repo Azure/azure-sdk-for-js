@@ -57,15 +57,15 @@ describe("Locks test", () => {
     await recorder.stop();
   });
 
-  it("managementLocks create test", async function () {
-    const res = await client.managementLocks.createOrUpdateAtSubscriptionLevel(lockName, { level: "CanNotDelete" });
-    assert.equal(res.name, lockName);
-  });
+  // it("managementLocks create test", async function () {
+  //   const res = await client.managementLocks.createOrUpdateAtSubscriptionLevel(lockName, { level: "CanNotDelete" });
+  //   assert.equal(res.name, lockName);
+  // });
 
-  it("managementLocks get test", async function () {
-    const res = await client.managementLocks.getAtSubscriptionLevel(lockName);
-    assert.equal(res.name, lockName);
-  });
+  // it("managementLocks get test", async function () {
+  //   const res = await client.managementLocks.getAtSubscriptionLevel(lockName);
+  //   assert.equal(res.name, lockName);
+  // });
 
   it("managementLocks list test", async function () {
     const resArray = new Array();
@@ -75,12 +75,12 @@ describe("Locks test", () => {
     assert.notEqual(resArray.length, 0);
   });
 
-  it("managementLocks delete test", async function () {
-    const res = await client.managementLocks.deleteAtSubscriptionLevel(lockName);
-    const resArray = new Array();
-    for await (const item of client.managementLocks.listAtSubscriptionLevel()) {
-      resArray.push(item);
-    }
-    assert.notEqual(resArray.length, 0);
-  });
+  // it("managementLocks delete test", async function () {
+  //   const res = await client.managementLocks.deleteAtSubscriptionLevel(lockName);
+  //   const resArray = new Array();
+  //   for await (const item of client.managementLocks.listAtSubscriptionLevel()) {
+  //     resArray.push(item);
+  //   }
+  //   assert.notEqual(resArray.length, 0);
+  // });
 });
