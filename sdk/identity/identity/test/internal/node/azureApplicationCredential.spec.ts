@@ -114,7 +114,7 @@ describe("AzureApplicationCredential testing Managed Identity (internal)", funct
       "URL does not have expected version"
     );
     if (authDetails.result?.token) {
-      assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000000);
+      assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000);
     } else {
       assert.fail("No token was returned!");
     }
