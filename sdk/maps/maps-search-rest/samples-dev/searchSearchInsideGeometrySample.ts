@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createMapsSearchClient, {
-  SearchSearchInsideGeometryParameters
+  SearchSearchInsideGeometryParameters,
 } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
@@ -26,11 +26,9 @@ async function searchForBurgerJointsInsideAGeometryRepresentedAsAGeoJsonGeometry
   const client = createMapsSearchClient(credential);
   const format = "json";
   const options: SearchSearchInsideGeometryParameters = {
-    queryParameters: { query: "pizza", limit: 2 }
+    queryParameters: { query: "pizza", limit: 2 },
   };
-  const result = await client
-    .path("/search/geometry/{format}", format)
-    .post(options);
+  const result = await client.path("/search/geometry/{format}", format).post(options);
   console.log(result);
 }
 
@@ -52,11 +50,9 @@ async function searchForPizzaPlacesInsideAGeometryRepresentedAsAGeoJsonFeatureCo
   const client = createMapsSearchClient(credential);
   const format = "json";
   const options: SearchSearchInsideGeometryParameters = {
-    queryParameters: { query: "pizza", limit: 2 }
+    queryParameters: { query: "pizza", limit: 2 },
   };
-  const result = await client
-    .path("/search/geometry/{format}", format)
-    .post(options);
+  const result = await client.path("/search/geometry/{format}", format).post(options);
   console.log(result);
 }
 
@@ -78,14 +74,10 @@ async function searchForSubsJointsInsideAGeometryRepresentedAsAGeoJsonPolygonTyp
   const client = createMapsSearchClient(credential);
   const format = "json";
   const options: SearchSearchInsideGeometryParameters = {
-    queryParameters: { query: "burger", limit: 2 }
+    queryParameters: { query: "burger", limit: 2 },
   };
-  const result = await client
-    .path("/search/geometry/{format}", format)
-    .post(options);
+  const result = await client.path("/search/geometry/{format}", format).post(options);
   console.log(result);
 }
 
-searchForSubsJointsInsideAGeometryRepresentedAsAGeoJsonPolygonType().catch(
-  console.error
-);
+searchForSubsJointsInsideAGeometryRepresentedAsAGeoJsonPolygonType().catch(console.error);

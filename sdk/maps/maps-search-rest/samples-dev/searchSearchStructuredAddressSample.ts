@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createMapsSearchClient, {
-  SearchSearchStructuredAddressParameters
+  SearchSearchStructuredAddressParameters,
 } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
@@ -36,12 +36,10 @@ async function searchAddressInRedmondWaInStructuredForm() {
       streetName: "NE%2024th%20Street",
       municipality: "Redmond",
       countrySubdivision: "WA",
-      postalCode: "98052"
-    }
+      postalCode: "98052",
+    },
   };
-  const result = await client
-    .path("/search/address/structured/{format}", format)
-    .get(options);
+  const result = await client.path("/search/address/structured/{format}", format).get(options);
   console.log(result);
 }
 

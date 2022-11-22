@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createMapsSearchClient, {
-  SearchReverseSearchAddressParameters
+  SearchReverseSearchAddressParameters,
 } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
@@ -30,11 +30,9 @@ async function searchesAddressesForCoordinates3733712189() {
   const client = createMapsSearchClient(credential);
   const format = "json";
   const options: SearchReverseSearchAddressParameters = {
-    queryParameters: { query: [37.337, -121.89] }
+    queryParameters: { query: [37.337, -121.89] },
   };
-  const result = await client
-    .path("/search/address/reverse/{format}", format)
-    .get(options);
+  const result = await client.path("/search/address/reverse/{format}", format).get(options);
   console.log(result);
 }
 

@@ -3,9 +3,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createMapsSearchClient, {
-  SearchSearchAlongRouteParameters
-} from "@azure-rest/maps-search";
+import createMapsSearchClient, { SearchSearchAlongRouteParameters } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
 
@@ -26,11 +24,9 @@ async function searchForBurgerJointsAlongARoute() {
   const client = createMapsSearchClient(credential);
   const format = "json";
   const options: SearchSearchAlongRouteParameters = {
-    queryParameters: { query: "burger", maxDetourTime: 1000, limit: 2 }
+    queryParameters: { query: "burger", maxDetourTime: 1000, limit: 2 },
   };
-  const result = await client
-    .path("/search/alongRoute/{format}", format)
-    .post(options);
+  const result = await client.path("/search/alongRoute/{format}", format).post(options);
   console.log(result);
 }
 

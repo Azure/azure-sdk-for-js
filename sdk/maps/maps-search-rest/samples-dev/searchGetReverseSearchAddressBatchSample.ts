@@ -3,9 +3,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createMapsSearchClient, {
-  getLongRunningPoller
-} from "@azure-rest/maps-search";
+import createMapsSearchClient, { getLongRunningPoller } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
 
@@ -303,14 +301,10 @@ async function aReverseGeocodingBatchApiGetCallContaining5ReverseGeocodingApiQue
   const credential = new AzureKeyCredential("{Your API key}");
   const client = createMapsSearchClient(credential);
   const format = "11111111-2222-3333-4444-555555555555";
-  const initialResponse = await client
-    .path("/search/address/reverse/batch/{format}", format)
-    .get();
+  const initialResponse = await client.path("/search/address/reverse/batch/{format}", format).get();
   const poller = getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
-aReverseGeocodingBatchApiGetCallContaining5ReverseGeocodingApiQueries().catch(
-  console.error
-);
+aReverseGeocodingBatchApiGetCallContaining5ReverseGeocodingApiQueries().catch(console.error);

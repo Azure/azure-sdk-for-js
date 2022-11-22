@@ -27,9 +27,7 @@ async function getThePoiCategoryTreeOnlyPartialResponseShownBelow() {
   const credential = new AzureKeyCredential("{Your API key}");
   const client = createMapsSearchClient(credential);
   const format = "json";
-  const result = await client
-    .path("/search/poi/category/tree/{format}", format)
-    .get();
+  const result = await client.path("/search/poi/category/tree/{format}", format).get();
   console.log(result);
 }
 

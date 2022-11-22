@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createMapsSearchClient, {
   SearchFuzzySearchBatchParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
@@ -317,9 +317,7 @@ async function aSearchFuzzyBatchApiCallContaining5SearchFuzzyApiQueries() {
   const client = createMapsSearchClient(credential);
   const format = "json";
   const options: SearchFuzzySearchBatchParameters = {};
-  const initialResponse = await client
-    .path("/search/fuzzy/batch/{format}", format)
-    .post(options);
+  const initialResponse = await client.path("/search/fuzzy/batch/{format}", format).post(options);
   const poller = getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);

@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createMapsSearchClient, {
-  SearchReverseSearchCrossStreetAddressParameters
+  SearchReverseSearchCrossStreetAddressParameters,
 } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
@@ -32,7 +32,7 @@ async function searchAddressOfTheNearestIntersectionOrCrossroad() {
   const client = createMapsSearchClient(credential);
   const format = "json";
   const options: SearchReverseSearchCrossStreetAddressParameters = {
-    queryParameters: { query: [37.337, -121.89] }
+    queryParameters: { query: [37.337, -121.89] },
   };
   const result = await client
     .path("/search/address/reverse/crossStreet/{format}", format)

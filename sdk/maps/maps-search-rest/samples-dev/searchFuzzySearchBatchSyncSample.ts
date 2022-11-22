@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createMapsSearchClient, {
-  SearchFuzzySearchBatchSyncParameters
+  SearchFuzzySearchBatchSyncParameters,
 } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
@@ -316,12 +316,8 @@ async function aSyncSearchFuzzyBatchApiCallContaining5SearchFuzzyApiQueries() {
   const client = createMapsSearchClient(credential);
   const format = "json";
   const options: SearchFuzzySearchBatchSyncParameters = {};
-  const result = await client
-    .path("/search/fuzzy/batch/sync/{format}", format)
-    .post(options);
+  const result = await client.path("/search/fuzzy/batch/sync/{format}", format).post(options);
   console.log(result);
 }
 
-aSyncSearchFuzzyBatchApiCallContaining5SearchFuzzyApiQueries().catch(
-  console.error
-);
+aSyncSearchFuzzyBatchApiCallContaining5SearchFuzzyApiQueries().catch(console.error);

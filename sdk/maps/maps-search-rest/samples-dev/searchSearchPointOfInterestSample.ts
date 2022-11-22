@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createMapsSearchClient, {
-  SearchSearchPointOfInterestParameters
+  SearchSearchPointOfInterestParameters,
 } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
@@ -35,13 +35,11 @@ async function searchForJuiceBarsWithin5MilesOfSeattleDowntownAndLimitTheRespons
       limit: 5,
       lat: 47.606038,
       lon: -122.333345,
-      radius: 8046
-    }
+      radius: 8046,
+    },
   };
   const result = await client.path("/search/poi/{format}", format).get(options);
   console.log(result);
 }
 
-searchForJuiceBarsWithin5MilesOfSeattleDowntownAndLimitTheResponseTo5Results().catch(
-  console.error
-);
+searchForJuiceBarsWithin5MilesOfSeattleDowntownAndLimitTheResponseTo5Results().catch(console.error);

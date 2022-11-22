@@ -3,9 +3,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createMapsSearchClient, {
-  SearchListPolygonsParameters
-} from "@azure-rest/maps-search";
+import createMapsSearchClient, { SearchListPolygonsParameters } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
 
@@ -37,18 +35,11 @@ async function getTheGeometryUsingTheGeometryIdReturnedByThePreviousSearch() {
   const format = "json";
   const options: SearchListPolygonsParameters = {
     queryParameters: {
-      geometries: [
-        "8bceafe8-3d98-4445-b29b-fd81d3e9adf5",
-        "00005858-5800-1200-0000-0000773694ca"
-      ]
-    }
+      geometries: ["8bceafe8-3d98-4445-b29b-fd81d3e9adf5", "00005858-5800-1200-0000-0000773694ca"],
+    },
   };
-  const result = await client
-    .path("/search/polygon/{format}", format)
-    .get(options);
+  const result = await client.path("/search/polygon/{format}", format).get(options);
   console.log(result);
 }
 
-getTheGeometryUsingTheGeometryIdReturnedByThePreviousSearch().catch(
-  console.error
-);
+getTheGeometryUsingTheGeometryIdReturnedByThePreviousSearch().catch(console.error);

@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createMapsSearchClient, {
-  SearchSearchPointOfInterestCategoryParameters
+  SearchSearchPointOfInterestCategoryParameters,
 } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
@@ -35,15 +35,11 @@ async function searchForAtmWithin2MilesOfTimesSquareNyAndReturnTheTop3Results() 
       limit: 3,
       lat: 40.758953,
       lon: -73.985263,
-      radius: 3200
-    }
+      radius: 3200,
+    },
   };
-  const result = await client
-    .path("/search/poi/category/{format}", format)
-    .get(options);
+  const result = await client.path("/search/poi/category/{format}", format).get(options);
   console.log(result);
 }
 
-searchForAtmWithin2MilesOfTimesSquareNyAndReturnTheTop3Results().catch(
-  console.error
-);
+searchForAtmWithin2MilesOfTimesSquareNyAndReturnTheTop3Results().catch(console.error);

@@ -14,13 +14,13 @@ description: Azure Maps Search Client
 # This flag generated files including all the config files, LICENSE, sample.env, and package.json.
 # We switch this to false after the first generation because we have some manual changes in these files and don't want them get overwrite.
 # Reference: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-quickstart.md#how-to-generate-rlc
-generate-metadata: true
+generate-metadata: false
 # This flag generated test files such as sampleTest.spec.ts and recordedClient.ts.
 # Switch to false after the first generation due to the same reason above.
-generate-test: true
+generate-test: false
 # This flag generated the the sample files
 # Switch to false after the first generation due to the same reason above.
-generate-sample: true
+generate-sample: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated

@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createMapsSearchClient, {
-  SearchReverseSearchAddressBatchSyncParameters
+  SearchReverseSearchAddressBatchSyncParameters,
 } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
@@ -310,6 +310,4 @@ async function aReverseGeocodingBatchApiSyncCallContaining5ReverseGeocodingApiQu
   console.log(result);
 }
 
-aReverseGeocodingBatchApiSyncCallContaining5ReverseGeocodingApiQueries().catch(
-  console.error
-);
+aReverseGeocodingBatchApiSyncCallContaining5ReverseGeocodingApiQueries().catch(console.error);

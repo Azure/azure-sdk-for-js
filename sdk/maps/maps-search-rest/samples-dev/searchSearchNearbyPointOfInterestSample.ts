@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createMapsSearchClient, {
-  SearchSearchNearbyPointOfInterestParameters
+  SearchSearchNearbyPointOfInterestParameters,
 } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
@@ -30,11 +30,9 @@ async function searchForAnyPointsOfInterestPoiWithin5MilesOfManhattanNyAndReturn
   const client = createMapsSearchClient(credential);
   const format = "json";
   const options: SearchSearchNearbyPointOfInterestParameters = {
-    queryParameters: { lat: 40.70627, lon: -74.011454, limit: 10, radius: 8046 }
+    queryParameters: { lat: 40.70627, lon: -74.011454, limit: 10, radius: 8046 },
   };
-  const result = await client
-    .path("/search/nearby/{format}", format)
-    .get(options);
+  const result = await client.path("/search/nearby/{format}", format).get(options);
   console.log(result);
 }
 

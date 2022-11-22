@@ -3,9 +3,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createMapsSearchClient, {
-  SearchFuzzySearchParameters
-} from "@azure-rest/maps-search";
+import createMapsSearchClient, { SearchFuzzySearchParameters } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
 
@@ -32,11 +30,9 @@ async function searchCitySeattle() {
   const client = createMapsSearchClient(credential);
   const format = "json";
   const options: SearchFuzzySearchParameters = {
-    queryParameters: { query: "seattle" }
+    queryParameters: { query: "seattle" },
   };
-  const result = await client
-    .path("/search/fuzzy/{format}", format)
-    .get(options);
+  const result = await client.path("/search/fuzzy/{format}", format).get(options);
   console.log(result);
 }
 

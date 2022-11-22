@@ -3,9 +3,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createMapsSearchClient, {
-  SearchSearchAddressParameters
-} from "@azure-rest/maps-search";
+import createMapsSearchClient, { SearchSearchAddressParameters } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
 
@@ -30,11 +28,9 @@ async function searchDetailAddress15127Ne24ThStreetRedmondWa98052() {
   const client = createMapsSearchClient(credential);
   const format = "json";
   const options: SearchSearchAddressParameters = {
-    queryParameters: { query: "15127 NE 24th Street, Redmond, WA 98052" }
+    queryParameters: { query: "15127 NE 24th Street, Redmond, WA 98052" },
   };
-  const result = await client
-    .path("/search/address/{format}", format)
-    .get(options);
+  const result = await client.path("/search/address/{format}", format).get(options);
   console.log(result);
 }
 

@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createMapsSearchClient, {
   SearchReverseSearchAddressBatchParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
@@ -313,6 +313,4 @@ async function aReverseGeocodingBatchApiCallContaining5ReverseGeocodingApiQuerie
   console.log(result);
 }
 
-aReverseGeocodingBatchApiCallContaining5ReverseGeocodingApiQueries().catch(
-  console.error
-);
+aReverseGeocodingBatchApiCallContaining5ReverseGeocodingApiQueries().catch(console.error);

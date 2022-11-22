@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createMapsSearchClient, {
-  SearchSearchAddressBatchSyncParameters
+  SearchSearchAddressBatchSyncParameters,
 } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
@@ -300,12 +300,8 @@ async function aSyncAddressGeocodingBatchApiCallContaining5AddressGeocodingApiQu
   const client = createMapsSearchClient(credential);
   const format = "json";
   const options: SearchSearchAddressBatchSyncParameters = {};
-  const result = await client
-    .path("/search/address/batch/sync/{format}", format)
-    .post(options);
+  const result = await client.path("/search/address/batch/sync/{format}", format).post(options);
   console.log(result);
 }
 
-aSyncAddressGeocodingBatchApiCallContaining5AddressGeocodingApiQueries().catch(
-  console.error
-);
+aSyncAddressGeocodingBatchApiCallContaining5AddressGeocodingApiQueries().catch(console.error);

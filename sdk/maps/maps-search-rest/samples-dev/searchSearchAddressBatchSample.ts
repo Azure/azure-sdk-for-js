@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createMapsSearchClient, {
   SearchSearchAddressBatchParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
@@ -301,14 +301,10 @@ async function anAddressGeocodingBatchApiCallContaining5AddressGeocodingApiQueri
   const client = createMapsSearchClient(credential);
   const format = "json";
   const options: SearchSearchAddressBatchParameters = {};
-  const initialResponse = await client
-    .path("/search/address/batch/{format}", format)
-    .post(options);
+  const initialResponse = await client.path("/search/address/batch/{format}", format).post(options);
   const poller = getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
-anAddressGeocodingBatchApiCallContaining5AddressGeocodingApiQueries().catch(
-  console.error
-);
+anAddressGeocodingBatchApiCallContaining5AddressGeocodingApiQueries().catch(console.error);
