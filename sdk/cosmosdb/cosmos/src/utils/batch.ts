@@ -7,7 +7,6 @@ import { NonePartitionKeyLiteral, PartitionKey, PartitionKeyDefinition, Primitiv
 import { RequestOptions } from "..";
 import { PatchRequestBody } from "./patch";
 import { v4 } from "uuid";
-import { parsePath } from "../common";
 import { stripUndefined } from "./typeChecks";
 const uuid = v4;
 

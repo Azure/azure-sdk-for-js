@@ -26,7 +26,7 @@ import {
 } from "../../utils/batch";
 import { stripUndefined } from "../../utils/typeChecks";
 import { hashPartitionKey } from "../../utils/hashing/hash";
-import { PartitionKeyDefinition } from "../../documents";
+import { PartitionKey, PartitionKeyDefinition } from "../../documents";
 
 /**
  * @hidden
@@ -510,13 +510,15 @@ export class Items {
    */
   public async batch(
     operations: OperationInput[],
-    partitionKey: string = "[{}]",
+    partitionKey?: PartitionKey,
     options?: RequestOptions
   ): Promise<Response<OperationResponse[]>> {
     operations.map((operation) => decorateBatchOperation(operation, options));
 
     const path = getPathFromLink(this.container.url, ResourceType.item);
-
+    if(partitionKey === undefined) {
+      
+    }
     if (operations.length > 100) {
       throw new Error("Cannot run batch request with more than 100 operations per partition");
     }

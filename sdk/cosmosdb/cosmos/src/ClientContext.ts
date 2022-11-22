@@ -600,7 +600,7 @@ export class ClientContext {
   }: {
     body: T;
     path: string;
-    partitionKey: string;
+    partitionKey: PartitionKey;
     resourceId: string;
     options?: RequestOptions;
   }): Promise<Response<any>> {
@@ -762,7 +762,8 @@ export class ClientContext {
   }
 
   /**
-   * Returns collection of properties which are derived from the context for Request Creation
+   * Returns collection of properties which are derived from the context for Request Creation.
+   * These properties have client wide scope, as opposed to request specific scope.
    * @returns
    */
   private getContextDerivedPropsForRequestCreation(): {

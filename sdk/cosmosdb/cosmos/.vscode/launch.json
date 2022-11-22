@@ -7,9 +7,10 @@
             "name": "Test: Current Open File",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "type": "node",
+            "smartStep": true,
             "args": [
                 "--timeout",
-                "100000",
+                "10000",
                 "-r",
                 "test/mocha.env.ts",
                 "-r",
@@ -35,7 +36,7 @@
             "type": "node",
             "args": [
                 "--timeout",
-                "100000",
+                "90000",
                 "-r",
                 "test/mocha.env.ts",
                 "-r",
@@ -46,13 +47,19 @@
                 "dotenv/config",
                 "-r",
                 "./test/public/common/setup.ts",
+                "--reporter",
+                "spec",
                 "--colors",
                 "**/${fileBasenameNoExtension}.ts",
                 "-g",
                 "${selectedText}"
             ],
+            "env": {
+                "AZURE_LOG_LEVEL": "info"
+            },
             "internalConsoleOptions": "openOnSessionStart",
             "request": "launch",
+            "smartStep": true,
             "skipFiles": [
                 "<node_internals>/**"
             ],

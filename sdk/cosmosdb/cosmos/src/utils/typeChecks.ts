@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * A type which could be any type but undefined
+ */
 export type NonUndefinable <T> = T extends undefined ? never : T;
 
 /**
