@@ -1,15 +1,11 @@
 # Release History
+    
+## 5.1.0 (2022-11-22)
+    
+**Features**
 
-## 5.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface Zone
+    
 ## 5.0.1 (2022-04-18)
 
 **features**

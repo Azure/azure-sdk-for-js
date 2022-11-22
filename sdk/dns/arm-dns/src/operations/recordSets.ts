@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { RecordSets } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,10 +18,13 @@ import {
   RecordType,
   RecordSetsListByTypeNextOptionalParams,
   RecordSetsListByTypeOptionalParams,
+  RecordSetsListByTypeResponse,
   RecordSetsListByDnsZoneNextOptionalParams,
   RecordSetsListByDnsZoneOptionalParams,
+  RecordSetsListByDnsZoneResponse,
   RecordSetsListAllByDnsZoneNextOptionalParams,
   RecordSetsListAllByDnsZoneOptionalParams,
+  RecordSetsListAllByDnsZoneResponse,
   RecordSetsUpdateOptionalParams,
   RecordSetsUpdateResponse,
   RecordSetsCreateOrUpdateOptionalParams,
@@ -28,9 +32,6 @@ import {
   RecordSetsDeleteOptionalParams,
   RecordSetsGetOptionalParams,
   RecordSetsGetResponse,
-  RecordSetsListByTypeResponse,
-  RecordSetsListByDnsZoneResponse,
-  RecordSetsListAllByDnsZoneResponse,
   RecordSetsListByTypeNextResponse,
   RecordSetsListByDnsZoneNextResponse,
   RecordSetsListAllByDnsZoneNextResponse
@@ -75,12 +76,16 @@ export class RecordSetsImpl implements RecordSets {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByTypePagingPage(
           resourceGroupName,
           zoneName,
           recordType,
-          options
+          options,
+          settings
         );
       }
     };
@@ -90,16 +95,23 @@ export class RecordSetsImpl implements RecordSets {
     resourceGroupName: string,
     zoneName: string,
     recordType: RecordType,
-    options?: RecordSetsListByTypeOptionalParams
+    options?: RecordSetsListByTypeOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RecordSet[]> {
-    let result = await this._listByType(
-      resourceGroupName,
-      zoneName,
-      recordType,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RecordSetsListByTypeResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByType(
+        resourceGroupName,
+        zoneName,
+        recordType,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByTypeNext(
         resourceGroupName,
@@ -109,7 +121,9 @@ export class RecordSetsImpl implements RecordSets {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -152,11 +166,15 @@ export class RecordSetsImpl implements RecordSets {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDnsZonePagingPage(
           resourceGroupName,
           zoneName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -165,15 +183,18 @@ export class RecordSetsImpl implements RecordSets {
   private async *listByDnsZonePagingPage(
     resourceGroupName: string,
     zoneName: string,
-    options?: RecordSetsListByDnsZoneOptionalParams
+    options?: RecordSetsListByDnsZoneOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RecordSet[]> {
-    let result = await this._listByDnsZone(
-      resourceGroupName,
-      zoneName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RecordSetsListByDnsZoneResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByDnsZone(resourceGroupName, zoneName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByDnsZoneNext(
         resourceGroupName,
@@ -182,7 +203,9 @@ export class RecordSetsImpl implements RecordSets {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -223,11 +246,15 @@ export class RecordSetsImpl implements RecordSets {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listAllByDnsZonePagingPage(
           resourceGroupName,
           zoneName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -236,15 +263,22 @@ export class RecordSetsImpl implements RecordSets {
   private async *listAllByDnsZonePagingPage(
     resourceGroupName: string,
     zoneName: string,
-    options?: RecordSetsListAllByDnsZoneOptionalParams
+    options?: RecordSetsListAllByDnsZoneOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RecordSet[]> {
-    let result = await this._listAllByDnsZone(
-      resourceGroupName,
-      zoneName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RecordSetsListAllByDnsZoneResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAllByDnsZone(
+        resourceGroupName,
+        zoneName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAllByDnsZoneNext(
         resourceGroupName,
@@ -253,7 +287,9 @@ export class RecordSetsImpl implements RecordSets {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
