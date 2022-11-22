@@ -138,7 +138,7 @@ describe(`EmailClient [Playback/Live]`, () => {
     }
   }).timeout(5000);
 
-    it("successfully sends an email with an empty to field", async function () {
+  it("successfully sends an email with an empty to field", async function () {
     const emailMessage: EmailMessage = {
       sender: env.SENDER_ADDRESS || "",
       recipients: {
