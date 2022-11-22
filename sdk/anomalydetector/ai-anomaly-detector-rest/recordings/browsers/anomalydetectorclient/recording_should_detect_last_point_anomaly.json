@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpointanomalydetector/v1.1/timeseries/last/detect",
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/timeseries/last/detect",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -19,7 +19,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "08e389cd-1f37-4eb8-b603-3275b7951fae",
+        "x-ms-client-request-id": "86abd251-85f7-4c02-8a3f-36820941d74c",
         "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0-beta.1 core-rest-pipeline/1.10.1 OS/Win32"
       },
       "RequestBody": {
@@ -221,15 +221,15 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "db3509af-2d48-417e-aa1d-ce01603637fb",
+        "apim-request-id": "6b9ccf6b-8e8f-46c1-8106-48da6c88593f",
         "Content-Length": "235",
         "Content-Type": "application/json",
         "csp-billing-usage": "CognitiveServices.AnomalyDetector.DataPoints=1",
-        "Date": "Thu, 17 Nov 2022 15:07:17 GMT",
+        "Date": "Mon, 21 Nov 2022 06:58:19 GMT",
         "model-id": "10",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "51",
+        "x-envoy-upstream-service-time": "34",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {

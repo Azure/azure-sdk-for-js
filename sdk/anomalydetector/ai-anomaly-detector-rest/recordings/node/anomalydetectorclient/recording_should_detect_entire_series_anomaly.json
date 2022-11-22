@@ -11,7 +11,7 @@
         "Content-Type": "application/json; charset=UTF-8",
         "Ocp-Apim-Subscription-Key": "fake_key",
         "User-Agent": "azsdk-js-ai-anomaly-detector-rest/1.0.0-beta.1 core-rest-pipeline/1.10.1 Node/v14.17.6 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "bddca4e1-e508-48b2-a405-ef69f1ccbf67"
+        "x-ms-client-request-id": "2085abd3-2ac1-48a7-a79f-3409b43e4905"
       },
       "RequestBody": {
         "granularity": "daily",
@@ -211,15 +211,15 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "87f3aba3-05b5-4d6d-ae93-3a84ba68b8b4",
+        "apim-request-id": "a8fc0f00-7c16-4068-8ddd-3cef874942c8",
         "Content-Length": "3981",
         "Content-Type": "application/json",
         "csp-billing-usage": "CognitiveServices.AnomalyDetector.DataPoints=1",
-        "Date": "Fri, 18 Nov 2022 07:22:49 GMT",
+        "Date": "Mon, 21 Nov 2022 06:57:24 GMT",
         "model-id": "10",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "24",
+        "x-envoy-upstream-service-time": "43",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {

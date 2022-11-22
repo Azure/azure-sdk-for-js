@@ -9,18 +9,18 @@
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "fake_key",
         "User-Agent": "azsdk-js-ai-anomaly-detector-rest/1.0.0-beta.1 core-rest-pipeline/1.10.1 Node/v14.17.6 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "e76db32b-007f-40c9-a810-5c095959196c"
+        "x-ms-client-request-id": "7c1ee69a-3258-4104-8eab-b6fca189f510"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "b65431a2-bdfa-4d50-b687-d0656d3f38ff",
+        "apim-request-id": "497e0ebe-e9c2-46b5-99ba-fbd119c30146",
         "Content-Length": "19794",
         "Content-Type": "application/json",
-        "Date": "Fri, 18 Nov 2022 07:22:51 GMT",
+        "Date": "Mon, 21 Nov 2022 06:57:26 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "133",
+        "x-envoy-upstream-service-time": "580",
         "x-ms-region": "Central US EUAP"
       },
       "ResponseBody": {
