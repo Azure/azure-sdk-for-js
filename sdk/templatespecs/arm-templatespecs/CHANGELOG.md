@@ -1,15 +1,14 @@
 # Release History
+    
+## 2.1.0 (2022-11-22)
+    
+**Features**
 
-## 2.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface TemplateSpec
+  - Added Interface TemplateSpecUpdateModel
+  - Added Interface TemplateSpecVersion
+  - Added Interface TemplateSpecVersionUpdateModel
+    
 ## 2.0.1 (2022-04-18)
 
 **features**
