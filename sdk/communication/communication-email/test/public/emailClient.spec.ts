@@ -137,4 +137,32 @@ describe(`EmailClient [Playback/Live]`, () => {
       assert.fail();
     }
   }).timeout(5000);
+
+    it("successfully sends an email with an empty to field", async function () {
+    const emailMessage: EmailMessage = {
+      sender: env.SENDER_ADDRESS || "",
+      recipients: {
+        cc: [
+          {
+            email: env.RECIPIENT_ADDRESS || "",
+            displayName: "someRecipient",
+          },
+        ],
+        bcc: [
+          {
+            email: env.RECIPIENT_ADDRESS || "",
+            displayName: "someRecipient",
+          },
+        ],
+      },
+      content: {
+        subject: "someSubject",
+        plainText: "somePlainTextBody",
+        html: "<html><h1>someHtmlBody</html>",
+      },
+    };
+
+    const response = await client.send(emailMessage);
+    assert.isNotNull(response.messageId);
+  }).timeout(5000);
 });

@@ -234,7 +234,6 @@ export const EmailRecipients: coreClient.CompositeMapper = {
     modelProperties: {
       to: {
         serializedName: "to",
-        required: true,
         type: {
           name: "Sequence",
           element: {

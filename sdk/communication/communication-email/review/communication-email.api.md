@@ -69,7 +69,7 @@ export interface EmailMessage {
 export interface EmailRecipients {
     bcc?: EmailAddress[];
     cc?: EmailAddress[];
-    to: EmailAddress[];
+    to?: EmailAddress[];
 }
 
 // @public
