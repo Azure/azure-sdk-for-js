@@ -25,10 +25,10 @@ jobs:
           Repositories:
             - Name: $(DocRepoOwner)/$(DocRepoName)
               WorkingDirectory: $(DocRepoLocation)
-      - task: Npm@1 
-        inputs:
-          command: install type2docfx -g
-
+      - script: |
+          npm install type2docfx -g
+        displayName: Install Rex tool for validation
+        condition: succeeded()
       # Call update docs ci script to onboard packages
       - task: Powershell@2
         inputs:

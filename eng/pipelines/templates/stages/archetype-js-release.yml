@@ -131,9 +131,10 @@ stages:
                             - sdk/**/*.md
                             - .github/CODEOWNERS
                       - download: current
-                      - task: Npm@1 
-                        inputs:
-                          command: install type2docfx -g
+                      - script: |
+                          npm install type2docfx -g
+                        displayName: Install Rex tool for validation
+                        condition: succeeded()
                       - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
                         parameters:
                           PackageInfoLocations:
@@ -302,9 +303,10 @@ stages:
         - pwsh: |
             Get-ChildItem -Recurse $(Pipeline.Workspace)/${{parameters.ArtifactName}}/
           displayName: Show visible artifacts
-        - task: Npm@1 
-          inputs:
-            command: install type2docfx -g
+        - script: |
+            npm install type2docfx -g
+          displayName: Install Rex tool for validation
+          condition: succeeded()
         - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
           parameters:
             PackageInfoLocations:
