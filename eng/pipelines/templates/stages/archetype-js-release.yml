@@ -131,12 +131,9 @@ stages:
                             - sdk/**/*.md
                             - .github/CODEOWNERS
                       - download: current
-                      # Pull and build the docker image.
-                      - template: /eng/common/pipelines/templates/steps/docker-pull-image.yml
-                        parameters:
-                          ContainerRegistryClientId: $(azuresdkimages-cr-clientid)
-                          ContainerRegistryClientSecret: $(azuresdkimages-cr-clientsecret)
-                          ImageId: "$(DocValidationImageId)"
+                      - task: Npm@1 
+                        inputs:
+                          command: install type2docfx -g
                       - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
                         parameters:
                           PackageInfoLocations:
@@ -306,7 +303,8 @@ stages:
             Get-ChildItem -Recurse $(Pipeline.Workspace)/${{parameters.ArtifactName}}/
           displayName: Show visible artifacts
         - task: Npm@1 
-          command: install type2docfx -g
+          inputs:
+            command: install type2docfx -g
         - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
           parameters:
             PackageInfoLocations:
