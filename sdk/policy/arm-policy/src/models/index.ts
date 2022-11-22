@@ -113,7 +113,7 @@ export interface DataEffect {
   /** The data effect name. */
   name?: string;
   /** The data effect details schema. */
-  detailsSchema?: any;
+  detailsSchema?: Record<string, unknown>;
 }
 
 /** The custom resource function definition. */
@@ -174,7 +174,7 @@ export interface ErrorAdditionalInfo {
    * The additional info.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly info?: any;
+  readonly info?: Record<string, unknown>;
 }
 
 /** List of data policy manifests. */
@@ -227,7 +227,7 @@ export interface PolicyAssignment {
   /** This message will be part of response in case of policy violation. */
   description?: string;
   /** The policy assignment metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
-  metadata?: any;
+  metadata?: Record<string, unknown>;
   /** The policy assignment enforcement mode. Possible values are Default and DoNotEnforce. */
   enforcementMode?: EnforcementMode;
   /** The messages that describe why a resource is non-compliant with the policy. */
@@ -237,7 +237,7 @@ export interface PolicyAssignment {
 /** The value of a parameter. */
 export interface ParameterValuesValue {
   /** The value of the parameter. */
-  value?: any;
+  value?: Record<string, unknown>;
 }
 
 /** A message that describes why a resource is non-compliant with the policy. This is shown in 'deny' error messages and on resource's non-compliant compliance results. */
@@ -343,9 +343,9 @@ export interface PolicyDefinition {
   /** The policy definition description. */
   description?: string;
   /** The policy rule. */
-  policyRule?: any;
+  policyRule?: Record<string, unknown>;
   /** The policy definition metadata.  Metadata is an open ended object and is typically a collection of key value pairs. */
-  metadata?: any;
+  metadata?: Record<string, unknown>;
   /** The parameter definitions for parameters used in the policy rule. The keys are the parameter names. */
   parameters?: { [propertyName: string]: ParameterDefinitionsValue };
 }
@@ -355,9 +355,9 @@ export interface ParameterDefinitionsValue {
   /** The data type of the parameter. */
   type?: ParameterType;
   /** The allowed values for the parameter. */
-  allowedValues?: any[];
+  allowedValues?: Record<string, unknown>[];
   /** The default value for the parameter if no value is provided. */
-  defaultValue?: any;
+  defaultValue?: Record<string, unknown>;
   /** General metadata for the parameter. */
   metadata?: ParameterDefinitionsValueMetadata;
 }
@@ -413,7 +413,7 @@ export interface PolicySetDefinition {
   /** The policy set definition description. */
   description?: string;
   /** The policy set definition metadata.  Metadata is an open ended object and is typically a collection of key value pairs. */
-  metadata?: any;
+  metadata?: Record<string, unknown>;
   /** The policy set definition parameters that can be used in policy definition references. */
   parameters?: { [propertyName: string]: ParameterDefinitionsValue };
   /** An array of policy definition references. */
@@ -491,7 +491,7 @@ export interface PolicyExemption {
   /** The description of the policy exemption. */
   description?: string;
   /** The policy exemption metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
-  metadata?: any;
+  metadata?: Record<string, unknown>;
 }
 
 /** List of policy exemptions. */

@@ -61,7 +61,7 @@ export type CreatedByType = string;
 
 // @public
 export interface DataEffect {
-    detailsSchema?: any;
+    detailsSchema?: Record<string, unknown>;
     name?: string;
 }
 
@@ -128,7 +128,7 @@ export type EnforcementMode = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: any;
+    readonly info?: Record<string, unknown>;
     readonly type?: string;
 }
 
@@ -143,6 +143,9 @@ export interface ErrorResponse {
 
 // @public
 export type ExemptionCategory = string;
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface Identity {
@@ -219,8 +222,8 @@ export interface NonComplianceMessage {
 
 // @public
 export interface ParameterDefinitionsValue {
-    allowedValues?: any[];
-    defaultValue?: any;
+    allowedValues?: Record<string, unknown>[];
+    defaultValue?: Record<string, unknown>;
     metadata?: ParameterDefinitionsValueMetadata;
     type?: ParameterType;
 }
@@ -239,7 +242,7 @@ export type ParameterType = string;
 
 // @public
 export interface ParameterValuesValue {
-    value?: any;
+    value?: Record<string, unknown>;
 }
 
 // @public
@@ -250,7 +253,7 @@ export interface PolicyAssignment {
     readonly id?: string;
     identity?: Identity;
     location?: string;
-    metadata?: any;
+    metadata?: Record<string, unknown>;
     readonly name?: string;
     nonComplianceMessages?: NonComplianceMessage[];
     notScopes?: string[];
@@ -449,13 +452,13 @@ export interface PolicyDefinition {
     description?: string;
     displayName?: string;
     readonly id?: string;
-    metadata?: any;
+    metadata?: Record<string, unknown>;
     mode?: string;
     readonly name?: string;
     parameters?: {
         [propertyName: string]: ParameterDefinitionsValue;
     };
-    policyRule?: any;
+    policyRule?: Record<string, unknown>;
     policyType?: PolicyType;
     readonly systemData?: SystemData;
     readonly type?: string;
@@ -604,7 +607,7 @@ export interface PolicyExemption {
     exemptionCategory: ExemptionCategory;
     expiresOn?: Date;
     readonly id?: string;
-    metadata?: any;
+    metadata?: Record<string, unknown>;
     readonly name?: string;
     policyAssignmentId: string;
     policyDefinitionReferenceIds?: string[];
@@ -716,7 +719,7 @@ export interface PolicySetDefinition {
     description?: string;
     displayName?: string;
     readonly id?: string;
-    metadata?: any;
+    metadata?: Record<string, unknown>;
     readonly name?: string;
     parameters?: {
         [propertyName: string]: ParameterDefinitionsValue;
