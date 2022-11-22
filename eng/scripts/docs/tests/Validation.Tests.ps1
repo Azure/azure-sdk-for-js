@@ -23,9 +23,15 @@ Describe "ValidatePackagesForDocs" -Tag "UnitTest" {
             } 
         }
     ) {
-        $output = (ValidatePackagesForDocs -packages $packages.Keys 2>$null)
+        $packageMap = @{}
+        foreach ($packageName in $packages.Keys) {
+            $mapKey = @{name=$packageName}
+            $packageMap[$mapKey] = $packages[$packageName]
+        }
+
+        $output = (ValidatePackagesForDocs -packages $packageMap.Keys 2>$null)
         foreach ($pkg in $output) {
-            $pkg.Success | Should -Be $packages["$($pkg.Package)"]
+            $pkg.Success | Should -Be $packages[$pkg.Package]
         }
     }
 }
