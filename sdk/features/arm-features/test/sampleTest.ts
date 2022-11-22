@@ -7,86 +7,37 @@
  */
 
 import {
-  env,
-  record,
-  RecorderEnvironmentSetup,
   Recorder,
-  delay,
-  isPlaybackMode
+  RecorderStartOptions,
+  env
 } from "@azure-tools/test-recorder";
-import * as assert from "assert";
-import { ClientSecretCredential } from "@azure/identity";
-import { FeatureClient } from "../src/featureClient";
+import { assert } from "chai";
+import { Context } from "mocha";
 
-const recorderEnvSetup: RecorderEnvironmentSetup = {
-  replaceableVariables: {
-    AZURE_CLIENT_ID: "azure_client_id",
-    AZURE_CLIENT_SECRET: "azure_client_secret",
-    AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-    SUBSCRIPTION_ID: "azure_subscription_id"
-  },
-  customizationsOnRecordings: [
-    (recording: any): any =>
-      recording.replace(
-        /"access_token":"[^"]*"/g,
-        `"access_token":"access_token"`
-      )
-  ],
-  queryParametersToSkip: []
+const replaceableVariables: Record<string, string> = {
+  AZURE_CLIENT_ID: "azure_client_id",
+  AZURE_CLIENT_SECRET: "azure_client_secret",
+  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+  SUBSCRIPTION_ID: "azure_subscription_id"
 };
 
-export const testPollingOptions = {
-  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
+const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback: replaceableVariables
 };
 
-describe("Features test", () => {
+describe("My test", () => {
   let recorder: Recorder;
-  let subscriptionId: string;
-  let client: FeatureClient;
-  let location: string;
-  let resourceGroup: string;
 
-  beforeEach(async function() {
-    recorder = record(this, recorderEnvSetup);
-    subscriptionId = env.SUBSCRIPTION_ID;
-    // This is an example of how the environment variables are used
-    const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
-    );
-    client = new FeatureClient(credential, subscriptionId);
-    location = "eastus";
-    resourceGroup = "myjstest";
+  beforeEach(async function(this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderOptions);
   });
 
   afterEach(async function() {
     await recorder.stop();
   });
 
-  it("features listall test", async function() {
-    const arrayList = [];
-    for await (const item of client.features.listAll()) {
-      arrayList.push(item);
-    }
-    assert.notEqual(arrayList.length,0);
-  });
-
-  it("features list test", async function() {
-    const arrayList = [];
-    for await (const item of client.features.list("Microsoft.Compute")) {
-      arrayList.push(item);
-    }
-    assert.notEqual(arrayList.length,0);
-  });
-
-  it("features get test", async function() {
-    const arrayList = new Array();
-    for await (const item of client.features.list("Microsoft.Compute")) {
-      arrayList.push(item);
-    }
-    const featureName = arrayList[0].name.split("/")[1];
-    const feature = await client.features.get("Microsoft.Compute", featureName);
-    assert.equal(feature.name,"Microsoft.Compute/"+featureName);
+  it("sample test", async function() {
+    console.log("Hi, I'm a test!");
   });
 });
