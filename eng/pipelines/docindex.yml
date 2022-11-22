@@ -26,7 +26,8 @@ jobs:
             - Name: $(DocRepoOwner)/$(DocRepoName)
               WorkingDirectory: $(DocRepoLocation)
       - task: Npm@1 
-        command: install type2docfx -g
+        inputs:
+          command: install type2docfx -g
 
       # Call update docs ci script to onboard packages
       - task: Powershell@2
