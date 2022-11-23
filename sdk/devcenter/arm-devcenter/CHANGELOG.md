@@ -1,15 +1,29 @@
 # Release History
+    
+## 1.0.0-beta.3 (2022-11-04)
+    
+**Features**
 
-## 1.0.0-beta.3 (Unreleased)
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface OperationStatusResult
+  - Added Type Alias CatalogSyncState
+  - Added Type Alias SchedulesUpdateResponse
+  - Interface Catalog has a new optional parameter syncState
+  - Interface CatalogProperties has a new optional parameter syncState
+  - Added Enum KnownCatalogSyncState
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface OperationStatus no longer has parameter endTime
+  - Interface OperationStatus no longer has parameter error
+  - Interface OperationStatus no longer has parameter id
+  - Interface OperationStatus no longer has parameter name
+  - Interface OperationStatus no longer has parameter percentComplete
+  - Interface OperationStatus no longer has parameter startTime
+  - Interface OperationStatus no longer has parameter status
+    
+    
 ## 1.0.0-beta.2 (2022-10-11)
     
 **Features**

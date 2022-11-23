@@ -1071,13 +1071,13 @@ export interface SubResource {
 }
 
 /** Deployment What-if properties. */
-export type DeploymentWhatIfProperties = DeploymentProperties & {
+export interface DeploymentWhatIfProperties extends DeploymentProperties {
   /** Optional What-If operation settings. */
   whatIfSettings?: DeploymentWhatIfSettings;
-};
+}
 
 /** Resource information. */
-export type GenericResource = Resource & {
+export interface GenericResource extends Resource {
   /** The plan of the resource. */
   plan?: Plan;
   /** The resource properties. */
@@ -1090,10 +1090,10 @@ export type GenericResource = Resource & {
   sku?: Sku;
   /** The identity of the resource. */
   identity?: Identity;
-};
+}
 
 /** Resource information. */
-export type GenericResourceExpanded = GenericResource & {
+export interface GenericResourceExpanded extends GenericResource {
   /**
    * The created time of the resource. This is only present if requested via the $expand query parameter.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1109,7 +1109,7 @@ export type GenericResourceExpanded = GenericResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** Defines headers for Deployments_whatIfAtTenantScope operation. */
 export interface DeploymentsWhatIfAtTenantScopeHeaders {
@@ -1145,8 +1145,11 @@ export interface DeploymentsWhatIfHeaders {
 
 /** Known values of {@link ExpressionEvaluationOptionsScopeType} that the service accepts. */
 export enum KnownExpressionEvaluationOptionsScopeType {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Outer */
   Outer = "Outer",
+  /** Inner */
   Inner = "Inner"
 }
 
@@ -1163,17 +1166,29 @@ export type ExpressionEvaluationOptionsScopeType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Accepted */
   Accepted = "Accepted",
+  /** Running */
   Running = "Running",
+  /** Ready */
   Ready = "Ready",
+  /** Creating */
   Creating = "Creating",
+  /** Created */
   Created = "Created",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Deleted */
   Deleted = "Deleted",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Updating */
   Updating = "Updating"
 }
 
@@ -1253,9 +1268,13 @@ export type AliasPathAttributes = string;
 
 /** Known values of {@link ProviderAuthorizationConsentState} that the service accepts. */
 export enum KnownProviderAuthorizationConsentState {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Required */
   Required = "Required",
+  /** NotRequired */
   NotRequired = "NotRequired",
+  /** Consented */
   Consented = "Consented"
 }
 
@@ -1273,6 +1292,7 @@ export type ProviderAuthorizationConsentState = string;
 
 /** Known values of {@link ExtendedLocationType} that the service accepts. */
 export enum KnownExtendedLocationType {
+  /** EdgeZone */
   EdgeZone = "EdgeZone"
 }
 

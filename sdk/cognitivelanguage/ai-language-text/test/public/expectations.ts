@@ -6805,17 +6805,32 @@ export const expectation33: AnalyzeBatchResult[] = [
         id: "0",
         warnings: [],
         entities: [
-          { text: "sneaker", category: "Product", offset: 17, length: 7, confidenceScore: 0.87 },
           {
-            text: "120 EUR",
+            text: "14 inches",
             category: "Quantity",
-            subCategory: "Currency",
-            offset: 28,
-            length: 7,
-            confidenceScore: 1,
-            resolutions: [
-              { resolutionKind: "CurrencyResolution", value: 120, unit: "Euro", iso4217: "EUR" },
-            ],
+            subCategory: "Dimension",
+            offset: 11,
+            length: 9,
+            confidenceScore: 0.8,
+            resolutions: [{ resolutionKind: "LengthResolution", value: 14, unit: "Inch" }],
+          },
+          {
+            text: "20 lbs",
+            category: "Quantity",
+            subCategory: "Dimension",
+            offset: 37,
+            length: 6,
+            confidenceScore: 0.8,
+            resolutions: [{ resolutionKind: "WeightResolution", value: 20, unit: "Pound" }],
+          },
+          {
+            text: "5 years old",
+            category: "Quantity",
+            subCategory: "Age",
+            offset: 51,
+            length: 11,
+            confidenceScore: 0.98,
+            resolutions: [{ resolutionKind: "AgeResolution", value: 5, unit: "Year" }],
           },
         ],
       },
@@ -6823,25 +6838,141 @@ export const expectation33: AnalyzeBatchResult[] = [
         id: "1",
         warnings: [],
         entities: [
-          { text: "Bill Gates", category: "Person", offset: 0, length: 10, confidenceScore: 0.98 },
           {
-            text: "66 years old",
+            text: "first",
             category: "Quantity",
-            subCategory: "Age",
-            offset: 14,
-            length: 12,
-            confidenceScore: 0.96,
-            resolutions: [{ resolutionKind: "AgeResolution", value: 66, unit: "Year" }],
+            subCategory: "Ordinal",
+            offset: 12,
+            length: 5,
+            confidenceScore: 0.8,
+            resolutions: [
+              { resolutionKind: "OrdinalResolution", offset: "1", relativeTo: "Start", value: "1" },
+            ],
+          },
+          { text: "aircraft", category: "Product", offset: 18, length: 8, confidenceScore: 0.8 },
+          {
+            text: "1,300 meter per second",
+            category: "Quantity",
+            subCategory: "Dimension",
+            offset: 59,
+            length: 22,
+            confidenceScore: 0.8,
+            resolutions: [
+              { resolutionKind: "SpeedResolution", value: 1300, unit: "MeterPerSecond" },
+            ],
           },
           {
-            text: "2022",
+            text: "65-80",
+            category: "Quantity",
+            subCategory: "NumberRange",
+            offset: 92,
+            length: 5,
+            confidenceScore: 0.85,
+            resolutions: [
+              {
+                resolutionKind: "NumericRangeResolution",
+                rangeKind: "Number",
+                minimum: 65,
+                maximum: 80,
+              },
+            ],
+          },
+          {
+            text: "passengers",
+            category: "PersonType",
+            offset: 98,
+            length: 10,
+            confidenceScore: 0.96,
+          },
+        ],
+      },
+      {
+        id: "2",
+        warnings: [],
+        entities: [
+          { text: "apartment", category: "Location", offset: 4, length: 9, confidenceScore: 0.81 },
+          {
+            text: "840 sqft",
+            category: "Quantity",
+            subCategory: "Dimension",
+            offset: 17,
+            length: 8,
+            confidenceScore: 0.8,
+            resolutions: [{ resolutionKind: "AreaResolution", value: 840, unit: "SquareFoot" }],
+          },
+          {
+            text: "2",
+            category: "Quantity",
+            subCategory: "Number",
+            offset: 38,
+            length: 1,
+            confidenceScore: 0.98,
+            resolutions: [{ resolutionKind: "NumberResolution", numberKind: "Integer", value: 2 }],
+          },
+          { text: "bedrooms", category: "Location", offset: 40, length: 8, confidenceScore: 0.66 },
+          {
+            text: "2,000 US dollars",
+            category: "Quantity",
+            subCategory: "Currency",
+            offset: 59,
+            length: 16,
+            confidenceScore: 0.99,
+            resolutions: [
+              {
+                resolutionKind: "CurrencyResolution",
+                value: 2000,
+                unit: "United States dollar",
+                iso4217: "USD",
+              },
+            ],
+          },
+          {
+            text: "11/01/2022",
+            category: "DateTime",
+            subCategory: "Date",
+            offset: 111,
+            length: 10,
+            confidenceScore: 0.99,
+            resolutions: [
+              {
+                resolutionKind: "DateTimeResolution",
+                timex: "2022-11-01",
+                dateTimeSubKind: "Date",
+                value: "2022-11-01",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: "3",
+        warnings: [],
+        entities: [
+          {
+            text: "200 terabytes",
+            category: "Quantity",
+            subCategory: "Dimension",
+            offset: 15,
+            length: 13,
+            confidenceScore: 0.8,
+            resolutions: [
+              { resolutionKind: "InformationResolution", value: 200, unit: "Terabyte" },
+            ],
+          },
+          {
+            text: "between October 24th, 2022 and October 28th, 2022",
             category: "DateTime",
             subCategory: "DateRange",
-            offset: 30,
-            length: 4,
-            confidenceScore: 0.97,
+            offset: 37,
+            length: 49,
+            confidenceScore: 0.69,
             resolutions: [
-              { resolutionKind: "TemporalSpanResolution", begin: "2022-01-01", end: "2023-01-01" },
+              {
+                resolutionKind: "TemporalSpanResolution",
+                begin: "2022-10-24",
+                end: "2022-10-28",
+                duration: "P4D",
+              },
             ],
           },
         ],
@@ -8492,5 +8623,239 @@ export const expectation70: DynamicClassificationResult[] = [
       { category: "Travel", confidenceScore: 0.31 },
       { category: "Location", confidenceScore: 0.29 },
     ],
+  },
+];
+
+export const expectation71: any = [
+  {
+    kind: "EntityRecognition",
+    results: [
+      {
+        id: "0",
+        warnings: [],
+        entities: [
+          { text: "park", category: "Location", offset: 17, length: 4, confidenceScore: 0.99 },
+        ],
+        detectedLanguage: { name: "English", iso6391Name: "en", confidenceScore: 0.98 },
+        isLanguageDefaulted: false,
+      },
+      {
+        id: "1",
+        warnings: [],
+        entities: [
+          {
+            text: "un",
+            category: "Quantity",
+            subCategory: "Number",
+            offset: 8,
+            length: 2,
+            confidenceScore: 0.8,
+          },
+          { text: "Español", category: "Skill", offset: 31, length: 7, confidenceScore: 0.94 },
+        ],
+        detectedLanguage: { name: "Spanish", iso6391Name: "es", confidenceScore: 0.75 },
+        isLanguageDefaulted: false,
+      },
+      {
+        id: "2",
+        warnings: [],
+        entities: [
+          { text: "猫", category: "Product", offset: 0, length: 1, confidenceScore: 0.42 },
+        ],
+        detectedLanguage: { name: "Japanese", iso6391Name: "ja", confidenceScore: 1 },
+        isLanguageDefaulted: false,
+      },
+    ],
+    completedOn,
+    modelVersion,
+  },
+  {
+    kind: "PiiEntityRecognition",
+    results: [
+      {
+        id: "0",
+        warnings: [],
+        redactedText: "I will go to the park.",
+        entities: [],
+        detectedLanguage: { name: "English", iso6391Name: "en", confidenceScore: 0.98 },
+        isLanguageDefaulted: false,
+      },
+      {
+        id: "1",
+        warnings: [],
+        redactedText: "Este es un document escrito en Español.",
+        entities: [],
+        detectedLanguage: { name: "Spanish", iso6391Name: "es", confidenceScore: 0.75 },
+        isLanguageDefaulted: false,
+      },
+      {
+        id: "2",
+        warnings: [],
+        redactedText: "猫は幸せ",
+        entities: [],
+        detectedLanguage: { name: "Japanese", iso6391Name: "ja", confidenceScore: 1 },
+        isLanguageDefaulted: false,
+      },
+    ],
+    completedOn,
+    modelVersion,
+  },
+  {
+    kind: "SentimentAnalysis",
+    results: [
+      {
+        id: "0",
+        warnings: [],
+        sentiment: "neutral",
+        confidenceScores: { positive: 0, neutral: 0.99, negative: 0 },
+        detectedLanguage: { name: "English", iso6391Name: "en", confidenceScore: 0.98 },
+        isLanguageDefaulted: false,
+        sentences: [
+          {
+            text: "I will go to the park.",
+            sentiment: "neutral",
+            confidenceScores: { positive: 0, neutral: 0.99, negative: 0 },
+            offset: 0,
+            length: 22,
+            opinions: [],
+          },
+        ],
+      },
+      {
+        id: "1",
+        warnings: [],
+        sentiment: "neutral",
+        confidenceScores: { positive: 0.04, neutral: 0.92, negative: 0.04 },
+        detectedLanguage: { name: "Spanish", iso6391Name: "es", confidenceScore: 0.75 },
+        isLanguageDefaulted: false,
+        sentences: [
+          {
+            text: "Este es un document escrito en Español.",
+            sentiment: "neutral",
+            confidenceScores: { positive: 0.04, neutral: 0.92, negative: 0.04 },
+            offset: 0,
+            length: 39,
+            opinions: [],
+          },
+        ],
+      },
+      {
+        id: "2",
+        warnings: [],
+        sentiment: "positive",
+        confidenceScores: { positive: 0.99, neutral: 0.01, negative: 0 },
+        detectedLanguage: { name: "Japanese", iso6391Name: "ja", confidenceScore: 1 },
+        isLanguageDefaulted: false,
+        sentences: [
+          {
+            text: "猫は幸せ",
+            sentiment: "positive",
+            confidenceScores: { positive: 0.99, neutral: 0.01, negative: 0 },
+            offset: 0,
+            length: 4,
+            opinions: [],
+          },
+        ],
+      },
+    ],
+    completedOn,
+    modelVersion,
+  },
+  {
+    kind: "KeyPhraseExtraction",
+    results: [
+      {
+        id: "0",
+        warnings: [],
+        keyPhrases: ["park"],
+        detectedLanguage: { name: "English", iso6391Name: "en", confidenceScore: 0.98 },
+        isLanguageDefaulted: false,
+      },
+      {
+        id: "1",
+        warnings: [],
+        keyPhrases: ["Español", "document"],
+        detectedLanguage: { name: "Spanish", iso6391Name: "es", confidenceScore: 0.75 },
+        isLanguageDefaulted: false,
+      },
+      {
+        id: "2",
+        warnings: [],
+        keyPhrases: [],
+        detectedLanguage: { name: "Japanese", iso6391Name: "ja", confidenceScore: 1 },
+        isLanguageDefaulted: false,
+      },
+    ],
+    completedOn,
+    modelVersion,
+  },
+  {
+    kind: "EntityLinking",
+    results: [
+      {
+        id: "0",
+        warnings: [],
+        entities: [],
+        detectedLanguage: { name: "English", iso6391Name: "en", confidenceScore: 0.98 },
+        isLanguageDefaulted: false,
+      },
+      {
+        id: "1",
+        error: {
+          code: "UnsupportedLanguageCode",
+          message:
+            "Invalid language code 'es'. Supported languages: en. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+        },
+      },
+      {
+        id: "2",
+        error: {
+          code: "UnsupportedLanguageCode",
+          message:
+            "Invalid language code 'ja'. Supported languages: en,es. For additional details see https://aka.ms/text-analytics/language-support?tabs=entity-linking",
+        },
+      },
+    ],
+    completedOn,
+    modelVersion,
+  },
+  {
+    kind: "Healthcare",
+    results: [
+      {
+        entities: [],
+        entityRelations: [],
+        id: "0",
+        warnings: [],
+        detectedLanguage: { iso6391Name: "en" },
+        isLanguageDefaulted: false,
+      },
+      {
+        id: "1",
+        error: {
+          code: "UnsupportedLanguageCode",
+          message:
+            "Invalid language code 'es'. Supported languages: en. For additional details see https://aka.ms/text-analytics/language-support",
+        },
+      },
+      {
+        id: "2",
+        error: {
+          code: "UnsupportedLanguageCode",
+          message:
+            "Invalid language code 'ja'. Supported languages: en. For additional details see https://aka.ms/text-analytics/language-support",
+        },
+      },
+    ],
+    completedOn,
+    modelVersion,
+  },
+];
+
+export const expectation72: LanguageDetectionResult[] = [
+  {
+    primaryLanguage: { name: "Hindi", iso6391Name: "hi", confidenceScore: 1, script: "Latin" },
+    id: "0",
+    warnings: [],
   },
 ];

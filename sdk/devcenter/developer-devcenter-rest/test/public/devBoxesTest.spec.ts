@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecordedClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
@@ -32,6 +32,11 @@ describe("DevCenter Dev Boxes Operations Test", () => {
   });
 
   it("Create dev box", async function () {
+    // Skip until test proxy recorder bug is fixed https://github.com/Azure/azure-sdk-for-js/issues/23420
+    if (isPlaybackMode()) {
+      this.skip();
+    }
+
     // Build client and fetch required parameters
     const projectName = env["DEFAULT_PROJECT_NAME"] || "sdk-default-project";
     const poolName = env["DEFAULT_POOL_NAME"] || "sdk-default-pool";

@@ -25,7 +25,7 @@ import {
 export interface ProjectEnvironmentTypes {
   /**
    * Lists environment types for a project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -36,7 +36,7 @@ export interface ProjectEnvironmentTypes {
   ): PagedAsyncIterableIterator<ProjectEnvironmentType>;
   /**
    * Gets a project environment type.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param environmentTypeName The name of the environment type.
    * @param options The options parameters.
@@ -49,7 +49,7 @@ export interface ProjectEnvironmentTypes {
   ): Promise<ProjectEnvironmentTypesGetResponse>;
   /**
    * Creates or updates a project environment type.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param environmentTypeName The name of the environment type.
    * @param body Represents a Project Environment Type.
@@ -64,7 +64,7 @@ export interface ProjectEnvironmentTypes {
   ): Promise<ProjectEnvironmentTypesCreateOrUpdateResponse>;
   /**
    * Partially updates a project environment type.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param environmentTypeName The name of the environment type.
    * @param body Updatable project environment type properties.
@@ -79,7 +79,7 @@ export interface ProjectEnvironmentTypes {
   ): Promise<ProjectEnvironmentTypesUpdateResponse>;
   /**
    * Deletes a project environment type.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param environmentTypeName The name of the environment type.
    * @param options The options parameters.

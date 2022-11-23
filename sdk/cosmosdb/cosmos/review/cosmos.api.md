@@ -896,7 +896,7 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 // @public
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
-    batch(operations: OperationInput[], partitionKey?: string, options?: RequestOptions): Promise<Response_2<any>>;
+    batch(operations: OperationInput[], partitionKey?: string, options?: RequestOptions): Promise<Response_2<OperationResponse[]>>;
     bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<OperationResponse[]>;
     changeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
@@ -944,13 +944,6 @@ interface Location_2 {
     unavailable?: boolean;
 }
 export { Location_2 as Location }
-
-// @public (undocumented)
-export type MoveOperation = {
-    op: keyof typeof PatchOperationType;
-    from: string;
-    path: string;
-};
 
 // @public
 export type Next<T> = (context: RequestContext) => Promise<Response_2<T>>;
@@ -1117,7 +1110,7 @@ export interface PartitionKeyRangePropertiesNames {
 }
 
 // @public (undocumented)
-export type PatchOperation = ExistingKeyOperation | RemoveOperation | MoveOperation;
+export type PatchOperation = ExistingKeyOperation | RemoveOperation;
 
 // @public (undocumented)
 export interface PatchOperationInput {
@@ -1142,7 +1135,6 @@ export const PatchOperationType: {
     readonly remove: "remove";
     readonly set: "set";
     readonly incr: "incr";
-    readonly move: "move";
 };
 
 // @public (undocumented)

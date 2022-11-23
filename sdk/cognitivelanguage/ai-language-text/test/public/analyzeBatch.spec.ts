@@ -51,6 +51,7 @@ import {
   expectation32,
   expectation30,
   expectation31,
+  expectation71,
 } from "./expectations";
 import { windows365ArticlePart1, windows365ArticlePart2 } from "./inputs";
 import { getDocIDsFromState } from "../../src/lro";
@@ -117,10 +118,14 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation3);
           });
 
+          // FIXME: add the input for the VolumeResolution once the service is consistent
           it("entity recognition with resolution", async function () {
             const docs = [
-              "Average price of sneaker is 120 EUR",
-              "Bill Gates is 66 years old in 2022",
+              "The dog is 14 inches tall and weighs 20 lbs. It is 5 years old.",
+              "This is the first aircraft of its kind. It can fly at over 1,300 meter per second and carry 65-80 passengers.",
+              "The apartment is 840 sqft. and it has 2 bedrooms. It costs 2,000 US dollars per month and will be available on 11/01/2022.",
+              /* "Mix 1 cup of sugar. Bake for approximately 60 minutes in an oven preheated to 350 degrees F.", */
+              "They retrieved 200 terabytes of data between October 24th, 2022 and October 28th, 2022.",
             ];
             const poller = await client.beginAnalyzeBatch(
               [
@@ -682,7 +687,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           await assertActionsResults(await poller.pollUntilDone(), expectation11, FIXME1);
         });
 
-        it("output order is same as the input's one with multiple actions", async function () {
+        // see https://github.com/Azure/azure-sdk-for-js/issues/23900
+        it.skip("output order is same as the input's one with multiple actions", async function () {
           const docs = [
             { id: "1", text: "one" },
             { id: "2", text: "two" },
@@ -861,6 +867,43 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           await assertActionsResults(await poller.pollUntilDone(), expectation15);
         });
 
+        it("whole batch input with auto language detection", async function () {
+          const docs = [
+            "I will go to the park.",
+            "Este es un document escrito en Español.",
+            "猫は幸せ",
+          ];
+          const poller = await client.beginAnalyzeBatch(
+            [
+              {
+                kind: AnalyzeBatchActionNames.EntityRecognition,
+              },
+              {
+                kind: AnalyzeBatchActionNames.PiiEntityRecognition,
+              },
+              {
+                kind: AnalyzeBatchActionNames.SentimentAnalysis,
+              },
+              {
+                kind: AnalyzeBatchActionNames.KeyPhraseExtraction,
+              },
+              {
+                kind: AnalyzeBatchActionNames.EntityLinking,
+              },
+              {
+                kind: AnalyzeBatchActionNames.Healthcare,
+              },
+            ],
+            docs,
+            "auto",
+            {
+              updateIntervalInMs: pollingInterval,
+              defaultLanguage: "en",
+            }
+          );
+          await assertActionsResults(await poller.pollUntilDone(), expectation71);
+        });
+
         it("invalid language hint", async function () {
           const docs = ["This should fail because we're passing in an invalid language hint"];
           const poller = await client.beginAnalyzeBatch(
@@ -926,8 +969,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           poller.onProgress((state) => {
             assert.ok(state.createdOn, "createdOn is undefined!");
             assert.ok(state.expiresOn, "expiresOn is undefined!");
-            // FIXME uncomment this line when the service fixes the issue
-            // assert.ok(state.modifiedOn, "modifiedOn is undefined!");
+            assert.ok(state.modifiedOn, "modifiedOn is undefined!");
             assert.ok(state.status, "status is undefined!");
             assert.ok(state.id, "id is undefined!");
             assert.equal(state.displayName, "testJob");

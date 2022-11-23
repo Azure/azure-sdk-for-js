@@ -8,26 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const SchemaGroups: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SchemaGroups",
-    modelProperties: {
-      schemaGroups: {
-        serializedName: "schemaGroups",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const ErrorModel: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -79,26 +59,6 @@ export const ErrorDetail: coreClient.CompositeMapper = {
   }
 };
 
-export const SchemaVersions: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SchemaVersions",
-    modelProperties: {
-      schemaVersions: {
-        serializedName: "schemaVersions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Number"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const SchemaId: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -106,21 +66,6 @@ export const SchemaId: coreClient.CompositeMapper = {
     modelProperties: {
       id: {
         serializedName: "id",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SchemaGroupsListExceptionHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SchemaGroupsListExceptionHeaders",
-    modelProperties: {
-      xMsErrorCode: {
-        serializedName: "x-ms-error-code",
         type: {
           name: "String"
         }
@@ -184,21 +129,6 @@ export const SchemaGetByIdExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SchemaGetByIdExceptionHeaders",
-    modelProperties: {
-      xMsErrorCode: {
-        serializedName: "x-ms-error-code",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SchemaGetVersionsExceptionHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SchemaGetVersionsExceptionHeaders",
     modelProperties: {
       xMsErrorCode: {
         serializedName: "x-ms-error-code",

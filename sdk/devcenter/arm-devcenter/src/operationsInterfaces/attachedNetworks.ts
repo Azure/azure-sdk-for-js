@@ -26,7 +26,7 @@ import {
 export interface AttachedNetworks {
   /**
    * Lists the attached NetworkConnections for a Project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -37,7 +37,7 @@ export interface AttachedNetworks {
   ): PagedAsyncIterableIterator<AttachedNetworkConnection>;
   /**
    * Lists the attached NetworkConnections for a DevCenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -48,7 +48,7 @@ export interface AttachedNetworks {
   ): PagedAsyncIterableIterator<AttachedNetworkConnection>;
   /**
    * Gets an attached NetworkConnection.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param attachedNetworkConnectionName The name of the attached NetworkConnection.
    * @param options The options parameters.
@@ -61,7 +61,7 @@ export interface AttachedNetworks {
   ): Promise<AttachedNetworksGetByProjectResponse>;
   /**
    * Gets an attached NetworkConnection.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param attachedNetworkConnectionName The name of the attached NetworkConnection.
    * @param options The options parameters.
@@ -74,7 +74,7 @@ export interface AttachedNetworks {
   ): Promise<AttachedNetworksGetByDevCenterResponse>;
   /**
    * Creates or updates an attached NetworkConnection.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param attachedNetworkConnectionName The name of the attached NetworkConnection.
    * @param body Represents an attached NetworkConnection.
@@ -94,7 +94,7 @@ export interface AttachedNetworks {
   >;
   /**
    * Creates or updates an attached NetworkConnection.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param attachedNetworkConnectionName The name of the attached NetworkConnection.
    * @param body Represents an attached NetworkConnection.
@@ -109,7 +109,7 @@ export interface AttachedNetworks {
   ): Promise<AttachedNetworksCreateOrUpdateResponse>;
   /**
    * Un-attach a NetworkConnection.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param attachedNetworkConnectionName The name of the attached NetworkConnection.
    * @param options The options parameters.
@@ -122,7 +122,7 @@ export interface AttachedNetworks {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Un-attach a NetworkConnection.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param attachedNetworkConnectionName The name of the attached NetworkConnection.
    * @param options The options parameters.

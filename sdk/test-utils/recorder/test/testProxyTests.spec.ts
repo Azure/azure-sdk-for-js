@@ -3,6 +3,7 @@
 
 import { ServiceClient } from "@azure/core-client";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
+import assert from "assert";
 import { expect } from "chai";
 import { CustomMatcherOptions, isPlaybackMode, Recorder } from "../src";
 import { isLiveMode, TestMode } from "../src/utils/utils";
@@ -106,6 +107,30 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           expect(rsp.status).to.be.within(200, 299);
         })
       ));
+
+    it("allows multiple consecutive slashes at the start of the path", async () => {
+      await recorder.start({ envSetupForPlayback: {} });
+      await makeRequestAndVerifyResponse(
+        client,
+        { path: "///multiple_slashes", method: "GET" },
+        { val: "abc" }
+      );
+    });
+
+    it("redirected request gets reverted", async () => {
+      await recorder.start({ envSetupForPlayback: {} });
+      const req = createPipelineRequest({
+        url: getTestServerUrl() + "/sample_response",
+        method: "GET",
+        allowInsecureConnection: isLiveMode(),
+      });
+      await client.sendRequest(req);
+      assert.strictEqual(
+        req.url,
+        getTestServerUrl() + "/sample_response",
+        "Looks like the url is not the same"
+      );
+    });
 
     // Matchers
     describe("Matchers", () => {
