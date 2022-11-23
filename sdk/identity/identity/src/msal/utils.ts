@@ -114,22 +114,21 @@ export const defaultLoggerCallback: (
 /**
  * @internal
  */
-export function  getMSALLogLevel(logLevel: AzureLogLevel| undefined): msalCommon.LogLevel {
-  switch(logLevel){
-  case "error":
-    return msalCommon.LogLevel.Error;
-  case "info":
-    return msalCommon.LogLevel.Info;
-  case "verbose":
-    return msalCommon.LogLevel.Verbose;
-  case "warning":
-    return msalCommon.LogLevel.Warning;
-  default:
-    // default msal logging level should be Info
-    return msalCommon.LogLevel.Info;
- }
+export function getMSALLogLevel(logLevel: AzureLogLevel | undefined): msalCommon.LogLevel {
+  switch (logLevel) {
+    case "error":
+      return msalCommon.LogLevel.Error;
+    case "info":
+      return msalCommon.LogLevel.Info;
+    case "verbose":
+      return msalCommon.LogLevel.Verbose;
+    case "warning":
+      return msalCommon.LogLevel.Warning;
+    default:
+      // default msal logging level should be Info
+      return msalCommon.LogLevel.Info;
+  }
 }
-  
 
 /**
  * The common utility functions for the MSAL clients.

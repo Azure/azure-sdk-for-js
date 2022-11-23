@@ -3,7 +3,7 @@
 
 import * as msalBrowser from "@azure/msal-browser";
 import { MsalBrowser, MsalBrowserFlowOptions } from "./msalBrowserCommon";
-import { defaultLoggerCallback, msalToPublic, publicToMsal,  getMSALLogLevel } from "../utils";
+import { defaultLoggerCallback, msalToPublic, publicToMsal, getMSALLogLevel } from "../utils";
 import { AccessToken } from "@azure/core-auth";
 import { AuthenticationRecord } from "../types";
 import { AuthenticationRequiredError } from "../../errors";
@@ -39,7 +39,7 @@ export class MSALAuthCode extends MsalBrowser {
     this.msalConfig.system = {
       loggerOptions: {
         loggerCallback: defaultLoggerCallback(this.logger, "Browser"),
-        logLevel:  getMSALLogLevel(getLogLevel()),
+        logLevel: getMSALLogLevel(getLogLevel()),
       },
     };
 
