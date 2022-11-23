@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ComputePolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -66,15 +65,11 @@ export class ComputePoliciesImpl implements ComputePolicies {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByAccountPagingPage(
           resourceGroupName,
           accountName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -83,22 +78,15 @@ export class ComputePoliciesImpl implements ComputePolicies {
   private async *listByAccountPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: ComputePoliciesListByAccountOptionalParams,
-    settings?: PageSettings
+    options?: ComputePoliciesListByAccountOptionalParams
   ): AsyncIterableIterator<ComputePolicy[]> {
-    let result: ComputePoliciesListByAccountResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByAccount(
-        resourceGroupName,
-        accountName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByAccount(
+      resourceGroupName,
+      accountName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByAccountNext(
         resourceGroupName,
@@ -107,9 +95,7 @@ export class ComputePoliciesImpl implements ComputePolicies {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

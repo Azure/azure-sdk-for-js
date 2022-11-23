@@ -207,12 +207,12 @@ export interface ComputePoliciesUpdateOptionalParams extends coreClient.Operatio
 export type ComputePoliciesUpdateResponse = ComputePolicy;
 
 // @public
-export interface ComputePolicy extends SubResource {
-    readonly maxDegreeOfParallelismPerJob?: number;
-    readonly minPriorityPerJob?: number;
+export type ComputePolicy = SubResource & {
     readonly objectId?: string;
     readonly objectType?: AADObjectType;
-}
+    readonly maxDegreeOfParallelismPerJob?: number;
+    readonly minPriorityPerJob?: number;
+};
 
 // @public
 export interface ComputePolicyListResult {
@@ -272,48 +272,48 @@ export interface CreateOrUpdateFirewallRuleParameters {
 }
 
 // @public
-export interface DataLakeAnalyticsAccount extends Resource {
+export type DataLakeAnalyticsAccount = Resource & {
     readonly accountId?: string;
-    readonly computePolicies?: ComputePolicy[];
+    readonly provisioningState?: DataLakeAnalyticsAccountStatus;
+    readonly state?: DataLakeAnalyticsAccountState;
     readonly creationTime?: Date;
-    readonly currentTier?: TierType;
-    readonly dataLakeStoreAccounts?: DataLakeStoreAccountInformation[];
-    readonly debugDataAccessLevel?: DebugDataAccessLevel;
-    readonly defaultDataLakeStoreAccount?: string;
-    readonly defaultDataLakeStoreAccountType?: string;
+    readonly lastModifiedTime?: Date;
     readonly endpoint?: string;
-    firewallAllowAzureIps?: FirewallAllowAzureIpsState;
+    readonly defaultDataLakeStoreAccountType?: string;
+    readonly defaultDataLakeStoreAccount?: string;
+    readonly dataLakeStoreAccounts?: DataLakeStoreAccountInformation[];
+    publicDataLakeStoreAccounts?: DataLakeStoreAccountInformation[];
+    readonly storageAccounts?: StorageAccountInformation[];
+    readonly computePolicies?: ComputePolicy[];
+    readonly hiveMetastores?: HiveMetastore[];
+    readonly virtualNetworkRules?: VirtualNetworkRule[];
     readonly firewallRules?: FirewallRule[];
     firewallState?: FirewallState;
-    readonly hiveMetastores?: HiveMetastore[];
-    readonly lastModifiedTime?: Date;
-    readonly maxActiveJobCountPerUser?: number;
-    maxDegreeOfParallelism?: number;
-    maxDegreeOfParallelismPerJob?: number;
-    maxJobCount?: number;
-    readonly maxJobRunningTimeInMin?: number;
-    readonly maxQueuedJobCountPerUser?: number;
-    readonly minPriorityPerJob?: number;
+    firewallAllowAzureIps?: FirewallAllowAzureIpsState;
     newTier?: TierType;
-    readonly provisioningState?: DataLakeAnalyticsAccountStatus;
-    publicDataLakeStoreAccounts?: DataLakeStoreAccountInformation[];
-    queryStoreRetention?: number;
-    readonly state?: DataLakeAnalyticsAccountState;
-    readonly storageAccounts?: StorageAccountInformation[];
-    readonly systemMaxDegreeOfParallelism?: number;
+    readonly currentTier?: TierType;
+    maxJobCount?: number;
+    readonly maxActiveJobCountPerUser?: number;
+    readonly maxQueuedJobCountPerUser?: number;
+    readonly maxJobRunningTimeInMin?: number;
     readonly systemMaxJobCount?: number;
-    readonly virtualNetworkRules?: VirtualNetworkRule[];
-}
+    maxDegreeOfParallelism?: number;
+    readonly systemMaxDegreeOfParallelism?: number;
+    maxDegreeOfParallelismPerJob?: number;
+    readonly minPriorityPerJob?: number;
+    queryStoreRetention?: number;
+    readonly debugDataAccessLevel?: DebugDataAccessLevel;
+};
 
 // @public
-export interface DataLakeAnalyticsAccountBasic extends Resource {
+export type DataLakeAnalyticsAccountBasic = Resource & {
     readonly accountId?: string;
-    readonly creationTime?: Date;
-    readonly endpoint?: string;
-    readonly lastModifiedTime?: Date;
     readonly provisioningState?: DataLakeAnalyticsAccountStatus;
     readonly state?: DataLakeAnalyticsAccountState;
-}
+    readonly creationTime?: Date;
+    readonly lastModifiedTime?: Date;
+    readonly endpoint?: string;
+};
 
 // @public
 export interface DataLakeAnalyticsAccountListResult {
@@ -355,32 +355,32 @@ export interface DataLakeAnalyticsAccountManagementClientOptionalParams extends 
 }
 
 // @public
-export interface DataLakeAnalyticsAccountProperties extends DataLakeAnalyticsAccountPropertiesBasic {
-    readonly computePolicies?: ComputePolicy[];
-    readonly currentTier?: TierType;
-    readonly dataLakeStoreAccounts?: DataLakeStoreAccountInformation[];
-    readonly debugDataAccessLevel?: DebugDataAccessLevel;
-    readonly defaultDataLakeStoreAccount?: string;
+export type DataLakeAnalyticsAccountProperties = DataLakeAnalyticsAccountPropertiesBasic & {
     readonly defaultDataLakeStoreAccountType?: string;
-    firewallAllowAzureIps?: FirewallAllowAzureIpsState;
+    readonly defaultDataLakeStoreAccount?: string;
+    readonly dataLakeStoreAccounts?: DataLakeStoreAccountInformation[];
+    publicDataLakeStoreAccounts?: DataLakeStoreAccountInformation[];
+    readonly storageAccounts?: StorageAccountInformation[];
+    readonly computePolicies?: ComputePolicy[];
+    readonly hiveMetastores?: HiveMetastore[];
+    readonly virtualNetworkRules?: VirtualNetworkRule[];
     readonly firewallRules?: FirewallRule[];
     firewallState?: FirewallState;
-    readonly hiveMetastores?: HiveMetastore[];
-    readonly maxActiveJobCountPerUser?: number;
-    maxDegreeOfParallelism?: number;
-    maxDegreeOfParallelismPerJob?: number;
-    maxJobCount?: number;
-    readonly maxJobRunningTimeInMin?: number;
-    readonly maxQueuedJobCountPerUser?: number;
-    readonly minPriorityPerJob?: number;
+    firewallAllowAzureIps?: FirewallAllowAzureIpsState;
     newTier?: TierType;
-    publicDataLakeStoreAccounts?: DataLakeStoreAccountInformation[];
-    queryStoreRetention?: number;
-    readonly storageAccounts?: StorageAccountInformation[];
-    readonly systemMaxDegreeOfParallelism?: number;
+    readonly currentTier?: TierType;
+    maxJobCount?: number;
+    readonly maxActiveJobCountPerUser?: number;
+    readonly maxQueuedJobCountPerUser?: number;
+    readonly maxJobRunningTimeInMin?: number;
     readonly systemMaxJobCount?: number;
-    readonly virtualNetworkRules?: VirtualNetworkRule[];
-}
+    maxDegreeOfParallelism?: number;
+    readonly systemMaxDegreeOfParallelism?: number;
+    maxDegreeOfParallelismPerJob?: number;
+    readonly minPriorityPerJob?: number;
+    queryStoreRetention?: number;
+    readonly debugDataAccessLevel?: DebugDataAccessLevel;
+};
 
 // @public
 export interface DataLakeAnalyticsAccountPropertiesBasic {
@@ -399,9 +399,9 @@ export type DataLakeAnalyticsAccountState = "Active" | "Suspended";
 export type DataLakeAnalyticsAccountStatus = "Failed" | "Creating" | "Running" | "Succeeded" | "Patching" | "Suspending" | "Resuming" | "Deleting" | "Deleted" | "Undeleting" | "Canceled";
 
 // @public
-export interface DataLakeStoreAccountInformation extends SubResource {
+export type DataLakeStoreAccountInformation = SubResource & {
     readonly suffix?: string;
-}
+};
 
 // @public
 export interface DataLakeStoreAccountInformationListResult {
@@ -486,10 +486,10 @@ export interface ErrorResponse {
 export type FirewallAllowAzureIpsState = "Enabled" | "Disabled";
 
 // @public
-export interface FirewallRule extends SubResource {
-    readonly endIpAddress?: string;
+export type FirewallRule = SubResource & {
     readonly startIpAddress?: string;
-}
+    readonly endIpAddress?: string;
+};
 
 // @public
 export interface FirewallRuleListResult {
@@ -549,18 +549,15 @@ export type FirewallRulesUpdateResponse = FirewallRule;
 // @public
 export type FirewallState = "Enabled" | "Disabled";
 
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
-
 // @public (undocumented)
-export interface HiveMetastore extends SubResource {
-    readonly databaseName?: string;
-    readonly nestedResourceProvisioningState?: NestedResourceProvisioningState;
-    readonly password?: string;
-    readonly runtimeVersion?: string;
+export type HiveMetastore = SubResource & {
     readonly serverUri?: string;
+    readonly databaseName?: string;
+    readonly runtimeVersion?: string;
     readonly userName?: string;
-}
+    readonly password?: string;
+    readonly nestedResourceProvisioningState?: NestedResourceProvisioningState;
+};
 
 // @public
 export interface HiveMetastoreListResult {
@@ -570,24 +567,35 @@ export interface HiveMetastoreListResult {
 
 // @public
 export enum KnownAADObjectType {
+    // (undocumented)
     Group = "Group",
+    // (undocumented)
     ServicePrincipal = "ServicePrincipal",
+    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownOperationOrigin {
+    // (undocumented)
     System = "system",
+    // (undocumented)
     User = "user",
+    // (undocumented)
     UserSystem = "user,system"
 }
 
 // @public
 export enum KnownSubscriptionState {
+    // (undocumented)
     Deleted = "Deleted",
+    // (undocumented)
     Registered = "Registered",
+    // (undocumented)
     Suspended = "Suspended",
+    // (undocumented)
     Unregistered = "Unregistered",
+    // (undocumented)
     Warned = "Warned"
 }
 
@@ -707,9 +715,9 @@ export interface SasTokenInformationListResult {
 }
 
 // @public
-export interface StorageAccountInformation extends SubResource {
+export type StorageAccountInformation = SubResource & {
     readonly suffix?: string;
-}
+};
 
 // @public
 export interface StorageAccountInformationListResult {
@@ -811,9 +819,9 @@ export interface StorageAccountsUpdateOptionalParams extends coreClient.Operatio
 }
 
 // @public
-export interface StorageContainer extends SubResource {
+export type StorageContainer = SubResource & {
     readonly lastModifiedTime?: Date;
-}
+};
 
 // @public
 export interface StorageContainerListResult {
@@ -903,10 +911,10 @@ export interface UpdateStorageAccountWithAccountParameters {
 }
 
 // @public
-export interface VirtualNetworkRule extends SubResource {
+export type VirtualNetworkRule = SubResource & {
     readonly subnetId?: string;
     readonly virtualNetworkRuleState?: VirtualNetworkRuleState;
-}
+};
 
 // @public
 export interface VirtualNetworkRuleListResult {

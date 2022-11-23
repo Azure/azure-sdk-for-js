@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { StorageAccounts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,23 +16,23 @@ import {
   StorageAccountInformation,
   StorageAccountsListByAccountNextOptionalParams,
   StorageAccountsListByAccountOptionalParams,
-  StorageAccountsListByAccountResponse,
   StorageContainer,
   StorageAccountsListStorageContainersNextOptionalParams,
   StorageAccountsListStorageContainersOptionalParams,
-  StorageAccountsListStorageContainersResponse,
   SasTokenInformation,
   StorageAccountsListSasTokensNextOptionalParams,
   StorageAccountsListSasTokensOptionalParams,
-  StorageAccountsListSasTokensResponse,
+  StorageAccountsListByAccountResponse,
   AddStorageAccountParameters,
   StorageAccountsAddOptionalParams,
   StorageAccountsGetOptionalParams,
   StorageAccountsGetResponse,
   StorageAccountsUpdateOptionalParams,
   StorageAccountsDeleteOptionalParams,
+  StorageAccountsListStorageContainersResponse,
   StorageAccountsGetStorageContainerOptionalParams,
   StorageAccountsGetStorageContainerResponse,
+  StorageAccountsListSasTokensResponse,
   StorageAccountsListByAccountNextResponse,
   StorageAccountsListStorageContainersNextResponse,
   StorageAccountsListSasTokensNextResponse
@@ -76,15 +75,11 @@ export class StorageAccountsImpl implements StorageAccounts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByAccountPagingPage(
           resourceGroupName,
           accountName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -93,22 +88,15 @@ export class StorageAccountsImpl implements StorageAccounts {
   private async *listByAccountPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: StorageAccountsListByAccountOptionalParams,
-    settings?: PageSettings
+    options?: StorageAccountsListByAccountOptionalParams
   ): AsyncIterableIterator<StorageAccountInformation[]> {
-    let result: StorageAccountsListByAccountResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByAccount(
-        resourceGroupName,
-        accountName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByAccount(
+      resourceGroupName,
+      accountName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByAccountNext(
         resourceGroupName,
@@ -117,9 +105,7 @@ export class StorageAccountsImpl implements StorageAccounts {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -164,16 +150,12 @@ export class StorageAccountsImpl implements StorageAccounts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listStorageContainersPagingPage(
           resourceGroupName,
           accountName,
           storageAccountName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -183,23 +165,16 @@ export class StorageAccountsImpl implements StorageAccounts {
     resourceGroupName: string,
     accountName: string,
     storageAccountName: string,
-    options?: StorageAccountsListStorageContainersOptionalParams,
-    settings?: PageSettings
+    options?: StorageAccountsListStorageContainersOptionalParams
   ): AsyncIterableIterator<StorageContainer[]> {
-    let result: StorageAccountsListStorageContainersResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listStorageContainers(
-        resourceGroupName,
-        accountName,
-        storageAccountName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listStorageContainers(
+      resourceGroupName,
+      accountName,
+      storageAccountName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listStorageContainersNext(
         resourceGroupName,
@@ -209,9 +184,7 @@ export class StorageAccountsImpl implements StorageAccounts {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -263,17 +236,13 @@ export class StorageAccountsImpl implements StorageAccounts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listSasTokensPagingPage(
           resourceGroupName,
           accountName,
           storageAccountName,
           containerName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -284,24 +253,17 @@ export class StorageAccountsImpl implements StorageAccounts {
     accountName: string,
     storageAccountName: string,
     containerName: string,
-    options?: StorageAccountsListSasTokensOptionalParams,
-    settings?: PageSettings
+    options?: StorageAccountsListSasTokensOptionalParams
   ): AsyncIterableIterator<SasTokenInformation[]> {
-    let result: StorageAccountsListSasTokensResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSasTokens(
-        resourceGroupName,
-        accountName,
-        storageAccountName,
-        containerName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listSasTokens(
+      resourceGroupName,
+      accountName,
+      storageAccountName,
+      containerName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listSasTokensNext(
         resourceGroupName,
@@ -312,9 +274,7 @@ export class StorageAccountsImpl implements StorageAccounts {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 

@@ -11750,7 +11750,7 @@ packages:
     dev: false
 
   file:projects/arm-datalake-analytics.tgz:
-    resolution: {integrity: sha512-dCpD5shLRFxS5YwlZbu3+n1oDFYFs2AuBGLmnfHWhwULh36A7X/5heNrqYbvBeOTNRh2c5BzneO6yI4ct5VueQ==, tarball: file:projects/arm-datalake-analytics.tgz}
+    resolution: {integrity: sha512-/wtriWS/G14ZKjuXeLtwJ/G0DpdRiwQvpokB5vMy6zQFFmKprHmwOAL/Wfjww5KvuuRthFTEm+l4Vu5OmlACGg==, tarball: file:projects/arm-datalake-analytics.tgz}
     name: '@rush-temp/arm-datalake-analytics'
     version: 0.0.0
     dependencies:
@@ -11769,11 +11769,13 @@ packages:
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.1
-      typescript: 4.8.4
+      typescript: 4.2.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - '@types/node'
+      - encoding
       - supports-color
     dev: false
 
