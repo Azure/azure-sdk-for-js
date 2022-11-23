@@ -10,6 +10,7 @@
     "preserveConstEnums": true,
     "removeComments": false,
     "target": "es6",
+    "lib": ["es2019"],
     "sourceMap": true,
     "newLine": "LF",
     "composite": true,
