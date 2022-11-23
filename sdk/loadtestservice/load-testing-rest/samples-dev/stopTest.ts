@@ -62,7 +62,7 @@ async function main() {
   //wait for terminal state
   while (
     testStatus == null ||
-    (testStatus != "DONE" && testStatus != "CANCELLED" && testStatus != "FAILED")
+    (testStatus != "EXECUTING" && testStatus != "CANCELLED" && testStatus != "FAILED")
   ) {
     getTestRunResult = await client
       .path("/test-runs/{testRunId}", testRunCreationResult.body.testRunId)
@@ -76,55 +76,14 @@ async function main() {
     sleep(5000);
   }
 
-  if (getTestRunResult === undefined) throw new Error("There is some issue in running the test.");
+  if (testStatus == "EXECUTING") {
+    let stopTestRunResult = await client.path("/test-runs/{testRunId}:stop", testRunId).post();
 
-  let testRunStarttime = getTestRunResult.body.startDateTime;
-  let testRunEndTime = getTestRunResult.body.endDateTime;
+    if (isUnexpected(stopTestRunResult)) {
+      throw stopTestRunResult.body.error;
+    }
 
-  // get list of all metric namespaces and pick the first one
-  let metricNamespaces = await client
-    .path("/test-runs/{testRunId}/metric-namespaces", testRunCreationResult.body.testRunId)
-    .get();
-
-  if (isUnexpected(metricNamespaces)) {
-    throw metricNamespaces.body.error;
+    console.log("Test run is stopped.");
   }
-
-  let metricNamespace = metricNamespaces.body.value[0];
-
-  if (metricNamespace.name === undefined) {
-    throw "No Metric Namespace name is defined.";
-  }
-
-  // get list of all metric definitions and pick the first one
-  let metricDefinitions = await client
-    .path("/test-runs/{testRunId}/metric-definitions", testRunCreationResult.body.testRunId)
-    .get({
-      queryParameters: {
-        metricNamespace: metricNamespace.name,
-      },
-    });
-
-  if (isUnexpected(metricDefinitions)) {
-    throw metricDefinitions.body.error;
-  }
-
-  let metricDefinition = metricDefinitions.body.value[0];
-
-  if (metricDefinition.name === undefined) {
-    throw "No Metric Namespace name is defined.";
-  }
-
-  // fetch client metrics using metric namespace and metric name
-  let metricsResult = await client.path("/test-runs/{testRunId}/metrics", testRunId).post({
-    queryParameters: {
-      metricname: metricDefinition.name,
-      metricNamespace: metricNamespace.name,
-      timespan: testRunStarttime + "/" + testRunEndTime,
-    },
-  });
-
-  console.log(metricsResult);
-  console.log(getTestRunResult);
 }
 main().catch(console.error);

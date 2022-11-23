@@ -196,6 +196,20 @@ async function main() {
 
   console.log(metricsResult);
   console.log(getTestRunResult);
+
+  // Deleting test run
+  let deleteTestRunResult = await client.path("/test-runs/{testRunId}", testRunId).delete();
+
+  if (isUnexpected(deleteTestRunResult)) {
+    throw deleteTestRunResult.body.error;
+  }
+
+  // Deleting test
+  let deleteTestResult = await client.path("/tests/{testId}", testId).delete();
+
+  if (isUnexpected(deleteTestResult)) {
+    throw deleteTestResult.body.error;
+  }
 }
 
 main().catch(console.error);
