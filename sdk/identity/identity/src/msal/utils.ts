@@ -114,7 +114,7 @@ export const defaultLoggerCallback: (
 /**
  * @internal
  */
-export function transformLogLevel(logLevel: AzureLogLevel| undefined): msalCommon.LogLevel | undefined{
+export function convertToMSALLogLevel(logLevel: AzureLogLevel| undefined): msalCommon.LogLevel | undefined{
  if(logLevel)
   switch(logLevel){
   case "error":
