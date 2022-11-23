@@ -4,6 +4,7 @@
 import * as msalCommon from "@azure/msal-common";
 import * as msalNode from "@azure/msal-node";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { getLogLevel } from "@azure/logger";
 import {
   MsalBaseUtilities,
   defaultLoggerCallback,
@@ -11,6 +12,7 @@ import {
   getKnownAuthorities,
   msalToPublic,
   publicToMsal,
+  transformLogLevel,
 } from "../utils";
 import { MsalFlow, MsalFlowOptions } from "../flows";
 import {
@@ -163,6 +165,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         networkClient: this.identityClient,
         loggerOptions: {
           loggerCallback: defaultLoggerCallback(options.logger),
+          logLevel: transformLogLevel(getLogLevel())
         },
       },
     };

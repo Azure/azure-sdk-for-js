@@ -3,11 +3,12 @@
 
 import * as msalBrowser from "@azure/msal-browser";
 import { MsalBrowser, MsalBrowserFlowOptions } from "./msalBrowserCommon";
-import { defaultLoggerCallback, msalToPublic, publicToMsal } from "../utils";
+import { defaultLoggerCallback, msalToPublic, publicToMsal, transformLogLevel } from "../utils";
 import { AccessToken } from "@azure/core-auth";
 import { AuthenticationRecord } from "../types";
 import { AuthenticationRequiredError } from "../../errors";
 import { CredentialFlowGetTokenOptions } from "../credentials";
+import { getLogLevel } from "@azure/logger";
 
 // We keep a copy of the redirect hash.
 const redirectHash = self.location.hash;
@@ -38,6 +39,7 @@ export class MSALAuthCode extends MsalBrowser {
     this.msalConfig.system = {
       loggerOptions: {
         loggerCallback: defaultLoggerCallback(this.logger, "Browser"),
+        logLevel: transformLogLevel(getLogLevel()),
       },
     };
 
