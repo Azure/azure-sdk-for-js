@@ -1,0 +1,65 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DataLakeAnalytics/accounts/myaccountxxx?api-version=2019-11-01-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "353",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-datalake-analytics/2.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "da84c4e3-1997-49ad-a013-4a73ee32ed02"
+      },
+      "RequestBody": {
+        "location": "eastus2",
+        "tags": {
+          "key1": "value1"
+        },
+        "properties": {
+          "defaultDataLakeStoreAccount": "mygen1",
+          "dataLakeStoreAccounts": [
+            {
+              "name": "mygen1"
+            }
+          ],
+          "firewallState": "Enabled",
+          "firewallAllowAzureIps": "Enabled",
+          "newTier": "Consumption",
+          "maxJobCount": 3,
+          "maxDegreeOfParallelism": 30,
+          "maxDegreeOfParallelismPerJob": 1,
+          "minPriorityPerJob": 1,
+          "queryStoreRetention": 30
+        }
+      },
+      "StatusCode": 409,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "119",
+        "Content-Type": "application/json",
+        "Date": "Wed, 23 Nov 2022 06:39:27 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-IIS/10.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-AspNet-Version": "4.0.30319",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "5ea712f5-7b59-48b7-8c69-962d3a948013",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "55512ab0-0f9b-4723-8f9b-e3f8c48e98c7",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221123T063927Z:5ea712f5-7b59-48b7-8c69-962d3a948013",
+        "X-Powered-By": "ASP.NET"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "AccountCreationNotAllowed",
+          "message": "Account creation is not allowed in the current subscription."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
