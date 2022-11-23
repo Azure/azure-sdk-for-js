@@ -1,6 +1,4 @@
 # Release History
-
-<<<<<<< HEAD
 ## 3.1.2 (Unreleased)
 
 ### Features Added
@@ -9,10 +7,9 @@
 
 ### Bugs Fixed
 
+- Enable msal logging based on log level specified by user.
 ### Other Changes
 
-=======
->>>>>>> cd2d266e31 (update changelog)
 ## 3.1.1 (2022-11-18)
 
 ### Bugs Fixed
