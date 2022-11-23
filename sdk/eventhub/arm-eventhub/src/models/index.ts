@@ -513,15 +513,15 @@ export interface SchemaGroupListResult {
 }
 
 /** Definition of resource. */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource location. */
   location?: string;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-};
+}
 
 /** Properties of the PrivateEndpointConnection. */
-export type PrivateEndpointConnection = ProxyResource & {
+export interface PrivateEndpointConnection extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -533,10 +533,10 @@ export type PrivateEndpointConnection = ProxyResource & {
   privateLinkServiceConnectionState?: ConnectionState;
   /** Provisioning state of the Private Endpoint Connection. */
   provisioningState?: EndPointProvisioningState;
-};
+}
 
 /** Single item in List or Get Event Hub operation */
-export type Eventhub = ProxyResource & {
+export interface Eventhub extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -565,10 +565,10 @@ export type Eventhub = ProxyResource & {
   status?: EntityStatus;
   /** Properties of capture description */
   captureDescription?: CaptureDescription;
-};
+}
 
 /** Single item in List or Get Alias(Disaster Recovery configuration) operation */
-export type ArmDisasterRecovery = ProxyResource & {
+export interface ArmDisasterRecovery extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -593,10 +593,10 @@ export type ArmDisasterRecovery = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly pendingReplicationOperationsCount?: number;
-};
+}
 
 /** Description of topic resource. */
-export type NetworkRuleSet = ProxyResource & {
+export interface NetworkRuleSet extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -612,10 +612,10 @@ export type NetworkRuleSet = ProxyResource & {
   ipRules?: NWRuleSetIpRules[];
   /** This determines if traffic is allowed over public network. By default it is enabled. */
   publicNetworkAccess?: PublicNetworkAccessFlag;
-};
+}
 
 /** Single item in a List or Get AuthorizationRule operation */
-export type AuthorizationRule = ProxyResource & {
+export interface AuthorizationRule extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -623,10 +623,10 @@ export type AuthorizationRule = ProxyResource & {
   readonly systemData?: SystemData;
   /** The rights associated with the rule. */
   rights?: AccessRights[];
-};
+}
 
 /** Single item in List or Get Consumer group operation */
-export type ConsumerGroup = ProxyResource & {
+export interface ConsumerGroup extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -644,10 +644,10 @@ export type ConsumerGroup = ProxyResource & {
   readonly updatedAt?: Date;
   /** User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored. */
   userMetadata?: string;
-};
+}
 
 /** Single item in List or Get Schema Group operation */
-export type SchemaGroup = ProxyResource & {
+export interface SchemaGroup extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -672,10 +672,10 @@ export type SchemaGroup = ProxyResource & {
   groupProperties?: { [propertyName: string]: string };
   schemaCompatibility?: SchemaCompatibility;
   schemaType?: SchemaType;
-};
+}
 
 /** Single Event Hubs Cluster resource in List or Get operations. */
-export type Cluster = TrackedResource & {
+export interface Cluster extends TrackedResource {
   /** Properties of the cluster SKU. */
   sku?: ClusterSku;
   /**
@@ -703,10 +703,10 @@ export type Cluster = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: string;
-};
+}
 
 /** Single Namespace item in List or Get Operation */
-export type EHNamespace = TrackedResource & {
+export interface EHNamespace extends TrackedResource {
   /** Properties of sku resource */
   sku?: Sku;
   /** Properties of BYOK Identity description */
@@ -764,10 +764,11 @@ export type EHNamespace = TrackedResource & {
   disableLocalAuth?: boolean;
   /** Alternate name specified when alias and namespace names are same. */
   alternateName?: string;
-};
+}
 
 /** Known values of {@link ClusterSkuName} that the service accepts. */
 export enum KnownClusterSkuName {
+  /** Dedicated */
   Dedicated = "Dedicated"
 }
 
@@ -782,9 +783,13 @@ export type ClusterSkuName = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -802,8 +807,11 @@ export type CreatedByType = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
+  /** Basic */
   Basic = "Basic",
+  /** Standard */
   Standard = "Standard",
+  /** Premium */
   Premium = "Premium"
 }
 
@@ -820,8 +828,11 @@ export type SkuName = string;
 
 /** Known values of {@link SkuTier} that the service accepts. */
 export enum KnownSkuTier {
+  /** Basic */
   Basic = "Basic",
+  /** Standard */
   Standard = "Standard",
+  /** Premium */
   Premium = "Premium"
 }
 
@@ -838,9 +849,13 @@ export type SkuTier = string;
 
 /** Known values of {@link PrivateLinkConnectionStatus} that the service accepts. */
 export enum KnownPrivateLinkConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -858,11 +873,17 @@ export type PrivateLinkConnectionStatus = string;
 
 /** Known values of {@link EndPointProvisioningState} that the service accepts. */
 export enum KnownEndPointProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -882,7 +903,9 @@ export type EndPointProvisioningState = string;
 
 /** Known values of {@link DefaultAction} that the service accepts. */
 export enum KnownDefaultAction {
+  /** Allow */
   Allow = "Allow",
+  /** Deny */
   Deny = "Deny"
 }
 
@@ -898,6 +921,7 @@ export type DefaultAction = string;
 
 /** Known values of {@link NetworkRuleIPAction} that the service accepts. */
 export enum KnownNetworkRuleIPAction {
+  /** Allow */
   Allow = "Allow"
 }
 
@@ -912,7 +936,9 @@ export type NetworkRuleIPAction = string;
 
 /** Known values of {@link PublicNetworkAccessFlag} that the service accepts. */
 export enum KnownPublicNetworkAccessFlag {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -928,8 +954,11 @@ export type PublicNetworkAccessFlag = string;
 
 /** Known values of {@link AccessRights} that the service accepts. */
 export enum KnownAccessRights {
+  /** Manage */
   Manage = "Manage",
+  /** Send */
   Send = "Send",
+  /** Listen */
   Listen = "Listen"
 }
 
@@ -946,7 +975,9 @@ export type AccessRights = string;
 
 /** Known values of {@link KeyType} that the service accepts. */
 export enum KnownKeyType {
+  /** PrimaryKey */
   PrimaryKey = "PrimaryKey",
+  /** SecondaryKey */
   SecondaryKey = "SecondaryKey"
 }
 
@@ -962,8 +993,11 @@ export type KeyType = string;
 
 /** Known values of {@link SchemaCompatibility} that the service accepts. */
 export enum KnownSchemaCompatibility {
+  /** None */
   None = "None",
+  /** Backward */
   Backward = "Backward",
+  /** Forward */
   Forward = "Forward"
 }
 
@@ -980,7 +1014,9 @@ export type SchemaCompatibility = string;
 
 /** Known values of {@link SchemaType} that the service accepts. */
 export enum KnownSchemaType {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Avro */
   Avro = "Avro"
 }
 
