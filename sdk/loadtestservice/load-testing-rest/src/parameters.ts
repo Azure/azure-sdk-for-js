@@ -31,7 +31,7 @@ export type TestGetParameters = RequestParameters;
 export interface TestListQueryParamProperties {
   /** Sort on the supported fields in (field asc/desc) format. eg: lastModifiedDateTime asc. Supported fields - lastModifiedDateTime */
   orderby?: string;
-  /** Prefix based, case sensitive search on searchable fields - testId, createdBy. */
+  /** Prefix based, case sensitive search on searchable fields - displayName, createdBy. For example, to search for a test, with display name is Login Test, the search parameter can be Login. */
   search?: string;
   /** Start DateTime(ISO 8601 literal format) of the last updated time range to filter tests. */
   lastModifiedStartTime?: Date | string;
@@ -90,20 +90,20 @@ export interface TestListFilesQueryParam {
 
 export type TestListFilesParameters = TestListFilesQueryParam & RequestParameters;
 
-export interface TestCreateOrUpdateAppComponentBodyParam {
+export interface TestCreateOrUpdateAppComponentsBodyParam {
   /** App Component model. */
   body: TestAppComponents;
 }
 
-export interface TestCreateOrUpdateAppComponentMediaTypesParam {
+export interface TestCreateOrUpdateAppComponentsMediaTypesParam {
   /** Request content type */
   contentType?: "application/merge-patch+json";
 }
 
-export type TestCreateOrUpdateAppComponentParameters = TestCreateOrUpdateAppComponentMediaTypesParam &
-  TestCreateOrUpdateAppComponentBodyParam &
+export type TestCreateOrUpdateAppComponentsParameters = TestCreateOrUpdateAppComponentsMediaTypesParam &
+  TestCreateOrUpdateAppComponentsBodyParam &
   RequestParameters;
-export type TestGetAppComponentsParameters = RequestParameters;
+export type TestListAppComponentsParameters = RequestParameters;
 
 export interface TestCreateOrUpdateServerMetricsConfigBodyParam {
   /** Server metric configuration model. */
@@ -118,7 +118,7 @@ export interface TestCreateOrUpdateServerMetricsConfigMediaTypesParam {
 export type TestCreateOrUpdateServerMetricsConfigParameters = TestCreateOrUpdateServerMetricsConfigMediaTypesParam &
   TestCreateOrUpdateServerMetricsConfigBodyParam &
   RequestParameters;
-export type TestGetServerMetricsConfigParameters = RequestParameters;
+export type TestListServerMetricsConfigParameters = RequestParameters;
 export type TestRunDeleteParameters = RequestParameters;
 
 export interface TestRunCreateOrUpdateBodyParam {
@@ -152,7 +152,7 @@ export interface TestRunListQueryParamProperties {
   orderby?: string;
   /** Continuation token to get the next page of response */
   continuationToken?: string;
-  /** Prefix based, case sensitive search on searchable fields - description, executedUser. */
+  /** Prefix based, case sensitive search on searchable fields - description, executedUser. For example, to search for a test run, with description 500 VUs, the search parameter can be 500. */
   search?: string;
   /** Unique name of an existing load test. */
   testId?: string;
@@ -186,12 +186,12 @@ export interface TestRunListMetricDefinitionsQueryParam {
 export type TestRunListMetricDefinitionsParameters = TestRunListMetricDefinitionsQueryParam &
   RequestParameters;
 
-export interface TestRunGetMetricsBodyParam {
+export interface TestRunListMetricsBodyParam {
   /** Metric dimension filter */
   body?: MetricRequestPayload;
 }
 
-export interface TestRunGetMetricsQueryParamProperties {
+export interface TestRunListMetricsQueryParamProperties {
   /** The aggregation */
   aggregation?: string;
   /** The interval (i.e. timegrain) of the query. */
@@ -204,21 +204,21 @@ export interface TestRunGetMetricsQueryParamProperties {
   timespan: string;
 }
 
-export interface TestRunGetMetricsQueryParam {
-  queryParameters: TestRunGetMetricsQueryParamProperties;
+export interface TestRunListMetricsQueryParam {
+  queryParameters: TestRunListMetricsQueryParamProperties;
 }
 
-export interface TestRunGetMetricsMediaTypesParam {
+export interface TestRunListMetricsMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type TestRunGetMetricsParameters = TestRunGetMetricsQueryParam &
-  TestRunGetMetricsMediaTypesParam &
-  TestRunGetMetricsBodyParam &
+export type TestRunListMetricsParameters = TestRunListMetricsQueryParam &
+  TestRunListMetricsMediaTypesParam &
+  TestRunListMetricsBodyParam &
   RequestParameters;
 
-export interface TestRunGetMetricDimensionValuesQueryParamProperties {
+export interface TestRunListMetricDimensionValuesQueryParamProperties {
   /** The interval (i.e. timegrain) of the query. */
   interval?: "PT5S" | "PT10S" | "PT1M" | "PT5M" | "PT1H";
   /** Metric name */
@@ -229,27 +229,27 @@ export interface TestRunGetMetricDimensionValuesQueryParamProperties {
   timespan: string;
 }
 
-export interface TestRunGetMetricDimensionValuesQueryParam {
-  queryParameters: TestRunGetMetricDimensionValuesQueryParamProperties;
+export interface TestRunListMetricDimensionValuesQueryParam {
+  queryParameters: TestRunListMetricDimensionValuesQueryParamProperties;
 }
 
-export type TestRunGetMetricDimensionValuesParameters = TestRunGetMetricDimensionValuesQueryParam &
+export type TestRunListMetricDimensionValuesParameters = TestRunListMetricDimensionValuesQueryParam &
   RequestParameters;
 
-export interface TestRunCreateOrUpdateAppComponentBodyParam {
+export interface TestRunCreateOrUpdateAppComponentsBodyParam {
   /** App Component model. */
   body: TestRunAppComponents;
 }
 
-export interface TestRunCreateOrUpdateAppComponentMediaTypesParam {
+export interface TestRunCreateOrUpdateAppComponentsMediaTypesParam {
   /** Request content type */
   contentType?: "application/merge-patch+json";
 }
 
-export type TestRunCreateOrUpdateAppComponentParameters = TestRunCreateOrUpdateAppComponentMediaTypesParam &
-  TestRunCreateOrUpdateAppComponentBodyParam &
+export type TestRunCreateOrUpdateAppComponentsParameters = TestRunCreateOrUpdateAppComponentsMediaTypesParam &
+  TestRunCreateOrUpdateAppComponentsBodyParam &
   RequestParameters;
-export type TestRunGetAppComponentsParameters = RequestParameters;
+export type TestRunListAppComponentsParameters = RequestParameters;
 
 export interface TestRunCreateOrUpdateServerMetricsConfigBodyParam {
   /** Server metric configuration model. */
@@ -264,4 +264,4 @@ export interface TestRunCreateOrUpdateServerMetricsConfigMediaTypesParam {
 export type TestRunCreateOrUpdateServerMetricsConfigParameters = TestRunCreateOrUpdateServerMetricsConfigMediaTypesParam &
   TestRunCreateOrUpdateServerMetricsConfigBodyParam &
   RequestParameters;
-export type TestRunGetServerMetricsConfigParameters = RequestParameters;
+export type TestRunListServerMetricsConfigParameters = RequestParameters;

@@ -44,8 +44,8 @@ async function main() {
     throw new Error("Test ID returned as undefined.");
 
   // Uploading .jmx file to a test
-  /*const fileUploadResult = await client
-    .path("/tests/{testId}/files/{fileName}", testCreationResult.body.testId, fileId)
+  const fileUploadResult = await client
+    .path("/tests/{testId}/files/{fileName}", testCreationResult.body.testId, fileName)
     .put({
       contentType: "application/octet-stream",
       body: readStream,
@@ -53,14 +53,7 @@ async function main() {
 
   if (isUnexpected(fileUploadResult)) {
     throw fileUploadResult.body.error;
-  }*/
-  
-  const TEST_ID = testCreationResult.body.testId;
-  const fileValidationPoller = await beginFileValidation(client, TEST_ID, fileName, readStream);
-  const fileValidationResult = await fileValidationPoller.pollUntilDone();
-  console.log(
-    `Provisioned environment with state ${fileValidationResult.body.validationStatus}.`
-  );
+  }
 }
 
 main().catch(console.error);

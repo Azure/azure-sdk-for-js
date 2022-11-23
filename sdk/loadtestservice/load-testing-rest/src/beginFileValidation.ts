@@ -16,7 +16,7 @@ import { ReadStream } from "fs";
  * @returns A poller which can be called to poll until completion of the job.
  */
 export async function beginFileValidation(
-  client : AzureLoadTestingClient,
+  client: AzureLoadTestingClient,
   testId: string,
   fileName: string,
   file: ReadStream,
@@ -32,7 +32,7 @@ export async function beginFileValidation(
   if (isUnexpected(fileUploadResult)) {
     throw fileUploadResult.body.error;
   }
-  let fileValidationResponse : TestUploadFile201Response;
+  let fileValidationResponse: TestUploadFile201Response;
 
   type Handler = (state: OperationState<TestUploadFile201Response>) => void;
 
@@ -48,15 +48,23 @@ export async function beginFileValidation(
   const abortController = new AbortController();
   const currentPollIntervalInMs = polledOperationOptions.updateIntervalInMs ?? 2000;
 
-  const poller: SimplePollerLike<OperationState<TestUploadFile201Response>, TestUploadFile201Response> = {
+  const poller: SimplePollerLike<
+    OperationState<TestUploadFile201Response>,
+    TestUploadFile201Response
+  > = {
     async poll(_options?: { abortSignal?: AbortSignalLike }): Promise<void> {
-
       await client.path("/tests/{testId}/files/{fileName}", testId, fileName).get();
-      if (fileValidationResponse.body.validationStatus === "VALIDATION_INITIATED" || fileValidationResponse.body.validationStatus === "NOT_VALIDATED") {
+      if (
+        fileValidationResponse.body.validationStatus === "VALIDATION_INITIATED" ||
+        fileValidationResponse.body.validationStatus === "NOT_VALIDATED"
+      ) {
         state.status = "running";
       }
 
-      if (fileValidationResponse.body.validationStatus === "VALIDATION_SUCCESS" || fileValidationResponse.body.validationStatus === "VALIDATION_NOT_REQUIRED") {
+      if (
+        fileValidationResponse.body.validationStatus === "VALIDATION_SUCCESS" ||
+        fileValidationResponse.body.validationStatus === "VALIDATION_NOT_REQUIRED"
+      ) {
         state.status = "succeeded";
         state.result = fileValidationResponse;
       }
@@ -76,7 +84,9 @@ export async function beginFileValidation(
       }
     },
 
-    pollUntilDone(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<TestUploadFile201Response> {
+    pollUntilDone(pollOptions?: {
+      abortSignal?: AbortSignalLike;
+    }): Promise<TestUploadFile201Response> {
       return (resultPromise ??= (async () => {
         const { abortSignal: inputAbortSignal } = pollOptions || {};
         const { signal: abortSignal } = inputAbortSignal
@@ -112,7 +122,9 @@ export async function beginFileValidation(
       }));
     },
 
-    onProgress(callback: (state: OperationState<TestUploadFile201Response>) => void): CancelOnProgress {
+    onProgress(
+      callback: (state: OperationState<TestUploadFile201Response>) => void
+    ): CancelOnProgress {
       const s = Symbol();
       progressCallbacks.set(s, callback);
 

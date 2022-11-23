@@ -11,6 +11,4 @@ export * from "./isUnexpected";
 export * from "./models";
 export * from "./outputModels";
 export * from "./paginateHelper";
-export * from "./beginFileValidation";
-
 export default AzureLoadTesting;

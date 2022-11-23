@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 
 /**
- * This sample demonstrates how to a) create a loadtest, b) upload a jmx file, c) create appcomponent, d) run test and e) get test status
- *
- * @summary creates and run a loadtest
+ * This sample demonstrates how to create or update appcomponents
+ * @summary create or update appcomponents
  * @azsdk-weight 10
  */
 

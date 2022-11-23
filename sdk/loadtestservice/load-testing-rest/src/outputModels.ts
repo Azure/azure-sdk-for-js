@@ -124,7 +124,7 @@ export interface FileInfoOutput {
   /** File URL. */
   url?: string;
   /** Name of the file. */
-  filename?: string;
+  fileName?: string;
   /** File type */
   fileType?: "JMX_FILE" | "USER_PROPERTIES" | "ADDITIONAL_ARTIFACTS";
   /** Expiry time of the file (ISO 8601 literal format) */
@@ -136,6 +136,8 @@ export interface FileInfoOutput {
     | "VALIDATION_FAILURE"
     | "VALIDATION_INITIATED"
     | "VALIDATION_NOT_REQUIRED";
+  /** Validation failure error details */
+  validationFailureDetails?: string;
 }
 
 /** The definition of an error object. */
@@ -174,10 +176,10 @@ export interface FileInfoListOutput {
 
 /** Test app component */
 export interface TestAppComponentsOutput {
-  /** Test identifier */
-  testId?: string;
   /** Azure resource collection { resource id (fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}) : resource object } */
   components: Record<string, AppComponentOutput>;
+  /** Test identifier */
+  testId?: string;
   /** The creation datetime(ISO 8601 literal format). */
   createdDateTime?: string;
   /** The user that created. */
@@ -206,7 +208,7 @@ export interface AppComponentOutput {
   kind?: string;
 }
 
-/** Test server metric configuration */
+/** Test server metrics configuration */
 export interface TestServerMetricConfigOutput {
   /** Test identifier */
   testId?: string;
@@ -262,6 +264,8 @@ export interface TestRunOutput {
   testArtifacts?: TestRunArtifactsOutput;
   /** Test result for pass/Fail criteria used during the test run. */
   testResult?: "PASSED" | "NOT_APPLICABLE" | "FAILED";
+  /** Number of virtual users, for which test has been run. */
+  virtualUsers?: number;
   /** Unique test run name as identifier */
   testRunId?: string;
   /** Display name of a testRun. */
@@ -294,8 +298,6 @@ export interface TestRunOutput {
   endDateTime?: string;
   /** Test run initiated time. */
   executedDateTime?: string;
-  /** Number of virtual users, for which test has been run. */
-  virtualUsers?: number;
   /** Portal url. */
   portalUrl?: string;
   /** Test run duration in milliseconds. */
@@ -375,9 +377,9 @@ export interface TestRunInputArtifactsOutput {
 /** The output artifacts for the test run. */
 export interface TestRunOutputArtifactsOutput {
   /** File info */
-  resultUrl?: FileInfoOutput;
+  resultFileInfo?: FileInfoOutput;
   /** File info */
-  logsUrl?: FileInfoOutput;
+  logsFileInfo?: FileInfoOutput;
 }
 
 /** Collection of test runs */
@@ -499,10 +501,10 @@ export interface DimensionValueListOutput {
 
 /** Test run app component */
 export interface TestRunAppComponentsOutput {
-  /** Test run identifier */
-  testRunId?: string;
   /** Azure resource collection { resource id (fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}) : resource object } */
   components: Record<string, AppComponentOutput>;
+  /** Test run identifier */
+  testRunId?: string;
   /** The creation datetime(ISO 8601 literal format). */
   createdDateTime?: string;
   /** The user that created. */
@@ -513,7 +515,7 @@ export interface TestRunAppComponentsOutput {
   lastModifiedBy?: string;
 }
 
-/** Test run server metric configuration */
+/** Test run server metrics configuration */
 export interface TestRunServerMetricConfigOutput {
   /** Test run identifier */
   testRunId?: string;

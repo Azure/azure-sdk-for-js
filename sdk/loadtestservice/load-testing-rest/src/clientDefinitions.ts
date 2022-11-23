@@ -10,10 +10,10 @@ import {
   TestGetFileParameters,
   TestDeleteFileParameters,
   TestListFilesParameters,
-  TestCreateOrUpdateAppComponentParameters,
-  TestGetAppComponentsParameters,
+  TestCreateOrUpdateAppComponentsParameters,
+  TestListAppComponentsParameters,
   TestCreateOrUpdateServerMetricsConfigParameters,
-  TestGetServerMetricsConfigParameters,
+  TestListServerMetricsConfigParameters,
   TestRunDeleteParameters,
   TestRunCreateOrUpdateParameters,
   TestRunGetParameters,
@@ -22,12 +22,12 @@ import {
   TestRunStopParameters,
   TestRunListMetricNamespacesParameters,
   TestRunListMetricDefinitionsParameters,
-  TestRunGetMetricsParameters,
-  TestRunGetMetricDimensionValuesParameters,
-  TestRunCreateOrUpdateAppComponentParameters,
-  TestRunGetAppComponentsParameters,
+  TestRunListMetricsParameters,
+  TestRunListMetricDimensionValuesParameters,
+  TestRunCreateOrUpdateAppComponentsParameters,
+  TestRunListAppComponentsParameters,
   TestRunCreateOrUpdateServerMetricsConfigParameters,
-  TestRunGetServerMetricsConfigParameters,
+  TestRunListServerMetricsConfigParameters,
 } from "./parameters";
 import {
   TestCreateOrUpdate200Response,
@@ -47,16 +47,16 @@ import {
   TestDeleteFileDefaultResponse,
   TestListFiles200Response,
   TestListFilesDefaultResponse,
-  TestCreateOrUpdateAppComponent200Response,
-  TestCreateOrUpdateAppComponent201Response,
-  TestCreateOrUpdateAppComponentDefaultResponse,
-  TestGetAppComponents200Response,
-  TestGetAppComponentsDefaultResponse,
+  TestCreateOrUpdateAppComponents200Response,
+  TestCreateOrUpdateAppComponents201Response,
+  TestCreateOrUpdateAppComponentsDefaultResponse,
+  TestListAppComponents200Response,
+  TestListAppComponentsDefaultResponse,
   TestCreateOrUpdateServerMetricsConfig200Response,
   TestCreateOrUpdateServerMetricsConfig201Response,
   TestCreateOrUpdateServerMetricsConfigDefaultResponse,
-  TestGetServerMetricsConfig200Response,
-  TestGetServerMetricsConfigDefaultResponse,
+  TestListServerMetricsConfig200Response,
+  TestListServerMetricsConfigDefaultResponse,
   TestRunDelete204Response,
   TestRunDeleteDefaultResponse,
   TestRunCreateOrUpdate200Response,
@@ -74,20 +74,20 @@ import {
   TestRunListMetricNamespacesDefaultResponse,
   TestRunListMetricDefinitions200Response,
   TestRunListMetricDefinitionsDefaultResponse,
-  TestRunGetMetrics200Response,
-  TestRunGetMetricsDefaultResponse,
-  TestRunGetMetricDimensionValues200Response,
-  TestRunGetMetricDimensionValuesDefaultResponse,
-  TestRunCreateOrUpdateAppComponent200Response,
-  TestRunCreateOrUpdateAppComponent201Response,
-  TestRunCreateOrUpdateAppComponentDefaultResponse,
-  TestRunGetAppComponents200Response,
-  TestRunGetAppComponentsDefaultResponse,
+  TestRunListMetrics200Response,
+  TestRunListMetricsDefaultResponse,
+  TestRunListMetricDimensionValues200Response,
+  TestRunListMetricDimensionValuesDefaultResponse,
+  TestRunCreateOrUpdateAppComponents200Response,
+  TestRunCreateOrUpdateAppComponents201Response,
+  TestRunCreateOrUpdateAppComponentsDefaultResponse,
+  TestRunListAppComponents200Response,
+  TestRunListAppComponentsDefaultResponse,
   TestRunCreateOrUpdateServerMetricsConfig200Response,
   TestRunCreateOrUpdateServerMetricsConfig201Response,
   TestRunCreateOrUpdateServerMetricsConfigDefaultResponse,
-  TestRunGetServerMetricsConfig200Response,
-  TestRunGetServerMetricsConfigDefaultResponse,
+  TestRunListServerMetricsConfig200Response,
+  TestRunListServerMetricsConfigDefaultResponse,
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -137,19 +137,19 @@ export interface TestListFiles {
   ): StreamableMethod<TestListFiles200Response | TestListFilesDefaultResponse>;
 }
 
-export interface TestCreateOrUpdateAppComponent {
+export interface TestCreateOrUpdateAppComponents {
   /** Associate an app component (collection of azure resources) to a test */
   patch(
-    options: TestCreateOrUpdateAppComponentParameters
+    options: TestCreateOrUpdateAppComponentsParameters
   ): StreamableMethod<
-    | TestCreateOrUpdateAppComponent200Response
-    | TestCreateOrUpdateAppComponent201Response
-    | TestCreateOrUpdateAppComponentDefaultResponse
+    | TestCreateOrUpdateAppComponents200Response
+    | TestCreateOrUpdateAppComponents201Response
+    | TestCreateOrUpdateAppComponentsDefaultResponse
   >;
   /** Get associated app component (collection of azure resources) for the given test. */
   get(
-    options?: TestGetAppComponentsParameters
-  ): StreamableMethod<TestGetAppComponents200Response | TestGetAppComponentsDefaultResponse>;
+    options?: TestListAppComponentsParameters
+  ): StreamableMethod<TestListAppComponents200Response | TestListAppComponentsDefaultResponse>;
 }
 
 export interface TestCreateOrUpdateServerMetricsConfig {
@@ -161,11 +161,11 @@ export interface TestCreateOrUpdateServerMetricsConfig {
     | TestCreateOrUpdateServerMetricsConfig201Response
     | TestCreateOrUpdateServerMetricsConfigDefaultResponse
   >;
-  /** Get server metric configuration for the given test. */
+  /** List server metrics configuration for the given test. */
   get(
-    options?: TestGetServerMetricsConfigParameters
+    options?: TestListServerMetricsConfigParameters
   ): StreamableMethod<
-    TestGetServerMetricsConfig200Response | TestGetServerMetricsConfigDefaultResponse
+    TestListServerMetricsConfig200Response | TestListServerMetricsConfigDefaultResponse
   >;
 }
 
@@ -210,7 +210,7 @@ export interface TestRunStop {
 }
 
 export interface TestRunListMetricNamespaces {
-  /** Lists the metric namespaces for a load test run. */
+  /** List the metric namespaces for a load test run. */
   get(
     options?: TestRunListMetricNamespacesParameters
   ): StreamableMethod<
@@ -219,7 +219,7 @@ export interface TestRunListMetricNamespaces {
 }
 
 export interface TestRunListMetricDefinitions {
-  /** Lists the metric definitions for a load test run. */
+  /** List the metric definitions for a load test run. */
   get(
     options: TestRunListMetricDefinitionsParameters
   ): StreamableMethod<
@@ -227,35 +227,37 @@ export interface TestRunListMetricDefinitions {
   >;
 }
 
-export interface TestRunGetMetrics {
-  /** Lists the metric values for a load test run. */
+export interface TestRunListMetrics {
+  /** List the metric values for a load test run. */
   post(
-    options: TestRunGetMetricsParameters
-  ): StreamableMethod<TestRunGetMetrics200Response | TestRunGetMetricsDefaultResponse>;
+    options: TestRunListMetricsParameters
+  ): StreamableMethod<TestRunListMetrics200Response | TestRunListMetricsDefaultResponse>;
 }
 
-export interface TestRunGetMetricDimensionValues {
-  /** Lists the dimension values for the given metric dimension name. */
+export interface TestRunListMetricDimensionValues {
+  /** List the dimension values for the given metric dimension name. */
   get(
-    options: TestRunGetMetricDimensionValuesParameters
+    options: TestRunListMetricDimensionValuesParameters
   ): StreamableMethod<
-    TestRunGetMetricDimensionValues200Response | TestRunGetMetricDimensionValuesDefaultResponse
+    TestRunListMetricDimensionValues200Response | TestRunListMetricDimensionValuesDefaultResponse
   >;
 }
 
-export interface TestRunCreateOrUpdateAppComponent {
+export interface TestRunCreateOrUpdateAppComponents {
   /** Associate an app component (collection of azure resources) to a test run */
   patch(
-    options: TestRunCreateOrUpdateAppComponentParameters
+    options: TestRunCreateOrUpdateAppComponentsParameters
   ): StreamableMethod<
-    | TestRunCreateOrUpdateAppComponent200Response
-    | TestRunCreateOrUpdateAppComponent201Response
-    | TestRunCreateOrUpdateAppComponentDefaultResponse
+    | TestRunCreateOrUpdateAppComponents200Response
+    | TestRunCreateOrUpdateAppComponents201Response
+    | TestRunCreateOrUpdateAppComponentsDefaultResponse
   >;
   /** Get associated app component (collection of azure resources) for the given test run. */
   get(
-    options?: TestRunGetAppComponentsParameters
-  ): StreamableMethod<TestRunGetAppComponents200Response | TestRunGetAppComponentsDefaultResponse>;
+    options?: TestRunListAppComponentsParameters
+  ): StreamableMethod<
+    TestRunListAppComponents200Response | TestRunListAppComponentsDefaultResponse
+  >;
 }
 
 export interface TestRunCreateOrUpdateServerMetricsConfig {
@@ -267,11 +269,11 @@ export interface TestRunCreateOrUpdateServerMetricsConfig {
     | TestRunCreateOrUpdateServerMetricsConfig201Response
     | TestRunCreateOrUpdateServerMetricsConfigDefaultResponse
   >;
-  /** Get server metric configuration for the given test run. */
+  /** List server metrics configuration for the given test run. */
   get(
-    options?: TestRunGetServerMetricsConfigParameters
+    options?: TestRunListServerMetricsConfigParameters
   ): StreamableMethod<
-    TestRunGetServerMetricsConfig200Response | TestRunGetServerMetricsConfigDefaultResponse
+    TestRunListServerMetricsConfig200Response | TestRunListServerMetricsConfigDefaultResponse
   >;
 }
 
@@ -285,10 +287,10 @@ export interface Routes {
   /** Resource for '/tests/\{testId\}/files' has methods for the following verbs: get */
   (path: "/tests/{testId}/files", testId: string): TestListFiles;
   /** Resource for '/tests/\{testId\}/app-components' has methods for the following verbs: patch, get */
-  (path: "/tests/{testId}/app-components", testId: string): TestCreateOrUpdateAppComponent;
-  /** Resource for '/tests/\{testId\}/server-metric-configs' has methods for the following verbs: patch, get */
+  (path: "/tests/{testId}/app-components", testId: string): TestCreateOrUpdateAppComponents;
+  /** Resource for '/tests/\{testId\}/server-metrics-config' has methods for the following verbs: patch, get */
   (
-    path: "/tests/{testId}/server-metric-configs",
+    path: "/tests/{testId}/server-metrics-config",
     testId: string
   ): TestCreateOrUpdateServerMetricsConfig;
   /** Resource for '/test-runs/\{testRunId\}' has methods for the following verbs: delete, patch, get */
@@ -314,21 +316,21 @@ export interface Routes {
     testRunId: string
   ): TestRunListMetricDefinitions;
   /** Resource for '/test-runs/\{testRunId\}/metrics' has methods for the following verbs: post */
-  (path: "/test-runs/{testRunId}/metrics", testRunId: string): TestRunGetMetrics;
-  /** Resource for '/test-runs/\{testRunId\}/metric-dimension/\{name\}/values' has methods for the following verbs: get */
+  (path: "/test-runs/{testRunId}/metrics", testRunId: string): TestRunListMetrics;
+  /** Resource for '/test-runs/\{testRunId\}/metric-dimensions/\{name\}/values' has methods for the following verbs: get */
   (
-    path: "/test-runs/{testRunId}/metric-dimension/{name}/values",
+    path: "/test-runs/{testRunId}/metric-dimensions/{name}/values",
     testRunId: string,
     name: string
-  ): TestRunGetMetricDimensionValues;
+  ): TestRunListMetricDimensionValues;
   /** Resource for '/test-runs/\{testRunId\}/app-components' has methods for the following verbs: patch, get */
   (
     path: "/test-runs/{testRunId}/app-components",
     testRunId: string
-  ): TestRunCreateOrUpdateAppComponent;
-  /** Resource for '/test-runs/\{testRunId\}/server-metric-configs' has methods for the following verbs: patch, get */
+  ): TestRunCreateOrUpdateAppComponents;
+  /** Resource for '/test-runs/\{testRunId\}/server-metrics-config' has methods for the following verbs: patch, get */
   (
-    path: "/test-runs/{testRunId}/server-metric-configs",
+    path: "/test-runs/{testRunId}/server-metrics-config",
     testRunId: string
   ): TestRunCreateOrUpdateServerMetricsConfig;
 }

@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationState, SimplePollerLike } from "@azure/core-lro";
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { TestUploadFile201Response } from "./responses"
-
 /** Load test model */
 export interface Test {
   /** Pass fail criteria for a test. */
@@ -128,7 +124,7 @@ export interface FileInfo {
   /** File URL. */
   url?: string;
   /** Name of the file. */
-  filename?: string;
+  fileName?: string;
   /** File type */
   fileType?: "JMX_FILE" | "USER_PROPERTIES" | "ADDITIONAL_ARTIFACTS";
   /** Expiry time of the file (ISO 8601 literal format) */
@@ -140,14 +136,16 @@ export interface FileInfo {
     | "VALIDATION_FAILURE"
     | "VALIDATION_INITIATED"
     | "VALIDATION_NOT_REQUIRED";
+  /** Validation failure error details */
+  validationFailureDetails?: string;
 }
 
 /** Test app component */
 export interface TestAppComponents {
-  /** Test identifier */
-  testId?: string;
   /** Azure resource collection { resource id (fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}) : resource object } */
   components: Record<string, AppComponent>;
+  /** Test identifier */
+  testId?: string;
   /** The creation datetime(ISO 8601 literal format). */
   createdDateTime?: Date | string;
   /** The user that created. */
@@ -176,7 +174,7 @@ export interface AppComponent {
   kind?: string;
 }
 
-/** Test server metric configuration */
+/** Test server metrics configuration */
 export interface TestServerMetricConfig {
   /** Test identifier */
   testId?: string;
@@ -232,6 +230,8 @@ export interface TestRun {
   testArtifacts?: TestRunArtifacts;
   /** Test result for pass/Fail criteria used during the test run. */
   testResult?: "PASSED" | "NOT_APPLICABLE" | "FAILED";
+  /** Number of virtual users, for which test has been run. */
+  virtualUsers?: number;
   /** Unique test run name as identifier */
   testRunId?: string;
   /** Display name of a testRun. */
@@ -264,8 +264,6 @@ export interface TestRun {
   endDateTime?: Date | string;
   /** Test run initiated time. */
   executedDateTime?: Date | string;
-  /** Number of virtual users, for which test has been run. */
-  virtualUsers?: number;
   /** Portal url. */
   portalUrl?: string;
   /** Test run duration in milliseconds. */
@@ -345,9 +343,9 @@ export interface TestRunInputArtifacts {
 /** The output artifacts for the test run. */
 export interface TestRunOutputArtifacts {
   /** File info */
-  resultUrl?: FileInfo;
+  resultFileInfo?: FileInfo;
   /** File info */
-  logsUrl?: FileInfo;
+  logsFileInfo?: FileInfo;
 }
 
 /** Filters to fetch the set of metric */
@@ -366,10 +364,10 @@ export interface DimensionFilter {
 
 /** Test run app component */
 export interface TestRunAppComponents {
-  /** Test run identifier */
-  testRunId?: string;
   /** Azure resource collection { resource id (fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}) : resource object } */
   components: Record<string, AppComponent>;
+  /** Test run identifier */
+  testRunId?: string;
   /** The creation datetime(ISO 8601 literal format). */
   createdDateTime?: Date | string;
   /** The user that created. */
@@ -380,7 +378,7 @@ export interface TestRunAppComponents {
   lastModifiedBy?: string;
 }
 
-/** Test run server metric configuration */
+/** Test run server metrics configuration */
 export interface TestRunServerMetricConfig {
   /** Test run identifier */
   testRunId?: string;
@@ -394,19 +392,4 @@ export interface TestRunServerMetricConfig {
   lastModifiedDateTime?: Date | string;
   /** The user that last modified. */
   lastModifiedBy?: string;
-}
-
-/**
- * Describes a poller for NotificationHubJob types.
- */
-export type FileUploadAndValidatePoller = SimplePollerLike<
-  OperationState<TestUploadFile201Response>,
-  TestUploadFile201Response
->;
-
-export interface PolledOperationOptions extends OperationOptions {
-  /**
-   * Time delay between poll requests, in milliseconds.
-   */
-  updateIntervalInMs?: number;
 }

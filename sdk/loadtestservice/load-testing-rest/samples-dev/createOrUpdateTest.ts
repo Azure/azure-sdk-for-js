@@ -2,13 +2,12 @@
 // Licensed under the MIT license.
 
 /**
- * This sample demonstrates how to a) create a loadtest, b) upload a jmx file, c) create appcomponent, d) run test and e) get test status
- *
- * @summary creates and run a loadtest
+ * This sample demonstrates how to create a loadtest
+ * @summary creates a loadtest
  * @azsdk-weight 10
  */
 
-import AzureLoadTesting /*, { isUnexpected }*/ from "@azure-rest/load-testing";
+import AzureLoadTesting, { isUnexpected } from "@azure-rest/load-testing";
 import { DefaultAzureCredential } from "@azure/identity";
 import { v4 as uuidv4 } from "uuid";
 
@@ -21,7 +20,7 @@ async function main() {
   const client = AzureLoadTesting(endpoint, new DefaultAzureCredential());
 
   // Creating the Load test
-  await client.path("/tests/{testId}", testId).patch({
+  const testCreationResult = await client.path("/tests/{testId}", testId).patch({
     contentType: "application/merge-patch+json",
     body: {
       displayName: displayName,
@@ -31,6 +30,10 @@ async function main() {
       },
     },
   });
+
+  if (isUnexpected(testCreationResult)) {
+    throw testCreationResult.body.error;
+  }
 }
 
 main().catch(console.error);

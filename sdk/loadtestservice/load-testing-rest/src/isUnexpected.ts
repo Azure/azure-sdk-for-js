@@ -19,16 +19,16 @@ import {
   TestDeleteFileDefaultResponse,
   TestListFiles200Response,
   TestListFilesDefaultResponse,
-  TestCreateOrUpdateAppComponent200Response,
-  TestCreateOrUpdateAppComponent201Response,
-  TestCreateOrUpdateAppComponentDefaultResponse,
-  TestGetAppComponents200Response,
-  TestGetAppComponentsDefaultResponse,
+  TestCreateOrUpdateAppComponents200Response,
+  TestCreateOrUpdateAppComponents201Response,
+  TestCreateOrUpdateAppComponentsDefaultResponse,
+  TestListAppComponents200Response,
+  TestListAppComponentsDefaultResponse,
   TestCreateOrUpdateServerMetricsConfig200Response,
   TestCreateOrUpdateServerMetricsConfig201Response,
   TestCreateOrUpdateServerMetricsConfigDefaultResponse,
-  TestGetServerMetricsConfig200Response,
-  TestGetServerMetricsConfigDefaultResponse,
+  TestListServerMetricsConfig200Response,
+  TestListServerMetricsConfigDefaultResponse,
   TestRunDelete204Response,
   TestRunDeleteDefaultResponse,
   TestRunCreateOrUpdate200Response,
@@ -46,20 +46,20 @@ import {
   TestRunListMetricNamespacesDefaultResponse,
   TestRunListMetricDefinitions200Response,
   TestRunListMetricDefinitionsDefaultResponse,
-  TestRunGetMetrics200Response,
-  TestRunGetMetricsDefaultResponse,
-  TestRunGetMetricDimensionValues200Response,
-  TestRunGetMetricDimensionValuesDefaultResponse,
-  TestRunCreateOrUpdateAppComponent200Response,
-  TestRunCreateOrUpdateAppComponent201Response,
-  TestRunCreateOrUpdateAppComponentDefaultResponse,
-  TestRunGetAppComponents200Response,
-  TestRunGetAppComponentsDefaultResponse,
+  TestRunListMetrics200Response,
+  TestRunListMetricsDefaultResponse,
+  TestRunListMetricDimensionValues200Response,
+  TestRunListMetricDimensionValuesDefaultResponse,
+  TestRunCreateOrUpdateAppComponents200Response,
+  TestRunCreateOrUpdateAppComponents201Response,
+  TestRunCreateOrUpdateAppComponentsDefaultResponse,
+  TestRunListAppComponents200Response,
+  TestRunListAppComponentsDefaultResponse,
   TestRunCreateOrUpdateServerMetricsConfig200Response,
   TestRunCreateOrUpdateServerMetricsConfig201Response,
   TestRunCreateOrUpdateServerMetricsConfigDefaultResponse,
-  TestRunGetServerMetricsConfig200Response,
-  TestRunGetServerMetricsConfigDefaultResponse,
+  TestRunListServerMetricsConfig200Response,
+  TestRunListServerMetricsConfigDefaultResponse,
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
@@ -73,8 +73,8 @@ const responseMap: Record<string, string[]> = {
   "GET /tests/{testId}/files": ["200"],
   "PATCH /tests/{testId}/app-components": ["200", "201"],
   "GET /tests/{testId}/app-components": ["200"],
-  "PATCH /tests/{testId}/server-metric-configs": ["200", "201"],
-  "GET /tests/{testId}/server-metric-configs": ["200"],
+  "PATCH /tests/{testId}/server-metrics-config": ["200", "201"],
+  "GET /tests/{testId}/server-metrics-config": ["200"],
   "DELETE /test-runs/{testRunId}": ["204"],
   "PATCH /test-runs/{testRunId}": ["200", "201"],
   "GET /test-runs/{testRunId}": ["200"],
@@ -84,11 +84,11 @@ const responseMap: Record<string, string[]> = {
   "GET /test-runs/{testRunId}/metric-namespaces": ["200"],
   "GET /test-runs/{testRunId}/metric-definitions": ["200"],
   "POST /test-runs/{testRunId}/metrics": ["200"],
-  "GET /test-runs/{testRunId}/metric-dimension/{name}/values": ["200"],
+  "GET /test-runs/{testRunId}/metric-dimensions/{name}/values": ["200"],
   "PATCH /test-runs/{testRunId}/app-components": ["200", "201"],
   "GET /test-runs/{testRunId}/app-components": ["200"],
-  "PATCH /test-runs/{testRunId}/server-metric-configs": ["200", "201"],
-  "GET /test-runs/{testRunId}/server-metric-configs": ["200"],
+  "PATCH /test-runs/{testRunId}/server-metrics-config": ["200", "201"],
+  "GET /test-runs/{testRunId}/server-metrics-config": ["200"],
 };
 
 export function isUnexpected(
@@ -120,13 +120,13 @@ export function isUnexpected(
 ): response is TestListFilesDefaultResponse;
 export function isUnexpected(
   response:
-    | TestCreateOrUpdateAppComponent200Response
-    | TestCreateOrUpdateAppComponent201Response
-    | TestCreateOrUpdateAppComponentDefaultResponse
-): response is TestCreateOrUpdateAppComponentDefaultResponse;
+    | TestCreateOrUpdateAppComponents200Response
+    | TestCreateOrUpdateAppComponents201Response
+    | TestCreateOrUpdateAppComponentsDefaultResponse
+): response is TestCreateOrUpdateAppComponentsDefaultResponse;
 export function isUnexpected(
-  response: TestGetAppComponents200Response | TestGetAppComponentsDefaultResponse
-): response is TestGetAppComponentsDefaultResponse;
+  response: TestListAppComponents200Response | TestListAppComponentsDefaultResponse
+): response is TestListAppComponentsDefaultResponse;
 export function isUnexpected(
   response:
     | TestCreateOrUpdateServerMetricsConfig200Response
@@ -134,8 +134,8 @@ export function isUnexpected(
     | TestCreateOrUpdateServerMetricsConfigDefaultResponse
 ): response is TestCreateOrUpdateServerMetricsConfigDefaultResponse;
 export function isUnexpected(
-  response: TestGetServerMetricsConfig200Response | TestGetServerMetricsConfigDefaultResponse
-): response is TestGetServerMetricsConfigDefaultResponse;
+  response: TestListServerMetricsConfig200Response | TestListServerMetricsConfigDefaultResponse
+): response is TestListServerMetricsConfigDefaultResponse;
 export function isUnexpected(
   response: TestRunDelete204Response | TestRunDeleteDefaultResponse
 ): response is TestRunDeleteDefaultResponse;
@@ -164,22 +164,22 @@ export function isUnexpected(
   response: TestRunListMetricDefinitions200Response | TestRunListMetricDefinitionsDefaultResponse
 ): response is TestRunListMetricDefinitionsDefaultResponse;
 export function isUnexpected(
-  response: TestRunGetMetrics200Response | TestRunGetMetricsDefaultResponse
-): response is TestRunGetMetricsDefaultResponse;
+  response: TestRunListMetrics200Response | TestRunListMetricsDefaultResponse
+): response is TestRunListMetricsDefaultResponse;
 export function isUnexpected(
   response:
-    | TestRunGetMetricDimensionValues200Response
-    | TestRunGetMetricDimensionValuesDefaultResponse
-): response is TestRunGetMetricDimensionValuesDefaultResponse;
+    | TestRunListMetricDimensionValues200Response
+    | TestRunListMetricDimensionValuesDefaultResponse
+): response is TestRunListMetricDimensionValuesDefaultResponse;
 export function isUnexpected(
   response:
-    | TestRunCreateOrUpdateAppComponent200Response
-    | TestRunCreateOrUpdateAppComponent201Response
-    | TestRunCreateOrUpdateAppComponentDefaultResponse
-): response is TestRunCreateOrUpdateAppComponentDefaultResponse;
+    | TestRunCreateOrUpdateAppComponents200Response
+    | TestRunCreateOrUpdateAppComponents201Response
+    | TestRunCreateOrUpdateAppComponentsDefaultResponse
+): response is TestRunCreateOrUpdateAppComponentsDefaultResponse;
 export function isUnexpected(
-  response: TestRunGetAppComponents200Response | TestRunGetAppComponentsDefaultResponse
-): response is TestRunGetAppComponentsDefaultResponse;
+  response: TestRunListAppComponents200Response | TestRunListAppComponentsDefaultResponse
+): response is TestRunListAppComponentsDefaultResponse;
 export function isUnexpected(
   response:
     | TestRunCreateOrUpdateServerMetricsConfig200Response
@@ -187,8 +187,10 @@ export function isUnexpected(
     | TestRunCreateOrUpdateServerMetricsConfigDefaultResponse
 ): response is TestRunCreateOrUpdateServerMetricsConfigDefaultResponse;
 export function isUnexpected(
-  response: TestRunGetServerMetricsConfig200Response | TestRunGetServerMetricsConfigDefaultResponse
-): response is TestRunGetServerMetricsConfigDefaultResponse;
+  response:
+    | TestRunListServerMetricsConfig200Response
+    | TestRunListServerMetricsConfigDefaultResponse
+): response is TestRunListServerMetricsConfigDefaultResponse;
 export function isUnexpected(
   response:
     | TestCreateOrUpdate200Response
@@ -208,16 +210,16 @@ export function isUnexpected(
     | TestDeleteFileDefaultResponse
     | TestListFiles200Response
     | TestListFilesDefaultResponse
-    | TestCreateOrUpdateAppComponent200Response
-    | TestCreateOrUpdateAppComponent201Response
-    | TestCreateOrUpdateAppComponentDefaultResponse
-    | TestGetAppComponents200Response
-    | TestGetAppComponentsDefaultResponse
+    | TestCreateOrUpdateAppComponents200Response
+    | TestCreateOrUpdateAppComponents201Response
+    | TestCreateOrUpdateAppComponentsDefaultResponse
+    | TestListAppComponents200Response
+    | TestListAppComponentsDefaultResponse
     | TestCreateOrUpdateServerMetricsConfig200Response
     | TestCreateOrUpdateServerMetricsConfig201Response
     | TestCreateOrUpdateServerMetricsConfigDefaultResponse
-    | TestGetServerMetricsConfig200Response
-    | TestGetServerMetricsConfigDefaultResponse
+    | TestListServerMetricsConfig200Response
+    | TestListServerMetricsConfigDefaultResponse
     | TestRunDelete204Response
     | TestRunDeleteDefaultResponse
     | TestRunCreateOrUpdate200Response
@@ -235,20 +237,20 @@ export function isUnexpected(
     | TestRunListMetricNamespacesDefaultResponse
     | TestRunListMetricDefinitions200Response
     | TestRunListMetricDefinitionsDefaultResponse
-    | TestRunGetMetrics200Response
-    | TestRunGetMetricsDefaultResponse
-    | TestRunGetMetricDimensionValues200Response
-    | TestRunGetMetricDimensionValuesDefaultResponse
-    | TestRunCreateOrUpdateAppComponent200Response
-    | TestRunCreateOrUpdateAppComponent201Response
-    | TestRunCreateOrUpdateAppComponentDefaultResponse
-    | TestRunGetAppComponents200Response
-    | TestRunGetAppComponentsDefaultResponse
+    | TestRunListMetrics200Response
+    | TestRunListMetricsDefaultResponse
+    | TestRunListMetricDimensionValues200Response
+    | TestRunListMetricDimensionValuesDefaultResponse
+    | TestRunCreateOrUpdateAppComponents200Response
+    | TestRunCreateOrUpdateAppComponents201Response
+    | TestRunCreateOrUpdateAppComponentsDefaultResponse
+    | TestRunListAppComponents200Response
+    | TestRunListAppComponentsDefaultResponse
     | TestRunCreateOrUpdateServerMetricsConfig200Response
     | TestRunCreateOrUpdateServerMetricsConfig201Response
     | TestRunCreateOrUpdateServerMetricsConfigDefaultResponse
-    | TestRunGetServerMetricsConfig200Response
-    | TestRunGetServerMetricsConfigDefaultResponse
+    | TestRunListServerMetricsConfig200Response
+    | TestRunListServerMetricsConfigDefaultResponse
 ): response is
   | TestCreateOrUpdateDefaultResponse
   | TestDeleteDefaultResponse
@@ -258,10 +260,10 @@ export function isUnexpected(
   | TestGetFileDefaultResponse
   | TestDeleteFileDefaultResponse
   | TestListFilesDefaultResponse
-  | TestCreateOrUpdateAppComponentDefaultResponse
-  | TestGetAppComponentsDefaultResponse
+  | TestCreateOrUpdateAppComponentsDefaultResponse
+  | TestListAppComponentsDefaultResponse
   | TestCreateOrUpdateServerMetricsConfigDefaultResponse
-  | TestGetServerMetricsConfigDefaultResponse
+  | TestListServerMetricsConfigDefaultResponse
   | TestRunDeleteDefaultResponse
   | TestRunCreateOrUpdateDefaultResponse
   | TestRunGetDefaultResponse
@@ -270,12 +272,12 @@ export function isUnexpected(
   | TestRunStopDefaultResponse
   | TestRunListMetricNamespacesDefaultResponse
   | TestRunListMetricDefinitionsDefaultResponse
-  | TestRunGetMetricsDefaultResponse
-  | TestRunGetMetricDimensionValuesDefaultResponse
-  | TestRunCreateOrUpdateAppComponentDefaultResponse
-  | TestRunGetAppComponentsDefaultResponse
+  | TestRunListMetricsDefaultResponse
+  | TestRunListMetricDimensionValuesDefaultResponse
+  | TestRunCreateOrUpdateAppComponentsDefaultResponse
+  | TestRunListAppComponentsDefaultResponse
   | TestRunCreateOrUpdateServerMetricsConfigDefaultResponse
-  | TestRunGetServerMetricsConfigDefaultResponse {
+  | TestRunListServerMetricsConfigDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
