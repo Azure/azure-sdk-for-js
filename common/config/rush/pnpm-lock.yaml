@@ -1062,9 +1062,9 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/core-util': 1.1.1
       '@azure/logger': 1.0.3
-      '@azure/msal-browser': 2.30.0
+      '@azure/msal-browser': 2.32.0
       '@azure/msal-common': 4.5.1
-      '@azure/msal-node': 1.14.2
+      '@azure/msal-node': 1.14.4
       events: 3.3.0
       jws: 4.0.0
       open: 8.4.0
@@ -1086,9 +1086,9 @@ packages:
       '@azure/core-tracing': 1.0.1
       '@azure/core-util': 1.1.1
       '@azure/logger': 1.0.3
-      '@azure/msal-browser': 2.30.0
+      '@azure/msal-browser': 2.32.0
       '@azure/msal-common': 7.6.0
-      '@azure/msal-node': 1.14.2
+      '@azure/msal-node': 1.14.4
       events: 3.3.0
       jws: 4.0.0
       open: 8.4.0
@@ -1188,11 +1188,11 @@ packages:
       - encoding
     dev: false
 
-  /@azure/msal-browser/2.30.0:
-    resolution: {integrity: sha512-4Y9+rjJiTFP7KEmuq1btmIrBgk0ImNyKsXj6A6NHZALd1X0M6W7L7kxpH6F+d1tEkMv8bYnZdn7IcauXbL8Llw==}
+  /@azure/msal-browser/2.32.0:
+    resolution: {integrity: sha512-uDP0vNmIefM6+RjILGKu+zOiN+VGnEvxRfUIV5hOWOWLLkG7kcDPYG/v/EJMoG+R5DYW9jXA5nvZT76t5HdEAQ==}
     engines: {node: '>=0.8.0'}
     dependencies:
-      '@azure/msal-common': 7.6.0
+      '@azure/msal-common': 9.0.0
     dev: false
 
   /@azure/msal-common/4.5.1:
@@ -1206,6 +1206,11 @@ packages:
 
   /@azure/msal-common/7.6.0:
     resolution: {integrity: sha512-XqfbglUTVLdkHQ8F9UQJtKseRr3sSnr9ysboxtoswvaMVaEfvyLtMoHv9XdKUfOc0qKGzNgRFd9yRjIWVepl6Q==}
+    engines: {node: '>=0.8.0'}
+    dev: false
+
+  /@azure/msal-common/9.0.0:
+    resolution: {integrity: sha512-uiFiFKVNTsRpmKio5bcObTuHcaHHZB2GEsjJJN8rbJNmzoYuZzNioOoK+J0QK0jEasRBgAoR5A8hSty2iKRzIg==}
     engines: {node: '>=0.8.0'}
     dev: false
 
@@ -1224,6 +1229,15 @@ packages:
     engines: {node: 10 || 12 || 14 || 16 || 18}
     dependencies:
       '@azure/msal-common': 7.6.0
+      jsonwebtoken: 8.5.1
+      uuid: 8.3.2
+    dev: false
+
+  /@azure/msal-node/1.14.4:
+    resolution: {integrity: sha512-j9GzZu5mTLWtuJ+cYN6e67UNymIS5OysblrOzH8lakt9XxH0GCPYjuqbOEKTP84r+Rbj3io+TuW1KS+0Xxuj/g==}
+    engines: {node: 10 || 12 || 14 || 16 || 18}
+    dependencies:
+      '@azure/msal-common': 9.0.0
       jsonwebtoken: 8.5.1
       uuid: 8.3.2
     dev: false
@@ -17096,14 +17110,14 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-HZI9rRFFAmen9T5E7P759pY6A5eJwE4F59jBeQGb4qQ5b+WRbSUjvLCDqUpcujGZ5wRbyijro6CgQEDWxQ7KVA==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-ymr6Ih3fUVLXZiLdX6UpsvtEkl2Vo3vpHMva3U+cSzLaTMO7Huh1EnkJevrXQ6cyycthqy8PJPKJjT4uTPjkyQ==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
       '@azure/keyvault-keys': 4.2.0
-      '@azure/msal-browser': 2.30.0
-      '@azure/msal-common': 7.6.0
-      '@azure/msal-node': 1.14.2
+      '@azure/msal-browser': 2.32.0
+      '@azure/msal-common': 9.0.0
+      '@azure/msal-node': 1.14.4
       '@microsoft/api-extractor': 7.33.5
       '@types/chai': 4.3.3
       '@types/jsonwebtoken': 8.5.9
