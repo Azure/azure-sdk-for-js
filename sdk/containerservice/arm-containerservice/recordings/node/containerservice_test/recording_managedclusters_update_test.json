@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz?api-version=2022-09-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz?api-version=2022-09-02-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "39",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-containerservice/17.2.0 core-rest-pipeline/1.10.0 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "f5cf2055-9a7f-4eae-897c-5911025318d0"
+        "User-Agent": "azsdk-js-arm-containerservice/17.2.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "ef7d310b-c900-468c-a6e6-38a627bd30aa"
       },
       "RequestBody": {
         "tags": {
@@ -24,7 +24,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Wed, 02 Nov 2022 06:30:58 GMT",
+        "Date": "Mon, 07 Nov 2022 02:58:53 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "nginx",
@@ -32,10 +32,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "14a7041e-d25e-420e-ab07-5d37efd46510",
+        "x-ms-correlation-request-id": "4989f401-b982-442e-8c13-9275aa5f4ff8",
         "x-ms-ratelimit-remaining-subscription-writes": "1198",
-        "x-ms-request-id": "4d97a444-d458-4ac6-9d78-f0d50a9757ba",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221102T063059Z:14a7041e-d25e-420e-ab07-5d37efd46510"
+        "x-ms-request-id": "88886662-7779-479b-b442-79656f2373ac",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221107T025853Z:4989f401-b982-442e-8c13-9275aa5f4ff8"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz",
@@ -54,8 +54,8 @@
           "kubernetesVersion": "1.23.12",
           "currentKubernetesVersion": "1.23.12",
           "dnsPrefix": "aksjssdk",
-          "fqdn": "aksjssdk-419066d9.hcp.eastus.azmk8s.io",
-          "azurePortalFQDN": "aksjssdk-419066d9.portal.hcp.eastus.azmk8s.io",
+          "fqdn": "aksjssdk-6f231c29.hcp.eastus.azmk8s.io",
+          "azurePortalFQDN": "aksjssdk-6f231c29.portal.hcp.eastus.azmk8s.io",
           "agentPoolProfiles": [
             {
               "name": "aksagent",
@@ -78,7 +78,7 @@
               "mode": "System",
               "osType": "Linux",
               "osSKU": "Ubuntu",
-              "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.10.12",
+              "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.10.17",
               "enableFIPS": false
             }
           ],
@@ -96,9 +96,10 @@
               },
               "effectiveOutboundIPs": [
                 {
-                  "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/67453f33-87a6-4e42-a097-e8be492f516e"
+                  "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/7fecfdfc-a397-4a36-8e3a-86a06df0e534"
                 }
-              ]
+              ],
+              "backendPoolType": "nodeIPConfiguration"
             },
             "podCidr": "10.244.0.0/16",
             "serviceCidr": "10.0.0.0/16",
@@ -119,7 +120,8 @@
           "securityProfile": {},
           "storageProfile": {
             "diskCSIDriver": {
-              "enabled": true
+              "enabled": true,
+              "version": "v1"
             },
             "fileCSIDriver": {
               "enabled": true
@@ -130,7 +132,8 @@
           },
           "oidcIssuerProfile": {
             "enabled": false
-          }
+          },
+          "workloadAutoScalerProfile": {}
         },
         "sku": {
           "name": "Basic",
