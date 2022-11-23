@@ -114,7 +114,7 @@ export const defaultLoggerCallback: (
 /**
  * @internal
  */
-export function convertToMSALLogLevel(logLevel: AzureLogLevel| undefined): msalCommon.LogLevel | undefined{
+export function convertToMSALLogLevel(logLevel: AzureLogLevel| undefined): msalCommon.LogLevel {
  if(logLevel)
   switch(logLevel){
   case "error":
@@ -125,9 +125,13 @@ export function convertToMSALLogLevel(logLevel: AzureLogLevel| undefined): msalC
     return msalCommon.LogLevel.Verbose;
   case "warning":
     return msalCommon.LogLevel.Warning;
+  default:
+    // default msal logging level should be Info
+    return msalCommon.LogLevel.Info;
  }
  else{
-  return undefined
+  // default msal logging level should be Info
+  return msalCommon.LogLevel.Info;
  }
 }
   
