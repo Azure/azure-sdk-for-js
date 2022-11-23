@@ -32,4 +32,4 @@ export {
 export * from "./legacy/lroEngine";
 export * from "./legacy/poller";
 export * from "./legacy/pollOperation";
-export { PollerLike } from "./legacy/models";
+export * from "./legacy/models";

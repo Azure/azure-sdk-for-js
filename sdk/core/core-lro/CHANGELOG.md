@@ -4,11 +4,7 @@
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Add basic types from cadl azure core.
 
 ## 2.4.0 (2022-09-29)
 

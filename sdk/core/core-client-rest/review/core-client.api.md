@@ -90,17 +90,6 @@ export interface InnerError {
     innererror?: InnerError;
 }
 
-// @public (undocumented)
-export interface LongRunningOperationLocationHeaders {
-    "operation-location": string;
-}
-
-// @public (undocumented)
-export type Paged<T> = {
-    value: T[];
-    nextLink?: string;
-};
-
 // @public
 export type PathParameters<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [
 pathParameter: string,

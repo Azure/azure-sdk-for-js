@@ -7,6 +7,12 @@
 // @public
 export function getPagedAsyncIterator<TElement, TPage = TElement[], TPageSettings = PageSettings, TLink = string>(pagedResult: PagedResult<TPage, TPageSettings, TLink>): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
 
+// @public (undocumented)
+export type Paged<T> = {
+    value: T[];
+    nextLink?: string;
+};
+
 // @public
 export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
     [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;

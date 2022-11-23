@@ -62,3 +62,8 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
    */
   toString(): string;
 }
+
+export interface LongRunningOperationLocationHeaders {
+  /** The location for monitoring the operation state. */
+  "operation-location": string;
+}

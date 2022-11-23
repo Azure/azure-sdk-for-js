@@ -33,6 +33,11 @@ export interface LongRunningOperation<T = unknown> {
     }) => Promise<LroResponse<T>>;
 }
 
+// @public (undocumented)
+export interface LongRunningOperationLocationHeaders {
+    "operation-location": string;
+}
+
 // @public
 export class LroEngine<TResult, TState extends PollOperationState<TResult>> extends Poller<TState, TResult> {
     constructor(lro: LongRunningOperation<TResult>, options?: LroEngineOptions<TResult, TState>);
