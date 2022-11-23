@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { AgentPools } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,6 +20,7 @@ import {
   AgentPoolsListNextOptionalParams,
   AgentPoolsListOptionalParams,
   AgentPoolsListResponse,
+  AgentPoolsAbortLatestOperationOptionalParams,
   AgentPoolsGetOptionalParams,
   AgentPoolsGetResponse,
   AgentPoolsCreateOrUpdateOptionalParams,
@@ -64,8 +66,16 @@ export class AgentPoolsImpl implements AgentPools {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, resourceName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          resourceName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -73,11 +83,18 @@ export class AgentPoolsImpl implements AgentPools {
   private async *listPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: AgentPoolsListOptionalParams
+    options?: AgentPoolsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AgentPool[]> {
-    let result = await this._list(resourceGroupName, resourceName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AgentPoolsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, resourceName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -86,7 +103,9 @@ export class AgentPoolsImpl implements AgentPools {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -102,6 +121,28 @@ export class AgentPoolsImpl implements AgentPools {
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Aborting last running operation on agent pool. We return a 204 no content code here to indicate that
+   * the operation has been accepted and an abort will be attempted but is not guaranteed to complete
+   * successfully. Please look up the provisioning state of the agent pool to keep track of whether it
+   * changes to Canceled. A canceled provisioning state indicates that the abort was successful
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param agentPoolName The name of the agent pool.
+   * @param options The options parameters.
+   */
+  abortLatestOperation(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    options?: AgentPoolsAbortLatestOperationOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, resourceName, agentPoolName, options },
+      abortLatestOperationOperationSpec
+    );
   }
 
   /**
@@ -475,6 +516,27 @@ export class AgentPoolsImpl implements AgentPools {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const abortLatestOperationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedclusters/{resourceName}/agentPools/{agentPoolName}/abort",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.agentPoolName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools",
@@ -567,7 +629,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.ignorePodDisruptionBudget
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
