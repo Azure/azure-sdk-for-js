@@ -12,7 +12,7 @@ import {
   getKnownAuthorities,
   msalToPublic,
   publicToMsal,
-  convertToMSALLogLevel,
+   getMSALLogLevel,
 } from "../utils";
 import { MsalFlow, MsalFlowOptions } from "../flows";
 import {
@@ -165,7 +165,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         networkClient: this.identityClient,
         loggerOptions: {
           loggerCallback: defaultLoggerCallback(options.logger),
-          logLevel: convertToMSALLogLevel(getLogLevel())
+          logLevel:  getMSALLogLevel(getLogLevel())
         },
       },
     };
