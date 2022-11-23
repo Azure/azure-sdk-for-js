@@ -1,5 +1,9 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
+require("dotenv").config();
 
 module.exports = function (config) {
   config.set({
@@ -23,7 +27,10 @@ module.exports = function (config) {
     ],
 
     // list of files / patterns to load in the browser
-    files: ["dist-test/index.browser.js"],
+    files: [
+      "dist-test/index.browser.js",
+      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true },
+    ],
 
     // list of files / patterns to exclude
     exclude: [],
@@ -40,7 +47,7 @@ module.exports = function (config) {
     // inject following environment values into browser testing with window.__env__
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
-    envPreprocessor: ["NOTIFICATIONHUBS_CONNECTION_STRING", "NOTIFICATION_HUB_NAME"],
+    envPreprocessor: ["TEST_MODE", "NOTIFICATIONHUBS_CONNECTION_STRING", "NOTIFICATION_HUB_NAME"],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'

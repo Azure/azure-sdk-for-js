@@ -1,14 +1,10 @@
 # Release History
 
-## 1.0.0-beta.8 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.0.0-beta.8 (2022-11-21)
 
 ### Bugs Fixed
 
-### Other Changes
+- #23733 `notificationBody` now added to the response for `getNotificationOutcomeDetails`
 
 ## 1.0.0-beta.7 (2022-11-04)
 
