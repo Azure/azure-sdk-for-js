@@ -55,11 +55,12 @@ module.exports = function (config) {
 
     envPreprocessor: [
       "TEST_MODE",
-      "ENDPOINT",
+      "MAPS_SUBSCRIPTION_KEY",
+      "MAPS_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
       "AZURE_CLIENT_ID",
       "AZURE_TENANT_ID",
-      "SUBSCRIPTION_ID",
+      "RECORDINGS_RELATIVE_PATH",
     ],
 
     // test results reporter to use
