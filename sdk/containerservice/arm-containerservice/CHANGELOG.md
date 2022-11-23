@@ -1,5 +1,9 @@
 # Release History
     
+## 17.2.1 (2022-11-23)
+
+ - Bugs Fixed
+
 ## 17.2.0 (2022-11-02)
     
 **Features**
