@@ -53,7 +53,7 @@
 /sdk/communication/communication-chat/ @LuChen-Microsoft
 
 # PRLabel: %Communication - Phone Numbers
-/sdk/communication/communication-phone-numbers/ @miguhern @whisper6284 @lucasrsant @RoyHerrod @danielav7
+/sdk/communication/communication-phone-numbers/ @miguhern @whisper6284 @RoyHerrod @danielav7
 
 # PRLabel: %Communication - Network Traversal
 /sdk/communication/communication-network-traversal/ @ajpeacock0 @nathpete-msft
