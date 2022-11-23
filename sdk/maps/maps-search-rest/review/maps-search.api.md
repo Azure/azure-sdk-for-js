@@ -106,6 +106,9 @@ export interface ClassificationOutput {
 }
 
 // @public
+export function createBatchItems(requests: Array<SearchFuzzySearchQueryParamProperties | SearchSearchAddressQueryParamProperties | SearchReverseSearchAddressQueryParamProperties>): Array<BatchRequestItem>;
+
+// @public
 export interface DataSourceOutput {
     geometry?: GeometryIdentifierOutput;
 }

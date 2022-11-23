@@ -2,14 +2,23 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { isNode } from "@azure/test-utils";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { AzureKeyCredential } from "@azure/core-auth";
-import MapsSearch from "../../src/MapsSearch";
-import { isUnexpected, MapsSearchClient } from "../../src/generated";
+import MapsSearch, {
+  createBatchItems,
+  GeoJsonLineString,
+  getLongRunningPoller,
+  isUnexpected,
+  MapsSearchClient,
+  SearchAddressResultOutput,
+  SearchGetFuzzySearchBatch200Response,
+  SearchReverseSearchAddressBatch200Response,
+  SearchSearchAddressBatch200Response,
+} from "../../src";
 
 describe("Authentication", function () {
   let recorder: Recorder;
@@ -100,764 +109,849 @@ describe("Get Geometries", function () {
   });
 
   it("should accept string array and return geometries", async function () {
-    const geometryIds: string[] = [
+    const geometryId: string[] = [
       "8bceafe8-3d98-4445-b29b-fd81d3e9adf5",
       "00005858-5800-1200-0000-0000773670cd",
     ];
-    const geometries = await client.path("/search/polygon/{format}", "json").get({
-      queryParameters: {
-        geometries: geometryIds,
-      },
-    });
-    if (isUnexpected(geometries)) {
-      assert.fail(geometries.body.error?.message);
+    const response = await client
+      .path("/search/polygon/{format}", "json")
+      .get({ queryParameters: { geometries: geometryId } });
+    if (isUnexpected(response)) {
+      assert.fail(response.body.error?.message || "Unexpected error");
     }
-    assert.equal(geometries.body.additionalData?.length, geometryIds.length);
-    geometries.body.additionalData?.forEach((g) => assert.ok(g.geometryData));
+    assert.equal(response.body.additionalData?.length, geometryId.length);
+    response.body.additionalData?.forEach((g) => assert.ok(g.geometryData));
   });
 });
 
-// describe("Get Point Of Interest Categories", function (this: Suite) {
-//   let recorder: Recorder;
-//   let client: MapsSearchClient;
-//   const fastTimeout = 10000;
-
-//   beforeEach(async function (this: Context) {
-//     testLogger.verbose(`Recorder: starting...`);
-//     recorder = await createRecorder(this);
-//     client = createClient(recorder.configureClientOptions({}));
-//   });
-
-//   afterEach(async function () {
-//     testLogger.verbose(`Recorder: stopping...`);
-//     await recorder.stop();
-//   });
-
-//   before(function (this: Context) {
-//     this.timeout(fastTimeout);
-//   });
-
-//   it("return a list of POI categories", async function () {
-//     const poiCategories = await client.getPointOfInterestCategories();
-//     assert.isAtLeast(poiCategories.length, 1);
-//     poiCategories.forEach((poiCategory) => {
-//       assert.isFinite(poiCategory.id);
-//       assert.isString(poiCategory.name);
-//       assert.hasAllKeys(poiCategory, ["id", "name", "childIds", "synonyms"]);
-//     });
-//   });
-// });
-
-// describe("Geocoding", function (this: Suite) {
-//   let recorder: Recorder;
-//   let client: MapsSearchClient;
-//   const fastTimeout = 10000;
-
-//   beforeEach(async function (this: Context) {
-//     testLogger.verbose(`Recorder: starting...`);
-//     recorder = await createRecorder(this);
-//     client = createClient(recorder.configureClientOptions({}));
-//   });
-
-//   afterEach(async function () {
-//     testLogger.verbose(`Recorder: stopping...`);
-//     await recorder.stop();
-//   });
-
-//   before(function (this: Context) {
-//     this.timeout(fastTimeout);
-//   });
-
-//   const expectedTypes = [
-//     KnownSearchAddressResultType.Street,
-//     KnownSearchAddressResultType.Geography,
-//     KnownSearchAddressResultType.PointAddress,
-//     KnownSearchAddressResultType.AddressRange,
-//     KnownSearchAddressResultType.CrossStreet,
-//   ];
-//   const nonExpectedTypes = [KnownSearchAddressResultType.POI];
-
-//   function assertGeocodingResults(results: SearchAddressResultItem[]): void {
-//     assert.isNotEmpty(results);
-//     results.forEach((r) => {
-//       // Could be any types except POI
-//       assert.oneOf(r.type, expectedTypes);
-//       assert.notInclude(nonExpectedTypes, r.type);
-//       // Has valid score
-//       assert.isFinite(r.score);
-//     });
-//   }
-
-//   describe("#searchAddress", function () {
-//     it("should throw error if query is empty", async function () {
-//       // "query is missing or empty"
-//       return assert.isRejected(client.searchAddress(""));
-//     });
-
-//     it("should return non-empty results", async function () {
-//       const searchResult = await client.searchAddress("pizza");
-//       assertGeocodingResults(searchResult.results);
-//     });
-//   });
-
-//   describe("#searchStructuredAddress", function () {
-//     it("throw error if query contains invalid countryCode", async function () {
-//       const structuredAddress = {
-//         countryCode: "",
-//       };
-//       // "Missing or invalid countryCode parameter"
-//       assert.isRejected(client.searchStructuredAddress(structuredAddress));
-//     });
-
-//     it("return non-empty results", async function () {
-//       const structuredAddress = {
-//         countryCode: "US",
-//         streetNumber: "15127",
-//         streetName: "NE 24th Street",
-//         municipality: "Redmond",
-//         countrySubdivision: "WA",
-//         postalCode: "98052",
-//       };
-//       const searchResult = await client.searchStructuredAddress(structuredAddress);
-//       assertGeocodingResults(searchResult.results);
-//     });
-//   });
-// });
-
-// describe("Reverse Search Address", function (this: Suite) {
-//   let recorder: Recorder;
-//   let client: MapsSearchClient;
-//   const fastTimeout = 10000;
-
-//   beforeEach(async function (this: Context) {
-//     testLogger.verbose(`Recorder: starting...`);
-//     recorder = await createRecorder(this);
-//     client = createClient(recorder.configureClientOptions({}));
-//   });
-
-//   afterEach(async function () {
-//     testLogger.verbose(`Recorder: stopping...`);
-//     await recorder.stop();
-//   });
-
-//   before(function (this: Context) {
-//     this.timeout(fastTimeout);
-//   });
-
-//   it("should throw error is query is invalid", async function () {
-//     // "The provided coordinates in query are invalid, out of range, or not in the expected format"
-//     assert.isRejected(client.reverseSearchAddress([-100, 121]));
-//     assert.isRejected(client.reverseSearchAddress([25, 250]));
-//   });
-
-//   it("should return non-empty results", async function () {
-//     const searchResult = await client.reverseSearchAddress([25, 121]);
-//     assert.isNotEmpty(searchResult.results);
-//     searchResult.results.forEach((r) => {
-//       assert.isString(r.address.streetName);
-//     });
-//   });
-// });
-
-// describe("Reverse Search Cross Street Address", function (this: Suite) {
-//   let recorder: Recorder;
-//   let client: MapsSearchClient;
-//   const fastTimeout = 10000;
-
-//   beforeEach(async function (this: Context) {
-//     testLogger.verbose(`Recorder: starting...`);
-//     recorder = await createRecorder(this);
-//     client = createClient(recorder.configureClientOptions({}));
-//   });
-
-//   afterEach(async function () {
-//     testLogger.verbose(`Recorder: stopping...`);
-//     await recorder.stop();
-//   });
-
-//   before(function (this: Context) {
-//     this.timeout(fastTimeout);
-//   });
-
-//   it("should throw error if query is invalid", async function () {
-//     // "The provided coordinates in query are invalid, out of range, or not in the expected format"
-//     assert.isRejected(client.reverseSearchCrossStreetAddress([-100, 121]));
-//     assert.isRejected(client.reverseSearchCrossStreetAddress([25, 250]));
-//   });
-
-//   it("should return non-empty results", async function () {
-//     const searchResult = await client.reverseSearchCrossStreetAddress([47.59118, -122.3327]);
-//     assert.isNotEmpty(searchResult);
-//     searchResult.results.forEach((r) => {
-//       assert.isString(r.address?.crossStreet);
-//     });
-//   });
-// });
-
-// describe("POI search", function (this: Suite) {
-//   let recorder: Recorder;
-//   let client: MapsSearchClient;
-//   const fastTimeout = 10000;
-
-//   beforeEach(async function (this: Context) {
-//     testLogger.verbose(`Recorder: starting...`);
-//     recorder = await createRecorder(this);
-//     client = createClient(recorder.configureClientOptions({}));
-//   });
-
-//   afterEach(async function () {
-//     testLogger.verbose(`Recorder: stopping...`);
-//     await recorder.stop();
-//   });
-
-//   before(function (this: Context) {
-//     this.timeout(fastTimeout);
-//   });
-
-//   const expectedType = KnownSearchAddressResultType.POI;
-//   function assertPOISearchResults(results: SearchAddressResultItem[]): void {
-//     assert.isNotEmpty(results);
-//     results.forEach((r) => {
-//       // Could be any types except POI
-//       assert.equal(r.type, expectedType);
-//       // Has valid score
-//       assert.isFinite(r.score);
-//     });
-//   }
-
-//   describe("#SearchPointOfInterest", function () {
-//     it("should throw errors if the options is not valid", async function () {
-//       // "query is missing or empty"
-//       assert.isRejected(
-//         client.searchPointOfInterest({
-//           query: "",
-//           coordinates: [25, 121],
-//         })
-//       );
-//       // "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
-//       assert.isRejected(
-//         client.searchPointOfInterest({
-//           query: "juice bars",
-//           coordinates: [-200, 121],
-//         })
-//       );
-//     });
-
-//     it("should return non-empty results", async function () {
-//       const searchResult = await client.searchPointOfInterest({
-//         query: "juice bars",
-//         coordinates: [47.606038, -122.333345],
-//       });
-//       assertPOISearchResults(searchResult.results);
-//     });
-//   });
-
-//   describe("#SearchNearbyPointOfInterest", function () {
-//     it("should throw errors if LatLon is not valid", async function () {
-//       assert.isRejected(client.searchNearbyPointOfInterest([-200, 121]));
-//     });
-
-//     it("should return non-empty results", async function () {
-//       const searchResult = await client.searchNearbyPointOfInterest([47.606038, -122.333345]);
-//       assertPOISearchResults(searchResult.results);
-//     });
-//   });
-
-//   describe("#SearchPointOfInterestCategory", function () {
-//     it("should throw errors if the options is not valid", async function () {
-//       // "query is missing or empty"
-//       assert.isRejected(
-//         client.searchPointOfInterestCategory({
-//           query: "",
-//           coordinates: [25, 121],
-//         })
-//       );
-//       // "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
-//       assert.isRejected(
-//         client.searchPointOfInterestCategory({
-//           query: "Restaurant",
-//           coordinates: [-200, 121],
-//         })
-//       );
-//     });
-
-//     it("should return non-empty results", async function () {
-//       const searchResult = await client.searchPointOfInterestCategory({
-//         query: "Restaurant",
-//         coordinates: [47.606038, -122.333345],
-//       });
-//       assertPOISearchResults(searchResult.results);
-//     });
-//   });
-
-//   describe("#searchAlongRoute", function () {
-//     it("should throw error on empty query", async function () {
-//       const route: GeoJsonLineString = {
-//         type: "LineString",
-//         coordinates: [
-//           [-122.143035, 47.653536],
-//           [-122.187164, 47.617556],
-//           [-122.114981, 47.570599],
-//           [-122.132756, 47.654009],
-//         ],
-//       };
-//       // "query is missing or empty"
-//       assert.isRejected(client.searchAlongRoute("", 1000, route));
-//     });
-
-//     it("should throw error for invalid maxDetourTimeInSeconds", async function () {
-//       const route: GeoJsonLineString = {
-//         type: "LineString",
-//         coordinates: [
-//           [-122.143035, 47.653536],
-//           [-122.187164, 47.617556],
-//           [-122.114981, 47.570599],
-//           [-122.132756, 47.654009],
-//         ],
-//       };
-//       // "maxDetourTimeInSeconds value should be between 0 and 3600 inclusive"
-//       assert.isRejected(client.searchAlongRoute("burger", 3601, route));
-//     });
-
-//     it("should return non-empty results", async function () {
-//       const route: GeoJsonLineString = {
-//         type: "LineString",
-//         coordinates: [
-//           [-122.143035, 47.653536],
-//           [-122.187164, 47.617556],
-//           [-122.114981, 47.570599],
-//           [-122.132756, 47.654009],
-//         ],
-//       };
-//       const searchResult = await client.searchAlongRoute("burger", 1000, route);
-//       assertPOISearchResults(searchResult.results);
-//     });
-//   });
-// });
-
-// describe("General search", function (this: Suite) {
-//   let recorder: Recorder;
-//   let client: MapsSearchClient;
-//   const fastTimeout = 10000;
-
-//   beforeEach(async function (this: Context) {
-//     testLogger.verbose(`Recorder: starting...`);
-//     recorder = await createRecorder(this);
-//     client = createClient(recorder.configureClientOptions({}));
-//   });
-
-//   afterEach(async function () {
-//     testLogger.verbose(`Recorder: stopping...`);
-//     await recorder.stop();
-//   });
-
-//   before(function (this: Context) {
-//     this.timeout(fastTimeout);
-//   });
-
-//   const expectedTypes = [
-//     KnownSearchAddressResultType.Street,
-//     KnownSearchAddressResultType.Geography,
-//     KnownSearchAddressResultType.PointAddress,
-//     KnownSearchAddressResultType.AddressRange,
-//     KnownSearchAddressResultType.CrossStreet,
-//     KnownSearchAddressResultType.POI,
-//   ];
-
-//   function assertSearchResults(results: SearchAddressResultItem[]): void {
-//     assert.isNotEmpty(results);
-//     results.forEach((r) => {
-//       // Could be any types except POI
-//       assert.oneOf(r.type, expectedTypes);
-//       // Has valid score
-//       assert.isFinite(r.score);
-//     });
-//   }
-
-//   describe("#fuzzySearch", function () {
-//     it("should throw errors if the options is not valid", async function () {
-//       // "query is missing or empty"
-//       assert.isRejected(
-//         client.fuzzySearch({
-//           query: "",
-//           coordinates: [25, 121],
-//         })
-//       );
-//       assert.isRejected(
-//         client.fuzzySearch({
-//           query: "Restaurant",
-//           coordinates: [-200, 121],
-//         })
-//       );
-//     });
-
-//     it("should return non-empty results", async function () {
-//       const searchResult = await client.fuzzySearch({
-//         query: "Restaurant",
-//         coordinates: [47.606038, -122.333345],
-//       });
-//       assertSearchResults(searchResult.results);
-//     });
-//   });
-
-//   describe("#searchInsideGeometry", function () {
-//     it("should throw error if query is invalid", async function () {
-//       const polygon: GeoJsonPolygon = {
-//         type: "Polygon",
-//         coordinates: [
-//           [
-//             [-122.43576049, 37.75241523],
-//             [-122.43301391, 37.70660472],
-//             [-122.36434936, 37.71205985],
-//             [-122.43576049, 37.75241523],
-//           ],
-//         ],
-//       };
-//       // "query is missing or empty"
-//       assert.isRejected(client.searchInsideGeometry("", polygon));
-//     });
-//     it("Accept GeoJSON polygon and return results", async function () {
-//       const polygon: GeoJsonPolygon = {
-//         type: "Polygon",
-//         coordinates: [
-//           [
-//             [-122.43576049, 37.75241523],
-//             [-122.43301391, 37.70660472],
-//             [-122.36434936, 37.71205985],
-//             [-122.43576049, 37.75241523],
-//           ],
-//         ],
-//       };
-//       const searchResult = await client.searchInsideGeometry("pizza", polygon);
-//       assertSearchResults(searchResult.results);
-//     });
-//     it("should accept polygon geometry collection", async function () {
-//       const polygonCollection: GeoJsonPolygonCollection = {
-//         type: "GeometryCollection",
-//         geometries: [
-//           {
-//             type: "Polygon",
-//             coordinates: [
-//               [
-//                 [-122.43576049, 37.75241523],
-//                 [-122.43301391, 37.70660472],
-//                 [-122.36434936, 37.71205985],
-//                 [-122.43576049, 37.75241523],
-//               ],
-//             ],
-//           },
-//           {
-//             type: "Polygon",
-//             coordinates: [
-//               [
-//                 [-121.43576049, 38.75241523],
-//                 [-121.43301391, 38.70660472],
-//                 [-121.36434936, 38.71205985],
-//                 [-121.43576049, 38.75241523],
-//               ],
-//             ],
-//           },
-//         ],
-//       };
-//       const searchResult = await client.searchInsideGeometry("pizza", polygonCollection);
-//       assertSearchResults(searchResult.results);
-//     });
-//     it("should accept circle or polygon feature collection", async function () {
-//       const polygonsOrCircles: GeoJsonCircleOrPolygonFeatureCollection = {
-//         type: "FeatureCollection",
-//         features: [
-//           {
-//             type: "Feature",
-//             geometry: {
-//               type: "Polygon",
-//               coordinates: [
-//                 [
-//                   [-122.43576049, 37.75241523],
-//                   [-122.43301391, 37.70660472],
-//                   [-122.36434936, 37.71205985],
-//                   [-122.43576049, 37.75241523],
-//                 ],
-//               ],
-//             },
-//           },
-//           {
-//             type: "Feature",
-//             geometry: {
-//               type: "Point",
-//               coordinates: [-121.43576049, 38.75241523],
-//             },
-//             properties: {
-//               subType: "Circle",
-//               radius: 5000,
-//             },
-//           },
-//         ],
-//       };
-//       const searchResult = await client.searchInsideGeometry("pizza", polygonsOrCircles);
-//       assertSearchResults(searchResult.results);
-//     });
-//   });
-// });
-
-// describe("LRO", function (this: Suite) {
-//   let recorder: Recorder;
-//   let client: MapsSearchClient;
-//   const CLITimeout = this.timeout();
-//   const fastTimeout = 10000;
-
-//   beforeEach(async function (this: Context) {
-//     testLogger.verbose(`Recorder: starting...`);
-//     recorder = await createRecorder(this);
-//     client = createClient(recorder.configureClientOptions({}));
-//   });
-
-//   afterEach(async function () {
-//     testLogger.verbose(`Recorder: stopping...`);
-//     await recorder.stop();
-//   });
-
-//   before(function (this: Context) {
-//     this.timeout(fastTimeout);
-//   });
-
-//   const pollingInterval = isPlaybackMode() ? 0 : 2000;
-
-//   before(function (this: Context) {
-//     this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
-//   });
-
-//   describe("#beginFuzzySearchBatch", function () {
-//     it("should throw errors if given empty requests", async function () {
-//       // "Number of queries must be between 1 and 10000 inclusive.""
-//       assert.isRejected(client.beginFuzzySearchBatch([]));
-//     });
-//     it("could take an array of fuzzy search requests as input", async function () {
-//       const batchRequests: FuzzySearchRequest[] = [
-//         { searchQuery: { query: "pizza", countryCodeFilter: ["fr"] } },
-//         { searchQuery: { query: "pizza", coordinates: [25, 121] } },
-//         {
-//           searchQuery: {
-//             query: "pizza",
-//             countryCodeFilter: ["tw"],
-//             coordinates: [25, 121],
-//           },
-//         },
-//       ];
-
-//       const poller = await client.beginFuzzySearchBatch(batchRequests, {
-//         updateIntervalInMs: pollingInterval,
-//       });
-
-//       const batchResult = await poller.pollUntilDone();
-
-//       assert.equal(batchResult.totalRequests, batchRequests.length);
-//       assert.equal(batchResult.batchItems.length, batchRequests.length);
-//     });
-//   });
-
-//   describe("#resumeFuzzySearchBatch", function () {
-//     it("should be able to resume the previous request", async function () {
-//       const batchRequests: FuzzySearchRequest[] = [
-//         { searchQuery: { query: "pizza", countryCodeFilter: ["fr"] } },
-//         { searchQuery: { query: "pizza", coordinates: [25, 121] } },
-//         {
-//           searchQuery: {
-//             query: "pizza",
-//             countryCodeFilter: ["tw"],
-//             coordinates: [25, 121],
-//           },
-//         },
-//       ];
-
-//       // Initiate fuzzy search batch
-//       const originalPoller = await client.beginFuzzySearchBatch(batchRequests, {
-//         updateIntervalInMs: pollingInterval,
-//       });
-//       const serializedState = originalPoller.toString();
-
-//       // Use serialized state to retrieve the result
-//       const rehydratedPoller = await client.resumeFuzzySearchBatch(serializedState, {
-//         updateIntervalInMs: pollingInterval,
-//       });
-//       const batchResult = await rehydratedPoller.pollUntilDone();
-//       assert.equal(batchResult.totalRequests, batchRequests.length);
-//       assert.equal(batchResult.batchItems.length, batchRequests.length);
-//     });
-
-//     it("should obtain the same result from the rehydrated poller after the lro is finished", async function () {
-//       const batchRequests: FuzzySearchRequest[] = [
-//         { searchQuery: { query: "pizza", countryCodeFilter: ["fr"] } },
-//         { searchQuery: { query: "pizza", coordinates: [25, 121] } },
-//         {
-//           searchQuery: {
-//             query: "pizza",
-//             countryCodeFilter: ["tw"],
-//             coordinates: [25, 121],
-//           },
-//         },
-//       ];
-
-//       // Initiate fuzzy search batch
-//       const originalPoller = await client.beginFuzzySearchBatch(batchRequests, {
-//         updateIntervalInMs: pollingInterval,
-//       });
-//       const originalResult = await originalPoller.pollUntilDone();
-
-//       // Use serialized state to retrieve the result
-//       const serializedState = originalPoller.toString();
-//       const rehydratedPoller = await client.resumeFuzzySearchBatch(serializedState, {
-//         updateIntervalInMs: pollingInterval,
-//       });
-//       const rehydratedResult = await rehydratedPoller.pollUntilDone();
-//       assert.deepEqual(originalResult, rehydratedResult);
-//     });
-//   });
-
-//   describe("#beginSearchAddressBatch", function () {
-//     it("should throw errors if given empty requests", async function () {
-//       // "Number of queries must be between 1 and 10000 inclusive.""
-//       assert.isRejected(client.beginSearchAddressBatch([]));
-//     });
-//     it("could take an array of fuzzy search requests as input", async function () {
-//       const batchRequests = [
-//         { query: "400 Broad St, Seattle, WA 98109", options: { top: 3 } },
-//         { query: "One, Microsoft Way, Redmond, WA 98052", options: { top: 3 } },
-//         { query: "350 5th Ave, New York, NY 10118", options: { top: 1 } },
-//       ];
-
-//       const poller = await client.beginSearchAddressBatch(batchRequests, {
-//         updateIntervalInMs: pollingInterval,
-//       });
-
-//       const batchResult = await poller.pollUntilDone();
-
-//       assert.equal(batchResult.totalRequests, batchRequests.length);
-//       assert.equal(batchResult.batchItems.length, batchRequests.length);
-//     });
-//   });
-
-//   describe("#resumeSearchAddressBatch", function () {
-//     it("should be able to resume the previous request", async function () {
-//       const batchRequests = [
-//         { query: "400 Broad St, Seattle, WA 98109", options: { top: 3 } },
-//         { query: "One, Microsoft Way, Redmond, WA 98052", options: { top: 3 } },
-//         { query: "350 5th Ave, New York, NY 10118", options: { top: 1 } },
-//       ];
-
-//       // Initiate search address batch
-//       const originalPoller = await client.beginSearchAddressBatch(batchRequests, {
-//         updateIntervalInMs: pollingInterval,
-//       });
-
-//       // Use serialized state to retrieve the result
-//       const serializedState = originalPoller.toString();
-//       const rehydratedPoller = await client.resumeSearchAddressBatch(serializedState, {
-//         updateIntervalInMs: pollingInterval,
-//       });
-//       const batchResult = await rehydratedPoller.pollUntilDone();
-//       assert.equal(batchResult.totalRequests, batchRequests.length);
-//       assert.equal(batchResult.batchItems.length, batchRequests.length);
-//     });
-
-//     it("should obtain the same result from the rehydrated poller after the lro is finished", async function () {
-//       const batchRequests = [
-//         { query: "400 Broad St, Seattle, WA 98109", options: { top: 3 } },
-//         { query: "One, Microsoft Way, Redmond, WA 98052", options: { top: 3 } },
-//         { query: "350 5th Ave, New York, NY 10118", options: { top: 1 } },
-//       ];
-
-//       // Initiate search address batch
-//       const originalPoller = await client.beginSearchAddressBatch(batchRequests, {
-//         updateIntervalInMs: pollingInterval,
-//       });
-//       const result = await originalPoller.pollUntilDone();
-
-//       // Use saved batchId to retrieve the result
-//       const serializedState = originalPoller.toString();
-//       const rehydratedPoller = await client.resumeSearchAddressBatch(serializedState, {
-//         updateIntervalInMs: pollingInterval,
-//       });
-//       const rehydratedResult = await rehydratedPoller.pollUntilDone();
-//       assert.deepEqual(result, rehydratedResult);
-//     });
-//   });
-
-//   describe("#beginReverseSearchAddressBatch", function () {
-//     it("should throw errors if given empty requests", async function () {
-//       // "Number of queries must be between 1 and 10000 inclusive.""
-//       assert.isRejected(client.beginReverseSearchAddressBatch([]));
-//     });
-
-//     it("could take an array of fuzzy search requests as input", async function () {
-//       const batchRequests: ReverseSearchAddressRequest[] = [
-//         { coordinates: [48.858561, 2.294911] },
-//         {
-//           coordinates: [47.639765, -122.127896],
-//           options: { radiusInMeters: 5000 },
-//         },
-//         { coordinates: [47.621028, -122.34817] },
-//       ];
-
-//       const poller = await client.beginReverseSearchAddressBatch(batchRequests, {
-//         updateIntervalInMs: pollingInterval,
-//       });
-
-//       const batchResult = await poller.pollUntilDone();
-
-//       assert.equal(batchResult.totalRequests, batchRequests.length);
-//       assert.equal(batchResult.batchItems.length, batchRequests.length);
-//     });
-//   });
-
-//   describe("#resumeReverseSearchAddressBatch", function () {
-//     it("should be able to resume the previous request", async function () {
-//       const batchRequests: ReverseSearchAddressRequest[] = [
-//         { coordinates: [48.858561, 2.294911] },
-//         {
-//           coordinates: [47.639765, -122.127896],
-//           options: { radiusInMeters: 5000 },
-//         },
-//         { coordinates: [47.621028, -122.34817] },
-//       ];
-
-//       // Initiate search address batch
-//       const originalPoller = await client.beginReverseSearchAddressBatch(batchRequests, {
-//         updateIntervalInMs: pollingInterval,
-//       });
-
-//       // Use serialized state to retrieve the result
-//       const serializedState = originalPoller.toString();
-//       const rehydratedPoller = await client.resumeReverseSearchAddressBatch(serializedState, {
-//         updateIntervalInMs: pollingInterval,
-//       });
-//       const batchResult = await rehydratedPoller.pollUntilDone();
-//       assert.equal(batchResult.totalRequests, batchRequests.length);
-//       assert.equal(batchResult.batchItems.length, batchRequests.length);
-//     });
-
-//     it("should obtain the same result from the rehydrated poller after the lro is finished", async function () {
-//       const batchRequests: ReverseSearchAddressRequest[] = [
-//         { coordinates: [48.858561, 2.294911] },
-//         {
-//           coordinates: [47.639765, -122.127896],
-//           options: { radiusInMeters: 5000 },
-//         },
-//         { coordinates: [47.621028, -122.34817] },
-//       ];
-
-//       // Initiate search address batch
-//       const originalPoller = await client.beginReverseSearchAddressBatch(batchRequests, {
-//         updateIntervalInMs: pollingInterval,
-//       });
-//       const result = await originalPoller.pollUntilDone();
-
-//       // Use saved batchId to retrieve the result
-//       const serializedState = originalPoller.toString();
-//       const rehydratedPoller = await client.resumeReverseSearchAddressBatch(serializedState, {
-//         updateIntervalInMs: pollingInterval,
-//       });
-//       const rehydratedResult = await rehydratedPoller.pollUntilDone();
-//       assert.deepEqual(result, rehydratedResult);
-//     });
-//   });
-// });
+describe("Get Point Of Interest Categories", function (this) {
+  let recorder: Recorder;
+  let client: MapsSearchClient;
+
+  beforeEach(async function (this: Context) {
+    recorder = await createRecorder(this);
+    client = createClient(recorder.configureClientOptions({}));
+  });
+
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
+  it("return a list of POI categories", async function () {
+    const poiCategories = await client.path("/search/poi/category/tree/{format}", "json").get();
+    if (isUnexpected(poiCategories)) {
+      assert.fail(poiCategories.body.error?.message || "Unexpected error");
+    }
+    assert.isAtLeast(poiCategories.body.poiCategories?.length || 0, 1);
+    poiCategories.body.poiCategories?.forEach((poiCategory) => {
+      assert.isFinite(poiCategory.id);
+      assert.isString(poiCategory.name);
+      assert.hasAllKeys(poiCategory, ["id", "name", "childCategoryIds", "synonyms"]);
+    });
+  });
+});
+
+describe("Geocoding", function (this) {
+  let recorder: Recorder;
+  let client: MapsSearchClient;
+
+  beforeEach(async function (this: Context) {
+    recorder = await createRecorder(this);
+    client = createClient(recorder.configureClientOptions({}));
+  });
+
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
+  const expectedTypes = ["Street", "Geography", "Point Address", "Address Range", "Cross Street"];
+  const nonExpectedTypes = ["POI"];
+  function assertGeocodingResponse(response: SearchAddressResultOutput): void {
+    assert.isNotEmpty(response);
+    response.results.forEach((r) => {
+      // Could be any types except POI
+      assert.oneOf(r.type, expectedTypes);
+      assert.notInclude(nonExpectedTypes, r.type);
+      // Has valid score
+      assert.isFinite(r.score);
+    });
+  }
+
+  describe("Search Address", function () {
+    it("should return non-empty results", async function () {
+      const response = await client
+        .path("/search/address/{format}", "json")
+        .get({ queryParameters: { query: "1 Microsoft Way, Redmond, WA 98052" } });
+      if (isUnexpected(response)) {
+        assert.fail(response.body.error?.message || "Unexpected error");
+      }
+      assertGeocodingResponse(response.body);
+    });
+  });
+
+  describe("Search Structured Address", function () {
+    it("return non-empty results", async function () {
+      const response = await client.path("/search/address/structured/{format}", "json").get({
+        queryParameters: {
+          countryCode: "US",
+          streetNumber: "15127",
+          streetName: "NE 24th Street",
+          municipality: "Redmond",
+          countrySubdivision: "WA",
+          postalCode: "98052",
+        },
+      });
+      if (isUnexpected(response)) {
+        assert.fail(response.body.error?.message || "Unexpected error");
+      }
+      assertGeocodingResponse(response.body);
+    });
+  });
+});
+
+describe("Reverse Search Address", function () {
+  let recorder: Recorder;
+  let client: MapsSearchClient;
+
+  beforeEach(async function (this: Context) {
+    recorder = await createRecorder(this);
+    client = createClient(recorder.configureClientOptions({}));
+  });
+
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
+  it("should throw error if query is invalid", async function () {
+    // "The provided coordinates in query are invalid, out of range, or not in the expected format"
+    assert.isTrue(
+      isUnexpected(
+        await client
+          .path("/search/address/reverse/{format}", "json")
+          .get({ queryParameters: { query: [-100, 121] } })
+      )
+    );
+    assert.isTrue(
+      isUnexpected(
+        await client
+          .path("/search/address/reverse/{format}", "json")
+          .get({ queryParameters: { query: [25, 250] } })
+      )
+    );
+  });
+
+  it("should return non-empty results", async function () {
+    const response = await client
+      .path("/search/address/reverse/{format}", "json")
+      .get({ queryParameters: { query: [25, 121] } });
+    if (isUnexpected(response)) {
+      assert.fail(response.body.error?.message || "Unexpected error");
+    }
+    assert.isNotEmpty(response.body);
+    response.body.addresses.forEach((r) => {
+      assert.isString(r.address.streetName);
+    });
+  });
+});
+
+describe("Reverse Search Cross Street Address", function () {
+  let recorder: Recorder;
+  let client: MapsSearchClient;
+
+  beforeEach(async function (this: Context) {
+    recorder = await createRecorder(this);
+    client = createClient(recorder.configureClientOptions({}));
+  });
+
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
+  it("should throw error if query is invalid", async function () {
+    // "The provided coordinates in query are invalid, out of range, or not in the expected format"
+    assert.isTrue(
+      isUnexpected(
+        await client
+          .path("/search/address/reverse/crossStreet/{format}", "json")
+          .get({ queryParameters: { query: [-100, 121] } })
+      )
+    );
+    assert.isTrue(
+      isUnexpected(
+        await client
+          .path("/search/address/reverse/crossStreet/{format}", "json")
+          .get({ queryParameters: { query: [25, 250] } })
+      )
+    );
+  });
+
+  it("should return non-empty results", async function () {
+    const response = await client
+      .path("/search/address/reverse/crossStreet/{format}", "json")
+      .get({ queryParameters: { query: [47.59118, -122.3327] } });
+    if (isUnexpected(response)) {
+      assert.fail(response.body.error?.message || "Unexpected error");
+    }
+    assert.isNotEmpty(response.body);
+    response.body.addresses.forEach((r) => {
+      assert.isString(r.address?.crossStreet);
+    });
+  });
+});
+
+describe("POI search", function () {
+  let recorder: Recorder;
+  let client: MapsSearchClient;
+
+  beforeEach(async function (this: Context) {
+    recorder = await createRecorder(this);
+    client = createClient(recorder.configureClientOptions({}));
+  });
+
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
+  const expectedType = "POI";
+  function assertPOISearchResults(resBody: SearchAddressResultOutput): void {
+    assert.isNotEmpty(resBody);
+    resBody.results.forEach((r) => {
+      // Could be any types except POI
+      assert.equal(r.type, expectedType);
+      // Has valid score
+      assert.isFinite(r.score);
+    });
+  }
+
+  describe("Search Point of Interest", function () {
+    it("should throw errors if the options is not valid", async function () {
+      // "query is missing or empty"
+      assert.isTrue(
+        isUnexpected(
+          await client.path("/search/poi/{format}", "json").get({
+            queryParameters: {
+              query: "",
+              lat: 25,
+              lon: 121,
+            },
+          })
+        )
+      );
+      // "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+      assert.isTrue(
+        isUnexpected(
+          await client.path("/search/poi/{format}", "json").get({
+            queryParameters: {
+              query: "juice bars",
+              lat: -200,
+              lon: 121,
+            },
+          })
+        )
+      );
+    });
+
+    it("should return non-empty results", async function () {
+      const response = await client.path("/search/poi/{format}", "json").get({
+        queryParameters: {
+          query: "juice bars",
+          lat: 47.606038,
+          lon: -122.333345,
+        },
+      });
+      if (isUnexpected(response)) {
+        assert.fail(response.body.error?.message || "Unexpected error");
+      }
+      assertPOISearchResults(response.body);
+    });
+  });
+
+  describe("Search Nearby Point of Interest", function () {
+    it("should throw errors if LatLon is not valid", async function () {
+      assert.isTrue(
+        isUnexpected(
+          await client
+            .path("/search/nearby/{format}", "json")
+            .get({ queryParameters: { lat: -200, lon: 121 } })
+        )
+      );
+    });
+
+    it("should return non-empty results", async function () {
+      const response = await client
+        .path("/search/nearby/{format}", "json")
+        .get({ queryParameters: { lat: 47.606038, lon: -122.333345 } });
+      if (isUnexpected(response)) {
+        assert.fail(response.body.error?.message || "Unexpected error");
+      }
+      assertPOISearchResults(response.body);
+    });
+  });
+
+  describe("Search point of interest category", function () {
+    it("should throw errors if the options is not valid", async function () {
+      // "query is missing or empty"
+      assert.isTrue(
+        isUnexpected(
+          await client.path("/search/poi/category/{format}", "json").get({
+            queryParameters: {
+              query: "",
+              lat: 25,
+              lon: 121,
+            },
+          })
+        )
+      );
+      // "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
+      assert.isTrue(
+        isUnexpected(
+          await client.path("/search/poi/category/{format}", "json").get({
+            queryParameters: {
+              query: "Restaurant",
+              lat: -200,
+              lon: 121,
+            },
+          })
+        )
+      );
+    });
+
+    it("should return non-empty results", async function () {
+      const response = await client.path("/search/poi/category/{format}", "json").get({
+        queryParameters: {
+          query: "Restaurant",
+          lat: 47.606038,
+          lon: -122.333345,
+        },
+      });
+      if (isUnexpected(response)) {
+        assert.fail(response.body.error?.message || "Unexpected error");
+      }
+      assertPOISearchResults(response.body);
+    });
+  });
+
+  describe("Search along route", function () {
+    it("should throw error on empty query", async function () {
+      const route: GeoJsonLineString = {
+        type: "LineString",
+        coordinates: [
+          [-122.143035, 47.653536],
+          [-122.187164, 47.617556],
+          [-122.114981, 47.570599],
+          [-122.132756, 47.654009],
+        ],
+      };
+      // "query is missing or empty"
+      assert.isTrue(
+        isUnexpected(
+          await client
+            .path("/search/alongRoute/{format}", "json")
+            .post({ queryParameters: { query: "", maxDetourTime: 1000 }, body: { route } })
+        )
+      );
+    });
+
+    it("should throw error for invalid maxDetourTimeInSeconds", async function () {
+      const route: GeoJsonLineString = {
+        type: "LineString",
+        coordinates: [
+          [-122.143035, 47.653536],
+          [-122.187164, 47.617556],
+          [-122.114981, 47.570599],
+          [-122.132756, 47.654009],
+        ],
+      };
+      // "maxDetourTimeInSeconds value should be between 0 and 3600 inclusive"
+      assert.isTrue(
+        isUnexpected(
+          await client
+            .path("/search/alongRoute/{format}", "json")
+            .post({ queryParameters: { query: "burger", maxDetourTime: 3601 }, body: { route } })
+        )
+      );
+    });
+
+    it("should return non-empty results", async function () {
+      const route: GeoJsonLineString = {
+        type: "LineString",
+        coordinates: [
+          [-122.143035, 47.653536],
+          [-122.187164, 47.617556],
+          [-122.114981, 47.570599],
+          [-122.132756, 47.654009],
+        ],
+      };
+      const searchResult = await client
+        .path("/search/alongRoute/{format}", "json")
+        .post({ queryParameters: { query: "burger", maxDetourTime: 1000 }, body: { route } });
+      if (isUnexpected(searchResult)) {
+        assert.fail(searchResult.body.error?.message || "Unexpected error");
+      }
+      assertPOISearchResults(searchResult.body);
+    });
+  });
+});
+
+describe("General search", function () {
+  let recorder: Recorder;
+  let client: MapsSearchClient;
+  const fastTimeout = 10000;
+
+  beforeEach(async function (this: Context) {
+    recorder = await createRecorder(this);
+    client = createClient(recorder.configureClientOptions({}));
+  });
+
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
+  before(function (this: Context) {
+    this.timeout(fastTimeout);
+  });
+
+  const expectedTypes = [
+    "Street",
+    "Geography",
+    "Point Address",
+    "Address Range",
+    "Cross Street",
+    "POI",
+  ];
+
+  function assertSearchResults(resBody: SearchAddressResultOutput): void {
+    assert.isNotEmpty(resBody);
+    resBody.results.forEach((r) => {
+      // Could be any types except POI
+      assert.oneOf(r.type, expectedTypes);
+      // Has valid score
+      assert.isFinite(r.score);
+    });
+  }
+
+  describe("Fuzzy search", function () {
+    it("should throw errors if the options is not valid", async function () {
+      // "query is missing or empty"
+      assert.isTrue(
+        isUnexpected(
+          await client.path("/search/fuzzy/{format}", "json").get({
+            queryParameters: {
+              query: "",
+              lat: 25,
+              lon: 121,
+            },
+          })
+        )
+      );
+      assert.isTrue(
+        isUnexpected(
+          await client.path("/search/fuzzy/{format}", "json").get({
+            queryParameters: {
+              query: "Restaurant",
+              lat: -200,
+              lon: 121,
+            },
+          })
+        )
+      );
+    });
+
+    it("should return non-empty results", async function () {
+      const response = await client.path("/search/fuzzy/{format}", "json").get({
+        queryParameters: {
+          query: "Restaurant",
+          lat: 47.606038,
+          lon: -122.333345,
+        },
+      });
+      if (isUnexpected(response)) {
+        assert.fail(response.body.error?.message || "Unexpected error");
+      }
+      assertSearchResults(response.body);
+    });
+  });
+
+  describe("Search inside geometry", function () {
+    it("should throw error if query is invalid", async function () {
+      const polygon = {
+        type: "Polygon",
+        coordinates: [
+          [
+            [-122.43576049, 37.75241523],
+            [-122.43301391, 37.70660472],
+            [-122.36434936, 37.71205985],
+            [-122.43576049, 37.75241523],
+          ],
+        ],
+      };
+      // "query is missing or empty"
+      assert.isTrue(
+        isUnexpected(
+          await client
+            .path("/search/geometry/{format}", "json")
+            .post({ queryParameters: { query: "" }, body: { geometry: polygon } })
+        )
+      );
+    });
+
+    it("Accept GeoJSON polygon and return results", async function () {
+      const polygon = {
+        type: "Polygon",
+        coordinates: [
+          [
+            [-122.43576049, 37.75241523],
+            [-122.43301391, 37.70660472],
+            [-122.36434936, 37.71205985],
+            [-122.43576049, 37.75241523],
+          ],
+        ],
+      };
+      const response = await client
+        .path("/search/geometry/{format}", "json")
+        .post({ queryParameters: { query: "pizza" }, body: { geometry: polygon } });
+      if (isUnexpected(response)) {
+        assert.fail(response.body.error?.message || "Unexpected error");
+      }
+      assertSearchResults(response.body);
+    });
+
+    it("should accept polygon geometry collection", async function () {
+      const polygonCollection = {
+        type: "GeometryCollection",
+        geometries: [
+          {
+            type: "Polygon",
+            coordinates: [
+              [
+                [-122.43576049, 37.75241523],
+                [-122.43301391, 37.70660472],
+                [-122.36434936, 37.71205985],
+                [-122.43576049, 37.75241523],
+              ],
+            ],
+          },
+          {
+            type: "Polygon",
+            coordinates: [
+              [
+                [-121.43576049, 38.75241523],
+                [-121.43301391, 38.70660472],
+                [-121.36434936, 38.71205985],
+                [-121.43576049, 38.75241523],
+              ],
+            ],
+          },
+        ],
+      };
+      const response = await client
+        .path("/search/geometry/{format}", "json")
+        .post({ queryParameters: { query: "pizza" }, body: { geometry: polygonCollection } });
+      if (isUnexpected(response)) {
+        assert.fail(response.body.error?.message || "Unexpected error");
+      }
+      assertSearchResults(response.body);
+    });
+
+    it("should accept circle or polygon feature collection", async function () {
+      // TODO
+      const polygonsOrCircles = {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            geometry: {
+              type: "Polygon",
+              coordinates: [
+                [
+                  [-122.43576049, 37.75241523],
+                  [-122.43301391, 37.70660472],
+                  [-122.36434936, 37.71205985],
+                  [-122.43576049, 37.75241523],
+                ],
+              ],
+            },
+            properties: {},
+          },
+          {
+            type: "Feature",
+            geometry: {
+              type: "Point",
+              coordinates: [-121.43576049, 38.75241523],
+            },
+            properties: {
+              subType: "Circle",
+              radius: 5000,
+            },
+          },
+        ],
+      };
+      const searchResult = await client
+        .path("/search/geometry/{format}", "json")
+        .post({ queryParameters: { query: "pizza" }, body: { geometry: polygonsOrCircles } });
+      if (isUnexpected(searchResult)) {
+        assert.fail(searchResult.body.error?.message || "Unexpected error");
+      }
+      assertSearchResults(searchResult.body);
+    });
+  });
+});
+
+describe("LRO", function () {
+  let recorder: Recorder;
+  let client: MapsSearchClient;
+
+  beforeEach(async function (this: Context) {
+    recorder = await createRecorder(this);
+    client = createClient(recorder.configureClientOptions({}));
+  });
+
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
+  const pollingInterval = isPlaybackMode() ? 0 : 2000;
+
+  describe("Begin fuzzy search batch", function () {
+    it("could take an array of fuzzy search requests as input", async function () {
+      const batchItems = createBatchItems([
+        { query: "pizza", countrySet: ["fr"] },
+        { query: "pizza", lat: 25, lon: 121 },
+        {
+          query: "pizza",
+          countrySet: ["tw"],
+          lat: 25,
+          lon: 121,
+        },
+      ]);
+
+      const response = await client
+        .path("/search/fuzzy/batch/{format}", "json")
+        .post({ body: { batchItems } });
+      const poller = getLongRunningPoller(client, response, { intervalInMs: pollingInterval });
+      const batchResult = (await poller.pollUntilDone()) as SearchGetFuzzySearchBatch200Response;
+
+      assert.equal(batchResult.body.summary.totalRequests, batchItems.length);
+      assert.equal(batchResult.body.batchItems.length, batchItems.length);
+    });
+  });
+
+  describe("Resume fuzzy search batch", function () {
+    it("should be able to resume the previous request", async function () {
+      const batchItems = createBatchItems([
+        { query: "pizza", countrySet: ["fr"] },
+        { query: "pizza", lat: 25, lon: 121 },
+        {
+          query: "pizza",
+          countrySet: ["tw"],
+          lat: 25,
+          lon: 121,
+        },
+      ]);
+
+      // Initiate fuzzy search batch
+      const response = await client
+        .path("/search/fuzzy/batch/{format}", "json")
+        .post({ body: { batchItems } });
+      const originalPoller = getLongRunningPoller(client, response, {
+        intervalInMs: pollingInterval,
+      });
+      const serializedState = originalPoller.toString();
+
+      // Use serialized state to retrieve the result
+      const rehydratedPoller = getLongRunningPoller(client, response, {
+        intervalInMs: pollingInterval,
+        resumeFrom: serializedState,
+      });
+      const batchResult = (await rehydratedPoller.pollUntilDone()) as SearchGetFuzzySearchBatch200Response;
+      assert.equal(batchResult.body.summary.totalRequests, batchItems.length);
+      assert.equal(batchResult.body.batchItems.length, batchItems.length);
+    });
+
+    it("should obtain the same result from the rehydrated poller after the lro is finished", async function () {
+      const batchItems = createBatchItems([
+        { query: "pizza", countrySet: ["fr"] },
+        { query: "pizza", lat: 25, lon: 121 },
+        {
+          query: "pizza",
+          countrySet: ["tw"],
+          lat: 25,
+          lon: 121,
+        },
+      ]);
+
+      // Initiate fuzzy search batch
+      const response = await client
+        .path("/search/fuzzy/batch/{format}", "json")
+        .post({ body: { batchItems } });
+      const originalPoller = getLongRunningPoller(client, response, {
+        intervalInMs: pollingInterval,
+      });
+      const originalResult = await originalPoller.pollUntilDone();
+
+      // Use serialized state to retrieve the result
+      const serializedState = originalPoller.toString();
+      const rehydratedPoller = getLongRunningPoller(client, response, {
+        intervalInMs: pollingInterval,
+        resumeFrom: serializedState,
+      });
+      const rehydratedResult = (await rehydratedPoller.pollUntilDone()) as SearchGetFuzzySearchBatch200Response;
+      assert.deepEqual(originalResult.body, rehydratedResult.body);
+    });
+  });
+
+  describe("Begin search address batch", function () {
+    it("could take an array of search address requests as input", async function () {
+      const batchItems = createBatchItems([
+        { query: "400 Broad St, Seattle, WA 98109", limit: 3 },
+        { query: "One, Microsoft Way, Redmond, WA 98052", limit: 3 },
+        { query: "350 5th Ave, New York, NY 10118", limit: 1 },
+      ]);
+
+      const response = await client
+        .path("/search/address/batch/{format}", "json")
+        .post({ body: { batchItems } });
+      const poller = getLongRunningPoller(client, response, { intervalInMs: pollingInterval });
+      const batchResult = (await poller.pollUntilDone()) as SearchSearchAddressBatch200Response;
+
+      assert.equal(batchResult.body.summary.totalRequests, batchItems.length);
+      assert.equal(batchResult.body.batchItems.length, batchItems.length);
+    });
+  });
+
+  describe("Resume search address batch", function () {
+    it("should be able to resume the previous request", async function () {
+      const batchItems = createBatchItems([
+        { query: "400 Broad St, Seattle, WA 98109", limit: 3 },
+        { query: "One, Microsoft Way, Redmond, WA 98052", limit: 3 },
+        { query: "350 5th Ave, New York, NY 10118", limit: 1 },
+      ]);
+
+      // Initiate address search batch
+      const response = await client
+        .path("/search/address/batch/{format}", "json")
+        .post({ body: { batchItems } });
+      const originalPoller = getLongRunningPoller(client, response, {
+        intervalInMs: pollingInterval,
+      });
+      const serializedState = originalPoller.toString();
+
+      // Use serialized state to retrieve the result
+      const rehydratedPoller = getLongRunningPoller(client, response, {
+        intervalInMs: pollingInterval,
+        resumeFrom: serializedState,
+      });
+      const batchResult = (await rehydratedPoller.pollUntilDone()) as SearchGetFuzzySearchBatch200Response;
+      assert.equal(batchResult.body.summary.totalRequests, batchItems.length);
+      assert.equal(batchResult.body.batchItems.length, batchItems.length);
+    });
+
+    it("should obtain the same result from the rehydrated poller after the lro is finished", async function () {
+      const batchItems = createBatchItems([
+        { query: "400 Broad St, Seattle, WA 98109", limit: 3 },
+        { query: "One, Microsoft Way, Redmond, WA 98052", limit: 3 },
+        { query: "350 5th Ave, New York, NY 10118", limit: 1 },
+      ]);
+
+      // Initiate address search batch
+      const response = await client
+        .path("/search/address/batch/{format}", "json")
+        .post({ body: { batchItems } });
+      const originalPoller = getLongRunningPoller(client, response, {
+        intervalInMs: pollingInterval,
+      });
+      const originalResult = await originalPoller.pollUntilDone();
+
+      // Use serialized state to retrieve the result
+      const serializedState = originalPoller.toString();
+      const rehydratedPoller = getLongRunningPoller(client, response, {
+        intervalInMs: pollingInterval,
+        resumeFrom: serializedState,
+      });
+      const rehydratedResult = (await rehydratedPoller.pollUntilDone()) as SearchGetFuzzySearchBatch200Response;
+      assert.deepEqual(originalResult.body, rehydratedResult.body);
+    });
+  });
+
+  describe("Begin reverse search address batch", function () {
+    it("could take an array of reverse search address requests as input", async function () {
+      const batchItems = createBatchItems([
+        { query: [48.858561, 2.294911] },
+        {
+          query: [47.639765, -122.127896],
+          radius: 5000,
+        },
+        { query: [47.621028, -122.34817] },
+      ]);
+
+      const response = await client
+        .path("/search/address/reverse/batch/{format}", "json")
+        .post({ body: { batchItems } });
+      const poller = getLongRunningPoller(client, response, { intervalInMs: pollingInterval });
+      const batchResult = (await poller.pollUntilDone()) as SearchReverseSearchAddressBatch200Response;
+
+      assert.equal(batchResult.body.summary.totalRequests, batchItems.length);
+      assert.equal(batchResult.body.batchItems.length, batchItems.length);
+    });
+  });
+
+  describe("Resume reverse search address batch", function () {
+    it("should be able to resume the previous request", async function () {
+      const batchItems = createBatchItems([
+        { query: [48.858561, 2.294911] },
+        {
+          query: [47.639765, -122.127896],
+          radius: 5000,
+        },
+        { query: [47.621028, -122.34817] },
+      ]);
+
+      // Initiate reverse address search batch
+      const response = await client
+        .path("/search/address/reverse/batch/{format}", "json")
+        .post({ body: { batchItems } });
+      const originalPoller = getLongRunningPoller(client, response, {
+        intervalInMs: pollingInterval,
+      });
+      const originalResult = await originalPoller.pollUntilDone();
+
+      // Use serialized state to retrieve the result
+      const serializedState = originalPoller.toString();
+      const rehydratedPoller = getLongRunningPoller(client, response, {
+        intervalInMs: pollingInterval,
+        resumeFrom: serializedState,
+      });
+      const rehydratedResult = (await rehydratedPoller.pollUntilDone()) as SearchReverseSearchAddressBatch200Response;
+      assert.deepEqual(originalResult.body, rehydratedResult.body);
+    });
+
+    it("should obtain the same result from the rehydrated poller after the lro is finished", async function () {
+      const batchItems = createBatchItems([
+        { query: [48.858561, 2.294911] },
+        {
+          query: [47.639765, -122.127896],
+          radius: 5000,
+        },
+        { query: [47.621028, -122.34817] },
+      ]);
+
+      // Initiate reverse address search batch
+      const response = await client
+        .path("/search/address/reverse/batch/{format}", "json")
+        .post({ body: { batchItems } });
+      const originalPoller = getLongRunningPoller(client, response, {
+        intervalInMs: pollingInterval,
+      });
+      const originalResult = await originalPoller.pollUntilDone();
+
+      // Use serialized state to retrieve the result
+      const serializedState = originalPoller.toString();
+      const rehydratedPoller = getLongRunningPoller(client, response, {
+        intervalInMs: pollingInterval,
+        resumeFrom: serializedState,
+      });
+      const rehydratedResult = (await rehydratedPoller.pollUntilDone()) as SearchReverseSearchAddressBatch200Response;
+      assert.deepEqual(originalResult.body, rehydratedResult.body);
+    });
+  });
+});
