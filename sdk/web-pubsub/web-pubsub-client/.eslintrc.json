@@ -1,0 +1,9 @@
+{
+  "plugins": ["@azure/azure-sdk"],
+  "extends": ["plugin:@azure/azure-sdk/azure-sdk-base"],
+  "rules": {
+    "no-return-await": "off",
+    "no-empty": "off",
+    "no-constant-condition": "off"
+  }
+}

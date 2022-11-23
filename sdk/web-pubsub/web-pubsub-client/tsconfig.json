@@ -1,0 +1,27 @@
+{
+  "extends": "../../../tsconfig.package",
+  "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "./types",
+    "module": "es6",
+    "moduleResolution": "node",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "outDir": "./dist-esm",
+    "rootDir": ".",
+    "target": "es6",
+    "sourceMap": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
+    "paths": {
+      "@azure/web-pubsub-client": ["./src/index"]
+    }
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+}
