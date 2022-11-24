@@ -28,8 +28,6 @@ import { BulkOperationType, OperationInput } from "../../../src";
 import { endpoint } from "../common/_testConfig";
 import { masterKey } from "../common/_fakeTestSecrets";
 import { generateOperationOfSize } from "../../internal/unit/utils/batch.spec";
-import { v4 } from "uuid";
-
 interface TestItem {
   id?: string;
   name?: string;
@@ -250,7 +248,7 @@ describe("bulk/batch item operations", function () {
       const operations: OperationInput[] = [...Array(10).keys()].map(
         () =>
           ({
-            ...generateOperationOfSize(100, { partitionKey: v4() }),
+            ...generateOperationOfSize(100, { partitionKey: "key_value" }, { key: "key_value" }),
             partitionKey: {},
           } as any)
       );
@@ -283,7 +281,7 @@ describe("bulk/batch item operations", function () {
             ...generateOperationOfSize(
               Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes / 2),
               {},
-              v4()
+              { key: "key_value" }
             ),
           } as any)
       );

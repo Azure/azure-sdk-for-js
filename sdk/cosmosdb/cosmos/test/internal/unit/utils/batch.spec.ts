@@ -47,20 +47,21 @@ const constantSize = calculateObjectSizeInBytes(operationSkeleton);
 export function generateOperationOfSize(
   sizeInBytes: number,
   attributes?: unknown,
-  partitionKey?: unknown
+  partitionKey?: { [P in string]: unknown }
 ): Operation {
   if (sizeInBytes < constantSize) {
     throw new Error(`Not possible to generate operation of size less than ${constantSize}`);
   }
   let sizeToAdd = sizeInBytes - constantSize;
-  if (partitionKey !== undefined)
+  if (partitionKey !== undefined) {
     sizeToAdd -= calculateObjectSizeInBytes({ partitionKey }) + calculateObjectSizeInBytes({});
+  }
   return {
     ...(attributes as any),
     operationType: BulkOperationType.Create,
     resourceBody: {
       value: new Array(sizeToAdd + 1).join("a"),
-      partitionKey,
+      ...partitionKey,
     },
   };
 }
