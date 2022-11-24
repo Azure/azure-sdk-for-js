@@ -45,7 +45,8 @@ describe("getClient", () => {
         return { headers: createHttpHeaders(), status: 200, request: req } as PipelineResponse;
       });
 
-      const clientApiVersion = "2021-11-18", operationApiVersion = "2022-01-01";
+      const clientApiVersion = "2021-11-18",
+        operationApiVersion = "2022-01-01";
       const client = getClient("https://example.org", { apiVersion: clientApiVersion });
       const validationPolicy: PipelinePolicy = {
         name: "validationPolicy",
@@ -61,8 +62,8 @@ describe("getClient", () => {
       // Define the apiVersion at operation-level
       await client.pathUnchecked("/foo").get({
         queryParameters: {
-          "api-version": operationApiVersion
-        }
+          "api-version": operationApiVersion,
+        },
       });
     });
 
@@ -72,7 +73,8 @@ describe("getClient", () => {
         return { headers: createHttpHeaders(), status: 200, request: req } as PipelineResponse;
       });
 
-      const clientApiVersion = "2021-11-18", operationApiVersion = "2022-01-01";
+      const clientApiVersion = "2021-11-18",
+        operationApiVersion = "2022-01-01";
       const client = getClient("https://example.org", { apiVersion: clientApiVersion });
       const validationPolicy: PipelinePolicy = {
         name: "validationPolicy",
