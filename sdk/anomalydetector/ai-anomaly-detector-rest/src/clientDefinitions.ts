@@ -47,8 +47,7 @@ export interface DetectUnivariateEntireSeries {
   post(
     options: DetectUnivariateEntireSeriesParameters
   ): StreamableMethod<
-    | DetectUnivariateEntireSeries200Response
-    | DetectUnivariateEntireSeriesDefaultResponse
+    DetectUnivariateEntireSeries200Response | DetectUnivariateEntireSeriesDefaultResponse
   >;
 }
 
@@ -60,8 +59,7 @@ export interface DetectUnivariateLastPoint {
   post(
     options: DetectUnivariateLastPointParameters
   ): StreamableMethod<
-    | DetectUnivariateLastPoint200Response
-    | DetectUnivariateLastPointDefaultResponse
+    DetectUnivariateLastPoint200Response | DetectUnivariateLastPointDefaultResponse
   >;
 }
 
@@ -70,8 +68,7 @@ export interface DetectUnivariateChangePoint {
   post(
     options: DetectUnivariateChangePointParameters
   ): StreamableMethod<
-    | DetectUnivariateChangePoint200Response
-    | DetectUnivariateChangePointDefaultResponse
+    DetectUnivariateChangePoint200Response | DetectUnivariateChangePointDefaultResponse
   >;
 }
 
@@ -101,33 +98,26 @@ export interface CreateAndTrainMultivariateModel {
   post(
     options: CreateAndTrainMultivariateModelParameters
   ): StreamableMethod<
-    | CreateAndTrainMultivariateModel201Response
-    | CreateAndTrainMultivariateModelDefaultResponse
+    CreateAndTrainMultivariateModel201Response | CreateAndTrainMultivariateModelDefaultResponse
   >;
   /** List models of a resource. */
   get(
     options?: ListMultivariateModelsParameters
-  ): StreamableMethod<
-    ListMultivariateModels200Response | ListMultivariateModelsDefaultResponse
-  >;
+  ): StreamableMethod<ListMultivariateModels200Response | ListMultivariateModelsDefaultResponse>;
 }
 
 export interface DeleteMultivariateModel {
   /** Delete an existing multivariate model according to the modelId */
   delete(
     options?: DeleteMultivariateModelParameters
-  ): StreamableMethod<
-    DeleteMultivariateModel204Response | DeleteMultivariateModelDefaultResponse
-  >;
+  ): StreamableMethod<DeleteMultivariateModel204Response | DeleteMultivariateModelDefaultResponse>;
   /**
    * Get detailed information of multivariate model, including the training status
    * and variables used in the model.
    */
   get(
     options?: GetMultivariateModelParameters
-  ): StreamableMethod<
-    GetMultivariateModel200Response | GetMultivariateModelDefaultResponse
-  >;
+  ): StreamableMethod<GetMultivariateModel200Response | GetMultivariateModelDefaultResponse>;
 }
 
 export interface DetectMultivariateBatchAnomaly {
@@ -142,8 +132,7 @@ export interface DetectMultivariateBatchAnomaly {
   post(
     options: DetectMultivariateBatchAnomalyParameters
   ): StreamableMethod<
-    | DetectMultivariateBatchAnomaly202Response
-    | DetectMultivariateBatchAnomalyDefaultResponse
+    DetectMultivariateBatchAnomaly202Response | DetectMultivariateBatchAnomalyDefaultResponse
   >;
 }
 
@@ -157,8 +146,7 @@ export interface DetectMultivariateLastAnomaly {
   post(
     options: DetectMultivariateLastAnomalyParameters
   ): StreamableMethod<
-    | DetectMultivariateLastAnomaly200Response
-    | DetectMultivariateLastAnomalyDefaultResponse
+    DetectMultivariateLastAnomaly200Response | DetectMultivariateLastAnomalyDefaultResponse
   >;
 }
 
@@ -177,10 +165,7 @@ export interface Routes {
   /** Resource for '/multivariate/models' has methods for the following verbs: post, get */
   (path: "/multivariate/models"): CreateAndTrainMultivariateModel;
   /** Resource for '/multivariate/models/\{modelId\}' has methods for the following verbs: delete, get */
-  (
-    path: "/multivariate/models/{modelId}",
-    modelId: string
-  ): DeleteMultivariateModel;
+  (path: "/multivariate/models/{modelId}", modelId: string): DeleteMultivariateModel;
   /** Resource for '/multivariate/models/\{modelId\}:detect-batch' has methods for the following verbs: post */
   (
     path: "/multivariate/models/{modelId}:detect-batch",
