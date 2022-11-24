@@ -12,9 +12,9 @@
         "Content-Type": "application/json",
         "repeatability-first-sent": "Sanitized",
         "repeatability-request-id": "Sanitized",
-        "User-Agent": "azsdk-js-communication-email/1.0.0-beta.2 core-rest-pipeline/1.8.2 Node/v16.14.2 OS/(x64-Windows_NT-10.0.19044)",
+        "User-Agent": "azsdk-js-communication-email/1.0.0-beta.2 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.25236)",
         "x-ms-client-request-id": "Sanitized",
-        "x-ms-content-sha256": "4WncXrahwd69tLgc5zPXCuvmLcdQidfqoBILjbBlAiY=",
+        "x-ms-content-sha256": "fCdOrSv6702AQjXq4\u002BNMv6sNsj8SX3QBL6/pNiUuarA=",
         "x-ms-date": "Sanitized"
       },
       "RequestBody": {
@@ -45,6 +45,7 @@
         "api-supported-versions": "2021-10-01-preview",
         "Content-Length": "0",
         "Date": "Sanitized",
+        "mise-correlation-id": "676c2c26-db68-45b9-851d-f5fcd3824434",
         "Operation-Location": "https://someEndpoint/emails/someMessageId/status",
         "Repeatability-Result": "accepted",
         "X-Azure-Ref": "Sanitized",
