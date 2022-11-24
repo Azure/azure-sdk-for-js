@@ -28,8 +28,8 @@ export interface DiscoveryOperationsCreateOrReplaceBodyParam {
   body?: Discovery;
 }
 
-export type DiscoveryOperationsCreateOrReplaceParameters =
-  DiscoveryOperationsCreateOrReplaceBodyParam & RequestParameters;
+export type DiscoveryOperationsCreateOrReplaceParameters = DiscoveryOperationsCreateOrReplaceBodyParam &
+  RequestParameters;
 export type DiscoveryOperationsGetParameters = RequestParameters;
 
 export interface DiscoveryOperationsCompleteHeaders {
@@ -41,8 +41,8 @@ export interface DiscoveryOperationsCompleteHeaderParam {
   headers?: RawHttpHeadersInput & DiscoveryOperationsCompleteHeaders;
 }
 
-export type DiscoveryOperationsCompleteParameters =
-  DiscoveryOperationsCompleteHeaderParam & RequestParameters;
+export type DiscoveryOperationsCompleteParameters = DiscoveryOperationsCompleteHeaderParam &
+  RequestParameters;
 
 export interface DiscoveryOperationsCancelHeaders {
   /** The long running operation identifier. Operation-Id should be valid UUID string. */
@@ -53,8 +53,8 @@ export interface DiscoveryOperationsCancelHeaderParam {
   headers?: RawHttpHeadersInput & DiscoveryOperationsCancelHeaders;
 }
 
-export type DiscoveryOperationsCancelParameters =
-  DiscoveryOperationsCancelHeaderParam & RequestParameters;
+export type DiscoveryOperationsCancelParameters = DiscoveryOperationsCancelHeaderParam &
+  RequestParameters;
 
 export interface DiscoverySpecialFileOperationsGenerateHeaders {
   /** The long running operation identifier. Operation-Id should be valid UUID string. */
@@ -65,10 +65,9 @@ export interface DiscoverySpecialFileOperationsGenerateHeaderParam {
   headers?: RawHttpHeadersInput & DiscoverySpecialFileOperationsGenerateHeaders;
 }
 
-export type DiscoverySpecialFileOperationsGenerateParameters =
-  DiscoverySpecialFileOperationsGenerateHeaderParam & RequestParameters;
-export type DiscoverySpecialFileOperationsListWritableUrisParameters =
+export type DiscoverySpecialFileOperationsGenerateParameters = DiscoverySpecialFileOperationsGenerateHeaderParam &
   RequestParameters;
+export type DiscoverySpecialFileOperationsListWritableUrisParameters = RequestParameters;
 export type DiscoveryResultUploadOperationsListParameters = RequestParameters;
 
 export interface UploadOperationsCreateOrReplaceBodyParam {
@@ -76,8 +75,8 @@ export interface UploadOperationsCreateOrReplaceBodyParam {
   body?: Upload;
 }
 
-export type UploadOperationsCreateOrReplaceParameters =
-  UploadOperationsCreateOrReplaceBodyParam & RequestParameters;
+export type UploadOperationsCreateOrReplaceParameters = UploadOperationsCreateOrReplaceBodyParam &
+  RequestParameters;
 export type UploadOperationsGetParameters = RequestParameters;
 
 export interface UploadOperationsCompleteHeaders {
@@ -89,8 +88,8 @@ export interface UploadOperationsCompleteHeaderParam {
   headers?: RawHttpHeadersInput & UploadOperationsCompleteHeaders;
 }
 
-export type UploadOperationsCompleteParameters =
-  UploadOperationsCompleteHeaderParam & RequestParameters;
+export type UploadOperationsCompleteParameters = UploadOperationsCompleteHeaderParam &
+  RequestParameters;
 
 export interface UploadOperationsCancelHeaders {
   /** The long running operation identifier. Operation-Id should be valid UUID string. */
@@ -101,8 +100,8 @@ export interface UploadOperationsCancelHeaderParam {
   headers?: RawHttpHeadersInput & UploadOperationsCancelHeaders;
 }
 
-export type UploadOperationsCancelParameters =
-  UploadOperationsCancelHeaderParam & RequestParameters;
+export type UploadOperationsCancelParameters = UploadOperationsCancelHeaderParam &
+  RequestParameters;
 export type UploadSpecialFileOperationsListParameters = RequestParameters;
 
 export interface UploadSpecialFileOperationsGenerateHeaders {
@@ -114,10 +113,9 @@ export interface UploadSpecialFileOperationsGenerateHeaderParam {
   headers?: RawHttpHeadersInput & UploadSpecialFileOperationsGenerateHeaders;
 }
 
-export type UploadSpecialFileOperationsGenerateParameters =
-  UploadSpecialFileOperationsGenerateHeaderParam & RequestParameters;
-export type UploadSpecialFileOperationsListWritableUrisParameters =
+export type UploadSpecialFileOperationsGenerateParameters = UploadSpecialFileOperationsGenerateHeaderParam &
   RequestParameters;
+export type UploadSpecialFileOperationsListWritableUrisParameters = RequestParameters;
 
 export interface UploadDataFileOperationsGenerateHeaders {
   /** The long running operation identifier. Operation-Id should be valid UUID string. */
@@ -128,10 +126,9 @@ export interface UploadDataFileOperationsGenerateHeaderParam {
   headers?: RawHttpHeadersInput & UploadDataFileOperationsGenerateHeaders;
 }
 
-export type UploadDataFileOperationsGenerateParameters =
-  UploadDataFileOperationsGenerateHeaderParam & RequestParameters;
-export type UploadDataFileOperationsListWritableUrisParameters =
+export type UploadDataFileOperationsGenerateParameters = UploadDataFileOperationsGenerateHeaderParam &
   RequestParameters;
+export type UploadDataFileOperationsListWritableUrisParameters = RequestParameters;
 export type UploadResultMeasurementOperationsListParameters = RequestParameters;
 export type ClassificationSchemaOperationsGetParameters = RequestParameters;
 
@@ -149,10 +146,9 @@ export interface ClassificationSchemaOperationsCreateHeaderParam {
   headers?: RawHttpHeadersInput & ClassificationSchemaOperationsCreateHeaders;
 }
 
-export type ClassificationSchemaOperationsCreateParameters =
-  ClassificationSchemaOperationsCreateHeaderParam &
-    ClassificationSchemaOperationsCreateBodyParam &
-    RequestParameters;
+export type ClassificationSchemaOperationsCreateParameters = ClassificationSchemaOperationsCreateHeaderParam &
+  ClassificationSchemaOperationsCreateBodyParam &
+  RequestParameters;
 
 export interface ClassificationSchemaOperationsDeleteHeaders {
   /** The long running operation identifier. Operation-Id should be valid UUID string. */
@@ -163,8 +159,8 @@ export interface ClassificationSchemaOperationsDeleteHeaderParam {
   headers?: RawHttpHeadersInput & ClassificationSchemaOperationsDeleteHeaders;
 }
 
-export type ClassificationSchemaOperationsDeleteParameters =
-  ClassificationSchemaOperationsDeleteHeaderParam & RequestParameters;
+export type ClassificationSchemaOperationsDeleteParameters = ClassificationSchemaOperationsDeleteHeaderParam &
+  RequestParameters;
 export type ClassificationSchemaOperationsListParameters = RequestParameters;
 export type MeasurementOperationsGetParameters = RequestParameters;
 
@@ -177,22 +173,20 @@ export interface MeasurementOperationsDeleteHeaderParam {
   headers?: RawHttpHeadersInput & MeasurementOperationsDeleteHeaders;
 }
 
-export type MeasurementOperationsDeleteParameters =
-  MeasurementOperationsDeleteHeaderParam & RequestParameters;
-export type MeasurementOperationsListParameters = RequestParameters;
-export type MeasurementOperationsQueryMeasurementsWithMetadataParameters =
+export type MeasurementOperationsDeleteParameters = MeasurementOperationsDeleteHeaderParam &
   RequestParameters;
+export type MeasurementOperationsListParameters = RequestParameters;
+export type MeasurementOperationsQueryMeasurementsWithMetadataParameters = RequestParameters;
 
 export interface MeasurementOperationsFindByIdsBodyParam {
   /** Parameter of type 'MeasurementListRequestParameters' in the body. */
   body?: MeasurementListRequestParameters;
 }
 
-export type MeasurementOperationsFindByIdsParameters =
-  MeasurementOperationsFindByIdsBodyParam & RequestParameters;
-export type MeasurementMetadataOperationsGetParameters = RequestParameters;
-export type MeasurementProcessingResultsOperationsGetParameters =
+export type MeasurementOperationsFindByIdsParameters = MeasurementOperationsFindByIdsBodyParam &
   RequestParameters;
+export type MeasurementMetadataOperationsGetParameters = RequestParameters;
+export type MeasurementProcessingResultsOperationsGetParameters = RequestParameters;
 export type MeasurementStateMachineOperationsGetParameters = RequestParameters;
 export type MeasurementStateMachineOperationsListParameters = RequestParameters;
 
@@ -210,10 +204,9 @@ export interface MeasurementStateMachineOperationsActHeaderParam {
   headers?: RawHttpHeadersInput & MeasurementStateMachineOperationsActHeaders;
 }
 
-export type MeasurementStateMachineOperationsActParameters =
-  MeasurementStateMachineOperationsActHeaderParam &
-    MeasurementStateMachineOperationsActBodyParam &
-    RequestParameters;
+export type MeasurementStateMachineOperationsActParameters = MeasurementStateMachineOperationsActHeaderParam &
+  MeasurementStateMachineOperationsActBodyParam &
+  RequestParameters;
 
 export interface MeasurementMetadataFileInfoOperationsCompleteHeaders {
   /** The long running operation identifier. Operation-Id should be valid UUID string. */
@@ -226,20 +219,15 @@ export interface MeasurementMetadataFileInfoOperationsCompleteBodyParam {
 }
 
 export interface MeasurementMetadataFileInfoOperationsCompleteHeaderParam {
-  headers?: RawHttpHeadersInput &
-    MeasurementMetadataFileInfoOperationsCompleteHeaders;
+  headers?: RawHttpHeadersInput & MeasurementMetadataFileInfoOperationsCompleteHeaders;
 }
 
-export type MeasurementMetadataFileInfoOperationsCompleteParameters =
-  MeasurementMetadataFileInfoOperationsCompleteHeaderParam &
-    MeasurementMetadataFileInfoOperationsCompleteBodyParam &
-    RequestParameters;
-export type MeasurementMetadataFileInfoOperationsGetWritableUriParameters =
+export type MeasurementMetadataFileInfoOperationsCompleteParameters = MeasurementMetadataFileInfoOperationsCompleteHeaderParam &
+  MeasurementMetadataFileInfoOperationsCompleteBodyParam &
   RequestParameters;
-export type MeasurementMetadataSchemaFileInfoOperationsGetParameters =
-  RequestParameters;
-export type MeasurementClassificationOperationsGetParameters =
-  RequestParameters;
+export type MeasurementMetadataFileInfoOperationsGetWritableUriParameters = RequestParameters;
+export type MeasurementMetadataSchemaFileInfoOperationsGetParameters = RequestParameters;
+export type MeasurementClassificationOperationsGetParameters = RequestParameters;
 
 export interface MeasurementClassificationOperationsCreateHeaders {
   /** The long running operation identifier. Operation-Id should be valid UUID string. */
@@ -252,14 +240,12 @@ export interface MeasurementClassificationOperationsCreateBodyParam {
 }
 
 export interface MeasurementClassificationOperationsCreateHeaderParam {
-  headers?: RawHttpHeadersInput &
-    MeasurementClassificationOperationsCreateHeaders;
+  headers?: RawHttpHeadersInput & MeasurementClassificationOperationsCreateHeaders;
 }
 
-export type MeasurementClassificationOperationsCreateParameters =
-  MeasurementClassificationOperationsCreateHeaderParam &
-    MeasurementClassificationOperationsCreateBodyParam &
-    RequestParameters;
+export type MeasurementClassificationOperationsCreateParameters = MeasurementClassificationOperationsCreateHeaderParam &
+  MeasurementClassificationOperationsCreateBodyParam &
+  RequestParameters;
 
 export interface MeasurementClassificationOperationsDeleteHeaders {
   /** The long running operation identifier. Operation-Id should be valid UUID string. */
@@ -267,14 +253,12 @@ export interface MeasurementClassificationOperationsDeleteHeaders {
 }
 
 export interface MeasurementClassificationOperationsDeleteHeaderParam {
-  headers?: RawHttpHeadersInput &
-    MeasurementClassificationOperationsDeleteHeaders;
+  headers?: RawHttpHeadersInput & MeasurementClassificationOperationsDeleteHeaders;
 }
 
-export type MeasurementClassificationOperationsDeleteParameters =
-  MeasurementClassificationOperationsDeleteHeaderParam & RequestParameters;
-export type MeasurementClassificationOperationsListParameters =
+export type MeasurementClassificationOperationsDeleteParameters = MeasurementClassificationOperationsDeleteHeaderParam &
   RequestParameters;
+export type MeasurementClassificationOperationsListParameters = RequestParameters;
 export type DataStreamOperationsGetParameters = RequestParameters;
 
 export interface DataStreamOperationsCreateHeaders {
@@ -291,10 +275,9 @@ export interface DataStreamOperationsCreateHeaderParam {
   headers?: RawHttpHeadersInput & DataStreamOperationsCreateHeaders;
 }
 
-export type DataStreamOperationsCreateParameters =
-  DataStreamOperationsCreateHeaderParam &
-    DataStreamOperationsCreateBodyParam &
-    RequestParameters;
+export type DataStreamOperationsCreateParameters = DataStreamOperationsCreateHeaderParam &
+  DataStreamOperationsCreateBodyParam &
+  RequestParameters;
 
 export interface DataStreamOperationsClearContentHeaders {
   /** The long running operation identifier. Operation-Id should be valid UUID string. */
@@ -305,8 +288,8 @@ export interface DataStreamOperationsClearContentHeaderParam {
   headers?: RawHttpHeadersInput & DataStreamOperationsClearContentHeaders;
 }
 
-export type DataStreamOperationsClearContentParameters =
-  DataStreamOperationsClearContentHeaderParam & RequestParameters;
+export type DataStreamOperationsClearContentParameters = DataStreamOperationsClearContentHeaderParam &
+  RequestParameters;
 
 export interface DataStreamOperationsListQueryParamProperties {
   /** Filter the result list using the given expression. */
@@ -317,16 +300,16 @@ export interface DataStreamOperationsListQueryParam {
   queryParameters?: DataStreamOperationsListQueryParamProperties;
 }
 
-export type DataStreamOperationsListParameters =
-  DataStreamOperationsListQueryParam & RequestParameters;
+export type DataStreamOperationsListParameters = DataStreamOperationsListQueryParam &
+  RequestParameters;
 
 export interface DataStreamOperationsStageFilesBodyParam {
   /** Parameter of type 'UploadDerivedDataStreamFilesRequest' in the body. */
   body?: UploadDerivedDataStreamFilesRequest;
 }
 
-export type DataStreamOperationsStageFilesParameters =
-  DataStreamOperationsStageFilesBodyParam & RequestParameters;
+export type DataStreamOperationsStageFilesParameters = DataStreamOperationsStageFilesBodyParam &
+  RequestParameters;
 
 export interface DataStreamOperationsCompleteHeaders {
   /** The long running operation identifier. Operation-Id should be valid UUID string. */
@@ -337,8 +320,8 @@ export interface DataStreamOperationsCompleteHeaderParam {
   headers?: RawHttpHeadersInput & DataStreamOperationsCompleteHeaders;
 }
 
-export type DataStreamOperationsCompleteParameters =
-  DataStreamOperationsCompleteHeaderParam & RequestParameters;
+export type DataStreamOperationsCompleteParameters = DataStreamOperationsCompleteHeaderParam &
+  RequestParameters;
 
 export interface DataStreamOperationsFailHeaders {
   /** The long running operation identifier. Operation-Id should be valid UUID string. */
@@ -349,42 +332,41 @@ export interface DataStreamOperationsFailHeaderParam {
   headers?: RawHttpHeadersInput & DataStreamOperationsFailHeaders;
 }
 
-export type DataStreamOperationsFailParameters =
-  DataStreamOperationsFailHeaderParam & RequestParameters;
+export type DataStreamOperationsFailParameters = DataStreamOperationsFailHeaderParam &
+  RequestParameters;
 
 export interface DataStreamOperationsFindByTagsBodyParam {
   /** Parameter of type 'FindDataStreamByTagsRequestParameters' in the body. */
   body?: FindDataStreamByTagsRequestParameters;
 }
 
-export type DataStreamOperationsFindByTagsParameters =
-  DataStreamOperationsFindByTagsBodyParam & RequestParameters;
+export type DataStreamOperationsFindByTagsParameters = DataStreamOperationsFindByTagsBodyParam &
+  RequestParameters;
 
 export interface DataStreamOperationsFindByLineageBodyParam {
   /** Parameter of type 'FindDataStreamByLineageRequestParameters' in the body. */
   body?: FindDataStreamByLineageRequestParameters;
 }
 
-export type DataStreamOperationsFindByLineageParameters =
-  DataStreamOperationsFindByLineageBodyParam & RequestParameters;
+export type DataStreamOperationsFindByLineageParameters = DataStreamOperationsFindByLineageBodyParam &
+  RequestParameters;
 
 export interface DataStreamOperationsGetLineageGraphsByLineageBodyParam {
   /** Parameter of type 'FindDataStreamByLineageGraphRequestParameters' in the body. */
   body?: FindDataStreamByLineageGraphRequestParameters;
 }
 
-export type DataStreamOperationsGetLineageGraphsByLineageParameters =
-  DataStreamOperationsGetLineageGraphsByLineageBodyParam & RequestParameters;
+export type DataStreamOperationsGetLineageGraphsByLineageParameters = DataStreamOperationsGetLineageGraphsByLineageBodyParam &
+  RequestParameters;
 
 export interface DataStreamsStorageOperationsCreateBodyParam {
   /** Parameter of type 'StorageCreationParameters' in the body. */
   body?: Storage;
 }
 
-export type DataStreamsStorageOperationsCreateParameters =
-  DataStreamsStorageOperationsCreateBodyParam & RequestParameters;
-export type DataStreamsStorageOperationsGetWritableUrisParameters =
+export type DataStreamsStorageOperationsCreateParameters = DataStreamsStorageOperationsCreateBodyParam &
   RequestParameters;
+export type DataStreamsStorageOperationsGetWritableUrisParameters = RequestParameters;
 export type DataStreamTagsOperationsGetParameters = RequestParameters;
 
 export interface DataStreamTagsOperationsCreateBodyParam {
@@ -392,8 +374,8 @@ export interface DataStreamTagsOperationsCreateBodyParam {
   body?: TagSet;
 }
 
-export type DataStreamTagsOperationsCreateParameters =
-  DataStreamTagsOperationsCreateBodyParam & RequestParameters;
+export type DataStreamTagsOperationsCreateParameters = DataStreamTagsOperationsCreateBodyParam &
+  RequestParameters;
 export type DataStreamFileOperationsListParameters = RequestParameters;
 
 export interface DataStreamFileOperationsGenerateHeaders {
@@ -405,10 +387,9 @@ export interface DataStreamFileOperationsGenerateHeaderParam {
   headers?: RawHttpHeadersInput & DataStreamFileOperationsGenerateHeaders;
 }
 
-export type DataStreamFileOperationsGenerateParameters =
-  DataStreamFileOperationsGenerateHeaderParam & RequestParameters;
-export type DataStreamLogsContainerOperationsGetWritableUriParameters =
+export type DataStreamFileOperationsGenerateParameters = DataStreamFileOperationsGenerateHeaderParam &
   RequestParameters;
+export type DataStreamLogsContainerOperationsGetWritableUriParameters = RequestParameters;
 export type DataStreamClassificationOperationsGetParameters = RequestParameters;
 
 export interface DataStreamClassificationOperationsCreateHeaders {
@@ -422,14 +403,12 @@ export interface DataStreamClassificationOperationsCreateBodyParam {
 }
 
 export interface DataStreamClassificationOperationsCreateHeaderParam {
-  headers?: RawHttpHeadersInput &
-    DataStreamClassificationOperationsCreateHeaders;
+  headers?: RawHttpHeadersInput & DataStreamClassificationOperationsCreateHeaders;
 }
 
-export type DataStreamClassificationOperationsCreateParameters =
-  DataStreamClassificationOperationsCreateHeaderParam &
-    DataStreamClassificationOperationsCreateBodyParam &
-    RequestParameters;
+export type DataStreamClassificationOperationsCreateParameters = DataStreamClassificationOperationsCreateHeaderParam &
+  DataStreamClassificationOperationsCreateBodyParam &
+  RequestParameters;
 
 export interface DataStreamClassificationOperationsDeleteHeaders {
   /** The long running operation identifier. Operation-Id should be valid UUID string. */
@@ -437,11 +416,9 @@ export interface DataStreamClassificationOperationsDeleteHeaders {
 }
 
 export interface DataStreamClassificationOperationsDeleteHeaderParam {
-  headers?: RawHttpHeadersInput &
-    DataStreamClassificationOperationsDeleteHeaders;
+  headers?: RawHttpHeadersInput & DataStreamClassificationOperationsDeleteHeaders;
 }
 
-export type DataStreamClassificationOperationsDeleteParameters =
-  DataStreamClassificationOperationsDeleteHeaderParam & RequestParameters;
-export type DataStreamClassificationOperationsListParameters =
+export type DataStreamClassificationOperationsDeleteParameters = DataStreamClassificationOperationsDeleteHeaderParam &
   RequestParameters;
+export type DataStreamClassificationOperationsListParameters = RequestParameters;

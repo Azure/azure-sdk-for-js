@@ -217,8 +217,7 @@ export interface LongRunningOperationsGetStatus {
   get(
     options?: LongRunningOperationsGetStatusParameters
   ): StreamableMethod<
-    | LongRunningOperationsGetStatus200Response
-    | LongRunningOperationsGetStatusDefaultResponse
+    LongRunningOperationsGetStatus200Response | LongRunningOperationsGetStatusDefaultResponse
   >;
 }
 
@@ -234,9 +233,7 @@ export interface DiscoveryOperationsCreateOrReplace {
   /** Get discovery by ID. */
   get(
     options?: DiscoveryOperationsGetParameters
-  ): StreamableMethod<
-    DiscoveryOperationsGet200Response | DiscoveryOperationsGetDefaultResponse
-  >;
+  ): StreamableMethod<DiscoveryOperationsGet200Response | DiscoveryOperationsGetDefaultResponse>;
 }
 
 export interface DiscoveryOperationsComplete {
@@ -308,9 +305,7 @@ export interface UploadOperationsCreateOrReplace {
   /** Get discovery by ID. */
   get(
     options?: UploadOperationsGetParameters
-  ): StreamableMethod<
-    UploadOperationsGet200Response | UploadOperationsGetDefaultResponse
-  >;
+  ): StreamableMethod<UploadOperationsGet200Response | UploadOperationsGetDefaultResponse>;
 }
 
 export interface UploadOperationsComplete {
@@ -340,8 +335,7 @@ export interface UploadSpecialFileOperationsList {
   get(
     options?: UploadSpecialFileOperationsListParameters
   ): StreamableMethod<
-    | UploadSpecialFileOperationsList200Response
-    | UploadSpecialFileOperationsListDefaultResponse
+    UploadSpecialFileOperationsList200Response | UploadSpecialFileOperationsListDefaultResponse
   >;
 }
 
@@ -410,8 +404,7 @@ export interface ClassificationSchemaOperationsGet {
   get(
     options?: ClassificationSchemaOperationsGetParameters
   ): StreamableMethod<
-    | ClassificationSchemaOperationsGet200Response
-    | ClassificationSchemaOperationsGetDefaultResponse
+    ClassificationSchemaOperationsGet200Response | ClassificationSchemaOperationsGetDefaultResponse
   >;
   /** Deletes the classification schema and all related classification assignments (instances). */
   delete(
@@ -446,8 +439,7 @@ export interface MeasurementOperationsGet {
   get(
     options?: MeasurementOperationsGetParameters
   ): StreamableMethod<
-    | MeasurementOperationsGet200Response
-    | MeasurementOperationsGetDefaultResponse
+    MeasurementOperationsGet200Response | MeasurementOperationsGetDefaultResponse
   >;
   /** Deletes the measurement. */
   delete(
@@ -464,8 +456,7 @@ export interface MeasurementOperationsList {
   get(
     options?: MeasurementOperationsListParameters
   ): StreamableMethod<
-    | MeasurementOperationsList200Response
-    | MeasurementOperationsListDefaultResponse
+    MeasurementOperationsList200Response | MeasurementOperationsListDefaultResponse
   >;
 }
 
@@ -484,8 +475,7 @@ export interface MeasurementOperationsFindByIds {
   post(
     options?: MeasurementOperationsFindByIdsParameters
   ): StreamableMethod<
-    | MeasurementOperationsFindByIds200Response
-    | MeasurementOperationsFindByIdsDefaultResponse
+    MeasurementOperationsFindByIds200Response | MeasurementOperationsFindByIdsDefaultResponse
   >;
 }
 
@@ -494,8 +484,7 @@ export interface MeasurementMetadataOperationsGet {
   get(
     options?: MeasurementMetadataOperationsGetParameters
   ): StreamableMethod<
-    | MeasurementMetadataOperationsGet200Response
-    | MeasurementMetadataOperationsGetDefaultResponse
+    MeasurementMetadataOperationsGet200Response | MeasurementMetadataOperationsGetDefaultResponse
   >;
 }
 
@@ -614,9 +603,7 @@ export interface DataStreamOperationsGet {
   /** Get data-stream by identifier. */
   get(
     options?: DataStreamOperationsGetParameters
-  ): StreamableMethod<
-    DataStreamOperationsGet200Response | DataStreamOperationsGetDefaultResponse
-  >;
+  ): StreamableMethod<DataStreamOperationsGet200Response | DataStreamOperationsGetDefaultResponse>;
 }
 
 export interface DataStreamOperationsCreate {
@@ -636,8 +623,7 @@ export interface DataStreamOperationsCreate {
   get(
     options?: DataStreamOperationsListParameters
   ): StreamableMethod<
-    | DataStreamOperationsList200Response
-    | DataStreamOperationsListDefaultResponse
+    DataStreamOperationsList200Response | DataStreamOperationsListDefaultResponse
   >;
 }
 
@@ -660,8 +646,7 @@ export interface DataStreamOperationsStageFiles {
   post(
     options?: DataStreamOperationsStageFilesParameters
   ): StreamableMethod<
-    | DataStreamOperationsStageFiles200Response
-    | DataStreamOperationsStageFilesDefaultResponse
+    DataStreamOperationsStageFiles200Response | DataStreamOperationsStageFilesDefaultResponse
   >;
 }
 
@@ -692,8 +677,7 @@ export interface DataStreamOperationsFindByTags {
   post(
     options?: DataStreamOperationsFindByTagsParameters
   ): StreamableMethod<
-    | DataStreamOperationsFindByTags200Response
-    | DataStreamOperationsFindByTagsDefaultResponse
+    DataStreamOperationsFindByTags200Response | DataStreamOperationsFindByTagsDefaultResponse
   >;
 }
 
@@ -702,8 +686,7 @@ export interface DataStreamOperationsFindByLineage {
   post(
     options?: DataStreamOperationsFindByLineageParameters
   ): StreamableMethod<
-    | DataStreamOperationsFindByLineage200Response
-    | DataStreamOperationsFindByLineageDefaultResponse
+    DataStreamOperationsFindByLineage200Response | DataStreamOperationsFindByLineageDefaultResponse
   >;
 }
 
@@ -750,8 +733,7 @@ export interface DataStreamTagsOperationsGet {
   get(
     options?: DataStreamTagsOperationsGetParameters
   ): StreamableMethod<
-    | DataStreamTagsOperationsGet200Response
-    | DataStreamTagsOperationsGetDefaultResponse
+    DataStreamTagsOperationsGet200Response | DataStreamTagsOperationsGetDefaultResponse
   >;
   /** Create or replace all tags at once. */
   put(
@@ -768,8 +750,7 @@ export interface DataStreamFileOperationsList {
   get(
     options?: DataStreamFileOperationsListParameters
   ): StreamableMethod<
-    | DataStreamFileOperationsList200Response
-    | DataStreamFileOperationsListDefaultResponse
+    DataStreamFileOperationsList200Response | DataStreamFileOperationsListDefaultResponse
   >;
 }
 
@@ -835,25 +816,13 @@ export interface DataStreamClassificationOperationsCreate {
 
 export interface Routes {
   /** Resource for '/operations/\{operationId\}' has methods for the following verbs: get */
-  (
-    path: "/operations/{operationId}",
-    operationId: string
-  ): LongRunningOperationsGetStatus;
+  (path: "/operations/{operationId}", operationId: string): LongRunningOperationsGetStatus;
   /** Resource for '/discoveries/\{discoveryId\}' has methods for the following verbs: put, get */
-  (
-    path: "/discoveries/{discoveryId}",
-    discoveryId: string
-  ): DiscoveryOperationsCreateOrReplace;
+  (path: "/discoveries/{discoveryId}", discoveryId: string): DiscoveryOperationsCreateOrReplace;
   /** Resource for '/discoveries/\{discoveryId\}:complete' has methods for the following verbs: post */
-  (
-    path: "/discoveries/{discoveryId}:complete",
-    discoveryId: string
-  ): DiscoveryOperationsComplete;
+  (path: "/discoveries/{discoveryId}:complete", discoveryId: string): DiscoveryOperationsComplete;
   /** Resource for '/discoveries/\{discoveryId\}:cancel' has methods for the following verbs: post */
-  (
-    path: "/discoveries/{discoveryId}:cancel",
-    discoveryId: string
-  ): DiscoveryOperationsCancel;
+  (path: "/discoveries/{discoveryId}:cancel", discoveryId: string): DiscoveryOperationsCancel;
   /** Resource for '/discoveries/\{discoveryId\}/specialFilesUploadInfo:generate' has methods for the following verbs: post */
   (
     path: "/discoveries/{discoveryId}/specialFilesUploadInfo:generate",
@@ -870,20 +839,11 @@ export interface Routes {
     discoveryId: string
   ): DiscoveryResultUploadOperationsList;
   /** Resource for '/uploads/\{uploadId\}' has methods for the following verbs: put, get */
-  (
-    path: "/uploads/{uploadId}",
-    uploadId: string
-  ): UploadOperationsCreateOrReplace;
+  (path: "/uploads/{uploadId}", uploadId: string): UploadOperationsCreateOrReplace;
   /** Resource for '/uploads/\{uploadId\}:complete' has methods for the following verbs: post */
-  (
-    path: "/uploads/{uploadId}:complete",
-    uploadId: string
-  ): UploadOperationsComplete;
+  (path: "/uploads/{uploadId}:complete", uploadId: string): UploadOperationsComplete;
   /** Resource for '/uploads/\{uploadId\}:cancel' has methods for the following verbs: post */
-  (
-    path: "/uploads/{uploadId}:cancel",
-    uploadId: string
-  ): UploadOperationsCancel;
+  (path: "/uploads/{uploadId}:cancel", uploadId: string): UploadOperationsCancel;
   /** Resource for '/uploads/\{uploadId\}/specialFilesUploadInfo' has methods for the following verbs: get */
   (
     path: "/uploads/{uploadId}/specialFilesUploadInfo",
@@ -915,17 +875,11 @@ export interface Routes {
     uploadId: string
   ): UploadResultMeasurementOperationsList;
   /** Resource for '/classificationSchemas/\{name\}' has methods for the following verbs: get, delete */
-  (
-    path: "/classificationSchemas/{name}",
-    name: string
-  ): ClassificationSchemaOperationsGet;
+  (path: "/classificationSchemas/{name}", name: string): ClassificationSchemaOperationsGet;
   /** Resource for '/classificationSchemas' has methods for the following verbs: post, get */
   (path: "/classificationSchemas"): ClassificationSchemaOperationsCreate;
   /** Resource for '/measurements/\{measurementId\}' has methods for the following verbs: get, delete */
-  (
-    path: "/measurements/{measurementId}",
-    measurementId: string
-  ): MeasurementOperationsGet;
+  (path: "/measurements/{measurementId}", measurementId: string): MeasurementOperationsGet;
   /** Resource for '/measurements' has methods for the following verbs: get */
   (path: "/measurements"): MeasurementOperationsList;
   /** Resource for '/measurements:queryMeasurementsWithMetadata' has methods for the following verbs: post */

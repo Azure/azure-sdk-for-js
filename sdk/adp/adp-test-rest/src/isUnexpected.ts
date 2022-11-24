@@ -157,17 +157,9 @@ const responseMap: Record<string, string[]> = {
   "GET /discoveries/{discoveryId}:complete": ["200", "202"],
   "POST /discoveries/{discoveryId}:cancel": ["200", "202"],
   "GET /discoveries/{discoveryId}:cancel": ["200", "202"],
-  "POST /discoveries/{discoveryId}/specialFilesUploadInfo:generate": [
-    "200",
-    "202",
-  ],
-  "GET /discoveries/{discoveryId}/specialFilesUploadInfo:generate": [
-    "200",
-    "202",
-  ],
-  "POST /discoveries/{discoveryId}/specialFilesUploadInfo:listWritableUris": [
-    "200",
-  ],
+  "POST /discoveries/{discoveryId}/specialFilesUploadInfo:generate": ["200", "202"],
+  "GET /discoveries/{discoveryId}/specialFilesUploadInfo:generate": ["200", "202"],
+  "POST /discoveries/{discoveryId}/specialFilesUploadInfo:listWritableUris": ["200"],
   "GET /discoveries/{discoveryId}/uploads": ["200"],
   "PUT /uploads/{uploadId}": ["200", "201"],
   "GET /uploads/{uploadId}": ["200"],
@@ -198,79 +190,44 @@ const responseMap: Record<string, string[]> = {
   "GET /measurements/{measurementId}/stateMachines": ["200"],
   "POST /measurements/{measurementId}/stateMachines/{id}:act": ["200", "202"],
   "GET /measurements/{measurementId}/stateMachines/{id}:act": ["200", "202"],
-  "POST /measurements/{measurementId}/metadataFileInfo:complete": [
-    "200",
-    "202",
-  ],
+  "POST /measurements/{measurementId}/metadataFileInfo:complete": ["200", "202"],
   "GET /measurements/{measurementId}/metadataFileInfo:complete": ["200", "202"],
   "POST /measurements/{measurementId}/metadataFileInfo:getWritableUri": ["200"],
   "GET /measurements/{measurementId}/metadataSchemaFileInfo": ["200"],
   "GET /measurements/{measurementId}/classifications/{schemaName}": ["200"],
-  "DELETE /measurements/{measurementId}/classifications/{schemaName}": [
-    "202",
-    "204",
-  ],
+  "DELETE /measurements/{measurementId}/classifications/{schemaName}": ["202", "204"],
   "POST /measurements/{measurementId}/classifications": ["200", "202"],
   "GET /measurements/{measurementId}/classifications": ["200"],
   "GET /measurements/{measurementId}/dataStreams/{dataStreamId}": ["200"],
   "POST /measurements/{measurementId}/dataStreams": ["200", "202"],
   "GET /measurements/{measurementId}/dataStreams": ["200"],
-  "POST /measurements/{measurementId}/dataStreams/{dataStreamId}:clearContent":
-    ["200", "202"],
-  "GET /measurements/{measurementId}/dataStreams/{dataStreamId}:clearContent": [
-    "200",
-    "202",
-  ],
-  "POST /measurements/{measurementId}/dataStreams/{dataStreamId}:stageFiles": [
-    "200",
-  ],
-  "POST /measurements/{measurementId}/dataStreams/{dataStreamId}:complete": [
-    "200",
-    "202",
-  ],
-  "GET /measurements/{measurementId}/dataStreams/{dataStreamId}:complete": [
-    "200",
-    "202",
-  ],
-  "POST /measurements/{measurementId}/dataStreams/{dataStreamId}:fail": [
-    "200",
-    "202",
-  ],
-  "GET /measurements/{measurementId}/dataStreams/{dataStreamId}:fail": [
-    "200",
-    "202",
-  ],
+  "POST /measurements/{measurementId}/dataStreams/{dataStreamId}:clearContent": ["200", "202"],
+  "GET /measurements/{measurementId}/dataStreams/{dataStreamId}:clearContent": ["200", "202"],
+  "POST /measurements/{measurementId}/dataStreams/{dataStreamId}:stageFiles": ["200"],
+  "POST /measurements/{measurementId}/dataStreams/{dataStreamId}:complete": ["200", "202"],
+  "GET /measurements/{measurementId}/dataStreams/{dataStreamId}:complete": ["200", "202"],
+  "POST /measurements/{measurementId}/dataStreams/{dataStreamId}:fail": ["200", "202"],
+  "GET /measurements/{measurementId}/dataStreams/{dataStreamId}:fail": ["200", "202"],
   "POST /measurements/{measurementId}/dataStreams:findByTags": ["200"],
   "POST /measurements/{measurementId}/dataStreams:findByLineage": ["200"],
-  "POST /measurements/{measurementId}/dataStreams:getLineageGraphsByLineage": [
-    "200",
-  ],
-  "PUT /measurements/{measurementId}/dataStreams/{dataStreamId}/storage": [
-    "200",
-    "201",
-  ],
-  "POST /measurements/{measurementId}/dataStreams/{dataStreamId}/storage:getWritableUris":
-    ["200"],
+  "POST /measurements/{measurementId}/dataStreams:getLineageGraphsByLineage": ["200"],
+  "PUT /measurements/{measurementId}/dataStreams/{dataStreamId}/storage": ["200", "201"],
+  "POST /measurements/{measurementId}/dataStreams/{dataStreamId}/storage:getWritableUris": ["200"],
   "GET /measurements/{measurementId}/dataStreams/{dataStreamId}/tags": ["200"],
-  "PUT /measurements/{measurementId}/dataStreams/{dataStreamId}/tags": [
-    "200",
-    "201",
-  ],
+  "PUT /measurements/{measurementId}/dataStreams/{dataStreamId}/tags": ["200", "201"],
   "GET /measurements/{measurementId}/dataStreams/{dataStreamId}/files": ["200"],
-  "POST /measurements/{measurementId}/dataStreams/{dataStreamId}/files:generate":
-    ["200", "202"],
-  "GET /measurements/{measurementId}/dataStreams/{dataStreamId}/files:generate":
-    ["200", "202"],
-  "POST /measurements/{measurementId}/dataStreams/{dataStreamId}/logs:getWritableUri":
-    ["200"],
-  "GET /measurements/{measurementId}/dataStreams/{dataStreamId}/classifications/{schemaName}":
-    ["200"],
-  "DELETE /measurements/{measurementId}/dataStreams/{dataStreamId}/classifications/{schemaName}":
-    ["202", "204"],
-  "POST /measurements/{measurementId}/dataStreams/{dataStreamId}/classifications":
-    ["200", "202"],
-  "GET /measurements/{measurementId}/dataStreams/{dataStreamId}/classifications":
-    ["200"],
+  "POST /measurements/{measurementId}/dataStreams/{dataStreamId}/files:generate": ["200", "202"],
+  "GET /measurements/{measurementId}/dataStreams/{dataStreamId}/files:generate": ["200", "202"],
+  "POST /measurements/{measurementId}/dataStreams/{dataStreamId}/logs:getWritableUri": ["200"],
+  "GET /measurements/{measurementId}/dataStreams/{dataStreamId}/classifications/{schemaName}": [
+    "200",
+  ],
+  "DELETE /measurements/{measurementId}/dataStreams/{dataStreamId}/classifications/{schemaName}": [
+    "202",
+    "204",
+  ],
+  "POST /measurements/{measurementId}/dataStreams/{dataStreamId}/classifications": ["200", "202"],
+  "GET /measurements/{measurementId}/dataStreams/{dataStreamId}/classifications": ["200"],
 };
 
 export function isUnexpected(
@@ -285,9 +242,7 @@ export function isUnexpected(
     | DiscoveryOperationsCreateOrReplaceDefaultResponse
 ): response is DiscoveryOperationsCreateOrReplaceDefaultResponse;
 export function isUnexpected(
-  response:
-    | DiscoveryOperationsGet200Response
-    | DiscoveryOperationsGetDefaultResponse
+  response: DiscoveryOperationsGet200Response | DiscoveryOperationsGetDefaultResponse
 ): response is DiscoveryOperationsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -393,9 +348,7 @@ export function isUnexpected(
     | ClassificationSchemaOperationsListDefaultResponse
 ): response is ClassificationSchemaOperationsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | MeasurementOperationsGet200Response
-    | MeasurementOperationsGetDefaultResponse
+  response: MeasurementOperationsGet200Response | MeasurementOperationsGetDefaultResponse
 ): response is MeasurementOperationsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -404,9 +357,7 @@ export function isUnexpected(
     | MeasurementOperationsDeleteDefaultResponse
 ): response is MeasurementOperationsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | MeasurementOperationsList200Response
-    | MeasurementOperationsListDefaultResponse
+  response: MeasurementOperationsList200Response | MeasurementOperationsListDefaultResponse
 ): response is MeasurementOperationsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -483,9 +434,7 @@ export function isUnexpected(
     | MeasurementClassificationOperationsListDefaultResponse
 ): response is MeasurementClassificationOperationsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | DataStreamOperationsGet200Response
-    | DataStreamOperationsGetDefaultResponse
+  response: DataStreamOperationsGet200Response | DataStreamOperationsGetDefaultResponse
 ): response is DataStreamOperationsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -494,9 +443,7 @@ export function isUnexpected(
     | DataStreamOperationsCreateDefaultResponse
 ): response is DataStreamOperationsCreateDefaultResponse;
 export function isUnexpected(
-  response:
-    | DataStreamOperationsList200Response
-    | DataStreamOperationsListDefaultResponse
+  response: DataStreamOperationsList200Response | DataStreamOperationsListDefaultResponse
 ): response is DataStreamOperationsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -548,9 +495,7 @@ export function isUnexpected(
     | DataStreamsStorageOperationsGetWritableUrisDefaultResponse
 ): response is DataStreamsStorageOperationsGetWritableUrisDefaultResponse;
 export function isUnexpected(
-  response:
-    | DataStreamTagsOperationsGet200Response
-    | DataStreamTagsOperationsGetDefaultResponse
+  response: DataStreamTagsOperationsGet200Response | DataStreamTagsOperationsGetDefaultResponse
 ): response is DataStreamTagsOperationsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -559,9 +504,7 @@ export function isUnexpected(
     | DataStreamTagsOperationsCreateDefaultResponse
 ): response is DataStreamTagsOperationsCreateDefaultResponse;
 export function isUnexpected(
-  response:
-    | DataStreamFileOperationsList200Response
-    | DataStreamFileOperationsListDefaultResponse
+  response: DataStreamFileOperationsList200Response | DataStreamFileOperationsListDefaultResponse
 ): response is DataStreamFileOperationsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -836,24 +779,17 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (
-      let i = candidateParts.length - 1, j = pathParts.length - 1;
-      i >= 1 && j >= 1;
-      i--, j--
-    ) {
-      if (
-        candidateParts[i]?.startsWith("{") &&
-        candidateParts[i]?.indexOf("}") !== -1
-      ) {
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`
-        ).test(pathParts[j] || "");
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || ""
+        );
 
         if (!isMatched) {
           found = false;

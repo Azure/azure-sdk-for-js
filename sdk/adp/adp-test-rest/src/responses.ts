@@ -53,35 +53,30 @@ export interface LongRunningOperationsGetStatus200Headers {
 }
 
 /** The request has succeeded. */
-export interface LongRunningOperationsGetStatus200Response
-  extends HttpResponse {
+export interface LongRunningOperationsGetStatus200Response extends HttpResponse {
   status: "200";
   body: LongRunningOperationOutput;
   headers: RawHttpHeaders & LongRunningOperationsGetStatus200Headers;
 }
 
-export interface LongRunningOperationsGetStatusDefaultResponse
-  extends HttpResponse {
+export interface LongRunningOperationsGetStatusDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface DiscoveryOperationsCreateOrReplace200Response
-  extends HttpResponse {
+export interface DiscoveryOperationsCreateOrReplace200Response extends HttpResponse {
   status: "200";
   body: DiscoveryOutput;
 }
 
 /** A Discovery resource was successfully created. */
-export interface DiscoveryOperationsCreateOrReplace201Response
-  extends HttpResponse {
+export interface DiscoveryOperationsCreateOrReplace201Response extends HttpResponse {
   status: "201";
   body: DiscoveryOutput;
 }
 
-export interface DiscoveryOperationsCreateOrReplaceDefaultResponse
-  extends HttpResponse {
+export interface DiscoveryOperationsCreateOrReplaceDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -120,8 +115,7 @@ export interface DiscoveryOperationsCompleteDefaultHeaders {
   "x-ms-error-code": string;
 }
 
-export interface DiscoveryOperationsCompleteDefaultResponse
-  extends HttpResponse {
+export interface DiscoveryOperationsCompleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & DiscoveryOperationsCompleteDefaultHeaders;
@@ -157,8 +151,7 @@ export interface DiscoveryOperationsCancelDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface DiscoverySpecialFileOperationsGenerate200Response
-  extends HttpResponse {
+export interface DiscoverySpecialFileOperationsGenerate200Response extends HttpResponse {
   status: "200";
   body: DiscoverySpecialFileOutput;
 }
@@ -169,22 +162,19 @@ export interface DiscoverySpecialFileOperationsGenerate202Headers {
 }
 
 /** The request has been accepted for processing, but processing has not yet completed. */
-export interface DiscoverySpecialFileOperationsGenerate202Response
-  extends HttpResponse {
+export interface DiscoverySpecialFileOperationsGenerate202Response extends HttpResponse {
   status: "202";
   body: DiscoveryLroResponseOutput;
   headers: RawHttpHeaders & DiscoverySpecialFileOperationsGenerate202Headers;
 }
 
-export interface DiscoverySpecialFileOperationsGenerateDefaultResponse
-  extends HttpResponse {
+export interface DiscoverySpecialFileOperationsGenerateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface DiscoverySpecialFileOperationsListWritableUris200Response
-  extends HttpResponse {
+export interface DiscoverySpecialFileOperationsListWritableUris200Response extends HttpResponse {
   status: "200";
   body: PagedDiscoverySpecialFileOutput;
 }
@@ -196,34 +186,29 @@ export interface DiscoverySpecialFileOperationsListWritableUrisDefaultResponse
 }
 
 /** The request has succeeded. */
-export interface DiscoveryResultUploadOperationsList200Response
-  extends HttpResponse {
+export interface DiscoveryResultUploadOperationsList200Response extends HttpResponse {
   status: "200";
   body: PagedDiscoveryUploadOutput;
 }
 
-export interface DiscoveryResultUploadOperationsListDefaultResponse
-  extends HttpResponse {
+export interface DiscoveryResultUploadOperationsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface UploadOperationsCreateOrReplace200Response
-  extends HttpResponse {
+export interface UploadOperationsCreateOrReplace200Response extends HttpResponse {
   status: "200";
   body: UploadOutput;
 }
 
 /** A Upload resource was successfully created. */
-export interface UploadOperationsCreateOrReplace201Response
-  extends HttpResponse {
+export interface UploadOperationsCreateOrReplace201Response extends HttpResponse {
   status: "201";
   body: UploadOutput;
 }
 
-export interface UploadOperationsCreateOrReplaceDefaultResponse
-  extends HttpResponse {
+export interface UploadOperationsCreateOrReplaceDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -298,21 +283,18 @@ export interface UploadOperationsCancelDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface UploadSpecialFileOperationsList200Response
-  extends HttpResponse {
+export interface UploadSpecialFileOperationsList200Response extends HttpResponse {
   status: "200";
   body: PagedUploadSpecialFileOutput;
 }
 
-export interface UploadSpecialFileOperationsListDefaultResponse
-  extends HttpResponse {
+export interface UploadSpecialFileOperationsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface UploadSpecialFileOperationsGenerate200Response
-  extends HttpResponse {
+export interface UploadSpecialFileOperationsGenerate200Response extends HttpResponse {
   status: "200";
   body: UploadSpecialFileOutput;
 }
@@ -323,35 +305,30 @@ export interface UploadSpecialFileOperationsGenerate202Headers {
 }
 
 /** The request has been accepted for processing, but processing has not yet completed. */
-export interface UploadSpecialFileOperationsGenerate202Response
-  extends HttpResponse {
+export interface UploadSpecialFileOperationsGenerate202Response extends HttpResponse {
   status: "202";
   body: UploadLroResponseOutput;
   headers: RawHttpHeaders & UploadSpecialFileOperationsGenerate202Headers;
 }
 
-export interface UploadSpecialFileOperationsGenerateDefaultResponse
-  extends HttpResponse {
+export interface UploadSpecialFileOperationsGenerateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface UploadSpecialFileOperationsListWritableUris200Response
-  extends HttpResponse {
+export interface UploadSpecialFileOperationsListWritableUris200Response extends HttpResponse {
   status: "200";
   body: PagedUploadSpecialFileOutput;
 }
 
-export interface UploadSpecialFileOperationsListWritableUrisDefaultResponse
-  extends HttpResponse {
+export interface UploadSpecialFileOperationsListWritableUrisDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface UploadDataFileOperationsGenerate200Response
-  extends HttpResponse {
+export interface UploadDataFileOperationsGenerate200Response extends HttpResponse {
   status: "200";
   body: UploadDataFileOutput;
 }
@@ -362,61 +339,52 @@ export interface UploadDataFileOperationsGenerate202Headers {
 }
 
 /** The request has been accepted for processing, but processing has not yet completed. */
-export interface UploadDataFileOperationsGenerate202Response
-  extends HttpResponse {
+export interface UploadDataFileOperationsGenerate202Response extends HttpResponse {
   status: "202";
   body: UploadLroResponseOutput;
   headers: RawHttpHeaders & UploadDataFileOperationsGenerate202Headers;
 }
 
-export interface UploadDataFileOperationsGenerateDefaultResponse
-  extends HttpResponse {
+export interface UploadDataFileOperationsGenerateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface UploadDataFileOperationsListWritableUris200Response
-  extends HttpResponse {
+export interface UploadDataFileOperationsListWritableUris200Response extends HttpResponse {
   status: "200";
   body: PagedUploadDataFileOutput;
 }
 
-export interface UploadDataFileOperationsListWritableUrisDefaultResponse
-  extends HttpResponse {
+export interface UploadDataFileOperationsListWritableUrisDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface UploadResultMeasurementOperationsList200Response
-  extends HttpResponse {
+export interface UploadResultMeasurementOperationsList200Response extends HttpResponse {
   status: "200";
   body: PagedUploadResultMeasurementOutput;
 }
 
-export interface UploadResultMeasurementOperationsListDefaultResponse
-  extends HttpResponse {
+export interface UploadResultMeasurementOperationsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface ClassificationSchemaOperationsGet200Response
-  extends HttpResponse {
+export interface ClassificationSchemaOperationsGet200Response extends HttpResponse {
   status: "200";
   body: ClassificationSchemaOutput;
 }
 
-export interface ClassificationSchemaOperationsGetDefaultResponse
-  extends HttpResponse {
+export interface ClassificationSchemaOperationsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface ClassificationSchemaOperationsCreate200Response
-  extends HttpResponse {
+export interface ClassificationSchemaOperationsCreate200Response extends HttpResponse {
   status: "200";
   body: ClassificationSchemaOutput;
 }
@@ -427,8 +395,7 @@ export interface ClassificationSchemaOperationsCreate202Headers {
 }
 
 /** The request has been accepted for processing, but processing has not yet completed. */
-export interface ClassificationSchemaOperationsCreate202Response
-  extends HttpResponse {
+export interface ClassificationSchemaOperationsCreate202Response extends HttpResponse {
   status: "202";
   body: DefaultLroResponseOutput;
   headers: RawHttpHeaders & ClassificationSchemaOperationsCreate202Headers;
@@ -439,8 +406,7 @@ export interface ClassificationSchemaOperationsCreateDefaultHeaders {
   "x-ms-error-code": string;
 }
 
-export interface ClassificationSchemaOperationsCreateDefaultResponse
-  extends HttpResponse {
+export interface ClassificationSchemaOperationsCreateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & ClassificationSchemaOperationsCreateDefaultHeaders;
@@ -452,16 +418,14 @@ export interface ClassificationSchemaOperationsDelete202Headers {
 }
 
 /** The request has been accepted for processing, but processing has not yet completed. */
-export interface ClassificationSchemaOperationsDelete202Response
-  extends HttpResponse {
+export interface ClassificationSchemaOperationsDelete202Response extends HttpResponse {
   status: "202";
   body: DefaultLroResponseOutput;
   headers: RawHttpHeaders & ClassificationSchemaOperationsDelete202Headers;
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface ClassificationSchemaOperationsDelete204Response
-  extends HttpResponse {
+export interface ClassificationSchemaOperationsDelete204Response extends HttpResponse {
   status: "204";
 }
 
@@ -470,22 +434,19 @@ export interface ClassificationSchemaOperationsDeleteDefaultHeaders {
   "x-ms-error-code": string;
 }
 
-export interface ClassificationSchemaOperationsDeleteDefaultResponse
-  extends HttpResponse {
+export interface ClassificationSchemaOperationsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & ClassificationSchemaOperationsDeleteDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface ClassificationSchemaOperationsList200Response
-  extends HttpResponse {
+export interface ClassificationSchemaOperationsList200Response extends HttpResponse {
   status: "200";
   body: PagedClassificationSchemaOutput;
 }
 
-export interface ClassificationSchemaOperationsListDefaultResponse
-  extends HttpResponse {
+export interface ClassificationSchemaOperationsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -523,8 +484,7 @@ export interface MeasurementOperationsDeleteDefaultHeaders {
   "x-ms-error-code": string;
 }
 
-export interface MeasurementOperationsDeleteDefaultResponse
-  extends HttpResponse {
+export interface MeasurementOperationsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & MeasurementOperationsDeleteDefaultHeaders;
@@ -555,73 +515,62 @@ export interface MeasurementOperationsQueryMeasurementsWithMetadataDefaultRespon
 }
 
 /** The request has succeeded. */
-export interface MeasurementOperationsFindByIds200Response
-  extends HttpResponse {
+export interface MeasurementOperationsFindByIds200Response extends HttpResponse {
   status: "200";
   body: PagedMeasurementOutput;
 }
 
-export interface MeasurementOperationsFindByIdsDefaultResponse
-  extends HttpResponse {
+export interface MeasurementOperationsFindByIdsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface MeasurementMetadataOperationsGet200Response
-  extends HttpResponse {
+export interface MeasurementMetadataOperationsGet200Response extends HttpResponse {
   status: "200";
   body: MeasurementMetadataBaseOutput;
 }
 
-export interface MeasurementMetadataOperationsGetDefaultResponse
-  extends HttpResponse {
+export interface MeasurementMetadataOperationsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface MeasurementProcessingResultsOperationsGet200Response
-  extends HttpResponse {
+export interface MeasurementProcessingResultsOperationsGet200Response extends HttpResponse {
   status: "200";
   body: MeasurementProcessingResultsBaseOutput;
 }
 
-export interface MeasurementProcessingResultsOperationsGetDefaultResponse
-  extends HttpResponse {
+export interface MeasurementProcessingResultsOperationsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface MeasurementStateMachineOperationsGet200Response
-  extends HttpResponse {
+export interface MeasurementStateMachineOperationsGet200Response extends HttpResponse {
   status: "200";
   body: StateMachineOutput;
 }
 
-export interface MeasurementStateMachineOperationsGetDefaultResponse
-  extends HttpResponse {
+export interface MeasurementStateMachineOperationsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface MeasurementStateMachineOperationsList200Response
-  extends HttpResponse {
+export interface MeasurementStateMachineOperationsList200Response extends HttpResponse {
   status: "200";
   body: PagedStateMachineOutput;
 }
 
-export interface MeasurementStateMachineOperationsListDefaultResponse
-  extends HttpResponse {
+export interface MeasurementStateMachineOperationsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface MeasurementStateMachineOperationsAct200Response
-  extends HttpResponse {
+export interface MeasurementStateMachineOperationsAct200Response extends HttpResponse {
   status: "200";
   body: StateMachineOutput;
 }
@@ -632,8 +581,7 @@ export interface MeasurementStateMachineOperationsAct202Headers {
 }
 
 /** The request has been accepted for processing, but processing has not yet completed. */
-export interface MeasurementStateMachineOperationsAct202Response
-  extends HttpResponse {
+export interface MeasurementStateMachineOperationsAct202Response extends HttpResponse {
   status: "202";
   body: DefaultLroResponseOutput;
   headers: RawHttpHeaders & MeasurementStateMachineOperationsAct202Headers;
@@ -644,8 +592,7 @@ export interface MeasurementStateMachineOperationsActDefaultHeaders {
   "x-ms-error-code": string;
 }
 
-export interface MeasurementStateMachineOperationsActDefaultResponse
-  extends HttpResponse {
+export interface MeasurementStateMachineOperationsActDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & MeasurementStateMachineOperationsActDefaultHeaders;
@@ -657,12 +604,10 @@ export interface MeasurementMetadataFileInfoOperationsComplete200Headers {
 }
 
 /** The request has succeeded. */
-export interface MeasurementMetadataFileInfoOperationsComplete200Response
-  extends HttpResponse {
+export interface MeasurementMetadataFileInfoOperationsComplete200Response extends HttpResponse {
   status: "200";
   body: MeasurementMetadataFileInfoBaseOutput;
-  headers: RawHttpHeaders &
-    MeasurementMetadataFileInfoOperationsComplete200Headers;
+  headers: RawHttpHeaders & MeasurementMetadataFileInfoOperationsComplete200Headers;
 }
 
 export interface MeasurementMetadataFileInfoOperationsComplete202Headers {
@@ -671,16 +616,13 @@ export interface MeasurementMetadataFileInfoOperationsComplete202Headers {
 }
 
 /** The request has been accepted for processing, but processing has not yet completed. */
-export interface MeasurementMetadataFileInfoOperationsComplete202Response
-  extends HttpResponse {
+export interface MeasurementMetadataFileInfoOperationsComplete202Response extends HttpResponse {
   status: "202";
   body: DefaultLroResponseOutput;
-  headers: RawHttpHeaders &
-    MeasurementMetadataFileInfoOperationsComplete202Headers;
+  headers: RawHttpHeaders & MeasurementMetadataFileInfoOperationsComplete202Headers;
 }
 
-export interface MeasurementMetadataFileInfoOperationsCompleteDefaultResponse
-  extends HttpResponse {
+export interface MeasurementMetadataFileInfoOperationsCompleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -695,8 +637,7 @@ export interface MeasurementMetadataFileInfoOperationsGetWritableUri200Response
   extends HttpResponse {
   status: "200";
   body: MeasurementMetadataFileInfoBaseOutput;
-  headers: RawHttpHeaders &
-    MeasurementMetadataFileInfoOperationsGetWritableUri200Headers;
+  headers: RawHttpHeaders & MeasurementMetadataFileInfoOperationsGetWritableUri200Headers;
 }
 
 export interface MeasurementMetadataFileInfoOperationsGetWritableUriDefaultResponse
@@ -706,8 +647,7 @@ export interface MeasurementMetadataFileInfoOperationsGetWritableUriDefaultRespo
 }
 
 /** The request has succeeded. */
-export interface MeasurementMetadataSchemaFileInfoOperationsGet200Response
-  extends HttpResponse {
+export interface MeasurementMetadataSchemaFileInfoOperationsGet200Response extends HttpResponse {
   status: "200";
   body: MeasurementMetadataSchemaFileInfoBaseOutput;
 }
@@ -719,21 +659,18 @@ export interface MeasurementMetadataSchemaFileInfoOperationsGetDefaultResponse
 }
 
 /** The request has succeeded. */
-export interface MeasurementClassificationOperationsGet200Response
-  extends HttpResponse {
+export interface MeasurementClassificationOperationsGet200Response extends HttpResponse {
   status: "200";
   body: MeasurementClassificationOutput;
 }
 
-export interface MeasurementClassificationOperationsGetDefaultResponse
-  extends HttpResponse {
+export interface MeasurementClassificationOperationsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface MeasurementClassificationOperationsCreate200Response
-  extends HttpResponse {
+export interface MeasurementClassificationOperationsCreate200Response extends HttpResponse {
   status: "200";
   body: MeasurementClassificationOutput;
 }
@@ -744,8 +681,7 @@ export interface MeasurementClassificationOperationsCreate202Headers {
 }
 
 /** The request has been accepted for processing, but processing has not yet completed. */
-export interface MeasurementClassificationOperationsCreate202Response
-  extends HttpResponse {
+export interface MeasurementClassificationOperationsCreate202Response extends HttpResponse {
   status: "202";
   body: DefaultLroResponseOutput;
   headers: RawHttpHeaders & MeasurementClassificationOperationsCreate202Headers;
@@ -756,12 +692,10 @@ export interface MeasurementClassificationOperationsCreateDefaultHeaders {
   "x-ms-error-code": string;
 }
 
-export interface MeasurementClassificationOperationsCreateDefaultResponse
-  extends HttpResponse {
+export interface MeasurementClassificationOperationsCreateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders &
-    MeasurementClassificationOperationsCreateDefaultHeaders;
+  headers: RawHttpHeaders & MeasurementClassificationOperationsCreateDefaultHeaders;
 }
 
 export interface MeasurementClassificationOperationsDelete202Headers {
@@ -770,16 +704,14 @@ export interface MeasurementClassificationOperationsDelete202Headers {
 }
 
 /** The request has been accepted for processing, but processing has not yet completed. */
-export interface MeasurementClassificationOperationsDelete202Response
-  extends HttpResponse {
+export interface MeasurementClassificationOperationsDelete202Response extends HttpResponse {
   status: "202";
   body: DefaultLroResponseOutput;
   headers: RawHttpHeaders & MeasurementClassificationOperationsDelete202Headers;
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface MeasurementClassificationOperationsDelete204Response
-  extends HttpResponse {
+export interface MeasurementClassificationOperationsDelete204Response extends HttpResponse {
   status: "204";
 }
 
@@ -788,23 +720,19 @@ export interface MeasurementClassificationOperationsDeleteDefaultHeaders {
   "x-ms-error-code": string;
 }
 
-export interface MeasurementClassificationOperationsDeleteDefaultResponse
-  extends HttpResponse {
+export interface MeasurementClassificationOperationsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders &
-    MeasurementClassificationOperationsDeleteDefaultHeaders;
+  headers: RawHttpHeaders & MeasurementClassificationOperationsDeleteDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface MeasurementClassificationOperationsList200Response
-  extends HttpResponse {
+export interface MeasurementClassificationOperationsList200Response extends HttpResponse {
   status: "200";
   body: PagedMeasurementClassificationOutput;
 }
 
-export interface MeasurementClassificationOperationsListDefaultResponse
-  extends HttpResponse {
+export interface MeasurementClassificationOperationsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -843,16 +771,14 @@ export interface DataStreamOperationsCreateDefaultHeaders {
   "x-ms-error-code": string;
 }
 
-export interface DataStreamOperationsCreateDefaultResponse
-  extends HttpResponse {
+export interface DataStreamOperationsCreateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & DataStreamOperationsCreateDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface DataStreamOperationsClearContent200Response
-  extends HttpResponse {
+export interface DataStreamOperationsClearContent200Response extends HttpResponse {
   status: "200";
   body: DataStreamOutput;
 }
@@ -863,8 +789,7 @@ export interface DataStreamOperationsClearContent202Headers {
 }
 
 /** The request has been accepted for processing, but processing has not yet completed. */
-export interface DataStreamOperationsClearContent202Response
-  extends HttpResponse {
+export interface DataStreamOperationsClearContent202Response extends HttpResponse {
   status: "202";
   body: DefaultLroResponseOutput;
   headers: RawHttpHeaders & DataStreamOperationsClearContent202Headers;
@@ -875,8 +800,7 @@ export interface DataStreamOperationsClearContentDefaultHeaders {
   "x-ms-error-code": string;
 }
 
-export interface DataStreamOperationsClearContentDefaultResponse
-  extends HttpResponse {
+export interface DataStreamOperationsClearContentDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & DataStreamOperationsClearContentDefaultHeaders;
@@ -894,14 +818,12 @@ export interface DataStreamOperationsListDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface DataStreamOperationsStageFiles200Response
-  extends HttpResponse {
+export interface DataStreamOperationsStageFiles200Response extends HttpResponse {
   status: "200";
   body: UploadDerivedDataStreamFilesResponseOutput;
 }
 
-export interface DataStreamOperationsStageFilesDefaultResponse
-  extends HttpResponse {
+export interface DataStreamOperationsStageFilesDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -929,8 +851,7 @@ export interface DataStreamOperationsCompleteDefaultHeaders {
   "x-ms-error-code": string;
 }
 
-export interface DataStreamOperationsCompleteDefaultResponse
-  extends HttpResponse {
+export interface DataStreamOperationsCompleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & DataStreamOperationsCompleteDefaultHeaders;
@@ -966,73 +887,62 @@ export interface DataStreamOperationsFailDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface DataStreamOperationsFindByTags200Response
-  extends HttpResponse {
+export interface DataStreamOperationsFindByTags200Response extends HttpResponse {
   status: "200";
   body: PagedDataStreamOutput;
 }
 
-export interface DataStreamOperationsFindByTagsDefaultResponse
-  extends HttpResponse {
+export interface DataStreamOperationsFindByTagsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface DataStreamOperationsFindByLineage200Response
-  extends HttpResponse {
+export interface DataStreamOperationsFindByLineage200Response extends HttpResponse {
   status: "200";
   body: PagedDataStreamOutput;
 }
 
-export interface DataStreamOperationsFindByLineageDefaultResponse
-  extends HttpResponse {
+export interface DataStreamOperationsFindByLineageDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface DataStreamOperationsGetLineageGraphsByLineage200Response
-  extends HttpResponse {
+export interface DataStreamOperationsGetLineageGraphsByLineage200Response extends HttpResponse {
   status: "200";
   body: PagedDataStreamsGraphListResponseOutput;
 }
 
-export interface DataStreamOperationsGetLineageGraphsByLineageDefaultResponse
-  extends HttpResponse {
+export interface DataStreamOperationsGetLineageGraphsByLineageDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface DataStreamsStorageOperationsCreate200Response
-  extends HttpResponse {
+export interface DataStreamsStorageOperationsCreate200Response extends HttpResponse {
   status: "200";
   body: StorageBaseOutput;
 }
 
 /** A StorageBase resource was successfully created. */
-export interface DataStreamsStorageOperationsCreate201Response
-  extends HttpResponse {
+export interface DataStreamsStorageOperationsCreate201Response extends HttpResponse {
   status: "201";
   body: StorageBaseOutput;
 }
 
-export interface DataStreamsStorageOperationsCreateDefaultResponse
-  extends HttpResponse {
+export interface DataStreamsStorageOperationsCreateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface DataStreamsStorageOperationsGetWritableUris200Response
-  extends HttpResponse {
+export interface DataStreamsStorageOperationsGetWritableUris200Response extends HttpResponse {
   status: "200";
   body: StorageBaseOutput;
 }
 
-export interface DataStreamsStorageOperationsGetWritableUrisDefaultResponse
-  extends HttpResponse {
+export interface DataStreamsStorageOperationsGetWritableUrisDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -1043,28 +953,24 @@ export interface DataStreamTagsOperationsGet200Response extends HttpResponse {
   body: TagSetOutput;
 }
 
-export interface DataStreamTagsOperationsGetDefaultResponse
-  extends HttpResponse {
+export interface DataStreamTagsOperationsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface DataStreamTagsOperationsCreate200Response
-  extends HttpResponse {
+export interface DataStreamTagsOperationsCreate200Response extends HttpResponse {
   status: "200";
   body: TagSetBaseOutput;
 }
 
 /** A TagSetBase resource was successfully created. */
-export interface DataStreamTagsOperationsCreate201Response
-  extends HttpResponse {
+export interface DataStreamTagsOperationsCreate201Response extends HttpResponse {
   status: "201";
   body: TagSetBaseOutput;
 }
 
-export interface DataStreamTagsOperationsCreateDefaultResponse
-  extends HttpResponse {
+export interface DataStreamTagsOperationsCreateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -1075,15 +981,13 @@ export interface DataStreamFileOperationsList200Response extends HttpResponse {
   body: PagedDataStreamFileOutput;
 }
 
-export interface DataStreamFileOperationsListDefaultResponse
-  extends HttpResponse {
+export interface DataStreamFileOperationsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface DataStreamFileOperationsGenerate200Response
-  extends HttpResponse {
+export interface DataStreamFileOperationsGenerate200Response extends HttpResponse {
   status: "200";
   body: PagedDataStreamFileOutput;
 }
@@ -1094,22 +998,19 @@ export interface DataStreamFileOperationsGenerate202Headers {
 }
 
 /** The request has been accepted for processing, but processing has not yet completed. */
-export interface DataStreamFileOperationsGenerate202Response
-  extends HttpResponse {
+export interface DataStreamFileOperationsGenerate202Response extends HttpResponse {
   status: "202";
   body: DefaultLroResponseOutput;
   headers: RawHttpHeaders & DataStreamFileOperationsGenerate202Headers;
 }
 
-export interface DataStreamFileOperationsGenerateDefaultResponse
-  extends HttpResponse {
+export interface DataStreamFileOperationsGenerateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface DataStreamLogsContainerOperationsGetWritableUri200Response
-  extends HttpResponse {
+export interface DataStreamLogsContainerOperationsGetWritableUri200Response extends HttpResponse {
   status: "200";
   body: DataStreamLogsContainerBaseOutput;
 }
@@ -1121,21 +1022,18 @@ export interface DataStreamLogsContainerOperationsGetWritableUriDefaultResponse
 }
 
 /** The request has succeeded. */
-export interface DataStreamClassificationOperationsGet200Response
-  extends HttpResponse {
+export interface DataStreamClassificationOperationsGet200Response extends HttpResponse {
   status: "200";
   body: DataStreamClassificationOutput;
 }
 
-export interface DataStreamClassificationOperationsGetDefaultResponse
-  extends HttpResponse {
+export interface DataStreamClassificationOperationsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface DataStreamClassificationOperationsCreate200Response
-  extends HttpResponse {
+export interface DataStreamClassificationOperationsCreate200Response extends HttpResponse {
   status: "200";
   body: DataStreamClassificationOutput;
 }
@@ -1146,8 +1044,7 @@ export interface DataStreamClassificationOperationsCreate202Headers {
 }
 
 /** The request has been accepted for processing, but processing has not yet completed. */
-export interface DataStreamClassificationOperationsCreate202Response
-  extends HttpResponse {
+export interface DataStreamClassificationOperationsCreate202Response extends HttpResponse {
   status: "202";
   body: DefaultLroResponseOutput;
   headers: RawHttpHeaders & DataStreamClassificationOperationsCreate202Headers;
@@ -1158,12 +1055,10 @@ export interface DataStreamClassificationOperationsCreateDefaultHeaders {
   "x-ms-error-code": string;
 }
 
-export interface DataStreamClassificationOperationsCreateDefaultResponse
-  extends HttpResponse {
+export interface DataStreamClassificationOperationsCreateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders &
-    DataStreamClassificationOperationsCreateDefaultHeaders;
+  headers: RawHttpHeaders & DataStreamClassificationOperationsCreateDefaultHeaders;
 }
 
 export interface DataStreamClassificationOperationsDelete202Headers {
@@ -1172,16 +1067,14 @@ export interface DataStreamClassificationOperationsDelete202Headers {
 }
 
 /** The request has been accepted for processing, but processing has not yet completed. */
-export interface DataStreamClassificationOperationsDelete202Response
-  extends HttpResponse {
+export interface DataStreamClassificationOperationsDelete202Response extends HttpResponse {
   status: "202";
   body: DefaultLroResponseOutput;
   headers: RawHttpHeaders & DataStreamClassificationOperationsDelete202Headers;
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface DataStreamClassificationOperationsDelete204Response
-  extends HttpResponse {
+export interface DataStreamClassificationOperationsDelete204Response extends HttpResponse {
   status: "204";
 }
 
@@ -1190,23 +1083,19 @@ export interface DataStreamClassificationOperationsDeleteDefaultHeaders {
   "x-ms-error-code": string;
 }
 
-export interface DataStreamClassificationOperationsDeleteDefaultResponse
-  extends HttpResponse {
+export interface DataStreamClassificationOperationsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders &
-    DataStreamClassificationOperationsDeleteDefaultHeaders;
+  headers: RawHttpHeaders & DataStreamClassificationOperationsDeleteDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface DataStreamClassificationOperationsList200Response
-  extends HttpResponse {
+export interface DataStreamClassificationOperationsList200Response extends HttpResponse {
   status: "200";
   body: PagedDataStreamClassificationOutput;
 }
 
-export interface DataStreamClassificationOperationsListDefaultResponse
-  extends HttpResponse {
+export interface DataStreamClassificationOperationsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
