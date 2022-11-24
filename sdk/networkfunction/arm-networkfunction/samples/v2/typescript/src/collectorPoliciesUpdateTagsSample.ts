@@ -8,28 +8,33 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AzureTrafficCollectorClient } from "@azure/arm-networkfunction";
+import {
+  TagsObject,
+  AzureTrafficCollectorClient
+} from "@azure/arm-networkfunction";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Gets the collector policy in a specified Traffic Collector
+ * This sample demonstrates how to Updates the specified Collector Policy tags.
  *
- * @summary Gets the collector policy in a specified Traffic Collector
- * x-ms-original-file: specification/networkfunction/resource-manager/Microsoft.NetworkFunction/stable/2022-11-01/examples/CollectorPolicyGet.json
+ * @summary Updates the specified Collector Policy tags.
+ * x-ms-original-file: specification/networkfunction/resource-manager/Microsoft.NetworkFunction/stable/2022-11-01/examples/CollectorPolicyUpdateTags.json
  */
-async function getCollectionPolicy() {
+async function updateCollectorPolicyTags() {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";
   const azureTrafficCollectorName = "atc";
   const collectorPolicyName = "cp1";
+  const parameters: TagsObject = { tags: { key1: "value1", key2: "value2" } };
   const credential = new DefaultAzureCredential();
   const client = new AzureTrafficCollectorClient(credential, subscriptionId);
-  const result = await client.collectorPolicies.get(
+  const result = await client.collectorPolicies.updateTags(
     resourceGroupName,
     azureTrafficCollectorName,
-    collectorPolicyName
+    collectorPolicyName,
+    parameters
   );
   console.log(result);
 }
 
-getCollectionPolicy().catch(console.error);
+updateCollectorPolicyTags().catch(console.error);

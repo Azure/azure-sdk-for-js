@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  AzureTrafficCollectorsCreateOrUpdateOptionalParams,
-  AzureTrafficCollectorClient
-} from "@azure/arm-networkfunction";
-import { DefaultAzureCredential } from "@azure/identity";
+const { AzureTrafficCollectorClient } = require("@azure/arm-networkfunction");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Creates or updates a Azure Traffic Collector resource
@@ -26,7 +23,7 @@ async function createATrafficCollector() {
   const azureTrafficCollectorName = "atc";
   const location = "West US";
   const tags = { key1: "value1" };
-  const options: AzureTrafficCollectorsCreateOrUpdateOptionalParams = { tags };
+  const options = { tags };
   const credential = new DefaultAzureCredential();
   const client = new AzureTrafficCollectorClient(credential, subscriptionId);
   const result = await client.azureTrafficCollectors.beginCreateOrUpdateAndWait(

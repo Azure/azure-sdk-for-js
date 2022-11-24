@@ -8,30 +8,30 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AzureTrafficCollectorClient } from "@azure/arm-networkfunction";
-import { DefaultAzureCredential } from "@azure/identity";
+const { AzureTrafficCollectorClient } = require("@azure/arm-networkfunction");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Creates or updates a Collector Policy resource
+ * This sample demonstrates how to Updates the specified Collector Policy tags.
  *
- * @summary Creates or updates a Collector Policy resource
- * x-ms-original-file: specification/networkfunction/resource-manager/Microsoft.NetworkFunction/stable/2022-11-01/examples/CollectorPolicyCreate.json
+ * @summary Updates the specified Collector Policy tags.
+ * x-ms-original-file: specification/networkfunction/resource-manager/Microsoft.NetworkFunction/stable/2022-11-01/examples/CollectorPolicyUpdateTags.json
  */
-async function createACollectionPolicy() {
+async function updateCollectorPolicyTags() {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";
   const azureTrafficCollectorName = "atc";
   const collectorPolicyName = "cp1";
-  const location = "West US";
+  const parameters = { tags: { key1: "value1", key2: "value2" } };
   const credential = new DefaultAzureCredential();
   const client = new AzureTrafficCollectorClient(credential, subscriptionId);
-  const result = await client.collectorPolicies.beginCreateOrUpdateAndWait(
+  const result = await client.collectorPolicies.updateTags(
     resourceGroupName,
     azureTrafficCollectorName,
     collectorPolicyName,
-    location
+    parameters
   );
   console.log(result);
 }
 
-createACollectionPolicy().catch(console.error);
+updateCollectorPolicyTags().catch(console.error);

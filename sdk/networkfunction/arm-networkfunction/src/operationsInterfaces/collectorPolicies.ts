@@ -15,7 +15,10 @@ import {
   CollectorPoliciesGetResponse,
   CollectorPoliciesCreateOrUpdateOptionalParams,
   CollectorPoliciesCreateOrUpdateResponse,
-  CollectorPoliciesDeleteOptionalParams
+  CollectorPoliciesDeleteOptionalParams,
+  TagsObject,
+  CollectorPoliciesUpdateTagsOptionalParams,
+  CollectorPoliciesUpdateTagsResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,12 +53,14 @@ export interface CollectorPolicies {
    * @param resourceGroupName The name of the resource group.
    * @param azureTrafficCollectorName Azure Traffic Collector name
    * @param collectorPolicyName Collector Policy Name
+   * @param location Resource location.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     azureTrafficCollectorName: string,
     collectorPolicyName: string,
+    location: string,
     options?: CollectorPoliciesCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -68,12 +73,14 @@ export interface CollectorPolicies {
    * @param resourceGroupName The name of the resource group.
    * @param azureTrafficCollectorName Azure Traffic Collector name
    * @param collectorPolicyName Collector Policy Name
+   * @param location Resource location.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     azureTrafficCollectorName: string,
     collectorPolicyName: string,
+    location: string,
     options?: CollectorPoliciesCreateOrUpdateOptionalParams
   ): Promise<CollectorPoliciesCreateOrUpdateResponse>;
   /**
@@ -102,4 +109,19 @@ export interface CollectorPolicies {
     collectorPolicyName: string,
     options?: CollectorPoliciesDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * Updates the specified Collector Policy tags.
+   * @param resourceGroupName The name of the resource group.
+   * @param azureTrafficCollectorName Azure Traffic Collector name
+   * @param collectorPolicyName Collector Policy Name
+   * @param parameters Parameters supplied to update Collector Policy tags.
+   * @param options The options parameters.
+   */
+  updateTags(
+    resourceGroupName: string,
+    azureTrafficCollectorName: string,
+    collectorPolicyName: string,
+    parameters: TagsObject,
+    options?: CollectorPoliciesUpdateTagsOptionalParams
+  ): Promise<CollectorPoliciesUpdateTagsResponse>;
 }

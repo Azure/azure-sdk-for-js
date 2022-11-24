@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  TagsObject,
-  AzureTrafficCollectorClient
-} from "@azure/arm-networkfunction";
-import { DefaultAzureCredential } from "@azure/identity";
+const { AzureTrafficCollectorClient } = require("@azure/arm-networkfunction");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Updates the specified Azure Traffic Collector tags.
@@ -24,7 +21,7 @@ async function updateTrafficCollectorTags() {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";
   const azureTrafficCollectorName = "atc";
-  const parameters: TagsObject = { tags: { key1: "value1", key2: "value2" } };
+  const parameters = { tags: { key1: "value1", key2: "value2" } };
   const credential = new DefaultAzureCredential();
   const client = new AzureTrafficCollectorClient(credential, subscriptionId);
   const result = await client.azureTrafficCollectors.updateTags(

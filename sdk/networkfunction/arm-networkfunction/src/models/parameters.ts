@@ -44,7 +44,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-05-01",
+    defaultValue: "2022-11-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -111,17 +111,12 @@ export const contentType: OperationParameter = {
 };
 
 export const location: OperationParameter = {
-  parameterPath: ["options", "location"],
+  parameterPath: "location",
   mapper: AzureTrafficCollectorMapper
 };
 
 export const tags: OperationParameter = {
   parameterPath: ["options", "tags"],
-  mapper: AzureTrafficCollectorMapper
-};
-
-export const collectorPolicies: OperationParameter = {
-  parameterPath: ["options", "collectorPolicies"],
   mapper: AzureTrafficCollectorMapper
 };
 
@@ -144,6 +139,16 @@ export const collectorPolicyName: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const location1: OperationParameter = {
+  parameterPath: "location",
+  mapper: CollectorPolicyMapper
+};
+
+export const tags1: OperationParameter = {
+  parameterPath: ["options", "tags"],
+  mapper: CollectorPolicyMapper
 };
 
 export const ingestionPolicy: OperationParameter = {
