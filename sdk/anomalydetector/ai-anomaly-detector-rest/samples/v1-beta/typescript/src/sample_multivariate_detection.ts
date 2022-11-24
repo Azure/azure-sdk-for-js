@@ -8,9 +8,9 @@
  */
 
 import AnomalyDetector, {
-  MultivariateDetectMultivariateBatchAnomalyParameters,
-  MultivariateCreateAndTrainMultivariateModelParameters,
-  MultivariateListMultivariateModelsParameters,
+  DetectMultivariateBatchAnomalyParameters,
+  CreateAndTrainMultivariateModelParameters,
+  ListMultivariateModelsParameters,
   paginate,
   isUnexpected,
 } from "@azure-rest/ai-anomaly-detector";
@@ -36,7 +36,7 @@ export async function main() {
   const client = AnomalyDetector(endpoint, apiVersion, credential);
 
   // Already available models
-  const options: MultivariateListMultivariateModelsParameters = {
+  const options: ListMultivariateModelsParameters = {
     queryParameters: { skip: 0, top: 10 },
   };
   const initialResponse = await client.path(`/multivariate/models`).get(options);
@@ -48,7 +48,7 @@ export async function main() {
   console.log(listModelsResult);
 
   // construct model request (notice that the start and end time are local time and may not align with your data source)
-  const createMultivariateModelParameters: MultivariateCreateAndTrainMultivariateModelParameters = {
+  const createMultivariateModelParameters: CreateAndTrainMultivariateModelParameters = {
     body: {
       alignPolicy: {
         alignMode: "Outer",
@@ -112,7 +112,7 @@ export async function main() {
   console.log("TRAINING FINISHED.");
 
   // get result
-  const batchDetectAnomalyParameters: MultivariateDetectMultivariateBatchAnomalyParameters = {
+  const batchDetectAnomalyParameters: DetectMultivariateBatchAnomalyParameters = {
     body: {
       dataSource: dataSource,
       endTime: "2021-01-02T05:00:00Z",
