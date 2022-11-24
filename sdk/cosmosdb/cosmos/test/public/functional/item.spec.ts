@@ -238,7 +238,7 @@ describe("bulk/batch item operations", function () {
           paths: ["/key"],
           version: undefined,
         },
-        throughput: 25100,
+        throughput: 400,
       });
     });
     after(async () => {
