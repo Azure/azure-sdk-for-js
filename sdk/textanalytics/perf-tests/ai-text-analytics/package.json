@@ -11,7 +11,7 @@
     "@azure/ai-text-analytics": "^5.0.0",
     "@azure/identity": "^2.0.1",
     "@azure/test-utils-perf": "^1.0.0",
-    "dotenv": "^8.2.0"
+    "dotenv": "^16.0.0"
   },
   "devDependencies": {
     "@types/node": "^14.0.0",
