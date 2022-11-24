@@ -17,7 +17,8 @@ export default function createClient(
   credentials: KeyCredential,
   options: ClientOptions = {}
 ): AnomalyDetectorRestClient {
-  const baseUrl = options.baseUrl ?? `${Endpoint}/anomalydetector/${ApiVersion}`;
+  const baseUrl =
+    options.baseUrl ?? `${Endpoint}/anomalydetector/${ApiVersion}`;
 
   options = {
     ...options,
@@ -38,7 +39,11 @@ export default function createClient(
     },
   };
 
-  const client = getClient(baseUrl, credentials, options) as AnomalyDetectorRestClient;
+  const client = getClient(
+    baseUrl,
+    credentials,
+    options
+  ) as AnomalyDetectorRestClient;
 
   return client;
 }

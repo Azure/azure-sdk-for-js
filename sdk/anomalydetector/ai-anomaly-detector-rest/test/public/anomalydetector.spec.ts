@@ -7,8 +7,8 @@ import { Context } from "mocha";
 import {
   AnomalyDetectorRestClient,
   isUnexpected,
-  MultivariateCreateAndTrainMultivariateModelParameters,
-  MultivariateDetectMultivariateBatchAnomalyParameters,
+  CreateAndTrainMultivariateModelParameters,
+  DetectMultivariateBatchAnomalyParameters,
 } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
@@ -148,7 +148,7 @@ describe("AnomalyDetectorClient", () => {
   it("should get multivariate detection result", async () => {
     const dataSource =
       "https://mvaddataset.blob.core.windows.net/sample-multitable/sample_data_20_3000";
-    const createMultivariateModelParameters: MultivariateCreateAndTrainMultivariateModelParameters = {
+    const createMultivariateModelParameters: CreateAndTrainMultivariateModelParameters = {
       body: {
         alignPolicy: {
           alignMode: "Outer",
@@ -212,7 +212,7 @@ describe("AnomalyDetectorClient", () => {
     console.log("TRAINING FINISHED.");
 
     // get result
-    const batchDetectAnomalyParameters: MultivariateDetectMultivariateBatchAnomalyParameters = {
+    const batchDetectAnomalyParameters: DetectMultivariateBatchAnomalyParameters = {
       body: {
         dataSource: dataSource,
         endTime: "2021-01-02T05:00:00Z",

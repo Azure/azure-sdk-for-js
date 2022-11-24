@@ -10,61 +10,61 @@ import {
   LastDetectionRequest,
 } from "./models";
 
-export interface UnivariateDetectUnivariateEntireSeriesBodyParam {
+export interface DetectUnivariateEntireSeriesBodyParam {
   body: DetectRequest;
 }
 
-export type UnivariateDetectUnivariateEntireSeriesParameters = UnivariateDetectUnivariateEntireSeriesBodyParam &
-  RequestParameters;
+export type DetectUnivariateEntireSeriesParameters =
+  DetectUnivariateEntireSeriesBodyParam & RequestParameters;
 
-export interface UnivariateDetectUnivariateLastPointBodyParam {
+export interface DetectUnivariateLastPointBodyParam {
   body: DetectRequest;
 }
 
-export type UnivariateDetectUnivariateLastPointParameters = UnivariateDetectUnivariateLastPointBodyParam &
-  RequestParameters;
+export type DetectUnivariateLastPointParameters =
+  DetectUnivariateLastPointBodyParam & RequestParameters;
 
-export interface UnivariateDetectUnivariateChangePointBodyParam {
+export interface DetectUnivariateChangePointBodyParam {
   body: ChangePointDetectRequest;
 }
 
-export type UnivariateDetectUnivariateChangePointParameters = UnivariateDetectUnivariateChangePointBodyParam &
-  RequestParameters;
-export type MultivariateGetMultivariateBatchDetectionResultParameters = RequestParameters;
+export type DetectUnivariateChangePointParameters =
+  DetectUnivariateChangePointBodyParam & RequestParameters;
+export type GetMultivariateBatchDetectionResultParameters = RequestParameters;
 
-export interface MultivariateCreateAndTrainMultivariateModelBodyParam {
+export interface CreateAndTrainMultivariateModelBodyParam {
   body: ModelInfo;
 }
 
-export type MultivariateCreateAndTrainMultivariateModelParameters = MultivariateCreateAndTrainMultivariateModelBodyParam &
-  RequestParameters;
+export type CreateAndTrainMultivariateModelParameters =
+  CreateAndTrainMultivariateModelBodyParam & RequestParameters;
 
-export interface MultivariateListMultivariateModelsQueryParamProperties {
+export interface ListMultivariateModelsQueryParamProperties {
   /** Skip indicates how many models will be skipped. */
   skip?: number;
   /** Top indicates how many models will be fetched. */
   top?: number;
 }
 
-export interface MultivariateListMultivariateModelsQueryParam {
-  queryParameters?: MultivariateListMultivariateModelsQueryParamProperties;
+export interface ListMultivariateModelsQueryParam {
+  queryParameters?: ListMultivariateModelsQueryParamProperties;
 }
 
-export type MultivariateListMultivariateModelsParameters = MultivariateListMultivariateModelsQueryParam &
-  RequestParameters;
-export type MultivariateDeleteMultivariateModelParameters = RequestParameters;
-export type MultivariateGetMultivariateModelParameters = RequestParameters;
+export type ListMultivariateModelsParameters =
+  ListMultivariateModelsQueryParam & RequestParameters;
+export type DeleteMultivariateModelParameters = RequestParameters;
+export type GetMultivariateModelParameters = RequestParameters;
 
-export interface MultivariateDetectMultivariateBatchAnomalyBodyParam {
+export interface DetectMultivariateBatchAnomalyBodyParam {
   body: DetectionRequest;
 }
 
-export type MultivariateDetectMultivariateBatchAnomalyParameters = MultivariateDetectMultivariateBatchAnomalyBodyParam &
-  RequestParameters;
+export type DetectMultivariateBatchAnomalyParameters =
+  DetectMultivariateBatchAnomalyBodyParam & RequestParameters;
 
-export interface MultivariateDetectMultivariateLastAnomalyBodyParam {
+export interface DetectMultivariateLastAnomalyBodyParam {
   body: LastDetectionRequest;
 }
 
-export type MultivariateDetectMultivariateLastAnomalyParameters = MultivariateDetectMultivariateLastAnomalyBodyParam &
-  RequestParameters;
+export type DetectMultivariateLastAnomalyParameters =
+  DetectMultivariateLastAnomalyBodyParam & RequestParameters;
