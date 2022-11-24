@@ -1,6 +1,6 @@
 # Release History
     
-## 17.3.0-beta.1 (2022-11-23)
+## 17.3.0-beta.1 (2022-11-24)
     
 **Features**
 
@@ -11,8 +11,6 @@
   - Added operation group TrustedAccessRoles
   - Added operation AgentPools.abortLatestOperation
   - Added operation ManagedClusters.abortLatestOperation
-  - Added operation ManagedClusters.beginRotateServiceAccountSigningKeys
-  - Added operation ManagedClusters.beginRotateServiceAccountSigningKeysAndWait
   - Added Interface AgentPoolNetworkProfile
   - Added Interface AgentPoolsAbortLatestOperationOptionalParams
   - Added Interface AgentPoolWindowsProfile
@@ -53,7 +51,6 @@
   - Added Interface ManagedClusterAzureMonitorProfileMetrics
   - Added Interface ManagedClusterIngressProfile
   - Added Interface ManagedClusterIngressProfileWebAppRouting
-  - Added Interface ManagedClusterOidcIssuerProfile
   - Added Interface ManagedClusterPropertiesForSnapshot
   - Added Interface ManagedClustersAbortLatestOperationOptionalParams
   - Added Interface ManagedClusterSecurityProfileImageCleaner
@@ -69,8 +66,6 @@
   - Added Interface ManagedClusterSnapshotsListNextOptionalParams
   - Added Interface ManagedClusterSnapshotsListOptionalParams
   - Added Interface ManagedClusterSnapshotsUpdateTagsOptionalParams
-  - Added Interface ManagedClustersRotateServiceAccountSigningKeysOptionalParams
-  - Added Interface ManagedClusterStorageProfileBlobCSIDriver
   - Added Interface ManagedClusterWorkloadAutoScalerProfile
   - Added Interface ManagedClusterWorkloadAutoScalerProfileKeda
   - Added Interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
@@ -139,7 +134,6 @@
   - Interface ManagedCluster has a new optional parameter enableNamespaceResources
   - Interface ManagedCluster has a new optional parameter guardrailsProfile
   - Interface ManagedCluster has a new optional parameter ingressProfile
-  - Interface ManagedCluster has a new optional parameter oidcIssuerProfile
   - Interface ManagedCluster has a new optional parameter workloadAutoScalerProfile
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter capacityReservationGroupID
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter enableCustomCATrust
@@ -155,7 +149,6 @@
   - Interface ManagedClusterSecurityProfile has a new optional parameter imageCleaner
   - Interface ManagedClusterSecurityProfile has a new optional parameter nodeRestriction
   - Interface ManagedClusterSecurityProfile has a new optional parameter workloadIdentity
-  - Interface ManagedClusterStorageProfile has a new optional parameter blobCSIDriver
   - Interface ManagedClusterStorageProfileDiskCSIDriver has a new optional parameter version
   - Class ContainerServiceClient has a new parameter fleetMembers
   - Class ContainerServiceClient has a new parameter fleets
@@ -177,6 +170,21 @@
   - Enum KnownOssku has a new value Mariner
   - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
   - Enum KnownSnapshotType has a new value ManagedCluster
+    
+    
+## 17.2.0 (2022-11-02)
+    
+**Features**
+
+  - Added operation ManagedClusters.beginRotateServiceAccountSigningKeys
+  - Added operation ManagedClusters.beginRotateServiceAccountSigningKeysAndWait
+  - Added Interface ManagedClusterOidcIssuerProfile
+  - Added Interface ManagedClustersRotateServiceAccountSigningKeysHeaders
+  - Added Interface ManagedClustersRotateServiceAccountSigningKeysOptionalParams
+  - Added Interface ManagedClusterStorageProfileBlobCSIDriver
+  - Added Type Alias ManagedClustersRotateServiceAccountSigningKeysResponse
+  - Interface ManagedCluster has a new optional parameter oidcIssuerProfile
+  - Interface ManagedClusterStorageProfile has a new optional parameter blobCSIDriver
     
     
 ## 17.1.0 (2022-08-25)
