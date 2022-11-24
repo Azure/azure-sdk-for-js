@@ -32,7 +32,7 @@ az maps account create --resource-group <resource-group-name> --name <map-accoun
 
 ### Install the `@azure-rest/maps-geolocation` package
 
-Install the Azure MapsGeolocation REST client REST client library for JavaScript with `npm`:
+Install the Azure Maps Geolocation REST client REST client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure-rest/maps-geolocation
@@ -86,13 +86,15 @@ const client = MapsGeolocation(credential);
 
 ### MapsGeolocationClient
 
-`MapsGeoClient` is the primary interface for developers using the Azure Maps Geolocation client library. Explore the methods on this client object to understand the different features of the Azure Maps Geolocation service that you can access.
+`MapsGeolocationClient` is the primary interface for developers using the Azure Maps Geolocation client library. Explore the methods on this client object to understand the different features of the Azure Maps Geolocation service that you can access.
 
 ## Examples
 
 You can get the country code from a IP address:
 
 ```javascript
+const isUnexpected = require("@azure-rest/maps-geolocation");
+
 const result = await client.path("/geolocation/ip/{format}", "json").get({
   queryParameters: { ip: "2001:4898:80e8:b::189" },
 });
