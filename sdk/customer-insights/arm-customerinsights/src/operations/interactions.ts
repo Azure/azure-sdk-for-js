@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Interactions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,11 +19,11 @@ import {
   InteractionResourceFormat,
   InteractionsListByHubNextOptionalParams,
   InteractionsListByHubOptionalParams,
+  InteractionsListByHubResponse,
   InteractionsCreateOrUpdateOptionalParams,
   InteractionsCreateOrUpdateResponse,
   InteractionsGetOptionalParams,
   InteractionsGetResponse,
-  InteractionsListByHubResponse,
   InteractionsSuggestRelationshipLinksOptionalParams,
   InteractionsSuggestRelationshipLinksResponse,
   InteractionsListByHubNextResponse
@@ -60,8 +61,16 @@ export class InteractionsImpl implements Interactions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByHubPagingPage(resourceGroupName, hubName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByHubPagingPage(
+          resourceGroupName,
+          hubName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -69,11 +78,18 @@ export class InteractionsImpl implements Interactions {
   private async *listByHubPagingPage(
     resourceGroupName: string,
     hubName: string,
-    options?: InteractionsListByHubOptionalParams
+    options?: InteractionsListByHubOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<InteractionResourceFormat[]> {
-    let result = await this._listByHub(resourceGroupName, hubName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: InteractionsListByHubResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByHub(resourceGroupName, hubName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByHubNext(
         resourceGroupName,
@@ -82,7 +98,9 @@ export class InteractionsImpl implements Interactions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

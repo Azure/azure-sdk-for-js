@@ -69,7 +69,10 @@ import {
   ApplicationsImpl,
   ApplicationOperationsImpl,
   SecurityConnectorApplicationsImpl,
-  SecurityConnectorApplicationImpl
+  SecurityConnectorApplicationImpl,
+  APICollectionImpl,
+  APICollectionOnboardingImpl,
+  APICollectionOffboardingImpl
 } from "./operations";
 import {
   MdeOnboardings,
@@ -131,7 +134,10 @@ import {
   Applications,
   ApplicationOperations,
   SecurityConnectorApplications,
-  SecurityConnectorApplication
+  SecurityConnectorApplication,
+  APICollection,
+  APICollectionOnboarding,
+  APICollectionOffboarding
 } from "./operationsInterfaces";
 import { SecurityCenterOptionalParams } from "./models";
 
@@ -325,6 +331,9 @@ export class SecurityCenter extends coreClient.ServiceClient {
     this.securityConnectorApplication = new SecurityConnectorApplicationImpl(
       this
     );
+    this.aPICollection = new APICollectionImpl(this);
+    this.aPICollectionOnboarding = new APICollectionOnboardingImpl(this);
+    this.aPICollectionOffboarding = new APICollectionOffboardingImpl(this);
   }
 
   mdeOnboardings: MdeOnboardings;
@@ -387,4 +396,7 @@ export class SecurityCenter extends coreClient.ServiceClient {
   applicationOperations: ApplicationOperations;
   securityConnectorApplications: SecurityConnectorApplications;
   securityConnectorApplication: SecurityConnectorApplication;
+  aPICollection: APICollection;
+  aPICollectionOnboarding: APICollectionOnboarding;
+  aPICollectionOffboarding: APICollectionOffboarding;
 }

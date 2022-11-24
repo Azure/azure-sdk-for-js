@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkzzz?api-version=2022-05-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/azure_resource_group/providers/Microsoft.Network/virtualNetworks/virtualnetworkzzz?api-version=2022-05-01",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -53,7 +53,7 @@
       },
       "ResponseBody": {
         "name": "virtualnetworkzzz",
-        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkzzz",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/azure_resource_group/providers/Microsoft.Network/virtualNetworks/virtualnetworkzzz",
         "etag": "W/\u00226db5450c-984c-4ce5-ba5e-84cc83d1fe52\u0022",
         "type": "Microsoft.Network/virtualNetworks",
         "location": "eastus",
@@ -72,7 +72,7 @@
           "subnets": [
             {
               "name": "subnetnamexx",
-              "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkzzz/subnets/subnetnamexx",
+              "id": "/subscriptions/azure_subscription_id/resourceGroups/azure_resource_group/providers/Microsoft.Network/virtualNetworks/virtualnetworkzzz/subnets/subnetnamexx",
               "etag": "W/\u00226db5450c-984c-4ce5-ba5e-84cc83d1fe52\u0022",
               "properties": {
                 "provisioningState": "Succeeded",
