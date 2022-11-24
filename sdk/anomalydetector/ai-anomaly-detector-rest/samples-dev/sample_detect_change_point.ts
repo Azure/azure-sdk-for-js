@@ -8,7 +8,7 @@
  */
 
 import AnomalyDetector, {
-  UnivariateChangePointParameters,
+  DetectUnivariateChangePointParameters,
   isUnexpected,
   TimeSeriesPoint,
 } from "@azure-rest/ai-anomaly-detector";
@@ -41,7 +41,7 @@ export async function main() {
   const credential = new AzureKeyCredential(apiKey);
   const apiVersion = "v1.1";
   const client = AnomalyDetector(endpoint, apiVersion, credential);
-  const options: UnivariateChangePointParameters = {
+  const options: DetectUnivariateChangePointParameters = {
     body: {
       granularity: "daily",
       series: read_series_from_file(timeSeriesDataPath),

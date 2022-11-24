@@ -8,7 +8,7 @@
  */
 
 import AnomalyDetector, {
-  UnivariateLastPointParameters,
+  DetectUnivariateLastPointParameters,
   isUnexpected,
   TimeSeriesPoint,
 } from "@azure-rest/ai-anomaly-detector";
@@ -43,7 +43,7 @@ export async function main() {
   const client = AnomalyDetector(endpoint, apiVersion, credential);
 
   // construct request
-  const options: UnivariateLastPointParameters = {
+  const options: DetectUnivariateLastPointParameters = {
     body: {
       granularity: "daily",
       imputeFixedValue: 800,
