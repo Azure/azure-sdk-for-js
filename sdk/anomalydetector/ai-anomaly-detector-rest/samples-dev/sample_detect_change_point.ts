@@ -39,8 +39,7 @@ function read_series_from_file(path: string): Array<TimeSeriesPoint> {
 
 export async function main() {
   const credential = new AzureKeyCredential(apiKey);
-  const apiVersion = "v1.1";
-  const client = AnomalyDetector(endpoint, apiVersion, credential);
+  const client = AnomalyDetector(endpoint, credential);
   const options: DetectUnivariateChangePointParameters = {
     body: {
       granularity: "daily",

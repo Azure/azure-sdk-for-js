@@ -40,6 +40,12 @@ export type AnomalyDetectorRestClient = Client & {
 };
 
 // @public (undocumented)
+export interface AnomalyDetectorRestClientOptions extends ClientOptions {
+    // (undocumented)
+    ApiVersion?: string;
+}
+
+// @public (undocumented)
 export interface AnomalyInterpretationOutput {
     contributionScore?: number;
     // (undocumented)
@@ -132,7 +138,7 @@ export interface CreateAndTrainMultivariateModelDefaultResponse extends HttpResp
 export type CreateAndTrainMultivariateModelParameters = CreateAndTrainMultivariateModelBodyParam & RequestParameters;
 
 // @public
-function createClient(Endpoint: string, ApiVersion: "v1.1", credentials: KeyCredential, options?: ClientOptions): AnomalyDetectorRestClient;
+function createClient(Endpoint: string, credentials: KeyCredential, options?: AnomalyDetectorRestClientOptions): AnomalyDetectorRestClient;
 export default createClient;
 
 // @public (undocumented)

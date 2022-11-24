@@ -35,8 +35,7 @@ function read_series_from_file(path) {
 async function main() {
   // create client
   const credential = new AzureKeyCredential(apiKey);
-  const apiVersion = "v1.1";
-  const client = AnomalyDetector(endpoint, apiVersion, credential);
+  const client = AnomalyDetector(endpoint, credential);
 
   // construct request
   const options = {

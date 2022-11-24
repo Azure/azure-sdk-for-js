@@ -36,6 +36,5 @@ export async function createClient(recorder: Recorder): Promise<AnomalyDetectorR
   const endpoint = assertEnvironmentVariable("ANOMALY_DETECTOR_ENDPOINT");
   const key = assertEnvironmentVariable("ANOMALY_DETECTOR_API_KEY");
   const credential = new AzureKeyCredential(key);
-  const apiVersion = "v1.1";
-  return AnomalyDetector(endpoint, apiVersion, credential, recorder.configureClientOptions({}));
+  return AnomalyDetector(endpoint, credential, recorder.configureClientOptions({}));
 }
