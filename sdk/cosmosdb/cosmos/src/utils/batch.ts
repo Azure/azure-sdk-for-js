@@ -214,11 +214,12 @@ export function decorateOperation(
 
 /**
  * Splits a batch into array of batches based on cumulative size of its operations by making sure
- * cumulative size is not larger than {@link Constants.DefaultMaxBulkRequestBodySizeInBytes}.
- * But if a single operation itself is larger than {@link Constants.DefaultMaxBulkRequestBodySizeInBytes}, that
- * operation would be split into a batch containing only that operation.
- * @param originalBatch 
- * @returns 
+ * cumulative size of an individual batch is not larger than {@link Constants.DefaultMaxBulkRequestBodySizeInBytes}.
+ * If a single operation itself is larger than {@link Constants.DefaultMaxBulkRequestBodySizeInBytes}, that
+ * operation would be moved into a batch containing only that operation.
+ * @param originalBatch - A batch of operations needed to be checked.
+ * @returns
+ * @hidden
  */
 export function splitBatchBasedOnBodySize(originalBatch: Batch): Batch[] {
   if(originalBatch?.operations === undefined && originalBatch.operations.length < 1) return [];
@@ -232,8 +233,8 @@ export function splitBatchBasedOnBodySize(originalBatch: Batch): Batch[] {
   processedBatches.push(currentBatch);
 
   for(let index = 1; index < originalBatch.operations.length; index++) {
-    let operation = originalBatch.operations[index];
-    let currentOpSize = calculateObjectSizeInBytes(operation);
+    const operation = originalBatch.operations[index];
+    const currentOpSize = calculateObjectSizeInBytes(operation);
     if(currentBatchSize + currentOpSize > Constants.DefaultMaxBulkRequestBodySizeInBytes) {
       currentBatch = {
         ...originalBatch,
@@ -252,11 +253,10 @@ export function splitBatchBasedOnBodySize(originalBatch: Batch): Batch[] {
 
 /**
  * Calculates size of an JSON object in bytes with utf-8 encoding.
- * @param obj 
- * @returns 
+ * @hidden
  */
-export function calculateObjectSizeInBytes(obj: any): number {
-  return new TextEncoder().encode(bodyFromData(obj)).length
+export function calculateObjectSizeInBytes(obj: unknown): number {
+  return new TextEncoder().encode(bodyFromData(obj as any)).length
 }
 
 export function decorateBatchOperation(

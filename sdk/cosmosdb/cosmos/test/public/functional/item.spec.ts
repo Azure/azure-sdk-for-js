@@ -257,7 +257,7 @@ describe("bulk/batch item operations", function () {
     });
     it("Check case when cumulative size of all operations is greater than threshold", async function() {
       const operations: OperationInput[] = [...Array(10).keys()].map(() => ({
-        ...generateOperationOfSize(Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes/2)),
+        ...generateOperationOfSize(Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes / 2)),
         partitionKey: {}
       }) as any);
       const response = await container.items.bulk(operations);
@@ -266,7 +266,7 @@ describe("bulk/batch item operations", function () {
     });
     it("Check case when cumulative size of all operations is greater than threshold", async function() {
       const operations: OperationInput[] = [...Array(50).keys()].map(() => ({
-        ...generateOperationOfSize(Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes/2), {}, v4())
+        ...generateOperationOfSize(Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes / 2), {}, v4())
       }) as any);
       const response = await container.items.bulk(operations);
       // Create
