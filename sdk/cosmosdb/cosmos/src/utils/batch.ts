@@ -8,7 +8,7 @@ import { RequestOptions } from "..";
 import { PatchRequestBody } from "./patch";
 import { v4 } from "uuid";
 import { bodyFromData } from "../request/request";
-import { Constants } from "../common/constants"
+import { Constants } from "../common/constants";
 const uuid = v4;
 
 export type Operation =
@@ -222,28 +222,28 @@ export function decorateOperation(
  * @hidden
  */
 export function splitBatchBasedOnBodySize(originalBatch: Batch): Batch[] {
-  if(originalBatch?.operations === undefined && originalBatch.operations.length < 1) return [];
+  if (originalBatch?.operations === undefined && originalBatch.operations.length < 1) return [];
   let currentBatchSize = calculateObjectSizeInBytes(originalBatch.operations[0]);
   let currentBatch: Batch = {
     ...originalBatch,
     operations: [originalBatch.operations[0]],
-    indexes: [originalBatch.indexes[0]]
+    indexes: [originalBatch.indexes[0]],
   };
   const processedBatches: Batch[] = [];
   processedBatches.push(currentBatch);
 
-  for(let index = 1; index < originalBatch.operations.length; index++) {
+  for (let index = 1; index < originalBatch.operations.length; index++) {
     const operation = originalBatch.operations[index];
     const currentOpSize = calculateObjectSizeInBytes(operation);
-    if(currentBatchSize + currentOpSize > Constants.DefaultMaxBulkRequestBodySizeInBytes) {
+    if (currentBatchSize + currentOpSize > Constants.DefaultMaxBulkRequestBodySizeInBytes) {
       currentBatch = {
         ...originalBatch,
         operations: [],
-        indexes: []
+        indexes: [],
       };
       processedBatches.push(currentBatch);
       currentBatchSize = 0;
-    } 
+    }
     currentBatch.operations.push(operation);
     currentBatch.indexes.push(originalBatch.indexes[index]);
     currentBatchSize += currentOpSize;
@@ -256,7 +256,7 @@ export function splitBatchBasedOnBodySize(originalBatch: Batch): Batch[] {
  * @hidden
  */
 export function calculateObjectSizeInBytes(obj: unknown): number {
-  return new TextEncoder().encode(bodyFromData(obj as any)).length
+  return new TextEncoder().encode(bodyFromData(obj as any)).length;
 }
 
 export function decorateBatchOperation(
