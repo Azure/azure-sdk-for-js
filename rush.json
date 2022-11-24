@@ -1935,6 +1935,11 @@
       "packageName": "@azure/arm-hybridcontainerservice",
       "projectFolder": "sdk/hybridcontainerservice/arm-hybridcontainerservice",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/adp-test",
+      "projectFolder": "sdk/adp/adp-test-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
