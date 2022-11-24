@@ -284,4 +284,3 @@ export interface InnerError {
   /** Inner error. */
   innererror?: InnerError;
 }
-
