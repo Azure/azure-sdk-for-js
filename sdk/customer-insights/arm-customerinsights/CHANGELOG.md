@@ -1,15 +1,29 @@
 # Release History
+    
+## 4.1.0 (2022-11-18)
+    
+**Features**
 
-## 4.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface AuthorizationPolicyResourceFormat
+  - Added Interface ConnectorMappingResourceFormat
+  - Added Interface ConnectorResourceFormat
+  - Added Interface EnrichingKpi
+  - Added Interface EntityTypeDefinition
+  - Added Interface Hub
+  - Added Interface InteractionResourceFormat
+  - Added Interface InteractionTypeDefinition
+  - Added Interface KpiResourceFormat
+  - Added Interface LinkResourceFormat
+  - Added Interface PredictionResourceFormat
+  - Added Interface ProfileResourceFormat
+  - Added Interface ProfileTypeDefinition
+  - Added Interface RelationshipLinkResourceFormat
+  - Added Interface RelationshipResourceFormat
+  - Added Interface RoleAssignmentResourceFormat
+  - Added Interface RoleResourceFormat
+  - Added Interface ViewResourceFormat
+  - Added Interface WidgetTypeResourceFormat
+    
 ## 4.0.1 (2022-04-15)
 
 **features**

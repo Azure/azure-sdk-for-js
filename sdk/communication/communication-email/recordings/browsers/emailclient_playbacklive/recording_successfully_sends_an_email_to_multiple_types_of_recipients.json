@@ -22,9 +22,9 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "Sanitized",
-        "x-ms-content-sha256": "ENxx9nHWrb2NNLViLtESvIYowJmMe0vVVW43StuVRiM=",
+        "x-ms-content-sha256": "94YeBna8N2Bob/TumBgtrbXUzchrpnGzm1al2tkPXec=",
         "x-ms-date": "Sanitized",
-        "x-ms-useragent": "azsdk-js-communication-email/1.0.0-beta.2 core-rest-pipeline/1.9.2 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-email/1.0.0-beta.2 core-rest-pipeline/1.10.1 OS/Win32"
       },
       "RequestBody": {
         "sender": "someSender@contoso.com",
@@ -63,7 +63,7 @@
         "api-supported-versions": "2021-10-01-preview",
         "Content-Length": "0",
         "Date": "Sanitized",
-        "mise-correlation-id": "481a9d88-75de-4933-a257-e0ebc3e542a2",
+        "mise-correlation-id": "5163fba7-3009-4af9-98a7-bb6c81790299",
         "Operation-Location": "https://someEndpoint/emails/someMessageId/status",
         "Repeatability-Result": "accepted",
         "X-Azure-Ref": "Sanitized",
