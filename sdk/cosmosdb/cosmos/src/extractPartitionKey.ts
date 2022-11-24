@@ -10,8 +10,8 @@ const logger: AzureLogger = createClientLogger("extractPartitionKey");
  * Function to extract PartitionKey based on {@link PartitionKeyDefinition}
  * from an object.
  * Retuns
- * 1. {@link PartitionKeyInternal[]} - if extraction is successful.
- * 2. {@link undefined} - if either {@link partitionKeyDefinition} is not well formed
+ * 1. PartitionKeyInternal[] if extraction is successful.
+ * 2. undefined if either {@link partitionKeyDefinition} is not well formed
  * or an unsupported partitionkey type is encountered.
  * @hidden
  */
@@ -29,7 +29,7 @@ export function extractPartitionKey(
       const pathParts: string[] = parsePath(path);
       let obj = document;
       for (const part of pathParts) {
-        if (typeof obj === "object" && obj !==null && part in obj) {
+        if (typeof obj === "object" && obj !== null && part in obj) {
           obj = (obj as Record<string, unknown>)[part];
         } else {
           obj = undefined;

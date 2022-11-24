@@ -3,7 +3,7 @@
 
 import { JSONObject } from "../queryExecutionContext";
 import { extractPartitionKey } from "../extractPartitionKey";
-import { NonePartitionKeyLiteral, PartitionKey, PartitionKeyDefinition, PrimitivePartitionKeyValue, mapPartitionToInternal } from "../documents";
+import { NonePartitionKeyLiteral, PartitionKey, PartitionKeyDefinition, PrimitivePartitionKeyValue,  convertToInternalPartitionKey } from "../documents";
 import { RequestOptions } from "..";
 import { PatchRequestBody } from "./patch";
 import { v4 } from "uuid";
@@ -159,9 +159,9 @@ export function hasResource(
 }
 /**
  * Maps 
- * @param operationInput 
- * @param definition 
- * @param options 
+ * @param operationInput - OperationInput
+ * @param definition - PartitionKeyDefinition
+ * @param options - RequestOptions
  * @returns 
  */
 export function prepareOperations(
@@ -176,11 +176,11 @@ export function prepareOperations(
   populateIdsIfNeeded(operationInput, options);
 
   let partitionKey: PrimitivePartitionKeyValue[];
-  if(operationInput.hasOwnProperty("partitionKey")) {
+  if(Object.prototype.hasOwnProperty.call(operationInput, "partitionKey")) {
     if(operationInput.partitionKey === undefined) {
       partitionKey = definition.paths.map(() => NonePartitionKeyLiteral)
     } else {
-      partitionKey = mapPartitionToInternal(operationInput.partitionKey)
+      partitionKey =  convertToInternalPartitionKey(operationInput.partitionKey)
     }
   } else {
     switch (operationInput.operationType) {
@@ -203,8 +203,8 @@ export function prepareOperations(
 
 /**
  * For operations requiring Id genrate random uuids.
- * @param operationInput 
- * @param options 
+ * @param operationInput - OperationInput to be checked.
+ * @param options - RequestOptions
  */
 function populateIdsIfNeeded(operationInput: OperationInput, options: RequestOptions) {
   if (operationInput.operationType === BulkOperationType.Create ||

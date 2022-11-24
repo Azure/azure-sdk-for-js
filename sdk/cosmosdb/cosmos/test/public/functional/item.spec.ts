@@ -93,8 +93,8 @@ type MultiCRUDTestDataSet = {
 
 /**
    * Helper function to run Create Upsert Read Update Replace Delete operation on Items.
-   * @param dataset 
-   * @param isUpsertTest 
+   * @param dataset - CRUDTestDataSet
+   * @param isUpsertTest - is upsert is to be tested instead of create.
    */
  async function CRUDTestRunner(dataset: CRUDTestDataSet, isUpsertTest: boolean): Promise<void> {
   // create database
@@ -193,9 +193,6 @@ type MultiCRUDTestDataSet = {
 describe('Item CRUD hierarchical partition', function (this: Suite) {
   beforeEach(async function () {
     await removeAllDatabases();
-  });
-  afterEach(async function () {
-
   });
   it('hierarchycal partitions', async function () {
     const dbName = "hierarchical partition db";
@@ -424,9 +421,6 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
   });
 
   describe("V2 Container", async () => {
-    describe("Single Partition Container", async () => {
-    
-    });
     describe("Multi Partition Container", async () => {
       it("Should do document CRUD operations successfully : container with hierarchical partition key", async function () {
         await CRUDTestRunner(dataSetForHierarchicalPartitionKey, false);

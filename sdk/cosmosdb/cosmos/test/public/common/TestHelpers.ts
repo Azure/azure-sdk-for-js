@@ -156,7 +156,7 @@ export async function bulkQueryItemsWithPartitionKey(
 ): Promise<void> {
   for (const document of documents) {
     const parameters = parameterGenerator(document);
-    const shouldSkip = parameters.reduce((previous, current) => previous || current['value']=== undefined, false)
+    const shouldSkip = parameters.reduce((previous, current) => previous || current['value'] === undefined, false)
     if(shouldSkip) {
       continue;
     }

@@ -408,7 +408,7 @@ export class Items {
     const { resources: partitionKeyRanges } = await this.container
       .readPartitionKeyRanges()
       .fetchAll();
-    let { resource } = await this.container.readPartitionKeyDefinition();
+    const { resource } = await this.container.readPartitionKeyDefinition();
     const partitionDefinition = stripUndefined(resource, "PartitionKeyDefinition.");
     const batches: Batch[] = partitionKeyRanges.map((keyRange: PartitionKeyRange) => {
       return {
@@ -463,10 +463,10 @@ export class Items {
   /**
    * Function to create batches based of partition key Ranges.
    * 1. if {@link operation} has {@link hasResource} then {@link PartitionKey} is extracted from there.
-   * @param operations 
-   * @param partitionDefinition 
-   * @param options 
-   * @param batches 
+   * @param operations - operations to group
+   * @param partitionDefinition - PartitionKey definition of container.
+   * @param options - Request options for bulk request.
+   * @param batches - Groups to be filled with operations.
    */
   private groupOperationsBasedOnPartitionKey(operations: OperationInput[], partitionDefinition: PartitionKeyDefinition, options: RequestOptions | undefined, batches: Batch[]) {
     operations
@@ -516,9 +516,7 @@ export class Items {
     operations.map((operation) => decorateBatchOperation(operation, options));
 
     const path = getPathFromLink(this.container.url, ResourceType.item);
-    if(partitionKey === undefined) {
-      
-    }
+
     if (operations.length > 100) {
       throw new Error("Cannot run batch request with more than 100 operations per partition");
     }
