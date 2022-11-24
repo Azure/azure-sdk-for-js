@@ -249,7 +249,6 @@ describe("bulk/batch item operations", function () {
         () =>
           ({
             ...generateOperationOfSize(100, { partitionKey: "key_value" }, { key: "key_value" }),
-            partitionKey: {},
           } as any)
       );
       const response = await container.items.bulk(operations);
