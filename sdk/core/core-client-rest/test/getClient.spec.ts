@@ -39,19 +39,19 @@ describe("getClient", () => {
       await client.pathUnchecked("/foo").get();
     });
 
-    it("should replace existing apiVersion to requests with client api-version", async () => {
+    it("should keep existing apiVersion in requests if the server returns one or apiVersion is added at operation level", async () => {
       const defaultHttpClient = getCachedDefaultHttpsClient();
       sinon.stub(defaultHttpClient, "sendRequest").callsFake(async (req) => {
         return { headers: createHttpHeaders(), status: 200, request: req } as PipelineResponse;
       });
 
       const apiVersion = "2021-11-18";
-      const client = getClient("https://example.org?api-version=1233321", { apiVersion });
+      const client = getClient("https://example.org?api-version=2022-01-01", { apiVersion });
       const validationPolicy: PipelinePolicy = {
         name: "validationPolicy",
         sendRequest: (req, next) => {
           assert.include(req.url, `api-version=${apiVersion}`);
-          assert.notInclude(req.url, "api-version=1233321");
+          assert.notInclude(req.url, "api-version=2022-01-01");
           return next(req);
         },
       };
