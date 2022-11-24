@@ -12,6 +12,7 @@ trigger:
     exclude:
       - sdk/loadtestservice/arm-loadtestservice
       - sdk/loadtestservice/ci.mgmt.yml
+      - sdk/loadtestservice/arm-loadtesting
 pr:
   branches:
     include:
@@ -25,6 +26,7 @@ pr:
     exclude:
       - sdk/loadtestservice/arm-loadtestservice
       - sdk/loadtestservice/ci.mgmt.yml
+      - sdk/loadtestservice/arm-loadtesting
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

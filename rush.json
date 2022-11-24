@@ -1232,11 +1232,6 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-loadtestservice",
-      "projectFolder": "sdk/loadtestservice/arm-loadtestservice",
-      "versionPolicyName": "management"
-    },
-    {
       "packageName": "@azure/arm-relay",
       "projectFolder": "sdk/relay/arm-relay",
       "versionPolicyName": "management"
@@ -1934,6 +1929,11 @@
     {
       "packageName": "@azure/arm-hybridcontainerservice",
       "projectFolder": "sdk/hybridcontainerservice/arm-hybridcontainerservice",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-loadtesting",
+      "projectFolder": "sdk/loadtestservice/arm-loadtesting",
       "versionPolicyName": "management"
     }
   ]
