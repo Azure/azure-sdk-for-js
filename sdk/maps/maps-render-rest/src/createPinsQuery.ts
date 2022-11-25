@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { LatLon } from "@azure/maps-common";
+import { createMultiCollection } from "./createMultiCollection";
 
 /**
  * Specify how the pin's position and label text.
@@ -59,53 +60,24 @@ function isOptionKeyMap(key: any): key is keyof PinOptions {
   return key in optionKeyMap;
 }
 
-/**
- * Create a default pin image query string for _get map static image_
- *
- * @example
- * ```ts
- *
- * const pins = createPinsQuery(
- *  [
- *    { coordinate: [52.577, 13.35], label: "Label start" },
- *    { coordinate: [52.6, 13.2988], label: "Label end" },
- *  ],
- *  {
- *    scale: 0.9,
- *    pinColor: "FF0000",
- *    labelColor: "0000FF",
- *    labelSizeInPixels: 18,
- *  }
- * );
- * const res = await client
- *  .path("/map/static/{format}", "png")
- *  .get({
- *    queryParameters: {
- *      bbox: [13.228, 52.4559, 13.5794, 52.62],
- *      zoom: 10,
- *      pins: [pins],
- *    },
- *  })
- * ```
- *
- * @param pins - An array of {@link Pin} that specify the positions and label text of each pin.
- * @param options - The style options of the pins. See {@link PinOptions}
- * @returns - The composed query string.
- */
-export function createPinsQuery(pins: Pin[], options?: PinOptions): string;
+export interface PinSet {
+  pins: Pin[];
+  pinImage?: "default" | "none" | string;
+  options?: PinOptions;
+}
 /**
  * Create a pin query string for _get map static image_
  *
  * @example
  * ```ts
  *
- * const pins = createPinsQuery(
- *  [
+ * const pins = {
+ *  pins: [
  *    { coordinate: [52.577, 13.35], label: "Label start" },
  *    { coordinate: [52.6, 13.2988], label: "Label end" },
  *  ],
- *  "<image source url>"
- *  {
+ *  pinImage: "<image source url || default || none>"
+ *  options: {
  *    scale: 0.9,
  *    pinColor: "FF0000",
  *    labelColor: "0000FF",
@@ -118,8 +90,9 @@ export function createPinsQuery(pins: Pin[], options?: PinOptions): string;
  *    queryParameters: {
  *      bbox: [13.228, 52.4559, 13.5794, 52.62],
  *      zoom: 10,
- *      pins: [pins],
+ *      pins: pins,
  *    },
+ *    skipUrlEncoding: true,
  *  })
  * ```
  *
@@ -128,30 +101,23 @@ export function createPinsQuery(pins: Pin[], options?: PinOptions): string;
  * @param options - The style options of the pins. See {@link PinOptions}
  * @returns - The composed query string.
  */
-export function createPinsQuery(
-  pins: Pin[],
-  pinImage: "default" | "none" | string,
-  options?: PinOptions
-): string;
-export function createPinsQuery(
-  pins: Pin[],
-  pinImageOrOptions?: "default" | "none" | string | PinOptions,
-  maybeOptions?: PinOptions
-): string {
-  const pinImage = typeof pinImageOrOptions === "string" ? pinImageOrOptions : "default";
-  const options = (typeof pinImageOrOptions === "string" ? maybeOptions : pinImageOrOptions) || {};
-  // compose the pins' position query string
-  const pinsQueryStr = pins
-    .map(({ coordinate: [lat, lon], label }) => `${label ? `'${label}'` : ""}${lon} ${lat}`)
-    .join("|");
-  // compose the options query string
-  const optionsQueryStr = Object.entries(options).reduce<string>((queryStr, [key, val]) => {
-    if (!isOptionKeyMap(key)) throw Error(`Unexpected option: ${key}`);
-    if (Array.isArray(val)) return (queryStr += `|${optionKeyMap[key]}${val[0]} ${val[1]}`);
-    return (queryStr += `|${optionKeyMap[key]}${val}`);
-  }, "");
-  if (pinImage === "none" || pinImage === "default") {
-    return `${pinImage}${optionsQueryStr}||${pinsQueryStr}`;
-  }
-  return `custom${optionsQueryStr}||${pinsQueryStr}||${pinImage}`;
+
+export function createPinsQuery(pinSets: PinSet[]): string {
+  const pinsQueries = pinSets.map(({ pins, pinImage = "default", options = {} }) => {
+    // compose the pins' position query string
+    const pinsQueryStr = pins
+      .map(({ coordinate: [lat, lon], label }) => `${label ? `'${label}'` : ""}${lon} ${lat}`)
+      .join("|");
+    // compose the options query string
+    const optionsQueryStr = Object.entries(options).reduce<string>((queryStr, [key, val]) => {
+      if (!isOptionKeyMap(key)) throw Error(`Unexpected option: ${key}`);
+      if (Array.isArray(val)) return (queryStr += `|${optionKeyMap[key]}${val[0]} ${val[1]}`);
+      return (queryStr += `|${optionKeyMap[key]}${val}`);
+    }, "");
+    if (pinImage === "none" || pinImage === "default") {
+      return `${pinImage}${optionsQueryStr}||${pinsQueryStr}`;
+    }
+    return `custom${optionsQueryStr}||${pinsQueryStr}||${pinImage}`;
+  });
+  return createMultiCollection("pins", pinsQueries);
 }

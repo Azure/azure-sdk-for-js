@@ -3,7 +3,8 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createWriteStream } from "fs";
-import MapsRender, { createPathQuery /*, createPinsQuery*/ } from "@azure-rest/maps-render";
+import MapsRender, { createPathQuery, createPinsQuery } from "@azure-rest/maps-render";
+import { LatLon } from "@azure/maps-common";
 
 /**
  * @summary How to get the map static image with pins and paths specified.
@@ -65,18 +66,28 @@ async function main() {
 
   /** In a more complex scenario, we can also add pins and paths on the map to make it more vivid */
   // Prepare pins sets
-  // const pinsSet1 = createPinsQuery(
-  //   [
-  //     { coordinate: [52.577, 13.35], label: "Label start" },
-  //     { coordinate: [52.6, 13.2988], label: "Label end" },
-  //   ],
-  //   {
-  //     scale: 0.9,
-  //     pinColor: "FF0000",
-  //     labelColor: "0000FF",
-  //     labelSizeInPixels: 18,
-  //   }
-  // );
+  const pinsSet1 = {
+    pins: [
+      { coordinate: [52.577, 13.35] as LatLon, label: "Label start" },
+      { coordinate: [52.6, 13.2988] as LatLon, label: "Label end" },
+    ],
+    options: {
+      scale: 0.9,
+      pinColor: "FF0000",
+      labelColor: "0000FF",
+      labelSizeInPixels: 18,
+    },
+  };
+  const pinsSet2 = {
+    pins: [{ coordinate: [52.497, 13.495] as LatLon, label: "Label 3" }],
+    options: {
+      scale: 1.2,
+      pinColor: "F5F5DC",
+      labelColor: "FFFFFF",
+      labelSizeInPixels: 18,
+    },
+  };
+  const pins = createPinsQuery([pinsSet1, pinsSet2]);
 
   // Prepare path
   const path = createPathQuery([
@@ -100,7 +111,7 @@ async function main() {
         bbox: [13.228, 52.4559, 13.5794, 52.62],
         zoom: 10,
         path,
-        // pins: [pinsSet1],
+        pins,
       },
       // Need to skip the url encoding to make the path & pins works.
       skipUrlEncoding: true,

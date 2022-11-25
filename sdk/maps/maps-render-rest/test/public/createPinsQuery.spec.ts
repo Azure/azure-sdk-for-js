@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { Recorder } from "@azure-tools/test-recorder";
+import { LatLon } from "@azure/maps-common";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { createPinsQuery, isUnexpected, MapsRenderClient } from "../../src";
@@ -20,94 +21,88 @@ describe("create pins query helper", () => {
     await recorder.stop();
   });
 
-  it("should accept only pins parameter for default pins", async () => {
+  it("should create pins query from a collection of pin sets", async () => {
+    const defaultPinSet = {
+      pins: [
+        { coordinate: [52.577, 13.35] as LatLon, label: "A" },
+        { coordinate: [52.6, 13.2988] as LatLon },
+      ],
+    };
+
+    const coloredPinSet = {
+      pins: [
+        { coordinate: [52.577, 13.35] as LatLon, label: "A" },
+        { coordinate: [52.6, 13.2988] as LatLon },
+      ],
+      options: {
+        pinColor: "FFFFFF",
+      },
+    };
+
+    const noImagePinSet = {
+      pins: [
+        { coordinate: [52.577, 13.35] as LatLon, label: "A" },
+        { coordinate: [52.6, 13.2988] as LatLon },
+      ],
+      pinImage: "none",
+      options: {
+        pinColor: "FFFFFF",
+      },
+    };
+
+    const customImagePin = {
+      pins: [
+        { coordinate: [52.577, 13.35] as LatLon, label: "A" },
+        { coordinate: [52.6, 13.2988] as LatLon },
+      ],
+      pinImage: "http://contoso.com/pushpins/red.png",
+      options: {
+        pinColor: "FFFFFF",
+      },
+    };
+
     const pinsQuery = createPinsQuery([
-      { coordinate: [52.577, 13.35], label: "A" },
-      { coordinate: [52.6, 13.2988] },
+      defaultPinSet,
+      coloredPinSet,
+      noImagePinSet,
+      customImagePin,
     ]);
-
-    assert.equal(pinsQuery, "default||'A'13.35 52.577|13.2988 52.6");
-
-    const res = await client.path("/map/static/{format}", "png").get({
-      queryParameters: { zoom: 10, bbox: [13.228, 52.4559, 13.5794, 52.629], pins: [pinsQuery] },
-    });
-    if (isUnexpected(res)) assert.fail(res.body.error?.message || "Unexpected Error");
-
-    assert.isNotEmpty(res.body);
-  });
-
-  it("should accept pins parameter with options", async () => {
-    const pinsQuery = createPinsQuery(
-      [{ coordinate: [52.577, 13.35], label: "A" }, { coordinate: [52.6, 13.2988] }],
-      {
-        pinColor: "FFFFFF",
-      }
-    );
-
-    assert.equal(pinsQuery, "default|coFFFFFF||'A'13.35 52.577|13.2988 52.6");
-
-    const res = await client.path("/map/static/{format}", "png").get({
-      queryParameters: {
-        zoom: 10,
-        bbox: [13.228, 52.4559, 13.5794, 52.629],
-        pins: [pinsQuery],
-      },
-    });
-    if (isUnexpected(res)) assert.fail(res.body.error?.message || "Unexpected Error");
-
-    assert.isNotEmpty(res.body);
-  });
-
-  it("could compose pins query with image 'none'", async () => {
-    const pinsQuery = createPinsQuery(
-      [{ coordinate: [52.577, 13.35], label: "A" }, { coordinate: [52.6, 13.2988] }],
-      "none",
-      {
-        pinColor: "FFFFFF",
-      }
-    );
-
-    assert.equal(pinsQuery, "none|coFFFFFF||'A'13.35 52.577|13.2988 52.6");
-
-    const res = await client.path("/map/static/{format}", "png").get({
-      queryParameters: {
-        zoom: 10,
-        bbox: [13.228, 52.4559, 13.5794, 52.629],
-        pins: [pinsQuery],
-      },
-    });
-    if (isUnexpected(res)) assert.fail(res.body.error?.message || "Unexpected Error");
-
-    assert.isNotEmpty(res.body);
-  });
-
-  it("could compose pins query with custom image", async () => {
-    const pinsQuery = createPinsQuery(
-      [{ coordinate: [52.577, 13.35], label: "A" }, { coordinate: [52.6, 13.2988] }],
-      "http://contoso.com/pushpins/red.png",
-      {
-        pinColor: "FFFFFF",
-      }
-    );
 
     assert.equal(
       pinsQuery,
-      "custom|coFFFFFF||'A'13.35 52.577|13.2988 52.6||http://contoso.com/pushpins/red.png"
+      "default||'A'13.35 52.577|13.2988 52.6&pins=default|coFFFFFF||'A'13.35 52.577|13.2988 52.6&pins=none|coFFFFFF||'A'13.35 52.577|13.2988 52.6&pins=custom|coFFFFFF||'A'13.35 52.577|13.2988 52.6||http://contoso.com/pushpins/red.png"
     );
+
     /* We don't test custom pin E2E since we have no reliable image source */
+    const res = await client.path("/map/static/{format}", "png").get({
+      queryParameters: {
+        zoom: 10,
+        bbox: [13.228, 52.4559, 13.5794, 52.629],
+        pins: createPinsQuery([defaultPinSet, coloredPinSet, noImagePinSet]),
+      },
+      skipUrlEncoding: true,
+    });
+    if (isUnexpected(res)) assert.fail(res.body.error?.message || "Unexpected Error");
+
+    assert.isNotEmpty(res.body);
   });
 
   it("should map the options key name correctly", async () => {
-    const pinsQuery = createPinsQuery([{ coordinate: [52.577, 13.35] }], {
-      opacity: 0.8,
-      labelAnchor: [10, 4],
-      labelColor: "000000",
-      labelSizeInPixels: 10,
-      pinAnchor: [0, 0],
-      rotationInDegree: 90,
-      scale: 2,
-      pinColor: "123456",
-    });
+    const pinsQuery = createPinsQuery([
+      {
+        pins: [{ coordinate: [52.577, 13.35] as LatLon }],
+        options: {
+          opacity: 0.8,
+          labelAnchor: [10, 4],
+          labelColor: "000000",
+          labelSizeInPixels: 10,
+          pinAnchor: [0, 0],
+          rotationInDegree: 90,
+          scale: 2,
+          pinColor: "123456",
+        },
+      },
+    ]);
 
     assert.equal(
       pinsQuery,
@@ -118,8 +113,9 @@ describe("create pins query helper", () => {
       queryParameters: {
         zoom: 10,
         bbox: [13.228, 52.4559, 13.5794, 52.629],
-        pins: [pinsQuery],
+        pins: pinsQuery,
       },
+      skipUrlEncoding: true,
     });
     if (isUnexpected(res)) assert.fail(res.body.error?.message || "Unexpected Error");
 

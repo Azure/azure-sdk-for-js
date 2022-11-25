@@ -45,10 +45,7 @@ export interface CopyrightOutput {
 export function createPathQuery(paths: Array<PolygonalPath | CircularPath>): string;
 
 // @public
-export function createPinsQuery(pins: Pin[], options?: PinOptions): string;
-
-// @public
-export function createPinsQuery(pins: Pin[], pinImage: "default" | "none" | string, options?: PinOptions): string;
+export function createPinsQuery(pinSets: PinSet[]): string;
 
 // @public
 export interface ErrorAdditionalInfoOutput {
@@ -194,6 +191,16 @@ export interface PinOptions {
     pinColor?: string;
     rotationInDegree?: number;
     scale?: number;
+}
+
+// @public (undocumented)
+export interface PinSet {
+    // (undocumented)
+    options?: PinOptions;
+    // (undocumented)
+    pinImage?: "default" | "none" | string;
+    // (undocumented)
+    pins: Pin[];
 }
 
 // @public
