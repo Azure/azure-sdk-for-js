@@ -15,6 +15,13 @@ import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface CircularPath {
+    center: LatLon;
+    options?: CircularPathOptions;
+    radiusInMeters: number;
+}
+
+// @public
 export interface CircularPathOptions {
     lineColor?: string;
     lineOpacity?: number;
@@ -35,10 +42,7 @@ export interface CopyrightOutput {
 }
 
 // @public
-export function createPathQuery(center: LatLon, radiusInMeters: number, options?: CircularPathOptions): string;
-
-// @public
-export function createPathQuery(coordinates: LatLon[], options?: PolygonalPathOptions): string;
+export function createPathQuery(paths: Array<PolygonalPath | CircularPath>): string;
 
 // @public
 export function createPinsQuery(pins: Pin[], options?: PinOptions): string;
@@ -190,6 +194,12 @@ export interface PinOptions {
     pinColor?: string;
     rotationInDegree?: number;
     scale?: number;
+}
+
+// @public
+export interface PolygonalPath {
+    coordinates: LatLon[];
+    options?: PolygonalPathOptions;
 }
 
 // @public
@@ -439,8 +449,8 @@ export interface RenderGetMapStaticImageQueryParamProperties {
     height?: number;
     language?: string;
     layer?: "basic" | "hybrid" | "labels";
-    path?: Array<string>;
-    pins?: Array<string>;
+    path?: string;
+    pins?: string;
     style?: "main" | "dark";
     view?: "AE" | "AR" | "BH" | "IN" | "IQ" | "JO" | "KW" | "LB" | "MA" | "OM" | "PK" | "PS" | "QA" | "SA" | "SY" | "YE" | "Auto" | "Unified";
     width?: number;

@@ -64,7 +64,7 @@ export interface RenderGetMapTileQueryParamProperties {
    */
   language?: string;
   /**
-   * The View parameter (also called the "user region" parameter) allows you to show the correct maps for a certain country/region for geopolitically disputed regions. Different countries have different views of such regions, and the View parameter allows your application to comply with the view required by the country your application will be serving. By default, the View parameter is set to “Unified” even if you haven’t defined it in  the request. It is your responsibility to determine the location of your users, and then set the View parameter correctly for that location. Alternatively, you have the option to set ‘View=Auto’, which will return the map data based on the IP  address of the request. The View parameter in Azure Maps must be used in compliance with applicable laws, including those  regarding mapping, of the country where maps, images and other data and third party content that you are authorized to  access via Azure Maps is made available. Example: view=IN.
+   * The View parameter (also called the "user region" parameter) allows you to show the correct maps for a certain country/region for geopolitically disputed regions. Different countries/regions have different views of such regions, and the View parameter allows your application to comply with the view required by the country/region your application will be serving. By default, the View parameter is set to “Unified” even if you haven’t defined it in  the request. It is your responsibility to determine the location of your users, and then set the View parameter correctly for that location. Alternatively, you have the option to set ‘View=Auto’, which will return the map data based on the IP  address of the request. The View parameter in Azure Maps must be used in compliance with applicable laws, including those  regarding mapping, of the country/region where maps, images and other data and third party content that you are authorized to  access via Azure Maps is made available. Example: view=IN.
    *
    * Please refer to [Supported Views](https://aka.ms/AzureMapsLocalizationViews) for details and to see the available Views.
    */
@@ -244,7 +244,7 @@ export interface RenderGetMapStaticImageQueryParamProperties {
    */
   language?: string;
   /**
-   * The View parameter (also called the "user region" parameter) allows you to show the correct maps for a certain country/region for geopolitically disputed regions. Different countries have different views of such regions, and the View parameter allows your application to comply with the view required by the country your application will be serving. By default, the View parameter is set to “Unified” even if you haven’t defined it in  the request. It is your responsibility to determine the location of your users, and then set the View parameter correctly for that location. Alternatively, you have the option to set ‘View=Auto’, which will return the map data based on the IP  address of the request. The View parameter in Azure Maps must be used in compliance with applicable laws, including those  regarding mapping, of the country where maps, images and other data and third party content that you are authorized to  access via Azure Maps is made available. Example: view=IN.
+   * The View parameter (also called the "user region" parameter) allows you to show the correct maps for a certain country/region for geopolitically disputed regions. Different countries/regions have different views of such regions, and the View parameter allows your application to comply with the view required by the country/region your application will be serving. By default, the View parameter is set to “Unified” even if you haven’t defined it in  the request. It is your responsibility to determine the location of your users, and then set the View parameter correctly for that location. Alternatively, you have the option to set ‘View=Auto’, which will return the map data based on the IP  address of the request. The View parameter in Azure Maps must be used in compliance with applicable laws, including those  regarding mapping, of the country/region where maps, images and other data and third party content that you are authorized to  access via Azure Maps is made available. Example: view=IN.
    *
    * Please refer to [Supported Views](https://aka.ms/AzureMapsLocalizationViews) for details and to see the available Views.
    */
@@ -399,7 +399,7 @@ export interface RenderGetMapStaticImageQueryParamProperties {
    * * X and Y coordinates can be anywhere within pin image or a margin around it.
    * The margin size is the minimum of the pin width and height.
    */
-  pins?: Array<string>;
+  pins?: string;
   /**
    * Path style and locations. Use this parameter to optionally add lines, polygons or circles to the image.
    * The path style describes the appearance of the line and fill. (Be sure to properly URL-encode values of this
@@ -458,7 +458,7 @@ export interface RenderGetMapStaticImageQueryParamProperties {
    * lw        | Line width             | Greater than 0
    * ra        | Circle radius (meters) | Greater than 0
    */
-  path?: Array<string>;
+  path?: string;
 }
 
 export interface RenderGetMapStaticImageQueryParam {
@@ -473,7 +473,7 @@ export interface RenderGetCopyrightFromBoundingBoxQueryParamProperties {
   mincoordinates: Array<number>;
   /** Maximum coordinates (north-east point) of bounding box in latitude longitude coordinate system. E.g. 52.41064,4.84228 */
   maxcoordinates: Array<number>;
-  /** Yes/no value to exclude textual data from response. Only images and country names will be in response. */
+  /** Yes/no value to exclude textual data from response. Only images and country/region names will be in response. */
   text?: "yes" | "no";
 }
 
@@ -503,7 +503,7 @@ export interface RenderGetCopyrightForTileQueryParamProperties {
    * Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid) for details.
    */
   y: number;
-  /** Yes/no value to exclude textual data from response. Only images and country names will be in response. */
+  /** Yes/no value to exclude textual data from response. Only images and country/region names will be in response. */
   text?: "yes" | "no";
 }
 
@@ -515,7 +515,7 @@ export type RenderGetCopyrightForTileParameters = RenderGetCopyrightForTileQuery
   RequestParameters;
 
 export interface RenderGetCopyrightForWorldQueryParamProperties {
-  /** Yes/no value to exclude textual data from response. Only images and country names will be in response. */
+  /** Yes/no value to exclude textual data from response. Only images and country/region names will be in response. */
   text?: "yes" | "no";
 }
 

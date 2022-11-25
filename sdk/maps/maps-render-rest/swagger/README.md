@@ -74,3 +74,19 @@ directive:
         "copyrightsCaption",
       ]
 ```
+
+### Change the MultiCollection Type to Array | String
+
+`@azure-rest/core-client` doesn't support `collectionFormat: multi`. We transform the entities of this format to accept string so we can composed the query string in the `multi` format by ourselves.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.paths["/map/static/{format}"].get.parameters[12]
+    transform: >
+      $.type = "string";
+  - from: swagger-document
+    where: $.paths["/map/static/{format}"].get.parameters[13]
+    transform: >
+      $.type = "string";
+```

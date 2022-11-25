@@ -3,7 +3,7 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createWriteStream } from "fs";
-import MapsRender, { createPathQuery, createPinsQuery } from "@azure-rest/maps-render";
+import MapsRender, { createPathQuery /*, createPinsQuery*/ } from "@azure-rest/maps-render";
 
 /**
  * @summary How to get the map static image with pins and paths specified.
@@ -65,30 +65,32 @@ async function main() {
 
   /** In a more complex scenario, we can also add pins and paths on the map to make it more vivid */
   // Prepare pins sets
-  const pinsSet1 = createPinsQuery(
-    [
-      { coordinate: [52.577, 13.35], label: "Label start" },
-      { coordinate: [52.6, 13.2988], label: "Label end" },
-    ],
-    {
-      scale: 0.9,
-      pinColor: "FF0000",
-      labelColor: "0000FF",
-      labelSizeInPixels: 18,
-    }
-  );
+  // const pinsSet1 = createPinsQuery(
+  //   [
+  //     { coordinate: [52.577, 13.35], label: "Label start" },
+  //     { coordinate: [52.6, 13.2988], label: "Label end" },
+  //   ],
+  //   {
+  //     scale: 0.9,
+  //     pinColor: "FF0000",
+  //     labelColor: "0000FF",
+  //     labelSizeInPixels: 18,
+  //   }
+  // );
 
   // Prepare path
-  const path = createPathQuery(
-    [
-      [52.577, 13.35],
-      [52.6, 13.2988],
-    ],
+  const path = createPathQuery([
     {
-      lineColor: "000000",
-      lineWidthInPixels: 5,
-    }
-  );
+      coordinates: [
+        [52.577, 13.35],
+        [52.6, 13.2988],
+      ],
+      options: {
+        lineColor: "000000",
+        lineWidthInPixels: 5,
+      },
+    },
+  ]);
 
   // Make the request
   const res3 = await client
@@ -97,11 +99,11 @@ async function main() {
       queryParameters: {
         bbox: [13.228, 52.4559, 13.5794, 52.62],
         zoom: 10,
-        // TODO: core client doesn't support collectionFormat: multi now, which means passing more than one path/pinSet will cause failure.
-        // Add multiple path/pinsSet once the core-client support multi.
-        path: [path],
-        pins: [pinsSet1],
+        path,
+        // pins: [pinsSet1],
       },
+      // Need to skip the url encoding to make the path & pins works.
+      skipUrlEncoding: true,
     })
     .asNodeStream();
 
