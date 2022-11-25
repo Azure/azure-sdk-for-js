@@ -95,7 +95,7 @@ describe("Endpoint can be overwritten", function () {
   });
 });
 
-describe("Get Geometries", function () {
+describe("Get Search Polygon", function () {
   let recorder: Recorder;
   let client: MapsSearchClient;
 
@@ -108,23 +108,26 @@ describe("Get Geometries", function () {
     await recorder.stop();
   });
 
-  it("should accept string array and return geometries", async function () {
-    const geometryId: string[] = [
+  it("should accept a collection of geometry Ids and return geometry data", async function () {
+    const geometries: string[] = [
       "8bceafe8-3d98-4445-b29b-fd81d3e9adf5",
       "00005858-5800-1200-0000-0000773670cd",
     ];
     const response = await client
       .path("/search/polygon/{format}", "json")
-      .get({ queryParameters: { geometries: geometryId } });
+      .get({ queryParameters: { geometries } });
     if (isUnexpected(response)) {
       assert.fail(response.body.error?.message || "Unexpected error");
     }
-    assert.equal(response.body.additionalData?.length, geometryId.length);
-    response.body.additionalData?.forEach((g) => assert.ok(g.geometryData));
+    if (!response.body.additionalData) {
+      assert.fail("additionalData is undefined");
+    }
+    assert.equal(response.body.additionalData.length, geometries.length);
+    response.body.additionalData.forEach((g) => assert.ok(g.geometryData));
   });
 });
 
-describe("Get Point Of Interest Categories", function (this) {
+describe("Get Point Of Interest Categories", function () {
   let recorder: Recorder;
   let client: MapsSearchClient;
 
@@ -142,8 +145,11 @@ describe("Get Point Of Interest Categories", function (this) {
     if (isUnexpected(poiCategories)) {
       assert.fail(poiCategories.body.error?.message || "Unexpected error");
     }
-    assert.isAtLeast(poiCategories.body.poiCategories?.length || 0, 1);
-    poiCategories.body.poiCategories?.forEach((poiCategory) => {
+    if (!poiCategories.body.poiCategories) {
+      assert.fail("poiCategories is undefined");
+    }
+    assert.isAtLeast(poiCategories.body.poiCategories.length, 1);
+    poiCategories.body.poiCategories.forEach((poiCategory) => {
       assert.isFinite(poiCategory.id);
       assert.isString(poiCategory.name);
       assert.hasAllKeys(poiCategory, ["id", "name", "childCategoryIds", "synonyms"]);
@@ -151,7 +157,7 @@ describe("Get Point Of Interest Categories", function (this) {
   });
 });
 
-describe("Geocoding", function (this) {
+describe("Geocoding", function () {
   let recorder: Recorder;
   let client: MapsSearchClient;
 
