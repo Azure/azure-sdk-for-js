@@ -33,11 +33,11 @@ In this document, we will give a brief introduction on how to use the JavaScript
 1. Create a ts file (free name and copy follow code into this file) eg: test_1.ts
     eg：
     ```
-        import { DefaultAzureCredential } from "@azure/identity";
+        import { DefaultAzureCredentials } from "@azure/identity";
         import{ TargetManagementClient } from "@azure/arm-target";
 
         const subscriptionId = process.env.SUBSCRIPTION_ID || '';
-        const credentials=new DefaultAzureCredential();
+        const credentials = new DefaultAzureCredentials();
 
         async function test() {
             const client = new TargetManagementClient(credentials, subscriptionId);
