@@ -5,10 +5,7 @@ import { matrix } from "@azure/test-utils";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
-import {
-  PhoneNumbersListAreaCodesOptionalParams,
-  PhoneNumbersClient,
-} from "../../src";
+import { PhoneNumbersListAreaCodesOptionalParams, PhoneNumbersClient } from "../../src";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
 
 matrix([[true, false]], async function (useAad) {
@@ -29,26 +26,14 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("can list all geographic area codes", async function () {
-      var geographicAreaCodesList = [
-        {
-          areaCode: "214",
-        },
-        {
-          areaCode: "469",
-        },
-        {
-          areaCode: "972",
-        },
-        {
-          areaCode: "945",
-        },
-      ];
+      var availableLocalities = await client.listAvailableLocalities("US");
+      var locality = await availableLocalities.next();
       const request: PhoneNumbersListAreaCodesOptionalParams = {
-        locality: "Dallas",
+        locality: locality.value.localizedName
       };
       const areaCodes = await client.listAvailableGeographicAreaCodes("US", request);
       for await (var areaCode of areaCodes) {
-        assert.deepInclude(geographicAreaCodesList, areaCode);
+        assert.isNotNull(areaCode)
       }
     }).timeout(60000);
 

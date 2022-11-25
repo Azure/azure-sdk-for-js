@@ -5,10 +5,7 @@ import { matrix } from "@azure/test-utils";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
-import {
-  ListLocalitiesOptions,
-  PhoneNumbersClient,
-} from "../../src";
+import { ListLocalitiesOptions, PhoneNumbersClient } from "../../src";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
 
 matrix([[true, false]], async function (useAad) {
@@ -37,12 +34,14 @@ matrix([[true, false]], async function (useAad) {
     }).timeout(60000);
 
     it("can list available localities with administrative division", async function () {
+      var availableLocalities = await client.listAvailableLocalities("US");
+      var firstLocality = await availableLocalities.next();
       const request: ListLocalitiesOptions = {
-        administrativeDivision: "WA",
+        administrativeDivision: firstLocality.value.administrativeDivision.abbreviatedName,
       };
 
       for await (var locality of client.listAvailableLocalities("US", request)) {
-        assert.equal(locality.administrativeDivision?.abbreviatedName, "WA");
+        assert.equal(locality.administrativeDivision?.abbreviatedName, firstLocality.value.administrativeDivision.abbreviatedName);
       }
     }).timeout(60000);
   });
