@@ -1,15 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz/upgradeProfiles/default?api-version=2022-09-02-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz/upgradeProfiles/default?api-version=2022-10-02-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-containerservice/17.3.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "8b3437a3-c6e4-4375-ad6f-9a0018fc3edd"
+        "User-Agent": "azsdk-js-arm-containerservice/18.0.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "0534814e-df3d-49dd-b472-e01b39c225ce"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Thu, 24 Nov 2022 01:18:09 GMT",
+        "Date": "Fri, 25 Nov 2022 02:51:23 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "nginx",
@@ -25,10 +25,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "67e76e9d-63fd-4e8a-8237-be2f6f4f8f4e",
-        "x-ms-ratelimit-remaining-subscription-reads": "11911",
-        "x-ms-request-id": "c10da06d-2657-4894-b33b-d6e84b836d9d",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221124T011809Z:67e76e9d-63fd-4e8a-8237-be2f6f4f8f4e"
+        "x-ms-correlation-request-id": "fbc59916-bf43-4634-83e0-2c0e1149bde3",
+        "x-ms-ratelimit-remaining-subscription-reads": "11897",
+        "x-ms-request-id": "ce4342f2-7d63-4097-a5df-358eb23fd2c8",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221125T025123Z:fbc59916-bf43-4634-83e0-2c0e1149bde3"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz/upgradeprofiles/default",
