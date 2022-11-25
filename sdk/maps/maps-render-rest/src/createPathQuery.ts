@@ -137,7 +137,7 @@ function comosePathVal(coordinates: LatLon[], options: PathOptionsForRequest): s
  * @param paths - A collection of {@link PolygonalPath} and {@link CircularPath} that you want to draw on the image.
  * @param options - The options for the style of the path. See the possible options in {@link PolygonalPathOptions} and {@link CircularPathOptions}.
  */
-export function createPathQuery(paths: Array<PolygonalPath | CircularPath>) {
+export function createPathQuery(paths: Array<PolygonalPath | CircularPath>): string {
   const pathQueries = paths.map((path) => {
     if (isCircularPath(path)) {
       const { center, radiusInMeters, options } = path;
