@@ -70,7 +70,6 @@ export interface ListOfferingsOptions extends OperationOptions {
 }
 
 export {
-  AreaCodeItem,
   PhoneNumberAdministrativeDivision,
   PhoneNumberAssignmentType,
   PhoneNumberCapabilities,

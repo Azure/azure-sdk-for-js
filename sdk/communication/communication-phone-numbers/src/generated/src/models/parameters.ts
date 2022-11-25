@@ -41,12 +41,25 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const acceptLanguage: OperationParameter = {
-  parameterPath: ["options", "acceptLanguage"],
+export const countryCode: OperationURLParameter = {
+  parameterPath: "countryCode",
   mapper: {
-    serializedName: "accept-language",
+    serializedName: "countryCode",
+    required: true,
     type: {
       name: "String"
+    }
+  }
+};
+
+export const phoneNumberType: OperationQueryParameter = {
+  parameterPath: "phoneNumberType",
+  mapper: {
+    serializedName: "phoneNumberType",
+    required: true,
+    type: {
+      name: "Enum",
+      allowedValues: ["geographic", "tollFree"]
     }
   }
 };
@@ -73,50 +86,6 @@ export const maxPageSize: OperationQueryParameter = {
   }
 };
 
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2022-12-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const countryCode: OperationURLParameter = {
-  parameterPath: "countryCode",
-  mapper: {
-    serializedName: "countryCode",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const administrativeDivision: OperationQueryParameter = {
-  parameterPath: ["options", "administrativeDivision"],
-  mapper: {
-    serializedName: "administrativeDivision",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const phoneNumberType: OperationQueryParameter = {
-  parameterPath: ["options", "phoneNumberType"],
-  mapper: {
-    serializedName: "phoneNumberType",
-    type: {
-      name: "Enum",
-      allowedValues: ["geographic", "tollFree"]
-    }
-  }
-};
-
 export const assignmentType: OperationQueryParameter = {
   parameterPath: ["options", "assignmentType"],
   mapper: {
@@ -138,6 +107,49 @@ export const locality: OperationQueryParameter = {
   }
 };
 
+export const administrativeDivision: OperationQueryParameter = {
+  parameterPath: ["options", "administrativeDivision"],
+  mapper: {
+    serializedName: "administrativeDivision",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-12-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const acceptLanguage: OperationParameter = {
+  parameterPath: ["options", "acceptLanguage"],
+  mapper: {
+    serializedName: "accept-language",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const phoneNumberType1: OperationQueryParameter = {
+  parameterPath: ["options", "phoneNumberType"],
+  mapper: {
+    serializedName: "phoneNumberType",
+    type: {
+      name: "Enum",
+      allowedValues: ["geographic", "tollFree"]
+    }
+  }
+};
+
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -150,7 +162,7 @@ export const contentType: OperationParameter = {
   }
 };
 
-export const phoneNumberType1: OperationParameter = {
+export const phoneNumberType2: OperationParameter = {
   parameterPath: "phoneNumberType",
   mapper: PhoneNumberSearchRequestMapper
 };
@@ -162,16 +174,6 @@ export const assignmentType1: OperationParameter = {
 
 export const capabilities: OperationParameter = {
   parameterPath: "capabilities",
-  mapper: PhoneNumberSearchRequestMapper
-};
-
-export const locality1: OperationParameter = {
-  parameterPath: ["options", "locality"],
-  mapper: PhoneNumberSearchRequestMapper
-};
-
-export const administrativeDivision1: OperationParameter = {
-  parameterPath: ["options", "administrativeDivision"],
   mapper: PhoneNumberSearchRequestMapper
 };
 

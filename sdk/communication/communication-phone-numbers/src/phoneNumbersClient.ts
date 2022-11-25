@@ -13,7 +13,7 @@ import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
 import {
-  AreaCodeItem,
+  PhoneNumberAreaCode,
   PhoneNumberCapabilitiesRequest,
   PhoneNumberCountry,
   PhoneNumberLocality,
@@ -144,7 +144,6 @@ export class PhoneNumbersClient {
       (updatedOptions) => {
         return this.client.phoneNumbers.getByNumber(phoneNumber, {
           ...updatedOptions,
-          acceptLanguage: this.acceptLanguage,
         });
       }
     );
@@ -174,7 +173,6 @@ export class PhoneNumbersClient {
     try {
       return this.client.phoneNumbers.listPhoneNumbers({
         ...updatedOptions,
-        acceptLanguage: this.acceptLanguage,
       });
     } catch (e: any) {
       span.setStatus({
@@ -396,17 +394,17 @@ export class PhoneNumbersClient {
   public listAvailableTollFreeAreaCodes(
     countryCode: string,
     options: ListTollFreeAreaCodesOptions = {}
-  ): PagedAsyncIterableIterator<AreaCodeItem> {
+  ): PagedAsyncIterableIterator<PhoneNumberAreaCode> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-listAvailableTollFreeAreaCodes",
       options
     );
 
     try {
-      return this.client.phoneNumbers.listAreaCodes(countryCode, {
+      return this.client.phoneNumbers.listAreaCodes(countryCode, "tollFree",  {
         ...updatedOptions,
         assignmentType: "application",
-        phoneNumberType: "tollFree",
+        
       });
     } catch (e: any) {
       span.setStatus({
@@ -437,16 +435,15 @@ export class PhoneNumbersClient {
   public listAvailableGeographicAreaCodes(
     countryCode: string,
     options: ListGeographicAreaCodesOptions = {}
-  ): PagedAsyncIterableIterator<AreaCodeItem> {
+  ): PagedAsyncIterableIterator<PhoneNumberAreaCode> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-listAvailableGeographicFreeAreaCodes",
       options
     );
 
     try {
-      return this.client.phoneNumbers.listAreaCodes(countryCode, {
+      return this.client.phoneNumbers.listAreaCodes(countryCode, "geographic",{
         ...updatedOptions,
-        phoneNumberType: "geographic",
       });
     } catch (e: any) {
       span.setStatus({

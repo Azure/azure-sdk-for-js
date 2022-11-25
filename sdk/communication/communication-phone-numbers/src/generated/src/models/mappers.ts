@@ -8,19 +8,20 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const PhoneNumberCountries: coreClient.CompositeMapper = {
+export const PhoneNumberAreaCodes: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "PhoneNumberCountries",
+    className: "PhoneNumberAreaCodes",
     modelProperties: {
-      countries: {
-        serializedName: "countries",
+      areaCodes: {
+        serializedName: "areaCodes",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "PhoneNumberCountry"
+              className: "PhoneNumberAreaCode"
             }
           }
         }
@@ -35,21 +36,13 @@ export const PhoneNumberCountries: coreClient.CompositeMapper = {
   }
 };
 
-export const PhoneNumberCountry: coreClient.CompositeMapper = {
+export const PhoneNumberAreaCode: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "PhoneNumberCountry",
+    className: "PhoneNumberAreaCode",
     modelProperties: {
-      localizedName: {
-        serializedName: "localizedName",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      countryCode: {
-        serializedName: "countryCode",
-        required: true,
+      areaCode: {
+        serializedName: "areaCode",
         type: {
           name: "String"
         }
@@ -118,6 +111,56 @@ export const CommunicationError: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CommunicationError"
+        }
+      }
+    }
+  }
+};
+
+export const PhoneNumberCountries: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PhoneNumberCountries",
+    modelProperties: {
+      countries: {
+        serializedName: "countries",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PhoneNumberCountry"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PhoneNumberCountry: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PhoneNumberCountry",
+    modelProperties: {
+      localizedName: {
+        serializedName: "localizedName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      countryCode: {
+        serializedName: "countryCode",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -197,53 +240,10 @@ export const PhoneNumberAdministrativeDivision: coreClient.CompositeMapper = {
   }
 };
 
-export const AreaCodes: coreClient.CompositeMapper = {
+export const OfferingsResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AreaCodes",
-    modelProperties: {
-      areaCodes: {
-        serializedName: "areaCodes",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AreaCodeItem"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AreaCodeItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AreaCodeItem",
-    modelProperties: {
-      areaCode: {
-        serializedName: "areaCode",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PhoneNumberOfferings: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PhoneNumberOfferings",
+    className: "OfferingsResponse",
     modelProperties: {
       phoneNumberOfferings: {
         serializedName: "phoneNumberOfferings",
@@ -382,18 +382,6 @@ export const PhoneNumberSearchRequest: coreClient.CompositeMapper = {
           className: "PhoneNumberCapabilities"
         }
       },
-      locality: {
-        serializedName: "locality",
-        type: {
-          name: "String"
-        }
-      },
-      administrativeDivision: {
-        serializedName: "administrativeDivision",
-        type: {
-          name: "String"
-        }
-      },
       areaCode: {
         serializedName: "areaCode",
         type: {
@@ -498,6 +486,13 @@ export const PhoneNumberOperation: coreClient.CompositeMapper = {
     name: "Composite",
     className: "PhoneNumberOperation",
     modelProperties: {
+      operationType: {
+        serializedName: "operationType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
       status: {
         serializedName: "status",
         required: true,
@@ -527,13 +522,6 @@ export const PhoneNumberOperation: coreClient.CompositeMapper = {
       },
       id: {
         serializedName: "id",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      operationType: {
-        serializedName: "operationType",
         required: true,
         type: {
           name: "String"
