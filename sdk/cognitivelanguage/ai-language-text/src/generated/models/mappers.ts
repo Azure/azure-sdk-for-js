@@ -1025,10 +1025,10 @@ export const HealthcareRelationEntity: coreClient.CompositeMapper = {
   }
 };
 
-export const DocumentDetectedLanguageForHealthcare: coreClient.CompositeMapper = {
+export const DocumentDetectedLanguageString: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DocumentDetectedLanguageForHealthcare",
+    className: "DocumentDetectedLanguageString",
     modelProperties: {
       detectedLanguage: {
         serializedName: "detectedLanguage",
@@ -1454,6 +1454,22 @@ export const Match: coreClient.CompositeMapper = {
   }
 };
 
+export const QuantityResolution: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QuantityResolution",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const SummarySentence: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1592,22 +1608,6 @@ export const SummaryContext: coreClient.CompositeMapper = {
       },
       length: {
         serializedName: "length",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const QuantityResolution: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "QuantityResolution",
-    modelProperties: {
-      value: {
-        serializedName: "value",
         required: true,
         type: {
           name: "Number"
@@ -2310,7 +2310,7 @@ export const CurrencyResolution: coreClient.CompositeMapper = {
       ...BaseResolution.type.modelProperties,
       ...QuantityResolution.type.modelProperties,
       iso4217: {
-        serializedName: "ISO4217",
+        serializedName: "iso4217",
         type: {
           name: "String"
         }
@@ -2406,7 +2406,7 @@ export const NumberResolution: coreClient.CompositeMapper = {
         serializedName: "value",
         required: true,
         type: {
-          name: "String"
+          name: "Number"
         }
       }
     }
@@ -2575,8 +2575,31 @@ export const ClassificationDocumentResult: coreClient.CompositeMapper = {
     className: "ClassificationDocumentResult",
     modelProperties: {
       ...DocumentResult.type.modelProperties,
-      class: {
+      classifications: {
         serializedName: "class",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ClassificationCategory"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DynamicClassificationDocumentResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DynamicClassificationDocumentResult",
+    modelProperties: {
+      ...DocumentResult.type.modelProperties,
+      classifications: {
+        serializedName: "classifications",
         required: true,
         type: {
           name: "Sequence",
@@ -2844,10 +2867,10 @@ export const SentimentResponseDocumentsItem: coreClient.CompositeMapper = {
   }
 };
 
-export const EntitiesResultDocumentsItem: coreClient.CompositeMapper = {
+export const EntitiesResultWithDetectedLanguage: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "EntitiesResultDocumentsItem",
+    className: "EntitiesResultWithDetectedLanguage",
     modelProperties: {
       ...EntitiesDocumentResult.type.modelProperties,
       ...DocumentDetectedLanguage.type.modelProperties
@@ -2855,10 +2878,10 @@ export const EntitiesResultDocumentsItem: coreClient.CompositeMapper = {
   }
 };
 
-export const EntityLinkingResultDocumentsItem: coreClient.CompositeMapper = {
+export const EntityLinkingResultWithDetectedLanguage: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "EntityLinkingResultDocumentsItem",
+    className: "EntityLinkingResultWithDetectedLanguage",
     modelProperties: {
       ...LinkedEntitiesDocumentResult.type.modelProperties,
       ...DocumentDetectedLanguage.type.modelProperties
@@ -2866,10 +2889,10 @@ export const EntityLinkingResultDocumentsItem: coreClient.CompositeMapper = {
   }
 };
 
-export const PiiResultDocumentsItem: coreClient.CompositeMapper = {
+export const PIIResultWithDetectedLanguage: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "PiiResultDocumentsItem",
+    className: "PIIResultWithDetectedLanguage",
     modelProperties: {
       ...PiiEntitiesDocumentResult.type.modelProperties,
       ...DocumentDetectedLanguage.type.modelProperties
@@ -2910,13 +2933,13 @@ export const AbstractiveSummaryDocumentResultWithDetectedLanguage: coreClient.Co
   }
 };
 
-export const HealthcareResultDocumentsItem: coreClient.CompositeMapper = {
+export const HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "HealthcareResultDocumentsItem",
+    className: "HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage",
     modelProperties: {
       ...HealthcareEntitiesDocumentResult.type.modelProperties,
-      ...DocumentDetectedLanguageForHealthcare.type.modelProperties
+      ...DocumentDetectedLanguageString.type.modelProperties
     }
   }
 };
@@ -2935,7 +2958,8 @@ export const HealthcareResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "HealthcareResultDocumentsItem"
+              className:
+                "HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage"
             }
           }
         }
@@ -2981,7 +3005,7 @@ export const EntitiesResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "EntitiesResultDocumentsItem"
+              className: "EntitiesResultWithDetectedLanguage"
             }
           }
         }
@@ -3004,7 +3028,7 @@ export const EntityLinkingResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "EntityLinkingResultDocumentsItem"
+              className: "EntityLinkingResultWithDetectedLanguage"
             }
           }
         }
@@ -3027,7 +3051,7 @@ export const PiiResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PiiResultDocumentsItem"
+              className: "PIIResultWithDetectedLanguage"
             }
           }
         }
@@ -3848,7 +3872,7 @@ export const DynamicClassificationResultDocumentsItem: coreClient.CompositeMappe
     name: "Composite",
     className: "DynamicClassificationResultDocumentsItem",
     modelProperties: {
-      ...ClassificationDocumentResult.type.modelProperties
+      ...DynamicClassificationDocumentResult.type.modelProperties
     }
   }
 };

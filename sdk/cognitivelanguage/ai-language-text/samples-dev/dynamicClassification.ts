@@ -2,8 +2,11 @@
 // Licensed under the MIT License.
 
 /**
- * On the fly classification of the input documents into one or multiple categories. Assigns either one or multiple categories per document.
-
+ * On the fly classification of the input documents into one or multiple
+ * categories. Assigns either one or multiple categories per document. The
+ * dynamic classification feature is part of a gated preview. Access can be
+ * requested in {@link https://aka.ms/applyforgatedlanguagefeature}
+ *
  *
  * @summary assigns either one or multiple categories per document.
  * @azsdk-weight 100

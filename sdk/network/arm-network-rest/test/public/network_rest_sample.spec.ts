@@ -39,6 +39,7 @@ const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: "azure_subscription_id",
+  RESOURCE_GROUP_NAME: "azure_resource_group",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -67,7 +68,7 @@ describe("Network test", () => {
     const credential = createTestCredential();
     client = createTestNetworkManagementClient(recorder, credential);
     location = "eastus";
-    resourceGroupName = "myjstest";
+    resourceGroupName = env.RESOURCE_GROUP_NAME || "myjstest";
     virtualNetworkName = "virtualnetworkzzz";
     subnet_name = "subnetnamexx";
     ipGroupName = "ipgroupyyy";

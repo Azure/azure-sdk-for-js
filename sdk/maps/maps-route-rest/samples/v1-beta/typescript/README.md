@@ -77,9 +77,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [matrix]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-route-rest/samples/v1-beta/typescript/src/matrix.ts
 [range]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-route-rest/samples/v1-beta/typescript/src/range.ts
 [resumelro]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-route-rest/samples/v1-beta/typescript/src/resumeLro.ts
-
-<!-- [apiref]: https://docs.microsoft.com/javascript/api/@azure/maps-route -->
-
+[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/maps-route
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuremapsresource]: https://docs.microsoft.com/azure/azure-maps/how-to-create-template
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/README.md

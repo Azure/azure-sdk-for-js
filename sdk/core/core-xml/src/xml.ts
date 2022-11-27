@@ -4,7 +4,12 @@
 import { XMLBuilder, XMLParser, XMLValidator } from "fast-xml-parser";
 import { XML_ATTRKEY, XML_CHARKEY, XmlOptions } from "./xml.common";
 
-function getCommonOptions(options: XmlOptions) {
+function getCommonOptions(options: XmlOptions): {
+  attributesGroupName: string;
+  textNodeName: string;
+  ignoreAttributes: boolean;
+  suppressBooleanAttributes: boolean;
+} {
   return {
     attributesGroupName: XML_ATTRKEY,
     textNodeName: options.xmlCharKey ?? XML_CHARKEY,
@@ -13,7 +18,18 @@ function getCommonOptions(options: XmlOptions) {
   };
 }
 
-function getSerializerOptions(options: XmlOptions = {}) {
+function getSerializerOptions(options: XmlOptions = {}): {
+  attributesGroupName: string;
+  textNodeName: string;
+  ignoreAttributes: boolean;
+  suppressBooleanAttributes: boolean;
+  attributeNamePrefix: string;
+  format: boolean;
+  suppressEmptyNode: boolean;
+  indentBy: string;
+  rootNodeName: string;
+  cdataPropName: string;
+} {
   return {
     ...getCommonOptions(options),
     attributeNamePrefix: "@_",
@@ -25,7 +41,17 @@ function getSerializerOptions(options: XmlOptions = {}) {
   };
 }
 
-function getParserOptions(options: XmlOptions = {}) {
+function getParserOptions(options: XmlOptions = {}): {
+  attributesGroupName: string;
+  textNodeName: string;
+  ignoreAttributes: boolean;
+  suppressBooleanAttributes: boolean;
+  parseAttributeValue: boolean;
+  parseTagValue: boolean;
+  attributeNamePrefix: string;
+  stopNodes?: string[];
+  processEntities: boolean;
+} {
   return {
     ...getCommonOptions(options),
     parseAttributeValue: false,
@@ -87,7 +113,7 @@ export async function parseXML(str: string, opts: XmlOptions = {}): Promise<any>
   return parsedXml;
 }
 
-function unescapeHTML(str: string) {
+function unescapeHTML(str: string): string {
   return str
     .replace(/&amp;/g, "&")
     .replace(/&lt;/g, "<")
