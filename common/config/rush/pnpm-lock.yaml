@@ -3573,8 +3573,8 @@ packages:
       yargs: 16.2.0
     dev: false
 
-  /concurrently/7.5.0:
-    resolution: {integrity: sha512-5E3mwiS+i2JYBzr5BpXkFxOnleZTMsG+WnE/dCG4/P+oiVXrbmrBwJ2ozn4SxwB2EZDrKR568X+puVohxz3/Mg==}
+  /concurrently/7.6.0:
+    resolution: {integrity: sha512-BKtRgvcJGeZ4XttiDiNcFiRlxoAeZOseqUvyYRUp/Vtd+9p1ULmeoSqGsDA+2ivdeDFpqrJvGvmI+StKfKl5hw==}
     engines: {node: ^12.20.0 || ^14.13.0 || >=16.0.0}
     hasBin: true
     dependencies:
@@ -16826,7 +16826,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-XFXg3oREXtYWHf3BKiuT/6XqfPZRC6fgCCRbU2gPcN5Q9OcsGEmE7UxUnCpmybxXv4bcoVV2t18ReONSB/jZoQ==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-wR4KWKkCAcA1fJaaiaMu0DFvEKJdAU4FQBIxskPZSsI33nPkbU/lc8jcxQgIcOCuGN1I3IyIARHYOJPbTCyigg==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -16845,7 +16845,7 @@ packages:
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
       chalk: 4.1.2
-      concurrently: 7.5.0
+      concurrently: 7.6.0
       dotenv: 16.0.3
       eslint: 8.27.0
       fs-extra: 10.1.0
@@ -19840,7 +19840,7 @@ packages:
       '@types/node': 14.18.33
       '@types/uuid': 8.3.4
       chai: 4.3.6
-      concurrently: 7.5.0
+      concurrently: 7.6.0
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 8.27.0
