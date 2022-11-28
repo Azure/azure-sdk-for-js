@@ -3987,7 +3987,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221127
+      typescript: 5.0.0-dev.20221128
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8992,8 +8992,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221127:
-    resolution: {integrity: sha512-BiiOmTz96U8xt8azvXiHbSKCA+XAY2Ke5p+hpvGHWk2NSrOguWMzK5vwqdNQ7J6jH76yBwbQkEqqvafY8rH9BQ==}
+  /typescript/5.0.0-dev.20221128:
+    resolution: {integrity: sha512-cNV/osEHGNKTyjj/Ivi8s8x7MPkh0Kd/t53QjyXfM3jO3cC2jhL6kor57ziWqvyfl6paWjdNUVO/jxGsQOyfug==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -12461,7 +12461,7 @@ packages:
     dev: false
 
   file:projects/arm-hardwaresecuritymodules.tgz:
-    resolution: {integrity: sha512-xbgmdm1SjdlRR77W6XUxjFLvo+kImSq7tPIDZdc0FNdv5UGtuSRU8bw6S+UD3S8ky3pr9+uy8qSi2ITHG/e/TQ==, tarball: file:projects/arm-hardwaresecuritymodules.tgz}
+    resolution: {integrity: sha512-FxWV1fe5OsH6cL7BUyB+M6qfQIeJg9pB53p3RUKJ5h71h6/uW4PQNjoCde8fe9NU3lB/cFzaFLYnATaoK3Fsew==, tarball: file:projects/arm-hardwaresecuritymodules.tgz}
     name: '@rush-temp/arm-hardwaresecuritymodules'
     version: 0.0.0
     dependencies:
@@ -12472,18 +12472,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      '@types/node': 14.18.33
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -13917,7 +13918,7 @@ packages:
     dev: false
 
   file:projects/arm-policy.tgz:
-    resolution: {integrity: sha512-8WtqMPYlSxYPqzcoBEVlsZPy9r7ZZRE472Vnm3oCss0iGVxGjmzq4D6/G7pe/8SEQIs/03HuZrIjiasLcWvshQ==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-sAjFObFBIGRIvYQyygbactKT79Tkyogw3KqN2K4Ajisw5m3rZFa44VWnvRHz+GzkcpDG0x5cGpg1dgXpqKe2MA==, tarball: file:projects/arm-policy.tgz}
     name: '@rush-temp/arm-policy'
     version: 0.0.0
     dependencies:
