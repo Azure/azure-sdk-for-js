@@ -27,6 +27,7 @@ export async function assertActionsResults(
         "deploymentName",
         "projectName",
         "confidenceScore",
+        "confidenceScores",
         ...excludedAdditionalProps,
       ] as any);
     }
@@ -69,6 +70,6 @@ export function assertActionResults<T>(
     excludedAdditionalProps?: string[];
   } = {}
 ): void {
-  const { excludedAdditionalProps = ["confidenceScore"] } = options;
+  const { excludedAdditionalProps = ["confidenceScore", "confidentScores"] } = options;
   assert.deepEqualExcludingEvery(result, expectation, excludedAdditionalProps as any);
 }
