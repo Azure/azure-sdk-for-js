@@ -322,6 +322,7 @@ specifiers:
   '@rush-temp/testing-recorder-new': file:./projects/testing-recorder-new.tgz
   '@rush-temp/video-analyzer-edge': file:./projects/video-analyzer-edge.tgz
   '@rush-temp/web-pubsub': file:./projects/web-pubsub.tgz
+  '@rush-temp/web-pubsub-client': file:./projects/web-pubsub-client.tgz
   '@rush-temp/web-pubsub-express': file:./projects/web-pubsub-express.tgz
 
 dependencies:
@@ -646,6 +647,7 @@ dependencies:
   '@rush-temp/testing-recorder-new': file:projects/testing-recorder-new.tgz
   '@rush-temp/video-analyzer-edge': file:projects/video-analyzer-edge.tgz
   '@rush-temp/web-pubsub': file:projects/web-pubsub.tgz
+  '@rush-temp/web-pubsub-client': file:projects/web-pubsub-client.tgz
   '@rush-temp/web-pubsub-express': file:projects/web-pubsub-express.tgz
 
 packages:
@@ -982,6 +984,24 @@ packages:
   /@azure/core-rest-pipeline/1.10.0:
     resolution: {integrity: sha512-m6c4iAalfaf6sytOOQhLKFprEHSkSjQuRgkW7MTMnAN+GENDDL4XZJp7WKFnq9VpKUE+ggq+rp5xX9GI93lumw==}
     engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.4.0
+      '@azure/core-tracing': 1.0.1
+      '@azure/core-util': 1.1.1
+      '@azure/logger': 1.0.3
+      form-data: 4.0.0
+      http-proxy-agent: 5.0.0
+      https-proxy-agent: 5.0.1
+      tslib: 2.4.1
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/core-rest-pipeline/1.9.2:
+    resolution: {integrity: sha512-8rXI6ircjenaLp+PkOFpo37tQ1PQfztZkfVj97BIF3RPxHAsoVSgkJtu3IK/bUEWcb7HzXSoyBe06M7ODRkRyw==}
+    engines: {node: '>=12.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.4.0
@@ -1358,6 +1378,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/web-pubsub/1.1.0:
+    resolution: {integrity: sha512-tGXFNw6UI6D2dl1EoPX/BAdkZWCnk3JI5QIyRp3wzmcWfZuXXAYXlKs3Hb1gWm3wbxZ1xf0Po5CQxqHhRW/zMw==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.4.0
+      '@azure/core-client': 1.6.1
+      '@azure/core-rest-pipeline': 1.10.0
+      '@azure/core-tracing': 1.0.1
+      '@azure/logger': 1.0.3
+      jsonwebtoken: 8.5.1
+      tslib: 2.4.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@babel/code-frame/7.12.11:
     resolution: {integrity: sha512-Zt1yodBx1UcyiePMSkWnU4hPqhwq7hGi2nFL1LeA3EUl+q2LQx16MISgJ0+z7dnmgvP9QtIleuETGOiOH1RcIw==}
     dependencies:
@@ -1700,12 +1735,38 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: false
 
+  /@microsoft/api-extractor-model/7.13.9:
+    resolution: {integrity: sha512-t/XKTr8MlHRWgDr1fkyCzTQRR5XICf/WzIFs8yw1JLU8Olw99M3by4/dtpOZNskfqoW+J8NwOxovduU2csi4Ww==}
+    dependencies:
+      '@microsoft/tsdoc': 0.13.2
+      '@microsoft/tsdoc-config': 0.15.2
+      '@rushstack/node-core-library': 3.41.0
+    dev: false
+
   /@microsoft/api-extractor-model/7.25.2:
     resolution: {integrity: sha512-+h1uCrLQXFAKMUdghhdDcnniDB+6UA/lS9ArlB4QZQ34UbLuXNy2oQ6fafFK8cKXU4mUPTF/yGRjv7JKD5L7eg==}
     dependencies:
       '@microsoft/tsdoc': 0.14.2
       '@microsoft/tsdoc-config': 0.16.2
       '@rushstack/node-core-library': 3.53.2
+    dev: false
+
+  /@microsoft/api-extractor/7.18.11:
+    resolution: {integrity: sha512-WfN5MZry4TrF60OOcGadFDsGECF9JNKNT+8P/8crYAumAYQRitI2cUiQRlCWrgmFgCWNezsNZeI/2BggdnUqcg==}
+    hasBin: true
+    dependencies:
+      '@microsoft/api-extractor-model': 7.13.9
+      '@microsoft/tsdoc': 0.13.2
+      '@microsoft/tsdoc-config': 0.15.2
+      '@rushstack/node-core-library': 3.41.0
+      '@rushstack/rig-package': 0.3.1
+      '@rushstack/ts-command-line': 4.9.1
+      colors: 1.2.5
+      lodash: 4.17.21
+      resolve: 1.17.0
+      semver: 7.3.8
+      source-map: 0.6.1
+      typescript: 4.4.4
     dev: false
 
   /@microsoft/api-extractor/7.33.5:
@@ -1726,6 +1787,15 @@ packages:
       typescript: 4.8.4
     dev: false
 
+  /@microsoft/tsdoc-config/0.15.2:
+    resolution: {integrity: sha512-mK19b2wJHSdNf8znXSMYVShAHktVr/ib0Ck2FA3lsVBSEhSI/TfXT7DJQkAYgcztTuwazGcg58ZjYdk0hTCVrA==}
+    dependencies:
+      '@microsoft/tsdoc': 0.13.2
+      ajv: 6.12.6
+      jju: 1.4.0
+      resolve: 1.19.0
+    dev: false
+
   /@microsoft/tsdoc-config/0.16.2:
     resolution: {integrity: sha512-OGiIzzoBLgWWR0UdRJX98oYO+XKGf7tiK4Zk6tQ/E4IJqGCe7dvkTvgDZV5cFJUzLGDOjeAXrnZoA6QkVySuxw==}
     dependencies:
@@ -1733,6 +1803,10 @@ packages:
       ajv: 6.12.6
       jju: 1.4.0
       resolve: 1.19.0
+    dev: false
+
+  /@microsoft/tsdoc/0.13.2:
+    resolution: {integrity: sha512-WrHvO8PDL8wd8T2+zBGKrMwVL5IyzR3ryWUsl0PXgEV0QHup4mTLi0QcATefGI6Gx9Anu7vthPyyyLpY0EpiQg==}
     dev: false
 
   /@microsoft/tsdoc/0.14.2:
@@ -2236,6 +2310,20 @@ packages:
       rollup: 2.79.1
     dev: false
 
+  /@rushstack/node-core-library/3.41.0:
+    resolution: {integrity: sha512-JxdmqR+SHU04jTDaZhltMZL3/XTz2ZZM47DTN+FSPUGUVp6WmxLlvJnT5FoHrOZWUjL/FoIlZUdUPTSXjTjIcg==}
+    dependencies:
+      '@types/node': 12.20.24
+      colors: 1.2.5
+      fs-extra: 7.0.1
+      import-lazy: 4.0.0
+      jju: 1.4.0
+      resolve: 1.17.0
+      semver: 7.3.8
+      timsort: 0.3.0
+      z-schema: 3.18.4
+    dev: false
+
   /@rushstack/node-core-library/3.53.2:
     resolution: {integrity: sha512-FggLe5DQs0X9MNFeJN3/EXwb+8hyZUTEp2i+V1e8r4Va4JgkjBNY0BuEaQI+3DW6S4apV3UtXU3im17MSY00DA==}
     dependencies:
@@ -2249,6 +2337,13 @@ packages:
       z-schema: 5.0.4
     dev: false
 
+  /@rushstack/rig-package/0.3.1:
+    resolution: {integrity: sha512-DXQmrPWOCNoE2zPzHCShE1y47FlgbAg48wpaY058Qo/yKDzL0GlEGf5Ra2NIt22pMcp0R/HHh+kZGbqTnF4CrA==}
+    dependencies:
+      resolve: 1.17.0
+      strip-json-comments: 3.1.1
+    dev: false
+
   /@rushstack/rig-package/0.3.17:
     resolution: {integrity: sha512-nxvAGeIMnHl1LlZSQmacgcRV4y1EYtgcDIrw6KkeVjudOMonlxO482PhDj3LVZEp6L7emSf6YSO2s5JkHlwfZA==}
     dependencies:
@@ -2258,6 +2353,15 @@ packages:
 
   /@rushstack/ts-command-line/4.13.0:
     resolution: {integrity: sha512-crLT31kl+qilz0eBRjqqYO06CqwbElc0EvzS6jI69B9Ikt1SkkSzIZ2iDP7zt/rd1ZYipKIS9hf9CQR9swDIKg==}
+    dependencies:
+      '@types/argparse': 1.0.38
+      argparse: 1.0.10
+      colors: 1.2.5
+      string-argv: 0.3.1
+    dev: false
+
+  /@rushstack/ts-command-line/4.9.1:
+    resolution: {integrity: sha512-zzoWB6OqVbMjnxlxbAUqbZqDWITUSHqwFCx7JbH5CVrjR9kcsB4NeWkN1I8GcR92beiOGvO3yPlB2NRo5Ugh+A==}
     dependencies:
       '@types/argparse': 1.0.38
       argparse: 1.0.10
@@ -3987,7 +4091,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221127
+      typescript: 5.0.0-dev.20221128
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -6722,6 +6826,11 @@ packages:
       normalize-path: 2.1.1
     dev: false
 
+  /mock-socket/9.1.5:
+    resolution: {integrity: sha512-3DeNIcsQixWHHKk6NdoBhWI4t1VMj5/HzfnI1rE/pLl5qKx7+gd4DNA07ehTaZ6MoUU053si6Hd+YtiM/tQZfg==}
+    engines: {node: '>= 8'}
+    dev: false
+
   /module-details-from-path/1.0.3:
     resolution: {integrity: sha512-ySViT69/76t8VhE1xXHK6Ch4NcDd26gx0MzKXLO+F7NOtnqH68d9zF94nT8ZWSxXh8ELOERsnJO/sWt1xZYw5A==}
     dev: false
@@ -8636,6 +8745,10 @@ packages:
       xtend: 4.0.2
     dev: false
 
+  /timsort/0.3.0:
+    resolution: {integrity: sha512-qsdtZH+vMoCARQtyod4imc2nIJwg9Cc7lPRrw9CzF8ZKR0khdr8+2nX80PBhET3tcyTtJDxAffGh2rXH4tyU8A==}
+    dev: false
+
   /tmp/0.0.33:
     resolution: {integrity: sha512-jRCJlojKnZ3addtTOjdIqoRuPEKBvNXcGYqzO6zWZX8KfKEpnGY5jfggJQ3EjKuu8D4bJRr0y+cYJFmYbImXGw==}
     engines: {node: '>=0.6.0'}
@@ -8980,6 +9093,12 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript/4.4.4:
+    resolution: {integrity: sha512-DqGhF5IKoBl8WNf8C1gu8q0xZSInh9j1kJJMqT3a94w1JzVaBU4EXOSMrz9yDqMT0xt3selp83fuFMQ0uzv6qA==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: false
+
   /typescript/4.6.4:
     resolution: {integrity: sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==}
     engines: {node: '>=4.2.0'}
@@ -8992,8 +9111,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221127:
-    resolution: {integrity: sha512-BiiOmTz96U8xt8azvXiHbSKCA+XAY2Ke5p+hpvGHWk2NSrOguWMzK5vwqdNQ7J6jH76yBwbQkEqqvafY8rH9BQ==}
+  /typescript/5.0.0-dev.20221128:
+    resolution: {integrity: sha512-cNV/osEHGNKTyjj/Ivi8s8x7MPkh0Kd/t53QjyXfM3jO3cC2jhL6kor57ziWqvyfl6paWjdNUVO/jxGsQOyfug==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9157,6 +9276,11 @@ packages:
     engines: {node: '>= 0.10'}
     dev: false
 
+  /validator/8.2.0:
+    resolution: {integrity: sha512-Yw5wW34fSv5spzTXNkokD6S6/Oq92d8q/t14TqsS3fAiA1RYnxSFSIZ+CY3n6PGGRCq5HhJTSepQvFUS2QUDxA==}
+    engines: {node: '>= 0.10'}
+    dev: false
+
   /vary/1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
@@ -9304,6 +9428,19 @@ packages:
     resolution: {integrity: sha512-zmhltoSR8u1cnDsD43TX59mzoMZsLKqUweyYBAIvTngR3shc0W6aOZylZmq/7hqyVxPdi+5Ud2QInblgyE72fw==}
     dependencies:
       async-limiter: 1.0.1
+    dev: false
+
+  /ws/7.5.9:
+    resolution: {integrity: sha512-F+P9Jil7UiSKSkppIiD94dN07AwvFixvLIj1Og1Rl9GGMuNipJnV9JzjD6XuqmAeiswGvUmNLjr5cFuXwNS77Q==}
+    engines: {node: '>=8.3.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: ^5.0.2
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
     dev: false
 
   /ws/8.10.0:
@@ -9536,6 +9673,17 @@ packages:
   /yocto-queue/0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+    dev: false
+
+  /z-schema/3.18.4:
+    resolution: {integrity: sha512-DUOKC/IhbkdLKKiV89gw9DUauTV8U/8yJl1sjf6MtDmzevLKOF2duNJ495S3MFVjqZarr+qNGCPbkg4mu4PpLw==}
+    hasBin: true
+    dependencies:
+      lodash.get: 4.4.2
+      lodash.isequal: 4.5.0
+      validator: 8.2.0
+    optionalDependencies:
+      commander: 2.20.3
     dev: false
 
   /z-schema/5.0.4:
@@ -13917,7 +14065,7 @@ packages:
     dev: false
 
   file:projects/arm-policy.tgz:
-    resolution: {integrity: sha512-8WtqMPYlSxYPqzcoBEVlsZPy9r7ZZRE472Vnm3oCss0iGVxGjmzq4D6/G7pe/8SEQIs/03HuZrIjiasLcWvshQ==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-sAjFObFBIGRIvYQyygbactKT79Tkyogw3KqN2K4Ajisw5m3rZFa44VWnvRHz+GzkcpDG0x5cGpg1dgXpqKe2MA==, tarball: file:projects/arm-policy.tgz}
     name: '@rush-temp/arm-policy'
     version: 0.0.0
     dependencies:
@@ -20023,6 +20171,63 @@ packages:
       tslib: 2.4.1
       typescript: 4.6.4
       util: 0.12.5
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/web-pubsub-client.tgz:
+    resolution: {integrity: sha512-QnOH3TZtNwj0M/MIVwCMPsFkTkR/jxLAnMaDzz4rTIAi7asdJ4QpcVjF0JmGo8TCpyIMEDkk+1pSJ/huiFzVsg==, tarball: file:projects/web-pubsub-client.tgz}
+    name: '@rush-temp/web-pubsub-client'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/core-rest-pipeline': 1.9.2
+      '@azure/web-pubsub': 1.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@types/chai': 4.3.3
+      '@types/express': 4.17.14
+      '@types/express-serve-static-core': 4.17.31
+      '@types/jsonwebtoken': 8.5.9
+      '@types/mocha': 7.0.2
+      '@types/node': 12.20.55
+      '@types/sinon': 9.0.11
+      '@types/ws': 7.4.7
+      chai: 4.3.6
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 8.27.0
+      esm: 3.2.25
+      express: 4.18.2
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.1
+      karma-json-preprocessor: 0.3.3_karma@6.4.1
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 2.1.1_mocha@7.2.0
+      mock-socket: 9.1.5
+      nyc: 15.1.0
+      prettier: 2.7.1
+      puppeteer: 14.4.1
+      rimraf: 3.0.2
+      sinon: 9.2.4
+      source-map-support: 0.5.21
+      tslib: 2.4.1
+      typescript: 4.6.4
+      util: 0.12.5
+      ws: 7.5.9
     transitivePeerDependencies:
       - bufferutil
       - debug
