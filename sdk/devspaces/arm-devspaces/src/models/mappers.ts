@@ -326,6 +326,7 @@ export const OrchestratorSpecificConnectionDetails: coreClient.CompositeMapper =
     modelProperties: {
       instanceType: {
         serializedName: "instanceType",
+        required: true,
         readOnly: true,
         type: {
           name: "String"

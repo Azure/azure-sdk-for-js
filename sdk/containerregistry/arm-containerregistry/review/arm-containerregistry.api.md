@@ -36,13 +36,13 @@ export interface Actor {
 }
 
 // @public
-export type AgentPool = Resource & {
+export interface AgentPool extends Resource {
     count?: number;
-    tier?: string;
     os?: OS;
-    virtualNetworkSubnetResourceId?: string;
     readonly provisioningState?: ProvisioningState;
-};
+    tier?: string;
+    virtualNetworkSubnetResourceId?: string;
+}
 
 // @public
 export interface AgentPoolListResult {
@@ -284,20 +284,20 @@ export interface ConnectedRegistriesUpdateOptionalParams extends coreClient.Oper
 export type ConnectedRegistriesUpdateResponse = ConnectedRegistry;
 
 // @public
-export type ConnectedRegistry = ProxyResource & {
-    readonly provisioningState?: ProvisioningState;
-    mode?: ConnectedRegistryMode;
-    readonly version?: string;
+export interface ConnectedRegistry extends ProxyResource {
+    readonly activation?: ActivationProperties;
+    clientTokenIds?: string[];
     readonly connectionState?: ConnectionState;
     readonly lastActivityTime?: Date;
-    readonly activation?: ActivationProperties;
-    parent?: ParentProperties;
-    clientTokenIds?: string[];
-    loginServer?: LoginServerProperties;
     logging?: LoggingProperties;
-    readonly statusDetails?: StatusDetailProperties[];
+    loginServer?: LoginServerProperties;
+    mode?: ConnectedRegistryMode;
     notificationsList?: string[];
-};
+    parent?: ParentProperties;
+    readonly provisioningState?: ProvisioningState;
+    readonly statusDetails?: StatusDetailProperties[];
+    readonly version?: string;
+}
 
 // @public
 export interface ConnectedRegistryListResult {
@@ -389,71 +389,71 @@ export interface CustomRegistryCredentials {
 export type DefaultAction = string;
 
 // @public
-export type DockerBuildRequest = RunRequest & {
+export interface DockerBuildRequest extends RunRequest {
+    agentConfiguration?: AgentProperties;
+    arguments?: Argument[];
+    credentials?: Credentials;
+    dockerFilePath: string;
+    imageNames?: string[];
+    isPushEnabled?: boolean;
+    noCache?: boolean;
+    platform: PlatformProperties;
+    sourceLocation?: string;
+    target?: string;
+    timeout?: number;
     type: "DockerBuildRequest";
-    imageNames?: string[];
-    isPushEnabled?: boolean;
-    noCache?: boolean;
-    dockerFilePath: string;
-    target?: string;
-    arguments?: Argument[];
-    timeout?: number;
-    platform: PlatformProperties;
-    agentConfiguration?: AgentProperties;
-    sourceLocation?: string;
-    credentials?: Credentials;
-};
+}
 
 // @public
-export type DockerBuildStep = TaskStepProperties & {
-    type: "Docker";
+export interface DockerBuildStep extends TaskStepProperties {
+    arguments?: Argument[];
+    dockerFilePath: string;
     imageNames?: string[];
     isPushEnabled?: boolean;
     noCache?: boolean;
-    dockerFilePath: string;
     target?: string;
-    arguments?: Argument[];
-};
+    type: "Docker";
+}
 
 // @public
-export type DockerBuildStepUpdateParameters = TaskStepUpdateParameters & {
-    type: "Docker";
-    imageNames?: string[];
-    isPushEnabled?: boolean;
-    noCache?: boolean;
+export interface DockerBuildStepUpdateParameters extends TaskStepUpdateParameters {
+    arguments?: Argument[];
     dockerFilePath?: string;
-    arguments?: Argument[];
+    imageNames?: string[];
+    isPushEnabled?: boolean;
+    noCache?: boolean;
     target?: string;
-};
+    type: "Docker";
+}
 
 // @public
-export type EncodedTaskRunRequest = RunRequest & {
-    type: "EncodedTaskRunRequest";
-    encodedTaskContent: string;
-    encodedValuesContent?: string;
-    values?: SetValue[];
-    timeout?: number;
-    platform: PlatformProperties;
+export interface EncodedTaskRunRequest extends RunRequest {
     agentConfiguration?: AgentProperties;
-    sourceLocation?: string;
     credentials?: Credentials;
-};
-
-// @public
-export type EncodedTaskStep = TaskStepProperties & {
-    type: "EncodedTask";
     encodedTaskContent: string;
     encodedValuesContent?: string;
+    platform: PlatformProperties;
+    sourceLocation?: string;
+    timeout?: number;
+    type: "EncodedTaskRunRequest";
     values?: SetValue[];
-};
+}
 
 // @public
-export type EncodedTaskStepUpdateParameters = TaskStepUpdateParameters & {
+export interface EncodedTaskStep extends TaskStepProperties {
+    encodedTaskContent: string;
+    encodedValuesContent?: string;
     type: "EncodedTask";
+    values?: SetValue[];
+}
+
+// @public
+export interface EncodedTaskStepUpdateParameters extends TaskStepUpdateParameters {
     encodedTaskContent?: string;
     encodedValuesContent?: string;
+    type: "EncodedTask";
     values?: SetValue[];
-};
+}
 
 // @public (undocumented)
 export interface EncryptionProperty {
@@ -478,10 +478,10 @@ export interface ErrorResponseBody {
 }
 
 // @public
-type Event_2 = EventInfo & {
+interface Event_2 extends EventInfo {
     eventRequestMessage?: EventRequestMessage;
     eventResponseMessage?: EventResponseMessage;
-};
+}
 export { Event_2 as Event }
 
 // @public
@@ -529,13 +529,13 @@ export interface EventResponseMessage {
 }
 
 // @public
-export type ExportPipeline = ProxyResource & {
-    location?: string;
+export interface ExportPipeline extends ProxyResource {
     identity?: IdentityProperties;
-    target?: ExportPipelineTargetProperties;
+    location?: string;
     options?: PipelineOptions[];
     readonly provisioningState?: ProvisioningState;
-};
+    target?: ExportPipelineTargetProperties;
+}
 
 // @public
 export interface ExportPipelineListResult {
@@ -605,33 +605,33 @@ export interface ExportPolicy {
 export type ExportPolicyStatus = string;
 
 // @public
-export type FileTaskRunRequest = RunRequest & {
-    type: "FileTaskRunRequest";
-    taskFilePath: string;
-    valuesFilePath?: string;
-    values?: SetValue[];
-    timeout?: number;
-    platform: PlatformProperties;
+export interface FileTaskRunRequest extends RunRequest {
     agentConfiguration?: AgentProperties;
-    sourceLocation?: string;
     credentials?: Credentials;
-};
-
-// @public
-export type FileTaskStep = TaskStepProperties & {
-    type: "FileTask";
+    platform: PlatformProperties;
+    sourceLocation?: string;
     taskFilePath: string;
-    valuesFilePath?: string;
+    timeout?: number;
+    type: "FileTaskRunRequest";
     values?: SetValue[];
-};
+    valuesFilePath?: string;
+}
 
 // @public
-export type FileTaskStepUpdateParameters = TaskStepUpdateParameters & {
+export interface FileTaskStep extends TaskStepProperties {
+    taskFilePath: string;
     type: "FileTask";
-    taskFilePath?: string;
-    valuesFilePath?: string;
     values?: SetValue[];
-};
+    valuesFilePath?: string;
+}
+
+// @public
+export interface FileTaskStepUpdateParameters extends TaskStepUpdateParameters {
+    taskFilePath?: string;
+    type: "FileTask";
+    values?: SetValue[];
+    valuesFilePath?: string;
+}
 
 // @public
 export interface GenerateCredentialsParameters {
@@ -645,6 +645,9 @@ export interface GenerateCredentialsResult {
     passwords?: TokenPassword[];
     username?: string;
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface IdentityProperties {
@@ -683,14 +686,14 @@ export interface ImportImageParameters {
 export type ImportMode = string;
 
 // @public
-export type ImportPipeline = ProxyResource & {
-    location?: string;
+export interface ImportPipeline extends ProxyResource {
     identity?: IdentityProperties;
-    source?: ImportPipelineSourceProperties;
-    trigger?: PipelineTriggerProperties;
+    location?: string;
     options?: PipelineOptions[];
     readonly provisioningState?: ProvisioningState;
-};
+    source?: ImportPipelineSourceProperties;
+    trigger?: PipelineTriggerProperties;
+}
 
 // @public
 export interface ImportPipelineListResult {
@@ -789,475 +792,340 @@ export interface KeyVaultProperties {
 
 // @public
 export enum KnownAction {
-    // (undocumented)
     Allow = "Allow"
 }
 
 // @public
 export enum KnownActionsRequired {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     Recreate = "Recreate"
 }
 
 // @public
 export enum KnownActivationStatus {
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Inactive = "Inactive"
 }
 
 // @public
 export enum KnownArchitecture {
-    // (undocumented)
     Amd64 = "amd64",
-    // (undocumented)
     Arm = "arm",
-    // (undocumented)
     Arm64 = "arm64",
-    // (undocumented)
     ThreeHundredEightySix = "386",
-    // (undocumented)
     X86 = "x86"
 }
 
 // @public
 export enum KnownAuditLogStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownAzureADAuthenticationAsArmPolicyStatus {
-    // (undocumented)
     Disabled = "disabled",
-    // (undocumented)
     Enabled = "enabled"
 }
 
 // @public
 export enum KnownBaseImageDependencyType {
-    // (undocumented)
     BuildTime = "BuildTime",
-    // (undocumented)
     RunTime = "RunTime"
 }
 
 // @public
 export enum KnownBaseImageTriggerType {
-    // (undocumented)
     All = "All",
-    // (undocumented)
     Runtime = "Runtime"
 }
 
 // @public
 export enum KnownCertificateType {
-    // (undocumented)
     LocalDirectory = "LocalDirectory"
 }
 
 // @public
 export enum KnownConnectedRegistryMode {
-    // (undocumented)
     Mirror = "Mirror",
-    // (undocumented)
     ReadOnly = "ReadOnly",
-    // (undocumented)
     ReadWrite = "ReadWrite",
-    // (undocumented)
     Registry = "Registry"
 }
 
 // @public
 export enum KnownConnectionState {
-    // (undocumented)
     Offline = "Offline",
-    // (undocumented)
     Online = "Online",
-    // (undocumented)
     Syncing = "Syncing",
-    // (undocumented)
     Unhealthy = "Unhealthy"
 }
 
 // @public
 export enum KnownConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDefaultAction {
-    // (undocumented)
     Allow = "Allow",
-    // (undocumented)
     Deny = "Deny"
 }
 
 // @public
 export enum KnownEncryptionStatus {
-    // (undocumented)
     Disabled = "disabled",
-    // (undocumented)
     Enabled = "enabled"
 }
 
 // @public
 export enum KnownExportPolicyStatus {
-    // (undocumented)
     Disabled = "disabled",
-    // (undocumented)
     Enabled = "enabled"
 }
 
 // @public
 export enum KnownImportMode {
-    // (undocumented)
     Force = "Force",
-    // (undocumented)
     NoForce = "NoForce"
 }
 
 // @public
 export enum KnownLastModifiedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownLogLevel {
-    // (undocumented)
     Debug = "Debug",
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     Information = "Information",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     Warning = "Warning"
 }
 
 // @public
 export enum KnownNetworkRuleBypassOptions {
-    // (undocumented)
     AzureServices = "AzureServices",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownOS {
-    // (undocumented)
     Linux = "Linux",
-    // (undocumented)
     Windows = "Windows"
 }
 
 // @public
 export enum KnownPipelineOptions {
-    // (undocumented)
     ContinueOnErrors = "ContinueOnErrors",
-    // (undocumented)
     DeleteSourceBlobOnSuccess = "DeleteSourceBlobOnSuccess",
-    // (undocumented)
     OverwriteBlobs = "OverwriteBlobs",
-    // (undocumented)
     OverwriteTags = "OverwriteTags"
 }
 
 // @public
 export enum KnownPipelineRunSourceType {
-    // (undocumented)
     AzureStorageBlob = "AzureStorageBlob"
 }
 
 // @public
 export enum KnownPipelineRunTargetType {
-    // (undocumented)
     AzureStorageBlob = "AzureStorageBlob"
 }
 
 // @public
 export enum KnownPipelineSourceType {
-    // (undocumented)
     AzureStorageBlobContainer = "AzureStorageBlobContainer"
 }
 
 // @public
 export enum KnownPolicyStatus {
-    // (undocumented)
     Disabled = "disabled",
-    // (undocumented)
     Enabled = "enabled"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownRegistryUsageUnit {
-    // (undocumented)
     Bytes = "Bytes",
-    // (undocumented)
     Count = "Count"
 }
 
 // @public
 export enum KnownRunStatus {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Queued = "Queued",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Started = "Started",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Timeout = "Timeout"
 }
 
 // @public
 export enum KnownRunType {
-    // (undocumented)
     AutoBuild = "AutoBuild",
-    // (undocumented)
     AutoRun = "AutoRun",
-    // (undocumented)
     QuickBuild = "QuickBuild",
-    // (undocumented)
     QuickRun = "QuickRun"
 }
 
 // @public
 export enum KnownSecretObjectType {
-    // (undocumented)
     Opaque = "Opaque",
-    // (undocumented)
     Vaultsecret = "Vaultsecret"
 }
 
 // @public
 export enum KnownSkuName {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Classic = "Classic",
-    // (undocumented)
     Premium = "Premium",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownSkuTier {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Classic = "Classic",
-    // (undocumented)
     Premium = "Premium",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownSourceControlType {
-    // (undocumented)
     Github = "Github",
-    // (undocumented)
     VisualStudioTeamService = "VisualStudioTeamService"
 }
 
 // @public
 export enum KnownSourceRegistryLoginMode {
-    // (undocumented)
     Default = "Default",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownSourceTriggerEvent {
-    // (undocumented)
     Commit = "commit",
-    // (undocumented)
     Pullrequest = "pullrequest"
 }
 
 // @public
 export enum KnownStepType {
-    // (undocumented)
     Docker = "Docker",
-    // (undocumented)
     EncodedTask = "EncodedTask",
-    // (undocumented)
     FileTask = "FileTask"
 }
 
 // @public
 export enum KnownTaskStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownTlsStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownTokenCertificateName {
-    // (undocumented)
     Certificate1 = "certificate1",
-    // (undocumented)
     Certificate2 = "certificate2"
 }
 
 // @public
 export enum KnownTokenPasswordName {
-    // (undocumented)
     Password1 = "password1",
-    // (undocumented)
     Password2 = "password2"
 }
 
 // @public
 export enum KnownTokenStatus {
-    // (undocumented)
     Disabled = "disabled",
-    // (undocumented)
     Enabled = "enabled"
 }
 
 // @public
 export enum KnownTokenType {
-    // (undocumented)
     OAuth = "OAuth",
-    // (undocumented)
     PAT = "PAT"
 }
 
 // @public
 export enum KnownTriggerStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownTrustPolicyType {
-    // (undocumented)
     Notary = "Notary"
 }
 
 // @public
 export enum KnownUpdateTriggerPayloadType {
-    // (undocumented)
     Default = "Default",
-    // (undocumented)
     Token = "Token"
 }
 
 // @public
 export enum KnownVariant {
-    // (undocumented)
     V6 = "v6",
-    // (undocumented)
     V7 = "v7",
-    // (undocumented)
     V8 = "v8"
 }
 
 // @public
 export enum KnownWebhookAction {
-    // (undocumented)
     ChartDelete = "chart_delete",
-    // (undocumented)
     ChartPush = "chart_push",
-    // (undocumented)
     Delete = "delete",
-    // (undocumented)
     Push = "push",
-    // (undocumented)
     Quarantine = "quarantine"
 }
 
 // @public
 export enum KnownWebhookStatus {
-    // (undocumented)
     Disabled = "disabled",
-    // (undocumented)
     Enabled = "enabled"
 }
 
 // @public
 export enum KnownZoneRedundancy {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
@@ -1385,12 +1253,12 @@ export type PasswordName = "password" | "password2";
 export type PipelineOptions = string;
 
 // @public
-export type PipelineRun = ProxyResource & {
+export interface PipelineRun extends ProxyResource {
+    forceUpdateTag?: string;
     readonly provisioningState?: ProvisioningState;
     request?: PipelineRunRequest;
     readonly response?: PipelineRunResponse;
-    forceUpdateTag?: string;
-};
+}
 
 // @public
 export interface PipelineRunListResult {
@@ -1541,11 +1409,11 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = ProxyResource & {
+export interface PrivateEndpointConnection extends ProxyResource {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: ProvisioningState;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -1817,25 +1685,25 @@ export interface RegistriesUpdateOptionalParams extends coreClient.OperationOpti
 export type RegistriesUpdateResponse = Registry;
 
 // @public
-export type Registry = Resource & {
-    sku: Sku;
-    identity?: IdentityProperties;
-    readonly loginServer?: string;
-    readonly creationDate?: Date;
-    readonly provisioningState?: ProvisioningState;
-    readonly status?: Status;
+export interface Registry extends Resource {
     adminUserEnabled?: boolean;
-    networkRuleSet?: NetworkRuleSet;
-    policies?: Policies;
-    encryption?: EncryptionProperty;
+    anonymousPullEnabled?: boolean;
+    readonly creationDate?: Date;
     dataEndpointEnabled?: boolean;
     readonly dataEndpointHostNames?: string[];
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    publicNetworkAccess?: PublicNetworkAccess;
+    encryption?: EncryptionProperty;
+    identity?: IdentityProperties;
+    readonly loginServer?: string;
     networkRuleBypassOptions?: NetworkRuleBypassOptions;
+    networkRuleSet?: NetworkRuleSet;
+    policies?: Policies;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
+    sku: Sku;
+    readonly status?: Status;
     zoneRedundancy?: ZoneRedundancy;
-    anonymousPullEnabled?: boolean;
-};
+}
 
 // @public
 export interface RegistryListCredentialsResult {
@@ -1902,12 +1770,12 @@ export interface RegistryUsageListResult {
 export type RegistryUsageUnit = string;
 
 // @public
-export type Replication = Resource & {
+export interface Replication extends Resource {
     readonly provisioningState?: ProvisioningState;
-    readonly status?: Status;
     regionEndpointEnabled?: boolean;
+    readonly status?: Status;
     zoneRedundancy?: ZoneRedundancy;
-};
+}
 
 // @public
 export interface ReplicationListResult {
@@ -2013,30 +1881,30 @@ export interface RetentionPolicy {
 }
 
 // @public
-export type Run = ProxyResource & {
-    runId?: string;
-    status?: RunStatus;
-    lastUpdatedTime?: Date;
-    runType?: RunType;
+export interface Run extends ProxyResource {
+    agentConfiguration?: AgentProperties;
     agentPoolName?: string;
     createTime?: Date;
-    startTime?: Date;
-    finishTime?: Date;
-    outputImages?: ImageDescriptor[];
-    task?: string;
-    imageUpdateTrigger?: ImageUpdateTrigger;
-    sourceTrigger?: SourceTriggerDescriptor;
-    timerTrigger?: TimerTriggerDescriptor;
-    platform?: PlatformProperties;
-    agentConfiguration?: AgentProperties;
-    sourceRegistryAuth?: string;
     customRegistries?: string[];
-    readonly runErrorMessage?: string;
-    updateTriggerToken?: string;
-    readonly logArtifact?: ImageDescriptor;
-    provisioningState?: ProvisioningState;
+    finishTime?: Date;
+    imageUpdateTrigger?: ImageUpdateTrigger;
     isArchiveEnabled?: boolean;
-};
+    lastUpdatedTime?: Date;
+    readonly logArtifact?: ImageDescriptor;
+    outputImages?: ImageDescriptor[];
+    platform?: PlatformProperties;
+    provisioningState?: ProvisioningState;
+    readonly runErrorMessage?: string;
+    runId?: string;
+    runType?: RunType;
+    sourceRegistryAuth?: string;
+    sourceTrigger?: SourceTriggerDescriptor;
+    startTime?: Date;
+    status?: RunStatus;
+    task?: string;
+    timerTrigger?: TimerTriggerDescriptor;
+    updateTriggerToken?: string;
+}
 
 // @public
 export interface RunFilter {
@@ -2144,13 +2012,13 @@ export interface RunUpdateParameters {
 }
 
 // @public
-export type ScopeMap = ProxyResource & {
-    description?: string;
-    readonly typePropertiesType?: string;
-    readonly creationDate?: Date;
-    readonly provisioningState?: ProvisioningState;
+export interface ScopeMap extends ProxyResource {
     actions?: string[];
-};
+    readonly creationDate?: Date;
+    description?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly typePropertiesType?: string;
+}
 
 // @public
 export interface ScopeMapListResult {
@@ -2390,21 +2258,21 @@ export interface Target {
 }
 
 // @public
-export type Task = Resource & {
-    identity?: IdentityProperties;
-    readonly provisioningState?: ProvisioningState;
-    readonly creationDate?: Date;
-    status?: TaskStatus;
-    platform?: PlatformProperties;
+export interface Task extends Resource {
     agentConfiguration?: AgentProperties;
     agentPoolName?: string;
-    timeout?: number;
-    step?: TaskStepPropertiesUnion;
-    trigger?: TriggerProperties;
+    readonly creationDate?: Date;
     credentials?: Credentials;
-    logTemplate?: string;
+    identity?: IdentityProperties;
     isSystemTask?: boolean;
-};
+    logTemplate?: string;
+    platform?: PlatformProperties;
+    readonly provisioningState?: ProvisioningState;
+    status?: TaskStatus;
+    step?: TaskStepPropertiesUnion;
+    timeout?: number;
+    trigger?: TriggerProperties;
+}
 
 // @public
 export interface TaskListResult {
@@ -2413,14 +2281,14 @@ export interface TaskListResult {
 }
 
 // @public
-export type TaskRun = ProxyResource & {
+export interface TaskRun extends ProxyResource {
+    forceUpdateTag?: string;
     identity?: IdentityProperties;
     location?: string;
     readonly provisioningState?: ProvisioningState;
     runRequest?: RunRequestUnion;
     readonly runResult?: Run;
-    forceUpdateTag?: string;
-};
+}
 
 // @public
 export interface TaskRunListResult {
@@ -2429,11 +2297,11 @@ export interface TaskRunListResult {
 }
 
 // @public
-export type TaskRunRequest = RunRequest & {
-    type: "TaskRunRequest";
-    taskId: string;
+export interface TaskRunRequest extends RunRequest {
     overrideTaskStepProperties?: OverrideTaskStepProperties;
-};
+    taskId: string;
+    type: "TaskRunRequest";
+}
 
 // @public
 export interface TaskRuns {
@@ -2653,13 +2521,13 @@ export interface TlsProperties {
 export type TlsStatus = string;
 
 // @public
-export type Token = ProxyResource & {
+export interface Token extends ProxyResource {
     readonly creationDate?: Date;
+    credentials?: TokenCredentialsProperties;
     readonly provisioningState?: ProvisioningState;
     scopeMapId?: string;
-    credentials?: TokenCredentialsProperties;
     status?: TokenStatus;
-};
+}
 
 // @public
 export interface TokenCertificate {
@@ -2807,12 +2675,12 @@ export interface UserIdentityProperties {
 export type Variant = string;
 
 // @public
-export type Webhook = Resource & {
-    status?: WebhookStatus;
-    scope?: string;
+export interface Webhook extends Resource {
     actions?: WebhookAction[];
     readonly provisioningState?: ProvisioningState;
-};
+    scope?: string;
+    status?: WebhookStatus;
+}
 
 // @public
 export type WebhookAction = string;
