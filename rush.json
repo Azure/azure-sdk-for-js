@@ -1930,6 +1930,11 @@
       "packageName": "@azure/arm-loadtesting",
       "projectFolder": "sdk/loadtestservice/arm-loadtesting",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/web-pubsub-client",
+      "projectFolder": "sdk/web-pubsub/web-pubsub-client",
+      "versionPolicyName": "client"
     }
   ]
 }

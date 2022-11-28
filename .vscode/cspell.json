@@ -279,6 +279,10 @@
     {
       "filename": "sdk/loadtestservice/load-testing-rest/review/load-testing.api.md",
       "words": ["vusers"]
+    },
+    {
+      "filename": "sdk/web-pubsub/web-pubsub-client/review/web-pubsub-client.api.md",
+      "words": ["protobuf"]
     }
   ]
 }
