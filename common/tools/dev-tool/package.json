@@ -43,7 +43,7 @@
     "concurrently": "^7.6.0",
     "chalk": "~4.1.1",
     "dotenv": "^16.0.0",
-    "fs-extra": "^10.0.0",
+    "fs-extra": "^11.0.0",
     "minimist": "~1.2.5",
     "prettier": "^2.4.1",
     "ts-node": "^10.0.0",
