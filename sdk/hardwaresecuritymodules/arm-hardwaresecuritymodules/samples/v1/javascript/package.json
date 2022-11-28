@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/arm-hardwaresecuritymodules-js",
+  "name": "azure-arm-hardwaresecuritymodules-samples-js",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for JavaScript",

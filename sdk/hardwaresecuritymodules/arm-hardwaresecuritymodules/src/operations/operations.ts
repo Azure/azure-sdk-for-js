@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Operations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -46,21 +46,16 @@ export class OperationsImpl implements Operations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
+      byPage: () => {
+        return this.listPagingPage(options);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: OperationsListOptionalParams,
-    _settings?: PageSettings
+    options?: OperationsListOptionalParams
   ): AsyncIterableIterator<DedicatedHsmOperation[]> {
-    let result: OperationsListResponse;
-    result = await this._list(options);
+    let result = await this._list(options);
     yield result.value || [];
   }
 

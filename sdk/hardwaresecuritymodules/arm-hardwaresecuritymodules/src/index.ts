@@ -7,7 +7,6 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
 export * from "./models";
 export { AzureDedicatedHSMResourceProvider } from "./azureDedicatedHSMResourceProvider";
 export * from "./operationsInterfaces";

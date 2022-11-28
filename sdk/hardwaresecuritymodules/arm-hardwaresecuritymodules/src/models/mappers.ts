@@ -44,7 +44,7 @@ export const DedicatedHsmOperation: coreClient.CompositeMapper = {
         serializedName: "isDataAction",
         readOnly: true,
         type: {
-          name: "Boolean"
+          name: "String"
         }
       },
       display: {

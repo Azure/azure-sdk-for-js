@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { DedicatedHsmOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,14 +18,11 @@ import {
   DedicatedHsm,
   DedicatedHsmListByResourceGroupNextOptionalParams,
   DedicatedHsmListByResourceGroupOptionalParams,
-  DedicatedHsmListByResourceGroupResponse,
   DedicatedHsmListBySubscriptionNextOptionalParams,
   DedicatedHsmListBySubscriptionOptionalParams,
-  DedicatedHsmListBySubscriptionResponse,
   OutboundEnvironmentEndpoint,
   DedicatedHsmListOutboundNetworkDependenciesEndpointsNextOptionalParams,
   DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalParams,
-  DedicatedHsmListOutboundNetworkDependenciesEndpointsResponse,
   DedicatedHsmCreateOrUpdateOptionalParams,
   DedicatedHsmCreateOrUpdateResponse,
   DedicatedHsmUpdateOptionalParams,
@@ -34,6 +30,9 @@ import {
   DedicatedHsmDeleteOptionalParams,
   DedicatedHsmGetOptionalParams,
   DedicatedHsmGetResponse,
+  DedicatedHsmListByResourceGroupResponse,
+  DedicatedHsmListBySubscriptionResponse,
+  DedicatedHsmListOutboundNetworkDependenciesEndpointsResponse,
   DedicatedHsmListByResourceGroupNextResponse,
   DedicatedHsmListBySubscriptionNextResponse,
   DedicatedHsmListOutboundNetworkDependenciesEndpointsNextResponse
@@ -70,33 +69,19 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listByResourceGroupPagingPage(resourceGroupName, options);
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: DedicatedHsmListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    options?: DedicatedHsmListByResourceGroupOptionalParams
   ): AsyncIterableIterator<DedicatedHsm[]> {
-    let result: DedicatedHsmListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByResourceGroup(resourceGroupName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -104,9 +89,7 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -137,34 +120,22 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
+      byPage: () => {
+        return this.listBySubscriptionPagingPage(options);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: DedicatedHsmListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    options?: DedicatedHsmListBySubscriptionOptionalParams
   ): AsyncIterableIterator<DedicatedHsm[]> {
-    let result: DedicatedHsmListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listBySubscription(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -200,15 +171,11 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listOutboundNetworkDependenciesEndpointsPagingPage(
           resourceGroupName,
           name,
-          options,
-          settings
+          options
         );
       }
     };
@@ -217,22 +184,15 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
   private async *listOutboundNetworkDependenciesEndpointsPagingPage(
     resourceGroupName: string,
     name: string,
-    options?: DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalParams,
-    settings?: PageSettings
+    options?: DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalParams
   ): AsyncIterableIterator<OutboundEnvironmentEndpoint[]> {
-    let result: DedicatedHsmListOutboundNetworkDependenciesEndpointsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listOutboundNetworkDependenciesEndpoints(
-        resourceGroupName,
-        name,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listOutboundNetworkDependenciesEndpoints(
+      resourceGroupName,
+      name,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listOutboundNetworkDependenciesEndpointsNext(
         resourceGroupName,
@@ -241,9 +201,7 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
