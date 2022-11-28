@@ -3998,7 +3998,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230410
+      typescript: 5.1.0-dev.20230412
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8861,8 +8861,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230410:
-    resolution: {integrity: sha512-7aQS6nNYt3XVJic6FBmnxasor6MZFwi5Odj0Z0UtHode4ID21KgCjFgJcdtiWrmSIZ/PLfrp6QiE179hwbB5tQ==}
+  /typescript/5.1.0-dev.20230412:
+    resolution: {integrity: sha512-O7UY8wd8wEa6pd6CpVFbS9u+DArm73B4rRz8dwm6SDORvEF7rbuNzJ6GTTnBvGavlVkWT5/cYstySs5uhj0vPg==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
@@ -9667,12 +9667,14 @@ packages:
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.42
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
+      '@types/decompress': 4.2.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.42
       '@types/sinon': 9.0.11
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
       cross-env: 7.0.3
+      decompress: 4.2.1
       dotenv: 16.0.3
       eslint: 8.37.0
       karma: 6.4.1
