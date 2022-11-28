@@ -381,7 +381,7 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata, $PackageHist
   
   $validationHash = @{}
   foreach ($result in $packageValidation) {
-    $validationHash[$result.Package.name] = $result
+    $validationHash[$result.Package] = $result
   }
 
   # Remove invalid packages
