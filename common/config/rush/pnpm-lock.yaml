@@ -13060,7 +13060,7 @@ packages:
     dev: false
 
   file:projects/arm-machinelearning.tgz:
-    resolution: {integrity: sha512-/kBQvSmU7X1MmiRyR/HBTVEOpcn9nHBOfU31WnZkibEssrU+/Myc2Lh3IPtbEjpHzj8YQBd3V5SE+Cu4f2j0zg==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-UzsQU8x+ERWDa1HByc9O7c7iJlqUPl2t9rkBPQ703heaXxo+GlDxmg5TM4AEjs2TjsuZbq/HnI5ixe07innP5Q==, tarball: file:projects/arm-machinelearning.tgz}
     name: '@rush-temp/arm-machinelearning'
     version: 0.0.0
     dependencies:
@@ -13080,7 +13080,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
