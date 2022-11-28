@@ -158,7 +158,15 @@ export function hasResource(
   );
 }
 /**
- * Maps 
+ * Maps OperationInput to Operation by 
+ * - generating Ids if needed.
+ * - choosing partitionKey which can be used to choose which batch this 
+ * operation should be part of. The order is - 
+ *   1. If the operationInput itself has partitionKey field set it is used.
+ *   2. Other wise for create/replace/upsert it is extracted from resource body.
+ *   3. For read/delete/patch type operations undefined partitionKey is used.
+ * - Here one nuance is that, the partitionKey field inside Operation needs to 
+ *  be serialized as a JSON string.
  * @param operationInput - OperationInput
  * @param definition - PartitionKeyDefinition
  * @param options - RequestOptions

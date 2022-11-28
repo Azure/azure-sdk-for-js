@@ -757,7 +757,7 @@ export class ClientContext {
       options: requestContext.options,
       partitionKeyRangeId: requestContext.partitionKeyRangeId,
       useMultipleWriteLocations: this.connectionPolicy.useMultipleWriteLocations,
-      partitionKey: requestContext.partitionKey !== undefined ? convertToInternalPartitionKey(requestContext.partitionKey) : undefined,
+      partitionKey: requestContext.partitionKey !== undefined ? convertToInternalPartitionKey(requestContext.partitionKey) : undefined //TODO: Move this check from here to PartitionKey
     });
   }
 

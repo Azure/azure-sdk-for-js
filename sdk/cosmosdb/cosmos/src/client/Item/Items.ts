@@ -462,7 +462,6 @@ export class Items {
 
   /**
    * Function to create batches based of partition key Ranges.
-   * 1. if {@link operation} has {@link hasResource} then {@link PartitionKey} is extracted from there.
    * @param operations - operations to group
    * @param partitionDefinition - PartitionKey definition of container.
    * @param options - Request options for bulk request.
@@ -472,7 +471,7 @@ export class Items {
     operations
       .forEach((operationInput, index: number) => {
         const { operation, partitionKey } = prepareOperations(operationInput, partitionDefinition, options);
-        const hashed = hashPartitionKey(stripUndefined(partitionKey, "PartitionKey"), partitionDefinition);
+        const hashed = hashPartitionKey(stripUndefined(partitionKey, "undefined value for PartitionKey not expected during grouping of bulk operations."), partitionDefinition);
         const batchForKey = stripUndefined(batches.find((batch: Batch) => {
           return isKeyInRange(batch.min, batch.max, hashed);
         }), "No suitable Batch found.");

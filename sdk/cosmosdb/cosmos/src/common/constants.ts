@@ -209,6 +209,9 @@ export const Constants = {
     DatabaseAccountPathSegment: "databaseaccount",
   },
 
+  // Maximum number of partition keys allowed for a container.
+  MaxNumberOfPartitionKeysAllowed: 3,
+
   PartitionKeyRange: {
     // Partition Key Range Constants
     MinInclusive: "minInclusive",

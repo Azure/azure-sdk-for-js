@@ -3,6 +3,7 @@
 import assert from "assert";
 import { Suite } from "mocha";
 import {
+  BulkOptions,
   Container,
   ContainerDefinition,
   ContainerRequest,
@@ -71,7 +72,7 @@ type CRUDTestDataSet = {
   propertyToCheck?: string[]
 }
 
-function extractNestedPropertyFromObject(obj: any, paths: string[]) {
+function extractNestedPropertyFromObject(obj: any, paths: string[] = []) {
   paths.reduce((ob:any, path: string) => {
     if(ob !== null && ob !== undefined && typeof ob === "object"){
       return ob[path];
@@ -570,12 +571,13 @@ describe("bulk/batch item operations", async function () {
           key: any,
           key2?: any,
           key3?: any,
-          class: string
+          class?: string
         }
         type BulkTestDataSet = {
           dbName: string,
           containerRequest: ContainerRequest,
           documentToCreate: BulkTestItem[],
+          bulkOperationOptions: BulkOptions,
           operations: {
             description?: string,
             operation: OperationInput,
@@ -591,6 +593,9 @@ describe("bulk/batch item operations", async function () {
         }
         const defaultBulkTestDataSet: BulkTestDataSet = {
           dbName: "bulkTestDB",
+          bulkOperationOptions: {
+            continueOnError: false,
+          },
           containerRequest: {
                 id: "patchContainer",
                 partitionKey: {
@@ -611,7 +616,7 @@ describe("bulk/batch item operations", async function () {
             for(const doc of dataset.documentToCreate) {
               await container.items.create(doc)
             }
-            const response = await container.items.bulk(dataset.operations.map((value) => value.operation), {continueOnError: true});
+            const response = await container.items.bulk(dataset.operations.map((value) => value.operation), dataset.bulkOperationOptions);
             dataset.operations.forEach(({description, expectedOutput }, index) => {
               if (expectedOutput) {
                 assert.strictEqual(response[index].statusCode, expectedOutput.statusCode, `Failed during - ${description}`);
@@ -666,6 +671,9 @@ describe("bulk/batch item operations", async function () {
                   kind: PartitionKeyKind.MultiHash
                 },
                 throughput: 25100,
+              },
+              bulkOperationOptions: {
+                continueOnError: false
               },
               documentToCreate: [
                 { id: readItemId, key: true, key2: true, class: "2010" },
@@ -885,77 +893,125 @@ describe("bulk/batch item operations", async function () {
           runBulkTestDataSet(dataset);
         });
         it("Continues after errors with continueOnError true", async function () {
-          const operations = [
-            {
-              operationType: BulkOperationType.Create,
-              resourceBody: {
-                ttl: -10,
-                key: "A",
-              },
+          const dataset: BulkTestDataSet = {
+            ...defaultBulkTestDataSet,
+            documentToCreate: [],
+            bulkOperationOptions: {
+              continueOnError: true
             },
-            {
-              operationType: BulkOperationType.Create,
-              resourceBody: {
-                key: "A",
-                licenseType: "B",
-                id: addEntropy("sifjsiof"),
+            operations: [
+              {
+                description: 'Operation should fail with invalid ttl.',
+                operation: createBulkOperation(BulkOperationType.Create, {}, {ttl: -10, key: "A"}),
+                expectedOutput: creatreBulkOperationExpectedOutput(400, [])
               },
-            },
-          ];
-          const response = await v2Container.items.bulk(operations, { continueOnError: true });
-          assert.strictEqual(response[1].statusCode, 201);
+              {
+                description: 'Operation should suceed and should not be abondoned because of previous failure, since continueOnError is true.',
+                operation: createBulkOperation(BulkOperationType.Create, {}, {key: "A", licenseType: "B", id: addEntropy("sifjsiof")}),
+                expectedOutput: creatreBulkOperationExpectedOutput(201, [])
+              }
+            ]
+          };
+          runBulkTestDataSet(dataset);
+          // const operations = [
+          //   {
+          //     operationType: BulkOperationType.Create,
+          //     resourceBody: {
+          //       ttl: -10,
+          //       key: "A",
+          //     },
+          //   },
+          //   {
+          //     operationType: BulkOperationType.Create,
+          //     resourceBody: {
+          //       key: "A",
+          //       licenseType: "B",
+          //       id: addEntropy("sifjsiof"),
+          //     },
+          //   },
+          // ];
+          // const response = await v2Container.items.bulk(operations, { continueOnError: true });
+          // assert.strictEqual(response[1].statusCode, 201);
         });
         it("autogenerates IDs for Create operations", async function () {
-          const operations = [
-            {
-              operationType: BulkOperationType.Create,
-              resourceBody: {
-                key: "A",
-                licenseType: "C",
-              },
-            },
-          ];
-          const response = await v2Container.items.bulk(operations);
-          assert.equal(response[0].statusCode, 201);
+          const dataset: BulkTestDataSet = {
+            ...defaultBulkTestDataSet,
+            operations: [
+              {
+                description: 'Operation should fail with invalid ttl.',
+                operation: createBulkOperation(BulkOperationType.Create, {}, {key: "A", licenseType: "C",}),
+                expectedOutput: creatreBulkOperationExpectedOutput(201, [])
+              }
+            ]
+          };
+          runBulkTestDataSet(dataset);
         });
         it("handles operations with null, undefined, and 0 partition keys", async function () {
           const item1Id = addEntropy("item1");
           const item2Id = addEntropy("item2");
           const item3Id = addEntropy("item2");
-          await v2Container.items.create({
-            id: item1Id,
-            key: null,
-            class: "2010",
-          });
-          await v2Container.items.create({
-            id: item2Id,
-            key: 0,
-          });
-          await v2Container.items.create({
-            id: item3Id,
-            key: undefined,
-          });
-          const operations: OperationInput[] = [
-            {
-              operationType: BulkOperationType.Read,
-              id: item1Id,
-              partitionKey: null,
-            },
-            {
-              operationType: BulkOperationType.Read,
-              id: item2Id,
-              partitionKey: 0,
-            },
-            {
-              operationType: BulkOperationType.Read,
-              id: item3Id,
-              partitionKey: undefined,
-            },
-          ];
-          const response = await v2Container.items.bulk(operations);
-          assert.equal(response[0].statusCode, 200);
-          assert.equal(response[1].statusCode, 200);
-          assert.equal(response[2].statusCode, 200);
+          const dataset: BulkTestDataSet = {
+            ...defaultBulkTestDataSet,
+            documentToCreate: [
+              { id: item1Id, key: null, class: "2010" },
+              { id: item2Id, key: 0 },
+              { id: item3Id, key: undefined }
+            ],
+            operations: [
+              {
+                description: 'Read document with null partition key should suceed.',
+                operation: createBulkOperation(BulkOperationType.Read, {partitionKey: null}, {}, item1Id),
+                expectedOutput: creatreBulkOperationExpectedOutput(200, [])
+              },
+              {
+                description: 'Read document with 0 partition key should suceed.',
+                operation: createBulkOperation(BulkOperationType.Read, {partitionKey: 0}, {}, item1Id),
+                expectedOutput: creatreBulkOperationExpectedOutput(200, [])
+              },
+              {
+                description: 'Read document with undefined partition key should suceed.',
+                operation: createBulkOperation(BulkOperationType.Read, {partitionKey: undefined}, {}, item1Id),
+                expectedOutput: creatreBulkOperationExpectedOutput(200, [])
+              }
+            ]
+          };
+          runBulkTestDataSet(dataset);
+
+
+          // await v2Container.items.create({
+          //   id: item1Id,
+          //   key: null,
+          //   class: "2010",
+          // });
+          // await v2Container.items.create({
+          //   id: item2Id,
+          //   key: 0,
+          // });
+          // await v2Container.items.create({
+          //   id: item3Id,
+          //   key: undefined,
+          // });
+          // const operations: OperationInput[] = [
+          //   {
+          //     operationType: BulkOperationType.Read,
+          //     id: item1Id,
+          //     partitionKey: null,
+          //   },
+          //   {
+          //     operationType: BulkOperationType.Read,
+          //     id: item2Id,
+          //     partitionKey: 0,
+          //   },
+          //   {
+          //     operationType: BulkOperationType.Read,
+          //     id: item3Id,
+          //     partitionKey: undefined,
+          //   },
+          // ];
+          // const response = await v2Container.items.bulk(operations);
+          // assert.equal(response[0].statusCode, 200);
+          // assert.equal(response[1].statusCode, 200);
+          // assert.equal(response[2].statusCode, 200);
         });
       });
       describe("multi partition container - nested partition key", async function () {
