@@ -7763,8 +7763,8 @@ export const expectation36: SentimentAnalysisResult[] = [
           },
           {
             target: {
-              sentiment: "positive",
-              confidenceScores: { positive: 1, negative: 0 },
+              sentiment: "negative",
+              confidenceScores: { positive: 0, negative: 1 },
               offset: 13,
               length: 7,
               text: "service",
