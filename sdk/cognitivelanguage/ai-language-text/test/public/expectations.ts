@@ -5534,7 +5534,7 @@ export const expectation30: AnalyzeBatchResult[] = [
         id: "0",
         summaries: [
           {
-            text: "Microsoft's Windows 365 puts the Windows operating system in the cloud. Windows 365 is a new virtualization technology for Windows that is easy to set up and deploy. Users access their Cloud PC through a native application or web browser on any device. Windows 365 follows other products and services to the cloud, from Windows Server on Azure to the suite of Microsoft Office applications in Microsoft 365.",
+            text: "Microsoft’s Cloud PC is a new type of virtualization for Windows.\nThe Cloud PC lets users access Windows 10 or Windows 11 on any device, from anywhere with an internet connection.\n\nThe Cloud PCs are designed for a mobile and mobile workforce.",
             contexts: [{ offset: 0, length: 7519 }],
           },
         ],
@@ -5544,7 +5544,7 @@ export const expectation30: AnalyzeBatchResult[] = [
         id: "1",
         summaries: [
           {
-            text: "Microsoft has launched Windows 365 Cloud PCs for remote workers. The new service lets workers access their old PCs from anywhere on any device. The Cloud PCs are powered by Microsoft's cloud computing platform.",
+            text: "Microsoft’s new Cloud PC, Windows 365, is designed to support a hybrid workforce.\nThe new system allows remote workers to access their work environment from anywhere.\n\nThe Government of Nunavut is testing Windows 365.",
             contexts: [{ offset: 0, length: 3416 }],
           },
         ],
@@ -5564,7 +5564,7 @@ export const expectation31: AnalyzeBatchResult[] = [
         id: "0",
         summaries: [
           {
-            text: "Microsoft's Windows 365 puts the Windows operating system in the cloud.Windows 365 is a new virtualization technology for Windows that is easy to set up and deploy.Users access their Cloud PC through a native application or web browser on any device, from anywhere with an internet connection.",
+            text: "Microsoft’s Cloud PC puts Windows in the cloud.",
             contexts: [{ offset: 0, length: 7519 }],
           },
         ],
@@ -5574,7 +5574,7 @@ export const expectation31: AnalyzeBatchResult[] = [
         id: "1",
         summaries: [
           {
-            text: "Microsoft has launched Windows 365 Cloud PCs for remote workers.The new service lets workers access their old desktop from anywhere on any device.The ability to login to a Cloud PC from anywhere is part of Microsoft's larger strategy.",
+            text: "Microsoft’s new Cloud PC, Windows 365, is designed to support a hybrid workforce.",
             contexts: [{ offset: 0, length: 3416 }],
           },
         ],
@@ -6921,8 +6921,8 @@ export const expectation33: AnalyzeBatchResult[] = [
               {
                 resolutionKind: "CurrencyResolution",
                 value: 2000,
-                unit: "United States dollar",
                 iso4217: "USD",
+                unit: "United States dollar",
               },
             ],
           },

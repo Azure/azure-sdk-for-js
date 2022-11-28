@@ -119,7 +119,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           });
 
           // FIXME: add the input for the VolumeResolution once the service is consistent
-          it("entity recognition with resolution", async function () {
+          it.only("entity recognition with resolution", async function () {
             const docs = [
               "The dog is 14 inches tall and weighs 20 lbs. It is 5 years old.",
               "This is the first aircraft of its kind. It can fly at over 1,300 meter per second and carry 65-80 passengers.",
