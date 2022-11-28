@@ -282,14 +282,9 @@ export function createUpdateAnalyzeState(docIds?: string[]) {
     };
     mutableState.createdOn = createdOn;
     if (status.toLowerCase() === "partiallysucceeded") {
-      if (!errors) {
-        mutableState.status = "succeeded";
-      } else {
-        const errorString = errors.map(({ message }) => message).join("\n");
-        const error = new Error(errorString);
-        mutableState.status = "failed";
-        mutableState.error = error;
-      }
+      mutableState.status = "failed";
+      const errorString = errors?.map(({ message }) => message).join("\n") ?? "No error returned";
+      mutableState.error = new Error(errorString);
     }
     // FIXME: remove this mitigation when the service API is fixed
     mutableState.modifiedOn = modifiedOn ? modifiedOn : new Date(lastUpdateDateTime);
