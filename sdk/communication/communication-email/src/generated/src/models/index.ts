@@ -86,7 +86,7 @@ export interface EmailContent {
 /** Recipients of the email */
 export interface EmailRecipients {
   /** Email To recipients */
-  to: EmailAddress[];
+  to?: EmailAddress[];
   /** Email CC recipients */
   cc?: EmailAddress[];
   /** Email BCC recipients */

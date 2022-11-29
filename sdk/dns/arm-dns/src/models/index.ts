@@ -251,7 +251,7 @@ export interface RecordSetUpdateParameters {
 }
 
 /** Describes a DNS zone. */
-export type Zone = Resource & {
+export interface Zone extends Resource {
   /** The etag of the zone. */
   etag?: string;
   /**
@@ -280,7 +280,8 @@ export type Zone = Resource & {
   registrationVirtualNetworks?: SubResource[];
   /** A list of references to virtual networks that resolve records in this DNS zone. This is a only when ZoneType is Private. */
   resolutionVirtualNetworks?: SubResource[];
-};
+}
+
 /** Defines values for RecordType. */
 export type RecordType =
   | "A"

@@ -15,7 +15,7 @@ export type ActionType = string;
 
 // @public
 export interface AllowedEnvironmentType extends Resource {
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -30,7 +30,7 @@ export interface AttachedNetworkConnection extends Resource {
     readonly healthCheckStatus?: HealthCheckStatus;
     networkConnectionId?: string;
     readonly networkConnectionLocation?: string;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -123,7 +123,7 @@ export interface Catalog extends Resource {
     adoGit?: GitCatalog;
     gitHub?: GitCatalog;
     readonly lastSyncTime?: Date;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
     readonly syncState?: CatalogSyncState;
 }
 
@@ -136,7 +136,7 @@ export interface CatalogListResult {
 // @public
 export interface CatalogProperties extends CatalogUpdateProperties {
     readonly lastSyncTime?: Date;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
     readonly syncState?: CatalogSyncState;
 }
 
@@ -226,6 +226,34 @@ export interface CatalogUpdateProperties {
 }
 
 // @public
+export interface CheckNameAvailability {
+    execute(nameAvailabilityRequest: CheckNameAvailabilityRequest, options?: CheckNameAvailabilityExecuteOptionalParams): Promise<CheckNameAvailabilityExecuteResponse>;
+}
+
+// @public
+export interface CheckNameAvailabilityExecuteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CheckNameAvailabilityExecuteResponse = CheckNameAvailabilityResponse;
+
+// @public
+export type CheckNameAvailabilityReason = string;
+
+// @public
+export interface CheckNameAvailabilityRequest {
+    name?: string;
+    type?: string;
+}
+
+// @public
+export interface CheckNameAvailabilityResponse {
+    message?: string;
+    nameAvailable?: boolean;
+    reason?: CheckNameAvailabilityReason;
+}
+
+// @public
 export interface CloudError {
     error: CloudErrorBody;
 }
@@ -244,11 +272,12 @@ export type CreatedByType = string;
 // @public
 export interface DevBoxDefinition extends TrackedResource {
     readonly activeImageReference?: ImageReference;
+    hibernateSupport?: HibernateSupport;
     imageReference?: ImageReference;
     readonly imageValidationErrorDetails?: ImageValidationErrorDetails;
     readonly imageValidationStatus?: ImageValidationStatus;
     osStorageType?: string;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
     sku?: Sku;
 }
 
@@ -263,7 +292,7 @@ export interface DevBoxDefinitionProperties extends DevBoxDefinitionUpdateProper
     readonly activeImageReference?: ImageReference;
     readonly imageValidationErrorDetails?: ImageValidationErrorDetails;
     readonly imageValidationStatus?: ImageValidationStatus;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -352,6 +381,7 @@ export type DevBoxDefinitionsUpdateResponse = DevBoxDefinition;
 
 // @public
 export interface DevBoxDefinitionUpdate extends TrackedResourceUpdate {
+    hibernateSupport?: HibernateSupport;
     imageReference?: ImageReference;
     osStorageType?: string;
     sku?: Sku;
@@ -359,6 +389,7 @@ export interface DevBoxDefinitionUpdate extends TrackedResourceUpdate {
 
 // @public
 export interface DevBoxDefinitionUpdateProperties {
+    hibernateSupport?: HibernateSupport;
     imageReference?: ImageReference;
     osStorageType?: string;
     sku?: Sku;
@@ -366,8 +397,9 @@ export interface DevBoxDefinitionUpdateProperties {
 
 // @public
 export interface DevCenter extends TrackedResource {
+    readonly devCenterUri?: string;
     identity?: ManagedServiceIdentity;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public (undocumented)
@@ -381,6 +413,8 @@ export class DevCenterClient extends coreClient.ServiceClient {
     attachedNetworks: AttachedNetworks;
     // (undocumented)
     catalogs: Catalogs;
+    // (undocumented)
+    checkNameAvailability: CheckNameAvailability;
     // (undocumented)
     devBoxDefinitions: DevBoxDefinitions;
     // (undocumented)
@@ -532,7 +566,7 @@ export interface EnvironmentRole {
 
 // @public
 export interface EnvironmentType extends Resource {
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
     tags?: {
         [propertyName: string]: string;
     };
@@ -617,6 +651,11 @@ export interface ErrorDetail {
 }
 
 // @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface Galleries {
     beginCreateOrUpdate(resourceGroupName: string, devCenterName: string, galleryName: string, body: Gallery, options?: GalleriesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<GalleriesCreateOrUpdateResponse>, GalleriesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, devCenterName: string, galleryName: string, body: Gallery, options?: GalleriesCreateOrUpdateOptionalParams): Promise<GalleriesCreateOrUpdateResponse>;
@@ -667,7 +706,7 @@ export type GalleriesListByDevCenterResponse = GalleryListResult;
 // @public
 export interface Gallery extends Resource {
     galleryResourceId?: string;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -715,10 +754,13 @@ export interface HealthCheckStatusDetailsListResult {
 }
 
 // @public
+export type HibernateSupport = string;
+
+// @public
 interface Image_2 extends ProxyResource {
     readonly description?: string;
     readonly offer?: string;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
     readonly publisher?: string;
     readonly recommendedMachineConfiguration?: RecommendedMachineConfiguration;
     readonly sku?: string;
@@ -800,7 +842,7 @@ export interface ImageVersion extends ProxyResource {
     readonly excludeFromLatest?: boolean;
     readonly namePropertiesName?: string;
     readonly osDiskImageSizeInGb?: number;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
     readonly publishedDate?: Date;
 }
 
@@ -851,6 +893,12 @@ export enum KnownCatalogSyncState {
 }
 
 // @public
+export enum KnownCheckNameAvailabilityReason {
+    AlreadyExists = "AlreadyExists",
+    Invalid = "Invalid"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -878,6 +926,12 @@ export enum KnownHealthCheckStatus {
     Running = "Running",
     Unknown = "Unknown",
     Warning = "Warning"
+}
+
+// @public
+export enum KnownHibernateSupport {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -913,6 +967,26 @@ export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Created = "Created",
+    Creating = "Creating",
+    Deleted = "Deleted",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    MovingResources = "MovingResources",
+    NotSpecified = "NotSpecified",
+    RolloutInProgress = "RolloutInProgress",
+    Running = "Running",
+    StorageProvisioningFailed = "StorageProvisioningFailed",
+    Succeeded = "Succeeded",
+    TransientFailure = "TransientFailure",
+    Updated = "Updated",
+    Updating = "Updating"
 }
 
 // @public
@@ -964,7 +1038,7 @@ export interface NetworkConnection extends TrackedResource {
     readonly healthCheckStatus?: HealthCheckStatus;
     networkingResourceGroupName?: string;
     organizationUnit?: string;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
     subnetId?: string;
 }
 
@@ -980,6 +1054,8 @@ export interface NetworkConnections {
     beginCreateOrUpdateAndWait(resourceGroupName: string, networkConnectionName: string, body: NetworkConnection, options?: NetworkConnectionsCreateOrUpdateOptionalParams): Promise<NetworkConnectionsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, networkConnectionName: string, options?: NetworkConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, networkConnectionName: string, options?: NetworkConnectionsDeleteOptionalParams): Promise<void>;
+    beginRunHealthChecks(resourceGroupName: string, networkConnectionName: string, options?: NetworkConnectionsRunHealthChecksOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRunHealthChecksAndWait(resourceGroupName: string, networkConnectionName: string, options?: NetworkConnectionsRunHealthChecksOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, networkConnectionName: string, body: NetworkConnectionUpdate, options?: NetworkConnectionsUpdateOptionalParams): Promise<PollerLike<PollOperationState<NetworkConnectionsUpdateResponse>, NetworkConnectionsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, networkConnectionName: string, body: NetworkConnectionUpdate, options?: NetworkConnectionsUpdateOptionalParams): Promise<NetworkConnectionsUpdateResponse>;
     get(resourceGroupName: string, networkConnectionName: string, options?: NetworkConnectionsGetOptionalParams): Promise<NetworkConnectionsGetResponse>;
@@ -987,7 +1063,6 @@ export interface NetworkConnections {
     listByResourceGroup(resourceGroupName: string, options?: NetworkConnectionsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<NetworkConnection>;
     listBySubscription(options?: NetworkConnectionsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<NetworkConnection>;
     listHealthDetails(resourceGroupName: string, networkConnectionName: string, options?: NetworkConnectionsListHealthDetailsOptionalParams): PagedAsyncIterableIterator<HealthCheckStatusDetails>;
-    runHealthChecks(resourceGroupName: string, networkConnectionName: string, options?: NetworkConnectionsRunHealthChecksOptionalParams): Promise<void>;
 }
 
 // @public
@@ -1069,6 +1144,8 @@ export type NetworkConnectionsListHealthDetailsResponse = HealthCheckStatusDetai
 
 // @public
 export interface NetworkConnectionsRunHealthChecksOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1103,7 +1180,7 @@ export interface NetworkProperties extends NetworkConnectionUpdateProperties {
     domainJoinType: DomainJoinType;
     readonly healthCheckStatus?: HealthCheckStatus;
     networkingResourceGroupName?: string;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -1187,7 +1264,7 @@ export interface Pool extends TrackedResource {
     licenseType?: LicenseType;
     localAdministrator?: LocalAdminStatus;
     networkConnectionName?: string;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -1198,7 +1275,7 @@ export interface PoolListResult {
 
 // @public
 export interface PoolProperties extends PoolUpdateProperties {
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -1280,7 +1357,8 @@ export interface PoolUpdateProperties {
 export interface Project extends TrackedResource {
     description?: string;
     devCenterId?: string;
-    readonly provisioningState?: string;
+    readonly devCenterUri?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -1318,7 +1396,7 @@ export interface ProjectEnvironmentType extends Resource {
     deploymentTargetId?: string;
     identity?: ManagedServiceIdentity;
     location?: string;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
     status?: EnableStatus;
     tags?: {
         [propertyName: string]: string;
@@ -1336,7 +1414,7 @@ export interface ProjectEnvironmentTypeListResult {
 
 // @public
 export interface ProjectEnvironmentTypeProperties extends ProjectEnvironmentTypeUpdateProperties {
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -1428,7 +1506,8 @@ export interface ProjectListResult {
 
 // @public
 export interface ProjectProperties extends ProjectUpdateProperties {
-    readonly provisioningState?: string;
+    readonly devCenterUri?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -1520,6 +1599,9 @@ export interface ProjectUpdateProperties {
 }
 
 // @public
+export type ProvisioningState = string;
+
+// @public
 export interface ProxyResource extends Resource {
 }
 
@@ -1546,7 +1628,7 @@ export interface ResourceRange {
 // @public
 export interface Schedule extends Resource {
     frequency?: ScheduledFrequency;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
     state?: EnableStatus;
     time?: string;
     timeZone?: string;
@@ -1567,7 +1649,7 @@ export interface ScheduleListResult {
 
 // @public
 export interface ScheduleProperties extends ScheduleUpdateProperties {
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
