@@ -410,7 +410,7 @@ export const expectation9: AnalyzeBatchResult[] = [
               {
                 target: {
                   sentiment: "negative",
-                  confidenceScores: { positive: 0, negative: 1 },
+                  confidenceScores: { positive: 0.02, negative: 0.98 },
                   offset: 4,
                   length: 4,
                   text: "food",
@@ -418,7 +418,7 @@ export const expectation9: AnalyzeBatchResult[] = [
                 assessments: [
                   {
                     sentiment: "negative",
-                    confidenceScores: { positive: 0, negative: 1 },
+                    confidenceScores: { positive: 0.02, negative: 0.98 },
                     offset: 13,
                     length: 12,
                     text: "unacceptable",
@@ -625,14 +625,6 @@ export const expectation9: AnalyzeBatchResult[] = [
                     text: "nice",
                     isNegated: false,
                   },
-                  {
-                    sentiment: "positive",
-                    confidenceScores: { positive: 1, negative: 0 },
-                    offset: 59,
-                    length: 5,
-                    text: "clean",
-                    isNegated: false,
-                  },
                 ],
               },
               {
@@ -686,14 +678,6 @@ export const expectation9: AnalyzeBatchResult[] = [
                     offset: 8,
                     length: 5,
                     text: "great",
-                    isNegated: false,
-                  },
-                  {
-                    sentiment: "positive",
-                    confidenceScores: { positive: 0.99, negative: 0.01 },
-                    offset: 14,
-                    length: 12,
-                    text: "unobstructed",
                     isNegated: false,
                   },
                 ],
@@ -756,7 +740,7 @@ export const expectation9: AnalyzeBatchResult[] = [
               {
                 target: {
                   sentiment: "negative",
-                  confidenceScores: { positive: 0, negative: 1 },
+                  confidenceScores: { positive: 0.01, negative: 0.99 },
                   offset: 42,
                   length: 6,
                   text: "toilet",
@@ -764,7 +748,7 @@ export const expectation9: AnalyzeBatchResult[] = [
                 assessments: [
                   {
                     sentiment: "negative",
-                    confidenceScores: { positive: 0, negative: 1 },
+                    confidenceScores: { positive: 0.01, negative: 0.99 },
                     offset: 53,
                     length: 5,
                     text: "dirty",
@@ -8721,14 +8705,14 @@ export const expectation71: any = [
         id: "1",
         warnings: [],
         sentiment: "neutral",
-        confidenceScores: { positive: 0.04, neutral: 0.92, negative: 0.04 },
+        confidenceScores: { positive: 0.02, neutral: 0.98, negative: 0 },
         detectedLanguage: { name: "Spanish", iso6391Name: "es", confidenceScore: 0.75 },
         isLanguageDefaulted: false,
         sentences: [
           {
             text: "Este es un document escrito en Español.",
             sentiment: "neutral",
-            confidenceScores: { positive: 0.04, neutral: 0.92, negative: 0.04 },
+            confidenceScores: { positive: 0.02, neutral: 0.98, negative: 0 },
             offset: 0,
             length: 39,
             opinions: [],
@@ -8739,14 +8723,14 @@ export const expectation71: any = [
         id: "2",
         warnings: [],
         sentiment: "positive",
-        confidenceScores: { positive: 0.99, neutral: 0.01, negative: 0 },
+        confidenceScores: { positive: 0.96, neutral: 0.04, negative: 0.01 },
         detectedLanguage: { name: "Japanese", iso6391Name: "ja", confidenceScore: 1 },
         isLanguageDefaulted: false,
         sentences: [
           {
             text: "猫は幸せ",
             sentiment: "positive",
-            confidenceScores: { positive: 0.99, neutral: 0.01, negative: 0 },
+            confidenceScores: { positive: 0.96, neutral: 0.04, negative: 0.01 },
             offset: 0,
             length: 4,
             opinions: [],
@@ -8797,11 +8781,10 @@ export const expectation71: any = [
       },
       {
         id: "1",
-        error: {
-          code: "UnsupportedLanguageCode",
-          message:
-            "Invalid language code 'es'. Supported languages: en. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
-        },
+        warnings: [],
+        entities: [],
+        detectedLanguage: { name: "Spanish", iso6391Name: "es", confidenceScore: 0.75 },
+        isLanguageDefaulted: false,
       },
       {
         id: "2",
@@ -8821,9 +8804,9 @@ export const expectation71: any = [
       {
         entities: [],
         entityRelations: [],
+        detectedLanguage: { iso6391Name: "en" },
         id: "0",
         warnings: [],
-        detectedLanguage: { iso6391Name: "en" },
         isLanguageDefaulted: false,
       },
       {
