@@ -45,6 +45,6 @@ npx cross-env  node cget.js
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [cget]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/confidentialledger/azure-confidentialledger-bugbash-rest/samples/v1-beta/javascript/cget.js
-[apiref]: the-link-to-your-service-on-docs.microsoft.com
+[apiref]: https://docs.microsoft.com/azure/confidential-ledger
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/confidentialledger/azure-confidentialledger-bugbash-rest/README.md

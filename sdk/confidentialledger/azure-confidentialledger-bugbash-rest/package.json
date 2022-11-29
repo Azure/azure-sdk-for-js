@@ -27,7 +27,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "<the-link-to-your-service-on-docs.microsoft.com>"
+    "apiRefLink": "https://docs.microsoft.com/azure/confidential-ledger"
   },
   "files": [
     "dist/",
