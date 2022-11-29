@@ -4844,9 +4844,9 @@ packages:
     resolution: {integrity: sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow==}
     dev: false
 
-  /fs-extra/10.1.0:
-    resolution: {integrity: sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==}
-    engines: {node: '>=12'}
+  /fs-extra/11.0.0:
+    resolution: {integrity: sha512-4YxRvMi4P5C3WQTvdRfrv5UVqbISpqjORFQAW5QPiKAauaxNCwrEdIi6pG3tDFhKKpMen+enEhHIzB/tvIO+/w==}
+    engines: {node: '>=14.14'}
     dependencies:
       graceful-fs: 4.2.10
       jsonfile: 6.1.0
@@ -16770,7 +16770,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-wR4KWKkCAcA1fJaaiaMu0DFvEKJdAU4FQBIxskPZSsI33nPkbU/lc8jcxQgIcOCuGN1I3IyIARHYOJPbTCyigg==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-OT7l6xsQ5t7OgVyJwaWtZRN0hIoHzujTS3gKORsLX4GwqpWbTGR+W7gfdH6BImAdHiPPy2ZSOp05451ivUqSSQ==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -16792,7 +16792,7 @@ packages:
       concurrently: 7.6.0
       dotenv: 16.0.3
       eslint: 8.28.0
-      fs-extra: 10.1.0
+      fs-extra: 11.0.0
       minimist: 1.2.7
       mocha: 7.2.0
       prettier: 2.8.0
