@@ -7,8 +7,7 @@ import { LedgerEntry, LedgerUser } from "./models";
 export type ConfidentialLedgerListCollectionsParameters = RequestParameters;
 export type ConfidentialLedgerGetEnclaveQuotesParameters = RequestParameters;
 export type ConfidentialLedgerGetConstitutionParameters = RequestParameters;
-export type ConfidentialLedgerGetConsortiumMembersParameters =
-  RequestParameters;
+export type ConfidentialLedgerGetConsortiumMembersParameters = RequestParameters;
 export type ConfidentialLedgerListLedgerEntriesParameters = RequestParameters;
 
 export interface ConfidentialLedgerCreateLedgerEntryBodyParam {
@@ -24,10 +23,9 @@ export interface ConfidentialLedgerCreateLedgerEntryQueryParam {
   queryParameters?: ConfidentialLedgerCreateLedgerEntryQueryParamProperties;
 }
 
-export type ConfidentialLedgerCreateLedgerEntryParameters =
-  ConfidentialLedgerCreateLedgerEntryQueryParam &
-    ConfidentialLedgerCreateLedgerEntryBodyParam &
-    RequestParameters;
+export type ConfidentialLedgerCreateLedgerEntryParameters = ConfidentialLedgerCreateLedgerEntryQueryParam &
+  ConfidentialLedgerCreateLedgerEntryBodyParam &
+  RequestParameters;
 
 export interface ConfidentialLedgerGetLedgerEntryQueryParamProperties {
   /** The collection id. */
@@ -38,11 +36,10 @@ export interface ConfidentialLedgerGetLedgerEntryQueryParam {
   queryParameters?: ConfidentialLedgerGetLedgerEntryQueryParamProperties;
 }
 
-export type ConfidentialLedgerGetLedgerEntryParameters =
-  ConfidentialLedgerGetLedgerEntryQueryParam & RequestParameters;
-export type ConfidentialLedgerGetReceiptParameters = RequestParameters;
-export type ConfidentialLedgerGetTransactionStatusParameters =
+export type ConfidentialLedgerGetLedgerEntryParameters = ConfidentialLedgerGetLedgerEntryQueryParam &
   RequestParameters;
+export type ConfidentialLedgerGetReceiptParameters = RequestParameters;
+export type ConfidentialLedgerGetTransactionStatusParameters = RequestParameters;
 
 export interface ConfidentialLedgerGetCurrentLedgerEntryQueryParamProperties {
   /** The collection id. */
@@ -53,8 +50,8 @@ export interface ConfidentialLedgerGetCurrentLedgerEntryQueryParam {
   queryParameters?: ConfidentialLedgerGetCurrentLedgerEntryQueryParamProperties;
 }
 
-export type ConfidentialLedgerGetCurrentLedgerEntryParameters =
-  ConfidentialLedgerGetCurrentLedgerEntryQueryParam & RequestParameters;
+export type ConfidentialLedgerGetCurrentLedgerEntryParameters = ConfidentialLedgerGetCurrentLedgerEntryQueryParam &
+  RequestParameters;
 export type ConfidentialLedgerDeleteUserParameters = RequestParameters;
 export type ConfidentialLedgerGetUserParameters = RequestParameters;
 export type LedgerUserResourceMergeAndPatch = Partial<LedgerUser>;
@@ -68,7 +65,6 @@ export interface ConfidentialLedgerCreateOrUpdateUserMediaTypesParam {
   contentType: "application/merge-patch+json";
 }
 
-export type ConfidentialLedgerCreateOrUpdateUserParameters =
-  ConfidentialLedgerCreateOrUpdateUserMediaTypesParam &
-    ConfidentialLedgerCreateOrUpdateUserBodyParam &
-    RequestParameters;
+export type ConfidentialLedgerCreateOrUpdateUserParameters = ConfidentialLedgerCreateOrUpdateUserMediaTypesParam &
+  ConfidentialLedgerCreateOrUpdateUserBodyParam &
+  RequestParameters;

@@ -53,8 +53,7 @@ export interface ConfidentialLedgerOperations {
   listCollections(
     options?: ConfidentialLedgerListCollectionsParameters
   ): StreamableMethod<
-    | ConfidentialLedgerListCollections200Response
-    | ConfidentialLedgerListCollectionsDefaultResponse
+    ConfidentialLedgerListCollections200Response | ConfidentialLedgerListCollectionsDefaultResponse
   >;
   /** A quote is an SGX enclave measurement that can be used to verify the validity of a node and its enclave. */
   getEnclaveQuotes(
@@ -67,8 +66,7 @@ export interface ConfidentialLedgerOperations {
   getConstitution(
     options?: ConfidentialLedgerGetConstitutionParameters
   ): StreamableMethod<
-    | ConfidentialLedgerGetConstitution200Response
-    | ConfidentialLedgerGetConstitutionDefaultResponse
+    ConfidentialLedgerGetConstitution200Response | ConfidentialLedgerGetConstitutionDefaultResponse
   >;
   /** Consortium members can manage the Confidential Ledger. */
   getConsortiumMembers(
@@ -95,15 +93,13 @@ export interface ConfidentialLedgerOperations {
     transactionId: string,
     options?: ConfidentialLedgerGetLedgerEntryParameters
   ): StreamableMethod<
-    | ConfidentialLedgerGetLedgerEntry200Response
-    | ConfidentialLedgerGetLedgerEntryDefaultResponse
+    ConfidentialLedgerGetLedgerEntry200Response | ConfidentialLedgerGetLedgerEntryDefaultResponse
   >;
   getReceipt(
     transactionId: string,
     options?: ConfidentialLedgerGetReceiptParameters
   ): StreamableMethod<
-    | ConfidentialLedgerGetReceipt200Response
-    | ConfidentialLedgerGetReceiptDefaultResponse
+    ConfidentialLedgerGetReceipt200Response | ConfidentialLedgerGetReceiptDefaultResponse
   >;
   getTransactionStatus(
     transactionId: string,
@@ -122,15 +118,13 @@ export interface ConfidentialLedgerOperations {
     userId: string,
     options?: ConfidentialLedgerDeleteUserParameters
   ): StreamableMethod<
-    | ConfidentialLedgerDeleteUser204Response
-    | ConfidentialLedgerDeleteUserDefaultResponse
+    ConfidentialLedgerDeleteUser204Response | ConfidentialLedgerDeleteUserDefaultResponse
   >;
   getUser(
     userId: string,
     options?: ConfidentialLedgerGetUserParameters
   ): StreamableMethod<
-    | ConfidentialLedgerGetUser200Response
-    | ConfidentialLedgerGetUserDefaultResponse
+    ConfidentialLedgerGetUser200Response | ConfidentialLedgerGetUserDefaultResponse
   >;
   createOrUpdateUser(
     userId: string,
@@ -147,8 +141,7 @@ export interface ListCollections {
   get(
     options?: ConfidentialLedgerListCollectionsParameters
   ): StreamableMethod<
-    | ConfidentialLedgerListCollections200Response
-    | ConfidentialLedgerListCollectionsDefaultResponse
+    ConfidentialLedgerListCollections200Response | ConfidentialLedgerListCollectionsDefaultResponse
   >;
 }
 
@@ -167,8 +160,7 @@ export interface GetConstitution {
   get(
     options?: ConfidentialLedgerGetConstitutionParameters
   ): StreamableMethod<
-    | ConfidentialLedgerGetConstitution200Response
-    | ConfidentialLedgerGetConstitutionDefaultResponse
+    ConfidentialLedgerGetConstitution200Response | ConfidentialLedgerGetConstitutionDefaultResponse
   >;
 }
 
@@ -203,8 +195,7 @@ export interface GetLedgerEntry {
   get(
     options?: ConfidentialLedgerGetLedgerEntryParameters
   ): StreamableMethod<
-    | ConfidentialLedgerGetLedgerEntry200Response
-    | ConfidentialLedgerGetLedgerEntryDefaultResponse
+    ConfidentialLedgerGetLedgerEntry200Response | ConfidentialLedgerGetLedgerEntryDefaultResponse
   >;
 }
 
@@ -212,8 +203,7 @@ export interface GetReceipt {
   get(
     options?: ConfidentialLedgerGetReceiptParameters
   ): StreamableMethod<
-    | ConfidentialLedgerGetReceipt200Response
-    | ConfidentialLedgerGetReceiptDefaultResponse
+    ConfidentialLedgerGetReceipt200Response | ConfidentialLedgerGetReceiptDefaultResponse
   >;
 }
 
@@ -239,14 +229,12 @@ export interface DeleteUser {
   delete(
     options?: ConfidentialLedgerDeleteUserParameters
   ): StreamableMethod<
-    | ConfidentialLedgerDeleteUser204Response
-    | ConfidentialLedgerDeleteUserDefaultResponse
+    ConfidentialLedgerDeleteUser204Response | ConfidentialLedgerDeleteUserDefaultResponse
   >;
   get(
     options?: ConfidentialLedgerGetUserParameters
   ): StreamableMethod<
-    | ConfidentialLedgerGetUser200Response
-    | ConfidentialLedgerGetUserDefaultResponse
+    ConfidentialLedgerGetUser200Response | ConfidentialLedgerGetUserDefaultResponse
   >;
   patch(
     options: ConfidentialLedgerCreateOrUpdateUserParameters
@@ -269,20 +257,11 @@ export interface Routes {
   /** Resource for '/app/transactions' has methods for the following verbs: get, post */
   (path: "/app/transactions"): ListLedgerEntries;
   /** Resource for '/app/transactions/\{transactionId\}' has methods for the following verbs: get */
-  (
-    path: "/app/transactions/{transactionId}",
-    transactionId: string
-  ): GetLedgerEntry;
+  (path: "/app/transactions/{transactionId}", transactionId: string): GetLedgerEntry;
   /** Resource for '/app/transactions/\{transactionId\}/receipt' has methods for the following verbs: get */
-  (
-    path: "/app/transactions/{transactionId}/receipt",
-    transactionId: string
-  ): GetReceipt;
+  (path: "/app/transactions/{transactionId}/receipt", transactionId: string): GetReceipt;
   /** Resource for '/app/transactions/\{transactionId\}/status' has methods for the following verbs: get */
-  (
-    path: "/app/transactions/{transactionId}/status",
-    transactionId: string
-  ): GetTransactionStatus;
+  (path: "/app/transactions/{transactionId}/status", transactionId: string): GetTransactionStatus;
   /** Resource for '/app/transactions:getCurrentLedgerEntry' has methods for the following verbs: get */
   (path: "/app/transactions:getCurrentLedgerEntry"): GetCurrentLedgerEntry;
   /** Resource for '/app/users/\{userId\}' has methods for the following verbs: delete, get, patch */

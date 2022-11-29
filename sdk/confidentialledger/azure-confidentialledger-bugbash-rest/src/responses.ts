@@ -14,63 +14,53 @@ import {
 } from "./outputModels";
 
 /** The request has succeeded. */
-export interface ConfidentialLedgerListCollections200Response
-  extends HttpResponse {
+export interface ConfidentialLedgerListCollections200Response extends HttpResponse {
   status: "200";
   body: Array<CollectionModelOutput>;
 }
 
-export interface ConfidentialLedgerListCollectionsDefaultResponse
-  extends HttpResponse {
+export interface ConfidentialLedgerListCollectionsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface ConfidentialLedgerGetEnclaveQuotes200Response
-  extends HttpResponse {
+export interface ConfidentialLedgerGetEnclaveQuotes200Response extends HttpResponse {
   status: "200";
 }
 
-export interface ConfidentialLedgerGetEnclaveQuotesDefaultResponse
-  extends HttpResponse {
+export interface ConfidentialLedgerGetEnclaveQuotesDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface ConfidentialLedgerGetConstitution200Response
-  extends HttpResponse {
+export interface ConfidentialLedgerGetConstitution200Response extends HttpResponse {
   status: "200";
 }
 
-export interface ConfidentialLedgerGetConstitutionDefaultResponse
-  extends HttpResponse {
+export interface ConfidentialLedgerGetConstitutionDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface ConfidentialLedgerGetConsortiumMembers200Response
-  extends HttpResponse {
+export interface ConfidentialLedgerGetConsortiumMembers200Response extends HttpResponse {
   status: "200";
 }
 
-export interface ConfidentialLedgerGetConsortiumMembersDefaultResponse
-  extends HttpResponse {
+export interface ConfidentialLedgerGetConsortiumMembersDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface ConfidentialLedgerListLedgerEntries200Response
-  extends HttpResponse {
+export interface ConfidentialLedgerListLedgerEntries200Response extends HttpResponse {
   status: "200";
   body: PagedLedgerEntriesOutput;
 }
 
-export interface ConfidentialLedgerListLedgerEntriesDefaultResponse
-  extends HttpResponse {
+export interface ConfidentialLedgerListLedgerEntriesDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -80,27 +70,23 @@ export interface ConfidentialLedgerCreateLedgerEntry201Headers {
 }
 
 /** The request has succeeded and a new resource has been created as a result. */
-export interface ConfidentialLedgerCreateLedgerEntry201Response
-  extends HttpResponse {
+export interface ConfidentialLedgerCreateLedgerEntry201Response extends HttpResponse {
   status: "201";
   headers: RawHttpHeaders & ConfidentialLedgerCreateLedgerEntry201Headers;
 }
 
-export interface ConfidentialLedgerCreateLedgerEntryDefaultResponse
-  extends HttpResponse {
+export interface ConfidentialLedgerCreateLedgerEntryDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface ConfidentialLedgerGetLedgerEntry200Response
-  extends HttpResponse {
+export interface ConfidentialLedgerGetLedgerEntry200Response extends HttpResponse {
   status: "200";
   body: LedgerEntryOutput;
 }
 
-export interface ConfidentialLedgerGetLedgerEntryDefaultResponse
-  extends HttpResponse {
+export interface ConfidentialLedgerGetLedgerEntryDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -111,34 +97,29 @@ export interface ConfidentialLedgerGetReceipt200Response extends HttpResponse {
   body: TransactionReceiptOutput;
 }
 
-export interface ConfidentialLedgerGetReceiptDefaultResponse
-  extends HttpResponse {
+export interface ConfidentialLedgerGetReceiptDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface ConfidentialLedgerGetTransactionStatus200Response
-  extends HttpResponse {
+export interface ConfidentialLedgerGetTransactionStatus200Response extends HttpResponse {
   status: "200";
   body: TransactionStatusOutput;
 }
 
-export interface ConfidentialLedgerGetTransactionStatusDefaultResponse
-  extends HttpResponse {
+export interface ConfidentialLedgerGetTransactionStatusDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface ConfidentialLedgerGetCurrentLedgerEntry200Response
-  extends HttpResponse {
+export interface ConfidentialLedgerGetCurrentLedgerEntry200Response extends HttpResponse {
   status: "200";
   body: LedgerEntryOutput;
 }
 
-export interface ConfidentialLedgerGetCurrentLedgerEntryDefaultResponse
-  extends HttpResponse {
+export interface ConfidentialLedgerGetCurrentLedgerEntryDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -148,8 +129,7 @@ export interface ConfidentialLedgerDeleteUser204Response extends HttpResponse {
   status: "204";
 }
 
-export interface ConfidentialLedgerDeleteUserDefaultResponse
-  extends HttpResponse {
+export interface ConfidentialLedgerDeleteUserDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -166,21 +146,18 @@ export interface ConfidentialLedgerGetUserDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface ConfidentialLedgerCreateOrUpdateUser200Response
-  extends HttpResponse {
+export interface ConfidentialLedgerCreateOrUpdateUser200Response extends HttpResponse {
   status: "200";
   body: LedgerUserOutput;
 }
 
 /** The request has succeeded and a new resource has been created as a result. */
-export interface ConfidentialLedgerCreateOrUpdateUser201Response
-  extends HttpResponse {
+export interface ConfidentialLedgerCreateOrUpdateUser201Response extends HttpResponse {
   status: "201";
   body: LedgerUserOutput;
 }
 
-export interface ConfidentialLedgerCreateOrUpdateUserDefaultResponse
-  extends HttpResponse {
+export interface ConfidentialLedgerCreateOrUpdateUserDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }

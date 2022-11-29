@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -1932,7 +1932,7 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure-rest/confidentialledger-bugbash",
+      "packageName": "@azure-rest/azure-confidentialledger-bugbash-rest",
       "projectFolder": "sdk/confidentialledger/azure-confidentialledger-bugbash-rest",
       "versionPolicyName": "client"
     }

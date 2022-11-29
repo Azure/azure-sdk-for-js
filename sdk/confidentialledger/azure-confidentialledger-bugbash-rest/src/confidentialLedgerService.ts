@@ -13,12 +13,12 @@ import { ConfidentialLedgerServiceClient } from "./clientDefinitions";
 export default function createClient(
   ledgerUri: string,
   credentials: TokenCredential,
-  options: ClientOptions = {}
+  clientOptions: ClientOptions = {}
 ): ConfidentialLedgerServiceClient {
-  const baseUrl = options.baseUrl ?? `${ledgerUri}`;
-  options.apiVersion = options.apiVersion ?? "2022-08-13";
-  options = {
-    ...options,
+  const baseUrl = clientOptions.baseUrl ?? `${ledgerUri}`;
+  clientOptions.apiVersion = clientOptions.apiVersion ?? "2022-08-13";
+  clientOptions = {
+    ...clientOptions,
     credentials: {
       scopes: ["https://confidential-ledger.azure.com/.default"],
     },
@@ -26,21 +26,17 @@ export default function createClient(
 
   const userAgentInfo = `azsdk-js-confidentialledger-bugbash-rest/1.0.0-beta.1`;
   const userAgentPrefix =
-    options.userAgentOptions && options.userAgentOptions.userAgentPrefix
-      ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
+    clientOptions.userAgentOptions && clientOptions.userAgentOptions.userAgentPrefix
+      ? `${clientOptions.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
       : `${userAgentInfo}`;
-  options = {
-    ...options,
+  clientOptions = {
+    ...clientOptions,
     userAgentOptions: {
       userAgentPrefix,
     },
   };
 
-  const client = getClient(
-    baseUrl,
-    credentials,
-    options
-  ) as ConfidentialLedgerServiceClient;
+  const client = getClient(baseUrl, credentials, clientOptions) as ConfidentialLedgerServiceClient;
 
   return {
     ...client,
@@ -64,24 +60,16 @@ export default function createClient(
         return client.path("/app/transactions").post(options);
       },
       getLedgerEntry: (transactionId, options) => {
-        return client
-          .path("/app/transactions/{transactionId}", transactionId)
-          .get(options);
+        return client.path("/app/transactions/{transactionId}", transactionId).get(options);
       },
       getReceipt: (transactionId, options) => {
-        return client
-          .path("/app/transactions/{transactionId}/receipt", transactionId)
-          .get(options);
+        return client.path("/app/transactions/{transactionId}/receipt", transactionId).get(options);
       },
       getTransactionStatus: (transactionId, options) => {
-        return client
-          .path("/app/transactions/{transactionId}/status", transactionId)
-          .get(options);
+        return client.path("/app/transactions/{transactionId}/status", transactionId).get(options);
       },
       getCurrentLedgerEntry: (options) => {
-        return client
-          .path("/app/transactions:getCurrentLedgerEntry")
-          .get(options);
+        return client.path("/app/transactions:getCurrentLedgerEntry").get(options);
       },
       deleteUser: (userId, options) => {
         return client.path("/app/users/{userId}", userId).delete(options);

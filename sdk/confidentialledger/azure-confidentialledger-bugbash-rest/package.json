@@ -1,5 +1,5 @@
 {
-  "name": "@azure-rest/confidentialledger-bugbash",
+  "name": "@azure-rest/azure-confidentialledger-bugbash-rest",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "version": "1.0.0-beta.1",
@@ -16,9 +16,18 @@
   "main": "dist/index.js",
   "module": "./dist-esm/src/index.js",
   "types": "./types/confidentialledger-bugbash.d.ts",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/confidentialledger/azure-confidentialledger-bugbash/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "//sampleConfiguration": {
+    "productName": "A description of your services",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "<the-link-to-your-service-on-docs.microsoft.com>"
   },
   "files": [
     "dist/",

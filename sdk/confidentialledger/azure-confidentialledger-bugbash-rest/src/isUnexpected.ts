@@ -83,9 +83,7 @@ export function isUnexpected(
     | ConfidentialLedgerGetLedgerEntryDefaultResponse
 ): response is ConfidentialLedgerGetLedgerEntryDefaultResponse;
 export function isUnexpected(
-  response:
-    | ConfidentialLedgerGetReceipt200Response
-    | ConfidentialLedgerGetReceiptDefaultResponse
+  response: ConfidentialLedgerGetReceipt200Response | ConfidentialLedgerGetReceiptDefaultResponse
 ): response is ConfidentialLedgerGetReceiptDefaultResponse;
 export function isUnexpected(
   response:
@@ -98,14 +96,10 @@ export function isUnexpected(
     | ConfidentialLedgerGetCurrentLedgerEntryDefaultResponse
 ): response is ConfidentialLedgerGetCurrentLedgerEntryDefaultResponse;
 export function isUnexpected(
-  response:
-    | ConfidentialLedgerDeleteUser204Response
-    | ConfidentialLedgerDeleteUserDefaultResponse
+  response: ConfidentialLedgerDeleteUser204Response | ConfidentialLedgerDeleteUserDefaultResponse
 ): response is ConfidentialLedgerDeleteUserDefaultResponse;
 export function isUnexpected(
-  response:
-    | ConfidentialLedgerGetUser200Response
-    | ConfidentialLedgerGetUserDefaultResponse
+  response: ConfidentialLedgerGetUser200Response | ConfidentialLedgerGetUserDefaultResponse
 ): response is ConfidentialLedgerGetUserDefaultResponse;
 export function isUnexpected(
   response:
@@ -188,24 +182,17 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (
-      let i = candidateParts.length - 1, j = pathParts.length - 1;
-      i >= 1 && j >= 1;
-      i--, j--
-    ) {
-      if (
-        candidateParts[i]?.startsWith("{") &&
-        candidateParts[i]?.indexOf("}") !== -1
-      ) {
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`
-        ).test(pathParts[j] || "");
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || ""
+        );
 
         if (!isMatched) {
           found = false;

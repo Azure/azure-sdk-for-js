@@ -2,10 +2,16 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "outDir": "./dist-esm",
-    "declarationDir": "./types"
+    "declarationDir": "./types",
+    "paths": {
+      "@azure-rest/azure-confidentialledger-bugbash-rest": [
+        "./src/index"
+      ]
+    }
   },
   "include": [
     "src/**/*.ts",
-    "./test/**/*.ts"
+    "./test/**/*.ts",
+    "samples-dev/**/*.ts"
   ]
 }
