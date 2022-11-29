@@ -1,5 +1,12 @@
 # Release History
     
+## 4.1.0 (2022-11-21)
+    
+**Features**
+
+  - Added Interface ADCCatalog
+    
+    
 ## 4.0.0 (2022-04-19)
     
 **Breaking Changes**
