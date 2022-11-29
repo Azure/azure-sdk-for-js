@@ -4,6 +4,23 @@ import { MonitorIngestionPerfTest } from "./monitorIngestionPerfTest.spec";
 interface UploadLogsOptions {
   logsCount: number;
   maxConcurrency: number;
+  logLength: number;
+  randomLogValue: boolean;
+}
+
+function getRandomString(length: number): string {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123457890";
+  let str = "";
+
+  for (let i = 0; i < length; ++i) {
+    str += chars[Math.floor(Math.random() * chars.length)];
+  }
+
+  return str;
+}
+
+function getRepeatingString(length: number): string {
+  return Array(length).fill("a").join("");
 }
 
 export class UploadLogsTest extends MonitorIngestionPerfTest<UploadLogsOptions> {
@@ -18,6 +35,15 @@ export class UploadLogsTest extends MonitorIngestionPerfTest<UploadLogsOptions> 
       description: "The maximum number of concurrent requests",
       shortName: "mc",
     },
+    logLength: {
+      defaultValue: 20,
+      description: "Length of the log value string",
+    },
+    randomLogValue: {
+      defaultValue: false,
+      description:
+        "Set to true to make each log's value a randomly-generated alphanumeric string for a lower compression ratio. Set to false to make the log value repeat the same character to ensure a high compression ratio.",
+    },
   };
 
   private dataCollectionRuleId: string;
@@ -25,9 +51,10 @@ export class UploadLogsTest extends MonitorIngestionPerfTest<UploadLogsOptions> 
 
   constructor() {
     super();
-
     this.dataCollectionRuleId = getEnvVar("DATA_COLLECTION_RULE_ID");
+  }
 
+  setup(): void {
     this.logs = this.createLogObjects(this.parsedOptions.logsCount.value);
   }
 
@@ -37,7 +64,9 @@ export class UploadLogsTest extends MonitorIngestionPerfTest<UploadLogsOptions> 
       logs.push({
         time: new Date().toISOString(),
         extendedColumn: `test ${i}`,
-        additionalContext: "additional logs context",
+        additionalContext: (this.parsedOptions.randomLogValue.value
+          ? getRandomString
+          : getRepeatingString)(this.parsedOptions.logLength.value),
       });
     }
     return logs;
