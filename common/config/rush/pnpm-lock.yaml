@@ -11801,7 +11801,7 @@ packages:
     dev: false
 
   file:projects/arm-devcenter.tgz:
-    resolution: {integrity: sha512-mIuPeFHEd9eB8fm1k0Q4MZxmhzJPu51PudCy/Q2+CtI2IChEk4Hsjcar0i9EHHFJbQxA7hEm8keFs7RdCYZIjA==, tarball: file:projects/arm-devcenter.tgz}
+    resolution: {integrity: sha512-oO4bx0LsVAwK1UCxmhzBJDxtg9pnIcKatYge0wAUtvDjAsfMfSgY2hz64BnrjcnqK1hiU3xtSOxTXWNMNaAMow==, tarball: file:projects/arm-devcenter.tgz}
     name: '@rush-temp/arm-devcenter'
     version: 0.0.0
     dependencies:
@@ -11821,7 +11821,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
