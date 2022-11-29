@@ -12370,7 +12370,7 @@ packages:
     dev: false
 
   file:projects/arm-frontdoor.tgz:
-    resolution: {integrity: sha512-SoZbVksc9v3rUwAAuMDM8s/VGwnRKIBrtY4Q3peI8AqK65Zx7EBM4eg/oqr6WXaf5D9t9fiwAxT1yumLKQ5tJA==, tarball: file:projects/arm-frontdoor.tgz}
+    resolution: {integrity: sha512-Py4Q/cLcSC0e7BvAbWpMlqgFz58vSXfzt7wtT9AS97nd3f6iSRgZJSc0fFXsGxu2cfIHPM+YnDdpF2wHJwO82w==, tarball: file:projects/arm-frontdoor.tgz}
     name: '@rush-temp/arm-frontdoor'
     version: 0.0.0
     dependencies:
@@ -12381,23 +12381,24 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
   file:projects/arm-hanaonazure.tgz:
-    resolution: {integrity: sha512-uY1hFjk2is4bbacfMikCzomu2qVNq2+vTq54loG+zwUawX85IdwVqDkfISdjItvPz8c7GAtVtpa6fY/1qOi+Gg==, tarball: file:projects/arm-hanaonazure.tgz}
+    resolution: {integrity: sha512-d4KSeIaWtnSS/f38ALR7K3FGao7MdfkKV5a78P2o5LHV5yRItnF+tTokMxtfTy2kTWz8UiOWvzd3dX8PAgY8lg==, tarball: file:projects/arm-hanaonazure.tgz}
     name: '@rush-temp/arm-hanaonazure'
     version: 0.0.0
     dependencies:
@@ -12408,18 +12409,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
