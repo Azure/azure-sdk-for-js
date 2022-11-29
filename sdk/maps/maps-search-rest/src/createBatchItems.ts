@@ -1,25 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  BatchRequestItem,
-  SearchFuzzySearchQueryParamProperties,
-  SearchReverseSearchAddressQueryParamProperties,
-  SearchSearchAddressQueryParamProperties,
-} from "./generated";
+import { BatchRequestItem } from "./generated";
 
 /**
  * Create batch items for the batch request.
  *
- * @param requests - The list of queries to process. Including {@link SearchFuzzySearchQueryParamProperties}, {@link SearchSearchAddressQueryParamProperties}, and {@link SearchReverseSearchAddressQueryParamProperties}
+ * @param requests - The list of queries to process.
  * @returns - The BatchRequestItem object.
  */
-export function createBatchItems(
-  requests: Array<
-    | SearchFuzzySearchQueryParamProperties
-    | SearchSearchAddressQueryParamProperties
-    | SearchReverseSearchAddressQueryParamProperties
-  >
+export function createBatchItems<T extends Record<string, any>>(
+  requests: Array<T>
 ): Array<BatchRequestItem> {
   return requests.map((r) => ({
     query: Object.entries(r)
