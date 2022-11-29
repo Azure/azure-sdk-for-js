@@ -233,7 +233,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
   availabilityZones?: string[];
   /** Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false. */
   enableNodePublicIP?: boolean;
-  /** When set to true, AKS deploys a daemonset and host services to sync custom certificate authorities from a user-provided config map into node trust stores. Defaults to false. */
+  /** When set to true, AKS adds a label to the node indicating that the feature is enabled and deploys a daemonset along with host services to sync custom certificate authorities from user-provided list of base64 encoded certificates into node trust stores. Defaults to false. */
   enableCustomCATrust?: boolean;
   /** This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName} */
   nodePublicIPPrefixID?: string;
@@ -389,6 +389,10 @@ export interface AgentPoolWindowsProfile {
 export interface AgentPoolNetworkProfile {
   /** IPTags of instance-level public IPs. */
   nodePublicIPTags?: IPTag[];
+  /** The port ranges that are allowed to access. The specified ranges are allowed to overlap. */
+  allowedHostPorts?: PortRange[];
+  /** The IDs of the application security groups which agent pool will associate when created. */
+  applicationSecurityGroups?: string[];
 }
 
 /** Contains the IPTag associated with the object. */
@@ -397,6 +401,16 @@ export interface IPTag {
   ipTagType?: string;
   /** The value of the IP tag associated with the public IP. Example: Internet. */
   tag?: string;
+}
+
+/** The port range. */
+export interface PortRange {
+  /** The minimum port that is included in the range. It should be ranged from 1 to 65535, and be less than or equal to portEnd. */
+  portStart?: number;
+  /** The maximum port that is included in the range. It should be ranged from 1 to 65535, and be greater than or equal to portStart. */
+  portEnd?: number;
+  /** The network protocol of the port. */
+  protocol?: Protocol;
 }
 
 /** Profile for Linux VMs in the container service cluster. */
@@ -559,6 +573,8 @@ export interface ContainerServiceNetworkProfile {
   networkPolicy?: NetworkPolicy;
   /** This cannot be specified if networkPlugin is anything other than 'azure'. */
   networkMode?: NetworkMode;
+  /** The eBPF dataplane used for building the Kubernetes network. */
+  ebpfDataplane?: EbpfDataplane;
   /** A CIDR notation IP range from which to assign pod IPs when kubenet is used. */
   podCidr?: string;
   /** A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP ranges. */
@@ -797,6 +813,8 @@ export interface ManagedClusterSecurityProfile {
   imageCleaner?: ManagedClusterSecurityProfileImageCleaner;
   /** [Node Restriction](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#noderestriction) settings for the security profile. */
   nodeRestriction?: ManagedClusterSecurityProfileNodeRestriction;
+  /** A list of up to 10 base64 encoded CAs that will be added to the trust store on nodes with the Custom CA Trust feature enabled. For more information see [Custom CA Trust Certificates](https://learn.microsoft.com/en-us/azure/aks/custom-certificate-authority) */
+  customCATrustCertificates?: Uint8Array[];
 }
 
 /** Microsoft Defender settings for the security profile. */
@@ -1727,7 +1745,7 @@ export interface AgentPool extends SubResource {
   availabilityZones?: string[];
   /** Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false. */
   enableNodePublicIP?: boolean;
-  /** When set to true, AKS deploys a daemonset and host services to sync custom certificate authorities from a user-provided config map into node trust stores. Defaults to false. */
+  /** When set to true, AKS adds a label to the node indicating that the feature is enabled and deploys a daemonset along with host services to sync custom certificate authorities from user-provided list of base64 encoded certificates into node trust stores. Defaults to false. */
   enableCustomCATrust?: boolean;
   /** This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName} */
   nodePublicIPPrefixID?: string;
@@ -1966,6 +1984,16 @@ export interface FleetMember extends AzureEntityResource {
 export interface AgentPoolsUpgradeNodeImageVersionHeaders {
   /** URL to query for status of the operation. */
   azureAsyncOperation?: string;
+}
+
+/** Defines headers for Fleets_delete operation. */
+export interface FleetsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for FleetMembers_delete operation. */
+export interface FleetMembersDeleteHeaders {
+  location?: string;
 }
 
 /** Known values of {@link ManagedClusterSKUName} that the service accepts. */
@@ -2250,6 +2278,24 @@ export enum KnownGPUInstanceProfile {
  */
 export type GPUInstanceProfile = string;
 
+/** Known values of {@link Protocol} that the service accepts. */
+export enum KnownProtocol {
+  /** TCP protocol. */
+  TCP = "TCP",
+  /** UDP protocol. */
+  UDP = "UDP"
+}
+
+/**
+ * Defines values for Protocol. \
+ * {@link KnownProtocol} can be used interchangeably with Protocol,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TCP**: TCP protocol. \
+ * **UDP**: UDP protocol.
+ */
+export type Protocol = string;
+
 /** Known values of {@link LicenseType} that the service accepts. */
 export enum KnownLicenseType {
   /** No additional licensing is applied. */
@@ -2363,6 +2409,21 @@ export enum KnownNetworkMode {
  * **bridge**: This is no longer supported
  */
 export type NetworkMode = string;
+
+/** Known values of {@link EbpfDataplane} that the service accepts. */
+export enum KnownEbpfDataplane {
+  /** Use Cilium for networking in the Kubernetes cluster. */
+  Cilium = "cilium"
+}
+
+/**
+ * Defines values for EbpfDataplane. \
+ * {@link KnownEbpfDataplane} can be used interchangeably with EbpfDataplane,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **cilium**: Use Cilium for networking in the Kubernetes cluster.
+ */
+export type EbpfDataplane = string;
 
 /** Known values of {@link OutboundType} that the service accepts. */
 export enum KnownOutboundType {
@@ -4067,6 +4128,8 @@ export interface ContainerServiceClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
+  /** Api Version */
+  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

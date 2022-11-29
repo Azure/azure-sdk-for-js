@@ -560,7 +560,7 @@ describe("ManagedIdentityCredential", function () {
       "URL does not have expected version"
     );
     if (authDetails.result?.token) {
-      assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000000);
+      assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000);
     } else {
       assert.fail("No token was returned!");
     }
@@ -598,7 +598,7 @@ describe("ManagedIdentityCredential", function () {
       "URL does not have expected version"
     );
     if (authDetails.result?.token) {
-      assert.equal(authDetails.result.expiresOnTimestamp, 1624157878000000);
+      assert.equal(authDetails.result.expiresOnTimestamp, 1624157878000);
     } else {
       assert.fail("No token was returned!");
     }
@@ -636,7 +636,7 @@ describe("ManagedIdentityCredential", function () {
       "URL does not have expected version"
     );
     if (authDetails.result?.token) {
-      assert.equal(authDetails.result.expiresOnTimestamp, 1624157878000000);
+      assert.equal(authDetails.result.expiresOnTimestamp, 1624157878000);
     } else {
       assert.fail("No token was returned!");
     }
@@ -977,7 +977,7 @@ describe("ManagedIdentityCredential", function () {
 
     if (authDetails.result!.token) {
       // We use Date.now underneath.
-      assert.equal(authDetails.result!.expiresOnTimestamp, 1000000);
+      assert.equal(authDetails.result!.expiresOnTimestamp, 1000);
     } else {
       assert.fail("No token was returned!");
     }
@@ -1019,7 +1019,7 @@ describe("ManagedIdentityCredential", function () {
 
     if (authDetails.result!.token) {
       // We use Date.now underneath.
-      assert.equal(authDetails.result!.expiresOnTimestamp, 1000000);
+      assert.equal(authDetails.result!.expiresOnTimestamp, 1000);
     } else {
       assert.fail("No token was returned!");
     }
@@ -1046,7 +1046,7 @@ describe("ManagedIdentityCredential", function () {
     assert.equal(confidentialSpy.callCount, 1);
 
     if (authDetails.result?.token) {
-      assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000000);
+      assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000);
     } else {
       assert.fail("No token was returned!");
     }
@@ -1101,7 +1101,7 @@ describe("ManagedIdentityCredential", function () {
       );
       assert.strictEqual(decodeURIComponent(body.get("scope")!), "https://service/.default");
       assert.strictEqual(authDetails.result!.token, "token");
-      assert.strictEqual(authDetails.result!.expiresOnTimestamp, 1000000);
+      assert.strictEqual(authDetails.result!.expiresOnTimestamp, 1000);
     });
     it("reads from the token file again only after 5 minutes have passed", async function (this: Mocha.Context) {
       // Keep in mind that in this test we're also testing:
@@ -1189,17 +1189,9 @@ describe("ManagedIdentityCredential", function () {
         ],
       });
 
-      // The Federated Token File is used in MSI Kubernetes Pods,
-      // and already has a layer of caching through the file
-      // A request is sent to STS (security token service) for fetching the token
-      // This token is saved in the file in this type of MSI authentication.
-      // Recently we added the Token Caching to Managed Identity Credential.
-      // This enables double caching on Federated Token File in MSI Kubernetes Pods
-      // For this reason, there is no subsequent requests being passed as before to the STS,
-      // since the token is already retrieved from the double caching.
-      assert.equal(authDetails.requests.length, 0);
-      assert.equal(authDetails.result?.expiresOnTimestamp, 1000000);
-      assert.equal(authDetails.result?.token, "token");
+      authRequest = authDetails.requests[0];
+      body = new URLSearchParams(authRequest.body);
+      assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), expectedAssertion);
 
       // More than 5 minutes means we read the file again.
       testContext.sandbox.restore();
@@ -1215,9 +1207,9 @@ describe("ManagedIdentityCredential", function () {
           }),
         ],
       });
-      assert.equal(authDetails.requests.length, 0);
-      assert.equal(authDetails.result?.expiresOnTimestamp, 1000000);
-      assert.equal(authDetails.result?.token, "token");
+      authRequest = authDetails.requests[0];
+      body = new URLSearchParams(authRequest.body);
+      assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), newExpectedAssertion);
     });
 
     it("the provided client ID overrides the AZURE_CLIENT_ID environment variable", async function (this: Mocha.Context) {

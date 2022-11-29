@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { GovernanceAssignments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -59,8 +60,11 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(scope, assessmentName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(scope, assessmentName, options, settings);
       }
     };
   }
@@ -68,11 +72,18 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
   private async *listPagingPage(
     scope: string,
     assessmentName: string,
-    options?: GovernanceAssignmentsListOptionalParams
+    options?: GovernanceAssignmentsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<GovernanceAssignment[]> {
-    let result = await this._list(scope, assessmentName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: GovernanceAssignmentsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(scope, assessmentName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         scope,
@@ -81,7 +92,9 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

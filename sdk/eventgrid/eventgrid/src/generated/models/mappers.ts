@@ -6557,6 +6557,94 @@ export const HealthcareFhirResourceDeletedEventData: coreClient.CompositeMapper 
   }
 };
 
+export const HealthcareDicomImageCreatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HealthcareDicomImageCreatedEventData",
+    modelProperties: {
+      imageStudyInstanceUid: {
+        serializedName: "imageStudyInstanceUid",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      imageSeriesInstanceUid: {
+        serializedName: "imageSeriesInstanceUid",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      imageSopInstanceUid: {
+        serializedName: "imageSopInstanceUid",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      serviceHostName: {
+        serializedName: "serviceHostName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      sequenceNumber: {
+        serializedName: "sequenceNumber",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const HealthcareDicomImageDeletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HealthcareDicomImageDeletedEventData",
+    modelProperties: {
+      imageStudyInstanceUid: {
+        serializedName: "imageStudyInstanceUid",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      imageSeriesInstanceUid: {
+        serializedName: "imageSeriesInstanceUid",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      imageSopInstanceUid: {
+        serializedName: "imageSopInstanceUid",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      serviceHostName: {
+        serializedName: "serviceHostName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      sequenceNumber: {
+        serializedName: "sequenceNumber",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const IotHubDeviceCreatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",

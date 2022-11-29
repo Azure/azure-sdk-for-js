@@ -33,6 +33,7 @@
     "sdk/purview/purview-scanning-rest/review/*.md",
     "sdk/quantum/quantum-jobs/review/*.md",
     "sdk/synapse/synapse-access-control/review/*.md",
+    "sdk/synapse/synapse-access-control-rest/review/*.md",
     "sdk/synapse/synapse-artifacts/review/*.md",
     "sdk/synapse/synapse-managed-private-endpoints/review/*.md",
     "sdk/synapse/synapse-monitoring/review/*.md",
@@ -161,12 +162,13 @@
         "reranker",
         "Rslp",
         "sorani",
-        "Sorani"
+        "Sorani",
+        "beider"
       ]
     },
     {
       "filename": "sdk/keyvault/keyvault-keys/review/**/*.md",
-      "words": ["ECHSM", "RSAHSM", "RSNULL", "Rsnull"]
+      "words": ["ECHSM", "OKPHSM", "RSAHSM", "RSNULL", "Rsnull"]
     },
     {
       "filename": "sdk/keyvault/keyvault-certificates/review/**/*.md",
@@ -223,6 +225,10 @@
       "words": ["rpmsg", "xlsb"]
     },
     {
+      "filename": "sdk/eventgrid/eventgrid/review/**/*.md",
+      "words": ["Dicom"]
+    },
+    {
       "filename": "sdk/iot/iot-modelsrepository/review/**/*.md",
       "words": ["Dtmi", "dtmis"]
     },
@@ -261,6 +267,10 @@
     {
       "filename": "sdk/maps/maps-search/review/maps-search.api.md",
       "words": ["bbox", "Neighbourhood", "Xstr"]
+    },
+    {
+      "filename": "sdk/maps/maps-route-rest/review/maps-route.api.md",
+      "words": ["bbox", "UTURN", "Hundredkm"]
     },
     {
       "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/api-management-custom-widgets-scaffolder.api.md",

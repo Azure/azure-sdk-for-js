@@ -3,7 +3,7 @@
 
 import {
   NotificationDetails,
-  NotificationOutcomeCollectionItem,
+  NotificationOutcome,
   NotificationOutcomeState,
 } from "../models/notificationDetails.js";
 import { getDateOrUndefined, getInteger, getStringOrUndefined, isDefined } from "../utils/utils.js";
@@ -20,27 +20,27 @@ export async function parseNotificationDetails(bodyText: string): Promise<Notifi
   });
   const notificationDetails = xml["NotificationDetails"];
 
-  let apnsOutcomeCounts: NotificationOutcomeCollectionItem[] | undefined;
+  let apnsOutcomeCounts: NotificationOutcome[] | undefined;
   if (isDefined(notificationDetails["ApnsOutcomeCounts"])) {
     apnsOutcomeCounts = parseOutcomeCounts(notificationDetails["ApnsOutcomeCounts"]["Outcome"]);
   }
 
-  let admOutcomeCounts: NotificationOutcomeCollectionItem[] | undefined;
+  let admOutcomeCounts: NotificationOutcome[] | undefined;
   if (isDefined(notificationDetails["AdmOutcomeCounts"])) {
     admOutcomeCounts = parseOutcomeCounts(notificationDetails["AdmOutcomeCounts"]["Outcome"]);
   }
 
-  let baiduOutcomeCounts: NotificationOutcomeCollectionItem[] | undefined;
+  let baiduOutcomeCounts: NotificationOutcome[] | undefined;
   if (isDefined(notificationDetails["BaiduOutcomeCounts"])) {
     baiduOutcomeCounts = parseOutcomeCounts(notificationDetails["BaiduOutcomeCounts"]["Outcome"]);
   }
 
-  let fcmOutcomeCounts: NotificationOutcomeCollectionItem[] | undefined;
+  let fcmOutcomeCounts: NotificationOutcome[] | undefined;
   if (isDefined(notificationDetails["GcmOutcomeCounts"])) {
     fcmOutcomeCounts = parseOutcomeCounts(notificationDetails["GcmOutcomeCounts"]["Outcome"]);
   }
 
-  let wnsOutcomeCounts: NotificationOutcomeCollectionItem[] | undefined;
+  let wnsOutcomeCounts: NotificationOutcome[] | undefined;
   if (isDefined(notificationDetails["WnsOutcomeCounts"])) {
     wnsOutcomeCounts = parseOutcomeCounts(notificationDetails["WnsOutcomeCounts"]["Outcome"]);
   }
@@ -54,6 +54,7 @@ export async function parseNotificationDetails(bodyText: string): Promise<Notifi
     endTime: getDateOrUndefined(notificationDetails["EndTime"]),
     pnsErrorDetailsUrl: getStringOrUndefined(notificationDetails["PnsErrorDetailsUri"]),
     targetPlatforms: getStringOrUndefined(notificationDetails["TargetPlatforms"]),
+    notificationBody: getStringOrUndefined(notificationDetails["NotificationBody"]),
     apnsOutcomeCounts,
     admOutcomeCounts,
     baiduOutcomeCounts,
@@ -64,9 +65,9 @@ export async function parseNotificationDetails(bodyText: string): Promise<Notifi
 
 function parseOutcomeCounts(
   counts: Record<string, any>[] | Record<string, any>
-): NotificationOutcomeCollectionItem[] {
+): NotificationOutcome[] {
   const items = Array.isArray(counts) ? counts : [counts];
-  const results: NotificationOutcomeCollectionItem[] = [];
+  const results: NotificationOutcome[] = [];
   for (const item of items) {
     results.push({ state: item["Name"], count: getInteger(item["Count"], "Count") });
   }

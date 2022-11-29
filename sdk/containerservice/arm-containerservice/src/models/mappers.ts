@@ -1022,6 +1022,29 @@ export const AgentPoolNetworkProfile: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      allowedHostPorts: {
+        serializedName: "allowedHostPorts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PortRange"
+            }
+          }
+        }
+      },
+      applicationSecurityGroups: {
+        serializedName: "applicationSecurityGroups",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -1040,6 +1063,41 @@ export const IPTag: coreClient.CompositeMapper = {
       },
       tag: {
         serializedName: "tag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PortRange: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PortRange",
+    modelProperties: {
+      portStart: {
+        constraints: {
+          InclusiveMaximum: 65535,
+          InclusiveMinimum: 1
+        },
+        serializedName: "portStart",
+        type: {
+          name: "Number"
+        }
+      },
+      portEnd: {
+        constraints: {
+          InclusiveMaximum: 65535,
+          InclusiveMinimum: 1
+        },
+        serializedName: "portEnd",
+        type: {
+          name: "Number"
+        }
+      },
+      protocol: {
+        serializedName: "protocol",
         type: {
           name: "String"
         }
@@ -1504,6 +1562,12 @@ export const ContainerServiceNetworkProfile: coreClient.CompositeMapper = {
       },
       networkMode: {
         serializedName: "networkMode",
+        type: {
+          name: "String"
+        }
+      },
+      ebpfDataplane: {
+        serializedName: "ebpfDataplane",
         type: {
           name: "String"
         }
@@ -2289,6 +2353,20 @@ export const ManagedClusterSecurityProfile: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedClusterSecurityProfileNodeRestriction"
+        }
+      },
+      customCATrustCertificates: {
+        constraints: {
+          MaxItems: 10
+        },
+        serializedName: "customCATrustCertificates",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "ByteArray"
+            }
+          }
         }
       }
     }
@@ -3913,6 +3991,13 @@ export const FleetHubProfile: coreClient.CompositeMapper = {
     className: "FleetHubProfile",
     modelProperties: {
       dnsPrefix: {
+        constraints: {
+          Pattern: new RegExp(
+            "^[a-zA-Z0-9]$|^[a-zA-Z0-9][a-zA-Z0-9-]{0,52}[a-zA-Z0-9]$"
+          ),
+          MaxLength: 54,
+          MinLength: 1
+        },
         serializedName: "dnsPrefix",
         type: {
           name: "String"
@@ -5202,6 +5287,36 @@ export const AgentPoolsUpgradeNodeImageVersionHeaders: coreClient.CompositeMappe
     modelProperties: {
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FleetsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FleetsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FleetMembersDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FleetMembersDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
         type: {
           name: "String"
         }

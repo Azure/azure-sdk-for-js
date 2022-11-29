@@ -37,5 +37,5 @@ describe(`ShortCodesClient - updates US Program Brief using upsert`, function ()
 
     assert.isOk(updateRes);
     assert.equal(updateRes.programDetails?.description, uspb.programDetails?.description);
-  }).timeout(15000);
+  }).timeout(35000);
 });

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.1.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,20 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.1.0-beta.1 (2022-11-17)
+
+### Features Added
+
+- Supports service version 2022-10-01-preview by default instead of 2022-05-01.
+- Adds support for extractive summarization and FHIR in `beginAnalyzeBatch`.
+- Adds support for abstractive summarization in `beginAnalyzeBatch`.
+- Adds support for dynamic classification in `analyze`.
+- Adds support for script detection (use model version "2022-04-10-preview")
+- Adds automatic language detection in `beginAnalyzeBatch`.
+- Adds support for document types in healthcare analysis.
+- Adds support for entity resolution in entity recognition (use model version "2022-10-01-preview").
+- Adds support for confidence scores in healthcare relations.
 
 ## 1.0.0 (2022-09-08)
 

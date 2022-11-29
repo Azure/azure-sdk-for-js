@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ArcSettings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -70,11 +71,15 @@ export class ArcSettingsImpl implements ArcSettings {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByClusterPagingPage(
           resourceGroupName,
           clusterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -83,15 +88,22 @@ export class ArcSettingsImpl implements ArcSettings {
   private async *listByClusterPagingPage(
     resourceGroupName: string,
     clusterName: string,
-    options?: ArcSettingsListByClusterOptionalParams
+    options?: ArcSettingsListByClusterOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ArcSetting[]> {
-    let result = await this._listByCluster(
-      resourceGroupName,
-      clusterName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ArcSettingsListByClusterResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByCluster(
+        resourceGroupName,
+        clusterName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByClusterNext(
         resourceGroupName,
@@ -100,7 +112,9 @@ export class ArcSettingsImpl implements ArcSettings {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

@@ -40,6 +40,7 @@ import {
   ModelVersionsImpl,
   OnlineEndpointsImpl,
   OnlineDeploymentsImpl,
+  SchedulesImpl,
   WorkspaceFeaturesImpl
 } from "./operations";
 import {
@@ -68,6 +69,7 @@ import {
   ModelVersions,
   OnlineEndpoints,
   OnlineDeployments,
+  Schedules,
   WorkspaceFeatures
 } from "./operationsInterfaces";
 import { AzureMachineLearningWorkspacesOptionalParams } from "./models";
@@ -104,7 +106,7 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-machinelearning/2.0.1`;
+    const packageDetails = `azsdk-js-arm-machinelearning/2.1.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -158,7 +160,7 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-05-01";
+    this.apiVersion = options.apiVersion || "2022-10-01";
     this.operations = new OperationsImpl(this);
     this.workspaces = new WorkspacesImpl(this);
     this.usages = new UsagesImpl(this);
@@ -184,6 +186,7 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
     this.modelVersions = new ModelVersionsImpl(this);
     this.onlineEndpoints = new OnlineEndpointsImpl(this);
     this.onlineDeployments = new OnlineDeploymentsImpl(this);
+    this.schedules = new SchedulesImpl(this);
     this.workspaceFeatures = new WorkspaceFeaturesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -241,5 +244,6 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
   modelVersions: ModelVersions;
   onlineEndpoints: OnlineEndpoints;
   onlineDeployments: OnlineDeployments;
+  schedules: Schedules;
   workspaceFeatures: WorkspaceFeatures;
 }

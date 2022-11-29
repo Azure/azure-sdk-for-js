@@ -1,0 +1,1294 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://myappconfig.azconfig.io/kv/listConfigSetting0A11122?api-version=1.0\u0026label=listConfigSettingsLabel65244",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/vnd.microsoft.appconfig.kv\u002Bjson, application/json, application/problem\u002Bjson",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "136",
+        "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson",
+        "If-None-Match": "*",
+        "User-Agent": "azsdk-js-app-configuration/1.4.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
+        "x-ms-client-request-id": "a2583ee1-8ce5-49a0-a2ac-5dddad7ec6fb",
+        "x-ms-content-sha256": "m40Qyys3yZMUaxLwRJc0uqhwskt6MLvYlBze8JpsGS8=",
+        "x-ms-date": "Tue, 18 Oct 2022 22:31:47 GMT"
+      },
+      "RequestBody": {
+        "key": "listConfigSetting0A11122",
+        "label": "listConfigSettingsLabel65244",
+        "content_type": "a content type",
+        "value": "[A] production value"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Authorization, x-ms-client-request-id, x-ms-useragent, x-ms-content-sha256, x-ms-date, host, Accept, Accept-Datetime, Date, If-Match, If-None-Match, Sync-Token, x-ms-return-client-request-id, ETag, Last-Modified, Link, Memento-Datetime, retry-after-ms, x-ms-request-id, x-ms-client-session-id, x-ms-effective-locale, WWW-Authenticate, traceparent, tracestate",
+        "Connection": "keep-alive",
+        "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson; charset=utf-8",
+        "Date": "Tue, 18 Oct 2022 22:31:47 GMT",
+        "ETag": "\u00223M4ZabRl5fmSxYRDi2mtIkzhaUkcHyo9lQn_Uy-2v10\u0022",
+        "Last-Modified": "Tue, 18 Oct 2022 22:31:47 GMT",
+        "Server": "openresty/1.17.8.2",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Sync-Token": "zAJw6V16=NDoxOSMyNTQ2OTIxNw==;sn=25469217",
+        "Transfer-Encoding": "chunked",
+        "x-ms-correlation-request-id": "ee504abe-5d6e-456a-a16c-ced6dc04c1ef",
+        "x-ms-request-id": "ee504abe-5d6e-456a-a16c-ced6dc04c1ef"
+      },
+      "ResponseBody": {
+        "etag": "3M4ZabRl5fmSxYRDi2mtIkzhaUkcHyo9lQn_Uy-2v10",
+        "key": "listConfigSetting0A11122",
+        "label": "listConfigSettingsLabel65244",
+        "content_type": "a content type",
+        "value": "[A] production value",
+        "tags": {},
+        "locked": false,
+        "last_modified": "2022-10-18T22:31:47\u002B00:00"
+      }
+    },
+    {
+      "RequestUri": "https://myappconfig.azconfig.io/locks/listConfigSetting0A11122?api-version=1.0\u0026label=listConfigSettingsLabel65244",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/vnd.microsoft.appconfig.kv\u002Bjson, application/json, application/problem\u002Bjson",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "sync-token": "zAJw6V16=NDoxOSMyNTQ2OTIxNw==",
+        "User-Agent": "azsdk-js-app-configuration/1.4.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
+        "x-ms-client-request-id": "7f3b9585-2202-4e62-b76e-2ce1095e6446",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Tue, 18 Oct 2022 22:31:47 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Authorization, x-ms-client-request-id, x-ms-useragent, x-ms-content-sha256, x-ms-date, host, Accept, Accept-Datetime, Date, If-Match, If-None-Match, Sync-Token, x-ms-return-client-request-id, ETag, Last-Modified, Link, Memento-Datetime, retry-after-ms, x-ms-request-id, x-ms-client-session-id, x-ms-effective-locale, WWW-Authenticate, traceparent, tracestate",
+        "Connection": "keep-alive",
+        "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson; charset=utf-8",
+        "Date": "Tue, 18 Oct 2022 22:31:48 GMT",
+        "ETag": "\u0022dutadg3Y0_Lo7WDYlktl-NSbHz8j3dZIw1O4S7OR_Qk\u0022",
+        "Last-Modified": "Tue, 18 Oct 2022 22:31:48 GMT",
+        "Server": "openresty/1.17.8.2",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Sync-Token": "zAJw6V16=NDoxOSMyNTQ2OTIxOA==;sn=25469218",
+        "Transfer-Encoding": "chunked",
+        "x-ms-correlation-request-id": "9c47e7ab-cd30-4fac-b4cf-f551f7e85d8a",
+        "x-ms-request-id": "9c47e7ab-cd30-4fac-b4cf-f551f7e85d8a"
+      },
+      "ResponseBody": {
+        "etag": "dutadg3Y0_Lo7WDYlktl-NSbHz8j3dZIw1O4S7OR_Qk",
+        "key": "listConfigSetting0A11122",
+        "label": "listConfigSettingsLabel65244",
+        "content_type": "a content type",
+        "value": "[A] production value",
+        "tags": {},
+        "locked": true,
+        "last_modified": "2022-10-18T22:31:48\u002B00:00"
+      }
+    },
+    {
+      "RequestUri": "https://myappconfig.azconfig.io/kv/listConfigSetting0A11122?api-version=1.0",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/vnd.microsoft.appconfig.kv\u002Bjson, application/json, application/problem\u002Bjson",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "54",
+        "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson",
+        "If-None-Match": "*",
+        "sync-token": "zAJw6V16=NDoxOSMyNTQ2OTIxOA==",
+        "User-Agent": "azsdk-js-app-configuration/1.4.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
+        "x-ms-client-request-id": "404eabe8-60f9-48be-bc52-ad3256a94c23",
+        "x-ms-content-sha256": "twmAbBkAAVCF18qnLqU6pKhsKL5lzZo4OEMjwdrhXJQ=",
+        "x-ms-date": "Tue, 18 Oct 2022 22:31:48 GMT"
+      },
+      "RequestBody": {
+        "key": "listConfigSetting0A11122",
+        "value": "[A] value"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Authorization, x-ms-client-request-id, x-ms-useragent, x-ms-content-sha256, x-ms-date, host, Accept, Accept-Datetime, Date, If-Match, If-None-Match, Sync-Token, x-ms-return-client-request-id, ETag, Last-Modified, Link, Memento-Datetime, retry-after-ms, x-ms-request-id, x-ms-client-session-id, x-ms-effective-locale, WWW-Authenticate, traceparent, tracestate",
+        "Connection": "keep-alive",
+        "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson; charset=utf-8",
+        "Date": "Tue, 18 Oct 2022 22:31:48 GMT",
+        "ETag": "\u00220AIReIvVZ5MFlUiC52HGa8UWGWekE-rVq-QJ6oPnV6s\u0022",
+        "Last-Modified": "Tue, 18 Oct 2022 22:31:48 GMT",
+        "Server": "openresty/1.17.8.2",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Sync-Token": "zAJw6V16=NDoxOSMyNTQ2OTIyMA==;sn=25469220",
+        "Transfer-Encoding": "chunked",
+        "x-ms-correlation-request-id": "a2c5bae2-441c-4f20-9470-377a903d993c",
+        "x-ms-request-id": "a2c5bae2-441c-4f20-9470-377a903d993c"
+      },
+      "ResponseBody": {
+        "etag": "0AIReIvVZ5MFlUiC52HGa8UWGWekE-rVq-QJ6oPnV6s",
+        "key": "listConfigSetting0A11122",
+        "label": null,
+        "content_type": null,
+        "value": "[A] value",
+        "tags": {},
+        "locked": false,
+        "last_modified": "2022-10-18T22:31:48\u002B00:00"
+      }
+    },
+    {
+      "RequestUri": "https://myappconfig.azconfig.io/kv/listConfigSetting0B54995?api-version=1.0\u0026label=listConfigSettingsLabel65244",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/vnd.microsoft.appconfig.kv\u002Bjson, application/json, application/problem\u002Bjson",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "104",
+        "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson",
+        "If-None-Match": "*",
+        "sync-token": "zAJw6V16=NDoxOSMyNTQ2OTIyMA==",
+        "User-Agent": "azsdk-js-app-configuration/1.4.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
+        "x-ms-client-request-id": "2345c614-4010-4b47-9068-7228722db09b",
+        "x-ms-content-sha256": "3PGHWiioT/bZzRvleoMd5VvQrRRspToONTSH/6yh1aE=",
+        "x-ms-date": "Tue, 18 Oct 2022 22:31:48 GMT"
+      },
+      "RequestBody": {
+        "key": "listConfigSetting0B54995",
+        "label": "listConfigSettingsLabel65244",
+        "value": "[B] production value"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Authorization, x-ms-client-request-id, x-ms-useragent, x-ms-content-sha256, x-ms-date, host, Accept, Accept-Datetime, Date, If-Match, If-None-Match, Sync-Token, x-ms-return-client-request-id, ETag, Last-Modified, Link, Memento-Datetime, retry-after-ms, x-ms-request-id, x-ms-client-session-id, x-ms-effective-locale, WWW-Authenticate, traceparent, tracestate",
+        "Connection": "keep-alive",
+        "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson; charset=utf-8",
+        "Date": "Tue, 18 Oct 2022 22:31:48 GMT",
+        "ETag": "\u00228bu6GA_fetxngQAqD1x3DXHihL6wLtoNPSfBAowiIWg\u0022",
+        "Last-Modified": "Tue, 18 Oct 2022 22:31:48 GMT",
+        "Server": "openresty/1.17.8.2",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Sync-Token": "zAJw6V16=NDoxOSMyNTQ2OTIyMQ==;sn=25469221",
+        "Transfer-Encoding": "chunked",
+        "x-ms-correlation-request-id": "708ca796-03de-4967-844f-aa6088baa6cd",
+        "x-ms-request-id": "708ca796-03de-4967-844f-aa6088baa6cd"
+      },
+      "ResponseBody": {
+        "etag": "8bu6GA_fetxngQAqD1x3DXHihL6wLtoNPSfBAowiIWg",
+        "key": "listConfigSetting0B54995",
+        "label": "listConfigSettingsLabel65244",
+        "content_type": null,
+        "value": "[B] production value",
+        "tags": {},
+        "locked": false,
+        "last_modified": "2022-10-18T22:31:48\u002B00:00"
+      }
+    },
+    {
+      "RequestUri": "https://myappconfig.azconfig.io/kv/listConfigSetting0B54995?api-version=1.0",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/vnd.microsoft.appconfig.kv\u002Bjson, application/json, application/problem\u002Bjson",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "54",
+        "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson",
+        "If-None-Match": "*",
+        "sync-token": "zAJw6V16=NDoxOSMyNTQ2OTIyMQ==",
+        "User-Agent": "azsdk-js-app-configuration/1.4.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
+        "x-ms-client-request-id": "a35e307f-d5a8-4b5d-8910-910164a4e7ed",
+        "x-ms-content-sha256": "IIFuHCBvuEbZxWUVsjfvbdQpj9G57YLH0dp6z/8U9QE=",
+        "x-ms-date": "Tue, 18 Oct 2022 22:31:48 GMT"
+      },
+      "RequestBody": {
+        "key": "listConfigSetting0B54995",
+        "value": "[B] value"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Authorization, x-ms-client-request-id, x-ms-useragent, x-ms-content-sha256, x-ms-date, host, Accept, Accept-Datetime, Date, If-Match, If-None-Match, Sync-Token, x-ms-return-client-request-id, ETag, Last-Modified, Link, Memento-Datetime, retry-after-ms, x-ms-request-id, x-ms-client-session-id, x-ms-effective-locale, WWW-Authenticate, traceparent, tracestate",
+        "Connection": "keep-alive",
+        "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson; charset=utf-8",
+        "Date": "Tue, 18 Oct 2022 22:31:48 GMT",
+        "ETag": "\u0022F_zgvpQt6XfHKjcoDUYKGUVzvjU6tvHVoC3JLUB8bAo\u0022",
+        "Last-Modified": "Tue, 18 Oct 2022 22:31:48 GMT",
+        "Server": "openresty/1.17.8.2",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Sync-Token": "zAJw6V16=NDoxOSMyNTQ2OTIyMg==;sn=25469222",
+        "Transfer-Encoding": "chunked",
+        "x-ms-correlation-request-id": "2e31f22b-f6f3-4c44-9eec-ab1f8e404b39",
+        "x-ms-request-id": "2e31f22b-f6f3-4c44-9eec-ab1f8e404b39"
+      },
+      "ResponseBody": {
+        "etag": "F_zgvpQt6XfHKjcoDUYKGUVzvjU6tvHVoC3JLUB8bAo",
+        "key": "listConfigSetting0B54995",
+        "label": null,
+        "content_type": null,
+        "value": "[B] value",
+        "tags": {},
+        "locked": false,
+        "last_modified": "2022-10-18T22:31:48\u002B00:00"
+      }
+    },
+    {
+      "RequestUri": "https://myappconfig.azconfig.io/kv?api-version=1.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/vnd.microsoft.appconfig.kvset\u002Bjson, application/json, application/problem\u002Bjson",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "sync-token": "zAJw6V16=NDoxOSMyNTQ2OTIyMg==",
+        "User-Agent": "azsdk-js-app-configuration/1.4.0-beta.1 core-rest-pipeline/1.9.3 Node/v16.14.2 OS/(x64-Linux-5.4.0-1090-azure)",
+        "x-ms-client-request-id": "81bcf17b-b134-48e9-b657-21c6f1bde16f",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Tue, 18 Oct 2022 22:31:48 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Authorization, x-ms-client-request-id, x-ms-useragent, x-ms-content-sha256, x-ms-date, host, Accept, Accept-Datetime, Date, If-Match, If-None-Match, Sync-Token, x-ms-return-client-request-id, ETag, Last-Modified, Link, Memento-Datetime, retry-after-ms, x-ms-request-id, x-ms-client-session-id, x-ms-effective-locale, WWW-Authenticate, traceparent, tracestate",
+        "Connection": "keep-alive",
+        "Content-Type": "application/vnd.microsoft.appconfig.kvset\u002Bjson; charset=utf-8",
+        "Date": "Tue, 18 Oct 2022 22:31:48 GMT",
+        "Link": "\u003C/kv?api-version=1.0\u0026after=bGlzdENvbmZpZ1NldHRpbmcwQTE2MwpsaXN0Q29uZmlnU2V0dGluZ3NMYWJlbDc0Mw%3D%3D\u003E; rel=\u0022next\u0022",
+        "Server": "openresty/1.17.8.2",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Sync-Token": "zAJw6V16=NDoxOSMyNTQ2OTIyMg==;sn=25469222",
+        "Transfer-Encoding": "chunked",
+        "x-ms-correlation-request-id": "325c3f1f-db62-4638-97f6-5bc31297d702",
+        "x-ms-request-id": "325c3f1f-db62-4638-97f6-5bc31297d702"
+      },
+      "ResponseBody": {
+        "items": [
+          {
+            "etag": "PZ5fyzBnyeeaQENgNUPnMg6c4aVqE2i_L_MPtOdYwcE",
+            "key": ".appconfig.featureflag/name-1144-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1144-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-14T21:30:13\u002B00:00"
+          },
+          {
+            "etag": "bm3dk1YKT_skZBKit84sgxTh721TJ6EChIokP1lys3g",
+            "key": ".appconfig.featureflag/name-1166431629673107933-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166431629673107933-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m a description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-09-27T22:04:56\u002B00:00"
+          },
+          {
+            "etag": "096KJCEL3k6sTY8A5IK82Opdow6DJFd8lnsrMcH98i4",
+            "key": ".appconfig.featureflag/name-1166431687528001388-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166431687528001388-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-09-27T22:14:35\u002B00:00"
+          },
+          {
+            "etag": "1N9vUy2s1ZC7Y-gA_x9SAXnZSdVp-OiK_ur40dNX_ic",
+            "key": ".appconfig.featureflag/name-1166431704150505032-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166431704150505032-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-09-27T22:17:21\u002B00:00"
+          },
+          {
+            "etag": "6IIFqtKYVKJrT2-qCzIGOrfUArKgyFPUiVmoyStodKY",
+            "key": ".appconfig.featureflag/name-1166431979014106909-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166431979014106909-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m a description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-09-27T23:03:10\u002B00:00"
+          },
+          {
+            "etag": "HbmTl1-4cf0R1ULqS2hegEissJr3u6CAD7UckJsljyw",
+            "key": ".appconfig.featureflag/name-1166500646726607900-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166500646726607900-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022FilterX\u0022}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-05T21:47:47\u002B00:00"
+          },
+          {
+            "etag": "v2iQCK9qk2SgH4Y44a7WVn8hH9rNhI-2BQyzRHVkg3g",
+            "key": ".appconfig.featureflag/name-1166500759045306748-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166500759045306748-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022FilterX\u0022}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-05T22:06:30\u002B00:00"
+          },
+          {
+            "etag": "97ht7AoYaUKdKYtY9c2DvaYeA05JsXoE5auG4mGUegw",
+            "key": ".appconfig.featureflag/name-1166507682650901353-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166507682650901353-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022FilterX\u0022}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-06T17:20:26\u002B00:00"
+          },
+          {
+            "etag": "Gl2sTBod6s8FU4BfKO8mU7ziEAcWnTwOGbB0Bj_mc9o",
+            "key": ".appconfig.featureflag/name-1166507692970109248-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166507692970109248-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022FilterX\u0022}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-06T17:22:10\u002B00:00"
+          },
+          {
+            "etag": "vqri40kKZzc5549LJWd6Mwk1MXbaph5SI1nbMdOstTA",
+            "key": ".appconfig.featureflag/name-1166507728898908179-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166507728898908179-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-06T17:28:09\u002B00:00"
+          },
+          {
+            "etag": "bk5qmW_K4-O1xVx7cduLyGU-S9IhIv44yy7t2AiQuTo",
+            "key": ".appconfig.featureflag/name-1166507795998302082-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166507795998302082-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-06T17:39:20\u002B00:00"
+          },
+          {
+            "etag": "c_9iD1V03NgI54-Ju1YwL7lk-qKYxIfwxMfDObi5d6g",
+            "key": ".appconfig.featureflag/name-1166507838593006655-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166507838593006655-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-06T17:46:26\u002B00:00"
+          },
+          {
+            "etag": "fP6cNOsLbCpn3XvPRqMZyGYMNp73FKWbSfRy1pOdbIg",
+            "key": ".appconfig.featureflag/name-1166507847997506202-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166507847997506202-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-06T17:48:00\u002B00:00"
+          },
+          {
+            "etag": "z5mRj3-atuFHyLdvl1PAwWdYjsJ2yFgxGobHCLXZymg",
+            "key": ".appconfig.featureflag/name-1166507983383304144-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166507983383304144-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-06T18:10:34\u002B00:00"
+          },
+          {
+            "etag": "sWv-dFO-gt6SrDjONHfW9IdfnI_wJljL-oAdnuRNBGI",
+            "key": ".appconfig.featureflag/name-1166508007847400596-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166508007847400596-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-06T18:14:38\u002B00:00"
+          },
+          {
+            "etag": "5OZf40s-aIP0g99JhDy_uGmLR-nf5kpnaI2GMtUY5mk",
+            "key": ".appconfig.featureflag/name-1166508031978902560-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166508031978902560-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-06T18:18:40\u002B00:00"
+          },
+          {
+            "etag": "tl-zDYBwhVsPcYXZLlbq6YgrA5MWcWj7k5xkjuHDTfA",
+            "key": ".appconfig.featureflag/name-1166508083883804215-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166508083883804215-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-06T18:27:19\u002B00:00"
+          },
+          {
+            "etag": "WF2X8x7l40l1ktPp28B5xIcnocAIVkv041IcZ7U_P6s",
+            "key": ".appconfig.featureflag/name-1166508583263202892-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166508583263202892-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-06T19:50:32\u002B00:00"
+          },
+          {
+            "etag": "_nbSxk0_5OcGf8BrrLo2XAdvgyOdEnLdPw0bU6sOI8E",
+            "key": ".appconfig.featureflag/name-1166508733908105315-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166508733908105315-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-06T20:15:39\u002B00:00"
+          },
+          {
+            "etag": "_Qnm9pONzIrYARLJEJ-ChwC0jq_pWB-1AKQclcCR_mU",
+            "key": ".appconfig.featureflag/name-1166541885222807374-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166541885222807374-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-10T16:20:52\u002B00:00"
+          },
+          {
+            "etag": "AOMZQA4SiKh3shGJ7zSjKady8EO_t3XUQ5idbvVR8Ew",
+            "key": ".appconfig.featureflag/name-1166552916106308514-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166552916106308514-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-11T22:59:21\u002B00:00"
+          },
+          {
+            "etag": "ElMQqYTiKHUkFzaJaLriSLiKbGporyZBmsxpfwcaIsI",
+            "key": ".appconfig.featureflag/name-1166553044422802197-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166553044422802197-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-11T23:20:44\u002B00:00"
+          },
+          {
+            "etag": "IOjL-zbfOVxC5D3EQRxHndiQCmYVvxZfvy1uXTZo5jo",
+            "key": ".appconfig.featureflag/name-1166553098778701015-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166553098778701015-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-11T23:29:48\u002B00:00"
+          },
+          {
+            "etag": "EorwQ13zbzSy3TxtagMH6Bu251AzCdAY35PNyTrzTTM",
+            "key": ".appconfig.featureflag/name-1166569277930401587-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166569277930401587-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-13T20:26:19\u002B00:00"
+          },
+          {
+            "etag": "_Y62vSOmurWJ8uakVscNVt9-e4iQbuu0nAtyEfOJ3ho",
+            "key": ".appconfig.featureflag/name-1166569895823908774-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166569895823908774-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-13T22:09:18\u002B00:00"
+          },
+          {
+            "etag": "UHvWnEgw6KApF-PiV6gopgFJiYlQW1mfXlqalEF4orA",
+            "key": ".appconfig.featureflag/name-1166611662132008125-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1166611662132008125-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-18T18:10:21\u002B00:00"
+          },
+          {
+            "etag": "ZEvgleAGuQ9CjdC0tEWVReSgXz65fi47PLssqu8Egk0",
+            "key": ".appconfig.featureflag/name-1208-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1208-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-14T21:47:19\u002B00:00"
+          },
+          {
+            "etag": "lWxElX-sXkBEHti29DYjdlrcL83NUCQ8GNd110IdbJM",
+            "key": ".appconfig.featureflag/name-1221-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1221-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-14T21:44:19\u002B00:00"
+          },
+          {
+            "etag": "jRNXcQ2uvV5AsaH5V-ca5KIDJNNibieUgo9TlBxqrHg",
+            "key": ".appconfig.featureflag/name-1239-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1239-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-18T21:59:07\u002B00:00"
+          },
+          {
+            "etag": "u5QjsomOJXALL9jprUuCWTwvoKET1AREuAyQ5mCoCb4",
+            "key": ".appconfig.featureflag/name-1261-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1261-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-14T20:30:10\u002B00:00"
+          },
+          {
+            "etag": "H-N6tfr3J8fQREiiClzz8dk5DZ-Uze4PL6PIHucHImg",
+            "key": ".appconfig.featureflag/name-1329-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1329-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-14T21:42:32\u002B00:00"
+          },
+          {
+            "etag": "h6_hJ_3qortfT6E0PBdBpBPUHzSkz72EdMxLqF7gddQ",
+            "key": ".appconfig.featureflag/name-1337-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1337-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-14T21:52:53\u002B00:00"
+          },
+          {
+            "etag": "USyC4R2myZgagwIvT5jBQ-YWSMRr_R_4qVOeO6TOHg4",
+            "key": ".appconfig.featureflag/name-1375-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1375-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-17T22:18:21\u002B00:00"
+          },
+          {
+            "etag": "kYguB9uAzVyy8co5DWjEDdFCTOaDNn7MlaoM2395DLA",
+            "key": ".appconfig.featureflag/name-1402-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1402-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-14T21:40:04\u002B00:00"
+          },
+          {
+            "etag": "g-bpROzsY28UojCSkuYvaDaCJzaOl4ftSZw2n7RlRjc",
+            "key": ".appconfig.featureflag/name-1403-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1403-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-17T22:04:15\u002B00:00"
+          },
+          {
+            "etag": "o_wZt94fzDmsIaxb5_7ZdUb9oocFqa5aPor0lH9dyPE",
+            "key": ".appconfig.featureflag/name-1423-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1423-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-14T21:50:30\u002B00:00"
+          },
+          {
+            "etag": "1ifx1QGYi0ccc2NjdXONxnlm_dgjaVqA4m45-aLOgf0",
+            "key": ".appconfig.featureflag/name-1482-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1482-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-18T17:59:29\u002B00:00"
+          },
+          {
+            "etag": "1gX-MJizHxy651057qxcuUwZZQeTTbCd0fbPP1GwNlU",
+            "key": ".appconfig.featureflag/name-1636-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1636-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-14T21:34:59\u002B00:00"
+          },
+          {
+            "etag": "kj3RsVxmisR6Nhu5F1zSONM3VJRnu0UtCNs-wCmGDpo",
+            "key": ".appconfig.featureflag/name-1677-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1677-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-17T22:13:05\u002B00:00"
+          },
+          {
+            "etag": "6WTVyS2-FA5RCwZZo9yPsl3pW5pwLwdP337rvxDx6Tg",
+            "key": ".appconfig.featureflag/name-168-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-168-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-17T21:54:53\u002B00:00"
+          },
+          {
+            "etag": "wnmDVZ8CgFl4A65j5OhpO6rFmXxWNdZupg4hAMevzTo",
+            "key": ".appconfig.featureflag/name-1689-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1689-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-14T19:18:06\u002B00:00"
+          },
+          {
+            "etag": "ElQ_AC9QwvmGab1tHgZP1KyrBL4ihwRpo70s6-EeVUo",
+            "key": ".appconfig.featureflag/name-1750-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1750-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-14T18:23:36\u002B00:00"
+          },
+          {
+            "etag": "rIGGEbfvvk2TCbYXYjSJ33QnqgXMursCgAjfJFoWeO0",
+            "key": ".appconfig.featureflag/name-1828-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1828-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-18T22:31:42\u002B00:00"
+          },
+          {
+            "etag": "-SDPXaugX-UlrIK9RFIlaKGHXfpVp6PApi_-7sMlIZM",
+            "key": ".appconfig.featureflag/name-1885-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1885-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-18T22:29:37\u002B00:00"
+          },
+          {
+            "etag": "6A6AD-WFkveF9WSfm1MYUlqVSltHCRPNP8mq4RPs-fM",
+            "key": ".appconfig.featureflag/name-1942-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u0022name-1942-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-17T22:14:21\u002B00:00"
+          },
+          {
+            "etag": "mbjGlmobv7Wd7PVwzl-8CRZXexOF7LIkEFA5L4P4H1M",
+            "key": "addConfigSample103",
+            "label": null,
+            "content_type": null,
+            "value": "MyValue",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-18T22:29:40\u002B00:00"
+          },
+          {
+            "etag": "PvFLBR1QMIhcIo9xzpFHGBWy4aeppUOC9QUTHDE5-S0",
+            "key": "addConfigSample171",
+            "label": null,
+            "content_type": null,
+            "value": "MyValue",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-18T22:31:44\u002B00:00"
+          },
+          {
+            "etag": "IKydM6RDZ5wSABKIllcB01zr_7Y7-Kes6dy5gIbNPkM",
+            "key": "addConfigTestTwice182",
+            "label": "test",
+            "content_type": null,
+            "value": "foo",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-18T22:31:45\u002B00:00"
+          },
+          {
+            "etag": "2Svigbvs4VSk_vVwqGF2HvdPmcQWeeZsru1CEsbqyA4",
+            "key": "addConfigTestTwice800",
+            "label": "test",
+            "content_type": null,
+            "value": "foo",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-18T22:29:41\u002B00:00"
+          },
+          {
+            "etag": "i8gEPOn5zhFx9qVxRMJseXOYmOW4L8iBOdPVwIcujSM",
+            "key": "getConfigTest166431630204209501",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-09-27T22:05:02\u002B00:00"
+          },
+          {
+            "etag": "Gy8JKn0_eUV22zbkAOr9XKt1nQ6j9Hev37kyoDHlz_s",
+            "key": "getConfigTest166431688165507495",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-09-27T22:14:41\u002B00:00"
+          },
+          {
+            "etag": "3lXeu5g9QonaF3hr8vrNrFQKyzcos17aBmjyoyyy9Ug",
+            "key": "getConfigTest166431704784609474",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-09-27T22:17:27\u002B00:00"
+          },
+          {
+            "etag": "b6I8zotIzUBoJCsJP1j8FfZjeS_8-x_aONbEezUxDTk",
+            "key": "getConfigTest166500647319305262",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-05T21:47:53\u002B00:00"
+          },
+          {
+            "etag": "j2w3N4lWwidDhnfXmLgW78ej1FRVmz16W5v5X5-jlZo",
+            "key": "getConfigTest166500759650706867",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-05T22:06:36\u002B00:00"
+          },
+          {
+            "etag": "s2P6m2ZB1wEddCCO_mgb3ngFoOYcrrN2O05mt6AV82E",
+            "key": "getConfigTest166507683248204055",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-06T17:20:32\u002B00:00"
+          },
+          {
+            "etag": "JfWnUUITraDW1FYbuTGMj-5jJas4zhLiEIO0bitCNaI",
+            "key": "getConfigTest166507693572207929",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-06T17:22:15\u002B00:00"
+          },
+          {
+            "etag": "TY30XCs4mJor1VkZT2YnEsHMSrcCzwjEqyFlQcYEYPg",
+            "key": "getConfigTest166507796638302990",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-06T17:39:26\u002B00:00"
+          },
+          {
+            "etag": "C7Jby2qtfTdy5V9TSgCcnRdEsS3hhzmLgEQkEgfL8sg",
+            "key": "getConfigTest166507839214901408",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-06T17:46:32\u002B00:00"
+          },
+          {
+            "etag": "ZAJi5ZEjQkd5tyWMbQyB-wVpnJHhVOTvIcS5wUJybWk",
+            "key": "getConfigTest166507848617702485",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-06T17:48:06\u002B00:00"
+          },
+          {
+            "etag": "vsfAd-0EHuCslvMQZ4OdLBj1gma8bVI_D3-W0aRwDNw",
+            "key": "getConfigTest166507983994902642",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-06T18:10:40\u002B00:00"
+          },
+          {
+            "etag": "GVe63Ls_LtAjBlGuNfBLoVnRTgDXTGSDxTD-U2UYcrk",
+            "key": "getConfigTest166508008485205333",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-06T18:14:44\u002B00:00"
+          },
+          {
+            "etag": "9BnXJfENJHk3U94kOcTq3MbKoefgbaMceNlmx0j1RyM",
+            "key": "getConfigTest166508032588005608",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-06T18:18:45\u002B00:00"
+          },
+          {
+            "etag": "SIifutbvbw2TpdLM-46Lyc5g_pYcxH3WofMHGX06Rh4",
+            "key": "getConfigTest166508084500508628",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-06T18:27:25\u002B00:00"
+          },
+          {
+            "etag": "W0qvFaVSwOmmi6CfTJbGQrtvxSpPmDNH3mOnHJApsV4",
+            "key": "getConfigTest166508583873603181",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-06T19:50:38\u002B00:00"
+          },
+          {
+            "etag": "OOCpi9uMhdepsBYEr0XbOdjx_Tihdf1ybdV_OgZ_1TI",
+            "key": "getConfigTest166508734533907901",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-06T20:15:45\u002B00:00"
+          },
+          {
+            "etag": "qmMHL_YPSCYI5as3LG6-Tkb1o9QXm7Zzq9UomAqZrRA",
+            "key": "getConfigTest166541885890206066",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-10T16:20:59\u002B00:00"
+          },
+          {
+            "etag": "hXADmPRwGNvRERFjZKGS2Rzmv0iYM1bxPJi1clcz180",
+            "key": "getConfigTest166552916720905205",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-11T22:59:27\u002B00:00"
+          },
+          {
+            "etag": "1z6dBw8FVneZ34eI45GTrReC3FzqWYLZe2x98vEJfe4",
+            "key": "getConfigTest166553045035500716",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-11T23:20:50\u002B00:00"
+          },
+          {
+            "etag": "kM5wActbl-lXCDi7v6Hn-pHJkY2FHSRIu6hqNE3NEDo",
+            "key": "getConfigTest166553099384307306",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-11T23:29:53\u002B00:00"
+          },
+          {
+            "etag": "rbLE2FwgmF9EwNfMoW4JSgqt2IVRIeyy8CsLYuWlOW0",
+            "key": "getConfigTest166569278544009968",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-13T20:26:25\u002B00:00"
+          },
+          {
+            "etag": "oPU7xuJcdlRHNW8OREJ8nr4vTLO9BqMkqEp8tAgukLM",
+            "key": "getConfigTest166569896474203522",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-13T22:09:24\u002B00:00"
+          },
+          {
+            "etag": "MbHmeej3CRF3huBy_Orhmu28KCAUGRj_PVxzlrlgHKw",
+            "key": "getConfigTest166611662746900487",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-18T18:10:27\u002B00:00"
+          },
+          {
+            "etag": "52Xv5NLhpj6sE-DRoE90vlPDYRLz2BH29BzF-hAZSgI",
+            "key": "getConfigTest25",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-14T18:23:42\u002B00:00"
+          },
+          {
+            "etag": "b_gF7pLIsjQAy-KvY0JWLJErgiNv7gFMwdXbOmyjtyI",
+            "key": "getConfigTest282",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-17T21:54:58\u002B00:00"
+          },
+          {
+            "etag": "DwIpr_3sW_SsumvdA0anUD2qUzWGgZwfMqcRQbun508",
+            "key": "getConfigTest321",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-14T21:50:35\u002B00:00"
+          },
+          {
+            "etag": "AukPu6CN91DPRJe2nYhJTqilR97VVFMkNivupzN28fg",
+            "key": "getConfigTest359",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-14T21:47:25\u002B00:00"
+          },
+          {
+            "etag": "6gx1I2NuaSnPCyvwJjX26YEardcwyDlpFSKX3bMqYRU",
+            "key": "getConfigTest360",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-17T22:18:27\u002B00:00"
+          },
+          {
+            "etag": "dA_3KePqZdLrgZzAzA2wY2xmg1j6HGFYVRolkigd5eg",
+            "key": "getConfigTest417",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-18T17:59:35\u002B00:00"
+          },
+          {
+            "etag": "hBdeu6LSbFqUe7QThxOTgGquRxp4Yr9UQzYbHxYW2cY",
+            "key": "getConfigTest419",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-14T21:35:04\u002B00:00"
+          },
+          {
+            "etag": "cy0ueyjK8uUaaHWcwS44VVcSm9327bdNCX6x4XCMfgY",
+            "key": "getConfigTest47",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-18T21:59:13\u002B00:00"
+          },
+          {
+            "etag": "IC7iSXmsTRnZhq6GkEl2S1EbVPZpNEuJLDc3u5c4hTY",
+            "key": "getConfigTest487",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-14T20:30:16\u002B00:00"
+          },
+          {
+            "etag": "9UxRxZpJHwcFGLl0wx43Awi6Esu7pWGrWoObnaLfUBM",
+            "key": "getConfigTest519",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-17T22:14:27\u002B00:00"
+          },
+          {
+            "etag": "m0ShF3xVLnqMLBaxalo2K1ec5Bi7viTQSI9exm9jHdg",
+            "key": "getConfigTest531",
+            "label": "test",
+            "content_type": "application/json",
+            "value": "foo",
+            "tags": {
+              "bar": "baz",
+              "car": "caz"
+            },
+            "locked": false,
+            "last_modified": "2022-10-18T22:29:42\u002B00:00"
+          },
+          {
+            "etag": "Yl7qaTi7fcYFOFu7GNHbNV9FjSDWxrFAauqVbb6cefk",
+            "key": "getConfigTest562",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-14T21:44:26\u002B00:00"
+          },
+          {
+            "etag": "nFc-caKDmama-L237w13UsNqEyi_-PY5nk0aZ77P-Tw",
+            "key": "getConfigTest578",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-18T22:29:43\u002B00:00"
+          },
+          {
+            "etag": "A328rHRzEPMHUac1vxFgnT0JN_p6R0m-pTk7bRYkVMw",
+            "key": "getConfigTest604",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-17T22:16:04\u002B00:00"
+          },
+          {
+            "etag": "NRAH8z8u4UbAfNlLhrIuVqKf8yxA5lkn_5-VamWdI18",
+            "key": "getConfigTest617",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-14T21:40:10\u002B00:00"
+          },
+          {
+            "etag": "Wp3xP4aAlyBw-gIXGssyAm7VZF1p7dOzf10qt20PDgs",
+            "key": "getConfigTest743",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-14T21:30:18\u002B00:00"
+          },
+          {
+            "etag": "_DslyvmIIqueB0CTRwA19TR-aRTsFV58ZNYos29LbI0",
+            "key": "getConfigTest809",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-18T22:31:47\u002B00:00"
+          },
+          {
+            "etag": "mdvFmfmwHUXkKEZUiicTXx95bUcm0FBLn-g9erRUuqI",
+            "key": "getConfigTest823",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-14T21:42:38\u002B00:00"
+          },
+          {
+            "etag": "E3g7QWwWK-e8yMC3wi2ODrPC2E93ff3IzMmZdbxTPtU",
+            "key": "getConfigTest830",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-17T22:13:11\u002B00:00"
+          },
+          {
+            "etag": "k4lJpONUekHVRsinmI6asN4-5111QQcGKRwcFqP1Avc",
+            "key": "getConfigTest836",
+            "label": "test",
+            "content_type": "application/json",
+            "value": "foo",
+            "tags": {
+              "bar": "baz",
+              "car": "caz"
+            },
+            "locked": false,
+            "last_modified": "2022-10-18T22:31:46\u002B00:00"
+          },
+          {
+            "etag": "_d1K7osw1hYfpE8zaiyZEd0S1GPy2Y-dkr0UzFNkxtI",
+            "key": "getConfigTest931",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-14T21:52:58\u002B00:00"
+          },
+          {
+            "etag": "t3US03Vhv5M1takKIvQaf5Gx_S8caZ-FXiKckn1iEpk",
+            "key": "getConfigTest950",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-14T19:18:12\u002B00:00"
+          },
+          {
+            "etag": "6YWc5S6H3MjvpSlBerlAo-uvbHn7oGJ_cMx4ubQVOYE",
+            "key": "getConfigurationSettingByDate685",
+            "label": null,
+            "content_type": null,
+            "value": "value2",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-18T22:31:47\u002B00:00"
+          },
+          {
+            "etag": "-Av8usBxTfB8zj7bCiY_VginMZgSeNbsV3jhJmU7HZE",
+            "key": "getConfigurationSettingByDate873",
+            "label": null,
+            "content_type": null,
+            "value": "value2",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-18T22:29:43\u002B00:00"
+          },
+          {
+            "etag": "0AIReIvVZ5MFlUiC52HGa8UWGWekE-rVq-QJ6oPnV6s",
+            "key": "listConfigSetting0A11122",
+            "label": null,
+            "content_type": null,
+            "value": "[A] value",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2022-10-18T22:31:48\u002B00:00"
+          },
+          {
+            "etag": "dutadg3Y0_Lo7WDYlktl-NSbHz8j3dZIw1O4S7OR_Qk",
+            "key": "listConfigSetting0A11122",
+            "label": "listConfigSettingsLabel65244",
+            "content_type": "a content type",
+            "value": "[A] production value",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-18T22:31:48\u002B00:00"
+          },
+          {
+            "etag": "OtYkkuhxnA5zrq_u5MrZmG3OPrOW1sfloTUI1eYVOEY",
+            "key": "listConfigSetting0A157",
+            "label": "listConfigSettingsLabel537",
+            "content_type": "a content type",
+            "value": "[A] production value",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-14T21:50:36\u002B00:00"
+          },
+          {
+            "etag": "aJk7ls2w_SlpD994HCspZW2vAorV4aNZwlBgFrszob0",
+            "key": "listConfigSetting0A163",
+            "label": "listConfigSettingsLabel743",
+            "content_type": "a content type",
+            "value": "[A] production value",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2022-10-14T21:47:25\u002B00:00"
+          }
+        ],
+        "@nextLink": "/kv?api-version=1.0\u0026after=bGlzdENvbmZpZ1NldHRpbmcwQTE2MwpsaXN0Q29uZmlnU2V0dGluZ3NMYWJlbDc0Mw%3D%3D"
+      }
+    }
+  ],
+  "Variables": {
+    "listConfigSetting0A": "listConfigSetting0A11122",
+    "listConfigSetting0B": "listConfigSetting0B54995",
+    "listConfigSettingsLabel": "listConfigSettingsLabel65244"
+  }
+}

@@ -1,5 +1,33 @@
 # Release History
+    
+## 7.3.1 (2022-11-21)
 
+**Features**
+
+ -  Exposes `getContinuationToken` helper function to extract continuation token
+
+**Bugs Fixed**
+
+  - A series of small bug fixs relevant to authentication and apiVersion policy
+
+## 7.3.0 (2022-10-31)
+    
+**Features**
+
+  - Added Interface Account
+  - Added Interface AccountModel
+  - Added Interface AzureEntityResource
+  - Added Interface CommitmentPlan
+  - Added Interface Deployment
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateLinkResource
+  - Added Interface ProxyResource
+  - Interface DeploymentModel has a new optional parameter callRateLimit
+  - Interface DeploymentProperties has a new optional parameter callRateLimit
+  - Interface DeploymentProperties has a new optional parameter capabilities
+  - Interface DeploymentProperties has a new optional parameter raiPolicyName
+    
+    
 ## 7.2.0 (2022-06-10)
     
 **Features**

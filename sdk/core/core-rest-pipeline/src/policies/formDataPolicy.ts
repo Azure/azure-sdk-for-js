@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import FormData from "form-data";
-import { FormDataMap, PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
-import { PipelinePolicy } from "../pipeline.js";
+import { FormDataMap, PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
+import { PipelinePolicy } from "../pipeline";
 
 /**
  * The programmatic identifier of the formDataPolicy.
@@ -23,7 +23,7 @@ export function formDataPolicy(): PipelinePolicy {
           request.body = wwwFormUrlEncode(request.formData);
           request.formData = undefined;
         } else {
-          prepareFormData(request.formData, request);
+          await prepareFormData(request.formData, request);
         }
       }
       return next(request);
