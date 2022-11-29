@@ -34,5 +34,5 @@ extends:
     Artifacts:
       - name: azure-rest-confidential-ledger
         safeName: azurerestconfidentialledger
-      - name: azure-rest-confidentialledger-bugbash
-        safeName: azurerestconfidentialledgerbugbash
+      - name: azure-rest-azure-confidentialledger-bugbash-rest
+        safeName: azurerestazureconfidentialledgerbugbashrest
