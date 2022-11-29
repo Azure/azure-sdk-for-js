@@ -1,6 +1,6 @@
 # Release History
     
-## 2.1.0 (2022-04-18)
+## 2.1.0 (2022-11-22)
     
 **Features**
 
@@ -11,7 +11,6 @@
   - Added Type Alias CreatedByType
   - Interface ManagementLockObject has a new optional parameter systemData
   - Added Enum KnownCreatedByType
-  - Bug fix
     
     
 ## 2.0.0 (2021-12-07)
