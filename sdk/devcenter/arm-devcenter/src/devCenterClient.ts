@@ -29,6 +29,7 @@ import {
   OperationsImpl,
   OperationStatusesImpl,
   UsagesImpl,
+  CheckNameAvailabilityImpl,
   SkusImpl,
   PoolsImpl,
   SchedulesImpl,
@@ -49,6 +50,7 @@ import {
   Operations,
   OperationStatuses,
   Usages,
+  CheckNameAvailability,
   Skus,
   Pools,
   Schedules,
@@ -88,7 +90,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-devcenter/1.0.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-devcenter/1.0.0-beta.4`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -141,7 +143,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-10-12-preview";
+    this.apiVersion = options.apiVersion || "2022-11-11-preview";
     this.devCenters = new DevCentersImpl(this);
     this.projects = new ProjectsImpl(this);
     this.attachedNetworks = new AttachedNetworksImpl(this);
@@ -158,6 +160,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
     this.operations = new OperationsImpl(this);
     this.operationStatuses = new OperationStatusesImpl(this);
     this.usages = new UsagesImpl(this);
+    this.checkNameAvailability = new CheckNameAvailabilityImpl(this);
     this.skus = new SkusImpl(this);
     this.pools = new PoolsImpl(this);
     this.schedules = new SchedulesImpl(this);
@@ -207,6 +210,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
   operations: Operations;
   operationStatuses: OperationStatuses;
   usages: Usages;
+  checkNameAvailability: CheckNameAvailability;
   skus: Skus;
   pools: Pools;
   schedules: Schedules;
