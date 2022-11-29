@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import * as coreHttpCompat from "@azure/core-http-compat";
 import {
   ServiceImpl,
   ContainerImpl,
@@ -25,7 +25,7 @@ import {
 } from "./operationsInterfaces";
 import { StorageClientOptionalParams } from "./models";
 
-export class StorageClient extends coreClient.ServiceClient {
+export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
   url: string;
   version: string;
 

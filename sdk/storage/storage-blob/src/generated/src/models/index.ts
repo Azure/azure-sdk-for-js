@@ -7,6 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreHttpCompat from "@azure/core-http-compat";
 
 /** Storage Service Properties. */
 export interface BlobServiceProperties {
@@ -4288,7 +4289,7 @@ export type BlockBlobGetBlockListResponse = BlockBlobGetBlockListHeaders &
 
 /** Optional parameters. */
 export interface StorageClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+  extends coreHttpCompat.ExtendedServiceClientOptions {
   /** Specifies the version of the operation to use for this request. */
   version?: string;
   /** Overrides client endpoint. */

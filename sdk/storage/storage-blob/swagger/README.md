@@ -18,6 +18,7 @@ optional-response-headers: true
 v3: true
 disable-async-iterators: true
 add-credentials: false
+core-http-compat-mode: true
 use-extension:
   "@autorest/typescript": "latest"
 package-version: 12.12.1
