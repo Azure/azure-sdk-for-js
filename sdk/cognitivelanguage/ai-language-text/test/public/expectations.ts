@@ -6806,39 +6806,6 @@ export const expectation33: AnalyzeBatchResult[] = [
         warnings: [],
         entities: [
           {
-            text: "14 inches",
-            category: "Quantity",
-            subCategory: "Dimension",
-            offset: 11,
-            length: 9,
-            confidenceScore: 0.8,
-            resolutions: [{ resolutionKind: "LengthResolution", value: 14, unit: "Inch" }],
-          },
-          {
-            text: "20 lbs",
-            category: "Quantity",
-            subCategory: "Dimension",
-            offset: 37,
-            length: 6,
-            confidenceScore: 0.8,
-            resolutions: [{ resolutionKind: "WeightResolution", value: 20, unit: "Pound" }],
-          },
-          {
-            text: "5 years old",
-            category: "Quantity",
-            subCategory: "Age",
-            offset: 51,
-            length: 11,
-            confidenceScore: 0.98,
-            resolutions: [{ resolutionKind: "AgeResolution", value: 5, unit: "Year" }],
-          },
-        ],
-      },
-      {
-        id: "1",
-        warnings: [],
-        entities: [
-          {
             text: "first",
             category: "Quantity",
             subCategory: "Ordinal",
@@ -6849,7 +6816,7 @@ export const expectation33: AnalyzeBatchResult[] = [
               { resolutionKind: "OrdinalResolution", offset: "1", relativeTo: "Start", value: "1" },
             ],
           },
-          { text: "aircraft", category: "Product", offset: 18, length: 8, confidenceScore: 0.8 },
+          { text: "aircraft", category: "Product", offset: 18, length: 8, confidenceScore: 0.87 },
           {
             text: "1,300 meter per second",
             category: "Quantity",
@@ -6867,7 +6834,7 @@ export const expectation33: AnalyzeBatchResult[] = [
             subCategory: "NumberRange",
             offset: 92,
             length: 5,
-            confidenceScore: 0.85,
+            confidenceScore: 0.9,
             resolutions: [
               {
                 resolutionKind: "NumericRangeResolution",
@@ -6882,15 +6849,15 @@ export const expectation33: AnalyzeBatchResult[] = [
             category: "PersonType",
             offset: 98,
             length: 10,
-            confidenceScore: 0.96,
+            confidenceScore: 0.98,
           },
         ],
       },
       {
-        id: "2",
+        id: "1",
         warnings: [],
         entities: [
-          { text: "apartment", category: "Location", offset: 4, length: 9, confidenceScore: 0.81 },
+          { text: "apartment", category: "Location", offset: 4, length: 9, confidenceScore: 0.89 },
           {
             text: "840 sqft",
             category: "Quantity",
@@ -6906,17 +6873,17 @@ export const expectation33: AnalyzeBatchResult[] = [
             subCategory: "Number",
             offset: 38,
             length: 1,
-            confidenceScore: 0.98,
+            confidenceScore: 0.99,
             resolutions: [{ resolutionKind: "NumberResolution", numberKind: "Integer", value: 2 }],
           },
-          { text: "bedrooms", category: "Location", offset: 40, length: 8, confidenceScore: 0.66 },
+          { text: "bedrooms", category: "Location", offset: 40, length: 8, confidenceScore: 0.88 },
           {
             text: "2,000 US dollars",
             category: "Quantity",
             subCategory: "Currency",
             offset: 59,
             length: 16,
-            confidenceScore: 0.99,
+            confidenceScore: 1,
             resolutions: [
               {
                 resolutionKind: "CurrencyResolution",
@@ -6932,7 +6899,7 @@ export const expectation33: AnalyzeBatchResult[] = [
             subCategory: "Date",
             offset: 111,
             length: 10,
-            confidenceScore: 0.99,
+            confidenceScore: 1,
             resolutions: [
               {
                 resolutionKind: "DateTimeResolution",
@@ -6945,7 +6912,7 @@ export const expectation33: AnalyzeBatchResult[] = [
         ],
       },
       {
-        id: "3",
+        id: "2",
         warnings: [],
         entities: [
           {
@@ -6960,18 +6927,64 @@ export const expectation33: AnalyzeBatchResult[] = [
             ],
           },
           {
-            text: "between October 24th, 2022 and October 28th, 2022",
+            text: "between",
             category: "DateTime",
             subCategory: "DateRange",
             offset: 37,
-            length: 49,
-            confidenceScore: 0.69,
+            length: 7,
+            confidenceScore: 0.65,
+          },
+          {
+            text: "October 24th, 2022",
+            category: "DateTime",
+            subCategory: "Date",
+            offset: 45,
+            length: 18,
+            confidenceScore: 0.64,
+            resolutions: [
+              {
+                resolutionKind: "DateTimeResolution",
+                timex: "2022-10-24",
+                dateTimeSubKind: "Date",
+                value: "2022-10-24",
+              },
+            ],
+          },
+          {
+            text: "October 28th",
+            category: "DateTime",
+            subCategory: "Date",
+            offset: 68,
+            length: 12,
+            confidenceScore: 0.56,
+            resolutions: [
+              {
+                resolutionKind: "DateTimeResolution",
+                timex: "XXXX-10-28",
+                dateTimeSubKind: "Date",
+                value: "2022-10-28",
+              },
+              {
+                resolutionKind: "DateTimeResolution",
+                timex: "XXXX-10-28",
+                dateTimeSubKind: "Date",
+                value: "2023-10-28",
+              },
+            ],
+          },
+          {
+            text: "2022",
+            category: "DateTime",
+            subCategory: "DateRange",
+            offset: 82,
+            length: 4,
+            confidenceScore: 0.63,
             resolutions: [
               {
                 resolutionKind: "TemporalSpanResolution",
-                begin: "2022-10-24",
-                end: "2022-10-28",
-                duration: "P4D",
+                begin: "2022-01-01",
+                end: "2023-01-01",
+                timex: "2022",
               },
             ],
           },
@@ -6982,7 +6995,6 @@ export const expectation33: AnalyzeBatchResult[] = [
     modelVersion,
   },
 ];
-
 export const expectation63: SentimentAnalysisResult[] = [
   {
     id: "0",
@@ -7086,7 +7098,7 @@ export const expectation65: SentimentAnalysisResult[] = [
           {
             target: {
               sentiment: "negative",
-              confidenceScores: { positive: 0, negative: 1 },
+              confidenceScores: { positive: 0.02, negative: 0.98 },
               offset: 4,
               length: 4,
               text: "food",
@@ -7094,7 +7106,7 @@ export const expectation65: SentimentAnalysisResult[] = [
             assessments: [
               {
                 sentiment: "negative",
-                confidenceScores: { positive: 0, negative: 1 },
+                confidenceScores: { positive: 0.02, negative: 0.98 },
                 offset: 13,
                 length: 12,
                 text: "unacceptable",
@@ -7301,14 +7313,6 @@ export const expectation65: SentimentAnalysisResult[] = [
                 text: "nice",
                 isNegated: false,
               },
-              {
-                sentiment: "positive",
-                confidenceScores: { positive: 1, negative: 0 },
-                offset: 59,
-                length: 5,
-                text: "clean",
-                isNegated: false,
-              },
             ],
           },
           {
@@ -7362,14 +7366,6 @@ export const expectation65: SentimentAnalysisResult[] = [
                 offset: 8,
                 length: 5,
                 text: "great",
-                isNegated: false,
-              },
-              {
-                sentiment: "positive",
-                confidenceScores: { positive: 0.99, negative: 0.01 },
-                offset: 14,
-                length: 12,
-                text: "unobstructed",
                 isNegated: false,
               },
             ],
@@ -7432,7 +7428,7 @@ export const expectation65: SentimentAnalysisResult[] = [
           {
             target: {
               sentiment: "negative",
-              confidenceScores: { positive: 0, negative: 1 },
+              confidenceScores: { positive: 0.01, negative: 0.99 },
               offset: 42,
               length: 6,
               text: "toilet",
@@ -7440,7 +7436,7 @@ export const expectation65: SentimentAnalysisResult[] = [
             assessments: [
               {
                 sentiment: "negative",
-                confidenceScores: { positive: 0, negative: 1 },
+                confidenceScores: { positive: 0.01, negative: 0.99 },
                 offset: 53,
                 length: 5,
                 text: "dirty",
@@ -7830,7 +7826,7 @@ export const expectation38: LanguageDetectionResult[] = [
 
 export const expectation39: LanguageDetectionResult[] = [
   {
-    primaryLanguage: { name: "French", iso6391Name: "fr", confidenceScore: 1 },
+    primaryLanguage: { name: "English", iso6391Name: "en", confidenceScore: 1 },
     id: "0",
     warnings: [],
   },

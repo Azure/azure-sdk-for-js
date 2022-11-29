@@ -10,8 +10,8 @@
         "Content-Length": "126",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "6c227493-2fed-43dd-90eb-e34b79bbabe2"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "cee204e0-4177-4c9a-a13f-edf595d89802"
       },
       "RequestBody": {
         "kind": "LanguageDetection",
@@ -28,15 +28,15 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "9fd86070-3136-49e7-858f-6cbcbaa6b4f6",
-        "Content-Length": "204",
+        "apim-request-id": "1a8f0b74-f590-425f-ba81-fe19d039a89b",
+        "Content-Length": "206",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-        "Date": "Tue, 01 Nov 2022 22:51:48 GMT",
+        "Date": "Tue, 29 Nov 2022 17:20:38 GMT",
         "Set-Cookie": ".AspNetCore.Mvc.CookieTempDataProvider=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; samesite=lax; httponly",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "666",
+        "x-envoy-upstream-service-time": "16",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
@@ -46,15 +46,15 @@
             {
               "id": "0",
               "detectedLanguage": {
-                "name": "French",
-                "iso6391Name": "fr",
-                "confidenceScore": 1.0
+                "name": "English",
+                "iso6391Name": "en",
+                "confidenceScore": 0.84
               },
               "warnings": []
             }
           ],
           "errors": [],
-          "modelVersion": "2021-11-20"
+          "modelVersion": "2022-10-01"
         }
       }
     }
