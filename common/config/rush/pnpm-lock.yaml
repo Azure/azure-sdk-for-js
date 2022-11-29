@@ -769,6 +769,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-managementgroups/2.0.1:
+    resolution: {integrity: sha512-is6Na6aylZUmpnagbgYOcREP+Z/jyfZdF4JBZbAxQkwzNJ0T5uqR+fRP2UYZHN1rkhoq2FXLsAM84gTNUNBqvA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.4.0
+      '@azure/core-client': 1.6.1
+      '@azure/core-lro': 2.4.0
+      '@azure/core-paging': 1.4.0
+      '@azure/core-rest-pipeline': 1.10.0
+      tslib: 2.4.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-msi/2.0.0:
     resolution: {integrity: sha512-yBprEoMQRNLyHtR/RuJh8ehQCcF6rO5049Pfped79uRd/Y8EW+pNpbW0EjqWC5lVllC1VG4B89aC5PwE3XeISA==}
     engines: {node: '>=12.0.0'}
@@ -13131,7 +13146,7 @@ packages:
     dev: false
 
   file:projects/arm-managementgroups.tgz:
-    resolution: {integrity: sha512-1ZzQNHcDD5BKPg6Liyf3k7u5auEWr7jKzz36wRk22eK0DUY/Tc+xQ1Hs83ni1g0yRbtTxphITZ7wRdTF5CEWPQ==, tarball: file:projects/arm-managementgroups.tgz}
+    resolution: {integrity: sha512-kaAW+UfvxEhPqovZZalQ13G9FDeG8awhLSY41MhSTbtcX1w3W/qSuEHXqaCrFdDfZsOAmhq0tymv9KboYf2odg==, tarball: file:projects/arm-managementgroups.tgz}
     name: '@rush-temp/arm-managementgroups'
     version: 0.0.0
     dependencies:
@@ -13142,18 +13157,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -13879,10 +13895,11 @@ packages:
     dev: false
 
   file:projects/arm-policy.tgz:
-    resolution: {integrity: sha512-sAjFObFBIGRIvYQyygbactKT79Tkyogw3KqN2K4Ajisw5m3rZFa44VWnvRHz+GzkcpDG0x5cGpg1dgXpqKe2MA==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-t/6a4O2b+/iIBjetWNoqAMBRY7KfYzzYBuaAFDPlOuK0jqRMVmLSyEswNpcg5ZCEWsD/oC0EYLEWXpxM5ZpgFg==, tarball: file:projects/arm-policy.tgz}
     name: '@rush-temp/arm-policy'
     version: 0.0.0
     dependencies:
+      '@azure/arm-managementgroups': 2.0.1
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.6
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
