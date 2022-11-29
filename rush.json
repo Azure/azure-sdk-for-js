@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.63.0",
+  "rushVersion": "5.83.4",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -60,7 +60,7 @@
    * Specify a SemVer range to ensure developers use a NodeJS version that is appropriate
    * for your repo.
    */
-  "nodeSupportedVersionRange": ">=8.0.0",
+  "nodeSupportedVersionRange": ">=14.0.0",
   /**
    * Odd-numbered major versions of Node.js are experimental.  Even-numbered releases
    * spend six months in a stabilization period before the first Long Term Support (LTS) version.
@@ -1232,11 +1232,6 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-loadtestservice",
-      "projectFolder": "sdk/loadtestservice/arm-loadtestservice",
-      "versionPolicyName": "management"
-    },
-    {
       "packageName": "@azure/arm-relay",
       "projectFolder": "sdk/relay/arm-relay",
       "versionPolicyName": "management"
@@ -1757,11 +1752,6 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-app",
-      "projectFolder": "sdk/app/arm-app",
-      "versionPolicyName": "management"
-    },
-    {
       "packageName": "@azure/arm-hardwaresecuritymodules",
       "projectFolder": "sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules",
       "versionPolicyName": "management"
@@ -1934,6 +1924,11 @@
     {
       "packageName": "@azure/arm-hybridcontainerservice",
       "projectFolder": "sdk/hybridcontainerservice/arm-hybridcontainerservice",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-loadtesting",
+      "projectFolder": "sdk/loadtestservice/arm-loadtesting",
       "versionPolicyName": "management"
     }
   ]
