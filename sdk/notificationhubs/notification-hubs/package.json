@@ -133,7 +133,7 @@
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.6.3",
     "rollup-plugin-terser": "^5.1.1",
-    "@rollup/plugin-typescript": "^9.0.2",
+    "@rollup/plugin-typescript": "^10.0.0",
     "ts-node": "^10.8.1",
     "typescript": "^4.8.3",
     "util": "^0.12.4"
