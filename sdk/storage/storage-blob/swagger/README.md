@@ -19,7 +19,7 @@ v3: true
 disable-async-iterators: true
 add-credentials: false
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210218.1"
+  "@autorest/typescript": "latest"
 package-version: 12.12.1
 ```
 

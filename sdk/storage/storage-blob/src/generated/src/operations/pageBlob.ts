@@ -6,10 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { PageBlob } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StorageClientContext } from "../storageClientContext";
+import { StorageClient } from "../storageClient";
 import {
   PageBlobCreateOptionalParams,
   PageBlobCreateResponse,
@@ -32,15 +34,15 @@ import {
   PageBlobCopyIncrementalResponse
 } from "../models";
 
-/** Class representing a PageBlob. */
-export class PageBlob {
-  private readonly client: StorageClientContext;
+/** Class containing PageBlob operations. */
+export class PageBlobImpl implements PageBlob {
+  private readonly client: StorageClient;
 
   /**
    * Initialize a new instance of the class PageBlob class.
    * @param client Reference to the service client
    */
-  constructor(client: StorageClientContext) {
+  constructor(client: StorageClient) {
     this.client = client;
   }
 
@@ -56,15 +58,10 @@ export class PageBlob {
     blobContentLength: number,
     options?: PageBlobCreateOptionalParams
   ): Promise<PageBlobCreateResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      contentLength,
-      blobContentLength,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { contentLength, blobContentLength, options },
       createOperationSpec
-    ) as Promise<PageBlobCreateResponse>;
+    );
   }
 
   /**
@@ -75,18 +72,13 @@ export class PageBlob {
    */
   uploadPages(
     contentLength: number,
-    body: coreHttp.HttpRequestBody,
+    body: coreRestPipeline.RequestBodyType,
     options?: PageBlobUploadPagesOptionalParams
   ): Promise<PageBlobUploadPagesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      contentLength,
-      body,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { contentLength, body, options },
       uploadPagesOperationSpec
-    ) as Promise<PageBlobUploadPagesResponse>;
+    );
   }
 
   /**
@@ -98,14 +90,10 @@ export class PageBlob {
     contentLength: number,
     options?: PageBlobClearPagesOptionalParams
   ): Promise<PageBlobClearPagesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      contentLength,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { contentLength, options },
       clearPagesOperationSpec
-    ) as Promise<PageBlobClearPagesResponse>;
+    );
   }
 
   /**
@@ -126,17 +114,10 @@ export class PageBlob {
     range: string,
     options?: PageBlobUploadPagesFromURLOptionalParams
   ): Promise<PageBlobUploadPagesFromURLResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      sourceUrl,
-      sourceRange,
-      contentLength,
-      range,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { sourceUrl, sourceRange, contentLength, range, options },
       uploadPagesFromURLOperationSpec
-    ) as Promise<PageBlobUploadPagesFromURLResponse>;
+    );
   }
 
   /**
@@ -147,13 +128,10 @@ export class PageBlob {
   getPageRanges(
     options?: PageBlobGetPageRangesOptionalParams
   ): Promise<PageBlobGetPageRangesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       getPageRangesOperationSpec
-    ) as Promise<PageBlobGetPageRangesResponse>;
+    );
   }
 
   /**
@@ -164,13 +142,10 @@ export class PageBlob {
   getPageRangesDiff(
     options?: PageBlobGetPageRangesDiffOptionalParams
   ): Promise<PageBlobGetPageRangesDiffResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       getPageRangesDiffOperationSpec
-    ) as Promise<PageBlobGetPageRangesDiffResponse>;
+    );
   }
 
   /**
@@ -183,14 +158,10 @@ export class PageBlob {
     blobContentLength: number,
     options?: PageBlobResizeOptionalParams
   ): Promise<PageBlobResizeResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      blobContentLength,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { blobContentLength, options },
       resizeOperationSpec
-    ) as Promise<PageBlobResizeResponse>;
+    );
   }
 
   /**
@@ -204,14 +175,10 @@ export class PageBlob {
     sequenceNumberAction: SequenceNumberActionType,
     options?: PageBlobUpdateSequenceNumberOptionalParams
   ): Promise<PageBlobUpdateSequenceNumberResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      sequenceNumberAction,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { sequenceNumberAction, options },
       updateSequenceNumberOperationSpec
-    ) as Promise<PageBlobUpdateSequenceNumberResponse>;
+    );
   }
 
   /**
@@ -230,21 +197,16 @@ export class PageBlob {
     copySource: string,
     options?: PageBlobCopyIncrementalOptionalParams
   ): Promise<PageBlobCopyIncrementalResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      copySource,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { copySource, options },
       copyIncrementalOperationSpec
-    ) as Promise<PageBlobCopyIncrementalResponse>;
+    );
   }
 }
 // Operation Specifications
-const xmlSerializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const xmlSerializer = coreClient.createSerializer(Mappers, /* isXml */ true);
 
-const createOperationSpec: coreHttp.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -292,7 +254,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const uploadPagesOperationSpec: coreHttp.OperationSpec = {
+const uploadPagesOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -331,10 +293,12 @@ const uploadPagesOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifSequenceNumberLessThan,
     Parameters.ifSequenceNumberEqualTo
   ],
+  isXML: true,
+  contentType: "application/xml; charset=utf-8",
   mediaType: "binary",
-  serializer
+  serializer: xmlSerializer
 };
-const clearPagesOperationSpec: coreHttp.OperationSpec = {
+const clearPagesOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -372,7 +336,7 @@ const clearPagesOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const uploadPagesFromURLOperationSpec: coreHttp.OperationSpec = {
+const uploadPagesFromURLOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -419,7 +383,7 @@ const uploadPagesFromURLOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const getPageRangesOperationSpec: coreHttp.OperationSpec = {
+const getPageRangesOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "GET",
   responses: {
@@ -455,7 +419,7 @@ const getPageRangesOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const getPageRangesDiffOperationSpec: coreHttp.OperationSpec = {
+const getPageRangesDiffOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "GET",
   responses: {
@@ -493,7 +457,7 @@ const getPageRangesDiffOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const resizeOperationSpec: coreHttp.OperationSpec = {
+const resizeOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -526,7 +490,7 @@ const resizeOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const updateSequenceNumberOperationSpec: coreHttp.OperationSpec = {
+const updateSequenceNumberOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -556,7 +520,7 @@ const updateSequenceNumberOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const copyIncrementalOperationSpec: coreHttp.OperationSpec = {
+const copyIncrementalOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {

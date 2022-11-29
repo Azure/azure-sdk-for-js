@@ -9,9 +9,8 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter,
-  QueryCollectionFormat
-} from "@azure/core-http";
+  OperationQueryParameter
+} from "@azure/core-client";
 import {
   BlobServiceProperties as BlobServicePropertiesMapper,
   KeyInfo as KeyInfoMapper,
@@ -211,7 +210,7 @@ export const include: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const keyInfo: OperationParameter = {
@@ -331,11 +330,11 @@ export const metadata: OperationParameter = {
   mapper: {
     serializedName: "x-ms-meta",
     xmlName: "x-ms-meta",
+    headerCollectionPrefix: "x-ms-meta-",
     type: {
       name: "Dictionary",
       value: { type: { name: "String" } }
-    },
-    headerCollectionPrefix: "x-ms-meta-"
+    }
   }
 };
 
@@ -682,7 +681,7 @@ export const include1: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const delimiter: OperationQueryParameter = {
@@ -1380,6 +1379,7 @@ export const blobContentLength: OperationParameter = {
 export const blobSequenceNumber: OperationParameter = {
   parameterPath: ["options", "blobSequenceNumber"],
   mapper: {
+    defaultValue: 0,
     serializedName: "x-ms-blob-sequence-number",
     xmlName: "x-ms-blob-sequence-number",
     type: {
