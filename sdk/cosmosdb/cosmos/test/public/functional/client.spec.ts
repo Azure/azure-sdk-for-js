@@ -34,6 +34,7 @@ describe("Client Tests", function (this: Suite) {
         assert.fail("Must throw when trying to connect to database");
       } catch (err: any) {
         assert.equal(err.name, "TimeoutError", "client should throw exception");
+        assert.equal(err.message, "Timeout Error", "client should throw exception");
       }
     });
   });
