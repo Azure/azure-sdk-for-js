@@ -211,6 +211,7 @@ specifiers:
   '@rush-temp/arm-workloads': file:./projects/arm-workloads.tgz
   '@rush-temp/arm-workspaces': file:./projects/arm-workspaces.tgz
   '@rush-temp/attestation': file:./projects/attestation.tgz
+  '@rush-temp/azure-confidentialledger-bugbash-rest': file:./projects/azure-confidentialledger-bugbash-rest.tgz
   '@rush-temp/communication-alpha-ids': file:./projects/communication-alpha-ids.tgz
   '@rush-temp/communication-chat': file:./projects/communication-chat.tgz
   '@rush-temp/communication-common': file:./projects/communication-common.tgz
@@ -223,7 +224,6 @@ specifiers:
   '@rush-temp/communication-short-codes': file:./projects/communication-short-codes.tgz
   '@rush-temp/communication-sms': file:./projects/communication-sms.tgz
   '@rush-temp/confidential-ledger': file:./projects/confidential-ledger.tgz
-  '@rush-temp/confidentialledger-bugbash': file:./projects/confidentialledger-bugbash.tgz
   '@rush-temp/container-registry': file:./projects/container-registry.tgz
   '@rush-temp/core-amqp': file:./projects/core-amqp.tgz
   '@rush-temp/core-auth': file:./projects/core-auth.tgz
@@ -536,6 +536,7 @@ dependencies:
   '@rush-temp/arm-workloads': file:projects/arm-workloads.tgz
   '@rush-temp/arm-workspaces': file:projects/arm-workspaces.tgz
   '@rush-temp/attestation': file:projects/attestation.tgz
+  '@rush-temp/azure-confidentialledger-bugbash-rest': file:projects/azure-confidentialledger-bugbash-rest.tgz
   '@rush-temp/communication-alpha-ids': file:projects/communication-alpha-ids.tgz
   '@rush-temp/communication-chat': file:projects/communication-chat.tgz
   '@rush-temp/communication-common': file:projects/communication-common.tgz
@@ -548,7 +549,6 @@ dependencies:
   '@rush-temp/communication-short-codes': file:projects/communication-short-codes.tgz
   '@rush-temp/communication-sms': file:projects/communication-sms.tgz
   '@rush-temp/confidential-ledger': file:projects/confidential-ledger.tgz
-  '@rush-temp/confidentialledger-bugbash': file:projects/confidentialledger-bugbash.tgz
   '@rush-temp/container-registry': file:projects/container-registry.tgz
   '@rush-temp/core-amqp': file:projects/core-amqp.tgz
   '@rush-temp/core-auth': file:projects/core-auth.tgz
@@ -15593,6 +15593,50 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/azure-confidentialledger-bugbash-rest.tgz:
+    resolution: {integrity: sha512-1tFG3T33kRw8RXwbhhRBtzADbze9fV0umq6hDY2Gr8JvDkBRY1ZVAj2Xd/X0pqwKkyO6kSqaHfWY1LeD2OpWYQ==, tarball: file:projects/azure-confidentialledger-bugbash-rest.tgz}
+    name: '@rush-temp/azure-confidentialledger-bugbash-rest'
+    version: 0.0.0
+    dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.10
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.33.6
+      '@types/chai': 4.3.4
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.33
+      autorest: 3.6.2
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 8.28.0
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.1
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 2.2.1
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.4.1
+      typescript: 4.8.4
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   file:projects/communication-alpha-ids.tgz:
     resolution: {integrity: sha512-VDawX81b68aByEGinY3gez7Fl3WjFtR2KAmBcf1nIcf3aLxBBQo/Fltm7999/Yps8kV2/moq85W60VuoDea0yg==, tarball: file:projects/communication-alpha-ids.tgz}
     name: '@rush-temp/communication-alpha-ids'
@@ -16133,50 +16177,6 @@ packages:
       - bufferutil
       - debug
       - encoding
-      - supports-color
-      - utf-8-validate
-    dev: false
-
-  file:projects/confidentialledger-bugbash.tgz:
-    resolution: {integrity: sha512-NG+3+1iDFtIHtRQgeSMkx42lIi1+d+jE4ixOOY50kDYb+ud15sX1aiYTivkoxXKayyvJeRo9OIpTcR50sZ/R+g==, tarball: file:projects/confidentialledger-bugbash.tgz}
-    name: '@rush-temp/confidentialledger-bugbash'
-    version: 0.0.0
-    dependencies:
-      '@azure-rest/core-client': 1.0.0-beta.10
-      '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.33.6
-      '@types/chai': 4.3.4
-      '@types/mocha': 7.0.2
-      '@types/node': 14.18.33
-      autorest: 3.6.2
-      chai: 4.3.7
-      cross-env: 7.0.3
-      dotenv: 8.6.0
-      eslint: 8.28.0
-      karma: 6.4.1
-      karma-chrome-launcher: 3.1.1
-      karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.4.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.4.1
-      karma-junit-reporter: 2.0.1_karma@6.4.1
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.4.1
-      karma-source-map-support: 1.4.0
-      karma-sourcemap-loader: 0.3.8
-      mkdirp: 1.0.4
-      mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
-      prettier: 2.2.1
-      rimraf: 3.0.2
-      source-map-support: 0.5.21
-      tslib: 2.4.1
-      typescript: 4.8.4
-    transitivePeerDependencies:
-      - bufferutil
-      - debug
       - supports-color
       - utf-8-validate
     dev: false
