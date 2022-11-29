@@ -13201,7 +13201,7 @@ packages:
     dev: false
 
   file:projects/arm-maps.tgz:
-    resolution: {integrity: sha512-sUg1QmxH6dLZGQrw4aaUpCrBVvR3ZZ45aA1A4rvaZUFKObu0ucbAuqh5xXYSwW1/Hn/P2UHV97uUS5Wovx7lLA==, tarball: file:projects/arm-maps.tgz}
+    resolution: {integrity: sha512-zSqqO81WiTD6drIRLh+D3k8LLwqlk/0XJC+Vyq/UZsYgR2Y1Fz8f+mCJP/1XKk/o8jL1C1YQO+hPw+ukXWNIow==, tarball: file:projects/arm-maps.tgz}
     name: '@rush-temp/arm-maps'
     version: 0.0.0
     dependencies:
@@ -13212,18 +13212,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -13895,7 +13896,7 @@ packages:
     dev: false
 
   file:projects/arm-policy.tgz:
-    resolution: {integrity: sha512-t/6a4O2b+/iIBjetWNoqAMBRY7KfYzzYBuaAFDPlOuK0jqRMVmLSyEswNpcg5ZCEWsD/oC0EYLEWXpxM5ZpgFg==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-sAjFObFBIGRIvYQyygbactKT79Tkyogw3KqN2K4Ajisw5m3rZFa44VWnvRHz+GzkcpDG0x5cGpg1dgXpqKe2MA==, tarball: file:projects/arm-policy.tgz}
     name: '@rush-temp/arm-policy'
     version: 0.0.0
     dependencies:
