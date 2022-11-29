@@ -234,7 +234,7 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
     });
 
     updateState?.(state, response);
-    
+
     if (!terminalStates.includes(status)) {
       const intervalInMs = getPollingInterval?.(response);
       if (intervalInMs) setDelay(intervalInMs);
