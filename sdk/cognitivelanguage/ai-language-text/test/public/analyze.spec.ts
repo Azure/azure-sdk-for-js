@@ -127,7 +127,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           );
         });
 
-        it("service has a bug when referencing assessments in doc #6 or greater", async function () {
+        it.only("service has a bug when referencing assessments in doc #6 or greater", async function () {
           const docs = [
             "The food was unacceptable",
             "The rooms were beautiful. The AC was good and quiet.",

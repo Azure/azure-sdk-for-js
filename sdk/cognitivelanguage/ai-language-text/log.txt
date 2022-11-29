@@ -1,0 +1,534 @@
+Found configuration in /workspaces/azure-sdk-for-js/rush.json
+
+[1mRush Multi-Project Build Tool 5.63.0[22m - Node.js 16.14.2 (LTS)
+> "npm run clean && npm run build:test && npm run unit-test"
+
+
+> @azure/ai-language-text@1.1.0-beta.2 clean
+> rimraf dist dist-* temp types *.tgz *.log
+
+
+> @azure/ai-language-text@1.1.0-beta.2 build:test
+> tsc -p . && dev-tool run bundle
+
+[bundle] Created production CommonJS bundle.
+[bundle] Created browser testing bundle.
+
+> @azure/ai-language-text@1.1.0-beta.2 unit-test
+> npm run unit-test:node && npm run unit-test:browser
+
+
+> @azure/ai-language-text@1.1.0-beta.2 unit-test:node
+> dev-tool run test:node-ts-input -- --timeout 1200000 "test/**/*.spec.ts"
+
+[test-info] ===TEST_MODE="record"===
+[test-proxy] Proxy tool seems to be active at http://localhost:5000
+
+[preparing-proxy-tool] Proxy tool seems to be active, not attempting to start the test proxy at http://localhost:5000 & https://localhost:5001.
+
+[node-tests] 
+[node-tests] 
+[node-tests]   [APIKey] TextAnalysisClient
+[node-tests]     analyze
+[node-tests]       #SentimentAnalysis
+[node-tests] [{"id":"0","warnings":[],"sentiment":"negative","confidenceScores":{"positive":0,"neutral":0,"negative":1},"sentences":[{"text":"The food was unacceptable","sentiment":"negative","confidenceScores":{"positive":0,"neutral":0,"negative":1},"offset":0,"length":25,"opinions":[{"target":{"sentiment":"negative","confidenceScores":{"positive":0.02,"negative":0.98},"offset":4,"length":4,"text":"food"},"assessments":[{"sentiment":"negative","confidenceScores":{"positive":0.02,"negative":0.98},"offset":13,"length":12,"text":"unacceptable","isNegated":false}]}]}]},{"id":"1","warnings":[],"sentiment":"positive","confidenceScores":{"positive":0.99,"neutral":0.01,"negative":0},"sentences":[{"text":"The rooms were beautiful. ","sentiment":"positive","confidenceScores":{"positive":1,"neutral":0,"negative":0},"offset":0,"length":26,"opinions":[{"target":{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":4,"length":5,"text":"rooms"},"assessments":[{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":15,"length":9,"text":"beautiful","isNegated":false}]}]},{"text":"The AC was good and quiet.","sentiment":"positive","confidenceScores":{"positive":0.99,"neutral":0.01,"negative":0},"offset":26,"length":26,"opinions":[{"target":{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":30,"length":2,"text":"AC"},"assessments":[{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":37,"length":4,"text":"good","isNegated":false},{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":46,"length":5,"text":"quiet","isNegated":false}]}]}]},{"id":"2","warnings":[],"sentiment":"negative","confidenceScores":{"positive":0,"neutral":0,"negative":0.99},"sentences":[{"text":"The breakfast was good, but the toilet was smelly.","sentiment":"negative","confidenceScores":{"positive":0,"neutral":0,"negative":0.99},"offset":0,"length":50,"opinions":[{"target":{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":4,"length":9,"text":"breakfast"},"assessments":[{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":18,"length":4,"text":"good","isNegated":false}]},{"target":{"sentiment":"negative","confidenceScores":{"positive":0,"negative":1},"offset":32,"length":6,"text":"toilet"},"assessments":[{"sentiment":"negative","confidenceScores":{"positive":0,"negative":1},"offset":43,"length":6,"text":"smelly","isNegated":false}]}]}]},{"id":"3","warnings":[],"sentiment":"positive","confidenceScores":{"positive":1,"neutral":0,"negative":0},"sentences":[{"text":"Loved this hotel - good breakfast - nice shuttle service - clean rooms.","sentiment":"positive","confidenceScores":{"positive":1,"neutral":0,"negative":0},"offset":0,"length":71,"opinions":[{"target":{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":11,"length":5,"text":"hotel"},"assessments":[{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":0,"length":5,"text":"Loved","isNegated":false}]},{"target":{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":24,"length":9,"text":"breakfast"},"assessments":[{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":19,"length":4,"text":"good","isNegated":false}]},{"target":{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":41,"length":15,"text":"shuttle service"},"assessments":[{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":36,"length":4,"text":"nice","isNegated":false}]},{"target":{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":65,"length":5,"text":"rooms"},"assessments":[{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":59,"length":5,"text":"clean","isNegated":false}]}]}]},{"id":"4","warnings":[],"sentiment":"positive","confidenceScores":{"positive":0.92,"neutral":0.07,"negative":0.01},"sentences":[{"text":"I had a great unobstructed view of the Microsoft campus.","sentiment":"positive","confidenceScores":{"positive":0.92,"neutral":0.07,"negative":0.01},"offset":0,"length":56,"opinions":[{"target":{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":27,"length":4,"text":"view"},"assessments":[{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":8,"length":5,"text":"great","isNegated":false}]}]}]},{"id":"5","warnings":[],"sentiment":"negative","confidenceScores":{"positive":0.04,"neutral":0,"negative":0.96},"sentences":[{"text":"Nice rooms but bathrooms were old and the toilet was dirty when we arrived.","sentiment":"negative","confidenceScores":{"positive":0.04,"neutral":0,"negative":0.96},"offset":0,"length":75,"opinions":[{"target":{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":5,"length":5,"text":"rooms"},"assessments":[{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":0,"length":4,"text":"Nice","isNegated":false}]},{"target":{"sentiment":"negative","confidenceScores":{"positive":0,"negative":1},"offset":15,"length":9,"text":"bathrooms"},"assessments":[{"sentiment":"negative","confidenceScores":{"positive":0,"negative":1},"offset":30,"length":3,"text":"old","isNegated":false}]},{"target":{"sentiment":"negative","confidenceScores":{"positive":0.01,"negative":0.99},"offset":42,"length":6,"text":"toilet"},"assessments":[{"sentiment":"negative","confidenceScores":{"positive":0.01,"negative":0.99},"offset":53,"length":5,"text":"dirty","isNegated":false}]}]}]},{"id":"6","warnings":[],"sentiment":"negative","confidenceScores":{"positive":0,"neutral":0.02,"negative":0.98},"sentences":[{"text":"The toilet smelled.","sentiment":"negative","confidenceScores":{"positive":0,"neutral":0.02,"negative":0.98},"offset":0,"length":19,"opinions":[{"target":{"sentiment":"negative","confidenceScores":{"positive":0,"negative":1},"offset":4,"length":6,"text":"toilet"},"assessments":[{"sentiment":"negative","confidenceScores":{"positive":0,"negative":1},"offset":11,"length":7,"text":"smelled","isNegated":false}]}]}]}]
+[node-tests]         1) service has a bug when referencing assessments in doc #6 or greater
+[node-tests] 
+[node-tests]   [AAD] TextAnalysisClient
+[node-tests]     analyze
+[node-tests]       #SentimentAnalysis
+[node-tests] [{"id":"0","warnings":[],"sentiment":"negative","confidenceScores":{"positive":0,"neutral":0,"negative":1},"sentences":[{"text":"The food was unacceptable","sentiment":"negative","confidenceScores":{"positive":0,"neutral":0,"negative":1},"offset":0,"length":25,"opinions":[{"target":{"sentiment":"negative","confidenceScores":{"positive":0.02,"negative":0.98},"offset":4,"length":4,"text":"food"},"assessments":[{"sentiment":"negative","confidenceScores":{"positive":0.02,"negative":0.98},"offset":13,"length":12,"text":"unacceptable","isNegated":false}]}]}]},{"id":"1","warnings":[],"sentiment":"positive","confidenceScores":{"positive":0.99,"neutral":0.01,"negative":0},"sentences":[{"text":"The rooms were beautiful. ","sentiment":"positive","confidenceScores":{"positive":1,"neutral":0,"negative":0},"offset":0,"length":26,"opinions":[{"target":{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":4,"length":5,"text":"rooms"},"assessments":[{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":15,"length":9,"text":"beautiful","isNegated":false}]}]},{"text":"The AC was good and quiet.","sentiment":"positive","confidenceScores":{"positive":0.99,"neutral":0.01,"negative":0},"offset":26,"length":26,"opinions":[{"target":{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":30,"length":2,"text":"AC"},"assessments":[{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":37,"length":4,"text":"good","isNegated":false},{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":46,"length":5,"text":"quiet","isNegated":false}]}]}]},{"id":"2","warnings":[],"sentiment":"negative","confidenceScores":{"positive":0,"neutral":0,"negative":0.99},"sentences":[{"text":"The breakfast was good, but the toilet was smelly.","sentiment":"negative","confidenceScores":{"positive":0,"neutral":0,"negative":0.99},"offset":0,"length":50,"opinions":[{"target":{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":4,"length":9,"text":"breakfast"},"assessments":[{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":18,"length":4,"text":"good","isNegated":false}]},{"target":{"sentiment":"negative","confidenceScores":{"positive":0,"negative":1},"offset":32,"length":6,"text":"toilet"},"assessments":[{"sentiment":"negative","confidenceScores":{"positive":0,"negative":1},"offset":43,"length":6,"text":"smelly","isNegated":false}]}]}]},{"id":"3","warnings":[],"sentiment":"positive","confidenceScores":{"positive":1,"neutral":0,"negative":0},"sentences":[{"text":"Loved this hotel - good breakfast - nice shuttle service - clean rooms.","sentiment":"positive","confidenceScores":{"positive":1,"neutral":0,"negative":0},"offset":0,"length":71,"opinions":[{"target":{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":11,"length":5,"text":"hotel"},"assessments":[{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":0,"length":5,"text":"Loved","isNegated":false}]},{"target":{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":24,"length":9,"text":"breakfast"},"assessments":[{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":19,"length":4,"text":"good","isNegated":false}]},{"target":{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":41,"length":15,"text":"shuttle service"},"assessments":[{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":36,"length":4,"text":"nice","isNegated":false}]},{"target":{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":65,"length":5,"text":"rooms"},"assessments":[{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":59,"length":5,"text":"clean","isNegated":false}]}]}]},{"id":"4","warnings":[],"sentiment":"positive","confidenceScores":{"positive":0.92,"neutral":0.07,"negative":0.01},"sentences":[{"text":"I had a great unobstructed view of the Microsoft campus.","sentiment":"positive","confidenceScores":{"positive":0.92,"neutral":0.07,"negative":0.01},"offset":0,"length":56,"opinions":[{"target":{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":27,"length":4,"text":"view"},"assessments":[{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":8,"length":5,"text":"great","isNegated":false}]}]}]},{"id":"5","warnings":[],"sentiment":"negative","confidenceScores":{"positive":0.04,"neutral":0,"negative":0.96},"sentences":[{"text":"Nice rooms but bathrooms were old and the toilet was dirty when we arrived.","sentiment":"negative","confidenceScores":{"positive":0.04,"neutral":0,"negative":0.96},"offset":0,"length":75,"opinions":[{"target":{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":5,"length":5,"text":"rooms"},"assessments":[{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":0,"length":4,"text":"Nice","isNegated":false}]},{"target":{"sentiment":"negative","confidenceScores":{"positive":0,"negative":1},"offset":15,"length":9,"text":"bathrooms"},"assessments":[{"sentiment":"negative","confidenceScores":{"positive":0,"negative":1},"offset":30,"length":3,"text":"old","isNegated":false}]},{"target":{"sentiment":"negative","confidenceScores":{"positive":0.01,"negative":0.99},"offset":42,"length":6,"text":"toilet"},"assessments":[{"sentiment":"negative","confidenceScores":{"positive":0.01,"negative":0.99},"offset":53,"length":5,"text":"dirty","isNegated":false}]}]}]},{"id":"6","warnings":[],"sentiment":"negative","confidenceScores":{"positive":0,"neutral":0.02,"negative":0.98},"sentences":[{"text":"The toilet smelled.","sentiment":"negative","confidenceScores":{"positive":0,"neutral":0.02,"negative":0.98},"offset":0,"length":19,"opinions":[{"target":{"sentiment":"negative","confidenceScores":{"positive":0,"negative":1},"offset":4,"length":6,"text":"toilet"},"assessments":[{"sentiment":"negative","confidenceScores":{"positive":0,"negative":1},"offset":11,"length":7,"text":"smelled","isNegated":false}]}]}]}]
+[node-tests]         2) service has a bug when referencing assessments in doc #6 or greater
+[node-tests] 
+[node-tests]   [APIKey] TextAnalysisClient
+[node-tests]     analyzeBatch
+[node-tests]       actions
+[node-tests]         prebuilt
+[node-tests]           3) entity recognition with resolution
+[node-tests] 
+[node-tests]   [AAD] TextAnalysisClient
+[node-tests]     analyzeBatch
+[node-tests]       actions
+[node-tests]         prebuilt
+[node-tests]           4) entity recognition with resolution
+[node-tests] 
+[node-tests] 
+[node-tests]   0 passing (20s)
+[node-tests]   4 failing
+[node-tests] 
+[node-tests]   1) [APIKey] TextAnalysisClient
+[node-tests]        analyze
+[node-tests]          #SentimentAnalysis
+[node-tests]            service has a bug when referencing assessments in doc #6 or greater:
+[node-tests] 
+[node-tests]       AssertionError: expected [ ...(7) ] to deeply equal [ ...(7) ]
+[node-tests]       + expected - actual
+[node-tests] 
+[node-tests]                  {
+[node-tests]                    "assessments": [
+[node-tests]                      {
+[node-tests]                        "confidenceScores": {
+[node-tests]       -                  "negative": 0.98
+[node-tests]       -                  "positive": 0.02
+[node-tests]       +                  "negative": 1
+[node-tests]       +                  "positive": 0
+[node-tests]                        }
+[node-tests]                        "isNegated": false
+[node-tests]                        "length": 12
+[node-tests]                        "offset": 13
+[node-tests] --
+[node-tests]                      }
+[node-tests]                    ]
+[node-tests]                    "target": {
+[node-tests]                      "confidenceScores": {
+[node-tests]       -                "negative": 0.98
+[node-tests]       -                "positive": 0.02
+[node-tests]       +                "negative": 1
+[node-tests]       +                "positive": 0
+[node-tests]                      }
+[node-tests]                      "length": 4
+[node-tests]                      "offset": 4
+[node-tests]                      "sentiment": "negative"
+[node-tests] --
+[node-tests]                        "offset": 36
+[node-tests]                        "sentiment": "positive"
+[node-tests]                        "text": "nice"
+[node-tests]                      }
+[node-tests]       +              {
+[node-tests]       +                "confidenceScores": {
+[node-tests]       +                  "negative": 0
+[node-tests]       +                  "positive": 1
+[node-tests]       +                }
+[node-tests]       +                "isNegated": false
+[node-tests]       +                "length": 5
+[node-tests]       +                "offset": 59
+[node-tests]       +                "sentiment": "positive"
+[node-tests]       +                "text": "clean"
+[node-tests]       +              }
+[node-tests]                    ]
+[node-tests]                    "target": {
+[node-tests]                      "confidenceScores": {
+[node-tests]                        "negative": 0
+[node-tests] --
+[node-tests]                        "offset": 8
+[node-tests]                        "sentiment": "positive"
+[node-tests]                        "text": "great"
+[node-tests]                      }
+[node-tests]       +              {
+[node-tests]       +                "confidenceScores": {
+[node-tests]       +                  "negative": 0.01
+[node-tests]       +                  "positive": 0.99
+[node-tests]       +                }
+[node-tests]       +                "isNegated": false
+[node-tests]       +                "length": 12
+[node-tests]       +                "offset": 14
+[node-tests]       +                "sentiment": "positive"
+[node-tests]       +                "text": "unobstructed"
+[node-tests]       +              }
+[node-tests]                    ]
+[node-tests]                    "target": {
+[node-tests]                      "confidenceScores": {
+[node-tests]                        "negative": 0
+[node-tests] --
+[node-tests]                  {
+[node-tests]                    "assessments": [
+[node-tests]                      {
+[node-tests]                        "confidenceScores": {
+[node-tests]       -                  "negative": 0.99
+[node-tests]       -                  "positive": 0.01
+[node-tests]       +                  "negative": 1
+[node-tests]       +                  "positive": 0
+[node-tests]                        }
+[node-tests]                        "isNegated": false
+[node-tests]                        "length": 5
+[node-tests]                        "offset": 53
+[node-tests] --
+[node-tests]                      }
+[node-tests]                    ]
+[node-tests]                    "target": {
+[node-tests]                      "confidenceScores": {
+[node-tests]       -                "negative": 0.99
+[node-tests]       -                "positive": 0.01
+[node-tests]       +                "negative": 1
+[node-tests]       +                "positive": 0
+[node-tests]                      }
+[node-tests]                      "length": 6
+[node-tests]                      "offset": 42
+[node-tests]                      "sentiment": "negative"
+[node-tests]       
+[node-tests]       at Function.<anonymous> (/workspaces/azure-sdk-for-js/common/temp/node_modules/.pnpm/chai-exclude@2.1.0_chai@4.3.6/node_modules/chai-exclude/chai-exclude.js:142:66)
+[node-tests]       at Function.methodWrapper (/workspaces/azure-sdk-for-js/common/temp/node_modules/.pnpm/chai@4.3.6/node_modules/chai/lib/chai/utils/addMethod.js:57:25)
+[node-tests]       at assertActionResults (/workspaces/azure-sdk-for-js/sdk/cognitivelanguage/ai-language-text/test/public/utils/resultHelper.ts:75:10)
+[node-tests]       at Context.<anonymous> (/workspaces/azure-sdk-for-js/sdk/cognitivelanguage/ai-language-text/test/public/analyze.spec.ts:63:21)
+[node-tests]       at processTicksAndRejections (node:internal/process/task_queues:96:5)
+[node-tests] 
+[node-tests]   2) [AAD] TextAnalysisClient
+[node-tests]        analyze
+[node-tests]          #SentimentAnalysis
+[node-tests]            service has a bug when referencing assessments in doc #6 or greater:
+[node-tests] 
+[node-tests]       AssertionError: expected [ ...(7) ] to deeply equal [ ...(7) ]
+[node-tests]       + expected - actual
+[node-tests] 
+[node-tests]                  {
+[node-tests]                    "assessments": [
+[node-tests]                      {
+[node-tests]                        "confidenceScores": {
+[node-tests]       -                  "negative": 0.98
+[node-tests]       -                  "positive": 0.02
+[node-tests]       +                  "negative": 1
+[node-tests]       +                  "positive": 0
+[node-tests]                        }
+[node-tests]                        "isNegated": false
+[node-tests]                        "length": 12
+[node-tests]                        "offset": 13
+[node-tests] --
+[node-tests]                      }
+[node-tests]                    ]
+[node-tests]                    "target": {
+[node-tests]                      "confidenceScores": {
+[node-tests]       -                "negative": 0.98
+[node-tests]       -                "positive": 0.02
+[node-tests]       +                "negative": 1
+[node-tests]       +                "positive": 0
+[node-tests]                      }
+[node-tests]                      "length": 4
+[node-tests]                      "offset": 4
+[node-tests]                      "sentiment": "negative"
+[node-tests] --
+[node-tests]                        "offset": 36
+[node-tests]                        "sentiment": "positive"
+[node-tests]                        "text": "nice"
+[node-tests]                      }
+[node-tests]       +              {
+[node-tests]       +                "confidenceScores": {
+[node-tests]       +                  "negative": 0
+[node-tests]       +                  "positive": 1
+[node-tests]       +                }
+[node-tests]       +                "isNegated": false
+[node-tests]       +                "length": 5
+[node-tests]       +                "offset": 59
+[node-tests]       +                "sentiment": "positive"
+[node-tests]       +                "text": "clean"
+[node-tests]       +              }
+[node-tests]                    ]
+[node-tests]                    "target": {
+[node-tests]                      "confidenceScores": {
+[node-tests]                        "negative": 0
+[node-tests] --
+[node-tests]                        "offset": 8
+[node-tests]                        "sentiment": "positive"
+[node-tests]                        "text": "great"
+[node-tests]                      }
+[node-tests]       +              {
+[node-tests]       +                "confidenceScores": {
+[node-tests]       +                  "negative": 0.01
+[node-tests]       +                  "positive": 0.99
+[node-tests]       +                }
+[node-tests]       +                "isNegated": false
+[node-tests]       +                "length": 12
+[node-tests]       +                "offset": 14
+[node-tests]       +                "sentiment": "positive"
+[node-tests]       +                "text": "unobstructed"
+[node-tests]       +              }
+[node-tests]                    ]
+[node-tests]                    "target": {
+[node-tests]                      "confidenceScores": {
+[node-tests]                        "negative": 0
+[node-tests] --
+[node-tests]                  {
+[node-tests]                    "assessments": [
+[node-tests]                      {
+[node-tests]                        "confidenceScores": {
+[node-tests]       -                  "negative": 0.99
+[node-tests]       -                  "positive": 0.01
+[node-tests]       +                  "negative": 1
+[node-tests]       +                  "positive": 0
+[node-tests]                        }
+[node-tests]                        "isNegated": false
+[node-tests]                        "length": 5
+[node-tests]                        "offset": 53
+[node-tests] --
+[node-tests]                      }
+[node-tests]                    ]
+[node-tests]                    "target": {
+[node-tests]                      "confidenceScores": {
+[node-tests]       -                "negative": 0.99
+[node-tests]       -                "positive": 0.01
+[node-tests]       +                "negative": 1
+[node-tests]       +                "positive": 0
+[node-tests]                      }
+[node-tests]                      "length": 6
+[node-tests]                      "offset": 42
+[node-tests]                      "sentiment": "negative"
+[node-tests]       
+[node-tests]       at Function.<anonymous> (/workspaces/azure-sdk-for-js/common/temp/node_modules/.pnpm/chai-exclude@2.1.0_chai@4.3.6/node_modules/chai-exclude/chai-exclude.js:142:66)
+[node-tests]       at Function.methodWrapper (/workspaces/azure-sdk-for-js/common/temp/node_modules/.pnpm/chai@4.3.6/node_modules/chai/lib/chai/utils/addMethod.js:57:25)
+[node-tests]       at assertActionResults (/workspaces/azure-sdk-for-js/sdk/cognitivelanguage/ai-language-text/test/public/utils/resultHelper.ts:75:10)
+[node-tests]       at Context.<anonymous> (/workspaces/azure-sdk-for-js/sdk/cognitivelanguage/ai-language-text/test/public/analyze.spec.ts:63:21)
+[node-tests]       at processTicksAndRejections (node:internal/process/task_queues:96:5)
+[node-tests] 
+[node-tests]   3) [APIKey] TextAnalysisClient
+[node-tests]        analyzeBatch
+[node-tests]          actions
+[node-tests]            prebuilt
+[node-tests]              entity recognition with resolution:
+[node-tests] 
+[node-tests]       AssertionError: expected { results: [ { ...(3) }, ...(3) ], ...(1) } to deeply equal { kind: 'EntityRecognition', ...(1) }
+[node-tests]       + expected - actual
+[node-tests] 
+[node-tests]            {
+[node-tests]              "entities": [
+[node-tests]                {
+[node-tests]                  "category": "Quantity"
+[node-tests]       -          "length": 2
+[node-tests]       -          "offset": 11
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "numberKind": "Integer"
+[node-tests]       -              "resolutionKind": "NumberResolution"
+[node-tests]       -              "value": 14
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Number"
+[node-tests]       -          "text": "14"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "Quantity"
+[node-tests]                  "length": 9
+[node-tests]                  "offset": 11
+[node-tests]                  "resolutions": [
+[node-tests]                    {
+[node-tests] --
+[node-tests]                  "text": "14 inches"
+[node-tests]                }
+[node-tests]                {
+[node-tests]                  "category": "Quantity"
+[node-tests]       -          "length": 2
+[node-tests]       -          "offset": 37
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "numberKind": "Integer"
+[node-tests]       -              "resolutionKind": "NumberResolution"
+[node-tests]       -              "value": 20
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Number"
+[node-tests]       -          "text": "20"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "Quantity"
+[node-tests]                  "length": 6
+[node-tests]                  "offset": 37
+[node-tests]                  "resolutions": [
+[node-tests]                    {
+[node-tests] --
+[node-tests]                  "text": "200 terabytes"
+[node-tests]                }
+[node-tests]                {
+[node-tests]                  "category": "DateTime"
+[node-tests]       -          "length": 7
+[node-tests]       +          "length": 49
+[node-tests]                  "offset": 37
+[node-tests]       -          "subCategory": "DateRange"
+[node-tests]       -          "text": "between"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "DateTime"
+[node-tests]       -          "length": 18
+[node-tests]       -          "offset": 45
+[node-tests]                  "resolutions": [
+[node-tests]                    {
+[node-tests]       -              "dateTimeSubKind": "Date"
+[node-tests]       -              "resolutionKind": "DateTimeResolution"
+[node-tests]       -              "timex": "2022-10-24"
+[node-tests]       -              "value": "2022-10-24"
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Date"
+[node-tests]       -          "text": "October 24th, 2022"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "DateTime"
+[node-tests]       -          "length": 12
+[node-tests]       -          "offset": 68
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "dateTimeSubKind": "Date"
+[node-tests]       -              "resolutionKind": "DateTimeResolution"
+[node-tests]       -              "timex": "XXXX-10-28"
+[node-tests]       -              "value": "2022-10-28"
+[node-tests]       -            }
+[node-tests]       -            {
+[node-tests]       -              "dateTimeSubKind": "Date"
+[node-tests]       -              "resolutionKind": "DateTimeResolution"
+[node-tests]       -              "timex": "XXXX-10-28"
+[node-tests]       -              "value": "2023-10-28"
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Date"
+[node-tests]       -          "text": "October 28th"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "DateTime"
+[node-tests]       -          "length": 4
+[node-tests]       -          "offset": 82
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "begin": "2022-01-01"
+[node-tests]       -              "end": "2023-01-01"
+[node-tests]       +              "begin": "2022-10-24"
+[node-tests]       +              "duration": "P4D"
+[node-tests]       +              "end": "2022-10-28"
+[node-tests]                      "resolutionKind": "TemporalSpanResolution"
+[node-tests]       -              "timex": "2022"
+[node-tests]                    }
+[node-tests]                  ]
+[node-tests]                  "subCategory": "DateRange"
+[node-tests]       -          "text": "2022"
+[node-tests]       +          "text": "between October 24th, 2022 and October 28th, 2022"
+[node-tests]                }
+[node-tests]              ]
+[node-tests]              "id": "3"
+[node-tests]              "warnings": []
+[node-tests]       
+[node-tests]       at Function.<anonymous> (/workspaces/azure-sdk-for-js/common/temp/node_modules/.pnpm/chai-exclude@2.1.0_chai@4.3.6/node_modules/chai-exclude/chai-exclude.js:142:66)
+[node-tests]       at Function.methodWrapper (/workspaces/azure-sdk-for-js/common/temp/node_modules/.pnpm/chai@4.3.6/node_modules/chai/lib/chai/utils/addMethod.js:57:25)
+[node-tests]       at assertActionsResults (/workspaces/azure-sdk-for-js/sdk/cognitivelanguage/ai-language-text/test/public/utils/resultHelper.ts:24:14)
+[node-tests]       at processTicksAndRejections (node:internal/process/task_queues:96:5)
+[node-tests]       at async Context.<anonymous> (/workspaces/azure-sdk-for-js/sdk/cognitivelanguage/ai-language-text/test/public/analyzeBatch.spec.ts:78:25)
+[node-tests] 
+[node-tests]   4) [AAD] TextAnalysisClient
+[node-tests]        analyzeBatch
+[node-tests]          actions
+[node-tests]            prebuilt
+[node-tests]              entity recognition with resolution:
+[node-tests] 
+[node-tests]       AssertionError: expected { results: [ { ...(3) }, ...(3) ], ...(1) } to deeply equal { kind: 'EntityRecognition', ...(1) }
+[node-tests]       + expected - actual
+[node-tests] 
+[node-tests]            {
+[node-tests]              "entities": [
+[node-tests]                {
+[node-tests]                  "category": "Quantity"
+[node-tests]       -          "length": 2
+[node-tests]       -          "offset": 11
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "numberKind": "Integer"
+[node-tests]       -              "resolutionKind": "NumberResolution"
+[node-tests]       -              "value": 14
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Number"
+[node-tests]       -          "text": "14"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "Quantity"
+[node-tests]                  "length": 9
+[node-tests]                  "offset": 11
+[node-tests]                  "resolutions": [
+[node-tests]                    {
+[node-tests] --
+[node-tests]                  "text": "14 inches"
+[node-tests]                }
+[node-tests]                {
+[node-tests]                  "category": "Quantity"
+[node-tests]       -          "length": 2
+[node-tests]       -          "offset": 37
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "numberKind": "Integer"
+[node-tests]       -              "resolutionKind": "NumberResolution"
+[node-tests]       -              "value": 20
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Number"
+[node-tests]       -          "text": "20"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "Quantity"
+[node-tests]                  "length": 6
+[node-tests]                  "offset": 37
+[node-tests]                  "resolutions": [
+[node-tests]                    {
+[node-tests] --
+[node-tests]                  "text": "200 terabytes"
+[node-tests]                }
+[node-tests]                {
+[node-tests]                  "category": "DateTime"
+[node-tests]       -          "length": 7
+[node-tests]       +          "length": 49
+[node-tests]                  "offset": 37
+[node-tests]       -          "subCategory": "DateRange"
+[node-tests]       -          "text": "between"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "DateTime"
+[node-tests]       -          "length": 18
+[node-tests]       -          "offset": 45
+[node-tests]                  "resolutions": [
+[node-tests]                    {
+[node-tests]       -              "dateTimeSubKind": "Date"
+[node-tests]       -              "resolutionKind": "DateTimeResolution"
+[node-tests]       -              "timex": "2022-10-24"
+[node-tests]       -              "value": "2022-10-24"
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Date"
+[node-tests]       -          "text": "October 24th, 2022"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "DateTime"
+[node-tests]       -          "length": 12
+[node-tests]       -          "offset": 68
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "dateTimeSubKind": "Date"
+[node-tests]       -              "resolutionKind": "DateTimeResolution"
+[node-tests]       -              "timex": "XXXX-10-28"
+[node-tests]       -              "value": "2022-10-28"
+[node-tests]       -            }
+[node-tests]       -            {
+[node-tests]       -              "dateTimeSubKind": "Date"
+[node-tests]       -              "resolutionKind": "DateTimeResolution"
+[node-tests]       -              "timex": "XXXX-10-28"
+[node-tests]       -              "value": "2023-10-28"
+[node-tests]       -            }
+[node-tests]       -          ]
+[node-tests]       -          "subCategory": "Date"
+[node-tests]       -          "text": "October 28th"
+[node-tests]       -        }
+[node-tests]       -        {
+[node-tests]       -          "category": "DateTime"
+[node-tests]       -          "length": 4
+[node-tests]       -          "offset": 82
+[node-tests]       -          "resolutions": [
+[node-tests]       -            {
+[node-tests]       -              "begin": "2022-01-01"
+[node-tests]       -              "end": "2023-01-01"
+[node-tests]       +              "begin": "2022-10-24"
+[node-tests]       +              "duration": "P4D"
+[node-tests]       +              "end": "2022-10-28"
+[node-tests]                      "resolutionKind": "TemporalSpanResolution"
+[node-tests]       -              "timex": "2022"
+[node-tests]                    }
+[node-tests]                  ]
+[node-tests]                  "subCategory": "DateRange"
+[node-tests]       -          "text": "2022"
+[node-tests]       +          "text": "between October 24th, 2022 and October 28th, 2022"
+[node-tests]                }
+[node-tests]              ]
+[node-tests]              "id": "3"
+[node-tests]              "warnings": []
+[node-tests]       
+[node-tests]       at Function.<anonymous> (/workspaces/azure-sdk-for-js/common/temp/node_modules/.pnpm/chai-exclude@2.1.0_chai@4.3.6/node_modules/chai-exclude/chai-exclude.js:142:66)
+[node-tests]       at Function.methodWrapper (/workspaces/azure-sdk-for-js/common/temp/node_modules/.pnpm/chai@4.3.6/node_modules/chai/lib/chai/utils/addMethod.js:57:25)
+[node-tests]       at assertActionsResults (/workspaces/azure-sdk-for-js/sdk/cognitivelanguage/ai-language-text/test/public/utils/resultHelper.ts:24:14)
+[node-tests]       at processTicksAndRejections (node:internal/process/task_queues:96:5)
+[node-tests]       at async Context.<anonymous> (/workspaces/azure-sdk-for-js/sdk/cognitivelanguage/ai-language-text/test/public/analyzeBatch.spec.ts:78:25)
+[node-tests] 
+[node-tests] 
+[node-tests] 
+[node-tests] mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace --timeout 1200000 "test/**/*.spec.ts" exited with code 4
+[31mThe script failed with exit code 1[39m
