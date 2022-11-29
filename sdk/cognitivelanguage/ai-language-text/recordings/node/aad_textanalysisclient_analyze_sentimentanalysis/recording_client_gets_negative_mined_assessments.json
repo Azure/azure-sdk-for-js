@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "166",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "c8032c9a-5c78-4e0e-93c8-d0c72d55faf0"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "0a8b4fe4-b50b-4913-be5f-73efebdab960"
       },
       "RequestBody": {
         "kind": "SentimentAnalysis",
@@ -30,15 +30,15 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "194b720e-c3e3-4613-9e5c-27d22f679fbd",
+        "apim-request-id": "acaa6f6b-176d-425f-9a91-7ecd2f3891db",
         "Content-Length": "954",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-        "Date": "Tue, 01 Nov 2022 22:52:10 GMT",
+        "Date": "Tue, 29 Nov 2022 17:20:39 GMT",
         "Set-Cookie": ".AspNetCore.Mvc.CookieTempDataProvider=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; samesite=lax; httponly",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "22",
+        "x-envoy-upstream-service-time": "23",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
@@ -82,10 +82,10 @@
                       ]
                     },
                     {
-                      "sentiment": "positive",
+                      "sentiment": "negative",
                       "confidenceScores": {
-                        "positive": 1.0,
-                        "negative": 0.0
+                        "positive": 0.0,
+                        "negative": 1.0
                       },
                       "offset": 13,
                       "length": 7,
@@ -117,7 +117,7 @@
             }
           ],
           "errors": [],
-          "modelVersion": "2022-10-01"
+          "modelVersion": "2022-11-01"
         }
       }
     }

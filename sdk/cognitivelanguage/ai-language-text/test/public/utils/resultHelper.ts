@@ -70,6 +70,6 @@ export function assertActionResults<T>(
     excludedAdditionalProps?: string[];
   } = {}
 ): void {
-  const { excludedAdditionalProps = ["confidenceScore", "confidentScores"] } = options;
+  const { excludedAdditionalProps = ["confidenceScore", "confidenceScores"] } = options;
   assert.deepEqualExcludingEvery(result, expectation, excludedAdditionalProps as any);
 }
