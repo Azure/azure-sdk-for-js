@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-containerservice/18.0.0-beta.3 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "53cc3cb4-655b-4279-b0cb-622f89ca9236"
+        "User-Agent": "azsdk-js-arm-containerservice/17.4.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "783297c7-67fd-4301-b075-3f665bbca1b5"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Tue, 29 Nov 2022 06:45:16 GMT",
+        "Date": "Tue, 29 Nov 2022 09:12:15 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "nginx",
@@ -25,10 +25,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "3d87e6cd-60b1-4726-ad11-03f8a58d9fc8",
-        "x-ms-ratelimit-remaining-subscription-reads": "11893",
-        "x-ms-request-id": "5eb0d898-ef73-42b2-99af-93a55e028b69",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221129T064516Z:3d87e6cd-60b1-4726-ad11-03f8a58d9fc8"
+        "x-ms-correlation-request-id": "decc871a-c47b-4ac2-9aa9-4d99e15a0fa8",
+        "x-ms-ratelimit-remaining-subscription-reads": "11873",
+        "x-ms-request-id": "c57a34fc-368d-4c03-9eb8-0302632a6da7",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221129T091216Z:decc871a-c47b-4ac2-9aa9-4d99e15a0fa8"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz",
@@ -43,8 +43,8 @@
           "kubernetesVersion": "1.23.12",
           "currentKubernetesVersion": "1.23.12",
           "dnsPrefix": "aksjssdk",
-          "fqdn": "aksjssdk-cf0c8e90.hcp.eastus.azmk8s.io",
-          "azurePortalFQDN": "aksjssdk-cf0c8e90.portal.hcp.eastus.azmk8s.io",
+          "fqdn": "aksjssdk-b7c8876a.hcp.eastus.azmk8s.io",
+          "azurePortalFQDN": "aksjssdk-b7c8876a.portal.hcp.eastus.azmk8s.io",
           "agentPoolProfiles": [
             {
               "name": "aksagent",
@@ -85,7 +85,7 @@
               },
               "effectiveOutboundIPs": [
                 {
-                  "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/3b86c4ea-3270-4fd6-947d-b1947e383410"
+                  "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/8a3be8b7-dd55-4300-a9ed-789e2f94fe69"
                 }
               ],
               "backendPoolType": "nodeIPConfiguration"

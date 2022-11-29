@@ -1,6 +1,6 @@
 # Release History
     
-## 18.0.0-beta.3 (2022-11-25)
+## 17.4.0-beta.1 (2022-11-25)
     
 **Features**
 
@@ -206,9 +206,6 @@
   - Enum KnownPrivateEndpointConnectionProvisioningState has a new value Canceled
   - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
   - Enum KnownSnapshotType has a new value ManagedCluster
-
-**Breaking Changes**
-
   - Interface ContainerServiceClientOptionalParams no longer has parameter apiVersion
   - Class ContainerServiceClient no longer has parameter apiVersion
     
