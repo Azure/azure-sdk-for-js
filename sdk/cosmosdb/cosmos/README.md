@@ -215,7 +215,7 @@ While working with Cosmos DB, you might encounter transient failures caused by [
 
 ### Logging
 
-Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`. While using `AZURE_LOG_LEVEL` make sure to set it before logging library is initialized. Ideally pass it through command line, if using libraries like `dotenv` make sure such libraries are initialized before logging library.
 
 ```javascript
 const { setLogLevel } = require("@azure/logger");
