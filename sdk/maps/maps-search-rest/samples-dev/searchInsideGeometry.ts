@@ -33,7 +33,7 @@ async function main() {
   /** Azure Active Directory (Azure AD) authentication */
   // const credential = new DefaultAzureCredential();
   // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
-  // const client = MapsRoute(credential, mapsClientId);
+  // const client = MapsSearch(credential, mapsClientId);
 
   /** We can search for pizza places inside a geometry represented as a GeoJSON FeatureCollection type */
   const featureCollectionResponse = await client.path("/search/geometry/{format}", "json").post({

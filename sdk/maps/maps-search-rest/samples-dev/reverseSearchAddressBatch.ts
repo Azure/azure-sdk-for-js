@@ -35,8 +35,9 @@ async function main() {
   /** Azure Active Directory (Azure AD) authentication */
   // const credential = new DefaultAzureCredential();
   // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
-  // const client = MapsRoute(credential, mapsClientId);
+  // const client = MapsSearch(credential, mapsClientId);
 
+  /** Create batch items with an array of objects which accept the same properties as the search-address-reverse endpoint. */
   const batchItems = createBatchItems<SearchReverseSearchAddressQueryParamProperties>([
     // This is an invalid query
     { query: [148.858561, 2.294911] },
@@ -46,12 +47,12 @@ async function main() {
     { query: [47.6155, -122.33817], radius: 5000 },
   ]);
 
-  // Create the poller with the initial response.
+  /** Create the long running poller with the initial response & MapsSearchClient */
   const initialResponse = await client.path("/search/address/reverse/batch/{format}", "json").post({
     body: { batchItems },
   });
   const poller = getLongRunningPoller(client, initialResponse);
-  // Get the partial result and keep polling.
+  /** If the operation is not completed yet, log the partial result we got now and keep polling. */
   while (!poller.getOperationState().isCompleted) {
     await poller.poll();
     const partialResponse = poller.getResult() as SearchReverseSearchAddressBatch200Response;
@@ -62,7 +63,9 @@ async function main() {
   // const response = (await poller.pollUntilDone()) as SearchReverseSearchAddressBatch200Response;
   // logResponseBody(response.body);
 
-  // Resume the poller
+  /** You may want to resume the long running operation in another function/process later.
+   * We ca achieve this by serialize the poller's state with `toString` and rehydrate it using `resumeFrom` options
+   */
   const serializedState = poller.toString();
   const rehydratedPoller = getLongRunningPoller(client, initialResponse, {
     resumeFrom: serializedState,

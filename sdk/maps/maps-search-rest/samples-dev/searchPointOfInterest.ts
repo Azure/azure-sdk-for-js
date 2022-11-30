@@ -29,7 +29,7 @@ async function main() {
   /** Azure Active Directory (Azure AD) authentication */
   // const credential = new DefaultAzureCredential();
   // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
-  // const client = MapsRoute(credential, mapsClientId);
+  // const client = MapsSearch(credential, mapsClientId);
 
   const response = await client.path("/search/poi/{format}", "json").get({
     queryParameters: {
@@ -47,9 +47,9 @@ async function main() {
   /** Log response body */
   response.body.results.forEach((result) => {
     console.log(
-      `${result.poi?.name || ""}: ${result.address.freeformAddress}. (${result.position.lat}, ${
-        result.position.lon
-      })\n`
+      `${result.poi ? result.poi.name + ":" : ""} ${result.address.freeformAddress}. (${
+        result.position.lat
+      }, ${result.position.lon})\n`
     );
   });
 }

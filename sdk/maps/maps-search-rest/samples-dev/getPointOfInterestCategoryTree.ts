@@ -31,7 +31,7 @@ async function main() {
   /** Azure Active Directory (Azure AD) authentication */
   // const credential = new DefaultAzureCredential();
   // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
-  // const client = MapsRoute(credential, mapsClientId);
+  // const client = MapsSearch(credential, mapsClientId);
 
   /** Make the request. */
   const response = await client.path("/search/poi/category/tree/{format}", "json").get();

@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import MapsSearch, { isUnexpected } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
 // import { DefaultAzureCredential } from "@azure/identity";
@@ -32,27 +30,27 @@ async function main() {
   /** Azure Active Directory (Azure AD) authentication */
   // const credential = new DefaultAzureCredential();
   // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
-  // const client = MapsRoute(credential, mapsClientId);
+  // const client = MapsSearch(credential, mapsClientId);
 
-  // Search for Starbuck near Seattle
+  /** Search for Starbuck near Seattle */
   const response = await client.path("/search/fuzzy/{format}", "json").get({
     queryParameters: {
-      query: "seattle",
+      query: "Starbucks",
       lat: 47.6101,
       lon: -122.34255,
       countrySet: ["US"],
     },
   });
-  // Throw error if the request failed.
+  /** Handle the error response */
   if (isUnexpected(response)) {
     throw response.body.error;
   }
 
-  // Log the result
-  console.log(`Starbucks search result nearby Seattle:`);
+  /** Log the response body */
+  console.log(`Starbucks search result near Seattle:\n`);
   response.body.results.forEach((result) => {
     console.log(`Address: ${result.address.freeformAddress}`);
-    console.log(`Coordinate: (${result.position.lat}, ${result.position.lon})`);
+    console.log(`Coordinate: (${result.position.lat}, ${result.position.lon})\n`);
   });
 }
 

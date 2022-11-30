@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import MapsSearch, {
   getLongRunningPoller,
   createBatchItems,
@@ -37,9 +35,9 @@ async function main() {
   /** Azure Active Directory (Azure AD) authentication */
   // const credential = new DefaultAzureCredential();
   // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
-  // const client = MapsRoute(credential, mapsClientId);
+  // const client = MapsSearch(credential, mapsClientId);
 
-  // First, create the batch items with the helper function.
+  /** Create batch items with an array of objects which accept the same properties as the fuzzy-search endpoint. */
   const batchItems = createBatchItems([
     {
       query: "atm",
@@ -59,7 +57,7 @@ async function main() {
       lon: -122.34817,
       radius: 5000,
     },
-    // This is an invalid request.
+    // This is an invalid request. We will show how to handle the error later.
     {
       query: "atm",
       lat: 48.858561,
@@ -67,13 +65,12 @@ async function main() {
     },
   ]);
 
-  // Create the poller with the initial response.
+  /** Create the long running poller with the initial response & MapsSearchClient */
   const initialResponse = await client
     .path("/search/fuzzy/batch/{format}", "json")
     .post({ body: { batchItems } });
   const poller = getLongRunningPoller(client, initialResponse);
-
-  // Get the partial result and keep polling.
+  /** If the operation is not completed yet, log the partial result we got now and keep polling. */
   while (!poller.getOperationState().isCompleted) {
     await poller.poll();
     const partialResponse = poller.getResult() as SearchSearchAddressBatch200Response;
@@ -84,7 +81,9 @@ async function main() {
   // const response = await poller.pollUntilDone();
   // logResponse(response)
 
-  // Resume the poller
+  /** You may want to resume the long running operation in another function/process later.
+   * We ca achieve this by serialize the poller's state with `toString` and rehydrate it using `resumeFrom` options
+   */
   const serializedState = poller.toString();
   const rehydratedPoller = getLongRunningPoller(client, initialResponse, {
     resumeFrom: serializedState,

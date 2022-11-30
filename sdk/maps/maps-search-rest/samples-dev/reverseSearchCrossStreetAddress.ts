@@ -8,7 +8,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * @summary Demonstrate how to reverse geocode to a cross street
+ * @summary Demonstrate how to reverse geocode to a cross street.
  */
 async function main() {
   /**
@@ -29,7 +29,7 @@ async function main() {
   /** Azure Active Directory (Azure AD) authentication */
   // const credential = new DefaultAzureCredential();
   // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
-  // const client = MapsRoute(credential, mapsClientId);
+  // const client = MapsSearch(credential, mapsClientId);
 
   /** Make the request. */
   const response = await client.path("/search/address/reverse/crossStreet/{format}", "json").get({
@@ -41,7 +41,10 @@ async function main() {
   }
   /** Log the response body */
   response.body.addresses.forEach(({ address }) => {
-    console.log(address?.streetName);
+    if (!address) {
+      throw Error("Unexpected error: address is undefined");
+    }
+    console.log(address.streetName);
   });
 }
 

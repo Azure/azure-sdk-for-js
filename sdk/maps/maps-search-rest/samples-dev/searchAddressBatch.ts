@@ -14,7 +14,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * @summary This sample demonstrates how to make a batch geocoding request.
+ * @summary This sample demonstrates how to make a batched search address request.
  */
 async function main() {
   /**
@@ -35,19 +35,21 @@ async function main() {
   /** Azure Active Directory (Azure AD) authentication */
   // const credential = new DefaultAzureCredential();
   // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
-  // const client = MapsRoute(credential, mapsClientId);
+  // const client = MapsSearch(credential, mapsClientId);
 
+  /** Create batch items with an array of objects which accept the same properties as the search-address endpoint. */
   const batchItems = createBatchItems<SearchSearchAddressQueryParamProperties>([
     { query: "400 Broad St, Seattle, WA 98109" },
     { query: "One, Microsoft Way, Redmond, WA 98052" },
     { query: "350 5th Ave, New York, NY 10118" },
     { query: "1 Main Street", countrySet: ["GB", "US", "AU"] },
   ]);
+  /** Create the long running poller with the initial response & MapsSearchClient */
   const initialResponse = await client
     .path("/search/address/batch/{format}", "json")
     .post({ body: { batchItems } });
   const poller = getLongRunningPoller(client, initialResponse);
-  // Get the partial result and keep polling.
+  /** If the operation is not completed yet, log the partial result we got now and keep polling. */
   while (!poller.getOperationState().isCompleted) {
     await poller.poll();
     const partialResponse = poller.getResult() as SearchSearchAddressBatch200Response;
@@ -58,7 +60,9 @@ async function main() {
   // const response = (await poller.pollUntilDone()) as SearchReverseSearchAddressBatch200Response;
   // logResponseBody(response.body);
 
-  // Resume the poller
+  /** You may want to resume the long running operation in another function/process later.
+   * We ca achieve this by serialize the poller's state with `toString` and rehydrate it using `resumeFrom` options
+   */
   const serializedState = poller.toString();
   const rehydratedPoller = getLongRunningPoller(client, initialResponse, {
     resumeFrom: serializedState,
