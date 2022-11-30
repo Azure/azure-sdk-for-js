@@ -158,7 +158,7 @@ await Client.path("/testruns/{testRunId}", TEST_RUN_ID).patch({
   },
 });
 
-var result = await client.path("/testruns/{testRunId}", TEST_RUN_ID).get();
+var result = await Client.path("/testruns/{testRunId}", TEST_RUN_ID).get();
 console.log(result);
 ```
 
