@@ -29,6 +29,8 @@ Notification Hubs:
 - Broadcast Send - `sendBroadcastNotification.ts`
 - Direct Send APNs - `sendDirectNotification.ts`
 - Direct Send FCM Legacy - `sendDirectNotification.fcmLegacy.ts`
+- Direct Batch Send APNs - `sendDirectNotificationBatch.ts`
+- Direct Batch Send FCM Legacy - `sendDirectNotificationBatch.fcmLegacy.ts`
 - Audience Send With Tags List - `sendTagsList.ts`
 - Audience Send With Tag Expression - `sendTagExpression.ts`
 - Scheduled Broadcast Send - `scheduledSendBroadcastNotification.ts`
