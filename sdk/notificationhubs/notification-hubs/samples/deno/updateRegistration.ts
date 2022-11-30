@@ -23,7 +23,7 @@ import {
 import { config } from "dotenv/mod.ts";
 
 // Define connection string and hub name
-const enviromentVariables = config({ safe: true });
+const enviromentVariables = config({ safe: true, allowEmptyValues: true });
 const connectionString = enviromentVariables.NOTIFICATIONHUBS_CONNECTION_STRING;
 const hubName = enviromentVariables.NOTIFICATION_HUB_NAME;
 
