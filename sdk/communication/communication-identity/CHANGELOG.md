@@ -4,13 +4,13 @@
 
 ### Features Added
 
-- Updated to `@azure/communication-common` 2.2.0.
-
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+- Updated to `@azure/communication-common` 2.2.0.
 
 ## 1.2.0 (2022-10-12)
 
