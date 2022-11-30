@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import MapsSearch, { isUnexpected } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -8,7 +8,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * @summary Demonstrate how to  request the geometry data such as a city or country outline for a set of entities, previously retrieved from an Online Search request in GeoJSON format.
+ * @summary Demonstrate how to search the coordinates of an address in a structured format.
  */
 async function main() {
   /**
@@ -31,35 +31,26 @@ async function main() {
   // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
   // const client = MapsSearch(credential, mapsClientId);
 
-  /** We use this API with the response field geometry.id from either a search address of search fuzzy call.*/
-  /** Make a search fuzzy call and retrieve the geometry Ids */
-  const searchFuzzyRes = await client.path("/search/fuzzy/{format}", "json").get({
-    queryParameters: { query: "Seattle" },
-  });
-  if (isUnexpected(searchFuzzyRes)) {
-    throw searchFuzzyRes.body.error;
-  }
-  const geometryIds = searchFuzzyRes.body.results.reduce<string[]>((acc, cur) => {
-    if (cur.dataSources && cur.dataSources.geometry && cur.dataSources.geometry.id) {
-      acc.push(cur.dataSources.geometry.id);
-    }
-    return acc;
-  }, []);
-
-  /** Use the retrieved geometry Ids to request for more info. */
-  const response = await client.path("/search/polygon/{format}", "json").get({
+  const response = await client.path("/search/address/structured/{format}", "json").get({
     queryParameters: {
-      geometries: geometryIds,
+      countryCode: "US",
+      streetNumber: "15127",
+      streetName: "NE 24th Street",
+      municipality: "Redmond",
+      countrySubdivision: "WA",
+      postalCode: "98052",
     },
   });
+  /** Handle error response */
   if (isUnexpected(response)) {
     throw response.body.error;
   }
-  if (!response.body.additionalData) {
-    throw Error("Unexpected response: additionalData is missing");
-  }
-  response.body.additionalData.forEach(({ geometryData }) => {
-    console.log(geometryData);
+
+  /** Log the response body. */
+  console.log(`The followings are the possible coordinates of the address:`);
+  response.body.results.forEach((result) => {
+    const { lat, lon } = result.position;
+    console.log(`(${lat}, ${lon})`);
   });
 }
 

@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import MapsSearch, { isUnexpected } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
@@ -8,7 +10,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * @summary Demonstrate how to  request the geometry data such as a city or country outline for a set of entities, previously retrieved from an Online Search request in GeoJSON format.
+ * @summary This sample demonstrates how to get all point-of-interest categories.
  */
 async function main() {
   /**
@@ -31,35 +33,23 @@ async function main() {
   // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
   // const client = MapsSearch(credential, mapsClientId);
 
-  /** We use this API with the response field geometry.id from either a search address of search fuzzy call.*/
-  /** Make a search fuzzy call and retrieve the geometry Ids */
-  const searchFuzzyRes = await client.path("/search/fuzzy/{format}", "json").get({
-    queryParameters: { query: "Seattle" },
-  });
-  if (isUnexpected(searchFuzzyRes)) {
-    throw searchFuzzyRes.body.error;
-  }
-  const geometryIds = searchFuzzyRes.body.results.reduce<string[]>((acc, cur) => {
-    if (cur.dataSources && cur.dataSources.geometry && cur.dataSources.geometry.id) {
-      acc.push(cur.dataSources.geometry.id);
-    }
-    return acc;
-  }, []);
+  /** Make the request. */
+  const response = await client.path("/search/poi/category/tree/{format}", "json").get();
 
-  /** Use the retrieved geometry Ids to request for more info. */
-  const response = await client.path("/search/polygon/{format}", "json").get({
-    queryParameters: {
-      geometries: geometryIds,
-    },
-  });
+  /** Handle error response. */
   if (isUnexpected(response)) {
     throw response.body.error;
   }
-  if (!response.body.additionalData) {
-    throw Error("Unexpected response: additionalData is missing");
+
+  /** Log the response */
+  if (!response.body.poiCategories) {
+    throw new Error("Unexpected response: poiCategories is undefined");
   }
-  response.body.additionalData.forEach(({ geometryData }) => {
-    console.log(geometryData);
+  response.body.poiCategories.forEach((category) => {
+    console.log(`The info of the category ${category.name}:`);
+    console.log(`  id: ${category.id}`);
+    console.log(`  synonyms: ${category.synonyms}`);
+    console.log(`  child category Ids: ${category.childCategoryIds}\n`);
   });
 }
 

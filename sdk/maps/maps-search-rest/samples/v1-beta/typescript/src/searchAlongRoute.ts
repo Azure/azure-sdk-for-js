@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
+// Licensed under the MIT License.
 import MapsSearch, { isUnexpected } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
@@ -8,7 +7,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * @summary Demonstrate how to  request the geometry data such as a city or country outline for a set of entities, previously retrieved from an Online Search request in GeoJSON format.
+ * @summary Demonstrate how to perform a fuzzy search for POIs along a specified route.
  */
 async function main() {
   /**
@@ -31,35 +30,32 @@ async function main() {
   // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
   // const client = MapsSearch(credential, mapsClientId);
 
-  /** We use this API with the response field geometry.id from either a search address of search fuzzy call.*/
-  /** Make a search fuzzy call and retrieve the geometry Ids */
-  const searchFuzzyRes = await client.path("/search/fuzzy/{format}", "json").get({
-    queryParameters: { query: "Seattle" },
-  });
-  if (isUnexpected(searchFuzzyRes)) {
-    throw searchFuzzyRes.body.error;
-  }
-  const geometryIds = searchFuzzyRes.body.results.reduce<string[]>((acc, cur) => {
-    if (cur.dataSources && cur.dataSources.geometry && cur.dataSources.geometry.id) {
-      acc.push(cur.dataSources.geometry.id);
-    }
-    return acc;
-  }, []);
-
-  /** Use the retrieved geometry Ids to request for more info. */
-  const response = await client.path("/search/polygon/{format}", "json").get({
-    queryParameters: {
-      geometries: geometryIds,
+  /** Make the request. */
+  const response = await client.path("/search/alongRoute/{format}", "json").post({
+    queryParameters: { query: "burger", maxDetourTime: 1000, limit: 2 },
+    body: {
+      route: {
+        coordinates: [
+          [-122.143035, 47.653536],
+          [-122.187164, 47.617556],
+          [-122.114981, 47.570599],
+          [-122.132756, 47.654009],
+        ],
+        type: "LineString",
+      },
     },
   });
+
+  /** Handle error response */
   if (isUnexpected(response)) {
     throw response.body.error;
   }
-  if (!response.body.additionalData) {
-    throw Error("Unexpected response: additionalData is missing");
-  }
-  response.body.additionalData.forEach(({ geometryData }) => {
-    console.log(geometryData);
+
+  /** Log the response body. */
+  console.log(`"burger" search result along the route:\n`);
+  response.body.results.forEach((result) => {
+    console.log(`Address: ${result.address.freeformAddress}`);
+    console.log(`Coordinate: (${result.position.lat}, ${result.position.lon})\n`);
   });
 }
 

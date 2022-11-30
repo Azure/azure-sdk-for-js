@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import MapsSearch, { isUnexpected } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -8,7 +8,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * @summary Demonstrate how to  request the geometry data such as a city or country outline for a set of entities, previously retrieved from an Online Search request in GeoJSON format.
+ * @summary Demonstrate how to search for POIs nearby the given position.
  */
 async function main() {
   /**
@@ -31,35 +31,20 @@ async function main() {
   // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
   // const client = MapsSearch(credential, mapsClientId);
 
-  /** We use this API with the response field geometry.id from either a search address of search fuzzy call.*/
-  /** Make a search fuzzy call and retrieve the geometry Ids */
-  const searchFuzzyRes = await client.path("/search/fuzzy/{format}", "json").get({
-    queryParameters: { query: "Seattle" },
+  const response = await client.path("/search/nearby/{format}", "json").get({
+    queryParameters: { lat: 40.70627, lon: -74.011454, limit: 10, radius: 8046 },
   });
-  if (isUnexpected(searchFuzzyRes)) {
-    throw searchFuzzyRes.body.error;
-  }
-  const geometryIds = searchFuzzyRes.body.results.reduce<string[]>((acc, cur) => {
-    if (cur.dataSources && cur.dataSources.geometry && cur.dataSources.geometry.id) {
-      acc.push(cur.dataSources.geometry.id);
-    }
-    return acc;
-  }, []);
-
-  /** Use the retrieved geometry Ids to request for more info. */
-  const response = await client.path("/search/polygon/{format}", "json").get({
-    queryParameters: {
-      geometries: geometryIds,
-    },
-  });
+  /** Handle error response */
   if (isUnexpected(response)) {
     throw response.body.error;
   }
-  if (!response.body.additionalData) {
-    throw Error("Unexpected response: additionalData is missing");
-  }
-  response.body.additionalData.forEach(({ geometryData }) => {
-    console.log(geometryData);
+  /** Log response body */
+  response.body.results.forEach((result) => {
+    console.log(
+      `${result.poi ? result.poi.name + ":" : ""} ${result.address.freeformAddress}. (${
+        result.position.lat
+      }, ${result.position.lon})\n`
+    );
   });
 }
 

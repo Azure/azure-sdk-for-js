@@ -8,7 +8,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * @summary Demonstrate how to  request the geometry data such as a city or country outline for a set of entities, previously retrieved from an Online Search request in GeoJSON format.
+ * @summary This sample demonstrates how to reverse a geocode to an address.
  */
 async function main() {
   /**
@@ -31,35 +31,19 @@ async function main() {
   // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
   // const client = MapsSearch(credential, mapsClientId);
 
-  /** We use this API with the response field geometry.id from either a search address of search fuzzy call.*/
-  /** Make a search fuzzy call and retrieve the geometry Ids */
-  const searchFuzzyRes = await client.path("/search/fuzzy/{format}", "json").get({
-    queryParameters: { query: "Seattle" },
+  /** Make the request. */
+  const response = await client.path("/search/address/reverse/{format}", "json").get({
+    queryParameters: { query: [37.337, -121.89] },
   });
-  if (isUnexpected(searchFuzzyRes)) {
-    throw searchFuzzyRes.body.error;
-  }
-  const geometryIds = searchFuzzyRes.body.results.reduce<string[]>((acc, cur) => {
-    if (cur.dataSources && cur.dataSources.geometry && cur.dataSources.geometry.id) {
-      acc.push(cur.dataSources.geometry.id);
-    }
-    return acc;
-  }, []);
 
-  /** Use the retrieved geometry Ids to request for more info. */
-  const response = await client.path("/search/polygon/{format}", "json").get({
-    queryParameters: {
-      geometries: geometryIds,
-    },
-  });
+  /** Handle error response. */
   if (isUnexpected(response)) {
     throw response.body.error;
   }
-  if (!response.body.additionalData) {
-    throw Error("Unexpected response: additionalData is missing");
-  }
-  response.body.additionalData.forEach(({ geometryData }) => {
-    console.log(geometryData);
+
+  /** Log the response body. */
+  response.body.addresses.forEach((address) => {
+    console.log(address.address.freeformAddress);
   });
 }
 

@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import MapsSearch, { isUnexpected } from "@azure-rest/maps-search";
-import { AzureKeyCredential } from "@azure/core-auth";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const MapsSearch = require("@azure-rest/maps-search").default,
+  { isUnexpected } = require("@azure-rest/maps-search");
+const { AzureKeyCredential } = require("@azure/core-auth");
+require("dotenv").config();
 
 /**
  * @summary Demonstrate how to  request the geometry data such as a city or country outline for a set of entities, previously retrieved from an Online Search request in GeoJSON format.
@@ -39,7 +38,7 @@ async function main() {
   if (isUnexpected(searchFuzzyRes)) {
     throw searchFuzzyRes.body.error;
   }
-  const geometryIds = searchFuzzyRes.body.results.reduce<string[]>((acc, cur) => {
+  const geometryIds = searchFuzzyRes.body.results.reduce((acc, cur) => {
     if (cur.dataSources && cur.dataSources.geometry && cur.dataSources.geometry.id) {
       acc.push(cur.dataSources.geometry.id);
     }
