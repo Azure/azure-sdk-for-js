@@ -1,0 +1,44 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Cdn/profiles/myprofilexxx/endpoints/myendpointxxx/customDomains/www-qiaozha-xyz/enableCustomHttps?api-version=2021-06-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-cdn/8.0.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "1fedb513-35d2-43fb-a541-b41fb853defc"
+      },
+      "RequestBody": null,
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "134",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 30 Nov 2022 05:42:00 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "1fedb513-35d2-43fb-a541-b41fb853defc",
+        "x-ms-correlation-request-id": "fad139d3-230a-4b95-89a5-856ce9e8abe9",
+        "x-ms-ratelimit-remaining-subscription-writes": "1198",
+        "x-ms-request-id": "9a8f0731-abb8-4b46-b746-8c71ff9b8863",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221130T054201Z:fad139d3-230a-4b95-89a5-856ce9e8abe9"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidResource",
+          "message": "A non-empty request body is required. The parameters field is required.",
+          "target": null
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
