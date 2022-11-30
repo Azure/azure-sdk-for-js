@@ -2,21 +2,20 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how the sendNotification() method can be used to send a tags list
+ * This sample demonstrates how the sendDirectNotification() method can be used to send a direct batch
  * notification using APNs.  This sends a JSON message to an APNs given device token and returns
  * a Tracking ID which can be used for troubleshooting with the Azure Notification Hubs team.
  *
- * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-tags-segment-push-message
- * to learn about Routing and Tag Expressions.
+ * See https://learn.microsoft.com/rest/api/notificationhubs/direct-batch-send
+ * to learn about Direct Send Batch.
  *
- * @summary Demonstrates how to send tag expression notifications using Azure Notification Hubs
+ * @summary Demonstrates how to send direct notifications using Azure Notification Hubs
  * @azsdk-weight 100
  */
 
 import * as process from "process";
 import {
   createAppleNotification,
-  createTagExpression,
   NotificationDetails,
   NotificationOutcomeState,
 } from "@azure/notification-hubs/models";
@@ -36,11 +35,22 @@ const enviromentVariables = config({ safe: true, allowEmptyValues: true });
 const connectionString = enviromentVariables.NOTIFICATIONHUBS_CONNECTION_STRING;
 const hubName = enviromentVariables.NOTIFICATION_HUB_NAME;
 
+// Define message constants
+const deviceHandle = process.env.FCM_REGISTRATION_IDS?.split(",");
+
 async function main() {
   const context = createClientContext(connectionString, hubName);
 
-  const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
-  const tagExpression = createTagExpression(["likes_hockey", "likes_football"]);
+  const messageBody = `{
+	"notification":{
+      "title":"Notification Hub Test Notification",
+      "body":"This is a sample notification delivered by Azure Notification Hubs."
+	},
+	"data":{
+	  "property1":"value1",
+	  "property2":42
+	}
+}`;
 
   const notification = createAppleNotification({
     body: messageBody,
@@ -51,16 +61,15 @@ async function main() {
   });
 
   const result = await sendNotification(context, notification, {
-    enableTestSend: false,
-    tagExpression,
+    deviceHandle,
   });
 
-  console.log(`Tag List send Tracking ID: ${result.trackingId}`);
-  console.log(`Tag List Correlation ID: ${result.correlationId}`);
+  console.log(`Direct send Tracking ID: ${result.trackingId}`);
+  console.log(`Direct send Correlation ID: ${result.correlationId}`);
 
   // Only available in Standard SKU and above
   if (result.notificationId) {
-    console.log(`Tag List send Notification ID: ${result.notificationId}`);
+    console.log(`Direct send Notification ID: ${result.notificationId}`);
 
     const results = await getNotificationDetails(
       context,
@@ -99,7 +108,7 @@ async function getNotificationDetails(
 }
 
 main().catch((err) => {
-  console.log("sendTagsList Sample: Error occurred: ", err);
+  console.log("sendDirectNotification Sample: Error occurred: ", err);
   process.exit(1);
 });
 

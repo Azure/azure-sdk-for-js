@@ -25,7 +25,7 @@ import {
   NotificationHubsClientContext,
   sendNotification,
 } from "@azure/notification-hubs/api";
-import { isRestError } from "npm:@azure/core-rest-pipeline@1.10.0";
+import { isRestError } from "@azure/core-rest-pipeline";
 
 // Load the .env file if it exists
 import { config } from "dotenv/mod.ts";
@@ -36,10 +36,7 @@ const connectionString = enviromentVariables.NOTIFICATIONHUBS_CONNECTION_STRING;
 const hubName = enviromentVariables.NOTIFICATION_HUB_NAME;
 
 // Define message constants
-const DUMMY_DEVICE =
-  "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
-const deviceHandle = process.env.APNS_DEVICE_TOKENS?.split(",") ||
-  [DUMMY_DEVICE];
+const deviceHandle = process.env.APNS_DEVICE_TOKENS?.split(",");
 
 async function main() {
   const context = createClientContext(connectionString, hubName);

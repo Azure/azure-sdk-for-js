@@ -25,7 +25,7 @@ import {
   NotificationHubsClientContext,
   sendNotification,
 } from "@azure/notification-hubs/api";
-import { isRestError } from "npm:@azure/core-rest-pipeline@1.10.0";
+import { isRestError } from "@azure/core-rest-pipeline";
 
 // Load the .env file if it exists
 import { config } from "dotenv/mod.ts";

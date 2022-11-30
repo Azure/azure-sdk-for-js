@@ -1,5 +1,6 @@
 {
   "imports": {
+    "@azure/core-rest-pipeline": "npm:/@azure/core-rest-pipeline@1.10.0",
     "@azure/notification-hubs/": "npm:/@azure/notification-hubs@1.0.0-beta.7/",
     "dotenv/": "https://deno.land/x/dotenv@v3.2.0/",
     "node/": "https://deno.land/std@0.104.0/node/",

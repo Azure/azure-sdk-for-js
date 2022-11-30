@@ -32,8 +32,6 @@ const connectionString =
 const hubName = enviromentVariables.NOTIFICATION_HUB_NAME || "<hub name>";
 
 // Define message constants
-const DUMMY_DEVICE =
-  "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 const deviceToken = enviromentVariables.APNS_DEVICE_TOKEN;
 
 async function main() {
