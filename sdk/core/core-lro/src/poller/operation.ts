@@ -233,8 +233,6 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
       setErrorAsResult,
     });
 
-    updateState?.(state, response);
-
     if (!terminalStates.includes(status)) {
       const intervalInMs = getPollingInterval?.(response);
       if (intervalInMs) setDelay(intervalInMs);
@@ -245,5 +243,6 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
         withOperationLocation?.(location, isUpdated);
       } else withOperationLocation?.(operationLocation, false);
     }
+    updateState?.(state, response);
   }
 }

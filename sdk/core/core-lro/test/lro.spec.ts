@@ -2214,28 +2214,6 @@ matrix(
           assert.isTrue(check);
         });
 
-        it("The poller can terminate with partiallySucceeded status", async () => {
-          const pollingPath = `pollingPath`;
-          const poller = await createTestPoller({
-            routes: [
-              {
-                method: "POST",
-                status: 202,
-                headers: {
-                  "Operation-Location": pollingPath,
-                },
-              },
-              {
-                method: "GET",
-                path: pollingPath,
-                status: 200,
-                body: `{"status":"partiallySucceeded"}`,
-              },
-            ],
-          });
-          assertError(poller.pollUntilDone(), { messagePattern: /The long-running operation has failed/, })
-        })
-
         it("The state can be mutated in updateState", async () => {
           let setState = false;
           let check = false;

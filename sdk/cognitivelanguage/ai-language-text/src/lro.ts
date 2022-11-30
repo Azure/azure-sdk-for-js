@@ -112,7 +112,17 @@ function createSendPollRequest<TOptions extends OperationOptions>(settings: {
     return throwError(
       sendRequest({
         client,
-        opOptions: options,
+        opOptions: {
+          ...options,
+          onResponse: (rawResponse, response, error) => {
+            const castResponse = response as AnalyzeTextJobStatusResponse;
+            if (castResponse.status.toLowerCase() === "partiallysucceeded") {
+              castResponse.status = "failed";
+            }
+
+            options.onResponse?.(rawResponse, response, error);
+          },
+        },
         path,
         spanStr,
         spec: jobStatusOperationSpec,
@@ -266,26 +276,12 @@ type Writable<T> = {
  */
 export function createUpdateAnalyzeState(docIds?: string[]) {
   return (state: AnalyzeBatchOperationState, lastResponse: LroResponse): void => {
-    const {
-      createdOn,
-      modifiedOn,
-      id,
-      displayName,
-      expiresOn,
-      tasks,
-      lastUpdateDateTime,
-      status,
-      errors,
-    } = lastResponse.flatResponse as AnalyzeTextJobStatusResponse & { lastUpdateDateTime: string };
+    const { createdOn, modifiedOn, id, displayName, expiresOn, tasks, lastUpdateDateTime } =
+      lastResponse.flatResponse as AnalyzeTextJobStatusResponse & { lastUpdateDateTime: string };
     const mutableState = state as Writable<AnalyzeBatchOperationState> & {
       docIds?: string[];
     };
     mutableState.createdOn = createdOn;
-    if (status.toLowerCase() === "partiallysucceeded") {
-      mutableState.status = "failed";
-      const errorString = errors?.map(({ message }) => message).join("\n") ?? "No error returned";
-      mutableState.error = new Error(errorString);
-    }
     // FIXME: remove this mitigation when the service API is fixed
     mutableState.modifiedOn = modifiedOn ? modifiedOn : new Date(lastUpdateDateTime);
     mutableState.expiresOn = expiresOn;
