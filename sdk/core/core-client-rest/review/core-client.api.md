@@ -48,9 +48,9 @@ export function createRestError(message: string, response: PathUncheckedResponse
 
 // @public
 export interface ErrorModel {
+    cause?: unknown;
     code: string;
     details: Array<ErrorModel>;
-    innererror?: InnerError;
     message: string;
     target?: string;
 }
@@ -83,12 +83,6 @@ export type HttpResponse = {
     body: unknown;
     status: string;
 };
-
-// @public
-export interface InnerError {
-    code: string;
-    innererror?: InnerError;
-}
 
 // @public
 export type PathParameters<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [

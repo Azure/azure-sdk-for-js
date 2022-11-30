@@ -274,13 +274,5 @@ export interface ErrorModel {
   /** An array of details about specific errors that led to this reported error. */
   details: Array<ErrorModel>;
   /** An object containing more specific information than the current object about the error. */
-  innererror?: InnerError;
-}
-
-/** An object containing more specific information about the error. As per Microsoft One API guidelines - https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses. */
-export interface InnerError {
-  /** One of a server-defined set of error codes. */
-  code: string;
-  /** Inner error. */
-  innererror?: InnerError;
+  cause?: unknown;
 }
