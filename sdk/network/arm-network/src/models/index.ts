@@ -1126,6 +1126,38 @@ export interface PublicIPAddressListResult {
   nextLink?: string;
 }
 
+/** SwapResource to represent slot type on the specified cloud service. */
+export interface SwapResource {
+  /**
+   * Resource Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Resource name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Swap resource properties */
+  properties?: SwapResourceProperties;
+}
+
+/** Swap resource properties */
+export interface SwapResourceProperties {
+  /** Specifies slot info on a cloud service */
+  slotType?: SlotType;
+}
+
+/** SwapResource List with single entry to represent slot type on the specified cloud service. */
+export interface SwapResourceListResult {
+  value?: SwapResource[];
+}
+
 /** Response for ListCustomIpPrefixes API service call. */
 export interface CustomIpPrefixListResult {
   /** A list of Custom IP prefixes that exists in a resource group. */
@@ -1174,7 +1206,7 @@ export interface DdosProtectionPlan {
    * The list of public IPs associated with the DDoS protection plan resource. This list is read-only.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly publicIpAddresses?: SubResource[];
+  readonly publicIPAddresses?: SubResource[];
   /**
    * The list of virtual networks associated with the DDoS protection plan resource. This list is read-only.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2555,6 +2587,36 @@ export interface VirtualApplianceNicProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateIpAddress?: string;
+}
+
+/** Properties of the delegation. */
+export interface DelegationProperties {
+  /** The service name to which the NVA is delegated. */
+  serviceName?: string;
+  /**
+   * The current provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Properties of the partner managed resource. */
+export interface PartnerManagedResourceProperties {
+  /**
+   * The partner managed resource id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The partner managed ILB resource id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly internalLoadBalancerId?: string;
+  /**
+   * The partner managed SLB resource id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly standardLoadBalancerId?: string;
 }
 
 /** Response for ListNetworkVirtualAppliances API service call. */
@@ -5504,6 +5566,10 @@ export interface PolicySettings {
   maxRequestBodySizeInKb?: number;
   /** Maximum file upload size in Mb for WAF. */
   fileUploadLimitInMb?: number;
+  /** If the action type is block, customer can override the response status code. */
+  customBlockResponseStatusCode?: number;
+  /** If the action type is block, customer can override the response body. The body must be specified in base64 encoding. */
+  customBlockResponseBody?: string;
 }
 
 /** Defines contents of a web application rule. */
@@ -5617,38 +5683,6 @@ export interface ManagedRuleOverride {
   state?: ManagedRuleEnabledState;
   /** Describes the override action to be applied when rule matches. */
   action?: ActionType;
-}
-
-/** SwapResource to represent slot type on the specified cloud service. */
-export interface SwapResource {
-  /**
-   * Resource Id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Resource name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Swap resource properties */
-  properties?: SwapResourceProperties;
-}
-
-/** Swap resource properties */
-export interface SwapResourceProperties {
-  /** Specifies slot info on a cloud service */
-  slotType?: SlotType;
-}
-
-/** SwapResource List with single entry to represent slot type on the specified cloud service. */
-export interface SwapResourceListResult {
-  value?: SwapResource[];
 }
 
 /** Properties of the FirewallPolicyNatRuleCollectionAction. */
@@ -6492,6 +6526,8 @@ export interface BackendAddressPool extends SubResource {
   readonly provisioningState?: ProvisioningState;
   /** Amount of seconds Load Balancer waits for before sending RESET to client and backend address. */
   drainPeriodInSeconds?: number;
+  /** A reference to a virtual network. */
+  virtualNetwork?: SubResource;
 }
 
 /** Inbound NAT rule of the load balancer. */
@@ -9907,7 +9943,7 @@ export interface NetworkVirtualAppliance extends Resource {
   cloudInitConfigurationBlobs?: string[];
   /** CloudInitConfiguration string in plain text. */
   cloudInitConfiguration?: string;
-  /** VirtualAppliance ASN. */
+  /** VirtualAppliance ASN. Microsoft private, public and IANA reserved ASN are not supported. */
   virtualApplianceAsn?: number;
   /** Public key for SSH login. */
   sshPublicKey?: string;
@@ -9931,6 +9967,15 @@ export interface NetworkVirtualAppliance extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * The deployment type. PartnerManaged for the SaaS NVA
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deploymentType?: string;
+  /** The delegation for the Virtual Appliance */
+  delegation?: DelegationProperties;
+  /** The delegation for the Virtual Appliance */
+  partnerManagedResource?: PartnerManagedResourceProperties;
 }
 
 /** Definition of the NetworkVirtualApplianceSkus resource. */
@@ -11266,6 +11311,24 @@ export interface DefaultAdminRule extends BaseAdminRule {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+}
+
+/** Defines headers for PublicIPAddresses_delete operation. */
+export interface PublicIPAddressesDeleteHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for PublicIPAddresses_ddosProtectionStatus operation. */
+export interface PublicIPAddressesDdosProtectionStatusHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for DdosProtectionPlans_delete operation. */
+export interface DdosProtectionPlansDeleteHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
 }
 
 /** Defines headers for NetworkManagers_delete operation. */
@@ -15851,6 +15914,8 @@ export type ResourceIdentityType =
   | "UserAssigned"
   | "SystemAssigned, UserAssigned"
   | "None";
+/** Defines values for SlotType. */
+export type SlotType = "Production" | "Staging";
 /** Defines values for FirewallPolicyIdpsSignatureMode. */
 export type FirewallPolicyIdpsSignatureMode = 0 | 1 | 2;
 /** Defines values for FirewallPolicyIdpsSignatureSeverity. */
@@ -15859,8 +15924,6 @@ export type FirewallPolicyIdpsSignatureSeverity = 1 | 2 | 3;
 export type FirewallPolicyIdpsSignatureDirection = 0 | 1 | 2;
 /** Defines values for PacketCaptureTargetType. */
 export type PacketCaptureTargetType = "AzureVM" | "AzureVMSS";
-/** Defines values for SlotType. */
-export type SlotType = "Production" | "Staging";
 
 /** Optional parameters. */
 export interface ApplicationGatewaysDeleteOptionalParams
@@ -16915,6 +16978,28 @@ export interface PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesN
 
 /** Contains response data for the listVirtualMachineScaleSetVMPublicIPAddressesNext operation. */
 export type PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextResponse = PublicIPAddressListResult;
+
+/** Optional parameters. */
+export interface VipSwapGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VipSwapGetResponse = SwapResource;
+
+/** Optional parameters. */
+export interface VipSwapCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VipSwapListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type VipSwapListResponse = SwapResourceListResult;
 
 /** Optional parameters. */
 export interface CustomIPPrefixesDeleteOptionalParams
@@ -22557,28 +22642,6 @@ export interface WebApplicationFirewallPoliciesListAllNextOptionalParams
 
 /** Contains response data for the listAllNext operation. */
 export type WebApplicationFirewallPoliciesListAllNextResponse = WebApplicationFirewallPolicyListResult;
-
-/** Optional parameters. */
-export interface VipSwapGetOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type VipSwapGetResponse = SwapResource;
-
-/** Optional parameters. */
-export interface VipSwapCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface VipSwapListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type VipSwapListResponse = SwapResourceListResult;
 
 /** Optional parameters. */
 export interface NetworkManagementClientOptionalParams

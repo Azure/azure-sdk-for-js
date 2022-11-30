@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { VirtualApplianceSites } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,12 @@ import {
   VirtualApplianceSite,
   VirtualApplianceSitesListNextOptionalParams,
   VirtualApplianceSitesListOptionalParams,
+  VirtualApplianceSitesListResponse,
   VirtualApplianceSitesDeleteOptionalParams,
   VirtualApplianceSitesGetOptionalParams,
   VirtualApplianceSitesGetResponse,
   VirtualApplianceSitesCreateOrUpdateOptionalParams,
   VirtualApplianceSitesCreateOrUpdateResponse,
-  VirtualApplianceSitesListResponse,
   VirtualApplianceSitesListNextResponse
 } from "../models";
 
@@ -63,11 +64,15 @@ export class VirtualApplianceSitesImpl implements VirtualApplianceSites {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           networkVirtualApplianceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -76,15 +81,22 @@ export class VirtualApplianceSitesImpl implements VirtualApplianceSites {
   private async *listPagingPage(
     resourceGroupName: string,
     networkVirtualApplianceName: string,
-    options?: VirtualApplianceSitesListOptionalParams
+    options?: VirtualApplianceSitesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualApplianceSite[]> {
-    let result = await this._list(
-      resourceGroupName,
-      networkVirtualApplianceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualApplianceSitesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        networkVirtualApplianceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -93,7 +105,9 @@ export class VirtualApplianceSitesImpl implements VirtualApplianceSites {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -431,7 +445,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters40,
+  requestBody: Parameters.parameters41,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { NetworkProfiles } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,8 +19,10 @@ import {
   NetworkProfile,
   NetworkProfilesListAllNextOptionalParams,
   NetworkProfilesListAllOptionalParams,
+  NetworkProfilesListAllResponse,
   NetworkProfilesListNextOptionalParams,
   NetworkProfilesListOptionalParams,
+  NetworkProfilesListResponse,
   NetworkProfilesDeleteOptionalParams,
   NetworkProfilesGetOptionalParams,
   NetworkProfilesGetResponse,
@@ -28,8 +31,6 @@ import {
   TagsObject,
   NetworkProfilesUpdateTagsOptionalParams,
   NetworkProfilesUpdateTagsResponse,
-  NetworkProfilesListAllResponse,
-  NetworkProfilesListResponse,
   NetworkProfilesListAllNextResponse,
   NetworkProfilesListNextResponse
 } from "../models";
@@ -62,22 +63,34 @@ export class NetworkProfilesImpl implements NetworkProfiles {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listAllPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAllPagingPage(options, settings);
       }
     };
   }
 
   private async *listAllPagingPage(
-    options?: NetworkProfilesListAllOptionalParams
+    options?: NetworkProfilesListAllOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetworkProfile[]> {
-    let result = await this._listAll(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: NetworkProfilesListAllResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAll(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAllNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -106,19 +119,29 @@ export class NetworkProfilesImpl implements NetworkProfiles {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: NetworkProfilesListOptionalParams
+    options?: NetworkProfilesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetworkProfile[]> {
-    let result = await this._list(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: NetworkProfilesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -126,7 +149,9 @@ export class NetworkProfilesImpl implements NetworkProfiles {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -397,7 +422,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters37,
+  requestBody: Parameters.parameters38,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ConfigurationPolicyGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,12 @@ import {
   VpnServerConfigurationPolicyGroup,
   ConfigurationPolicyGroupsListByVpnServerConfigurationNextOptionalParams,
   ConfigurationPolicyGroupsListByVpnServerConfigurationOptionalParams,
+  ConfigurationPolicyGroupsListByVpnServerConfigurationResponse,
   ConfigurationPolicyGroupsCreateOrUpdateOptionalParams,
   ConfigurationPolicyGroupsCreateOrUpdateResponse,
   ConfigurationPolicyGroupsDeleteOptionalParams,
   ConfigurationPolicyGroupsGetOptionalParams,
   ConfigurationPolicyGroupsGetResponse,
-  ConfigurationPolicyGroupsListByVpnServerConfigurationResponse,
   ConfigurationPolicyGroupsListByVpnServerConfigurationNextResponse
 } from "../models";
 
@@ -64,11 +65,15 @@ export class ConfigurationPolicyGroupsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByVpnServerConfigurationPagingPage(
           resourceGroupName,
           vpnServerConfigurationName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -77,15 +82,22 @@ export class ConfigurationPolicyGroupsImpl
   private async *listByVpnServerConfigurationPagingPage(
     resourceGroupName: string,
     vpnServerConfigurationName: string,
-    options?: ConfigurationPolicyGroupsListByVpnServerConfigurationOptionalParams
+    options?: ConfigurationPolicyGroupsListByVpnServerConfigurationOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VpnServerConfigurationPolicyGroup[]> {
-    let result = await this._listByVpnServerConfiguration(
-      resourceGroupName,
-      vpnServerConfigurationName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ConfigurationPolicyGroupsListByVpnServerConfigurationResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByVpnServerConfiguration(
+        resourceGroupName,
+        vpnServerConfigurationName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByVpnServerConfigurationNext(
         resourceGroupName,
@@ -94,7 +106,9 @@ export class ConfigurationPolicyGroupsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

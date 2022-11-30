@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PublicIPPrefixes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,8 +19,10 @@ import {
   PublicIPPrefix,
   PublicIPPrefixesListAllNextOptionalParams,
   PublicIPPrefixesListAllOptionalParams,
+  PublicIPPrefixesListAllResponse,
   PublicIPPrefixesListNextOptionalParams,
   PublicIPPrefixesListOptionalParams,
+  PublicIPPrefixesListResponse,
   PublicIPPrefixesDeleteOptionalParams,
   PublicIPPrefixesGetOptionalParams,
   PublicIPPrefixesGetResponse,
@@ -28,8 +31,6 @@ import {
   TagsObject,
   PublicIPPrefixesUpdateTagsOptionalParams,
   PublicIPPrefixesUpdateTagsResponse,
-  PublicIPPrefixesListAllResponse,
-  PublicIPPrefixesListResponse,
   PublicIPPrefixesListAllNextResponse,
   PublicIPPrefixesListNextResponse
 } from "../models";
@@ -62,22 +63,34 @@ export class PublicIPPrefixesImpl implements PublicIPPrefixes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listAllPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAllPagingPage(options, settings);
       }
     };
   }
 
   private async *listAllPagingPage(
-    options?: PublicIPPrefixesListAllOptionalParams
+    options?: PublicIPPrefixesListAllOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PublicIPPrefix[]> {
-    let result = await this._listAll(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PublicIPPrefixesListAllResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAll(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAllNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -106,19 +119,29 @@ export class PublicIPPrefixesImpl implements PublicIPPrefixes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: PublicIPPrefixesListOptionalParams
+    options?: PublicIPPrefixesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PublicIPPrefix[]> {
-    let result = await this._list(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PublicIPPrefixesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -126,7 +149,9 @@ export class PublicIPPrefixesImpl implements PublicIPPrefixes {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -477,7 +502,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters63,
+  requestBody: Parameters.parameters64,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

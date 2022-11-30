@@ -1,0 +1,60 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/ipGroups?api-version=2022-07-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-network/31.0.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "4f48db62-9780-4c00-a6a5-a68e670639c3"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 30 Nov 2022 07:34:54 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "fca806f2-40c1-4f6a-870a-c50a8b99f203",
+        "x-ms-ratelimit-remaining-subscription-reads": "11988",
+        "x-ms-request-id": "fca806f2-40c1-4f6a-870a-c50a8b99f203",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221130T073455Z:fca806f2-40c1-4f6a-870a-c50a8b99f203"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "properties": {
+              "firewalls": [],
+              "firewallPolicies": [],
+              "ipAddresses": [
+                "13.64.39.16/32",
+                "40.74.146.80/31",
+                "40.74.147.32/28"
+              ],
+              "provisioningState": "Succeeded"
+            },
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/ipGroups/virtualnetworkzzz",
+            "name": "virtualnetworkzzz",
+            "type": "Microsoft.Network/IpGroups",
+            "etag": "221e6972-a04f-41e0-9424-295e87f9eb0c",
+            "location": "eastus",
+            "tags": {
+              "key1": "value1"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

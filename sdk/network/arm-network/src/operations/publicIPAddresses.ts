@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PublicIPAddresses } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,18 +19,22 @@ import {
   PublicIPAddress,
   PublicIPAddressesListCloudServicePublicIPAddressesNextOptionalParams,
   PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams,
+  PublicIPAddressesListCloudServicePublicIPAddressesResponse,
   PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesNextOptionalParams,
   PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesOptionalParams,
+  PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesResponse,
   PublicIPAddressesListAllNextOptionalParams,
   PublicIPAddressesListAllOptionalParams,
+  PublicIPAddressesListAllResponse,
   PublicIPAddressesListNextOptionalParams,
   PublicIPAddressesListOptionalParams,
+  PublicIPAddressesListResponse,
   PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesNextOptionalParams,
   PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams,
+  PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesResponse,
   PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextOptionalParams,
   PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams,
-  PublicIPAddressesListCloudServicePublicIPAddressesResponse,
-  PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesResponse,
+  PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesResponse,
   PublicIPAddressesGetCloudServicePublicIPAddressOptionalParams,
   PublicIPAddressesGetCloudServicePublicIPAddressResponse,
   PublicIPAddressesDeleteOptionalParams,
@@ -40,12 +45,8 @@ import {
   TagsObject,
   PublicIPAddressesUpdateTagsOptionalParams,
   PublicIPAddressesUpdateTagsResponse,
-  PublicIPAddressesListAllResponse,
-  PublicIPAddressesListResponse,
   PublicIPAddressesDdosProtectionStatusOptionalParams,
   PublicIPAddressesDdosProtectionStatusResponse,
-  PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesResponse,
-  PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesResponse,
   PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams,
   PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse,
   PublicIPAddressesListCloudServicePublicIPAddressesNextResponse,
@@ -92,11 +93,15 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listCloudServicePublicIPAddressesPagingPage(
           resourceGroupName,
           cloudServiceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -105,15 +110,22 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
   private async *listCloudServicePublicIPAddressesPagingPage(
     resourceGroupName: string,
     cloudServiceName: string,
-    options?: PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams
+    options?: PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PublicIPAddress[]> {
-    let result = await this._listCloudServicePublicIPAddresses(
-      resourceGroupName,
-      cloudServiceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PublicIPAddressesListCloudServicePublicIPAddressesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listCloudServicePublicIPAddresses(
+        resourceGroupName,
+        cloudServiceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listCloudServicePublicIPAddressesNext(
         resourceGroupName,
@@ -122,7 +134,9 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -173,14 +187,18 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listCloudServiceRoleInstancePublicIPAddressesPagingPage(
           resourceGroupName,
           cloudServiceName,
           roleInstanceName,
           networkInterfaceName,
           ipConfigurationName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -192,18 +210,25 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     roleInstanceName: string,
     networkInterfaceName: string,
     ipConfigurationName: string,
-    options?: PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesOptionalParams
+    options?: PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PublicIPAddress[]> {
-    let result = await this._listCloudServiceRoleInstancePublicIPAddresses(
-      resourceGroupName,
-      cloudServiceName,
-      roleInstanceName,
-      networkInterfaceName,
-      ipConfigurationName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listCloudServiceRoleInstancePublicIPAddresses(
+        resourceGroupName,
+        cloudServiceName,
+        roleInstanceName,
+        networkInterfaceName,
+        ipConfigurationName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listCloudServiceRoleInstancePublicIPAddressesNext(
         resourceGroupName,
@@ -215,7 +240,9 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -254,22 +281,34 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listAllPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAllPagingPage(options, settings);
       }
     };
   }
 
   private async *listAllPagingPage(
-    options?: PublicIPAddressesListAllOptionalParams
+    options?: PublicIPAddressesListAllOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PublicIPAddress[]> {
-    let result = await this._listAll(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PublicIPAddressesListAllResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAll(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAllNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -298,19 +337,29 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: PublicIPAddressesListOptionalParams
+    options?: PublicIPAddressesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PublicIPAddress[]> {
-    let result = await this._list(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PublicIPAddressesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -318,7 +367,9 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -354,11 +405,15 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listVirtualMachineScaleSetPublicIPAddressesPagingPage(
           resourceGroupName,
           virtualMachineScaleSetName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -367,15 +422,22 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
   private async *listVirtualMachineScaleSetPublicIPAddressesPagingPage(
     resourceGroupName: string,
     virtualMachineScaleSetName: string,
-    options?: PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams
+    options?: PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PublicIPAddress[]> {
-    let result = await this._listVirtualMachineScaleSetPublicIPAddresses(
-      resourceGroupName,
-      virtualMachineScaleSetName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listVirtualMachineScaleSetPublicIPAddresses(
+        resourceGroupName,
+        virtualMachineScaleSetName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listVirtualMachineScaleSetPublicIPAddressesNext(
         resourceGroupName,
@@ -384,7 +446,9 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -435,14 +499,18 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listVirtualMachineScaleSetVMPublicIPAddressesPagingPage(
           resourceGroupName,
           virtualMachineScaleSetName,
           virtualmachineIndex,
           networkInterfaceName,
           ipConfigurationName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -454,18 +522,25 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     virtualmachineIndex: string,
     networkInterfaceName: string,
     ipConfigurationName: string,
-    options?: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams
+    options?: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PublicIPAddress[]> {
-    let result = await this._listVirtualMachineScaleSetVMPublicIPAddresses(
-      resourceGroupName,
-      virtualMachineScaleSetName,
-      virtualmachineIndex,
-      networkInterfaceName,
-      ipConfigurationName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listVirtualMachineScaleSetVMPublicIPAddresses(
+        resourceGroupName,
+        virtualMachineScaleSetName,
+        virtualmachineIndex,
+        networkInterfaceName,
+        ipConfigurationName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listVirtualMachineScaleSetVMPublicIPAddressesNext(
         resourceGroupName,
@@ -477,7 +552,9 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { NatRules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,12 @@ import {
   VpnGatewayNatRule,
   NatRulesListByVpnGatewayNextOptionalParams,
   NatRulesListByVpnGatewayOptionalParams,
+  NatRulesListByVpnGatewayResponse,
   NatRulesGetOptionalParams,
   NatRulesGetResponse,
   NatRulesCreateOrUpdateOptionalParams,
   NatRulesCreateOrUpdateResponse,
   NatRulesDeleteOptionalParams,
-  NatRulesListByVpnGatewayResponse,
   NatRulesListByVpnGatewayNextResponse
 } from "../models";
 
@@ -63,11 +64,15 @@ export class NatRulesImpl implements NatRules {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByVpnGatewayPagingPage(
           resourceGroupName,
           gatewayName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -76,15 +81,22 @@ export class NatRulesImpl implements NatRules {
   private async *listByVpnGatewayPagingPage(
     resourceGroupName: string,
     gatewayName: string,
-    options?: NatRulesListByVpnGatewayOptionalParams
+    options?: NatRulesListByVpnGatewayOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VpnGatewayNatRule[]> {
-    let result = await this._listByVpnGateway(
-      resourceGroupName,
-      gatewayName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: NatRulesListByVpnGatewayResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByVpnGateway(
+        resourceGroupName,
+        gatewayName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByVpnGatewayNext(
         resourceGroupName,
@@ -93,7 +105,9 @@ export class NatRulesImpl implements NatRules {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

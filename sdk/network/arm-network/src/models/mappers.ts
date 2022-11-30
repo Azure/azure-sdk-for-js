@@ -3087,6 +3087,80 @@ export const PublicIPAddressListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const SwapResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SwapResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "SwapResourceProperties"
+        }
+      }
+    }
+  }
+};
+
+export const SwapResourceProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SwapResourceProperties",
+    modelProperties: {
+      slotType: {
+        serializedName: "slotType",
+        type: {
+          name: "Enum",
+          allowedValues: ["Production", "Staging"]
+        }
+      }
+    }
+  }
+};
+
+export const SwapResourceListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SwapResourceListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SwapResource"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const CustomIpPrefixListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3174,8 +3248,8 @@ export const DdosProtectionPlan: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      publicIpAddresses: {
-        serializedName: "properties.publicIpAddresses",
+      publicIPAddresses: {
+        serializedName: "properties.publicIPAddresses",
         readOnly: true,
         type: {
           name: "Sequence",
@@ -7270,6 +7344,58 @@ export const VirtualApplianceNicProperties: coreClient.CompositeMapper = {
       },
       privateIpAddress: {
         serializedName: "privateIpAddress",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DelegationProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DelegationProperties",
+    modelProperties: {
+      serviceName: {
+        serializedName: "serviceName",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PartnerManagedResourceProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PartnerManagedResourceProperties",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      internalLoadBalancerId: {
+        serializedName: "internalLoadBalancerId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      standardLoadBalancerId: {
+        serializedName: "standardLoadBalancerId",
         readOnly: true,
         type: {
           name: "String"
@@ -15555,6 +15681,27 @@ export const PolicySettings: coreClient.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      customBlockResponseStatusCode: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "customBlockResponseStatusCode",
+        type: {
+          name: "Number"
+        }
+      },
+      customBlockResponseBody: {
+        constraints: {
+          Pattern: new RegExp(
+            "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{4})$"
+          ),
+          MaxLength: 32768
+        },
+        serializedName: "customBlockResponseBody",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -15939,80 +16086,6 @@ export const ManagedRuleOverride: coreClient.CompositeMapper = {
         serializedName: "action",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SwapResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SwapResource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "SwapResourceProperties"
-        }
-      }
-    }
-  }
-};
-
-export const SwapResourceProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SwapResourceProperties",
-    modelProperties: {
-      slotType: {
-        serializedName: "slotType",
-        type: {
-          name: "Enum",
-          allowedValues: ["Production", "Staging"]
-        }
-      }
-    }
-  }
-};
-
-export const SwapResourceListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SwapResourceListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SwapResource"
-            }
-          }
         }
       }
     }
@@ -18019,6 +18092,13 @@ export const BackendAddressPool: coreClient.CompositeMapper = {
         serializedName: "properties.drainPeriodInSeconds",
         type: {
           name: "Number"
+        }
+      },
+      virtualNetwork: {
+        serializedName: "properties.virtualNetwork",
+        type: {
+          name: "Composite",
+          className: "SubResource"
         }
       }
     }
@@ -26476,6 +26556,27 @@ export const NetworkVirtualAppliance: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      deploymentType: {
+        serializedName: "properties.deploymentType",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      delegation: {
+        serializedName: "properties.delegation",
+        type: {
+          name: "Composite",
+          className: "DelegationProperties"
+        }
+      },
+      partnerManagedResource: {
+        serializedName: "properties.partnerManagedResource",
+        type: {
+          name: "Composite",
+          className: "PartnerManagedResourceProperties"
+        }
       }
     }
   }
@@ -29965,6 +30066,51 @@ export const DefaultAdminRule: coreClient.CompositeMapper = {
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PublicIPAddressesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PublicIPAddressesDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PublicIPAddressesDdosProtectionStatusHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PublicIPAddressesDdosProtectionStatusHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DdosProtectionPlansDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DdosProtectionPlansDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
         type: {
           name: "String"
         }

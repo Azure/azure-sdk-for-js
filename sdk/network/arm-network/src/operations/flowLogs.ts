@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { FlowLogs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   FlowLog,
   FlowLogsListNextOptionalParams,
   FlowLogsListOptionalParams,
+  FlowLogsListResponse,
   FlowLogsCreateOrUpdateOptionalParams,
   FlowLogsCreateOrUpdateResponse,
   TagsObject,
@@ -26,7 +28,6 @@ import {
   FlowLogsGetOptionalParams,
   FlowLogsGetResponse,
   FlowLogsDeleteOptionalParams,
-  FlowLogsListResponse,
   FlowLogsListNextResponse
 } from "../models";
 
@@ -66,11 +67,15 @@ export class FlowLogsImpl implements FlowLogs {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           networkWatcherName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -79,15 +84,18 @@ export class FlowLogsImpl implements FlowLogs {
   private async *listPagingPage(
     resourceGroupName: string,
     networkWatcherName: string,
-    options?: FlowLogsListOptionalParams
+    options?: FlowLogsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<FlowLog[]> {
-    let result = await this._list(
-      resourceGroupName,
-      networkWatcherName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: FlowLogsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, networkWatcherName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -96,7 +104,9 @@ export class FlowLogsImpl implements FlowLogs {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -412,7 +422,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters57,
+  requestBody: Parameters.parameters58,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
