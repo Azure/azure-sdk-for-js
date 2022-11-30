@@ -112,6 +112,11 @@ export async function main() {
   });
   console.log(`Successfully created a new program brief with Id ${createResponse.id}`);
 
+  var programBrief = await client.getUSProgramBrief(programBriefId);
+  console.log(
+    `Program brief with Id ${programBrief.id} has status ${programBrief.status} which was last updated ${programBrief.statusUpdatedDate}`
+  );
+
   // delete program brief
   var deleteResponse = client.deleteUSProgramBrief(programBriefId, {
     onResponse:

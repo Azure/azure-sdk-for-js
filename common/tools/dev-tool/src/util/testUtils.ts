@@ -25,7 +25,7 @@ async function shouldRunProxyTool(): Promise<boolean> {
 }
 
 export async function runTestsWithProxyTool(
-  testCommandObj: Partial<ConcurrentlyCommand>
+  testCommandObj: Partial<ConcurrentlyCommand> & { command: string }
 ): Promise<boolean> {
   let concurrentlyOptions: Partial<ConcurrentlyOptions> | undefined;
   let testProxy: TestProxyCommandRun | undefined = undefined;
