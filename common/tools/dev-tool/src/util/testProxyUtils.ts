@@ -9,12 +9,12 @@ import { resolveRoot } from "./resolveProject";
 
 const log = createPrinter("test-proxy");
 
-export interface TestProxyCommandRun {
+export interface CommandRun {
   result: Promise<void>;
   command: ChildProcess;
 }
 
-async function getTestProxyExecutable(): Promise<string> {
+export async function getTestProxyExecutable(): Promise<string> {
   // TODO: once the binaries are being published, download them to a nice location (detecting OS and architecture for which binary to download)
   // For now, provide an environment variable.
 
@@ -27,11 +27,12 @@ async function getTestProxyExecutable(): Promise<string> {
   return testProxyExe;
 }
 
-export async function runTestProxyCommand(
+export async function runCommand(
+  executable: string,
   argv: string[],
   stdio: "inherit" | "log" = "inherit"
-): Promise<TestProxyCommandRun> {
-  const command = spawn(await getTestProxyExecutable(), argv, {
+): Promise<CommandRun> {
+  const command = spawn(executable, argv, {
     stdio: stdio === "inherit" ? ["inherit", "inherit", "inherit"] : undefined,
   });
 
@@ -58,6 +59,13 @@ export async function runTestProxyCommand(
       });
     }),
   };
+}
+
+export async function runTestProxyCommand(
+  argv: string[],
+  stdio: "inherit" | "log" = "inherit"
+): Promise<CommandRun> {
+  return runCommand(await getTestProxyExecutable(), argv, stdio);
 }
 
 export async function startTestProxy() {

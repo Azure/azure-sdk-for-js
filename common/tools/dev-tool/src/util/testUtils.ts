@@ -1,4 +1,4 @@
-import { isProxyToolActive, startTestProxy, TestProxyCommandRun } from "./testProxyUtils";
+import { isProxyToolActive, startTestProxy, CommandRun } from "./testProxyUtils";
 import concurrently, { Command as ConcurrentlyCommand, ConcurrentlyOptions } from "concurrently";
 import { createPrinter } from "./printer";
 
@@ -28,7 +28,7 @@ export async function runTestsWithProxyTool(
   testCommandObj: Partial<ConcurrentlyCommand> & { command: string }
 ): Promise<boolean> {
   let concurrentlyOptions: Partial<ConcurrentlyOptions> | undefined;
-  let testProxy: TestProxyCommandRun | undefined = undefined;
+  let testProxy: CommandRun | undefined = undefined;
   if (
     await shouldRunProxyTool() // Boolean to figure out if we need to run just the mocha command or the test-proxy too
   ) {
