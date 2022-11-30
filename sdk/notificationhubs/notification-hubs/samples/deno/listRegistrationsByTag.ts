@@ -12,7 +12,7 @@
  * @azsdk-weight 100
  */
 
-import * as process from "node/process.ts";
+import * as process from "process";
 import {
   createClientContext,
   listRegistrationsByTag,
