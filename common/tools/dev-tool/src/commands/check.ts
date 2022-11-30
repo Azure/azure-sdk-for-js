@@ -6,7 +6,7 @@ import { leafCommand, makeCommandInfo } from "../framework/command";
 import { createPrinter } from "../util/printer";
 import { wrapRenamed } from "../util/etc";
 import formatCommand, { commandInfo as formatCommandInfo } from "./run/format";
-import checkConfigCommand, { commandInfo as checkConfigCommandInfo } from "./run/checkConfig";
+import checkConfigCommand, { commandInfo as checkConfigCommandInfo } from "./run/check-config";
 import { exec } from "../util/exec";
 
 const log = createPrinter("check");

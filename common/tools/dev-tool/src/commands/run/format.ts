@@ -4,9 +4,9 @@
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { exec } from "../../util/exec";
 
-import { createPrinter } from "../../util/printer";
+// import { createPrinter } from "../../util/printer";
 
-const log = createPrinter("format");
+// const log = createPrinter("format");
 
 export const commandInfo = makeCommandInfo("format", "format the current package");
 

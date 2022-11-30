@@ -9,6 +9,6 @@ export default subCommand(commandInfo, {
   "test:node-ts-input": () => import("./testNodeTSInput"),
   "test:node-js-input": () => import("./testNodeJSInput"),
   "test:browser": () => import("./testBrowser"),
-  "check-config": () => import("./checkConfig"),
+  "check-config": () => import("./check-config"),
   bundle: () => import("./bundle"),
 });

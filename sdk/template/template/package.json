@@ -22,11 +22,11 @@
       }
     ]
   },
-  "types": "types/latest/template.d.ts",
+  "types": "./types/latest/template.d.ts",
   "typesVersions": {
     "<3.6": {
       "*": [
-        "types/3.1/template.d.ts"
+        "./types/3.1/template.d.ts"
       ]
     }
   },
@@ -61,6 +61,7 @@
     "types/latest/",
     "types/3.1/",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
@@ -79,7 +80,7 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template/README.md",
   "sideEffects": false,
-  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "prettier": "@azure/dev-tool/shared-config/prettier.json",
   "dependencies": {
     "@azure/core-auth": "^1.3.0",
     "@azure/core-client": "^1.4.0",
@@ -128,7 +129,6 @@
     "util": "^0.12.1"
   },
   "//sampleConfiguration": {
-    "skipFolder": false,
     "disableDocsMs": true,
     "productName": "Azure Template",
     "productSlugs": [],

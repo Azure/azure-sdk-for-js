@@ -6,7 +6,7 @@
     "noEmit": true,
     "esModuleInterop": true,
 
-    "lib": ["ES2019", "ESNext.AsyncIterable"],
+    "lib": ["ES2020"],
 
     "newLine": "LF",
     "strict": true,

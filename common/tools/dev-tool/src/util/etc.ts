@@ -17,3 +17,27 @@ export function wrapRenamed<F extends (...args: never[]) => unknown>(name: strin
     },
   }[name] as F;
 }
+
+/**
+ * A helper function for throwing an error while checking exhaustiveness at the type level.
+ */
+export function unreachable(...values: never[]): never {
+  throw new Error("reached unreachable code: " + values.toString());
+}
+
+/**
+ * A helper function for filtering values from an array into two different results based on a predicate.
+ */
+export function bifilter<T>(values: Iterable<T>, predicate: (v: T) => boolean): [T[], T[]] {
+  const result: [T[], T[]] = [[], []];
+
+  for (const value of values) {
+    if (predicate(value)) {
+      result[0].push(value);
+    } else {
+      result[1].push(value);
+    }
+  }
+
+  return result;
+}
