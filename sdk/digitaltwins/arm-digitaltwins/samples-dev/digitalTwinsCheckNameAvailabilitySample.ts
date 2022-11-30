@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Check if a DigitalTwinsInstance name is available.
  *
  * @summary Check if a DigitalTwinsInstance name is available.
- * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-05-31/examples/DigitalTwinsCheckNameAvailability_example.json
+ * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-10-31/examples/DigitalTwinsCheckNameAvailability_example.json
  */
 async function checkNameAvailability() {
   const subscriptionId = "50016170-c839-41ba-a724-51e9df440b9e";
