@@ -3,7 +3,6 @@
 
 import { ChildProcess, spawn } from "child_process";
 import { createWriteStream } from "fs";
-import { createReadStream } from "fs-extra";
 import { IncomingMessage, request, RequestOptions } from "http";
 import { createPrinter } from "./printer";
 import { resolveRoot } from "./resolveProject";
