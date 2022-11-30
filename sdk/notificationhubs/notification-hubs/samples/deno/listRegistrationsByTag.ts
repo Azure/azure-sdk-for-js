@@ -16,7 +16,7 @@ import * as process from "node/process.ts";
 import {
   createClientContext,
   listRegistrationsByTag,
-} from "npm:@azure/notification-hubs@1.0.0-beta.7/api";
+} from "@azure/notification-hubs/api";
 
 // Load the .env file if it exists
 import { config } from "dotenv/mod.ts";

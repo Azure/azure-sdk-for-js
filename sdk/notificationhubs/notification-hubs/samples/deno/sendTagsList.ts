@@ -19,13 +19,13 @@ import {
   createTagExpression,
   NotificationDetails,
   NotificationOutcomeState,
-} from "npm:@azure/notification-hubs@1.0.0-beta.7/models";
+} from "@azure/notification-hubs/models";
 import {
   createClientContext,
   getNotificationOutcomeDetails,
   NotificationHubsClientContext,
   sendNotification,
-} from "npm:@azure/notification-hubs@1.0.0-beta.7/api";
+} from "@azure/notification-hubs/api";
 import { isRestError } from "npm:@azure/core-rest-pipeline@1.10.0";
 
 // Load the .env file if it exists

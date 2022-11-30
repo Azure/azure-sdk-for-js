@@ -17,8 +17,8 @@ import * as process from "node/process.ts";
 import {
   createClientContext,
   updateInstallation,
-} from "npm:@azure/notification-hubs@1.0.0-beta.7/api";
-import { JsonPatch } from "npm:@azure/notification-hubs@1.0.0-beta.7/models";
+} from "@azure/notification-hubs/api";
+import { JsonPatch } from "@azure/notification-hubs/models";
 
 // Load the .env file if it exists
 import { config } from "dotenv/mod.ts";
