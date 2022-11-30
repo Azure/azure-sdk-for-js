@@ -800,7 +800,7 @@ export interface BackendPoolListResult {
 }
 
 /** Defines an Network Experiment Profile and lists of Experiments */
-export type Profile = Resource & {
+export interface Profile extends Resource {
   /** Gets a unique read-only string that changes whenever the resource is updated. */
   etag?: string;
   /**
@@ -810,10 +810,10 @@ export type Profile = Resource & {
   readonly resourceState?: NetworkExperimentResourceState;
   /** The state of the Experiment */
   enabledState?: State;
-};
+}
 
 /** Defines the properties of a preconfigured endpoint */
-export type PreconfiguredEndpoint = Resource & {
+export interface PreconfiguredEndpoint extends Resource {
   /** The description of the endpoint */
   description?: string;
   /** The endpoint that is preconfigured */
@@ -822,10 +822,10 @@ export type PreconfiguredEndpoint = Resource & {
   endpointType?: EndpointType;
   /** The preconfigured endpoint backend */
   backend?: string;
-};
+}
 
 /** Defines the properties of an Experiment */
-export type Experiment = Resource & {
+export interface Experiment extends Resource {
   /** The description of the details or intents of the Experiment */
   description?: string;
   /** The endpoint A of an experiment */
@@ -849,10 +849,10 @@ export type Experiment = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly scriptFileUri?: string;
-};
+}
 
 /** Defines the LatencyScorecard */
-export type LatencyScorecard = Resource & {
+export interface LatencyScorecard extends Resource {
   /**
    * The unique identifier of the Latency Scorecard
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -895,10 +895,10 @@ export type LatencyScorecard = Resource & {
   readonly country?: string;
   /** The latency metrics of the Latency Scorecard */
   latencyMetrics?: LatencyMetric[];
-};
+}
 
 /** Defines the Timeseries */
-export type Timeseries = Resource & {
+export interface Timeseries extends Resource {
   /** The endpoint associated with the Timeseries data point */
   endpoint?: string;
   /** The start DateTime of the Timeseries in UTC */
@@ -913,10 +913,10 @@ export type Timeseries = Resource & {
   country?: string;
   /** The set of data points for the timeseries */
   timeseriesData?: TimeseriesDataPoint[];
-};
+}
 
 /** Front Door represents a collection of backend endpoints to route traffic to along with rules that specify how traffic is sent there. */
-export type FrontDoor = Resource & {
+export interface FrontDoor extends Resource {
   /** A friendly name for the frontDoor */
   friendlyName?: string;
   /** Routing rules associated with this Front Door. */
@@ -958,10 +958,10 @@ export type FrontDoor = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly rulesEngines?: RulesEngine[];
-};
+}
 
 /** Defines web application firewall policy. */
-export type WebApplicationFirewallPolicy = Resource & {
+export interface WebApplicationFirewallPolicy extends Resource {
   /** Gets a unique read-only string that changes whenever the resource is updated. */
   etag?: string;
   /** The pricing tier of web application firewall policy. Defaults to Classic_AzureFrontDoor if not specified. */
@@ -997,10 +997,10 @@ export type WebApplicationFirewallPolicy = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceState?: PolicyResourceState;
-};
+}
 
 /** Describes the a managed rule set definition. */
-export type ManagedRuleSetDefinition = Resource & {
+export interface ManagedRuleSetDefinition extends Resource {
   /**
    * Provisioning state of the managed rule set.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1026,19 +1026,19 @@ export type ManagedRuleSetDefinition = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ruleGroups?: ManagedRuleGroupDefinition[];
-};
+}
 
 /** The JSON object that contains the properties required to create a Rules Engine Configuration. */
-export type RulesEngineProperties = RulesEngineUpdateParameters & {
+export interface RulesEngineProperties extends RulesEngineUpdateParameters {
   /**
    * Resource status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceState?: FrontDoorResourceState;
-};
+}
 
 /** Describes Forwarding Route. */
-export type ForwardingConfiguration = RouteConfiguration & {
+export interface ForwardingConfiguration extends RouteConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration";
   /** A custom path used to rewrite resource paths matched by this rule. Leave empty to use incoming path. */
@@ -1049,10 +1049,10 @@ export type ForwardingConfiguration = RouteConfiguration & {
   cacheConfiguration?: CacheConfiguration;
   /** A reference to the BackendPool which this rule routes to. */
   backendPool?: SubResource;
-};
+}
 
 /** Describes Redirect Route. */
-export type RedirectConfiguration = RouteConfiguration & {
+export interface RedirectConfiguration extends RouteConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration";
   /** The redirect type the rule will use when redirecting traffic. */
@@ -1067,10 +1067,10 @@ export type RedirectConfiguration = RouteConfiguration & {
   customFragment?: string;
   /** The set of query strings to be placed in the redirect URL. Setting this value would replace any existing query string; leave empty to preserve the incoming query string. Query string must be in <key>=<value> format. The first ? and & will be added automatically so do not include them in the front, but do separate multiple query strings with &. */
   customQueryString?: string;
-};
+}
 
 /** The JSON object that contains the properties required to create an endpoint. */
-export type FrontDoorProperties = FrontDoorUpdateParameters & {
+export interface FrontDoorProperties extends FrontDoorUpdateParameters {
   /**
    * Resource status of the Front Door.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1096,19 +1096,19 @@ export type FrontDoorProperties = FrontDoorUpdateParameters & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly rulesEngines?: RulesEngine[];
-};
+}
 
 /** The JSON object that contains the properties required to create a routing rule. */
-export type RoutingRuleProperties = RoutingRuleUpdateParameters & {
+export interface RoutingRuleProperties extends RoutingRuleUpdateParameters {
   /**
    * Resource status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceState?: FrontDoorResourceState;
-};
+}
 
 /** A routing rule represents a specification for traffic to treat and where to send it, along with health probe information. */
-export type RoutingRule = SubResource & {
+export interface RoutingRule extends SubResource {
   /** Resource name. */
   name?: string;
   /**
@@ -1135,10 +1135,10 @@ export type RoutingRule = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceState?: FrontDoorResourceState;
-};
+}
 
 /** Load balancing settings for a backend pool */
-export type LoadBalancingSettingsModel = SubResource & {
+export interface LoadBalancingSettingsModel extends SubResource {
   /** Resource name. */
   name?: string;
   /**
@@ -1157,10 +1157,10 @@ export type LoadBalancingSettingsModel = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceState?: FrontDoorResourceState;
-};
+}
 
 /** Load balancing settings for a backend pool */
-export type HealthProbeSettingsModel = SubResource & {
+export interface HealthProbeSettingsModel extends SubResource {
   /** Resource name. */
   name?: string;
   /**
@@ -1183,10 +1183,10 @@ export type HealthProbeSettingsModel = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceState?: FrontDoorResourceState;
-};
+}
 
 /** A backend pool is a collection of backends that can be routed to. */
-export type BackendPool = SubResource & {
+export interface BackendPool extends SubResource {
   /** Resource name. */
   name?: string;
   /**
@@ -1205,10 +1205,10 @@ export type BackendPool = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceState?: FrontDoorResourceState;
-};
+}
 
 /** A frontend endpoint used for routing. */
-export type FrontendEndpoint = SubResource & {
+export interface FrontendEndpoint extends SubResource {
   /** Resource name. */
   name?: string;
   /**
@@ -1244,37 +1244,40 @@ export type FrontendEndpoint = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly customHttpsConfiguration?: CustomHttpsConfiguration;
-};
+}
 
 /** The JSON object that contains the properties required to create load balancing settings */
-export type LoadBalancingSettingsProperties = LoadBalancingSettingsUpdateParameters & {
+export interface LoadBalancingSettingsProperties
+  extends LoadBalancingSettingsUpdateParameters {
   /**
    * Resource status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceState?: FrontDoorResourceState;
-};
+}
 
 /** The JSON object that contains the properties required to create a health probe settings. */
-export type HealthProbeSettingsProperties = HealthProbeSettingsUpdateParameters & {
+export interface HealthProbeSettingsProperties
+  extends HealthProbeSettingsUpdateParameters {
   /**
    * Resource status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceState?: FrontDoorResourceState;
-};
+}
 
 /** The JSON object that contains the properties required to create a Backend Pool. */
-export type BackendPoolProperties = BackendPoolUpdateParameters & {
+export interface BackendPoolProperties extends BackendPoolUpdateParameters {
   /**
    * Resource status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceState?: FrontDoorResourceState;
-};
+}
 
 /** The JSON object that contains the properties required to create a frontend endpoint. */
-export type FrontendEndpointProperties = FrontendEndpointUpdateParameters & {
+export interface FrontendEndpointProperties
+  extends FrontendEndpointUpdateParameters {
   /**
    * Resource status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1295,15 +1298,21 @@ export type FrontendEndpointProperties = FrontendEndpointUpdateParameters & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly customHttpsConfiguration?: CustomHttpsConfiguration;
-};
+}
 
 /** Known values of {@link NetworkExperimentResourceState} that the service accepts. */
 export enum KnownNetworkExperimentResourceState {
+  /** Creating */
   Creating = "Creating",
+  /** Enabling */
   Enabling = "Enabling",
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabling */
   Disabling = "Disabling",
+  /** Disabled */
   Disabled = "Disabled",
+  /** Deleting */
   Deleting = "Deleting"
 }
 
@@ -1323,7 +1332,9 @@ export type NetworkExperimentResourceState = string;
 
 /** Known values of {@link State} that the service accepts. */
 export enum KnownState {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1339,9 +1350,13 @@ export type State = string;
 
 /** Known values of {@link EndpointType} that the service accepts. */
 export enum KnownEndpointType {
+  /** AFD */
   AFD = "AFD",
+  /** AzureRegion */
   AzureRegion = "AzureRegion",
+  /** CDN */
   CDN = "CDN",
+  /** ATM */
   ATM = "ATM"
 }
 
@@ -1359,8 +1374,11 @@ export type EndpointType = string;
 
 /** Known values of {@link LatencyScorecardAggregationInterval} that the service accepts. */
 export enum KnownLatencyScorecardAggregationInterval {
+  /** Daily */
   Daily = "Daily",
+  /** Weekly */
   Weekly = "Weekly",
+  /** Monthly */
   Monthly = "Monthly"
 }
 
@@ -1377,7 +1395,9 @@ export type LatencyScorecardAggregationInterval = string;
 
 /** Known values of {@link TimeseriesAggregationInterval} that the service accepts. */
 export enum KnownTimeseriesAggregationInterval {
+  /** Hourly */
   Hourly = "Hourly",
+  /** Daily */
   Daily = "Daily"
 }
 
@@ -1393,9 +1413,13 @@ export type TimeseriesAggregationInterval = string;
 
 /** Known values of {@link TimeseriesType} that the service accepts. */
 export enum KnownTimeseriesType {
+  /** MeasurementCounts */
   MeasurementCounts = "MeasurementCounts",
+  /** LatencyP50 */
   LatencyP50 = "LatencyP50",
+  /** LatencyP75 */
   LatencyP75 = "LatencyP75",
+  /** LatencyP95 */
   LatencyP95 = "LatencyP95"
 }
 
@@ -1413,7 +1437,9 @@ export type TimeseriesType = string;
 
 /** Known values of {@link AggregationInterval} that the service accepts. */
 export enum KnownAggregationInterval {
+  /** Hourly */
   Hourly = "Hourly",
+  /** Daily */
   Daily = "Daily"
 }
 
@@ -1429,7 +1455,9 @@ export type AggregationInterval = string;
 
 /** Known values of {@link Availability} that the service accepts. */
 export enum KnownAvailability {
+  /** Available */
   Available = "Available",
+  /** Unavailable */
   Unavailable = "Unavailable"
 }
 
@@ -1445,11 +1473,17 @@ export type Availability = string;
 
 /** Known values of {@link FrontDoorResourceState} that the service accepts. */
 export enum KnownFrontDoorResourceState {
+  /** Creating */
   Creating = "Creating",
+  /** Enabling */
   Enabling = "Enabling",
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabling */
   Disabling = "Disabling",
+  /** Disabled */
   Disabled = "Disabled",
+  /** Deleting */
   Deleting = "Deleting"
 }
 
@@ -1469,8 +1503,11 @@ export type FrontDoorResourceState = string;
 
 /** Known values of {@link HeaderActionType} that the service accepts. */
 export enum KnownHeaderActionType {
+  /** Append */
   Append = "Append",
+  /** Delete */
   Delete = "Delete",
+  /** Overwrite */
   Overwrite = "Overwrite"
 }
 
@@ -1487,17 +1524,29 @@ export type HeaderActionType = string;
 
 /** Known values of {@link RulesEngineMatchVariable} that the service accepts. */
 export enum KnownRulesEngineMatchVariable {
+  /** IsMobile */
   IsMobile = "IsMobile",
+  /** RemoteAddr */
   RemoteAddr = "RemoteAddr",
+  /** RequestMethod */
   RequestMethod = "RequestMethod",
+  /** QueryString */
   QueryString = "QueryString",
+  /** PostArgs */
   PostArgs = "PostArgs",
+  /** RequestUri */
   RequestUri = "RequestUri",
+  /** RequestPath */
   RequestPath = "RequestPath",
+  /** RequestFilename */
   RequestFilename = "RequestFilename",
+  /** RequestFilenameExtension */
   RequestFilenameExtension = "RequestFilenameExtension",
+  /** RequestHeader */
   RequestHeader = "RequestHeader",
+  /** RequestBody */
   RequestBody = "RequestBody",
+  /** RequestScheme */
   RequestScheme = "RequestScheme"
 }
 
@@ -1523,16 +1572,27 @@ export type RulesEngineMatchVariable = string;
 
 /** Known values of {@link RulesEngineOperator} that the service accepts. */
 export enum KnownRulesEngineOperator {
+  /** Any */
   Any = "Any",
+  /** IPMatch */
   IPMatch = "IPMatch",
+  /** GeoMatch */
   GeoMatch = "GeoMatch",
+  /** Equal */
   Equal = "Equal",
+  /** Contains */
   Contains = "Contains",
+  /** LessThan */
   LessThan = "LessThan",
+  /** GreaterThan */
   GreaterThan = "GreaterThan",
+  /** LessThanOrEqual */
   LessThanOrEqual = "LessThanOrEqual",
+  /** GreaterThanOrEqual */
   GreaterThanOrEqual = "GreaterThanOrEqual",
+  /** BeginsWith */
   BeginsWith = "BeginsWith",
+  /** EndsWith */
   EndsWith = "EndsWith"
 }
 
@@ -1557,11 +1617,17 @@ export type RulesEngineOperator = string;
 
 /** Known values of {@link Transform} that the service accepts. */
 export enum KnownTransform {
+  /** Lowercase */
   Lowercase = "Lowercase",
+  /** Uppercase */
   Uppercase = "Uppercase",
+  /** Trim */
   Trim = "Trim",
+  /** UrlDecode */
   UrlDecode = "UrlDecode",
+  /** UrlEncode */
   UrlEncode = "UrlEncode",
+  /** RemoveNulls */
   RemoveNulls = "RemoveNulls"
 }
 
@@ -1581,7 +1647,9 @@ export type Transform = string;
 
 /** Known values of {@link MatchProcessingBehavior} that the service accepts. */
 export enum KnownMatchProcessingBehavior {
+  /** Continue */
   Continue = "Continue",
+  /** Stop */
   Stop = "Stop"
 }
 
@@ -1597,7 +1665,9 @@ export type MatchProcessingBehavior = string;
 
 /** Known values of {@link FrontDoorProtocol} that the service accepts. */
 export enum KnownFrontDoorProtocol {
+  /** Http */
   Http = "Http",
+  /** Https */
   Https = "Https"
 }
 
@@ -1613,7 +1683,9 @@ export type FrontDoorProtocol = string;
 
 /** Known values of {@link RoutingRuleEnabledState} that the service accepts. */
 export enum KnownRoutingRuleEnabledState {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1629,7 +1701,9 @@ export type RoutingRuleEnabledState = string;
 
 /** Known values of {@link FrontDoorHealthProbeMethod} that the service accepts. */
 export enum KnownFrontDoorHealthProbeMethod {
+  /** GET */
   GET = "GET",
+  /** Head */
   Head = "HEAD"
 }
 
@@ -1645,7 +1719,9 @@ export type FrontDoorHealthProbeMethod = string;
 
 /** Known values of {@link HealthProbeEnabled} that the service accepts. */
 export enum KnownHealthProbeEnabled {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1661,10 +1737,15 @@ export type HealthProbeEnabled = string;
 
 /** Known values of {@link PrivateEndpointStatus} that the service accepts. */
 export enum KnownPrivateEndpointStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected",
+  /** Disconnected */
   Disconnected = "Disconnected",
+  /** Timeout */
   Timeout = "Timeout"
 }
 
@@ -1683,7 +1764,9 @@ export type PrivateEndpointStatus = string;
 
 /** Known values of {@link BackendEnabledState} that the service accepts. */
 export enum KnownBackendEnabledState {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1699,10 +1782,15 @@ export type BackendEnabledState = string;
 
 /** Known values of {@link CustomHttpsProvisioningState} that the service accepts. */
 export enum KnownCustomHttpsProvisioningState {
+  /** Enabling */
   Enabling = "Enabling",
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabling */
   Disabling = "Disabling",
+  /** Disabled */
   Disabled = "Disabled",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -1721,15 +1809,25 @@ export type CustomHttpsProvisioningState = string;
 
 /** Known values of {@link CustomHttpsProvisioningSubstate} that the service accepts. */
 export enum KnownCustomHttpsProvisioningSubstate {
+  /** SubmittingDomainControlValidationRequest */
   SubmittingDomainControlValidationRequest = "SubmittingDomainControlValidationRequest",
+  /** PendingDomainControlValidationREquestApproval */
   PendingDomainControlValidationREquestApproval = "PendingDomainControlValidationREquestApproval",
+  /** DomainControlValidationRequestApproved */
   DomainControlValidationRequestApproved = "DomainControlValidationRequestApproved",
+  /** DomainControlValidationRequestRejected */
   DomainControlValidationRequestRejected = "DomainControlValidationRequestRejected",
+  /** DomainControlValidationRequestTimedOut */
   DomainControlValidationRequestTimedOut = "DomainControlValidationRequestTimedOut",
+  /** IssuingCertificate */
   IssuingCertificate = "IssuingCertificate",
+  /** DeployingCertificate */
   DeployingCertificate = "DeployingCertificate",
+  /** CertificateDeployed */
   CertificateDeployed = "CertificateDeployed",
+  /** DeletingCertificate */
   DeletingCertificate = "DeletingCertificate",
+  /** CertificateDeleted */
   CertificateDeleted = "CertificateDeleted"
 }
 
@@ -1753,7 +1851,9 @@ export type CustomHttpsProvisioningSubstate = string;
 
 /** Known values of {@link FrontDoorCertificateSource} that the service accepts. */
 export enum KnownFrontDoorCertificateSource {
+  /** AzureKeyVault */
   AzureKeyVault = "AzureKeyVault",
+  /** FrontDoor */
   FrontDoor = "FrontDoor"
 }
 
@@ -1769,6 +1869,7 @@ export type FrontDoorCertificateSource = string;
 
 /** Known values of {@link FrontDoorTlsProtocolType} that the service accepts. */
 export enum KnownFrontDoorTlsProtocolType {
+  /** ServerNameIndication */
   ServerNameIndication = "ServerNameIndication"
 }
 
@@ -1783,7 +1884,9 @@ export type FrontDoorTlsProtocolType = string;
 
 /** Known values of {@link MinimumTLSVersion} that the service accepts. */
 export enum KnownMinimumTLSVersion {
+  /** One0 */
   One0 = "1.0",
+  /** One2 */
   One2 = "1.2"
 }
 
@@ -1799,6 +1902,7 @@ export type MinimumTLSVersion = string;
 
 /** Known values of {@link FrontDoorCertificateType} that the service accepts. */
 export enum KnownFrontDoorCertificateType {
+  /** Dedicated */
   Dedicated = "Dedicated"
 }
 
@@ -1813,7 +1917,9 @@ export type FrontDoorCertificateType = string;
 
 /** Known values of {@link SessionAffinityEnabledState} that the service accepts. */
 export enum KnownSessionAffinityEnabledState {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1829,7 +1935,9 @@ export type SessionAffinityEnabledState = string;
 
 /** Known values of {@link EnforceCertificateNameCheckEnabledState} that the service accepts. */
 export enum KnownEnforceCertificateNameCheckEnabledState {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1845,7 +1953,9 @@ export type EnforceCertificateNameCheckEnabledState = string;
 
 /** Known values of {@link FrontDoorEnabledState} that the service accepts. */
 export enum KnownFrontDoorEnabledState {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1861,7 +1971,9 @@ export type FrontDoorEnabledState = string;
 
 /** Known values of {@link PolicyEnabledState} that the service accepts. */
 export enum KnownPolicyEnabledState {
+  /** Disabled */
   Disabled = "Disabled",
+  /** Enabled */
   Enabled = "Enabled"
 }
 
@@ -1877,7 +1989,9 @@ export type PolicyEnabledState = string;
 
 /** Known values of {@link PolicyMode} that the service accepts. */
 export enum KnownPolicyMode {
+  /** Prevention */
   Prevention = "Prevention",
+  /** Detection */
   Detection = "Detection"
 }
 
@@ -1893,7 +2007,9 @@ export type PolicyMode = string;
 
 /** Known values of {@link PolicyRequestBodyCheck} that the service accepts. */
 export enum KnownPolicyRequestBodyCheck {
+  /** Disabled */
   Disabled = "Disabled",
+  /** Enabled */
   Enabled = "Enabled"
 }
 
@@ -1909,7 +2025,9 @@ export type PolicyRequestBodyCheck = string;
 
 /** Known values of {@link CustomRuleEnabledState} that the service accepts. */
 export enum KnownCustomRuleEnabledState {
+  /** Disabled */
   Disabled = "Disabled",
+  /** Enabled */
   Enabled = "Enabled"
 }
 
@@ -1925,7 +2043,9 @@ export type CustomRuleEnabledState = string;
 
 /** Known values of {@link RuleType} that the service accepts. */
 export enum KnownRuleType {
+  /** MatchRule */
   MatchRule = "MatchRule",
+  /** RateLimitRule */
   RateLimitRule = "RateLimitRule"
 }
 
@@ -1941,14 +2061,23 @@ export type RuleType = string;
 
 /** Known values of {@link MatchVariable} that the service accepts. */
 export enum KnownMatchVariable {
+  /** RemoteAddr */
   RemoteAddr = "RemoteAddr",
+  /** RequestMethod */
   RequestMethod = "RequestMethod",
+  /** QueryString */
   QueryString = "QueryString",
+  /** PostArgs */
   PostArgs = "PostArgs",
+  /** RequestUri */
   RequestUri = "RequestUri",
+  /** RequestHeader */
   RequestHeader = "RequestHeader",
+  /** RequestBody */
   RequestBody = "RequestBody",
+  /** Cookies */
   Cookies = "Cookies",
+  /** SocketAddr */
   SocketAddr = "SocketAddr"
 }
 
@@ -1971,17 +2100,29 @@ export type MatchVariable = string;
 
 /** Known values of {@link Operator} that the service accepts. */
 export enum KnownOperator {
+  /** Any */
   Any = "Any",
+  /** IPMatch */
   IPMatch = "IPMatch",
+  /** GeoMatch */
   GeoMatch = "GeoMatch",
+  /** Equal */
   Equal = "Equal",
+  /** Contains */
   Contains = "Contains",
+  /** LessThan */
   LessThan = "LessThan",
+  /** GreaterThan */
   GreaterThan = "GreaterThan",
+  /** LessThanOrEqual */
   LessThanOrEqual = "LessThanOrEqual",
+  /** GreaterThanOrEqual */
   GreaterThanOrEqual = "GreaterThanOrEqual",
+  /** BeginsWith */
   BeginsWith = "BeginsWith",
+  /** EndsWith */
   EndsWith = "EndsWith",
+  /** RegEx */
   RegEx = "RegEx"
 }
 
@@ -2007,11 +2148,17 @@ export type Operator = string;
 
 /** Known values of {@link TransformType} that the service accepts. */
 export enum KnownTransformType {
+  /** Lowercase */
   Lowercase = "Lowercase",
+  /** Uppercase */
   Uppercase = "Uppercase",
+  /** Trim */
   Trim = "Trim",
+  /** UrlDecode */
   UrlDecode = "UrlDecode",
+  /** UrlEncode */
   UrlEncode = "UrlEncode",
+  /** RemoveNulls */
   RemoveNulls = "RemoveNulls"
 }
 
@@ -2031,9 +2178,13 @@ export type TransformType = string;
 
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
+  /** Allow */
   Allow = "Allow",
+  /** Block */
   Block = "Block",
+  /** Log */
   Log = "Log",
+  /** Redirect */
   Redirect = "Redirect"
 }
 
@@ -2051,8 +2202,11 @@ export type ActionType = string;
 
 /** Known values of {@link ManagedRuleSetActionType} that the service accepts. */
 export enum KnownManagedRuleSetActionType {
+  /** Block */
   Block = "Block",
+  /** Log */
   Log = "Log",
+  /** Redirect */
   Redirect = "Redirect"
 }
 
@@ -2069,10 +2223,15 @@ export type ManagedRuleSetActionType = string;
 
 /** Known values of {@link ManagedRuleExclusionMatchVariable} that the service accepts. */
 export enum KnownManagedRuleExclusionMatchVariable {
+  /** RequestHeaderNames */
   RequestHeaderNames = "RequestHeaderNames",
+  /** RequestCookieNames */
   RequestCookieNames = "RequestCookieNames",
+  /** QueryStringArgNames */
   QueryStringArgNames = "QueryStringArgNames",
+  /** RequestBodyPostArgNames */
   RequestBodyPostArgNames = "RequestBodyPostArgNames",
+  /** RequestBodyJsonArgNames */
   RequestBodyJsonArgNames = "RequestBodyJsonArgNames"
 }
 
@@ -2091,10 +2250,15 @@ export type ManagedRuleExclusionMatchVariable = string;
 
 /** Known values of {@link ManagedRuleExclusionSelectorMatchOperator} that the service accepts. */
 export enum KnownManagedRuleExclusionSelectorMatchOperator {
+  /** Equals */
   Equals = "Equals",
+  /** Contains */
   Contains = "Contains",
+  /** StartsWith */
   StartsWith = "StartsWith",
+  /** EndsWith */
   EndsWith = "EndsWith",
+  /** EqualsAny */
   EqualsAny = "EqualsAny"
 }
 
@@ -2113,7 +2277,9 @@ export type ManagedRuleExclusionSelectorMatchOperator = string;
 
 /** Known values of {@link ManagedRuleEnabledState} that the service accepts. */
 export enum KnownManagedRuleEnabledState {
+  /** Disabled */
   Disabled = "Disabled",
+  /** Enabled */
   Enabled = "Enabled"
 }
 
@@ -2129,11 +2295,17 @@ export type ManagedRuleEnabledState = string;
 
 /** Known values of {@link PolicyResourceState} that the service accepts. */
 export enum KnownPolicyResourceState {
+  /** Creating */
   Creating = "Creating",
+  /** Enabling */
   Enabling = "Enabling",
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabling */
   Disabling = "Disabling",
+  /** Disabled */
   Disabled = "Disabled",
+  /** Deleting */
   Deleting = "Deleting"
 }
 
@@ -2153,8 +2325,11 @@ export type PolicyResourceState = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
+  /** ClassicAzureFrontDoor */
   ClassicAzureFrontDoor = "Classic_AzureFrontDoor",
+  /** StandardAzureFrontDoor */
   StandardAzureFrontDoor = "Standard_AzureFrontDoor",
+  /** PremiumAzureFrontDoor */
   PremiumAzureFrontDoor = "Premium_AzureFrontDoor"
 }
 
@@ -2171,8 +2346,11 @@ export type SkuName = string;
 
 /** Known values of {@link NetworkOperationStatus} that the service accepts. */
 export enum KnownNetworkOperationStatus {
+  /** InProgress */
   InProgress = "InProgress",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -2189,8 +2367,11 @@ export type NetworkOperationStatus = string;
 
 /** Known values of {@link FrontDoorForwardingProtocol} that the service accepts. */
 export enum KnownFrontDoorForwardingProtocol {
+  /** HttpOnly */
   HttpOnly = "HttpOnly",
+  /** HttpsOnly */
   HttpsOnly = "HttpsOnly",
+  /** MatchRequest */
   MatchRequest = "MatchRequest"
 }
 
@@ -2207,9 +2388,13 @@ export type FrontDoorForwardingProtocol = string;
 
 /** Known values of {@link FrontDoorQuery} that the service accepts. */
 export enum KnownFrontDoorQuery {
+  /** StripNone */
   StripNone = "StripNone",
+  /** StripAll */
   StripAll = "StripAll",
+  /** StripOnly */
   StripOnly = "StripOnly",
+  /** StripAllExcept */
   StripAllExcept = "StripAllExcept"
 }
 
@@ -2227,7 +2412,9 @@ export type FrontDoorQuery = string;
 
 /** Known values of {@link DynamicCompressionEnabled} that the service accepts. */
 export enum KnownDynamicCompressionEnabled {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -2243,9 +2430,13 @@ export type DynamicCompressionEnabled = string;
 
 /** Known values of {@link FrontDoorRedirectType} that the service accepts. */
 export enum KnownFrontDoorRedirectType {
+  /** Moved */
   Moved = "Moved",
+  /** Found */
   Found = "Found",
+  /** TemporaryRedirect */
   TemporaryRedirect = "TemporaryRedirect",
+  /** PermanentRedirect */
   PermanentRedirect = "PermanentRedirect"
 }
 
@@ -2263,8 +2454,11 @@ export type FrontDoorRedirectType = string;
 
 /** Known values of {@link FrontDoorRedirectProtocol} that the service accepts. */
 export enum KnownFrontDoorRedirectProtocol {
+  /** HttpOnly */
   HttpOnly = "HttpOnly",
+  /** HttpsOnly */
   HttpsOnly = "HttpsOnly",
+  /** MatchRequest */
   MatchRequest = "MatchRequest"
 }
 
