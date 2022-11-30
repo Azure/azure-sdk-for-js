@@ -106,7 +106,7 @@ export interface ClassificationOutput {
 }
 
 // @public
-export function createBatchItems(requests: Array<SearchFuzzySearchQueryParamProperties | SearchSearchAddressQueryParamProperties | SearchReverseSearchAddressQueryParamProperties>): Array<BatchRequestItem>;
+export function createBatchItems<T extends Record<string, any>>(requests: Array<T>): Array<BatchRequestItem>;
 
 // @public
 export interface DataSourceOutput {
