@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates or updates an Azure Cosmos DB SQL Role Assignment.
  *
  * @summary Creates or updates an Azure Cosmos DB SQL Role Assignment.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBSqlRoleAssignmentCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBSqlRoleAssignmentCreateUpdate.json
  */
 async function cosmosDbSqlRoleAssignmentCreateUpdate() {
   const subscriptionId = "mySubscriptionId";

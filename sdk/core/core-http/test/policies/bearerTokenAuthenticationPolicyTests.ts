@@ -11,7 +11,7 @@ import { HttpOperationResponse } from "../../src/httpOperationResponse";
 import { OperationSpec } from "../../src/operationSpec";
 import { WebResource } from "../../src/webResource";
 import { assert } from "chai";
-import { bearerTokenAuthenticationPolicy } from "../../src/coreHttp";
+import { bearerTokenAuthenticationPolicy } from "../../src";
 
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 

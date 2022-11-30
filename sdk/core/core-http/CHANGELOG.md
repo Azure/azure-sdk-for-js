@@ -1,16 +1,24 @@
 # Release History
 
-## 2.2.7 (Unreleased)
+## 3.0.0 (Unreleased)
 
 ### Features Added
+
+- Add support for `x-ms-text` [PR# 23631](https://github.com/Azure/azure-sdk-for-js/pull/23631)
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
-- Addressed an issue where when header casing is preserved via a custom `HttpClient`, we would not deserialize headers correctly. [PR #22888](https://github.com/Azure/azure-sdk-for-js/pull/22888)
-
 ### Other Changes
+
+- Update `engines` to `"node": ">=14.0.0"`
+
+## 2.2.7 (2022-09-01)
+
+### Bugs Fixed
+
+- Addressed an issue where when header casing is preserved via a custom `HttpClient`, we would not deserialize headers correctly. [PR #22888](https://github.com/Azure/azure-sdk-for-js/pull/22888)
 
 ## 2.2.6 (2022-08-04)
 

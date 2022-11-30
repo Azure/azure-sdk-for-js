@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates or updates a disk encryption set
  *
  * @summary Creates or updates a disk encryption set
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-02/DiskRP/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentSubscription.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentSubscription.json
  */
 async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription() {
   const subscriptionId = "{subscription-id}";
@@ -47,7 +47,7 @@ createADiskEncryptionSetWithKeyVaultFromADifferentSubscription().catch(
  * This sample demonstrates how to Creates or updates a disk encryption set
  *
  * @summary Creates or updates a disk encryption set
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-02/DiskRP/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentTenant.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentTenant.json
  */
 async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant() {
   const subscriptionId = "{subscription-id}";
@@ -84,7 +84,7 @@ createADiskEncryptionSetWithKeyVaultFromADifferentTenant().catch(console.error);
  * This sample demonstrates how to Creates or updates a disk encryption set
  *
  * @summary Creates or updates a disk encryption set
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-02/DiskRP/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create.json
  */
 async function createADiskEncryptionSet() {
   const subscriptionId = "{subscription-id}";

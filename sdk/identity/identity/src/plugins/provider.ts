@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { VSCodeCredentialFinder } from "../credentials/visualStudioCodeCredentialPlugin";
 import { TokenCachePersistenceOptions } from "../msal/nodeFlows/tokenCachePersistenceOptions";
+import { VSCodeCredentialFinder } from "../credentials/visualStudioCodeCredentialPlugin";
 
 /**
  * The type of an Azure Identity plugin, a function accepting a plugin

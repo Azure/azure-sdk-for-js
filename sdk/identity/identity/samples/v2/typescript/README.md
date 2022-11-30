@@ -20,7 +20,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 ## Prerequisites
 
-The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
+The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
 
 Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using:
 
@@ -74,9 +74,9 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [clientsecretcredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v2/typescript/src/clientSecretCredential.ts
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v2/typescript/src/defaultAzureCredential.ts
 [environmentcredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v2/typescript/src/environmentCredential.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/identity
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/identity
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureactivedirectoryappregistration]: https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
-[createinstance_azurekeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
+[createinstance_azureactivedirectoryappregistration]: https://learn.microsoft.com/azure/active-directory/develop/quickstart-register-app
+[createinstance_azurekeyvault]: https://learn.microsoft.com/azure/key-vault/quick-create-portal
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

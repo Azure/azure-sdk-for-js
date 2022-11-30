@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Deletes an existing Azure Cosmos DB Mongo Role Definition.
  *
  * @summary Deletes an existing Azure Cosmos DB Mongo Role Definition.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBMongoDBRoleDefinitionDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBMongoDBRoleDefinitionDelete.json
  */
 async function cosmosDbMongoDbroleDefinitionDelete() {
   const subscriptionId = "mySubscriptionId";

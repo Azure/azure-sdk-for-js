@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-10-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "151",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "2b425e50-0a47-4982-973f-90feaf2c1a89"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "c16dd31f-50c5-4ddb-9a22-aefbc0d503b1"
       },
       "RequestBody": {
         "kind": "SentimentAnalysis",
@@ -30,14 +30,16 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "5ddccaa8-6301-4760-bcf0-c4f5a3f7e159",
-        "Content-Length": "405",
+        "apim-request-id": "e8820f03-8cdf-4403-b9d3-42662c5f492a",
+        "Content-Length": "403",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-        "Date": "Fri, 06 May 2022 20:17:43 GMT",
+        "Date": "Tue, 01 Nov 2022 22:52:11 GMT",
+        "Set-Cookie": ".AspNetCore.Mvc.CookieTempDataProvider=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; samesite=lax; httponly",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "15"
+        "x-envoy-upstream-service-time": "17",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
         "kind": "SentimentAnalysisResults",
@@ -45,19 +47,19 @@
           "documents": [
             {
               "id": "0",
-              "sentiment": "positive",
+              "sentiment": "neutral",
               "confidenceScores": {
-                "positive": 0.58,
-                "neutral": 0.34,
-                "negative": 0.08
+                "positive": 0.17,
+                "neutral": 0.81,
+                "negative": 0.01
               },
               "sentences": [
                 {
-                  "sentiment": "positive",
+                  "sentiment": "neutral",
                   "confidenceScores": {
-                    "positive": 0.58,
-                    "neutral": 0.34,
-                    "negative": 0.08
+                    "positive": 0.17,
+                    "neutral": 0.81,
+                    "negative": 0.01
                   },
                   "offset": 0,
                   "length": 18,
@@ -70,7 +72,7 @@
             }
           ],
           "errors": [],
-          "modelVersion": "2021-10-01"
+          "modelVersion": "2022-10-01"
         }
       }
     }

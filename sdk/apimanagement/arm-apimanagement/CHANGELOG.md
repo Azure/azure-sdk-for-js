@@ -1,5 +1,21 @@
 # Release History
-    
+
+## 8.1.3 (2022-11-11)
+
+  - Bug fix
+
+## 8.1.2 (2022-10-08)
+
+**Bugs Fixed**
+
+  -  revert credential scopes
+
+## 8.1.1 (2022-09-30)
+
+**Bugs Fixed**
+
+  -  fix better user experience of credential scopes in government cloud
+
 ## 8.1.0 (2022-08-03)
     
 **Features**

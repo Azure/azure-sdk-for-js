@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Regenerates the auth token for the notebook workspace
  *
  * @summary Regenerates the auth token for the notebook workspace
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBNotebookWorkspaceRegenerateAuthToken.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBNotebookWorkspaceRegenerateAuthToken.json
  */
 async function cosmosDbNotebookWorkspaceRegenerateAuthToken() {
   const subscriptionId = "subid";

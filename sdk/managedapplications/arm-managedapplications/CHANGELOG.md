@@ -1,15 +1,14 @@
 # Release History
+    
+## 2.1.0 (2022-11-22)
+    
+**Features**
 
-## 2.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface Application
+  - Added Interface ApplicationDefinition
+  - Added Interface ApplicationPatchable
+  - Added Interface GenericResource
+    
 ## 2.0.1 (2022-04-18)
 
 **features**

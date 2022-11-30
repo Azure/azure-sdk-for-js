@@ -81,7 +81,7 @@ export class ShortCodesClient extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2021-10-25-preview";
+    this.apiVersion = options.apiVersion || "2022-09-06";
     this.shortCodesOperations = new ShortCodesOperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }

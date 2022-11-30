@@ -2,11 +2,57 @@
 // Licensed under the MIT license.
 
 import {
+  AbstractiveSummarizationLROResult,
+  AnalyzeResponse,
+  AnalyzeTextLROResultUnion,
+  AssessmentSentiment,
+  CustomEntityRecognitionLROResult,
+  CustomMultiLabelClassificationLROResult,
+  CustomSingleLabelClassificationLROResult,
+  DocumentError,
+  DynamicClassificationTaskResult,
+  EntitiesTaskResult,
+  EntityLinkingLROResult,
+  EntityLinkingTaskResult,
+  EntityRecognitionLROResult,
+  ErrorModel,
+  ErrorResponse,
+  ExtractiveSummarizationLROResult,
+  DynamicClassificationResult as GeneratedDynamicClassification,
+  EntityLinkingResult as GeneratedEntityLinkingResult,
+  EntitiesResult as GeneratedEntityRecognitionResult,
+  HealthcareEntity as GeneratedHealthcareEntity,
+  HealthcareResult as GeneratedHealthcareResult,
+  KeyPhraseResult as GeneratedKeyPhraseExtractionResult,
+  LanguageDetectionResult as GeneratedLanguageDetectionResult,
+  PiiResult as GeneratedPiiEntityRecognitionResult,
+  SentenceSentiment as GeneratedSentenceSentiment,
+  SentimentResponse as GeneratedSentimentAnalysisResult,
+  HealthcareLROResult,
+  HealthcareRelation,
+  HealthcareRelationEntity,
+  InnerErrorModel,
+  KeyPhraseExtractionLROResult,
+  KeyPhraseTaskResult,
+  KnownAnalyzeTextLROResultsKind,
+  LanguageDetectionTaskResult,
+  PiiEntityRecognitionLROResult,
+  PiiTaskResult,
+  SentenceTarget,
+  SentimentLROResult,
+  SentimentTaskResult,
+  TargetRelation,
+  CustomEntitiesResultDocumentsItem,
+  ExtractedSummaryDocumentResultWithDetectedLanguage,
+  AbstractiveSummaryDocumentResultWithDetectedLanguage,
+  HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage,
+  CustomLabelClassificationResultDocumentsItem,
+} from "./generated";
+import {
   AnalyzeActionName,
   AnalyzeBatchResult,
   AnalyzeResult,
-  CustomSingleLabelClassificationResult,
-  CustomSingleLabelClassificationSuccessResult,
+  DynamicClassificationResult,
   EntityLinkingResult,
   EntityRecognitionResult,
   HealthcareEntity,
@@ -23,51 +69,8 @@ import {
   TextAnalysisError,
   TextAnalysisErrorResult,
   TextAnalysisSuccessResult,
+  WithDetectedLanguage,
 } from "./models";
-import {
-  AnalyzeResponse,
-  AnalyzeTextLROResultUnion,
-  AssessmentSentiment,
-  CustomEntityRecognitionLROResult,
-  CustomMultiLabelClassificationLROResult,
-  CustomSingleLabelClassificationLROResult,
-  DocumentError,
-  EntitiesTaskResult,
-  EntityLinkingLROResult,
-  EntityLinkingTaskResult,
-  EntityRecognitionLROResult,
-  ErrorModel,
-  ErrorResponse,
-  ExtractiveSummarizationLROResult,
-  CustomSingleLabelClassificationResult as GeneratedCustomSingleLabelClassificationResult,
-  EntityLinkingResult as GeneratedEntityLinkingResult,
-  EntitiesResult as GeneratedEntityRecognitionResult,
-  HealthcareEntity as GeneratedHealthcareEntity,
-  HealthcareResult as GeneratedHealthcareResult,
-  KeyPhraseResult as GeneratedKeyPhraseExtractionResult,
-  LanguageDetectionResult as GeneratedLanguageDetectionResult,
-  PiiResult as GeneratedPiiEntityRecognitionResult,
-  SentenceSentiment as GeneratedSentenceSentiment,
-  SentimentResponse as GeneratedSentimentAnalysisResult,
-  HealthcareEntitiesDocumentResult,
-  HealthcareLROResult,
-  HealthcareRelation,
-  HealthcareRelationEntity,
-  InnerErrorModel,
-  KeyPhraseExtractionLROResult,
-  KeyPhraseTaskResult,
-  KnownAnalyzeTextLROResultsKind,
-  LanguageDetectionInput,
-  LanguageDetectionTaskResult,
-  PiiEntityRecognitionLROResult,
-  PiiTaskResult,
-  SentenceTarget,
-  SentimentLROResult,
-  SentimentTaskResult,
-  SingleClassificationDocumentResult,
-  TargetRelation,
-  TextDocumentInput,
-} from "./generated";
 import {
   AssessmentIndex,
   parseAssessmentIndex,
@@ -101,7 +104,7 @@ function makeTextAnalysisErrorResult(id: string, error: ErrorModel): TextAnalysi
 /**
  * combines successful and erroneous results into a single array of results and
  * sort them so that the IDs order match that of the input documents array.
- * @param input - the array of documents sent to the service for processing.
+ * @param ids - the array of input document IDs.
  * @param response - the response received from the service.
  * @param options - an options bag that includes functions to process the results.
  */
@@ -110,7 +113,7 @@ function transformDocumentResults<
   PublicDocumentSuccess extends TextAnalysisSuccessResult = DocumentSuccess,
   TError extends TextAnalysisErrorResult = TextAnalysisErrorResult
 >(
-  input: TextDocumentInput[],
+  ids: string[],
   response: {
     documents: DocumentSuccess[];
     errors: DocumentError[];
@@ -128,14 +131,14 @@ function transformDocumentResults<
     successResults as (PublicDocumentSuccess | TextAnalysisErrorResult)[]
   ).concat(response.errors.map((error) => processError(error.id, error.error)));
 
-  return sortResponseIdObjects(input, unsortedResults);
+  return sortResponseIdObjects(ids, unsortedResults);
 }
 
 function toLanguageDetectionResult(
-  documents: LanguageDetectionInput[],
+  docIds: string[],
   results: GeneratedLanguageDetectionResult
 ): LanguageDetectionResult[] {
-  return transformDocumentResults(documents, results, {
+  return transformDocumentResults(docIds, results, {
     processSuccess: ({ detectedLanguage, ...rest }) => ({
       primaryLanguage: detectedLanguage,
       ...rest,
@@ -144,17 +147,17 @@ function toLanguageDetectionResult(
 }
 
 function toPiiEntityRecognitionResult(
-  documents: TextDocumentInput[],
+  docIds: string[],
   results: GeneratedPiiEntityRecognitionResult
 ): PiiEntityRecognitionResult[] {
-  return transformDocumentResults(documents, results);
+  return transformDocumentResults(docIds, results);
 }
 
 function toSentimentAnalysisResult(
-  documents: TextDocumentInput[],
+  docIds: string[],
   results: GeneratedSentimentAnalysisResult
 ): SentimentAnalysisResult[] {
-  return transformDocumentResults(documents, results, {
+  return transformDocumentResults(docIds, results, {
     processSuccess: ({ sentences, ...rest }) => ({
       ...rest,
       sentences: sentences.map((sentence) =>
@@ -162,6 +165,13 @@ function toSentimentAnalysisResult(
       ),
     }),
   });
+}
+
+function toDynamicClassificationResult(
+  docIds: string[],
+  results: GeneratedDynamicClassification
+): DynamicClassificationResult[] {
+  return transformDocumentResults(docIds, results);
 }
 
 /**
@@ -218,24 +228,24 @@ function convertTargetRelationToAssessmentSentiment(
 }
 
 function toEntityLinkingResult(
-  documents: TextDocumentInput[],
+  docIds: string[],
   results: GeneratedEntityLinkingResult
 ): EntityLinkingResult[] {
-  return transformDocumentResults(documents, results);
+  return transformDocumentResults(docIds, results);
 }
 
 function toKeyPhraseExtractionResult(
-  documents: TextDocumentInput[],
+  docIds: string[],
   results: GeneratedKeyPhraseExtractionResult
 ): KeyPhraseExtractionResult[] {
-  return transformDocumentResults(documents, results);
+  return transformDocumentResults(docIds, results);
 }
 
 function toEntityRecognitionResult(
-  documents: TextDocumentInput[],
+  docIds: string[],
   results: GeneratedEntityRecognitionResult
 ): EntityRecognitionResult[] {
-  return transformDocumentResults(documents, results);
+  return transformDocumentResults(docIds, results);
 }
 
 /**
@@ -243,27 +253,33 @@ function toEntityRecognitionResult(
  */
 export function transformActionResult<ActionName extends AnalyzeActionName>(
   actionName: ActionName,
-  input: TextDocumentInput[] | LanguageDetectionInput[],
+  docIds: string[],
   response: AnalyzeResponse
 ): AnalyzeResult<AnalyzeActionName> {
   switch (response.kind) {
     case "EntityLinkingResults": {
-      return toEntityLinkingResult(input, (response as EntityLinkingTaskResult).results);
+      return toEntityLinkingResult(docIds, (response as EntityLinkingTaskResult).results);
     }
     case "EntityRecognitionResults": {
-      return toEntityRecognitionResult(input, (response as EntitiesTaskResult).results);
+      return toEntityRecognitionResult(docIds, (response as EntitiesTaskResult).results);
     }
     case "KeyPhraseExtractionResults": {
-      return toKeyPhraseExtractionResult(input, (response as KeyPhraseTaskResult).results);
+      return toKeyPhraseExtractionResult(docIds, (response as KeyPhraseTaskResult).results);
     }
     case "PiiEntityRecognitionResults": {
-      return toPiiEntityRecognitionResult(input, (response as PiiTaskResult).results);
+      return toPiiEntityRecognitionResult(docIds, (response as PiiTaskResult).results);
     }
     case "SentimentAnalysisResults": {
-      return toSentimentAnalysisResult(input, (response as SentimentTaskResult).results);
+      return toSentimentAnalysisResult(docIds, (response as SentimentTaskResult).results);
     }
     case "LanguageDetectionResults": {
-      return toLanguageDetectionResult(input, (response as LanguageDetectionTaskResult).results);
+      return toLanguageDetectionResult(docIds, (response as LanguageDetectionTaskResult).results);
+    }
+    case "DynamicClassificationResults": {
+      return toDynamicClassificationResult(
+        docIds,
+        (response as DynamicClassificationTaskResult).results
+      );
     }
     default: {
       const __exhaust: never = response;
@@ -328,7 +344,7 @@ export async function throwError<T>(p: Promise<T>): Promise<T> {
 }
 
 function toHealthcareResult(
-  documents: TextDocumentInput[],
+  docIds: string[],
   results: GeneratedHealthcareResult
 ): HealthcareResult[] {
   function makeHealthcareEntity(entity: GeneratedHealthcareEntity): HealthcareEntity {
@@ -341,9 +357,14 @@ function toHealthcareResult(
   function makeHealthcareRelation(
     entities: HealthcareEntity[]
   ): (relation: HealthcareRelation) => HealthcareEntityRelation {
-    return (relation: HealthcareRelation): HealthcareEntityRelation => ({
-      relationType: relation.relationType,
-      roles: relation.entities.map(
+    return ({
+      entities: generatedEntities,
+      relationType,
+      confidenceScore,
+    }: HealthcareRelation): HealthcareEntityRelation => ({
+      relationType: relationType,
+      confidenceScore,
+      roles: generatedEntities.map(
         (role: HealthcareRelationEntity): HealthcareEntityRelationRole => ({
           entity: entities[parseHealthcareEntityIndex(role.ref)],
           name: role.role,
@@ -351,33 +372,17 @@ function toHealthcareResult(
       ),
     });
   }
-  return transformDocumentResults<HealthcareEntitiesDocumentResult, HealthcareSuccessResult>(
-    documents,
-    results,
-    {
-      processSuccess: ({ entities, relations, ...rest }) => {
-        const newEntities = entities.map(makeHealthcareEntity);
-        return {
-          entities: newEntities,
-          entityRelations: relations.map(makeHealthcareRelation(newEntities)),
-          ...rest,
-        };
-      },
-    }
-  );
-}
-
-function toCustomSingleLabelClassificationResult(
-  documents: TextDocumentInput[],
-  results: GeneratedCustomSingleLabelClassificationResult
-): CustomSingleLabelClassificationResult[] {
   return transformDocumentResults<
-    SingleClassificationDocumentResult,
-    CustomSingleLabelClassificationSuccessResult
-  >(documents, results, {
-    processSuccess: ({ classification, ...rest }) => {
+    HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage,
+    WithDetectedLanguage<HealthcareSuccessResult>
+  >(docIds, results, {
+    processSuccess: ({ entities, relations, detectedLanguage, ...rest }) => {
+      const newEntities = entities.map(makeHealthcareEntity);
       return {
-        classifications: [classification],
+        entities: newEntities,
+        entityRelations: relations.map(makeHealthcareRelation(newEntities)),
+        // FIXME: remove this mitigation when the API fixes the representation on their end
+        ...(detectedLanguage ? { detectedLanguage: { iso6391Name: detectedLanguage } as any } : {}),
         ...rest,
       };
     },
@@ -388,7 +393,7 @@ function toCustomSingleLabelClassificationResult(
  * @internal
  */
 export function transformAnalyzeBatchResults(
-  documents: TextDocumentInput[],
+  docIds: string[],
   response: AnalyzeTextLROResultUnion[] = []
 ): AnalyzeBatchResult[] {
   return response.map((actionData) => {
@@ -399,7 +404,7 @@ export function transformAnalyzeBatchResults(
         const { modelVersion, statistics } = results;
         return {
           kind: "SentimentAnalysis",
-          results: toSentimentAnalysisResult(documents, results),
+          results: toSentimentAnalysisResult(docIds, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),
@@ -411,7 +416,7 @@ export function transformAnalyzeBatchResults(
         const { modelVersion, statistics } = results;
         return {
           kind: "EntityRecognition",
-          results: toEntityRecognitionResult(documents, results),
+          results: toEntityRecognitionResult(docIds, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),
@@ -423,7 +428,7 @@ export function transformAnalyzeBatchResults(
         const { modelVersion, statistics } = results;
         return {
           kind: "PiiEntityRecognition",
-          results: toPiiEntityRecognitionResult(documents, results),
+          results: toPiiEntityRecognitionResult(docIds, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),
@@ -435,7 +440,7 @@ export function transformAnalyzeBatchResults(
         const { modelVersion, statistics } = results;
         return {
           kind: "KeyPhraseExtraction",
-          results: toKeyPhraseExtractionResult(documents, results),
+          results: toKeyPhraseExtractionResult(docIds, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),
@@ -447,7 +452,7 @@ export function transformAnalyzeBatchResults(
         const { modelVersion, statistics } = results;
         return {
           kind: "EntityLinking",
-          results: toEntityLinkingResult(documents, results),
+          results: toEntityLinkingResult(docIds, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),
@@ -459,7 +464,7 @@ export function transformAnalyzeBatchResults(
         const { modelVersion, statistics } = results;
         return {
           kind: "Healthcare",
-          results: toHealthcareResult(documents, results),
+          results: toHealthcareResult(docIds, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),
@@ -471,7 +476,7 @@ export function transformAnalyzeBatchResults(
         const { deploymentName, projectName, statistics } = results;
         return {
           kind: "CustomEntityRecognition",
-          results: transformDocumentResults(documents, results),
+          results: transformDocumentResults<CustomEntitiesResultDocumentsItem>(docIds, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),
@@ -484,7 +489,10 @@ export function transformAnalyzeBatchResults(
         const { deploymentName, projectName, statistics } = results;
         return {
           kind: "CustomSingleLabelClassification",
-          results: toCustomSingleLabelClassificationResult(documents, results),
+          results: transformDocumentResults<CustomLabelClassificationResultDocumentsItem>(
+            docIds,
+            results
+          ),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),
@@ -497,7 +505,10 @@ export function transformAnalyzeBatchResults(
         const { deploymentName, projectName, statistics } = results;
         return {
           kind: "CustomMultiLabelClassification",
-          results: transformDocumentResults(documents, results),
+          results: transformDocumentResults<CustomLabelClassificationResultDocumentsItem>(
+            docIds,
+            results
+          ),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),
@@ -510,7 +521,25 @@ export function transformAnalyzeBatchResults(
         const { modelVersion, statistics } = results;
         return {
           kind: "ExtractiveSummarization",
-          results: transformDocumentResults(documents, results),
+          results: transformDocumentResults<ExtractedSummaryDocumentResultWithDetectedLanguage>(
+            docIds,
+            results
+          ),
+          completedOn,
+          ...(actionName ? { actionName } : {}),
+          ...(statistics ? { statistics } : {}),
+          modelVersion,
+        };
+      }
+      case "AbstractiveSummarizationLROResults": {
+        const { results } = actionData as AbstractiveSummarizationLROResult;
+        const { modelVersion, statistics } = results;
+        return {
+          kind: "AbstractiveSummarization",
+          results: transformDocumentResults<AbstractiveSummaryDocumentResultWithDetectedLanguage>(
+            docIds,
+            results
+          ),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),

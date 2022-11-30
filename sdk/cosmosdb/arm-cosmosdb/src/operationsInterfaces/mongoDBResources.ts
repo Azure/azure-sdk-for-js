@@ -33,9 +33,13 @@ import {
   MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptionalParams,
   MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse,
   RetrieveThroughputParameters,
+  MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams,
+  MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse,
+  RedistributeThroughputParameters,
+  MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams,
+  MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse,
   MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams,
   MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse,
-  RedistributeThroughputParameters,
   MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams,
   MongoDBResourcesMongoDBContainerRedistributeThroughputResponse,
   MongoDBResourcesGetMongoDBCollectionOptionalParams,
@@ -317,6 +321,86 @@ export interface MongoDBResources {
     databaseName: string,
     options?: MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptionalParams
   ): Promise<MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse>;
+  /**
+   * Retrieve throughput distribution for an Azure Cosmos DB MongoDB database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
+   *                                     for the current MongoDB database.
+   * @param options The options parameters.
+   */
+  beginMongoDBDatabaseRetrieveThroughputDistribution(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    retrieveThroughputParameters: RetrieveThroughputParameters,
+    options?: MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse
+      >,
+      MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse
+    >
+  >;
+  /**
+   * Retrieve throughput distribution for an Azure Cosmos DB MongoDB database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
+   *                                     for the current MongoDB database.
+   * @param options The options parameters.
+   */
+  beginMongoDBDatabaseRetrieveThroughputDistributionAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    retrieveThroughputParameters: RetrieveThroughputParameters,
+    options?: MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams
+  ): Promise<
+    MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse
+  >;
+  /**
+   * Redistribute throughput for an Azure Cosmos DB MongoDB database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
+   *                                         the current MongoDB database.
+   * @param options The options parameters.
+   */
+  beginMongoDBDatabaseRedistributeThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    redistributeThroughputParameters: RedistributeThroughputParameters,
+    options?: MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse
+      >,
+      MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse
+    >
+  >;
+  /**
+   * Redistribute throughput for an Azure Cosmos DB MongoDB database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
+   *                                         the current MongoDB database.
+   * @param options The options parameters.
+   */
+  beginMongoDBDatabaseRedistributeThroughputAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    redistributeThroughputParameters: RedistributeThroughputParameters,
+    options?: MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams
+  ): Promise<MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse>;
   /**
    * Retrieve throughput distribution for an Azure Cosmos DB MongoDB container
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

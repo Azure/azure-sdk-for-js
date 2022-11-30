@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or update an Azure Cosmos DB Cassandra Table
  *
  * @summary Create or update an Azure Cosmos DB Cassandra Table
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBCassandraTableCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBCassandraTableCreateUpdate.json
  */
 async function cosmosDbCassandraTableCreateUpdate() {
   const subscriptionId = "subid";

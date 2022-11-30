@@ -1,0 +1,274 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/Spring/myservicexxx?api-version=2022-09-01-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-appplatform/2.1.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "ddb51be2-6eca-489d-ae5f-68dc4a7e755b"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/east%20us/operationStatus/myservicexxx/operationId/f117c7ff-ee41-4314-a07b-d6265c9befc7?api-version=2022-09-01-preview",
+        "Cache-Control": "no-cache",
+        "Content-Length": "0",
+        "Date": "Wed, 16 Nov 2022 01:56:44 GMT",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/east%20us/operationResults/f117c7ff-ee41-4314-a07b-d6265c9befc7/Spring/myservicexxx?api-version=2022-09-01-preview",
+        "Pragma": "no-cache",
+        "Request-Context": "appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "ddb51be2-6eca-489d-ae5f-68dc4a7e755b",
+        "x-ms-correlation-request-id": "2008d8f7-0cf1-4779-9ee8-e9bf2e72a6d9",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14998",
+        "x-ms-request-id": "2008d8f7-0cf1-4779-9ee8-e9bf2e72a6d9",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221116T015644Z:2008d8f7-0cf1-4779-9ee8-e9bf2e72a6d9",
+        "x-rp-server-mvid": "59b5eb15-14b1-47d7-aa3e-7b6c2904efcd"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/east%20us/operationStatus/myservicexxx/operationId/f117c7ff-ee41-4314-a07b-d6265c9befc7?api-version=2022-09-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-appplatform/2.1.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "299ccb7c-0ff7-4915-9e22-70cee2d3dbf7"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 16 Nov 2022 01:56:45 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Request-Context": "appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d",
+        "Retry-After": "10",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "299ccb7c-0ff7-4915-9e22-70cee2d3dbf7",
+        "x-ms-correlation-request-id": "abf18250-ee38-4c8e-95df-f9e409aa8e09",
+        "x-ms-ratelimit-remaining-subscription-reads": "11946",
+        "x-ms-request-id": "abf18250-ee38-4c8e-95df-f9e409aa8e09",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221116T015645Z:abf18250-ee38-4c8e-95df-f9e409aa8e09",
+        "x-rp-server-mvid": "59b5eb15-14b1-47d7-aa3e-7b6c2904efcd"
+      },
+      "ResponseBody": {
+        "id": "subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/east us/operationStatus/myservicexxx/operationId/f117c7ff-ee41-4314-a07b-d6265c9befc7",
+        "name": "f117c7ff-ee41-4314-a07b-d6265c9befc7",
+        "status": "Running",
+        "startTime": "2022-11-16T01:56:44.541844Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/east%20us/operationStatus/myservicexxx/operationId/f117c7ff-ee41-4314-a07b-d6265c9befc7?api-version=2022-09-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-appplatform/2.1.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "4be4403f-a7f7-4ffd-9d5f-e96295ef80d4"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 16 Nov 2022 01:56:45 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Request-Context": "appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d",
+        "Retry-After": "10",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "4be4403f-a7f7-4ffd-9d5f-e96295ef80d4",
+        "x-ms-correlation-request-id": "d31b2a88-f76a-4aaf-8e4d-20e2d1366ef9",
+        "x-ms-ratelimit-remaining-subscription-reads": "11945",
+        "x-ms-request-id": "d31b2a88-f76a-4aaf-8e4d-20e2d1366ef9",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221116T015645Z:d31b2a88-f76a-4aaf-8e4d-20e2d1366ef9",
+        "x-rp-server-mvid": "59b5eb15-14b1-47d7-aa3e-7b6c2904efcd"
+      },
+      "ResponseBody": {
+        "id": "subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/east us/operationStatus/myservicexxx/operationId/f117c7ff-ee41-4314-a07b-d6265c9befc7",
+        "name": "f117c7ff-ee41-4314-a07b-d6265c9befc7",
+        "status": "Running",
+        "startTime": "2022-11-16T01:56:44.541844Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/east%20us/operationStatus/myservicexxx/operationId/f117c7ff-ee41-4314-a07b-d6265c9befc7?api-version=2022-09-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-appplatform/2.1.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "10f04e9a-b81b-4ec2-9db5-df3246681e85"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 16 Nov 2022 01:56:55 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Request-Context": "appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d",
+        "Retry-After": "10",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "10f04e9a-b81b-4ec2-9db5-df3246681e85",
+        "x-ms-correlation-request-id": "af9ed30e-e3bc-46a9-aafc-d686700c04e6",
+        "x-ms-ratelimit-remaining-subscription-reads": "11944",
+        "x-ms-request-id": "af9ed30e-e3bc-46a9-aafc-d686700c04e6",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221116T015656Z:af9ed30e-e3bc-46a9-aafc-d686700c04e6",
+        "x-rp-server-mvid": "59b5eb15-14b1-47d7-aa3e-7b6c2904efcd"
+      },
+      "ResponseBody": {
+        "id": "subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/east us/operationStatus/myservicexxx/operationId/f117c7ff-ee41-4314-a07b-d6265c9befc7",
+        "name": "f117c7ff-ee41-4314-a07b-d6265c9befc7",
+        "status": "Running",
+        "startTime": "2022-11-16T01:56:44.541844Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/east%20us/operationStatus/myservicexxx/operationId/f117c7ff-ee41-4314-a07b-d6265c9befc7?api-version=2022-09-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-appplatform/2.1.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "63b9e966-2e90-457a-9483-2e2f4a61001a"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 16 Nov 2022 01:57:06 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Request-Context": "appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d",
+        "Retry-After": "10",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "63b9e966-2e90-457a-9483-2e2f4a61001a",
+        "x-ms-correlation-request-id": "d7754a08-5f3f-4ed4-860b-1347216b7956",
+        "x-ms-ratelimit-remaining-subscription-reads": "11943",
+        "x-ms-request-id": "d7754a08-5f3f-4ed4-860b-1347216b7956",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221116T015706Z:d7754a08-5f3f-4ed4-860b-1347216b7956",
+        "x-rp-server-mvid": "59b5eb15-14b1-47d7-aa3e-7b6c2904efcd"
+      },
+      "ResponseBody": {
+        "id": "subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/east us/operationStatus/myservicexxx/operationId/f117c7ff-ee41-4314-a07b-d6265c9befc7",
+        "name": "f117c7ff-ee41-4314-a07b-d6265c9befc7",
+        "status": "Running",
+        "startTime": "2022-11-16T01:56:44.541844Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/east%20us/operationStatus/myservicexxx/operationId/f117c7ff-ee41-4314-a07b-d6265c9befc7?api-version=2022-09-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-appplatform/2.1.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "4f50c94e-15dd-48a7-84ce-df82aaa24e77"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 16 Nov 2022 01:57:16 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Request-Context": "appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "4f50c94e-15dd-48a7-84ce-df82aaa24e77",
+        "x-ms-correlation-request-id": "858ee13b-7def-4477-862d-bdfc394f7ce3",
+        "x-ms-ratelimit-remaining-subscription-reads": "11942",
+        "x-ms-request-id": "858ee13b-7def-4477-862d-bdfc394f7ce3",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221116T015717Z:858ee13b-7def-4477-862d-bdfc394f7ce3",
+        "x-rp-server-mvid": "59b5eb15-14b1-47d7-aa3e-7b6c2904efcd"
+      },
+      "ResponseBody": {
+        "id": "subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/east us/operationStatus/myservicexxx/operationId/f117c7ff-ee41-4314-a07b-d6265c9befc7",
+        "name": "f117c7ff-ee41-4314-a07b-d6265c9befc7",
+        "status": "Succeeded",
+        "startTime": "2022-11-16T01:56:44.541844Z",
+        "endTime": "2022-11-16T01:57:10.0292005Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/Spring?api-version=2022-09-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-appplatform/2.1.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "9fa13b83-1564-49db-a0ec-5a87c290c282"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 16 Nov 2022 01:57:17 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Request-Context": "appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "9fa13b83-1564-49db-a0ec-5a87c290c282",
+        "x-ms-correlation-request-id": "50d6cfe6-3f78-4a58-bd0e-bf76f292672f",
+        "x-ms-ratelimit-remaining-subscription-resource-requests": "11996",
+        "x-ms-request-id": "50d6cfe6-3f78-4a58-bd0e-bf76f292672f",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221116T015717Z:50d6cfe6-3f78-4a58-bd0e-bf76f292672f",
+        "x-rp-server-mvid": "59b5eb15-14b1-47d7-aa3e-7b6c2904efcd"
+      },
+      "ResponseBody": {
+        "value": []
+      }
+    }
+  ],
+  "Variables": {}
+}

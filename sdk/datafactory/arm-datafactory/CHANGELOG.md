@@ -1,6 +1,6 @@
 # Release History
 
-## 10.7.1 (Unreleased)
+## 10.10.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,45 @@
 
 ### Other Changes
 
+## 10.10.0 (2022-11-04)
+    
+**Features**
+
+  - Interface ScriptActivity has a new optional parameter scriptBlockExecutionTimeout
+    
+    
+## 10.9.0 (2022-10-17)
+    
+**Features**
+
+  - Interface AzureSynapseArtifactsLinkedService has a new optional parameter workspaceResourceId
+  - Interface FactoryRepoConfiguration has a new optional parameter disablePublish
+  - Interface SynapseSparkJobDefinitionActivity has a new optional parameter filesV2
+  - Interface SynapseSparkJobDefinitionActivity has a new optional parameter pythonCodeReference
+    
+    
+## 10.8.0 (2022-09-07)
+    
+**Features**
+
+  - Added Interface AzureSynapseArtifactsLinkedService
+  - Added Interface BigDataPoolParametrizationReference
+  - Added Interface GoogleSheetsLinkedService
+  - Added Interface NotebookParameter
+  - Added Interface SynapseNotebookActivity
+  - Added Interface SynapseNotebookReference
+  - Added Interface SynapseSparkJobDefinitionActivity
+  - Added Interface SynapseSparkJobReference
+  - Added Type Alias BigDataPoolReferenceType
+  - Added Type Alias NotebookParameterType
+  - Added Type Alias NotebookReferenceType
+  - Added Type Alias SparkJobReferenceType
+  - Added Enum KnownBigDataPoolReferenceType
+  - Added Enum KnownNotebookParameterType
+  - Added Enum KnownNotebookReferenceType
+  - Added Enum KnownSparkJobReferenceType
+    
+    
 ## 10.7.0 (2022-06-22)
     
 **Features**

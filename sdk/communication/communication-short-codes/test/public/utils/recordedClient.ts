@@ -44,7 +44,7 @@ export const recorderOptions: RecorderStartOptions = {
       {
         regex: true,
         target: `[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}`,
-        value: "00000000-0000-0000-0000-000000000000",
+        value: "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
       },
     ],
   },
@@ -55,6 +55,12 @@ export async function createRecordedClient(
 ): Promise<RecordedClient<ShortCodesClient>> {
   const recorder = new Recorder(context.currentTest);
   await recorder.start(recorderOptions);
+  await recorder.setMatcher("CustomDefaultMatcher", {
+    excludedHeaders: [
+      "Accept-Language", // This is env-dependent
+      "x-ms-content-sha256", // This is dependent on the current datetime
+    ],
+  });
 
   // casting is a workaround to enable min-max testing
   return {

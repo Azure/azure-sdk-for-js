@@ -1,10 +1,24 @@
 # Release History
+    
+## 2.1.0 (2022-11-16)
+    
+**Features**
 
-## 2.0.1 (Unreleased)
+  - Added Interface AttestationProvider
+  - Added Interface PrivateEndpointConnection
+  - Added Interface TrackedResource
+    
+## 2.0.2 (2022-10-08)
 
-**features**
+**Bugs Fixed**
 
-  - Bug fix
+  -  revert credential scopes
+
+## 2.0.1 (2022-09-30)
+
+**Bugs Fixed**
+
+  -  fix better user experience of credential scopes in government cloud
 
 ## 2.0.0 (2021-12-30)
 

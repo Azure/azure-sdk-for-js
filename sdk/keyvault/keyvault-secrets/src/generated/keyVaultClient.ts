@@ -12,7 +12,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
-  ApiVersion73,
+  ApiVersion74Preview1,
   KeyVaultClientOptionalParams,
   SetSecretOptionalParams,
   SetSecretResponse,
@@ -47,7 +47,7 @@ import {
 
 /** @internal */
 export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
-  apiVersion: ApiVersion73;
+  apiVersion: ApiVersion74Preview1;
 
   /**
    * Initializes a new instance of the KeyVaultClient class.
@@ -55,7 +55,7 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion73,
+    apiVersion: ApiVersion74Preview1,
     options?: KeyVaultClientOptionalParams
   ) {
     if (apiVersion === undefined) {
@@ -70,7 +70,7 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-keyvault-secrets/4.5.1`;
+    const packageDetails = `azsdk-js-keyvault-secrets/4.7.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -116,7 +116,9 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
    *  The SET operation adds a secret to the Azure Key Vault. If the named secret already exists, Azure
    * Key Vault creates a new version of that secret. This operation requires the secrets/set permission.
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
-   * @param secretName The name of the secret.
+   * @param secretName The name of the secret. The value you provide may be copied globally for the
+   *                   purpose of running the service. The value provided should not include personally identifiable or
+   *                   sensitive information.
    * @param value The value of the secret.
    * @param options The options parameters.
    */

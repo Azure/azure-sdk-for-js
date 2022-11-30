@@ -2,16 +2,17 @@
 // Licensed under the MIT license.
 
 import * as msalCommon from "@azure/msal-common";
-import { isNode } from "@azure/core-util";
-import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { AbortError } from "@azure/abort-controller";
 
-import { v4 as uuidv4 } from "uuid";
-import { CredentialLogger, formatError, formatSuccess } from "../util/logging";
-import { AuthenticationRequiredError, CredentialUnavailableError } from "../errors";
-import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { AuthenticationRecord, MsalAccountInfo, MsalResult, MsalToken } from "./types";
+import { AuthenticationRequiredError, CredentialUnavailableError } from "../errors";
+import { CredentialLogger, formatError, formatSuccess } from "../util/logging";
+import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
+import { AbortError } from "@azure/abort-controller";
 import { MsalFlowOptions } from "./flows";
+import { isNode } from "@azure/core-util";
+import { v4 as uuidv4 } from "uuid";
+import { AzureLogLevel } from "@azure/logger";
 
 /**
  * Latest AuthenticationRecord version
@@ -109,6 +110,25 @@ export const defaultLoggerCallback: (
         return;
     }
   };
+
+/**
+ * @internal
+ */
+export function getMSALLogLevel(logLevel: AzureLogLevel | undefined): msalCommon.LogLevel {
+  switch (logLevel) {
+    case "error":
+      return msalCommon.LogLevel.Error;
+    case "info":
+      return msalCommon.LogLevel.Info;
+    case "verbose":
+      return msalCommon.LogLevel.Verbose;
+    case "warning":
+      return msalCommon.LogLevel.Warning;
+    default:
+      // default msal logging level should be Info
+      return msalCommon.LogLevel.Info;
+  }
+}
 
 /**
  * The common utility functions for the MSAL clients.

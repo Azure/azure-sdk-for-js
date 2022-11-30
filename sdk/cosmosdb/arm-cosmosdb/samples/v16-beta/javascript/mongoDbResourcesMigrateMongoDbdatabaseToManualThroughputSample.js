@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Migrate an Azure Cosmos DB MongoDB database from autoscale to manual throughput
  *
  * @summary Migrate an Azure Cosmos DB MongoDB database from autoscale to manual throughput
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBMongoDBDatabaseMigrateToManualThroughput.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBMongoDBDatabaseMigrateToManualThroughput.json
  */
 async function cosmosDbMongoDbdatabaseMigrateToManualThroughput() {
   const subscriptionId = "subid";

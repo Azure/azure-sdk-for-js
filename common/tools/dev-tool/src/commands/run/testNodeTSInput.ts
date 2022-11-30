@@ -12,8 +12,11 @@ export const commandInfo = makeCommandInfo(
 export default leafCommand(commandInfo, async (options) => {
   const defaultMochaArgs =
     "-r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace";
-  const mochaArgs = options["--"]?.length
-    ? options["--"]?.join(" ")
+  const updatedArgs = options["--"]?.map((opt) =>
+    opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt
+  );
+  const mochaArgs = updatedArgs?.length
+    ? updatedArgs?.join(" ")
     : '--timeout 1200000 --exclude "test/**/browser/*.spec.ts" "test/**/*.spec.ts"';
   return runTestsWithProxyTool({
     command: `mocha ${defaultMochaArgs} ${mochaArgs}`,

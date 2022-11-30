@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Lists all the Azure Cosmos DB database accounts available under the given resource group.
  *
  * @summary Lists all the Azure Cosmos DB database accounts available under the given resource group.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBDatabaseAccountListByResourceGroup.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBDatabaseAccountListByResourceGroup.json
  */
 async function cosmosDbDatabaseAccountListByResourceGroup() {
   const subscriptionId = "subid";

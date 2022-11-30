@@ -7,22 +7,22 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { RestError } from "@azure/core-rest-pipeline";
 
 import {
-  RemoteRenderingClient,
+  AssetConversion,
   AssetConversionInputSettings,
   AssetConversionOutputSettings,
-  AssetConversionSettings,
   AssetConversionPollerLike,
-  AssetConversion,
+  AssetConversionSettings,
   KnownAssetConversionStatus,
+  RemoteRenderingClient,
+  RenderingSession,
   RenderingSessionPollerLike,
   RenderingSessionSettings,
-  RenderingSession,
 } from "../../src";
 import {
   AccessToken,
   AzureKeyCredential,
-  TokenCredential,
   GetTokenOptions,
+  TokenCredential,
 } from "@azure/core-auth";
 import { createClient, createRecorder, recorderStartOptions } from "../utils/recordedClient";
 
@@ -257,12 +257,13 @@ describe("RemoteRendering functional tests", () => {
     const newPoller = await client.beginConversion({ resumeFrom: conversionPoller.toString() });
     assert.equal(newPoller.getOperationState().latestResponse.conversionId, conversionId);
 
-    const conversion: AssetConversion = await conversionPoller.pollUntilDone();
-    assert.equal(conversion.status, "Failed");
-    if (conversion.status === "Failed") {
+    try {
+      await conversionPoller.pollUntilDone();
+      assert.isTrue(false, "Previous call should have thrown an exception.");
+    } catch (e: any) {
       // Invalid input provided. Check logs in output container for details.
-      assert.isTrue(conversion.error.message.toLowerCase().includes("invalid input"));
-      assert.isTrue(conversion.error.message.toLowerCase().includes("logs"));
+      assert.isTrue(e.message.toLowerCase().includes("invalid input"));
+      assert.isTrue(e.message.toLowerCase().includes("logs"));
     }
   });
 

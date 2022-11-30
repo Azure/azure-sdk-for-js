@@ -1,6 +1,6 @@
 # Release History
 
-## 7.7.1 (Unreleased)
+## 7.7.4 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,25 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 7.7.3 (2022-11-08)
+
+### Bugs Fixed
+
+- Fix React-Native bundling issue by adding a `react-native` mapping to ESM entrypoint file. (PR #23524)[https://github.com/Azure/azure-sdk-for-js/pull/23524]
+
+## 7.7.2 (2022-10-11)
+
+### Other Changes
+
+- Pass timeout to server when accepting next session [PR #23210](https://github.com/Azure/azure-sdk-for-js/pull/23210)
+- Enable tracing for more operations. [PR #23334](https://github.com/Azure/azure-sdk-for-js/pull/23334)
+
+## 7.7.1 (2022-09-07)
+
+### Bugs Fixed
+
+- Updating the `sendMessages` API to not batch the messages when it is just a single message. This allows users to send individual large message (>1MB) using the `sendMessages` API. [#23014](https://github.com/Azure/azure-sdk-for-js/pull/23014)
 
 ## 7.7.0 (2022-08-09)
 

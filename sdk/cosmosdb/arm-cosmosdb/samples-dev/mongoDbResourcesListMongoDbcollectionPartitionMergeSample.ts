@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Merges the partitions of a MongoDB Collection
  *
  * @summary Merges the partitions of a MongoDB Collection
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBMongoDBCollectionPartitionMerge.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBMongoDBCollectionPartitionMerge.json
  */
 async function cosmosDbMongoDbcollectionPartitionMerge() {
   const subscriptionId = "subid";

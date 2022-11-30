@@ -11,7 +11,7 @@ import * as coreHttpCompat from "@azure/core-http-compat";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
-  ApiVersion73,
+  ApiVersion74Preview1,
   KeyVaultClientOptionalParams,
   GetCertificatesOptionalParams,
   GetCertificatesResponse,
@@ -80,7 +80,7 @@ import {
 
 /** @internal */
 export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
-  apiVersion: ApiVersion73;
+  apiVersion: ApiVersion74Preview1;
 
   /**
    * Initializes a new instance of the KeyVaultClient class.
@@ -88,7 +88,7 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion73,
+    apiVersion: ApiVersion74Preview1,
     options?: KeyVaultClientOptionalParams
   ) {
     if (apiVersion === undefined) {
@@ -103,7 +103,7 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-keyvault-certificates/4.5.1`;
+    const packageDetails = `azsdk-js-keyvault-certificates/4.7.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -227,7 +227,9 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
    * The SetCertificateIssuer operation adds or updates the specified certificate issuer. This operation
    * requires the certificates/setissuers permission.
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
-   * @param issuerName The name of the issuer.
+   * @param issuerName The name of the issuer. The value you provide may be copied globally for the
+   *                   purpose of running the service. The value provided should not include personally identifiable or
+   *                   sensitive information.
    * @param provider The issuer provider.
    * @param options The options parameters.
    */
@@ -301,7 +303,9 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
    * If this is the first version, the certificate resource is created. This operation requires the
    * certificates/create permission.
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
-   * @param certificateName The name of the certificate.
+   * @param certificateName The name of the certificate. The value you provide may be copied globally for
+   *                        the purpose of running the service. The value provided should not include personally identifiable or
+   *                        sensitive information.
    * @param options The options parameters.
    */
   createCertificate(
@@ -321,7 +325,9 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
    * either PFX or PEM format. If the certificate is in PEM format the PEM file must contain the key as
    * well as x509 certificates. Key Vault will only accept a key in PKCS#8 format.
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
-   * @param certificateName The name of the certificate.
+   * @param certificateName The name of the certificate. The value you provide may be copied globally for
+   *                        the purpose of running the service. The value provided should not include personally identifiable or
+   *                        sensitive information.
    * @param base64EncodedCertificate Base64 encoded representation of the certificate object to import.
    *                                 This certificate needs to contain the private key.
    * @param options The options parameters.

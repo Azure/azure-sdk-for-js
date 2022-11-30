@@ -3,13 +3,12 @@
 
 /**
  * @azsdk-util
- * @azsdk-skip-javascript
  */
 
 // Model:       prebuilt-layout
 // Description: Extract text and layout information from documents.
-// API Version: 2022-06-30-preview
-// Created:     Thu Jul 14 2022
+// API Version: 2022-08-31
+// Created:     Tue Aug 23 2022
 
 import * as fr from "@azure/ai-form-recognizer";
 
@@ -46,7 +45,7 @@ function modelInfo() {
   return {
     modelId: "prebuilt-layout",
     description: "Extract text and layout information from documents.",
-    createdDateTime: "2022-06-30T00:00:00.000Z",
-    apiVersion: "2022-06-30-preview",
+    createdOn: "2022-08-31T00:00:00.000Z",
+    apiVersion: "2022-08-31",
   } as const;
 }

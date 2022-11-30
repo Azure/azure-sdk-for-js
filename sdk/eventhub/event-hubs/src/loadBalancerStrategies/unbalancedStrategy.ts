@@ -19,7 +19,7 @@ export class UnbalancedLoadBalancingStrategy implements LoadBalancingStrategy {
    * @param partitionIds - Partitions to assign owners to.
    * @returns Partition ids to claim.
    */
-  public getPartitionsToCliam(
+  public getPartitionsToClaim(
     _ourOwnerId: string,
     _claimedPartitionOwnershipMap: Map<string, PartitionOwnership>,
     partitionIds: string[]

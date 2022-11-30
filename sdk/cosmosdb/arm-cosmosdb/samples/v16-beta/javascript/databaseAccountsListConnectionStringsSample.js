@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Lists the connection strings for the specified Azure Cosmos DB database account.
  *
  * @summary Lists the connection strings for the specified Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBDatabaseAccountListConnectionStrings.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBDatabaseAccountListConnectionStrings.json
  */
 async function cosmosDbDatabaseAccountListConnectionStrings() {
   const subscriptionId = "subid";
@@ -36,7 +36,7 @@ cosmosDbDatabaseAccountListConnectionStrings().catch(console.error);
  * This sample demonstrates how to Lists the connection strings for the specified Azure Cosmos DB database account.
  *
  * @summary Lists the connection strings for the specified Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBDatabaseAccountListConnectionStringsMongo.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBDatabaseAccountListConnectionStringsMongo.json
  */
 async function cosmosDbDatabaseAccountListConnectionStringsMongo() {
   const subscriptionId = "subid";

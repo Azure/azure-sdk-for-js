@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Redistribute throughput for an Azure Cosmos DB SQL container
  *
  * @summary Redistribute throughput for an Azure Cosmos DB SQL container
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBSqlContainerRedistributeThroughput.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBSqlContainerRedistributeThroughput.json
  */
 async function cosmosDbSqlContainerRedistributeThroughput() {
   const subscriptionId = "subid";

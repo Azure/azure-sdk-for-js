@@ -15,8 +15,8 @@ import { GeneratedSchemaRegistryClient } from "../generatedSchemaRegistryClient"
 import {
   SchemaGetByIdOptionalParams,
   SchemaGetByIdResponse,
-  SchemaGetVersionsOptionalParams,
-  SchemaGetVersionsResponse,
+  SchemaGetSchemaVersionOptionalParams,
+  SchemaGetSchemaVersionResponse,
   SchemaQueryIdByContentOptionalParams,
   SchemaQueryIdByContentResponse,
   SchemaRegisterOptionalParams,
@@ -52,20 +52,22 @@ export class SchemaImpl implements Schema {
   }
 
   /**
-   * Gets the list of all versions of one schema.
+   * Gets one specific version of one schema.
    * @param groupName Schema group under which schema is registered.  Group's serialization type should
    *                  match the serialization type specified in the request.
    * @param schemaName Name of schema.
+   * @param schemaVersion Version number of specific schema.
    * @param options The options parameters.
    */
-  getVersions(
+  getSchemaVersion(
     groupName: string,
     schemaName: string,
-    options?: SchemaGetVersionsOptionalParams
-  ): Promise<SchemaGetVersionsResponse> {
+    schemaVersion: number,
+    options?: SchemaGetSchemaVersionOptionalParams
+  ): Promise<SchemaGetSchemaVersionResponse> {
     return this.client.sendOperationRequest(
-      { groupName, schemaName, options },
-      getVersionsOperationSpec
+      { groupName, schemaName, schemaVersion, options },
+      getSchemaVersionOperationSpec
     );
   }
 
@@ -125,10 +127,7 @@ const getByIdOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: {
-        type: { name: "Stream" },
-        serializedName: "parsedResponse"
-      },
+      bodyMapper: { type: { name: "Stream" } },
       headersMapper: Mappers.SchemaGetByIdHeaders
     },
     default: {
@@ -138,26 +137,29 @@ const getByIdOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.id],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept],
   serializer
 };
-const getVersionsOperationSpec: coreClient.OperationSpec = {
-  path: "/$schemaGroups/{groupName}/schemas/{schemaName}/versions",
+const getSchemaVersionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/$schemaGroups/{groupName}/schemas/{schemaName}/versions/{schemaVersion}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SchemaVersions
+      bodyMapper: { type: { name: "Stream" } },
+      headersMapper: Mappers.SchemaGetSchemaVersionHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorModel,
-      headersMapper: Mappers.SchemaGetVersionsExceptionHeaders
+      headersMapper: Mappers.SchemaGetSchemaVersionExceptionHeaders
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.endpoint,
     Parameters.groupName,
-    Parameters.schemaName
+    Parameters.schemaName,
+    Parameters.schemaVersion
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -168,11 +170,6 @@ const queryIdByContentOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {
       headersMapper: Mappers.SchemaQueryIdByContentHeaders
-    },
-    415: {
-      bodyMapper: Mappers.ErrorModel,
-      headersMapper: Mappers.SchemaQueryIdByContentExceptionHeaders,
-      isError: true
     },
     default: {
       bodyMapper: Mappers.ErrorModel,
@@ -186,7 +183,7 @@ const queryIdByContentOperationSpec: coreClient.OperationSpec = {
     Parameters.groupName,
     Parameters.schemaName
   ],
-  headerParameters: [Parameters.accept2, Parameters.contentType],
+  headerParameters: [Parameters.accept1, Parameters.contentType],
   mediaType: "binary",
   serializer
 };
@@ -196,11 +193,6 @@ const registerOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {
       headersMapper: Mappers.SchemaRegisterHeaders
-    },
-    415: {
-      bodyMapper: Mappers.ErrorModel,
-      headersMapper: Mappers.SchemaRegisterExceptionHeaders,
-      isError: true
     },
     default: {
       bodyMapper: Mappers.ErrorModel,
@@ -214,7 +206,7 @@ const registerOperationSpec: coreClient.OperationSpec = {
     Parameters.groupName,
     Parameters.schemaName
   ],
-  headerParameters: [Parameters.accept2, Parameters.contentType],
+  headerParameters: [Parameters.accept1, Parameters.contentType],
   mediaType: "binary",
   serializer
 };

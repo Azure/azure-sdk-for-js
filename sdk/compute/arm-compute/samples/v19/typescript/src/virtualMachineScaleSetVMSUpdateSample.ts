@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Updates a virtual machine of a VM scale set.
  *
  * @summary Updates a virtual machine of a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Update_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -467,7 +467,7 @@ virtualMachineScaleSetVMSUpdateMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Updates a virtual machine of a VM scale set.
  *
  * @summary Updates a virtual machine of a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Update_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSUpdateMinimumSetGen() {
   const subscriptionId = "{subscription-id}";

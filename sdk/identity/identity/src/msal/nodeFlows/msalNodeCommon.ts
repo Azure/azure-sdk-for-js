@@ -1,20 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as msalNode from "@azure/msal-node";
 import * as msalCommon from "@azure/msal-common";
+import * as msalNode from "@azure/msal-node";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { LogPolicyOptions } from "@azure/core-rest-pipeline";
-
-import { IdentityClient } from "../../client/identityClient";
-import { TokenCredentialOptions } from "../../tokenCredentialOptions";
-import { DeveloperSignOnClientId } from "../../constants";
-import { resolveTenantId } from "../../util/resolveTenantId";
-import { AuthenticationRequiredError } from "../../errors";
-import { CredentialFlowGetTokenOptions } from "../credentials";
-import { MsalFlow, MsalFlowOptions } from "../flows";
-import { AuthenticationRecord } from "../types";
+import { getLogLevel } from "@azure/logger";
 import {
   MsalBaseUtilities,
   defaultLoggerCallback,
@@ -22,10 +12,24 @@ import {
   getKnownAuthorities,
   msalToPublic,
   publicToMsal,
+  getMSALLogLevel,
 } from "../utils";
-import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
-import { processMultiTenantRequest } from "../../util/validateMultiTenant";
+import { MsalFlow, MsalFlowOptions } from "../flows";
+import {
+  processMultiTenantRequest,
+  resolveAddionallyAllowedTenantIds,
+  resolveTenantId,
+} from "../../util/tenantIdUtils";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { AuthenticationRecord } from "../types";
+import { AuthenticationRequiredError } from "../../errors";
+import { CredentialFlowGetTokenOptions } from "../credentials";
+import { DeveloperSignOnClientId } from "../../constants";
+import { IdentityClient } from "../../client/identityClient";
+import { LogPolicyOptions } from "@azure/core-rest-pipeline";
+import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
 import { RegionalAuthority } from "../../regionalAuthority";
+import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.
@@ -33,7 +37,7 @@ import { RegionalAuthority } from "../../regionalAuthority";
  */
 export interface MsalNodeOptions extends MsalFlowOptions {
   tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
-  tokenCredentialOptions: TokenCredentialOptions;
+  tokenCredentialOptions: MultiTenantTokenCredentialOptions;
   /**
    * Specifies a regional authority. Please refer to the {@link RegionalAuthority} type for the accepted values.
    * If {@link RegionalAuthority.AutoDiscoverRegion} is specified, we will try to discover the regional authority endpoint.
@@ -81,6 +85,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected msalConfig: msalNode.Configuration;
   protected clientId: string;
   protected tenantId: string;
+  protected additionallyAllowedTenantIds: string[];
   protected authorityHost?: string;
   protected identityClient?: IdentityClient;
   protected requiresConfidential: boolean = false;
@@ -99,6 +104,9 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     super(options);
     this.msalConfig = this.defaultNodeMsalConfig(options);
     this.tenantId = resolveTenantId(options.logger, options.tenantId, options.clientId);
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+      options?.tokenCredentialOptions?.additionallyAllowedTenants
+    );
     this.clientId = this.msalConfig.auth.clientId;
     if (options?.getAssertion) {
       this.getAssertion = options.getAssertion;
@@ -157,6 +165,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         networkClient: this.identityClient,
         loggerOptions: {
           loggerCallback: defaultLoggerCallback(options.logger),
+          logLevel: getMSALLogLevel(getLogLevel()),
         },
       },
     };
@@ -305,7 +314,9 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     scopes: string[],
     options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
-    const tenantId = processMultiTenantRequest(this.tenantId, options) || this.tenantId;
+    const tenantId =
+      processMultiTenantRequest(this.tenantId, options, this.additionallyAllowedTenantIds) ||
+      this.tenantId;
 
     options.authority = getAuthority(tenantId, this.authorityHost);
 

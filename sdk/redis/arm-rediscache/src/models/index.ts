@@ -138,7 +138,7 @@ export interface RedisCreateParameters {
   identity?: ManagedServiceIdentity;
   /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc. */
   redisConfiguration?: RedisCommonPropertiesRedisConfiguration;
-  /** Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6) */
+  /** Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'. */
   redisVersion?: string;
   /** Specifies whether the non-ssl Redis server port (6379) is enabled. */
   enableNonSslPort?: boolean;
@@ -176,7 +176,7 @@ export interface Sku {
 export interface RedisCommonProperties {
   /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc. */
   redisConfiguration?: RedisCommonPropertiesRedisConfiguration;
-  /** Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6) */
+  /** Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'. */
   redisVersion?: string;
   /** Specifies whether the non-ssl Redis server port (6379) is enabled. */
   enableNonSslPort?: boolean;
@@ -200,12 +200,14 @@ export interface RedisCommonPropertiesRedisConfiguration {
   [property: string]: any;
   /** Specifies whether the rdb backup is enabled */
   rdbBackupEnabled?: string;
-  /** Specifies the frequency for creating rdb backup */
+  /** Specifies the frequency for creating rdb backup in minutes. Valid values: (15, 30, 60, 360, 720, 1440) */
   rdbBackupFrequency?: string;
   /** Specifies the maximum number of snapshots for rdb backup */
   rdbBackupMaxSnapshotCount?: string;
   /** The storage account connection string for storing rdb file */
   rdbStorageConnectionString?: string;
+  /** Specifies whether the aof backup is enabled */
+  aofBackupEnabled?: string;
   /** First storage account connection string */
   aofStorageConnectionString0?: string;
   /** Second storage account connection string */
@@ -228,16 +230,15 @@ export interface RedisCommonPropertiesRedisConfiguration {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly preferredDataArchiveAuthMethod?: string;
-  /**
-   * Preferred auth method to communicate to storage account used for data persistence, specify SAS or ManagedIdentity, default value is SAS
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly preferredDataPersistenceAuthMethod?: string;
+  /** Preferred auth method to communicate to storage account used for data persistence, specify SAS or ManagedIdentity, default value is SAS */
+  preferredDataPersistenceAuthMethod?: string;
   /**
    * Zonal Configuration
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly zonalConfiguration?: string;
+  /** Specifies whether the authentication is disabled. Setting this property is highly discouraged from security point of view. */
+  authnotrequired?: string;
 }
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -375,7 +376,7 @@ export interface RedisUpdateParameters {
   identity?: ManagedServiceIdentity;
   /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc. */
   redisConfiguration?: RedisCommonPropertiesRedisConfiguration;
-  /** Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6) */
+  /** Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'. */
   redisVersion?: string;
   /** Specifies whether the non-ssl Redis server port (6379) is enabled. */
   enableNonSslPort?: boolean;
@@ -437,6 +438,8 @@ export interface ImportRDBParameters {
   format?: string;
   /** files to import. */
   files: string[];
+  /** Preferred auth method to communicate to storage account used for data archive, specify SAS or ManagedIdentity, default value is SAS */
+  preferredDataArchiveAuthMethod?: string;
 }
 
 /** Parameters for Redis export operation. */
@@ -447,6 +450,8 @@ export interface ExportRDBParameters {
   prefix: string;
   /** Container name to export to. */
   container: string;
+  /** Preferred auth method to communicate to storage account used for data archive, specify SAS or ManagedIdentity, default value is SAS */
+  preferredDataArchiveAuthMethod?: string;
 }
 
 /** The response of list firewall rules Redis operation. */
@@ -489,6 +494,16 @@ export interface RedisLinkedServerCreateParameters {
   linkedRedisCacheLocation: string;
   /** Role of the linked server. */
   serverRole: ReplicationRole;
+  /**
+   * The unchanging DNS name which will always point to current geo-primary cache among the linked redis caches for seamless Geo Failover experience.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly geoReplicatedPrimaryHostName?: string;
+  /**
+   * The changing DNS name that resolves to the current geo-primary cache among the linked redis caches before or after the Geo Failover.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primaryHostName?: string;
 }
 
 /** Create properties for a linked server */
@@ -499,6 +514,16 @@ export interface RedisLinkedServerCreateProperties {
   linkedRedisCacheLocation: string;
   /** Role of the linked server. */
   serverRole: ReplicationRole;
+  /**
+   * The unchanging DNS name which will always point to current geo-primary cache among the linked redis caches for seamless Geo Failover experience.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly geoReplicatedPrimaryHostName?: string;
+  /**
+   * The changing DNS name that resolves to the current geo-primary cache among the linked redis caches before or after the Geo Failover.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primaryHostName?: string;
 }
 
 /** List of linked servers (with properties) of a Redis cache. */
@@ -574,23 +599,23 @@ export interface ErrorDetailAutoGenerated {
 }
 
 /** Properties supplied to Create Redis operation. */
-export type RedisCreateProperties = RedisCommonProperties & {
+export interface RedisCreateProperties extends RedisCommonProperties {
   /** The SKU of the Redis cache to deploy. */
   sku: Sku;
   /** The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 */
   subnetId?: string;
   /** Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual Network; auto assigned by default. */
   staticIP?: string;
-};
+}
 
 /** Patchable properties of the redis cache. */
-export type RedisUpdateProperties = RedisCommonProperties & {
+export interface RedisUpdateProperties extends RedisCommonProperties {
   /** The SKU of the Redis cache to deploy. */
   sku?: Sku;
-};
+}
 
 /** The Private Endpoint Connection resource. */
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
   /** The resource of private end point. */
   privateEndpoint?: PrivateEndpoint;
   /** A collection of information about the state of the connection between service consumer and provider. */
@@ -600,21 +625,21 @@ export type PrivateEndpointConnection = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** A private link resource */
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
   /**
    * The private link resource group id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -627,25 +652,26 @@ export type PrivateLinkResource = Resource & {
   readonly requiredMembers?: string[];
   /** The private link resource Private link DNS zone name. */
   requiredZoneNames?: string[];
-};
+}
 
 /** Properties of a linked server to be returned in get/put response */
-export type RedisLinkedServerProperties = RedisLinkedServerCreateProperties & {
+export interface RedisLinkedServerProperties
+  extends RedisLinkedServerCreateProperties {
   /**
    * Terminal state of the link between primary and secondary redis cache.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** Asynchronous operation status */
-export type OperationStatus = OperationStatusResult & {
+export interface OperationStatus extends OperationStatusResult {
   /** Additional properties from RP, only when operation is successful */
   properties?: { [propertyName: string]: any };
-};
+}
 
 /** Properties of the redis cache. */
-export type RedisProperties = RedisCreateProperties & {
+export interface RedisProperties extends RedisCreateProperties {
   /**
    * Redis instance provisioning status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -686,17 +712,17 @@ export type RedisProperties = RedisCreateProperties & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
-};
+}
 
 /** A single Redis item in List or Get Operation. */
-export type RedisResource = TrackedResource & {
+export interface RedisResource extends TrackedResource {
   /** A list of availability zones denoting where the resource needs to come from. */
   zones?: string[];
   /** The identity of the resource. */
   identity?: ManagedServiceIdentity;
   /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc. */
   redisConfiguration?: RedisCommonPropertiesRedisConfiguration;
-  /** Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6) */
+  /** Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'. */
   redisVersion?: string;
   /** Specifies whether the non-ssl Redis server port (6379) is enabled. */
   enableNonSslPort?: boolean;
@@ -758,18 +784,18 @@ export type RedisResource = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
-};
+}
 
 /** A firewall rule on a redis cache has a name, and describes a contiguous range of IP addresses permitted to connect */
-export type RedisFirewallRule = ProxyResource & {
+export interface RedisFirewallRule extends ProxyResource {
   /** lowest IP address included in the range */
   startIP: string;
   /** highest IP address included in the range */
   endIP: string;
-};
+}
 
 /** Response to put/get patch schedules for Redis cache. */
-export type RedisPatchSchedule = ProxyResource & {
+export interface RedisPatchSchedule extends ProxyResource {
   /**
    * The geo-location where the resource lives
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -777,10 +803,10 @@ export type RedisPatchSchedule = ProxyResource & {
   readonly location?: string;
   /** List of patch schedules for a Redis cache. */
   scheduleEntries: ScheduleEntry[];
-};
+}
 
 /** Response to put/get linked server (with properties) for Redis cache. */
-export type RedisLinkedServerWithProperties = ProxyResource & {
+export interface RedisLinkedServerWithProperties extends ProxyResource {
   /** Fully qualified resourceId of the linked redis cache. */
   linkedRedisCacheId?: string;
   /** Location of the linked redis cache. */
@@ -788,19 +814,32 @@ export type RedisLinkedServerWithProperties = ProxyResource & {
   /** Role of the linked server. */
   serverRole?: ReplicationRole;
   /**
+   * The unchanging DNS name which will always point to current geo-primary cache among the linked redis caches for seamless Geo Failover experience.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly geoReplicatedPrimaryHostName?: string;
+  /**
+   * The changing DNS name that resolves to the current geo-primary cache among the linked redis caches before or after the Geo Failover.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primaryHostName?: string;
+  /**
    * Terminal state of the link between primary and secondary redis cache.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** Parameters required for creating a firewall rule on redis cache. (Note, you can just use the FirewallRule type instead now.) */
-export type RedisFirewallRuleCreateParameters = RedisFirewallRule & {};
+export interface RedisFirewallRuleCreateParameters extends RedisFirewallRule {}
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
+  /** Basic */
   Basic = "Basic",
+  /** Standard */
   Standard = "Standard",
+  /** Premium */
   Premium = "Premium"
 }
 
@@ -817,7 +856,9 @@ export type SkuName = string;
 
 /** Known values of {@link SkuFamily} that the service accepts. */
 export enum KnownSkuFamily {
+  /** C */
   C = "C",
+  /** P */
   P = "P"
 }
 
@@ -833,8 +874,11 @@ export type SkuFamily = string;
 
 /** Known values of {@link TlsVersion} that the service accepts. */
 export enum KnownTlsVersion {
+  /** One0 */
   One0 = "1.0",
+  /** One1 */
   One1 = "1.1",
+  /** One2 */
   One2 = "1.2"
 }
 
@@ -851,7 +895,9 @@ export type TlsVersion = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -867,9 +913,13 @@ export type PublicNetworkAccess = string;
 
 /** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
 export enum KnownManagedServiceIdentityType {
+  /** None */
   None = "None",
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
   UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
   SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
 }
 
@@ -887,17 +937,29 @@ export type ManagedServiceIdentityType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Disabled */
   Disabled = "Disabled",
+  /** Failed */
   Failed = "Failed",
+  /** Linking */
   Linking = "Linking",
+  /** Provisioning */
   Provisioning = "Provisioning",
+  /** RecoveringScaleFailure */
   RecoveringScaleFailure = "RecoveringScaleFailure",
+  /** Scaling */
   Scaling = "Scaling",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Unlinking */
   Unlinking = "Unlinking",
+  /** Unprovisioning */
   Unprovisioning = "Unprovisioning",
+  /** Updating */
   Updating = "Updating"
 }
 
@@ -923,8 +985,11 @@ export type ProvisioningState = string;
 
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected"
 }
 
@@ -941,9 +1006,13 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -961,8 +1030,11 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 /** Known values of {@link RebootType} that the service accepts. */
 export enum KnownRebootType {
+  /** PrimaryNode */
   PrimaryNode = "PrimaryNode",
+  /** SecondaryNode */
   SecondaryNode = "SecondaryNode",
+  /** AllNodes */
   AllNodes = "AllNodes"
 }
 
@@ -979,6 +1051,7 @@ export type RebootType = string;
 
 /** Known values of {@link DefaultName} that the service accepts. */
 export enum KnownDefaultName {
+  /** Default */
   Default = "default"
 }
 
@@ -1043,8 +1116,12 @@ export interface RedisCreateOptionalParams extends coreClient.OperationOptions {
 export type RedisCreateResponse = RedisResource;
 
 /** Optional parameters. */
-export interface RedisUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RedisUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the update operation. */
 export type RedisUpdateResponse = RedisResource;
@@ -1215,7 +1292,12 @@ export type LinkedServerCreateResponse = RedisLinkedServerWithProperties;
 
 /** Optional parameters. */
 export interface LinkedServerDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface LinkedServerGetOptionalParams

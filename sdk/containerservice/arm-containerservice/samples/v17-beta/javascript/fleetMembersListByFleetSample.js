@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Lists the members of a fleet.
  *
  * @summary Lists the members of a fleet.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-06-02-preview/examples/FleetMembers_List.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-09-02-preview/examples/FleetMembers_List.json
  */
 async function listsTheMembersOfAFleet() {
   const subscriptionId = "subid1";

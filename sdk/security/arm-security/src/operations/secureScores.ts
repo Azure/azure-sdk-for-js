@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { SecureScores } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -36,7 +37,7 @@ export class SecureScoresImpl implements SecureScores {
   }
 
   /**
-   * List secure scores for all your Security Center initiatives within your current scope.
+   * List secure scores for all your Microsoft Defender for Cloud initiatives within your current scope.
    * @param options The options parameters.
    */
   public list(
@@ -50,22 +51,34 @@ export class SecureScoresImpl implements SecureScores {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: SecureScoresListOptionalParams
+    options?: SecureScoresListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SecureScoreItem[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SecureScoresListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -78,7 +91,7 @@ export class SecureScoresImpl implements SecureScores {
   }
 
   /**
-   * List secure scores for all your Security Center initiatives within your current scope.
+   * List secure scores for all your Microsoft Defender for Cloud initiatives within your current scope.
    * @param options The options parameters.
    */
   private _list(
@@ -88,8 +101,8 @@ export class SecureScoresImpl implements SecureScores {
   }
 
   /**
-   * Get secure score for a specific Security Center initiative within your current scope. For the ASC
-   * Default initiative, use 'ascScore'.
+   * Get secure score for a specific Microsoft Defender for Cloud initiative within your current scope.
+   * For the ASC Default initiative, use 'ascScore'.
    * @param secureScoreName The initiative name. For the ASC Default initiative, use 'ascScore' as in the
    *                        sample request below.
    * @param options The options parameters.
@@ -134,7 +147,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -151,7 +164,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -171,7 +184,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

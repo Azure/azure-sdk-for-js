@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or update an Azure Cosmos DB Graph.
  *
  * @summary Create or update an Azure Cosmos DB Graph.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBGraphResourceCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBGraphResourceCreateUpdate.json
  */
 async function cosmosDbGraphCreateUpdate() {
   const subscriptionId = "subid";

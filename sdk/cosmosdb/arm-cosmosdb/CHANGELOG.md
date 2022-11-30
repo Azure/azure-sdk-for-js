@@ -1,6 +1,6 @@
 # Release History
 
-## 16.0.0-beta.4 (Unreleased)
+## 16.0.0-beta.5 (Unreleased)
 
 ### Features Added
 
@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-## 16.0.0-beta.3 (2022-07-22)
+## 16.0.0-beta.4 (2022-10-09)
     
 **Features**
 
@@ -38,24 +38,16 @@
   - Added operation CassandraResources.listCassandraViews
   - Added operation GremlinResources.beginRetrieveContinuousBackupInformation
   - Added operation GremlinResources.beginRetrieveContinuousBackupInformationAndWait
-  - Added operation MongoDBResources.beginCreateUpdateMongoRoleDefinition
-  - Added operation MongoDBResources.beginCreateUpdateMongoRoleDefinitionAndWait
-  - Added operation MongoDBResources.beginCreateUpdateMongoUserDefinition
-  - Added operation MongoDBResources.beginCreateUpdateMongoUserDefinitionAndWait
-  - Added operation MongoDBResources.beginDeleteMongoRoleDefinition
-  - Added operation MongoDBResources.beginDeleteMongoRoleDefinitionAndWait
-  - Added operation MongoDBResources.beginDeleteMongoUserDefinition
-  - Added operation MongoDBResources.beginDeleteMongoUserDefinitionAndWait
   - Added operation MongoDBResources.beginListMongoDBCollectionPartitionMerge
   - Added operation MongoDBResources.beginListMongoDBCollectionPartitionMergeAndWait
   - Added operation MongoDBResources.beginMongoDBContainerRedistributeThroughput
   - Added operation MongoDBResources.beginMongoDBContainerRedistributeThroughputAndWait
   - Added operation MongoDBResources.beginMongoDBContainerRetrieveThroughputDistribution
   - Added operation MongoDBResources.beginMongoDBContainerRetrieveThroughputDistributionAndWait
-  - Added operation MongoDBResources.getMongoRoleDefinition
-  - Added operation MongoDBResources.getMongoUserDefinition
-  - Added operation MongoDBResources.listMongoRoleDefinitions
-  - Added operation MongoDBResources.listMongoUserDefinitions
+  - Added operation MongoDBResources.beginMongoDBDatabaseRedistributeThroughput
+  - Added operation MongoDBResources.beginMongoDBDatabaseRedistributeThroughputAndWait
+  - Added operation MongoDBResources.beginMongoDBDatabaseRetrieveThroughputDistribution
+  - Added operation MongoDBResources.beginMongoDBDatabaseRetrieveThroughputDistributionAndWait
   - Added operation SqlResources.beginCreateUpdateClientEncryptionKey
   - Added operation SqlResources.beginCreateUpdateClientEncryptionKeyAndWait
   - Added operation SqlResources.beginListSqlContainerPartitionMerge
@@ -64,11 +56,14 @@
   - Added operation SqlResources.beginSqlContainerRedistributeThroughputAndWait
   - Added operation SqlResources.beginSqlContainerRetrieveThroughputDistribution
   - Added operation SqlResources.beginSqlContainerRetrieveThroughputDistributionAndWait
+  - Added operation SqlResources.beginSqlDatabaseRedistributeThroughput
+  - Added operation SqlResources.beginSqlDatabaseRedistributeThroughputAndWait
+  - Added operation SqlResources.beginSqlDatabaseRetrieveThroughputDistribution
+  - Added operation SqlResources.beginSqlDatabaseRetrieveThroughputDistributionAndWait
   - Added operation SqlResources.getClientEncryptionKey
   - Added operation SqlResources.listClientEncryptionKeys
   - Added operation TableResources.beginRetrieveContinuousBackupInformation
   - Added operation TableResources.beginRetrieveContinuousBackupInformationAndWait
-  - Added Interface AccountKeyMetadata
   - Added Interface AuthenticationMethodLdapProperties
   - Added Interface AzureBlobDataTransferDataSourceSink
   - Added Interface BackupResource
@@ -100,7 +95,6 @@
   - Added Interface CosmosCassandraDataTransferDataSourceSink
   - Added Interface CosmosSqlDataTransferDataSourceSink
   - Added Interface CreateJobRequest
-  - Added Interface DatabaseAccountKeysMetadata
   - Added Interface DataTransferDataSourceSink
   - Added Interface DataTransferJobFeedResults
   - Added Interface DataTransferJobGetResults
@@ -128,23 +122,11 @@
   - Added Interface KeyWrapMetadata
   - Added Interface ListBackups
   - Added Interface MergeParameters
-  - Added Interface MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams
-  - Added Interface MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams
-  - Added Interface MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams
-  - Added Interface MongoDBResourcesDeleteMongoUserDefinitionOptionalParams
-  - Added Interface MongoDBResourcesGetMongoRoleDefinitionOptionalParams
-  - Added Interface MongoDBResourcesGetMongoUserDefinitionOptionalParams
   - Added Interface MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams
-  - Added Interface MongoDBResourcesListMongoRoleDefinitionsOptionalParams
-  - Added Interface MongoDBResourcesListMongoUserDefinitionsOptionalParams
   - Added Interface MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams
   - Added Interface MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams
-  - Added Interface MongoRoleDefinitionCreateUpdateParameters
-  - Added Interface MongoRoleDefinitionGetResults
-  - Added Interface MongoRoleDefinitionListResult
-  - Added Interface MongoUserDefinitionCreateUpdateParameters
-  - Added Interface MongoUserDefinitionGetResults
-  - Added Interface MongoUserDefinitionListResult
+  - Added Interface MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams
+  - Added Interface MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams
   - Added Interface PhysicalPartitionId
   - Added Interface PhysicalPartitionStorageInfo
   - Added Interface PhysicalPartitionStorageInfoCollection
@@ -152,10 +134,9 @@
   - Added Interface PhysicalPartitionThroughputInfoResource
   - Added Interface PhysicalPartitionThroughputInfoResult
   - Added Interface PhysicalPartitionThroughputInfoResultPropertiesResource
-  - Added Interface Privilege
-  - Added Interface PrivilegeResource
   - Added Interface RedistributeThroughputParameters
   - Added Interface RedistributeThroughputPropertiesResource
+  - Added Interface ResourceRestoreParameters
   - Added Interface RestorableGremlinDatabaseGetResult
   - Added Interface RestorableGremlinDatabasePropertiesResource
   - Added Interface RestorableGremlinDatabasesListOptionalParams
@@ -174,15 +155,17 @@
   - Added Interface RestorableTableResourcesListResult
   - Added Interface RestorableTablesListOptionalParams
   - Added Interface RestorableTablesListResult
+  - Added Interface RestoreParametersBase
   - Added Interface RetrieveThroughputParameters
   - Added Interface RetrieveThroughputPropertiesResource
-  - Added Interface Role
   - Added Interface SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams
   - Added Interface SqlResourcesGetClientEncryptionKeyOptionalParams
   - Added Interface SqlResourcesListClientEncryptionKeysOptionalParams
   - Added Interface SqlResourcesListSqlContainerPartitionMergeOptionalParams
   - Added Interface SqlResourcesSqlContainerRedistributeThroughputOptionalParams
   - Added Interface SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams
+  - Added Interface SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams
+  - Added Interface SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams
   - Added Interface TableResourcesRetrieveContinuousBackupInformationOptionalParams
   - Added Type Alias CassandraClustersGetBackupResponse
   - Added Type Alias CassandraClustersListBackupsResponse
@@ -208,16 +191,11 @@
   - Added Type Alias GraphResourcesGetGraphResponse
   - Added Type Alias GraphResourcesListGraphsResponse
   - Added Type Alias GremlinResourcesRetrieveContinuousBackupInformationResponse
-  - Added Type Alias MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse
-  - Added Type Alias MongoDBResourcesCreateUpdateMongoUserDefinitionResponse
-  - Added Type Alias MongoDBResourcesGetMongoRoleDefinitionResponse
-  - Added Type Alias MongoDBResourcesGetMongoUserDefinitionResponse
   - Added Type Alias MongoDBResourcesListMongoDBCollectionPartitionMergeResponse
-  - Added Type Alias MongoDBResourcesListMongoRoleDefinitionsResponse
-  - Added Type Alias MongoDBResourcesListMongoUserDefinitionsResponse
   - Added Type Alias MongoDBResourcesMongoDBContainerRedistributeThroughputResponse
   - Added Type Alias MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse
-  - Added Type Alias MongoRoleDefinitionType
+  - Added Type Alias MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse
+  - Added Type Alias MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse
   - Added Type Alias RestorableGremlinDatabasesListResponse
   - Added Type Alias RestorableGremlinGraphsListResponse
   - Added Type Alias RestorableGremlinResourcesListResponse
@@ -229,27 +207,34 @@
   - Added Type Alias SqlResourcesListSqlContainerPartitionMergeResponse
   - Added Type Alias SqlResourcesSqlContainerRedistributeThroughputResponse
   - Added Type Alias SqlResourcesSqlContainerRetrieveThroughputDistributionResponse
+  - Added Type Alias SqlResourcesSqlDatabaseRedistributeThroughputResponse
+  - Added Type Alias SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse
   - Added Type Alias TableResourcesRetrieveContinuousBackupInformationResponse
   - Added Type Alias ThroughputPolicyType
   - Interface ARMResourceProperties has a new optional parameter identity
   - Interface ContinuousModeBackupPolicy has a new optional parameter continuousModeProperties
   - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter diagnosticLogSettings
   - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter enableMaterializedViews
-  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter keysMetadata
   - Interface DatabaseAccountGetResults has a new optional parameter diagnosticLogSettings
   - Interface DatabaseAccountGetResults has a new optional parameter enableMaterializedViews
-  - Interface DatabaseAccountGetResults has a new optional parameter keysMetadata
   - Interface DatabaseAccountUpdateParameters has a new optional parameter diagnosticLogSettings
   - Interface DatabaseAccountUpdateParameters has a new optional parameter enableMaterializedViews
-  - Interface DatabaseAccountUpdateParameters has a new optional parameter keysMetadata
   - Interface DataCenterResourceProperties has a new optional parameter authenticationMethodLdapProperties
   - Interface LocationProperties has a new optional parameter status
+  - Interface MongoDBCollectionResource has a new optional parameter createMode
+  - Interface MongoDBCollectionResource has a new optional parameter restoreParameters
+  - Interface MongoDBDatabaseResource has a new optional parameter createMode
+  - Interface MongoDBDatabaseResource has a new optional parameter restoreParameters
   - Interface RestorableDatabaseAccountGetResult has a new optional parameter oldestRestorableTime
   - Interface RestorableMongodbCollectionsListOptionalParams has a new optional parameter endTime
   - Interface RestorableMongodbCollectionsListOptionalParams has a new optional parameter startTime
   - Interface RestoreParameters has a new optional parameter gremlinDatabasesToRestore
   - Interface RestoreParameters has a new optional parameter tablesToRestore
   - Interface SqlContainerResource has a new optional parameter clientEncryptionPolicy
+  - Interface SqlContainerResource has a new optional parameter createMode
+  - Interface SqlContainerResource has a new optional parameter restoreParameters
+  - Interface SqlDatabaseResource has a new optional parameter createMode
+  - Interface SqlDatabaseResource has a new optional parameter restoreParameters
   - Class CosmosDBManagementClient has a new parameter dataTransferJobs
   - Class CosmosDBManagementClient has a new parameter graphResources
   - Class CosmosDBManagementClient has a new parameter restorableGremlinDatabases
@@ -261,11 +246,64 @@
   - Added Enum KnownDataTransferComponent
   - Added Enum KnownThroughputPolicyType
   - Enum KnownAuthenticationMethod has a new value Ldap
+  - Enum KnownOperationType has a new value Recreate
 
 **Breaking Changes**
 
   - Interface DatabaseAccountCreateUpdateParameters no longer has parameter identity
   - Interface DatabaseAccountGetResults no longer has parameter identity
+  - Interface RestoreParameters no longer has parameter restoreSource
+  - Interface RestoreParameters no longer has parameter restoreTimestampInUtc
+    
+    
+## 15.2.0 (2022-09-05)
+    
+**Features**
+
+  - Added operation MongoDBResources.beginCreateUpdateMongoRoleDefinition
+  - Added operation MongoDBResources.beginCreateUpdateMongoRoleDefinitionAndWait
+  - Added operation MongoDBResources.beginCreateUpdateMongoUserDefinition
+  - Added operation MongoDBResources.beginCreateUpdateMongoUserDefinitionAndWait
+  - Added operation MongoDBResources.beginDeleteMongoRoleDefinition
+  - Added operation MongoDBResources.beginDeleteMongoRoleDefinitionAndWait
+  - Added operation MongoDBResources.beginDeleteMongoUserDefinition
+  - Added operation MongoDBResources.beginDeleteMongoUserDefinitionAndWait
+  - Added operation MongoDBResources.getMongoRoleDefinition
+  - Added operation MongoDBResources.getMongoUserDefinition
+  - Added operation MongoDBResources.listMongoRoleDefinitions
+  - Added operation MongoDBResources.listMongoUserDefinitions
+  - Added Interface AccountKeyMetadata
+  - Added Interface DatabaseAccountKeysMetadata
+  - Added Interface MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams
+  - Added Interface MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams
+  - Added Interface MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams
+  - Added Interface MongoDBResourcesDeleteMongoUserDefinitionOptionalParams
+  - Added Interface MongoDBResourcesGetMongoRoleDefinitionOptionalParams
+  - Added Interface MongoDBResourcesGetMongoUserDefinitionOptionalParams
+  - Added Interface MongoDBResourcesListMongoRoleDefinitionsOptionalParams
+  - Added Interface MongoDBResourcesListMongoUserDefinitionsOptionalParams
+  - Added Interface MongoRoleDefinitionCreateUpdateParameters
+  - Added Interface MongoRoleDefinitionGetResults
+  - Added Interface MongoRoleDefinitionListResult
+  - Added Interface MongoUserDefinitionCreateUpdateParameters
+  - Added Interface MongoUserDefinitionGetResults
+  - Added Interface MongoUserDefinitionListResult
+  - Added Interface Privilege
+  - Added Interface PrivilegeResource
+  - Added Interface Role
+  - Added Type Alias MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse
+  - Added Type Alias MongoDBResourcesCreateUpdateMongoUserDefinitionResponse
+  - Added Type Alias MongoDBResourcesGetMongoRoleDefinitionResponse
+  - Added Type Alias MongoDBResourcesGetMongoUserDefinitionResponse
+  - Added Type Alias MongoDBResourcesListMongoRoleDefinitionsResponse
+  - Added Type Alias MongoDBResourcesListMongoUserDefinitionsResponse
+  - Added Type Alias MongoRoleDefinitionType
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter enablePartitionMerge
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter keysMetadata
+  - Interface DatabaseAccountGetResults has a new optional parameter enablePartitionMerge
+  - Interface DatabaseAccountGetResults has a new optional parameter keysMetadata
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter enablePartitionMerge
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter keysMetadata
     
     
 ## 15.1.0 (2022-07-18)

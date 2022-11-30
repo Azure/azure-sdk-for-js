@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to A member contains a reference to an existing Kubernetes cluster. Creating a member makes the referenced cluster join the Fleet.
  *
  * @summary A member contains a reference to an existing Kubernetes cluster. Creating a member makes the referenced cluster join the Fleet.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-06-02-preview/examples/FleetMembers_Create.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-09-02-preview/examples/FleetMembers_Create.json
  */
 async function createAFleetMemberResourceJoinsAnExistingClusterToTheFleet() {
   const subscriptionId = "subid1";

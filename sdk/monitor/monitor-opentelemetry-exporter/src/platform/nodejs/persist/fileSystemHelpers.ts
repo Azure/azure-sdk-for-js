@@ -44,7 +44,8 @@ export const confirmDirExists = async (directory: string): Promise<void> => {
   } catch (err: any) {
     if (err && err.code === "ENOENT") {
       try {
-        await mkdirAsync(directory);
+        const options: fs.MakeDirectoryOptions = { recursive: true };
+        await mkdirAsync(directory, options);
       } catch (mkdirErr: any) {
         if (mkdirErr && mkdirErr.code !== "EEXIST") {
           // Handle race condition by ignoring EEXIST

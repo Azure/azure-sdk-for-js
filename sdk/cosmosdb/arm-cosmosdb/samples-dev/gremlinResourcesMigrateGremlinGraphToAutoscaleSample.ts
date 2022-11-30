@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Migrate an Azure Cosmos DB Gremlin graph from manual throughput to autoscale
  *
  * @summary Migrate an Azure Cosmos DB Gremlin graph from manual throughput to autoscale
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBGremlinGraphMigrateToAutoscale.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBGremlinGraphMigrateToAutoscale.json
  */
 async function cosmosDbGremlinGraphMigrateToAutoscale() {
   const subscriptionId = "subid";

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Retrieves the list of all Azure Cosmos DB SQL Role Assignments.
  *
  * @summary Retrieves the list of all Azure Cosmos DB SQL Role Assignments.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBSqlRoleAssignmentList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBSqlRoleAssignmentList.json
  */
 async function cosmosDbSqlRoleAssignmentList() {
   const subscriptionId = "mySubscriptionId";

@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Online the specified region for the specified Azure Cosmos DB database account.
  *
  * @summary Online the specified region for the specified Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBDatabaseAccountOnlineRegion.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBDatabaseAccountOnlineRegion.json
  */
 async function cosmosDbDatabaseAccountOnlineRegion() {
   const subscriptionId = "subid";

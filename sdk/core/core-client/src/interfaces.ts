@@ -594,6 +594,10 @@ export interface BaseMapper {
    */
   xmlIsAttribute?: boolean;
   /**
+   * Determines if the current property should be serialized as the inner content of the xml element
+   */
+  xmlIsMsText?: boolean;
+  /**
    * Name for the xml elements when serializing an array
    */
   xmlElementName?: string;

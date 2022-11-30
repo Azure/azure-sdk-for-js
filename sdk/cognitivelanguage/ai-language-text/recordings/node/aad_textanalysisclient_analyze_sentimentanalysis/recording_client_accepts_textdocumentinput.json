@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-10-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "770",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-ai-language-text/1.0.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "91bedfbe-083d-4a33-950d-cece627de52c"
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "e419e912-e50a-4682-848a-7c324ce5ae45"
       },
       "RequestBody": {
         "kind": "SentimentAnalysis",
@@ -53,14 +53,16 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "a0c8132a-2aba-4082-a9cd-cf0eac91da73",
-        "Content-Length": "2355",
+        "apim-request-id": "94b1f2c1-c743-4e18-82ab-1aa53455d9f8",
+        "Content-Length": "2343",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=6,CognitiveServices.TextAnalytics.TextRecords=6",
-        "Date": "Fri, 06 May 2022 20:17:42 GMT",
+        "Date": "Tue, 01 Nov 2022 22:52:09 GMT",
+        "Set-Cookie": ".AspNetCore.Mvc.CookieTempDataProvider=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; samesite=lax; httponly",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "23"
+        "x-envoy-upstream-service-time": "47",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
         "kind": "SentimentAnalysisResults",
@@ -112,9 +114,9 @@
                 {
                   "sentiment": "neutral",
                   "confidenceScores": {
-                    "positive": 0.03,
-                    "neutral": 0.58,
-                    "negative": 0.39
+                    "positive": 0.0,
+                    "neutral": 0.92,
+                    "negative": 0.08
                   },
                   "offset": 59,
                   "length": 43,
@@ -125,19 +127,19 @@
             },
             {
               "id": "3",
-              "sentiment": "positive",
+              "sentiment": "negative",
               "confidenceScores": {
-                "positive": 0.71,
-                "neutral": 0.06,
-                "negative": 0.23
+                "positive": 0.19,
+                "neutral": 0.28,
+                "negative": 0.53
               },
               "sentences": [
                 {
-                  "sentiment": "positive",
+                  "sentiment": "negative",
                   "confidenceScores": {
-                    "positive": 0.71,
-                    "neutral": 0.06,
-                    "negative": 0.23
+                    "positive": 0.19,
+                    "neutral": 0.28,
+                    "negative": 0.53
                   },
                   "offset": 0,
                   "length": 101,
@@ -150,7 +152,7 @@
               "id": "4",
               "sentiment": "negative",
               "confidenceScores": {
-                "positive": 0.01,
+                "positive": 0.0,
                 "neutral": 0.01,
                 "negative": 0.99
               },
@@ -158,7 +160,7 @@
                 {
                   "sentiment": "negative",
                   "confidenceScores": {
-                    "positive": 0.01,
+                    "positive": 0.0,
                     "neutral": 0.01,
                     "negative": 0.99
                   },
@@ -173,17 +175,17 @@
               "id": "5",
               "sentiment": "positive",
               "confidenceScores": {
-                "positive": 0.99,
-                "neutral": 0.01,
-                "negative": 0.01
+                "positive": 1.0,
+                "neutral": 0.0,
+                "negative": 0.0
               },
               "sentences": [
                 {
                   "sentiment": "positive",
                   "confidenceScores": {
-                    "positive": 0.99,
-                    "neutral": 0.01,
-                    "negative": 0.01
+                    "positive": 1.0,
+                    "neutral": 0.0,
+                    "negative": 0.0
                   },
                   "offset": 0,
                   "length": 73,
@@ -196,28 +198,28 @@
               "id": "6",
               "sentiment": "negative",
               "confidenceScores": {
-                "positive": 0.07,
-                "neutral": 0.15,
-                "negative": 0.78
+                "positive": 0.0,
+                "neutral": 0.03,
+                "negative": 0.97
               },
               "sentences": [
                 {
                   "sentiment": "negative",
                   "confidenceScores": {
-                    "positive": 0.01,
-                    "neutral": 0.05,
-                    "negative": 0.94
+                    "positive": 0.0,
+                    "neutral": 0.03,
+                    "negative": 0.97
                   },
                   "offset": 0,
                   "length": 30,
                   "text": "La carretera estaba atascada. "
                 },
                 {
-                  "sentiment": "negative",
+                  "sentiment": "neutral",
                   "confidenceScores": {
-                    "positive": 0.12,
-                    "neutral": 0.26,
-                    "negative": 0.62
+                    "positive": 0.03,
+                    "neutral": 0.93,
+                    "negative": 0.04
                   },
                   "offset": 30,
                   "length": 35,
@@ -228,7 +230,7 @@
             }
           ],
           "errors": [],
-          "modelVersion": "2021-10-01"
+          "modelVersion": "2022-10-01"
         }
       }
     }

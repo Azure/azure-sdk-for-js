@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets the status of service.
  *
  * @summary Gets the status of service.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBDataTransferServiceGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBDataTransferServiceGet.json
  */
 async function dataTransferServiceGet() {
   const subscriptionId = "subid";
@@ -38,7 +38,7 @@ dataTransferServiceGet().catch(console.error);
  * This sample demonstrates how to Gets the status of service.
  *
  * @summary Gets the status of service.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBGraphAPIComputeServiceGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBGraphAPIComputeServiceGet.json
  */
 async function graphApiComputeServiceGet() {
   const subscriptionId = "subid";
@@ -61,7 +61,7 @@ graphApiComputeServiceGet().catch(console.error);
  * This sample demonstrates how to Gets the status of service.
  *
  * @summary Gets the status of service.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBMaterializedViewsBuilderServiceGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBMaterializedViewsBuilderServiceGet.json
  */
 async function materializedViewsBuilderServiceGet() {
   const subscriptionId = "subid";
@@ -84,7 +84,7 @@ materializedViewsBuilderServiceGet().catch(console.error);
  * This sample demonstrates how to Gets the status of service.
  *
  * @summary Gets the status of service.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBSqlDedicatedGatewayServiceGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBSqlDedicatedGatewayServiceGet.json
  */
 async function sqlDedicatedGatewayServiceGet() {
   const subscriptionId = "subid";

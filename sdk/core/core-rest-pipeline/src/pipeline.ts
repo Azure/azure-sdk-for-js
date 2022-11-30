@@ -108,6 +108,7 @@ interface Phase {
   name: PipelinePhase | "None";
   policies: Set<PolicyGraphNode>;
   hasRun: boolean;
+  hasAfterPolicies: boolean;
 }
 
 /**
@@ -119,8 +120,8 @@ class HttpPipeline implements Pipeline {
   private _policies: PipelineDescriptor[] = [];
   private _orderedPolicies?: PipelinePolicy[];
 
-  private constructor(policies: PipelineDescriptor[] = []) {
-    this._policies = policies;
+  private constructor(policies?: PipelineDescriptor[]) {
+    this._policies = policies?.slice(0) ?? [];
     this._orderedPolicies = undefined;
   }
 
@@ -236,6 +237,7 @@ class HttpPipeline implements Pipeline {
         name,
         policies: new Set<PolicyGraphNode>(),
         hasRun: false,
+        hasAfterPolicies: false,
       };
     }
 
@@ -279,6 +281,7 @@ class HttpPipeline implements Pipeline {
       };
       if (options.afterPhase) {
         node.afterPhase = getPhase(options.afterPhase);
+        node.afterPhase.hasAfterPolicies = true;
       }
       policyMap.set(policyName, node);
       const phase = getPhase(options.phase);
@@ -357,6 +360,11 @@ class HttpPipeline implements Pipeline {
           }
           // Don't proceed to the next phase until this phase finishes.
           return;
+        }
+
+        if (phase.hasAfterPolicies) {
+          // Run any policies unblocked by this phase
+          walkPhase(noPhase);
         }
       }
     }
