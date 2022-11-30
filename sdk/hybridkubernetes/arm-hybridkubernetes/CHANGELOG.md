@@ -1,5 +1,12 @@
 # Release History
+    
+## 2.1.0 (2022-11-25)
+    
+**Features**
 
+  - Added Interface ConnectedCluster
+  - Added Interface TrackedResource
+    
 ## 2.0.1 (2022-04-26)
 
 **Features**
