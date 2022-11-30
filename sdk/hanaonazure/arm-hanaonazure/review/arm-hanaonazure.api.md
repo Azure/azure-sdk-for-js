@@ -30,6 +30,9 @@ export interface ErrorResponseError {
     readonly message?: string;
 }
 
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
+
 // @public (undocumented)
 export class HanaManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -59,19 +62,12 @@ export type HanaProvisioningStatesEnum = string;
 
 // @public
 export enum KnownHanaProvisioningStatesEnum {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Migrating = "Migrating",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
@@ -99,12 +95,12 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationList;
 
 // @public
-export type ProviderInstance = ProxyResource & {
-    typePropertiesType?: string;
-    properties?: string;
+export interface ProviderInstance extends ProxyResource {
     metadata?: string;
+    properties?: string;
     readonly provisioningState?: HanaProvisioningStatesEnum;
-};
+    typePropertiesType?: string;
+}
 
 // @public
 export interface ProviderInstanceListResult {
@@ -159,7 +155,8 @@ export interface ProviderInstancesListOptionalParams extends coreClient.Operatio
 export type ProviderInstancesListResponse = ProviderInstanceListResult;
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface Resource {
@@ -169,16 +166,16 @@ export interface Resource {
 }
 
 // @public
-export type SapMonitor = TrackedResource & {
-    readonly provisioningState?: HanaProvisioningStatesEnum;
-    readonly managedResourceGroupName?: string;
-    logAnalyticsWorkspaceArmId?: string;
+export interface SapMonitor extends TrackedResource {
     enableCustomerAnalytics?: boolean;
+    logAnalyticsWorkspaceArmId?: string;
     logAnalyticsWorkspaceId?: string;
     logAnalyticsWorkspaceSharedKey?: string;
-    readonly sapMonitorCollectorVersion?: string;
+    readonly managedResourceGroupName?: string;
     monitorSubnet?: string;
-};
+    readonly provisioningState?: HanaProvisioningStatesEnum;
+    readonly sapMonitorCollectorVersion?: string;
+}
 
 // @public
 export interface SapMonitorListResult {
@@ -248,12 +245,12 @@ export interface Tags {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // (No @packageDocumentation comment for this package)
 

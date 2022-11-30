@@ -993,10 +993,14 @@ export interface ManagementPolicyAction {
 
 /** Management policy action for base blob. */
 export interface ManagementPolicyBaseBlob {
-  /** The function to tier blobs to cool storage. Support blobs currently at Hot tier */
+  /** The function to tier blobs to cool storage. */
   tierToCool?: DateAfterModification;
-  /** The function to tier blobs to archive storage. Support blobs currently at Hot or Cool tier */
+  /** The function to tier blobs to archive storage. */
   tierToArchive?: DateAfterModification;
+  /** The function to tier blobs to cold storage. */
+  tierToCold?: DateAfterModification;
+  /** The function to tier blobs to hot storage. This action can only be used with Premium Block Blob Storage Accounts */
+  tierToHot?: DateAfterModification;
   /** The function to delete the blob */
   delete?: DateAfterModification;
   /** This property enables auto tiering of a blob from cool to hot on a blob access. This property requires tierToCool.daysAfterLastAccessTimeGreaterThan. */
@@ -1017,10 +1021,14 @@ export interface DateAfterModification {
 
 /** Management policy action for snapshot. */
 export interface ManagementPolicySnapShot {
-  /** The function to tier blob snapshot to cool storage. Support blob snapshot currently at Hot tier */
+  /** The function to tier blob snapshot to cool storage. */
   tierToCool?: DateAfterCreation;
-  /** The function to tier blob snapshot to archive storage. Support blob snapshot currently at Hot or Cool tier */
+  /** The function to tier blob snapshot to archive storage. */
   tierToArchive?: DateAfterCreation;
+  /** The function to tier blobs to cold storage. */
+  tierToCold?: DateAfterCreation;
+  /** The function to tier blobs to hot storage. This action can only be used with Premium Block Blob Storage Accounts */
+  tierToHot?: DateAfterCreation;
   /** The function to delete the blob snapshot */
   delete?: DateAfterCreation;
 }
@@ -1035,10 +1043,14 @@ export interface DateAfterCreation {
 
 /** Management policy action for blob version. */
 export interface ManagementPolicyVersion {
-  /** The function to tier blob version to cool storage. Support blob version currently at Hot tier */
+  /** The function to tier blob version to cool storage. */
   tierToCool?: DateAfterCreation;
-  /** The function to tier blob version to archive storage. Support blob version currently at Hot or Cool tier */
+  /** The function to tier blob version to archive storage. */
   tierToArchive?: DateAfterCreation;
+  /** The function to tier blobs to cold storage. */
+  tierToCold?: DateAfterCreation;
+  /** The function to tier blobs to hot storage. This action can only be used with Premium Block Blob Storage Accounts */
+  tierToHot?: DateAfterCreation;
   /** The function to delete the blob version */
   delete?: DateAfterCreation;
 }
@@ -3259,6 +3271,27 @@ export enum KnownEncryptionScopeState {
  */
 export type EncryptionScopeState = string;
 
+/** Known values of {@link ListEncryptionScopesInclude} that the service accepts. */
+export enum KnownListEncryptionScopesInclude {
+  /** All */
+  All = "All",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for ListEncryptionScopesInclude. \
+ * {@link KnownListEncryptionScopesInclude} can be used interchangeably with ListEncryptionScopesInclude,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **All** \
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ListEncryptionScopesInclude = string;
+
 /** Known values of {@link AllowedMethods} that the service accepts. */
 export enum KnownAllowedMethods {
   /** Delete */
@@ -3932,14 +3965,28 @@ export type EncryptionScopesGetResponse = EncryptionScope;
 
 /** Optional parameters. */
 export interface EncryptionScopesListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Optional, specifies the maximum number of encryption scopes that will be included in the list response. */
+  maxpagesize?: number;
+  /** Optional. When specified, only encryption scope names starting with the filter will be listed. */
+  filter?: string;
+  /** Optional, when specified, will list encryption scopes with the specific state. Defaults to All */
+  include?: ListEncryptionScopesInclude;
+}
 
 /** Contains response data for the list operation. */
 export type EncryptionScopesListResponse = EncryptionScopeListResult;
 
 /** Optional parameters. */
 export interface EncryptionScopesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Optional, specifies the maximum number of encryption scopes that will be included in the list response. */
+  maxpagesize?: number;
+  /** Optional. When specified, only encryption scope names starting with the filter will be listed. */
+  filter?: string;
+  /** Optional, when specified, will list encryption scopes with the specific state. Defaults to All */
+  include?: ListEncryptionScopesInclude;
+}
 
 /** Contains response data for the listNext operation. */
 export type EncryptionScopesListNextResponse = EncryptionScopeListResult;
@@ -3968,10 +4015,10 @@ export type BlobServicesGetServicePropertiesResponse = BlobServiceProperties;
 /** Optional parameters. */
 export interface BlobContainersListOptionalParams
   extends coreClient.OperationOptions {
-  /** Optional. Specified maximum number of containers that can be included in the list. */
-  maxpagesize?: string;
   /** Optional. When specified, only container names starting with the filter will be listed. */
   filter?: string;
+  /** Optional. Specified maximum number of containers that can be included in the list. */
+  maxpagesize?: string;
   /** Optional, used to include the properties for soft deleted blob containers. */
   include?: ListContainersInclude;
 }
@@ -4091,10 +4138,10 @@ export interface BlobContainersObjectLevelWormOptionalParams
 /** Optional parameters. */
 export interface BlobContainersListNextOptionalParams
   extends coreClient.OperationOptions {
-  /** Optional. Specified maximum number of containers that can be included in the list. */
-  maxpagesize?: string;
   /** Optional. When specified, only container names starting with the filter will be listed. */
   filter?: string;
+  /** Optional. Specified maximum number of containers that can be included in the list. */
+  maxpagesize?: string;
   /** Optional, used to include the properties for soft deleted blob containers. */
   include?: ListContainersInclude;
 }
@@ -4126,10 +4173,10 @@ export type FileServicesGetServicePropertiesResponse = FileServiceProperties;
 /** Optional parameters. */
 export interface FileSharesListOptionalParams
   extends coreClient.OperationOptions {
-  /** Optional. Specified maximum number of shares that can be included in the list. */
-  maxpagesize?: string;
   /** Optional. When specified, only share names starting with the filter will be listed. */
   filter?: string;
+  /** Optional. Specified maximum number of shares that can be included in the list. */
+  maxpagesize?: string;
   /** Optional, used to expand the properties within share's properties. Valid values are: deleted, snapshots. Should be passed as a string with delimiter ',' */
   expand?: string;
 }
@@ -4195,10 +4242,10 @@ export type FileSharesLeaseResponse = FileSharesLeaseHeaders &
 /** Optional parameters. */
 export interface FileSharesListNextOptionalParams
   extends coreClient.OperationOptions {
-  /** Optional. Specified maximum number of shares that can be included in the list. */
-  maxpagesize?: string;
   /** Optional. When specified, only share names starting with the filter will be listed. */
   filter?: string;
+  /** Optional. Specified maximum number of shares that can be included in the list. */
+  maxpagesize?: string;
   /** Optional, used to expand the properties within share's properties. Valid values are: deleted, snapshots. Should be passed as a string with delimiter ',' */
   expand?: string;
 }
@@ -4253,10 +4300,10 @@ export interface QueueDeleteOptionalParams
 
 /** Optional parameters. */
 export interface QueueListOptionalParams extends coreClient.OperationOptions {
-  /** Optional, a maximum number of queues that should be included in a list queue response */
-  maxpagesize?: string;
   /** Optional, When specified, only the queues with a name starting with the given filter will be listed. */
   filter?: string;
+  /** Optional, a maximum number of queues that should be included in a list queue response */
+  maxpagesize?: string;
 }
 
 /** Contains response data for the list operation. */
@@ -4265,10 +4312,10 @@ export type QueueListResponse = ListQueueResource;
 /** Optional parameters. */
 export interface QueueListNextOptionalParams
   extends coreClient.OperationOptions {
-  /** Optional, a maximum number of queues that should be included in a list queue response */
-  maxpagesize?: string;
   /** Optional, When specified, only the queues with a name starting with the given filter will be listed. */
   filter?: string;
+  /** Optional, a maximum number of queues that should be included in a list queue response */
+  maxpagesize?: string;
 }
 
 /** Contains response data for the listNext operation. */

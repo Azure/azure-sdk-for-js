@@ -42,6 +42,7 @@ export interface BaseMapper {
     type: MapperType;
     xmlElementName?: string;
     xmlIsAttribute?: boolean;
+    xmlIsMsText?: boolean;
     xmlIsWrapped?: boolean;
     xmlName?: string;
     xmlNamespace?: string;
