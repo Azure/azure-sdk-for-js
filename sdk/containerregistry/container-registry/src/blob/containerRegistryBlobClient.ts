@@ -315,11 +315,11 @@ export class ContainerRegistryBlobClient {
 
         assertHasProperty(startUploadResult, "location");
 
-        let requestBody: NodeJS.ReadableStream | Buffer;
+        let requestBody: (() => NodeJS.ReadableStream) | Buffer;
         let digest: string;
 
         if (typeof blobStreamOrFactory === "function") {
-          requestBody = blobStreamOrFactory();
+          requestBody = blobStreamOrFactory;
           digest = await calculateDigest(blobStreamOrFactory());
         } else {
           requestBody = await readStreamToEnd(blobStreamOrFactory);

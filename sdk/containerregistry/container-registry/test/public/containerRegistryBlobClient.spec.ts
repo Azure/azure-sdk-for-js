@@ -140,5 +140,17 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       );
       assert.equal(digest, downloadResult.digest);
     });
+
+    it("can upload blob from resettable stream", async () => {
+      const resettableBlobStream = () =>
+        fs.createReadStream(
+          "test/data/oci-artifact/654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed"
+        );
+      const { digest } = await client.uploadBlob(resettableBlobStream);
+      const downloadResult = await client.downloadBlob(
+        "sha256:654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed"
+      );
+      assert.equal(digest, downloadResult.digest);
+    });
   });
 });
