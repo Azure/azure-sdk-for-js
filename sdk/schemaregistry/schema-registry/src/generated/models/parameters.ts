@@ -15,7 +15,8 @@ import {
 export const accept: OperationParameter = {
   parameterPath: "accept",
   mapper: {
-    defaultValue: "application/json",
+    defaultValue:
+      "application/json; serialization=Avro, application/json; serialization=json, text/plain; charset=utf-8",
     isConstant: true,
     serializedName: "Accept",
     type: {
@@ -36,35 +37,23 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2021-10",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const accept1: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue: "application/json; serialization=Avro",
-    isConstant: true,
-    serializedName: "Accept",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const id: OperationURLParameter = {
   parameterPath: "id",
   mapper: {
     serializedName: "id",
     required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-10",
+    isConstant: true,
+    serializedName: "api-version",
     type: {
       name: "String"
     }
@@ -118,7 +107,7 @@ export const schemaContent: OperationParameter = {
   }
 };
 
-export const accept2: OperationParameter = {
+export const accept1: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue: "application/json",

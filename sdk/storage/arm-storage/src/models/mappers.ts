@@ -2444,6 +2444,20 @@ export const ManagementPolicyBaseBlob: coreClient.CompositeMapper = {
           className: "DateAfterModification"
         }
       },
+      tierToCold: {
+        serializedName: "tierToCold",
+        type: {
+          name: "Composite",
+          className: "DateAfterModification"
+        }
+      },
+      tierToHot: {
+        serializedName: "tierToHot",
+        type: {
+          name: "Composite",
+          className: "DateAfterModification"
+        }
+      },
       delete: {
         serializedName: "delete",
         type: {
@@ -2529,6 +2543,20 @@ export const ManagementPolicySnapShot: coreClient.CompositeMapper = {
           className: "DateAfterCreation"
         }
       },
+      tierToCold: {
+        serializedName: "tierToCold",
+        type: {
+          name: "Composite",
+          className: "DateAfterCreation"
+        }
+      },
+      tierToHot: {
+        serializedName: "tierToHot",
+        type: {
+          name: "Composite",
+          className: "DateAfterCreation"
+        }
+      },
       delete: {
         serializedName: "delete",
         type: {
@@ -2584,6 +2612,20 @@ export const ManagementPolicyVersion: coreClient.CompositeMapper = {
       },
       tierToArchive: {
         serializedName: "tierToArchive",
+        type: {
+          name: "Composite",
+          className: "DateAfterCreation"
+        }
+      },
+      tierToCold: {
+        serializedName: "tierToCold",
+        type: {
+          name: "Composite",
+          className: "DateAfterCreation"
+        }
+      },
+      tierToHot: {
+        serializedName: "tierToHot",
         type: {
           name: "Composite",
           className: "DateAfterCreation"

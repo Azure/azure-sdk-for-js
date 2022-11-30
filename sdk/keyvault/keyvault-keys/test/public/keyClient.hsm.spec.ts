@@ -4,7 +4,7 @@
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { KeyClient } from "../../src";
+import { KeyClient, KnownKeyCurveNames } from "../../src";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { CreateOctKeyOptions, KnownKeyExportEncryptionAlgorithm } from "../../src/keysModels";
@@ -77,7 +77,8 @@ onVersions({ minVer: "7.2" }).describe(
       });
     });
 
-    onVersions({ minVer: "7.3" }).describe("releaseKey", () => {
+    // Temporarily setting max version of 7.3 until resolution of https://github.com/Azure/azure-sdk-for-net/issues/32260
+    onVersions({ minVer: "7.3", maxVer: "7.3" }).describe("releaseKey", () => {
       let attestation: string;
       let encodedReleasePolicy: Uint8Array;
 
@@ -217,6 +218,32 @@ onVersions({ minVer: "7.2" }).describe(
           }),
           /exportable/i
         );
+      });
+    });
+
+    onVersions({ minVer: "7.4-preview.1" }).describe("OKP Key Type", () => {
+      it("supports creating OKP keys using createKey", async () => {
+        const keyName = recorder.variable(
+          "createKeyOkp",
+          `createKeyOkp-${Math.floor(Math.random() * 100000)}`
+        );
+        const key = await hsmClient.createKey(keyName, "OKP");
+        assert.exists(key);
+        assert.equal(key.keyType, "OKP-HSM");
+        assert.equal(key.name, keyName);
+        assert.equal(key.key!.crv, KnownKeyCurveNames.Ed25519);
+      });
+
+      it("supports creating OKP keys using createOkpKey", async () => {
+        const keyName = recorder.variable(
+          "createKeyOkp",
+          `createKeyOkp-${Math.floor(Math.random() * 100000)}`
+        );
+        const key = await hsmClient.createOkpKey(keyName);
+        assert.exists(key);
+        assert.equal(key.keyType, "OKP-HSM");
+        assert.equal(key.name, keyName);
+        assert.equal(key.key!.crv, KnownKeyCurveNames.Ed25519);
       });
     });
   }

@@ -1,5 +1,11 @@
 # Release History
+    
+## 3.1.0 (2022-11-22)
+    
+**Features**
 
+  - Added Interface SubscriptionFeatureRegistration
+    
 ## 3.0.1 (2022-04-18)
 
 **features**

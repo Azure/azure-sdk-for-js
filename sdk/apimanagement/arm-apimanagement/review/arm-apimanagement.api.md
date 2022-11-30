@@ -3620,6 +3620,9 @@ export interface GenerateSsoUrlResult {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export type GrantType = string;
 
 // @public

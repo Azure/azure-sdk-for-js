@@ -1,14 +1,13 @@
 # Release History
 
-## 3.17.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 3.17.2 (2022-11-15)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix issue with patch api not working with aadCredentials [#20689](https://github.com/Azure/azure-sdk-for-js/issues/20689)
+- Improve the contract of Item.batch operation from type any to OperationResponse [#23652](https://github.com/Azure/azure-sdk-for-js/issues/20689)
+- Add section for the current limitations with the SDK [#21650](https://github.com/Azure/azure-sdk-for-js/issues/21650)
+- Fix issue aad refresh token automatically getting refreshed [#22620](https://github.com/Azure/azure-sdk-for-js/issues/22620)
 
 ## 3.17.1 (2022-09-12)
 

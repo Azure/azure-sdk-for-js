@@ -1,15 +1,15 @@
 # Release History
+    
+## 3.1.0 (2022-11-16)
+    
+**Features**
 
-## 3.0.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ArcSetting
+  - Added Interface Cluster
+  - Added Interface Extension
+  - Added Interface ProxyResource
+  - Added Interface TrackedResource
+    
 ## 3.0.2 (2022-10-08)
 
 **Bugs Fixed**

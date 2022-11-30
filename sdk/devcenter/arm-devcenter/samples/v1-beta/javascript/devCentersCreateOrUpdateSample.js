@@ -15,10 +15,10 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Creates or updates a devcenter resource
  *
  * @summary Creates or updates a devcenter resource
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/DevCenters_Create.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-11-11-preview/examples/DevCenters_Create.json
  */
 async function devCentersCreate() {
-  const subscriptionId = "{subscriptionId}";
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
   const resourceGroupName = "rg1";
   const devCenterName = "Contoso";
   const body = {
@@ -41,10 +41,10 @@ devCentersCreate().catch(console.error);
  * This sample demonstrates how to Creates or updates a devcenter resource
  *
  * @summary Creates or updates a devcenter resource
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-09-01-preview/examples/DevCenters_CreateWithUserIdentity.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-11-11-preview/examples/DevCenters_CreateWithUserIdentity.json
  */
 async function devCentersCreateWithUserIdentity() {
-  const subscriptionId = "{subscriptionId}";
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
   const resourceGroupName = "rg1";
   const devCenterName = "Contoso";
   const body = {

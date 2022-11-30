@@ -168,7 +168,7 @@
     },
     {
       "filename": "sdk/keyvault/keyvault-keys/review/**/*.md",
-      "words": ["ECHSM", "RSAHSM", "RSNULL", "Rsnull"]
+      "words": ["ECHSM", "OKPHSM", "RSAHSM", "RSNULL", "Rsnull"]
     },
     {
       "filename": "sdk/keyvault/keyvault-certificates/review/**/*.md",
@@ -223,6 +223,10 @@
     {
       "filename": "sdk/communication/communication-email/review/**/*.md",
       "words": ["rpmsg", "xlsb"]
+    },
+    {
+      "filename": "sdk/eventgrid/eventgrid/review/**/*.md",
+      "words": ["Dicom"]
     },
     {
       "filename": "sdk/iot/iot-modelsrepository/review/**/*.md",

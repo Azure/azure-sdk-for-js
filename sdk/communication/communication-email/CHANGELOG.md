@@ -7,6 +7,7 @@
 ### Other Changes
 
 - Updated to `@azure/communication-common` 2.2.0.
+- Adding support for AAD token authentication
 
 ### Breaking Changes
 

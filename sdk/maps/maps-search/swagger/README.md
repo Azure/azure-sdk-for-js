@@ -16,7 +16,7 @@ source-code-folder-path: ./src/generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/maps/data-plane/Search/preview/1.0/search.json
 add-credentials: false
 override-client-name: GeneratedClient
-package-version: 1.0.0-beta.2
+package-version: 1.0.0-beta.3
 disable-async-iterators: true
 hide-clients: true
 use-extension:

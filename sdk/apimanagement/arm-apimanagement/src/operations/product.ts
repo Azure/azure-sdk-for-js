@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Product } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,10 +17,11 @@ import {
   ProductContract,
   ProductListByServiceNextOptionalParams,
   ProductListByServiceOptionalParams,
+  ProductListByServiceResponse,
   TagResourceContract,
   ProductListByTagsNextOptionalParams,
   ProductListByTagsOptionalParams,
-  ProductListByServiceResponse,
+  ProductListByTagsResponse,
   ProductGetEntityTagOptionalParams,
   ProductGetEntityTagResponse,
   ProductGetOptionalParams,
@@ -30,7 +32,6 @@ import {
   ProductUpdateOptionalParams,
   ProductUpdateResponse,
   ProductDeleteOptionalParams,
-  ProductListByTagsResponse,
   ProductListByServiceNextResponse,
   ProductListByTagsNextResponse
 } from "../models";
@@ -71,11 +72,15 @@ export class ProductImpl implements Product {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByServicePagingPage(
           resourceGroupName,
           serviceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -84,15 +89,22 @@ export class ProductImpl implements Product {
   private async *listByServicePagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: ProductListByServiceOptionalParams
+    options?: ProductListByServiceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ProductContract[]> {
-    let result = await this._listByService(
-      resourceGroupName,
-      serviceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ProductListByServiceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByService(
+        resourceGroupName,
+        serviceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByServiceNext(
         resourceGroupName,
@@ -101,7 +113,9 @@ export class ProductImpl implements Product {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -142,11 +156,15 @@ export class ProductImpl implements Product {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByTagsPagingPage(
           resourceGroupName,
           serviceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -155,15 +173,18 @@ export class ProductImpl implements Product {
   private async *listByTagsPagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: ProductListByTagsOptionalParams
+    options?: ProductListByTagsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<TagResourceContract[]> {
-    let result = await this._listByTags(
-      resourceGroupName,
-      serviceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ProductListByTagsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByTags(resourceGroupName, serviceName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByTagsNext(
         resourceGroupName,
@@ -172,7 +193,9 @@ export class ProductImpl implements Product {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

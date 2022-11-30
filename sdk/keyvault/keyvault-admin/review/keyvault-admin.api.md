@@ -20,6 +20,12 @@ export interface AccessControlClientOptions extends CommonClientOptions {
 }
 
 // @public
+export interface BooleanKeyVaultSetting extends KeyVaultSettingCommon {
+    kind: "boolean";
+    value: boolean;
+}
+
+// @public
 export interface CreateRoleAssignmentOptions extends OperationOptions {
 }
 
@@ -37,6 +43,10 @@ export interface GetRoleAssignmentOptions extends OperationOptions {
 
 // @public
 export interface GetRoleDefinitionOptions extends OperationOptions {
+}
+
+// @public
+export interface GetSettingOptions extends OperationOptions {
 }
 
 // @public
@@ -167,6 +177,23 @@ export interface KeyVaultSelectiveKeyRestoreResult {
 }
 
 // @public
+export type KeyVaultSetting = UnknownKeyVaultSetting | BooleanKeyVaultSetting;
+
+// @public
+export interface KeyVaultSettingCommon {
+    name: string;
+}
+
+// @public
+export class KeyVaultSettingsClient {
+    constructor(vaultUrl: string, credential: TokenCredential, options?: SettingsClientOptions);
+    getSetting(settingName: string, options?: GetSettingOptions): Promise<KeyVaultSetting>;
+    getSettings(options?: ListSettingsOptions): Promise<ListSettingsResponse>;
+    updateSetting(settingName: string, value: boolean, options?: UpdateSettingOptions): Promise<KeyVaultSetting>;
+    readonly vaultUrl: string;
+}
+
+// @public
 export enum KnownKeyVaultDataAction {
     BackupHsmKeys = "Microsoft.KeyVault/managedHsm/keys/backup/action",
     CreateHsmKey = "Microsoft.KeyVault/managedHsm/keys/create",
@@ -211,7 +238,7 @@ export enum KnownKeyVaultRoleScope {
 }
 
 // @public
-export const LATEST_API_VERSION = "7.3";
+export const LATEST_API_VERSION = "7.4-preview.1";
 
 // @public
 export interface ListRoleAssignmentsOptions extends OperationOptions {
@@ -232,6 +259,15 @@ export interface ListRoleDefinitionsPageSettings {
 }
 
 // @public
+export interface ListSettingsOptions extends OperationOptions {
+}
+
+// @public
+export interface ListSettingsResponse {
+    settings: KeyVaultSetting[];
+}
+
+// @public
 export const SDK_VERSION: string;
 
 // @public
@@ -244,7 +280,23 @@ export interface SetRoleDefinitionOptions extends OperationOptions {
 }
 
 // @public
-export type SUPPORTED_API_VERSIONS = "7.2" | "7.3";
+export interface SettingsClientOptions extends CommonClientOptions {
+    disableChallengeResourceVerification?: boolean;
+    serviceVersion?: SUPPORTED_API_VERSIONS;
+}
+
+// @public
+export type SUPPORTED_API_VERSIONS = "7.2" | "7.3" | "7.4-preview.1";
+
+// @public
+export interface UnknownKeyVaultSetting extends KeyVaultSettingCommon {
+    kind?: never;
+    value: unknown;
+}
+
+// @public
+export interface UpdateSettingOptions extends OperationOptions {
+}
 
 // (No @packageDocumentation comment for this package)
 

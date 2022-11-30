@@ -19,7 +19,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates a new table with the specified table name, under the specified account.
  *
  * @summary Creates a new table with the specified table name, under the specified account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/TableOperationPut.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/TableOperationPut.json
  */
 async function tableOperationPut() {
   const subscriptionId = "{subscription-id}";
@@ -42,7 +42,7 @@ tableOperationPut().catch(console.error);
  * This sample demonstrates how to Creates a new table with the specified table name, under the specified account.
  *
  * @summary Creates a new table with the specified table name, under the specified account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/TableOperationPutOrPatchAcls.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/TableOperationPutOrPatchAcls.json
  */
 async function tableOperationPutOrPatchAcls() {
   const subscriptionId = "{subscription-id}";

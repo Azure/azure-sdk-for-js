@@ -1,6 +1,6 @@
 # Release History
 
-## 1.3.1 (Unreleased)
+## 1.3.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.3.1 (2022-11-21)
+
+### Bugs Fixed
+
+- Support for CDATA in browser XML now fixed
 
 ## 1.3.0 (2022-08-04)
 

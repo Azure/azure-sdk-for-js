@@ -1,0 +1,930 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/signalR/mySignalRService1?api-version=2022-08-01-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "793",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-signalr/5.2.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "ec8b3657-9411-4fc3-bf41-6e1b6d606c73"
+      },
+      "RequestBody": {
+        "location": "eastus",
+        "tags": {
+          "key1": "value1"
+        },
+        "sku": {
+          "name": "Free_F1",
+          "tier": "free",
+          "capacity": 1
+        },
+        "kind": "SignalR",
+        "identity": {
+          "type": "SystemAssigned"
+        },
+        "properties": {
+          "tls": {
+            "clientCertEnabled": false
+          },
+          "features": [
+            {
+              "flag": "ServiceMode",
+              "value": "Serverless",
+              "properties": {}
+            },
+            {
+              "flag": "EnableConnectivityLogs",
+              "value": "True",
+              "properties": {}
+            },
+            {
+              "flag": "EnableMessagingLogs",
+              "value": "False",
+              "properties": {}
+            },
+            {
+              "flag": "EnableLiveTrace",
+              "value": "False",
+              "properties": {}
+            }
+          ],
+          "cors": {
+            "allowedOrigins": [
+              "*"
+            ]
+          },
+          "serverless": {
+            "connectionTimeoutInSeconds": 30
+          },
+          "upstream": {
+            "templates": []
+          },
+          "networkACLs": {
+            "defaultAction": "Deny",
+            "publicNetwork": {
+              "allow": [
+                "ServerConnection",
+                "ClientConnection",
+                "RESTAPI",
+                "Trace"
+              ]
+            },
+            "privateEndpoints": []
+          },
+          "publicNetworkAccess": "Enabled",
+          "disableLocalAuth": false,
+          "disableAadAuth": false
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef?api-version=2022-08-01-preview",
+        "Cache-Control": "no-cache",
+        "Content-Length": "1675",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Nov 2022 02:05:57 GMT",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationResults/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef?api-version=2022-08-01-preview",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "ec8b3657-9411-4fc3-bf41-6e1b6d606c73",
+        "x-ms-correlation-request-id": "952bb88d-3e9e-43a2-be70-f4ad87cfbf7e",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "48ea3b14-2c31-4ae6-9a48-536a6a0a1d57",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221108T020557Z:952bb88d-3e9e-43a2-be70-f4ad87cfbf7e",
+        "x-rp-server-mvid": "54bef194-19f7-4c41-9b83-6785272e94c3"
+      },
+      "ResponseBody": {
+        "sku": {
+          "name": "Free_F1",
+          "tier": "Free",
+          "size": "F1",
+          "capacity": 1
+        },
+        "properties": {
+          "provisioningState": "Creating",
+          "externalIP": null,
+          "hostName": "mysignalrservice1.service.signalr.net",
+          "publicPort": 443,
+          "serverPort": 443,
+          "version": "1.0-preview",
+          "privateEndpointConnections": [],
+          "sharedPrivateLinkResources": [],
+          "tls": {
+            "clientCertEnabled": false
+          },
+          "hostNamePrefix": "mysignalrservice1",
+          "features": [
+            {
+              "flag": "ServiceMode",
+              "value": "Serverless",
+              "properties": {}
+            },
+            {
+              "flag": "EnableConnectivityLogs",
+              "value": "True",
+              "properties": {}
+            },
+            {
+              "flag": "EnableMessagingLogs",
+              "value": "False",
+              "properties": {}
+            },
+            {
+              "flag": "EnableLiveTrace",
+              "value": "False",
+              "properties": {}
+            }
+          ],
+          "liveTraceConfiguration": null,
+          "resourceLogConfiguration": null,
+          "cors": {
+            "allowedOrigins": [
+              "*"
+            ]
+          },
+          "serverless": {
+            "connectionTimeoutInSeconds": 30
+          },
+          "upstream": {
+            "templates": []
+          },
+          "networkACLs": {
+            "defaultAction": "Deny",
+            "publicNetwork": {
+              "allow": [
+                "ServerConnection",
+                "ClientConnection",
+                "RESTAPI",
+                "Trace"
+              ],
+              "deny": null
+            },
+            "privateEndpoints": []
+          },
+          "publicNetworkAccess": "Enabled",
+          "disableLocalAuth": false,
+          "disableAadAuth": false
+        },
+        "kind": "SignalR",
+        "identity": {
+          "type": "SystemAssigned",
+          "principalId": "70279162-21d5-4412-9edf-8bd19dfeeccb",
+          "tenantId": "88888888-8888-8888-8888-888888888888"
+        },
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2022-11-08T02:05:51.4775939Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2022-11-08T02:05:51.4775939Z"
+        },
+        "location": "eastus",
+        "tags": {
+          "key1": "value1"
+        },
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1",
+        "name": "mySignalRService1",
+        "type": "Microsoft.SignalRService/SignalR"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef?api-version=2022-08-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-signalr/5.2.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "ff3ef2d9-e3dc-4a27-a420-c7223536a99b"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Nov 2022 02:05:58 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "ff3ef2d9-e3dc-4a27-a420-c7223536a99b",
+        "x-ms-correlation-request-id": "3bafd578-2f35-4a3a-9361-ef694db9cd6d",
+        "x-ms-ratelimit-remaining-subscription-reads": "11999",
+        "x-ms-request-id": "7409b8e3-7375-49af-8652-80bb66ed8ad2",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221108T020558Z:3bafd578-2f35-4a3a-9361-ef694db9cd6d",
+        "x-rp-server-mvid": "54bef194-19f7-4c41-9b83-6785272e94c3"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "name": "37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "status": "Running",
+        "startTime": "2022-11-08T02:05:54.4706414Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef?api-version=2022-08-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-signalr/5.2.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d44116dd-7059-44b6-aa4b-d0280625d5ed"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Nov 2022 02:05:58 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "d44116dd-7059-44b6-aa4b-d0280625d5ed",
+        "x-ms-correlation-request-id": "2dcf7199-83f5-4cd8-9981-13fc14224d2a",
+        "x-ms-ratelimit-remaining-subscription-reads": "11998",
+        "x-ms-request-id": "7da424ee-67e7-4444-a29a-e93e9b171477",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221108T020559Z:2dcf7199-83f5-4cd8-9981-13fc14224d2a",
+        "x-rp-server-mvid": "54bef194-19f7-4c41-9b83-6785272e94c3"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "name": "37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "status": "Running",
+        "startTime": "2022-11-08T02:05:54.4706414Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef?api-version=2022-08-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-signalr/5.2.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "84ae6ee4-1f65-4269-9ab0-3ad71d99f11f"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Nov 2022 02:06:01 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "84ae6ee4-1f65-4269-9ab0-3ad71d99f11f",
+        "x-ms-correlation-request-id": "dfd25e53-f90a-4f76-8ae9-0b30d3fd929a",
+        "x-ms-ratelimit-remaining-subscription-reads": "11997",
+        "x-ms-request-id": "33d649b8-4924-4663-ba72-0ea03ceb2abf",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221108T020601Z:dfd25e53-f90a-4f76-8ae9-0b30d3fd929a",
+        "x-rp-server-mvid": "54bef194-19f7-4c41-9b83-6785272e94c3"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "name": "37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "status": "Running",
+        "startTime": "2022-11-08T02:05:54.4706414Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef?api-version=2022-08-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-signalr/5.2.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "44bd7ece-c19f-4821-8d75-7f6a46be452b"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Nov 2022 02:06:04 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "44bd7ece-c19f-4821-8d75-7f6a46be452b",
+        "x-ms-correlation-request-id": "2766035d-5a6d-4175-9d64-1286160b6be2",
+        "x-ms-ratelimit-remaining-subscription-reads": "11996",
+        "x-ms-request-id": "d389b538-38fd-494b-9f10-55986b007fdb",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221108T020604Z:2766035d-5a6d-4175-9d64-1286160b6be2",
+        "x-rp-server-mvid": "54bef194-19f7-4c41-9b83-6785272e94c3"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "name": "37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "status": "Running",
+        "startTime": "2022-11-08T02:05:54.4706414Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef?api-version=2022-08-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-signalr/5.2.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "84c61216-d234-4557-9182-1b8f84196f84"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Nov 2022 02:06:06 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "84c61216-d234-4557-9182-1b8f84196f84",
+        "x-ms-correlation-request-id": "8df89716-391e-4da0-94f6-91a9accde88b",
+        "x-ms-ratelimit-remaining-subscription-reads": "11995",
+        "x-ms-request-id": "2b32216b-5a5a-4b77-8ff1-2904077e625e",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221108T020607Z:8df89716-391e-4da0-94f6-91a9accde88b",
+        "x-rp-server-mvid": "54bef194-19f7-4c41-9b83-6785272e94c3"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "name": "37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "status": "Running",
+        "startTime": "2022-11-08T02:05:54.4706414Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef?api-version=2022-08-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-signalr/5.2.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "3212db00-0891-41fd-9ca6-fe51ad5a00c8"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Nov 2022 02:06:09 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "3212db00-0891-41fd-9ca6-fe51ad5a00c8",
+        "x-ms-correlation-request-id": "3289f479-706a-4be0-9ce1-08bf244b701f",
+        "x-ms-ratelimit-remaining-subscription-reads": "11994",
+        "x-ms-request-id": "173fb0cc-a15f-4f23-bd02-f6400eb3c602",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221108T020609Z:3289f479-706a-4be0-9ce1-08bf244b701f",
+        "x-rp-server-mvid": "54bef194-19f7-4c41-9b83-6785272e94c3"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "name": "37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "status": "Running",
+        "startTime": "2022-11-08T02:05:54.4706414Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef?api-version=2022-08-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-signalr/5.2.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "96857169-bc18-4154-bff7-a1badd1e7763"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Nov 2022 02:06:11 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "96857169-bc18-4154-bff7-a1badd1e7763",
+        "x-ms-correlation-request-id": "976f0b9d-4bf3-42bc-a407-11ea2217ab50",
+        "x-ms-ratelimit-remaining-subscription-reads": "11993",
+        "x-ms-request-id": "8bfac71a-7671-4560-b8b4-db5ec95e4c61",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221108T020612Z:976f0b9d-4bf3-42bc-a407-11ea2217ab50",
+        "x-rp-server-mvid": "54bef194-19f7-4c41-9b83-6785272e94c3"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "name": "37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "status": "Running",
+        "startTime": "2022-11-08T02:05:54.4706414Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef?api-version=2022-08-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-signalr/5.2.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "46a427ea-b9a3-468b-848d-2d82a6f16246"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Nov 2022 02:06:14 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "46a427ea-b9a3-468b-848d-2d82a6f16246",
+        "x-ms-correlation-request-id": "666d15d2-2cba-4ece-be80-9de06521664b",
+        "x-ms-ratelimit-remaining-subscription-reads": "11992",
+        "x-ms-request-id": "849ca448-746e-4953-9d62-46cbc45f4cb4",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221108T020614Z:666d15d2-2cba-4ece-be80-9de06521664b",
+        "x-rp-server-mvid": "54bef194-19f7-4c41-9b83-6785272e94c3"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "name": "37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "status": "Running",
+        "startTime": "2022-11-08T02:05:54.4706414Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef?api-version=2022-08-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-signalr/5.2.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "b8df447c-3e54-48dd-a4a7-1f3fedba2250"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Nov 2022 02:06:16 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "b8df447c-3e54-48dd-a4a7-1f3fedba2250",
+        "x-ms-correlation-request-id": "4ac72988-613e-4525-a1cc-15e7cc812cb8",
+        "x-ms-ratelimit-remaining-subscription-reads": "11991",
+        "x-ms-request-id": "d41dc18d-bf6f-411e-893f-1af6763596ba",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221108T020617Z:4ac72988-613e-4525-a1cc-15e7cc812cb8",
+        "x-rp-server-mvid": "54bef194-19f7-4c41-9b83-6785272e94c3"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "name": "37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "status": "Running",
+        "startTime": "2022-11-08T02:05:54.4706414Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef?api-version=2022-08-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-signalr/5.2.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "6b9ec16e-75b0-42d0-b7ac-a53953c10134"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Nov 2022 02:06:19 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "6b9ec16e-75b0-42d0-b7ac-a53953c10134",
+        "x-ms-correlation-request-id": "9efc468d-4920-40dc-be71-a920e060311c",
+        "x-ms-ratelimit-remaining-subscription-reads": "11990",
+        "x-ms-request-id": "144931be-87d5-4ec4-9f6a-6ef6ffc7379b",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221108T020620Z:9efc468d-4920-40dc-be71-a920e060311c",
+        "x-rp-server-mvid": "54bef194-19f7-4c41-9b83-6785272e94c3"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "name": "37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "status": "Running",
+        "startTime": "2022-11-08T02:05:54.4706414Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef?api-version=2022-08-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-signalr/5.2.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "6c741e90-5fb0-479d-8070-f75ddeafdf6d"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Nov 2022 02:06:22 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "6c741e90-5fb0-479d-8070-f75ddeafdf6d",
+        "x-ms-correlation-request-id": "d3f36745-ae5d-4b36-9c90-e10ed63f6e53",
+        "x-ms-ratelimit-remaining-subscription-reads": "11989",
+        "x-ms-request-id": "a01ac84d-fbbe-4662-80cf-1ef1dc43d07a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221108T020622Z:d3f36745-ae5d-4b36-9c90-e10ed63f6e53",
+        "x-rp-server-mvid": "54bef194-19f7-4c41-9b83-6785272e94c3"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "name": "37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "status": "Running",
+        "startTime": "2022-11-08T02:05:54.4706414Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef?api-version=2022-08-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-signalr/5.2.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "b39bef15-3986-4e78-ae63-84b8e5352837"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Nov 2022 02:06:25 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "b39bef15-3986-4e78-ae63-84b8e5352837",
+        "x-ms-correlation-request-id": "72f61a86-cfff-4dda-b487-e68f217a6e82",
+        "x-ms-ratelimit-remaining-subscription-reads": "11988",
+        "x-ms-request-id": "182d843e-c442-4e5d-86df-fd2e1f561b83",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221108T020625Z:72f61a86-cfff-4dda-b487-e68f217a6e82",
+        "x-rp-server-mvid": "54bef194-19f7-4c41-9b83-6785272e94c3"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "name": "37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "status": "Running",
+        "startTime": "2022-11-08T02:05:54.4706414Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef?api-version=2022-08-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-signalr/5.2.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "e9ba8c45-b5bf-4132-9dc4-92505ae9e54d"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Nov 2022 02:06:27 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "e9ba8c45-b5bf-4132-9dc4-92505ae9e54d",
+        "x-ms-correlation-request-id": "e71d1b40-1a2f-4332-859a-3bfbe897f992",
+        "x-ms-ratelimit-remaining-subscription-reads": "11987",
+        "x-ms-request-id": "789cd499-9b5b-4d5f-ab7e-19de8a6f9ccc",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221108T020627Z:e71d1b40-1a2f-4332-859a-3bfbe897f992",
+        "x-rp-server-mvid": "54bef194-19f7-4c41-9b83-6785272e94c3"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "name": "37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "status": "Running",
+        "startTime": "2022-11-08T02:05:54.4706414Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef?api-version=2022-08-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-signalr/5.2.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "64e857e6-8aef-4190-90cd-b451c9d80aaf"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Nov 2022 02:06:30 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "64e857e6-8aef-4190-90cd-b451c9d80aaf",
+        "x-ms-correlation-request-id": "49eb67fc-85d6-4f02-9ad4-22c3a287e4b6",
+        "x-ms-ratelimit-remaining-subscription-reads": "11986",
+        "x-ms-request-id": "1cf8e72f-5441-4581-9aa4-542c8efe6141",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221108T020630Z:49eb67fc-85d6-4f02-9ad4-22c3a287e4b6",
+        "x-rp-server-mvid": "54bef194-19f7-4c41-9b83-6785272e94c3"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "name": "37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "status": "Running",
+        "startTime": "2022-11-08T02:05:54.4706414Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef?api-version=2022-08-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-signalr/5.2.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "034425cd-7ee3-4f0b-813f-78a083fef463"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Nov 2022 02:06:32 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "034425cd-7ee3-4f0b-813f-78a083fef463",
+        "x-ms-correlation-request-id": "97cfe135-1306-4986-9e70-ba06276bc07a",
+        "x-ms-ratelimit-remaining-subscription-reads": "11985",
+        "x-ms-request-id": "62518aba-ac9f-4e76-a46d-bc10f2e3a14b",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221108T020633Z:97cfe135-1306-4986-9e70-ba06276bc07a",
+        "x-rp-server-mvid": "54bef194-19f7-4c41-9b83-6785272e94c3"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1/operationStatuses/37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "name": "37fd3c49-e4a6-428c-a6ca-cd13bcc017ef",
+        "status": "Succeeded",
+        "startTime": "2022-11-08T02:05:54.4706414Z",
+        "endTime": "2022-11-08T02:06:31.9545888Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/signalR/mySignalRService1?api-version=2022-08-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-signalr/5.2.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "dc87eedf-1af1-4544-988c-2db374e42e47"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Nov 2022 02:06:33 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "dc87eedf-1af1-4544-988c-2db374e42e47",
+        "x-ms-correlation-request-id": "5b80c384-8a4e-43e9-a241-264c9d67a12c",
+        "x-ms-ratelimit-remaining-subscription-reads": "11984",
+        "x-ms-request-id": "8b8dff29-2bc6-4125-a719-4abc8f9e37c1",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221108T020633Z:5b80c384-8a4e-43e9-a241-264c9d67a12c",
+        "x-rp-server-mvid": "54bef194-19f7-4c41-9b83-6785272e94c3"
+      },
+      "ResponseBody": {
+        "sku": {
+          "name": "Free_F1",
+          "tier": "Free",
+          "size": "F1",
+          "capacity": 1
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "externalIP": "20.62.133.87",
+          "hostName": "mysignalrservice1.service.signalr.net",
+          "publicPort": 443,
+          "serverPort": 443,
+          "version": "1.0",
+          "privateEndpointConnections": [],
+          "sharedPrivateLinkResources": [],
+          "tls": {
+            "clientCertEnabled": false
+          },
+          "hostNamePrefix": "mysignalrservice1",
+          "features": [
+            {
+              "flag": "ServiceMode",
+              "value": "Serverless",
+              "properties": {}
+            },
+            {
+              "flag": "EnableConnectivityLogs",
+              "value": "True",
+              "properties": {}
+            },
+            {
+              "flag": "EnableMessagingLogs",
+              "value": "False",
+              "properties": {}
+            },
+            {
+              "flag": "EnableLiveTrace",
+              "value": "False",
+              "properties": {}
+            }
+          ],
+          "liveTraceConfiguration": null,
+          "resourceLogConfiguration": null,
+          "cors": {
+            "allowedOrigins": [
+              "*"
+            ]
+          },
+          "serverless": {
+            "connectionTimeoutInSeconds": 30
+          },
+          "upstream": {
+            "templates": []
+          },
+          "networkACLs": {
+            "defaultAction": "Deny",
+            "publicNetwork": {
+              "allow": [
+                "ServerConnection",
+                "ClientConnection",
+                "RESTAPI",
+                "Trace"
+              ],
+              "deny": null
+            },
+            "privateEndpoints": []
+          },
+          "publicNetworkAccess": "Enabled",
+          "disableLocalAuth": false,
+          "disableAadAuth": false
+        },
+        "kind": "SignalR",
+        "identity": {
+          "type": "SystemAssigned",
+          "principalId": "70279162-21d5-4412-9edf-8bd19dfeeccb",
+          "tenantId": "88888888-8888-8888-8888-888888888888"
+        },
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2022-11-08T02:05:51.4775939Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2022-11-08T02:05:51.4775939Z"
+        },
+        "location": "eastus",
+        "tags": {
+          "key1": "value1"
+        },
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1",
+        "name": "mySignalRService1",
+        "type": "Microsoft.SignalRService/SignalR"
+      }
+    }
+  ],
+  "Variables": {}
+}

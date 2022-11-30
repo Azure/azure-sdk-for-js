@@ -1,0 +1,401 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourcegroups?api-version=2021-04-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-resources/5.1.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "77c54712-bcea-4739-ba31-6c5f634d847d"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "8628",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 10 Nov 2022 05:57:42 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "34d39512-bcf7-4106-8d8d-a1f20d373d4f",
+        "x-ms-ratelimit-remaining-subscription-reads": "11998",
+        "x-ms-request-id": "34d39512-bcf7-4106-8d8d-a1f20d373d4f",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221110T055743Z:34d39512-bcf7-4106-8d8d-a1f20d373d4f"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/sdk-net-test-qa2",
+            "name": "sdk-net-test-qa2",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "eastus",
+            "tags": {},
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/DefaultResourceGroup-CCAN",
+            "name": "DefaultResourceGroup-CCAN",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "canadacentral",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/DefaultResourceGroup-EUS2",
+            "name": "DefaultResourceGroup-EUS2",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "eastus2",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/DefaultResourceGroup-CUS",
+            "name": "DefaultResourceGroup-CUS",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "centralus",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/iyljd2wtoqh43dern43sawzmqxkeari3bcqiadgfste4outj7cdmmslvr4yfw2vmrsqeiogmitj",
+            "name": "iyljd2wtoqh43dern43sawzmqxkeari3bcqiadgfste4outj7cdmmslvr4yfw2vmrsqeiogmitj",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "eastus",
+            "tags": {
+              "DeleteAfter": "2020-08-15T07:02:26.327834"
+            },
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/AzSecPackAutoConfigRG",
+            "name": "AzSecPackAutoConfigRG",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "eastus",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/qiaozhatest",
+            "name": "qiaozhatest",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "eastus",
+            "tags": {},
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest",
+            "name": "myjstest",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "eastus",
+            "tags": {
+              "tag1": "value1",
+              "tag2": "value2"
+            },
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/anf-secondary-rg",
+            "name": "anf-secondary-rg",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "eastus",
+            "tags": {},
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/chenjieshitest",
+            "name": "chenjieshitest",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "eastus",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/test-changlong",
+            "name": "test-changlong",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "eastus",
+            "tags": {},
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/czwTest",
+            "name": "czwTest",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "eastus",
+            "tags": {},
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/NetworkWatcherRG",
+            "name": "NetworkWatcherRG",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "eastus",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/DefaultResourceGroup-EUS",
+            "name": "DefaultResourceGroup-EUS",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "eastus",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/go-test",
+            "name": "go-test",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "eastus",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/go-sdk-test-128",
+            "name": "go-sdk-test-128",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "eastus",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest1",
+            "name": "myjstest1",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "eastus",
+            "tags": {
+              "tag1": "value1"
+            },
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/cloud-shell-storage-southeastasia",
+            "name": "cloud-shell-storage-southeastasia",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "southeastasia",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/create1250872478",
+            "name": "create1250872478",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "westus",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/anf-primary-rg",
+            "name": "anf-primary-rg",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "westus",
+            "tags": {},
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/go-sdk-test-597",
+            "name": "go-sdk-test-597",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "westus",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/go-test2",
+            "name": "go-test2",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "westus",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/go-sdk-test-257",
+            "name": "go-sdk-test-257",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "westus",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/go-sdk-test-805",
+            "name": "go-sdk-test-805",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "westus",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/go-sdk-test-951",
+            "name": "go-sdk-test-951",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "westus",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/go-sdk-test-676",
+            "name": "go-sdk-test-676",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "westus",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/go-sdk-test-694",
+            "name": "go-sdk-test-694",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "westus",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/go-sdk-test-728",
+            "name": "go-sdk-test-728",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "westus",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/go-sdk-test-78",
+            "name": "go-sdk-test-78",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "westus",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/go-sdk-test-836",
+            "name": "go-sdk-test-836",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "westus",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/go-sdk-test-160",
+            "name": "go-sdk-test-160",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "westus",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/go-sdk-test-721",
+            "name": "go-sdk-test-721",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "westus",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/go-sdk-test-298",
+            "name": "go-sdk-test-298",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "westus",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/go-sdk-test-385",
+            "name": "go-sdk-test-385",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "westus",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/go-sdk-test-959",
+            "name": "go-sdk-test-959",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "westus",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/managed-rg-qiaozhamatest",
+            "name": "managed-rg-qiaozhamatest",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "westus",
+            "managedBy": "/subscriptions/azure_subscription_id/resourceGroups/qiaozhatest/providers/Microsoft.Purview/accounts/qiaozhamatest",
+            "tags": {
+              "test": "test"
+            },
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/go-sdk-test-647",
+            "name": "go-sdk-test-647",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "westus",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/ApiExplorer",
+            "name": "ApiExplorer",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "westus2",
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

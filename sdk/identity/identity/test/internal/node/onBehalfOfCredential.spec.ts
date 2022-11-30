@@ -29,7 +29,7 @@ describe("OnBehalfOfCredential", function () {
       userAssertionToken: "user-assertion",
     });
 
-    const newMSALClientLogs = () =>
+    const newMSALClientLogs = (): number =>
       testContext.logMessages.filter((message) =>
         message.match("Initialized MSAL's On-Behalf-Of flow")
       ).length;
@@ -62,7 +62,7 @@ describe("OnBehalfOfCredential", function () {
       userAssertionToken: "user-assertion",
     });
 
-    const newMSALClientLogs = () =>
+    const newMSALClientLogs = (): number =>
       testContext.logMessages.filter((message) =>
         message.match("Initialized MSAL's On-Behalf-Of flow")
       ).length;
