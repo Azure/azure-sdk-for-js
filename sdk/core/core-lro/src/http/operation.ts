@@ -120,6 +120,7 @@ function transformStatus(inputs: { status: unknown; statusCode: number }): Opera
       return toOperationStatus(statusCode);
     case "succeeded":
       return "succeeded";
+    case "partiallysucceeded":
     case "failed":
       return "failed";
     case "running":
