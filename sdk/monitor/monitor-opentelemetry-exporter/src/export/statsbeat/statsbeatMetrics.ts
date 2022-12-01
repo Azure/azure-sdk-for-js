@@ -64,6 +64,9 @@ export class StatsbeatMetrics {
   private _version: string;
   private _attach: string = "sdk";
 
+  private _resourceProviderId: string = "";
+
+  // Feature Statsbeat is used to send both features and instrumentations
   private _feature: number = StatsbeatFeature.NONE;
   private _instrumentation: number = StatsbeatInstrumentation.NONE;
 
@@ -215,7 +218,7 @@ export class StatsbeatMetrics {
     try {
       await this._getResourceProvider();
 
-      // Add observable callbacks
+      // Add network observable callbacks
       this._successCountGauge.addCallback(this._successCallback.bind(this));
       this._networkStatsbeatMeter.addBatchObservableCallback(this._failureCallback.bind(this), [
         this._failureCountGauge,
@@ -230,6 +233,10 @@ export class StatsbeatMetrics {
         this._exceptionCountGauge,
       ]);
       this._averageDurationGauge.addCallback(this._durationCallback.bind(this));
+
+      // Add long interval observable callbacks
+      this._attachStatsbeatGauge.addCallback(this._attachCallback.bind(this));
+      this._featureStatsbeatGauge.addCallback(this._featureCallback.bind(this));
     } catch (error) {
       diag.debug("Call to get the resource provider failed.");
     }
@@ -322,6 +329,26 @@ export class StatsbeatMetrics {
     observableResult.observe(counter.averageRequestExecutionTime, attributes);
 
     counter.averageRequestExecutionTime = 0;
+  }
+
+  private _featureCallback(observableResult: ObservableResult) {
+    // TODO: Populate _instrumentation and _feature. Get this from the Distro.
+    let attributes;
+    if (this._instrumentation) {
+      attributes = { ...this._commonProperties, feature: this._instrumentation };
+      observableResult.observe(1, attributes);
+    }
+
+    if (this._feature) {
+      attributes = { ...this._commonProperties, feature: this._feature };
+      observableResult.observe(1, attributes);
+    }
+  }
+
+  private _attachCallback(observableResult: ObservableResult) {
+    // TODO: Populate _resourceProviderId to complete attach statsbeat. Get this from the distro?
+    let attributes = { ...this._commonProperties, rpId: this._resourceProviderId };
+    observableResult.observe(1, attributes);
   }
 
   // Public methods to increase counters
