@@ -89,7 +89,7 @@ To retrieve the route direction, you need to pass in the parameters the coordina
 By default, the Route service will return an array of coordinates. The response will contain the coordinates that make up the path in a list named points. Route response also includes the distance from the start of the route and the estimated elapsed time. These values can be used to calculate the average speed for the entire route.
 
 ```javascript
-let routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
+const routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
   queryParameters: {
     query: "51.368752,-0.118332:41.385426,-0.128929",
   },
@@ -97,7 +97,7 @@ let routeDirectionsResult = await client.path("/route/directions/{format}", "jso
 
 // You can use the helper function `toColonDelimitedLatLonString` to compose the query string.
 const { toColonDelimitedLatLonString } = require("@azure-rest/maps-route");
-routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
+const routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
   queryParameters: {
     query: toColonDelimitedLatLonString([
       // Origin:
@@ -117,17 +117,19 @@ if (isUnexpected(routeDirectionsResult)) {
   throw routeDirectionsResult.body.error;
 }
 
-const { summary, legs } = routeDirectionsResult.body.routes[0];
-console.log(
-  `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`
-);
-
-legs.forEach(({ summary: { travelTimeInSeconds }, points }, idx) => {  
-        console.log(`${idx + 1}th leg takes ${travelTimeInSeconds} seconds to travel, and the path is: `);  
-        console.log("111111111111",points);  
-        points.forEach(({ latitude, longitude }, idx) =>   
-        console.log(`${idx}: (${latitude}, ${longitude})`))  
-      });
+routeDirectionsResult.body.routes.forEach(({ summary, legs }) => {
+  console.log(
+    `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`
+  );
+  legs.forEach(({ summary, points }, idx) => {
+    console.log(
+      `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${
+        summary.travelTimeInSeconds
+      } seconds. Followings are the first 10 points: `
+    );
+    console.table(points.slice(0, 10));
+  });
+});
 ```
 
 ### Request a route for a commercial vehicle
@@ -159,15 +161,18 @@ if (isUnexpected(routeDirectionsResult)) {
   throw routeDirectionsResult.body.error;
 }
 
-const { summary, legs } = routeDirectionsResult.body.routes;
-console.log(
-  `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`
-);
-
-legs.points.forEach(({ summary: { travelTimeInSeconds }, points }, idx) => {
-  console.log(`${idx + 1}th leg takes ${travelTimeInSeconds} seconds to travel, and the path is: `);
-  points.points.forEach(({ latitude, longitude }, idx) =>
-  console.log(`${idx}: (${latitude}, ${longitude})`)
+routeDirectionsResult.body.routes.forEach(({ summary, legs }) => {
+  console.log(
+    `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`
+  );
+  legs.forEach(({ summary, points }, idx) => {
+    console.log(
+      `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${
+        summary.travelTimeInSeconds
+      } seconds. Followings are the first 10 points: `
+    );
+    console.table(points.slice(0, 10));
+  });
 });
 ```
 
