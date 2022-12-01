@@ -1,15 +1,11 @@
 # Release History
+    
+## 1.0.0-beta.3 (2022-12-01)
+    
+**Features**
 
-## 1.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface EnergyService
+    
 ## 1.0.0-beta.2 (2022-04-27)
 
 **Features**
