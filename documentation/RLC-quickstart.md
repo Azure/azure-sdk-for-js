@@ -126,7 +126,7 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
 
 2. **Write the test**
     
-    You could follow the [basic RLC test interaction and recording example](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#example-1-basic-rlc-test-interaction-and-recording-for-azure-data-plane-service) to write your test step by step. Also you could refer [the test of MapsRouteClient](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-route-rest/test/public/mapsRouteClient.spec.ts) for more cases.
+    You could follow the [basic RLC test interaction and recording example](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#example-1-basic-rlc-test-interaction-and-recording-for-azure-data-plane-service) to write your test step by step. Also you could refer [the test of MapsRouteClient](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/test/public) for more cases.
 
 3. **Run the test**  
     Now, you can run the test like this. If you are the first time to run test, you need to set the environment variable `TEST_MODE` to `record`. This will generate recordings for your test they could be used in `playback` mode.
