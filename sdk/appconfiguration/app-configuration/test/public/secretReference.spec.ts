@@ -173,7 +173,9 @@ describe("AppConfigurationClient - SecretReference", () => {
         0,
         "Unexpected number of SecretReferences seen after updating"
       );
-      await client.setReadOnly({ key: secondSetting.key, label: secondSetting.label }, false);
+      if (secondSetting.isReadOnly) {
+        await client.setReadOnly({ key: secondSetting.key, label: secondSetting.label }, false);
+      }
       await client.deleteConfigurationSetting({
         key: secondSetting.key,
         label: secondSetting.label,
