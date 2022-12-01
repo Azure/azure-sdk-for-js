@@ -28,7 +28,9 @@ export function syncTokenPolicy(syncTokens: SyncTokens): PipelinePolicy {
       const syncTokenHeaderValue = syncTokens.getSyncTokenHeaderValue();
 
       if (syncTokenHeaderValue) {
-        logger.info("[syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}");
+        logger.info(
+          "[syncTokenPolicy] Setting headers with ${SyncTokenHeaderName} and ${syncTokenHeaderValue}"
+        );
         request.headers.set(SyncTokenHeaderName, syncTokenHeaderValue);
       }
       const response = await next(request);
