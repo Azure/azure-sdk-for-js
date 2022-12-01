@@ -2,6 +2,13 @@
 // Licensed under the MIT license.
 
 export {
+  AttachmentType,
+  ReviewNote,
+  OptInDetails,
+  Option,
+  Type,
+  CampaignBriefAttachments,
+  CampaignBriefAttachment,
   CampaignBriefStatus,
   BusinessPointOfContact,
   BusinessInformation,

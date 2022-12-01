@@ -2,25 +2,26 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 import {
-  TollFreeVerificationGetCampaignBriefOptionalParams,
-  TollFreeVerificationGetCampaignBriefsOptionalParams,
+  AttachmentType,
   CampaignBrief,
   FileType,
-  TollFreeVerificationUpsertCampaignBriefResponse,
-  TollFreeVerificationUpsertCampaignBriefOptionalParams,
-  TollFreeVerificationDeleteCampaignBriefOptionalParams,
-  TollFreeVerificationSubmitCampaignBriefOptionalParams,
-  TollFreeVerificationSubmitCampaignBriefResponse,
   TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptionalParams,
   TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse,
   TollFreeVerificationDeleteCampaignBriefAttachmentOptionalParams,
-  TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams,
+  TollFreeVerificationDeleteCampaignBriefOptionalParams,
   TollFreeVerificationGetCampaignBriefAttachmentOptionalParams,
+  TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams,
+  TollFreeVerificationGetCampaignBriefOptionalParams,
+  TollFreeVerificationGetCampaignBriefsOptionalParams,
+  TollFreeVerificationSubmitCampaignBriefOptionalParams,
+  TollFreeVerificationSubmitCampaignBriefResponse,
+  TollFreeVerificationUpsertCampaignBriefOptionalParams,
+  TollFreeVerificationUpsertCampaignBriefResponse,
 } from "./models";
+import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { isKeyCredential, parseClientArguments } from "@azure/communication-common";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
 import { TollFreeVerificationClient as TollFreeVerificationGeneratedClient } from "./generated/src";
 import { createCommunicationAuthPolicy } from "@azure/communication-common";
 import { logger } from "./utils";
@@ -28,7 +29,7 @@ import { tracingClient } from "./generated/src/tracing";
 /**
  * Client options used to configure the TollFreeVerificationClient API requests.
  */
-export interface TollFreeVerificationClientOptions extends CommonClientOptions { }
+export interface TollFreeVerificationClientOptions extends CommonClientOptions {}
 
 const isTollFreeVerificationClientOptions = (
   options: any
@@ -176,6 +177,7 @@ export class TollFreeVerificationClient {
     countryCode: string,
     campaignBriefId: string,
     attachmentId: string,
+    attachmentType: AttachmentType,
     fileName: string,
     fileType: FileType,
     fileContentBase64: string,
@@ -190,6 +192,7 @@ export class TollFreeVerificationClient {
           campaignBriefId,
           attachmentId,
           attachmentId,
+          attachmentType,
           fileName,
           fileType,
           fileContentBase64,

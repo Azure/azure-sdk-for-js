@@ -9,61 +9,86 @@
 import { CommonClientOptions } from '@azure/core-client';
 import * as coreClient from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export interface Address {
-    addressLine1: string;
-    addressLine2: string;
-    administrativeDivision: string;
-    locality: string;
-    postalCode: string;
+    addressLine1?: string;
+    addressLine2?: string;
+    administrativeDivision?: string;
+    country?: string;
+    locality?: string;
+    postalCode?: string;
 }
+
+// @public
+export type AttachmentType = "OptInSmsKeyword" | "OptInIVR" | "OptInPointOfSale" | "OptInWebsite" | "OptInPaperForm" | "OptInOther";
 
 // @public (undocumented)
 export interface BusinessInformation {
     // (undocumented)
-    address: Address;
-    companyName: string;
-    companyUrl: string;
+    address?: Address;
+    companyName?: string;
+    companyUrl?: string;
 }
 
 // @public (undocumented)
 export interface BusinessPointOfContact {
     // (undocumented)
-    address: Address;
-    email: string;
-    firstName: string;
-    lastName: string;
-    phone: string;
+    address?: Address;
+    email?: string;
+    firstName?: string;
+    lastName?: string;
+    phone?: string;
 }
 
 // @public (undocumented)
 export interface CampaignBrief {
     additionalInformation?: string;
-    additionalOptInInformation?: string[];
     attachments?: CampaignBriefAttachmentSummary[];
     // (undocumented)
     businessInformation?: BusinessInformation;
     // (undocumented)
     businessPointOfContact?: BusinessPointOfContact;
-    country?: string;
-    estimatedMonthlyVolume?: number;
+    countryCode?: string;
+    estimatedMonthlyVolume?: string;
     id: string;
-    optInDescription?: string;
+    // (undocumented)
+    multipleNumbersJustification?: string;
+    // (undocumented)
+    optInDetails?: OptInDetails;
     phoneNumbers?: string[];
-    status?: CampaignBriefStatus;
+    // (undocumented)
+    propertiesToClear?: string[];
+    reviewNotes?: ReviewNote[];
     statusUpdatedDate?: Date;
     submissionDate?: Date;
-    // (undocumented)
-    useCaseInfo?: UseCaseInfo;
+    submissionStatus?: CampaignBriefStatus;
+    useCaseInfo?: UseCaseInfo[];
+}
+
+// @public
+export interface CampaignBriefAttachment {
+    fileContentBase64: string;
+    fileName: string;
+    fileSizeInBytes?: number;
+    fileType: FileType;
+    id: string;
+    type: AttachmentType;
+}
+
+// @public
+export interface CampaignBriefAttachments {
+    attachments?: CampaignBriefAttachment[];
+    nextLink?: string;
 }
 
 // @public
 export interface CampaignBriefAttachmentSummary {
     fileName?: string;
     id?: string;
-    type?: "callToAction";
+    type?: AttachmentType;
 }
 
 // @public
@@ -75,21 +100,84 @@ export interface CampaignBriefs {
 // @public
 export type CampaignBriefStatus = "submitted" | "approved" | "updateRequested" | "draft" | "denied" | "cancelled";
 
+// @public
+export type FileType = "png" | "jpg" | "jpeg" | "pdf";
+
+// @public (undocumented)
+export interface OptInDetails {
+    // (undocumented)
+    description?: string;
+    // (undocumented)
+    options?: Option[];
+}
+
+// @public (undocumented)
+export interface Option {
+    // (undocumented)
+    imageUrls?: string[];
+    // (undocumented)
+    type: Type;
+}
+
+// @public
+export interface ReviewNote {
+    date?: Date;
+    message?: string;
+}
+
 // @public (undocumented)
 export class TollFreeVerificationClient {
     constructor(connectionString: string, options?: TollFreeVerificationClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: TollFreeVerificationClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: TollFreeVerificationClientOptions);
     // (undocumented)
+    deleteCampaignBrief(campaignBriefId: string, countryCode: string, options?: TollFreeVerificationDeleteCampaignBriefOptionalParams): Promise<void>;
+    // (undocumented)
+    deleteCampaignBriefAttachment(campaignBriefId: string, attachmentId: string, countryCode: string, options?: TollFreeVerificationDeleteCampaignBriefAttachmentOptionalParams): Promise<void>;
+    // (undocumented)
     getCampaignBrief(campaignBriefId: string, countryCode: string, options?: TollFreeVerificationGetCampaignBriefOptionalParams): Promise<CampaignBrief>;
     // (undocumented)
-    getCampaignBriefs(countryCode: string, options?: TollFreeVerificationGetCampaignBriefsOptionalParams): Promise<CampaignBriefs>;
+    getCampaignBriefAttachment(countryCode: string, campaignBriefId: string, attachmentId: string, options?: TollFreeVerificationGetCampaignBriefAttachmentOptionalParams): Promise<CampaignBrief>;
+    // (undocumented)
+    listCampaignBriefAttachments(countryCode: string, campaignBriefId: string, options?: TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams): PagedAsyncIterableIterator<CampaignBrief>;
+    // (undocumented)
+    listCampaignBriefs(countryCode: string, options?: TollFreeVerificationGetCampaignBriefsOptionalParams): PagedAsyncIterableIterator<CampaignBrief>;
+    // (undocumented)
+    submitCampaignBrief(campaignBriefId: string, countryCode: string, options?: TollFreeVerificationSubmitCampaignBriefOptionalParams): Promise<TollFreeVerificationSubmitCampaignBriefResponse>;
     // (undocumented)
     upsertCampaignBrief(campaignBriefId: string, countryCode: string, options?: TollFreeVerificationUpsertCampaignBriefOptionalParams): Promise<TollFreeVerificationUpsertCampaignBriefResponse>;
+    // (undocumented)
+    upsertCampaignBriefAttachment(countryCode: string, campaignBriefId: string, attachmentId: string, attachmentType: AttachmentType, fileName: string, fileType: FileType, fileContentBase64: string, options?: TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptionalParams): Promise<TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse>;
 }
 
 // @public
 export interface TollFreeVerificationClientOptions extends CommonClientOptions {
+}
+
+// @public
+export interface TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptionalParams extends coreClient.OperationOptions {
+    fileSizeInBytes?: number;
+}
+
+// @public
+export type TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse = CampaignBriefAttachment;
+
+// @public
+export interface TollFreeVerificationDeleteCampaignBriefAttachmentOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface TollFreeVerificationDeleteCampaignBriefOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface TollFreeVerificationGetCampaignBriefAttachmentOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams extends coreClient.OperationOptions {
+    skip?: number;
+    top?: number;
 }
 
 // @public
@@ -98,7 +186,16 @@ export interface TollFreeVerificationGetCampaignBriefOptionalParams extends core
 
 // @public
 export interface TollFreeVerificationGetCampaignBriefsOptionalParams extends coreClient.OperationOptions {
+    skip?: number;
+    top?: number;
 }
+
+// @public
+export interface TollFreeVerificationSubmitCampaignBriefOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TollFreeVerificationSubmitCampaignBriefResponse = CampaignBrief;
 
 // @public
 export interface TollFreeVerificationUpsertCampaignBriefOptionalParams extends coreClient.OperationOptions {
@@ -107,6 +204,9 @@ export interface TollFreeVerificationUpsertCampaignBriefOptionalParams extends c
 
 // @public
 export type TollFreeVerificationUpsertCampaignBriefResponse = CampaignBrief;
+
+// @public
+export type Type = "keywordSMS" | "website" | "interactiveVoiceResponse" | "pointOfSale" | "paperForm" | "other";
 
 // @public (undocumented)
 export interface UseCaseInfo {
