@@ -211,6 +211,7 @@ specifiers:
   '@rush-temp/arm-workloads': file:./projects/arm-workloads.tgz
   '@rush-temp/arm-workspaces': file:./projects/arm-workspaces.tgz
   '@rush-temp/attestation': file:./projects/attestation.tgz
+  '@rush-temp/azure-confidentialledger-bugbash-rest': file:./projects/azure-confidentialledger-bugbash-rest.tgz
   '@rush-temp/communication-alpha-ids': file:./projects/communication-alpha-ids.tgz
   '@rush-temp/communication-chat': file:./projects/communication-chat.tgz
   '@rush-temp/communication-common': file:./projects/communication-common.tgz
@@ -535,6 +536,7 @@ dependencies:
   '@rush-temp/arm-workloads': file:projects/arm-workloads.tgz
   '@rush-temp/arm-workspaces': file:projects/arm-workspaces.tgz
   '@rush-temp/attestation': file:projects/attestation.tgz
+  '@rush-temp/azure-confidentialledger-bugbash-rest': file:projects/azure-confidentialledger-bugbash-rest.tgz
   '@rush-temp/communication-alpha-ids': file:projects/communication-alpha-ids.tgz
   '@rush-temp/communication-chat': file:projects/communication-chat.tgz
   '@rush-temp/communication-common': file:projects/communication-common.tgz
@@ -3928,7 +3930,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221128
+      typescript: 5.0.0-dev.20221201
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8972,8 +8974,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221128:
-    resolution: {integrity: sha512-cNV/osEHGNKTyjj/Ivi8s8x7MPkh0Kd/t53QjyXfM3jO3cC2jhL6kor57ziWqvyfl6paWjdNUVO/jxGsQOyfug==}
+  /typescript/5.0.0-dev.20221201:
+    resolution: {integrity: sha512-0GunPFtrZITqx11PJQThb8MdXJwjk88mhOgNBXeme1d9i0mJzymceJysDpwu6sfajognk2yiN86P82xAvbJ0Lw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11509,9 +11511,9 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
-      '@types/chai': 4.3.3
+      '@types/chai': 4.3.4
       '@types/node': 14.18.33
-      chai: 4.3.6
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -11564,9 +11566,9 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
-      '@types/chai': 4.3.3
+      '@types/chai': 4.3.4
       '@types/node': 14.18.33
-      chai: 4.3.6
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -11592,9 +11594,9 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
-      '@types/chai': 4.3.3
+      '@types/chai': 4.3.4
       '@types/node': 14.18.33
-      chai: 4.3.6
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -15597,8 +15599,52 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/azure-confidentialledger-bugbash-rest.tgz:
+    resolution: {integrity: sha512-1tFG3T33kRw8RXwbhhRBtzADbze9fV0umq6hDY2Gr8JvDkBRY1ZVAj2Xd/X0pqwKkyO6kSqaHfWY1LeD2OpWYQ==, tarball: file:projects/azure-confidentialledger-bugbash-rest.tgz}
+    name: '@rush-temp/azure-confidentialledger-bugbash-rest'
+    version: 0.0.0
+    dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.10
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.33.6
+      '@types/chai': 4.3.4
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.33
+      autorest: 3.6.2
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 8.28.0
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.1
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 2.2.1
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.4.1
+      typescript: 4.8.4
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   file:projects/communication-alpha-ids.tgz:
-    resolution: {integrity: sha512-VDawX81b68aByEGinY3gez7Fl3WjFtR2KAmBcf1nIcf3aLxBBQo/Fltm7999/Yps8kV2/moq85W60VuoDea0yg==, tarball: file:projects/communication-alpha-ids.tgz}
+    resolution: {integrity: sha512-TUbgIvlOHzobouXg8NiwFMKqCedHZsVzCnFEn+UlWaZTT2BeSUVUXHaqS+4L3MxvS29jjC4UaDXO9vUMsL5s2w==, tarball: file:projects/communication-alpha-ids.tgz}
     name: '@rush-temp/communication-alpha-ids'
     version: 0.0.0
     dependencies:
@@ -15640,7 +15686,7 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-2lYLaPdw2iqjdSTXbDn+XB1ZVmBmmA/8S+s9n1+lpmSUQpyS/SaIGiF3CfSDd18Bn3SXImo38wRI6O/f0h1AWQ==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-oPMnnfgoyDbUuw52rbeatteCxxxZYOWBwK/hEHHiElQlsyXxpZ95yddki60JvlON1N5xYdVDLqEzadVtFMMc8Q==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
@@ -15734,7 +15780,7 @@ packages:
     dev: false
 
   file:projects/communication-email.tgz:
-    resolution: {integrity: sha512-dMoeydxb3Z7UZR57tB7tQBpbX94B23M9igELXy2kb8+LCMwf5MOajIvOFNdWleSPD0DDIFOuKBZ/vD9U8jWmAw==, tarball: file:projects/communication-email.tgz}
+    resolution: {integrity: sha512-DdaO6/tvliL35FritJw5WlO3eZTs7pP8x6AKS7hBTb6szkzixFVKaOfNZDi/5N/KrFR1Ghb2f4KMG93bhXODjw==, tarball: file:projects/communication-email.tgz}
     name: '@rush-temp/communication-email'
     version: 0.0.0
     dependencies:
@@ -15775,7 +15821,7 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-mI7X0TJ/8P5JQJ6V953iVrcutDIj3Mmcwt51TPX4SWn9GFm4JrNKU3WweuEnwQ7FBru413rwf8Ymwte9PVsQMA==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-Ql6y+rpT2v6a0lAKv+YiWuhym6q/1X7+9EfWhphDIclrzyOMzgQt6GPCZdZ7YmCBhlYyeIiin26mHDVB6PLlHA==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
@@ -15820,7 +15866,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-UQIAjzokL3UPlFW+cKP3w0BnUIoku1Tix+cx0F0pxR6E7CS4u/fudugSdM7J+Ph6OGRAPLj/V1qHAhKw31vHGg==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-/i/QMGXP/g10uWLW/0Wrait10N30QJaEJKnNioHUwg6wLgaZKnKkGQCyZgbHKAB7o8rkQsNSLIYBz920/Mt1Fg==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
@@ -15872,7 +15918,7 @@ packages:
     dev: false
 
   file:projects/communication-network-traversal.tgz:
-    resolution: {integrity: sha512-L175Qmvu6ZaANsSRWLB6/EH34BtueeoUzB5HMYgjDmuf6L5+WQWUbymEesifIs31WT40hbGqeNrqZdnflZUKfA==, tarball: file:projects/communication-network-traversal.tgz}
+    resolution: {integrity: sha512-8BxjW4TN+CR+jUFtm7WWGCLTSlmwVL5tHETlolRYZ4pT7mbg5u5U4g90FNC2cuVcWD21efKwcxwqtG7YuPF3pw==, tarball: file:projects/communication-network-traversal.tgz}
     name: '@rush-temp/communication-network-traversal'
     version: 0.0.0
     dependencies:
@@ -15927,7 +15973,7 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-n0WldmZ9534KNR/6j+TCBqsqEhFNjYwEnRVAJFeIUxpe3aTmDRg7uRgV+dVacjLn31xKpGe7bQ3kCFIgNWFOJw==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-HFnOQQou0XwLnN9oEwbjSxt41+JwJm2ZO/+Fh9gnnPfUgWqMIMHcR75ty0tZQQN54py1TiqCFvy4nAjX3fiPvQ==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
@@ -15970,7 +16016,7 @@ packages:
     dev: false
 
   file:projects/communication-rooms.tgz:
-    resolution: {integrity: sha512-IRP/zZ5/gbGVX7O1X6+Adl0loPhQAmnvTNZEr4IIWLC035nQR+uhlUUiSbxb2U8CuZgzT7V2spjnGyZASlkp+g==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-lEzSLkRu+lvfpF5+CCS2gZBsePd83N9snbeMwCMZFNaTZBY5SWJaa5XlhD5cUN0r+VhJqjoe+lMkUbN/eBHczQ==, tarball: file:projects/communication-rooms.tgz}
     name: '@rush-temp/communication-rooms'
     version: 0.0.0
     dependencies:
@@ -16005,7 +16051,7 @@ packages:
     dev: false
 
   file:projects/communication-short-codes.tgz:
-    resolution: {integrity: sha512-lNSE8Yij50hCyTd2WLkKvu2RCpAx1Q8KxpcpB34Jx+OObP7FEdmluMg6wIBzg8Nn3JTSLrDqefAIpqYsiXYQBw==, tarball: file:projects/communication-short-codes.tgz}
+    resolution: {integrity: sha512-2k+OTIQ2mAyM8TkxQ86T5yO7JSmaLLEmKXLAxKr64hjhs3tlwtUigjhBB2vDyvxefN1iCCDNxre3LLG2XxBmkg==, tarball: file:projects/communication-short-codes.tgz}
     name: '@rush-temp/communication-short-codes'
     version: 0.0.0
     dependencies:
@@ -16050,7 +16096,7 @@ packages:
     dev: false
 
   file:projects/communication-sms.tgz:
-    resolution: {integrity: sha512-VgXFc2IfQO20WBo9OG2V24nCTAqZfbz+ISha192BPkr6ZNm9o0p1ttxiifbKnl9CgtLWFDRekzSwTtjHmBpJjg==, tarball: file:projects/communication-sms.tgz}
+    resolution: {integrity: sha512-WgKEMxyh2xqT49oPWNaFMEG4rvlN5l1fdefZKe/P1VsnTg8YOWjV8ykQupaZtSIyfgi1XsjcGCFHDe0Yk69rOQ==, tarball: file:projects/communication-sms.tgz}
     name: '@rush-temp/communication-sms'
     version: 0.0.0
     dependencies:
@@ -19855,7 +19901,7 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-Dmo3usvsR7NnLEgv9M03xcaCz6X3l0bamstzq95KLC3Rzt88e8h1hLb6TFZoSBV1EvlLNQUkMI2uHPHpI9W7WQ==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-YZE/nBZ4/+anJj7A4z2j6eyOuG135QH3mzaCUQs/MEtp4xaTK5hjmwugvY64f3hYeM2l7EEINQrpLhIQ3Boc3w==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
@@ -19885,7 +19931,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
