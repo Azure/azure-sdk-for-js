@@ -19,6 +19,7 @@ import {
   TollFreeVerificationGetCampaignBriefResponse,
   TollFreeVerificationSubmitCampaignBriefOptionalParams,
   TollFreeVerificationSubmitCampaignBriefResponse,
+  AttachmentType,
   FileType,
   TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptionalParams,
   TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse,
@@ -32,7 +33,7 @@ import {
 export interface TollFreeVerification {
   /**
    * Get a list of Campaign Briefs for the current resource.
-   * @param countryCode
+   * @param countryCode Country Code Id. Must be a valid country code
    * @param options The options parameters.
    */
   listCampaignBriefs(
@@ -52,46 +53,46 @@ export interface TollFreeVerification {
   ): PagedAsyncIterableIterator<CampaignBriefAttachment>;
   /**
    * Creates or updates a Campaign Brief.
+   * @param countryCode Country Code Id. Must be a valid country code
    * @param campaignBriefId Campaign Brief Id. Must be a valid GUID
-   * @param countryCode
    * @param options The options parameters.
    */
   upsertCampaignBrief(
-    campaignBriefId: string,
     countryCode: string,
+    campaignBriefId: string,
     options?: TollFreeVerificationUpsertCampaignBriefOptionalParams
   ): Promise<TollFreeVerificationUpsertCampaignBriefResponse>;
   /**
    * Deletes a Campaign Brief.
+   * @param countryCode Country Code Id. Must be a valid country code
    * @param campaignBriefId Campaign Brief Id of brief to be deleted. Must be a valid GUID
-   * @param countryCode
    * @param options The options parameters.
    */
   deleteCampaignBrief(
-    campaignBriefId: string,
     countryCode: string,
+    campaignBriefId: string,
     options?: TollFreeVerificationDeleteCampaignBriefOptionalParams
   ): Promise<void>;
   /**
    * Get a Campaign Brief by id.
+   * @param countryCode Country Code Id. Must be a valid country code
    * @param campaignBriefId Campaign Brief Id. Must be a valid GUID
-   * @param countryCode
    * @param options The options parameters.
    */
   getCampaignBrief(
-    campaignBriefId: string,
     countryCode: string,
+    campaignBriefId: string,
     options?: TollFreeVerificationGetCampaignBriefOptionalParams
   ): Promise<TollFreeVerificationGetCampaignBriefResponse>;
   /**
    * Submits a Campaign Brief.
+   * @param countryCode Country Code Id. Must be a valid country code
    * @param campaignBriefId Campaign Brief Id of brief to be submitted. Must be a valid GUID
-   * @param countryCode
    * @param options The options parameters.
    */
   submitCampaignBrief(
-    campaignBriefId: string,
     countryCode: string,
+    campaignBriefId: string,
     options?: TollFreeVerificationSubmitCampaignBriefOptionalParams
   ): Promise<TollFreeVerificationSubmitCampaignBriefResponse>;
   /**
@@ -100,6 +101,8 @@ export interface TollFreeVerification {
    * @param campaignBriefId Campaign Brief Id. Must be a valid GUID
    * @param attachmentId Attachment Id. Must be a valid GUID
    * @param id Campaign Brief Attachment Id.
+   * @param typeParam Attachment type describing the purpose of the attachment
+   *                  e.g. 'OptInSmsKeyword', 'OptInIVR'
    * @param fileName The name of the file being attached
    *                 e.g. 'myFile01'
    * @param fileType The type of file being attached
@@ -112,6 +115,7 @@ export interface TollFreeVerification {
     campaignBriefId: string,
     attachmentId: string,
     id: string,
+    typeParam: AttachmentType,
     fileName: string,
     fileType: FileType,
     fileContentBase64: string,
@@ -121,15 +125,15 @@ export interface TollFreeVerification {
   >;
   /**
    * Deletes a specific attachment from a Campaign Brief.
+   * @param countryCode
    * @param campaignBriefId Campaign Brief Id. Must be a valid GUID
    * @param attachmentId Attachment Id. Must be a valid GUID
-   * @param countryCode
    * @param options The options parameters.
    */
   deleteCampaignBriefAttachment(
+    countryCode: string,
     campaignBriefId: string,
     attachmentId: string,
-    countryCode: string,
     options?: TollFreeVerificationDeleteCampaignBriefAttachmentOptionalParams
   ): Promise<void>;
   /**

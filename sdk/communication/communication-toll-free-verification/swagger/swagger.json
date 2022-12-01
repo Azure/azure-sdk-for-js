@@ -25,17 +25,18 @@
         "parameters": [
           {
             "in": "path",
+            "name": "countryCode",
+            "description": "Country Code Id. Must be a valid country code",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "campaignBriefId",
             "description": "Campaign Brief Id. Must be a valid GUID",
             "required": true,
             "type": "string",
             "format": "uuid"
-          },
-          {
-            "in": "path",
-            "name": "countryCode",
-            "required": true,
-            "type": "string"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -84,17 +85,18 @@
         "parameters": [
           {
             "in": "path",
+            "name": "countryCode",
+            "description": "Country Code Id. Must be a valid country code",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "campaignBriefId",
             "description": "Campaign Brief Id of brief to be deleted. Must be a valid GUID",
             "required": true,
             "type": "string",
             "format": "uuid"
-          },
-          {
-            "in": "path",
-            "name": "countryCode",
-            "required": true,
-            "type": "string"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -132,17 +134,18 @@
         "parameters": [
           {
             "in": "path",
+            "name": "countryCode",
+            "description": "Country Code Id. Must be a valid country code",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "campaignBriefId",
             "description": "Campaign Brief Id. Must be a valid GUID",
             "required": true,
             "type": "string",
             "format": "uuid"
-          },
-          {
-            "in": "path",
-            "name": "countryCode",
-            "required": true,
-            "type": "string"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -182,17 +185,18 @@
         "parameters": [
           {
             "in": "path",
+            "name": "countryCode",
+            "description": "Country Code Id. Must be a valid country code",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "campaignBriefId",
             "description": "Campaign Brief Id of brief to be submitted. Must be a valid GUID",
             "required": true,
             "type": "string",
             "format": "uuid"
-          },
-          {
-            "in": "path",
-            "name": "countryCode",
-            "required": true,
-            "type": "string"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -233,8 +237,25 @@
           {
             "in": "path",
             "name": "countryCode",
+            "description": "Country Code Id. Must be a valid country code",
             "required": true,
             "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "skip",
+            "description": "An optional parameter for how many entries to skip, for pagination purposes.",
+            "type": "integer",
+            "format": "int32",
+            "default": 0
+          },
+          {
+            "in": "query",
+            "name": "top",
+            "description": "An optional parameter for how many entries to return, for pagination purposes.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -318,13 +339,13 @@
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/CampaignBrief"
+              "$ref": "#/definitions/CampaignBriefAttachment"
             }
           },
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/CampaignBrief"
+              "$ref": "#/definitions/CampaignBriefAttachment"
             }
           },
           "default": {
@@ -349,6 +370,12 @@
         "parameters": [
           {
             "in": "path",
+            "name": "countryCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "campaignBriefId",
             "description": "Campaign Brief Id. Must be a valid GUID",
             "required": true,
@@ -362,12 +389,6 @@
             "required": true,
             "type": "string",
             "format": "uuid"
-          },
-          {
-            "in": "path",
-            "name": "countryCode",
-            "required": true,
-            "type": "string"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -521,59 +542,59 @@
     }
   },
   "definitions": {
+    "ReviewNote": {
+      "description": "Holds a note about a Campaign Brief that has gone thru stages of review process.",
+      "type": "object",
+      "properties": {
+        "message": {
+          "description": "Note related to a Campaign Brief that may imply changes needed from the client.",
+          "type": "string"
+        },
+        "date": {
+          "format": "date-time",
+          "description": "Date and time when the note was added to the Campaign Brief.",
+          "type": "string"
+        }
+      }
+    },
     "Address": {
-      "required": [
-        "addressLine1",
-        "addressLine2",
-        "administrativeDivision",
-        "locality",
-        "postalCode"
-      ],
       "type": "object",
       "properties": {
         "addressLine1": {
           "description": "Address line 1.",
-          "minLength": 1,
           "type": "string"
         },
         "addressLine2": {
           "description": "Address line 2.",
-          "minLength": 1,
           "type": "string"
         },
         "locality": {
-          "description": "The Locality. That would be the Citiy for US addresses, for example.",
-          "minLength": 1,
+          "description": "The Locality. That would be the City for US addresses, for example.",
           "type": "string"
         },
         "administrativeDivision": {
           "description": "The Administrative Division. That would be the State for US addresses, for example.",
-          "minLength": 1,
           "type": "string"
         },
         "postalCode": {
           "description": "Postal code.",
-          "minLength": 1,
+          "type": "string"
+        },
+        "country": {
+          "description": "Country.",
           "type": "string"
         }
       }
     },
     "BusinessInformation": {
-      "required": [
-        "address",
-        "companyName",
-        "companyUrl"
-      ],
       "type": "object",
       "properties": {
         "companyName": {
           "description": "Business Name.",
-          "minLength": 1,
           "type": "string"
         },
         "companyUrl": {
           "description": "Url of corporate website.",
-          "minLength": 1,
           "type": "string"
         },
         "address": {
@@ -582,33 +603,22 @@
       }
     },
     "BusinessPointOfContact": {
-      "required": [
-        "address",
-        "email",
-        "firstName",
-        "lastName",
-        "phone"
-      ],
       "type": "object",
       "properties": {
         "firstName": {
           "description": "First name of the contact at the business.",
-          "minLength": 1,
           "type": "string"
         },
         "lastName": {
           "description": "Last name of the contact at the business.",
-          "minLength": 1,
           "type": "string"
         },
         "phone": {
           "description": "Phone number of the contact at the business.",
-          "minLength": 1,
           "type": "string"
         },
         "email": {
           "description": "Email of the contact at the business.",
-          "minLength": 1,
           "type": "string"
         },
         "address": {
@@ -627,7 +637,7 @@
           "description": "Campaign Brief Id.",
           "type": "string"
         },
-        "status": {
+        "submissionStatus": {
           "description": "Campaign Brief status e.g. 'submitted', 'approved', etc",
           "enum": [
             "submitted",
@@ -643,6 +653,13 @@
             "modelAsString": true
           }
         },
+        "reviewNotes": {
+          "description": "Notes added to the Campaign Brief after being reviewed to help customer understand\r\nreview results and necessary follow up actions.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReviewNote"
+          }
+        },
         "submissionDate": {
           "format": "date-time",
           "description": "Date and time when the Campaign Brief was submitted.",
@@ -653,26 +670,22 @@
           "description": "Last date and time when the Campaign Brief status was updated.",
           "type": "string"
         },
+        "countryCode": {
+          "description": "Country code of the Campaign Brief",
+          "type": "string"
+        },
         "businessPointOfContact": {
           "$ref": "#/definitions/BusinessPointOfContact"
         },
         "businessInformation": {
           "$ref": "#/definitions/BusinessInformation"
         },
-        "optInDescription": {
-          "description": "Description of how the customer can opt in.",
-          "type": "string"
-        },
-        "additionalInformation": {
-          "description": "Campaign opt in additional information - image URLs or opt in description.",
-          "type": "string"
-        },
-        "country": {
-          "description": "Campaign brief country.",
-          "type": "string"
-        },
         "useCaseInfo": {
-          "$ref": "#/definitions/UseCaseInfo"
+          "description": "Use Case Info e.g. use case, use case summary, sample messages",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UseCaseInfo"
+          }
         },
         "phoneNumbers": {
           "description": "List of numbers provisioned for the Campaign e.g. 18881234567",
@@ -682,24 +695,30 @@
           }
         },
         "estimatedMonthlyVolume": {
-          "format": "int32",
           "description": "Estimated total messages per month.",
-          "maximum": 2147483647,
-          "minimum": 0,
-          "type": "integer"
+          "type": "string"
         },
-        "additionalOptInInformation": {
-          "description": "Additional information regarding how a customer opts in to the campaign.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+        "additionalInformation": {
+          "description": "Campaign opt in additional information - image URLs or opt in description.",
+          "type": "string"
         },
         "attachments": {
           "description": "A list of summarized data of attachments currently added to the Campaign Brief",
           "type": "array",
           "items": {
             "$ref": "#/definitions/CampaignBriefAttachmentSummary"
+          }
+        },
+        "optInDetails": {
+          "$ref": "#/definitions/OptInDetails"
+        },
+        "multipleNumbersJustification": {
+          "type": "string"
+        },
+        "propertiesToClear": {
+          "type": "array",
+          "items": {
+            "type": "string"
           }
         }
       }
@@ -721,9 +740,14 @@
           "type": "string"
         },
         "type": {
-          "description": "Attachment type describing the purpose of the attachment\r\ne.g. 'callToAction', 'termsOfService'",
+          "description": "Attachment type describing the purpose of the attachment\r\ne.g. 'OptInSmsKeyword', 'OptInIVR'",
           "enum": [
-            "callToAction"
+            "OptInSmsKeyword",
+            "OptInIVR",
+            "OptInPointOfSale",
+            "OptInWebsite",
+            "OptInPaperForm",
+            "OptInOther"
           ],
           "type": "string",
           "x-ms-enum": {
@@ -774,7 +798,12 @@
         "type": {
           "description": "Attachment type describing the purpose of the attachment\r\ne.g. 'callToAction', 'termsOfService'",
           "enum": [
-            "callToAction"
+            "OptInSmsKeyword",
+            "OptInIVR",
+            "OptInPointOfSale",
+            "OptInWebsite",
+            "OptInPaperForm",
+            "OptInOther"
           ],
           "type": "string",
           "x-ms-enum": {
@@ -819,6 +848,49 @@
         "nextLink": {
           "description": "Represents the URL link to the next page.",
           "type": "string"
+        }
+      }
+    },
+    "OptInDetails": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Option"
+          }
+        }
+      }
+    },
+    "Option": {
+      "required": [
+        "type"
+      ],
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "keywordSMS",
+            "website",
+            "interactiveVoiceResponse",
+            "pointOfSale",
+            "paperForm",
+            "other"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "Type",
+            "modelAsString": true
+          }
+        },
+        "imageUrls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },

@@ -7,7 +7,8 @@
  */
 
 import { tracingClient } from "../tracing";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { TollFreeVerification } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,9 +18,11 @@ import {
   CampaignBrief,
   TollFreeVerificationGetCampaignBriefsNextOptionalParams,
   TollFreeVerificationGetCampaignBriefsOptionalParams,
+  TollFreeVerificationGetCampaignBriefsResponse,
   CampaignBriefAttachment,
   TollFreeVerificationGetCampaignBriefAttachmentsNextOptionalParams,
   TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams,
+  TollFreeVerificationGetCampaignBriefAttachmentsResponse,
   TollFreeVerificationUpsertCampaignBriefOptionalParams,
   TollFreeVerificationUpsertCampaignBriefResponse,
   TollFreeVerificationDeleteCampaignBriefOptionalParams,
@@ -27,14 +30,13 @@ import {
   TollFreeVerificationGetCampaignBriefResponse,
   TollFreeVerificationSubmitCampaignBriefOptionalParams,
   TollFreeVerificationSubmitCampaignBriefResponse,
-  TollFreeVerificationGetCampaignBriefsResponse,
+  AttachmentType,
   FileType,
   TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptionalParams,
   TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse,
   TollFreeVerificationDeleteCampaignBriefAttachmentOptionalParams,
   TollFreeVerificationGetCampaignBriefAttachmentOptionalParams,
   TollFreeVerificationGetCampaignBriefAttachmentResponse,
-  TollFreeVerificationGetCampaignBriefAttachmentsResponse,
   TollFreeVerificationGetCampaignBriefsNextResponse,
   TollFreeVerificationGetCampaignBriefAttachmentsNextResponse
 } from "../models";
@@ -54,7 +56,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
 
   /**
    * Get a list of Campaign Briefs for the current resource.
-   * @param countryCode
+   * @param countryCode Country Code Id. Must be a valid country code
    * @param options The options parameters.
    */
   public listCampaignBriefs(
@@ -69,19 +71,29 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.getCampaignBriefsPagingPage(countryCode, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.getCampaignBriefsPagingPage(countryCode, options, settings);
       }
     };
   }
 
   private async *getCampaignBriefsPagingPage(
     countryCode: string,
-    options?: TollFreeVerificationGetCampaignBriefsOptionalParams
+    options?: TollFreeVerificationGetCampaignBriefsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<CampaignBrief[]> {
-    let result = await this._getCampaignBriefs(countryCode, options);
-    yield result.campaignBriefs || [];
-    let continuationToken = result.nextLink;
+    let result: TollFreeVerificationGetCampaignBriefsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getCampaignBriefs(countryCode, options);
+      let page = result.campaignBriefs || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._getCampaignBriefsNext(
         countryCode,
@@ -89,7 +101,9 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
         options
       );
       continuationToken = result.nextLink;
-      yield result.campaignBriefs || [];
+      let page = result.campaignBriefs || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -128,11 +142,15 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.getCampaignBriefAttachmentsPagingPage(
           countryCode,
           campaignBriefId,
-          options
+          options,
+          settings
         );
       }
     };
@@ -141,15 +159,22 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
   private async *getCampaignBriefAttachmentsPagingPage(
     countryCode: string,
     campaignBriefId: string,
-    options?: TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams
+    options?: TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<CampaignBriefAttachment[]> {
-    let result = await this._getCampaignBriefAttachments(
-      countryCode,
-      campaignBriefId,
-      options
-    );
-    yield result.attachments || [];
-    let continuationToken = result.nextLink;
+    let result: TollFreeVerificationGetCampaignBriefAttachmentsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getCampaignBriefAttachments(
+        countryCode,
+        campaignBriefId,
+        options
+      );
+      let page = result.attachments || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._getCampaignBriefAttachmentsNext(
         countryCode,
@@ -158,7 +183,9 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
         options
       );
       continuationToken = result.nextLink;
-      yield result.attachments || [];
+      let page = result.attachments || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -178,13 +205,13 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
 
   /**
    * Creates or updates a Campaign Brief.
+   * @param countryCode Country Code Id. Must be a valid country code
    * @param campaignBriefId Campaign Brief Id. Must be a valid GUID
-   * @param countryCode
    * @param options The options parameters.
    */
   async upsertCampaignBrief(
-    campaignBriefId: string,
     countryCode: string,
+    campaignBriefId: string,
     options?: TollFreeVerificationUpsertCampaignBriefOptionalParams
   ): Promise<TollFreeVerificationUpsertCampaignBriefResponse> {
     return tracingClient.withSpan(
@@ -192,7 +219,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
-          { campaignBriefId, countryCode, options },
+          { countryCode, campaignBriefId, options },
           upsertCampaignBriefOperationSpec
         ) as Promise<TollFreeVerificationUpsertCampaignBriefResponse>;
       }
@@ -201,13 +228,13 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
 
   /**
    * Deletes a Campaign Brief.
+   * @param countryCode Country Code Id. Must be a valid country code
    * @param campaignBriefId Campaign Brief Id of brief to be deleted. Must be a valid GUID
-   * @param countryCode
    * @param options The options parameters.
    */
   async deleteCampaignBrief(
-    campaignBriefId: string,
     countryCode: string,
+    campaignBriefId: string,
     options?: TollFreeVerificationDeleteCampaignBriefOptionalParams
   ): Promise<void> {
     return tracingClient.withSpan(
@@ -215,7 +242,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
-          { campaignBriefId, countryCode, options },
+          { countryCode, campaignBriefId, options },
           deleteCampaignBriefOperationSpec
         ) as Promise<void>;
       }
@@ -224,13 +251,13 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
 
   /**
    * Get a Campaign Brief by id.
+   * @param countryCode Country Code Id. Must be a valid country code
    * @param campaignBriefId Campaign Brief Id. Must be a valid GUID
-   * @param countryCode
    * @param options The options parameters.
    */
   async getCampaignBrief(
-    campaignBriefId: string,
     countryCode: string,
+    campaignBriefId: string,
     options?: TollFreeVerificationGetCampaignBriefOptionalParams
   ): Promise<TollFreeVerificationGetCampaignBriefResponse> {
     return tracingClient.withSpan(
@@ -238,7 +265,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
-          { campaignBriefId, countryCode, options },
+          { countryCode, campaignBriefId, options },
           getCampaignBriefOperationSpec
         ) as Promise<TollFreeVerificationGetCampaignBriefResponse>;
       }
@@ -247,13 +274,13 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
 
   /**
    * Submits a Campaign Brief.
+   * @param countryCode Country Code Id. Must be a valid country code
    * @param campaignBriefId Campaign Brief Id of brief to be submitted. Must be a valid GUID
-   * @param countryCode
    * @param options The options parameters.
    */
   async submitCampaignBrief(
-    campaignBriefId: string,
     countryCode: string,
+    campaignBriefId: string,
     options?: TollFreeVerificationSubmitCampaignBriefOptionalParams
   ): Promise<TollFreeVerificationSubmitCampaignBriefResponse> {
     return tracingClient.withSpan(
@@ -261,7 +288,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
-          { campaignBriefId, countryCode, options },
+          { countryCode, campaignBriefId, options },
           submitCampaignBriefOperationSpec
         ) as Promise<TollFreeVerificationSubmitCampaignBriefResponse>;
       }
@@ -270,7 +297,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
 
   /**
    * Get a list of Campaign Briefs for the current resource.
-   * @param countryCode
+   * @param countryCode Country Code Id. Must be a valid country code
    * @param options The options parameters.
    */
   private async _getCampaignBriefs(
@@ -295,6 +322,8 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
    * @param campaignBriefId Campaign Brief Id. Must be a valid GUID
    * @param attachmentId Attachment Id. Must be a valid GUID
    * @param id Campaign Brief Attachment Id.
+   * @param typeParam Attachment type describing the purpose of the attachment
+   *                  e.g. 'OptInSmsKeyword', 'OptInIVR'
    * @param fileName The name of the file being attached
    *                 e.g. 'myFile01'
    * @param fileType The type of file being attached
@@ -307,6 +336,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
     campaignBriefId: string,
     attachmentId: string,
     id: string,
+    typeParam: AttachmentType,
     fileName: string,
     fileType: FileType,
     fileContentBase64: string,
@@ -324,6 +354,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
             campaignBriefId,
             attachmentId,
             id,
+            typeParam,
             fileName,
             fileType,
             fileContentBase64,
@@ -339,15 +370,15 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
 
   /**
    * Deletes a specific attachment from a Campaign Brief.
+   * @param countryCode
    * @param campaignBriefId Campaign Brief Id. Must be a valid GUID
    * @param attachmentId Attachment Id. Must be a valid GUID
-   * @param countryCode
    * @param options The options parameters.
    */
   async deleteCampaignBriefAttachment(
+    countryCode: string,
     campaignBriefId: string,
     attachmentId: string,
-    countryCode: string,
     options?: TollFreeVerificationDeleteCampaignBriefAttachmentOptionalParams
   ): Promise<void> {
     return tracingClient.withSpan(
@@ -355,7 +386,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
-          { campaignBriefId, attachmentId, countryCode, options },
+          { countryCode, campaignBriefId, attachmentId, options },
           deleteCampaignBriefAttachmentOperationSpec
         ) as Promise<void>;
       }
@@ -412,7 +443,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
 
   /**
    * GetCampaignBriefsNext
-   * @param countryCode
+   * @param countryCode Country Code Id. Must be a valid country code
    * @param nextLink The nextLink from the previous successful call to the GetCampaignBriefs method.
    * @param options The options parameters.
    */
@@ -483,8 +514,8 @@ const upsertCampaignBriefOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.endpoint,
-    Parameters.campaignBriefId,
-    Parameters.countryCode
+    Parameters.countryCode,
+    Parameters.campaignBriefId
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -503,8 +534,8 @@ const deleteCampaignBriefOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.endpoint,
-    Parameters.campaignBriefId,
-    Parameters.countryCode
+    Parameters.countryCode,
+    Parameters.campaignBriefId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -524,8 +555,8 @@ const getCampaignBriefOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.endpoint,
-    Parameters.campaignBriefId,
-    Parameters.countryCode
+    Parameters.countryCode,
+    Parameters.campaignBriefId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -545,8 +576,8 @@ const submitCampaignBriefOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.endpoint,
-    Parameters.campaignBriefId,
-    Parameters.countryCode
+    Parameters.countryCode,
+    Parameters.campaignBriefId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -562,7 +593,7 @@ const getCampaignBriefsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
   urlParameters: [Parameters.endpoint, Parameters.countryCode],
   headerParameters: [Parameters.accept],
   serializer
@@ -573,10 +604,10 @@ const createOrReplaceCampaignBriefAttachmentOperationSpec: coreClient.OperationS
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CampaignBrief
+      bodyMapper: Mappers.CampaignBriefAttachment
     },
     201: {
-      bodyMapper: Mappers.CampaignBrief
+      bodyMapper: Mappers.CampaignBriefAttachment
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -596,8 +627,8 @@ const createOrReplaceCampaignBriefAttachmentOperationSpec: coreClient.OperationS
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.endpoint,
-    Parameters.campaignBriefId,
     Parameters.countryCode,
+    Parameters.campaignBriefId,
     Parameters.attachmentId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType1],
@@ -617,8 +648,8 @@ const deleteCampaignBriefAttachmentOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.endpoint,
-    Parameters.campaignBriefId,
     Parameters.countryCode,
+    Parameters.campaignBriefId,
     Parameters.attachmentId
   ],
   headerParameters: [Parameters.accept],
@@ -639,8 +670,8 @@ const getCampaignBriefAttachmentOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.endpoint,
-    Parameters.campaignBriefId,
     Parameters.countryCode,
+    Parameters.campaignBriefId,
     Parameters.attachmentId
   ],
   headerParameters: [Parameters.accept],
@@ -661,8 +692,8 @@ const getCampaignBriefAttachmentsOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
   urlParameters: [
     Parameters.endpoint,
-    Parameters.campaignBriefId,
-    Parameters.countryCode
+    Parameters.countryCode,
+    Parameters.campaignBriefId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -678,7 +709,6 @@ const getCampaignBriefsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.endpoint,
     Parameters.countryCode,
@@ -698,11 +728,10 @@ const getCampaignBriefAttachmentsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
   urlParameters: [
     Parameters.endpoint,
-    Parameters.campaignBriefId,
     Parameters.countryCode,
+    Parameters.campaignBriefId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

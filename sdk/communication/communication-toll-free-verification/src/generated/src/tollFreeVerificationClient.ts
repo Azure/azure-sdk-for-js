@@ -7,7 +7,6 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
@@ -54,32 +53,9 @@ export class TollFreeVerificationClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint ?? options.baseUri ?? "{endpoint}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}"
     };
     super(optionsWithDefaults);
-
-    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
-        (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
-      );
-      if (!bearerTokenAuthenticationPolicyFound) {
-        this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-        });
-        this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
-            scopes: `${optionsWithDefaults.baseUri}/.default`,
-            challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
-        );
-      }
-    }
     // Parameter assignments
     this.endpoint = endpoint;
 

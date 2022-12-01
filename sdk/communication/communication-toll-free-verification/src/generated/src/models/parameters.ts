@@ -57,17 +57,6 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const campaignBriefId: OperationURLParameter = {
-  parameterPath: "campaignBriefId",
-  mapper: {
-    serializedName: "campaignBriefId",
-    required: true,
-    type: {
-      name: "Uuid"
-    }
-  }
-};
-
 export const countryCode: OperationURLParameter = {
   parameterPath: "countryCode",
   mapper: {
@@ -75,6 +64,17 @@ export const countryCode: OperationURLParameter = {
     required: true,
     type: {
       name: "String"
+    }
+  }
+};
+
+export const campaignBriefId: OperationURLParameter = {
+  parameterPath: "campaignBriefId",
+  mapper: {
+    serializedName: "campaignBriefId",
+    required: true,
+    type: {
+      name: "Uuid"
     }
   }
 };
@@ -87,6 +87,28 @@ export const apiVersion: OperationQueryParameter = {
     serializedName: "api-version",
     type: {
       name: "String"
+    }
+  }
+};
+
+export const skip: OperationQueryParameter = {
+  parameterPath: ["options", "skip"],
+  mapper: {
+    defaultValue: 0,
+    serializedName: "skip",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const top: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    defaultValue: 100,
+    serializedName: "top",
+    type: {
+      name: "Number"
     }
   }
 };
@@ -140,28 +162,6 @@ export const attachmentId: OperationURLParameter = {
     required: true,
     type: {
       name: "Uuid"
-    }
-  }
-};
-
-export const skip: OperationQueryParameter = {
-  parameterPath: ["options", "skip"],
-  mapper: {
-    defaultValue: 0,
-    serializedName: "skip",
-    type: {
-      name: "Number"
-    }
-  }
-};
-
-export const top: OperationQueryParameter = {
-  parameterPath: ["options", "top"],
-  mapper: {
-    defaultValue: 100,
-    serializedName: "top",
-    type: {
-      name: "Number"
     }
   }
 };

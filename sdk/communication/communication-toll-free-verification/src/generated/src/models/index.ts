@@ -12,61 +12,76 @@ export interface CampaignBrief {
   /** Campaign Brief Id. */
   id: string;
   /** Campaign Brief status e.g. 'submitted', 'approved', etc */
-  status?: CampaignBriefStatus;
+  submissionStatus?: CampaignBriefStatus;
+  /**
+   * Notes added to the Campaign Brief after being reviewed to help customer understand
+   * review results and necessary follow up actions.
+   */
+  reviewNotes?: ReviewNote[];
   /** Date and time when the Campaign Brief was submitted. */
   submissionDate?: Date;
   /** Last date and time when the Campaign Brief status was updated. */
   statusUpdatedDate?: Date;
+  /** Country code of the Campaign Brief */
+  countryCode?: string;
   businessPointOfContact?: BusinessPointOfContact;
   businessInformation?: BusinessInformation;
-  /** Description of how the customer can opt in. */
-  optInDescription?: string;
-  /** Campaign opt in additional information - image URLs or opt in description. */
-  additionalInformation?: string;
-  /** Campaign brief country. */
-  country?: string;
-  useCaseInfo?: UseCaseInfo;
+  /** Use Case Info e.g. use case, use case summary, sample messages */
+  useCaseInfo?: UseCaseInfo[];
   /** List of numbers provisioned for the Campaign e.g. 18881234567 */
   phoneNumbers?: string[];
   /** Estimated total messages per month. */
-  estimatedMonthlyVolume?: number;
-  /** Additional information regarding how a customer opts in to the campaign. */
-  additionalOptInInformation?: string[];
+  estimatedMonthlyVolume?: string;
+  /** Campaign opt in additional information - image URLs or opt in description. */
+  additionalInformation?: string;
   /** A list of summarized data of attachments currently added to the Campaign Brief */
   attachments?: CampaignBriefAttachmentSummary[];
+  optInDetails?: OptInDetails;
+  multipleNumbersJustification?: string;
+  propertiesToClear?: string[];
+}
+
+/** Holds a note about a Campaign Brief that has gone thru stages of review process. */
+export interface ReviewNote {
+  /** Note related to a Campaign Brief that may imply changes needed from the client. */
+  message?: string;
+  /** Date and time when the note was added to the Campaign Brief. */
+  date?: Date;
 }
 
 export interface BusinessPointOfContact {
   /** First name of the contact at the business. */
-  firstName: string;
+  firstName?: string;
   /** Last name of the contact at the business. */
-  lastName: string;
+  lastName?: string;
   /** Phone number of the contact at the business. */
-  phone: string;
+  phone?: string;
   /** Email of the contact at the business. */
-  email: string;
-  address: Address;
+  email?: string;
+  address?: Address;
 }
 
 export interface Address {
   /** Address line 1. */
-  addressLine1: string;
+  addressLine1?: string;
   /** Address line 2. */
-  addressLine2: string;
-  /** The Locality. That would be the Citiy for US addresses, for example. */
-  locality: string;
+  addressLine2?: string;
+  /** The Locality. That would be the City for US addresses, for example. */
+  locality?: string;
   /** The Administrative Division. That would be the State for US addresses, for example. */
-  administrativeDivision: string;
+  administrativeDivision?: string;
   /** Postal code. */
-  postalCode: string;
+  postalCode?: string;
+  /** Country. */
+  country?: string;
 }
 
 export interface BusinessInformation {
   /** Business Name. */
-  companyName: string;
+  companyName?: string;
   /** Url of corporate website. */
-  companyUrl: string;
-  address: Address;
+  companyUrl?: string;
+  address?: Address;
 }
 
 export interface UseCaseInfo {
@@ -86,12 +101,22 @@ export interface CampaignBriefAttachmentSummary {
    * Attachment type describing the purpose of the attachment
    * e.g. 'callToAction', 'termsOfService'
    */
-  type?: "callToAction";
+  type?: AttachmentType;
   /**
    * The name of the attached file
    * e.g. 'myFile01'
    */
   fileName?: string;
+}
+
+export interface OptInDetails {
+  description?: string;
+  options?: Option[];
+}
+
+export interface Option {
+  type: Type;
+  imageUrls?: string[];
 }
 
 /** The Communication Services error. */
@@ -137,9 +162,9 @@ export interface CampaignBriefAttachment {
   id: string;
   /**
    * Attachment type describing the purpose of the attachment
-   * e.g. 'callToAction', 'termsOfService'
+   * e.g. 'OptInSmsKeyword', 'OptInIVR'
    */
-  type: "callToAction";
+  type: AttachmentType;
   /**
    * The name of the file being attached
    * e.g. 'myFile01'
@@ -172,6 +197,22 @@ export type CampaignBriefStatus =
   | "draft"
   | "denied"
   | "cancelled";
+/** Defines values for AttachmentType. */
+export type AttachmentType =
+  | "OptInSmsKeyword"
+  | "OptInIVR"
+  | "OptInPointOfSale"
+  | "OptInWebsite"
+  | "OptInPaperForm"
+  | "OptInOther";
+/** Defines values for Type. */
+export type Type =
+  | "keywordSMS"
+  | "website"
+  | "interactiveVoiceResponse"
+  | "pointOfSale"
+  | "paperForm"
+  | "other";
 /** Defines values for FileType. */
 export type FileType = "png" | "jpg" | "jpeg" | "pdf";
 
@@ -205,7 +246,12 @@ export type TollFreeVerificationSubmitCampaignBriefResponse = CampaignBrief;
 
 /** Optional parameters. */
 export interface TollFreeVerificationGetCampaignBriefsOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** An optional parameter for how many entries to skip, for pagination purposes. */
+  skip?: number;
+  /** An optional parameter for how many entries to return, for pagination purposes. */
+  top?: number;
+}
 
 /** Contains response data for the getCampaignBriefs operation. */
 export type TollFreeVerificationGetCampaignBriefsResponse = CampaignBriefs;
@@ -218,7 +264,7 @@ export interface TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptio
 }
 
 /** Contains response data for the createOrReplaceCampaignBriefAttachment operation. */
-export type TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse = CampaignBrief;
+export type TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse = CampaignBriefAttachment;
 
 /** Optional parameters. */
 export interface TollFreeVerificationDeleteCampaignBriefAttachmentOptionalParams
@@ -252,12 +298,7 @@ export type TollFreeVerificationGetCampaignBriefsNextResponse = CampaignBriefs;
 
 /** Optional parameters. */
 export interface TollFreeVerificationGetCampaignBriefAttachmentsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional parameter for how many entries to skip, for pagination purposes. */
-  skip?: number;
-  /** An optional parameter for how many entries to return, for pagination purposes. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCampaignBriefAttachmentsNext operation. */
 export type TollFreeVerificationGetCampaignBriefAttachmentsNextResponse = CampaignBriefAttachments;

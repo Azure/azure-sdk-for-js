@@ -20,10 +20,22 @@ export const CampaignBrief: coreClient.CompositeMapper = {
           name: "Uuid"
         }
       },
-      status: {
-        serializedName: "status",
+      submissionStatus: {
+        serializedName: "submissionStatus",
         type: {
           name: "String"
+        }
+      },
+      reviewNotes: {
+        serializedName: "reviewNotes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ReviewNote"
+            }
+          }
         }
       },
       submissionDate: {
@@ -36,6 +48,12 @@ export const CampaignBrief: coreClient.CompositeMapper = {
         serializedName: "statusUpdatedDate",
         type: {
           name: "DateTime"
+        }
+      },
+      countryCode: {
+        serializedName: "countryCode",
+        type: {
+          name: "String"
         }
       },
       businessPointOfContact: {
@@ -52,29 +70,16 @@ export const CampaignBrief: coreClient.CompositeMapper = {
           className: "BusinessInformation"
         }
       },
-      optInDescription: {
-        serializedName: "optInDescription",
-        type: {
-          name: "String"
-        }
-      },
-      additionalInformation: {
-        serializedName: "additionalInformation",
-        type: {
-          name: "String"
-        }
-      },
-      country: {
-        serializedName: "country",
-        type: {
-          name: "String"
-        }
-      },
       useCaseInfo: {
         serializedName: "useCaseInfo",
         type: {
-          name: "Composite",
-          className: "UseCaseInfo"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UseCaseInfo"
+            }
+          }
         }
       },
       phoneNumbers: {
@@ -89,24 +94,15 @@ export const CampaignBrief: coreClient.CompositeMapper = {
         }
       },
       estimatedMonthlyVolume: {
-        constraints: {
-          InclusiveMaximum: 2147483647,
-          InclusiveMinimum: 0
-        },
         serializedName: "estimatedMonthlyVolume",
         type: {
-          name: "Number"
+          name: "String"
         }
       },
-      additionalOptInInformation: {
-        serializedName: "additionalOptInInformation",
+      additionalInformation: {
+        serializedName: "additionalInformation",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
+          name: "String"
         }
       },
       attachments: {
@@ -120,6 +116,51 @@ export const CampaignBrief: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      optInDetails: {
+        serializedName: "optInDetails",
+        type: {
+          name: "Composite",
+          className: "OptInDetails"
+        }
+      },
+      multipleNumbersJustification: {
+        serializedName: "multipleNumbersJustification",
+        type: {
+          name: "String"
+        }
+      },
+      propertiesToClear: {
+        serializedName: "propertiesToClear",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ReviewNote: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ReviewNote",
+    modelProperties: {
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
@@ -131,41 +172,25 @@ export const BusinessPointOfContact: coreClient.CompositeMapper = {
     className: "BusinessPointOfContact",
     modelProperties: {
       firstName: {
-        constraints: {
-          MinLength: 1
-        },
         serializedName: "firstName",
-        required: true,
         type: {
           name: "String"
         }
       },
       lastName: {
-        constraints: {
-          MinLength: 1
-        },
         serializedName: "lastName",
-        required: true,
         type: {
           name: "String"
         }
       },
       phone: {
-        constraints: {
-          MinLength: 1
-        },
         serializedName: "phone",
-        required: true,
         type: {
           name: "String"
         }
       },
       email: {
-        constraints: {
-          MinLength: 1
-        },
         serializedName: "email",
-        required: true,
         type: {
           name: "String"
         }
@@ -187,51 +212,37 @@ export const Address: coreClient.CompositeMapper = {
     className: "Address",
     modelProperties: {
       addressLine1: {
-        constraints: {
-          MinLength: 1
-        },
         serializedName: "addressLine1",
-        required: true,
         type: {
           name: "String"
         }
       },
       addressLine2: {
-        constraints: {
-          MinLength: 1
-        },
         serializedName: "addressLine2",
-        required: true,
         type: {
           name: "String"
         }
       },
       locality: {
-        constraints: {
-          MinLength: 1
-        },
         serializedName: "locality",
-        required: true,
         type: {
           name: "String"
         }
       },
       administrativeDivision: {
-        constraints: {
-          MinLength: 1
-        },
         serializedName: "administrativeDivision",
-        required: true,
         type: {
           name: "String"
         }
       },
       postalCode: {
-        constraints: {
-          MinLength: 1
-        },
         serializedName: "postalCode",
-        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      country: {
+        serializedName: "country",
         type: {
           name: "String"
         }
@@ -246,21 +257,13 @@ export const BusinessInformation: coreClient.CompositeMapper = {
     className: "BusinessInformation",
     modelProperties: {
       companyName: {
-        constraints: {
-          MinLength: 1
-        },
         serializedName: "companyName",
-        required: true,
         type: {
           name: "String"
         }
       },
       companyUrl: {
-        constraints: {
-          MinLength: 1
-        },
         serializedName: "companyUrl",
-        required: true,
         type: {
           name: "String"
         }
@@ -320,8 +323,6 @@ export const CampaignBriefAttachmentSummary: coreClient.CompositeMapper = {
         }
       },
       type: {
-        defaultValue: "callToAction",
-        isConstant: true,
         serializedName: "type",
         type: {
           name: "String"
@@ -331,6 +332,60 @@ export const CampaignBriefAttachmentSummary: coreClient.CompositeMapper = {
         serializedName: "fileName",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OptInDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OptInDetails",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      options: {
+        serializedName: "options",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Option"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Option: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Option",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      imageUrls: {
+        serializedName: "imageUrls",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -443,9 +498,8 @@ export const CampaignBriefAttachment: coreClient.CompositeMapper = {
         }
       },
       typeParam: {
-        defaultValue: "callToAction",
-        isConstant: true,
         serializedName: "type",
+        required: true,
         type: {
           name: "String"
         }
