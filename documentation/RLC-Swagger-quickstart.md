@@ -199,7 +199,7 @@ npx dev-tool samples publish -f
 ```
 You will see the workable samples in the `${PROJECT_ROOT}/samples` folder. 
 
-Except generated samples we also recommand you to add your HERO sample scenarios per your services to guide customers on how to use your library. You could refer [the samples of MapsRouteClient here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/samples-dev) as an example.
+Besides the generated samples, we also recommand you to add your HERO sample scenarios per your services to guide customers on how to use your library. You could refer [the samples of MapsRouteClient here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/samples-dev) as an example.
 
 # Format both the generated code and manual code
 After you have finished the generation and added your own tests or samples, You can use the following command to format the code.  
