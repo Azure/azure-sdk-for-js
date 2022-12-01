@@ -190,18 +190,20 @@ export class ContainerRegistryBlobClient {
       "ContainerRegistryBlobClient.uploadManifest",
       options ?? {},
       async (updatedOptions) => {
-        let manifestBody: Buffer | NodeJS.ReadableStream;
+        let manifestBody: Buffer | (() => NodeJS.ReadableStream);
+        let tagOrDigest: string | undefined = options?.tag;
 
         if (isReadableStream(manifest)) {
           manifestBody = await readStreamToEnd(manifest);
+          tagOrDigest ??= await calculateDigest(manifestBody);
         } else if (typeof manifest === "function") {
-          manifestBody = await readStreamToEnd(manifest());
+          manifestBody = manifest;
+          tagOrDigest ??= await calculateDigest(manifestBody());
         } else {
           const serialized = serializer.serialize(Mappers.OCIManifest, manifest);
           manifestBody = Buffer.from(JSON.stringify(serialized));
+          tagOrDigest ??= await calculateDigest(manifestBody);
         }
-
-        const tagOrDigest = options?.tag ?? (await calculateDigest(manifestBody));
 
         const createManifestResult = await this.client.containerRegistry.createManifest(
           this.repositoryName,
