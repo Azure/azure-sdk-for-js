@@ -2,20 +2,28 @@
 // Licensed under the MIT license.
 
 import { RestError } from "@azure/core-rest-pipeline";
-import { ShortCodesClient } from "../../../src";
-import { USProgramBrief } from "../../../src";
-import { assert } from "chai";
 import {
-  CompanyInformation,
-  MessageDetails,
-  ProgramDetails,
-  TrafficDetails,
-} from "../../../src/generated/src/models/mappers";
+  CompanyInformationMapper,
+  MessageDetailsMapper,
+  ProgramDetailsMapper,
+  ShortCodesClient,
+  TrafficDetailsMapper,
+  USProgramBrief,
+} from "../../../src";
+import { assert } from "chai";
 import { CompositeMapper } from "@azure/core-client";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
+import { v1 as uuid } from "uuid";
 
 export function getTestUSProgramBrief(): USProgramBrief {
+  let programBriefId = uuid();
+
+  if (isPlaybackMode()) {
+    programBriefId = "9d787bd6-07fc-4c7b-8e57-17f1fee41298";
+  }
+
   const testUSProgramBrief: USProgramBrief = {
-    id: "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
+    id: programBriefId,
     programDetails: {
       description:
         "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
@@ -92,10 +100,10 @@ export function assertEditableFieldsAreEqual(
   assert.equal(expected.id, actual.id, `Program brief Id is incorrect - ${messageContext}`);
 
   assertDeepEqualKnownFields(actual, expected, messageContext, [
-    [(x) => x.programDetails, ProgramDetails, "Program Details do not match"],
-    [(x) => x.companyInformation, CompanyInformation, "Company Information does not match"],
-    [(x) => x.messageDetails, MessageDetails, "Message Details do not match"],
-    [(x) => x.trafficDetails, TrafficDetails, "Traffic Details do not match"],
+    [(x) => x.programDetails, ProgramDetailsMapper, "Program Details do not match"],
+    [(x) => x.companyInformation, CompanyInformationMapper, "Company Information does not match"],
+    [(x) => x.messageDetails, MessageDetailsMapper, "Message Details do not match"],
+    [(x) => x.trafficDetails, TrafficDetailsMapper, "Traffic Details do not match"],
   ]);
 }
 
@@ -114,7 +122,7 @@ function assertDeepEqualKnownFields(
     mapper: CompositeMapper,
     errorMessage: string
   ][]
-) {
+): void {
   for (const comparison of comparisons) {
     assertDeepEqualKnownFieldsInternal(
       actual,
@@ -134,7 +142,7 @@ function assertDeepEqualKnownFieldsInternal(
   propertyToCompareExtractor: (object: any) => any,
   errorMessage: string,
   messageContext: string
-) {
+): void {
   const mappedActual = mapKnownFields(propertyToCompareExtractor(actual), mapper);
   const mappedExpected = mapKnownFields(propertyToCompareExtractor(expected), mapper);
 

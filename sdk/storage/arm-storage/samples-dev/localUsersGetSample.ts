@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Get the local user of the storage account by username.
  *
  * @summary Get the local user of the storage account by username.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/LocalUserGet.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/LocalUserGet.json
  */
 async function getLocalUser() {
   const subscriptionId = "{subscription-id}";

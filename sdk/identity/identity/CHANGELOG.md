@@ -1,5 +1,4 @@
 # Release History
-
 ## 3.1.2 (Unreleased)
 
 ### Features Added
@@ -8,7 +7,10 @@
 
 ### Bugs Fixed
 
+- Enable msal logging based on log level specified by user.
 ### Other Changes
+
+- Upgraded version dependencies on msal libraries, since they have additional logging enabled.
 
 ## 3.1.1 (2022-11-18)
 

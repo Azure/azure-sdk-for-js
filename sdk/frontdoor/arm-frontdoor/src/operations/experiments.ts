@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Experiments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -66,11 +67,15 @@ export class ExperimentsImpl implements Experiments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByProfilePagingPage(
           resourceGroupName,
           profileName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -79,15 +84,22 @@ export class ExperimentsImpl implements Experiments {
   private async *listByProfilePagingPage(
     resourceGroupName: string,
     profileName: string,
-    options?: ExperimentsListByProfileOptionalParams
+    options?: ExperimentsListByProfileOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Experiment[]> {
-    let result = await this._listByProfile(
-      resourceGroupName,
-      profileName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ExperimentsListByProfileResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByProfile(
+        resourceGroupName,
+        profileName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByProfileNext(
         resourceGroupName,
@@ -96,7 +108,9 @@ export class ExperimentsImpl implements Experiments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

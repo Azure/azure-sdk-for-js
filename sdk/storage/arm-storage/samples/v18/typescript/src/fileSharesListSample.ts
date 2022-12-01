@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists all shares.
  *
  * @summary Lists all shares.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/DeletedFileSharesList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/DeletedFileSharesList.json
  */
 async function listDeletedShares() {
   const subscriptionId = "{subscription-id}";
@@ -45,7 +45,7 @@ listDeletedShares().catch(console.error);
  * This sample demonstrates how to Lists all shares.
  *
  * @summary Lists all shares.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/FileShareSnapshotsList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/FileShareSnapshotsList.json
  */
 async function listShareSnapshots() {
   const subscriptionId = "{subscription-id}";
@@ -72,7 +72,7 @@ listShareSnapshots().catch(console.error);
  * This sample demonstrates how to Lists all shares.
  *
  * @summary Lists all shares.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/FileSharesList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/FileSharesList.json
  */
 async function listShares() {
   const subscriptionId = "{subscription-id}";
