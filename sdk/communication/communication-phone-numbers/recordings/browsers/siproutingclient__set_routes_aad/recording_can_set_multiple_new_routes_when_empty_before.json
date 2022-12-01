@@ -29,23 +29,16 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 03 Nov 2022 21:09:51 GMT",
-        "MS-CV": "nWZILPxEA02DKTlGBr8fsA.0",
+        "Date": "Thu, 01 Dec 2022 23:04:43 GMT",
+        "MS-CV": "JRygKT7MdEqTWYzss7/aYw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Hy5kYwAAAAD5/mG\u002BEksYQq8g6X49s7ELUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0CjOJYwAAAADRA6rsw6CiRKg2zGigqv3gUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "164ms"
+        "X-Processing-Time": "446ms"
       },
       "ResponseBody": {
-        "trunks": {
-          "random3.com": {
-            "sipSignalingPort": 5678
-          },
-          "random4.com": {
-            "sipSignalingPort": 5678
-          }
-        },
+        "trunks": {},
         "routes": []
       }
     },
@@ -91,23 +84,16 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 03 Nov 2022 21:09:51 GMT",
-        "MS-CV": "neLEkyiI8UajydMMKsv76A.0",
+        "Date": "Thu, 01 Dec 2022 23:04:43 GMT",
+        "MS-CV": "2Qpnh2U81kWh9nD6ew99Sw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0IC5kYwAAAADbdH/hpaNjQo5UVFqEL2rJUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0CzOJYwAAAAA49tA65bY5Qo3EWT6J3bTTUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "94ms"
+        "X-Processing-Time": "188ms"
       },
       "ResponseBody": {
-        "trunks": {
-          "random3.com": {
-            "sipSignalingPort": 5678
-          },
-          "random4.com": {
-            "sipSignalingPort": 5678
-          }
-        },
+        "trunks": {},
         "routes": [
           {
             "description": "myFirstRoute\u0027s description",
@@ -149,13 +135,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 03 Nov 2022 21:09:52 GMT",
-        "MS-CV": "\u002BZ1IojyA4UyPYBBQIXvQ/Q.0",
+        "Date": "Thu, 01 Dec 2022 23:04:43 GMT",
+        "MS-CV": "kR/BkLhp0kCzbzJJ1o8zDA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0IC5kYwAAAACupJgrdYqSRKhYPk7fxnBIUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0CzOJYwAAAADgJJo9zOqaSZn/OMQr57iHUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "540ms"
+        "X-Processing-Time": "172ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -176,5 +162,8 @@
       }
     }
   ],
-  "Variables": {}
+  "Variables": {
+    "fqdn-89": "test.5bdc248a68b54f89b085a91c0850db50.com",
+    "fqdn-90": "test.ac18cd9efd0d4978bc830d144a0c3984.com"
+  }
 }

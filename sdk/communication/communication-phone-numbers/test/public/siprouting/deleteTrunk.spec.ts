@@ -20,12 +20,11 @@ matrix([[true, false]], async function (useAad) {
   describe(`SipRoutingClient - delete trunk${useAad ? " [AAD]" : ""}`, function () {
     let client: SipRoutingClient;
     let recorder: Recorder;
-
-    const firstFqdn = getUniqueFqdn("first");
+    let firstFqdn = "";
 
     before(async function (this: Context) {
       if (!isPlaybackMode()) {
-        clearSipConfiguration();
+        await clearSipConfiguration();
       }
     });
 
@@ -33,6 +32,7 @@ matrix([[true, false]], async function (useAad) {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(this)
         : await createRecordedClient(this));
+      firstFqdn = getUniqueFqdn(recorder);
     });
 
     afterEach(async function (this: Context) {
@@ -41,10 +41,7 @@ matrix([[true, false]], async function (useAad) {
       }
     });
 
-    it("can delete an existing trunk", async function (this: Context) {
-      if (isPlaybackMode()) {
-        this.skip();
-      }
+    it("can delete an existing trunk", async () => {
       const trunk: SipTrunk = {
         fqdn: firstFqdn,
         sipSignalingPort: 5678,

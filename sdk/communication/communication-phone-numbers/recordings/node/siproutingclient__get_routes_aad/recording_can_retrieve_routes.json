@@ -16,13 +16,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 03 Nov 2022 21:04:57 GMT",
-        "MS-CV": "/E73QuBBS0qz0KpgQIxVTg.0",
+        "Date": "Thu, 01 Dec 2022 19:42:04 GMT",
+        "MS-CV": "NmtRdatF/kW6oepDeqhFUg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0\u002BSxkYwAAAAApxQJBTEgwTIjGD1LhQLwFUFJHMDFFREdFMDkxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0jQOJYwAAAABy/KP3bWbSS6jM8vqnL8b9UFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "69ms"
+        "X-Processing-Time": "89ms"
       },
       "ResponseBody": {
         "trunks": {},

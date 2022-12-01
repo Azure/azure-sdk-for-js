@@ -20,15 +20,14 @@ matrix([[true, false]], async function (useAad) {
   describe(`SipRoutingClient - get trunks${useAad ? " [AAD]" : ""}`, function () {
     let client: SipRoutingClient;
     let recorder: Recorder;
-
-    const firstFqdn = getUniqueFqdn("first");
-    const secondFqdn = getUniqueFqdn("second");
-    const thirdFqdn = getUniqueFqdn("third");
-    const fourthFqdn = getUniqueFqdn("fourth");
+    let firstFqdn = "";
+    let secondFqdn = "";
+    let thirdFqdn = "";
+    let fourthFqdn = "";
 
     before(async function (this: Context) {
       if (!isPlaybackMode()) {
-        clearSipConfiguration();
+        await clearSipConfiguration();
       }
     });
 
@@ -36,6 +35,10 @@ matrix([[true, false]], async function (useAad) {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(this)
         : await createRecordedClient(this));
+      firstFqdn = getUniqueFqdn(recorder);
+      secondFqdn = getUniqueFqdn(recorder);
+      thirdFqdn = getUniqueFqdn(recorder);
+      fourthFqdn = getUniqueFqdn(recorder);
     });
 
     afterEach(async function (this: Context) {
@@ -54,10 +57,7 @@ matrix([[true, false]], async function (useAad) {
       assert.fail("NotFound expected.");
     });
 
-    it("can retrieve an existing trunk", async function (this: Context) {
-      if (isPlaybackMode()) {
-        this.skip();
-      }
+    it("can retrieve an existing trunk", async () => {
       await client.setTrunk({ fqdn: fourthFqdn, sipSignalingPort: 4567 } as SipTrunk);
 
       const trunk = await client.getTrunk(fourthFqdn);
@@ -92,10 +92,7 @@ matrix([[true, false]], async function (useAad) {
 
       assert.isNotNull(trunks);
       assert.isArray(trunks);
-      assert.equal(expectedTrunks.length, trunks.length);
-      if (!isPlaybackMode()) {
-        assert.deepEqual(trunks, expectedTrunks);
-      }
+      assert.deepEqual(trunks, expectedTrunks);
     });
   });
 });

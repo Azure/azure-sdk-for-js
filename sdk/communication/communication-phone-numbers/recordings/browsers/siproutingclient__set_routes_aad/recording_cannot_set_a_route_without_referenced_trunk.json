@@ -37,13 +37,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json",
-        "Date": "Thu, 03 Nov 2022 21:09:59 GMT",
-        "MS-CV": "smIr2zdIvEiRUpL9KpgbnA.0",
+        "Date": "Thu, 01 Dec 2022 23:04:53 GMT",
+        "MS-CV": "T2Lq1c\u002BroUKEd4SqWJGprQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Jy5kYwAAAABIlU6GPS2KRpqHHVmzRb2eUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0FTOJYwAAAACEvywXwbZmSKpx03XRhLziUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "79ms"
+        "X-Processing-Time": "376ms"
       },
       "ResponseBody": {
         "error": {
@@ -81,20 +81,20 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 03 Nov 2022 21:09:59 GMT",
-        "MS-CV": "WXkzo/s0zU\u002BxZVWYyhgiCg.0",
+        "Date": "Thu, 01 Dec 2022 23:04:54 GMT",
+        "MS-CV": "1ojOzTtxDkeXm\u002Bpy3mqCUw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Jy5kYwAAAADwo8vqjUATSJJdvqa1lnYeUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0FjOJYwAAAABCJ9Li8/7xR4tmmzcIzJYCUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "61ms"
+        "X-Processing-Time": "91ms"
       },
       "ResponseBody": {
         "trunks": {
-          "first.com": {
+          "test.20a938f6afbb45e189063638824d260c.com": {
             "sipSignalingPort": 8239
           },
-          "second.com": {
+          "test.8275d954dd3b469981840fe8f5894a47.com": {
             "sipSignalingPort": 7348
           }
         },
@@ -102,5 +102,8 @@
       }
     }
   ],
-  "Variables": {}
+  "Variables": {
+    "fqdn-107": "test.7334473bd4854eb597d5ab7339004488.com",
+    "fqdn-108": "test.8a29a41d0f5640889a6f7b16f34f6c05.com"
+  }
 }

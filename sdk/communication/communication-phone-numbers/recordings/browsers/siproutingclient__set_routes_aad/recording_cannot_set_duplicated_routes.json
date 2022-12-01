@@ -37,13 +37,13 @@
       "StatusCode": 400,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Thu, 03 Nov 2022 21:09:57 GMT",
-        "MS-CV": "gea62xK5\u002BEefeLqTD1gP4g.0",
+        "Date": "Thu, 01 Dec 2022 23:04:51 GMT",
+        "MS-CV": "sasfcwtZz0K9/Wgc5Xk4sw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0JS5kYwAAAABWgagrEG2HQ6k8GMC17k/9UFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0EzOJYwAAAACJiFzIYNU3QocftQd7UHVKUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "22ms"
+        "X-Processing-Time": "36ms"
       },
       "ResponseBody": {
         "error": {
@@ -81,17 +81,17 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 03 Nov 2022 21:09:57 GMT",
-        "MS-CV": "yXvi7pE/xkayPJdHRjshCw.0",
+        "Date": "Thu, 01 Dec 2022 23:04:51 GMT",
+        "MS-CV": "IfNz2YDUm0CeGqFvEYGCTQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Ji5kYwAAAADsXwddO\u002BKqTIqRCjnNIcRUUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0EzOJYwAAAAB2EPVMIyMdSaOr3/eXVI7WUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "61ms"
+        "X-Processing-Time": "100ms"
       },
       "ResponseBody": {
         "trunks": {
-          "first.com": {
+          "test.34ccf6eb0dca49d480ea4eb6dd235883.com": {
             "sipSignalingPort": 5678
           }
         },
@@ -99,5 +99,8 @@
       }
     }
   ],
-  "Variables": {}
+  "Variables": {
+    "fqdn-103": "test.0e50e9b2b5884b4ca55b9910e5071636.com",
+    "fqdn-104": "test.e288f7f61e7f4c799a015eface0ca92d.com"
+  }
 }

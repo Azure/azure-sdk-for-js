@@ -25,13 +25,13 @@
       "StatusCode": 422,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Thu, 03 Nov 2022 21:05:14 GMT",
-        "MS-CV": "C0a0JsS/zkeL2tQVUgCaIg.0",
+        "Date": "Thu, 01 Dec 2022 19:42:29 GMT",
+        "MS-CV": "Y/0m4lJi30Kb5z7QrYrdRg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Ci1kYwAAAABs6hFJSUP1Q7WjdJFVKOmYUFJHMDFFREdFMDkxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0pgOJYwAAAABh2bG\u002BD37LRYqA3k3ibHQaUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "19ms"
+        "X-Processing-Time": "33ms"
       },
       "ResponseBody": {
         "error": {
@@ -60,17 +60,17 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 03 Nov 2022 21:05:14 GMT",
-        "MS-CV": "fPOgDGKiA0\u002BYMD/9eBQgpg.0",
+        "Date": "Thu, 01 Dec 2022 19:42:29 GMT",
+        "MS-CV": "ClpufPZQ8EGWeCk7sYqIDA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Ci1kYwAAAAD6DUgb9VotTY5UYKG5lniRUFJHMDFFREdFMDkxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0pgOJYwAAAABBxCpNw45jTo3tlhQhhWVzUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "73ms"
+        "X-Processing-Time": "83ms"
       },
       "ResponseBody": {
         "trunks": {
-          "first.com": {
+          "test.1e9d3701af4746ad8016125825096ae0.com": {
             "sipSignalingPort": 5678
           }
         },
@@ -78,5 +78,8 @@
       }
     }
   ],
-  "Variables": {}
+  "Variables": {
+    "fqdn-55": "test.04b492a3f6f34046b0afb50a5f029990.com",
+    "fqdn-56": "test.6d3a485dfa034d4dbb314c8ebd89fa9c.com"
+  }
 }

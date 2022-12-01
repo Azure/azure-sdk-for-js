@@ -34,13 +34,13 @@
       "StatusCode": 422,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Thu, 03 Nov 2022 21:09:56 GMT",
-        "MS-CV": "E2xOuberQEiTAXg3ivVfng.0",
+        "Date": "Thu, 01 Dec 2022 23:04:48 GMT",
+        "MS-CV": "tMQWzHAYGEKPZiP31AuX4Q.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0JC5kYwAAAACb7qw9aBR/Q6DXOHTjh8yGUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0ETOJYwAAAAC49RimAtHrQoHloAYD7q/NUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "25ms"
+        "X-Processing-Time": "32ms"
       },
       "ResponseBody": {
         "error": {
@@ -78,17 +78,17 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 03 Nov 2022 21:09:56 GMT",
-        "MS-CV": "NVVufjH0Rk2D6vQbZDsSzg.0",
+        "Date": "Thu, 01 Dec 2022 23:04:49 GMT",
+        "MS-CV": "yacDnjsMYEKeycu6zVpBMg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0JS5kYwAAAADgZTKOpd6lQbP5Mgy4l2OyUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0ETOJYwAAAAAxuMi0WJ3LS5qM4nS7GXSYUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "58ms"
+        "X-Processing-Time": "92ms"
       },
       "ResponseBody": {
         "trunks": {
-          "first.com": {
+          "test.34ccf6eb0dca49d480ea4eb6dd235883.com": {
             "sipSignalingPort": 5678
           }
         },
@@ -96,5 +96,8 @@
       }
     }
   ],
-  "Variables": {}
+  "Variables": {
+    "fqdn-100": "test.a3add286f8f148fd8a0d72da83802b93.com",
+    "fqdn-99": "test.64f55ed43ca84d74827fe0d2dc69708d.com"
+  }
 }

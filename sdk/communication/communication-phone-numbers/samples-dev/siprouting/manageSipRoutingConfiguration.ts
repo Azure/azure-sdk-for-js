@@ -3,6 +3,8 @@
 
 import { SipRoutingClient } from "@azure/communication-phone-numbers";
 
+import { v4 as uuidv4 } from "uuid";
+
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -19,9 +21,9 @@ export async function main() {
   const client = new SipRoutingClient(connectionString);
 
   // TODO replace with real FQDN
-  const firstTrunkFqdn = getUniqueFqdn();
+  const firstTrunkFqdn = `sample.${uuidv4()}.com`;
   // TODO replace with real FQDN
-  const secondTrunkFqdn = getUniqueFqdn();
+  const secondTrunkFqdn = `sample.${uuidv4()}.com`;
 
   // Clear configuration
   await client.setRoutes([]);
@@ -83,12 +85,3 @@ main().catch((error) => {
   console.log("The sample encountered an error:", error);
   process.exit(1);
 });
-
-function getUniqueFqdn() {
-  const length = 12;
-  let random = 0;
-  do {
-    random = Math.floor(Math.random() * 10 ** length);
-  } while (random < 10 ** (length - 1));
-  return `sample.${random}.com`;
-}

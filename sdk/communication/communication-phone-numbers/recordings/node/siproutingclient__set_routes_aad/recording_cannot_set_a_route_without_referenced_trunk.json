@@ -28,13 +28,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json",
-        "Date": "Thu, 03 Nov 2022 21:05:18 GMT",
-        "MS-CV": "0jQp5isNjkKcM8laJ4jT0g.0",
+        "Date": "Thu, 01 Dec 2022 19:42:33 GMT",
+        "MS-CV": "JzMyzc5\u002BHEitdzCWUw4duA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Di1kYwAAAADOaq2wB\u002BPsRJACSuNhaUMNUFJHMDFFREdFMDkxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0qgOJYwAAAABfXIegXtFnQqqO12kmLMnZUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "123ms"
+        "X-Processing-Time": "130ms"
       },
       "ResponseBody": {
         "error": {
@@ -63,20 +63,20 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 03 Nov 2022 21:05:18 GMT",
-        "MS-CV": "Rya1e8ohlkWR\u002B5z0XwpoYw.0",
+        "Date": "Thu, 01 Dec 2022 19:42:33 GMT",
+        "MS-CV": "sDkLsmxVYkSzEFEogqBp\u002BQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Di1kYwAAAACnhsw5dy2HSb8pOc9TfLqyUFJHMDFFREdFMDkxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0qgOJYwAAAAAV76XYf0mqRLv8OYMhOhygUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "71ms"
+        "X-Processing-Time": "311ms"
       },
       "ResponseBody": {
         "trunks": {
-          "first.com": {
+          "test.62748d28c5bd4a26b35bd339e844f3bd.com": {
             "sipSignalingPort": 8239
           },
-          "second.com": {
+          "test.34833da4169d4fb4a623c311930e337b.com": {
             "sipSignalingPort": 7348
           }
         },
@@ -84,5 +84,8 @@
       }
     }
   ],
-  "Variables": {}
+  "Variables": {
+    "fqdn-63": "test.970d7e6d856149e8926c8e57bee847fd.com",
+    "fqdn-64": "test.e92b76a34ded46b5b2ade5ba6e161beb.com"
+  }
 }

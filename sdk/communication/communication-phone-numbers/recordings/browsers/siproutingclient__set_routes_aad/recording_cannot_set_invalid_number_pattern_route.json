@@ -33,13 +33,13 @@
       "StatusCode": 422,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Thu, 03 Nov 2022 21:09:57 GMT",
-        "MS-CV": "6uje1ixznUm3otSr3TWHNA.0",
+        "Date": "Thu, 01 Dec 2022 23:04:49 GMT",
+        "MS-CV": "c6dspiClXEmBLn3VbTnruA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0JS5kYwAAAABC\u002Bo/6esn6SaWQ9yyWO5HNUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0ETOJYwAAAAD5Z3WPTKY8S5vQ/9Aj4CDmUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "22ms"
+        "X-Processing-Time": "36ms"
       },
       "ResponseBody": {
         "error": {
@@ -77,17 +77,17 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 03 Nov 2022 21:09:57 GMT",
-        "MS-CV": "tx0tuc3wo067M9bq\u002Bk7J8g.0",
+        "Date": "Thu, 01 Dec 2022 23:04:49 GMT",
+        "MS-CV": "c2J/LV5kR0qsc53iAY/vNg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0JS5kYwAAAAA/G05Qi5UpQoFLe8tRQ5XRUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0ETOJYwAAAAB6WFIE6q3HSbSqTaB9qGfWUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "60ms"
+        "X-Processing-Time": "115ms"
       },
       "ResponseBody": {
         "trunks": {
-          "first.com": {
+          "test.34ccf6eb0dca49d480ea4eb6dd235883.com": {
             "sipSignalingPort": 5678
           }
         },
@@ -95,5 +95,8 @@
       }
     }
   ],
-  "Variables": {}
+  "Variables": {
+    "fqdn-101": "test.7633e573804b44c3b7389c1609a439f2.com",
+    "fqdn-102": "test.025eb7f7ccc44a0b994d724c5418d775.com"
+  }
 }

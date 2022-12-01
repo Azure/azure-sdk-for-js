@@ -16,6 +16,7 @@ import { parseConnectionString } from "@azure/communication-common";
 import { TokenCredential } from "@azure/identity";
 import { isNode } from "@azure/test-utils";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { v4 as uuidv4 } from "uuid";
 
 if (isNode) {
   dotenv.config();
@@ -55,7 +56,6 @@ const sanitizerOptions: SanitizerOptions = {
       target: `[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}`,
       value: `sanitized`,
     },
-    { regex: true, target: `([a-z]+[0-9]?).[0-9]{12}.com`, value: `$1.com` },
   ],
 };
 
@@ -72,7 +72,6 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
       "Accept-Language", // This is env-dependent
       "x-ms-content-sha256", // This is dependent on the current datetime
     ],
-    compareBodies: false,
   });
   return recorder;
 }
@@ -126,11 +125,8 @@ export async function clearSipConfiguration(): Promise<void> {
   await client.setTrunks([]);
 }
 
-export function getUniqueFqdn(order: string): string {
-  const length = 12;
-  let random = 0;
-  do {
-    random = Math.floor(Math.random() * 10 ** length);
-  } while (random < 10 ** (length - 1));
-  return `${order}.${random}.com`;
+let fqdnNumber = 1;
+export function getUniqueFqdn(recorder: Recorder): string {
+  const uniqueDomain = uuidv4().replace(/-/g, "");
+  return recorder.variable(`fqdn-${fqdnNumber++}`, `test.${uniqueDomain}.com`);
 }

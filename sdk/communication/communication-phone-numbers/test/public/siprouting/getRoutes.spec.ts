@@ -21,7 +21,7 @@ matrix([[true, false]], async function (useAad) {
 
     before(async function (this: Context) {
       if (!isPlaybackMode()) {
-        clearSipConfiguration();
+        await clearSipConfiguration();
       }
     });
 

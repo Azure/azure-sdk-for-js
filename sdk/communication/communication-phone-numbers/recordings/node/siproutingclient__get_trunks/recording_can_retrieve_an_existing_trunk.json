@@ -8,16 +8,16 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "51",
+        "Content-Length": "82",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-content-sha256": "rkbAArCZvzHFd0Thz82/MWMc/cCDolOSF59eN4BYOKg=",
-        "x-ms-date": "Thu, 03 Nov 2022 21:05:05 GMT"
+        "x-ms-content-sha256": "ijhCSWa2csViEfQO6vDvEZJXiF5krYuteRXTMMf4hSA=",
+        "x-ms-date": "Thu, 01 Dec 2022 19:42:16 GMT"
       },
       "RequestBody": {
         "trunks": {
-          "fourth.com": {
+          "test.8764117b39824b37b9520bbe2bd29c11.com": {
             "sipSignalingPort": 4567
           }
         }
@@ -26,17 +26,17 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 03 Nov 2022 21:05:07 GMT",
-        "MS-CV": "729w5MavYEGSXql\u002BG\u002ByUVA.0",
+        "Date": "Thu, 01 Dec 2022 19:42:16 GMT",
+        "MS-CV": "yFqKFyR/GEmMtSZ9FuXOtg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0AC1kYwAAAACHgdfju2klSaeOljTqhaRQUFJHMDFFREdFMDkxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0mAOJYwAAAABCXk0PHTPNQZzHflxK1lrmUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "2692ms"
+        "X-Processing-Time": "995ms"
       },
       "ResponseBody": {
         "trunks": {
-          "fourth.com": {
+          "test.8764117b39824b37b9520bbe2bd29c11.com": {
             "sipSignalingPort": 4567
           }
         },
@@ -54,24 +54,24 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Thu, 03 Nov 2022 21:05:08 GMT"
+        "x-ms-date": "Thu, 01 Dec 2022 19:42:17 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 03 Nov 2022 21:05:07 GMT",
-        "MS-CV": "ucczx8ZYUkKP8oD\u002BOeGfew.0",
+        "Date": "Thu, 01 Dec 2022 19:42:16 GMT",
+        "MS-CV": "NUn9Ig8do0CQwoNH2icc4g.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Ay1kYwAAAACxKHojjj2iTrgPvs1h1KrPUFJHMDFFREdFMDkxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0mQOJYwAAAABf/nLdhwwkR4pmbCbw1p\u002BrUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "74ms"
+        "X-Processing-Time": "149ms"
       },
       "ResponseBody": {
         "trunks": {
-          "fourth.com": {
+          "test.8764117b39824b37b9520bbe2bd29c11.com": {
             "sipSignalingPort": 4567
           }
         },
@@ -79,5 +79,10 @@
       }
     }
   ],
-  "Variables": {}
+  "Variables": {
+    "fqdn-29": "test.1d2d22ffe3c54e4d8bb601637ebd906d.com",
+    "fqdn-30": "test.63db0faf4974440e86940dac9b8dae80.com",
+    "fqdn-31": "test.0fc9159c63314f1bba0fc041907009e4.com",
+    "fqdn-32": "test.8764117b39824b37b9520bbe2bd29c11.com"
+  }
 }

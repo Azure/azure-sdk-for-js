@@ -20,13 +20,12 @@ matrix([[true, false]], async function (useAad) {
   describe(`SipRoutingClient - set trunks${useAad ? " [AAD]" : ""}`, function () {
     let client: SipRoutingClient;
     let recorder: Recorder;
-
-    const firstFqdn = getUniqueFqdn("first");
-    const secondFqdn = getUniqueFqdn("second");
+    let firstFqdn = "";
+    let secondFqdn = "";
 
     before(async function (this: Context) {
       if (!isPlaybackMode()) {
-        clearSipConfiguration();
+        await clearSipConfiguration();
       }
     });
 
@@ -34,6 +33,8 @@ matrix([[true, false]], async function (useAad) {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(this)
         : await createRecordedClient(this));
+      firstFqdn = getUniqueFqdn(recorder);
+      secondFqdn = getUniqueFqdn(recorder);
     });
 
     afterEach(async function (this: Context) {
@@ -42,10 +43,7 @@ matrix([[true, false]], async function (useAad) {
       }
     });
 
-    it("can set a new trunk", async function (this: Context) {
-      if (isPlaybackMode()) {
-        this.skip();
-      }
+    it("can set a new trunk", async () => {
       const trunk: SipTrunk = { fqdn: firstFqdn, sipSignalingPort: 1231 };
 
       const setTrunk = await client.setTrunk(trunk);
@@ -55,10 +53,7 @@ matrix([[true, false]], async function (useAad) {
       assert.deepEqual(getTrunk, trunk);
     });
 
-    it("can set an existing trunk", async function (this: Context) {
-      if (isPlaybackMode()) {
-        this.skip();
-      }
+    it("can set an existing trunk", async () => {
       const trunk: SipTrunk = { fqdn: firstFqdn, sipSignalingPort: 1231 };
       await client.setTrunk(trunk);
 
@@ -80,14 +75,10 @@ matrix([[true, false]], async function (useAad) {
       ];
 
       const setTrunks = await client.setTrunks(trunks);
-      const storedTrunks = await client.getTrunks();
+      assert.deepEqual(setTrunks, trunks);
 
-      assert.isNotNull(setTrunks);
-      assert.isNotNull(storedTrunks);
-      if (!isPlaybackMode()) {
-        assert.deepEqual(setTrunks, trunks);
-        assert.deepEqual(storedTrunks, trunks);
-      }
+      const storedTrunks = await client.getTrunks();
+      assert.deepEqual(storedTrunks, trunks);
     });
 
     it("can set multiple existing trunks", async () => {
@@ -101,14 +92,10 @@ matrix([[true, false]], async function (useAad) {
       trunks[1].sipSignalingPort = 9876;
 
       const setTrunks = await client.setTrunks(trunks);
-      const storedTrunks = await client.getTrunks();
+      assert.deepEqual(setTrunks, trunks);
 
-      assert.isNotNull(setTrunks);
-      assert.isNotNull(storedTrunks);
-      if (!isPlaybackMode()) {
-        assert.deepEqual(setTrunks, trunks);
-        assert.deepEqual(storedTrunks, trunks);
-      }
+      const storedTrunks = await client.getTrunks();
+      assert.deepEqual(storedTrunks, trunks);
     });
 
     it("can set empty trunks when empty before", async () => {
@@ -206,11 +193,7 @@ matrix([[true, false]], async function (useAad) {
         const storedTrunks = await client.getTrunks();
         assert.isNotNull(storedTrunks);
         assert.isArray(storedTrunks);
-        assert.equal(storedTrunks.length, expectedTrunks.length);
-        if (!isPlaybackMode()) {
-          assert.deepEqual(storedTrunks, expectedTrunks);
-        }
-
+        assert.deepEqual(storedTrunks, expectedTrunks);
         return;
       }
       assert.fail("UnprocessableConfiguration expected.");
@@ -235,27 +218,18 @@ matrix([[true, false]], async function (useAad) {
 
       const trunks: SipTrunk[] = [
         {
-          fqdn: getUniqueFqdn("random3"),
+          fqdn: getUniqueFqdn(recorder),
           sipSignalingPort: 5678,
         },
         {
-          fqdn: getUniqueFqdn("random4"),
+          fqdn: getUniqueFqdn(recorder),
           sipSignalingPort: 5678,
         },
       ];
       await client.setTrunks(trunks);
 
-      const getTrunks = await client.getTrunks();
-      const getRoutes = await client.getRoutes();
-
-      assert.isArray(getTrunks);
-      assert.isArray(getRoutes);
-      assert.equal(getTrunks.length, trunks.length);
-      assert.equal(getRoutes.length, routes.length);
-      if (!isPlaybackMode()) {
-        assert.deepEqual(getTrunks, trunks);
-        assert.deepEqual(getRoutes, routes);
-      }
+      assert.deepEqual(await client.getTrunks(), trunks);
+      assert.deepEqual(await client.getRoutes(), routes);
     });
   });
 });

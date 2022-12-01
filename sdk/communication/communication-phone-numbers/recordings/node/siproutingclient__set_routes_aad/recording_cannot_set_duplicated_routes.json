@@ -28,13 +28,13 @@
       "StatusCode": 400,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Thu, 03 Nov 2022 21:05:15 GMT",
-        "MS-CV": "Vxt4wDTaTUe3yEfDVNj\u002BsA.0",
+        "Date": "Thu, 01 Dec 2022 19:42:31 GMT",
+        "MS-CV": "BGDTZphrX0Oq6m\u002BCKG3ksg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Cy1kYwAAAACPuYKVumpTT6MSXnX1R1cLUFJHMDFFREdFMDkxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0pwOJYwAAAABfNNlu8XM/R4FVdCjlYw67UFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "83ms"
+        "X-Processing-Time": "32ms"
       },
       "ResponseBody": {
         "error": {
@@ -63,17 +63,17 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 03 Nov 2022 21:05:16 GMT",
-        "MS-CV": "vrjy/BTNokiUGyOAjZDR9Q.0",
+        "Date": "Thu, 01 Dec 2022 19:42:31 GMT",
+        "MS-CV": "yX\u002BIjwls2kOpXkrIiyIp5A.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Cy1kYwAAAABAhCGBqkhQT5bjVn6q2jw0UFJHMDFFREdFMDkxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0qAOJYwAAAADXzQ0Op6sbQbRNfb17L4tOUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "176ms"
+        "X-Processing-Time": "205ms"
       },
       "ResponseBody": {
         "trunks": {
-          "first.com": {
+          "test.1e9d3701af4746ad8016125825096ae0.com": {
             "sipSignalingPort": 5678
           }
         },
@@ -81,5 +81,8 @@
       }
     }
   ],
-  "Variables": {}
+  "Variables": {
+    "fqdn-59": "test.aae0e70ebf48492182afb9fea8368ea1.com",
+    "fqdn-60": "test.7602a9a9633b418785e2b348087b576e.com"
+  }
 }
