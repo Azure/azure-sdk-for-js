@@ -157,8 +157,11 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       auth: {
         clientId,
         authority,
-        knownAuthorities: getKnownAuthorities(tenantId, authority),
+        knownAuthorities: getKnownAuthorities(tenantId, authority, options.knownAuthorities),
         clientCapabilities,
+        authorityMetadata: options.authorityMetadata,
+        cloudDiscoveryMetadata: options.cloudDiscoveryMetadata,
+        skipAuthorityMetadataCache: options.skipAuthorityMetadataCache,
       },
       // Cache is defined in this.prepare();
       system: {

@@ -74,11 +74,15 @@ export function getAuthority(tenantId: string, host?: string): string {
  * by sending it within the known authorities in the MSAL configuration.
  * @internal
  */
-export function getKnownAuthorities(tenantId: string, authorityHost: string): string[] {
+export function getKnownAuthorities(tenantId: string, authorityHost: string, knownAuthorities: string[]|undefined): string[] {
+  let allKnownAuthorities: string[] = [];
   if (tenantId === "adfs" && authorityHost) {
-    return [authorityHost];
+    allKnownAuthorities = [authorityHost];
   }
-  return [];
+  if(knownAuthorities){
+    allKnownAuthorities = allKnownAuthorities.concat(knownAuthorities);
+  }
+  return allKnownAuthorities;
 }
 
 /**
