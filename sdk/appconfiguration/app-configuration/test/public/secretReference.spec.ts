@@ -123,7 +123,7 @@ describe("AppConfigurationClient - SecretReference", () => {
       });
     });
 
-    it("can add, list and update multiple SecretReferences", async () => {
+    it.only("can add, list and update multiple SecretReferences", async () => {
       const secondSetting = {
         ...baseSetting,
         key: `${baseSetting.key}-2`,
@@ -173,9 +173,7 @@ describe("AppConfigurationClient - SecretReference", () => {
         0,
         "Unexpected number of SecretReferences seen after updating"
       );
-      if (secondSetting.isReadOnly) {
-        await client.setReadOnly({ key: secondSetting.key, label: secondSetting.label }, false);
-      }
+      await client.setReadOnly({ key: secondSetting.key, label: secondSetting.label }, false);
       await client.deleteConfigurationSetting({
         key: secondSetting.key,
         label: secondSetting.label,
