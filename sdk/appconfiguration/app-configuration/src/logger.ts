@@ -7,4 +7,4 @@ import { createClientLogger } from "@azure/logger";
  * The `@azure/logger` configuration for this package.
  * @internal
  */
-export const logger = createClientLogger("ai-language-text");
+export const logger = createClientLogger("app-config");

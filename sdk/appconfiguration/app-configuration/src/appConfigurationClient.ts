@@ -446,7 +446,7 @@ export class AppConfigurationClient {
       async (newOptions) => {
         let response;
         if (readOnly) {
-          logger.info("[setReadOnly] Setting read-only status");
+          logger.info("[setReadOnly] Setting read-only status to ${readOnly}");
           response = await this.client.putLock(id.key, {
             ...newOptions,
             label: id.label,
