@@ -103,6 +103,9 @@ You can request map tiles in vector or raster formats. These tiles are typically
 Some example tiles that can be requested are Azure Maps road tiles, real-time Weather Radar tiles or the map tiles created using [Azure Maps Creator](https://docs.microsoft.com/shows/internet-of-things-show/introducing-azure-maps-creator).
 
 ```javascript
+const { createWriteStream } = require("fs");
+const { positionToTileXY } = require("@azure-rest/maps-render");
+
 const zoom = 6;
 // Use the helper function `positionToTileXY` to get the tile index from the coordinate.
 const { x, y } = positionToTileXY([47.61559, -122.33817], 6, "256");
@@ -131,6 +134,8 @@ You can request map copyright attribution information for a section of a tileset
 A tileset is a collection of raster or vector data broken up into a uniform grid of square tiles at preset zoom levels. Every tileset has a tilesetId to use when making requests. The supported tilesetIds are listed [here](https://docs.microsoft.com/rest/api/maps/render-v2/get-map-attribution?tabs=HTTP#tilesetid).
 
 ```javascript
+const { isUnexpected } = require("@azure-rest/maps-render");
+
 const response = await client.path("/map/attribution").get({
   queryParameters: {
     tilesetId: "microsoft.base",
@@ -154,6 +159,8 @@ baseResponse.body.copyrights.forEach((copyright) => console.log(copyright));
 You can request metadata for a tileset in TileJSON format using the following code snippet.
 
 ```javascript
+const { isUnexpected } = require("@azure-rest/maps-render");
+
 const response = await client.path("/map/tileset").get({
   queryParameters: {
     tilesetId: "microsoft.base",
