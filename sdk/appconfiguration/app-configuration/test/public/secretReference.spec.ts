@@ -123,7 +123,7 @@ describe("AppConfigurationClient - SecretReference", () => {
       });
     });
 
-    it.only("can add, list and update multiple SecretReferences", async () => {
+    it("can add, list and update multiple SecretReferences", async () => {
       const secondSetting = {
         ...baseSetting,
         key: `${baseSetting.key}-2`,
