@@ -57,14 +57,24 @@ export interface AuthenticationRequiredErrorOptions {
 }
 
 // @public
+export interface AuthorityValidationOptions {
+    // (undocumented)
+    authorityMetadata?: string;
+    // (undocumented)
+    cloudDiscoveryMetadata?: string;
+    // (undocumented)
+    knownAuthorities?: string[];
+    // (undocumented)
+    skipAuthorityMetadataCache?: boolean;
+}
+
+// @public
 export class AuthorizationCodeCredential implements TokenCredential {
     constructor(tenantId: string | "common", clientId: string, clientSecret: string, authorizationCode: string, redirectUri: string, options?: AuthorizationCodeCredentialOptions);
     constructor(tenantId: string | "common", clientId: string, authorizationCode: string, redirectUri: string, options?: AuthorizationCodeCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
-// Warning: (ae-forgotten-export) The symbol "AuthorityValidationOptions" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface AuthorizationCodeCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
 }
