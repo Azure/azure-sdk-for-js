@@ -154,7 +154,7 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
 
 # How to write samples
 
-Samples could make it quicker and easier for customers to use our package. We author TypeScript samples under the `samples-dev` folder. For quick start you can use [sample-dev template](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/samples-dev) as reference and update the relevant information for your service such as package-name, sample code, description, etc. To learn more you could refer [the samples of MapsRouteClient here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/samples-dev).
+We highly encourage you to write some valid samples for your customer to get start your service with RLC. You may author TypeScript samples under the `samples-dev` folder. For quick start you can use [sample-dev template](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/samples-dev) as reference and update the relevant information for your service such as package-name, sample code, description, etc. To learn more you could refer [the samples of MapsRouteClient here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/samples-dev).
 After the samples-dev folder change is finished, you will need to change the tsconfig.json to make sure the dev samples can be compiled and build correctly.  
 
 You will need to add this part to the "compilerOptions" of your tsconfig.json file so that the Samples engine could resolve the sample-dev package against the source code of the SDK.  
