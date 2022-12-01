@@ -1,34 +1,40 @@
+@description('The base resource name.')
 param baseName string = resourceGroup().name
-param location string = resourceGroup().location
 
-resource serviceBusNamespace 'Microsoft.ServiceBus/namespaces@2022-01-01-preview' = {
-  name: 'sb-${baseName}'
+@description('The client OID to grant access to test resources.')
+param testApplicationOid string
+
+var apiVersion = '2017-04-01'
+var location = resourceGroup().location
+var authorizationRuleName_var = '${baseName}/RootManageSharedAccessKey'
+
+resource servicebus 'Microsoft.ServiceBus/namespaces@2018-01-01-preview' = {
+  name: baseName
   location: location
   sku: {
-    capacity: 40
     name: 'Standard'
     tier: 'Standard'
   }
-}
-
-resource testQueue 'Microsoft.ServiceBus/namespaces/queues@2022-01-01-preview' = {
-  parent: serviceBusNamespace
-  name: 'sb-${baseName}-queue'
   properties: {
-    lockDuration: 'PT5M'
-    maxSizeInMegabytes: 1024
-    requiresDuplicateDetection: false
-    requiresSession: false
-    defaultMessageTimeToLive: 'P10675199DT2H48M5.4775807S'
-    deadLetteringOnMessageExpiration: false
-    duplicateDetectionHistoryTimeWindow: 'PT10M'
-    maxDeliveryCount: 10
-    autoDeleteOnIdle: 'P10675199DT2H48M5.4775807S'
-    enablePartitioning: true
-    enableExpress: false
+    zoneRedundant: false
   }
 }
 
-var serviceBusAuthRuleResourceId = resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', serviceBusNamespace.name, 'RootManageSharedAccessKey')
+resource authorizationRuleName 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2015-08-01' = {
+  name: authorizationRuleName_var
+  location: location
+  properties: {
+    rights: [
+      'Listen'
+      'Manage'
+      'Send'
+    ]
+  }
+  dependsOn: [
+    servicebus
+  ]
+}
 
-output SERVICEBUS_CONNECTION_STRING string = listkeys(serviceBusAuthRuleResourceId, '2022-01-01-preview').primaryConnectionString
+output SERVICEBUS_CONNECTION_STRING string = listKeys(resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', baseName, 'RootManageSharedAccessKey'), apiVersion).primaryConnectionString
+output SERVICEBUS_ENDPOINT string = replace(servicebus.properties.serviceBusEndpoint, ':443/', '')
+output testApplicationOid string = testApplicationOid
