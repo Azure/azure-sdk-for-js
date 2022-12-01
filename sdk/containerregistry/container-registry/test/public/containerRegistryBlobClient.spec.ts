@@ -100,7 +100,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       await client.deleteManifest(uploadResult.digest);
     });
 
-    it.only("can upload OCI manifest from resettable stream", async function (this: Mocha.Context) {
+    it("can upload OCI manifest from resettable stream", async function (this: Mocha.Context) {
       if (isPlaybackMode()) {
         // Temporarily skip during playback while dealing with recorder issue
         this.skip();
@@ -160,7 +160,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       assert.equal(digest, downloadResult.digest);
     });
 
-    it.only("can upload blob from resettable stream", async () => {
+    it("can upload blob from resettable stream", async () => {
       const resettableBlobStream = () =>
         fs.createReadStream(
           "test/data/oci-artifact/654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed"
