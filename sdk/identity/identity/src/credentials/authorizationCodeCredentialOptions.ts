@@ -7,4 +7,6 @@ import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialO
 /**
  * Options for the {@link AuthorizationCodeCredential}
  */
-export interface AuthorizationCodeCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {}
+export interface AuthorizationCodeCredentialOptions
+  extends MultiTenantTokenCredentialOptions,
+    AuthorityValidationOptions {}

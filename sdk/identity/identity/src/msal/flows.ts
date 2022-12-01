@@ -17,10 +17,10 @@ export interface MsalFlowOptions {
   authorityHost?: string;
   authenticationRecord?: AuthenticationRecord;
   disableAutomaticAuthentication?: boolean;
-  knownAuthorities?: Array<string>;
+  knownAuthorities?: string[];
   cloudDiscoveryMetadata?: string;
   authorityMetadata?: string;
-  skipAuthorityMetadataCache?: boolean
+  skipAuthorityMetadataCache?: boolean;
   getAssertion?: () => Promise<string>;
 }
 

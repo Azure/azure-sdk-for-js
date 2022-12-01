@@ -7,4 +7,6 @@ import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialO
 /**
  * Options for the {@link ClientAssertionCredential}
  */
-export interface ClientAssertionCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {}
+export interface ClientAssertionCredentialOptions
+  extends MultiTenantTokenCredentialOptions,
+    AuthorityValidationOptions {}
