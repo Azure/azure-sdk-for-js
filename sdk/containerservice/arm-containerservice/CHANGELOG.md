@@ -1,16 +1,6 @@
 # Release History
-
-## 17.3.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 17.3.0-beta.1 (2022-11-24)
+    
+## 17.3.0-beta.2 (2022-11-25)
     
 **Features**
 
@@ -19,14 +9,21 @@
   - Added operation group ManagedClusterSnapshots
   - Added operation group TrustedAccessRoleBindings
   - Added operation group TrustedAccessRoles
-  - Added operation AgentPools.abortLatestOperation
-  - Added operation ManagedClusters.abortLatestOperation
+  - Added operation AgentPools.beginAbortLatestOperation
+  - Added operation AgentPools.beginAbortLatestOperationAndWait
+  - Added operation ManagedClusters.beginAbortLatestOperation
+  - Added operation ManagedClusters.beginAbortLatestOperationAndWait
+  - Added Interface AbsoluteMonthlySchedule
   - Added Interface AgentPoolNetworkProfile
+  - Added Interface AgentPoolsAbortLatestOperationHeaders
   - Added Interface AgentPoolsAbortLatestOperationOptionalParams
+  - Added Interface AgentPoolsDeleteHeaders
   - Added Interface AgentPoolWindowsProfile
   - Added Interface AzureEntityResource
   - Added Interface ContainerServiceNetworkProfileKubeProxyConfig
   - Added Interface ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig
+  - Added Interface DailySchedule
+  - Added Interface DateSpan
   - Added Interface ErrorAdditionalInfo
   - Added Interface ErrorDetail
   - Added Interface ErrorResponse
@@ -56,16 +53,20 @@
   - Added Interface FleetsUpdateOptionalParams
   - Added Interface GuardrailsProfile
   - Added Interface IPTag
+  - Added Interface MaintenanceWindow
   - Added Interface ManagedClusterAzureMonitorProfile
   - Added Interface ManagedClusterAzureMonitorProfileKubeStateMetrics
   - Added Interface ManagedClusterAzureMonitorProfileMetrics
   - Added Interface ManagedClusterIngressProfile
   - Added Interface ManagedClusterIngressProfileWebAppRouting
   - Added Interface ManagedClusterPropertiesForSnapshot
+  - Added Interface ManagedClustersAbortLatestOperationHeaders
   - Added Interface ManagedClustersAbortLatestOperationOptionalParams
+  - Added Interface ManagedClustersDeleteHeaders
   - Added Interface ManagedClusterSecurityProfileImageCleaner
   - Added Interface ManagedClusterSecurityProfileNodeRestriction
   - Added Interface ManagedClusterSecurityProfileWorkloadIdentity
+  - Added Interface ManagedClustersGetCommandResultHeaders
   - Added Interface ManagedClusterSnapshot
   - Added Interface ManagedClusterSnapshotListResult
   - Added Interface ManagedClusterSnapshotsCreateOrUpdateOptionalParams
@@ -76,11 +77,19 @@
   - Added Interface ManagedClusterSnapshotsListNextOptionalParams
   - Added Interface ManagedClusterSnapshotsListOptionalParams
   - Added Interface ManagedClusterSnapshotsUpdateTagsOptionalParams
+  - Added Interface ManagedClustersResetAADProfileHeaders
+  - Added Interface ManagedClustersResetServicePrincipalProfileHeaders
+  - Added Interface ManagedClustersRotateClusterCertificatesHeaders
+  - Added Interface ManagedClustersRunCommandHeaders
+  - Added Interface ManagedClustersStartHeaders
+  - Added Interface ManagedClustersStopHeaders
   - Added Interface ManagedClusterWorkloadAutoScalerProfile
   - Added Interface ManagedClusterWorkloadAutoScalerProfileKeda
   - Added Interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
   - Added Interface NetworkProfileForSnapshot
   - Added Interface PortRange
+  - Added Interface RelativeMonthlySchedule
+  - Added Interface Schedule
   - Added Interface TrustedAccessRole
   - Added Interface TrustedAccessRoleBinding
   - Added Interface TrustedAccessRoleBindingListResult
@@ -93,6 +102,9 @@
   - Added Interface TrustedAccessRoleRule
   - Added Interface TrustedAccessRolesListNextOptionalParams
   - Added Interface TrustedAccessRolesListOptionalParams
+  - Added Interface WeeklySchedule
+  - Added Type Alias AgentPoolsAbortLatestOperationResponse
+  - Added Type Alias AgentPoolsDeleteResponse
   - Added Type Alias BackendPoolType
   - Added Type Alias ControlledValues
   - Added Type Alias EbpfDataplane
@@ -112,6 +124,8 @@
   - Added Type Alias FleetsUpdateResponse
   - Added Type Alias IpvsScheduler
   - Added Type Alias Level
+  - Added Type Alias ManagedClustersAbortLatestOperationResponse
+  - Added Type Alias ManagedClustersDeleteResponse
   - Added Type Alias ManagedClusterSnapshotsCreateOrUpdateResponse
   - Added Type Alias ManagedClusterSnapshotsGetResponse
   - Added Type Alias ManagedClusterSnapshotsListByResourceGroupNextResponse
@@ -119,8 +133,12 @@
   - Added Type Alias ManagedClusterSnapshotsListNextResponse
   - Added Type Alias ManagedClusterSnapshotsListResponse
   - Added Type Alias ManagedClusterSnapshotsUpdateTagsResponse
+  - Added Type Alias ManagedClustersRotateClusterCertificatesResponse
+  - Added Type Alias ManagedClustersStartResponse
+  - Added Type Alias ManagedClustersStopResponse
   - Added Type Alias Mode
   - Added Type Alias NetworkPluginMode
+  - Added Type Alias NodeOSUpgradeChannel
   - Added Type Alias Protocol
   - Added Type Alias TrustedAccessRoleBindingProvisioningState
   - Added Type Alias TrustedAccessRoleBindingsCreateOrUpdateResponse
@@ -129,6 +147,7 @@
   - Added Type Alias TrustedAccessRoleBindingsListResponse
   - Added Type Alias TrustedAccessRolesListNextResponse
   - Added Type Alias TrustedAccessRolesListResponse
+  - Added Type Alias Type
   - Added Type Alias UpdateMode
   - Interface AgentPool has a new optional parameter capacityReservationGroupID
   - Interface AgentPool has a new optional parameter enableCustomCATrust
@@ -139,6 +158,7 @@
   - Interface ContainerServiceNetworkProfile has a new optional parameter ebpfDataplane
   - Interface ContainerServiceNetworkProfile has a new optional parameter kubeProxyConfig
   - Interface ContainerServiceNetworkProfile has a new optional parameter networkPluginMode
+  - Interface MaintenanceConfiguration has a new optional parameter maintenanceWindow
   - Interface ManagedCluster has a new optional parameter azureMonitorProfile
   - Interface ManagedCluster has a new optional parameter creationData
   - Interface ManagedCluster has a new optional parameter enableNamespaceResources
@@ -152,6 +172,7 @@
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter windowsProfile
   - Interface ManagedClusterAPIServerAccessProfile has a new optional parameter enableVnetIntegration
   - Interface ManagedClusterAPIServerAccessProfile has a new optional parameter subnetId
+  - Interface ManagedClusterAutoUpgradeProfile has a new optional parameter nodeOSUpgradeChannel
   - Interface ManagedClusterHttpProxyConfig has a new optional parameter effectiveNoProxy
   - Interface ManagedClusterLoadBalancerProfile has a new optional parameter backendPoolType
   - Interface ManagedClustersDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
@@ -174,12 +195,19 @@
   - Added Enum KnownLevel
   - Added Enum KnownMode
   - Added Enum KnownNetworkPluginMode
+  - Added Enum KnownNodeOSUpgradeChannel
   - Added Enum KnownProtocol
   - Added Enum KnownTrustedAccessRoleBindingProvisioningState
+  - Added Enum KnownType
   - Added Enum KnownUpdateMode
+  - Enum KnownManagedClusterPodIdentityProvisioningState has a new value Canceled
+  - Enum KnownManagedClusterPodIdentityProvisioningState has a new value Succeeded
   - Enum KnownOssku has a new value Mariner
+  - Enum KnownPrivateEndpointConnectionProvisioningState has a new value Canceled
   - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
   - Enum KnownSnapshotType has a new value ManagedCluster
+  - Interface ContainerServiceClientOptionalParams no longer has parameter apiVersion
+  - Class ContainerServiceClient no longer has parameter apiVersion
     
     
 ## 17.2.0 (2022-11-02)

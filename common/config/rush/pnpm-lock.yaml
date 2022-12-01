@@ -12480,7 +12480,7 @@ packages:
     dev: false
 
   file:projects/arm-healthbot.tgz:
-    resolution: {integrity: sha512-2YnvVlQLiBocriBvUvHXqZeyW+MHMCDGKTgJwaNUN1O/CSWtkf36AEKe50z5RXxw7DTvmavGgmWaGIKrSpgSMA==, tarball: file:projects/arm-healthbot.tgz}
+    resolution: {integrity: sha512-EwNPUW9+EymNj5DCpOHjg1bnfYSi1qjzUtGVgcoJJAf8hYtb8hc5oydKiNJt6eM+PWIrK4KNlNKN9gpMmw7v3g==, tarball: file:projects/arm-healthbot.tgz}
     name: '@rush-temp/arm-healthbot'
     version: 0.0.0
     dependencies:
@@ -12491,23 +12491,24 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
   file:projects/arm-healthcareapis.tgz:
-    resolution: {integrity: sha512-0yK3DCJNjGdb5z/le0VwCwGCeA4FphJYlJxEUpOEnp4n89NAshJyohNuYuZB+SQiHSwaFwufSVLa5h0+ZHCq2w==, tarball: file:projects/arm-healthcareapis.tgz}
+    resolution: {integrity: sha512-41r3LlnQx9Qw7Bl2VkkoFWA8A19CldqH/fnfGJGlZ/VgYpSMRUlOuckPfkiZJcU9iuuIjCsuqDK3FJDVmR2lkw==, tarball: file:projects/arm-healthcareapis.tgz}
     name: '@rush-temp/arm-healthcareapis'
     version: 0.0.0
     dependencies:
@@ -12518,23 +12519,24 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
   file:projects/arm-hybridcompute.tgz:
-    resolution: {integrity: sha512-UPduExgg6zWJkD190J5/q6ZDD6FchTbCb/PvCl84AnwXW3X+FpiJmYvC9THZ1spLLrlAhF1uOh2PVlzHOojy3Q==, tarball: file:projects/arm-hybridcompute.tgz}
+    resolution: {integrity: sha512-xPeihu8wFrBDqIC98sr4rEscdInNFp0sQ+c+83OC/TanHkvhko6HK6QtFYgath7Fs7gMWfEotJWrfVdm/h6Uzg==, tarball: file:projects/arm-hybridcompute.tgz}
     name: '@rush-temp/arm-hybridcompute'
     version: 0.0.0
     dependencies:
@@ -12545,18 +12547,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -12588,7 +12591,7 @@ packages:
     dev: false
 
   file:projects/arm-hybridkubernetes.tgz:
-    resolution: {integrity: sha512-bkQPLkwNDRjFRZnD8x/kPLTE0G80dDZPPH7IvoRPwmwlU2w6aYwCR+o95O3TLoEGekifXfttcoTLYNS+VvFI/w==, tarball: file:projects/arm-hybridkubernetes.tgz}
+    resolution: {integrity: sha512-pcTgo1h4Q0xdR2nKs/0Z5uc5SDGqocJhQ+Hy9NNl7WyI8cRunixPw5sHR7X/eqS1Dj/zh+ruaz43la2fk4DV4A==, tarball: file:projects/arm-hybridkubernetes.tgz}
     name: '@rush-temp/arm-hybridkubernetes'
     version: 0.0.0
     dependencies:
@@ -12599,18 +12602,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -14973,7 +14977,7 @@ packages:
     dev: false
 
   file:projects/arm-storage.tgz:
-    resolution: {integrity: sha512-kvohEWaCQcFotUgdnAcMIKkPrlETIgYwBz+fMWZBIC2LuAtbPqAdzFJtuJos38kuHozwlbvgiC5g8JeonhFKwA==, tarball: file:projects/arm-storage.tgz}
+    resolution: {integrity: sha512-870Sdai/XCdwUeGkgS8F6wcDfxSJYH2WNJ13c/f3jHUXv3XxhSaTN74sBOurfKkUgLo8712rLEwrELn9EmyTyA==, tarball: file:projects/arm-storage.tgz}
     name: '@rush-temp/arm-storage'
     version: 0.0.0
     dependencies:
@@ -14984,18 +14988,18 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.33
       chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 

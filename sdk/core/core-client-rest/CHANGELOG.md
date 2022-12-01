@@ -2,9 +2,10 @@
 
 ## 1.0.1 (Unreleased)
 
-### Features Added
+### Fixes
 
 - Add basic types from cadl azure core.
+- Fix the `api-version` precedence issue in apiVersionPolicy. [23990](https://github.com/Azure/azure-sdk-for-js/pull/23990)
 
 ## 1.0.0 (2022-08-04)
 
