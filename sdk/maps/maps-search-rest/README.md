@@ -155,6 +155,8 @@ const MapsSearch = require("@azure-rest/maps-search").default;
 const { AzureKeyCredential } = require("@azure/core-auth");
 const { isUnexpected } = require("@azure-rest/maps-search");
 
+/** Initialize the MapsSearchClient */
+const client = MapsSearch(new AzureKeyCredential("<subscription-key>"));
 /** Make the request. */
 const response = await client.path("/search/address/reverse/{format}", "json").get({
   queryParameters: { query: [37.337, -121.89] }, // [latitude, longitude],
@@ -178,6 +180,8 @@ const MapsSearch = require("@azure-rest/maps-search").default;
 const { AzureKeyCredential } = require("@azure/core-auth");
 const { isUnexpected } = require("@azure-rest/maps-search");
 
+/** Initialize the MapsSearchClient */
+const client = MapsSearch(new AzureKeyCredential("<subscription-key>"));
 /** Make the request. */
 const response = await client.path("/search/address/reverse/crossStreet/{format}", "json").get({
   queryParameters: { query: [37.337, -121.89] },
