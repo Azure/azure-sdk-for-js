@@ -265,6 +265,7 @@ specifiers:
   '@rush-temp/maps-render': file:./projects/maps-render.tgz
   '@rush-temp/maps-route': file:./projects/maps-route.tgz
   '@rush-temp/maps-search': file:./projects/maps-search.tgz
+  '@rush-temp/maps-search-1': file:./projects/maps-search-1.tgz
   '@rush-temp/mixed-reality-authentication': file:./projects/mixed-reality-authentication.tgz
   '@rush-temp/mixed-reality-remote-rendering': file:./projects/mixed-reality-remote-rendering.tgz
   '@rush-temp/mock-hub': file:./projects/mock-hub.tgz
@@ -591,6 +592,7 @@ dependencies:
   '@rush-temp/maps-render': file:projects/maps-render.tgz
   '@rush-temp/maps-route': file:projects/maps-route.tgz
   '@rush-temp/maps-search': file:projects/maps-search.tgz
+  '@rush-temp/maps-search-1': file:projects/maps-search-1.tgz
   '@rush-temp/mixed-reality-authentication': file:projects/mixed-reality-authentication.tgz
   '@rush-temp/mixed-reality-remote-rendering': file:projects/mixed-reality-remote-rendering.tgz
   '@rush-temp/mock-hub': file:projects/mock-hub.tgz
@@ -3932,7 +3934,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221201
+      typescript: 5.0.0-dev.20221202
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8976,8 +8978,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221201:
-    resolution: {integrity: sha512-0GunPFtrZITqx11PJQThb8MdXJwjk88mhOgNBXeme1d9i0mJzymceJysDpwu6sfajognk2yiN86P82xAvbJ0Lw==}
+  /typescript/5.0.0-dev.20221202:
+    resolution: {integrity: sha512-HuvktBN/shznXMoHbebznvAGTuWSGOqyqIddiXcgn0SV7e004lIuLZXRqEdoqlX87nFZp/pkicSsN+y5vuNPNQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -17806,7 +17808,7 @@ packages:
     dev: false
 
   file:projects/maps-geolocation.tgz:
-    resolution: {integrity: sha512-7bovLrtvyiDJg6UjAcBcGdlQXg/+Bta+eJ6gRNrsJ8B/zRGXOUgS3+TZ9LbhgjE7dAL8G1kBbrl9QXx040omIQ==, tarball: file:projects/maps-geolocation.tgz}
+    resolution: {integrity: sha512-53r+RwzC5ZTpy6FTKhD5zjjurN+a/BWB9VPslGL2oNZJpS9x5HWPKYfEyA22PyPlaZZhb9iYJKuzH7lMQrXoOw==, tarball: file:projects/maps-geolocation.tgz}
     name: '@rush-temp/maps-geolocation'
     version: 0.0.0
     dependencies:
@@ -17937,9 +17939,9 @@ packages:
       - utf-8-validate
     dev: false
 
-  file:projects/maps-search.tgz:
-    resolution: {integrity: sha512-rGtil/YpOT6KIekGLTmEvKhCafpzGnV5sbPikwNn6fjJVf8Wpst9rd1/G6WDA7WFZ6yuau7i/ibJLh8LiWcNgw==, tarball: file:projects/maps-search.tgz}
-    name: '@rush-temp/maps-search'
+  file:projects/maps-search-1.tgz:
+    resolution: {integrity: sha512-+h/h3eyjuqFhQZf+lE6B4scPqGEv6e1N9KOyc4s6yxt33UAkCxKWL05zK+L3rS9PaunptoAOh3IiYrjPcwJSpQ==, tarball: file:projects/maps-search-1.tgz}
+    name: '@rush-temp/maps-search-1'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.4
@@ -17976,6 +17978,58 @@ packages:
       source-map-support: 0.5.21
       tslib: 2.4.1
       typescript: 4.8.4
+      util: 0.12.5
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/maps-search.tgz:
+    resolution: {integrity: sha512-g7Re0p6vlj9ZJ454KpHX18evLEe6OC2s+63I+2wg74dH3z+GzeM7GOdYBuHaIv5QOXhMx9pBiktRiiP1wG9F6g==, tarball: file:projects/maps-search.tgz}
+    name: '@rush-temp/maps-search'
+    version: 0.0.0
+    dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.10
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.33.6
+      '@types/chai': 4.3.4
+      '@types/chai-as-promised': 7.1.5
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.33
+      autorest: 3.6.2
+      chai: 4.3.7
+      chai-as-promised: 7.1.1_chai@4.3.7
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      downlevel-dts: 0.8.0
+      eslint: 8.28.0
+      esm: 3.2.25
+      inherits: 2.0.4
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.1
+      karma-json-preprocessor: 0.3.3_karma@6.4.1
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 2.2.1
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.4.1
+      typescript: 4.6.4
       util: 0.12.5
     transitivePeerDependencies:
       - bufferutil
