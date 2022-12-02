@@ -273,6 +273,11 @@
       "words": ["bbox", "UTURN", "Hundredkm"]
     },
     {
+      "filename": "sdk/maps/maps-render-rest/review/maps-render.api.md",
+      "words": ["bbox"]
+    },
+
+    {
       "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/api-management-custom-widgets-scaffolder.api.md",
       "words": ["scaffolder", "APIM"]
     },

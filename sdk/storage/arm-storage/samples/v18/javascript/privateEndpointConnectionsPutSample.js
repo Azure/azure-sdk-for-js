@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Update the state of specified private endpoint connection associated with the storage account.
  *
  * @summary Update the state of specified private endpoint connection associated with the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/StorageAccountPutPrivateEndpointConnection.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountPutPrivateEndpointConnection.json
  */
 async function storageAccountPutPrivateEndpointConnection() {
   const subscriptionId = "{subscription-id}";
