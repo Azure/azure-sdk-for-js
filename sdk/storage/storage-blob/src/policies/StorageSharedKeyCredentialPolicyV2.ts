@@ -1,51 +1,41 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { createHmac } from "crypto";
 import {
-  RequestPolicy,
-  RequestPolicyOptionsLike as RequestPolicyOptions,
-  WebResourceLike as WebResource,
-} from "@azure/core-http-compat";
-import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential";
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+  PipelinePolicy,
+} from "@azure/core-rest-pipeline";
 import { HeaderConstants } from "../utils/constants";
 import { getURLPath, getURLQueries } from "../utils/utils.common";
-import { CredentialPolicy } from "./CredentialPolicy";
 
 /**
- * StorageSharedKeyCredentialPolicy is a policy used to sign HTTP request with a shared key.
+ * The programmatic identifier of the storageSharedKeyCredentialPolicy.
  */
-export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
-  /**
-   * Reference to StorageSharedKeyCredential which generates StorageSharedKeyCredentialPolicy
-   */
-  private readonly factory: StorageSharedKeyCredential;
+export const storageSharedKeyCredentialPolicyName = "storageSharedKeyCredentialPolicy";
 
-  /**
-   * Creates an instance of StorageSharedKeyCredentialPolicy.
-   * @param nextPolicy -
-   * @param options -
-   * @param factory -
-   */
-  constructor(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions,
-    factory: StorageSharedKeyCredential
-  ) {
-    super(nextPolicy, options);
-    this.factory = factory;
-  }
+/**
+ * Options used to configure StorageSharedKeyCredentialPolicy.
+ */
+export interface storageSharedKeyCredentialPolicyOptions {
+  accountName: string;
+  accountKey: Buffer;
+}
 
-  /**
-   * Signs request.
-   *
-   * @param request -
-   */
-  protected signRequest(request: WebResource): WebResource {
+/**
+ * storageSharedKeyCredentialPolicy handles signing requests using storage account keys.
+ */
+export function storageSharedKeyCredentialPolicy(
+  options: storageSharedKeyCredentialPolicyOptions
+): PipelinePolicy {
+  function signRequest(request: PipelineRequest): void {
     request.headers.set(HeaderConstants.X_MS_DATE, new Date().toUTCString());
 
     if (
       request.body &&
-      (typeof request.body === "string" || (request.body as Buffer) !== undefined) &&
+      (typeof request.body === "string" || Buffer.isBuffer(request.body)) &&
       request.body.length > 0
     ) {
       request.headers.set(HeaderConstants.CONTENT_LENGTH, Buffer.byteLength(request.body));
@@ -54,43 +44,41 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
     const stringToSign: string =
       [
         request.method.toUpperCase(),
-        this.getHeaderValueToSign(request, HeaderConstants.CONTENT_LANGUAGE),
-        this.getHeaderValueToSign(request, HeaderConstants.CONTENT_ENCODING),
-        this.getHeaderValueToSign(request, HeaderConstants.CONTENT_LENGTH),
-        this.getHeaderValueToSign(request, HeaderConstants.CONTENT_MD5),
-        this.getHeaderValueToSign(request, HeaderConstants.CONTENT_TYPE),
-        this.getHeaderValueToSign(request, HeaderConstants.DATE),
-        this.getHeaderValueToSign(request, HeaderConstants.IF_MODIFIED_SINCE),
-        this.getHeaderValueToSign(request, HeaderConstants.IF_MATCH),
-        this.getHeaderValueToSign(request, HeaderConstants.IF_NONE_MATCH),
-        this.getHeaderValueToSign(request, HeaderConstants.IF_UNMODIFIED_SINCE),
-        this.getHeaderValueToSign(request, HeaderConstants.RANGE),
+        getHeaderValueToSign(request, HeaderConstants.CONTENT_LANGUAGE),
+        getHeaderValueToSign(request, HeaderConstants.CONTENT_ENCODING),
+        getHeaderValueToSign(request, HeaderConstants.CONTENT_LENGTH),
+        getHeaderValueToSign(request, HeaderConstants.CONTENT_MD5),
+        getHeaderValueToSign(request, HeaderConstants.CONTENT_TYPE),
+        getHeaderValueToSign(request, HeaderConstants.DATE),
+        getHeaderValueToSign(request, HeaderConstants.IF_MODIFIED_SINCE),
+        getHeaderValueToSign(request, HeaderConstants.IF_MATCH),
+        getHeaderValueToSign(request, HeaderConstants.IF_NONE_MATCH),
+        getHeaderValueToSign(request, HeaderConstants.IF_UNMODIFIED_SINCE),
+        getHeaderValueToSign(request, HeaderConstants.RANGE),
       ].join("\n") +
       "\n" +
-      this.getCanonicalizedHeadersString(request) +
-      this.getCanonicalizedResourceString(request);
+      getCanonicalizedHeadersString(request) +
+      getCanonicalizedResourceString(request);
 
-    const signature: string = this.factory.computeHMACSHA256(stringToSign);
+    const signature: string = createHmac("sha256", options.accountKey)
+      .update(stringToSign, "utf8")
+      .digest("base64");
     request.headers.set(
       HeaderConstants.AUTHORIZATION,
-      `SharedKey ${this.factory.accountName}:${signature}`
+      `SharedKey ${options.accountName}:${signature}`
     );
 
     // console.log(`[URL]:${request.url}`);
     // console.log(`[HEADERS]:${request.headers.toString()}`);
     // console.log(`[STRING TO SIGN]:${JSON.stringify(stringToSign)}`);
     // console.log(`[KEY]: ${request.headers.get(HeaderConstants.AUTHORIZATION)}`);
-    return request;
   }
 
   /**
    * Retrieve header value according to shared key sign rules.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/authenticate-with-shared-key
-   *
-   * @param request -
-   * @param headerName -
    */
-  private getHeaderValueToSign(request: WebResource, headerName: string): string {
+  function getHeaderValueToSign(request: PipelineRequest, headerName: string): string {
     const value = request.headers.get(headerName);
 
     if (!value) {
@@ -118,12 +106,14 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
    * 6. Finally, append a new-line character to each canonicalized header in the resulting list.
    *    Construct the CanonicalizedHeaders string by concatenating all headers in this list into a single string.
    *
-   * @param request -
    */
-  private getCanonicalizedHeadersString(request: WebResource): string {
-    let headersArray = request.headers.headersArray().filter((value) => {
-      return value.name.toLowerCase().startsWith(HeaderConstants.PREFIX_FOR_STORAGE);
-    });
+  function getCanonicalizedHeadersString(request: PipelineRequest): string {
+    let headersArray: Array<{ name: string; value: string }> = [];
+    for (const [name, value] of request.headers) {
+      if (name.toLowerCase().startsWith(HeaderConstants.PREFIX_FOR_STORAGE)) {
+        headersArray.push({ name, value });
+      }
+    }
 
     headersArray.sort((a, b): number => {
       return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
@@ -147,16 +137,11 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
     return canonicalizedHeadersStringToSign;
   }
 
-  /**
-   * Retrieves the webResource canonicalized resource string.
-   *
-   * @param request -
-   */
-  private getCanonicalizedResourceString(request: WebResource): string {
+  function getCanonicalizedResourceString(request: PipelineRequest): string {
     const path = getURLPath(request.url) || "/";
 
     let canonicalizedResourceString: string = "";
-    canonicalizedResourceString += `/${this.factory.accountName}${path}`;
+    canonicalizedResourceString += `/${options.accountName}${path}`;
 
     const queries = getURLQueries(request.url);
     const lowercaseQueries: { [key: string]: string } = {};
@@ -178,4 +163,12 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
 
     return canonicalizedResourceString;
   }
+
+  return {
+    name: storageSharedKeyCredentialPolicyName,
+    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      signRequest(request);
+      return next(request);
+    },
+  };
 }

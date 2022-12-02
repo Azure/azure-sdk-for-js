@@ -2,7 +2,9 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { HttpHeaders, isNode, URLBuilder, TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
+import { HttpHeaders, createHttpHeaders } from "@azure/core-rest-pipeline";
+import { isNode } from "@azure/core-util";
 
 import {
   BlobQueryArrowConfiguration,
@@ -40,6 +42,7 @@ import {
   PageBlobGetPageRangesDiffResponseModel,
   PageRangeInfo,
 } from "../generatedModels";
+import { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -94,13 +97,13 @@ import {
  * @param url -
  */
 export function escapeURLPath(url: string): string {
-  const urlParsed = URLBuilder.parse(url);
+  const urlParsed = new URL(url);
 
-  let path = urlParsed.getPath();
+  let path = urlParsed.pathname;
   path = path || "/";
 
   path = escape(path);
-  urlParsed.setPath(path);
+  urlParsed.pathname = path;
 
   return urlParsed.toString();
 }
@@ -254,11 +257,11 @@ function escape(text: string): string {
  * @returns An updated URL string
  */
 export function appendToURLPath(url: string, name: string): string {
-  const urlParsed = URLBuilder.parse(url);
+  const urlParsed = new URL(url);
 
-  let path = urlParsed.getPath();
+  let path = urlParsed.pathname;
   path = path ? (path.endsWith("/") ? `${path}${name}` : `${path}/${name}`) : name;
-  urlParsed.setPath(path);
+  urlParsed.pathname = path;
 
   return urlParsed.toString();
 }
@@ -273,8 +276,12 @@ export function appendToURLPath(url: string, name: string): string {
  * @returns An updated URL string
  */
 export function setURLParameter(url: string, name: string, value?: string): string {
-  const urlParsed = URLBuilder.parse(url);
-  urlParsed.setQueryParameter(name, value);
+  const urlParsed = new URL(url);
+  if (value) {
+    urlParsed.searchParams.set(name, value!);
+  } else {
+    urlParsed.searchParams.delete(name);
+  }
   return urlParsed.toString();
 }
 
@@ -285,8 +292,8 @@ export function setURLParameter(url: string, name: string, value?: string): stri
  * @param name -
  */
 export function getURLParameter(url: string, name: string): string | string[] | undefined {
-  const urlParsed = URLBuilder.parse(url);
-  return urlParsed.getQueryParameterValue(name);
+  const urlParsed = new URL(url);
+  return urlParsed.searchParams.get(name) ?? undefined;
 }
 
 /**
@@ -297,8 +304,8 @@ export function getURLParameter(url: string, name: string): string | string[] | 
  * @returns An updated URL string
  */
 export function setURLHost(url: string, host: string): string {
-  const urlParsed = URLBuilder.parse(url);
-  urlParsed.setHost(host);
+  const urlParsed = new URL(url);
+  urlParsed.hostname = host;
   return urlParsed.toString();
 }
 
@@ -308,8 +315,8 @@ export function setURLHost(url: string, host: string): string {
  * @param url - Source URL string
  */
 export function getURLPath(url: string): string | undefined {
-  const urlParsed = URLBuilder.parse(url);
-  return urlParsed.getPath();
+  const urlParsed = new URL(url);
+  return urlParsed.pathname;
 }
 
 /**
@@ -318,8 +325,8 @@ export function getURLPath(url: string): string | undefined {
  * @param url - Source URL string
  */
 export function getURLScheme(url: string): string | undefined {
-  const urlParsed = URLBuilder.parse(url);
-  return urlParsed.getScheme();
+  const urlParsed = new URL(url);
+  return urlParsed.protocol;
 }
 
 /**
@@ -328,13 +335,13 @@ export function getURLScheme(url: string): string | undefined {
  * @param url - Source URL string
  */
 export function getURLPathAndQuery(url: string): string | undefined {
-  const urlParsed = URLBuilder.parse(url);
-  const pathString = urlParsed.getPath();
+  const urlParsed = new URL(url);
+  const pathString = urlParsed.pathname;
   if (!pathString) {
     throw new RangeError("Invalid url without valid path.");
   }
 
-  let queryString = urlParsed.getQuery() || "";
+  let queryString = urlParsed.search || "";
   queryString = queryString.trim();
   if (queryString !== "") {
     queryString = queryString.startsWith("?") ? queryString : `?${queryString}`; // Ensure query string start with '?'
@@ -349,13 +356,13 @@ export function getURLPathAndQuery(url: string): string | undefined {
  * @param url -
  */
 export function getURLQueries(url: string): { [key: string]: string } {
-  let queryString = URLBuilder.parse(url).getQuery();
+  let queryString = new URL(url).search;
   if (!queryString) {
     return {};
   }
 
   queryString = queryString.trim();
-  queryString = queryString.startsWith("?") ? queryString.substr(1) : queryString;
+  queryString = queryString.startsWith("?") ? queryString.substring(1) : queryString;
 
   let querySubStrings: string[] = queryString.split("&");
   querySubStrings = querySubStrings.filter((value: string) => {
@@ -385,16 +392,16 @@ export function getURLQueries(url: string): { [key: string]: string } {
  * @returns An updated URL string.
  */
 export function appendToURLQuery(url: string, queryParts: string): string {
-  const urlParsed = URLBuilder.parse(url);
+  const urlParsed = new URL(url);
 
-  let query = urlParsed.getQuery();
+  let query = urlParsed.search;
   if (query) {
     query += "&" + queryParts;
   } else {
     query = queryParts;
   }
 
-  urlParsed.setQuery(query);
+  urlParsed.search = query;
   return urlParsed.toString();
 }
 
@@ -533,14 +540,14 @@ export function sanitizeURL(url: string): string {
 }
 
 export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
-  const headers: HttpHeaders = new HttpHeaders();
-  for (const header of originalHeader.headersArray()) {
-    if (header.name.toLowerCase() === HeaderConstants.AUTHORIZATION.toLowerCase()) {
-      headers.set(header.name, "*****");
-    } else if (header.name.toLowerCase() === HeaderConstants.X_MS_COPY_SOURCE) {
-      headers.set(header.name, sanitizeURL(header.value));
+  const headers: HttpHeaders = createHttpHeaders();
+  for (const [name, value] of originalHeader) {
+    if (name.toLowerCase() === HeaderConstants.AUTHORIZATION.toLowerCase()) {
+      headers.set(name, "*****");
+    } else if (name.toLowerCase() === HeaderConstants.X_MS_COPY_SOURCE) {
+      headers.set(name, sanitizeURL(value));
     } else {
-      headers.set(header.name, header.value);
+      headers.set(name, value);
     }
   }
 
@@ -562,17 +569,17 @@ export function iEqual(str1: string, str2: string): boolean {
  * @returns with the account name
  */
 export function getAccountNameFromUrl(url: string): string {
-  const parsedUrl: URLBuilder = URLBuilder.parse(url);
+  const parsedUrl = new URL(url);
   let accountName;
   try {
-    if (parsedUrl.getHost()!.split(".")[1] === "blob") {
+    if (parsedUrl.hostname.split(".")[1] === "blob") {
       // `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
-      accountName = parsedUrl.getHost()!.split(".")[0];
+      accountName = parsedUrl.hostname.split(".")[0];
     } else if (isIpEndpointStyle(parsedUrl)) {
       // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
       // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/
       // .getPath() -> /devstoreaccount1/
-      accountName = parsedUrl.getPath()!.split("/")[1];
+      accountName = parsedUrl.pathname.split("/")[1];
     } else {
       // Custom domain case: "https://customdomain.com/containername/blob".
       accountName = "";
@@ -583,13 +590,8 @@ export function getAccountNameFromUrl(url: string): string {
   }
 }
 
-export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
-  if (parsedUrl.getHost() === undefined) {
-    return false;
-  }
-
-  const host =
-    parsedUrl.getHost()! + (parsedUrl.getPort() === undefined ? "" : ":" + parsedUrl.getPort());
+export function isIpEndpointStyle(parsedUrl: URL): boolean {
+  const host = parsedUrl.host;
 
   // Case 1: Ipv6, use a broad regex to find out candidates whose host contains two ':'.
   // Case 2: localhost(:port), use broad regex to match port part.
@@ -599,7 +601,7 @@ export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
     /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
       host
     ) ||
-    (parsedUrl.getPort() !== undefined && PathStylePorts.includes(parsedUrl.getPort()!))
+    (Boolean(parsedUrl.port) && PathStylePorts.includes(parsedUrl.port))
   );
 }
 
@@ -885,4 +887,69 @@ export function EscapePath(blobName: string): string {
     split[i] = encodeURIComponent(split[i]);
   }
   return split.join("/");
+}
+
+export interface HttpResponse {
+  headers: HttpHeadersLike;
+  request: WebResourceLike;
+  status: number;
+}
+
+export interface ResponseWithHeaders<Headers> {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: Headers;
+  };
+}
+
+export interface ResponseWithBody<Headers, Body> {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: Headers;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Body;
+  };
+}
+
+export interface ResponseLike {
+  _response: HttpResponse;
+}
+
+export type WithResponse<T, Headers = undefined, Body = undefined> = T &
+  (Body extends object
+    ? ResponseWithBody<Headers, Body>
+    : Headers extends object
+    ? ResponseWithHeaders<Headers>
+    : ResponseLike);
+
+/**
+ * A typesafe helper for ensuring that a given response object has
+ * the original _response attached.
+ * @param response A response object from calling a client operation
+ * @returns The same object, but with known _response property
+ */
+export function assertResponse<T extends object, Headers = undefined, Body = undefined>(
+  response: T
+): WithResponse<T, Headers, Body> {
+  if (`_response` in response) {
+    return response as WithResponse<T, Headers, Body>;
+  }
+
+  throw new TypeError(`Unexpected response object ${response}`);
 }

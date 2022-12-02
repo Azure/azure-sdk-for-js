@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BaseRequestPolicy, HttpOperationResponse, WebResource } from "@azure/core-http";
+import { BaseRequestPolicy } from "./RequestPolicy";
+import {
+  WebResourceLike as WebResource,
+  CompatResponse as HttpOperationResponse,
+} from "@azure/core-http-compat";
 
 /**
  * Credential policy used to sign HTTP(S) requests before sending. This is an

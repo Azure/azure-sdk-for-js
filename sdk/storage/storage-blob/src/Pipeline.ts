@@ -2,52 +2,46 @@
 // Licensed under the MIT license.
 
 import {
-  BaseRequestPolicy,
-  deserializationPolicy,
-  disableResponseDecompressionPolicy,
-  HttpClient as IHttpClient,
-  HttpHeaders,
-  HttpOperationResponse,
-  HttpRequestBody,
+  CompatResponse as HttpOperationResponse,
+  RequestPolicy as IHttpClient,
+  HttpHeadersLike as HttpHeaders,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions,
-  ServiceClientOptions,
-  WebResource,
-  proxyPolicy,
-  isNode,
-  TokenCredential,
-  isTokenCredential,
-  tracingPolicy,
-  logPolicy,
-  ProxyOptions,
-  keepAlivePolicy,
+  RequestPolicyOptionsLike as RequestPolicyOptions,
+  WebResourceLike as WebResource,
   KeepAliveOptions,
-  generateClientRequestIdPolicy,
-  UserAgentOptions,
-} from "@azure/core-http";
+  ExtendedServiceClientOptions,
+} from "@azure/core-http-compat";
+import {
+  RequestBodyType as HttpRequestBody,
+  ProxySettings as ProxyOptions,
+  UserAgentPolicyOptions as UserAgentOptions,
+  bearerTokenAuthenticationPolicy,
+  Pipeline as CorePipeline,
+} from "@azure/core-rest-pipeline";
+import { authorizeRequestOnTenantChallenge, createClientPipeline } from "@azure/core-client";
+import { parseXML, stringifyXML } from "@azure/core-xml";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log";
-import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
-import { StorageRetryOptions, StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory";
+import { StorageRetryOptions } from "./StorageRetryPolicyFactory";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import {
   StorageOAuthScopes,
   StorageBlobLoggingAllowedHeaderNames,
   StorageBlobLoggingAllowedQueryParameters,
+  SDK_VERSION,
 } from "./utils/constants";
-import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { getCachedDefaultHttpClient } from "./utils/cache";
-import { attachCredential } from "./utils/utils.common";
-import { storageBearerTokenChallengeAuthenticationPolicy } from "./policies/StorageBearerTokenChallengeAuthenticationPolicy";
+import { storageBrowserPolicy } from "./policies/StorageBrowserPolicyV2";
+import { storageRetryPolicy } from "./policies/StorageRetryPolicyV2";
+import { storageSharedKeyCredentialPolicy } from "./policies/StorageSharedKeyCredentialPolicyV2";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
 export {
-  BaseRequestPolicy,
   StorageOAuthScopes,
-  deserializationPolicy,
   IHttpClient,
   HttpHeaders,
   HttpRequestBody,
@@ -57,6 +51,20 @@ export {
   RequestPolicy,
   RequestPolicyOptions,
 };
+
+/**
+ * A subset of @azure/core-http's ServiceClientOptions
+ */
+export interface ServiceClientOptions {
+  /**
+   * Optional. Configures the HTTP client to send requests and receive responses.
+   */
+  httpClient?: IHttpClient;
+  /**
+   * Optional. Overrides the default policy factories.
+   */
+  requestPolicyFactories?: RequestPolicyFactory[];
+}
 
 /**
  * Option interface for Pipeline constructor.
@@ -139,12 +147,7 @@ export class Pipeline implements PipelineLike {
    */
   constructor(factories: RequestPolicyFactory[], options: PipelineOptions = {}) {
     this.factories = factories;
-    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
-    // avoid each client creating its own http client.
-    this.options = {
-      ...options,
-      httpClient: options.httpClient || getCachedDefaultHttpClient(),
-    };
+    this.options = options;
   }
 
   /**
@@ -202,49 +205,104 @@ export function newPipeline(
   credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
   pipelineOptions: StoragePipelineOptions = {}
 ): Pipeline {
-  if (credential === undefined) {
+  if (!credential) {
     credential = new AnonymousCredential();
   }
+  const pipeline = new Pipeline([], pipelineOptions);
+  (pipeline as any)._credential = credential;
+  return pipeline;
+}
 
-  // Order is important. Closer to the API at the top & closer to the network at the bottom.
-  // The credential's policy factory must appear close to the wire so it can sign any
-  // changes made by other factories (like UniqueRequestIDPolicyFactory)
+export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceClientOptions {
+  const { httpClient, ...restOptions } = pipeline.options as StoragePipelineOptions;
+  // TODO: handle if this pipeline came from another package
+  // TODO: wrap httpClient in adapter
 
-  const telemetryPolicy = new TelemetryPolicyFactory(pipelineOptions.userAgentOptions);
-  const factories: RequestPolicyFactory[] = [
-    tracingPolicy({ userAgent: telemetryPolicy.telemetryString }),
-    keepAlivePolicy(pipelineOptions.keepAliveOptions),
-    telemetryPolicy,
-    generateClientRequestIdPolicy(),
-    new StorageBrowserPolicyFactory(),
-    new StorageRetryPolicyFactory(pipelineOptions.retryOptions), // Retry policy should be above any policy that throws retryable errors
-    // Default deserializationPolicy is provided by protocol layer
-    // Use customized XML char key of "#" so we could deserialize metadata
-    // with "_" key
-    deserializationPolicy(undefined, { xmlCharKey: "#" }),
-    logPolicy({
-      logger: logger.info,
-      allowedHeaderNames: StorageBlobLoggingAllowedHeaderNames,
-      allowedQueryParameters: StorageBlobLoggingAllowedQueryParameters,
-    }),
-  ];
+  const packageDetails = `azsdk-js-azure-storage-blob/${SDK_VERSION}`;
+  const userAgentPrefix =
+    restOptions.userAgentOptions && restOptions.userAgentOptions.userAgentPrefix
+      ? `${restOptions.userAgentOptions.userAgentPrefix} ${packageDetails}`
+      : `${packageDetails}`;
 
-  if (isNode) {
-    // policies only available in Node.js runtime, not in browsers
-    factories.push(proxyPolicy(pipelineOptions.proxyOptions));
-    factories.push(disableResponseDecompressionPolicy());
+  let corePipeline: CorePipeline = (pipeline as any)._corePipeline;
+  if (!corePipeline) {
+    corePipeline = createClientPipeline({
+      ...restOptions,
+      loggingOptions: {
+        additionalAllowedHeaderNames: StorageBlobLoggingAllowedHeaderNames,
+        additionalAllowedQueryParameters: StorageBlobLoggingAllowedQueryParameters,
+        logger: logger.info,
+      },
+      userAgentOptions: {
+        userAgentPrefix,
+      },
+      serializationOptions: {
+        stringifyXML,
+        serializerOptions: {
+          xml: {
+            // Use customized XML char key of "#" so we can deserialize metadata
+            // with "_" key
+            xmlCharKey: "#",
+          },
+        },
+      },
+      deserializationOptions: {
+        parseXML,
+        serializerOptions: {
+          xml: {
+            // Use customized XML char key of "#" so we can deserialize metadata
+            // with "_" key
+            xmlCharKey: "#",
+          },
+        },
+      },
+    });
+    corePipeline.removePolicy({ phase: "Retry" });
+    corePipeline.addPolicy(storageRetryPolicy(restOptions.retryOptions), { phase: "Retry" });
+    corePipeline.addPolicy(storageBrowserPolicy());
+    const credential = getCredentialFromPipeline(pipeline);
+    if (isTokenCredential(credential)) {
+      corePipeline.addPolicy(
+        bearerTokenAuthenticationPolicy({
+          credential,
+          scopes: restOptions.audience ?? StorageOAuthScopes,
+          challengeCallbacks: { authorizeRequestOnChallenge: authorizeRequestOnTenantChallenge },
+        }),
+        { phase: "Sign" }
+      );
+    } else if (credential instanceof StorageSharedKeyCredential) {
+      corePipeline.addPolicy(
+        storageSharedKeyCredentialPolicy({
+          accountName: credential.accountName,
+          accountKey: (credential as any).accountKey,
+        }),
+        { phase: "Sign" }
+      );
+    }
+    (pipeline as any)._corePipeline = corePipeline;
   }
-  factories.push(
-    isTokenCredential(credential)
-      ? attachCredential(
-          storageBearerTokenChallengeAuthenticationPolicy(
-            credential,
-            pipelineOptions.audience ?? StorageOAuthScopes
-          ),
-          credential
-        )
-      : credential
-  );
+  return {
+    ...restOptions,
+    httpClient: getCachedDefaultHttpClient(),
+    pipeline: corePipeline,
+  };
+}
 
-  return new Pipeline(factories, pipelineOptions);
+export function getCredentialFromPipeline(
+  pipeline: PipelineLike
+): StorageSharedKeyCredential | AnonymousCredential | TokenCredential {
+  // see if we squirreled one away on the type itself
+  if ((pipeline as any)._credential) {
+    return (pipeline as any)._credential;
+  }
+  // if it came from another package, loop over the factories and look for one like before
+  let credential = new AnonymousCredential();
+  for (const factory of pipeline.factories) {
+    if (isTokenCredential((factory as any).credential)) {
+      // Only works if the factory has been attached a "credential" property.
+      // We do that in newPipeline() when using TokenCredential.
+      credential = (factory as any).credential;
+    }
+  }
+  return credential;
 }

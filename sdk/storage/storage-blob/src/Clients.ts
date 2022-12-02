@@ -2,25 +2,27 @@
 // Licensed under the MIT license.
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
-  generateUuid,
   getDefaultProxySettings,
-  HttpRequestBody,
-  HttpResponse,
-  isNode,
-  isTokenCredential,
-  TokenCredential,
+  RequestBodyType as HttpRequestBody,
   TransferProgressEvent,
-  URLBuilder,
-} from "@azure/core-http";
+} from "@azure/core-rest-pipeline";
+import { isTokenCredential, TokenCredential } from "@azure/core-auth";
+import { isNode } from "@azure/core-util";
 import { PollOperationState } from "@azure/core-lro";
 import { SpanStatusCode } from "@azure/core-tracing";
+import { v4 as generateUuid } from "uuid";
 import { Readable } from "stream";
 
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
 import { BlobQueryResponse } from "./BlobQueryResponse";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { AppendBlob, Blob as StorageBlob, BlockBlob, PageBlob } from "./generated/src/operations";
+import {
+  AppendBlob,
+  Blob as StorageBlob,
+  BlockBlob,
+  PageBlob,
+} from "./generated/src/operationsInterfaces";
 import {
   AppendBlobAppendBlockFromUrlResponse,
   AppendBlobAppendBlockResponse,
@@ -65,6 +67,20 @@ import {
   PageRangeInfo,
   PageBlobGetPageRangesDiffResponseModel,
   BlobCopySourceTags,
+  BlobDownloadResponseInternal,
+  BlobDownloadHeaders,
+  BlobGetPropertiesResponseInternal,
+  BlobGetPropertiesHeaders,
+  BlobQueryResponseInternal,
+  BlobQueryHeaders,
+  BlobGetTagsResponseInternal,
+  BlockBlobGetBlockListHeaders,
+  BlockBlobGetBlockListResponseInternal,
+  PageBlobGetPageRangesResponseInternal,
+  PageBlobGetPageRangesHeaders,
+  PageListInternal,
+  PageBlobGetPageRangesDiffResponseInternal,
+  PageBlobGetPageRangesDiffHeaders,
 } from "./generatedModels";
 import {
   AppendBlobRequestConditions,
@@ -114,10 +130,11 @@ import {
   ETagAny,
   URLConstants,
 } from "./utils/constants";
-import { createSpan, convertTracingToRequestOptionsBase } from "./utils/tracing";
+import { createSpan } from "./utils/tracing";
 import {
   appendToURLPath,
   appendToURLQuery,
+  assertResponse,
   extractConnectionStringParts,
   ExtractPageRangeInfoItems,
   generateBlockID,
@@ -130,6 +147,7 @@ import {
   toBlobTagsString,
   toQuerySerialization,
   toTags,
+  WithResponse,
 } from "./utils/utils.common";
 import {
   fsCreateReadStream,
@@ -390,27 +408,11 @@ export interface BlobGetTagsOptions extends CommonOptions {
 /**
  * Contains response data for the {@link BlobClient.getTags} operation.
  */
-export type BlobGetTagsResponse = { tags: Tags } & BlobGetTagsHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: BlobGetTagsHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BlobTags;
-    };
-  };
+export type BlobGetTagsResponse = WithResponse<
+  { tags: Tags } & BlobGetTagsHeaders,
+  BlobGetTagsHeaders,
+  BlobTags
+>;
 
 /**
  * Options to configure Blob - Acquire Lease operation.
@@ -1028,7 +1030,7 @@ export class BlobClient extends StorageClient {
     super(url, pipeline);
     ({ blobName: this._name, containerName: this._containerName } =
       this.getBlobAndContainerNamesFromUrl());
-    this.blobContext = new StorageBlob(this.storageClientContext);
+    this.blobContext = this.storageClientContext.blob;
 
     this._snapshot = getURLParameter(this.url, URLConstants.Parameters.SNAPSHOT) as string;
     this._versionId = getURLParameter(this.url, URLConstants.Parameters.VERSIONID) as string;
@@ -1165,25 +1167,27 @@ export class BlobClient extends StorageClient {
     const { span, updatedOptions } = createSpan("BlobClient-download", options);
 
     try {
-      const res = await this.blobContext.download({
-        abortSignal: options.abortSignal,
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        requestOptions: {
-          onDownloadProgress: isNode ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
-        },
-        range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
-        rangeGetContentMD5: options.rangeGetContentMD5,
-        rangeGetContentCRC64: options.rangeGetContentCrc64,
-        snapshot: options.snapshot,
-        cpkInfo: options.customerProvidedKey,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      const res = assertResponse<BlobDownloadResponseInternal, BlobDownloadHeaders>(
+        await this.blobContext.download({
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          requestOptions: {
+            onDownloadProgress: isNode ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+          },
+          range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
+          rangeGetContentMD5: options.rangeGetContentMD5,
+          rangeGetContentCRC64: options.rangeGetContentCrc64,
+          snapshot: options.snapshot,
+          cpkInfo: options.customerProvidedKey,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
 
-      const wrappedRes = {
+      const wrappedRes: BlobDownloadResponseParsed = {
         ...res,
         _response: res._response, // _response is made non-enumerable
         objectReplicationDestinationPolicyId: res.objectReplicationPolicyId,
@@ -1328,16 +1332,18 @@ export class BlobClient extends StorageClient {
     try {
       options.conditions = options.conditions || {};
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      const res = await this.blobContext.getProperties({
-        abortSignal: options.abortSignal,
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        cpkInfo: options.customerProvidedKey,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      const res = assertResponse<BlobGetPropertiesResponseInternal, BlobGetPropertiesHeaders>(
+        await this.blobContext.getProperties({
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          cpkInfo: options.customerProvidedKey,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
 
       return {
         ...res,
@@ -1369,16 +1375,18 @@ export class BlobClient extends StorageClient {
     const { span, updatedOptions } = createSpan("BlobClient-delete", options);
     options.conditions = options.conditions || {};
     try {
-      return await this.blobContext.delete({
-        abortSignal: options.abortSignal,
-        deleteSnapshots: options.deleteSnapshots,
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.blobContext.delete({
+          abortSignal: options.abortSignal,
+          deleteSnapshots: options.deleteSnapshots,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1404,7 +1412,7 @@ export class BlobClient extends StorageClient {
   ): Promise<BlobDeleteIfExistsResponse> {
     const { span, updatedOptions } = createSpan("BlobClient-deleteIfExists", options);
     try {
-      const res = await this.delete(updatedOptions);
+      const res = assertResponse(await this.delete(updatedOptions));
       return {
         succeeded: true,
         ...res,
@@ -1443,10 +1451,12 @@ export class BlobClient extends StorageClient {
   public async undelete(options: BlobUndeleteOptions = {}): Promise<BlobUndeleteResponse> {
     const { span, updatedOptions } = createSpan("BlobClient-undelete", options);
     try {
-      return await this.blobContext.undelete({
-        abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.blobContext.undelete({
+          abortSignal: options.abortSignal,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1481,17 +1491,19 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.blobContext.setHttpHeaders({
-        abortSignal: options.abortSignal,
-        blobHttpHeaders: blobHTTPHeaders,
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        // cpkInfo: options.customerProvidedKey, // CPK is not included in Swagger, should change this back when this issue is fixed in Swagger.
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.blobContext.setHttpHeaders({
+          abortSignal: options.abortSignal,
+          blobHttpHeaders: blobHTTPHeaders,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          // cpkInfo: options.customerProvidedKey, // CPK is not included in Swagger, should change this back when this issue is fixed in Swagger.
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1522,18 +1534,20 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.blobContext.setMetadata({
-        abortSignal: options.abortSignal,
-        leaseAccessConditions: options.conditions,
-        metadata,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        cpkInfo: options.customerProvidedKey,
-        encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.blobContext.setMetadata({
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.conditions,
+          metadata,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          cpkInfo: options.customerProvidedKey,
+          encryptionScope: options.encryptionScope,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1557,16 +1571,18 @@ export class BlobClient extends StorageClient {
   public async setTags(tags: Tags, options: BlobSetTagsOptions = {}): Promise<BlobSetTagsResponse> {
     const { span, updatedOptions } = createSpan("BlobClient-setTags", options);
     try {
-      return await this.blobContext.setTags({
-        abortSignal: options.abortSignal,
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-        tags: toBlobTags(tags),
-      });
+      return assertResponse(
+        await this.blobContext.setTags({
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          tracingOptions: updatedOptions.tracingOptions,
+          tags: toBlobTags(tags),
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1586,15 +1602,17 @@ export class BlobClient extends StorageClient {
   public async getTags(options: BlobGetTagsOptions = {}): Promise<BlobGetTagsResponse> {
     const { span, updatedOptions } = createSpan("BlobClient-getTags", options);
     try {
-      const response = await this.blobContext.getTags({
-        abortSignal: options.abortSignal,
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      const response = assertResponse<BlobGetTagsResponseInternal, BlobGetTagsHeaders, BlobTags>(
+        await this.blobContext.getTags({
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
       const wrappedResponse: BlobGetTagsResponse = {
         ...response,
         _response: response._response, // _response is made non-enumerable
@@ -1635,18 +1653,20 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.blobContext.createSnapshot({
-        abortSignal: options.abortSignal,
-        leaseAccessConditions: options.conditions,
-        metadata: options.metadata,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        cpkInfo: options.customerProvidedKey,
-        encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.blobContext.createSnapshot({
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.conditions,
+          metadata: options.metadata,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          cpkInfo: options.customerProvidedKey,
+          encryptionScope: options.encryptionScope,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1774,11 +1794,13 @@ export class BlobClient extends StorageClient {
   ): Promise<BlobAbortCopyFromURLResponse> {
     const { span, updatedOptions } = createSpan("BlobClient-abortCopyFromURL", options);
     try {
-      return await this.blobContext.abortCopyFromURL(copyId, {
-        abortSignal: options.abortSignal,
-        leaseAccessConditions: options.conditions,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.blobContext.abortCopyFromURL(copyId, {
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.conditions,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1807,30 +1829,32 @@ export class BlobClient extends StorageClient {
     options.sourceConditions = options.sourceConditions || {};
 
     try {
-      return await this.blobContext.copyFromURL(copySource, {
-        abortSignal: options.abortSignal,
-        metadata: options.metadata,
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        sourceModifiedAccessConditions: {
-          sourceIfMatch: options.sourceConditions.ifMatch,
-          sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
-          sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
-          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
-        },
-        sourceContentMD5: options.sourceContentMD5,
-        copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
-        blobTagsString: toBlobTagsString(options.tags),
-        immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-        immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
-        legalHold: options.legalHold,
-        encryptionScope: options.encryptionScope,
-        copySourceTags: options.copySourceTags,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.blobContext.copyFromURL(copySource, {
+          abortSignal: options.abortSignal,
+          metadata: options.metadata,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          sourceModifiedAccessConditions: {
+            sourceIfMatch: options.sourceConditions.ifMatch,
+            sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
+            sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
+            sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
+          },
+          sourceContentMD5: options.sourceContentMD5,
+          copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
+          blobTagsString: toBlobTagsString(options.tags),
+          immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
+          immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+          legalHold: options.legalHold,
+          encryptionScope: options.encryptionScope,
+          copySourceTags: options.copySourceTags,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1859,16 +1883,18 @@ export class BlobClient extends StorageClient {
   ): Promise<BlobSetTierResponse> {
     const { span, updatedOptions } = createSpan("BlobClient-setAccessTier", options);
     try {
-      return await this.blobContext.setTier(toAccessTier(tier)!, {
-        abortSignal: options.abortSignal,
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        rehydratePriority: options.rehydratePriority,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.blobContext.setTier(toAccessTier(tier)!, {
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          rehydratePriority: options.rehydratePriority,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1972,10 +1998,7 @@ export class BlobClient extends StorageClient {
       if (!count) {
         const response = await this.getProperties({
           ...options,
-          tracingOptions: {
-            ...options.tracingOptions,
-            ...convertTracingToRequestOptionsBase(updatedOptions),
-          },
+          tracingOptions: updatedOptions.tracingOptions,
         });
         count = response.contentLength! - offset;
         if (count < 0) {
@@ -2016,10 +2039,7 @@ export class BlobClient extends StorageClient {
             conditions: options.conditions,
             maxRetryRequests: options.maxRetryRequestsPerBlock,
             customerProvidedKey: options.customerProvidedKey,
-            tracingOptions: {
-              ...options.tracingOptions,
-              ...convertTracingToRequestOptionsBase(updatedOptions),
-            },
+            tracingOptions: updatedOptions.tracingOptions,
           });
           const stream = response.readableStreamBody!;
           await streamToBuffer(stream, buffer!, off - offset, chunkEnd - offset);
@@ -2071,10 +2091,7 @@ export class BlobClient extends StorageClient {
     try {
       const response = await this.download(offset, count, {
         ...options,
-        tracingOptions: {
-          ...options.tracingOptions,
-          ...convertTracingToRequestOptionsBase(updatedOptions),
-        },
+        tracingOptions: updatedOptions.tracingOptions,
       });
       if (response.readableStreamBody) {
         await readStreamToLocalFile(response.readableStreamBody, filePath);
@@ -2106,25 +2123,25 @@ export class BlobClient extends StorageClient {
       // IPv4/IPv6 address hosts, Endpoints - `http://127.0.0.1:10000/devstoreaccount1/containername/blob`
       // http://localhost:10001/devstoreaccount1/containername/blob
 
-      const parsedUrl = URLBuilder.parse(this.url);
+      const parsedUrl = new URL(this.url);
 
-      if (parsedUrl.getHost()!.split(".")[1] === "blob") {
+      if (parsedUrl.host.split(".")[1] === "blob") {
         // "https://myaccount.blob.core.windows.net/containername/blob".
         // .getPath() -> /containername/blob
-        const pathComponents = parsedUrl.getPath()!.match("/([^/]*)(/(.*))?");
+        const pathComponents = parsedUrl.pathname.match("/([^/]*)(/(.*))?");
         containerName = pathComponents![1];
         blobName = pathComponents![3];
       } else if (isIpEndpointStyle(parsedUrl)) {
         // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/containername/blob
         // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/containername/blob
         // .getPath() -> /devstoreaccount1/containername/blob
-        const pathComponents = parsedUrl.getPath()!.match("/([^/]*)/([^/]*)(/(.*))?");
+        const pathComponents = parsedUrl.pathname.match("/([^/]*)/([^/]*)(/(.*))?");
         containerName = pathComponents![2];
         blobName = pathComponents![4];
       } else {
         // "https://customdomain.com/containername/blob".
         // .getPath() -> /containername/blob
-        const pathComponents = parsedUrl.getPath()!.match("/([^/]*)(/(.*))?");
+        const pathComponents = parsedUrl.pathname.match("/([^/]*)(/(.*))?");
         containerName = pathComponents![1];
         blobName = pathComponents![3];
       }
@@ -2169,30 +2186,32 @@ export class BlobClient extends StorageClient {
     options.sourceConditions = options.sourceConditions || {};
 
     try {
-      return await this.blobContext.startCopyFromURL(copySource, {
-        abortSignal: options.abortSignal,
-        leaseAccessConditions: options.conditions,
-        metadata: options.metadata,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        sourceModifiedAccessConditions: {
-          sourceIfMatch: options.sourceConditions.ifMatch,
-          sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
-          sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
-          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
-          sourceIfTags: options.sourceConditions.tagConditions,
-        },
-        immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-        immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
-        legalHold: options.legalHold,
-        rehydratePriority: options.rehydratePriority,
-        tier: toAccessTier(options.tier),
-        blobTagsString: toBlobTagsString(options.tags),
-        sealBlob: options.sealBlob,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.blobContext.startCopyFromURL(copySource, {
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.conditions,
+          metadata: options.metadata,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          sourceModifiedAccessConditions: {
+            sourceIfMatch: options.sourceConditions.ifMatch,
+            sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
+            sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
+            sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
+            sourceIfTags: options.sourceConditions.tagConditions,
+          },
+          immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
+          immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+          legalHold: options.legalHold,
+          rehydratePriority: options.rehydratePriority,
+          tier: toAccessTier(options.tier),
+          blobTagsString: toBlobTagsString(options.tags),
+          sealBlob: options.sealBlob,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -2248,10 +2267,11 @@ export class BlobClient extends StorageClient {
   ): Promise<BlobDeleteImmutabilityPolicyResponse> {
     const { span, updatedOptions } = createSpan("BlobClient-deleteImmutabilityPolicy", options);
     try {
-      return await this.blobContext.deleteImmutabilityPolicy({
-        abortSignal: options?.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.blobContext.deleteImmutabilityPolicy({
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -2274,13 +2294,13 @@ export class BlobClient extends StorageClient {
   ): Promise<BlobSetImmutabilityPolicyResponse> {
     const { span, updatedOptions } = createSpan("BlobClient-setImmutabilityPolicy", options);
     try {
-      return await this.blobContext.setImmutabilityPolicy({
-        abortSignal: options?.abortSignal,
-        immutabilityPolicyExpiry: immutabilityPolicy.expiriesOn,
-        immutabilityPolicyMode: immutabilityPolicy.policyMode,
-        modifiedAccessConditions: options?.modifiedAccessCondition,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.blobContext.setImmutabilityPolicy({
+          immutabilityPolicyExpiry: immutabilityPolicy.expiriesOn,
+          immutabilityPolicyMode: immutabilityPolicy.policyMode,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -2303,10 +2323,11 @@ export class BlobClient extends StorageClient {
   ): Promise<BlobSetLegalHoldResponse> {
     const { span, updatedOptions } = createSpan("BlobClient-setLegalHold", options);
     try {
-      return await this.blobContext.setLegalHold(legalHoldEnabled, {
-        abortSignal: options?.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.blobContext.setLegalHold(legalHoldEnabled, {
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -2697,7 +2718,7 @@ export class AppendBlobClient extends BlobClient {
       throw new Error("Expecting non-empty strings for containerName and blobName parameters");
     }
     super(url, pipeline);
-    this.appendBlobContext = new AppendBlob(this.storageClientContext);
+    this.appendBlobContext = this.storageClientContext.appendBlob;
   }
 
   /**
@@ -2739,23 +2760,25 @@ export class AppendBlobClient extends BlobClient {
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
-      return await this.appendBlobContext.create(0, {
-        abortSignal: options.abortSignal,
-        blobHttpHeaders: options.blobHTTPHeaders,
-        leaseAccessConditions: options.conditions,
-        metadata: options.metadata,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        cpkInfo: options.customerProvidedKey,
-        encryptionScope: options.encryptionScope,
-        immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-        immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
-        legalHold: options.legalHold,
-        blobTagsString: toBlobTagsString(options.tags),
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.appendBlobContext.create(0, {
+          abortSignal: options.abortSignal,
+          blobHttpHeaders: options.blobHTTPHeaders,
+          leaseAccessConditions: options.conditions,
+          metadata: options.metadata,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          cpkInfo: options.customerProvidedKey,
+          encryptionScope: options.encryptionScope,
+          immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
+          immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+          legalHold: options.legalHold,
+          blobTagsString: toBlobTagsString(options.tags),
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -2780,10 +2803,12 @@ export class AppendBlobClient extends BlobClient {
     const { span, updatedOptions } = createSpan("AppendBlobClient-createIfNotExists", options);
     const conditions = { ifNoneMatch: ETagAny };
     try {
-      const res = await this.create({
-        ...updatedOptions,
-        conditions,
-      });
+      const res = assertResponse(
+        await this.create({
+          ...updatedOptions,
+          conditions,
+        })
+      );
       return {
         succeeded: true,
         ...res,
@@ -2821,16 +2846,18 @@ export class AppendBlobClient extends BlobClient {
     const { span, updatedOptions } = createSpan("AppendBlobClient-seal", options);
     options.conditions = options.conditions || {};
     try {
-      return await this.appendBlobContext.seal({
-        abortSignal: options.abortSignal,
-        appendPositionAccessConditions: options.conditions,
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.appendBlobContext.seal({
+          abortSignal: options.abortSignal,
+          appendPositionAccessConditions: options.conditions,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -2876,23 +2903,25 @@ export class AppendBlobClient extends BlobClient {
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
-      return await this.appendBlobContext.appendBlock(contentLength, body, {
-        abortSignal: options.abortSignal,
-        appendPositionAccessConditions: options.conditions,
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        requestOptions: {
-          onUploadProgress: options.onProgress,
-        },
-        transactionalContentMD5: options.transactionalContentMD5,
-        transactionalContentCrc64: options.transactionalContentCrc64,
-        cpkInfo: options.customerProvidedKey,
-        encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.appendBlobContext.appendBlock(contentLength, body, {
+          abortSignal: options.abortSignal,
+          appendPositionAccessConditions: options.conditions,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          requestOptions: {
+            onUploadProgress: options.onProgress,
+          },
+          transactionalContentMD5: options.transactionalContentMD5,
+          transactionalContentCrc64: options.transactionalContentCrc64,
+          cpkInfo: options.customerProvidedKey,
+          encryptionScope: options.encryptionScope,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -2930,28 +2959,30 @@ export class AppendBlobClient extends BlobClient {
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
-      return await this.appendBlobContext.appendBlockFromUrl(sourceURL, 0, {
-        abortSignal: options.abortSignal,
-        sourceRange: rangeToString({ offset: sourceOffset, count }),
-        sourceContentMD5: options.sourceContentMD5,
-        sourceContentCrc64: options.sourceContentCrc64,
-        leaseAccessConditions: options.conditions,
-        appendPositionAccessConditions: options.conditions,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        sourceModifiedAccessConditions: {
-          sourceIfMatch: options.sourceConditions.ifMatch,
-          sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
-          sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
-          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
-        },
-        copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
-        cpkInfo: options.customerProvidedKey,
-        encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.appendBlobContext.appendBlockFromUrl(sourceURL, 0, {
+          abortSignal: options.abortSignal,
+          sourceRange: rangeToString({ offset: sourceOffset, count }),
+          sourceContentMD5: options.sourceContentMD5,
+          sourceContentCrc64: options.sourceContentCrc64,
+          leaseAccessConditions: options.conditions,
+          appendPositionAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          sourceModifiedAccessConditions: {
+            sourceIfMatch: options.sourceConditions.ifMatch,
+            sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
+            sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
+            sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
+          },
+          copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
+          cpkInfo: options.customerProvidedKey,
+          encryptionScope: options.encryptionScope,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -3534,12 +3565,7 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
  * Response type for {@link BlockBlobClient.uploadFile}, {@link BlockBlobClient.uploadStream}, and
  * {@link BlockBlobClient.uploadBrowserDate}.
  */
-export type BlobUploadCommonResponse = BlockBlobUploadHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse;
-};
+export type BlobUploadCommonResponse = WithResponse<BlockBlobUploadHeaders>;
 
 /**
  * BlockBlobClient defines a set of operations applicable to block blobs.
@@ -3709,8 +3735,8 @@ export class BlockBlobClient extends BlobClient {
       throw new Error("Expecting non-empty strings for containerName and blobName parameters");
     }
     super(url, pipeline);
-    this.blockBlobContext = new BlockBlob(this.storageClientContext);
-    this._blobContext = new StorageBlob(this.storageClientContext);
+    this.blockBlobContext = this.storageClientContext.blockBlob;
+    this._blobContext = this.storageClientContext.blob;
   }
 
   /**
@@ -3775,22 +3801,24 @@ export class BlockBlobClient extends BlobClient {
         throw new Error("This operation currently is only supported in Node.js.");
       }
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      const response = await this._blobContext.query({
-        abortSignal: options.abortSignal,
-        queryRequest: {
-          queryType: "SQL",
-          expression: query,
-          inputSerialization: toQuerySerialization(options.inputTextConfiguration),
-          outputSerialization: toQuerySerialization(options.outputTextConfiguration),
-        },
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        cpkInfo: options.customerProvidedKey,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      const response = assertResponse<BlobQueryResponseInternal, BlobQueryHeaders>(
+        await this._blobContext.query({
+          abortSignal: options.abortSignal,
+          queryRequest: {
+            queryType: "SQL",
+            expression: query,
+            inputSerialization: toQuerySerialization(options.inputTextConfiguration),
+            outputSerialization: toQuerySerialization(options.outputTextConfiguration),
+          },
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          cpkInfo: options.customerProvidedKey,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
       return new BlobQueryResponse(response, {
         abortSignal: options.abortSignal,
         onProgress: options.onProgress,
@@ -3843,27 +3871,29 @@ export class BlockBlobClient extends BlobClient {
     const { span, updatedOptions } = createSpan("BlockBlobClient-upload", options);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.blockBlobContext.upload(contentLength, body, {
-        abortSignal: options.abortSignal,
-        blobHttpHeaders: options.blobHTTPHeaders,
-        leaseAccessConditions: options.conditions,
-        metadata: options.metadata,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        requestOptions: {
-          onUploadProgress: options.onProgress,
-        },
-        cpkInfo: options.customerProvidedKey,
-        encryptionScope: options.encryptionScope,
-        immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-        immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
-        legalHold: options.legalHold,
-        tier: toAccessTier(options.tier),
-        blobTagsString: toBlobTagsString(options.tags),
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.blockBlobContext.upload(contentLength, body, {
+          abortSignal: options.abortSignal,
+          blobHttpHeaders: options.blobHTTPHeaders,
+          leaseAccessConditions: options.conditions,
+          metadata: options.metadata,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          requestOptions: {
+            onUploadProgress: options.onProgress,
+          },
+          cpkInfo: options.customerProvidedKey,
+          encryptionScope: options.encryptionScope,
+          immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
+          immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+          legalHold: options.legalHold,
+          tier: toAccessTier(options.tier),
+          blobTagsString: toBlobTagsString(options.tags),
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -3902,28 +3932,30 @@ export class BlockBlobClient extends BlobClient {
     const { span, updatedOptions } = createSpan("BlockBlobClient-syncUploadFromURL", options);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.blockBlobContext.putBlobFromUrl(0, sourceURL, {
-        ...options,
-        blobHttpHeaders: options.blobHTTPHeaders,
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions.tagConditions,
-        },
-        sourceModifiedAccessConditions: {
-          sourceIfMatch: options.sourceConditions?.ifMatch,
-          sourceIfModifiedSince: options.sourceConditions?.ifModifiedSince,
-          sourceIfNoneMatch: options.sourceConditions?.ifNoneMatch,
-          sourceIfUnmodifiedSince: options.sourceConditions?.ifUnmodifiedSince,
-          sourceIfTags: options.sourceConditions?.tagConditions,
-        },
-        cpkInfo: options.customerProvidedKey,
-        copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
-        tier: toAccessTier(options.tier),
-        blobTagsString: toBlobTagsString(options.tags),
-        copySourceTags: options.copySourceTags,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.blockBlobContext.putBlobFromUrl(0, sourceURL, {
+          ...options,
+          blobHttpHeaders: options.blobHTTPHeaders,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions.tagConditions,
+          },
+          sourceModifiedAccessConditions: {
+            sourceIfMatch: options.sourceConditions?.ifMatch,
+            sourceIfModifiedSince: options.sourceConditions?.ifModifiedSince,
+            sourceIfNoneMatch: options.sourceConditions?.ifNoneMatch,
+            sourceIfUnmodifiedSince: options.sourceConditions?.ifUnmodifiedSince,
+            sourceIfTags: options.sourceConditions?.tagConditions,
+          },
+          cpkInfo: options.customerProvidedKey,
+          copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
+          tier: toAccessTier(options.tier),
+          blobTagsString: toBlobTagsString(options.tags),
+          copySourceTags: options.copySourceTags,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -3955,18 +3987,20 @@ export class BlockBlobClient extends BlobClient {
     const { span, updatedOptions } = createSpan("BlockBlobClient-stageBlock", options);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.blockBlobContext.stageBlock(blockId, contentLength, body, {
-        abortSignal: options.abortSignal,
-        leaseAccessConditions: options.conditions,
-        requestOptions: {
-          onUploadProgress: options.onProgress,
-        },
-        transactionalContentMD5: options.transactionalContentMD5,
-        transactionalContentCrc64: options.transactionalContentCrc64,
-        cpkInfo: options.customerProvidedKey,
-        encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.blockBlobContext.stageBlock(blockId, contentLength, body, {
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.conditions,
+          requestOptions: {
+            onUploadProgress: options.onProgress,
+          },
+          transactionalContentMD5: options.transactionalContentMD5,
+          transactionalContentCrc64: options.transactionalContentCrc64,
+          cpkInfo: options.customerProvidedKey,
+          encryptionScope: options.encryptionScope,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -4009,17 +4043,19 @@ export class BlockBlobClient extends BlobClient {
     const { span, updatedOptions } = createSpan("BlockBlobClient-stageBlockFromURL", options);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.blockBlobContext.stageBlockFromURL(blockId, 0, sourceURL, {
-        abortSignal: options.abortSignal,
-        leaseAccessConditions: options.conditions,
-        sourceContentMD5: options.sourceContentMD5,
-        sourceContentCrc64: options.sourceContentCrc64,
-        sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
-        cpkInfo: options.customerProvidedKey,
-        encryptionScope: options.encryptionScope,
-        copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.blockBlobContext.stageBlockFromURL(blockId, 0, sourceURL, {
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.conditions,
+          sourceContentMD5: options.sourceContentMD5,
+          sourceContentCrc64: options.sourceContentCrc64,
+          sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
+          cpkInfo: options.customerProvidedKey,
+          encryptionScope: options.encryptionScope,
+          copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -4051,26 +4087,28 @@ export class BlockBlobClient extends BlobClient {
     const { span, updatedOptions } = createSpan("BlockBlobClient-commitBlockList", options);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.blockBlobContext.commitBlockList(
-        { latest: blocks },
-        {
-          abortSignal: options.abortSignal,
-          blobHttpHeaders: options.blobHTTPHeaders,
-          leaseAccessConditions: options.conditions,
-          metadata: options.metadata,
-          modifiedAccessConditions: {
-            ...options.conditions,
-            ifTags: options.conditions?.tagConditions,
-          },
-          cpkInfo: options.customerProvidedKey,
-          encryptionScope: options.encryptionScope,
-          immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-          immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
-          legalHold: options.legalHold,
-          tier: toAccessTier(options.tier),
-          blobTagsString: toBlobTagsString(options.tags),
-          ...convertTracingToRequestOptionsBase(updatedOptions),
-        }
+      return assertResponse(
+        await this.blockBlobContext.commitBlockList(
+          { latest: blocks },
+          {
+            abortSignal: options.abortSignal,
+            blobHttpHeaders: options.blobHTTPHeaders,
+            leaseAccessConditions: options.conditions,
+            metadata: options.metadata,
+            modifiedAccessConditions: {
+              ...options.conditions,
+              ifTags: options.conditions?.tagConditions,
+            },
+            cpkInfo: options.customerProvidedKey,
+            encryptionScope: options.encryptionScope,
+            immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
+            immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+            legalHold: options.legalHold,
+            tier: toAccessTier(options.tier),
+            blobTagsString: toBlobTagsString(options.tags),
+            tracingOptions: updatedOptions.tracingOptions,
+          }
+        )
       );
     } catch (e: any) {
       span.setStatus({
@@ -4099,15 +4137,20 @@ export class BlockBlobClient extends BlobClient {
   ): Promise<BlockBlobGetBlockListResponse> {
     const { span, updatedOptions } = createSpan("BlockBlobClient-getBlockList", options);
     try {
-      const res = await this.blockBlobContext.getBlockList(listType, {
-        abortSignal: options.abortSignal,
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      const res = assertResponse<
+        BlockBlobGetBlockListResponseInternal,
+        BlockBlobGetBlockListHeaders
+      >(
+        await this.blockBlobContext.getBlockList(listType, {
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
 
       if (!res.committedBlocks) {
         res.committedBlocks = [];
@@ -4292,7 +4335,7 @@ export class BlockBlobClient extends BlobClient {
 
     try {
       if (size <= options.maxSingleShotSize) {
-        return await this.upload(bodyFactory(0, size), size, updatedOptions);
+        return assertResponse(await this.upload(bodyFactory(0, size), size, updatedOptions));
       }
 
       const numBlocks: number = Math.floor((size - 1) / options.blockSize) + 1;
@@ -4377,10 +4420,7 @@ export class BlockBlobClient extends BlobClient {
         size,
         {
           ...options,
-          tracingOptions: {
-            ...options!.tracingOptions,
-            ...convertTracingToRequestOptionsBase(updatedOptions),
-          },
+          tracingOptions: updatedOptions.tracingOptions,
         }
       );
     } catch (e: any) {
@@ -4460,13 +4500,12 @@ export class BlockBlobClient extends BlobClient {
       );
       await scheduler.do();
 
-      return await this.commitBlockList(blockList, {
-        ...options,
-        tracingOptions: {
-          ...options!.tracingOptions,
-          ...convertTracingToRequestOptionsBase(updatedOptions),
-        },
-      });
+      return assertResponse(
+        await this.commitBlockList(blockList, {
+          ...options,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -5049,7 +5088,7 @@ export class PageBlobClient extends BlobClient {
       throw new Error("Expecting non-empty strings for containerName and blobName parameters");
     }
     super(url, pipeline);
-    this.pageBlobContext = new PageBlob(this.storageClientContext);
+    this.pageBlobContext = this.storageClientContext.pageBlob;
   }
 
   /**
@@ -5088,25 +5127,27 @@ export class PageBlobClient extends BlobClient {
     const { span, updatedOptions } = createSpan("PageBlobClient-create", options);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.pageBlobContext.create(0, size, {
-        abortSignal: options.abortSignal,
-        blobHttpHeaders: options.blobHTTPHeaders,
-        blobSequenceNumber: options.blobSequenceNumber,
-        leaseAccessConditions: options.conditions,
-        metadata: options.metadata,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        cpkInfo: options.customerProvidedKey,
-        encryptionScope: options.encryptionScope,
-        immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-        immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
-        legalHold: options.legalHold,
-        tier: toAccessTier(options.tier),
-        blobTagsString: toBlobTagsString(options.tags),
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.pageBlobContext.create(0, size, {
+          abortSignal: options.abortSignal,
+          blobHttpHeaders: options.blobHTTPHeaders,
+          blobSequenceNumber: options.blobSequenceNumber,
+          leaseAccessConditions: options.conditions,
+          metadata: options.metadata,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          cpkInfo: options.customerProvidedKey,
+          encryptionScope: options.encryptionScope,
+          immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
+          immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+          legalHold: options.legalHold,
+          tier: toAccessTier(options.tier),
+          blobTagsString: toBlobTagsString(options.tags),
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -5134,11 +5175,13 @@ export class PageBlobClient extends BlobClient {
     const { span, updatedOptions } = createSpan("PageBlobClient-createIfNotExists", options);
     try {
       const conditions = { ifNoneMatch: ETagAny };
-      const res = await this.create(size, {
-        ...options,
-        conditions,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
+      const res = assertResponse(
+        await this.create(size, {
+          ...options,
+          conditions,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
       return {
         succeeded: true,
         ...res,
@@ -5187,24 +5230,26 @@ export class PageBlobClient extends BlobClient {
     const { span, updatedOptions } = createSpan("PageBlobClient-uploadPages", options);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.pageBlobContext.uploadPages(count, body, {
-        abortSignal: options.abortSignal,
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        requestOptions: {
-          onUploadProgress: options.onProgress,
-        },
-        range: rangeToString({ offset, count }),
-        sequenceNumberAccessConditions: options.conditions,
-        transactionalContentMD5: options.transactionalContentMD5,
-        transactionalContentCrc64: options.transactionalContentCrc64,
-        cpkInfo: options.customerProvidedKey,
-        encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.pageBlobContext.uploadPages(count, body, {
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          requestOptions: {
+            onUploadProgress: options.onProgress,
+          },
+          range: rangeToString({ offset, count }),
+          sequenceNumberAccessConditions: options.conditions,
+          transactionalContentMD5: options.transactionalContentMD5,
+          transactionalContentCrc64: options.transactionalContentCrc64,
+          cpkInfo: options.customerProvidedKey,
+          encryptionScope: options.encryptionScope,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -5239,32 +5284,34 @@ export class PageBlobClient extends BlobClient {
     const { span, updatedOptions } = createSpan("PageBlobClient-uploadPagesFromURL", options);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.pageBlobContext.uploadPagesFromURL(
-        sourceURL,
-        rangeToString({ offset: sourceOffset, count }),
-        0,
-        rangeToString({ offset: destOffset, count }),
-        {
-          abortSignal: options.abortSignal,
-          sourceContentMD5: options.sourceContentMD5,
-          sourceContentCrc64: options.sourceContentCrc64,
-          leaseAccessConditions: options.conditions,
-          sequenceNumberAccessConditions: options.conditions,
-          modifiedAccessConditions: {
-            ...options.conditions,
-            ifTags: options.conditions?.tagConditions,
-          },
-          sourceModifiedAccessConditions: {
-            sourceIfMatch: options.sourceConditions.ifMatch,
-            sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
-            sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
-            sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
-          },
-          cpkInfo: options.customerProvidedKey,
-          encryptionScope: options.encryptionScope,
-          copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
-          ...convertTracingToRequestOptionsBase(updatedOptions),
-        }
+      return assertResponse(
+        await this.pageBlobContext.uploadPagesFromURL(
+          sourceURL,
+          rangeToString({ offset: sourceOffset, count }),
+          0,
+          rangeToString({ offset: destOffset, count }),
+          {
+            abortSignal: options.abortSignal,
+            sourceContentMD5: options.sourceContentMD5,
+            sourceContentCrc64: options.sourceContentCrc64,
+            leaseAccessConditions: options.conditions,
+            sequenceNumberAccessConditions: options.conditions,
+            modifiedAccessConditions: {
+              ...options.conditions,
+              ifTags: options.conditions?.tagConditions,
+            },
+            sourceModifiedAccessConditions: {
+              sourceIfMatch: options.sourceConditions.ifMatch,
+              sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
+              sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
+              sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
+            },
+            cpkInfo: options.customerProvidedKey,
+            encryptionScope: options.encryptionScope,
+            copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
+            tracingOptions: updatedOptions.tracingOptions,
+          }
+        )
       );
     } catch (e: any) {
       span.setStatus({
@@ -5294,19 +5341,21 @@ export class PageBlobClient extends BlobClient {
     options.conditions = options.conditions || {};
     const { span, updatedOptions } = createSpan("PageBlobClient-clearPages", options);
     try {
-      return await this.pageBlobContext.clearPages(0, {
-        abortSignal: options.abortSignal,
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        range: rangeToString({ offset, count }),
-        sequenceNumberAccessConditions: options.conditions,
-        cpkInfo: options.customerProvidedKey,
-        encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.pageBlobContext.clearPages(0, {
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          range: rangeToString({ offset, count }),
+          sequenceNumberAccessConditions: options.conditions,
+          cpkInfo: options.customerProvidedKey,
+          encryptionScope: options.encryptionScope,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -5335,8 +5384,12 @@ export class PageBlobClient extends BlobClient {
     options.conditions = options.conditions || {};
     const { span, updatedOptions } = createSpan("PageBlobClient-getPageRanges", options);
     try {
-      return await this.pageBlobContext
-        .getPageRanges({
+      const response = assertResponse<
+        PageBlobGetPageRangesResponseInternal,
+        PageBlobGetPageRangesHeaders,
+        PageListInternal
+      >(
+        await this.pageBlobContext.getPageRanges({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: {
@@ -5344,9 +5397,10 @@ export class PageBlobClient extends BlobClient {
             ifTags: options.conditions?.tagConditions,
           },
           range: rangeToString({ offset, count }),
-          ...convertTracingToRequestOptionsBase(updatedOptions),
+          tracingOptions: updatedOptions.tracingOptions,
         })
-        .then(rangeResponseFromModel);
+      );
+      return rangeResponseFromModel(response);
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -5378,18 +5432,20 @@ export class PageBlobClient extends BlobClient {
   ): Promise<PageBlobGetPageRangesResponseModel> {
     const { span, updatedOptions } = createSpan("PageBlobClient-getPageRangesSegment", options);
     try {
-      return await this.pageBlobContext.getPageRanges({
-        abortSignal: options.abortSignal,
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        range: rangeToString({ offset, count }),
-        marker: marker,
-        maxPageSize: options.maxPageSize,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.pageBlobContext.getPageRanges({
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          range: rangeToString({ offset, count }),
+          marker: marker,
+          maxPageSize: options.maxPageSize,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -5582,8 +5638,12 @@ export class PageBlobClient extends BlobClient {
     const { span, updatedOptions } = createSpan("PageBlobClient-getPageRangesDiff", options);
 
     try {
-      return await this.pageBlobContext
-        .getPageRangesDiff({
+      const result = assertResponse<
+        PageBlobGetPageRangesDiffResponseInternal,
+        PageBlobGetPageRangesDiffHeaders,
+        PageListInternal
+      >(
+        await this.pageBlobContext.getPageRangesDiff({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: {
@@ -5592,9 +5652,10 @@ export class PageBlobClient extends BlobClient {
           },
           prevsnapshot: prevSnapshot,
           range: rangeToString({ offset, count }),
-          ...convertTracingToRequestOptionsBase(updatedOptions),
+          tracingOptions: updatedOptions.tracingOptions,
         })
-        .then(rangeResponseFromModel);
+      );
+      return rangeResponseFromModel(result);
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -5629,22 +5690,24 @@ export class PageBlobClient extends BlobClient {
   ): Promise<PageBlobGetPageRangesResponseModel> {
     const { span, updatedOptions } = createSpan("PageBlobClient-getPageRangesDiffSegment", options);
     try {
-      return await this.pageBlobContext.getPageRangesDiff({
-        abortSignal: options?.abortSignal,
-        leaseAccessConditions: options?.conditions,
-        modifiedAccessConditions: {
-          ...options?.conditions,
-          ifTags: options?.conditions?.tagConditions,
-        },
-        prevsnapshot: prevSnapshotOrUrl,
-        range: rangeToString({
-          offset: offset,
-          count: count,
-        }),
-        marker: marker,
-        maxPageSize: options?.maxPageSize,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.pageBlobContext.getPageRangesDiff({
+          abortSignal: options?.abortSignal,
+          leaseAccessConditions: options?.conditions,
+          modifiedAccessConditions: {
+            ...options?.conditions,
+            ifTags: options?.conditions?.tagConditions,
+          },
+          prevsnapshot: prevSnapshotOrUrl,
+          range: rangeToString({
+            offset: offset,
+            count: count,
+          }),
+          marker: marker,
+          maxPageSize: options?.maxPageSize,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -5858,8 +5921,12 @@ export class PageBlobClient extends BlobClient {
     );
 
     try {
-      return await this.pageBlobContext
-        .getPageRangesDiff({
+      const response = assertResponse<
+        PageBlobGetPageRangesDiffResponseInternal,
+        PageBlobGetPageRangesDiffHeaders,
+        PageListInternal
+      >(
+        await this.pageBlobContext.getPageRangesDiff({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: {
@@ -5868,9 +5935,10 @@ export class PageBlobClient extends BlobClient {
           },
           prevSnapshotUrl,
           range: rangeToString({ offset, count }),
-          ...convertTracingToRequestOptionsBase(updatedOptions),
+          tracingOptions: updatedOptions.tracingOptions,
         })
-        .then(rangeResponseFromModel);
+      );
+      return rangeResponseFromModel(response);
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -5897,16 +5965,18 @@ export class PageBlobClient extends BlobClient {
     options.conditions = options.conditions || {};
     const { span, updatedOptions } = createSpan("PageBlobClient-resize", options);
     try {
-      return await this.pageBlobContext.resize(size, {
-        abortSignal: options.abortSignal,
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.pageBlobContext.resize(size, {
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          encryptionScope: options.encryptionScope,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -5935,16 +6005,18 @@ export class PageBlobClient extends BlobClient {
     options.conditions = options.conditions || {};
     const { span, updatedOptions } = createSpan("PageBlobClient-updateSequenceNumber", options);
     try {
-      return await this.pageBlobContext.updateSequenceNumber(sequenceNumberAction, {
-        abortSignal: options.abortSignal,
-        blobSequenceNumber: sequenceNumber,
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.pageBlobContext.updateSequenceNumber(sequenceNumberAction, {
+          abortSignal: options.abortSignal,
+          blobSequenceNumber: sequenceNumber,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -5975,14 +6047,16 @@ export class PageBlobClient extends BlobClient {
   ): Promise<PageBlobCopyIncrementalResponse> {
     const { span, updatedOptions } = createSpan("PageBlobClient-startCopyIncremental", options);
     try {
-      return await this.pageBlobContext.copyIncremental(copySource, {
-        abortSignal: options.abortSignal,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.pageBlobContext.copyIncremental(copySource, {
+          abortSignal: options.abortSignal,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

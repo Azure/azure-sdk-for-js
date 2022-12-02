@@ -2,89 +2,380 @@
 // Licensed under the MIT license.
 
 import { Tags } from ".";
-import { BlobTags, BlobPropertiesInternal as BlobProperties } from "./generated/src/models";
+import {
+  AppendBlobAppendBlockFromUrlResponse as AppendBlobAppendBlockFromUrlResponseInternal,
+  AppendBlobAppendBlockFromUrlHeaders,
+  AppendBlobAppendBlockResponse as AppendBlobAppendBlockResponseInternal,
+  AppendBlobAppendBlockHeaders,
+  AppendBlobCreateResponse as AppendBlobCreateResponseInternal,
+  AppendBlobCreateHeaders,
+  BlobAbortCopyFromURLResponse as BlobAbortCopyFromURLResponseInternal,
+  BlobAbortCopyFromURLHeaders,
+  BlobCopyFromURLResponse as BlobCopyFromURLResponseInternal,
+  BlobCopyFromURLHeaders,
+  BlobCreateSnapshotResponse as BlobCreateSnapshotResponseInternal,
+  BlobCreateSnapshotHeaders,
+  BlobDeleteResponse as BlobDeleteResponseInternal,
+  BlobDeleteHeaders,
+  BlobDeleteImmutabilityPolicyResponse as BlobDeleteImmutabilityPolicyResponseInternal,
+  BlobDeleteImmutabilityPolicyHeaders,
+  BlobDownloadResponse as BlobDownloadResponseInternal,
+  BlobDownloadHeaders,
+  BlobGetPropertiesResponse as BlobGetPropertiesResponseInternal,
+  BlobGetPropertiesHeaders,
+  BlobPropertiesInternal as BlobProperties,
+  BlobGetTagsResponse as BlobGetTagsResponseInternal,
+  BlobGetTagsHeaders,
+  BlobTags,
+  BlobQueryResponse as BlobQueryResponseInternal,
+  BlobQueryHeaders,
+  BlobSetHttpHeadersResponse as BlobSetHttpHeadersResponseInternal,
+  BlobSetHttpHeadersHeaders,
+  BlobSetImmutabilityPolicyResponse as BlobSetImmutabilityPolicyResponseInternal,
+  BlobSetImmutabilityPolicyHeaders,
+  BlobSetLegalHoldResponse as BlobSetLegalHoldResponseInternal,
+  BlobSetLegalHoldHeaders,
+  BlobSetMetadataResponse as BlobSetMetadataResponseInternal,
+  BlobSetMetadataHeaders,
+  BlobSetTagsResponse as BlobSetTagsResponseInternal,
+  BlobSetTagsHeaders,
+  BlobSetTierResponse as BlobSetTierResponseInternal,
+  BlobSetTierHeaders,
+  BlobStartCopyFromURLResponse as BlobStartCopyFromURLResponseInternal,
+  BlobStartCopyFromURLHeaders,
+  BlobUndeleteResponse as BlobUndeleteResponseInternal,
+  BlobUndeleteHeaders,
+  BlockBlobCommitBlockListResponse as BlockBlobCommitBlockListResponseInternal,
+  BlockBlobCommitBlockListHeaders,
+  BlockBlobGetBlockListResponse as BlockBlobGetBlockListResponseInternal,
+  BlockBlobGetBlockListHeaders,
+  BlockBlobPutBlobFromUrlResponse as BlockBlobPutBlobFromUrlResponseInternal,
+  BlockBlobPutBlobFromUrlHeaders,
+  BlockBlobStageBlockFromURLResponse as BlockBlobStageBlockFromURLResponseInternal,
+  BlockBlobStageBlockFromURLHeaders,
+  BlockBlobStageBlockResponse as BlockBlobStageBlockResponseInternal,
+  BlockBlobStageBlockHeaders,
+  BlockBlobUploadResponse as BlockBlobUploadResponseInternal,
+  BlockBlobUploadHeaders,
+  ContainerCreateResponse as ContainerCreateResponseInternal,
+  ContainerCreateHeaders,
+  ContainerDeleteResponse as ContainerDeleteResponseInternal,
+  ContainerDeleteHeaders,
+  ContainerGetAccessPolicyHeaders,
+  ContainerGetPropertiesResponse as ContainerGetPropertiesResponseInternal,
+  ContainerGetPropertiesHeaders,
+  ContainerListBlobFlatSegmentHeaders,
+  ContainerListBlobHierarchySegmentHeaders,
+  ContainerRenameResponse as ContainerRenameResponseInternal,
+  ContainerRenameHeaders,
+  ContainerSetAccessPolicyResponse as ContainerSetAccessPolicyResponseInternal,
+  ContainerSetAccessPolicyHeaders,
+  ContainerSetMetadataResponse as ContainerSetMetadataResponseInternal,
+  ContainerSetMetadataHeaders,
+  ContainerRestoreResponse as ContainerUndeleteResponseInternal,
+  ContainerRestoreHeaders as ContainerUndeleteHeaders,
+  PageBlobClearPagesResponse as PageBlobClearPagesResponseInternal,
+  PageBlobClearPagesHeaders,
+  PageBlobCopyIncrementalResponse as PageBlobCopyIncrementalResponseInternal,
+  PageBlobCopyIncrementalHeaders,
+  PageBlobCreateResponse as PageBlobCreateResponseInternal,
+  PageBlobCreateHeaders,
+  PageBlobGetPageRangesDiffResponse as PageBlobGetPageRangesDiffResponseInternal,
+  PageBlobGetPageRangesDiffHeaders,
+  PageBlobGetPageRangesResponse as PageBlobGetPageRangesResponseInternal,
+  PageBlobGetPageRangesHeaders,
+  PageBlobResizeResponse as PageBlobResizeResponseInternal,
+  PageBlobResizeHeaders,
+  PageBlobUpdateSequenceNumberResponse as PageBlobUpdateSequenceNumberResponseInternal,
+  PageBlobUpdateSequenceNumberHeaders,
+  PageBlobUploadPagesFromURLResponse as PageBlobUploadPagesFromURLResponseInternal,
+  PageBlobUploadPagesFromURLHeaders,
+  PageBlobUploadPagesResponse as PageBlobUploadPagesResponseInternal,
+  PageBlobUploadPagesHeaders,
+  PageList,
+  ServiceGetAccountInfoResponse as ServiceGetAccountInfoResponseInternal,
+  ServiceGetAccountInfoHeaders,
+  ServiceGetPropertiesResponse as ServiceGetPropertiesResponseInternal,
+  ServiceGetPropertiesHeaders,
+  ServiceGetStatisticsResponse as ServiceGetStatisticsResponseInternal,
+  ServiceGetStatisticsHeaders,
+  ServiceGetUserDelegationKeyHeaders,
+  ServiceListContainersSegmentResponse as ServiceListContainersSegmentResponseInternal,
+  ServiceListContainersSegmentHeaders,
+  ServiceSetPropertiesResponse as ServiceSetPropertiesResponseInternal,
+  ServiceSetPropertiesHeaders,
+  ServiceSubmitBatchResponse as ServiceSubmitBatchResponseInternal,
+  ServiceSubmitBatchHeaders,
+  SignedIdentifier as SignedIdentifierModel,
+  UserDelegationKey as UserDelegationKeyModel,
+} from "./generated/src/models";
+import { WithResponse } from "./utils/utils.common";
+
+export type AppendBlobAppendBlockFromUrlResponse = WithResponse<
+  AppendBlobAppendBlockFromUrlResponseInternal,
+  AppendBlobAppendBlockFromUrlHeaders
+>;
+export type AppendBlobAppendBlockResponse = WithResponse<
+  AppendBlobAppendBlockResponseInternal,
+  AppendBlobAppendBlockHeaders
+>;
+export type AppendBlobCreateResponse = WithResponse<
+  AppendBlobCreateResponseInternal,
+  AppendBlobCreateHeaders
+>;
+export type BlobAbortCopyFromURLResponse = WithResponse<
+  BlobAbortCopyFromURLResponseInternal,
+  BlobAbortCopyFromURLHeaders
+>;
+export type BlobCopyFromURLResponse = WithResponse<
+  BlobCopyFromURLResponseInternal,
+  BlobCopyFromURLHeaders
+>;
+export type BlobCreateSnapshotResponse = WithResponse<
+  BlobCreateSnapshotResponseInternal,
+  BlobCreateSnapshotHeaders
+>;
+export type BlobDeleteResponse = WithResponse<BlobDeleteResponseInternal, BlobDeleteHeaders>;
+export type BlobDeleteImmutabilityPolicyResponse = WithResponse<
+  BlobDeleteImmutabilityPolicyResponseInternal,
+  BlobDeleteImmutabilityPolicyHeaders
+>;
+export type BlobDownloadResponseModel = WithResponse<
+  BlobDownloadResponseInternal,
+  BlobDownloadHeaders
+>;
+export type BlobGetPropertiesResponseModel = WithResponse<
+  BlobGetPropertiesResponseInternal,
+  BlobGetPropertiesHeaders
+>;
+export type BlobQueryResponseModel = WithResponse<BlobQueryResponseInternal, BlobQueryHeaders>;
+export type BlobSetHTTPHeadersResponse = WithResponse<
+  BlobSetHttpHeadersResponseInternal,
+  BlobSetHttpHeadersHeaders
+>;
+export type BlobSetImmutabilityPolicyResponse = WithResponse<
+  BlobSetImmutabilityPolicyResponseInternal,
+  BlobSetImmutabilityPolicyHeaders
+>;
+export type BlobSetLegalHoldResponse = WithResponse<
+  BlobSetLegalHoldResponseInternal,
+  BlobSetLegalHoldHeaders
+>;
+export type BlobSetMetadataResponse = WithResponse<
+  BlobSetMetadataResponseInternal,
+  BlobSetMetadataHeaders
+>;
+export type BlobSetTagsResponse = WithResponse<BlobSetTagsResponseInternal, BlobSetTagsHeaders>;
+export type BlobSetTierResponse = WithResponse<BlobSetTierResponseInternal, BlobSetTierHeaders>;
+export type BlobStartCopyFromURLResponse = WithResponse<
+  BlobStartCopyFromURLResponseInternal,
+  BlobStartCopyFromURLHeaders
+>;
+export type BlobUndeleteResponse = WithResponse<BlobUndeleteResponseInternal, BlobUndeleteHeaders>;
+export type BlockBlobCommitBlockListResponse = WithResponse<
+  BlockBlobCommitBlockListResponseInternal,
+  BlockBlobCommitBlockListHeaders
+>;
+export type BlockBlobGetBlockListResponse = WithResponse<
+  BlockBlobGetBlockListResponseInternal,
+  BlockBlobGetBlockListHeaders
+>;
+export type BlockBlobPutBlobFromUrlResponse = WithResponse<
+  BlockBlobPutBlobFromUrlResponseInternal,
+  BlockBlobPutBlobFromUrlHeaders
+>;
+export type BlockBlobStageBlockFromURLResponse = WithResponse<
+  BlockBlobStageBlockFromURLResponseInternal,
+  BlockBlobStageBlockFromURLHeaders
+>;
+export type BlockBlobStageBlockResponse = WithResponse<
+  BlockBlobStageBlockResponseInternal,
+  BlockBlobStageBlockHeaders
+>;
+export type BlockBlobUploadResponse = WithResponse<
+  BlockBlobUploadResponseInternal,
+  BlockBlobUploadHeaders
+>;
+export type ContainerCreateResponse = WithResponse<
+  ContainerCreateResponseInternal,
+  ContainerCreateHeaders
+>;
+export type ContainerDeleteResponse = WithResponse<
+  ContainerDeleteResponseInternal,
+  ContainerDeleteHeaders
+>;
+
+export type ContainerGetPropertiesResponse = WithResponse<
+  ContainerGetPropertiesResponseInternal,
+  ContainerGetPropertiesHeaders
+>;
+export type ContainerRenameResponse = WithResponse<
+  ContainerRenameResponseInternal,
+  ContainerRenameHeaders
+>;
+export type ContainerSetAccessPolicyResponse = WithResponse<
+  ContainerSetAccessPolicyResponseInternal,
+  ContainerSetAccessPolicyHeaders
+>;
+export type ContainerSetMetadataResponse = WithResponse<
+  ContainerSetMetadataResponseInternal,
+  ContainerSetMetadataHeaders
+>;
+export type ContainerUndeleteResponse = WithResponse<
+  ContainerUndeleteResponseInternal,
+  ContainerUndeleteHeaders
+>;
+export type PageBlobClearPagesResponse = WithResponse<
+  PageBlobClearPagesResponseInternal,
+  PageBlobClearPagesHeaders
+>;
+export type PageBlobCopyIncrementalResponse = WithResponse<
+  PageBlobCopyIncrementalResponseInternal,
+  PageBlobCopyIncrementalHeaders
+>;
+export type PageBlobCreateResponse = WithResponse<
+  PageBlobCreateResponseInternal,
+  PageBlobCreateHeaders
+>;
+export type PageBlobGetPageRangesDiffResponseModel = WithResponse<
+  PageBlobGetPageRangesDiffResponseInternal,
+  PageBlobGetPageRangesDiffHeaders,
+  PageList
+>;
+export type PageBlobGetPageRangesResponseModel = WithResponse<
+  PageBlobGetPageRangesResponseInternal,
+  PageBlobGetPageRangesHeaders,
+  PageList
+>;
+export type PageBlobResizeResponse = WithResponse<
+  PageBlobResizeResponseInternal,
+  PageBlobResizeHeaders
+>;
+export type PageBlobUpdateSequenceNumberResponse = WithResponse<
+  PageBlobUpdateSequenceNumberResponseInternal,
+  PageBlobUpdateSequenceNumberHeaders
+>;
+export type PageBlobUploadPagesFromURLResponse = WithResponse<
+  PageBlobUploadPagesFromURLResponseInternal,
+  PageBlobUploadPagesFromURLHeaders
+>;
+export type PageBlobUploadPagesResponse = WithResponse<
+  PageBlobUploadPagesResponseInternal,
+  PageBlobUploadPagesHeaders
+>;
+export type ServiceGetAccountInfoResponse = WithResponse<
+  ServiceGetAccountInfoResponseInternal,
+  ServiceGetAccountInfoHeaders
+>;
+export type ServiceGetPropertiesResponse = WithResponse<
+  ServiceGetPropertiesResponseInternal,
+  ServiceGetPropertiesHeaders
+>;
+export type ServiceGetStatisticsResponse = WithResponse<
+  ServiceGetStatisticsResponseInternal,
+  ServiceGetStatisticsHeaders
+>;
+export type ServiceListContainersSegmentResponse = WithResponse<
+  ServiceListContainersSegmentResponseInternal,
+  ServiceListContainersSegmentHeaders
+>;
+export type ServiceSetPropertiesResponse = WithResponse<
+  ServiceSetPropertiesResponseInternal,
+  ServiceSetPropertiesHeaders
+>;
+export type ServiceSubmitBatchResponseModel = WithResponse<
+  ServiceSubmitBatchResponseInternal,
+  ServiceSubmitBatchHeaders
+>;
+export {
+  AppendBlobAppendBlockFromUrlHeaders,
+  AppendBlobAppendBlockHeaders,
+  AppendBlobCreateHeaders,
+  BlobAbortCopyFromURLHeaders,
+  BlobCopyFromURLHeaders,
+  BlobCreateSnapshotHeaders,
+  BlobDeleteHeaders,
+  BlobDeleteImmutabilityPolicyHeaders,
+  BlobDownloadHeaders,
+  BlobDownloadResponseInternal,
+  BlobGetPropertiesHeaders,
+  BlobGetPropertiesResponseInternal,
+  BlobGetTagsHeaders,
+  BlobGetTagsResponseInternal,
+  BlobTags,
+  BlobQueryHeaders,
+  BlobQueryResponseInternal,
+  BlobSetHttpHeadersHeaders as BlobSetHTTPHeadersHeaders,
+  BlobSetImmutabilityPolicyHeaders,
+  BlobSetLegalHoldHeaders,
+  BlobSetMetadataHeaders,
+  BlobSetTagsHeaders,
+  BlobSetTierHeaders,
+  BlobStartCopyFromURLHeaders,
+  BlobUndeleteHeaders,
+  BlockBlobCommitBlockListHeaders,
+  BlockBlobGetBlockListHeaders,
+  BlockBlobGetBlockListResponseInternal,
+  BlockBlobPutBlobFromUrlHeaders,
+  BlockBlobStageBlockFromURLHeaders,
+  BlockBlobStageBlockHeaders,
+  BlockBlobUploadHeaders,
+  ContainerCreateHeaders,
+  ContainerDeleteHeaders,
+  ContainerGetAccessPolicyHeaders,
+  ContainerGetPropertiesHeaders,
+  ContainerListBlobFlatSegmentHeaders,
+  ContainerListBlobHierarchySegmentHeaders,
+  ContainerRenameHeaders,
+  ContainerSetAccessPolicyHeaders,
+  ContainerSetMetadataHeaders,
+  ContainerUndeleteHeaders,
+  PageBlobClearPagesHeaders,
+  PageBlobCopyIncrementalHeaders,
+  PageBlobCreateHeaders,
+  PageBlobGetPageRangesDiffHeaders,
+  PageBlobGetPageRangesDiffResponseInternal,
+  PageBlobGetPageRangesHeaders,
+  PageBlobGetPageRangesResponseInternal,
+  PageBlobResizeHeaders,
+  PageBlobUpdateSequenceNumberHeaders,
+  PageBlobUploadPagesFromURLHeaders,
+  PageBlobUploadPagesHeaders,
+  PageList as PageListInternal,
+  ServiceGetAccountInfoHeaders,
+  ServiceGetPropertiesHeaders,
+  ServiceGetStatisticsHeaders,
+  ServiceGetUserDelegationKeyHeaders,
+  ServiceListContainersSegmentHeaders,
+  ServiceSetPropertiesHeaders,
+  ServiceSubmitBatchHeaders,
+  SignedIdentifierModel,
+  UserDelegationKeyModel,
+};
 
 export {
   AccessPolicy,
   AccessTier,
   AccountKind,
-  AppendBlobCreateResponse,
-  AppendBlobAppendBlockResponse,
-  AppendBlobAppendBlockFromUrlHeaders,
-  AppendBlobAppendBlockFromUrlResponse,
-  AppendBlobAppendBlockHeaders,
-  AppendBlobCreateHeaders,
   ArchiveStatus,
-  BlobDeleteImmutabilityPolicyHeaders,
-  BlobDeleteImmutabilityPolicyResponse,
   BlobImmutabilityPolicyMode,
-  BlobAbortCopyFromURLHeaders,
-  BlobCopyFromURLHeaders,
   BlobCopySourceTags,
-  BlobCreateSnapshotHeaders,
-  BlobDeleteHeaders,
-  BlobDeleteResponse,
   BlobDownloadOptionalParams,
-  BlobGetPropertiesHeaders,
-  BlobGetPropertiesResponse as BlobGetPropertiesResponseModel,
   BlobPropertiesInternal as BlobProperties,
-  BlobUndeleteResponse,
   BlobHttpHeaders as BlobHTTPHeaders,
-  BlobSetHttpHeadersHeaders as BlobSetHTTPHeadersHeaders,
-  BlobSetHttpHeadersResponse as BlobSetHTTPHeadersResponse,
-  BlobSetImmutabilityPolicyHeaders,
-  BlobSetImmutabilityPolicyResponse,
-  BlobSetLegalHoldHeaders,
-  BlobSetLegalHoldResponse,
-  BlobSetMetadataResponse,
-  BlobSetTagsResponse,
-  BlobCreateSnapshotResponse,
-  BlobStartCopyFromURLHeaders,
-  BlobStartCopyFromURLResponse,
-  BlobAbortCopyFromURLResponse,
-  BlobCopyFromURLResponse,
-  BlobSetMetadataHeaders,
-  BlobSetTierHeaders,
-  BlobSetTierResponse,
-  BlobSetTagsHeaders,
-  BlobDownloadHeaders,
-  BlobDownloadResponse as BlobDownloadResponseModel,
   BlobType,
-  BlobTags,
-  BlobUndeleteHeaders,
   Block,
-  BlockBlobCommitBlockListHeaders,
-  BlockBlobUploadHeaders,
-  BlockBlobUploadResponse,
-  BlockBlobStageBlockResponse,
-  BlockBlobStageBlockFromURLResponse,
-  BlockBlobCommitBlockListResponse,
-  BlockBlobGetBlockListHeaders,
-  BlockBlobStageBlockFromURLHeaders,
-  BlockBlobStageBlockHeaders,
   BlockList,
   BlockListType,
-  BlockBlobGetBlockListResponse,
   BlobServiceProperties,
   BlobServiceStatistics,
-  BlobGetTagsHeaders,
   BlobTag,
-  ContainerCreateHeaders,
-  ContainerCreateResponse,
-  ContainerDeleteHeaders,
-  ContainerDeleteResponse,
+  ContainerFilterBlobsResponse,
   ContainerFilterBlobsHeaders,
-  ContainerGetAccessPolicyHeaders,
-  ContainerGetPropertiesHeaders,
+  ContainerGetAccessPolicyResponse as ContainerGetAccessPolicyResponseModel,
   ContainerBreakLeaseOptionalParams,
-  ContainerListBlobFlatSegmentHeaders,
-  ContainerListBlobHierarchySegmentHeaders,
-  ContainerGetPropertiesResponse,
+  ContainerListBlobHierarchySegmentResponse as ContainerListBlobHierarchySegmentResponseModel,
   ContainerProperties,
-  ContainerSetMetadataResponse,
-  ContainerSetAccessPolicyHeaders,
-  ContainerSetAccessPolicyResponse,
-  ContainerSetMetadataHeaders,
   CopyStatusType,
   CorsRule,
   CpkInfo,
@@ -96,6 +387,8 @@ export {
   LeaseDurationType,
   LeaseStateType,
   LeaseStatusType,
+  ListBlobsFlatSegmentResponse as ListBlobsFlatSegmentResponseInternal,
+  ListBlobsHierarchySegmentResponse as ListBlobsHierarchySegmentResponseInternal,
   ListContainersSegmentResponse,
   FilterBlobItem as FilterBlobItemModel,
   FilterBlobSegment as FilterBlobSegmentModel,
@@ -104,58 +397,16 @@ export {
   Metrics,
   ModifiedAccessConditions as ModifiedAccessConditionsModel,
   PublicAccessType,
-  PageBlobCreateResponse,
-  PageBlobUploadPagesResponse,
-  PageBlobUploadPagesFromURLResponse,
-  PageBlobClearPagesHeaders,
-  PageBlobClearPagesResponse,
-  PageBlobCopyIncrementalHeaders,
-  PageBlobCreateHeaders,
-  PageBlobGetPageRangesHeaders,
-  PageBlobGetPageRangesResponse as PageBlobGetPageRangesResponseModel,
-  PageBlobGetPageRangesDiffHeaders,
-  PageBlobGetPageRangesDiffResponse as PageBlobGetPageRangesDiffResponseModel,
-  PageBlobResizeHeaders,
-  PageBlobResizeResponse,
-  PageBlobUpdateSequenceNumberHeaders,
-  PageBlobUpdateSequenceNumberResponse,
-  PageBlobUploadPagesFromURLHeaders,
-  PageBlobUploadPagesHeaders,
-  PageBlobCopyIncrementalResponse,
   SequenceNumberActionType,
   RehydratePriority,
   RetentionPolicy,
   AppendPositionAccessConditions,
-  ServiceGetUserDelegationKeyHeaders,
-  ServiceSubmitBatchHeaders,
-  ServiceGetAccountInfoHeaders,
-  ServiceGetPropertiesHeaders,
-  ServiceGetPropertiesResponse,
-  ServiceGetStatisticsHeaders,
   SequenceNumberAccessConditions,
-  ServiceSetPropertiesResponse,
-  ServiceGetStatisticsResponse,
-  ServiceGetAccountInfoResponse,
-  ServiceListContainersSegmentHeaders,
-  ServiceListContainersSegmentResponse,
-  ServiceSetPropertiesHeaders,
   SkuName,
   StaticWebsite,
   ContainerItem,
-  ServiceSubmitBatchResponse as ServiceSubmitBatchResponseModel,
   ServiceSubmitBatchOptionalParams as ServiceSubmitBatchOptionalParamsModel,
-  SignedIdentifier as SignedIdentifierModel,
-  SyncCopyStatusType,
-  UserDelegationKey as UserDelegationKeyModel,
   ContainerEncryptionScope,
-  BlobQueryHeaders,
-  BlobQueryResponse as BlobQueryResponseModel,
-  ContainerRestoreResponse as ContainerUndeleteResponse,
-  ContainerRestoreHeaders as ContainerUndeleteHeaders,
-  BlockBlobPutBlobFromUrlResponse,
-  BlockBlobPutBlobFromUrlHeaders,
-  ContainerRenameResponse,
-  ContainerRenameHeaders,
 } from "./generated/src/models";
 
 // Following definitions are to avoid breaking change.

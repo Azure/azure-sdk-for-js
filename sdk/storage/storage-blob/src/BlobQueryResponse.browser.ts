@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpResponse } from "@azure/core-http";
-
 import {
   BlobDownloadResponseModel,
   BlobType,
@@ -10,11 +8,12 @@ import {
   LeaseDurationType,
   LeaseStateType,
   LeaseStatusType,
-  BlobDownloadHeaders,
   BlobQueryResponseModel,
+  BlobQueryHeaders,
 } from "./generatedModels";
 import { Metadata } from "./models";
 import { BlobQuickQueryStreamOptions } from "./utils/BlobQuickQueryStream";
+import { ResponseWithHeaders } from "./utils/utils.common";
 
 /**
  * ONLY AVAILABLE IN BROWSER RUNTIME.
@@ -397,9 +396,7 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
   /**
    * The HTTP response.
    */
-  public get _response(): HttpResponse & {
-    parsedHeaders: BlobDownloadHeaders;
-  } {
+  public get _response(): ResponseWithHeaders<BlobQueryHeaders>["_response"] {
     return this.originalResponse._response;
   }
 

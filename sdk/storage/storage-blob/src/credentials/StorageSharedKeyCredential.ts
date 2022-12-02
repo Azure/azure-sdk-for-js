@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 import { createHmac } from "crypto";
-import { RequestPolicy, RequestPolicyOptions } from "@azure/core-http";
+import {
+  RequestPolicy,
+  RequestPolicyOptionsLike as RequestPolicyOptions,
+} from "@azure/core-http-compat";
 
 import { StorageSharedKeyCredentialPolicy } from "../policies/StorageSharedKeyCredentialPolicy";
 import { Credential } from "./Credential";

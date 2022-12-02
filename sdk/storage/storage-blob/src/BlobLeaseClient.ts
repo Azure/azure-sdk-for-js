@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { generateUuid, HttpResponse } from "@azure/core-http";
-import { StorageClientContext } from "./generated/src/index";
+import { v4 as generateUuid } from "uuid";
+import { StorageClient as StorageClientContext } from "./generated/src/index";
 import { ContainerBreakLeaseOptionalParams } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { Blob as StorageBlob, Container } from "./generated/src/operations";
+import { Blob as StorageBlob, Container } from "./generated/src/operationsInterfaces";
 import { ModifiedAccessConditions } from "./models";
 import { CommonOptions } from "./StorageClient";
 import { ETagNone } from "./utils/constants";
-import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
+import { createSpan } from "./utils/tracing";
 import { BlobClient } from "./Clients";
 import { ContainerClient } from "./ContainerClient";
+import { assertResponse, WithResponse } from "./utils/utils.common";
 
 /**
  * The details for a specific lease.
@@ -67,17 +68,7 @@ export interface Lease {
  *
  * See {@link BlobLeaseClient}.
  */
-export type LeaseOperationResponse = Lease & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: Lease;
-  };
-};
+export type LeaseOperationResponse = WithResponse<Lease, Lease>;
 
 /**
  * Configures lease operations.
@@ -135,10 +126,10 @@ export class BlobLeaseClient {
 
     if ((client as BlobClient).name === undefined) {
       this._isContainer = true;
-      this._containerOrBlobOperation = new Container(clientContext);
+      this._containerOrBlobOperation = clientContext.container;
     } else {
       this._isContainer = false;
-      this._containerOrBlobOperation = new StorageBlob(clientContext);
+      this._containerOrBlobOperation = clientContext.blob;
     }
 
     if (!leaseId) {
@@ -177,16 +168,18 @@ export class BlobLeaseClient {
     }
 
     try {
-      return await this._containerOrBlobOperation.acquireLease({
-        abortSignal: options.abortSignal,
-        duration,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        proposedLeaseId: this._leaseId,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this._containerOrBlobOperation.acquireLease({
+          abortSignal: options.abortSignal,
+          duration,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          proposedLeaseId: this._leaseId,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -226,17 +219,15 @@ export class BlobLeaseClient {
     }
 
     try {
-      const response = await this._containerOrBlobOperation.changeLease(
-        this._leaseId,
-        proposedLeaseId,
-        {
+      const response = assertResponse<Lease, Lease>(
+        await this._containerOrBlobOperation.changeLease(this._leaseId, proposedLeaseId, {
           abortSignal: options.abortSignal,
           modifiedAccessConditions: {
             ...options.conditions,
             ifTags: options.conditions?.tagConditions,
           },
-          ...convertTracingToRequestOptionsBase(updatedOptions),
-        }
+          tracingOptions: updatedOptions.tracingOptions,
+        })
       );
       this._leaseId = proposedLeaseId;
       return response;
@@ -276,14 +267,16 @@ export class BlobLeaseClient {
     }
 
     try {
-      return await this._containerOrBlobOperation.releaseLease(this._leaseId, {
-        abortSignal: options.abortSignal,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this._containerOrBlobOperation.releaseLease(this._leaseId, {
+          abortSignal: options.abortSignal,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -325,7 +318,7 @@ export class BlobLeaseClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
         },
-        ...convertTracingToRequestOptionsBase(updatedOptions),
+        tracingOptions: updatedOptions.tracingOptions,
       });
     } catch (e: any) {
       span.setStatus({
@@ -374,9 +367,9 @@ export class BlobLeaseClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
         },
-        ...convertTracingToRequestOptionsBase(updatedOptions),
+        tracingOptions: updatedOptions.tracingOptions,
       };
-      return await this._containerOrBlobOperation.breakLease(operationOptions);
+      return assertResponse(await this._containerOrBlobOperation.breakLease(operationOptions));
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

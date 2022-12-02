@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpHeaders } from "@azure/core-http";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 
 import { ServiceSubmitBatchResponseModel } from "./generatedModels";
 import {
@@ -84,7 +84,7 @@ export class BatchResponseParser {
     for (let index = 0; index < subResponseCount; index++) {
       const subResponse = subResponses[index];
       const deserializedSubResponse = {} as BatchSubResponse;
-      deserializedSubResponse.headers = new HttpHeaders();
+      deserializedSubResponse.headers = createHttpHeaders();
 
       const responseLines = subResponse.split(`${HTTP_LINE_ENDING}`);
       let subRespHeaderStartFound = false;
