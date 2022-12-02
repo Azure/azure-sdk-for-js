@@ -29,7 +29,7 @@ async function main() {
     }
   );
 
-  const layer = Buffer.from("Hello, world", "utf8");
+  const layer = Buffer.from("Hello, world");
   const { digest: layerDigest } = await client.uploadBlob(() => Readable.from(layer));
 
   const config = Buffer.from(
@@ -59,9 +59,9 @@ async function main() {
         size: layer.byteLength,
         annotations: {
           title: "artifact.txt",
-        }
-      }
-    ]
+        },
+      },
+    ],
   };
 
   // A manifest can be given a tag when uploading.

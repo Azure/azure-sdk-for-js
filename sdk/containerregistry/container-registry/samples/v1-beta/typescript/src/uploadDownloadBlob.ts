@@ -14,7 +14,7 @@ import * as dotenv from "dotenv";
 import { Readable } from "stream";
 dotenv.config();
 
-const BLOB_CONTENT = "Hello world!";
+const BLOB_CONTENT = Buffer.from("Hello world!");
 
 async function main() {
   // endpoint should be in the form of "https://myregistryname.azurecr.io"
@@ -38,23 +38,9 @@ async function main() {
   // Calling downloadBlob on the uploaded blob (identified by the digest) gives a readable stream containing the blob's content.
   const downloadResult = await client.downloadBlob(uploadResult.digest);
 
-  const downloadedBlob = await readStreamToEnd(downloadResult.content);
-  console.log("Downloaded blob: ", downloadedBlob.toString("utf8"));
-}
-
-/**
- * Helper function to read an entire ReadableStream into memory.
- * @param stream - Stream to read
- * @return - A buffer containing the stream's content
- */
-async function readStreamToEnd(stream: NodeJS.ReadableStream): Promise<Buffer> {
-  const buffers: Buffer[] = [];
-
-  return new Promise((resolve, reject) => {
-    stream.on("data", (chunk) => buffers.push(chunk));
-    stream.on("end", () => resolve(Buffer.concat(buffers)));
-    stream.on("error", (err) => reject(err));
-  });
+  // The downloaded content can be piped to another stream, e.g. one created using fs.createWriteStream to download to a file.
+  // In this example, we pipe the content to the standard output stream.
+  downloadResult.content.pipe(process.stdout);
 }
 
 main().catch((err) => {
