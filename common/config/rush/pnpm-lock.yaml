@@ -15947,7 +15947,7 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-HFnOQQou0XwLnN9oEwbjSxt41+JwJm2ZO/+Fh9gnnPfUgWqMIMHcR75ty0tZQQN54py1TiqCFvy4nAjX3fiPvQ==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-pNoriGPrM794j1g5x5lgbkh96QdB85gI5HHXVQkpsWvJ3pY7z0R4FI5o8Ayd54YE7INIyp/NWnWq/lDZKqFr4w==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
@@ -15957,6 +15957,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 14.18.33
       '@types/sinon': 9.0.11
+      '@types/uuid': 8.3.4
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -15982,6 +15983,7 @@ packages:
       sinon: 9.2.4
       tslib: 2.4.1
       typescript: 4.6.4
+      uuid: 8.3.2
     transitivePeerDependencies:
       - bufferutil
       - debug
