@@ -1,13 +1,3 @@
----
-page_type: sample
-languages:
-  - javascript
-products:
-  - azure
-  - azure-maps
-urlFragment: maps-search-javascript-beta
----
-
 # MapsSearchClient client library samples for JavaScript (Beta)
 
 These sample programs show how to use the JavaScript client libraries for MapsSearchClient in some common scenarios.
