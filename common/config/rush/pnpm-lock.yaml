@@ -15947,7 +15947,7 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-pNoriGPrM794j1g5x5lgbkh96QdB85gI5HHXVQkpsWvJ3pY7z0R4FI5o8Ayd54YE7INIyp/NWnWq/lDZKqFr4w==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-AEdLaASRmpFuhmi9Lc6r7yQSg26Ioyug/xioteY5m/+v2uite+KlXe2kLfMwkUF1NTSsLLLgUxs4TyNBHcxcvw==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
@@ -18242,7 +18242,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-VSaheb4R7PkfrF+C6wzAswfA4Kiq+a1oO6htgxghwk532q1XbTm2JikX43ltARiN6O1+hcuYqoYeid7mH9AlcA==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-O7xmA6qROKn02JhcZEhjWuP0qL82OIlQBBOgPWbTrY15zuQQfe1l/g7k85f2AHCPLmFlIbT0jmuFIObgbC838g==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
