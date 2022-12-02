@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Apps } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,11 +19,14 @@ import {
   App,
   AppsListBySubscriptionNextOptionalParams,
   AppsListBySubscriptionOptionalParams,
+  AppsListBySubscriptionResponse,
   AppsListByResourceGroupNextOptionalParams,
   AppsListByResourceGroupOptionalParams,
+  AppsListByResourceGroupResponse,
   AppTemplate,
   AppsListTemplatesNextOptionalParams,
   AppsListTemplatesOptionalParams,
+  AppsListTemplatesResponse,
   AppsGetOptionalParams,
   AppsGetResponse,
   AppsCreateOrUpdateOptionalParams,
@@ -32,14 +36,11 @@ import {
   AppsUpdateResponse,
   AppsDeleteOptionalParams,
   AppsDeleteResponse,
-  AppsListBySubscriptionResponse,
-  AppsListByResourceGroupResponse,
   OperationInputs,
   AppsCheckNameAvailabilityOptionalParams,
   AppsCheckNameAvailabilityResponse,
   AppsCheckSubdomainAvailabilityOptionalParams,
   AppsCheckSubdomainAvailabilityResponse,
-  AppsListTemplatesResponse,
   AppsListBySubscriptionNextResponse,
   AppsListByResourceGroupNextResponse,
   AppsListTemplatesNextResponse
@@ -73,22 +74,34 @@ export class AppsImpl implements Apps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: AppsListBySubscriptionOptionalParams
+    options?: AppsListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<App[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppsListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -117,19 +130,33 @@ export class AppsImpl implements Apps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: AppsListByResourceGroupOptionalParams
+    options?: AppsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<App[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -137,7 +164,9 @@ export class AppsImpl implements Apps {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -168,22 +197,34 @@ export class AppsImpl implements Apps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listTemplatesPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listTemplatesPagingPage(options, settings);
       }
     };
   }
 
   private async *listTemplatesPagingPage(
-    options?: AppsListTemplatesOptionalParams
+    options?: AppsListTemplatesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AppTemplate[]> {
-    let result = await this._listTemplates(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppsListTemplatesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listTemplates(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listTemplatesNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

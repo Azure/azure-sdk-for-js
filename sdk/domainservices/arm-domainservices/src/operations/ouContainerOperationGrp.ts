@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { OuContainerOperationGrp } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -67,11 +68,15 @@ export class OuContainerOperationGrpImpl implements OuContainerOperationGrp {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           domainServiceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -80,15 +85,18 @@ export class OuContainerOperationGrpImpl implements OuContainerOperationGrp {
   private async *listPagingPage(
     resourceGroupName: string,
     domainServiceName: string,
-    options?: OuContainerListOptionalParams
+    options?: OuContainerListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<OuContainer[]> {
-    let result = await this._list(
-      resourceGroupName,
-      domainServiceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: OuContainerListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, domainServiceName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -97,7 +105,9 @@ export class OuContainerOperationGrpImpl implements OuContainerOperationGrp {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

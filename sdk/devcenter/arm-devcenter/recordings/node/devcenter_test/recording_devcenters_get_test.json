@@ -1,0 +1,58 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DevCenter/devcenters/Contoso1?api-version=2022-11-11-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-devcenter/1.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "a8bf4c5d-1047-421f-9bf7-8e0aceaae776"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 23 Nov 2022 06:01:12 GMT",
+        "ETag": "\u00221f036191-0000-0100-0000-637db7240000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "b79bd130-68f7-4b53-8b83-20c9a7fc9ea5",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-reads": "11955",
+        "x-ms-request-id": "50a2164c-3a04-4859-9743-b41a67cbabe1",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221123T060113Z:b79bd130-68f7-4b53-8b83-20c9a7fc9ea5"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DevCenter/devcenters/Contoso1",
+        "name": "Contoso1",
+        "type": "microsoft.devcenter/devcenters",
+        "location": "eastus",
+        "tags": {
+          "costCode": "12345"
+        },
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2022-11-23T05:59:24.0171963Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2022-11-23T05:59:24.0171963Z"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "devCenterUri": "https://88888888-8888-8888-8888-888888888888-contoso1.devcenter.azure.com/"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

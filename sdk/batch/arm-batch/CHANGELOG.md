@@ -1,11 +1,33 @@
 # Release History
 
-## 7.2.1 (2022-09-30)
+## 8.0.1 (Unreleased)
 
-**Bugs Fixed**
+### Features Added
 
-  -  fix better user experience of credential scopes in government cloud
+### Breaking Changes
 
+### Bugs Fixed
+
+### Other Changes
+
+## 8.0.0 (2022-11-10)
+    
+**Features**
+
+  - Added Type Alias NodeCommunicationMode
+  - Interface NetworkConfiguration has a new optional parameter dynamicVnetAssignmentScope
+  - Interface Pool has a new optional parameter currentNodeCommunicationMode
+  - Interface Pool has a new optional parameter targetNodeCommunicationMode
+  - Interface PrivateLinkServiceConnectionState has a new optional parameter actionsRequired
+
+**Breaking Changes**
+
+  - Interface CifsMountConfiguration no longer has parameter username
+  - Interface NetworkConfiguration no longer has parameter dynamicVNetAssignmentScope
+  - Interface PrivateLinkServiceConnectionState no longer has parameter actionRequired
+  - Interface CifsMountConfiguration has a new required parameter userName
+    
+    
 ## 7.2.0 (2022-07-19)
     
 **Features**

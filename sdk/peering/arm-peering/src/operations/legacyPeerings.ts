@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { LegacyPeerings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -54,8 +55,11 @@ export class LegacyPeeringsImpl implements LegacyPeerings {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(peeringLocation, kind, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(peeringLocation, kind, options, settings);
       }
     };
   }
@@ -63,11 +67,18 @@ export class LegacyPeeringsImpl implements LegacyPeerings {
   private async *listPagingPage(
     peeringLocation: string,
     kind: LegacyPeeringsKind,
-    options?: LegacyPeeringsListOptionalParams
+    options?: LegacyPeeringsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Peering[]> {
-    let result = await this._list(peeringLocation, kind, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LegacyPeeringsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(peeringLocation, kind, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         peeringLocation,
@@ -76,7 +87,9 @@ export class LegacyPeeringsImpl implements LegacyPeerings {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

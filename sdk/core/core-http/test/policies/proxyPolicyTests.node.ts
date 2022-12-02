@@ -9,7 +9,7 @@ import {
   loadNoProxy,
   proxyPolicy,
 } from "../../src/policies/proxyPolicy";
-import { Constants } from "../../src/coreHttp";
+import { Constants } from "../../src";
 import { HttpHeaders } from "../../src/httpHeaders";
 import { ProxySettings } from "../../src/serviceClient";
 import { RequestPolicyOptions } from "../../src/policies/requestPolicy";

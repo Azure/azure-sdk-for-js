@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.1 (Unreleased)
+
+### Fixes
+
+- Fix the `api-version` precedence issue in apiVersionPolicy. [23990](https://github.com/Azure/azure-sdk-for-js/pull/23990)
+
 ## 1.0.0 (2022-08-04)
 
 - Releasing the first stable version of @azure-rest/client

@@ -5,7 +5,11 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth"
 
 import { IdentityClient } from "../../client/identityClient";
 import { TokenCredentialOptions } from "../../tokenCredentialOptions";
-import { AuthenticationError, CredentialUnavailableError } from "../../errors";
+import {
+  AuthenticationError,
+  AuthenticationRequiredError,
+  CredentialUnavailableError,
+} from "../../errors";
 import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
 import { appServiceMsi2017 } from "./appServiceMsi2017";
 import { tracingClient } from "../../util/tracing";
@@ -16,6 +20,9 @@ import { arcMsi } from "./arcMsi";
 import { tokenExchangeMsi } from "./tokenExchangeMsi";
 import { fabricMsi } from "./fabricMsi";
 import { appServiceMsi2019 } from "./appServiceMsi2019";
+import { AppTokenProviderParameters, ConfidentialClientApplication } from "@azure/msal-node";
+import { DeveloperSignOnClientId } from "../../constants";
+import { MsalResult, MsalToken } from "../../msal/types";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 
@@ -59,6 +66,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   private resourceId: string | undefined;
   private isEndpointUnavailable: boolean | null = null;
   private isAvailableIdentityClient: IdentityClient;
+  private confidentialApp: ConfidentialClientApplication;
 
   /**
    * Creates an instance of ManagedIdentityCredential with the client ID of a
@@ -111,6 +119,19 @@ export class ManagedIdentityCredential implements TokenCredential {
       ..._options,
       retryOptions: {
         maxRetries: 0,
+      },
+    });
+    /**  authority host validation and metadata discovery to be skipped in managed identity
+     * since this wasn't done previously before adding token cache support
+     */
+    this.confidentialApp = new ConfidentialClientApplication({
+      auth: {
+        clientId: this.clientId ?? DeveloperSignOnClientId,
+        clientSecret: "dummy-secret",
+        cloudDiscoveryMetadata:
+          '{"tenant_discovery_endpoint":"https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration","api-version":"1.1","metadata":[{"preferred_network":"login.microsoftonline.com","preferred_cache":"login.windows.net","aliases":["login.microsoftonline.com","login.windows.net","login.microsoft.com","sts.windows.net"]},{"preferred_network":"login.partner.microsoftonline.cn","preferred_cache":"login.partner.microsoftonline.cn","aliases":["login.partner.microsoftonline.cn","login.chinacloudapi.cn"]},{"preferred_network":"login.microsoftonline.de","preferred_cache":"login.microsoftonline.de","aliases":["login.microsoftonline.de"]},{"preferred_network":"login.microsoftonline.us","preferred_cache":"login.microsoftonline.us","aliases":["login.microsoftonline.us","login.usgovcloudapi.net"]},{"preferred_network":"login-us.microsoftonline.com","preferred_cache":"login-us.microsoftonline.com","aliases":["login-us.microsoftonline.com"]}]}',
+        authorityMetadata:
+          '{"token_endpoint":"https://login.microsoftonline.com/common/oauth2/v2.0/token","token_endpoint_auth_methods_supported":["client_secret_post","private_key_jwt","client_secret_basic"],"jwks_uri":"https://login.microsoftonline.com/common/discovery/v2.0/keys","response_modes_supported":["query","fragment","form_post"],"subject_types_supported":["pairwise"],"id_token_signing_alg_values_supported":["RS256"],"response_types_supported":["code","id_token","code id_token","id_token token"],"scopes_supported":["openid","profile","email","offline_access"],"issuer":"https://login.microsoftonline.com/{tenantid}/v2.0","request_uri_parameter_supported":false,"userinfo_endpoint":"https://graph.microsoft.com/oidc/userinfo","authorization_endpoint":"https://login.microsoftonline.com/common/oauth2/v2.0/authorize","device_authorization_endpoint":"https://login.microsoftonline.com/common/oauth2/v2.0/devicecode","http_logout_supported":true,"frontchannel_logout_supported":true,"end_session_endpoint":"https://login.microsoftonline.com/common/oauth2/v2.0/logout","claims_supported":["sub","iss","cloud_instance_name","cloud_instance_host_name","cloud_graph_host_name","msgraph_host","aud","exp","iat","auth_time","acr","nonce","preferred_username","name","tid","ver","at_hash","c_hash","email"],"kerberos_endpoint":"https://login.microsoftonline.com/common/kerberos","tenant_region_scope":null,"cloud_instance_name":"microsoftonline.com","cloud_graph_host_name":"graph.windows.net","msgraph_host":"graph.microsoft.com","rbac_url":"https://pas.windows.net"}',
       },
     });
   }
@@ -167,7 +188,6 @@ export class ManagedIdentityCredential implements TokenCredential {
     try {
       // Determining the available MSI, and avoiding checking for other MSIs while the program is running.
       const availableMSI = await this.cachedAvailableMSI(scopes, updatedOptions);
-
       return availableMSI.getToken(
         {
           identityClient: this.identityClient,
@@ -202,19 +222,56 @@ export class ManagedIdentityCredential implements TokenCredential {
     options?: GetTokenOptions
   ): Promise<AccessToken> {
     let result: AccessToken | null = null;
-
     const { span, updatedOptions } = tracingClient.startSpan(
       `${ManagedIdentityCredential.name}.getToken`,
       options
     );
-
     try {
       // isEndpointAvailable can be true, false, or null,
       // If it's null, it means we don't yet know whether
       // the endpoint is available and need to check for it.
       if (this.isEndpointUnavailable !== true) {
-        result = await this.authenticateManagedIdentity(scopes, updatedOptions);
+        const appTokenParameters: AppTokenProviderParameters = {
+          correlationId: this.identityClient.getCorrelationId(),
+          tenantId: options?.tenantId || "organizations",
+          scopes: [...scopes],
+          claims: options?.claims,
+        };
 
+        this.confidentialApp.SetAppTokenProvider(
+          async (appTokenProviderParameters = appTokenParameters) => {
+            logger.info(
+              `SetAppTokenProvider invoked with parameters- ${JSON.stringify(
+                appTokenProviderParameters
+              )}`
+            );
+            const resultToken = await this.authenticateManagedIdentity(scopes, {
+              ...updatedOptions,
+              ...appTokenProviderParameters,
+            });
+
+            if (resultToken) {
+              logger.info(`SetAppTokenProvider has saved the token in cache`);
+              logger.info(`token = ${resultToken.token}`);
+              return {
+                accessToken: resultToken?.token,
+                expiresInSeconds: resultToken?.expiresOnTimestamp / 1000,
+              };
+            } else {
+              logger.info(
+                `SetAppTokenProvider token has "no_access_token_returned" as the saved token`
+              );
+              return {
+                accessToken: "no_access_token_returned",
+                expiresInSeconds: 0,
+              };
+            }
+          }
+        );
+        const authenticationResult = await this.confidentialApp.acquireTokenByClientCredential({
+          ...appTokenParameters,
+        });
+        result = this.handleResult(scopes, authenticationResult || undefined);
         if (result === null) {
           // If authenticateManagedIdentity returns null,
           // it means no MSI endpoints are available.
@@ -310,6 +367,52 @@ export class ManagedIdentityCredential implements TokenCredential {
     } finally {
       // Finally is always called, both if we return and if we throw in the above try/catch.
       span.end();
+    }
+  }
+
+  /**
+   * Handles the MSAL authentication result.
+   * If the result has an account, we update the local account reference.
+   * If the token received is invalid, an error will be thrown depending on what's missing.
+   */
+  private handleResult(
+    scopes: string | string[],
+    result?: MsalResult,
+    getTokenOptions?: GetTokenOptions
+  ): AccessToken {
+    this.ensureValidMsalToken(scopes, result, getTokenOptions);
+    logger.getToken.info(formatSuccess(scopes));
+    return {
+      token: result!.accessToken!,
+      expiresOnTimestamp: result!.expiresOn!.getTime(),
+    };
+  }
+
+  /**
+   * Ensures the validity of the MSAL token
+   * @internal
+   */
+  private ensureValidMsalToken(
+    scopes: string | string[],
+    msalToken?: MsalToken,
+    getTokenOptions?: GetTokenOptions
+  ): void {
+    const error = (message: string): Error => {
+      logger.getToken.info(message);
+      return new AuthenticationRequiredError({
+        scopes: Array.isArray(scopes) ? scopes : [scopes],
+        getTokenOptions,
+        message,
+      });
+    };
+    if (!msalToken) {
+      throw error("No response");
+    }
+    if (!msalToken.expiresOn) {
+      throw error(`Response had no "expiresOn" property.`);
+    }
+    if (!msalToken.accessToken) {
+      throw error(`Response had no "accessToken" property.`);
     }
   }
 }

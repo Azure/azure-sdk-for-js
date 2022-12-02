@@ -1,12 +1,16 @@
 # Release History
 
-## 10.1.0-beta.4 (2022-09-30)
+## 10.1.0-beta.5 (Unreleased)
 
-**Bugs Fixed**
+### Features Added
 
-  -  fix better user experience of credential scopes in government cloud
+### Breaking Changes
 
-## 10.1.0-beta.3 (2022-05-18)
+### Bugs Fixed
+
+### Other Changes
+
+## 10.1.0-beta.4 (2022-11-18)
     
 **Features**
 
@@ -20,6 +24,7 @@
   - Added operation Registries.beginGenerateCredentialsAndWait
   - Added Interface ActivationProperties
   - Added Interface ActiveDirectoryObject
+  - Added Interface AgentPool
   - Added Interface AzureADAuthenticationAsArmPolicy
   - Added Interface ConnectedRegistriesCreateOptionalParams
   - Added Interface ConnectedRegistriesDeactivateOptionalParams
@@ -28,8 +33,17 @@
   - Added Interface ConnectedRegistriesListNextOptionalParams
   - Added Interface ConnectedRegistriesListOptionalParams
   - Added Interface ConnectedRegistriesUpdateOptionalParams
+  - Added Interface ConnectedRegistry
   - Added Interface ConnectedRegistryListResult
   - Added Interface ConnectedRegistryUpdateParameters
+  - Added Interface DockerBuildRequest
+  - Added Interface DockerBuildStep
+  - Added Interface DockerBuildStepUpdateParameters
+  - Added Interface EncodedTaskRunRequest
+  - Added Interface EncodedTaskStep
+  - Added Interface EncodedTaskStepUpdateParameters
+  - Added Interface Event_2
+  - Added Interface ExportPipeline
   - Added Interface ExportPipelineListResult
   - Added Interface ExportPipelinesCreateOptionalParams
   - Added Interface ExportPipelinesDeleteOptionalParams
@@ -37,8 +51,12 @@
   - Added Interface ExportPipelinesListNextOptionalParams
   - Added Interface ExportPipelinesListOptionalParams
   - Added Interface ExportPipelineTargetProperties
+  - Added Interface FileTaskRunRequest
+  - Added Interface FileTaskStep
+  - Added Interface FileTaskStepUpdateParameters
   - Added Interface GenerateCredentialsParameters
   - Added Interface GenerateCredentialsResult
+  - Added Interface ImportPipeline
   - Added Interface ImportPipelineListResult
   - Added Interface ImportPipelinesCreateOptionalParams
   - Added Interface ImportPipelinesDeleteOptionalParams
@@ -49,6 +67,7 @@
   - Added Interface LoggingProperties
   - Added Interface LoginServerProperties
   - Added Interface ParentProperties
+  - Added Interface PipelineRun
   - Added Interface PipelineRunListResult
   - Added Interface PipelineRunRequest
   - Added Interface PipelineRunResponse
@@ -63,8 +82,13 @@
   - Added Interface PipelineSourceTriggerProperties
   - Added Interface PipelineTriggerDescriptor
   - Added Interface PipelineTriggerProperties
+  - Added Interface PrivateEndpointConnection
   - Added Interface ProgressProperties
   - Added Interface RegistriesGenerateCredentialsOptionalParams
+  - Added Interface Registry
+  - Added Interface Replication
+  - Added Interface Run
+  - Added Interface ScopeMap
   - Added Interface ScopeMapListResult
   - Added Interface ScopeMapsCreateOptionalParams
   - Added Interface ScopeMapsDeleteOptionalParams
@@ -77,8 +101,12 @@
   - Added Interface StatusDetailProperties
   - Added Interface SyncProperties
   - Added Interface SyncUpdateProperties
+  - Added Interface Task
+  - Added Interface TaskRun
+  - Added Interface TaskRunRequest
   - Added Interface TlsCertificateProperties
   - Added Interface TlsProperties
+  - Added Interface Token
   - Added Interface TokenCertificate
   - Added Interface TokenCredentialsProperties
   - Added Interface TokenListResult
@@ -90,6 +118,7 @@
   - Added Interface TokensListOptionalParams
   - Added Interface TokensUpdateOptionalParams
   - Added Interface TokenUpdateParameters
+  - Added Interface Webhook
   - Added Type Alias ActivationStatus
   - Added Type Alias AuditLogStatus
   - Added Type Alias AzureADAuthenticationAsArmPolicyStatus
@@ -99,22 +128,18 @@
   - Added Type Alias ConnectedRegistriesListNextResponse
   - Added Type Alias ConnectedRegistriesListResponse
   - Added Type Alias ConnectedRegistriesUpdateResponse
-  - Added Type Alias ConnectedRegistry
   - Added Type Alias ConnectedRegistryMode
   - Added Type Alias ConnectionState
-  - Added Type Alias ExportPipeline
   - Added Type Alias ExportPipelinesCreateResponse
   - Added Type Alias ExportPipelinesGetResponse
   - Added Type Alias ExportPipelinesListNextResponse
   - Added Type Alias ExportPipelinesListResponse
-  - Added Type Alias ImportPipeline
   - Added Type Alias ImportPipelinesCreateResponse
   - Added Type Alias ImportPipelinesGetResponse
   - Added Type Alias ImportPipelinesListNextResponse
   - Added Type Alias ImportPipelinesListResponse
   - Added Type Alias LogLevel
   - Added Type Alias PipelineOptions
-  - Added Type Alias PipelineRun
   - Added Type Alias PipelineRunsCreateResponse
   - Added Type Alias PipelineRunsGetResponse
   - Added Type Alias PipelineRunsListNextResponse
@@ -123,14 +148,12 @@
   - Added Type Alias PipelineRunTargetType
   - Added Type Alias PipelineSourceType
   - Added Type Alias RegistriesGenerateCredentialsResponse
-  - Added Type Alias ScopeMap
   - Added Type Alias ScopeMapsCreateResponse
   - Added Type Alias ScopeMapsGetResponse
   - Added Type Alias ScopeMapsListNextResponse
   - Added Type Alias ScopeMapsListResponse
   - Added Type Alias ScopeMapsUpdateResponse
   - Added Type Alias TlsStatus
-  - Added Type Alias Token
   - Added Type Alias TokenCertificateName
   - Added Type Alias TokenPasswordName
   - Added Type Alias TokensCreateResponse
@@ -148,7 +171,6 @@
   - Class ContainerRegistryManagementClient has a new parameter pipelineRuns
   - Class ContainerRegistryManagementClient has a new parameter scopeMaps
   - Class ContainerRegistryManagementClient has a new parameter tokens
-  - Type Alias Registry has a new parameter anonymousPullEnabled
   - Added Enum KnownActivationStatus
   - Added Enum KnownAuditLogStatus
   - Added Enum KnownAzureADAuthenticationAsArmPolicyStatus

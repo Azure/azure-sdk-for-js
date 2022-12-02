@@ -15,13 +15,13 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Un-attach a NetworkConnection.
  *
  * @summary Un-attach a NetworkConnection.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-08-01-preview/examples/AttachedNetworks_Delete.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-11-11-preview/examples/AttachedNetworks_Delete.json
  */
 async function attachedNetworksDelete() {
-  const subscriptionId = "{subscriptionId}";
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
   const resourceGroupName = "rg1";
   const devCenterName = "Contoso";
-  const attachedNetworkConnectionName = "{attachedNetworkConnectionName}";
+  const attachedNetworkConnectionName = "network-uswest3";
   const credential = new DefaultAzureCredential();
   const client = new DevCenterClient(credential, subscriptionId);
   const result = await client.attachedNetworks.beginDeleteAndWait(

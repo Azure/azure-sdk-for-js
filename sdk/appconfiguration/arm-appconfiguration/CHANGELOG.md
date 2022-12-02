@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.2 (Unreleased)
+## 3.1.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,19 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 3.1.0 (2022-11-15)
+    
+**Features**
+
+  - Added Interface ConfigurationStore
+  - Added Interface TrackedResource
+    
+## 3.0.2 (2022-10-08)
+
+**Bugs Fixed**
+
+  -  revert credential scopes
 
 ## 3.0.1 (2022-09-30)
 

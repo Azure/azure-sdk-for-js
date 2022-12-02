@@ -499,13 +499,13 @@ export interface LinkedSubscriptionParameter {
 }
 
 /** Cloud specific manifest GET response. */
-export type CloudManifestFileResponse = Resource & {
+export interface CloudManifestFileResponse extends Resource {
   /** Cloud specific manifest data. */
   properties?: CloudManifestFileProperties;
-};
+}
 
 /** Customer subscription. */
-export type CustomerSubscription = Resource & {
+export interface CustomerSubscription extends Resource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -513,10 +513,10 @@ export type CustomerSubscription = Resource & {
   readonly systemData?: SystemData;
   /** Tenant Id. */
   tenantId?: string;
-};
+}
 
 /** Product information. */
-export type Product = Resource & {
+export interface Product extends Resource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -558,24 +558,25 @@ export type Product = Resource & {
   productProperties?: ProductProperties;
   /** Product compatibility with current device. */
   compatibility?: Compatibility;
-};
+}
 
 /** Product information. */
-export type ExtendedProductProperties = VirtualMachineExtensionProductProperties &
-  VirtualMachineProductProperties & {};
+export interface ExtendedProductProperties
+  extends VirtualMachineExtensionProductProperties,
+    VirtualMachineProductProperties {}
 
 /** Registration information. */
-export type Registration = TrackedResource & {
+export interface Registration extends TrackedResource {
   /** The object identifier associated with the Azure Stack connecting to Azure. */
   objectId?: string;
   /** The identifier of the registered Azure Stack. */
   cloudId?: string;
   /** Specifies the billing mode for the Azure Stack registration. */
   billingModel?: string;
-};
+}
 
 /** Linked Subscription information. */
-export type LinkedSubscription = TrackedResource & {
+export interface LinkedSubscription extends TrackedResource {
   /** The identifier associated with the device subscription. */
   linkedSubscriptionId?: string;
   /** The identifier associated with the device registration. */
@@ -605,13 +606,17 @@ export type LinkedSubscription = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly deviceConnectionStatus?: string;
-};
+}
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -629,15 +634,25 @@ export type CreatedByType = string;
 
 /** Known values of {@link CompatibilityIssue} that the service accepts. */
 export enum KnownCompatibilityIssue {
+  /** HigherDeviceVersionRequired */
   HigherDeviceVersionRequired = "HigherDeviceVersionRequired",
+  /** LowerDeviceVersionRequired */
   LowerDeviceVersionRequired = "LowerDeviceVersionRequired",
+  /** CapacityBillingModelRequired */
   CapacityBillingModelRequired = "CapacityBillingModelRequired",
+  /** PayAsYouGoBillingModelRequired */
   PayAsYouGoBillingModelRequired = "PayAsYouGoBillingModelRequired",
+  /** DevelopmentBillingModelRequired */
   DevelopmentBillingModelRequired = "DevelopmentBillingModelRequired",
+  /** AzureADIdentitySystemRequired */
   AzureADIdentitySystemRequired = "AzureADIdentitySystemRequired",
+  /** AdfsIdentitySystemRequired */
   AdfsIdentitySystemRequired = "ADFSIdentitySystemRequired",
+  /** ConnectionToInternetRequired */
   ConnectionToInternetRequired = "ConnectionToInternetRequired",
+  /** ConnectionToAzureRequired */
   ConnectionToAzureRequired = "ConnectionToAzureRequired",
+  /** DisconnectedEnvironmentRequired */
   DisconnectedEnvironmentRequired = "DisconnectedEnvironmentRequired"
 }
 
@@ -661,8 +676,11 @@ export type CompatibilityIssue = string;
 
 /** Known values of {@link ComputeRole} that the service accepts. */
 export enum KnownComputeRole {
+  /** None */
   None = "None",
+  /** IaaS */
   IaaS = "IaaS",
+  /** PaaS */
   PaaS = "PaaS"
 }
 
@@ -679,8 +697,11 @@ export type ComputeRole = string;
 
 /** Known values of {@link OperatingSystem} that the service accepts. */
 export enum KnownOperatingSystem {
+  /** None */
   None = "None",
+  /** Windows */
   Windows = "Windows",
+  /** Linux */
   Linux = "Linux"
 }
 
@@ -697,7 +718,9 @@ export type OperatingSystem = string;
 
 /** Known values of {@link Category} that the service accepts. */
 export enum KnownCategory {
+  /** AzureAD */
   AzureAD = "AzureAD",
+  /** Adfs */
   Adfs = "ADFS"
 }
 
@@ -713,6 +736,7 @@ export type Category = string;
 
 /** Known values of {@link Location} that the service accepts. */
 export enum KnownLocation {
+  /** Global */
   Global = "global"
 }
 

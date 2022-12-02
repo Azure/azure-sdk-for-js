@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists the access keys or Kerberos keys (if active directory enabled) for the specified storage account.
  *
  * @summary Lists the access keys or Kerberos keys (if active directory enabled) for the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/StorageAccountListKeys.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountListKeys.json
  */
 async function storageAccountListKeys() {
   const subscriptionId = "{subscription-id}";

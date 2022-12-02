@@ -1,11 +1,12 @@
 # Release History
+    
+## 2.1.0 (2022-11-17)
+    
+**Features**
 
-## 2.0.2 (2022-09-30)
-
-**Bugs Fixed**
-
-  -  fix better user experience of credential scopes in government cloud
-
+  - Added Interface Change
+  - Added Interface ProxyResource
+    
 ## 2.0.1 (2022-04-11)
 
   - Bug fix

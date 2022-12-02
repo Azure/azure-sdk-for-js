@@ -90,22 +90,21 @@ export interface GetAvailableOperationsOptionalParams extends coreClient.Operati
 export type GetAvailableOperationsResponse = OperationList;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export enum KnownAzureSkuName {
-    // (undocumented)
     S1 = "S1"
 }
 
 // @public
 export enum KnownAzureSkuTier {
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownCheckNameReason {
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Unavailable = "Unavailable"
 }
 

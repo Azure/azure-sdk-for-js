@@ -1,14 +1,20 @@
 # Release History
+    
+## 3.1.0 (2022-11-16)
+    
+**Features**
 
-## 3.0.2 (Unreleased)
+  - Added Interface ArcSetting
+  - Added Interface Cluster
+  - Added Interface Extension
+  - Added Interface ProxyResource
+  - Added Interface TrackedResource
+    
+## 3.0.2 (2022-10-08)
 
-### Features Added
+**Bugs Fixed**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  -  revert credential scopes
 
 ## 3.0.1 (2022-09-30)
 

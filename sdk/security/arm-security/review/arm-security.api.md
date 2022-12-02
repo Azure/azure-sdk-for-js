@@ -474,7 +474,7 @@ export interface AlertSyncSettings extends Setting {
 
 // @public
 export interface AllowedConnections {
-    get(resourceGroupName: string, ascLocation: string, connectionType: ConnectionType_2, options?: AllowedConnectionsGetOptionalParams): Promise<AllowedConnectionsGetResponse>;
+    get(resourceGroupName: string, ascLocation: string, connectionType: ConnectionType, options?: AllowedConnectionsGetOptionalParams): Promise<AllowedConnectionsGetResponse>;
     list(options?: AllowedConnectionsListOptionalParams): PagedAsyncIterableIterator<AllowedConnectionsResource>;
     listByHomeRegion(ascLocation: string, options?: AllowedConnectionsListByHomeRegionOptionalParams): PagedAsyncIterableIterator<AllowedConnectionsResource>;
 }
@@ -548,6 +548,68 @@ export interface AmqpC2DRejectedMessagesNotInAllowedRange extends TimeWindowCust
 // @public
 export interface AmqpD2CMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
     ruleType: "AmqpD2CMessagesNotInAllowedRange";
+}
+
+// @public
+export interface APICollection {
+    get(resourceGroupName: string, serviceName: string, apiCollectionId: string, options?: APICollectionGetOptionalParams): Promise<APICollectionGetResponse>;
+    list(resourceGroupName: string, serviceName: string, options?: APICollectionListOptionalParams): PagedAsyncIterableIterator<ApiCollectionResponse>;
+}
+
+// @public
+export interface APICollectionGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type APICollectionGetResponse = ApiCollectionResponse;
+
+// @public
+export interface APICollectionListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type APICollectionListNextResponse = ApiCollectionResponseList;
+
+// @public
+export interface APICollectionListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type APICollectionListResponse = ApiCollectionResponseList;
+
+// @public
+export interface APICollectionOffboarding {
+    delete(resourceGroupName: string, serviceName: string, apiCollectionId: string, options?: APICollectionOffboardingDeleteOptionalParams): Promise<void>;
+}
+
+// @public
+export interface APICollectionOffboardingDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface APICollectionOnboarding {
+    create(resourceGroupName: string, serviceName: string, apiCollectionId: string, options?: APICollectionOnboardingCreateOptionalParams): Promise<APICollectionOnboardingCreateResponse>;
+}
+
+// @public
+export interface APICollectionOnboardingCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type APICollectionOnboardingCreateResponse = ApiCollectionResponse;
+
+// @public
+export interface ApiCollectionResponse extends Resource {
+    additionalData?: {
+        [propertyName: string]: string;
+    };
+    displayName?: string;
+}
+
+// @public
+export interface ApiCollectionResponseList {
+    readonly nextLink?: string;
+    readonly value?: ApiCollectionResponse[];
 }
 
 // @public
@@ -995,7 +1057,7 @@ export interface AwsCredsAuthenticationDetailsProperties extends AuthenticationD
 }
 
 // @public
-export interface AWSEnvironmentData extends EnvironmentData {
+export interface AwsEnvironmentData extends EnvironmentData {
     environmentType: "AwsAccount";
     organizationalData?: AwsOrganizationalDataUnion;
 }
@@ -1113,11 +1175,11 @@ export type CloudName = string;
 // @public
 export interface CloudOffering {
     readonly description?: string;
-    offeringType: "CspmMonitorAws" | "DefenderForContainersAws" | "DefenderForServersAws" | "DefenderForDatabasesAws" | "InformationProtectionAws" | "CspmMonitorGcp" | "DefenderForServersGcp" | "DefenderForDatabasesGcp" | "DefenderForContainersGcp" | "CspmMonitorGithub" | "CspmMonitorAzureDevOps";
+    offeringType: "CspmMonitorAws" | "DefenderForContainersAws" | "DefenderForServersAws" | "DefenderForDatabasesAws" | "InformationProtectionAws" | "CspmMonitorGcp" | "DefenderForServersGcp" | "DefenderForDatabasesGcp" | "DefenderForContainersGcp" | "CspmMonitorGithub" | "CspmMonitorAzureDevOps" | "DefenderCspmAws" | "DefenderCspmGcp" | "DefenderForDevOpsGithub" | "DefenderForDevOpsAzureDevOps";
 }
 
 // @public (undocumented)
-export type CloudOfferingUnion = CloudOffering | CspmMonitorAwsOffering | DefenderForContainersAwsOffering | DefenderForServersAwsOffering | DefenderFoDatabasesAwsOffering | InformationProtectionAwsOffering | CspmMonitorGcpOffering | DefenderForServersGcpOffering | DefenderForDatabasesGcpOffering | DefenderForContainersGcpOffering | CspmMonitorGithubOffering | CspmMonitorAzureDevOpsOffering;
+export type CloudOfferingUnion = CloudOffering | CspmMonitorAwsOffering | DefenderForContainersAwsOffering | DefenderForServersAwsOffering | DefenderFoDatabasesAwsOffering | InformationProtectionAwsOffering | CspmMonitorGcpOffering | DefenderForServersGcpOffering | DefenderForDatabasesGcpOffering | DefenderForContainersGcpOffering | CspmMonitorGithubOffering | CspmMonitorAzureDevOpsOffering | DefenderCspmAwsOffering | DefenderCspmGcpOffering | DefenderForDevOpsGithubOffering | DefenderForDevOpsAzureDevOpsOffering;
 
 // @public
 export interface Compliance extends Resource {
@@ -1248,8 +1310,7 @@ export interface ConnectionToIpNotAllowed extends AllowlistCustomAlertRule {
 }
 
 // @public
-type ConnectionType_2 = string;
-export { ConnectionType_2 as ConnectionType }
+export type ConnectionType = string;
 
 // @public
 export interface Connectors {
@@ -1545,23 +1606,48 @@ export interface DataExportSettings extends Setting {
 export type DataSource = string;
 
 // @public
+export interface DefenderCspmAwsOffering extends CloudOffering {
+    offeringType: "DefenderCspmAws";
+    vmScanners?: DefenderCspmAwsOfferingVmScanners;
+}
+
+// @public
+export interface DefenderCspmAwsOfferingVmScanners {
+    configuration?: DefenderCspmAwsOfferingVmScannersConfiguration;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderCspmAwsOfferingVmScannersConfiguration {
+    cloudRoleArn?: string;
+    exclusionTags?: {
+        [propertyName: string]: string;
+    };
+    scanningMode?: ScanningMode;
+}
+
+// @public
+export interface DefenderCspmGcpOffering extends CloudOffering {
+    offeringType: "DefenderCspmGcp";
+}
+
+// @public
 export interface DefenderFoDatabasesAwsOffering extends CloudOffering {
     arcAutoProvisioning?: DefenderFoDatabasesAwsOfferingArcAutoProvisioning;
     offeringType: "DefenderForDatabasesAws";
+    rds?: DefenderFoDatabasesAwsOfferingRds;
 }
 
 // @public
 export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioning {
     cloudRoleArn?: string;
     enabled?: boolean;
-    servicePrincipalSecretMetadata?: DefenderFoDatabasesAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata;
 }
 
 // @public
-export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata {
-    expiryDate?: Date;
-    parameterNameInStore?: string;
-    parameterStoreRegion?: string;
+export interface DefenderFoDatabasesAwsOfferingRds {
+    cloudRoleArn?: string;
+    enabled?: boolean;
 }
 
 // @public
@@ -1640,20 +1726,23 @@ export interface DefenderForDatabasesGcpOffering extends CloudOffering {
 
 // @public
 export interface DefenderForDatabasesGcpOfferingArcAutoProvisioning {
-    configuration?: DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration;
     enabled?: boolean;
-}
-
-// @public
-export interface DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration {
-    agentOnboardingServiceAccountNumericId?: string;
-    clientId?: string;
 }
 
 // @public
 export interface DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning {
     serviceAccountEmailAddress?: string;
     workloadIdentityProviderId?: string;
+}
+
+// @public
+export interface DefenderForDevOpsAzureDevOpsOffering extends CloudOffering {
+    offeringType: "DefenderForDevOpsAzureDevOps";
+}
+
+// @public
+export interface DefenderForDevOpsGithubOffering extends CloudOffering {
+    offeringType: "DefenderForDevOpsGithub";
 }
 
 // @public
@@ -1671,14 +1760,6 @@ export interface DefenderForServersAwsOffering extends CloudOffering {
 export interface DefenderForServersAwsOfferingArcAutoProvisioning {
     cloudRoleArn?: string;
     enabled?: boolean;
-    servicePrincipalSecretMetadata?: DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata;
-}
-
-// @public
-export interface DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata {
-    expiryDate?: string;
-    parameterNameInStore?: string;
-    parameterStoreRegion?: string;
 }
 
 // @public
@@ -1717,7 +1798,9 @@ export interface DefenderForServersAwsOfferingVmScanners {
 // @public
 export interface DefenderForServersAwsOfferingVmScannersConfiguration {
     cloudRoleArn?: string;
-    exclusionTags?: Record<string, unknown>;
+    exclusionTags?: {
+        [propertyName: string]: string;
+    };
     scanningMode?: ScanningMode;
 }
 
@@ -1733,14 +1816,7 @@ export interface DefenderForServersGcpOffering extends CloudOffering {
 
 // @public
 export interface DefenderForServersGcpOfferingArcAutoProvisioning {
-    configuration?: DefenderForServersGcpOfferingArcAutoProvisioningConfiguration;
     enabled?: boolean;
-}
-
-// @public
-export interface DefenderForServersGcpOfferingArcAutoProvisioningConfiguration {
-    agentOnboardingServiceAccountNumericId?: string;
-    clientId?: string;
 }
 
 // @public
@@ -1917,7 +1993,7 @@ export interface EnvironmentData {
 }
 
 // @public (undocumented)
-export type EnvironmentDataUnion = EnvironmentData | AWSEnvironmentData | GcpProjectEnvironmentData | GithubScopeEnvironmentData | AzureDevOpsScopeEnvironmentData;
+export type EnvironmentDataUnion = EnvironmentData | AwsEnvironmentData | GcpProjectEnvironmentData | GithubScopeEnvironmentData | AzureDevOpsScopeEnvironmentData;
 
 // @public
 export type EnvironmentType = string;
@@ -1926,6 +2002,20 @@ export type EnvironmentType = string;
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -2092,6 +2182,9 @@ export interface GcpProjectEnvironmentData extends EnvironmentData {
     organizationalData?: GcpOrganizationalDataUnion;
     projectDetails?: GcpProjectDetails;
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GithubScopeEnvironmentData extends EnvironmentData {
@@ -2995,6 +3088,7 @@ export enum KnownAlertStatus {
 // @public
 export enum KnownApplicationConditionOperator {
     Contains = "Contains",
+    Equals = "Equals",
     In = "In"
 }
 
@@ -3277,10 +3371,14 @@ export enum KnownOfferingType {
     CspmMonitorAzureDevOps = "CspmMonitorAzureDevOps",
     CspmMonitorGcp = "CspmMonitorGcp",
     CspmMonitorGithub = "CspmMonitorGithub",
+    DefenderCspmAws = "DefenderCspmAws",
+    DefenderCspmGcp = "DefenderCspmGcp",
     DefenderForContainersAws = "DefenderForContainersAws",
     DefenderForContainersGcp = "DefenderForContainersGcp",
     DefenderForDatabasesAws = "DefenderForDatabasesAws",
     DefenderForDatabasesGcp = "DefenderForDatabasesGcp",
+    DefenderForDevOpsAzureDevOps = "DefenderForDevOpsAzureDevOps",
+    DefenderForDevOpsGithub = "DefenderForDevOpsGithub",
     DefenderForServersAws = "DefenderForServersAws",
     DefenderForServersGcp = "DefenderForServersGcp",
     InformationProtectionAws = "InformationProtectionAws"
@@ -4680,6 +4778,12 @@ export class SecurityCenter extends coreClient.ServiceClient {
     alertsSuppressionRules: AlertsSuppressionRules;
     // (undocumented)
     allowedConnections: AllowedConnections;
+    // (undocumented)
+    aPICollection: APICollection;
+    // (undocumented)
+    aPICollectionOffboarding: APICollectionOffboarding;
+    // (undocumented)
+    aPICollectionOnboarding: APICollectionOnboarding;
     // (undocumented)
     applicationOperations: ApplicationOperations;
     // (undocumented)

@@ -15,10 +15,41 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or update a addon in a private cloud
  *
  * @summary Create or update a addon in a private cloud
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/Addons_CreateOrUpdate_HCX.json
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/Addons_CreateOrUpdate_ArcReg.json
+ */
+async function addonsCreateOrUpdateArc() {
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = "group1";
+  const privateCloudName = "cloud1";
+  const addonName = "arc";
+  const addon: Addon = {
+    properties: {
+      addonType: "Arc",
+      vCenter:
+        "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg_test/providers/Microsoft.ConnectedVMwarevSphere/VCenters/test-vcenter"
+    }
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
+  const result = await client.addons.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    privateCloudName,
+    addonName,
+    addon
+  );
+  console.log(result);
+}
+
+addonsCreateOrUpdateArc().catch(console.error);
+
+/**
+ * This sample demonstrates how to Create or update a addon in a private cloud
+ *
+ * @summary Create or update a addon in a private cloud
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/Addons_CreateOrUpdate_HCX.json
  */
 async function addonsCreateOrUpdateHcx() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "group1";
   const privateCloudName = "cloud1";
   const addonName = "hcx";
@@ -45,10 +76,10 @@ addonsCreateOrUpdateHcx().catch(console.error);
  * This sample demonstrates how to Create or update a addon in a private cloud
  *
  * @summary Create or update a addon in a private cloud
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/Addons_CreateOrUpdate_SRM.json
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/Addons_CreateOrUpdate_SRM.json
  */
 async function addonsCreateOrUpdateSrm() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "group1";
   const privateCloudName = "cloud1";
   const addonName = "srm";
@@ -75,10 +106,10 @@ addonsCreateOrUpdateSrm().catch(console.error);
  * This sample demonstrates how to Create or update a addon in a private cloud
  *
  * @summary Create or update a addon in a private cloud
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/Addons_CreateOrUpdate_VR.json
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/Addons_CreateOrUpdate_VR.json
  */
 async function addonsCreateOrUpdateVr() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "group1";
   const privateCloudName = "cloud1";
   const addonName = "vr";

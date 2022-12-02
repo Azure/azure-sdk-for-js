@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets the current usage information as well as limits for AML resources for given subscription and location.
  *
  * @summary Gets the current usage information as well as limits for AML resources for given subscription and location.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Usage/list.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Usage/list.json
  */
 async function listUsages() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

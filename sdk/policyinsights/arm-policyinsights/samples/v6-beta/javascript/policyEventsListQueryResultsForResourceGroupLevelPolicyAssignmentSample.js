@@ -20,7 +20,6 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function queryAtResourceGroupLevelPolicyAssignmentScope() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName = "myResourceGroup";
   const policyAssignmentName = "myPolicyAssignment";
   const credential = new DefaultAzureCredential();
@@ -28,7 +27,7 @@ async function queryAtResourceGroupLevelPolicyAssignmentScope() {
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForResourceGroupLevelPolicyAssignment(
     policyEventsResource,
-    subscriptionId2,
+    subscriptionId,
     resourceGroupName,
     policyAssignmentName
   )) {
@@ -48,7 +47,6 @@ queryAtResourceGroupLevelPolicyAssignmentScope().catch(console.error);
 async function queryAtResourceGroupLevelPolicyAssignmentScopeWithNextLink() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName = "myResourceGroup";
   const policyAssignmentName = "myPolicyAssignment";
   const skipToken = "WpmWfBSvPhkAK6QD";
@@ -60,7 +58,7 @@ async function queryAtResourceGroupLevelPolicyAssignmentScopeWithNextLink() {
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForResourceGroupLevelPolicyAssignment(
     policyEventsResource,
-    subscriptionId2,
+    subscriptionId,
     resourceGroupName,
     policyAssignmentName,
     options

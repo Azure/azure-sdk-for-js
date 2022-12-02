@@ -485,7 +485,8 @@ export interface ServerKeyListResult {
 }
 
 /** The properties used to create a new server. */
-export type ServerPropertiesForDefaultCreate = ServerPropertiesForCreate & {
+export interface ServerPropertiesForDefaultCreate
+  extends ServerPropertiesForCreate {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   createMode: "Default";
   /** The administrator's login name of a server. Can only be specified when the server is being created (and is required for creation). */
@@ -495,47 +496,48 @@ export type ServerPropertiesForDefaultCreate = ServerPropertiesForCreate & {
    * This value contains a credential. Consider obscuring before showing to users
    */
   administratorLoginPassword: string;
-};
+}
 
 /** The properties used to create a new server by restoring from a backup. */
-export type ServerPropertiesForRestore = ServerPropertiesForCreate & {
+export interface ServerPropertiesForRestore extends ServerPropertiesForCreate {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   createMode: "PointInTimeRestore";
   /** The source server id to restore from. */
   sourceServerId: string;
   /** Restore point creation time (ISO8601 format), specifying the time to restore from. */
   restorePointInTime: Date;
-};
+}
 
 /** The properties used to create a new server by restoring to a different region from a geo replicated backup. */
-export type ServerPropertiesForGeoRestore = ServerPropertiesForCreate & {
+export interface ServerPropertiesForGeoRestore
+  extends ServerPropertiesForCreate {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   createMode: "GeoRestore";
   /** The source server id to restore from. */
   sourceServerId: string;
-};
+}
 
 /** The properties to create a new replica. */
-export type ServerPropertiesForReplica = ServerPropertiesForCreate & {
+export interface ServerPropertiesForReplica extends ServerPropertiesForCreate {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   createMode: "Replica";
   /** The master server id to create replica from. */
   sourceServerId: string;
-};
+}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** Represents a server. */
-export type Server = TrackedResource & {
+export interface Server extends TrackedResource {
   /** The Azure Active Directory identity of the server. */
   identity?: ResourceIdentity;
   /** The SKU (pricing tier) of the server. */
@@ -576,18 +578,18 @@ export type Server = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: ServerPrivateEndpointConnection[];
-};
+}
 
 /** Represents a server firewall rule. */
-export type FirewallRule = ProxyResource & {
+export interface FirewallRule extends ProxyResource {
   /** The start IP address of the server firewall rule. Must be IPv4 format. */
   startIpAddress: string;
   /** The end IP address of the server firewall rule. Must be IPv4 format. */
   endIpAddress: string;
-};
+}
 
 /** A virtual network rule. */
-export type VirtualNetworkRule = ProxyResource & {
+export interface VirtualNetworkRule extends ProxyResource {
   /** The ARM resource id of the virtual network subnet. */
   virtualNetworkSubnetId?: string;
   /** Create firewall rule before the virtual network has vnet service endpoint enabled. */
@@ -597,18 +599,18 @@ export type VirtualNetworkRule = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly state?: VirtualNetworkRuleState;
-};
+}
 
 /** Represents a Database. */
-export type Database = ProxyResource & {
+export interface Database extends ProxyResource {
   /** The charset of the database. */
   charset?: string;
   /** The collation of the database. */
   collation?: string;
-};
+}
 
 /** Represents a Configuration. */
-export type Configuration = ProxyResource & {
+export interface Configuration extends ProxyResource {
   /** Value of the configuration. */
   value?: string;
   /**
@@ -633,10 +635,10 @@ export type Configuration = ProxyResource & {
   readonly allowedValues?: string;
   /** Source of the configuration. */
   source?: string;
-};
+}
 
 /** Represents a log file. */
-export type LogFile = ProxyResource & {
+export interface LogFile extends ProxyResource {
   /** Size of the log file. */
   sizeInKB?: number;
   /**
@@ -653,10 +655,10 @@ export type LogFile = ProxyResource & {
   typePropertiesType?: string;
   /** The url to download the log file from. */
   url?: string;
-};
+}
 
 /** Represents a and external administrator to be created. */
-export type ServerAdministratorResource = ProxyResource & {
+export interface ServerAdministratorResource extends ProxyResource {
   /** The type of administrator. */
   administratorType?: "ActiveDirectory";
   /** The server administrator login account name. */
@@ -665,10 +667,10 @@ export type ServerAdministratorResource = ProxyResource & {
   sid?: string;
   /** The server Active Directory Administrator tenant id. */
   tenantId?: string;
-};
+}
 
 /** A recoverable server resource. */
-export type RecoverableServerResource = ProxyResource & {
+export interface RecoverableServerResource extends ProxyResource {
   /**
    * The last available backup date time.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -699,10 +701,10 @@ export type RecoverableServerResource = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly version?: string;
-};
+}
 
 /** A server security alert policy. */
-export type ServerSecurityAlertPolicy = ProxyResource & {
+export interface ServerSecurityAlertPolicy extends ProxyResource {
   /** Specifies the state of the policy, whether it is enabled or disabled. */
   state?: ServerSecurityAlertPolicyState;
   /** Specifies an array of alerts that are disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability, Access_Anomaly */
@@ -717,10 +719,10 @@ export type ServerSecurityAlertPolicy = ProxyResource & {
   storageAccountAccessKey?: string;
   /** Specifies the number of days to keep in the Threat Detection audit logs. */
   retentionDays?: number;
-};
+}
 
 /** A private endpoint connection */
-export type PrivateEndpointConnection = ProxyResource & {
+export interface PrivateEndpointConnection extends ProxyResource {
   /** Private endpoint which the connection belongs to. */
   privateEndpoint?: PrivateEndpointProperty;
   /** Connection state of the private endpoint connection. */
@@ -730,19 +732,19 @@ export type PrivateEndpointConnection = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** A private link resource */
-export type PrivateLinkResource = ProxyResource & {
+export interface PrivateLinkResource extends ProxyResource {
   /**
    * The private link resource group id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly properties?: PrivateLinkResourceProperties;
-};
+}
 
 /** A PostgreSQL Server key. */
-export type ServerKey = ProxyResource & {
+export interface ServerKey extends ProxyResource {
   /**
    * Kind of encryption protector used to protect the key.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -757,10 +759,11 @@ export type ServerKey = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly creationDate?: Date;
-};
+}
 
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned"
 }
 
@@ -775,8 +778,11 @@ export type IdentityType = string;
 
 /** Known values of {@link SkuTier} that the service accepts. */
 export enum KnownSkuTier {
+  /** Basic */
   Basic = "Basic",
+  /** GeneralPurpose */
   GeneralPurpose = "GeneralPurpose",
+  /** MemoryOptimized */
   MemoryOptimized = "MemoryOptimized"
 }
 
@@ -793,11 +799,17 @@ export type SkuTier = string;
 
 /** Known values of {@link ServerVersion} that the service accepts. */
 export enum KnownServerVersion {
+  /** Nine5 */
   Nine5 = "9.5",
+  /** Nine6 */
   Nine6 = "9.6",
+  /** Ten */
   Ten = "10",
+  /** Ten0 */
   Ten0 = "10.0",
+  /** Ten2 */
   Ten2 = "10.2",
+  /** Eleven */
   Eleven = "11"
 }
 
@@ -817,9 +829,13 @@ export type ServerVersion = string;
 
 /** Known values of {@link MinimalTlsVersionEnum} that the service accepts. */
 export enum KnownMinimalTlsVersionEnum {
+  /** TLS10 */
   TLS10 = "TLS1_0",
+  /** TLS11 */
   TLS11 = "TLS1_1",
+  /** TLS12 */
   TLS12 = "TLS1_2",
+  /** TLSEnforcementDisabled */
   TLSEnforcementDisabled = "TLSEnforcementDisabled"
 }
 
@@ -855,7 +871,9 @@ export type InfrastructureEncryption = string;
 
 /** Known values of {@link PublicNetworkAccessEnum} that the service accepts. */
 export enum KnownPublicNetworkAccessEnum {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -871,7 +889,9 @@ export type PublicNetworkAccessEnum = string;
 
 /** Known values of {@link GeoRedundantBackup} that the service accepts. */
 export enum KnownGeoRedundantBackup {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -887,7 +907,9 @@ export type GeoRedundantBackup = string;
 
 /** Known values of {@link StorageAutogrow} that the service accepts. */
 export enum KnownStorageAutogrow {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -903,9 +925,13 @@ export type StorageAutogrow = string;
 
 /** Known values of {@link CreateMode} that the service accepts. */
 export enum KnownCreateMode {
+  /** Default */
   Default = "Default",
+  /** PointInTimeRestore */
   PointInTimeRestore = "PointInTimeRestore",
+  /** GeoRestore */
   GeoRestore = "GeoRestore",
+  /** Replica */
   Replica = "Replica"
 }
 
@@ -923,9 +949,13 @@ export type CreateMode = string;
 
 /** Known values of {@link ServerState} that the service accepts. */
 export enum KnownServerState {
+  /** Ready */
   Ready = "Ready",
+  /** Dropping */
   Dropping = "Dropping",
+  /** Disabled */
   Disabled = "Disabled",
+  /** Inaccessible */
   Inaccessible = "Inaccessible"
 }
 
@@ -943,9 +973,13 @@ export type ServerState = string;
 
 /** Known values of {@link PrivateLinkServiceConnectionStateStatus} that the service accepts. */
 export enum KnownPrivateLinkServiceConnectionStateStatus {
+  /** Approved */
   Approved = "Approved",
+  /** Pending */
   Pending = "Pending",
+  /** Rejected */
   Rejected = "Rejected",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -963,6 +997,7 @@ export type PrivateLinkServiceConnectionStateStatus = string;
 
 /** Known values of {@link PrivateLinkServiceConnectionStateActionsRequire} that the service accepts. */
 export enum KnownPrivateLinkServiceConnectionStateActionsRequire {
+  /** None */
   None = "None"
 }
 
@@ -977,10 +1012,15 @@ export type PrivateLinkServiceConnectionStateActionsRequire = string;
 
 /** Known values of {@link PrivateEndpointProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointProvisioningState {
+  /** Approving */
   Approving = "Approving",
+  /** Ready */
   Ready = "Ready",
+  /** Dropping */
   Dropping = "Dropping",
+  /** Failed */
   Failed = "Failed",
+  /** Rejecting */
   Rejecting = "Rejecting"
 }
 
@@ -999,10 +1039,15 @@ export type PrivateEndpointProvisioningState = string;
 
 /** Known values of {@link VirtualNetworkRuleState} that the service accepts. */
 export enum KnownVirtualNetworkRuleState {
+  /** Initializing */
   Initializing = "Initializing",
+  /** InProgress */
   InProgress = "InProgress",
+  /** Ready */
   Ready = "Ready",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Unknown */
   Unknown = "Unknown"
 }
 
@@ -1021,8 +1066,11 @@ export type VirtualNetworkRuleState = string;
 
 /** Known values of {@link OperationOrigin} that the service accepts. */
 export enum KnownOperationOrigin {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** User */
   User = "user",
+  /** System */
   System = "system"
 }
 
@@ -1039,6 +1087,7 @@ export type OperationOrigin = string;
 
 /** Known values of {@link SecurityAlertPolicyName} that the service accepts. */
 export enum KnownSecurityAlertPolicyName {
+  /** Default */
   Default = "Default"
 }
 
@@ -1053,6 +1102,7 @@ export type SecurityAlertPolicyName = string;
 
 /** Known values of {@link ServerKeyType} that the service accepts. */
 export enum KnownServerKeyType {
+  /** AzureKeyVault */
   AzureKeyVault = "AzureKeyVault"
 }
 

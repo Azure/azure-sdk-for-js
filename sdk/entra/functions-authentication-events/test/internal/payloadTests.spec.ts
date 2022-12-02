@@ -14,6 +14,7 @@ import {
 
 import { expect } from "chai";
 import { request } from "./payloads";
+import { createProvideClaimsForToken } from "../../src/tokenIssuanceStart";
 
 describe("TokenIssuanceStart payload tests.", () => {
   const tokenIssuanceRequest: TokenIssuanceStartRequest = request;
@@ -147,10 +148,10 @@ describe("TokenIssuanceStart payload tests.", () => {
 describe("TokenIssuanceStart action tests", () => {
   it("ProvideClaimsForToken action", () => {
     const tokenIssuanceRequest: TokenIssuanceStartRequest = request;
-    const provideClaimsAction: ProvideClaimsForToken = {
-      actionType: "ProvideClaimsForToken",
-      claims: ActionConstants.Claims,
-    };
+    const provideClaimsAction: ProvideClaimsForToken = createProvideClaimsForToken(
+      ActionConstants.Claims
+    );
+
     tokenIssuanceRequest.response.actions.push(provideClaimsAction);
     expect(tokenIssuanceRequest.response.actions.length).to.be.equal(1);
     expect(JSON.stringify(tokenIssuanceRequest.response.actions)).to.be.equal(

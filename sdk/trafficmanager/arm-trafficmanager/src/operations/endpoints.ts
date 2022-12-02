@@ -38,8 +38,7 @@ export class EndpointsImpl implements Endpoints {
 
   /**
    * Update a Traffic Manager endpoint.
-   * @param resourceGroupName The name of the resource group containing the Traffic Manager endpoint to
-   *                          be updated.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName The name of the Traffic Manager profile.
    * @param endpointType The type of the Traffic Manager endpoint to be updated.
    * @param endpointName The name of the Traffic Manager endpoint to be updated.
@@ -69,7 +68,7 @@ export class EndpointsImpl implements Endpoints {
 
   /**
    * Gets a Traffic Manager endpoint.
-   * @param resourceGroupName The name of the resource group containing the Traffic Manager endpoint.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName The name of the Traffic Manager profile.
    * @param endpointType The type of the Traffic Manager endpoint.
    * @param endpointName The name of the Traffic Manager endpoint.
@@ -90,8 +89,7 @@ export class EndpointsImpl implements Endpoints {
 
   /**
    * Create or update a Traffic Manager endpoint.
-   * @param resourceGroupName The name of the resource group containing the Traffic Manager endpoint to
-   *                          be created or updated.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName The name of the Traffic Manager profile.
    * @param endpointType The type of the Traffic Manager endpoint to be created or updated.
    * @param endpointName The name of the Traffic Manager endpoint to be created or updated.
@@ -121,8 +119,7 @@ export class EndpointsImpl implements Endpoints {
 
   /**
    * Deletes a Traffic Manager endpoint.
-   * @param resourceGroupName The name of the resource group containing the Traffic Manager endpoint to
-   *                          be deleted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName The name of the Traffic Manager profile.
    * @param endpointType The type of the Traffic Manager endpoint to be deleted.
    * @param endpointName The name of the Traffic Manager endpoint to be deleted.

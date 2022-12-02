@@ -1,6 +1,6 @@
 # Release History
 
-## 3.1.2 (Unreleased)
+## 3.2.1 (Unreleased)
 
 ### Features Added
 
@@ -8,7 +8,19 @@
 
 ### Bugs Fixed
 
+- Fix an issue in `RequestResponseLink` where sender error is not rejected [PR #23646](https://github.com/Azure/azure-sdk-for-js/pull/23646).
+
 ### Other Changes
+
+## 3.2.0 (2022-11-03)
+
+### Bugs Fixed
+
+- Fix React-Native bundling issue by adding a `react-native` mapping to ESM entrypoint file. (PR #23524)[https://github.com/Azure/azure-sdk-for-js/pull/23524]
+
+### Other Changes
+
+- Update `engines` to `"node": ">=14.0.0"`
 
 ## 3.1.1 (2022-09-01)
 

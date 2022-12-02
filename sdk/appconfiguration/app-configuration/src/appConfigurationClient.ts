@@ -4,11 +4,6 @@
 // https://azure.github.io/azure-sdk/typescript_design.html#ts-config-lib
 /// <reference lib="esnext.asynciterable" />
 
-import { appConfigKeyCredentialPolicy } from "./appConfigCredential";
-import { AppConfiguration } from "./generated/src/appConfiguration";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
-
 import {
   AddConfigurationSettingOptions,
   AddConfigurationSettingParam,
@@ -32,6 +27,21 @@ import {
   SetReadOnlyResponse,
 } from "./models";
 import {
+  AppConfigurationGetKeyValuesHeaders,
+  AppConfigurationGetRevisionsHeaders,
+  GetKeyValuesResponse,
+  GetRevisionsResponse,
+} from "./generated/src/models";
+import {
+  CommonClientOptions,
+  deserializationPolicy,
+  deserializationPolicyName,
+} from "@azure/core-client";
+import { PagedAsyncIterableIterator, PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
+import { PipelinePolicy, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import {
   assertResponse,
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromNextLink,
@@ -44,22 +54,12 @@ import {
   transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
 } from "./internal/helpers";
-import {
-  AppConfigurationGetKeyValuesHeaders,
-  AppConfigurationGetRevisionsHeaders,
-  GetKeyValuesResponse,
-  GetRevisionsResponse,
-} from "./generated/src/models";
-import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy";
+import { AppConfiguration } from "./generated/src/appConfiguration";
 import { FeatureFlagValue } from "./featureFlag";
 import { SecretReferenceValue } from "./secretReference";
-import {
-  CommonClientOptions,
-  deserializationPolicy,
-  deserializationPolicyName,
-} from "@azure/core-client";
-import { PipelinePolicy, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { appConfigKeyCredentialPolicy } from "./appConfigCredential";
 import { tracingClient } from "./internal/tracing";
+import { logger } from "./logger";
 
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
@@ -182,6 +182,7 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
+        logger.info("[addConfigurationSetting] Creating a key value pair");
         const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
           ifNoneMatch: "*",
           label: configurationSetting.label,
@@ -214,6 +215,7 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         let status;
+        logger.info("[deleteConfigurationSetting] Deleting key value pair");
         const originalResponse = await this.client.deleteKeyValue(id.key, {
           label: id.label,
           ...updatedOptions,
@@ -249,6 +251,7 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         let status;
+        logger.info("[getConfigurationSetting] Getting key value pair");
         const originalResponse = await this.client.getKeyValue(id.key, {
           ...updatedOptions,
           label: id.label,
@@ -291,40 +294,33 @@ export class AppConfigurationClient {
   listConfigurationSettings(
     options: ListConfigurationSettingsOptions = {}
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
-    const iter = this.getListConfigurationSettingsIterator(options);
-
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings: PageSettings = {}) => {
-        // The appconfig service doesn't currently support letting you select a page size
-        // so we're ignoring their setting for now.
-        return this.listConfigurationSettingsByPage({
-          ...options,
-          continuationToken: settings.continuationToken,
-        });
-      },
-    };
+    const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
+      {
+        firstPageLink: undefined,
+        getPage: async (pageLink: string | undefined) => {
+          const response = await this.sendConfigurationSettingsRequest(options, pageLink);
+          const currentResponse = {
+            ...response,
+            items: response.items != null ? response.items?.map(transformKeyValue) : [],
+            continuationToken: response.nextLink
+              ? extractAfterTokenFromNextLink(response.nextLink)
+              : undefined,
+          };
+          return {
+            page: currentResponse,
+            nextPageLink: currentResponse.continuationToken,
+          };
+        },
+        toElements: (page) => page.items,
+      };
+    return getPagedAsyncIterator(pagedResult);
   }
 
-  private async *getListConfigurationSettingsIterator(
-    options: ListConfigurationSettingsOptions
-  ): AsyncIterableIterator<ConfigurationSetting> {
-    for await (const page of this.listConfigurationSettingsByPage(options)) {
-      for (const configurationSetting of page.items) {
-        yield configurationSetting;
-      }
-    }
-  }
-
-  private async *listConfigurationSettingsByPage(
-    options: ListConfigurationSettingsOptions & PageSettings = {}
-  ): AsyncIterableIterator<ListConfigurationSettingPage> {
-    let currentResponse = await tracingClient.withSpan(
+  private async sendConfigurationSettingsRequest(
+    options: ListConfigurationSettingsOptions & PageSettings = {},
+    pageLink: string | undefined
+  ): Promise<GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>> {
+    return tracingClient.withSpan(
       "AppConfigurationClient.listConfigurationSettings",
       options,
       async (updatedOptions) => {
@@ -332,52 +328,13 @@ export class AppConfigurationClient {
           ...updatedOptions,
           ...formatAcceptDateTime(options),
           ...formatFiltersAndSelect(options),
-          after: options.continuationToken,
+          after: pageLink,
         });
 
         return response as GetKeyValuesResponse &
           HttpResponseField<AppConfigurationGetKeyValuesHeaders>;
       }
     );
-
-    yield* this.createListConfigurationPageFromResponse(currentResponse);
-
-    while (currentResponse.nextLink) {
-      currentResponse = await tracingClient.withSpan(
-        "AppConfigurationClient.listConfigurationSettings",
-        options,
-        // TODO: same code up above. Unify.
-        async (updatedOptions) => {
-          const response = await this.client.getKeyValues({
-            ...updatedOptions,
-            ...formatAcceptDateTime(options),
-            ...formatFiltersAndSelect(options),
-            after: extractAfterTokenFromNextLink(currentResponse.nextLink!),
-          });
-
-          return response as GetKeyValuesResponse &
-            HttpResponseField<AppConfigurationGetKeyValuesHeaders>;
-        }
-      );
-
-      if (!currentResponse.items) {
-        break;
-      }
-
-      yield* this.createListConfigurationPageFromResponse(currentResponse);
-    }
-  }
-
-  private *createListConfigurationPageFromResponse(
-    currentResponse: GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>
-  ): Generator<ListConfigurationSettingPage> {
-    yield {
-      ...currentResponse,
-      items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : [],
-      continuationToken: currentResponse.nextLink
-        ? extractAfterTokenFromNextLink(currentResponse.nextLink)
-        : undefined,
-    };
   }
 
   /**
@@ -393,40 +350,33 @@ export class AppConfigurationClient {
   listRevisions(
     options?: ListRevisionsOptions
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings> {
-    const iter = this.getListRevisionsIterator(options);
-
-    return {
-      next() {
-        return iter.next();
+    const pagedResult: PagedResult<ListRevisionsPage, PageSettings, string | undefined> = {
+      firstPageLink: undefined,
+      getPage: async (pageLink: string | undefined) => {
+        const response = await this.sendRevisionsRequest(options, pageLink);
+        const currentResponse = {
+          ...response,
+          items: response.items != null ? response.items.map(transformKeyValue) : [],
+          continuationToken: response.nextLink
+            ? extractAfterTokenFromNextLink(response.nextLink)
+            : undefined,
+        };
+        // let itemList = currentResponse.items;
+        return {
+          page: currentResponse,
+          nextPageLink: currentResponse.continuationToken,
+        };
       },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings: PageSettings = {}) => {
-        // The appconfig service doesn't currently support letting you select a page size
-        // so we're ignoring their setting for now.
-        return this.listRevisionsByPage({
-          ...options,
-          continuationToken: settings.continuationToken,
-        });
-      },
+      toElements: (page) => page.items,
     };
+    return getPagedAsyncIterator(pagedResult);
   }
 
-  private async *getListRevisionsIterator(
-    options?: ListRevisionsOptions
-  ): AsyncIterableIterator<ConfigurationSetting> {
-    for await (const page of this.listRevisionsByPage(options)) {
-      for (const item of page.items) {
-        yield item;
-      }
-    }
-  }
-
-  private async *listRevisionsByPage(
-    options: ListRevisionsOptions & PageSettings = {}
-  ): AsyncIterableIterator<ListRevisionsPage> {
-    let currentResponse = await tracingClient.withSpan(
+  private async sendRevisionsRequest(
+    options: ListConfigurationSettingsOptions & PageSettings = {},
+    pageLink: string | undefined
+  ): Promise<GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>> {
+    return tracingClient.withSpan(
       "AppConfigurationClient.listRevisions",
       options,
       async (updatedOptions) => {
@@ -434,48 +384,13 @@ export class AppConfigurationClient {
           ...updatedOptions,
           ...formatAcceptDateTime(options),
           ...formatFiltersAndSelect(updatedOptions),
-          after: options.continuationToken,
+          after: pageLink,
         });
 
         return response as GetRevisionsResponse &
           HttpResponseField<AppConfigurationGetRevisionsHeaders>;
       }
     );
-
-    yield* this.createListRevisionsPageFromResponse(currentResponse);
-
-    while (currentResponse.nextLink) {
-      currentResponse = (await tracingClient.withSpan(
-        "AppConfigurationClient.listRevisions",
-        options,
-        (updatedOptions) => {
-          return this.client.getRevisions({
-            ...updatedOptions,
-            ...formatAcceptDateTime(options),
-            ...formatFiltersAndSelect(options),
-            after: extractAfterTokenFromNextLink(currentResponse.nextLink!),
-          });
-        }
-      )) as GetRevisionsResponse & HttpResponseField<AppConfigurationGetRevisionsHeaders>;
-
-      if (!currentResponse.items) {
-        break;
-      }
-
-      yield* this.createListRevisionsPageFromResponse(currentResponse);
-    }
-  }
-
-  private *createListRevisionsPageFromResponse(
-    currentResponse: GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>
-  ) {
-    yield {
-      ...currentResponse,
-      items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : [],
-      continuationToken: currentResponse.nextLink
-        ? extractAfterTokenFromNextLink(currentResponse.nextLink)
-        : undefined,
-    };
   }
 
   /**
@@ -501,6 +416,7 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
+        logger.info("[setConfigurationSetting] Setting new key value");
         const response = transformKeyValueResponse(
           await this.client.putKeyValue(configurationSetting.key, {
             ...updatedOptions,
@@ -530,12 +446,14 @@ export class AppConfigurationClient {
       async (newOptions) => {
         let response;
         if (readOnly) {
+          logger.info("[setReadOnly] Setting read-only status to ${readOnly}");
           response = await this.client.putLock(id.key, {
             ...newOptions,
             label: id.label,
             ...checkAndFormatIfAndIfNoneMatch(id, options),
           });
         } else {
+          logger.info("[setReadOnly] Deleting read-only lock");
           response = await this.client.deleteLock(id.key, {
             ...newOptions,
             label: id.label,
