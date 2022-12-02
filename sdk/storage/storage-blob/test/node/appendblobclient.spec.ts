@@ -20,7 +20,7 @@ import {
   getTokenBSUWithDefaultCredential,
   getStorageAccessTokenWithDefaultCredential,
 } from "../utils";
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets";

@@ -12,7 +12,7 @@ import {
   ContainerSASPermissions,
   BlobServiceClient,
 } from "../../src";
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";

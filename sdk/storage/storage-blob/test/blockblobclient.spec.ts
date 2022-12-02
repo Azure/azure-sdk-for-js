@@ -15,7 +15,7 @@ import { ContainerClient, BlobClient, BlockBlobClient } from "../src";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { BlockBlobTier } from "../src";
 import { Context } from "mocha";
-import { isNode } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
 
 describe("BlockBlobClient", () => {
   let containerName: string;
