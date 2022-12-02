@@ -4,9 +4,9 @@
 import {
   AttachmentType,
   CampaignBrief,
+  CampaignBriefAttachment,
   FileType,
   TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptionalParams,
-  TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse,
   TollFreeVerificationDeleteCampaignBriefAttachmentOptionalParams,
   TollFreeVerificationDeleteCampaignBriefOptionalParams,
   TollFreeVerificationGetCampaignBriefAttachmentOptionalParams,
@@ -16,7 +16,6 @@ import {
   TollFreeVerificationSubmitCampaignBriefOptionalParams,
   TollFreeVerificationSubmitCampaignBriefResponse,
   TollFreeVerificationUpsertCampaignBriefOptionalParams,
-  TollFreeVerificationUpsertCampaignBriefResponse,
 } from "./models";
 import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
@@ -123,7 +122,7 @@ export class TollFreeVerificationClient {
     campaignBriefId: string,
     countryCode: string,
     options: TollFreeVerificationUpsertCampaignBriefOptionalParams = {}
-  ): Promise<TollFreeVerificationUpsertCampaignBriefResponse> {
+  ): Promise<CampaignBrief> {
     return tracingClient.withSpan(
       "TollFreeVerificationClient-upsertCampaignBrief",
       options,
@@ -182,7 +181,7 @@ export class TollFreeVerificationClient {
     fileType: FileType,
     fileContentBase64: string,
     options: TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptionalParams = {}
-  ): Promise<TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse> {
+  ): Promise<CampaignBriefAttachment> {
     return tracingClient.withSpan(
       "TollFreeVerificationClient-upsertCampaignBriefAttachment",
       options,

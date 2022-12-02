@@ -145,9 +145,9 @@ export class TollFreeVerificationClient {
     // (undocumented)
     submitCampaignBrief(campaignBriefId: string, countryCode: string, options?: TollFreeVerificationSubmitCampaignBriefOptionalParams): Promise<TollFreeVerificationSubmitCampaignBriefResponse>;
     // (undocumented)
-    upsertCampaignBrief(campaignBriefId: string, countryCode: string, options?: TollFreeVerificationUpsertCampaignBriefOptionalParams): Promise<TollFreeVerificationUpsertCampaignBriefResponse>;
+    upsertCampaignBrief(campaignBriefId: string, countryCode: string, options?: TollFreeVerificationUpsertCampaignBriefOptionalParams): Promise<CampaignBrief>;
     // (undocumented)
-    upsertCampaignBriefAttachment(countryCode: string, campaignBriefId: string, attachmentId: string, attachmentType: AttachmentType, fileName: string, fileType: FileType, fileContentBase64: string, options?: TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptionalParams): Promise<TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse>;
+    upsertCampaignBriefAttachment(countryCode: string, campaignBriefId: string, attachmentId: string, attachmentType: AttachmentType, fileName: string, fileType: FileType, fileContentBase64: string, options?: TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptionalParams): Promise<CampaignBriefAttachment>;
 }
 
 // @public
