@@ -8,6 +8,7 @@ import {
   Recorder,
   RecorderStartOptions,
   env,
+  assertEnvironmentVariable,
   isPlaybackMode,
   SanitizerOptions,
 } from "@azure-tools/test-recorder";
@@ -82,7 +83,7 @@ export async function createRecordedClient(
   const recorder = await createRecorder(context.currentTest);
 
   const client = new SipRoutingClient(
-    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? "",
+    assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
     recorder.configureClientOptions({})
   );
 
@@ -104,7 +105,7 @@ export async function createRecordedClientWithToken(
 
   let credential: TokenCredential;
   const endpoint = parseConnectionString(
-    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? ""
+    assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING")
   ).endpoint;
 
   if (isPlaybackMode()) {
@@ -120,7 +121,9 @@ export async function createRecordedClientWithToken(
 }
 
 export async function clearSipConfiguration(): Promise<void> {
-  const client = new SipRoutingClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? "");
+  const client = new SipRoutingClient(
+    assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING")
+  );
   await client.setRoutes([]);
   await client.setTrunks([]);
 }
