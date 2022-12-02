@@ -3,7 +3,7 @@
 
 import { SipRoutingClient } from "@azure/communication-phone-numbers";
 
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuid } from "uuid";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -21,9 +21,9 @@ export async function main() {
   const client = new SipRoutingClient(connectionString);
 
   // TODO replace with real FQDN
-  const firstTrunkFqdn = `sample.${uuidv4()}.com`;
+  const firstTrunkFqdn = `sample.${uuid()}.com`;
   // TODO replace with real FQDN
-  const secondTrunkFqdn = `sample.${uuidv4()}.com`;
+  const secondTrunkFqdn = `sample.${uuid()}.com`;
 
   // Clear configuration
   await client.setRoutes([]);

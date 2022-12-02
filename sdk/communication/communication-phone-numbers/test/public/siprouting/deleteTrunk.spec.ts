@@ -21,7 +21,7 @@ matrix([[true, false]], async function (useAad) {
   describe(`SipRoutingClient - delete trunk${useAad ? " [AAD]" : ""}`, function () {
     let client: SipRoutingClient;
     let recorder: Recorder;
-    let firstFqdn = "";
+    let testFqdn = "";
 
     before(async function (this: Context) {
       if (!isPlaybackMode()) {
@@ -33,7 +33,7 @@ matrix([[true, false]], async function (useAad) {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(this)
         : await createRecordedClient(this));
-      firstFqdn = getUniqueFqdn(recorder);
+      testFqdn = getUniqueFqdn(recorder);
     });
 
     afterEach(async function (this: Context) {
@@ -45,14 +45,14 @@ matrix([[true, false]], async function (useAad) {
 
     it("can delete an existing trunk", async () => {
       const trunk: SipTrunk = {
-        fqdn: firstFqdn,
+        fqdn: testFqdn,
         sipSignalingPort: 5678,
       };
       const storedTrunk = await client.setTrunk(trunk);
       assert.deepEqual(storedTrunk, trunk);
       assert.exists((await client.getTrunks()).find((value) => value.fqdn === trunk.fqdn));
 
-      await client.deleteTrunk(firstFqdn);
+      await client.deleteTrunk(testFqdn);
 
       assert.notExists((await client.getTrunks()).find((value) => value.fqdn === trunk.fqdn));
     });
