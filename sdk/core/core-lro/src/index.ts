@@ -32,5 +32,5 @@ export {
 export * from "./legacy/lroEngine";
 export * from "./legacy/poller";
 export * from "./legacy/pollOperation";
-export * from "./http/models";
+export { LongRunningOperationLocationHeaders } from "./http/models";
 export { PollerLike } from "./legacy/models";

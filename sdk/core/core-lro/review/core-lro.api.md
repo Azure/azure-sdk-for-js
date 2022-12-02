@@ -23,9 +23,6 @@ export interface CreateHttpPollerOptions<TResult, TState> {
     withOperationLocation?: (operationLocation: string) => void;
 }
 
-// @public (undocumented)
-export type HttpOperationMode = "OperationLocation" | "ResourceLocation" | "Body";
-
 // @public
 export interface LongRunningOperation<T = unknown> {
     requestMethod?: string;
@@ -165,15 +162,6 @@ export interface RawResponse {
         [headerName: string]: string;
     };
     statusCode: number;
-}
-
-// @public
-export interface ResponseBody extends Record<string, unknown> {
-    properties?: {
-        provisioningState?: unknown;
-    } & Record<string, unknown>;
-    provisioningState?: unknown;
-    status?: unknown;
 }
 
 // @public
