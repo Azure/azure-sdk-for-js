@@ -130,3 +130,6 @@ export function getUniqueFqdn(recorder: Recorder): string {
   const uniqueDomain = uuidv4().replace(/-/g, "");
   return recorder.variable(`fqdn-${fqdnNumber++}`, `test.${uniqueDomain}.com`);
 }
+export function resetUniqueFqdns(): void {
+  fqdnNumber = 1;
+}

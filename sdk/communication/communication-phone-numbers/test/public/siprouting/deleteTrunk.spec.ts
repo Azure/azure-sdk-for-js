@@ -13,6 +13,7 @@ import {
   createRecordedClient,
   createRecordedClientWithToken,
   getUniqueFqdn,
+  resetUniqueFqdns,
 } from "./utils/recordedClient";
 import { matrix } from "@azure/test-utils";
 
@@ -39,6 +40,7 @@ matrix([[true, false]], async function (useAad) {
       if (!this.currentTest?.isPending()) {
         await recorder.stop();
       }
+      resetUniqueFqdns();
     });
 
     it("can delete an existing trunk", async () => {

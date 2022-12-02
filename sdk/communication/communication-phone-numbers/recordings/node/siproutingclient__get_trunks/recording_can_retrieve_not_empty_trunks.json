@@ -11,18 +11,18 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Thu, 01 Dec 2022 19:42:19 GMT"
+        "x-ms-date": "Fri, 02 Dec 2022 00:26:18 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 01 Dec 2022 19:42:18 GMT",
-        "MS-CV": "aUBF/nfEaUmIXJ6lLN18tw.0",
+        "Date": "Fri, 02 Dec 2022 00:26:18 GMT",
+        "MS-CV": "kcRfbiY8\u002BkiMVRorwL/cZQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0mwOJYwAAAACzo\u002B6CUQbSQa9K3tE1q/V7UFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0KkaJYwAAAACyJR9SCMYQRbe8q84RGm6WUFJHMDFFREdFMDkxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Processing-Time": "88ms"
       },
@@ -43,18 +43,18 @@
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-content-sha256": "k5SUHResDIyPC180uIPm8siQD8rcMz39VHDG/eGRAdQ=",
-        "x-ms-date": "Thu, 01 Dec 2022 19:42:19 GMT"
+        "x-ms-content-sha256": "QJaLMtvZPnfSxtIZ8Q3Ft8JFAugEFM8cJBS6Td0AvLc=",
+        "x-ms-date": "Fri, 02 Dec 2022 00:26:19 GMT"
       },
       "RequestBody": {
         "trunks": {
-          "test.5cbdd5ce4d2840958faf3789ef39d86b.com": {
+          "test.ef62fbb3305f4af49a44eab70a7ea631.com": {
             "sipSignalingPort": 1239
           },
-          "test.0dfc0451fcfa44ee82e7cb07a94dbf0f.com": {
+          "test.f2e422f5d9e84a978c8f73962e61491c.com": {
             "sipSignalingPort": 2348
           },
-          "test.816f6e8b45b2499ea363c4eeabc9b657.com": {
+          "test.65dbfc94159c4562a8ec21ce19e27947.com": {
             "sipSignalingPort": 3457
           }
         }
@@ -63,23 +63,23 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 01 Dec 2022 19:42:22 GMT",
-        "MS-CV": "YemuvLzsyEyv4Yy431\u002BpRQ.0",
+        "Date": "Fri, 02 Dec 2022 00:26:19 GMT",
+        "MS-CV": "RiM2DFGQYkWjKRk0nrjBNQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0mwOJYwAAAAAlzpYDQ\u002Br6RL4e0WTcpruiUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0K0aJYwAAAADipKVBoqWNSqmmo5zdt7IWUFJHMDFFREdFMDkxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "3544ms"
+        "X-Processing-Time": "517ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.5cbdd5ce4d2840958faf3789ef39d86b.com": {
+          "test.ef62fbb3305f4af49a44eab70a7ea631.com": {
             "sipSignalingPort": 1239
           },
-          "test.0dfc0451fcfa44ee82e7cb07a94dbf0f.com": {
+          "test.f2e422f5d9e84a978c8f73962e61491c.com": {
             "sipSignalingPort": 2348
           },
-          "test.816f6e8b45b2499ea363c4eeabc9b657.com": {
+          "test.65dbfc94159c4562a8ec21ce19e27947.com": {
             "sipSignalingPort": 3457
           }
         },
@@ -97,30 +97,30 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Thu, 01 Dec 2022 19:42:23 GMT"
+        "x-ms-date": "Fri, 02 Dec 2022 00:26:19 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 01 Dec 2022 19:42:22 GMT",
-        "MS-CV": "ErPXtXnsqkCZCkvj9nhC9Q.0",
+        "Date": "Fri, 02 Dec 2022 00:26:19 GMT",
+        "MS-CV": "Y2V9Hlt4qUm69YBnjpCF2w.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0nwOJYwAAAACEusBKX/m/RrKTWTqiVtY2UFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0K0aJYwAAAABddYIFb5T0Saz6HMdbZ\u002BFtUFJHMDFFREdFMDkxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "202ms"
+        "X-Processing-Time": "100ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.5cbdd5ce4d2840958faf3789ef39d86b.com": {
+          "test.ef62fbb3305f4af49a44eab70a7ea631.com": {
             "sipSignalingPort": 1239
           },
-          "test.0dfc0451fcfa44ee82e7cb07a94dbf0f.com": {
+          "test.f2e422f5d9e84a978c8f73962e61491c.com": {
             "sipSignalingPort": 2348
           },
-          "test.816f6e8b45b2499ea363c4eeabc9b657.com": {
+          "test.65dbfc94159c4562a8ec21ce19e27947.com": {
             "sipSignalingPort": 3457
           }
         },
@@ -129,9 +129,9 @@
     }
   ],
   "Variables": {
-    "fqdn-41": "test.5cbdd5ce4d2840958faf3789ef39d86b.com",
-    "fqdn-42": "test.0dfc0451fcfa44ee82e7cb07a94dbf0f.com",
-    "fqdn-43": "test.816f6e8b45b2499ea363c4eeabc9b657.com",
-    "fqdn-44": "test.13ee1f748de44a93bf3b5b63fcbf7b36.com"
+    "fqdn-1": "test.ef62fbb3305f4af49a44eab70a7ea631.com",
+    "fqdn-2": "test.f2e422f5d9e84a978c8f73962e61491c.com",
+    "fqdn-3": "test.65dbfc94159c4562a8ec21ce19e27947.com",
+    "fqdn-4": "test.78cde9c0b94e4a4b9ff14d94acfa404d.com"
   }
 }

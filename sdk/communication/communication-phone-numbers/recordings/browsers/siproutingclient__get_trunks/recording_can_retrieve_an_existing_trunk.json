@@ -20,13 +20,13 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-content-sha256": "xi2SjIvC1Zdv9jDnnYGcVVsqr35hVyyuOVj59pHlFC0=",
-        "x-ms-date": "Thu, 01 Dec 2022 23:04:11 GMT",
+        "x-ms-content-sha256": "wYf0uqlZh6qgDWTBFSjFxKcW2ey5PKCpudC/NK8Jpmk=",
+        "x-ms-date": "Fri, 02 Dec 2022 00:18:16 GMT",
         "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
       },
       "RequestBody": {
         "trunks": {
-          "test.7e5caef94c604988a24603c459fe2463.com": {
+          "test.95f525f18a29431ba059f37f7d7269df.com": {
             "sipSignalingPort": 4567
           }
         }
@@ -35,17 +35,17 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 01 Dec 2022 23:04:11 GMT",
-        "MS-CV": "wyxUMeFxfEW5qv1p7gSsoQ.0",
+        "Date": "Fri, 02 Dec 2022 00:18:17 GMT",
+        "MS-CV": "CZDvjqYIck6vunIrNCT6Gg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "06zKJYwAAAADjiZZjBCZAS4qDfqQ5JgqoUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0SESJYwAAAAAzWmlo26LtTqdkjc0OREekUFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "463ms"
+        "X-Processing-Time": "2610ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.7e5caef94c604988a24603c459fe2463.com": {
+          "test.95f525f18a29431ba059f37f7d7269df.com": {
             "sipSignalingPort": 4567
           }
         },
@@ -71,7 +71,7 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Thu, 01 Dec 2022 23:04:11 GMT",
+        "x-ms-date": "Fri, 02 Dec 2022 00:18:18 GMT",
         "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
       },
       "RequestBody": null,
@@ -79,17 +79,17 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 01 Dec 2022 23:04:11 GMT",
-        "MS-CV": "LkuT3bFo9UKOZCJiLRpWuA.0",
+        "Date": "Fri, 02 Dec 2022 00:18:19 GMT",
+        "MS-CV": "U32mgmTO0UyKQRKID/491g.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "06zKJYwAAAABziBVptQAfQLQyjDjLSf5cUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0SkSJYwAAAAB7mUQnLN\u002BoQ5Ru526cD7X6UFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "103ms"
+        "X-Processing-Time": "1880ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.7e5caef94c604988a24603c459fe2463.com": {
+          "test.95f525f18a29431ba059f37f7d7269df.com": {
             "sipSignalingPort": 4567
           }
         },
@@ -98,9 +98,9 @@
     }
   ],
   "Variables": {
-    "fqdn-29": "test.61d3f55332c04cac9e6e660f675a7c0c.com",
-    "fqdn-30": "test.399821a44a984ff3b4f95b689daa227d.com",
-    "fqdn-31": "test.a8b4930e76af4ebf97d6a28c599121d4.com",
-    "fqdn-32": "test.7e5caef94c604988a24603c459fe2463.com"
+    "fqdn-1": "test.91509b89d17a4ca2abb1d3b82856e4e5.com",
+    "fqdn-2": "test.bfdcb590c3f5451aaec51e7c3bcc3cfc.com",
+    "fqdn-3": "test.a19361c0e6814470a73b985a5b84d271.com",
+    "fqdn-4": "test.95f525f18a29431ba059f37f7d7269df.com"
   }
 }

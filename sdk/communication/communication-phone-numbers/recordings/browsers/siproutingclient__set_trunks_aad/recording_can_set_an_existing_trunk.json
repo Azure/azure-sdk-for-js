@@ -24,7 +24,7 @@
       },
       "RequestBody": {
         "trunks": {
-          "test.89b903cda49b4afdb679e7b4f66053fa.com": {
+          "test.dce7180b18a74c01b47a37a5f29fd189.com": {
             "sipSignalingPort": 1231
           }
         }
@@ -33,20 +33,20 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 01 Dec 2022 23:04:16 GMT",
-        "MS-CV": "4vhNKstYx0WsCaWoEgfvcg.0",
+        "Date": "Fri, 02 Dec 2022 00:18:39 GMT",
+        "MS-CV": "wSywCssJqE28tItWIib50A.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "08DKJYwAAAAAWpEMFoqpwTIm4xYGVxhCjUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0X0SJYwAAAADtmmn83Ka4QaIo8bmWzJ4hUFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "300ms"
+        "X-Processing-Time": "496ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.0e99937a30f84eb29b1e630dbabc9ca8.com": {
+          "test.63531374df3d4f2298a7e69b5e9ff1f7.com": {
             "sipSignalingPort": 1231
           },
-          "test.89b903cda49b4afdb679e7b4f66053fa.com": {
+          "test.dce7180b18a74c01b47a37a5f29fd189.com": {
             "sipSignalingPort": 1231
           }
         },
@@ -77,7 +77,7 @@
       },
       "RequestBody": {
         "trunks": {
-          "test.89b903cda49b4afdb679e7b4f66053fa.com": {
+          "test.dce7180b18a74c01b47a37a5f29fd189.com": {
             "sipSignalingPort": 6789
           }
         }
@@ -86,20 +86,20 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 01 Dec 2022 23:04:16 GMT",
-        "MS-CV": "OLvn6mHopUyAxsYQxCGzsw.0",
+        "Date": "Fri, 02 Dec 2022 00:18:40 GMT",
+        "MS-CV": "n2Qr5hO4LUiM\u002BF4MGinmZg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "08DKJYwAAAAAN853yLewtT6o2xdgcbEkuUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0X0SJYwAAAAClak6/EzWXRJ7xv\u002BsU/69FUFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "218ms"
+        "X-Processing-Time": "877ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.0e99937a30f84eb29b1e630dbabc9ca8.com": {
+          "test.63531374df3d4f2298a7e69b5e9ff1f7.com": {
             "sipSignalingPort": 1231
           },
-          "test.89b903cda49b4afdb679e7b4f66053fa.com": {
+          "test.dce7180b18a74c01b47a37a5f29fd189.com": {
             "sipSignalingPort": 6789
           }
         },
@@ -131,20 +131,20 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 01 Dec 2022 23:04:17 GMT",
-        "MS-CV": "9oesKCm1rUmjock9iNWWkg.0",
+        "Date": "Fri, 02 Dec 2022 00:18:40 GMT",
+        "MS-CV": "TNzh1w7L4UW9psR5qyGPKg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "08DKJYwAAAAD1UG5G/v5vQ4Cr6RsMYGo2UFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0YESJYwAAAAB0Nwnwf8xGS7digglPjHUcUFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "99ms"
+        "X-Processing-Time": "153ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.0e99937a30f84eb29b1e630dbabc9ca8.com": {
+          "test.63531374df3d4f2298a7e69b5e9ff1f7.com": {
             "sipSignalingPort": 1231
           },
-          "test.89b903cda49b4afdb679e7b4f66053fa.com": {
+          "test.dce7180b18a74c01b47a37a5f29fd189.com": {
             "sipSignalingPort": 6789
           }
         },
@@ -153,7 +153,7 @@
     }
   ],
   "Variables": {
-    "fqdn-47": "test.89b903cda49b4afdb679e7b4f66053fa.com",
-    "fqdn-48": "test.d5f366e784d3440f885f283e7d6c0c05.com"
+    "fqdn-1": "test.dce7180b18a74c01b47a37a5f29fd189.com",
+    "fqdn-2": "test.3eb513802c4f4576a4650886908f103d.com"
   }
 }

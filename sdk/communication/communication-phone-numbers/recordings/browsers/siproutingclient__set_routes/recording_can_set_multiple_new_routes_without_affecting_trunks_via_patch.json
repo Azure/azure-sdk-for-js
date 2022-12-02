@@ -19,7 +19,7 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Thu, 01 Dec 2022 23:05:07 GMT",
+        "x-ms-date": "Fri, 02 Dec 2022 00:19:46 GMT",
         "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
       },
       "RequestBody": null,
@@ -27,20 +27,20 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 01 Dec 2022 23:05:06 GMT",
-        "MS-CV": "aZf1znPdn0qVkqzLdLUcMA.0",
+        "Date": "Fri, 02 Dec 2022 00:19:45 GMT",
+        "MS-CV": "Vt4MpF9GDEyviQUsPmL5Jw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0IzOJYwAAAAAznGxHQedJTZglbvW4ZOVOUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0okSJYwAAAACDPzS\u002Bu9fsTpZ7hPh\u002BpFsxUFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "99ms"
+        "X-Processing-Time": "89ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.a89ad62123a242d78b4696212d80e826.com": {
+          "test.1863a85fe7bf4f86aa393f201812f557.com": {
             "sipSignalingPort": 8239
           },
-          "test.d50ba6fb11e1404aadce0418c2186df6.com": {
+          "test.c6375ec5ef6e4e648fc573c30c1091bc.com": {
             "sipSignalingPort": 7348
           }
         },
@@ -67,40 +67,40 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-content-sha256": "RQ0nYzM1BLKiQ1Pz2jxZLRAVL7U4kkEMnjb4X5nK1pw=",
-        "x-ms-date": "Thu, 01 Dec 2022 23:05:07 GMT",
+        "x-ms-content-sha256": "Ekii1VNSydsoGgisiGUb4A1pLrVzWazepdVmBNnPMIE=",
+        "x-ms-date": "Fri, 02 Dec 2022 00:19:46 GMT",
         "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
       },
       "RequestBody": {
         "trunks": {
-          "test.218fd0cb05c54d5b8206f8b1dcba4e56.com": {
+          "test.d9bff47a47bd4affa67327d77fd1428c.com": {
             "sipSignalingPort": 5678
           },
-          "test.3c2b70665ff541f9aee38937a2b43564.com": {
+          "test.736ae567dd4c4ba8a3ac0743d07eac08.com": {
             "sipSignalingPort": 5678
           },
-          "test.a89ad62123a242d78b4696212d80e826.com": null,
-          "test.d50ba6fb11e1404aadce0418c2186df6.com": null
+          "test.1863a85fe7bf4f86aa393f201812f557.com": null,
+          "test.c6375ec5ef6e4e648fc573c30c1091bc.com": null
         }
       },
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 01 Dec 2022 23:05:07 GMT",
-        "MS-CV": "\u002BoG9TtZigEGpmrFrY/LyTQ.0",
+        "Date": "Fri, 02 Dec 2022 00:19:45 GMT",
+        "MS-CV": "b8dC6WzZNUG3xVtN5YXn/A.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0IzOJYwAAAACCfNEhGqLcTLYwx\u002BoDd7vYUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0okSJYwAAAAAB\u002Bm0RJFhYRZcmXmWF1i4vUFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "316ms"
+        "X-Processing-Time": "483ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.218fd0cb05c54d5b8206f8b1dcba4e56.com": {
+          "test.d9bff47a47bd4affa67327d77fd1428c.com": {
             "sipSignalingPort": 5678
           },
-          "test.3c2b70665ff541f9aee38937a2b43564.com": {
+          "test.736ae567dd4c4ba8a3ac0743d07eac08.com": {
             "sipSignalingPort": 5678
           }
         },
@@ -128,7 +128,7 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "k9MKRhr2sj0JYbqfU1N0qu/\u002BWY6AyZMenqOcweHbCUM=",
-        "x-ms-date": "Thu, 01 Dec 2022 23:05:07 GMT",
+        "x-ms-date": "Fri, 02 Dec 2022 00:19:46 GMT",
         "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
       },
       "RequestBody": {
@@ -151,20 +151,20 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 01 Dec 2022 23:05:07 GMT",
-        "MS-CV": "NoIwgD/2cUuGEDwy2WBe8Q.0",
+        "Date": "Fri, 02 Dec 2022 00:19:46 GMT",
+        "MS-CV": "3jZppFnAUk2\u002BYzHSRFcUQQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0IzOJYwAAAABOVqpJFTFVQYhqg5deraa9UFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0okSJYwAAAADHDTlcQZ\u002BsRLcRw99k22AHUFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "115ms"
+        "X-Processing-Time": "138ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.218fd0cb05c54d5b8206f8b1dcba4e56.com": {
+          "test.d9bff47a47bd4affa67327d77fd1428c.com": {
             "sipSignalingPort": 5678
           },
-          "test.3c2b70665ff541f9aee38937a2b43564.com": {
+          "test.736ae567dd4c4ba8a3ac0743d07eac08.com": {
             "sipSignalingPort": 5678
           }
         },
@@ -203,7 +203,7 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Thu, 01 Dec 2022 23:05:08 GMT",
+        "x-ms-date": "Fri, 02 Dec 2022 00:19:47 GMT",
         "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
       },
       "RequestBody": null,
@@ -211,20 +211,20 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 01 Dec 2022 23:05:07 GMT",
-        "MS-CV": "FKeh8vMvxU2tbOieE\u002Bon6g.0",
+        "Date": "Fri, 02 Dec 2022 00:19:46 GMT",
+        "MS-CV": "wJqSsvB1zEmP4Q4JrTKi2w.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0IzOJYwAAAAA162Ik7Qm\u002BTaIFGvK9WDc4UFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0o0SJYwAAAACtYr6mmDm9Q69b\u002B0iLC/bHUFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "98ms"
+        "X-Processing-Time": "85ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.218fd0cb05c54d5b8206f8b1dcba4e56.com": {
+          "test.d9bff47a47bd4affa67327d77fd1428c.com": {
             "sipSignalingPort": 5678
           },
-          "test.3c2b70665ff541f9aee38937a2b43564.com": {
+          "test.736ae567dd4c4ba8a3ac0743d07eac08.com": {
             "sipSignalingPort": 5678
           }
         },
@@ -263,7 +263,7 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Thu, 01 Dec 2022 23:05:08 GMT",
+        "x-ms-date": "Fri, 02 Dec 2022 00:19:47 GMT",
         "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
       },
       "RequestBody": null,
@@ -271,20 +271,20 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 01 Dec 2022 23:05:07 GMT",
-        "MS-CV": "m6pe5NWsuk6N0Yk0Wi8NKg.0",
+        "Date": "Fri, 02 Dec 2022 00:19:46 GMT",
+        "MS-CV": "PfWetkvoO02h9OeSqilWsA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0JDOJYwAAAABzCdvGECsCQ5QM04idCY9hUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0o0SJYwAAAAAH5htI4U9SQbsMjQ1VnAahUFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "92ms"
+        "X-Processing-Time": "89ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.218fd0cb05c54d5b8206f8b1dcba4e56.com": {
+          "test.d9bff47a47bd4affa67327d77fd1428c.com": {
             "sipSignalingPort": 5678
           },
-          "test.3c2b70665ff541f9aee38937a2b43564.com": {
+          "test.736ae567dd4c4ba8a3ac0743d07eac08.com": {
             "sipSignalingPort": 5678
           }
         },
@@ -306,9 +306,9 @@
     }
   ],
   "Variables": {
-    "fqdn-133": "test.6a9f7f5b9a5e4364ae3d6a4c185ae48c.com",
-    "fqdn-134": "test.48f623e1244e402592bc24ee2f0ec6e7.com",
-    "fqdn-135": "test.218fd0cb05c54d5b8206f8b1dcba4e56.com",
-    "fqdn-136": "test.3c2b70665ff541f9aee38937a2b43564.com"
+    "fqdn-1": "test.27a3c1a8d52745019f85958242633b24.com",
+    "fqdn-2": "test.4a7ec42f3352456fbde462c786b27b11.com",
+    "fqdn-3": "test.d9bff47a47bd4affa67327d77fd1428c.com",
+    "fqdn-4": "test.736ae567dd4c4ba8a3ac0743d07eac08.com"
   }
 }

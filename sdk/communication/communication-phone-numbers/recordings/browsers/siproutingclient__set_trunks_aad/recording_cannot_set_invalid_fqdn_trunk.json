@@ -33,13 +33,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json",
-        "Date": "Thu, 01 Dec 2022 23:04:23 GMT",
-        "MS-CV": "XsgkrFQ2cUiY/rX9qTxywg.0",
+        "Date": "Fri, 02 Dec 2022 00:18:50 GMT",
+        "MS-CV": "1SNkrrQlVEqfixhJwFLkig.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "09zKJYwAAAABQW\u002BKVVf4lQK\u002B2bEZll7T9UFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0akSJYwAAAAD\u002B5TSWqdwuQYbcfOQM6w3XUFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "124ms"
+        "X-Processing-Time": "32ms"
       },
       "ResponseBody": {
         "error": {
@@ -77,13 +77,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 01 Dec 2022 23:04:24 GMT",
-        "MS-CV": "rIsj9oMVwEmaQ4UQVdSxfw.0",
+        "Date": "Fri, 02 Dec 2022 00:18:50 GMT",
+        "MS-CV": "unlPzTo6ekC8v8OJ594X\u002Bw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "09zKJYwAAAADXJm9PnM6gR6khETjJfFjoUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0akSJYwAAAACFz8V9U31vQ5CBMCW9D7m5UFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "287ms"
+        "X-Processing-Time": "87ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -92,7 +92,7 @@
     }
   ],
   "Variables": {
-    "fqdn-57": "test.9068bafc1f1a447aaeb0bec68f474269.com",
-    "fqdn-58": "test.f693a4f41c8d462aae4498cff12da409.com"
+    "fqdn-1": "test.17304f0ae8c8496eb49539e49cf81133.com",
+    "fqdn-2": "test.462da81c87684f30bfff7d4ec77f7da5.com"
   }
 }

@@ -33,13 +33,13 @@
       "StatusCode": 422,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Thu, 01 Dec 2022 23:04:49 GMT",
-        "MS-CV": "c6dspiClXEmBLn3VbTnruA.0",
+        "Date": "Fri, 02 Dec 2022 00:19:29 GMT",
+        "MS-CV": "NPQCsrvP\u002B0akxAN4zbI4iQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0ETOJYwAAAAD5Z3WPTKY8S5vQ/9Aj4CDmUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0kUSJYwAAAACJl5huHnrFQaRGbJydPruCUFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "36ms"
+        "X-Processing-Time": "32ms"
       },
       "ResponseBody": {
         "error": {
@@ -77,17 +77,17 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 01 Dec 2022 23:04:49 GMT",
-        "MS-CV": "c2J/LV5kR0qsc53iAY/vNg.0",
+        "Date": "Fri, 02 Dec 2022 00:19:29 GMT",
+        "MS-CV": "z0gHjB5o4USt6YGOSxreYA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0ETOJYwAAAAB6WFIE6q3HSbSqTaB9qGfWUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0kkSJYwAAAAB8HbPcPjWoTpeaqwMsPnupUFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "115ms"
+        "X-Processing-Time": "87ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.34ccf6eb0dca49d480ea4eb6dd235883.com": {
+          "test.e6871fb5394b463194e37dfb5c74181a.com": {
             "sipSignalingPort": 5678
           }
         },
@@ -96,7 +96,7 @@
     }
   ],
   "Variables": {
-    "fqdn-101": "test.7633e573804b44c3b7389c1609a439f2.com",
-    "fqdn-102": "test.025eb7f7ccc44a0b994d724c5418d775.com"
+    "fqdn-1": "test.a2bc88ea6cd648a1b6028a1c3dc65f31.com",
+    "fqdn-2": "test.703afe4440644c419ee7d77db5ed92e3.com"
   }
 }

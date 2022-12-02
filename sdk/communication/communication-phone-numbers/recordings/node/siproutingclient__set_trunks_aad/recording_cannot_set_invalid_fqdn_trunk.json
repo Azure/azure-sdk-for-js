@@ -24,13 +24,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json",
-        "Date": "Thu, 01 Dec 2022 19:42:56 GMT",
-        "MS-CV": "J2SZuJ3nxEeJUunCLPCrGQ.0",
+        "Date": "Fri, 02 Dec 2022 00:26:50 GMT",
+        "MS-CV": "6jmwxkc6AkalZO\u002BVV5KX2Q.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0wAOJYwAAAAD\u002BOnb/\u002BWH6SaIqfZ4NYW5WUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0S0aJYwAAAACBlrW4zVCPSqLyYVmQIlcLUFJHMDFFREdFMDkxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "35ms"
+        "X-Processing-Time": "32ms"
       },
       "ResponseBody": {
         "error": {
@@ -59,13 +59,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 01 Dec 2022 19:42:57 GMT",
-        "MS-CV": "CCNt61I71UqWpVpa0OcHeQ.0",
+        "Date": "Fri, 02 Dec 2022 00:26:50 GMT",
+        "MS-CV": "35xuek5JlkqROutfEJnEEQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0wQOJYwAAAAAZccbpYFXBSJd7KYQ33F66UFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0S0aJYwAAAADk9mpArG6wRrxHYROIo7PfUFJHMDFFREdFMDkxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "84ms"
+        "X-Processing-Time": "88ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -74,7 +74,7 @@
     }
   ],
   "Variables": {
-    "fqdn-105": "test.c4ea322fab0546c5b380587c860cff8d.com",
-    "fqdn-106": "test.550ea609d1a046b5b2bd0a1b8df59748.com"
+    "fqdn-1": "test.d91eb9a640c7456994f979e711571f57.com",
+    "fqdn-2": "test.82e9857b3916407497ddf8df1b4de596.com"
   }
 }
