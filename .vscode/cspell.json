@@ -273,6 +273,14 @@
       "words": ["bbox", "UTURN", "Hundredkm"]
     },
     {
+      "filename": "sdk/maps/maps-render-rest/review/maps-render.api.md",
+      "words": ["bbox"]
+    },
+    {
+      "filename": "sdk/maps/maps-search-rest/review/maps-search.api.md",
+      "words": ["Neighbourhood", "Xstr"]
+    },
+    {
       "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/api-management-custom-widgets-scaffolder.api.md",
       "words": ["scaffolder", "APIM"]
     },

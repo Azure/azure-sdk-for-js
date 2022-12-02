@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { OnlineDeployments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,10 +19,11 @@ import {
   OnlineDeployment,
   OnlineDeploymentsListNextOptionalParams,
   OnlineDeploymentsListOptionalParams,
+  OnlineDeploymentsListResponse,
   SkuResource,
   OnlineDeploymentsListSkusNextOptionalParams,
   OnlineDeploymentsListSkusOptionalParams,
-  OnlineDeploymentsListResponse,
+  OnlineDeploymentsListSkusResponse,
   OnlineDeploymentsDeleteOptionalParams,
   OnlineDeploymentsGetOptionalParams,
   OnlineDeploymentsGetResponse,
@@ -33,7 +35,6 @@ import {
   DeploymentLogsRequest,
   OnlineDeploymentsGetLogsOptionalParams,
   OnlineDeploymentsGetLogsResponse,
-  OnlineDeploymentsListSkusResponse,
   OnlineDeploymentsListNextResponse,
   OnlineDeploymentsListSkusNextResponse
 } from "../models";
@@ -77,12 +78,16 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           workspaceName,
           endpointName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -92,16 +97,23 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    options?: OnlineDeploymentsListOptionalParams
+    options?: OnlineDeploymentsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<OnlineDeployment[]> {
-    let result = await this._list(
-      resourceGroupName,
-      workspaceName,
-      endpointName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: OnlineDeploymentsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        workspaceName,
+        endpointName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -111,7 +123,9 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -160,13 +174,17 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listSkusPagingPage(
           resourceGroupName,
           workspaceName,
           endpointName,
           deploymentName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -177,17 +195,24 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    options?: OnlineDeploymentsListSkusOptionalParams
+    options?: OnlineDeploymentsListSkusOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SkuResource[]> {
-    let result = await this._listSkus(
-      resourceGroupName,
-      workspaceName,
-      endpointName,
-      deploymentName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: OnlineDeploymentsListSkusResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listSkus(
+        resourceGroupName,
+        workspaceName,
+        endpointName,
+        deploymentName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listSkusNext(
         resourceGroupName,
@@ -198,7 +223,9 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
