@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { FirewallRules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,12 +17,12 @@ import { LroImpl } from "../lroImpl";
 import {
   FirewallRule,
   FirewallRulesListByServerOptionalParams,
+  FirewallRulesListByServerResponse,
   FirewallRulesCreateOrUpdateOptionalParams,
   FirewallRulesCreateOrUpdateResponse,
   FirewallRulesDeleteOptionalParams,
   FirewallRulesGetOptionalParams,
-  FirewallRulesGetResponse,
-  FirewallRulesListByServerResponse
+  FirewallRulesGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -61,11 +61,15 @@ export class FirewallRulesImpl implements FirewallRules {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByServerPagingPage(
           resourceGroupName,
           serverName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -74,13 +78,11 @@ export class FirewallRulesImpl implements FirewallRules {
   private async *listByServerPagingPage(
     resourceGroupName: string,
     serverName: string,
-    options?: FirewallRulesListByServerOptionalParams
+    options?: FirewallRulesListByServerOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<FirewallRule[]> {
-    let result = await this._listByServer(
-      resourceGroupName,
-      serverName,
-      options
-    );
+    let result: FirewallRulesListByServerResponse;
+    result = await this._listByServer(resourceGroupName, serverName, options);
     yield result.value || [];
   }
 
