@@ -45,16 +45,10 @@ async function main() {
     body: { batchItems },
   });
   const poller = getLongRunningPoller(client, initialResponse);
-  /** If the operation is not completed yet, log the partial result we got now and keep polling. */
-  while (!poller.getOperationState().isCompleted) {
-    await poller.poll();
-    const partialResponse = poller.getResult();
-    logResponseBody(partialResponse.body);
-  }
 
   /** You can simply wait for the operation is done */
-  // const response = (await poller.pollUntilDone()) as SearchReverseSearchAddressBatch200Response;
-  // logResponseBody(response.body);
+  const response = await poller.pollUntilDone();
+  logResponseBody(response.body);
 
   /** You may want to resume the long running operation in another function/process later.
    * We ca achieve this by serialize the poller's state with `toString` and rehydrate it using `resumeFrom` options
@@ -63,8 +57,8 @@ async function main() {
   const rehydratedPoller = getLongRunningPoller(client, initialResponse, {
     resumeFrom: serializedState,
   });
-  const response = await rehydratedPoller.pollUntilDone();
-  logResponseBody(response.body);
+  const resumeResponse = await rehydratedPoller.pollUntilDone();
+  logResponseBody(resumeResponse.body);
 }
 
 function logResponseBody(resBody) {
