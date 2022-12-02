@@ -13829,7 +13829,7 @@ packages:
     dev: false
 
   file:projects/arm-peering.tgz:
-    resolution: {integrity: sha512-ehr86gsyqIXKPHDZTLPT6GodMXCDeab7gd+0D1Z9pow2QzQ1nJG42RQIqBIMbKIrk16a8sIFRywKsV9kJAs7tQ==, tarball: file:projects/arm-peering.tgz}
+    resolution: {integrity: sha512-IYGleOcUp9Of0GidbFa5/n0V3JRUA/FRhLA7nNaRYnd6bmTpAUNpwBoM4+6H2Ewxjye68wOIDg/PQtmr7DPhow==, tarball: file:projects/arm-peering.tgz}
     name: '@rush-temp/arm-peering'
     version: 0.0.0
     dependencies:
@@ -13840,18 +13840,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
