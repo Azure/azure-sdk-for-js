@@ -1,13 +1,3 @@
----
-page_type: sample
-languages:
-  - javascript
-products:
-  - azure
-  - azure-maps
-urlFragment: maps-render-javascript-beta
----
-
 # Azure Maps Render client library samples for JavaScript (Beta)
 
 These sample programs show how to use the JavaScript client libraries for Azure Maps Render in some common scenarios.
