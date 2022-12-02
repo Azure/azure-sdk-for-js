@@ -118,6 +118,9 @@ export interface ExampleRequest {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GraphEdge {
     sourceNodeId?: string;
     sourcePortId?: string;
@@ -169,121 +172,77 @@ export type InputPortType = string;
 
 // @public
 export enum KnownAssetType {
-    // (undocumented)
     Module = "Module",
-    // (undocumented)
     Resource = "Resource"
 }
 
 // @public
 export enum KnownColumnFormat {
-    // (undocumented)
     Byte = "Byte",
-    // (undocumented)
     Char = "Char",
-    // (undocumented)
     Complex128 = "Complex128",
-    // (undocumented)
     Complex64 = "Complex64",
-    // (undocumented)
     DateTime = "Date-time",
-    // (undocumented)
     DateTimeOffset = "Date-timeOffset",
-    // (undocumented)
     Double = "Double",
-    // (undocumented)
     Duration = "Duration",
-    // (undocumented)
     Float = "Float",
-    // (undocumented)
     Int16 = "Int16",
-    // (undocumented)
     Int32 = "Int32",
-    // (undocumented)
     Int64 = "Int64",
-    // (undocumented)
     Int8 = "Int8",
-    // (undocumented)
     Uint16 = "Uint16",
-    // (undocumented)
     Uint32 = "Uint32",
-    // (undocumented)
     Uint64 = "Uint64",
-    // (undocumented)
     Uint8 = "Uint8"
 }
 
 // @public
 export enum KnownColumnType {
-    // (undocumented)
     Boolean = "Boolean",
-    // (undocumented)
     Integer = "Integer",
-    // (undocumented)
     Number = "Number",
-    // (undocumented)
     String = "String"
 }
 
 // @public
 export enum KnownDiagnosticsLevel {
-    // (undocumented)
     All = "All",
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownInputPortType {
-    // (undocumented)
     Dataset = "Dataset"
 }
 
 // @public
 export enum KnownOutputPortType {
-    // (undocumented)
     Dataset = "Dataset"
 }
 
 // @public
 export enum KnownParameterType {
-    // (undocumented)
     Boolean = "Boolean",
-    // (undocumented)
     ColumnPicker = "ColumnPicker",
-    // (undocumented)
     Credential = "Credential",
-    // (undocumented)
     DataGatewayName = "DataGatewayName",
-    // (undocumented)
     Double = "Double",
-    // (undocumented)
     Enumerated = "Enumerated",
-    // (undocumented)
     Float = "Float",
-    // (undocumented)
     Int = "Int",
-    // (undocumented)
     Mode = "Mode",
-    // (undocumented)
     ParameterRange = "ParameterRange",
-    // (undocumented)
     Script = "Script",
-    // (undocumented)
     String = "String"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Provisioning = "Provisioning",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
@@ -367,9 +326,9 @@ export interface PatchedResource {
 }
 
 // @public
-export type PatchedWebService = PatchedResource & {
+export interface PatchedWebService extends PatchedResource {
     properties?: WebServicePropertiesUnion;
-};
+}
 
 // @public
 export type ProvisioningState = string;
@@ -418,9 +377,9 @@ export interface TableSpecification {
 }
 
 // @public
-export type WebService = Resource & {
+export interface WebService extends Resource {
     properties: WebServicePropertiesUnion;
-};
+}
 
 // @public
 export interface WebServiceKeys {
@@ -465,10 +424,10 @@ export interface WebServiceProperties {
 }
 
 // @public
-export type WebServicePropertiesForGraph = WebServiceProperties & {
-    packageType: "Graph";
+export interface WebServicePropertiesForGraph extends WebServiceProperties {
     package?: GraphPackage;
-};
+    packageType: "Graph";
+}
 
 // @public (undocumented)
 export type WebServicePropertiesUnion = WebServiceProperties | WebServicePropertiesForGraph;
