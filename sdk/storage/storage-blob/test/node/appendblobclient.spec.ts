@@ -51,8 +51,7 @@ describe("AppendBlobClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential", async () => {
-    const factories = (appendBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = (appendBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new AppendBlobClient(appendBlobClient.url, credential);
 
     await newClient.create();
@@ -60,8 +59,7 @@ describe("AppendBlobClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const factories = (appendBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = (appendBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new AppendBlobClient(appendBlobClient.url, credential, {
       userAgentOptions: { userAgentPrefix: "test/1.0" },
     });
@@ -83,8 +81,7 @@ describe("AppendBlobClient Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const factories = (appendBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = (appendBlobClient as any).credential as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new AppendBlobClient(appendBlobClient.url, pipeline);
 
@@ -131,8 +128,7 @@ describe("AppendBlobClient Node.js only", () => {
     const expiryTime = recorder.newDate("expiry");
     expiryTime.setDate(expiryTime.getDate() + 1);
 
-    const factories = (blockBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = (blockBlobClient as any).credential as StorageSharedKeyCredential;
 
     const sas = generateBlobSASQueryParameters(
       {
@@ -164,8 +160,7 @@ describe("AppendBlobClient Node.js only", () => {
     const expiryTime = recorder.newDate("expiry");
     expiryTime.setDate(expiryTime.getDate() + 1);
 
-    const factories = (blockBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = (blockBlobClient as any).credential as StorageSharedKeyCredential;
 
     const sas = generateBlobSASQueryParameters(
       {
@@ -248,8 +243,7 @@ describe("AppendBlobClient Node.js only", () => {
     const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
     await blockBlobClient.upload(content, content.length);
     // Get a SAS for blobURL
-    const factories = (blockBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = (blockBlobClient as any).credential as StorageSharedKeyCredential;
     const expiryTime = recorder.newDate("expiry");
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
@@ -290,8 +284,7 @@ describe("AppendBlobClient Node.js only", () => {
     await blobClient.upload(content, content.length);
 
     // Get a SAS for blobURL
-    const factories = (blobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = (blobClient as any).credential as StorageSharedKeyCredential;
     const expiryTime = recorder.newDate("expiry");
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
