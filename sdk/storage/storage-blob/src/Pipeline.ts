@@ -37,6 +37,7 @@ import { getCachedDefaultHttpClient } from "./utils/cache";
 import { storageBrowserPolicy } from "./policies/StorageBrowserPolicyV2";
 import { storageRetryPolicy } from "./policies/StorageRetryPolicyV2";
 import { storageSharedKeyCredentialPolicy } from "./policies/StorageSharedKeyCredentialPolicyV2";
+import { pathParameterWorkaroundPolicy } from "./policies/PathParameterWorkaroundPolicy";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -258,6 +259,7 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
       },
     });
     corePipeline.removePolicy({ phase: "Retry" });
+    corePipeline.addPolicy(pathParameterWorkaroundPolicy());
     corePipeline.addPolicy(storageRetryPolicy(restOptions.retryOptions), { phase: "Retry" });
     corePipeline.addPolicy(storageBrowserPolicy());
     const credential = getCredentialFromPipeline(pipeline);

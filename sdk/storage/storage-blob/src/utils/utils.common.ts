@@ -315,8 +315,12 @@ export function setURLHost(url: string, host: string): string {
  * @param url - Source URL string
  */
 export function getURLPath(url: string): string | undefined {
-  const urlParsed = new URL(url);
-  return urlParsed.pathname;
+  try {
+    const urlParsed = new URL(url);
+    return urlParsed.pathname;
+  } catch (e) {
+    return undefined;
+  }
 }
 
 /**
@@ -325,8 +329,12 @@ export function getURLPath(url: string): string | undefined {
  * @param url - Source URL string
  */
 export function getURLScheme(url: string): string | undefined {
-  const urlParsed = new URL(url);
-  return urlParsed.protocol;
+  try {
+    const urlParsed = new URL(url);
+    return urlParsed.protocol.endsWith(":") ? urlParsed.protocol.slice(0, -1) : urlParsed.protocol;
+  } catch (e) {
+    return undefined;
+  }
 }
 
 /**

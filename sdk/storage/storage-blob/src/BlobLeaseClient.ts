@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { v4 as generateUuid } from "uuid";
-import { StorageClient as StorageClientContext } from "./generated/src/index";
 import { ContainerBreakLeaseOptionalParams } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -118,10 +117,7 @@ export class BlobLeaseClient {
    * @param leaseId - Initial proposed lease id.
    */
   constructor(client: ContainerClient | BlobClient, leaseId?: string) {
-    const clientContext = new StorageClientContext(
-      client.url,
-      (client as any).pipeline.toServiceClientOptions()
-    );
+    const clientContext = (client as any).storageClientContext;
     this._url = client.url;
 
     if ((client as BlobClient).name === undefined) {

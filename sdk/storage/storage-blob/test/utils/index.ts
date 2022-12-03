@@ -284,9 +284,8 @@ export function getSASConnectionStringFromEnvironment(): string {
   const tmr = new Date();
   tmr.setDate(tmr.getDate() + 1);
   const queueServiceClient = getBSU();
-  // By default, credential is always the last element of pipeline factories
-  const factories = (queueServiceClient as any).pipeline.factories;
-  const sharedKeyCredential = factories[factories.length - 1];
+
+  const sharedKeyCredential = queueServiceClient.credential;
 
   const sas = generateAccountSASQueryParameters(
     {

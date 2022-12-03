@@ -32,6 +32,7 @@ import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCreden
 import { createSpan } from "./utils/tracing";
 import { authorizeRequestOnTenantChallenge, serializationPolicy } from "@azure/core-client";
 import { storageSharedKeyCredentialPolicy } from "./policies/StorageSharedKeyCredentialPolicyV2";
+import { pathParameterWorkaroundPolicy } from "./policies/PathParameterWorkaroundPolicy";
 
 /**
  * A request associated with a batch operation.
@@ -382,6 +383,7 @@ class InnerBatchRequest {
       }),
       { phase: "Serialize" }
     );
+    corePipeline.addPolicy(pathParameterWorkaroundPolicy());
     // Use batch header filter policy to exclude unnecessary headers
     corePipeline.addPolicy(batchHeaderFilterPolicy());
     // Use batch assemble policy to assemble request and intercept request from going to wire
