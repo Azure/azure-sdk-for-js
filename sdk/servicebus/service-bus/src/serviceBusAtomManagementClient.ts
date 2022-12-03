@@ -222,7 +222,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       credentials = credentialOrOptions2;
       authPolicy = bearerTokenAuthenticationPolicy({
         credential: credentials,
-        scopes: AMQPConstants.aadServiceBusScope,
+        scopes: [AMQPConstants.aadServiceBusScope],
       });
     } else if (isNamedKeyCredential(credentialOrOptions2)) {
       fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
