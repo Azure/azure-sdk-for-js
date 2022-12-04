@@ -254,14 +254,13 @@ export class ManagedIdentityCredential implements TokenCredential {
               logger.info(`SetAppTokenProvider has saved the token in cache`);
               logger.info(`token = ${resultToken.token}`);
 
-              const expiresInSeconds =
-                resultToken?.expiresOnTimestamp
+              const expiresInSeconds = resultToken?.expiresOnTimestamp
                 ? Math.floor((resultToken.expiresOnTimestamp - Date.now()) / 1000)
-                :  0;
+                : 0;
 
               return {
                 accessToken: resultToken?.token,
-                expiresInSeconds
+                expiresInSeconds,
               };
             } else {
               logger.info(
