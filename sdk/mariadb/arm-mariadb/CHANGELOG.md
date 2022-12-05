@@ -1,5 +1,31 @@
 # Release History
+    
+## 2.1.0 (2022-11-29)
+    
+**Features**
 
+  - Added Interface Advisor
+  - Added Interface Configuration
+  - Added Interface Database
+  - Added Interface FirewallRule
+  - Added Interface LogFile
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateLinkResource
+  - Added Interface ProxyResource
+  - Added Interface QueryStatistic
+  - Added Interface QueryText
+  - Added Interface RecommendationAction
+  - Added Interface RecoverableServerResource
+  - Added Interface Server
+  - Added Interface ServerPropertiesForDefaultCreate
+  - Added Interface ServerPropertiesForGeoRestore
+  - Added Interface ServerPropertiesForReplica
+  - Added Interface ServerPropertiesForRestore
+  - Added Interface ServerSecurityAlertPolicy
+  - Added Interface TrackedResource
+  - Added Interface VirtualNetworkRule
+  - Added Interface WaitStatistic
+    
 ## 2.0.1 (2022-04-25)
 
 **Features**

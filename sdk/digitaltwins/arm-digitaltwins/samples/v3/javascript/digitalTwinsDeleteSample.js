@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Delete a DigitalTwinsInstance.
  *
  * @summary Delete a DigitalTwinsInstance.
- * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-05-31/examples/DigitalTwinsDelete_example.json
+ * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-10-31/examples/DigitalTwinsDelete_example.json
  */
 async function deleteADigitalTwinsInstanceResource() {
   const subscriptionId = "50016170-c839-41ba-a724-51e9df440b9e";
@@ -33,7 +33,7 @@ deleteADigitalTwinsInstanceResource().catch(console.error);
  * This sample demonstrates how to Delete a DigitalTwinsInstance.
  *
  * @summary Delete a DigitalTwinsInstance.
- * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-05-31/examples/DigitalTwinsDelete_WithIdentity_example.json
+ * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-10-31/examples/DigitalTwinsDelete_WithIdentity_example.json
  */
 async function deleteADigitalTwinsInstanceResourceWithIdentity() {
   const subscriptionId = "50016170-c839-41ba-a724-51e9df440b9e";

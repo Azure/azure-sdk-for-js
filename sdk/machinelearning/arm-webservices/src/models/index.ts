@@ -445,30 +445,34 @@ export interface GraphParameterLink {
 }
 
 /** Properties specific to a Graph based web service. */
-export type WebServicePropertiesForGraph = WebServiceProperties & {
+export interface WebServicePropertiesForGraph extends WebServiceProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   packageType: "Graph";
   /** The definition of the graph package making up this web service. */
   package?: GraphPackage;
-};
+}
 
 /** Instance of an Azure ML web service resource. */
-export type WebService = Resource & {
+export interface WebService extends Resource {
   /** Contains the property payload that describes the web service. */
   properties: WebServicePropertiesUnion;
-};
+}
 
 /** Instance of an Patched Azure ML web service resource. */
-export type PatchedWebService = PatchedResource & {
+export interface PatchedWebService extends PatchedResource {
   /** Contains the property payload that describes the web service. */
   properties?: WebServicePropertiesUnion;
-};
+}
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Provisioning */
   Provisioning = "Provisioning",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -486,8 +490,11 @@ export type ProvisioningState = string;
 
 /** Known values of {@link DiagnosticsLevel} that the service accepts. */
 export enum KnownDiagnosticsLevel {
+  /** None */
   None = "None",
+  /** Error */
   Error = "Error",
+  /** All */
   All = "All"
 }
 
@@ -504,9 +511,13 @@ export type DiagnosticsLevel = string;
 
 /** Known values of {@link ColumnType} that the service accepts. */
 export enum KnownColumnType {
+  /** Boolean */
   Boolean = "Boolean",
+  /** Integer */
   Integer = "Integer",
+  /** Number */
   Number = "Number",
+  /** String */
   String = "String"
 }
 
@@ -524,22 +535,39 @@ export type ColumnType = string;
 
 /** Known values of {@link ColumnFormat} that the service accepts. */
 export enum KnownColumnFormat {
+  /** Byte */
   Byte = "Byte",
+  /** Char */
   Char = "Char",
+  /** Complex64 */
   Complex64 = "Complex64",
+  /** Complex128 */
   Complex128 = "Complex128",
+  /** DateTime */
   DateTime = "Date-time",
+  /** DateTimeOffset */
   DateTimeOffset = "Date-timeOffset",
+  /** Double */
   Double = "Double",
+  /** Duration */
   Duration = "Duration",
+  /** Float */
   Float = "Float",
+  /** Int8 */
   Int8 = "Int8",
+  /** Int16 */
   Int16 = "Int16",
+  /** Int32 */
   Int32 = "Int32",
+  /** Int64 */
   Int64 = "Int64",
+  /** Uint8 */
   Uint8 = "Uint8",
+  /** Uint16 */
   Uint16 = "Uint16",
+  /** Uint32 */
   Uint32 = "Uint32",
+  /** Uint64 */
   Uint64 = "Uint64"
 }
 
@@ -570,7 +598,9 @@ export type ColumnFormat = string;
 
 /** Known values of {@link AssetType} that the service accepts. */
 export enum KnownAssetType {
+  /** Module */
   Module = "Module",
+  /** Resource */
   Resource = "Resource"
 }
 
@@ -586,6 +616,7 @@ export type AssetType = string;
 
 /** Known values of {@link InputPortType} that the service accepts. */
 export enum KnownInputPortType {
+  /** Dataset */
   Dataset = "Dataset"
 }
 
@@ -600,6 +631,7 @@ export type InputPortType = string;
 
 /** Known values of {@link OutputPortType} that the service accepts. */
 export enum KnownOutputPortType {
+  /** Dataset */
   Dataset = "Dataset"
 }
 
@@ -614,17 +646,29 @@ export type OutputPortType = string;
 
 /** Known values of {@link ParameterType} that the service accepts. */
 export enum KnownParameterType {
+  /** String */
   String = "String",
+  /** Int */
   Int = "Int",
+  /** Float */
   Float = "Float",
+  /** Enumerated */
   Enumerated = "Enumerated",
+  /** Script */
   Script = "Script",
+  /** Mode */
   Mode = "Mode",
+  /** Credential */
   Credential = "Credential",
+  /** Boolean */
   Boolean = "Boolean",
+  /** Double */
   Double = "Double",
+  /** ColumnPicker */
   ColumnPicker = "ColumnPicker",
+  /** ParameterRange */
   ParameterRange = "ParameterRange",
+  /** DataGatewayName */
   DataGatewayName = "DataGatewayName"
 }
 

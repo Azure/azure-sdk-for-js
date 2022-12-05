@@ -14,6 +14,9 @@ export interface ErrorResponse {
     message: string;
 }
 
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
+
 // @public (undocumented)
 export class MachineLearningWorkspacesManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -86,16 +89,16 @@ export interface Sku {
 }
 
 // @public
-export type Workspace = Resource & {
-    userStorageAccountId?: string;
-    ownerEmail?: string;
-    readonly workspaceType?: WorkspaceType;
-    readonly workspaceState?: WorkspaceState;
-    readonly workspaceId?: string;
+export interface Workspace extends Resource {
     readonly creationTime?: string;
-    readonly studioEndpoint?: string;
     keyVaultIdentifierId?: string;
-};
+    ownerEmail?: string;
+    readonly studioEndpoint?: string;
+    userStorageAccountId?: string;
+    readonly workspaceId?: string;
+    readonly workspaceState?: WorkspaceState;
+    readonly workspaceType?: WorkspaceType;
+}
 
 // @public
 export interface WorkspaceKeysResponse {

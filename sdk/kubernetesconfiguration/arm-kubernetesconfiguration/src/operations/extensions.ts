@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Extensions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   Extension,
   ExtensionsListNextOptionalParams,
   ExtensionsListOptionalParams,
+  ExtensionsListResponse,
   ExtensionsCreateOptionalParams,
   ExtensionsCreateResponse,
   ExtensionsGetOptionalParams,
@@ -26,7 +28,6 @@ import {
   PatchExtension,
   ExtensionsUpdateOptionalParams,
   ExtensionsUpdateResponse,
-  ExtensionsListResponse,
   ExtensionsListNextResponse
 } from "../models";
 
@@ -74,13 +75,17 @@ export class ExtensionsImpl implements Extensions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           clusterRp,
           clusterResourceName,
           clusterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -91,17 +96,24 @@ export class ExtensionsImpl implements Extensions {
     clusterRp: string,
     clusterResourceName: string,
     clusterName: string,
-    options?: ExtensionsListOptionalParams
+    options?: ExtensionsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Extension[]> {
-    let result = await this._list(
-      resourceGroupName,
-      clusterRp,
-      clusterResourceName,
-      clusterName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ExtensionsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        clusterRp,
+        clusterResourceName,
+        clusterName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -112,7 +124,9 @@ export class ExtensionsImpl implements Extensions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

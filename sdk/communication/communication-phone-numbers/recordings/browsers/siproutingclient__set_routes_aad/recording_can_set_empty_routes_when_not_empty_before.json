@@ -42,26 +42,17 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:12:25 GMT",
-        "MS-CV": "ipeq8C1TH0auZpnZguBBfA.0",
+        "Date": "Fri, 02 Dec 2022 00:19:27 GMT",
+        "MS-CV": "PkCuLiDGikGY/0i0rZq5qg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "02XYaYwAAAAClPPEbWZOnQ6pcyKzHGSA/UFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0j0SJYwAAAAAeUTQqMIcNRbhfp7D0suz5UFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "240ms"
+        "X-Processing-Time": "116ms"
       },
       "ResponseBody": {
         "trunks": {
-          "11.fqdn.com": {
-            "sipSignalingPort": 1239
-          },
-          "22.fqdn.com": {
-            "sipSignalingPort": 2348
-          },
-          "33.fqdn.com": {
-            "sipSignalingPort": 3457
-          },
-          "111.fqdn.com": {
+          "test.e6871fb5394b463194e37dfb5c74181a.com": {
             "sipSignalingPort": 5678
           }
         },
@@ -110,26 +101,17 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:12:25 GMT",
-        "MS-CV": "j/ct6RSK\u002BEurWppcoPv1OQ.0",
+        "Date": "Fri, 02 Dec 2022 00:19:27 GMT",
+        "MS-CV": "27lpU2YQZkWSdLl87xklFw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "02nYaYwAAAAAfIlsWBQFrSrVq\u002B9OV\u002BLKeUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0kESJYwAAAACbW1bNLpEqQKS6GItO2QvuUFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "255ms"
+        "X-Processing-Time": "153ms"
       },
       "ResponseBody": {
         "trunks": {
-          "11.fqdn.com": {
-            "sipSignalingPort": 1239
-          },
-          "22.fqdn.com": {
-            "sipSignalingPort": 2348
-          },
-          "33.fqdn.com": {
-            "sipSignalingPort": 3457
-          },
-          "111.fqdn.com": {
+          "test.e6871fb5394b463194e37dfb5c74181a.com": {
             "sipSignalingPort": 5678
           }
         },
@@ -161,26 +143,17 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:12:26 GMT",
-        "MS-CV": "\u002BSuI907rAEiEz6udUgbkHQ.0",
+        "Date": "Fri, 02 Dec 2022 00:19:27 GMT",
+        "MS-CV": "6B/Tnxed6Ei/GT6E7eGp4Q.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "02nYaYwAAAABbML8cR5hZSrZ8YQxaK39/UFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0kESJYwAAAADAm/uPVWIVQ4enR60tHziBUFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "172ms"
+        "X-Processing-Time": "100ms"
       },
       "ResponseBody": {
         "trunks": {
-          "11.fqdn.com": {
-            "sipSignalingPort": 1239
-          },
-          "22.fqdn.com": {
-            "sipSignalingPort": 2348
-          },
-          "33.fqdn.com": {
-            "sipSignalingPort": 3457
-          },
-          "111.fqdn.com": {
+          "test.e6871fb5394b463194e37dfb5c74181a.com": {
             "sipSignalingPort": 5678
           }
         },
@@ -188,5 +161,8 @@
       }
     }
   ],
-  "Variables": {}
+  "Variables": {
+    "fqdn-1": "test.f5e3aeb91d9048ab9f7cdea06a74911a.com",
+    "fqdn-2": "test.152f6fd5d20040f98bb29c7a0f200a2c.com"
+  }
 }

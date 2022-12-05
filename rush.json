@@ -638,7 +638,15 @@
     },
     {
       "packageName": "@azure-rest/maps-render",
-      "projectFolder": "sdk/maps/maps-render-rest",
+      "projectFolder": "sdk/maps/maps-render-rest"
+    },
+    {
+      "packageName": "@azure-rest/maps-geolocation",
+      "projectFolder": "sdk/maps/maps-geolocation-rest"
+    },
+    {
+      "packageName": "@azure-rest/maps-search",
+      "projectFolder": "sdk/maps/maps-search-rest",
       "versionPolicyName": "client"
     },
     {

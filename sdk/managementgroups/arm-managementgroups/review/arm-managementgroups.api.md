@@ -199,6 +199,9 @@ export interface ErrorResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface HierarchySettings {
     defaultManagementGroup?: string;
     readonly id?: string;
@@ -267,57 +270,39 @@ export type HierarchySettingsUpdateResponse = HierarchySettings;
 
 // @public
 export enum KnownEnum0 {
-    // (undocumented)
     Ancestors = "ancestors",
-    // (undocumented)
     Children = "children",
-    // (undocumented)
     Path = "path"
 }
 
 // @public
 export enum KnownEnum2 {
-    // (undocumented)
     AllowedChildren = "AllowedChildren",
-    // (undocumented)
     AllowedParents = "AllowedParents",
-    // (undocumented)
     ChildrenOnly = "ChildrenOnly",
-    // (undocumented)
     ParentAndFirstLevelChildren = "ParentAndFirstLevelChildren",
-    // (undocumented)
     ParentOnly = "ParentOnly"
 }
 
 // @public
 export enum KnownEnum3 {
-    // (undocumented)
     Audit = "Audit",
-    // (undocumented)
     FullHierarchy = "FullHierarchy",
-    // (undocumented)
     GroupsOnly = "GroupsOnly",
-    // (undocumented)
     SubscriptionsOnly = "SubscriptionsOnly"
 }
 
 // @public
 export enum KnownManagementGroupChildType {
-    // (undocumented)
     MicrosoftManagementManagementGroups = "Microsoft.Management/managementGroups",
-    // (undocumented)
     Subscriptions = "/subscriptions"
 }
 
 // @public
 export enum KnownPermissions {
-    // (undocumented)
     Delete = "delete",
-    // (undocumented)
     Edit = "edit",
-    // (undocumented)
     Noaccess = "noaccess",
-    // (undocumented)
     View = "view"
 }
 
