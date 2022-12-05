@@ -261,7 +261,7 @@ export class ManagedIdentityCredential implements TokenCredential {
 
               return {
                 accessToken: resultToken?.token,
-                expiresInSeconds: expiresInSeconds
+                expiresInSeconds
               };
             } else {
               logger.info(
