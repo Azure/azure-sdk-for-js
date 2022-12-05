@@ -1,13 +1,3 @@
----
-page_type: sample
-languages:
-  - typescript
-products:
-  - azure
-  - azure-maps
-urlFragment: maps-route-typescript-beta
----
-
 # Azure Maps Route client library samples for TypeScript (Beta)
 
 These sample programs show how to use the TypeScript client libraries for Azure Maps Route in some common scenarios.
