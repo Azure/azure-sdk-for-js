@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for AzureQuotaExtensionAPI.",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0-beta.6",
   "engines": {
     "node": ">=14.0.0"
   },
