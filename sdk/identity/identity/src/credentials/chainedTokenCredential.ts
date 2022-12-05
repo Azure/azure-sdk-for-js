@@ -16,7 +16,6 @@ export const logger = credentialLogger("ChainedTokenCredential");
  * until one of the getToken methods returns an access token.
  */
 export class ChainedTokenCredential implements TokenCredential {
-
   private _sources: TokenCredential[] = [];
 
   /**
