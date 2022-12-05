@@ -1,5 +1,16 @@
 # Release History
     
+## 3.1.0 (2022-12-02)
+    
+**Features**
+
+  - Added Interface PrivateZone
+  - Added Interface ProxyResource
+  - Added Interface RecordSet
+  - Added Interface TrackedResource
+  - Added Interface VirtualNetworkLink
+    
+    
 ### 3.0.1 (2022-04-28)
 
 **Features**
