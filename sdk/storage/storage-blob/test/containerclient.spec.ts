@@ -1039,8 +1039,8 @@ describe("ContainerClient", () => {
 });
 
 describe("ContainerClient - Verify Name Properties", () => {
-  const containerName = "containerName";
-  const accountName = "myAccount";
+  const containerName = "containername";
+  const accountName = "myaccount";
 
   function verifyNameProperties(url: string): void {
     const newClient = new ContainerClient(url);
