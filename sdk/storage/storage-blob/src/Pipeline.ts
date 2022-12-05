@@ -18,6 +18,7 @@ import {
   UserAgentPolicyOptions as UserAgentOptions,
   bearerTokenAuthenticationPolicy,
   Pipeline as CorePipeline,
+  decompressResponsePolicyName,
 } from "@azure/core-rest-pipeline";
 import { authorizeRequestOnTenantChallenge, createClientPipeline } from "@azure/core-client";
 import { parseXML, stringifyXML } from "@azure/core-xml";
@@ -259,6 +260,7 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
       },
     });
     corePipeline.removePolicy({ phase: "Retry" });
+    corePipeline.removePolicy({ name: decompressResponsePolicyName });
     corePipeline.addPolicy(pathParameterWorkaroundPolicy());
     corePipeline.addPolicy(storageRetryPolicy(restOptions.retryOptions), { phase: "Retry" });
     corePipeline.addPolicy(storageBrowserPolicy());
