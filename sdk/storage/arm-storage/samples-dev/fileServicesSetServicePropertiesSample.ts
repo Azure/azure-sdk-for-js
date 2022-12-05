@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/FileServicesPut.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/FileServicesPut.json
  */
 async function putFileServices() {
   const subscriptionId = "{subscription-id}";
@@ -78,7 +78,7 @@ putFileServices().catch(console.error);
  * This sample demonstrates how to Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/FileServicesPut_EnableSMBMultichannel.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/FileServicesPut_EnableSMBMultichannel.json
  */
 async function putFileServicesEnableSmbMultichannel() {
   const subscriptionId = "{subscription-id}";
@@ -103,7 +103,7 @@ putFileServicesEnableSmbMultichannel().catch(console.error);
  * This sample demonstrates how to Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/FileServicesPut_EnableSecureSmbFeatures.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/FileServicesPut_EnableSecureSmbFeatures.json
  */
 async function putFileServicesEnableSecureSmbFeatures() {
   const subscriptionId = "{subscription-id}";

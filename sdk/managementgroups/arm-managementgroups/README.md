@@ -1,6 +1,6 @@
-# Azure Service client library for JavaScript
+# Azure ManagementGroupsApi client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure Service client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure ManagementGroupsApi client.
 
 The Azure Management Groups API enables consolidation of multiple 
 subscriptions/resources into an organizational hierarchy and centrally 
@@ -27,7 +27,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/arm-managementgroups` package
 
-Install the Azure Service client library for JavaScript with `npm`:
+Install the Azure ManagementGroupsApi client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-managementgroups
@@ -35,8 +35,8 @@ npm install @azure/arm-managementgroups
 
 ### Create and authenticate a `ManagementGroupsAPI`
 
-To create a client object to access the Azure Service API, you will need the `endpoint` of your Azure Service resource and a `credential`. The Azure Service client can use Azure Active Directory credentials to authenticate.
-You can find the endpoint for your Azure Service resource in the [Azure Portal][azure_portal].
+To create a client object to access the Azure ManagementGroupsApi API, you will need the `endpoint` of your Azure ManagementGroupsApi resource and a `credential`. The Azure ManagementGroupsApi client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure ManagementGroupsApi resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -46,7 +46,7 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new AAD application and grant access to Azure Service** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+You will also need to **register a new AAD application and grant access to Azure ManagementGroupsApi** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
@@ -75,7 +75,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ### ManagementGroupsAPI
 
-`ManagementGroupsAPI` is the primary interface for developers using the Azure Service client library. Explore the methods on this client object to understand the different features of the Azure Service service that you can access.
+`ManagementGroupsAPI` is the primary interface for developers using the Azure ManagementGroupsApi client library. Explore the methods on this client object to understand the different features of the Azure ManagementGroupsApi service that you can access.
 
 ## Troubleshooting
 

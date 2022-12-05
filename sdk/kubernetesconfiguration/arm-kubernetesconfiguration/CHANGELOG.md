@@ -1,6 +1,6 @@
 # Release History
 
-## 5.0.1 (Unreleased)
+## 5.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,16 @@
 
 ### Other Changes
 
+## 5.1.0 (2022-11-28)
+    
+**Features**
+
+  - Added Interface Extension
+  - Added Interface FluxConfiguration
+  - Added Interface ProxyResource
+  - Added Interface SourceControlConfiguration
+    
+    
 ## 5.0.0 (2022-04-06)
 
 The package of @azure/arm-kubernetesconfiguration is using our next generation design principles since version 5.0.0, which contains breaking changes.

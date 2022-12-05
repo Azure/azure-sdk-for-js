@@ -21,11 +21,13 @@ import {
   AgentPoolsListOptionalParams,
   AgentPoolsListResponse,
   AgentPoolsAbortLatestOperationOptionalParams,
+  AgentPoolsAbortLatestOperationResponse,
   AgentPoolsGetOptionalParams,
   AgentPoolsGetResponse,
   AgentPoolsCreateOrUpdateOptionalParams,
   AgentPoolsCreateOrUpdateResponse,
   AgentPoolsDeleteOptionalParams,
+  AgentPoolsDeleteResponse,
   AgentPoolsGetUpgradeProfileOptionalParams,
   AgentPoolsGetUpgradeProfileResponse,
   AgentPoolsGetAvailableAgentPoolVersionsOptionalParams,
@@ -124,25 +126,100 @@ export class AgentPoolsImpl implements AgentPools {
   }
 
   /**
-   * Aborting last running operation on agent pool. We return a 204 no content code here to indicate that
-   * the operation has been accepted and an abort will be attempted but is not guaranteed to complete
-   * successfully. Please look up the provisioning state of the agent pool to keep track of whether it
-   * changes to Canceled. A canceled provisioning state indicates that the abort was successful
+   * Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a
+   * Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, an error is returned.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
-  abortLatestOperation(
+  async beginAbortLatestOperation(
     resourceGroupName: string,
     resourceName: string,
     agentPoolName: string,
     options?: AgentPoolsAbortLatestOperationOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
+  ): Promise<
+    PollerLike<
+      PollOperationState<AgentPoolsAbortLatestOperationResponse>,
+      AgentPoolsAbortLatestOperationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<AgentPoolsAbortLatestOperationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
       { resourceGroupName, resourceName, agentPoolName, options },
       abortLatestOperationOperationSpec
     );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a
+   * Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, an error is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param agentPoolName The name of the agent pool.
+   * @param options The options parameters.
+   */
+  async beginAbortLatestOperationAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    options?: AgentPoolsAbortLatestOperationOptionalParams
+  ): Promise<AgentPoolsAbortLatestOperationResponse> {
+    const poller = await this.beginAbortLatestOperation(
+      resourceGroupName,
+      resourceName,
+      agentPoolName,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -290,11 +367,16 @@ export class AgentPoolsImpl implements AgentPools {
     resourceName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<AgentPoolsDeleteResponse>,
+      AgentPoolsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<AgentPoolsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -355,7 +437,7 @@ export class AgentPoolsImpl implements AgentPools {
     resourceName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<AgentPoolsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       resourceName,
@@ -464,7 +546,8 @@ export class AgentPoolsImpl implements AgentPools {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -521,7 +604,18 @@ const abortLatestOperationOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedclusters/{resourceName}/agentPools/{agentPoolName}/abort",
   httpMethod: "POST",
   responses: {
-    204: {},
+    200: {
+      headersMapper: Mappers.AgentPoolsAbortLatestOperationHeaders
+    },
+    201: {
+      headersMapper: Mappers.AgentPoolsAbortLatestOperationHeaders
+    },
+    202: {
+      headersMapper: Mappers.AgentPoolsAbortLatestOperationHeaders
+    },
+    204: {
+      headersMapper: Mappers.AgentPoolsAbortLatestOperationHeaders
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -610,7 +704,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.agentPoolName
+    Parameters.agentPoolName1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -621,10 +715,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.AgentPoolsDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.AgentPoolsDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.AgentPoolsDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.AgentPoolsDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -638,7 +740,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.agentPoolName
+    Parameters.agentPoolName1
   ],
   headerParameters: [Parameters.accept],
   serializer

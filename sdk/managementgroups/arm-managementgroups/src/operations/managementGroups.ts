@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ManagementGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,10 +19,11 @@ import {
   ManagementGroupInfo,
   ManagementGroupsListNextOptionalParams,
   ManagementGroupsListOptionalParams,
+  ManagementGroupsListResponse,
   DescendantInfo,
   ManagementGroupsGetDescendantsNextOptionalParams,
   ManagementGroupsGetDescendantsOptionalParams,
-  ManagementGroupsListResponse,
+  ManagementGroupsGetDescendantsResponse,
   ManagementGroupsGetOptionalParams,
   ManagementGroupsGetResponse,
   CreateManagementGroupRequest,
@@ -32,7 +34,6 @@ import {
   ManagementGroupsUpdateResponse,
   ManagementGroupsDeleteOptionalParams,
   ManagementGroupsDeleteResponse,
-  ManagementGroupsGetDescendantsResponse,
   ManagementGroupsListNextResponse,
   ManagementGroupsGetDescendantsNextResponse
 } from "../models";
@@ -66,22 +67,34 @@ export class ManagementGroupsImpl implements ManagementGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ManagementGroupsListOptionalParams
+    options?: ManagementGroupsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ManagementGroupInfo[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ManagementGroupsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -111,19 +124,29 @@ export class ManagementGroupsImpl implements ManagementGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.getDescendantsPagingPage(groupId, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.getDescendantsPagingPage(groupId, options, settings);
       }
     };
   }
 
   private async *getDescendantsPagingPage(
     groupId: string,
-    options?: ManagementGroupsGetDescendantsOptionalParams
+    options?: ManagementGroupsGetDescendantsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DescendantInfo[]> {
-    let result = await this._getDescendants(groupId, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ManagementGroupsGetDescendantsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getDescendants(groupId, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._getDescendantsNext(
         groupId,
@@ -131,7 +154,9 @@ export class ManagementGroupsImpl implements ManagementGroups {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

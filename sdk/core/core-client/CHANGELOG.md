@@ -10,14 +10,15 @@
 
 ### Bugs Fixed
 
+- Fix a serializer issue where resettable streams were not being accepted.
+
 ### Other Changes
 
 ## 1.6.1 (2022-08-04)
 
-
 ### Bugs Fixed
 
-- Fix serializer to find the correct discriminator index. Please refer to [#22523](https://github.com/Azure/azure-sdk-for-js/pull/22523) for further details.  
+- Fix serializer to find the correct discriminator index. Please refer to [#22523](https://github.com/Azure/azure-sdk-for-js/pull/22523) for further details.
 
 ### Other Changes
 
