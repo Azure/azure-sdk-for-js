@@ -1,14 +1,14 @@
 # Release History
 
-## 2.0.2 (2022-12-02)
+## 2.0.2 (2022-12-05)
 
-**Features**
+## Features
 
--  Exposes `getContinuationToken` helper function to extract continuation token
+  -  Exposes `getContinuationToken` helper function to extract continuation token
 
-**Bugs Fixed**
+## Bugs Fixed
 
-- A series of small bug fixs relevant to authentication and apiVersion policy
+  - A series of small bug fixs relevant to authentication and apiVersion policy
 
 ## 2.0.1 (2022-04-24)
 
