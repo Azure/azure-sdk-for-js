@@ -220,6 +220,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           );
         });
 
+        // FIXME: Change the expectation once service is fixed
         it("client accepts a countryHint", async function () {
           const docs = ["impossible"];
           assertActionResults(

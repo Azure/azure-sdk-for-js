@@ -22,7 +22,7 @@
         "x-ms-client-request-id": "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
         "x-ms-content-sha256": "L5SiEFEVmUJLPOcs1JJnqgkfAca6mwgK9IWVpBLzEB8=",
         "x-ms-date": "Tue, 22 Nov 2022 20:50:18 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.4 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": {
         "id": "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
@@ -256,7 +256,7 @@
         "x-ms-client-request-id": "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
         "x-ms-content-sha256": "I3fsLpjr801bTgzmO9zI3kZkpSG9z1pb3kogdmEewhk=",
         "x-ms-date": "Tue, 22 Nov 2022 20:50:29 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.4 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": {
         "id": "9d787bd6-07fc-4c7b-8e57-17f1fee41298",

@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Updates a private endpoint connection.
  *
  * @summary Updates a private endpoint connection.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-09-02-preview/examples/PrivateEndpointConnectionsUpdate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-10-02-preview/examples/PrivateEndpointConnectionsUpdate.json
  */
 async function updatePrivateEndpointConnection() {
   const subscriptionId = "subid1";

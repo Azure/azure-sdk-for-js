@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Configurations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,11 +17,11 @@ import { LroImpl } from "../lroImpl";
 import {
   Configuration,
   ConfigurationsListByServerOptionalParams,
+  ConfigurationsListByServerResponse,
   ConfigurationsCreateOrUpdateOptionalParams,
   ConfigurationsCreateOrUpdateResponse,
   ConfigurationsGetOptionalParams,
-  ConfigurationsGetResponse,
-  ConfigurationsListByServerResponse
+  ConfigurationsGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -60,11 +60,15 @@ export class ConfigurationsImpl implements Configurations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByServerPagingPage(
           resourceGroupName,
           serverName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -73,13 +77,11 @@ export class ConfigurationsImpl implements Configurations {
   private async *listByServerPagingPage(
     resourceGroupName: string,
     serverName: string,
-    options?: ConfigurationsListByServerOptionalParams
+    options?: ConfigurationsListByServerOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Configuration[]> {
-    let result = await this._listByServer(
-      resourceGroupName,
-      serverName,
-      options
-    );
+    let result: ConfigurationsListByServerResponse;
+    result = await this._listByServer(resourceGroupName, serverName, options);
     yield result.value || [];
   }
 

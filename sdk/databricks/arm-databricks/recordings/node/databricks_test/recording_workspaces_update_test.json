@@ -1,0 +1,124 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/workspaces/myworkspacexx?api-version=2021-04-01-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "28",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-databricks/3.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "9efcc95b-b481-42e9-a100-86cb70058c09"
+      },
+      "RequestBody": {
+        "tags": {
+          "mytag1": "value1"
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 21 Nov 2022 02:37:53 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "dd54ffea-4396-406c-985a-43f7a8c56bdc",
+        "x-ms-ratelimit-remaining-subscription-resource-requests": "148",
+        "x-ms-request-id": "westus:fa18f076-7313-4813-825b-a46f0fc30e41",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221121T023753Z:dd54ffea-4396-406c-985a-43f7a8c56bdc"
+      },
+      "ResponseBody": {
+        "properties": {
+          "managedResourceGroupId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest2",
+          "parameters": {
+            "enableFedRampCertification": {
+              "type": "Bool",
+              "value": false
+            },
+            "enableNoPublicIp": {
+              "type": "Bool",
+              "value": false
+            },
+            "natGatewayName": {
+              "type": "String",
+              "value": "nat-gateway"
+            },
+            "prepareEncryption": {
+              "type": "Bool",
+              "value": false
+            },
+            "publicIpName": {
+              "type": "String",
+              "value": "nat-gw-public-ip"
+            },
+            "relayNamespaceName": {
+              "type": "String",
+              "value": "dbrelayamyjw5evceow2"
+            },
+            "requireInfrastructureEncryption": {
+              "type": "Bool",
+              "value": false
+            },
+            "resourceTags": {
+              "type": "Object",
+              "value": {
+                "application": "databricks",
+                "databricks-environment": "true"
+              }
+            },
+            "storageAccountName": {
+              "type": "String",
+              "value": "dbstorageamyjw5evceow2"
+            },
+            "storageAccountSkuName": {
+              "type": "String",
+              "value": "Standard_GRS"
+            },
+            "vnetAddressPrefix": {
+              "type": "String",
+              "value": "10.139"
+            }
+          },
+          "provisioningState": "Succeeded",
+          "authorizations": [
+            {
+              "principalId": "9a74af6f-d153-4348-988a-e2672920bee9",
+              "roleDefinitionId": "8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
+            }
+          ],
+          "createdBy": {
+            "oid": "c4e92f5c-3a0d-4845-aacc-5ac8a7905cdf",
+            "applicationId": "azure_client_id"
+          },
+          "updatedBy": {
+            "oid": "c4e92f5c-3a0d-4845-aacc-5ac8a7905cdf",
+            "applicationId": "azure_client_id"
+          },
+          "workspaceId": "4448730841080665",
+          "workspaceUrl": "adb-4448730841080665.5.azuredatabricks.net",
+          "createdDateTime": "2022-11-21T02:35:04.3314609Z"
+        },
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Databricks/workspaces/myworkspacexx",
+        "name": "myworkspacexx",
+        "type": "Microsoft.Databricks/workspaces",
+        "sku": {
+          "name": "Standard"
+        },
+        "location": "westus",
+        "tags": {
+          "mytag1": "value1"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
