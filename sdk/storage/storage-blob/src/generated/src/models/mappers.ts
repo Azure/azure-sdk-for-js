@@ -1073,6 +1073,7 @@ export const BlobName: coreClient.CompositeMapper = {
       content: {
         serializedName: "content",
         xmlName: "content",
+        xmlIsMsText: true,
         type: {
           name: "String"
         }
