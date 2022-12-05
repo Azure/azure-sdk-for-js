@@ -303,6 +303,7 @@ specifiers:
   '@rush-temp/quantum-jobs': file:./projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:./projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:./projects/schema-registry-avro.tgz
+  '@rush-temp/sdkreleaseplannertest-rest': file:./projects/sdkreleaseplannertest-rest.tgz
   '@rush-temp/search-documents': file:./projects/search-documents.tgz
   '@rush-temp/service-bus': file:./projects/service-bus.tgz
   '@rush-temp/storage-blob': file:./projects/storage-blob.tgz
@@ -630,6 +631,7 @@ dependencies:
   '@rush-temp/quantum-jobs': file:projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:projects/schema-registry-avro.tgz
+  '@rush-temp/sdkreleaseplannertest-rest': file:projects/sdkreleaseplannertest-rest.tgz
   '@rush-temp/search-documents': file:projects/search-documents.tgz
   '@rush-temp/service-bus': file:projects/service-bus.tgz
   '@rush-temp/storage-blob': file:projects/storage-blob.tgz
@@ -3934,7 +3936,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221202
+      typescript: 5.0.0-dev.20221204
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8257,6 +8259,7 @@ packages:
 
   /sourcemap-codec/1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
+    deprecated: Please use @jridgewell/sourcemap-codec instead
     dev: false
 
   /spawn-command/0.0.2-1:
@@ -8978,8 +8981,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221202:
-    resolution: {integrity: sha512-HuvktBN/shznXMoHbebznvAGTuWSGOqyqIddiXcgn0SV7e004lIuLZXRqEdoqlX87nFZp/pkicSsN+y5vuNPNQ==}
+  /typescript/5.0.0-dev.20221204:
+    resolution: {integrity: sha512-6luaUPpnzzwTjG+UrdMsftnvyxkj2nhPR/LrZlZInnuMNuNyhz3TVH7SpxampW990Xw6usgYdhpf/cWBO1MOQw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -18242,7 +18245,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-O7xmA6qROKn02JhcZEhjWuP0qL82OIlQBBOgPWbTrY15zuQQfe1l/g7k85f2AHCPLmFlIbT0jmuFIObgbC838g==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-pzIYN5W18g+Fzy7BqDgaFeJcdMhnYDy4PnZ8a4X7QhwdE+6sXloLvtN+ovmqXWaflkK7uAHxG/5B1Ih6SoTK3Q==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -19151,6 +19154,50 @@ packages:
       mocha-junit-reporter: 2.2.0_mocha@7.2.0
       nyc: 15.1.0
       prettier: 2.8.0
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.4.1
+      typescript: 4.8.4
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/sdkreleaseplannertest-rest.tgz:
+    resolution: {integrity: sha512-tIDPhl/cVD8cePJuytVnW2JCVff6DOaDU+JyIWDC2H+KVygGTu4xjFoKpc3opK/g0cNcIebfMINouh81TUtOjw==, tarball: file:projects/sdkreleaseplannertest-rest.tgz}
+    name: '@rush-temp/sdkreleaseplannertest-rest'
+    version: 0.0.0
+    dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.10
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.33.6
+      '@types/chai': 4.3.4
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.33
+      autorest: 3.6.2
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 8.28.0
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.1
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 2.2.1
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.4.1
