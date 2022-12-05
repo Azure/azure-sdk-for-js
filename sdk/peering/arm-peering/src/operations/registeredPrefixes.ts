@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { RegisteredPrefixes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,12 +17,12 @@ import {
   PeeringRegisteredPrefix,
   RegisteredPrefixesListByPeeringNextOptionalParams,
   RegisteredPrefixesListByPeeringOptionalParams,
+  RegisteredPrefixesListByPeeringResponse,
   RegisteredPrefixesGetOptionalParams,
   RegisteredPrefixesGetResponse,
   RegisteredPrefixesCreateOrUpdateOptionalParams,
   RegisteredPrefixesCreateOrUpdateResponse,
   RegisteredPrefixesDeleteOptionalParams,
-  RegisteredPrefixesListByPeeringResponse,
   RegisteredPrefixesListByPeeringNextResponse
 } from "../models";
 
@@ -61,11 +62,15 @@ export class RegisteredPrefixesImpl implements RegisteredPrefixes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByPeeringPagingPage(
           resourceGroupName,
           peeringName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -74,15 +79,22 @@ export class RegisteredPrefixesImpl implements RegisteredPrefixes {
   private async *listByPeeringPagingPage(
     resourceGroupName: string,
     peeringName: string,
-    options?: RegisteredPrefixesListByPeeringOptionalParams
+    options?: RegisteredPrefixesListByPeeringOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PeeringRegisteredPrefix[]> {
-    let result = await this._listByPeering(
-      resourceGroupName,
-      peeringName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RegisteredPrefixesListByPeeringResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByPeering(
+        resourceGroupName,
+        peeringName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByPeeringNext(
         resourceGroupName,
@@ -91,7 +103,9 @@ export class RegisteredPrefixesImpl implements RegisteredPrefixes {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

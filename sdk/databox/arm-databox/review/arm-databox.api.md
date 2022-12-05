@@ -39,11 +39,11 @@ export interface AddressValidationOutput {
 }
 
 // @public
-export type AddressValidationProperties = ValidationInputResponse & {
-    validationType: "ValidateAddress";
-    readonly validationStatus?: AddressValidationStatus;
+export interface AddressValidationProperties extends ValidationInputResponse {
     readonly alternateAddresses?: ShippingAddress[];
-};
+    readonly validationStatus?: AddressValidationStatus;
+    validationType: "ValidateAddress";
+}
 
 // @public
 export type AddressValidationStatus = "Valid" | "Invalid" | "Ambiguous";
@@ -153,28 +153,28 @@ export interface CopyProgress {
 export type CopyStatus = string;
 
 // @public
-export type CreateJobValidations = ValidationRequest & {
+export interface CreateJobValidations extends ValidationRequest {
     validationCategory: "JobCreationValidation";
-};
+}
 
 // @public
-export type CreateOrderLimitForSubscriptionValidationRequest = ValidationInputRequest & {
-    validationType: "ValidateCreateOrderLimit";
+export interface CreateOrderLimitForSubscriptionValidationRequest extends ValidationInputRequest {
     deviceType: SkuName;
-};
-
-// @public
-export type CreateOrderLimitForSubscriptionValidationResponseProperties = ValidationInputResponse & {
     validationType: "ValidateCreateOrderLimit";
-    readonly status?: ValidationStatus;
-};
+}
 
 // @public
-export type CustomerDiskJobSecrets = JobSecrets & {
-    jobSecretsType: "DataBoxCustomerDisk";
-    readonly diskSecrets?: DiskSecret[];
+export interface CreateOrderLimitForSubscriptionValidationResponseProperties extends ValidationInputResponse {
+    readonly status?: ValidationStatus;
+    validationType: "ValidateCreateOrderLimit";
+}
+
+// @public
+export interface CustomerDiskJobSecrets extends JobSecrets {
     readonly carrierAccountNumber?: string;
-};
+    readonly diskSecrets?: DiskSecret[];
+    jobSecretsType: "DataBoxCustomerDisk";
+}
 
 // @public
 export type CustomerResolutionCode = "None" | "MoveToCleanUpDevice" | "Resume";
@@ -192,49 +192,49 @@ export type DataAccountDetailsUnion = DataAccountDetails | ManagedDiskDetails | 
 export type DataAccountType = "StorageAccount" | "ManagedDisk";
 
 // @public
-export type DataBoxAccountCopyLogDetails = CopyLogDetails & {
-    copyLogDetailsType: "DataBox";
+export interface DataBoxAccountCopyLogDetails extends CopyLogDetails {
     readonly accountName?: string;
+    copyLogDetailsType: "DataBox";
     readonly copyLogLink?: string;
     readonly copyVerboseLogLink?: string;
-};
+}
 
 // @public
-export type DataBoxCustomerDiskCopyLogDetails = CopyLogDetails & {
+export interface DataBoxCustomerDiskCopyLogDetails extends CopyLogDetails {
     copyLogDetailsType: "DataBoxCustomerDisk";
-    readonly serialNumber?: string;
     readonly errorLogLink?: string;
-    readonly verboseLogLink?: string;
-};
-
-// @public
-export type DataBoxCustomerDiskCopyProgress = CopyProgress & {
     readonly serialNumber?: string;
-    readonly copyStatus?: CopyStatus;
-};
+    readonly verboseLogLink?: string;
+}
 
 // @public
-export type DataBoxCustomerDiskJobDetails = JobDetails & {
-    jobDetailsType: "DataBoxCustomerDisk";
-    importDiskDetailsCollection?: {
-        [propertyName: string]: ImportDiskDetails;
-    };
+export interface DataBoxCustomerDiskCopyProgress extends CopyProgress {
+    readonly copyStatus?: CopyStatus;
+    readonly serialNumber?: string;
+}
+
+// @public
+export interface DataBoxCustomerDiskJobDetails extends JobDetails {
+    readonly copyProgress?: DataBoxCustomerDiskCopyProgress[];
+    readonly deliverToDcPackageDetails?: PackageCarrierInfo;
+    enableManifestBackup?: boolean;
     readonly exportDiskDetailsCollection?: {
         [propertyName: string]: ExportDiskDetails;
     };
-    readonly copyProgress?: DataBoxCustomerDiskCopyProgress[];
-    readonly deliverToDcPackageDetails?: PackageCarrierInfo;
+    importDiskDetailsCollection?: {
+        [propertyName: string]: ImportDiskDetails;
+    };
+    jobDetailsType: "DataBoxCustomerDisk";
     returnToCustomerPackageDetails: PackageCarrierDetails;
-    enableManifestBackup?: boolean;
-};
+}
 
 // @public
-export type DataBoxDiskCopyLogDetails = CopyLogDetails & {
+export interface DataBoxDiskCopyLogDetails extends CopyLogDetails {
     copyLogDetailsType: "DataBoxDisk";
     readonly diskSerialNumber?: string;
     readonly errorLogLink?: string;
     readonly verboseLogLink?: string;
-};
+}
 
 // @public
 export interface DataBoxDiskCopyProgress {
@@ -245,46 +245,46 @@ export interface DataBoxDiskCopyProgress {
 }
 
 // @public
-export type DataBoxDiskJobDetails = JobDetails & {
-    jobDetailsType: "DataBoxDisk";
-    preferredDisks?: {
-        [propertyName: string]: number;
-    };
+export interface DataBoxDiskJobDetails extends JobDetails {
     readonly copyProgress?: DataBoxDiskCopyProgress[];
     readonly disksAndSizeDetails?: {
         [propertyName: string]: number;
     };
+    jobDetailsType: "DataBoxDisk";
     passkey?: string;
-};
+    preferredDisks?: {
+        [propertyName: string]: number;
+    };
+}
 
 // @public
-export type DataBoxDiskJobSecrets = JobSecrets & {
-    jobSecretsType: "DataBoxDisk";
+export interface DataBoxDiskJobSecrets extends JobSecrets {
     readonly diskSecrets?: DiskSecret[];
-    readonly passKey?: string;
     readonly isPasskeyUserDefined?: boolean;
-};
+    jobSecretsType: "DataBoxDisk";
+    readonly passKey?: string;
+}
 
 // @public
-export type DataBoxHeavyAccountCopyLogDetails = CopyLogDetails & {
-    copyLogDetailsType: "DataBoxHeavy";
+export interface DataBoxHeavyAccountCopyLogDetails extends CopyLogDetails {
     readonly accountName?: string;
+    copyLogDetailsType: "DataBoxHeavy";
     readonly copyLogLink?: string[];
     readonly copyVerboseLogLink?: string[];
-};
+}
 
 // @public
-export type DataBoxHeavyJobDetails = JobDetails & {
-    jobDetailsType: "DataBoxHeavy";
+export interface DataBoxHeavyJobDetails extends JobDetails {
     readonly copyProgress?: CopyProgress[];
     devicePassword?: string;
-};
+    jobDetailsType: "DataBoxHeavy";
+}
 
 // @public
-export type DataBoxHeavyJobSecrets = JobSecrets & {
-    jobSecretsType: "DataBoxHeavy";
+export interface DataBoxHeavyJobSecrets extends JobSecrets {
     readonly cabinetPodSecrets?: DataBoxHeavySecret[];
-};
+    jobSecretsType: "DataBoxHeavy";
+}
 
 // @public
 export interface DataBoxHeavySecret {
@@ -296,17 +296,17 @@ export interface DataBoxHeavySecret {
 }
 
 // @public
-export type DataBoxJobDetails = JobDetails & {
-    jobDetailsType: "DataBox";
+export interface DataBoxJobDetails extends JobDetails {
     readonly copyProgress?: CopyProgress[];
     devicePassword?: string;
-};
+    jobDetailsType: "DataBox";
+}
 
 // @public
-export type DataboxJobSecrets = JobSecrets & {
+export interface DataboxJobSecrets extends JobSecrets {
     jobSecretsType: "DataBox";
     podSecrets?: DataBoxSecret[];
-};
+}
 
 // @public (undocumented)
 export class DataBoxManagementClient extends coreClient.ServiceClient {
@@ -334,9 +334,9 @@ export interface DataBoxManagementClientOptionalParams extends coreClient.Servic
 }
 
 // @public
-export type DataBoxScheduleAvailabilityRequest = ScheduleAvailabilityRequest & {
+export interface DataBoxScheduleAvailabilityRequest extends ScheduleAvailabilityRequest {
     skuName: "DataBox";
-};
+}
 
 // @public
 export interface DataBoxSecret {
@@ -348,28 +348,28 @@ export interface DataBoxSecret {
 }
 
 // @public
-export type DatacenterAddressInstructionResponse = DatacenterAddressResponse & {
-    datacenterAddressType: "DatacenterAddressInstruction";
+export interface DatacenterAddressInstructionResponse extends DatacenterAddressResponse {
     readonly communicationInstruction?: string;
-};
+    datacenterAddressType: "DatacenterAddressInstruction";
+}
 
 // @public
-export type DatacenterAddressLocationResponse = DatacenterAddressResponse & {
-    datacenterAddressType: "DatacenterAddressLocation";
-    readonly contactPersonName?: string;
+export interface DatacenterAddressLocationResponse extends DatacenterAddressResponse {
+    readonly additionalShippingInformation?: string;
+    readonly addressType?: string;
+    readonly city?: string;
     readonly company?: string;
+    readonly contactPersonName?: string;
+    readonly country?: string;
+    datacenterAddressType: "DatacenterAddressLocation";
+    readonly phone?: string;
+    readonly phoneExtension?: string;
+    readonly state?: string;
     readonly street1?: string;
     readonly street2?: string;
     readonly street3?: string;
-    readonly city?: string;
-    readonly state?: string;
     readonly zip?: string;
-    readonly country?: string;
-    readonly phone?: string;
-    readonly phoneExtension?: string;
-    readonly addressType?: string;
-    readonly additionalShippingInformation?: string;
-};
+}
 
 // @public
 export interface DatacenterAddressRequest {
@@ -413,19 +413,19 @@ export interface DataLocationToServiceLocationMap {
 }
 
 // @public
-export type DataTransferDetailsValidationRequest = ValidationInputRequest & {
-    validationType: "ValidateDataTransferDetails";
+export interface DataTransferDetailsValidationRequest extends ValidationInputRequest {
     dataExportDetails?: DataExportDetails[];
     dataImportDetails?: DataImportDetails[];
     deviceType: SkuName;
     transferType: TransferType;
-};
+    validationType: "ValidateDataTransferDetails";
+}
 
 // @public
-export type DataTransferDetailsValidationResponseProperties = ValidationInputResponse & {
-    validationType: "ValidateDataTransferDetails";
+export interface DataTransferDetailsValidationResponseProperties extends ValidationInputResponse {
     readonly status?: ValidationStatus;
-};
+    validationType: "ValidateDataTransferDetails";
+}
 
 // @public
 export interface DcAccessSecurityCode {
@@ -442,10 +442,10 @@ export interface Details {
 }
 
 // @public
-export type DiskScheduleAvailabilityRequest = ScheduleAvailabilityRequest & {
-    skuName: "DataBoxDisk";
+export interface DiskScheduleAvailabilityRequest extends ScheduleAvailabilityRequest {
     expectedDataSizeInTeraBytes: number;
-};
+    skuName: "DataBoxDisk";
+}
 
 // @public
 export interface DiskSecret {
@@ -490,9 +490,12 @@ export interface FilterFileDetails {
 export type FilterFileType = "AzureBlob" | "AzureFile";
 
 // @public
-export type HeavyScheduleAvailabilityRequest = ScheduleAvailabilityRequest & {
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface HeavyScheduleAvailabilityRequest extends ScheduleAvailabilityRequest {
     skuName: "DataBoxHeavy";
-};
+}
 
 // @public
 export interface IdentityProperties {
@@ -542,25 +545,25 @@ export interface JobDetails {
 export type JobDetailsUnion = JobDetails | DataBoxCustomerDiskJobDetails | DataBoxDiskJobDetails | DataBoxHeavyJobDetails | DataBoxJobDetails;
 
 // @public
-export type JobResource = Resource & {
-    readonly name?: string;
+export interface JobResource extends Resource {
+    readonly cancellationReason?: string;
+    deliveryInfo?: JobDeliveryInfo;
+    deliveryType?: JobDeliveryType;
+    details?: JobDetailsUnion;
+    readonly error?: CloudError;
     readonly id?: string;
-    readonly type?: string;
+    readonly isCancellable?: boolean;
+    readonly isCancellableWithoutFee?: boolean;
+    readonly isDeletable?: boolean;
+    readonly isPrepareToShipEnabled?: boolean;
+    readonly isShippingAddressEditable?: boolean;
+    readonly name?: string;
+    readonly startTime?: Date;
+    readonly status?: StageName;
     readonly systemData?: SystemData;
     transferType: TransferType;
-    readonly isCancellable?: boolean;
-    readonly isDeletable?: boolean;
-    readonly isShippingAddressEditable?: boolean;
-    readonly isPrepareToShipEnabled?: boolean;
-    readonly status?: StageName;
-    readonly startTime?: Date;
-    readonly error?: CloudError;
-    details?: JobDetailsUnion;
-    readonly cancellationReason?: string;
-    deliveryType?: JobDeliveryType;
-    deliveryInfo?: JobDeliveryInfo;
-    readonly isCancellableWithoutFee?: boolean;
-};
+    readonly type?: string;
+}
 
 // @public
 export interface JobResourceList {
@@ -735,105 +738,55 @@ export enum KnownCopyStatus {
 
 // @public
 export enum KnownDataCenterCode {
-    // (undocumented)
     AdHoc = "AdHoc",
-    // (undocumented)
     AM2 = "AM2",
-    // (undocumented)
     AMS06 = "AMS06",
-    // (undocumented)
     AMS20 = "AMS20",
-    // (undocumented)
     AUH20 = "AUH20",
-    // (undocumented)
     BJB = "BJB",
-    // (undocumented)
     BL20 = "BL20",
-    // (undocumented)
     BL7 = "BL7",
-    // (undocumented)
     BN1 = "BN1",
-    // (undocumented)
     BOM01 = "BOM01",
-    // (undocumented)
     BY1 = "BY1",
-    // (undocumented)
     BY2 = "BY2",
-    // (undocumented)
     BY21 = "BY21",
-    // (undocumented)
     BY24 = "BY24",
-    // (undocumented)
     CBR20 = "CBR20",
-    // (undocumented)
     CH1 = "CH1",
-    // (undocumented)
     CPQ02 = "CPQ02",
-    // (undocumented)
     CPQ20 = "CPQ20",
-    // (undocumented)
     CWL20 = "CWL20",
-    // (undocumented)
     CYS04 = "CYS04",
-    // (undocumented)
     DSM05 = "DSM05",
-    // (undocumented)
     FRA22 = "FRA22",
-    // (undocumented)
     HKG20 = "HKG20",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     JNB21 = "JNB21",
-    // (undocumented)
     JNB22 = "JNB22",
-    // (undocumented)
     LON24 = "LON24",
-    // (undocumented)
     MAA01 = "MAA01",
-    // (undocumented)
     MEL23 = "MEL23",
-    // (undocumented)
     MNZ21 = "MNZ21",
-    // (undocumented)
     MWH01 = "MWH01",
-    // (undocumented)
     ORK70 = "ORK70",
-    // (undocumented)
     OSA20 = "OSA20",
-    // (undocumented)
     PUS20 = "PUS20",
-    // (undocumented)
     SEL20 = "SEL20",
-    // (undocumented)
     SEL21 = "SEL21",
-    // (undocumented)
     SG2 = "SG2",
-    // (undocumented)
     SHA03 = "SHA03",
-    // (undocumented)
     SIN20 = "SIN20",
-    // (undocumented)
     SN5 = "SN5",
-    // (undocumented)
     SN8 = "SN8",
-    // (undocumented)
     SSE90 = "SSE90",
-    // (undocumented)
     SYD03 = "SYD03",
-    // (undocumented)
     SYD23 = "SYD23",
-    // (undocumented)
     TYO01 = "TYO01",
-    // (undocumented)
     TYO22 = "TYO22",
-    // (undocumented)
     YQB20 = "YQB20",
-    // (undocumented)
     YTO20 = "YTO20",
-    // (undocumented)
     YTO21 = "YTO21",
-    // (undocumented)
     ZRH20 = "ZRH20"
 }
 
@@ -885,11 +838,11 @@ export interface LastMitigationActionOnJob {
 export type LogCollectionLevel = "Error" | "Verbose";
 
 // @public
-export type ManagedDiskDetails = DataAccountDetails & {
+export interface ManagedDiskDetails extends DataAccountDetails {
     dataAccountType: "ManagedDisk";
     resourceGroupId: string;
     stagingStorageAccountId: string;
-};
+}
 
 // @public
 export interface MarkDevicesShippedRequest {
@@ -987,17 +940,17 @@ export interface Preferences {
 }
 
 // @public
-export type PreferencesValidationRequest = ValidationInputRequest & {
-    validationType: "ValidatePreferences";
-    preference?: Preferences;
+export interface PreferencesValidationRequest extends ValidationInputRequest {
     deviceType: SkuName;
-};
+    preference?: Preferences;
+    validationType: "ValidatePreferences";
+}
 
 // @public
-export type PreferencesValidationResponseProperties = ValidationInputResponse & {
-    validationType: "ValidatePreferences";
+export interface PreferencesValidationResponseProperties extends ValidationInputResponse {
     readonly status?: ValidationStatus;
-};
+    validationType: "ValidatePreferences";
+}
 
 // @public
 export interface RegionConfigurationRequest {
@@ -1154,19 +1107,19 @@ export interface Sku {
 }
 
 // @public
-export type SkuAvailabilityValidationRequest = ValidationInputRequest & {
-    validationType: "ValidateSkuAvailability";
-    deviceType: SkuName;
-    transferType: TransferType;
+export interface SkuAvailabilityValidationRequest extends ValidationInputRequest {
     country: string;
+    deviceType: SkuName;
     location: string;
-};
+    transferType: TransferType;
+    validationType: "ValidateSkuAvailability";
+}
 
 // @public
-export type SkuAvailabilityValidationResponseProperties = ValidationInputResponse & {
-    validationType: "ValidateSkuAvailability";
+export interface SkuAvailabilityValidationResponseProperties extends ValidationInputResponse {
     readonly status?: ValidationStatus;
-};
+    validationType: "ValidateSkuAvailability";
+}
 
 // @public
 export interface SkuCapacity {
@@ -1207,21 +1160,21 @@ export type StageName = string;
 export type StageStatus = "None" | "InProgress" | "Succeeded" | "Failed" | "Cancelled" | "Cancelling" | "SucceededWithErrors" | "WaitingForCustomerAction" | "SucceededWithWarnings" | "WaitingForCustomerActionForKek" | "WaitingForCustomerActionForCleanUp" | "CustomerActionPerformedForCleanUp";
 
 // @public
-export type StorageAccountDetails = DataAccountDetails & {
+export interface StorageAccountDetails extends DataAccountDetails {
     dataAccountType: "StorageAccount";
     storageAccountId: string;
-};
+}
 
 // @public
-export type SubscriptionIsAllowedToCreateJobValidationRequest = ValidationInputRequest & {
+export interface SubscriptionIsAllowedToCreateJobValidationRequest extends ValidationInputRequest {
     validationType: "ValidateSubscriptionIsAllowedToCreateJob";
-};
+}
 
 // @public
-export type SubscriptionIsAllowedToCreateJobValidationResponseProperties = ValidationInputResponse & {
-    validationType: "ValidateSubscriptionIsAllowedToCreateJob";
+export interface SubscriptionIsAllowedToCreateJobValidationResponseProperties extends ValidationInputResponse {
     readonly status?: ValidationStatus;
-};
+    validationType: "ValidateSubscriptionIsAllowedToCreateJob";
+}
 
 // @public
 export interface SystemData {
@@ -1326,12 +1279,12 @@ export interface UserAssignedProperties {
 }
 
 // @public
-export type ValidateAddress = ValidationInputRequest & {
-    validationType: "ValidateAddress";
-    shippingAddress: ShippingAddress;
+export interface ValidateAddress extends ValidationInputRequest {
     deviceType: SkuName;
+    shippingAddress: ShippingAddress;
     transportPreferences?: TransportPreferences;
-};
+    validationType: "ValidateAddress";
+}
 
 // @public
 export type ValidationInputDiscriminator = "ValidateAddress" | "ValidateSubscriptionIsAllowedToCreateJob" | "ValidatePreferences" | "ValidateCreateOrderLimit" | "ValidateSkuAvailability" | "ValidateDataTransferDetails";

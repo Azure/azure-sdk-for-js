@@ -3,3 +3,4 @@
 
 export * from "./models";
 export * from "./shortCodesClient";
+export * from "./mappers";

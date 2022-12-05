@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.3 (Unreleased)
+## 2.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,14 @@
 
 ### Other Changes
 
+## 2.1.0 (2022-11-16)
+    
+**Features**
+
+  - Added Interface AttestationProvider
+  - Added Interface PrivateEndpointConnection
+  - Added Interface TrackedResource
+    
 ## 2.0.2 (2022-10-08)
 
 **Bugs Fixed**

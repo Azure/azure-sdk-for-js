@@ -1,5 +1,38 @@
 # Release History
     
+## 1.0.0-beta.4 (2022-11-23)
+    
+**Features**
+
+  - Added operation group CheckNameAvailability
+  - Added operation NetworkConnections.beginRunHealthChecks
+  - Added operation NetworkConnections.beginRunHealthChecksAndWait
+  - Added Interface CheckNameAvailabilityExecuteOptionalParams
+  - Added Interface CheckNameAvailabilityRequest
+  - Added Interface CheckNameAvailabilityResponse
+  - Added Interface ErrorResponse
+  - Added Type Alias CheckNameAvailabilityExecuteResponse
+  - Added Type Alias CheckNameAvailabilityReason
+  - Added Type Alias HibernateSupport
+  - Added Type Alias ProvisioningState
+  - Interface DevBoxDefinition has a new optional parameter hibernateSupport
+  - Interface DevBoxDefinitionUpdate has a new optional parameter hibernateSupport
+  - Interface DevBoxDefinitionUpdateProperties has a new optional parameter hibernateSupport
+  - Interface DevCenter has a new optional parameter devCenterUri
+  - Interface NetworkConnectionsRunHealthChecksOptionalParams has a new optional parameter resumeFrom
+  - Interface NetworkConnectionsRunHealthChecksOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface Project has a new optional parameter devCenterUri
+  - Interface ProjectProperties has a new optional parameter devCenterUri
+  - Class DevCenterClient has a new parameter checkNameAvailability
+  - Added Enum KnownCheckNameAvailabilityReason
+  - Added Enum KnownHibernateSupport
+  - Added Enum KnownProvisioningState
+
+**Breaking Changes**
+
+  - Removed operation NetworkConnections.runHealthChecks
+    
+    
 ## 1.0.0-beta.3 (2022-11-04)
     
 **Features**

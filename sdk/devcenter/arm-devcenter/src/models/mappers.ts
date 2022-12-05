@@ -949,6 +949,12 @@ export const DevBoxDefinitionUpdateProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      hibernateSupport: {
+        serializedName: "hibernateSupport",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1332,6 +1338,70 @@ export const UsageName: coreClient.CompositeMapper = {
         serializedName: "value",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CheckNameAvailabilityRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CheckNameAvailabilityRequest",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CheckNameAvailabilityResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CheckNameAvailabilityResponse",
+    modelProperties: {
+      nameAvailable: {
+        serializedName: "nameAvailable",
+        type: {
+          name: "Boolean"
+        }
+      },
+      reason: {
+        serializedName: "reason",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
         }
       }
     }
@@ -2076,6 +2146,12 @@ export const DevBoxDefinitionUpdate: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      hibernateSupport: {
+        serializedName: "properties.hibernateSupport",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2203,6 +2279,13 @@ export const ProjectProperties: coreClient.CompositeMapper = {
       ...ProjectUpdateProperties.type.modelProperties,
       provisioningState: {
         serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      devCenterUri: {
+        serializedName: "devCenterUri",
         readOnly: true,
         type: {
           name: "String"
@@ -2455,6 +2538,13 @@ export const DevCenter: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      devCenterUri: {
+        serializedName: "properties.devCenterUri",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2480,6 +2570,13 @@ export const Project: coreClient.CompositeMapper = {
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      devCenterUri: {
+        serializedName: "properties.devCenterUri",
         readOnly: true,
         type: {
           name: "String"
@@ -2511,6 +2608,12 @@ export const DevBoxDefinition: coreClient.CompositeMapper = {
       },
       osStorageType: {
         serializedName: "properties.osStorageType",
+        type: {
+          name: "String"
+        }
+      },
+      hibernateSupport: {
+        serializedName: "properties.hibernateSupport",
         type: {
           name: "String"
         }

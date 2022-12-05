@@ -100,6 +100,25 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       await client.deleteManifest(uploadResult.digest);
     });
 
+    it("can upload OCI manifest from resettable stream", async function (this: Mocha.Context) {
+      if (isPlaybackMode()) {
+        // Temporarily skip during playback while dealing with recorder issue
+        this.skip();
+      }
+
+      await uploadManifestPrerequisites();
+
+      const resettableManifestStream = () =>
+        fs.createReadStream("test/data/oci-artifact/manifest.json");
+      const uploadResult = await client.uploadManifest(resettableManifestStream);
+      const downloadResult = await client.downloadManifest(uploadResult.digest);
+
+      assert.equal(downloadResult.digest, uploadResult.digest);
+      assert.deepStrictEqual(downloadResult.manifest, manifest);
+
+      await client.deleteManifest(uploadResult.digest);
+    });
+
     it("can upload OCI manifest with tag", async () => {
       await uploadManifestPrerequisites();
 
@@ -135,6 +154,18 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
         "test/data/oci-artifact/654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed"
       );
       const { digest } = await client.uploadBlob(blob);
+      const downloadResult = await client.downloadBlob(
+        "sha256:654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed"
+      );
+      assert.equal(digest, downloadResult.digest);
+    });
+
+    it("can upload blob from resettable stream", async () => {
+      const resettableBlobStream = () =>
+        fs.createReadStream(
+          "test/data/oci-artifact/654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed"
+        );
+      const { digest } = await client.uploadBlob(resettableBlobStream);
       const downloadResult = await client.downloadBlob(
         "sha256:654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed"
       );

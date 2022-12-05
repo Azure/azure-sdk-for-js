@@ -1,9 +1,22 @@
 # Release History
-    
-## 6.0.0-beta.2 (2022-11-08)
+
+## 6.0.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 6.0.0-beta.2 (2022-11-15)
     
 **Features**
 
+  - Added operation group APICollection
+  - Added operation group APICollectionOffboarding
+  - Added operation group APICollectionOnboarding
   - Added operation group ApplicationOperations
   - Added operation group Applications
   - Added operation group GovernanceAssignments
@@ -37,6 +50,13 @@
   - Added Interface AmqpC2DMessagesNotInAllowedRange
   - Added Interface AmqpC2DRejectedMessagesNotInAllowedRange
   - Added Interface AmqpD2CMessagesNotInAllowedRange
+  - Added Interface APICollectionGetOptionalParams
+  - Added Interface APICollectionListNextOptionalParams
+  - Added Interface APICollectionListOptionalParams
+  - Added Interface APICollectionOffboardingDeleteOptionalParams
+  - Added Interface APICollectionOnboardingCreateOptionalParams
+  - Added Interface ApiCollectionResponse
+  - Added Interface ApiCollectionResponseList
   - Added Interface Application
   - Added Interface ApplicationCondition
   - Added Interface ApplicationCreateOrUpdateOptionalParams
@@ -118,6 +138,8 @@
   - Added Interface DirectMethodInvokesNotInAllowedRange
   - Added Interface DiscoveredSecuritySolution
   - Added Interface EnvironmentData
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
   - Added Interface ExecuteGovernanceRuleParams
   - Added Interface ExecuteRuleStatus
   - Added Interface ExternalSecuritySolution
@@ -227,6 +249,10 @@
   - Added Interface UnauthorizedOperationsNotInAllowedRange
   - Added Interface UpdateIotSecuritySolutionData
   - Added Interface WorkspaceSetting
+  - Added Type Alias APICollectionGetResponse
+  - Added Type Alias APICollectionListNextResponse
+  - Added Type Alias APICollectionListResponse
+  - Added Type Alias APICollectionOnboardingCreateResponse
   - Added Type Alias ApplicationConditionOperator
   - Added Type Alias ApplicationCreateOrUpdateResponse
   - Added Type Alias ApplicationGetResponse
@@ -270,6 +296,9 @@
   - Interface AlertsSimulateOptionalParams has a new optional parameter resumeFrom
   - Interface AlertsSimulateOptionalParams has a new optional parameter updateIntervalInMs
   - Interface DefenderForServersAwsOfferingArcAutoProvisioning has a new optional parameter cloudRoleArn
+  - Class SecurityCenter has a new parameter aPICollection
+  - Class SecurityCenter has a new parameter aPICollectionOffboarding
+  - Class SecurityCenter has a new parameter aPICollectionOnboarding
   - Class SecurityCenter has a new parameter applicationOperations
   - Class SecurityCenter has a new parameter applications
   - Class SecurityCenter has a new parameter governanceAssignments

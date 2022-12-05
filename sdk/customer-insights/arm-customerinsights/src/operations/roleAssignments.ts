@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { RoleAssignments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -59,8 +60,16 @@ export class RoleAssignmentsImpl implements RoleAssignments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByHubPagingPage(resourceGroupName, hubName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByHubPagingPage(
+          resourceGroupName,
+          hubName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -68,11 +77,18 @@ export class RoleAssignmentsImpl implements RoleAssignments {
   private async *listByHubPagingPage(
     resourceGroupName: string,
     hubName: string,
-    options?: RoleAssignmentsListByHubOptionalParams
+    options?: RoleAssignmentsListByHubOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RoleAssignmentResourceFormat[]> {
-    let result = await this._listByHub(resourceGroupName, hubName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RoleAssignmentsListByHubResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByHub(resourceGroupName, hubName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByHubNext(
         resourceGroupName,
@@ -81,7 +97,9 @@ export class RoleAssignmentsImpl implements RoleAssignments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

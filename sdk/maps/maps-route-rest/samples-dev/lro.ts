@@ -69,17 +69,7 @@ async function main() {
   });
 
   const poller = getLongRunningPoller(client, response);
-  /* We can get a partial of the results first */
-  await poller.poll();
-  /** And get the results we have right now */
-  const partialResult = await poller.getResult();
-  while (!partialResult) {
-    console.log("Waiting for the result...");
-    await poller.poll();
-  }
-  logBatchResponse(partialResult as RouteGetRouteDirectionsBatch200Response);
-
-  /** Or simply wait until the total request is done */
+  /** Wait until the total request is done */
   const finalResult = await poller.pollUntilDone();
   logBatchResponse(finalResult as RouteGetRouteDirectionsBatch200Response);
 }

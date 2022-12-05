@@ -34,15 +34,21 @@ import {
   ManagedClustersUpdateTagsOptionalParams,
   ManagedClustersUpdateTagsResponse,
   ManagedClustersDeleteOptionalParams,
+  ManagedClustersDeleteResponse,
   ManagedClusterServicePrincipalProfile,
   ManagedClustersResetServicePrincipalProfileOptionalParams,
   ManagedClusterAADProfile,
   ManagedClustersResetAADProfileOptionalParams,
+  ManagedClustersAbortLatestOperationOptionalParams,
+  ManagedClustersAbortLatestOperationResponse,
   ManagedClustersRotateClusterCertificatesOptionalParams,
+  ManagedClustersRotateClusterCertificatesResponse,
   ManagedClustersRotateServiceAccountSigningKeysOptionalParams,
   ManagedClustersRotateServiceAccountSigningKeysResponse,
   ManagedClustersStopOptionalParams,
+  ManagedClustersStopResponse,
   ManagedClustersStartOptionalParams,
+  ManagedClustersStartResponse,
   RunCommandRequest,
   ManagedClustersRunCommandOptionalParams,
   ManagedClustersRunCommandResponse,
@@ -234,7 +240,12 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagedClustersDeleteResponse>,
+      ManagedClustersDeleteResponse
+    >
+  >;
   /**
    * Deletes a managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -245,7 +256,7 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<ManagedClustersDeleteResponse>;
   /**
    * This action cannot be performed on a cluster that is not using a service principal
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -299,6 +310,37 @@ export interface ManagedClusters {
     options?: ManagedClustersResetAADProfileOptionalParams
   ): Promise<void>;
   /**
+   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
+   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, an error is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  beginAbortLatestOperation(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersAbortLatestOperationOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagedClustersAbortLatestOperationResponse>,
+      ManagedClustersAbortLatestOperationResponse
+    >
+  >;
+  /**
+   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
+   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, an error is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  beginAbortLatestOperationAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersAbortLatestOperationOptionalParams
+  ): Promise<ManagedClustersAbortLatestOperationResponse>;
+  /**
    * See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more
    * details about rotating managed cluster certificates.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -309,7 +351,12 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersRotateClusterCertificatesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagedClustersRotateClusterCertificatesResponse>,
+      ManagedClustersRotateClusterCertificatesResponse
+    >
+  >;
   /**
    * See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more
    * details about rotating managed cluster certificates.
@@ -321,7 +368,7 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersRotateClusterCertificatesOptionalParams
-  ): Promise<void>;
+  ): Promise<ManagedClustersRotateClusterCertificatesResponse>;
   /**
    * Rotates the service account signing keys of a managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -365,7 +412,12 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagedClustersStopResponse>,
+      ManagedClustersStopResponse
+    >
+  >;
   /**
    * This can only be performed on Azure Virtual Machine Scale set backed clusters. Stopping a cluster
    * stops the control plane and agent nodes entirely, while maintaining all object and cluster state. A
@@ -380,7 +432,7 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersStopOptionalParams
-  ): Promise<void>;
+  ): Promise<ManagedClustersStopResponse>;
   /**
    * See [starting a cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details
    * about starting a cluster.
@@ -392,7 +444,12 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagedClustersStartResponse>,
+      ManagedClustersStartResponse
+    >
+  >;
   /**
    * See [starting a cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details
    * about starting a cluster.
@@ -404,7 +461,7 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersStartOptionalParams
-  ): Promise<void>;
+  ): Promise<ManagedClustersStartResponse>;
   /**
    * AKS will create a pod to run the command. This is primarily useful for private clusters. For more
    * information see [AKS Run

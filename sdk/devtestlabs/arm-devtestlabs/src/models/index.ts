@@ -990,7 +990,7 @@ export interface ShutdownNotificationContent {
 }
 
 /** A lab. */
-export type Lab = Resource & {
+export interface Lab extends Resource {
   /**
    * The lab's default storage account.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1071,10 +1071,10 @@ export type Lab = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly uniqueIdentifier?: string;
-};
+}
 
 /** A schedule. */
-export type Schedule = Resource & {
+export interface Schedule extends Resource {
   /** The status of the schedule (i.e. Enabled, Disabled) */
   status?: EnableStatus;
   /** The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart). */
@@ -1106,10 +1106,10 @@ export type Schedule = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly uniqueIdentifier?: string;
-};
+}
 
 /** Properties of an artifact source. */
-export type ArtifactSource = Resource & {
+export interface ArtifactSource extends Resource {
   /** The artifact source's display name. */
   displayName?: string;
   /** The artifact source's URI. */
@@ -1141,10 +1141,10 @@ export type ArtifactSource = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly uniqueIdentifier?: string;
-};
+}
 
 /** An Azure Resource Manager template. */
-export type ArmTemplate = Resource & {
+export interface ArmTemplate extends Resource {
   /**
    * The display name of the ARM template.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1185,10 +1185,10 @@ export type ArmTemplate = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly enabled?: boolean;
-};
+}
 
 /** An artifact. */
-export type Artifact = Resource & {
+export interface Artifact extends Resource {
   /**
    * The artifact's title.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1229,10 +1229,10 @@ export type Artifact = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdDate?: Date;
-};
+}
 
 /** A cost item. */
-export type LabCost = Resource & {
+export interface LabCost extends Resource {
   /** The target cost properties */
   targetCost?: TargetCostProperties;
   /**
@@ -1268,10 +1268,10 @@ export type LabCost = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly uniqueIdentifier?: string;
-};
+}
 
 /** A custom image. */
-export type CustomImage = Resource & {
+export interface CustomImage extends Resource {
   /** The virtual machine from which the image is to be created. */
   vm?: CustomImagePropertiesFromVm;
   /** The VHD from which the image is to be created. */
@@ -1305,10 +1305,10 @@ export type CustomImage = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly uniqueIdentifier?: string;
-};
+}
 
 /** A formula for creating a VM, specifying an image base and other parameters */
-export type Formula = Resource & {
+export interface Formula extends Resource {
   /** The description of the formula. */
   description?: string;
   /**
@@ -1337,10 +1337,10 @@ export type Formula = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly uniqueIdentifier?: string;
-};
+}
 
 /** A gallery image. */
-export type GalleryImage = Resource & {
+export interface GalleryImage extends Resource {
   /** The author of the gallery image. */
   author?: string;
   /**
@@ -1360,10 +1360,10 @@ export type GalleryImage = Resource & {
   planId?: string;
   /** Indicates if the plan has been authorized for programmatic deployment. */
   isPlanAuthorized?: boolean;
-};
+}
 
 /** A notification. */
-export type NotificationChannel = Resource & {
+export interface NotificationChannel extends Resource {
   /** The webhook URL to send notifications to. */
   webHookUrl?: string;
   /** The email recipient to send notifications to (can be a list of semi-colon separated email addresses). */
@@ -1389,10 +1389,10 @@ export type NotificationChannel = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly uniqueIdentifier?: string;
-};
+}
 
 /** A Policy. */
-export type Policy = Resource & {
+export interface Policy extends Resource {
   /** The description of the policy. */
   description?: string;
   /** The status of the policy. */
@@ -1420,16 +1420,16 @@ export type Policy = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly uniqueIdentifier?: string;
-};
+}
 
 /** A container for a managed identity to execute DevTest lab services. */
-export type ServiceRunner = Resource & {
+export interface ServiceRunner extends Resource {
   /** The identity of the resource. */
   identity?: IdentityProperties;
-};
+}
 
 /** Profile of a lab user. */
-export type User = Resource & {
+export interface User extends Resource {
   /** The identity of the user. */
   identity?: UserIdentity;
   /** The secret store of the user. */
@@ -1449,10 +1449,10 @@ export type User = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly uniqueIdentifier?: string;
-};
+}
 
 /** A Disk. */
-export type Disk = Resource & {
+export interface Disk extends Resource {
   /** The storage type for the disk (i.e. Standard, Premium). */
   diskType?: StorageType;
   /** The size of the disk in Gibibytes. */
@@ -1484,10 +1484,10 @@ export type Disk = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly uniqueIdentifier?: string;
-};
+}
 
 /** An environment, which is essentially an ARM template deployment. */
-export type DtlEnvironment = Resource & {
+export interface DtlEnvironment extends Resource {
   /** The deployment properties of the environment. */
   deploymentProperties?: EnvironmentDeploymentProperties;
   /** The display name of the Azure Resource Manager template that produced the environment. */
@@ -1512,10 +1512,10 @@ export type DtlEnvironment = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly uniqueIdentifier?: string;
-};
+}
 
 /** A secret. */
-export type Secret = Resource & {
+export interface Secret extends Resource {
   /** The value of the secret for secret creation. */
   value?: string;
   /**
@@ -1528,18 +1528,18 @@ export type Secret = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly uniqueIdentifier?: string;
-};
+}
 
 /** Schedules applicable to a virtual machine. The schedules may have been defined on a VM or on lab level. */
-export type ApplicableSchedule = Resource & {
+export interface ApplicableSchedule extends Resource {
   /** The auto-shutdown schedule, if one has been set at the lab or lab resource level. */
   labVmsShutdown?: Schedule;
   /** The auto-startup schedule, if one has been set at the lab or lab resource level. */
   labVmsStartup?: Schedule;
-};
+}
 
 /** A Service Fabric. */
-export type ServiceFabric = Resource & {
+export interface ServiceFabric extends Resource {
   /** The backing service fabric resource's id */
   externalServiceFabricId?: string;
   /** The resource id of the environment under which the service fabric resource is present */
@@ -1559,10 +1559,10 @@ export type ServiceFabric = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly uniqueIdentifier?: string;
-};
+}
 
 /** A virtual machine. */
-export type LabVirtualMachine = Resource & {
+export interface LabVirtualMachine extends Resource {
   /** The notes of the virtual machine. */
   notes?: string;
   /** The object identifier of the owner of the virtual machine. */
@@ -1669,10 +1669,10 @@ export type LabVirtualMachine = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly uniqueIdentifier?: string;
-};
+}
 
 /** A virtual network. */
-export type VirtualNetwork = Resource & {
+export interface VirtualNetwork extends Resource {
   /** The allowed subnets of the virtual network. */
   allowedSubnets?: Subnet[];
   /** The description of the virtual network. */
@@ -1701,57 +1701,60 @@ export type VirtualNetwork = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly uniqueIdentifier?: string;
-};
+}
 
 /** Properties of an artifact source. */
-export type ArtifactSourceFragment = UpdateResource & {};
+export interface ArtifactSourceFragment extends UpdateResource {}
 
 /** A custom image. */
-export type CustomImageFragment = UpdateResource & {};
+export interface CustomImageFragment extends UpdateResource {}
 
 /** A formula for creating a VM, specifying an image base and other parameters */
-export type FormulaFragment = UpdateResource & {};
+export interface FormulaFragment extends UpdateResource {}
 
 /** A notification. */
-export type NotificationChannelFragment = UpdateResource & {};
+export interface NotificationChannelFragment extends UpdateResource {}
 
 /** A Policy. */
-export type PolicyFragment = UpdateResource & {};
+export interface PolicyFragment extends UpdateResource {}
 
 /** A schedule. */
-export type ScheduleFragment = UpdateResource & {};
+export interface ScheduleFragment extends UpdateResource {}
 
 /** Profile of a lab user. */
-export type UserFragment = UpdateResource & {};
+export interface UserFragment extends UpdateResource {}
 
 /** A Disk. */
-export type DiskFragment = UpdateResource & {};
+export interface DiskFragment extends UpdateResource {}
 
 /** An environment, which is essentially an ARM template deployment. */
-export type DtlEnvironmentFragment = UpdateResource & {};
+export interface DtlEnvironmentFragment extends UpdateResource {}
 
 /** A secret. */
-export type SecretFragment = UpdateResource & {};
+export interface SecretFragment extends UpdateResource {}
 
 /** A Service Fabric. */
-export type ServiceFabricFragment = UpdateResource & {};
+export interface ServiceFabricFragment extends UpdateResource {}
 
 /** A virtual machine. */
-export type LabVirtualMachineFragment = UpdateResource & {};
+export interface LabVirtualMachineFragment extends UpdateResource {}
 
 /** A virtual network. */
-export type VirtualNetworkFragment = UpdateResource & {};
+export interface VirtualNetworkFragment extends UpdateResource {}
 
 /** A lab. */
-export type LabFragment = UpdateResource & {};
+export interface LabFragment extends UpdateResource {}
 
 /** Schedules applicable to a virtual machine. The schedules may have been defined on a VM or on lab level. */
-export type ApplicableScheduleFragment = UpdateResource & {};
+export interface ApplicableScheduleFragment extends UpdateResource {}
 
 /** Known values of {@link StorageType} that the service accepts. */
 export enum KnownStorageType {
+  /** Standard */
   Standard = "Standard",
+  /** Premium */
   Premium = "Premium",
+  /** StandardSSD */
   StandardSSD = "StandardSSD"
 }
 
@@ -1768,7 +1771,9 @@ export type StorageType = string;
 
 /** Known values of {@link PremiumDataDisk} that the service accepts. */
 export enum KnownPremiumDataDisk {
+  /** Disabled */
   Disabled = "Disabled",
+  /** Enabled */
   Enabled = "Enabled"
 }
 
@@ -1784,7 +1789,9 @@ export type PremiumDataDisk = string;
 
 /** Known values of {@link EnvironmentPermission} that the service accepts. */
 export enum KnownEnvironmentPermission {
+  /** Reader */
   Reader = "Reader",
+  /** Contributor */
   Contributor = "Contributor"
 }
 
@@ -1800,7 +1807,9 @@ export type EnvironmentPermission = string;
 
 /** Known values of {@link EnableStatus} that the service accepts. */
 export enum KnownEnableStatus {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1816,52 +1825,99 @@ export type EnableStatus = string;
 
 /** Known values of {@link HttpStatusCode} that the service accepts. */
 export enum KnownHttpStatusCode {
+  /** Continue */
   Continue = "Continue",
+  /** SwitchingProtocols */
   SwitchingProtocols = "SwitchingProtocols",
+  /** OK */
   OK = "OK",
+  /** Created */
   Created = "Created",
+  /** Accepted */
   Accepted = "Accepted",
+  /** NonAuthoritativeInformation */
   NonAuthoritativeInformation = "NonAuthoritativeInformation",
+  /** NoContent */
   NoContent = "NoContent",
+  /** ResetContent */
   ResetContent = "ResetContent",
+  /** PartialContent */
   PartialContent = "PartialContent",
+  /** MultipleChoices */
   MultipleChoices = "MultipleChoices",
+  /** Ambiguous */
   Ambiguous = "Ambiguous",
+  /** MovedPermanently */
   MovedPermanently = "MovedPermanently",
+  /** Moved */
   Moved = "Moved",
+  /** Found */
   Found = "Found",
+  /** Redirect */
   Redirect = "Redirect",
+  /** SeeOther */
   SeeOther = "SeeOther",
+  /** RedirectMethod */
   RedirectMethod = "RedirectMethod",
+  /** NotModified */
   NotModified = "NotModified",
+  /** UseProxy */
   UseProxy = "UseProxy",
+  /** Unused */
   Unused = "Unused",
+  /** TemporaryRedirect */
   TemporaryRedirect = "TemporaryRedirect",
+  /** RedirectKeepVerb */
   RedirectKeepVerb = "RedirectKeepVerb",
+  /** BadRequest */
   BadRequest = "BadRequest",
+  /** Unauthorized */
   Unauthorized = "Unauthorized",
+  /** PaymentRequired */
   PaymentRequired = "PaymentRequired",
+  /** Forbidden */
   Forbidden = "Forbidden",
+  /** NotFound */
   NotFound = "NotFound",
+  /** MethodNotAllowed */
   MethodNotAllowed = "MethodNotAllowed",
+  /** NotAcceptable */
   NotAcceptable = "NotAcceptable",
+  /** ProxyAuthenticationRequired */
   ProxyAuthenticationRequired = "ProxyAuthenticationRequired",
+  /** RequestTimeout */
   RequestTimeout = "RequestTimeout",
+  /** Conflict */
   Conflict = "Conflict",
+  /** Gone */
   Gone = "Gone",
+  /** LengthRequired */
   LengthRequired = "LengthRequired",
+  /** PreconditionFailed */
   PreconditionFailed = "PreconditionFailed",
+  /** RequestEntityTooLarge */
   RequestEntityTooLarge = "RequestEntityTooLarge",
+  /** RequestUriTooLong */
   RequestUriTooLong = "RequestUriTooLong",
+  /** UnsupportedMediaType */
   UnsupportedMediaType = "UnsupportedMediaType",
+  /** RequestedRangeNotSatisfiable */
   RequestedRangeNotSatisfiable = "RequestedRangeNotSatisfiable",
+  /** ExpectationFailed */
   ExpectationFailed = "ExpectationFailed",
+  /** UpgradeRequired */
   UpgradeRequired = "UpgradeRequired",
+  /** InternalServerError */
   InternalServerError = "InternalServerError",
+  /** NotImplemented */
   NotImplemented = "NotImplemented",
+  /** BadGateway */
   BadGateway = "BadGateway",
+  /** ServiceUnavailable */
   ServiceUnavailable = "ServiceUnavailable",
+  /** GatewayTimeout */
   GatewayTimeout = "GatewayTimeout",
+  /** HttpVersionNotSupported */
   HttpVersionNotSupported = "HttpVersionNotSupported"
 }
 
@@ -1922,8 +1978,11 @@ export type HttpStatusCode = string;
 
 /** Known values of {@link SourceControlType} that the service accepts. */
 export enum KnownSourceControlType {
+  /** VsoGit */
   VsoGit = "VsoGit",
+  /** GitHub */
   GitHub = "GitHub",
+  /** StorageAccount */
   StorageAccount = "StorageAccount"
 }
 
@@ -1940,7 +1999,9 @@ export type SourceControlType = string;
 
 /** Known values of {@link FileUploadOptions} that the service accepts. */
 export enum KnownFileUploadOptions {
+  /** UploadFilesAndGenerateSasTokens */
   UploadFilesAndGenerateSasTokens = "UploadFilesAndGenerateSasTokens",
+  /** None */
   None = "None"
 }
 
@@ -1956,7 +2017,9 @@ export type FileUploadOptions = string;
 
 /** Known values of {@link TargetCostStatus} that the service accepts. */
 export enum KnownTargetCostStatus {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1972,7 +2035,9 @@ export type TargetCostStatus = string;
 
 /** Known values of {@link CostThresholdStatus} that the service accepts. */
 export enum KnownCostThresholdStatus {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1988,7 +2053,9 @@ export type CostThresholdStatus = string;
 
 /** Known values of {@link ReportingCycleType} that the service accepts. */
 export enum KnownReportingCycleType {
+  /** CalendarMonth */
   CalendarMonth = "CalendarMonth",
+  /** Custom */
   Custom = "Custom"
 }
 
@@ -2004,8 +2071,11 @@ export type ReportingCycleType = string;
 
 /** Known values of {@link CostType} that the service accepts. */
 export enum KnownCostType {
+  /** Unavailable */
   Unavailable = "Unavailable",
+  /** Reported */
   Reported = "Reported",
+  /** Projected */
   Projected = "Projected"
 }
 
@@ -2022,8 +2092,11 @@ export type CostType = string;
 
 /** Known values of {@link WindowsOsState} that the service accepts. */
 export enum KnownWindowsOsState {
+  /** NonSysprepped */
   NonSysprepped = "NonSysprepped",
+  /** SysprepRequested */
   SysprepRequested = "SysprepRequested",
+  /** SysprepApplied */
   SysprepApplied = "SysprepApplied"
 }
 
@@ -2040,8 +2113,11 @@ export type WindowsOsState = string;
 
 /** Known values of {@link LinuxOsState} that the service accepts. */
 export enum KnownLinuxOsState {
+  /** NonDeprovisioned */
   NonDeprovisioned = "NonDeprovisioned",
+  /** DeprovisionRequested */
   DeprovisionRequested = "DeprovisionRequested",
+  /** DeprovisionApplied */
   DeprovisionApplied = "DeprovisionApplied"
 }
 
@@ -2058,8 +2134,11 @@ export type LinuxOsState = string;
 
 /** Known values of {@link CustomImageOsType} that the service accepts. */
 export enum KnownCustomImageOsType {
+  /** Windows */
   Windows = "Windows",
+  /** Linux */
   Linux = "Linux",
+  /** None */
   None = "None"
 }
 
@@ -2076,7 +2155,9 @@ export type CustomImageOsType = string;
 
 /** Known values of {@link TransportProtocol} that the service accepts. */
 export enum KnownTransportProtocol {
+  /** Tcp */
   Tcp = "Tcp",
+  /** Udp */
   Udp = "Udp"
 }
 
@@ -2092,8 +2173,11 @@ export type TransportProtocol = string;
 
 /** Known values of {@link HostCachingOptions} that the service accepts. */
 export enum KnownHostCachingOptions {
+  /** None */
   None = "None",
+  /** ReadOnly */
   ReadOnly = "ReadOnly",
+  /** ReadWrite */
   ReadWrite = "ReadWrite"
 }
 
@@ -2110,7 +2194,9 @@ export type HostCachingOptions = string;
 
 /** Known values of {@link NotificationChannelEventType} that the service accepts. */
 export enum KnownNotificationChannelEventType {
+  /** AutoShutdown */
   AutoShutdown = "AutoShutdown",
+  /** Cost */
   Cost = "Cost"
 }
 
@@ -2126,7 +2212,9 @@ export type NotificationChannelEventType = string;
 
 /** Known values of {@link PolicyStatus} that the service accepts. */
 export enum KnownPolicyStatus {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -2142,15 +2230,25 @@ export type PolicyStatus = string;
 
 /** Known values of {@link PolicyFactName} that the service accepts. */
 export enum KnownPolicyFactName {
+  /** UserOwnedLabVmCount */
   UserOwnedLabVmCount = "UserOwnedLabVmCount",
+  /** UserOwnedLabPremiumVmCount */
   UserOwnedLabPremiumVmCount = "UserOwnedLabPremiumVmCount",
+  /** LabVmCount */
   LabVmCount = "LabVmCount",
+  /** LabPremiumVmCount */
   LabPremiumVmCount = "LabPremiumVmCount",
+  /** LabVmSize */
   LabVmSize = "LabVmSize",
+  /** GalleryImage */
   GalleryImage = "GalleryImage",
+  /** UserOwnedLabVmCountInSubnet */
   UserOwnedLabVmCountInSubnet = "UserOwnedLabVmCountInSubnet",
+  /** LabTargetCost */
   LabTargetCost = "LabTargetCost",
+  /** EnvironmentTemplate */
   EnvironmentTemplate = "EnvironmentTemplate",
+  /** ScheduleEditPermission */
   ScheduleEditPermission = "ScheduleEditPermission"
 }
 
@@ -2174,7 +2272,9 @@ export type PolicyFactName = string;
 
 /** Known values of {@link PolicyEvaluatorType} that the service accepts. */
 export enum KnownPolicyEvaluatorType {
+  /** AllowedValuesPolicy */
   AllowedValuesPolicy = "AllowedValuesPolicy",
+  /** MaxValuePolicy */
   MaxValuePolicy = "MaxValuePolicy"
 }
 
@@ -2190,9 +2290,13 @@ export type PolicyEvaluatorType = string;
 
 /** Known values of {@link ManagedIdentityType} that the service accepts. */
 export enum KnownManagedIdentityType {
+  /** None */
   None = "None",
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
   UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
   SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
 }
 
@@ -2210,8 +2314,11 @@ export type ManagedIdentityType = string;
 
 /** Known values of {@link VirtualMachineCreationSource} that the service accepts. */
 export enum KnownVirtualMachineCreationSource {
+  /** FromCustomImage */
   FromCustomImage = "FromCustomImage",
+  /** FromGalleryImage */
   FromGalleryImage = "FromGalleryImage",
+  /** FromSharedGalleryImage */
   FromSharedGalleryImage = "FromSharedGalleryImage"
 }
 
@@ -2228,8 +2335,11 @@ export type VirtualMachineCreationSource = string;
 
 /** Known values of {@link UsagePermissionType} that the service accepts. */
 export enum KnownUsagePermissionType {
+  /** Default */
   Default = "Default",
+  /** Deny */
   Deny = "Deny",
+  /** Allow */
   Allow = "Allow"
 }
 

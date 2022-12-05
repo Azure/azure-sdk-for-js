@@ -153,18 +153,18 @@ export interface RecordSetListResult {
 }
 
 /** The resource model definition for a ARM tracked top level resource */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The Azure Region where the resource lives */
   location?: string;
-};
+}
 
 /** The resource model definition for an ARM proxy resource. */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** Describes a Private DNS zone. */
-export type PrivateZone = TrackedResource & {
+export interface PrivateZone extends TrackedResource {
   /** The ETag of the zone. */
   etag?: string;
   /**
@@ -207,10 +207,10 @@ export type PrivateZone = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly internalId?: string;
-};
+}
 
 /** Describes a link to virtual network for a Private DNS zone. */
-export type VirtualNetworkLink = TrackedResource & {
+export interface VirtualNetworkLink extends TrackedResource {
   /** The ETag of the virtual network link. */
   etag?: string;
   /** The reference of the virtual network. */
@@ -227,10 +227,10 @@ export type VirtualNetworkLink = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** Describes a DNS record set (a collection of DNS records with the same name and type) in a Private DNS zone. */
-export type RecordSet = ProxyResource & {
+export interface RecordSet extends ProxyResource {
   /** The ETag of the record set. */
   etag?: string;
   /** The metadata attached to the record set. */
@@ -263,15 +263,21 @@ export type RecordSet = ProxyResource & {
   srvRecords?: SrvRecord[];
   /** The list of TXT records in the record set. */
   txtRecords?: TxtRecord[];
-};
+}
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled"
 }
 
@@ -291,7 +297,9 @@ export type ProvisioningState = string;
 
 /** Known values of {@link VirtualNetworkLinkState} that the service accepts. */
 export enum KnownVirtualNetworkLinkState {
+  /** InProgress */
   InProgress = "InProgress",
+  /** Completed */
   Completed = "Completed"
 }
 

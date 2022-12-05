@@ -2,7 +2,7 @@
   "name": "@azure-rest/maps-route",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "A client library for Azure Maps maps-route",
   "keywords": [
     "node",
@@ -39,7 +39,9 @@
     ],
     "requiredResources": {
       "Azure Maps Resource": "https://docs.microsoft.com/azure/azure-maps/how-to-create-template"
-    }
+    },
+    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure-rest/maps-route",
+    "disableDocsMs": true
   },
   "//metadata": {
     "constantPaths": [
