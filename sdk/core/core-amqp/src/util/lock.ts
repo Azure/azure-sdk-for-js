@@ -200,6 +200,8 @@ export class CancellableAsyncLockImpl {
     // Indicate that the task queue for the key is empty
     // and we're done processing it.
     this._executionRunningSet.delete(key);
+    // clean up the key map
+    this._keyMap.delete(key);
   }
 
   private _removeTaskDetails(key: string, taskDetails: TaskDetails): void {
