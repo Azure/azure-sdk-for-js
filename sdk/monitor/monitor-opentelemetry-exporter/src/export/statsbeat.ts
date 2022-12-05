@@ -9,10 +9,9 @@ import { resourceMetricsToEnvelope } from "../utils/metricUtils";
 import { AzureMonitorBaseExporter } from "./base";
 
 /**
- * @internal
- * Azure Monitor Statsbeat Exporter
+ * Statsbeat Exporter
  */
-export class _AzureMonitorStatsbeatExporter
+export class AzureMonitorStatsbeatExporter
   extends AzureMonitorBaseExporter
   implements PushMetricExporter
 {
