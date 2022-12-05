@@ -2,13 +2,12 @@
 // Licensed under the MIT license.
 
 import {
-  BaseRequestPolicy,
-  HttpOperationResponse,
-  RequestPolicy,
-  RequestPolicyOptions,
-  WebResource,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+  PipelinePolicy,
   RestError,
-} from "../../src";
+} from "@azure/core-rest-pipeline";
 
 export interface NextInjectErrorHolder {
   nextInjectError?: RestError;
@@ -17,32 +16,23 @@ export interface NextInjectErrorHolder {
 export type Injector = () => RestError | undefined;
 
 /**
- * InjectorPolicy will inject a customized error before next HTTP request.
+ * The programmatic identifier of the injectorPolicy.
  */
-export class InjectorPolicy extends BaseRequestPolicy {
-  /**
-   * Creates an instance of InjectorPolicy.
-   *
-   * @param nextPolicy -
-   * @param options -
-   */
-  public constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, injector: Injector) {
-    super(nextPolicy, options);
-    this.injector = injector;
-  }
+export const injectorPolicyName = "injectorPolicy";
 
-  /**
-   * Sends request.
-   *
-   * @param request -
-   */
-  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    const error = this.injector();
-    if (error) {
-      throw error;
-    }
-    return this._nextPolicy.sendRequest(request);
-  }
-
-  private injector: Injector;
+/**
+ * injectorPolicy is a policy used to introduce errors into the pipeline
+ * for the purposes of testing policies such as retry.
+ */
+export function injectorPolicy(injector: Injector): PipelinePolicy {
+  return {
+    name: injectorPolicyName,
+    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      const error = injector();
+      if (error) {
+        throw error;
+      }
+      return next(request);
+    },
+  };
 }

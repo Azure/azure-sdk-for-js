@@ -131,19 +131,11 @@ describe("Utility Helpers", () => {
 
     assert.equal(
       isIpEndpointStyle(
-        new URL("https://2001:db8:85a3:8d3:1319:8a2e:370:7348/accountName/containerName")
+        new URL("https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]/accountName/containerName")
       ),
       true
     );
-    assert.equal(isIpEndpointStyle(new URL("https://2001::1")), true);
-    // assert.equal(isIpEndpointStyle(new URL('https://::1')), true); currently not working due to http url.ts's issue. uncomment after core lib fixed.
-
-    assert.equal(isIpEndpointStyle(new URL("https://255")), false);
-    assert.equal(isIpEndpointStyle(new URL("https://255.255")), false);
+    assert.equal(isIpEndpointStyle(new URL("https://[::1]")), true);
     assert.equal(isIpEndpointStyle(new URL("https://a.b.c.d")), false);
-    assert.equal(isIpEndpointStyle(new URL("https://256.1.1.1")), false);
-    assert.equal(isIpEndpointStyle(new URL("https://255.256.1.1")), false);
-    assert.equal(isIpEndpointStyle(new URL("https://255.255.256.1")), false);
-    assert.equal(isIpEndpointStyle(new URL("https://255.255.255.256")), false);
   });
 });

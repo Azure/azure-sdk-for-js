@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 import { AbortController } from "@azure/abort-controller";
 import { ContainerClient, RestError, BlobServiceClient } from "../src";
-import { newPipeline, Pipeline } from "../src";
 import { getBSU, recorderEnvSetup } from "./utils";
-import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
+import { injectorPolicy, injectorPolicyName } from "./utils/InjectorPolicy";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
@@ -27,13 +27,15 @@ describe("RetryPolicy", () => {
   });
 
   afterEach(async function () {
+    const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
+    pipeline.removePolicy({ name: injectorPolicyName });
     await containerClient.delete();
     await recorder.stop();
   });
 
   it("Retry Policy should work when first request fails with 500", async () => {
     let injectCounter = 0;
-    const injector = new InjectorPolicyFactory(() => {
+    const injector = injectorPolicy(() => {
       if (injectCounter === 0) {
         injectCounter++;
         return new RestError("Server Internal Error", {
@@ -43,17 +45,16 @@ describe("RetryPolicy", () => {
       }
       return;
     });
-    const factories = (containerClient as any).pipeline.factories.slice(); // clone factories array
-    factories.push(injector);
-    const pipeline = new Pipeline(factories);
-    const injectContainerClient = new ContainerClient(containerClient.url, pipeline);
+
+    const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
+    pipeline.addPolicy(injector, { afterPhase: "Retry" });
 
     const metadata = {
       key0: "val0",
       keya: "vala",
       keyb: "valb",
     };
-    await injectContainerClient.setMetadata(metadata);
+    await containerClient.setMetadata(metadata);
 
     assert.equal(injectCounter, 1);
     const result = await containerClient.getProperties();
@@ -62,7 +63,7 @@ describe("RetryPolicy", () => {
 
   it("Retry Policy should abort when abort event trigger during retry interval", async () => {
     let injectCounter = 0;
-    const injector = new InjectorPolicyFactory(() => {
+    const injector = injectorPolicy(() => {
       if (injectCounter < 2) {
         injectCounter++;
         return new RestError("Server Internal Error", {
@@ -73,10 +74,8 @@ describe("RetryPolicy", () => {
       return;
     });
 
-    const factories = (containerClient as any).pipeline.factories.slice(); // clone factories array
-    factories.push(injector);
-    const pipeline = new Pipeline(factories);
-    const injectContainerClient = new ContainerClient(containerClient.url, pipeline);
+    const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
+    pipeline.addPolicy(injector, { afterPhase: "Retry" });
 
     const metadata = {
       key0: "val0",
@@ -88,7 +87,7 @@ describe("RetryPolicy", () => {
     try {
       // Default exponential retry delay is 4000ms. Wait for 2000ms to abort which makes sure the aborter
       // happens between 2 requests
-      await injectContainerClient.setMetadata(metadata, {
+      await containerClient.setMetadata(metadata, {
         abortSignal: AbortController.timeout(2 * 1000),
       });
     } catch (err: any) {
@@ -98,22 +97,17 @@ describe("RetryPolicy", () => {
   });
 
   it("Retry Policy should failed when requests always fail with 500", async () => {
-    const injector = new InjectorPolicyFactory(() => {
+    const injector = injectorPolicy(() => {
       return new RestError("Server Internal Error", {
         code: "ServerInternalError",
         statusCode: 500,
       });
     });
 
-    const credential = (containerClient as any).pipeline.factories[
-      (containerClient as any).pipeline.factories.length - 1
-    ];
-    const factories = newPipeline(credential, {
-      retryOptions: { maxTries: 3 },
-    }).factories;
-    factories.push(injector);
-    const pipeline = new Pipeline(factories);
-    const injectContainerClient = new ContainerClient(containerClient.url, pipeline);
+    blobServiceClient = getBSU({ retryOptions: { maxTries: 3 } });
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
+    pipeline.addPolicy(injector, { afterPhase: "Retry" });
 
     let hasError = false;
     try {
@@ -122,7 +116,7 @@ describe("RetryPolicy", () => {
         keya: "vala",
         keyb: "valb",
       };
-      await injectContainerClient.setMetadata(metadata);
+      await containerClient.setMetadata(metadata);
     } catch (err: any) {
       hasError = true;
     }
@@ -131,7 +125,7 @@ describe("RetryPolicy", () => {
 
   it("Retry Policy should work for secondary endpoint", async () => {
     let injectCounter = 0;
-    const injector = new InjectorPolicyFactory(() => {
+    const injector = injectorPolicy(() => {
       if (injectCounter++ < 1) {
         return new RestError("Server Internal Error", {
           code: "ServerInternalError",
@@ -150,19 +144,15 @@ describe("RetryPolicy", () => {
     hostParts.unshift(secondaryAccount);
     const secondaryHost = hostParts.join(".");
 
-    const credential = (containerClient as any).pipeline.factories[
-      (containerClient as any).pipeline.factories.length - 1
-    ];
-    const factories = newPipeline(credential, {
-      retryOptions: { maxTries: 2, secondaryHost },
-    }).factories;
-    factories.push(injector);
-    const pipeline = new Pipeline(factories);
-    const injectContainerClient = new ContainerClient(containerClient.url, pipeline);
+    blobServiceClient = getBSU({ retryOptions: { maxTries: 2, secondaryHost } });
+    containerClient = blobServiceClient.getContainerClient(containerName);
+
+    const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
+    pipeline.addPolicy(injector, { afterPhase: "Retry" });
 
     let finalRequestURL = "";
     try {
-      const response = await injectContainerClient.getProperties();
+      const response = await containerClient.getProperties();
       finalRequestURL = response._response.request.url;
     } catch (err: any) {
       finalRequestURL = err.request ? err.request.url : "";
@@ -173,24 +163,22 @@ describe("RetryPolicy", () => {
 
   it("Retry Policy should work when on PARSE_ERROR with unclosed root tag", async () => {
     let injectCounter = 0;
-    const injector = new InjectorPolicyFactory(() => {
+    const injector = injectorPolicy(() => {
       if (injectCounter === 0) {
         injectCounter++;
         return new RestError(`Error "Error: Unclosed root tag`, { code: "PARSE_ERROR" });
       }
       return;
     });
-    const factories = (containerClient as any).pipeline.factories.slice(); // clone factories array
-    factories.push(injector);
-    const pipeline = new Pipeline(factories);
-    const injectContainerClient = new ContainerClient(containerClient.url, pipeline);
+    const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
+    pipeline.addPolicy(injector, { afterPhase: "Retry" });
 
     const metadata = {
       key0: "val0",
       keya: "vala",
       keyb: "valb",
     };
-    await injectContainerClient.setMetadata(metadata);
+    await containerClient.setMetadata(metadata);
 
     assert.equal(injectCounter, 1);
     const result = await containerClient.getProperties();
