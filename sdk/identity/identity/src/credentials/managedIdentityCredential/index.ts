@@ -255,9 +255,9 @@ export class ManagedIdentityCredential implements TokenCredential {
               logger.info(`token = ${resultToken.token}`);
 
               const expiresInSeconds =
-                (resultToken === null)
-                ? 0
-                : ((resultToken.expiresOnTimestamp - Date.now()) / 1000);
+                resultToken?.expiresOnTimestamp
+                ? Math.floor((resultToken.expiresOnTimestamp - Date.now()) / 1000)
+                :  0;
 
               return {
                 accessToken: resultToken?.token,
