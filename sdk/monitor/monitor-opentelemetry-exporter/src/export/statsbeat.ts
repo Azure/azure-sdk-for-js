@@ -27,6 +27,8 @@ export class _AzureMonitorStatsbeatExporter
    */
   constructor(options: AzureMonitorExporterOptions) {
     super(options, true);
+    // TODO: Add something here that sets the features/instrumentations for the base exporter since we should call this exporter from the
+    // distro when we want to export network/long-interval statsbeat.
   }
 
   /**

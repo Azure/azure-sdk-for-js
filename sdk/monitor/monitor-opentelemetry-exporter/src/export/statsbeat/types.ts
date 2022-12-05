@@ -63,7 +63,7 @@ export enum StatsbeatCounter {
   EXCEPTION_COUNT = "Exception Count",
   AVERAGE_DURATION = "Request Duration",
   ATTACH = "Attach",
-  FEATURE = "Feature"
+  FEATURE = "Feature",
 }
 
 export const AIMS_URI = "http://169.254.169.254/metadata/instance/compute";
@@ -103,30 +103,41 @@ export interface CommonStatsbeatProperties {
   attach: string;
 }
 
+export interface AttachStatsbeatProperties {
+  rpId: string;
+}
+
 export interface NetworkStatsbeatProperties {
   endpoint: string;
   host: string;
 }
 
 export enum StatsbeatFeature {
-    NONE = 0,
-    DISK_RETRY = 1,
-    AAD_HANDLING = 2,
+  NONE = 0,
+  DISK_RETRY = 1,
+  AAD_HANDLING = 2,
 }
 
 export enum StatsbeatInstrumentation {
-    NONE = 0,
-    AZURE_CORE_TRACING = 1,
-    MONGODB = 2,
-    MYSQL = 4,
-    REDIS = 8,
-    POSTGRES = 16,
-    BUNYAN = 32,
-    WINSTON = 64,
-    CONSOLE = 128,
+  NONE = 0,
+  AZURE_CORE_TRACING = 1,
+  MONGODB = 2,
+  MYSQL = 4,
+  REDIS = 8,
+  POSTGRES = 16,
+  BUNYAN = 32,
+  WINSTON = 64,
+  CONSOLE = 128,
 }
 
 export enum StatsbeatFeatureType {
-    FEATURE = "Feature",
-    INSTRUMENTATION = "Instrumentation"
+  FEATURE = "Feature",
+  INSTRUMENTATION = "Instrumentation",
+}
+
+export interface IVirtualMachineInfo {
+  isVM?: boolean;
+  id?: string;
+  subscriptionId?: string;
+  osType?: string;
 }

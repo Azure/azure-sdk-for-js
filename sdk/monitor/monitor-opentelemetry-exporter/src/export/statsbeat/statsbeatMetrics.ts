@@ -13,7 +13,6 @@ import {
   ObservableResult,
 } from "@opentelemetry/api-metrics";
 import { Meter } from "@opentelemetry/api-metrics/build/src/types/Meter";
-import { InstrumentationNodeModuleDefinition } from "@opentelemetry/instrumentation";
 import {
   MeterProvider,
   PeriodicExportingMetricReader,
@@ -36,7 +35,8 @@ import {
   NetworkStatsbeatProperties,
   StatsbeatInstrumentation,
   StatsbeatFeature,
-  StatsbeatFeatureType
+  IVirtualMachineInfo,
+  AttachStatsbeatProperties,
 } from "./types";
 
 const os = require("os");
@@ -44,6 +44,7 @@ const os = require("os");
 export class StatsbeatMetrics {
   private _commonProperties: CommonStatsbeatProperties;
   private _networkProperties: NetworkStatsbeatProperties;
+  private _attachProperties: AttachStatsbeatProperties;
   private _networkStatsbeatMeter: Meter;
   private _longIntervalStatsbeatMeter: Meter;
   private _isInitialized: boolean = false;
@@ -56,6 +57,8 @@ export class StatsbeatMetrics {
   private _statsCollectionLongInterval: number = 86400000; // 1 day
 
   // Custom dimensions
+  private _vmInfo: IVirtualMachineInfo = {};
+  private _resourceIdentifier: string = "";
   private _resourceProvider: string = StatsbeatResourceProvider.unknown;
   private _os: string = os.type();
   private _cikey: string;
@@ -67,8 +70,8 @@ export class StatsbeatMetrics {
   private _resourceProviderId: string = "";
 
   // Feature Statsbeat is used to send both features and instrumentations
-  private _feature: number = StatsbeatFeature.NONE;
-  private _instrumentation: number = StatsbeatInstrumentation.NONE;
+  protected _feature: number = StatsbeatFeature.NONE;
+  protected _instrumentation: number = StatsbeatInstrumentation.NONE;
 
   // Observable Gauges
   private _successCountGauge: ObservableGauge;
@@ -99,7 +102,6 @@ export class StatsbeatMetrics {
 
     this._azureExporter = new _AzureMonitorStatsbeatExporter(exporterConfig);
 
-
     // Exports Network Statsbeat every 15 minutes
     const networkMetricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter,
@@ -117,32 +119,50 @@ export class StatsbeatMetrics {
     this._host = this._getShortHost(options.endpointUrl);
     this._cikey = options.instrumentationKey;
 
-    this._successCountGauge = this._networkStatsbeatMeter.createObservableGauge(StatsbeatCounter.SUCCESS_COUNT);
-    this._failureCountGauge = this._networkStatsbeatMeter.createObservableGauge(StatsbeatCounter.FAILURE_COUNT);
-    this._retryCountGauge = this._networkStatsbeatMeter.createObservableGauge(StatsbeatCounter.RETRY_COUNT);
-    this._throttleCountGauge = this._networkStatsbeatMeter.createObservableGauge(StatsbeatCounter.THROTTLE_COUNT);
-    this._exceptionCountGauge = this._networkStatsbeatMeter.createObservableGauge(StatsbeatCounter.EXCEPTION_COUNT);
+    this._successCountGauge = this._networkStatsbeatMeter.createObservableGauge(
+      StatsbeatCounter.SUCCESS_COUNT
+    );
+    this._failureCountGauge = this._networkStatsbeatMeter.createObservableGauge(
+      StatsbeatCounter.FAILURE_COUNT
+    );
+    this._retryCountGauge = this._networkStatsbeatMeter.createObservableGauge(
+      StatsbeatCounter.RETRY_COUNT
+    );
+    this._throttleCountGauge = this._networkStatsbeatMeter.createObservableGauge(
+      StatsbeatCounter.THROTTLE_COUNT
+    );
+    this._exceptionCountGauge = this._networkStatsbeatMeter.createObservableGauge(
+      StatsbeatCounter.EXCEPTION_COUNT
+    );
     this._averageDurationGauge = this._networkStatsbeatMeter.createObservableGauge(
       StatsbeatCounter.AVERAGE_DURATION
     );
 
     // Export Long Interval Statsbeats every day
-     const longIntervalMetricReaderOptions: PeriodicExportingMetricReaderOptions = {
+    const longIntervalMetricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter,
       // TODO: Get this to export once immediately once statsbeat starts up and then once a day after that.
       exportIntervalMillis: options.collectionInterval || this._statsCollectionLongInterval, // 1 day
     };
 
-    this._longIntervalMetricReader = new PeriodicExportingMetricReader(longIntervalMetricReaderOptions);
+    this._longIntervalMetricReader = new PeriodicExportingMetricReader(
+      longIntervalMetricReaderOptions
+    );
     this._meterProvider.addMetricReader(this._longIntervalMetricReader);
-    this._longIntervalStatsbeatMeter = this._meterProvider.getMeter("Azure Monitor LongIntervalStatsbeat");
+    this._longIntervalStatsbeatMeter = this._meterProvider.getMeter(
+      "Azure Monitor LongIntervalStatsbeat"
+    );
 
     /*
      To follow the patterns laid out in the spec - feature and instrumentation statsbeats will be on the same gauge as
      separate dimensions.
     */
-    this._featureStatsbeatGauge = this._longIntervalStatsbeatMeter.createObservableGauge(StatsbeatCounter.FEATURE);
-    this._attachStatsbeatGauge = this._longIntervalStatsbeatMeter.createObservableGauge(StatsbeatCounter.ATTACH);
+    this._featureStatsbeatGauge = this._longIntervalStatsbeatMeter.createObservableGauge(
+      StatsbeatCounter.FEATURE
+    );
+    this._attachStatsbeatGauge = this._longIntervalStatsbeatMeter.createObservableGauge(
+      StatsbeatCounter.ATTACH
+    );
 
     this._commonProperties = {
       os: this._os,
@@ -159,6 +179,12 @@ export class StatsbeatMetrics {
       host: this._host,
     };
 
+    this._attachProperties = {
+      rpId: this._resourceIdentifier,
+    };
+
+    // TODO: Check here for Features/Instrumentations and populate feature/instrumentation statstsbeat properties acordingly.
+
     this._isInitialized = true;
     this._initialize();
   }
@@ -174,6 +200,11 @@ export class StatsbeatMetrics {
       this._resourceProvider = StatsbeatResourceProvider.functions;
     } else if (await this.getAzureComputeMetadata()) {
       this._resourceProvider = StatsbeatResourceProvider.vm;
+      this._resourceIdentifier = this._vmInfo.id + "/" + this._vmInfo.subscriptionId;
+      // Overrride OS as VM info have higher precedence
+      if (this._vmInfo.osType) {
+        this._os = this._vmInfo.osType;
+      }
     } else {
       this._resourceProvider = StatsbeatResourceProvider.unknown;
     }
@@ -195,6 +226,22 @@ export class StatsbeatMetrics {
       .sendRequest(request)
       .then((res: any) => {
         if (res.status === 200) {
+          // Success; VM
+          this._vmInfo.isVM = true;
+          let virtualMachineData = "";
+          res.on("data", (data: any) => {
+            virtualMachineData += data;
+          });
+          res.on("end", () => {
+            try {
+              let data = JSON.parse(virtualMachineData);
+              this._vmInfo.id = data["vmId"] || "";
+              this._vmInfo.subscriptionId = data["subscriptionId"] || "";
+              this._vmInfo.osType = data["osType"] || "";
+            } catch (error) {
+              diag.debug("Failed to parse JSON: ", error);
+            }
+          });
           return true;
         } else {
           return false;
@@ -346,7 +393,7 @@ export class StatsbeatMetrics {
   }
 
   private _attachCallback(observableResult: ObservableResult) {
-    // TODO: Populate _resourceProviderId to complete attach statsbeat. Get this from the distro?
+    // TODO: Populate _resourceProviderId to complete attach statsbeat. Modify the existing RP method to get this.
     let attributes = { ...this._commonProperties, rpId: this._resourceProviderId };
     observableResult.observe(1, attributes);
   }
