@@ -174,12 +174,16 @@ describe("ContainerClient", () => {
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
     await blockBlobClient.upload("", 0);
 
-    const result = (await containerClient.listBlobsFlat().byPage().next()).value;
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(containerClient.url.indexOf(result.containerName));
-    assert.deepStrictEqual(result.continuationToken, "");
-    assert.deepStrictEqual(result.segment.blobItems!.length, 1);
-    assert.ok(blobName === result.segment.blobItems![0].name);
+    const iteratorResult = await containerClient.listBlobsFlat().byPage().next();
+    assert.ok(!iteratorResult.done);
+    if (!iteratorResult.done) {
+      const result = iteratorResult.value;
+      assert.ok(result.serviceEndpoint.length > 0);
+      assert.ok(containerClient.url.indexOf(result.containerName));
+      assert.deepStrictEqual(result.continuationToken, "");
+      assert.deepStrictEqual(result.segment.blobItems.length, 1);
+      assert.equal(blobName, result.segment.blobItems[0].name);
+    }
   });
 
   it("listBlobsFlat with default parameters - null prefix shouldn't throw error", async () => {
