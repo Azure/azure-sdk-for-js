@@ -21,18 +21,18 @@ import {
 
 const API_VERSION = apiVersion.mapper.defaultValue;
 
-describe("[Mocked] ChatClient", async () => {
+describe("[Mocked] ChatClient", async function () {
   let chatClient: ChatClient;
 
-  afterEach(() => {
+  afterEach(function () {
     sinon.restore();
   });
 
-  it("can instantiate", async () => {
+  it("can instantiate", async function () {
     new ChatClient(baseUri, new AzureCommunicationTokenCredential(generateToken()));
   });
 
-  it("makes successful create thread request", async () => {
+  it("makes successful create thread request", async function () {
     const mockHttpClient = generateHttpClient(201, mockCreateThreadResult);
 
     chatClient = createChatClient(mockHttpClient);
@@ -63,7 +63,7 @@ describe("[Mocked] ChatClient", async () => {
     assert.isNotEmpty(request.headers.get("repeatability-request-id"));
   });
 
-  it("makes successful list threads request", async () => {
+  it("makes successful list threads request", async function () {
     const mockResponse: RestModel.ChatThreadsItemCollection = {
       value: [mockThreadItem, mockThreadItem],
     };
@@ -87,7 +87,7 @@ describe("[Mocked] ChatClient", async () => {
     assert.equal(request.method, "GET");
   });
 
-  it("makes successful delete thread request", async () => {
+  it("makes successful delete thread request", async function () {
     const mockHttpClient = generateHttpClient(204);
     chatClient = createChatClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
