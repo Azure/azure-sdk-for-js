@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { RecoveryPointsRecommendedForMove } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -71,7 +72,10 @@ export class RecoveryPointsRecommendedForMoveImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           vaultName,
           resourceGroupName,
@@ -79,7 +83,8 @@ export class RecoveryPointsRecommendedForMoveImpl
           containerName,
           protectedItemName,
           parameters,
-          options
+          options,
+          settings
         );
       }
     };
@@ -92,19 +97,26 @@ export class RecoveryPointsRecommendedForMoveImpl
     containerName: string,
     protectedItemName: string,
     parameters: ListRecoveryPointsRecommendedForMoveRequest,
-    options?: RecoveryPointsRecommendedForMoveListOptionalParams
+    options?: RecoveryPointsRecommendedForMoveListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RecoveryPointResource[]> {
-    let result = await this._list(
-      vaultName,
-      resourceGroupName,
-      fabricName,
-      containerName,
-      protectedItemName,
-      parameters,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RecoveryPointsRecommendedForMoveListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        vaultName,
+        resourceGroupName,
+        fabricName,
+        containerName,
+        protectedItemName,
+        parameters,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         vaultName,
@@ -117,7 +129,9 @@ export class RecoveryPointsRecommendedForMoveImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -255,7 +269,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.vaultName,

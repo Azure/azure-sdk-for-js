@@ -14,6 +14,7 @@ import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
   ResourceGuardProxyGetOptionalParams,
   ResourceGuardProxyGetResponse,
+  ResourceGuardProxyBaseResource,
   ResourceGuardProxyPutOptionalParams,
   ResourceGuardProxyPutResponse,
   ResourceGuardProxyDeleteOptionalParams,
@@ -61,16 +62,24 @@ export class ResourceGuardProxyImpl implements ResourceGuardProxy {
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceGuardProxyName
+   * @param parameters Request body for operation
    * @param options The options parameters.
    */
   put(
     vaultName: string,
     resourceGroupName: string,
     resourceGuardProxyName: string,
+    parameters: ResourceGuardProxyBaseResource,
     options?: ResourceGuardProxyPutOptionalParams
   ): Promise<ResourceGuardProxyPutResponse> {
     return this.client.sendOperationRequest(
-      { vaultName, resourceGroupName, resourceGuardProxyName, options },
+      {
+        vaultName,
+        resourceGroupName,
+        resourceGuardProxyName,
+        parameters,
+        options
+      },
       putOperationSpec
     );
   }
@@ -161,6 +170,7 @@ const putOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
+  requestBody: Parameters.parameters20,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -169,7 +179,8 @@ const putOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGuardProxyName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
@@ -206,7 +217,7 @@ const unlockDeleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters20,
+  requestBody: Parameters.parameters21,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

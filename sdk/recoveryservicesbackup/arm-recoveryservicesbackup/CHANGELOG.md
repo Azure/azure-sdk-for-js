@@ -1,15 +1,173 @@
 # Release History
+    
+## 10.0.0 (2022-12-05)
+    
+**Features**
 
-## 9.0.1 (Unreleased)
+  - Added Interface AzureBackupGoalFeatureSupportRequest
+  - Added Interface AzureBackupServerContainer
+  - Added Interface AzureBackupServerEngine
+  - Added Interface AzureFileShareBackupRequest
+  - Added Interface AzureFileShareProtectableItem
+  - Added Interface AzureFileshareProtectedItem
+  - Added Interface AzureFileShareProtectionPolicy
+  - Added Interface AzureFileShareProvisionILRRequest
+  - Added Interface AzureFileShareRecoveryPoint
+  - Added Interface AzureFileShareRestoreRequest
+  - Added Interface AzureIaaSClassicComputeVMContainer
+  - Added Interface AzureIaaSClassicComputeVMProtectableItem
+  - Added Interface AzureIaaSClassicComputeVMProtectedItem
+  - Added Interface AzureIaaSComputeVMContainer
+  - Added Interface AzureIaaSComputeVMProtectableItem
+  - Added Interface AzureIaaSComputeVMProtectedItem
+  - Added Interface AzureIaaSVMHealthDetails
+  - Added Interface AzureIaaSVMJob
+  - Added Interface AzureIaaSVMJobV2
+  - Added Interface AzureIaaSVMProtectedItem
+  - Added Interface AzureIaaSVMProtectionPolicy
+  - Added Interface AzureRecoveryServiceVaultProtectionIntent
+  - Added Interface AzureResourceProtectionIntent
+  - Added Interface AzureSqlagWorkloadContainerProtectionContainer
+  - Added Interface AzureSqlContainer
+  - Added Interface AzureSqlProtectedItem
+  - Added Interface AzureSqlProtectionPolicy
+  - Added Interface AzureStorageContainer
+  - Added Interface AzureStorageJob
+  - Added Interface AzureStorageProtectableContainer
+  - Added Interface AzureVMAppContainerProtectableContainer
+  - Added Interface AzureVMAppContainerProtectionContainer
+  - Added Interface AzureVMResourceFeatureSupportRequest
+  - Added Interface AzureVmWorkloadItem
+  - Added Interface AzureVmWorkloadProtectableItem
+  - Added Interface AzureVmWorkloadProtectedItem
+  - Added Interface AzureVmWorkloadProtectionPolicy
+  - Added Interface AzureVmWorkloadSAPAseDatabaseProtectedItem
+  - Added Interface AzureVmWorkloadSAPAseDatabaseWorkloadItem
+  - Added Interface AzureVmWorkloadSAPAseSystemProtectableItem
+  - Added Interface AzureVmWorkloadSAPAseSystemWorkloadItem
+  - Added Interface AzureVmWorkloadSAPHanaDatabaseProtectableItem
+  - Added Interface AzureVmWorkloadSAPHanaDatabaseProtectedItem
+  - Added Interface AzureVmWorkloadSAPHanaDatabaseWorkloadItem
+  - Added Interface AzureVmWorkloadSAPHanaSystemProtectableItem
+  - Added Interface AzureVmWorkloadSAPHanaSystemWorkloadItem
+  - Added Interface AzureVmWorkloadSQLAvailabilityGroupProtectableItem
+  - Added Interface AzureVmWorkloadSQLDatabaseProtectableItem
+  - Added Interface AzureVmWorkloadSQLDatabaseProtectedItem
+  - Added Interface AzureVmWorkloadSQLDatabaseWorkloadItem
+  - Added Interface AzureVmWorkloadSQLInstanceProtectableItem
+  - Added Interface AzureVmWorkloadSQLInstanceWorkloadItem
+  - Added Interface AzureWorkloadAutoProtectionIntent
+  - Added Interface AzureWorkloadBackupRequest
+  - Added Interface AzureWorkloadContainer
+  - Added Interface AzureWorkloadContainerAutoProtectionIntent
+  - Added Interface AzureWorkloadJob
+  - Added Interface AzureWorkloadPointInTimeRecoveryPoint
+  - Added Interface AzureWorkloadPointInTimeRestoreRequest
+  - Added Interface AzureWorkloadRecoveryPoint
+  - Added Interface AzureWorkloadRestoreRequest
+  - Added Interface AzureWorkloadSAPHanaPointInTimeRecoveryPoint
+  - Added Interface AzureWorkloadSAPHanaPointInTimeRestoreRequest
+  - Added Interface AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest
+  - Added Interface AzureWorkloadSAPHanaRecoveryPoint
+  - Added Interface AzureWorkloadSAPHanaRestoreRequest
+  - Added Interface AzureWorkloadSAPHanaRestoreWithRehydrateRequest
+  - Added Interface AzureWorkloadSQLAutoProtectionIntent
+  - Added Interface AzureWorkloadSQLPointInTimeRecoveryPoint
+  - Added Interface AzureWorkloadSQLPointInTimeRestoreRequest
+  - Added Interface AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest
+  - Added Interface AzureWorkloadSQLRecoveryPoint
+  - Added Interface AzureWorkloadSQLRestoreRequest
+  - Added Interface AzureWorkloadSQLRestoreWithRehydrateRequest
+  - Added Interface BackupEngineBaseResource
+  - Added Interface BackupEngineBaseResourceList
+  - Added Interface BackupRequestResource
+  - Added Interface BackupResourceConfigResource
+  - Added Interface BackupResourceEncryptionConfigExtended
+  - Added Interface BackupResourceEncryptionConfigExtendedResource
+  - Added Interface BackupResourceEncryptionConfigResource
+  - Added Interface BackupResourceVaultConfigResource
+  - Added Interface DpmBackupEngine
+  - Added Interface DpmContainer
+  - Added Interface DpmJob
+  - Added Interface DPMProtectedItem
+  - Added Interface ExportJobsOperationResultInfo
+  - Added Interface GenericContainer
+  - Added Interface GenericProtectedItem
+  - Added Interface GenericProtectionPolicy
+  - Added Interface GenericRecoveryPoint
+  - Added Interface IaasVMBackupRequest
+  - Added Interface IaaSVMContainer
+  - Added Interface IaasVmilrRegistrationRequest
+  - Added Interface IaaSVMProtectableItem
+  - Added Interface IaasVMRecoveryPoint
+  - Added Interface IaasVMRestoreRequest
+  - Added Interface IaasVMRestoreWithRehydrationRequest
+  - Added Interface ILRRequestResource
+  - Added Interface JobResource
+  - Added Interface JobResourceList
+  - Added Interface LogSchedulePolicy
+  - Added Interface LongTermRetentionPolicy
+  - Added Interface LongTermSchedulePolicy
+  - Added Interface MabContainer
+  - Added Interface MabFileFolderProtectedItem
+  - Added Interface MabJob
+  - Added Interface MabProtectionPolicy
+  - Added Interface OperationResultInfo
+  - Added Interface OperationResultInfoBaseResource
+  - Added Interface OperationStatusJobExtendedInfo
+  - Added Interface OperationStatusJobsExtendedInfo
+  - Added Interface OperationStatusProvisionILRExtendedInfo
+  - Added Interface OperationStatusValidateOperationExtendedInfo
+  - Added Interface PrepareDataMoveResponse
+  - Added Interface PrivateEndpointConnectionResource
+  - Added Interface ProtectableContainerResource
+  - Added Interface ProtectableContainerResourceList
+  - Added Interface ProtectedItemResource
+  - Added Interface ProtectedItemResourceList
+  - Added Interface ProtectionContainerResource
+  - Added Interface ProtectionContainerResourceList
+  - Added Interface ProtectionIntentResource
+  - Added Interface ProtectionIntentResourceList
+  - Added Interface ProtectionPolicyResource
+  - Added Interface ProtectionPolicyResourceList
+  - Added Interface RecoveryPointResource
+  - Added Interface RecoveryPointResourceList
+  - Added Interface RecoveryPointTierInformationV2
+  - Added Interface ResourceGuardProxyBaseResource
+  - Added Interface ResourceGuardProxyBaseResourceList
+  - Added Interface RestoreRequestResource
+  - Added Interface SimpleRetentionPolicy
+  - Added Interface SimpleSchedulePolicy
+  - Added Interface SimpleSchedulePolicyV2
+  - Added Interface ValidateIaasVMRestoreOperationRequest
+  - Added Interface ValidateRestoreOperationRequest
+  - Added Interface VaultJob
+  - Added Interface WorkloadItemResource
+  - Added Interface WorkloadItemResourceList
+  - Added Interface WorkloadProtectableItemResource
+  - Added Interface WorkloadProtectableItemResourceList
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation ResourceGuardProxy.put has a new signature
+  - Interface BackupEnginesListNextOptionalParams no longer has parameter filter
+  - Interface BackupEnginesListNextOptionalParams no longer has parameter skipToken
+  - Interface BackupJobsListNextOptionalParams no longer has parameter filter
+  - Interface BackupJobsListNextOptionalParams no longer has parameter skipToken
+  - Interface BackupPoliciesListNextOptionalParams no longer has parameter filter
+  - Interface BackupProtectableItemsListNextOptionalParams no longer has parameter filter
+  - Interface BackupProtectableItemsListNextOptionalParams no longer has parameter skipToken
+  - Interface BackupProtectedItemsListNextOptionalParams no longer has parameter filter
+  - Interface BackupProtectedItemsListNextOptionalParams no longer has parameter skipToken
+  - Interface BackupProtectionContainersListNextOptionalParams no longer has parameter filter
+  - Interface BackupProtectionIntentListNextOptionalParams no longer has parameter filter
+  - Interface BackupProtectionIntentListNextOptionalParams no longer has parameter skipToken
+  - Interface BackupWorkloadItemsListNextOptionalParams no longer has parameter filter
+  - Interface BackupWorkloadItemsListNextOptionalParams no longer has parameter skipToken
+  - Interface ProtectableContainersListNextOptionalParams no longer has parameter filter
+  - Interface RecoveryPointsListNextOptionalParams no longer has parameter filter
+    
+    
 ## 9.0.0 (2022-05-16)
     
 **Breaking Changes**

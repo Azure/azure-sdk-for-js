@@ -9,6 +9,7 @@
 import {
   ResourceGuardProxyGetOptionalParams,
   ResourceGuardProxyGetResponse,
+  ResourceGuardProxyBaseResource,
   ResourceGuardProxyPutOptionalParams,
   ResourceGuardProxyPutResponse,
   ResourceGuardProxyDeleteOptionalParams,
@@ -40,12 +41,14 @@ export interface ResourceGuardProxy {
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceGuardProxyName
+   * @param parameters Request body for operation
    * @param options The options parameters.
    */
   put(
     vaultName: string,
     resourceGroupName: string,
     resourceGuardProxyName: string,
+    parameters: ResourceGuardProxyBaseResource,
     options?: ResourceGuardProxyPutOptionalParams
   ): Promise<ResourceGuardProxyPutResponse>;
   /**
