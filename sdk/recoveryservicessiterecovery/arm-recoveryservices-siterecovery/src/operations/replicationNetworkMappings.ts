@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ReplicationNetworkMappings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,9 +19,10 @@ import {
   NetworkMapping,
   ReplicationNetworkMappingsListByReplicationNetworksNextOptionalParams,
   ReplicationNetworkMappingsListByReplicationNetworksOptionalParams,
+  ReplicationNetworkMappingsListByReplicationNetworksResponse,
   ReplicationNetworkMappingsListNextOptionalParams,
   ReplicationNetworkMappingsListOptionalParams,
-  ReplicationNetworkMappingsListByReplicationNetworksResponse,
+  ReplicationNetworkMappingsListResponse,
   ReplicationNetworkMappingsGetOptionalParams,
   ReplicationNetworkMappingsGetResponse,
   CreateNetworkMappingInput,
@@ -30,7 +32,6 @@ import {
   UpdateNetworkMappingInput,
   ReplicationNetworkMappingsUpdateOptionalParams,
   ReplicationNetworkMappingsUpdateResponse,
-  ReplicationNetworkMappingsListResponse,
   ReplicationNetworkMappingsListByReplicationNetworksNextResponse,
   ReplicationNetworkMappingsListNextResponse
 } from "../models";
@@ -72,11 +73,15 @@ export class ReplicationNetworkMappingsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByReplicationNetworksPagingPage(
           fabricName,
           networkName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -85,15 +90,22 @@ export class ReplicationNetworkMappingsImpl
   private async *listByReplicationNetworksPagingPage(
     fabricName: string,
     networkName: string,
-    options?: ReplicationNetworkMappingsListByReplicationNetworksOptionalParams
+    options?: ReplicationNetworkMappingsListByReplicationNetworksOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetworkMapping[]> {
-    let result = await this._listByReplicationNetworks(
-      fabricName,
-      networkName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ReplicationNetworkMappingsListByReplicationNetworksResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByReplicationNetworks(
+        fabricName,
+        networkName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByReplicationNetworksNext(
         fabricName,
@@ -102,7 +114,9 @@ export class ReplicationNetworkMappingsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -135,22 +149,34 @@ export class ReplicationNetworkMappingsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ReplicationNetworkMappingsListOptionalParams
+    options?: ReplicationNetworkMappingsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetworkMapping[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ReplicationNetworkMappingsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -262,10 +288,12 @@ export class ReplicationNetworkMappingsImpl
       { fabricName, networkName, networkMappingName, input, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -350,10 +378,12 @@ export class ReplicationNetworkMappingsImpl
       { fabricName, networkName, networkMappingName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -442,10 +472,12 @@ export class ReplicationNetworkMappingsImpl
       { fabricName, networkName, networkMappingName, input, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -674,7 +706,6 @@ const listByReplicationNetworksNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NetworkMappingCollection
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -695,7 +726,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NetworkMappingCollection
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

@@ -1,5 +1,215 @@
 # Release History
     
+## 5.0.0 (2022-12-05)
+    
+**Features**
+
+  - Added Interface A2AAddDisksInput
+  - Added Interface A2AApplyRecoveryPointInput
+  - Added Interface A2AContainerCreationInput
+  - Added Interface A2AContainerMappingInput
+  - Added Interface A2ACreateProtectionIntentInput
+  - Added Interface A2ACrossClusterMigrationApplyRecoveryPointInput
+  - Added Interface A2ACrossClusterMigrationContainerCreationInput
+  - Added Interface A2ACrossClusterMigrationEnableProtectionInput
+  - Added Interface A2ACrossClusterMigrationPolicyCreationInput
+  - Added Interface A2ACrossClusterMigrationReplicationDetails
+  - Added Interface A2AEnableProtectionInput
+  - Added Interface A2AEventDetails
+  - Added Interface A2APolicyCreationInput
+  - Added Interface A2APolicyDetails
+  - Added Interface A2AProtectionContainerMappingDetails
+  - Added Interface A2ARecoveryPointDetails
+  - Added Interface A2ARemoveDisksInput
+  - Added Interface A2AReplicationDetails
+  - Added Interface A2AReplicationIntentDetails
+  - Added Interface A2AReprotectInput
+  - Added Interface A2ASwitchProtectionInput
+  - Added Interface A2ATestFailoverInput
+  - Added Interface A2AUnplannedFailoverInput
+  - Added Interface A2AUpdateContainerMappingInput
+  - Added Interface A2AUpdateReplicationProtectedItemInput
+  - Added Interface Alert
+  - Added Interface AsrJobDetails
+  - Added Interface AutomationRunbookTaskDetails
+  - Added Interface AzureFabricCreationInput
+  - Added Interface AzureFabricSpecificDetails
+  - Added Interface AzureToAzureCreateNetworkMappingInput
+  - Added Interface AzureToAzureNetworkMappingSettings
+  - Added Interface AzureToAzureUpdateNetworkMappingInput
+  - Added Interface ConsistencyCheckTaskDetails
+  - Added Interface Event_2
+  - Added Interface ExistingProtectionProfile
+  - Added Interface ExistingRecoveryAvailabilitySet
+  - Added Interface ExistingRecoveryProximityPlacementGroup
+  - Added Interface ExistingRecoveryResourceGroup
+  - Added Interface ExistingRecoveryVirtualNetwork
+  - Added Interface ExistingStorageAccount
+  - Added Interface ExportJobDetails
+  - Added Interface Fabric
+  - Added Interface FabricReplicationGroupTaskDetails
+  - Added Interface FailoverJobDetails
+  - Added Interface HyperVReplica2012EventDetails
+  - Added Interface HyperVReplica2012R2EventDetails
+  - Added Interface HyperVReplicaAzureApplyRecoveryPointInput
+  - Added Interface HyperVReplicaAzureEnableProtectionInput
+  - Added Interface HyperVReplicaAzureEventDetails
+  - Added Interface HyperVReplicaAzureFailbackProviderInput
+  - Added Interface HyperVReplicaAzurePlannedFailoverProviderInput
+  - Added Interface HyperVReplicaAzurePolicyDetails
+  - Added Interface HyperVReplicaAzurePolicyInput
+  - Added Interface HyperVReplicaAzureReplicationDetails
+  - Added Interface HyperVReplicaAzureReprotectInput
+  - Added Interface HyperVReplicaAzureTestFailoverInput
+  - Added Interface HyperVReplicaAzureUnplannedFailoverInput
+  - Added Interface HyperVReplicaAzureUpdateReplicationProtectedItemInput
+  - Added Interface HyperVReplicaBaseEventDetails
+  - Added Interface HyperVReplicaBasePolicyDetails
+  - Added Interface HyperVReplicaBaseReplicationDetails
+  - Added Interface HyperVReplicaBluePolicyDetails
+  - Added Interface HyperVReplicaBluePolicyInput
+  - Added Interface HyperVReplicaBlueReplicationDetails
+  - Added Interface HyperVReplicaPolicyDetails
+  - Added Interface HyperVReplicaPolicyInput
+  - Added Interface HyperVReplicaReplicationDetails
+  - Added Interface HyperVSiteDetails
+  - Added Interface HyperVVirtualMachineDetails
+  - Added Interface InlineWorkflowTaskDetails
+  - Added Interface InMageAzureV2ApplyRecoveryPointInput
+  - Added Interface InMageAzureV2EnableProtectionInput
+  - Added Interface InMageAzureV2EventDetails
+  - Added Interface InMageAzureV2PolicyDetails
+  - Added Interface InMageAzureV2PolicyInput
+  - Added Interface InMageAzureV2RecoveryPointDetails
+  - Added Interface InMageAzureV2ReplicationDetails
+  - Added Interface InMageAzureV2ReprotectInput
+  - Added Interface InMageAzureV2SwitchProviderInput
+  - Added Interface InMageAzureV2TestFailoverInput
+  - Added Interface InMageAzureV2UnplannedFailoverInput
+  - Added Interface InMageAzureV2UpdateReplicationProtectedItemInput
+  - Added Interface InMageBasePolicyDetails
+  - Added Interface InMageDisableProtectionProviderSpecificInput
+  - Added Interface InMageEnableProtectionInput
+  - Added Interface InMagePolicyDetails
+  - Added Interface InMagePolicyInput
+  - Added Interface InMageRcmApplianceSpecificDetails
+  - Added Interface InMageRcmApplyRecoveryPointInput
+  - Added Interface InMageRcmEnableProtectionInput
+  - Added Interface InMageRcmEventDetails
+  - Added Interface InMageRcmFabricCreationInput
+  - Added Interface InMageRcmFabricSpecificDetails
+  - Added Interface InMageRcmFailbackEventDetails
+  - Added Interface InMageRcmFailbackPlannedFailoverProviderInput
+  - Added Interface InMageRcmFailbackPolicyCreationInput
+  - Added Interface InMageRcmFailbackPolicyDetails
+  - Added Interface InMageRcmFailbackReplicationDetails
+  - Added Interface InMageRcmFailbackReprotectInput
+  - Added Interface InMageRcmPolicyCreationInput
+  - Added Interface InMageRcmPolicyDetails
+  - Added Interface InMageRcmProtectionContainerMappingDetails
+  - Added Interface InMageRcmRecoveryPointDetails
+  - Added Interface InMageRcmReplicationDetails
+  - Added Interface InMageRcmReprotectInput
+  - Added Interface InMageRcmTestFailoverInput
+  - Added Interface InMageRcmUnplannedFailoverInput
+  - Added Interface InMageRcmUpdateApplianceForReplicationProtectedItemInput
+  - Added Interface InMageRcmUpdateContainerMappingInput
+  - Added Interface InMageRcmUpdateReplicationProtectedItemInput
+  - Added Interface InMageReplicationDetails
+  - Added Interface InMageReprotectInput
+  - Added Interface InMageTestFailoverInput
+  - Added Interface InMageUnplannedFailoverInput
+  - Added Interface Job
+  - Added Interface JobStatusEventDetails
+  - Added Interface JobTaskDetails
+  - Added Interface LogicalNetwork
+  - Added Interface ManualActionTaskDetails
+  - Added Interface MigrationItem
+  - Added Interface MigrationRecoveryPoint
+  - Added Interface Network
+  - Added Interface NetworkMapping
+  - Added Interface NewProtectionProfile
+  - Added Interface NewRecoveryVirtualNetwork
+  - Added Interface Policy
+  - Added Interface ProtectableItem
+  - Added Interface ProtectionContainer
+  - Added Interface ProtectionContainerMapping
+  - Added Interface RecoveryPlan
+  - Added Interface RecoveryPlanA2ADetails
+  - Added Interface RecoveryPlanA2AFailoverInput
+  - Added Interface RecoveryPlanA2AInput
+  - Added Interface RecoveryPlanAutomationRunbookActionDetails
+  - Added Interface RecoveryPlanGroupTaskDetails
+  - Added Interface RecoveryPlanHyperVReplicaAzureFailbackInput
+  - Added Interface RecoveryPlanHyperVReplicaAzureFailoverInput
+  - Added Interface RecoveryPlanInMageAzureV2FailoverInput
+  - Added Interface RecoveryPlanInMageFailoverInput
+  - Added Interface RecoveryPlanInMageRcmFailbackFailoverInput
+  - Added Interface RecoveryPlanInMageRcmFailoverInput
+  - Added Interface RecoveryPlanManualActionDetails
+  - Added Interface RecoveryPlanScriptActionDetails
+  - Added Interface RecoveryPlanShutdownGroupTaskDetails
+  - Added Interface RecoveryPoint
+  - Added Interface RecoveryServicesProvider
+  - Added Interface ReplicationGroupDetails
+  - Added Interface ReplicationProtectedItem
+  - Added Interface ReplicationProtectionIntent
+  - Added Interface ScriptActionTaskDetails
+  - Added Interface StorageClassification
+  - Added Interface StorageClassificationMapping
+  - Added Interface SupportedOperatingSystems
+  - Added Interface SwitchProtectionJobDetails
+  - Added Interface TestFailoverJobDetails
+  - Added Interface VaultHealthDetails
+  - Added Interface VaultSetting
+  - Added Interface VCenter
+  - Added Interface VirtualMachineTaskDetails
+  - Added Interface VmmDetails
+  - Added Interface VmmToAzureCreateNetworkMappingInput
+  - Added Interface VmmToAzureNetworkMappingSettings
+  - Added Interface VmmToAzureUpdateNetworkMappingInput
+  - Added Interface VmmToVmmCreateNetworkMappingInput
+  - Added Interface VmmToVmmNetworkMappingSettings
+  - Added Interface VmmToVmmUpdateNetworkMappingInput
+  - Added Interface VmmVirtualMachineDetails
+  - Added Interface VmNicUpdatesTaskDetails
+  - Added Interface VMwareCbtContainerCreationInput
+  - Added Interface VMwareCbtContainerMappingInput
+  - Added Interface VMwareCbtEnableMigrationInput
+  - Added Interface VMwareCbtEventDetails
+  - Added Interface VMwareCbtMigrateInput
+  - Added Interface VMwareCbtMigrationDetails
+  - Added Interface VMwareCbtPolicyCreationInput
+  - Added Interface VmwareCbtPolicyDetails
+  - Added Interface VMwareCbtProtectionContainerMappingDetails
+  - Added Interface VMwareCbtResyncInput
+  - Added Interface VMwareCbtTestMigrateInput
+  - Added Interface VMwareCbtUpdateMigrationItemInput
+  - Added Interface VMwareDetails
+  - Added Interface VMwareV2FabricCreationInput
+  - Added Interface VMwareV2FabricSpecificDetails
+  - Added Interface VMwareVirtualMachineDetails
+
+**Breaking Changes**
+
+  - Interface ReplicationAppliancesListNextOptionalParams no longer has parameter filter
+  - Interface ReplicationEventsListNextOptionalParams no longer has parameter filter
+  - Interface ReplicationJobsListNextOptionalParams no longer has parameter filter
+  - Interface ReplicationMigrationItemsListByReplicationProtectionContainersNextOptionalParams no longer has parameter filter
+  - Interface ReplicationMigrationItemsListByReplicationProtectionContainersNextOptionalParams no longer has parameter skipToken
+  - Interface ReplicationMigrationItemsListByReplicationProtectionContainersNextOptionalParams no longer has parameter takeToken
+  - Interface ReplicationMigrationItemsListNextOptionalParams no longer has parameter filter
+  - Interface ReplicationMigrationItemsListNextOptionalParams no longer has parameter skipToken
+  - Interface ReplicationMigrationItemsListNextOptionalParams no longer has parameter takeToken
+  - Interface ReplicationProtectableItemsListByReplicationProtectionContainersNextOptionalParams no longer has parameter filter
+  - Interface ReplicationProtectableItemsListByReplicationProtectionContainersNextOptionalParams no longer has parameter skipToken
+  - Interface ReplicationProtectableItemsListByReplicationProtectionContainersNextOptionalParams no longer has parameter take
+  - Interface ReplicationProtectedItemsListNextOptionalParams no longer has parameter filter
+  - Interface ReplicationProtectedItemsListNextOptionalParams no longer has parameter skipToken
+  - Interface ReplicationProtectionIntentsListNextOptionalParams no longer has parameter skipToken
+  - Interface ReplicationProtectionIntentsListNextOptionalParams no longer has parameter takeToken
+    
+    
 ## 4.0.0 (2022-01-20)
 
 The package of @azure/arm-recoveryservices-siterecovery is using our next generation design principles since version 4.0.0, which contains breaking changes.

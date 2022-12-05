@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ReplicationProtectionContainerMappings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,9 +19,10 @@ import {
   ProtectionContainerMapping,
   ReplicationProtectionContainerMappingsListByReplicationProtectionContainersNextOptionalParams,
   ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams,
+  ReplicationProtectionContainerMappingsListByReplicationProtectionContainersResponse,
   ReplicationProtectionContainerMappingsListNextOptionalParams,
   ReplicationProtectionContainerMappingsListOptionalParams,
-  ReplicationProtectionContainerMappingsListByReplicationProtectionContainersResponse,
+  ReplicationProtectionContainerMappingsListResponse,
   ReplicationProtectionContainerMappingsGetOptionalParams,
   ReplicationProtectionContainerMappingsGetResponse,
   CreateProtectionContainerMappingInput,
@@ -32,7 +34,6 @@ import {
   ReplicationProtectionContainerMappingsUpdateResponse,
   RemoveProtectionContainerMappingInput,
   ReplicationProtectionContainerMappingsDeleteOptionalParams,
-  ReplicationProtectionContainerMappingsListResponse,
   ReplicationProtectionContainerMappingsListByReplicationProtectionContainersNextResponse,
   ReplicationProtectionContainerMappingsListNextResponse
 } from "../models";
@@ -74,11 +75,15 @@ export class ReplicationProtectionContainerMappingsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByReplicationProtectionContainersPagingPage(
           fabricName,
           protectionContainerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -87,15 +92,22 @@ export class ReplicationProtectionContainerMappingsImpl
   private async *listByReplicationProtectionContainersPagingPage(
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams
+    options?: ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ProtectionContainerMapping[]> {
-    let result = await this._listByReplicationProtectionContainers(
-      fabricName,
-      protectionContainerName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ReplicationProtectionContainerMappingsListByReplicationProtectionContainersResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByReplicationProtectionContainers(
+        fabricName,
+        protectionContainerName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByReplicationProtectionContainersNext(
         fabricName,
@@ -104,7 +116,9 @@ export class ReplicationProtectionContainerMappingsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -137,22 +151,34 @@ export class ReplicationProtectionContainerMappingsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ReplicationProtectionContainerMappingsListOptionalParams
+    options?: ReplicationProtectionContainerMappingsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ProtectionContainerMapping[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ReplicationProtectionContainerMappingsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -272,10 +298,12 @@ export class ReplicationProtectionContainerMappingsImpl
       },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -360,10 +388,12 @@ export class ReplicationProtectionContainerMappingsImpl
       { fabricName, protectionContainerName, mappingName, options },
       purgeOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -458,10 +488,12 @@ export class ReplicationProtectionContainerMappingsImpl
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -554,10 +586,12 @@ export class ReplicationProtectionContainerMappingsImpl
       },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -808,7 +842,6 @@ const listByReplicationProtectionContainersNextOperationSpec: coreClient.Operati
       bodyMapper: Mappers.ProtectionContainerMappingCollection
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -829,7 +862,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ProtectionContainerMappingCollection
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

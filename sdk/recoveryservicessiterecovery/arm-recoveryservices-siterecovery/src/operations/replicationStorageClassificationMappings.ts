@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ReplicationStorageClassificationMappings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,16 +19,16 @@ import {
   StorageClassificationMapping,
   ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsNextOptionalParams,
   ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsOptionalParams,
+  ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsResponse,
   ReplicationStorageClassificationMappingsListNextOptionalParams,
   ReplicationStorageClassificationMappingsListOptionalParams,
-  ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsResponse,
+  ReplicationStorageClassificationMappingsListResponse,
   ReplicationStorageClassificationMappingsGetOptionalParams,
   ReplicationStorageClassificationMappingsGetResponse,
   StorageClassificationMappingInput,
   ReplicationStorageClassificationMappingsCreateOptionalParams,
   ReplicationStorageClassificationMappingsCreateResponse,
   ReplicationStorageClassificationMappingsDeleteOptionalParams,
-  ReplicationStorageClassificationMappingsListResponse,
   ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsNextResponse,
   ReplicationStorageClassificationMappingsListNextResponse
 } from "../models";
@@ -69,11 +70,15 @@ export class ReplicationStorageClassificationMappingsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByReplicationStorageClassificationsPagingPage(
           fabricName,
           storageClassificationName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -82,15 +87,22 @@ export class ReplicationStorageClassificationMappingsImpl
   private async *listByReplicationStorageClassificationsPagingPage(
     fabricName: string,
     storageClassificationName: string,
-    options?: ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsOptionalParams
+    options?: ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<StorageClassificationMapping[]> {
-    let result = await this._listByReplicationStorageClassifications(
-      fabricName,
-      storageClassificationName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByReplicationStorageClassifications(
+        fabricName,
+        storageClassificationName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByReplicationStorageClassificationsNext(
         fabricName,
@@ -99,7 +111,9 @@ export class ReplicationStorageClassificationMappingsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -132,22 +146,34 @@ export class ReplicationStorageClassificationMappingsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ReplicationStorageClassificationMappingsListOptionalParams
+    options?: ReplicationStorageClassificationMappingsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<StorageClassificationMapping[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ReplicationStorageClassificationMappingsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -274,10 +300,12 @@ export class ReplicationStorageClassificationMappingsImpl
       },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -367,10 +395,12 @@ export class ReplicationStorageClassificationMappingsImpl
       },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -565,7 +595,6 @@ const listByReplicationStorageClassificationsNextOperationSpec: coreClient.Opera
       bodyMapper: Mappers.StorageClassificationMappingCollection
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -586,7 +615,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.StorageClassificationMappingCollection
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

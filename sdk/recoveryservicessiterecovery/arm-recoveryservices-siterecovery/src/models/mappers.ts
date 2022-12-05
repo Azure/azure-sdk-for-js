@@ -21420,9 +21420,9 @@ export const VmmVirtualMachineDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "VmmVirtualMachineDetails",
-    uberParent: "ConfigurationSettings",
+    uberParent: "HyperVVirtualMachineDetails",
     polymorphicDiscriminator:
-      ConfigurationSettings.type.polymorphicDiscriminator,
+      HyperVVirtualMachineDetails.type.polymorphicDiscriminator,
     modelProperties: {
       ...HyperVVirtualMachineDetails.type.modelProperties
     }
@@ -21434,8 +21434,8 @@ export const FabricReplicationGroupTaskDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FabricReplicationGroupTaskDetails",
-    uberParent: "TaskTypeDetails",
-    polymorphicDiscriminator: TaskTypeDetails.type.polymorphicDiscriminator,
+    uberParent: "JobTaskDetails",
+    polymorphicDiscriminator: JobTaskDetails.type.polymorphicDiscriminator,
     modelProperties: {
       ...JobTaskDetails.type.modelProperties,
       skippedReason: {
@@ -21459,8 +21459,8 @@ export const VirtualMachineTaskDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "VirtualMachineTaskDetails",
-    uberParent: "TaskTypeDetails",
-    polymorphicDiscriminator: TaskTypeDetails.type.polymorphicDiscriminator,
+    uberParent: "JobTaskDetails",
+    polymorphicDiscriminator: JobTaskDetails.type.polymorphicDiscriminator,
     modelProperties: {
       ...JobTaskDetails.type.modelProperties,
       skippedReason: {
@@ -21484,8 +21484,9 @@ export const RecoveryPlanShutdownGroupTaskDetails: coreClient.CompositeMapper = 
   type: {
     name: "Composite",
     className: "RecoveryPlanShutdownGroupTaskDetails",
-    uberParent: "GroupTaskDetails",
-    polymorphicDiscriminator: GroupTaskDetails.type.polymorphicDiscriminator,
+    uberParent: "RecoveryPlanGroupTaskDetails",
+    polymorphicDiscriminator:
+      RecoveryPlanGroupTaskDetails.type.polymorphicDiscriminator,
     modelProperties: {
       ...RecoveryPlanGroupTaskDetails.type.modelProperties
     }
@@ -21497,9 +21498,9 @@ export const HyperVReplicaBluePolicyInput: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "HyperVReplicaBluePolicyInput",
-    uberParent: "PolicyProviderSpecificInput",
+    uberParent: "HyperVReplicaPolicyInput",
     polymorphicDiscriminator:
-      PolicyProviderSpecificInput.type.polymorphicDiscriminator,
+      HyperVReplicaPolicyInput.type.polymorphicDiscriminator,
     modelProperties: {
       ...HyperVReplicaPolicyInput.type.modelProperties,
       replicationFrequencyInSeconds: {
@@ -21720,9 +21721,9 @@ export let discriminators = {
   "RecoveryVirtualNetworkCustomDetails.New": NewRecoveryVirtualNetwork,
   "RecoveryProximityPlacementGroupCustomDetails.Existing": ExistingRecoveryProximityPlacementGroup,
   "RecoveryResourceGroupCustomDetails.Existing": ExistingRecoveryResourceGroup,
-  "ConfigurationSettings.VmmVirtualMachine": VmmVirtualMachineDetails,
-  "TaskTypeDetails.FabricReplicationGroupTaskDetails": FabricReplicationGroupTaskDetails,
-  "TaskTypeDetails.VirtualMachineTaskDetails": VirtualMachineTaskDetails,
-  "GroupTaskDetails.RecoveryPlanShutdownGroupTaskDetails": RecoveryPlanShutdownGroupTaskDetails,
-  "PolicyProviderSpecificInput.HyperVReplica2012R2": HyperVReplicaBluePolicyInput
+  "HyperVVirtualMachineDetails.VmmVirtualMachine": VmmVirtualMachineDetails,
+  "JobTaskDetails.FabricReplicationGroupTaskDetails": FabricReplicationGroupTaskDetails,
+  "JobTaskDetails.VirtualMachineTaskDetails": VirtualMachineTaskDetails,
+  "RecoveryPlanGroupTaskDetails.RecoveryPlanShutdownGroupTaskDetails": RecoveryPlanShutdownGroupTaskDetails,
+  "HyperVReplicaPolicyInput.HyperVReplica2012R2": HyperVReplicaBluePolicyInput
 };

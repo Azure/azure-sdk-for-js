@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ReplicationProtectedItems } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,9 +19,10 @@ import {
   ReplicationProtectedItem,
   ReplicationProtectedItemsListByReplicationProtectionContainersNextOptionalParams,
   ReplicationProtectedItemsListByReplicationProtectionContainersOptionalParams,
+  ReplicationProtectedItemsListByReplicationProtectionContainersResponse,
   ReplicationProtectedItemsListNextOptionalParams,
   ReplicationProtectedItemsListOptionalParams,
-  ReplicationProtectedItemsListByReplicationProtectionContainersResponse,
+  ReplicationProtectedItemsListResponse,
   ReplicationProtectedItemsGetOptionalParams,
   ReplicationProtectedItemsGetResponse,
   EnableProtectionInput,
@@ -74,7 +76,6 @@ import {
   UpdateMobilityServiceRequest,
   ReplicationProtectedItemsUpdateMobilityServiceOptionalParams,
   ReplicationProtectedItemsUpdateMobilityServiceResponse,
-  ReplicationProtectedItemsListResponse,
   ReplicationProtectedItemsListByReplicationProtectionContainersNextResponse,
   ReplicationProtectedItemsListNextResponse
 } from "../models";
@@ -116,11 +117,15 @@ export class ReplicationProtectedItemsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByReplicationProtectionContainersPagingPage(
           fabricName,
           protectionContainerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -129,15 +134,22 @@ export class ReplicationProtectedItemsImpl
   private async *listByReplicationProtectionContainersPagingPage(
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationProtectedItemsListByReplicationProtectionContainersOptionalParams
+    options?: ReplicationProtectedItemsListByReplicationProtectionContainersOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ReplicationProtectedItem[]> {
-    let result = await this._listByReplicationProtectionContainers(
-      fabricName,
-      protectionContainerName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ReplicationProtectedItemsListByReplicationProtectionContainersResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByReplicationProtectionContainers(
+        fabricName,
+        protectionContainerName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByReplicationProtectionContainersNext(
         fabricName,
@@ -146,7 +158,9 @@ export class ReplicationProtectedItemsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -179,22 +193,34 @@ export class ReplicationProtectedItemsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ReplicationProtectedItemsListOptionalParams
+    options?: ReplicationProtectedItemsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ReplicationProtectedItem[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ReplicationProtectedItemsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -319,10 +345,12 @@ export class ReplicationProtectedItemsImpl
       },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -414,10 +442,12 @@ export class ReplicationProtectedItemsImpl
       },
       purgeOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -514,10 +544,12 @@ export class ReplicationProtectedItemsImpl
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -615,10 +647,12 @@ export class ReplicationProtectedItemsImpl
       },
       addDisksOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -716,10 +750,12 @@ export class ReplicationProtectedItemsImpl
       },
       applyRecoveryPointOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -814,10 +850,12 @@ export class ReplicationProtectedItemsImpl
       },
       failoverCancelOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -909,10 +947,12 @@ export class ReplicationProtectedItemsImpl
       },
       failoverCommitOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1007,10 +1047,12 @@ export class ReplicationProtectedItemsImpl
       },
       plannedFailoverOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1104,10 +1146,12 @@ export class ReplicationProtectedItemsImpl
       },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1206,10 +1250,12 @@ export class ReplicationProtectedItemsImpl
       },
       removeDisksOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1305,10 +1351,12 @@ export class ReplicationProtectedItemsImpl
       },
       repairReplicationOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1404,10 +1452,12 @@ export class ReplicationProtectedItemsImpl
       },
       reprotectOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1505,10 +1555,12 @@ export class ReplicationProtectedItemsImpl
       },
       resolveHealthErrorsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1606,11 +1658,13 @@ export class ReplicationProtectedItemsImpl
       },
       switchProviderOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1708,10 +1762,12 @@ export class ReplicationProtectedItemsImpl
       },
       testFailoverOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1809,10 +1865,12 @@ export class ReplicationProtectedItemsImpl
       },
       testFailoverCleanupOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1910,10 +1968,12 @@ export class ReplicationProtectedItemsImpl
       },
       unplannedFailoverOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2011,10 +2071,12 @@ export class ReplicationProtectedItemsImpl
       },
       updateApplianceOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2116,10 +2178,12 @@ export class ReplicationProtectedItemsImpl
       },
       updateMobilityServiceOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2865,7 +2929,6 @@ const listByReplicationProtectionContainersNextOperationSpec: coreClient.Operati
       bodyMapper: Mappers.ReplicationProtectedItemCollection
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -2886,11 +2949,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ReplicationProtectedItemCollection
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.skipToken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

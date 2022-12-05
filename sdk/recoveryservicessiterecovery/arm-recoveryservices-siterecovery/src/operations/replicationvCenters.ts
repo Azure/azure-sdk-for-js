@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ReplicationvCenters } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,9 +19,10 @@ import {
   VCenter,
   ReplicationvCentersListByReplicationFabricsNextOptionalParams,
   ReplicationvCentersListByReplicationFabricsOptionalParams,
+  ReplicationvCentersListByReplicationFabricsResponse,
   ReplicationvCentersListNextOptionalParams,
   ReplicationvCentersListOptionalParams,
-  ReplicationvCentersListByReplicationFabricsResponse,
+  ReplicationvCentersListResponse,
   ReplicationvCentersGetOptionalParams,
   ReplicationvCentersGetResponse,
   AddVCenterRequest,
@@ -30,7 +32,6 @@ import {
   UpdateVCenterRequest,
   ReplicationvCentersUpdateOptionalParams,
   ReplicationvCentersUpdateResponse,
-  ReplicationvCentersListResponse,
   ReplicationvCentersListByReplicationFabricsNextResponse,
   ReplicationvCentersListNextResponse
 } from "../models";
@@ -65,19 +66,33 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByReplicationFabricsPagingPage(fabricName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByReplicationFabricsPagingPage(
+          fabricName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByReplicationFabricsPagingPage(
     fabricName: string,
-    options?: ReplicationvCentersListByReplicationFabricsOptionalParams
+    options?: ReplicationvCentersListByReplicationFabricsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VCenter[]> {
-    let result = await this._listByReplicationFabrics(fabricName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ReplicationvCentersListByReplicationFabricsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByReplicationFabrics(fabricName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByReplicationFabricsNext(
         fabricName,
@@ -85,7 +100,9 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -116,22 +133,34 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ReplicationvCentersListOptionalParams
+    options?: ReplicationvCentersListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VCenter[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ReplicationvCentersListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -237,10 +266,12 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
       { fabricName, vcenterName, addVCenterRequest, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -320,10 +351,12 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
       { fabricName, vcenterName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -403,10 +436,12 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
       { fabricName, vcenterName, updateVCenterRequest, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -625,7 +660,6 @@ const listByReplicationFabricsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VCenterCollection
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -645,7 +679,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VCenterCollection
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { TargetComputeSizes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -59,12 +60,16 @@ export class TargetComputeSizesImpl implements TargetComputeSizes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByReplicationProtectedItemsPagingPage(
           fabricName,
           protectionContainerName,
           replicatedProtectedItemName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -74,16 +79,23 @@ export class TargetComputeSizesImpl implements TargetComputeSizes {
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
-    options?: TargetComputeSizesListByReplicationProtectedItemsOptionalParams
+    options?: TargetComputeSizesListByReplicationProtectedItemsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<TargetComputeSize[]> {
-    let result = await this._listByReplicationProtectedItems(
-      fabricName,
-      protectionContainerName,
-      replicatedProtectedItemName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: TargetComputeSizesListByReplicationProtectedItemsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByReplicationProtectedItems(
+        fabricName,
+        protectionContainerName,
+        replicatedProtectedItemName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByReplicationProtectedItemsNext(
         fabricName,
@@ -93,7 +105,9 @@ export class TargetComputeSizesImpl implements TargetComputeSizes {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -198,7 +212,6 @@ const listByReplicationProtectedItemsNextOperationSpec: coreClient.OperationSpec
       bodyMapper: Mappers.TargetComputeSizeCollection
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

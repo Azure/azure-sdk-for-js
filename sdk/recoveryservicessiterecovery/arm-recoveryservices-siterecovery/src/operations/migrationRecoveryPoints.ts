@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { MigrationRecoveryPoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -61,12 +62,16 @@ export class MigrationRecoveryPointsImpl implements MigrationRecoveryPoints {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByReplicationMigrationItemsPagingPage(
           fabricName,
           protectionContainerName,
           migrationItemName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -76,16 +81,23 @@ export class MigrationRecoveryPointsImpl implements MigrationRecoveryPoints {
     fabricName: string,
     protectionContainerName: string,
     migrationItemName: string,
-    options?: MigrationRecoveryPointsListByReplicationMigrationItemsOptionalParams
+    options?: MigrationRecoveryPointsListByReplicationMigrationItemsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<MigrationRecoveryPoint[]> {
-    let result = await this._listByReplicationMigrationItems(
-      fabricName,
-      protectionContainerName,
-      migrationItemName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: MigrationRecoveryPointsListByReplicationMigrationItemsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByReplicationMigrationItems(
+        fabricName,
+        protectionContainerName,
+        migrationItemName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByReplicationMigrationItemsNext(
         fabricName,
@@ -95,7 +107,9 @@ export class MigrationRecoveryPointsImpl implements MigrationRecoveryPoints {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -247,7 +261,6 @@ const listByReplicationMigrationItemsNextOperationSpec: coreClient.OperationSpec
       bodyMapper: Mappers.MigrationRecoveryPointCollection
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

@@ -5088,151 +5088,152 @@ export interface VMwareCbtUpdateDiskInput {
 }
 
 /** Implements the Alert class. */
-export type Alert = Resource & {
+export interface Alert extends Resource {
   /** Alert related data. */
   properties?: AlertProperties;
-};
+}
 
 /** Implements the Event class. */
-export type Event = Resource & {
+export interface Event extends Resource {
   /** Event related data. */
   properties?: EventProperties;
-};
+}
 
 /** Fabric definition. */
-export type Fabric = Resource & {
+export interface Fabric extends Resource {
   /** Fabric related data. */
   properties?: FabricProperties;
-};
+}
 
 /** Logical network data model. */
-export type LogicalNetwork = Resource & {
+export interface LogicalNetwork extends Resource {
   /** The Logical Network Properties. */
   properties?: LogicalNetworkProperties;
-};
+}
 
 /** Network model. */
-export type Network = Resource & {
+export interface Network extends Resource {
   /** The Network Properties. */
   properties?: NetworkProperties;
-};
+}
 
 /** Network Mapping model. Ideally it should have been possible to inherit this class from prev version in InheritedModels as long as there is no difference in structure or method signature. Since there were no base Models for certain fields and methods viz NetworkMappingProperties and Load with required return type, the class has been introduced in its entirety with references to base models to facilitate extensions in subsequent versions. */
-export type NetworkMapping = Resource & {
+export interface NetworkMapping extends Resource {
   /** The Network Mapping Properties. */
   properties?: NetworkMappingProperties;
-};
+}
 
 /** Protection container details. */
-export type ProtectionContainer = Resource & {
+export interface ProtectionContainer extends Resource {
   /** The custom data. */
   properties?: ProtectionContainerProperties;
-};
+}
 
 /** Migration item. */
-export type MigrationItem = Resource & {
+export interface MigrationItem extends Resource {
   /** The migration item properties. */
   properties?: MigrationItemProperties;
-};
+}
 
 /** Recovery point for a migration item. */
-export type MigrationRecoveryPoint = Resource & {
+export interface MigrationRecoveryPoint extends Resource {
   /** Recovery point properties. */
   properties?: MigrationRecoveryPointProperties;
-};
+}
 
 /** Replication protected item. */
-export type ProtectableItem = Resource & {
+export interface ProtectableItem extends Resource {
   /** The custom data. */
   properties?: ProtectableItemProperties;
-};
+}
 
 /** Replication protected item. */
-export type ReplicationProtectedItem = Resource & {
+export interface ReplicationProtectedItem extends Resource {
   /** The custom data. */
   properties?: ReplicationProtectedItemProperties;
-};
+}
 
 /** Recovery point. */
-export type RecoveryPoint = Resource & {
+export interface RecoveryPoint extends Resource {
   /** The recovery point properties. */
   properties?: RecoveryPointProperties;
-};
+}
 
 /** Protection container mapping object. */
-export type ProtectionContainerMapping = Resource & {
+export interface ProtectionContainerMapping extends Resource {
   /** The custom data. */
   properties?: ProtectionContainerMappingProperties;
-};
+}
 
 /** Provider details. */
-export type RecoveryServicesProvider = Resource & {
+export interface RecoveryServicesProvider extends Resource {
   /** Provider properties. */
   properties?: RecoveryServicesProviderProperties;
-};
+}
 
 /** Storage object definition. */
-export type StorageClassification = Resource & {
+export interface StorageClassification extends Resource {
   /** Properties of the storage object. */
   properties?: StorageClassificationProperties;
-};
+}
 
 /** Storage mapping object. */
-export type StorageClassificationMapping = Resource & {
+export interface StorageClassificationMapping extends Resource {
   /** Properties of the storage mapping object. */
   properties?: StorageClassificationMappingProperties;
-};
+}
 
 /** vCenter definition. */
-export type VCenter = Resource & {
+export interface VCenter extends Resource {
   /** VCenter related data. */
   properties?: VCenterProperties;
-};
+}
 
 /** Job details. */
-export type Job = Resource & {
+export interface Job extends Resource {
   /** The custom data. */
   properties?: JobProperties;
-};
+}
 
 /** Protection profile details. */
-export type Policy = Resource & {
+export interface Policy extends Resource {
   /** The custom data. */
   properties?: PolicyProperties;
-};
+}
 
 /** Replication protection intent. */
-export type ReplicationProtectionIntent = Resource & {
+export interface ReplicationProtectionIntent extends Resource {
   /** The custom data. */
   properties?: ReplicationProtectionIntentProperties;
-};
+}
 
 /** Recovery plan details. */
-export type RecoveryPlan = Resource & {
+export interface RecoveryPlan extends Resource {
   /** The custom details. */
   properties?: RecoveryPlanProperties;
-};
+}
 
 /** Supported operating systems. */
-export type SupportedOperatingSystems = Resource & {
+export interface SupportedOperatingSystems extends Resource {
   /** The supported operating systems properties. */
   properties?: SupportedOSProperties;
-};
+}
 
 /** Vault health details definition. */
-export type VaultHealthDetails = Resource & {
+export interface VaultHealthDetails extends Resource {
   /** The vault health related data. */
   properties?: VaultHealthProperties;
-};
+}
 
 /** Vault setting. */
-export type VaultSetting = Resource & {
+export interface VaultSetting extends Resource {
   /** The vault setting properties. */
   properties?: VaultSettingProperties;
-};
+}
 
 /** InMageRcm appliance specific details. */
-export type InMageRcmApplianceSpecificDetails = ApplianceSpecificDetails & {
+export interface InMageRcmApplianceSpecificDetails
+  extends ApplianceSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcm";
   /**
@@ -5240,10 +5241,10 @@ export type InMageRcmApplianceSpecificDetails = ApplianceSpecificDetails & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly appliances?: InMageRcmApplianceDetails[];
-};
+}
 
 /** Model class for event details of a A2A event. */
-export type A2AEventDetails = EventProviderSpecificDetails & {
+export interface A2AEventDetails extends EventProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2A";
   /** The protected item arm name. */
@@ -5258,10 +5259,11 @@ export type A2AEventDetails = EventProviderSpecificDetails & {
   remoteFabricName?: string;
   /** Remote fabric location. */
   remoteFabricLocation?: string;
-};
+}
 
 /** Model class for event details of a HyperVReplica E2E event. */
-export type HyperVReplica2012EventDetails = EventProviderSpecificDetails & {
+export interface HyperVReplica2012EventDetails
+  extends EventProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplica2012";
   /** The container friendly name. */
@@ -5272,10 +5274,11 @@ export type HyperVReplica2012EventDetails = EventProviderSpecificDetails & {
   remoteContainerName?: string;
   /** The remote fabric name. */
   remoteFabricName?: string;
-};
+}
 
 /** Model class for event details of a HyperVReplica blue E2E event. */
-export type HyperVReplica2012R2EventDetails = EventProviderSpecificDetails & {
+export interface HyperVReplica2012R2EventDetails
+  extends EventProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplica2012R2";
   /** The container friendly name. */
@@ -5286,10 +5289,11 @@ export type HyperVReplica2012R2EventDetails = EventProviderSpecificDetails & {
   remoteContainerName?: string;
   /** The remote fabric name. */
   remoteFabricName?: string;
-};
+}
 
 /** Model class for event details of a HyperVReplica E2A event. */
-export type HyperVReplicaAzureEventDetails = EventProviderSpecificDetails & {
+export interface HyperVReplicaAzureEventDetails
+  extends EventProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplicaAzure";
   /** The container friendly name. */
@@ -5298,10 +5302,11 @@ export type HyperVReplicaAzureEventDetails = EventProviderSpecificDetails & {
   fabricName?: string;
   /** The remote container name. */
   remoteContainerName?: string;
-};
+}
 
 /** Abstract model class for event details of a HyperVReplica E2E event. */
-export type HyperVReplicaBaseEventDetails = EventProviderSpecificDetails & {
+export interface HyperVReplicaBaseEventDetails
+  extends EventProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplicaBaseEventDetails";
   /** The container friendly name. */
@@ -5312,10 +5317,11 @@ export type HyperVReplicaBaseEventDetails = EventProviderSpecificDetails & {
   remoteContainerName?: string;
   /** The remote fabric name. */
   remoteFabricName?: string;
-};
+}
 
 /** Model class for event details of a VMwareAzureV2 event. */
-export type InMageAzureV2EventDetails = EventProviderSpecificDetails & {
+export interface InMageAzureV2EventDetails
+  extends EventProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageAzureV2";
   /** InMage Event type. Takes one of the values of InMageDataContract.InMageMonitoringEventType. */
@@ -5332,10 +5338,10 @@ export type InMageAzureV2EventDetails = EventProviderSpecificDetails & {
   summary?: string;
   /** VMware Site name. */
   siteName?: string;
-};
+}
 
 /** Event details for InMageRcm provider. */
-export type InMageRcmEventDetails = EventProviderSpecificDetails & {
+export interface InMageRcmEventDetails extends EventProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcm";
   /**
@@ -5378,10 +5384,11 @@ export type InMageRcmEventDetails = EventProviderSpecificDetails & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly componentDisplayName?: string;
-};
+}
 
 /** Event details for InMageRcmFailback provider. */
-export type InMageRcmFailbackEventDetails = EventProviderSpecificDetails & {
+export interface InMageRcmFailbackEventDetails
+  extends EventProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcmFailback";
   /**
@@ -5409,10 +5416,10 @@ export type InMageRcmFailbackEventDetails = EventProviderSpecificDetails & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly componentDisplayName?: string;
-};
+}
 
 /** Event details for VMwareCbt provider. */
-export type VMwareCbtEventDetails = EventProviderSpecificDetails & {
+export interface VMwareCbtEventDetails extends EventProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VMwareCbt";
   /**
@@ -5420,10 +5427,10 @@ export type VMwareCbtEventDetails = EventProviderSpecificDetails & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly migrationItemName?: string;
-};
+}
 
 /** Model class for event details of a job status event. */
-export type JobStatusEventDetails = EventSpecificDetails & {
+export interface JobStatusEventDetails extends EventSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "JobStatus";
   /** Job arm id for the event. */
@@ -5434,10 +5441,10 @@ export type JobStatusEventDetails = EventSpecificDetails & {
   jobStatus?: string;
   /** AffectedObjectType for the event. */
   affectedObjectType?: string;
-};
+}
 
 /** Azure Fabric Specific Details. */
-export type AzureFabricSpecificDetails = FabricSpecificDetails & {
+export interface AzureFabricSpecificDetails extends FabricSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "Azure";
   /** The Location for the Azure fabric. */
@@ -5446,18 +5453,18 @@ export type AzureFabricSpecificDetails = FabricSpecificDetails & {
   containerIds?: string[];
   /** The zones. */
   zones?: A2AZoneDetails[];
-};
+}
 
 /** HyperVSite fabric specific details. */
-export type HyperVSiteDetails = FabricSpecificDetails & {
+export interface HyperVSiteDetails extends FabricSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVSite";
   /** The list of Hyper-V hosts associated with the fabric. */
   hyperVHosts?: HyperVHostDetails[];
-};
+}
 
 /** InMageRcm fabric specific details. */
-export type InMageRcmFabricSpecificDetails = FabricSpecificDetails & {
+export interface InMageRcmFabricSpecificDetails extends FabricSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcm";
   /**
@@ -5537,16 +5544,16 @@ export type InMageRcmFabricSpecificDetails = FabricSpecificDetails & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly agentDetails?: AgentDetails[];
-};
+}
 
 /** VMM fabric specific details. */
-export type VmmDetails = FabricSpecificDetails & {
+export interface VmmDetails extends FabricSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VMM";
-};
+}
 
 /** Store the fabric details specific to the VMware fabric. */
-export type VMwareDetails = FabricSpecificDetails & {
+export interface VMwareDetails extends FabricSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VMware";
   /** The list of Process Servers associated with the fabric. */
@@ -5615,10 +5622,10 @@ export type VMwareDetails = FabricSpecificDetails & {
   agentVersionDetails?: VersionDetails;
   /** The switch provider blocking error information. */
   switchProviderBlockingErrorDetails?: InMageFabricSwitchProviderBlockingErrorDetails[];
-};
+}
 
 /** VMwareV2 fabric specific details. */
-export type VMwareV2FabricSpecificDetails = FabricSpecificDetails & {
+export interface VMwareV2FabricSpecificDetails extends FabricSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VMwareV2";
   /**
@@ -5656,18 +5663,19 @@ export type VMwareV2FabricSpecificDetails = FabricSpecificDetails & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly processServers?: ProcessServerDetails[];
-};
+}
 
 /** Fabric provider specific settings. */
-export type AzureFabricCreationInput = FabricSpecificCreationInput & {
+export interface AzureFabricCreationInput extends FabricSpecificCreationInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "Azure";
   /** The Location. */
   location?: string;
-};
+}
 
 /** InMageRcm fabric provider specific settings. */
-export type InMageRcmFabricCreationInput = FabricSpecificCreationInput & {
+export interface InMageRcmFabricCreationInput
+  extends FabricSpecificCreationInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcm";
   /** The ARM Id of the VMware site. */
@@ -5676,10 +5684,11 @@ export type InMageRcmFabricCreationInput = FabricSpecificCreationInput & {
   physicalSiteId: string;
   /** The identity provider input for source agent authentication. */
   sourceAgentIdentity: IdentityProviderInput;
-};
+}
 
 /** VMwareV2 fabric provider specific settings. */
-export type VMwareV2FabricCreationInput = FabricSpecificCreationInput & {
+export interface VMwareV2FabricCreationInput
+  extends FabricSpecificCreationInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VMwareV2";
   /** The ARM Id of the VMware site. */
@@ -5688,90 +5697,103 @@ export type VMwareV2FabricCreationInput = FabricSpecificCreationInput & {
   physicalSiteId?: string;
   /** The ARM Id of the migration solution. */
   migrationSolutionId: string;
-};
+}
 
 /** A2A Network Mapping fabric specific settings. */
-export type AzureToAzureNetworkMappingSettings = NetworkMappingFabricSpecificSettings & {
+export interface AzureToAzureNetworkMappingSettings
+  extends NetworkMappingFabricSpecificSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "AzureToAzure";
   /** The primary fabric location. */
   primaryFabricLocation?: string;
   /** The recovery fabric location. */
   recoveryFabricLocation?: string;
-};
+}
 
 /** E2A Network Mapping fabric specific settings. */
-export type VmmToAzureNetworkMappingSettings = NetworkMappingFabricSpecificSettings & {
+export interface VmmToAzureNetworkMappingSettings
+  extends NetworkMappingFabricSpecificSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VmmToAzure";
-};
+}
 
 /** E2E Network Mapping fabric specific settings. */
-export type VmmToVmmNetworkMappingSettings = NetworkMappingFabricSpecificSettings & {
+export interface VmmToVmmNetworkMappingSettings
+  extends NetworkMappingFabricSpecificSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VmmToVmm";
-};
+}
 
 /** Create network mappings input properties/behavior specific to Azure to Azure Network mapping. */
-export type AzureToAzureCreateNetworkMappingInput = FabricSpecificCreateNetworkMappingInput & {
+export interface AzureToAzureCreateNetworkMappingInput
+  extends FabricSpecificCreateNetworkMappingInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "AzureToAzure";
   /** The primary azure vnet Id. */
   primaryNetworkId: string;
-};
+}
 
 /** Create network mappings input properties/behavior specific to Vmm to Azure Network mapping. */
-export type VmmToAzureCreateNetworkMappingInput = FabricSpecificCreateNetworkMappingInput & {
+export interface VmmToAzureCreateNetworkMappingInput
+  extends FabricSpecificCreateNetworkMappingInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VmmToAzure";
-};
+}
 
 /** Create network mappings input properties/behavior specific to vmm to vmm Network mapping. */
-export type VmmToVmmCreateNetworkMappingInput = FabricSpecificCreateNetworkMappingInput & {
+export interface VmmToVmmCreateNetworkMappingInput
+  extends FabricSpecificCreateNetworkMappingInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VmmToVmm";
-};
+}
 
 /** Updates network mappings input. */
-export type AzureToAzureUpdateNetworkMappingInput = FabricSpecificUpdateNetworkMappingInput & {
+export interface AzureToAzureUpdateNetworkMappingInput
+  extends FabricSpecificUpdateNetworkMappingInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "AzureToAzure";
   /** The primary azure vnet Id. */
   primaryNetworkId?: string;
-};
+}
 
 /** Update network mappings input properties/behavior specific to vmm to azure. */
-export type VmmToAzureUpdateNetworkMappingInput = FabricSpecificUpdateNetworkMappingInput & {
+export interface VmmToAzureUpdateNetworkMappingInput
+  extends FabricSpecificUpdateNetworkMappingInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VmmToAzure";
-};
+}
 
 /** Update network mappings input properties/behavior specific to vmm to vmm. */
-export type VmmToVmmUpdateNetworkMappingInput = FabricSpecificUpdateNetworkMappingInput & {
+export interface VmmToVmmUpdateNetworkMappingInput
+  extends FabricSpecificUpdateNetworkMappingInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VmmToVmm";
-};
+}
 
 /** A2A cloud creation input. */
-export type A2AContainerCreationInput = ReplicationProviderSpecificContainerCreationInput & {
+export interface A2AContainerCreationInput
+  extends ReplicationProviderSpecificContainerCreationInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2A";
-};
+}
 
 /** A2ACrossClusterMigration cloud creation input. */
-export type A2ACrossClusterMigrationContainerCreationInput = ReplicationProviderSpecificContainerCreationInput & {
+export interface A2ACrossClusterMigrationContainerCreationInput
+  extends ReplicationProviderSpecificContainerCreationInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2ACrossClusterMigration";
-};
+}
 
 /** VMwareCbt container creation input. */
-export type VMwareCbtContainerCreationInput = ReplicationProviderSpecificContainerCreationInput & {
+export interface VMwareCbtContainerCreationInput
+  extends ReplicationProviderSpecificContainerCreationInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VMwareCbt";
-};
+}
 
 /** VMwareCbt provider specific settings. */
-export type VMwareCbtMigrationDetails = MigrationProviderSpecificSettings & {
+export interface VMwareCbtMigrationDetails
+  extends MigrationProviderSpecificSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VMwareCbt";
   /**
@@ -5893,10 +5915,11 @@ export type VMwareCbtMigrationDetails = MigrationProviderSpecificSettings & {
   seedDiskTags?: { [propertyName: string]: string };
   /** The tags for the target disks. */
   targetDiskTags?: { [propertyName: string]: string };
-};
+}
 
 /** VMwareCbt specific enable migration input. */
-export type VMwareCbtEnableMigrationInput = EnableMigrationProviderSpecificInput & {
+export interface VMwareCbtEnableMigrationInput
+  extends EnableMigrationProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VMwareCbt";
   /** The ARM Id of the VM discovered in VMware. */
@@ -5939,10 +5962,11 @@ export type VMwareCbtEnableMigrationInput = EnableMigrationProviderSpecificInput
   targetDiskTags?: { [propertyName: string]: string };
   /** The tags for the target NICs. */
   targetNicTags?: { [propertyName: string]: string };
-};
+}
 
 /** VMwareCbt specific update migration item input. */
-export type VMwareCbtUpdateMigrationItemInput = UpdateMigrationItemProviderSpecificInput & {
+export interface VMwareCbtUpdateMigrationItemInput
+  extends UpdateMigrationItemProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VMwareCbt";
   /** The target VM name. */
@@ -5977,36 +6001,37 @@ export type VMwareCbtUpdateMigrationItemInput = UpdateMigrationItemProviderSpeci
   targetDiskTags?: { [propertyName: string]: string };
   /** The tags for the target NICs. */
   targetNicTags?: { [propertyName: string]: string };
-};
+}
 
 /** VMwareCbt specific migrate input. */
-export type VMwareCbtMigrateInput = MigrateProviderSpecificInput & {
+export interface VMwareCbtMigrateInput extends MigrateProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VMwareCbt";
   /** A value indicating whether VM is to be shutdown. */
   performShutdown: string;
-};
+}
 
 /** VMwareCbt specific resync input. */
-export type VMwareCbtResyncInput = ResyncProviderSpecificInput & {
+export interface VMwareCbtResyncInput extends ResyncProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VMwareCbt";
   /** A value indicating whether CBT is to be reset. */
   skipCbtReset: string;
-};
+}
 
 /** VMwareCbt specific test migrate input. */
-export type VMwareCbtTestMigrateInput = TestMigrateProviderSpecificInput & {
+export interface VMwareCbtTestMigrateInput
+  extends TestMigrateProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VMwareCbt";
   /** The recovery point Id. */
   recoveryPointId: string;
   /** The test network Id. */
   networkId: string;
-};
+}
 
 /** Single Host fabric provider specific VM settings. */
-export type HyperVVirtualMachineDetails = ConfigurationSettings & {
+export interface HyperVVirtualMachineDetails extends ConfigurationSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVVirtualMachine" | "VmmVirtualMachine";
   /** The source id of the object. */
@@ -6025,16 +6050,16 @@ export type HyperVVirtualMachineDetails = ConfigurationSettings & {
   hasSharedVhd?: PresenceStatus;
   /** The Id of the hyper-v host in fabric. */
   hyperVHostId?: string;
-};
+}
 
 /** Replication group details. This will be used in case of San. */
-export type ReplicationGroupDetails = ConfigurationSettings & {
+export interface ReplicationGroupDetails extends ConfigurationSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "ReplicationGroupDetails";
-};
+}
 
 /** VMware provider specific settings. */
-export type VMwareVirtualMachineDetails = ConfigurationSettings & {
+export interface VMwareVirtualMachineDetails extends ConfigurationSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VMwareVirtualMachine";
   /** The ID generated by the InMage agent after it gets installed on guest. This is the ID to be used during InMage CreateProtection. */
@@ -6057,10 +6082,11 @@ export type VMwareVirtualMachineDetails = ConfigurationSettings & {
   diskDetails?: InMageDiskDetails[];
   /** The validation errors. */
   validationErrors?: HealthError[];
-};
+}
 
 /** A2A provider specific settings. */
-export type A2ACrossClusterMigrationReplicationDetails = ReplicationProviderSpecificSettings & {
+export interface A2ACrossClusterMigrationReplicationDetails
+  extends ReplicationProviderSpecificSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2ACrossClusterMigration";
   /** The fabric specific object Id of the virtual machine. */
@@ -6075,10 +6101,11 @@ export type A2ACrossClusterMigrationReplicationDetails = ReplicationProviderSpec
   vmProtectionStateDescription?: string;
   /** An id associated with the PE that survives actions like switch protection which change the backing PE/CPE objects internally.The lifecycle id gets carried forward to have a link/continuity in being able to have an Id that denotes the "same" protected item even though other internal Ids/ARM Id might be changing. */
   lifecycleId?: string;
-};
+}
 
 /** A2A provider specific settings. */
-export type A2AReplicationDetails = ReplicationProviderSpecificSettings & {
+export interface A2AReplicationDetails
+  extends ReplicationProviderSpecificSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2A";
   /** The fabric specific object Id of the virtual machine. */
@@ -6208,10 +6235,11 @@ export type A2AReplicationDetails = ReplicationProviderSpecificSettings & {
   recoveryVirtualMachineScaleSetId?: string;
   /** The recovery capacity reservation group Id. */
   recoveryCapacityReservationGroupId?: string;
-};
+}
 
 /** Hyper V Replica Azure provider specific settings. */
-export type HyperVReplicaAzureReplicationDetails = ReplicationProviderSpecificSettings & {
+export interface HyperVReplicaAzureReplicationDetails
+  extends ReplicationProviderSpecificSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplicaAzure";
   /** Azure VM Disk details. */
@@ -6283,10 +6311,11 @@ export type HyperVReplicaAzureReplicationDetails = ReplicationProviderSpecificSe
   targetNicTags?: { [propertyName: string]: string };
   /** The list of protected managed disks. */
   protectedManagedDisks?: HyperVReplicaAzureManagedDiskDetails[];
-};
+}
 
 /** Hyper V replica provider specific settings base class. */
-export type HyperVReplicaBaseReplicationDetails = ReplicationProviderSpecificSettings & {
+export interface HyperVReplicaBaseReplicationDetails
+  extends ReplicationProviderSpecificSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplicaBaseReplicationDetails";
   /** The Last replication time. */
@@ -6303,10 +6332,11 @@ export type HyperVReplicaBaseReplicationDetails = ReplicationProviderSpecificSet
   initialReplicationDetails?: InitialReplicationDetails;
   /** VM disk details. */
   vMDiskDetails?: DiskDetails[];
-};
+}
 
 /** HyperV replica 2012 R2 (Blue) replication details. */
-export type HyperVReplicaBlueReplicationDetails = ReplicationProviderSpecificSettings & {
+export interface HyperVReplicaBlueReplicationDetails
+  extends ReplicationProviderSpecificSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplica2012R2";
   /** The Last replication time. */
@@ -6323,10 +6353,11 @@ export type HyperVReplicaBlueReplicationDetails = ReplicationProviderSpecificSet
   initialReplicationDetails?: InitialReplicationDetails;
   /** VM disk details. */
   vMDiskDetails?: DiskDetails[];
-};
+}
 
 /** HyperV replica 2012 replication details. */
-export type HyperVReplicaReplicationDetails = ReplicationProviderSpecificSettings & {
+export interface HyperVReplicaReplicationDetails
+  extends ReplicationProviderSpecificSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplica2012";
   /** The Last replication time. */
@@ -6343,10 +6374,11 @@ export type HyperVReplicaReplicationDetails = ReplicationProviderSpecificSetting
   initialReplicationDetails?: InitialReplicationDetails;
   /** VM disk details. */
   vMDiskDetails?: DiskDetails[];
-};
+}
 
 /** InMageAzureV2 provider specific settings. */
-export type InMageAzureV2ReplicationDetails = ReplicationProviderSpecificSettings & {
+export interface InMageAzureV2ReplicationDetails
+  extends ReplicationProviderSpecificSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageAzureV2";
   /** The infrastructure VM Id. */
@@ -6486,10 +6518,11 @@ export type InMageAzureV2ReplicationDetails = ReplicationProviderSpecificSetting
   switchProviderBlockingErrorDetails?: InMageAzureV2SwitchProviderBlockingErrorDetails[];
   /** The switch provider blocking error information. */
   switchProviderDetails?: InMageAzureV2SwitchProviderDetails;
-};
+}
 
 /** InMageRcmFailback provider specific details. */
-export type InMageRcmFailbackReplicationDetails = ReplicationProviderSpecificSettings & {
+export interface InMageRcmFailbackReplicationDetails
+  extends ReplicationProviderSpecificSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcmFailback";
   /**
@@ -6625,10 +6658,11 @@ export type InMageRcmFailbackReplicationDetails = ReplicationProviderSpecificSet
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isAgentRegistrationSuccessfulAfterFailover?: boolean;
-};
+}
 
 /** InMageRcm provider specific details. */
-export type InMageRcmReplicationDetails = ReplicationProviderSpecificSettings & {
+export interface InMageRcmReplicationDetails
+  extends ReplicationProviderSpecificSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcm";
   /**
@@ -6835,10 +6869,11 @@ export type InMageRcmReplicationDetails = ReplicationProviderSpecificSettings & 
   vmNics?: InMageRcmNicDetails[];
   /** The discovered VM details. */
   discoveredVmDetails?: InMageRcmDiscoveredProtectedVmDetails;
-};
+}
 
 /** InMage provider specific settings. */
-export type InMageReplicationDetails = ReplicationProviderSpecificSettings & {
+export interface InMageReplicationDetails
+  extends ReplicationProviderSpecificSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMage";
   /** The active location of the VM. If the VM is being protected from Azure, this field will take values from { Azure, OnPrem }. If the VM is being protected between two data-centers, this field will be OnPrem always. */
@@ -6921,20 +6956,22 @@ export type InMageReplicationDetails = ReplicationProviderSpecificSettings & {
   totalDataTransferred?: number;
   /** The progress health. */
   totalProgressHealth?: string;
-};
+}
 
 /** A2A Cross-Cluster Migration enable protection input. */
-export type A2ACrossClusterMigrationEnableProtectionInput = EnableProtectionProviderSpecificInput & {
+export interface A2ACrossClusterMigrationEnableProtectionInput
+  extends EnableProtectionProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2ACrossClusterMigration";
   /** The fabric specific object Id of the virtual machine. */
   fabricObjectId?: string;
   /** The recovery container Id. */
   recoveryContainerId?: string;
-};
+}
 
 /** A2A enable protection input. */
-export type A2AEnableProtectionInput = EnableProtectionProviderSpecificInput & {
+export interface A2AEnableProtectionInput
+  extends EnableProtectionProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2A";
   /** The fabric specific object Id of the virtual machine. */
@@ -6973,10 +7010,11 @@ export type A2AEnableProtectionInput = EnableProtectionProviderSpecificInput & {
   recoveryVirtualMachineScaleSetId?: string;
   /** The recovery capacity reservation group Id. */
   recoveryCapacityReservationGroupId?: string;
-};
+}
 
 /** HyperVReplicaAzure specific enable protection input. */
-export type HyperVReplicaAzureEnableProtectionInput = EnableProtectionProviderSpecificInput & {
+export interface HyperVReplicaAzureEnableProtectionInput
+  extends EnableProtectionProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplicaAzure";
   /** The Hyper-V host VM Id. */
@@ -7035,10 +7073,11 @@ export type HyperVReplicaAzureEnableProtectionInput = EnableProtectionProviderSp
   targetManagedDiskTags?: { [propertyName: string]: string };
   /** The tags for the target NICs. */
   targetNicTags?: { [propertyName: string]: string };
-};
+}
 
 /** VMware Azure specific enable protection input. */
-export type InMageAzureV2EnableProtectionInput = EnableProtectionProviderSpecificInput & {
+export interface InMageAzureV2EnableProtectionInput
+  extends EnableProtectionProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageAzureV2";
   /** The Master target Id. */
@@ -7093,10 +7132,11 @@ export type InMageAzureV2EnableProtectionInput = EnableProtectionProviderSpecifi
   targetManagedDiskTags?: { [propertyName: string]: string };
   /** The tags for the target NICs. */
   targetNicTags?: { [propertyName: string]: string };
-};
+}
 
 /** VMware Azure specific enable protection input. */
-export type InMageEnableProtectionInput = EnableProtectionProviderSpecificInput & {
+export interface InMageEnableProtectionInput
+  extends EnableProtectionProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMage";
   /** The VM Name. */
@@ -7119,10 +7159,11 @@ export type InMageEnableProtectionInput = EnableProtectionProviderSpecificInput 
   diskExclusionInput?: InMageDiskExclusionInput;
   /** The disks to include list. */
   disksToInclude?: string[];
-};
+}
 
 /** InMageRcm specific enable protection input. */
-export type InMageRcmEnableProtectionInput = EnableProtectionProviderSpecificInput & {
+export interface InMageRcmEnableProtectionInput
+  extends EnableProtectionProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcm";
   /** The ARM Id of discovered machine. */
@@ -7161,10 +7202,11 @@ export type InMageRcmEnableProtectionInput = EnableProtectionProviderSpecificInp
   processServerId: string;
   /** The multi VM group name. */
   multiVmGroupName?: string;
-};
+}
 
 /** InMage Azure V2 input to update replication protected item. */
-export type A2AUpdateReplicationProtectedItemInput = UpdateReplicationProtectedItemProviderInput & {
+export interface A2AUpdateReplicationProtectedItemInput
+  extends UpdateReplicationProtectedItemProviderInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2A";
   /** The target cloud service ARM Id (for V1). */
@@ -7185,10 +7227,11 @@ export type A2AUpdateReplicationProtectedItemInput = UpdateReplicationProtectedI
   recoveryVirtualMachineScaleSetId?: string;
   /** The recovery capacity reservation group Id. */
   recoveryCapacityReservationGroupId?: string;
-};
+}
 
 /** HyperV replica Azure input to update replication protected item. */
-export type HyperVReplicaAzureUpdateReplicationProtectedItemInput = UpdateReplicationProtectedItemProviderInput & {
+export interface HyperVReplicaAzureUpdateReplicationProtectedItemInput
+  extends UpdateReplicationProtectedItemProviderInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplicaAzure";
   /** The recovery Azure resource group Id for classic deployment. */
@@ -7213,10 +7256,11 @@ export type HyperVReplicaAzureUpdateReplicationProtectedItemInput = UpdateReplic
   sqlServerLicenseType?: SqlServerLicenseType;
   /** The list of disk update properties. */
   vmDisks?: UpdateDiskInput[];
-};
+}
 
 /** InMage Azure V2 input to update replication protected item. */
-export type InMageAzureV2UpdateReplicationProtectedItemInput = UpdateReplicationProtectedItemProviderInput & {
+export interface InMageAzureV2UpdateReplicationProtectedItemInput
+  extends UpdateReplicationProtectedItemProviderInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageAzureV2";
   /** The recovery Azure resource group Id for classic deployment. */
@@ -7239,10 +7283,11 @@ export type InMageAzureV2UpdateReplicationProtectedItemInput = UpdateReplication
   sqlServerLicenseType?: SqlServerLicenseType;
   /** The list of disk update properties. */
   vmDisks?: UpdateDiskInput[];
-};
+}
 
 /** InMageRcm provider specific input to update replication protected item. */
-export type InMageRcmUpdateReplicationProtectedItemInput = UpdateReplicationProtectedItemProviderInput & {
+export interface InMageRcmUpdateReplicationProtectedItemInput
+  extends UpdateReplicationProtectedItemProviderInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcm";
   /** The target VM name. */
@@ -7267,56 +7312,62 @@ export type InMageRcmUpdateReplicationProtectedItemInput = UpdateReplicationProt
   vmNics?: InMageRcmNicInput[];
   /** The license type. */
   licenseType?: LicenseType;
-};
+}
 
 /** A2A add disk(s) input. */
-export type A2AAddDisksInput = AddDisksProviderSpecificInput & {
+export interface A2AAddDisksInput extends AddDisksProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2A";
   /** The list of vm disk details. */
   vmDisks?: A2AVmDiskInputDetails[];
   /** The list of vm managed disk details. */
   vmManagedDisks?: A2AVmManagedDiskInputDetails[];
-};
+}
 
 /** ApplyRecoveryPoint input specific to A2A provider. */
-export type A2AApplyRecoveryPointInput = ApplyRecoveryPointProviderSpecificInput & {
+export interface A2AApplyRecoveryPointInput
+  extends ApplyRecoveryPointProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2A";
-};
+}
 
 /** ApplyRecoveryPoint input specific to A2ACrossClusterMigration provider. */
-export type A2ACrossClusterMigrationApplyRecoveryPointInput = ApplyRecoveryPointProviderSpecificInput & {
+export interface A2ACrossClusterMigrationApplyRecoveryPointInput
+  extends ApplyRecoveryPointProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2ACrossClusterMigration";
-};
+}
 
 /** ApplyRecoveryPoint input specific to HyperVReplicaAzure provider. */
-export type HyperVReplicaAzureApplyRecoveryPointInput = ApplyRecoveryPointProviderSpecificInput & {
+export interface HyperVReplicaAzureApplyRecoveryPointInput
+  extends ApplyRecoveryPointProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplicaAzure";
   /** The primary kek certificate pfx. */
   primaryKekCertificatePfx?: string;
   /** The secondary kek certificate pfx. */
   secondaryKekCertificatePfx?: string;
-};
+}
 
 /** ApplyRecoveryPoint input specific to InMageAzureV2 provider. */
-export type InMageAzureV2ApplyRecoveryPointInput = ApplyRecoveryPointProviderSpecificInput & {
+export interface InMageAzureV2ApplyRecoveryPointInput
+  extends ApplyRecoveryPointProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageAzureV2";
-};
+}
 
 /** ApplyRecoveryPoint input specific to InMageRcm provider. */
-export type InMageRcmApplyRecoveryPointInput = ApplyRecoveryPointProviderSpecificInput & {
+export interface InMageRcmApplyRecoveryPointInput
+  extends ApplyRecoveryPointProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcm";
   /** The recovery point Id. */
   recoveryPointId: string;
-};
+}
 
 /** HyperVReplicaAzureFailback specific planned failover input. */
-export type HyperVReplicaAzureFailbackProviderInput = PlannedFailoverProviderSpecificFailoverInput & {
+export interface HyperVReplicaAzureFailbackProviderInput
+  extends PlannedFailoverProviderSpecificFailoverInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplicaAzureFailback";
   /** Data sync option. */
@@ -7325,10 +7376,11 @@ export type HyperVReplicaAzureFailbackProviderInput = PlannedFailoverProviderSpe
   recoveryVmCreationOption?: string;
   /** Provider Id for alternate location. */
   providerIdForAlternateRecovery?: string;
-};
+}
 
 /** HyperVReplicaAzure specific planned failover input. */
-export type HyperVReplicaAzurePlannedFailoverProviderInput = PlannedFailoverProviderSpecificFailoverInput & {
+export interface HyperVReplicaAzurePlannedFailoverProviderInput
+  extends PlannedFailoverProviderSpecificFailoverInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplicaAzure";
   /** Primary kek certificate pfx. */
@@ -7337,36 +7389,40 @@ export type HyperVReplicaAzurePlannedFailoverProviderInput = PlannedFailoverProv
   secondaryKekCertificatePfx?: string;
   /** The recovery point id to be passed to failover to a particular recovery point. In case of latest recovery point, null should be passed. */
   recoveryPointId?: string;
-};
+}
 
 /** Provider specific input for InMageRcmFailback failover. */
-export type InMageRcmFailbackPlannedFailoverProviderInput = PlannedFailoverProviderSpecificFailoverInput & {
+export interface InMageRcmFailbackPlannedFailoverProviderInput
+  extends PlannedFailoverProviderSpecificFailoverInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcmFailback";
   /** The recovery point type. */
   recoveryPointType: InMageRcmFailbackRecoveryPointType;
-};
+}
 
 /** A2A provider specific recovery point details. */
-export type A2ARecoveryPointDetails = ProviderSpecificRecoveryPointDetails & {
+export interface A2ARecoveryPointDetails
+  extends ProviderSpecificRecoveryPointDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2A";
   /** A value indicating whether the recovery point is multi VM consistent. */
   recoveryPointSyncType?: RecoveryPointSyncType;
   /** List of disk ids representing a recovery point. */
   disks?: string[];
-};
+}
 
 /** InMage Azure V2 provider specific recovery point details. */
-export type InMageAzureV2RecoveryPointDetails = ProviderSpecificRecoveryPointDetails & {
+export interface InMageAzureV2RecoveryPointDetails
+  extends ProviderSpecificRecoveryPointDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageAzureV2";
   /** A value indicating whether the recovery point is multi VM consistent. */
   isMultiVmSyncPoint?: string;
-};
+}
 
 /** InMageRcm provider specific recovery point details. */
-export type InMageRcmRecoveryPointDetails = ProviderSpecificRecoveryPointDetails & {
+export interface InMageRcmRecoveryPointDetails
+  extends ProviderSpecificRecoveryPointDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcm";
   /**
@@ -7374,28 +7430,30 @@ export type InMageRcmRecoveryPointDetails = ProviderSpecificRecoveryPointDetails
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isMultiVmSyncPoint?: string;
-};
+}
 
 /** InMage disable protection provider specific input. */
-export type InMageDisableProtectionProviderSpecificInput = DisableProtectionProviderSpecificInput & {
+export interface InMageDisableProtectionProviderSpecificInput
+  extends DisableProtectionProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMage";
   /** A value indicating whether the replica VM should be destroyed or retained. Values from Delete and Retain. */
   replicaVmDeletionStatus?: string;
-};
+}
 
 /** A2A remove disk(s) input. */
-export type A2ARemoveDisksInput = RemoveDisksProviderSpecificInput & {
+export interface A2ARemoveDisksInput extends RemoveDisksProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2A";
   /** The list of vm disk vhd URIs. */
   vmDisksUris?: string[];
   /** The list of vm managed disk Ids. */
   vmManagedDisksIds?: string[];
-};
+}
 
 /** Azure specific reprotect input. */
-export type A2AReprotectInput = ReverseReplicationProviderSpecificInput & {
+export interface A2AReprotectInput
+  extends ReverseReplicationProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2A";
   /** The recovery container Id. */
@@ -7410,10 +7468,11 @@ export type A2AReprotectInput = ReverseReplicationProviderSpecificInput & {
   recoveryAvailabilitySetId?: string;
   /** The Policy Id. */
   policyId?: string;
-};
+}
 
 /** Azure specific reprotect input. */
-export type HyperVReplicaAzureReprotectInput = ReverseReplicationProviderSpecificInput & {
+export interface HyperVReplicaAzureReprotectInput
+  extends ReverseReplicationProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplicaAzure";
   /** The Hyper-V host Vm Id. */
@@ -7428,10 +7487,11 @@ export type HyperVReplicaAzureReprotectInput = ReverseReplicationProviderSpecifi
   storageAccountId?: string;
   /** The storage account to be used for logging during replication. */
   logStorageAccountId?: string;
-};
+}
 
 /** InMageAzureV2 specific provider input. */
-export type InMageAzureV2ReprotectInput = ReverseReplicationProviderSpecificInput & {
+export interface InMageAzureV2ReprotectInput
+  extends ReverseReplicationProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageAzureV2";
   /** The Master target Id. */
@@ -7448,10 +7508,11 @@ export type InMageAzureV2ReprotectInput = ReverseReplicationProviderSpecificInpu
   logStorageAccountId?: string;
   /** The disks to include list. */
   disksToInclude?: string[];
-};
+}
 
 /** InMageRcmFailback specific provider input. */
-export type InMageRcmFailbackReprotectInput = ReverseReplicationProviderSpecificInput & {
+export interface InMageRcmFailbackReprotectInput
+  extends ReverseReplicationProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcmFailback";
   /** The process server Id. */
@@ -7460,10 +7521,11 @@ export type InMageRcmFailbackReprotectInput = ReverseReplicationProviderSpecific
   runAsAccountId?: string;
   /** The Policy Id. */
   policyId: string;
-};
+}
 
 /** InMageRcm specific provider input. */
-export type InMageRcmReprotectInput = ReverseReplicationProviderSpecificInput & {
+export interface InMageRcmReprotectInput
+  extends ReverseReplicationProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcm";
   /** The reprotect agent Id. */
@@ -7474,10 +7536,11 @@ export type InMageRcmReprotectInput = ReverseReplicationProviderSpecificInput & 
   logStorageAccountId: string;
   /** The Policy Id. */
   policyId?: string;
-};
+}
 
 /** InMageAzureV2 specific provider input. */
-export type InMageReprotectInput = ReverseReplicationProviderSpecificInput & {
+export interface InMageReprotectInput
+  extends ReverseReplicationProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMage";
   /** The Master Target Id. */
@@ -7496,10 +7559,11 @@ export type InMageReprotectInput = ReverseReplicationProviderSpecificInput & {
   profileId: string;
   /** The disks to include list. */
   disksToInclude?: string[];
-};
+}
 
 /** Provider specific input for InMageAzureV2 switch provider. */
-export type InMageAzureV2SwitchProviderInput = SwitchProviderSpecificInput & {
+export interface InMageAzureV2SwitchProviderInput
+  extends SwitchProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageAzureV2";
   /** The target vault Id. */
@@ -7508,20 +7572,22 @@ export type InMageAzureV2SwitchProviderInput = SwitchProviderSpecificInput & {
   targetFabricID: string;
   /** The target appliance Id. */
   targetApplianceID: string;
-};
+}
 
 /** A2A provider specific input for test failover. */
-export type A2ATestFailoverInput = TestFailoverProviderSpecificInput & {
+export interface A2ATestFailoverInput
+  extends TestFailoverProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2A";
   /** The recovery point id to be passed to test failover to a particular recovery point. In case of latest recovery point, null should be passed. */
   recoveryPointId?: string;
   /** A value indicating whether to use recovery cloud service for TFO or not. */
   cloudServiceCreationOption?: string;
-};
+}
 
 /** HvrA provider specific input for test failover. */
-export type HyperVReplicaAzureTestFailoverInput = TestFailoverProviderSpecificInput & {
+export interface HyperVReplicaAzureTestFailoverInput
+  extends TestFailoverProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplicaAzure";
   /** Primary kek certificate pfx. */
@@ -7530,48 +7596,53 @@ export type HyperVReplicaAzureTestFailoverInput = TestFailoverProviderSpecificIn
   secondaryKekCertificatePfx?: string;
   /** The recovery point id to be passed to test failover to a particular recovery point. In case of latest recovery point, null should be passed. */
   recoveryPointId?: string;
-};
+}
 
 /** InMageAzureV2 provider specific input for test failover. */
-export type InMageAzureV2TestFailoverInput = TestFailoverProviderSpecificInput & {
+export interface InMageAzureV2TestFailoverInput
+  extends TestFailoverProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageAzureV2";
   /** The recovery point id to be passed to test failover to a particular recovery point. In case of latest recovery point, null should be passed. */
   recoveryPointId?: string;
-};
+}
 
 /** InMageRcm provider specific input for test failover. */
-export type InMageRcmTestFailoverInput = TestFailoverProviderSpecificInput & {
+export interface InMageRcmTestFailoverInput
+  extends TestFailoverProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcm";
   /** The test network Id. */
   networkId?: string;
   /** The recovery point id to be passed to test failover to a particular recovery point. In case of latest recovery point, null should be passed. */
   recoveryPointId?: string;
-};
+}
 
 /** Provider specific input for InMage test failover. */
-export type InMageTestFailoverInput = TestFailoverProviderSpecificInput & {
+export interface InMageTestFailoverInput
+  extends TestFailoverProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMage";
   /** The recovery point type. Values from LatestTime, LatestTag or Custom. In the case of custom, the recovery point provided by RecoveryPointId will be used. In the other two cases, recovery point id will be ignored. */
   recoveryPointType?: RecoveryPointType;
   /** The recovery point id to be passed to test failover to a particular recovery point. In case of latest recovery point, null should be passed. */
   recoveryPointId?: string;
-};
+}
 
 /** A2A provider specific input for unplanned failover. */
-export type A2AUnplannedFailoverInput = UnplannedFailoverProviderSpecificInput & {
+export interface A2AUnplannedFailoverInput
+  extends UnplannedFailoverProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2A";
   /** The recovery point id to be passed to failover to a particular recovery point. In case of latest recovery point, null should be passed. */
   recoveryPointId?: string;
   /** A value indicating whether to use recovery cloud service for failover or not. */
   cloudServiceCreationOption?: string;
-};
+}
 
 /** HvrA provider specific input for unplanned failover. */
-export type HyperVReplicaAzureUnplannedFailoverInput = UnplannedFailoverProviderSpecificInput & {
+export interface HyperVReplicaAzureUnplannedFailoverInput
+  extends UnplannedFailoverProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplicaAzure";
   /** Primary kek certificate pfx. */
@@ -7580,46 +7651,51 @@ export type HyperVReplicaAzureUnplannedFailoverInput = UnplannedFailoverProvider
   secondaryKekCertificatePfx?: string;
   /** The recovery point id to be passed to failover to a particular recovery point. In case of latest recovery point, null should be passed. */
   recoveryPointId?: string;
-};
+}
 
 /** InMageAzureV2 provider specific input for unplanned failover. */
-export type InMageAzureV2UnplannedFailoverInput = UnplannedFailoverProviderSpecificInput & {
+export interface InMageAzureV2UnplannedFailoverInput
+  extends UnplannedFailoverProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageAzureV2";
   /** The recovery point id to be passed to failover to a particular recovery point. In case of latest recovery point, null should be passed. */
   recoveryPointId?: string;
-};
+}
 
 /** InMageRcm provider specific input for unplanned failover. */
-export type InMageRcmUnplannedFailoverInput = UnplannedFailoverProviderSpecificInput & {
+export interface InMageRcmUnplannedFailoverInput
+  extends UnplannedFailoverProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcm";
   /** A value indicating whether VM is to be shutdown. */
   performShutdown: string;
   /** The recovery point id to be passed to failover to a particular recovery point. In case of latest recovery point, null should be passed. */
   recoveryPointId?: string;
-};
+}
 
 /** Provider specific input for InMage unplanned failover. */
-export type InMageUnplannedFailoverInput = UnplannedFailoverProviderSpecificInput & {
+export interface InMageUnplannedFailoverInput
+  extends UnplannedFailoverProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMage";
   /** The recovery point type. Values from LatestTime, LatestTag or Custom. In the case of custom, the recovery point provided by RecoveryPointId will be used. In the other two cases, recovery point id will be ignored. */
   recoveryPointType?: RecoveryPointType;
   /** The recovery point id to be passed to failover to a particular recovery point. In case of latest recovery point, null should be passed. */
   recoveryPointId?: string;
-};
+}
 
 /** InMageRcm provider specific input to update appliance for replication protected item. */
-export type InMageRcmUpdateApplianceForReplicationProtectedItemInput = UpdateApplianceForReplicationProtectedItemProviderSpecificInput & {
+export interface InMageRcmUpdateApplianceForReplicationProtectedItemInput
+  extends UpdateApplianceForReplicationProtectedItemProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcm";
   /** The run as account Id. */
   runAsAccountId?: string;
-};
+}
 
 /** A2A provider specific settings. */
-export type A2AProtectionContainerMappingDetails = ProtectionContainerMappingProviderSpecificDetails & {
+export interface A2AProtectionContainerMappingDetails
+  extends ProtectionContainerMappingProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2A";
   /** A value indicating whether the auto update is enabled. */
@@ -7632,10 +7708,11 @@ export type A2AProtectionContainerMappingDetails = ProtectionContainerMappingPro
   scheduleName?: string;
   /** The job schedule arm name. */
   jobScheduleName?: string;
-};
+}
 
 /** InMageRcm provider specific container mapping details. */
-export type InMageRcmProtectionContainerMappingDetails = ProtectionContainerMappingProviderSpecificDetails & {
+export interface InMageRcmProtectionContainerMappingDetails
+  extends ProtectionContainerMappingProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcm";
   /**
@@ -7643,10 +7720,11 @@ export type InMageRcmProtectionContainerMappingDetails = ProtectionContainerMapp
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly enableAgentAutoUpgrade?: string;
-};
+}
 
 /** VMwareCbt provider specific container mapping details. */
-export type VMwareCbtProtectionContainerMappingDetails = ProtectionContainerMappingProviderSpecificDetails & {
+export interface VMwareCbtProtectionContainerMappingDetails
+  extends ProtectionContainerMappingProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VMwareCbt";
   /**
@@ -7679,10 +7757,11 @@ export type VMwareCbtProtectionContainerMappingDetails = ProtectionContainerMapp
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly targetLocation?: string;
-};
+}
 
 /** A2A container mapping input. */
-export type A2AContainerMappingInput = ReplicationProviderSpecificContainerMappingInput & {
+export interface A2AContainerMappingInput
+  extends ReplicationProviderSpecificContainerMappingInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2A";
   /** A value indicating whether the auto update is enabled. */
@@ -7691,10 +7770,11 @@ export type A2AContainerMappingInput = ReplicationProviderSpecificContainerMappi
   automationAccountArmId?: string;
   /** A value indicating the type authentication to use for automation Account. */
   automationAccountAuthenticationType?: AutomationAccountAuthenticationType;
-};
+}
 
 /** VMwareCbt container mapping input. */
-export type VMwareCbtContainerMappingInput = ReplicationProviderSpecificContainerMappingInput & {
+export interface VMwareCbtContainerMappingInput
+  extends ReplicationProviderSpecificContainerMappingInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VMwareCbt";
   /** The target key vault ARM Id. */
@@ -7709,10 +7789,11 @@ export type VMwareCbtContainerMappingInput = ReplicationProviderSpecificContaine
   serviceBusConnectionStringSecretName: string;
   /** The target location. */
   targetLocation: string;
-};
+}
 
 /** A2A update protection container mapping. */
-export type A2AUpdateContainerMappingInput = ReplicationProviderSpecificUpdateContainerMappingInput & {
+export interface A2AUpdateContainerMappingInput
+  extends ReplicationProviderSpecificUpdateContainerMappingInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2A";
   /** A value indicating whether the auto update is enabled. */
@@ -7721,18 +7802,20 @@ export type A2AUpdateContainerMappingInput = ReplicationProviderSpecificUpdateCo
   automationAccountArmId?: string;
   /** A value indicating the type authentication to use for automation Account. */
   automationAccountAuthenticationType?: AutomationAccountAuthenticationType;
-};
+}
 
 /** InMageRcm update protection container mapping. */
-export type InMageRcmUpdateContainerMappingInput = ReplicationProviderSpecificUpdateContainerMappingInput & {
+export interface InMageRcmUpdateContainerMappingInput
+  extends ReplicationProviderSpecificUpdateContainerMappingInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcm";
   /** A value indicating whether agent auto upgrade has to be enabled. */
   enableAgentAutoUpgrade: string;
-};
+}
 
 /** A2A specific switch protection input. */
-export type A2ASwitchProtectionInput = SwitchProtectionProviderSpecificInput & {
+export interface A2ASwitchProtectionInput
+  extends SwitchProtectionProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2A";
   /** The recovery container Id. */
@@ -7761,10 +7844,10 @@ export type A2ASwitchProtectionInput = SwitchProtectionProviderSpecificInput & {
   recoveryCapacityReservationGroupId?: string;
   /** The recovery disk encryption information. */
   diskEncryptionInfo?: DiskEncryptionInfo;
-};
+}
 
 /** This class represents the task details for an automation runbook. */
-export type AutomationRunbookTaskDetails = TaskTypeDetails & {
+export interface AutomationRunbookTaskDetails extends TaskTypeDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "AutomationRunbookTaskDetails";
   /** The recovery plan task name. */
@@ -7785,18 +7868,18 @@ export type AutomationRunbookTaskDetails = TaskTypeDetails & {
   jobOutput?: string;
   /** A value indicating whether it is a primary side script or not. */
   isPrimarySideScript?: boolean;
-};
+}
 
 /** This class contains monitoring details of all the inconsistent Protected Entities in Vmm. */
-export type ConsistencyCheckTaskDetails = TaskTypeDetails & {
+export interface ConsistencyCheckTaskDetails extends TaskTypeDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "ConsistencyCheckTaskDetails";
   /** The list of inconsistent Vm details. */
   vmDetails?: InconsistentVmDetails[];
-};
+}
 
 /** This class represents a task which is actually a workflow so that one can navigate to its individual drill down. */
-export type JobTaskDetails = TaskTypeDetails & {
+export interface JobTaskDetails extends TaskTypeDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType:
     | "JobTaskDetails"
@@ -7804,10 +7887,10 @@ export type JobTaskDetails = TaskTypeDetails & {
     | "VirtualMachineTaskDetails";
   /** The job entity. */
   jobTask?: JobEntity;
-};
+}
 
 /** This class represents the manual action task details. */
-export type ManualActionTaskDetails = TaskTypeDetails & {
+export interface ManualActionTaskDetails extends TaskTypeDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "ManualActionTaskDetails";
   /** The name. */
@@ -7816,10 +7899,10 @@ export type ManualActionTaskDetails = TaskTypeDetails & {
   instructions?: string;
   /** The observation. */
   observation?: string;
-};
+}
 
 /** This class represents the script action task details. */
-export type ScriptActionTaskDetails = TaskTypeDetails & {
+export interface ScriptActionTaskDetails extends TaskTypeDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "ScriptActionTaskDetails";
   /** The name. */
@@ -7830,10 +7913,10 @@ export type ScriptActionTaskDetails = TaskTypeDetails & {
   output?: string;
   /** A value indicating whether it is a primary side script or not. */
   isPrimarySideScript?: boolean;
-};
+}
 
 /** This class represents the vm NicUpdates task details. */
-export type VmNicUpdatesTaskDetails = TaskTypeDetails & {
+export interface VmNicUpdatesTaskDetails extends TaskTypeDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VmNicUpdatesTaskDetails";
   /** Virtual machine Id. */
@@ -7842,18 +7925,18 @@ export type VmNicUpdatesTaskDetails = TaskTypeDetails & {
   nicId?: string;
   /** Name of the Nic. */
   name?: string;
-};
+}
 
 /** This class represents the inline workflow task details. */
-export type InlineWorkflowTaskDetails = GroupTaskDetails & {
+export interface InlineWorkflowTaskDetails extends GroupTaskDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InlineWorkflowTaskDetails";
   /** The list of child workflow ids. */
   workflowIds?: string[];
-};
+}
 
 /** This class represents the recovery plan group task. */
-export type RecoveryPlanGroupTaskDetails = GroupTaskDetails & {
+export interface RecoveryPlanGroupTaskDetails extends GroupTaskDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType:
     | "RecoveryPlanGroupTaskDetails"
@@ -7864,42 +7947,42 @@ export type RecoveryPlanGroupTaskDetails = GroupTaskDetails & {
   groupId?: string;
   /** The group type. */
   rpGroupType?: string;
-};
+}
 
 /** This class represents job details based on specific job type. */
-export type AsrJobDetails = JobDetails & {
+export interface AsrJobDetails extends JobDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "AsrJobDetails";
-};
+}
 
 /** This class represents details for export jobs workflow. */
-export type ExportJobDetails = JobDetails & {
+export interface ExportJobDetails extends JobDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "ExportJobDetails";
   /** BlobUri of the exported jobs. */
   blobUri?: string;
   /** The sas token to access blob. */
   sasToken?: string;
-};
+}
 
 /** This class represents the details for a failover job. */
-export type FailoverJobDetails = JobDetails & {
+export interface FailoverJobDetails extends JobDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "FailoverJobDetails";
   /** The test VM details. */
   protectedItemDetails?: FailoverReplicationProtectedItemDetails[];
-};
+}
 
 /** This class represents details for switch protection job. */
-export type SwitchProtectionJobDetails = JobDetails & {
+export interface SwitchProtectionJobDetails extends JobDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "SwitchProtectionJobDetails";
   /** ARM Id of the new replication protected item. */
   newReplicationProtectedItemId?: string;
-};
+}
 
 /** This class represents the details for a test failover job. */
-export type TestFailoverJobDetails = JobDetails & {
+export interface TestFailoverJobDetails extends JobDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "TestFailoverJobDetails";
   /** The test failover status. */
@@ -7914,10 +7997,10 @@ export type TestFailoverJobDetails = JobDetails & {
   networkType?: string;
   /** The test VM details. */
   protectedItemDetails?: FailoverReplicationProtectedItemDetails[];
-};
+}
 
 /** A2A specific policy details. */
-export type A2APolicyDetails = PolicyProviderSpecificDetails & {
+export interface A2APolicyDetails extends PolicyProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2A";
   /** The recovery point threshold in minutes. */
@@ -7930,10 +8013,11 @@ export type A2APolicyDetails = PolicyProviderSpecificDetails & {
   multiVmSyncStatus?: string;
   /** The crash consistent snapshot frequency in minutes. */
   crashConsistentFrequencyInMinutes?: number;
-};
+}
 
 /** Hyper-V Replica Azure specific protection profile details. */
-export type HyperVReplicaAzurePolicyDetails = PolicyProviderSpecificDetails & {
+export interface HyperVReplicaAzurePolicyDetails
+  extends PolicyProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplicaAzure";
   /** The duration (in hours) to which point the recovery history needs to be maintained. */
@@ -7948,10 +8032,11 @@ export type HyperVReplicaAzurePolicyDetails = PolicyProviderSpecificDetails & {
   encryption?: string;
   /** The active storage account Id. */
   activeStorageAccountId?: string;
-};
+}
 
 /** Base class for HyperVReplica policy details. */
-export type HyperVReplicaBasePolicyDetails = PolicyProviderSpecificDetails & {
+export interface HyperVReplicaBasePolicyDetails
+  extends PolicyProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplicaBasePolicyDetails";
   /** A value indicating the number of recovery points. */
@@ -7974,10 +8059,11 @@ export type HyperVReplicaBasePolicyDetails = PolicyProviderSpecificDetails & {
   allowedAuthenticationType?: number;
   /** A value indicating whether the VM has to be auto deleted. Supported Values: String.Empty, None, OnRecoveryCloud. */
   replicaDeletionOption?: string;
-};
+}
 
 /** Hyper-V Replica Blue specific protection profile details. */
-export type HyperVReplicaBluePolicyDetails = PolicyProviderSpecificDetails & {
+export interface HyperVReplicaBluePolicyDetails
+  extends PolicyProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplica2012R2";
   /** A value indicating the replication interval. */
@@ -8002,10 +8088,11 @@ export type HyperVReplicaBluePolicyDetails = PolicyProviderSpecificDetails & {
   allowedAuthenticationType?: number;
   /** A value indicating whether the VM has to be auto deleted. Supported Values: String.Empty, None, OnRecoveryCloud */
   replicaDeletionOption?: string;
-};
+}
 
 /** Hyper-V Replica Blue specific protection profile details. */
-export type HyperVReplicaPolicyDetails = PolicyProviderSpecificDetails & {
+export interface HyperVReplicaPolicyDetails
+  extends PolicyProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplica2012";
   /** A value indicating the number of recovery points. */
@@ -8028,10 +8115,11 @@ export type HyperVReplicaPolicyDetails = PolicyProviderSpecificDetails & {
   allowedAuthenticationType?: number;
   /** A value indicating whether the VM has to be auto deleted. Supported Values: String.Empty, None, OnRecoveryCloud */
   replicaDeletionOption?: string;
-};
+}
 
 /** InMage Azure v2 specific protection profile details. */
-export type InMageAzureV2PolicyDetails = PolicyProviderSpecificDetails & {
+export interface InMageAzureV2PolicyDetails
+  extends PolicyProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageAzureV2";
   /** The crash consistent snapshot frequency in minutes. */
@@ -8044,10 +8132,10 @@ export type InMageAzureV2PolicyDetails = PolicyProviderSpecificDetails & {
   appConsistentFrequencyInMinutes?: number;
   /** A value indicating whether multi-VM sync has to be enabled. */
   multiVmSyncStatus?: string;
-};
+}
 
 /** Base class for the policies of providers using InMage replication. */
-export type InMageBasePolicyDetails = PolicyProviderSpecificDetails & {
+export interface InMageBasePolicyDetails extends PolicyProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageBasePolicyDetails";
   /** The recovery point threshold in minutes. */
@@ -8058,10 +8146,10 @@ export type InMageBasePolicyDetails = PolicyProviderSpecificDetails & {
   appConsistentFrequencyInMinutes?: number;
   /** A value indicating whether multi-VM sync has to be enabled. */
   multiVmSyncStatus?: string;
-};
+}
 
 /** InMage specific protection profile details. */
-export type InMagePolicyDetails = PolicyProviderSpecificDetails & {
+export interface InMagePolicyDetails extends PolicyProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMage";
   /** The recovery point threshold in minutes. */
@@ -8072,20 +8160,21 @@ export type InMagePolicyDetails = PolicyProviderSpecificDetails & {
   appConsistentFrequencyInMinutes?: number;
   /** A value indicating whether multi-VM sync has to be enabled. */
   multiVmSyncStatus?: string;
-};
+}
 
 /** InMageRcm failback specific policy details. */
-export type InMageRcmFailbackPolicyDetails = PolicyProviderSpecificDetails & {
+export interface InMageRcmFailbackPolicyDetails
+  extends PolicyProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcmFailback";
   /** The app consistent snapshot frequency in minutes. */
   appConsistentFrequencyInMinutes?: number;
   /** The crash consistent snapshot frequency in minutes. */
   crashConsistentFrequencyInMinutes?: number;
-};
+}
 
 /** InMageRcm specific policy details. */
-export type InMageRcmPolicyDetails = PolicyProviderSpecificDetails & {
+export interface InMageRcmPolicyDetails extends PolicyProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcm";
   /** The duration in minutes until which the recovery points need to be stored. */
@@ -8096,10 +8185,10 @@ export type InMageRcmPolicyDetails = PolicyProviderSpecificDetails & {
   crashConsistentFrequencyInMinutes?: number;
   /** A value indicating whether multi-VM sync has to be enabled. */
   enableMultiVmSync?: string;
-};
+}
 
 /** VMware Cbt specific policy details. */
-export type VmwareCbtPolicyDetails = PolicyProviderSpecificDetails & {
+export interface VmwareCbtPolicyDetails extends PolicyProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VMwareCbt";
   /** The duration in minutes until which the recovery points need to be stored. */
@@ -8108,16 +8197,17 @@ export type VmwareCbtPolicyDetails = PolicyProviderSpecificDetails & {
   appConsistentFrequencyInMinutes?: number;
   /** The crash consistent snapshot frequency in minutes. */
   crashConsistentFrequencyInMinutes?: number;
-};
+}
 
 /** A2A Cross-Cluster Migration Policy creation input. */
-export type A2ACrossClusterMigrationPolicyCreationInput = PolicyProviderSpecificInput & {
+export interface A2ACrossClusterMigrationPolicyCreationInput
+  extends PolicyProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2ACrossClusterMigration";
-};
+}
 
 /** A2A Policy creation input. */
-export type A2APolicyCreationInput = PolicyProviderSpecificInput & {
+export interface A2APolicyCreationInput extends PolicyProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2A";
   /** The duration in minutes until which the recovery points need to be stored. */
@@ -8128,10 +8218,11 @@ export type A2APolicyCreationInput = PolicyProviderSpecificInput & {
   appConsistentFrequencyInMinutes?: number;
   /** A value indicating whether multi-VM sync has to be enabled. Value should be 'Enabled' or 'Disabled'. */
   multiVmSyncStatus: SetMultiVmSyncStatus;
-};
+}
 
 /** Hyper-V Replica Azure specific input for creating a protection profile. */
-export type HyperVReplicaAzurePolicyInput = PolicyProviderSpecificInput & {
+export interface HyperVReplicaAzurePolicyInput
+  extends PolicyProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplicaAzure";
   /** The duration (in hours) to which point the recovery history needs to be maintained. */
@@ -8144,10 +8235,10 @@ export type HyperVReplicaAzurePolicyInput = PolicyProviderSpecificInput & {
   onlineReplicationStartTime?: string;
   /** The list of storage accounts to which the VMs in the primary cloud can replicate to. */
   storageAccounts?: string[];
-};
+}
 
 /** Hyper-V Replica specific policy Input. */
-export type HyperVReplicaPolicyInput = PolicyProviderSpecificInput & {
+export interface HyperVReplicaPolicyInput extends PolicyProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplica2012" | "HyperVReplica2012R2";
   /** A value indicating the number of recovery points. */
@@ -8170,10 +8261,10 @@ export type HyperVReplicaPolicyInput = PolicyProviderSpecificInput & {
   allowedAuthenticationType?: number;
   /** A value indicating whether the VM has to be auto deleted. */
   replicaDeletion?: string;
-};
+}
 
 /** VMWare Azure specific policy Input. */
-export type InMageAzureV2PolicyInput = PolicyProviderSpecificInput & {
+export interface InMageAzureV2PolicyInput extends PolicyProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageAzureV2";
   /** The recovery point threshold in minutes. */
@@ -8186,10 +8277,10 @@ export type InMageAzureV2PolicyInput = PolicyProviderSpecificInput & {
   appConsistentFrequencyInMinutes?: number;
   /** A value indicating whether multi-VM sync has to be enabled. Value should be 'Enabled' or 'Disabled'. */
   multiVmSyncStatus: SetMultiVmSyncStatus;
-};
+}
 
 /** VMWare Azure specific protection profile Input. */
-export type InMagePolicyInput = PolicyProviderSpecificInput & {
+export interface InMagePolicyInput extends PolicyProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMage";
   /** The recovery point threshold in minutes. */
@@ -8200,20 +8291,22 @@ export type InMagePolicyInput = PolicyProviderSpecificInput & {
   appConsistentFrequencyInMinutes?: number;
   /** A value indicating whether multi-VM sync has to be enabled. Value should be 'Enabled' or 'Disabled'. */
   multiVmSyncStatus: SetMultiVmSyncStatus;
-};
+}
 
 /** InMageRcmFailback policy creation input. */
-export type InMageRcmFailbackPolicyCreationInput = PolicyProviderSpecificInput & {
+export interface InMageRcmFailbackPolicyCreationInput
+  extends PolicyProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcmFailback";
   /** The crash consistent snapshot frequency (in minutes). */
   crashConsistentFrequencyInMinutes?: number;
   /** The app consistent snapshot frequency (in minutes). */
   appConsistentFrequencyInMinutes?: number;
-};
+}
 
 /** InMageRcm policy creation input. */
-export type InMageRcmPolicyCreationInput = PolicyProviderSpecificInput & {
+export interface InMageRcmPolicyCreationInput
+  extends PolicyProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcm";
   /** The duration in minutes until which the recovery points need to be stored. */
@@ -8224,10 +8317,11 @@ export type InMageRcmPolicyCreationInput = PolicyProviderSpecificInput & {
   appConsistentFrequencyInMinutes?: number;
   /** A value indicating whether multi-VM sync has to be enabled. */
   enableMultiVmSync?: string;
-};
+}
 
 /** VMware Cbt policy creation input. */
-export type VMwareCbtPolicyCreationInput = PolicyProviderSpecificInput & {
+export interface VMwareCbtPolicyCreationInput
+  extends PolicyProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VMwareCbt";
   /** The duration in minutes until which the recovery points need to be stored. */
@@ -8236,10 +8330,11 @@ export type VMwareCbtPolicyCreationInput = PolicyProviderSpecificInput & {
   crashConsistentFrequencyInMinutes?: number;
   /** The app consistent snapshot frequency (in minutes). */
   appConsistentFrequencyInMinutes?: number;
-};
+}
 
 /** A2A provider specific settings. */
-export type A2AReplicationIntentDetails = ReplicationProtectionIntentProviderSpecificSettings & {
+export interface A2AReplicationIntentDetails
+  extends ReplicationProtectionIntentProviderSpecificSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2A";
   /** The fabric specific object Id of the virtual machine. */
@@ -8286,10 +8381,11 @@ export type A2AReplicationIntentDetails = ReplicationProtectionIntentProviderSpe
   automationAccountArmId?: string;
   /** A value indicating the type authentication to use for automation Account. */
   automationAccountAuthenticationType?: AutomationAccountAuthenticationType;
-};
+}
 
 /** A2A create protection intent input. */
-export type A2ACreateProtectionIntentInput = CreateProtectionIntentProviderSpecificDetails & {
+export interface A2ACreateProtectionIntentInput
+  extends CreateProtectionIntentProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2A";
   /** The fabric specific object Id of the virtual machine. */
@@ -8336,10 +8432,11 @@ export type A2ACreateProtectionIntentInput = CreateProtectionIntentProviderSpeci
   automationAccountAuthenticationType?: AutomationAccountAuthenticationType;
   /** The automation account arm id. */
   automationAccountArmId?: string;
-};
+}
 
 /** Recovery plan Automation runbook action details. */
-export type RecoveryPlanAutomationRunbookActionDetails = RecoveryPlanActionDetails & {
+export interface RecoveryPlanAutomationRunbookActionDetails
+  extends RecoveryPlanActionDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "AutomationRunbookActionDetails";
   /** The runbook ARM Id. */
@@ -8348,18 +8445,20 @@ export type RecoveryPlanAutomationRunbookActionDetails = RecoveryPlanActionDetai
   timeout?: string;
   /** The fabric location. */
   fabricLocation: RecoveryPlanActionLocation;
-};
+}
 
 /** Recovery plan manual action details. */
-export type RecoveryPlanManualActionDetails = RecoveryPlanActionDetails & {
+export interface RecoveryPlanManualActionDetails
+  extends RecoveryPlanActionDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "ManualActionDetails";
   /** The manual action description. */
   description?: string;
-};
+}
 
 /** Recovery plan script action details. */
-export type RecoveryPlanScriptActionDetails = RecoveryPlanActionDetails & {
+export interface RecoveryPlanScriptActionDetails
+  extends RecoveryPlanActionDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "ScriptActionDetails";
   /** The script path. */
@@ -8368,20 +8467,22 @@ export type RecoveryPlanScriptActionDetails = RecoveryPlanActionDetails & {
   timeout?: string;
   /** The fabric location. */
   fabricLocation: RecoveryPlanActionLocation;
-};
+}
 
 /** Recovery plan A2A specific details. */
-export type RecoveryPlanA2ADetails = RecoveryPlanProviderSpecificDetails & {
+export interface RecoveryPlanA2ADetails
+  extends RecoveryPlanProviderSpecificDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2A";
   /** The primary zone. */
   primaryZone?: string;
   /** The recovery zone. */
   recoveryZone?: string;
-};
+}
 
 /** Recovery plan A2A input. */
-export type RecoveryPlanA2AInput = RecoveryPlanProviderSpecificInput & {
+export interface RecoveryPlanA2AInput
+  extends RecoveryPlanProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2A";
   /** The primary zone. */
@@ -8392,10 +8493,11 @@ export type RecoveryPlanA2AInput = RecoveryPlanProviderSpecificInput & {
   primaryExtendedLocation?: ExtendedLocation;
   /** The recovery extended location. */
   recoveryExtendedLocation?: ExtendedLocation;
-};
+}
 
 /** Recovery plan A2A failover input. */
-export type RecoveryPlanA2AFailoverInput = RecoveryPlanProviderSpecificFailoverInput & {
+export interface RecoveryPlanA2AFailoverInput
+  extends RecoveryPlanProviderSpecificFailoverInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "A2A";
   /** The recovery point type. */
@@ -8404,20 +8506,22 @@ export type RecoveryPlanA2AFailoverInput = RecoveryPlanProviderSpecificFailoverI
   cloudServiceCreationOption?: string;
   /** A value indicating whether multi VM sync enabled VMs should use multi VM sync points for failover. */
   multiVmSyncPointOption?: MultiVmSyncPointOption;
-};
+}
 
 /** Recovery plan HVR Azure failback input. */
-export type RecoveryPlanHyperVReplicaAzureFailbackInput = RecoveryPlanProviderSpecificFailoverInput & {
+export interface RecoveryPlanHyperVReplicaAzureFailbackInput
+  extends RecoveryPlanProviderSpecificFailoverInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplicaAzureFailback";
   /** The data sync option. */
   dataSyncOption: DataSyncStatus;
   /** The ALR option. */
   recoveryVmCreationOption: AlternateLocationRecoveryOption;
-};
+}
 
 /** Recovery plan HVR Azure failover input. */
-export type RecoveryPlanHyperVReplicaAzureFailoverInput = RecoveryPlanProviderSpecificFailoverInput & {
+export interface RecoveryPlanHyperVReplicaAzureFailoverInput
+  extends RecoveryPlanProviderSpecificFailoverInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplicaAzure";
   /** The primary KEK certificate PFX. */
@@ -8426,56 +8530,61 @@ export type RecoveryPlanHyperVReplicaAzureFailoverInput = RecoveryPlanProviderSp
   secondaryKekCertificatePfx?: string;
   /** The recovery point type. */
   recoveryPointType?: HyperVReplicaAzureRpRecoveryPointType;
-};
+}
 
 /** Recovery plan InMageAzureV2 failover input. */
-export type RecoveryPlanInMageAzureV2FailoverInput = RecoveryPlanProviderSpecificFailoverInput & {
+export interface RecoveryPlanInMageAzureV2FailoverInput
+  extends RecoveryPlanProviderSpecificFailoverInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageAzureV2";
   /** The recovery point type. */
   recoveryPointType: InMageV2RpRecoveryPointType;
   /** A value indicating whether multi VM sync enabled VMs should use multi VM sync points for failover. */
   useMultiVmSyncPoint?: string;
-};
+}
 
 /** Recovery plan InMage failover input. */
-export type RecoveryPlanInMageFailoverInput = RecoveryPlanProviderSpecificFailoverInput & {
+export interface RecoveryPlanInMageFailoverInput
+  extends RecoveryPlanProviderSpecificFailoverInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMage";
   /** The recovery point type. */
   recoveryPointType: RpInMageRecoveryPointType;
-};
+}
 
 /** Recovery plan InMageRcmFailback failover input. */
-export type RecoveryPlanInMageRcmFailbackFailoverInput = RecoveryPlanProviderSpecificFailoverInput & {
+export interface RecoveryPlanInMageRcmFailbackFailoverInput
+  extends RecoveryPlanProviderSpecificFailoverInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcmFailback";
   /** The recovery point type. */
   recoveryPointType: InMageRcmFailbackRecoveryPointType;
   /** A value indicating whether multi VM sync enabled VMs should use multi VM sync points for failover. */
   useMultiVmSyncPoint?: string;
-};
+}
 
 /** Recovery plan InMageRcm failover input. */
-export type RecoveryPlanInMageRcmFailoverInput = RecoveryPlanProviderSpecificFailoverInput & {
+export interface RecoveryPlanInMageRcmFailoverInput
+  extends RecoveryPlanProviderSpecificFailoverInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "InMageRcm";
   /** The recovery point type. */
   recoveryPointType: RecoveryPlanPointType;
   /** A value indicating whether multi VM sync enabled VMs should use multi VM sync points for failover. */
   useMultiVmSyncPoint?: string;
-};
+}
 
 /** Existing storage account input. */
-export type ExistingProtectionProfile = ProtectionProfileCustomDetails & {
+export interface ExistingProtectionProfile
+  extends ProtectionProfileCustomDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Existing";
   /** The protection profile Arm Id. Throw error, if resource does not exists. */
   protectionProfileId: string;
-};
+}
 
 /** New Protection profile input. */
-export type NewProtectionProfile = ProtectionProfileCustomDetails & {
+export interface NewProtectionProfile extends ProtectionProfileCustomDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "New";
   /** The protection profile input. */
@@ -8488,103 +8597,111 @@ export type NewProtectionProfile = ProtectionProfileCustomDetails & {
   appConsistentFrequencyInMinutes?: number;
   /** A value indicating whether multi-VM sync has to be enabled. Value should be 'Enabled' or 'Disabled'. */
   multiVmSyncStatus: SetMultiVmSyncStatus;
-};
+}
 
 /** Existing storage account input. */
-export type ExistingStorageAccount = StorageAccountCustomDetails & {
+export interface ExistingStorageAccount extends StorageAccountCustomDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Existing";
   /** The storage account Arm Id. Throw error, if resource does not exists. */
   azureStorageAccountId: string;
-};
+}
 
 /** Existing recovery availability set input. */
-export type ExistingRecoveryAvailabilitySet = RecoveryAvailabilitySetCustomDetails & {
+export interface ExistingRecoveryAvailabilitySet
+  extends RecoveryAvailabilitySetCustomDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Existing";
   /** The recovery availability set Id. Will throw error, if resource does not exist. */
   recoveryAvailabilitySetId?: string;
-};
+}
 
 /** Existing recovery virtual network input. */
-export type ExistingRecoveryVirtualNetwork = RecoveryVirtualNetworkCustomDetails & {
+export interface ExistingRecoveryVirtualNetwork
+  extends RecoveryVirtualNetworkCustomDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Existing";
   /** The recovery virtual network Id. Will throw error, if resource does not exist. */
   recoveryVirtualNetworkId: string;
   /** The recovery subnet name. */
   recoverySubnetName?: string;
-};
+}
 
 /** Recovery virtual network input to create new virtual network from given source network. */
-export type NewRecoveryVirtualNetwork = RecoveryVirtualNetworkCustomDetails & {
+export interface NewRecoveryVirtualNetwork
+  extends RecoveryVirtualNetworkCustomDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "New";
   /** The name of the resource group to be used to create the recovery virtual network. If absent, target network would be created in the same resource group as target VM. */
   recoveryVirtualNetworkResourceGroupName?: string;
   /** The recovery virtual network name. */
   recoveryVirtualNetworkName?: string;
-};
+}
 
 /** Existing recovery proximity placement group input. */
-export type ExistingRecoveryProximityPlacementGroup = RecoveryProximityPlacementGroupCustomDetails & {
+export interface ExistingRecoveryProximityPlacementGroup
+  extends RecoveryProximityPlacementGroupCustomDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Existing";
   /** The recovery proximity placement group Id. Will throw error, if resource does not exist. */
   recoveryProximityPlacementGroupId?: string;
-};
+}
 
 /** Existing recovery resource group input. */
-export type ExistingRecoveryResourceGroup = RecoveryResourceGroupCustomDetails & {
+export interface ExistingRecoveryResourceGroup
+  extends RecoveryResourceGroupCustomDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Existing";
   /** The recovery resource group Id. Valid for V2 scenarios. */
   recoveryResourceGroupId?: string;
-};
+}
 
 /** VMM fabric provider specific VM settings. */
-export type VmmVirtualMachineDetails = HyperVVirtualMachineDetails & {
+export interface VmmVirtualMachineDetails extends HyperVVirtualMachineDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VmmVirtualMachine";
-};
+}
 
 /** This class represents the fabric replication group task details. */
-export type FabricReplicationGroupTaskDetails = JobTaskDetails & {
+export interface FabricReplicationGroupTaskDetails extends JobTaskDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "FabricReplicationGroupTaskDetails";
   /** The skipped reason. */
   skippedReason?: string;
   /** The skipped reason string. */
   skippedReasonString?: string;
-};
+}
 
 /** This class represents the virtual machine task details. */
-export type VirtualMachineTaskDetails = JobTaskDetails & {
+export interface VirtualMachineTaskDetails extends JobTaskDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VirtualMachineTaskDetails";
   /** The skipped reason. */
   skippedReason?: string;
   /** The skipped reason string. */
   skippedReasonString?: string;
-};
+}
 
 /** This class represents the recovery plan shutdown group task details. */
-export type RecoveryPlanShutdownGroupTaskDetails = RecoveryPlanGroupTaskDetails & {
+export interface RecoveryPlanShutdownGroupTaskDetails
+  extends RecoveryPlanGroupTaskDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "RecoveryPlanShutdownGroupTaskDetails";
-};
+}
 
 /** HyperV Replica Blue policy input. */
-export type HyperVReplicaBluePolicyInput = HyperVReplicaPolicyInput & {
+export interface HyperVReplicaBluePolicyInput extends HyperVReplicaPolicyInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVReplica2012R2";
   /** A value indicating the replication interval. */
   replicationFrequencyInSeconds?: number;
-};
+}
 
 /** Known values of {@link HealthErrorCustomerResolvability} that the service accepts. */
 export enum KnownHealthErrorCustomerResolvability {
+  /** Allowed */
   Allowed = "Allowed",
+  /** NotAllowed */
   NotAllowed = "NotAllowed"
 }
 
@@ -8600,16 +8717,27 @@ export type HealthErrorCustomerResolvability = string;
 
 /** Known values of {@link MigrationState} that the service accepts. */
 export enum KnownMigrationState {
+  /** None */
   None = "None",
+  /** EnableMigrationInProgress */
   EnableMigrationInProgress = "EnableMigrationInProgress",
+  /** EnableMigrationFailed */
   EnableMigrationFailed = "EnableMigrationFailed",
+  /** DisableMigrationInProgress */
   DisableMigrationInProgress = "DisableMigrationInProgress",
+  /** DisableMigrationFailed */
   DisableMigrationFailed = "DisableMigrationFailed",
+  /** InitialSeedingInProgress */
   InitialSeedingInProgress = "InitialSeedingInProgress",
+  /** InitialSeedingFailed */
   InitialSeedingFailed = "InitialSeedingFailed",
+  /** Replicating */
   Replicating = "Replicating",
+  /** MigrationInProgress */
   MigrationInProgress = "MigrationInProgress",
+  /** MigrationSucceeded */
   MigrationSucceeded = "MigrationSucceeded",
+  /** MigrationFailed */
   MigrationFailed = "MigrationFailed"
 }
 
@@ -8634,10 +8762,15 @@ export type MigrationState = string;
 
 /** Known values of {@link TestMigrationState} that the service accepts. */
 export enum KnownTestMigrationState {
+  /** None */
   None = "None",
+  /** TestMigrationInProgress */
   TestMigrationInProgress = "TestMigrationInProgress",
+  /** TestMigrationSucceeded */
   TestMigrationSucceeded = "TestMigrationSucceeded",
+  /** TestMigrationFailed */
   TestMigrationFailed = "TestMigrationFailed",
+  /** TestMigrationCleanupInProgress */
   TestMigrationCleanupInProgress = "TestMigrationCleanupInProgress"
 }
 
@@ -8656,9 +8789,13 @@ export type TestMigrationState = string;
 
 /** Known values of {@link ProtectionHealth} that the service accepts. */
 export enum KnownProtectionHealth {
+  /** None */
   None = "None",
+  /** Normal */
   Normal = "Normal",
+  /** Warning */
   Warning = "Warning",
+  /** Critical */
   Critical = "Critical"
 }
 
@@ -8676,10 +8813,15 @@ export type ProtectionHealth = string;
 
 /** Known values of {@link MigrationItemOperation} that the service accepts. */
 export enum KnownMigrationItemOperation {
+  /** DisableMigration */
   DisableMigration = "DisableMigration",
+  /** TestMigrate */
   TestMigrate = "TestMigrate",
+  /** TestMigrateCleanup */
   TestMigrateCleanup = "TestMigrateCleanup",
+  /** Migrate */
   Migrate = "Migrate",
+  /** StartResync */
   StartResync = "StartResync"
 }
 
@@ -8698,8 +8840,11 @@ export type MigrationItemOperation = string;
 
 /** Known values of {@link MigrationRecoveryPointType} that the service accepts. */
 export enum KnownMigrationRecoveryPointType {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** ApplicationConsistent */
   ApplicationConsistent = "ApplicationConsistent",
+  /** CrashConsistent */
   CrashConsistent = "CrashConsistent"
 }
 
@@ -8716,8 +8861,11 @@ export type MigrationRecoveryPointType = string;
 
 /** Known values of {@link LicenseType} that the service accepts. */
 export enum KnownLicenseType {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** NoLicenseType */
   NoLicenseType = "NoLicenseType",
+  /** WindowsServer */
   WindowsServer = "WindowsServer"
 }
 
@@ -8734,7 +8882,9 @@ export type LicenseType = string;
 
 /** Known values of {@link DisableProtectionReason} that the service accepts. */
 export enum KnownDisableProtectionReason {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** MigrationComplete */
   MigrationComplete = "MigrationComplete"
 }
 
@@ -8750,10 +8900,15 @@ export type DisableProtectionReason = string;
 
 /** Known values of {@link AgentVersionStatus} that the service accepts. */
 export enum KnownAgentVersionStatus {
+  /** Supported */
   Supported = "Supported",
+  /** NotSupported */
   NotSupported = "NotSupported",
+  /** Deprecated */
   Deprecated = "Deprecated",
+  /** UpdateRequired */
   UpdateRequired = "UpdateRequired",
+  /** SecurityUpdateRequired */
   SecurityUpdateRequired = "SecurityUpdateRequired"
 }
 
@@ -8772,8 +8927,11 @@ export type AgentVersionStatus = string;
 
 /** Known values of {@link ExportJobOutputSerializationType} that the service accepts. */
 export enum KnownExportJobOutputSerializationType {
+  /** Json */
   Json = "Json",
+  /** Xml */
   Xml = "Xml",
+  /** Excel */
   Excel = "Excel"
 }
 
@@ -8790,8 +8948,11 @@ export type ExportJobOutputSerializationType = string;
 
 /** Known values of {@link RecoveryPlanGroupType} that the service accepts. */
 export enum KnownRecoveryPlanGroupType {
+  /** Shutdown */
   Shutdown = "Shutdown",
+  /** Boot */
   Boot = "Boot",
+  /** Failover */
   Failover = "Failover"
 }
 
@@ -8808,19 +8969,33 @@ export type RecoveryPlanGroupType = string;
 
 /** Known values of {@link ReplicationProtectedItemOperation} that the service accepts. */
 export enum KnownReplicationProtectedItemOperation {
+  /** ReverseReplicate */
   ReverseReplicate = "ReverseReplicate",
+  /** Commit */
   Commit = "Commit",
+  /** PlannedFailover */
   PlannedFailover = "PlannedFailover",
+  /** UnplannedFailover */
   UnplannedFailover = "UnplannedFailover",
+  /** DisableProtection */
   DisableProtection = "DisableProtection",
+  /** TestFailover */
   TestFailover = "TestFailover",
+  /** TestFailoverCleanup */
   TestFailoverCleanup = "TestFailoverCleanup",
+  /** Failback */
   Failback = "Failback",
+  /** FinalizeFailback */
   FinalizeFailback = "FinalizeFailback",
+  /** CancelFailover */
   CancelFailover = "CancelFailover",
+  /** ChangePit */
   ChangePit = "ChangePit",
+  /** RepairReplication */
   RepairReplication = "RepairReplication",
+  /** SwitchProtection */
   SwitchProtection = "SwitchProtection",
+  /** CompleteMigration */
   CompleteMigration = "CompleteMigration"
 }
 
@@ -8848,7 +9023,9 @@ export type ReplicationProtectedItemOperation = string;
 
 /** Known values of {@link PossibleOperationsDirections} that the service accepts. */
 export enum KnownPossibleOperationsDirections {
+  /** PrimaryToRecovery */
   PrimaryToRecovery = "PrimaryToRecovery",
+  /** RecoveryToPrimary */
   RecoveryToPrimary = "RecoveryToPrimary"
 }
 
@@ -8864,8 +9041,11 @@ export type PossibleOperationsDirections = string;
 
 /** Known values of {@link FailoverDeploymentModel} that the service accepts. */
 export enum KnownFailoverDeploymentModel {
+  /** NotApplicable */
   NotApplicable = "NotApplicable",
+  /** Classic */
   Classic = "Classic",
+  /** ResourceManager */
   ResourceManager = "ResourceManager"
 }
 
@@ -8882,7 +9062,9 @@ export type FailoverDeploymentModel = string;
 
 /** Known values of {@link SourceSiteOperations} that the service accepts. */
 export enum KnownSourceSiteOperations {
+  /** Required */
   Required = "Required",
+  /** NotRequired */
   NotRequired = "NotRequired"
 }
 
@@ -8898,16 +9080,27 @@ export type SourceSiteOperations = string;
 
 /** Known values of {@link HealthErrorCategory} that the service accepts. */
 export enum KnownHealthErrorCategory {
+  /** None */
   None = "None",
+  /** Replication */
   Replication = "Replication",
+  /** TestFailover */
   TestFailover = "TestFailover",
+  /** Configuration */
   Configuration = "Configuration",
+  /** FabricInfrastructure */
   FabricInfrastructure = "FabricInfrastructure",
+  /** VersionExpiry */
   VersionExpiry = "VersionExpiry",
+  /** AgentAutoUpdateInfra */
   AgentAutoUpdateInfra = "AgentAutoUpdateInfra",
+  /** AgentAutoUpdateArtifactDeleted */
   AgentAutoUpdateArtifactDeleted = "AgentAutoUpdateArtifactDeleted",
+  /** AgentAutoUpdateRunAsAccount */
   AgentAutoUpdateRunAsAccount = "AgentAutoUpdateRunAsAccount",
+  /** AgentAutoUpdateRunAsAccountExpiry */
   AgentAutoUpdateRunAsAccountExpiry = "AgentAutoUpdateRunAsAccountExpiry",
+  /** AgentAutoUpdateRunAsAccountExpired */
   AgentAutoUpdateRunAsAccountExpired = "AgentAutoUpdateRunAsAccountExpired"
 }
 
@@ -8932,9 +9125,13 @@ export type HealthErrorCategory = string;
 
 /** Known values of {@link Severity} that the service accepts. */
 export enum KnownSeverity {
+  /** None */
   None = "NONE",
+  /** Warning */
   Warning = "Warning",
+  /** Error */
   Error = "Error",
+  /** Info */
   Info = "Info"
 }
 
@@ -8952,7 +9149,9 @@ export type Severity = string;
 
 /** Known values of {@link AgentAutoUpdateStatus} that the service accepts. */
 export enum KnownAgentAutoUpdateStatus {
+  /** Disabled */
   Disabled = "Disabled",
+  /** Enabled */
   Enabled = "Enabled"
 }
 
@@ -8968,7 +9167,9 @@ export type AgentAutoUpdateStatus = string;
 
 /** Known values of {@link AutomationAccountAuthenticationType} that the service accepts. */
 export enum KnownAutomationAccountAuthenticationType {
+  /** RunAsAccount */
   RunAsAccount = "RunAsAccount",
+  /** SystemAssignedIdentity */
   SystemAssignedIdentity = "SystemAssignedIdentity"
 }
 
@@ -8984,8 +9185,11 @@ export type AutomationAccountAuthenticationType = string;
 
 /** Known values of {@link A2ARecoveryAvailabilityType} that the service accepts. */
 export enum KnownA2ARecoveryAvailabilityType {
+  /** Single */
   Single = "Single",
+  /** AvailabilitySet */
   AvailabilitySet = "AvailabilitySet",
+  /** AvailabilityZone */
   AvailabilityZone = "AvailabilityZone"
 }
 
@@ -9002,7 +9206,9 @@ export type A2ARecoveryAvailabilityType = string;
 
 /** Known values of {@link AutoProtectionOfDataDisk} that the service accepts. */
 export enum KnownAutoProtectionOfDataDisk {
+  /** Disabled */
   Disabled = "Disabled",
+  /** Enabled */
   Enabled = "Enabled"
 }
 
@@ -9018,6 +9224,7 @@ export type AutoProtectionOfDataDisk = string;
 
 /** Known values of {@link ExtendedLocationType} that the service accepts. */
 export enum KnownExtendedLocationType {
+  /** EdgeZone */
   EdgeZone = "EdgeZone"
 }
 
@@ -9032,7 +9239,9 @@ export type ExtendedLocationType = string;
 
 /** Known values of {@link SetMultiVmSyncStatus} that the service accepts. */
 export enum KnownSetMultiVmSyncStatus {
+  /** Enable */
   Enable = "Enable",
+  /** Disable */
   Disable = "Disable"
 }
 
@@ -9048,7 +9257,9 @@ export type SetMultiVmSyncStatus = string;
 
 /** Known values of {@link RecoveryPointSyncType} that the service accepts. */
 export enum KnownRecoveryPointSyncType {
+  /** MultiVmSyncRecoveryPoint */
   MultiVmSyncRecoveryPoint = "MultiVmSyncRecoveryPoint",
+  /** PerVmRecoveryPoint */
   PerVmRecoveryPoint = "PerVmRecoveryPoint"
 }
 
@@ -9064,7 +9275,9 @@ export type RecoveryPointSyncType = string;
 
 /** Known values of {@link MultiVmGroupCreateOption} that the service accepts. */
 export enum KnownMultiVmGroupCreateOption {
+  /** AutoCreated */
   AutoCreated = "AutoCreated",
+  /** UserSpecified */
   UserSpecified = "UserSpecified"
 }
 
@@ -9080,8 +9293,11 @@ export type MultiVmGroupCreateOption = string;
 
 /** Known values of {@link VmEncryptionType} that the service accepts. */
 export enum KnownVmEncryptionType {
+  /** NotEncrypted */
   NotEncrypted = "NotEncrypted",
+  /** OnePassEncrypted */
   OnePassEncrypted = "OnePassEncrypted",
+  /** TwoPassEncrypted */
   TwoPassEncrypted = "TwoPassEncrypted"
 }
 
@@ -9098,8 +9314,11 @@ export type VmEncryptionType = string;
 
 /** Known values of {@link DiskAccountType} that the service accepts. */
 export enum KnownDiskAccountType {
+  /** StandardLRS */
   StandardLRS = "Standard_LRS",
+  /** PremiumLRS */
   PremiumLRS = "Premium_LRS",
+  /** StandardSSDLRS */
   StandardSSDLRS = "StandardSSD_LRS"
 }
 
@@ -9116,9 +9335,13 @@ export type DiskAccountType = string;
 
 /** Known values of {@link SqlServerLicenseType} that the service accepts. */
 export enum KnownSqlServerLicenseType {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** NoLicenseType */
   NoLicenseType = "NoLicenseType",
+  /** Payg */
   Payg = "PAYG",
+  /** Ahub */
   Ahub = "AHUB"
 }
 
@@ -9136,8 +9359,11 @@ export type SqlServerLicenseType = string;
 
 /** Known values of {@link PresenceStatus} that the service accepts. */
 export enum KnownPresenceStatus {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Present */
   Present = "Present",
+  /** NotPresent */
   NotPresent = "NotPresent"
 }
 
@@ -9154,9 +9380,13 @@ export type PresenceStatus = string;
 
 /** Known values of {@link RcmComponentStatus} that the service accepts. */
 export enum KnownRcmComponentStatus {
+  /** Healthy */
   Healthy = "Healthy",
+  /** Warning */
   Warning = "Warning",
+  /** Critical */
   Critical = "Critical",
+  /** Unknown */
   Unknown = "Unknown"
 }
 
@@ -9174,19 +9404,33 @@ export type RcmComponentStatus = string;
 
 /** Known values of {@link AgentUpgradeBlockedReason} that the service accepts. */
 export enum KnownAgentUpgradeBlockedReason {
+  /** AlreadyOnLatestVersion */
   AlreadyOnLatestVersion = "AlreadyOnLatestVersion",
+  /** RebootRequired */
   RebootRequired = "RebootRequired",
+  /** AgentNoHeartbeat */
   AgentNoHeartbeat = "AgentNoHeartbeat",
+  /** RcmProxyNoHeartbeat */
   RcmProxyNoHeartbeat = "RcmProxyNoHeartbeat",
+  /** ProcessServerNoHeartbeat */
   ProcessServerNoHeartbeat = "ProcessServerNoHeartbeat",
+  /** IncompatibleApplianceVersion */
   IncompatibleApplianceVersion = "IncompatibleApplianceVersion",
+  /** NotProtected */
   NotProtected = "NotProtected",
+  /** UnsupportedProtectionScenario */
   UnsupportedProtectionScenario = "UnsupportedProtectionScenario",
+  /** DistroIsNotReported */
   DistroIsNotReported = "DistroIsNotReported",
+  /** DistroNotSupportedForUpgrade */
   DistroNotSupportedForUpgrade = "DistroNotSupportedForUpgrade",
+  /** MissingUpgradePath */
   MissingUpgradePath = "MissingUpgradePath",
+  /** InvalidAgentVersion */
   InvalidAgentVersion = "InvalidAgentVersion",
+  /** InvalidDriverVersion */
   InvalidDriverVersion = "InvalidDriverVersion",
+  /** Unknown */
   Unknown = "Unknown"
 }
 
@@ -9214,7 +9458,9 @@ export type AgentUpgradeBlockedReason = string;
 
 /** Known values of {@link InMageRcmFailbackRecoveryPointType} that the service accepts. */
 export enum KnownInMageRcmFailbackRecoveryPointType {
+  /** ApplicationConsistent */
   ApplicationConsistent = "ApplicationConsistent",
+  /** CrashConsistent */
   CrashConsistent = "CrashConsistent"
 }
 
@@ -9230,10 +9476,15 @@ export type InMageRcmFailbackRecoveryPointType = string;
 
 /** Known values of {@link DiskReplicationProgressHealth} that the service accepts. */
 export enum KnownDiskReplicationProgressHealth {
+  /** None */
   None = "None",
+  /** InProgress */
   InProgress = "InProgress",
+  /** SlowProgress */
   SlowProgress = "SlowProgress",
+  /** NoProgress */
   NoProgress = "NoProgress",
+  /** Queued */
   Queued = "Queued"
 }
 
@@ -9252,9 +9503,13 @@ export type DiskReplicationProgressHealth = string;
 
 /** Known values of {@link VmReplicationProgressHealth} that the service accepts. */
 export enum KnownVmReplicationProgressHealth {
+  /** None */
   None = "None",
+  /** InProgress */
   InProgress = "InProgress",
+  /** SlowProgress */
   SlowProgress = "SlowProgress",
+  /** NoProgress */
   NoProgress = "NoProgress"
 }
 
@@ -9272,8 +9527,11 @@ export type VmReplicationProgressHealth = string;
 
 /** Known values of {@link ResyncState} that the service accepts. */
 export enum KnownResyncState {
+  /** None */
   None = "None",
+  /** PreparedForResynchronization */
   PreparedForResynchronization = "PreparedForResynchronization",
+  /** StartedResynchronization */
   StartedResynchronization = "StartedResynchronization"
 }
 
@@ -9290,9 +9548,13 @@ export type ResyncState = string;
 
 /** Known values of {@link PlannedFailoverStatus} that the service accepts. */
 export enum KnownPlannedFailoverStatus {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Cancelled */
   Cancelled = "Cancelled",
+  /** Unknown */
   Unknown = "Unknown"
 }
 
@@ -9310,7 +9572,9 @@ export type PlannedFailoverStatus = string;
 
 /** Known values of {@link EthernetAddressType} that the service accepts. */
 export enum KnownEthernetAddressType {
+  /** Dynamic */
   Dynamic = "Dynamic",
+  /** Static */
   Static = "Static"
 }
 
@@ -9326,9 +9590,13 @@ export type EthernetAddressType = string;
 
 /** Known values of {@link MobilityAgentUpgradeState} that the service accepts. */
 export enum KnownMobilityAgentUpgradeState {
+  /** None */
   None = "None",
+  /** Started */
   Started = "Started",
+  /** Completed */
   Completed = "Completed",
+  /** Commit */
   Commit = "Commit"
 }
 
@@ -9346,8 +9614,11 @@ export type MobilityAgentUpgradeState = string;
 
 /** Known values of {@link RecoveryPointType} that the service accepts. */
 export enum KnownRecoveryPointType {
+  /** LatestTime */
   LatestTime = "LatestTime",
+  /** LatestTag */
   LatestTag = "LatestTag",
+  /** Custom */
   Custom = "Custom"
 }
 
@@ -9364,9 +9635,13 @@ export type RecoveryPointType = string;
 
 /** Known values of {@link A2ARpRecoveryPointType} that the service accepts. */
 export enum KnownA2ARpRecoveryPointType {
+  /** Latest */
   Latest = "Latest",
+  /** LatestApplicationConsistent */
   LatestApplicationConsistent = "LatestApplicationConsistent",
+  /** LatestCrashConsistent */
   LatestCrashConsistent = "LatestCrashConsistent",
+  /** LatestProcessed */
   LatestProcessed = "LatestProcessed"
 }
 
@@ -9384,7 +9659,9 @@ export type A2ARpRecoveryPointType = string;
 
 /** Known values of {@link MultiVmSyncPointOption} that the service accepts. */
 export enum KnownMultiVmSyncPointOption {
+  /** UseMultiVmSyncRecoveryPoint */
   UseMultiVmSyncRecoveryPoint = "UseMultiVmSyncRecoveryPoint",
+  /** UsePerVmRecoveryPoint */
   UsePerVmRecoveryPoint = "UsePerVmRecoveryPoint"
 }
 
@@ -9400,7 +9677,9 @@ export type MultiVmSyncPointOption = string;
 
 /** Known values of {@link RecoveryPlanActionLocation} that the service accepts. */
 export enum KnownRecoveryPlanActionLocation {
+  /** Primary */
   Primary = "Primary",
+  /** Recovery */
   Recovery = "Recovery"
 }
 
@@ -9416,7 +9695,9 @@ export type RecoveryPlanActionLocation = string;
 
 /** Known values of {@link DataSyncStatus} that the service accepts. */
 export enum KnownDataSyncStatus {
+  /** ForDownTime */
   ForDownTime = "ForDownTime",
+  /** ForSynchronization */
   ForSynchronization = "ForSynchronization"
 }
 
@@ -9432,7 +9713,9 @@ export type DataSyncStatus = string;
 
 /** Known values of {@link AlternateLocationRecoveryOption} that the service accepts. */
 export enum KnownAlternateLocationRecoveryOption {
+  /** CreateVmIfNotFound */
   CreateVmIfNotFound = "CreateVmIfNotFound",
+  /** NoAction */
   NoAction = "NoAction"
 }
 
@@ -9448,8 +9731,11 @@ export type AlternateLocationRecoveryOption = string;
 
 /** Known values of {@link HyperVReplicaAzureRpRecoveryPointType} that the service accepts. */
 export enum KnownHyperVReplicaAzureRpRecoveryPointType {
+  /** Latest */
   Latest = "Latest",
+  /** LatestApplicationConsistent */
   LatestApplicationConsistent = "LatestApplicationConsistent",
+  /** LatestProcessed */
   LatestProcessed = "LatestProcessed"
 }
 
@@ -9466,9 +9752,13 @@ export type HyperVReplicaAzureRpRecoveryPointType = string;
 
 /** Known values of {@link InMageV2RpRecoveryPointType} that the service accepts. */
 export enum KnownInMageV2RpRecoveryPointType {
+  /** Latest */
   Latest = "Latest",
+  /** LatestApplicationConsistent */
   LatestApplicationConsistent = "LatestApplicationConsistent",
+  /** LatestCrashConsistent */
   LatestCrashConsistent = "LatestCrashConsistent",
+  /** LatestProcessed */
   LatestProcessed = "LatestProcessed"
 }
 
@@ -9486,8 +9776,11 @@ export type InMageV2RpRecoveryPointType = string;
 
 /** Known values of {@link RpInMageRecoveryPointType} that the service accepts. */
 export enum KnownRpInMageRecoveryPointType {
+  /** LatestTime */
   LatestTime = "LatestTime",
+  /** LatestTag */
   LatestTag = "LatestTag",
+  /** Custom */
   Custom = "Custom"
 }
 
@@ -9504,9 +9797,13 @@ export type RpInMageRecoveryPointType = string;
 
 /** Known values of {@link RecoveryPlanPointType} that the service accepts. */
 export enum KnownRecoveryPlanPointType {
+  /** Latest */
   Latest = "Latest",
+  /** LatestApplicationConsistent */
   LatestApplicationConsistent = "LatestApplicationConsistent",
+  /** LatestCrashConsistent */
   LatestCrashConsistent = "LatestCrashConsistent",
+  /** LatestProcessed */
   LatestProcessed = "LatestProcessed"
 }
 
@@ -9576,10 +9873,7 @@ export type ReplicationAppliancesListResponse = ApplianceCollection;
 
 /** Optional parameters. */
 export interface ReplicationAppliancesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter options. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ReplicationAppliancesListNextResponse = ApplianceCollection;
@@ -9617,10 +9911,7 @@ export type ReplicationEventsGetResponse = Event;
 
 /** Optional parameters. */
 export interface ReplicationEventsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter options. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ReplicationEventsListNextResponse = EventCollection;
@@ -10048,28 +10339,14 @@ export type ReplicationMigrationItemsListResponse = MigrationItemCollection;
 
 /** Optional parameters. */
 export interface ReplicationMigrationItemsListByReplicationProtectionContainersNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter options. */
-  filter?: string;
-  /** The pagination token. */
-  skipToken?: string;
-  /** The page size. */
-  takeToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationProtectionContainersNext operation. */
 export type ReplicationMigrationItemsListByReplicationProtectionContainersNextResponse = MigrationItemCollection;
 
 /** Optional parameters. */
 export interface ReplicationMigrationItemsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter options. */
-  filter?: string;
-  /** The pagination token. */
-  skipToken?: string;
-  /** The page size. */
-  takeToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ReplicationMigrationItemsListNextResponse = MigrationItemCollection;
@@ -10118,14 +10395,7 @@ export type ReplicationProtectableItemsGetResponse = ProtectableItem;
 
 /** Optional parameters. */
 export interface ReplicationProtectableItemsListByReplicationProtectionContainersNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter options. */
-  filter?: string;
-  /** take OData query parameter. */
-  take?: string;
-  /** skipToken OData query parameter. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationProtectionContainersNext operation. */
 export type ReplicationProtectableItemsListByReplicationProtectionContainersNextResponse = ProtectableItemCollection;
@@ -10387,12 +10657,7 @@ export type ReplicationProtectedItemsListByReplicationProtectionContainersNextRe
 
 /** Optional parameters. */
 export interface ReplicationProtectedItemsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter options. */
-  filter?: string;
-  /** The pagination token. Possible values: "FabricId" or "FabricId_CloudId" or null. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ReplicationProtectedItemsListNextResponse = ReplicationProtectedItemCollection;
@@ -10812,10 +11077,7 @@ export type ReplicationJobsExportResponse = Job;
 
 /** Optional parameters. */
 export interface ReplicationJobsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter options. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ReplicationJobsListNextResponse = JobCollection;
@@ -10902,12 +11164,7 @@ export type ReplicationProtectionIntentsCreateResponse = ReplicationProtectionIn
 
 /** Optional parameters. */
 export interface ReplicationProtectionIntentsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The pagination token. */
-  skipToken?: string;
-  /** The page size. */
-  takeToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ReplicationProtectionIntentsListNextResponse = ReplicationProtectionIntentCollection;
