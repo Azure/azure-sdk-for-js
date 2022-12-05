@@ -88,7 +88,7 @@ export interface UseCaseInfo {
   /** Sample of messages that will be sent to customers via Sms. */
   sampleMessages?: string[];
   /** Use case the campaign will be sending messages for e.g. appointments, sweepstakes. */
-  useCase?: string;
+  useCase?: CampaignBriefUseCaseType;
   /** Description of how the use case is used in the campaign. */
   useCaseSummary?: string;
 }
@@ -197,6 +197,52 @@ export type CampaignBriefStatus =
   | "draft"
   | "denied"
   | "cancelled";
+/** Defines values for CampaignBriefUseCaseType. */
+export type CampaignBriefUseCaseType =
+  | "twoFactorAuthentication"
+  | "appNotifications"
+  | "appointments"
+  | "auctions"
+  | "autoRepairServices"
+  | "bankTransfers"
+  | "billing"
+  | "bookingConfirmations"
+  | "businessUpdates"
+  | "careerTraining"
+  | "chatbot"
+  | "conversationalOrAlerts"
+  | "courierServicesAndDeliveries"
+  | "cOVID19Alerts"
+  | "emergencyAlerts"
+  | "eventsAndPlanning"
+  | "financialServices"
+  | "fraudAlerts"
+  | "fundraising"
+  | "generalMarketing"
+  | "generalSchoolUpdates"
+  | "healthcareAlerts"
+  | "housingCommunityUpdates"
+  | "hROrStaffing"
+  | "insuranceServices"
+  | "jobDispatch"
+  | "legalServices"
+  | "mixed"
+  | "motivationalReminders"
+  | "notaryNotifications"
+  | "orderNotifications"
+  | "political"
+  | "works"
+  | "realEstateServices"
+  | "religiousServices"
+  | "repairAndDiagnosticsAlerts"
+  | "rewardsProgram"
+  | "surveys"
+  | "systemAlerts"
+  | "votingReminders"
+  | "waitlistAlerts"
+  | "webinarReminders"
+  | "workshopAlerts"
+  | "other";
 /** Defines values for AttachmentType. */
 export type AttachmentType =
   | "OptInSmsKeyword"

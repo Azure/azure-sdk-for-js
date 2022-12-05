@@ -14,6 +14,7 @@ export {
   BusinessInformation,
   UseCaseInfo,
   CampaignBriefAttachmentSummary,
+  CampaignBriefUseCaseType,
   Address,
   CampaignBrief,
   CampaignBriefs,

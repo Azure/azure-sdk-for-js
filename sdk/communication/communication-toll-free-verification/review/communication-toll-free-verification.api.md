@@ -101,6 +101,9 @@ export interface CampaignBriefs {
 export type CampaignBriefStatus = "submitted" | "approved" | "updateRequested" | "draft" | "denied" | "cancelled";
 
 // @public
+export type CampaignBriefUseCaseType = "twoFactorAuthentication" | "appNotifications" | "appointments" | "auctions" | "autoRepairServices" | "bankTransfers" | "billing" | "bookingConfirmations" | "businessUpdates" | "careerTraining" | "chatbot" | "conversationalOrAlerts" | "courierServicesAndDeliveries" | "cOVID19Alerts" | "emergencyAlerts" | "eventsAndPlanning" | "financialServices" | "fraudAlerts" | "fundraising" | "generalMarketing" | "generalSchoolUpdates" | "healthcareAlerts" | "housingCommunityUpdates" | "hROrStaffing" | "insuranceServices" | "jobDispatch" | "legalServices" | "mixed" | "motivationalReminders" | "notaryNotifications" | "orderNotifications" | "political" | "works" | "realEstateServices" | "religiousServices" | "repairAndDiagnosticsAlerts" | "rewardsProgram" | "surveys" | "systemAlerts" | "votingReminders" | "waitlistAlerts" | "webinarReminders" | "workshopAlerts" | "other";
+
+// @public
 export type FileType = "png" | "jpg" | "jpeg" | "pdf";
 
 // @public (undocumented)
@@ -211,7 +214,7 @@ export type Type = "keywordSMS" | "website" | "interactiveVoiceResponse" | "poin
 // @public (undocumented)
 export interface UseCaseInfo {
     sampleMessages?: string[];
-    useCase?: string;
+    useCase?: CampaignBriefUseCaseType;
     useCaseSummary?: string;
 }
 
