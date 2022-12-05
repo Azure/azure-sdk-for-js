@@ -84,6 +84,8 @@ export const EU_ENDPOINTS = [
   "swedencentral",
   "switzerlandnorth",
   "switzerlandwest",
+  "uksouth",
+  "ukwest",
 ];
 
 export interface IVirtualMachineInfo {
