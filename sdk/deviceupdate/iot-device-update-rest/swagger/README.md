@@ -49,4 +49,3 @@ directive:
       "description": "The condition specified using HTTP conditional header(s) is not met."
     };
 ```
-

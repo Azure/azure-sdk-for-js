@@ -35,4 +35,3 @@ extends:
     Artifacts:
       - name: azure-arm-elastic
         safeName: azurearmelastic
-        

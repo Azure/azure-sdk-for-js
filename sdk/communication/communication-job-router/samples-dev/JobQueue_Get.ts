@@ -29,4 +29,3 @@ async function getJobQueue(): Promise<void> {
 };
 
 getJobQueue().catch(console.error);
-

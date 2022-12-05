@@ -38,4 +38,3 @@ async function listExceptionPolicies(): Promise<void> {
 };
 
 listExceptionPolicies().catch(console.error);
-

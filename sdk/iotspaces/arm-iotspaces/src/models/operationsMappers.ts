@@ -14,4 +14,3 @@ export {
   OperationDisplay,
   ErrorDetails
 } from "../models/mappers";
-

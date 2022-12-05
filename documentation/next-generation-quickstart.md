@@ -1,4 +1,3 @@
-
 Getting Started - Using the next-generation management libraries of Azure SDK for JavaScript/TypeScript
 =============================================================
 

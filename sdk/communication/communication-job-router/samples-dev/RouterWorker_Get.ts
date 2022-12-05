@@ -27,4 +27,3 @@ async function getRouterWorker(): Promise<void> {
 };
 
 getRouterWorker().catch(console.error);
-

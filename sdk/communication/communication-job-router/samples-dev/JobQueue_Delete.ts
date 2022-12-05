@@ -28,5 +28,3 @@ async function deleteJobQueue(): Promise<void> {
 };
 
 deleteJobQueue().catch(console.error);
-
-

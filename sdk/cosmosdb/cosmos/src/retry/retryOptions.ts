@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /**
  * Represents the Retry policy assocated with throttled requests in the Azure Cosmos DB database service.

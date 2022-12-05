@@ -30,4 +30,4 @@ extends:
     ServiceDirectory: changeanalysis
     Artifacts:
       - name: azure-arm-changeanalysis
-        safeName: azurearmchangeanalysis    
+        safeName: azurearmchangeanalysis

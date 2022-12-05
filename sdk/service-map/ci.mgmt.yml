@@ -30,4 +30,4 @@ extends:
     ServiceDirectory: service-map
     Artifacts:
       - name: azure-arm-servicemap
-        safeName: azurearmservicemap       
+        safeName: azurearmservicemap

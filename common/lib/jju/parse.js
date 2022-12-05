@@ -1,4 +1,3 @@
-
 // RTFM: http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf
 
 var Uni = require('./unicode')
@@ -757,4 +756,3 @@ module.exports.tokenize = function tokenizeJSON(input, options) {
   tokens.data = module.exports.parse(input, options)
   return tokens
 }
-

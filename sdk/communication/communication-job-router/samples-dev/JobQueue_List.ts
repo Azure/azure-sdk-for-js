@@ -38,4 +38,3 @@ async function listJobQueues(): Promise<void> {
 };
 
 listJobQueues().catch(console.error);
-

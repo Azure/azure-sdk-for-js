@@ -5,4 +5,3 @@
 ### Features Added
 
 - This is the first preview of the `@azure/eventhubs-checkpointstore-table` library.
-

@@ -30,4 +30,4 @@ extends:
     ServiceDirectory: documenttranslator
     Artifacts:
       - name: azure-rest-ai-document-translator
-        safeName: azurerestaidocumenttranslator      
+        safeName: azurerestaidocumenttranslator

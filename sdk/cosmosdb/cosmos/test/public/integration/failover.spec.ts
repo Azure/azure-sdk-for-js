@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { CosmosClient, PluginOn, CosmosClientOptions, PluginConfig } from "../../../src";
 import { masterKey } from "../common/_fakeTestSecrets";

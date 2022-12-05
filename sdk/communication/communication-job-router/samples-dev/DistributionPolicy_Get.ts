@@ -27,4 +27,3 @@ async function getDistributionPolicy(): Promise<void> {
 };
 
 getDistributionPolicy().catch(console.error);
-

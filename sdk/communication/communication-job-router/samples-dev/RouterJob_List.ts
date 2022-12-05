@@ -37,4 +37,3 @@ async function listRouterJobs(): Promise<void> {
 };
 
 listRouterJobs().catch(console.error);
-

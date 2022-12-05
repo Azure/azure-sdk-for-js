@@ -29,4 +29,3 @@ async function getClassificationPolicy(): Promise<void> {
 };
 
 void getClassificationPolicy();
-

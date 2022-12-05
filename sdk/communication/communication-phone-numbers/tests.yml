@@ -25,4 +25,3 @@ stages:
           Path: sdk/communication/communication-phone-numbers/phone-numbers-livetest-matrix.json
           Selection: sparse
           GenerateVMJobs: true
-

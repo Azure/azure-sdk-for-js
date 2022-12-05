@@ -20,4 +20,3 @@ export {
   MetricsPostBodySchemaParameters,
   MetricsResultsItem
 } from "../models/mappers";
-

@@ -40,4 +40,3 @@ async function listClassificationPolicies(): Promise<void> {
 };
 
 listClassificationPolicies().catch(console.error);
-

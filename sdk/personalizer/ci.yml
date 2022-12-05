@@ -28,4 +28,4 @@ extends:
     ServiceDirectory: personalizer
     Artifacts:
       - name: azure-rest-ai-personalizer
-        safeName: azurerestaipersonalizer       
+        safeName: azurerestaipersonalizer

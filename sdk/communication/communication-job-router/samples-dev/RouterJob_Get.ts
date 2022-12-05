@@ -28,4 +28,3 @@ async function getRouterJob(): Promise<void> {
 };
 
 getRouterJob().catch(console.error);
-

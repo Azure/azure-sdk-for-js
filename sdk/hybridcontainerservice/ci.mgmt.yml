@@ -35,4 +35,3 @@ extends:
     Artifacts:
       - name: azure-arm-hybridcontainerservice
         safeName: azurearmhybridcontainerservice
-        

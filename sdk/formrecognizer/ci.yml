@@ -29,4 +29,4 @@ extends:
     ServiceDirectory: formrecognizer
     Artifacts:
       - name: azure-ai-form-recognizer
-        safeName: azureaiformrecognizer       
+        safeName: azureaiformrecognizer
