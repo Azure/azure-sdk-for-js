@@ -58,36 +58,6 @@ describe("DatalakeAnalytics test", () => {
   });
 
   it("accounts create test", async function () {
-    const res = await client.accounts.beginCreateAndWait(resourceGroup, accountName, {
-      location: location,
-      tags: {
-        key1: "value1"
-      },
-      defaultDataLakeStoreAccount: "mygen1",
-      dataLakeStoreAccounts: [
-        {
-          name: "mygen1"
-        }
-      ],
-      firewallState: "Enabled",
-      firewallAllowAzureIps: "Enabled",
-      newTier: "Consumption",
-      maxJobCount: 3,
-      maxDegreeOfParallelism: 30,
-      maxDegreeOfParallelismPerJob: 1,
-      minPriorityPerJob: 1,
-      queryStoreRetention: 30
-    }, testPollingOptions);
-    console.log(res);
-  });
-
-  it("accounts get test", async function () {
-    const res = await client.accounts.get(resourceGroup, accountName);
-    console.log(res);
-  });
-
-  it("accounts delete test", async function () {
-    const res = await client.accounts.beginDeleteAndWait(resourceGroup, accountName, testPollingOptions);
-    console.log(res);
+    const res = await client.operations.list();
   });
 });
