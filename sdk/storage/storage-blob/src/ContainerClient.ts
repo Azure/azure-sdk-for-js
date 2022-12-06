@@ -8,7 +8,6 @@ import {
 import { isNode } from "@azure/core-util";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { Container } from "./generated/src/operationsInterfaces";
@@ -47,7 +46,7 @@ import {
 } from "./models";
 import { newPipeline, PipelineLike, isPipelineLike, StoragePipelineOptions } from "./Pipeline";
 import { CommonOptions, StorageClient } from "./StorageClient";
-import { createSpan } from "./utils/tracing";
+import { tracingClient } from "./utils/tracing";
 import {
   appendToURLPath,
   appendToURLQuery,
@@ -76,12 +75,7 @@ import {
   PageBlobClient,
 } from "./Clients";
 import { BlobBatchClient } from "./BlobBatchClient";
-import {
-  ListBlobsIncludeItem,
-  ListBlobsFlatSegmentResponse as ListBlobsFlatSegmentResponseInternal,
-  ListBlobsHierarchySegmentResponse as ListBlobsHierarchySegmentResponseInternal,
-  ContainerListBlobHierarchySegmentResponse as ContainerListBlobHierarchySegmentResponseModel,
-} from "./generated/src";
+import { ContainerCreateHeaders, ListBlobsIncludeItem } from "./generated/src";
 
 /**
  * Options to configure {@link ContainerClient.create} operation.
@@ -731,24 +725,11 @@ export class ContainerClient extends StorageClient {
    * ```
    */
   public async create(options: ContainerCreateOptions = {}): Promise<ContainerCreateResponse> {
-    const { span, updatedOptions } = createSpan("ContainerClient-create", options);
-    try {
-      // Spread operator in destructuring assignments,
-      // this will filter out unwanted properties from the response object into result object
-      return assertResponse(
-        await this.containerContext.create({
-          ...updatedOptions,
-        })
+    return tracingClient.withSpan("ContainerClient-create", options, async (updatedOptions) => {
+      return assertResponse<ContainerCreateHeaders, ContainerCreateHeaders>(
+        await this.containerContext.create(updatedOptions)
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -762,36 +743,30 @@ export class ContainerClient extends StorageClient {
   public async createIfNotExists(
     options: ContainerCreateOptions = {}
   ): Promise<ContainerCreateIfNotExistsResponse> {
-    const { span, updatedOptions } = createSpan("ContainerClient-createIfNotExists", options);
-    try {
-      const res = assertResponse(await this.create(updatedOptions));
-      return {
-        succeeded: true,
-        ...res,
-        _response: res._response, // _response is made non-enumerable
-      };
-    } catch (e: any) {
-      if (e.details?.errorCode === "ContainerAlreadyExists") {
-        span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message:
-            "Expected exception when creating a container only if it does not already exist.",
-        });
-        return {
-          succeeded: false,
-          ...e.response?.parsedHeaders,
-          _response: e.response,
-        };
+    return tracingClient.withSpan(
+      "ContainerClient-createIfNotExists",
+      options,
+      async (updatedOptions) => {
+        try {
+          const res = await this.create(updatedOptions);
+          return {
+            succeeded: true,
+            ...res,
+            _response: res._response, // _response is made non-enumerable
+          };
+        } catch (e: any) {
+          if (e.details?.errorCode === "ContainerAlreadyExists") {
+            return {
+              succeeded: false,
+              ...e.response?.parsedHeaders,
+              _response: e.response,
+            };
+          } else {
+            throw e;
+          }
+        }
       }
-
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   /**
@@ -804,29 +779,20 @@ export class ContainerClient extends StorageClient {
    * @param options -
    */
   public async exists(options: ContainerExistsOptions = {}): Promise<boolean> {
-    const { span, updatedOptions } = createSpan("ContainerClient-exists", options);
-    try {
-      await this.getProperties({
-        abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
-      return true;
-    } catch (e: any) {
-      if (e.statusCode === 404) {
-        span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message: "Expected exception when checking container existence",
+    return tracingClient.withSpan("ContainerClient-exists", options, async (updatedOptions) => {
+      try {
+        await this.getProperties({
+          abortSignal: options.abortSignal,
+          tracingOptions: updatedOptions.tracingOptions,
         });
-        return false;
+        return true;
+      } catch (e: any) {
+        if (e.statusCode === 404) {
+          return false;
+        }
+        throw e;
       }
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**

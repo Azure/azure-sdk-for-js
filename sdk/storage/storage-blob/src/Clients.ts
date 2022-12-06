@@ -135,7 +135,7 @@ import {
   ETagAny,
   URLConstants,
 } from "./utils/constants";
-import { createSpan } from "./utils/tracing";
+import { tracingClient } from "./utils/tracing";
 import {
   appendToURLPath,
   appendToURLQuery,

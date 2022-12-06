@@ -3,12 +3,11 @@
 import { v4 as generateUuid } from "uuid";
 import { ContainerBreakLeaseOptionalParams } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { Blob as StorageBlob, Container } from "./generated/src/operationsInterfaces";
 import { ModifiedAccessConditions } from "./models";
 import { CommonOptions } from "./StorageClient";
 import { ETagNone } from "./utils/constants";
-import { createSpan } from "./utils/tracing";
+import { tracingClient } from "./utils/tracing";
 import { BlobClient } from "./Clients";
 import { ContainerClient } from "./ContainerClient";
 import { assertResponse, WithResponse } from "./utils/utils.common";

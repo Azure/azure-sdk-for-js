@@ -3,7 +3,6 @@
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
   ServiceGetUserDelegationKeyHeaders,
@@ -44,7 +43,7 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { truncatedISO8061Date, assertResponse } from "./utils/utils.common";
-import { createSpan } from "./utils/tracing";
+import { tracingClient } from "./utils/tracing";
 import { BlobBatchClient } from "./BlobBatchClient";
 import { CommonOptions, StorageClient } from "./StorageClient";
 import { AccountSASPermissions } from "./sas/AccountSASPermissions";
