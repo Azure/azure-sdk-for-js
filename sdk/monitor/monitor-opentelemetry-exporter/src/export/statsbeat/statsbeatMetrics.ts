@@ -18,7 +18,7 @@ import {
   PeriodicExportingMetricReader,
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
-import { AzureMonitorExporterOptions, _AzureMonitorStatsbeatExporter } from "../../index";
+import { AzureMonitorExporterOptions, AzureMonitorStatsbeatExporter } from "../../index";
 import * as ai from "../../utils/constants/applicationinsights";
 import {
   StatsbeatCounter,
@@ -50,7 +50,7 @@ export class StatsbeatMetrics {
   private _isInitialized: boolean = false;
   private _networkStatsbeatCollection: Array<NetworkStatsbeat> = [];
   private _meterProvider: MeterProvider;
-  private _azureExporter: _AzureMonitorStatsbeatExporter;
+  private _azureExporter: AzureMonitorStatsbeatExporter;
   private _networkMetricReader: PeriodicExportingMetricReader;
   private _longIntervalMetricReader: PeriodicExportingMetricReader;
   private _statsCollectionShortInterval: number = 900000; // 15 minutes
@@ -66,8 +66,6 @@ export class StatsbeatMetrics {
   private _language: string;
   private _version: string;
   private _attach: string = "sdk";
-
-  private _resourceProviderId: string = "";
 
   // Feature Statsbeat is used to send both features and instrumentations
   protected _feature: number = StatsbeatFeature.NONE;
@@ -100,7 +98,7 @@ export class StatsbeatMetrics {
       connectionString: this._connectionString,
     };
 
-    this._azureExporter = new _AzureMonitorStatsbeatExporter(exporterConfig);
+    this._azureExporter = new AzureMonitorStatsbeatExporter(exporterConfig);
 
     // Exports Network Statsbeat every 15 minutes
     const networkMetricReaderOptions: PeriodicExportingMetricReaderOptions = {
@@ -394,7 +392,7 @@ export class StatsbeatMetrics {
 
   private _attachCallback(observableResult: ObservableResult) {
     // TODO: Populate _resourceProviderId to complete attach statsbeat. Modify the existing RP method to get this.
-    let attributes = { ...this._commonProperties, rpId: this._resourceProviderId };
+    let attributes = { ...this._commonProperties, ...this._attachProperties };
     observableResult.observe(1, attributes);
   }
 

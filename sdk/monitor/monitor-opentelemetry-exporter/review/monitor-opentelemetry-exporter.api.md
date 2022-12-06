@@ -59,8 +59,8 @@ export class AzureMonitorMetricExporter extends AzureMonitorBaseExporter impleme
     shutdown(): Promise<void>;
 }
 
-// @internal
-export class _AzureMonitorStatsbeatExporter extends AzureMonitorBaseExporter implements PushMetricExporter {
+// @public
+export class AzureMonitorStatsbeatExporter extends AzureMonitorBaseExporter implements PushMetricExporter {
     constructor(options: AzureMonitorExporterOptions);
     export(metrics: ResourceMetrics, resultCallback: (result: ExportResult) => void): Promise<void>;
     forceFlush(): Promise<void>;
