@@ -27,7 +27,7 @@ const withSessionTestClientType = getRandomTestClientTypeWithSessions();
 const anyRandomTestClientType = getRandomTestClientType();
 export const TRACEPARENT_PROPERTY = "Diagnostic-Id";
 
-describe("Sender Tests", () => {
+describe.only("Sender Tests", () => {
   let sender: ServiceBusSender;
   let receiver: ServiceBusReceiver;
   let serviceBusClient: ServiceBusClientForTests;
@@ -288,7 +288,7 @@ describe("Sender Tests", () => {
     await testScheduleSingleMessage();
   });
 
-  it.only(anyRandomTestClientType + ": Schedule multiple messages", async function (): Promise<void> {
+  it(anyRandomTestClientType + ": Schedule multiple messages", async function (): Promise<void> {
     await beforeEachTest(anyRandomTestClientType);
     await testScheduleMultipleMessages();
   });
