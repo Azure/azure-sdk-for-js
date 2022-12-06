@@ -288,7 +288,7 @@ describe("Sender Tests", () => {
     await testScheduleSingleMessage();
   });
 
-  it(anyRandomTestClientType + ": Schedule multiple messages", async function (): Promise<void> {
+  it.only(anyRandomTestClientType + ": Schedule multiple messages", async function (): Promise<void> {
     await beforeEachTest(anyRandomTestClientType);
     await testScheduleMultipleMessages();
   });
