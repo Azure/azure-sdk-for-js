@@ -221,15 +221,15 @@ export interface OperationDisplay {
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** Represents a connected cluster. */
-export type ConnectedCluster = TrackedResource & {
+export interface ConnectedCluster extends TrackedResource {
   /** The identity of the connected cluster. */
   identity: ConnectedClusterIdentity;
   /**
@@ -285,16 +285,23 @@ export type ConnectedCluster = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly connectivityStatus?: ConnectivityStatus;
-};
+}
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Provisioning */
   Provisioning = "Provisioning",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Accepted */
   Accepted = "Accepted"
 }
 
@@ -315,9 +322,13 @@ export type ProvisioningState = string;
 
 /** Known values of {@link ConnectivityStatus} that the service accepts. */
 export enum KnownConnectivityStatus {
+  /** Connecting */
   Connecting = "Connecting",
+  /** Connected */
   Connected = "Connected",
+  /** Offline */
   Offline = "Offline",
+  /** Expired */
   Expired = "Expired"
 }
 
@@ -335,9 +346,13 @@ export type ConnectivityStatus = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -355,9 +370,13 @@ export type CreatedByType = string;
 
 /** Known values of {@link LastModifiedByType} that the service accepts. */
 export enum KnownLastModifiedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -375,7 +394,9 @@ export type LastModifiedByType = string;
 
 /** Known values of {@link AuthenticationMethod} that the service accepts. */
 export enum KnownAuthenticationMethod {
+  /** Token */
   Token = "Token",
+  /** AAD */
   AAD = "AAD"
 }
 

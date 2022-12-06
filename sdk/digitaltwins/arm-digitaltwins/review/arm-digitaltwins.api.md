@@ -14,17 +14,17 @@ import { PollOperationState } from '@azure/core-lro';
 export type AuthenticationType = string;
 
 // @public
-export type AzureDataExplorerConnectionProperties = TimeSeriesDatabaseConnectionProperties & {
-    connectionType: "AzureDataExplorer";
-    adxResourceId: string;
-    adxEndpointUri: string;
+export interface AzureDataExplorerConnectionProperties extends TimeSeriesDatabaseConnectionProperties {
     adxDatabaseName: string;
+    adxEndpointUri: string;
+    adxResourceId: string;
     adxTableName?: string;
+    connectionType: "AzureDataExplorer";
+    eventHubConsumerGroup?: string;
     eventHubEndpointUri: string;
     eventHubEntityPath: string;
     eventHubNamespaceResourceId: string;
-    eventHubConsumerGroup?: string;
-};
+}
 
 // @public (undocumented)
 export class AzureDigitalTwinsManagementClient extends coreClient.ServiceClient {
@@ -78,7 +78,8 @@ export interface ConnectionProperties {
 }
 
 // @public
-export type ConnectionPropertiesPrivateLinkServiceConnectionState = ConnectionState;
+export interface ConnectionPropertiesPrivateLinkServiceConnectionState extends ConnectionState {
+}
 
 // @public
 export type ConnectionPropertiesProvisioningState = string;
@@ -136,14 +137,14 @@ export interface DigitalTwinsDeleteOptionalParams extends coreClient.OperationOp
 export type DigitalTwinsDeleteResponse = DigitalTwinsDescription;
 
 // @public
-export type DigitalTwinsDescription = DigitalTwinsResource & {
+export interface DigitalTwinsDescription extends DigitalTwinsResource {
     readonly createdTime?: Date;
-    readonly lastUpdatedTime?: Date;
-    readonly provisioningState?: ProvisioningState;
     readonly hostName?: string;
+    readonly lastUpdatedTime?: Date;
     privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
-};
+}
 
 // @public
 export interface DigitalTwinsDescriptionListResult {
@@ -201,9 +202,9 @@ export interface DigitalTwinsEndpointListOptionalParams extends coreClient.Opera
 export type DigitalTwinsEndpointListResponse = DigitalTwinsEndpointResourceListResult;
 
 // @public
-export type DigitalTwinsEndpointResource = ExternalResource & {
+export interface DigitalTwinsEndpointResource extends ExternalResource {
     properties: DigitalTwinsEndpointResourcePropertiesUnion;
-};
+}
 
 // @public
 export interface DigitalTwinsEndpointResourceListResult {
@@ -218,6 +219,7 @@ export interface DigitalTwinsEndpointResourceProperties {
     deadLetterSecret?: string;
     deadLetterUri?: string;
     endpointType: "ServiceBus" | "EventHub" | "EventGrid";
+    identity?: ManagedIdentityReference;
     readonly provisioningState?: EndpointProvisioningState;
 }
 
@@ -236,6 +238,9 @@ export interface DigitalTwinsIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: DigitalTwinsIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
 }
 
 // @public
@@ -324,21 +329,21 @@ export interface ErrorResponse {
 }
 
 // @public
-export type EventGrid = DigitalTwinsEndpointResourceProperties & {
-    endpointType: "EventGrid";
-    topicEndpoint: string;
+export interface EventGrid extends DigitalTwinsEndpointResourceProperties {
     accessKey1: string | null;
     accessKey2?: string;
-};
+    endpointType: "EventGrid";
+    topicEndpoint: string;
+}
 
 // @public
-export type EventHub = DigitalTwinsEndpointResourceProperties & {
-    endpointType: "EventHub";
+export interface EventHub extends DigitalTwinsEndpointResourceProperties {
     connectionStringPrimaryKey?: string;
     connectionStringSecondaryKey?: string;
+    endpointType: "EventHub";
     endpointUri?: string;
     entityPath?: string;
-};
+}
 
 // @public
 export interface ExternalResource {
@@ -347,6 +352,9 @@ export interface ExternalResource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GroupIdInformation {
@@ -369,169 +377,127 @@ export interface GroupIdInformationResponse {
 }
 
 // @public
+export type IdentityType = string;
+
+// @public
 export enum KnownAuthenticationType {
-    // (undocumented)
     IdentityBased = "IdentityBased",
-    // (undocumented)
     KeyBased = "KeyBased"
 }
 
 // @public
 export enum KnownConnectionPropertiesProvisioningState {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownConnectionType {
-    // (undocumented)
     AzureDataExplorer = "AzureDataExplorer"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDigitalTwinsIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
-    SystemAssigned = "SystemAssigned"
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownEndpointProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     Provisioning = "Provisioning",
-    // (undocumented)
     Restoring = "Restoring",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Suspending = "Suspending",
-    // (undocumented)
     Updating = "Updating",
-    // (undocumented)
     Warning = "Warning"
 }
 
 // @public
 export enum KnownEndpointType {
-    // (undocumented)
     EventGrid = "EventGrid",
-    // (undocumented)
     EventHub = "EventHub",
-    // (undocumented)
     ServiceBus = "ServiceBus"
 }
 
 // @public
+export enum KnownIdentityType {
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownPrivateLinkServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     Provisioning = "Provisioning",
-    // (undocumented)
     Restoring = "Restoring",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Suspending = "Suspending",
-    // (undocumented)
     Updating = "Updating",
-    // (undocumented)
     Warning = "Warning"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownReason {
-    // (undocumented)
     AlreadyExists = "AlreadyExists",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
 export enum KnownTimeSeriesDatabaseConnectionState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     Provisioning = "Provisioning",
-    // (undocumented)
     Restoring = "Restoring",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Suspending = "Suspending",
-    // (undocumented)
     Updating = "Updating",
-    // (undocumented)
     Warning = "Warning"
+}
+
+// @public
+export interface ManagedIdentityReference {
+    type?: IdentityType;
+    userAssignedIdentity?: string;
 }
 
 // @public
@@ -669,13 +635,13 @@ export type PublicNetworkAccess = string;
 export type Reason = string;
 
 // @public
-export type ServiceBus = DigitalTwinsEndpointResourceProperties & {
+export interface ServiceBus extends DigitalTwinsEndpointResourceProperties {
     endpointType: "ServiceBus";
-    primaryConnectionString?: string;
-    secondaryConnectionString?: string;
     endpointUri?: string;
     entityPath?: string;
-};
+    primaryConnectionString?: string;
+    secondaryConnectionString?: string;
+}
 
 // @public
 export interface SystemData {
@@ -688,9 +654,9 @@ export interface SystemData {
 }
 
 // @public
-export type TimeSeriesDatabaseConnection = ExternalResource & {
+export interface TimeSeriesDatabaseConnection extends ExternalResource {
     properties?: TimeSeriesDatabaseConnectionPropertiesUnion;
-};
+}
 
 // @public
 export interface TimeSeriesDatabaseConnectionListResult {
@@ -701,6 +667,7 @@ export interface TimeSeriesDatabaseConnectionListResult {
 // @public
 export interface TimeSeriesDatabaseConnectionProperties {
     connectionType: "AzureDataExplorer";
+    identity?: ManagedIdentityReference;
     readonly provisioningState?: TimeSeriesDatabaseConnectionState;
 }
 
@@ -758,6 +725,12 @@ export type TimeSeriesDatabaseConnectionsListResponse = TimeSeriesDatabaseConnec
 
 // @public
 export type TimeSeriesDatabaseConnectionState = string;
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
 
 // (No @packageDocumentation comment for this package)
 
