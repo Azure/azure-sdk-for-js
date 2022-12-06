@@ -10,8 +10,8 @@ import {
   DetectUnivariateChangePointDefaultResponse,
   GetMultivariateBatchDetectionResult200Response,
   GetMultivariateBatchDetectionResultDefaultResponse,
-  CreateAndTrainMultivariateModel201Response,
-  CreateAndTrainMultivariateModelDefaultResponse,
+  TrainMultivariateModel201Response,
+  TrainMultivariateModelDefaultResponse,
   ListMultivariateModels200Response,
   ListMultivariateModelsDefaultResponse,
   DeleteMultivariateModel204Response,
@@ -52,10 +52,8 @@ export function isUnexpected(
     | GetMultivariateBatchDetectionResultDefaultResponse
 ): response is GetMultivariateBatchDetectionResultDefaultResponse;
 export function isUnexpected(
-  response:
-    | CreateAndTrainMultivariateModel201Response
-    | CreateAndTrainMultivariateModelDefaultResponse
-): response is CreateAndTrainMultivariateModelDefaultResponse;
+  response: TrainMultivariateModel201Response | TrainMultivariateModelDefaultResponse
+): response is TrainMultivariateModelDefaultResponse;
 export function isUnexpected(
   response: ListMultivariateModels200Response | ListMultivariateModelsDefaultResponse
 ): response is ListMultivariateModelsDefaultResponse;
@@ -83,8 +81,8 @@ export function isUnexpected(
     | DetectUnivariateChangePointDefaultResponse
     | GetMultivariateBatchDetectionResult200Response
     | GetMultivariateBatchDetectionResultDefaultResponse
-    | CreateAndTrainMultivariateModel201Response
-    | CreateAndTrainMultivariateModelDefaultResponse
+    | TrainMultivariateModel201Response
+    | TrainMultivariateModelDefaultResponse
     | ListMultivariateModels200Response
     | ListMultivariateModelsDefaultResponse
     | DeleteMultivariateModel204Response
@@ -100,7 +98,7 @@ export function isUnexpected(
   | DetectUnivariateLastPointDefaultResponse
   | DetectUnivariateChangePointDefaultResponse
   | GetMultivariateBatchDetectionResultDefaultResponse
-  | CreateAndTrainMultivariateModelDefaultResponse
+  | TrainMultivariateModelDefaultResponse
   | ListMultivariateModelsDefaultResponse
   | DeleteMultivariateModelDefaultResponse
   | GetMultivariateModelDefaultResponse

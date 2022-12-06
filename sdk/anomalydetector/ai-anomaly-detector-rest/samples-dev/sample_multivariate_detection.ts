@@ -9,7 +9,7 @@
 
 import AnomalyDetector, {
   DetectMultivariateBatchAnomalyParameters,
-  CreateAndTrainMultivariateModelParameters,
+  TrainMultivariateModelParameters,
   ListMultivariateModelsParameters,
   paginate,
   isUnexpected,
@@ -47,7 +47,7 @@ export async function main() {
   console.log(listModelsResult);
 
   // construct model request (notice that the start and end time are local time and may not align with your data source)
-  const createMultivariateModelParameters: CreateAndTrainMultivariateModelParameters = {
+  const createMultivariateModelParameters: TrainMultivariateModelParameters = {
     body: {
       alignPolicy: {
         alignMode: "Outer",

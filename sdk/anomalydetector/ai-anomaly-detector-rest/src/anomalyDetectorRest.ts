@@ -6,7 +6,6 @@ import { KeyCredential } from "@azure/core-auth";
 import { AnomalyDetectorRestClient } from "./clientDefinitions";
 
 export interface AnomalyDetectorRestClientOptions extends ClientOptions {
-  /* ApiVersion type: string Possible values: v1.1 */
   ApiVersion?: string;
 }
 

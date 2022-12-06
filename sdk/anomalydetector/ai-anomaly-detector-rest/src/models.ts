@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /** The request of entire or last anomaly detection. */
-export interface DetectRequest {
+export interface UnivariateDetectionOptions {
   /**
    * Time series data points. Points should be sorted by timestamp in ascending
    * order to match the anomaly detection result. If the data is not sorted
@@ -68,7 +68,7 @@ export interface TimeSeriesPoint {
 }
 
 /** The request of change point detection. */
-export interface ChangePointDetectRequest {
+export interface UnivariateChangePointDetectionOptions {
   /**
    * Time series data points. Points should be sorted by timestamp in ascending
    * order to match the change point detection result.
@@ -112,6 +112,7 @@ export interface ChangePointDetectRequest {
   threshold?: number;
 }
 
+/** ErrorResponse contains code and message that shows the error information. */
 export interface ErrorResponse {
   /** The error code. */
   code: string;
@@ -119,6 +120,7 @@ export interface ErrorResponse {
   message: string;
 }
 
+/** Variable Status. */
 export interface VariableState {
   /** Variable name in variable states. */
   variable?: string;
@@ -136,7 +138,7 @@ export interface VariableState {
  * Detection request for batch inference. This is an asynchronous inference which
  * will need another API to get detection results.
  */
-export interface DetectionRequest {
+export interface MultivariateBatchDetectionOptions {
   /**
    * Source link to the input data to indicate an accessible Azure storage Uri,
    * either pointed to an Azure blob storage folder, or pointed to a CSV file in
@@ -176,8 +178,10 @@ export interface ModelInfo {
   /**
    * Data schema of input data source: OneTable or MultiTable. The default
    * DataSchema is OneTable.
+   *
+   * Possible values: OneTable, MultiTable
    */
-  dataSchema?: "OneTable" | "MultiTable";
+  dataSchema?: string;
   /**
    * A required field, indicating the start time of training data, which should be
    * date-time of ISO 8601 format.
@@ -202,8 +206,6 @@ export interface ModelInfo {
   alignPolicy?: AlignPolicy;
   /** Model status. One of CREATED, RUNNING, READY, and FAILED. */
   status?: "CREATED" | "RUNNING" | "READY" | "FAILED";
-  /** Error messages when failed to create a model. */
-  errors?: Array<ErrorResponse>;
   /** Diagnostics information to help inspect the states of model or variable. */
   diagnosticsInfo?: DiagnosticsInfo;
 }
@@ -228,10 +230,13 @@ export interface AlignPolicy {
 
 /** Diagnostics information to help inspect the states of model or variable. */
 export interface DiagnosticsInfo {
+  /** Model status. */
   modelState?: ModelState;
+  /** Variable Status. */
   variableStates?: Array<VariableState>;
 }
 
+/** Model status. */
 export interface ModelState {
   /**
    * This indicates the number of passes of the entire training dataset the
@@ -252,7 +257,8 @@ export interface ModelState {
   latenciesInSeconds?: number[];
 }
 
-export interface LastDetectionRequest {
+/** Request of last detection. */
+export interface MultivariateLastDetectionOptions {
   /**
    * This contains the inference data, including the name, timestamps(ISO 8601) and
    * values of variables.
@@ -266,6 +272,7 @@ export interface LastDetectionRequest {
   topContributorCount: number;
 }
 
+/** Variable values. */
 export interface VariableValues {
   /** Variable name of last detection request. */
   variable: string;

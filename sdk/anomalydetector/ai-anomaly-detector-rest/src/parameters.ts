@@ -3,41 +3,44 @@
 
 import { RequestParameters } from "@azure-rest/core-client";
 import {
-  DetectRequest,
-  ChangePointDetectRequest,
+  UnivariateDetectionOptions,
+  UnivariateChangePointDetectionOptions,
   ModelInfo,
-  DetectionRequest,
-  LastDetectionRequest,
+  MultivariateBatchDetectionOptions,
+  MultivariateLastDetectionOptions,
 } from "./models";
 
 export interface DetectUnivariateEntireSeriesBodyParam {
-  body: DetectRequest;
+  /** Method of univariate anomaly detection. */
+  body: UnivariateDetectionOptions;
 }
 
 export type DetectUnivariateEntireSeriesParameters = DetectUnivariateEntireSeriesBodyParam &
   RequestParameters;
 
 export interface DetectUnivariateLastPointBodyParam {
-  body: DetectRequest;
+  /** Method of univariate anomaly detection. */
+  body: UnivariateDetectionOptions;
 }
 
 export type DetectUnivariateLastPointParameters = DetectUnivariateLastPointBodyParam &
   RequestParameters;
 
 export interface DetectUnivariateChangePointBodyParam {
-  body: ChangePointDetectRequest;
+  /** Method of univariate anomaly detection. */
+  body: UnivariateChangePointDetectionOptions;
 }
 
 export type DetectUnivariateChangePointParameters = DetectUnivariateChangePointBodyParam &
   RequestParameters;
 export type GetMultivariateBatchDetectionResultParameters = RequestParameters;
 
-export interface CreateAndTrainMultivariateModelBodyParam {
+export interface TrainMultivariateModelBodyParam {
+  /** Model information. */
   body: ModelInfo;
 }
 
-export type CreateAndTrainMultivariateModelParameters = CreateAndTrainMultivariateModelBodyParam &
-  RequestParameters;
+export type TrainMultivariateModelParameters = TrainMultivariateModelBodyParam & RequestParameters;
 
 export interface ListMultivariateModelsQueryParamProperties {
   /** Skip indicates how many models will be skipped. */
@@ -55,14 +58,16 @@ export type DeleteMultivariateModelParameters = RequestParameters;
 export type GetMultivariateModelParameters = RequestParameters;
 
 export interface DetectMultivariateBatchAnomalyBodyParam {
-  body: DetectionRequest;
+  /** Request of multivariate anomaly detection. */
+  body: MultivariateBatchDetectionOptions;
 }
 
 export type DetectMultivariateBatchAnomalyParameters = DetectMultivariateBatchAnomalyBodyParam &
   RequestParameters;
 
 export interface DetectMultivariateLastAnomalyBodyParam {
-  body: LastDetectionRequest;
+  /** Request of last detection. */
+  body: MultivariateLastDetectionOptions;
 }
 
 export type DetectMultivariateLastAnomalyParameters = DetectMultivariateLastAnomalyBodyParam &
