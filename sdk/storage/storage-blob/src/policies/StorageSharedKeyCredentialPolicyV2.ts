@@ -19,7 +19,7 @@ export const storageSharedKeyCredentialPolicyName = "storageSharedKeyCredentialP
 /**
  * Options used to configure StorageSharedKeyCredentialPolicy.
  */
-export interface storageSharedKeyCredentialPolicyOptions {
+export interface StorageSharedKeyCredentialPolicyOptions {
   accountName: string;
   accountKey: Buffer;
 }
@@ -28,7 +28,7 @@ export interface storageSharedKeyCredentialPolicyOptions {
  * storageSharedKeyCredentialPolicy handles signing requests using storage account keys.
  */
 export function storageSharedKeyCredentialPolicy(
-  options: storageSharedKeyCredentialPolicyOptions
+  options: StorageSharedKeyCredentialPolicyOptions
 ): PipelinePolicy {
   function signRequest(request: PipelineRequest): void {
     request.headers.set(HeaderConstants.X_MS_DATE, new Date().toUTCString());

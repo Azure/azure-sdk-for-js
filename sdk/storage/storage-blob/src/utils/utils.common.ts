@@ -949,7 +949,7 @@ export type WithResponse<T, Headers = undefined, Body = undefined> = T &
 /**
  * A typesafe helper for ensuring that a given response object has
  * the original _response attached.
- * @param response A response object from calling a client operation
+ * @param response - A response object from calling a client operation
  * @returns The same object, but with known _response property
  */
 export function assertResponse<T extends object, Headers = undefined, Body = undefined>(

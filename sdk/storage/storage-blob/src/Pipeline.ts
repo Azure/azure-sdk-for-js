@@ -60,7 +60,7 @@ export {
 };
 
 /**
- * A subset of @azure/core-http's ServiceClientOptions
+ * A subset of `@azure/core-http` ServiceClientOptions
  */
 export interface ServiceClientOptions {
   /**
