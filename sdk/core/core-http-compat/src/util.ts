@@ -54,7 +54,7 @@ export function toWebResourceLike(
   const webResource: WebResourceLike = {
     url: request.url,
     method: request.method,
-    headers: toHttpHeaderLike(request.headers),
+    headers: toHttpHeadersLike(request.headers),
     withCredentials: request.withCredentials,
     timeout: request.timeout,
     requestId: request.headers.get("x-ms-client-request-id") || request.requestId,
@@ -98,7 +98,13 @@ export function toWebResourceLike(
   }
 }
 
-export function toHttpHeaderLike(headers: HttpHeadersV2): HttpHeadersLike {
+/**
+ * Converts HttpHeaders from core-rest-pipeline to look like
+ * HttpHeaders from core-http.
+ * @param headers - HttpHeaders from core-rest-pipeline
+ * @returns HttpHeaders as they looked in core-http
+ */
+export function toHttpHeadersLike(headers: HttpHeadersV2): HttpHeadersLike {
   return new HttpHeaders(headers.toJSON({ preserveCase: true }));
 }
 

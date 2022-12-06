@@ -8,6 +8,7 @@ import { AbortSignalLike } from '@azure/abort-controller';
 import { CommonClientOptions } from '@azure/core-client';
 import { FullOperationResponse } from '@azure/core-client';
 import { HttpClient } from '@azure/core-rest-pipeline';
+import { HttpHeaders } from '@azure/core-rest-pipeline';
 import { HttpMethods } from '@azure/core-rest-pipeline';
 import { OperationArguments } from '@azure/core-client';
 import { OperationSpec } from '@azure/core-client';
@@ -121,6 +122,9 @@ export interface RequestPolicyOptionsLike {
     // (undocumented)
     shouldLog(logLevel: HttpPipelineLogLevel): boolean;
 }
+
+// @public
+export function toHttpHeadersLike(headers: HttpHeaders): HttpHeadersLike;
 
 // @public
 export type TransferProgressEvent = {

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { toHttpHeadersLike } from "@azure/core-http-compat";
 
 import { ServiceSubmitBatchResponseModel } from "./generatedModels";
 import {
@@ -84,7 +85,7 @@ export class BatchResponseParser {
     for (let index = 0; index < subResponseCount; index++) {
       const subResponse = subResponses[index];
       const deserializedSubResponse = {} as BatchSubResponse;
-      deserializedSubResponse.headers = createHttpHeaders();
+      deserializedSubResponse.headers = toHttpHeadersLike(createHttpHeaders());
 
       const responseLines = subResponse.split(`${HTTP_LINE_ENDING}`);
       let subRespHeaderStartFound = false;

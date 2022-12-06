@@ -31,4 +31,5 @@ export {
   RawHttpHeaders,
   HttpHeader,
   TransferProgressEvent,
+  toHttpHeadersLike,
 } from "./util";
