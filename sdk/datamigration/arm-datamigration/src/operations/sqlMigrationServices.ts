@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { SqlMigrationServices } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,11 +19,14 @@ import {
   SqlMigrationService,
   SqlMigrationServicesListByResourceGroupNextOptionalParams,
   SqlMigrationServicesListByResourceGroupOptionalParams,
+  SqlMigrationServicesListByResourceGroupResponse,
   DatabaseMigration,
   SqlMigrationServicesListMigrationsNextOptionalParams,
   SqlMigrationServicesListMigrationsOptionalParams,
+  SqlMigrationServicesListMigrationsResponse,
   SqlMigrationServicesListBySubscriptionNextOptionalParams,
   SqlMigrationServicesListBySubscriptionOptionalParams,
+  SqlMigrationServicesListBySubscriptionResponse,
   SqlMigrationServicesGetOptionalParams,
   SqlMigrationServicesGetResponse,
   SqlMigrationServicesCreateOrUpdateOptionalParams,
@@ -31,7 +35,6 @@ import {
   SqlMigrationServiceUpdate,
   SqlMigrationServicesUpdateOptionalParams,
   SqlMigrationServicesUpdateResponse,
-  SqlMigrationServicesListByResourceGroupResponse,
   SqlMigrationServicesListAuthKeysOptionalParams,
   SqlMigrationServicesListAuthKeysResponse,
   RegenAuthKeys,
@@ -40,10 +43,8 @@ import {
   DeleteNode,
   SqlMigrationServicesDeleteNodeOptionalParams,
   SqlMigrationServicesDeleteNodeResponse,
-  SqlMigrationServicesListMigrationsResponse,
   SqlMigrationServicesListMonitoringDataOptionalParams,
   SqlMigrationServicesListMonitoringDataResponse,
-  SqlMigrationServicesListBySubscriptionResponse,
   SqlMigrationServicesListByResourceGroupNextResponse,
   SqlMigrationServicesListMigrationsNextResponse,
   SqlMigrationServicesListBySubscriptionNextResponse
@@ -80,19 +81,33 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: SqlMigrationServicesListByResourceGroupOptionalParams
+    options?: SqlMigrationServicesListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SqlMigrationService[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SqlMigrationServicesListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -100,7 +115,9 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -140,11 +157,15 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMigrationsPagingPage(
           resourceGroupName,
           sqlMigrationServiceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -153,15 +174,22 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   private async *listMigrationsPagingPage(
     resourceGroupName: string,
     sqlMigrationServiceName: string,
-    options?: SqlMigrationServicesListMigrationsOptionalParams
+    options?: SqlMigrationServicesListMigrationsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DatabaseMigration[]> {
-    let result = await this._listMigrations(
-      resourceGroupName,
-      sqlMigrationServiceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SqlMigrationServicesListMigrationsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listMigrations(
+        resourceGroupName,
+        sqlMigrationServiceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listMigrationsNext(
         resourceGroupName,
@@ -170,7 +198,9 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -203,22 +233,34 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: SqlMigrationServicesListBySubscriptionOptionalParams
+    options?: SqlMigrationServicesListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SqlMigrationService[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SqlMigrationServicesListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

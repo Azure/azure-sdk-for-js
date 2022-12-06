@@ -28,9 +28,10 @@ Add the exporter to your existing OpenTelemetry tracer provider (`NodeTracerProv
 
 ```js
 const { AzureMonitorTraceExporter } = require("@azure/monitor-opentelemetry-exporter");
-const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
 const { BatchSpanProcessor } = require("@opentelemetry/sdk-trace-base");
-
+const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
+const { Resource } = require("@opentelemetry/resources"); 
+const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions"); 
 
 const provider = new NodeTracerProvider({
   resource: new Resource({
@@ -60,9 +61,9 @@ Add the exporter to your existing OpenTelemetry tracer provider (`NodeTracerProv
 
 ```js
 const { MeterProvider, PeriodicExportingMetricReader } = require("@opentelemetry/sdk-metrics");
+const { AzureMonitorMetricExporter } = require("@azure/monitor-opentelemetry-exporter");
 const { Resource } = require("@opentelemetry/resources");
 const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions");
-const { AzureMonitorMetricExporter } = require("@azure/monitor-opentelemetry-exporter");
 
 // Add the exporter into the MetricReader and register it with the MeterProvider
 const provider = new MeterProvider();
@@ -75,7 +76,6 @@ const metricReaderOptions = {
 };
 const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
 provider.addMetricReader(metricReader);
-);
 ```
 
 ### Logs
@@ -88,8 +88,8 @@ You can enable sampling to limit the amount of telemetry records you receive. In
 
 ```js
 const { ApplicationInsightsSampler } = require("@azure/monitor-opentelemetry-exporter");
-const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
 const { BatchSpanProcessor } = require("@opentelemetry/sdk-trace-base");
+const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
 
 // Sampler expects a sample rate of between 0 and 1 inclusive
 // A rate of 0.75 means approximately 75 % of your traces will be sent
@@ -118,7 +118,7 @@ For more information on the OpenTelemetry project, please review the [**OpenTele
 You can enable debug logging by changing the logging level of your provider.
 
 ```js
-const { diag, DiagConsoleLogger, DiagLogLevel } = require("@opentelemetry/api");
+const { DiagConsoleLogger, DiagLogLevel, diag } = require("@opentelemetry/api");
 const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
 
 const provider = new NodeTracerProvider();

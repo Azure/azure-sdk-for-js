@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Maps } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,9 +17,9 @@ import {
   OperationDetail,
   MapsListOperationsNextOptionalParams,
   MapsListOperationsOptionalParams,
+  MapsListOperationsResponse,
   MapsListSubscriptionOperationsNextOptionalParams,
   MapsListSubscriptionOperationsOptionalParams,
-  MapsListOperationsResponse,
   MapsListSubscriptionOperationsResponse,
   MapsListOperationsNextResponse,
   MapsListSubscriptionOperationsNextResponse
@@ -52,22 +53,34 @@ export class MapsImpl implements Maps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listOperationsPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listOperationsPagingPage(options, settings);
       }
     };
   }
 
   private async *listOperationsPagingPage(
-    options?: MapsListOperationsOptionalParams
+    options?: MapsListOperationsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<OperationDetail[]> {
-    let result = await this._listOperations(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: MapsListOperationsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listOperations(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listOperationsNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -94,25 +107,37 @@ export class MapsImpl implements Maps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listSubscriptionOperationsPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listSubscriptionOperationsPagingPage(options, settings);
       }
     };
   }
 
   private async *listSubscriptionOperationsPagingPage(
-    options?: MapsListSubscriptionOperationsOptionalParams
+    options?: MapsListSubscriptionOperationsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<OperationDetail[]> {
-    let result = await this._listSubscriptionOperations(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: MapsListSubscriptionOperationsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listSubscriptionOperations(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listSubscriptionOperationsNext(
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

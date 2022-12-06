@@ -15,12 +15,12 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets the current status of an async operation.
  *
  * @summary Gets the current status of an async operation.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-10-12-preview/examples/OperationStatus_Get.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-11-11-preview/examples/OperationStatus_Get.json
  */
 async function getOperationStatus() {
-  const subscriptionId = "{subscriptionId}";
-  const location = "{location}";
-  const operationId = "{operationId}";
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
+  const location = "westus3";
+  const operationId = "3fa1a29d-e807-488d-81d1-f1c5456a08cd";
   const credential = new DefaultAzureCredential();
   const client = new DevCenterClient(credential, subscriptionId);
   const result = await client.operationStatuses.get(location, operationId);

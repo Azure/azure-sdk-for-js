@@ -300,13 +300,13 @@ export interface SubResource {
 }
 
 /** Description of a CheckAvailability resource. */
-export type CheckAvailabilityResult = Resource & {
+export interface CheckAvailabilityResult extends Resource {
   /** True if the name is available and can be used to create new Namespace/NotificationHub. Otherwise false. */
   isAvailiable?: boolean;
-};
+}
 
 /** Parameters supplied to the CreateOrUpdate Namespace operation. */
-export type NamespaceCreateOrUpdateParameters = Resource & {
+export interface NamespaceCreateOrUpdateParameters extends Resource {
   /** The name of the namespace. */
   namePropertiesName?: string;
   /** Provisioning state of the Namespace. */
@@ -338,10 +338,10 @@ export type NamespaceCreateOrUpdateParameters = Resource & {
   dataCenter?: string;
   /** The namespace type. */
   namespaceType?: NamespaceType;
-};
+}
 
 /** Description of a Namespace resource. */
-export type NamespaceResource = Resource & {
+export interface NamespaceResource extends Resource {
   /** The name of the namespace. */
   namePropertiesName?: string;
   /** Provisioning state of the Namespace. */
@@ -373,10 +373,10 @@ export type NamespaceResource = Resource & {
   dataCenter?: string;
   /** The namespace type. */
   namespaceType?: NamespaceType;
-};
+}
 
 /** Description of a Namespace AuthorizationRules. */
-export type SharedAccessAuthorizationRuleResource = Resource & {
+export interface SharedAccessAuthorizationRuleResource extends Resource {
   /** The rights associated with the rule. */
   rights?: AccessRights[];
   /**
@@ -419,10 +419,10 @@ export type SharedAccessAuthorizationRuleResource = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly revision?: number;
-};
+}
 
 /** Parameters supplied to the CreateOrUpdate NotificationHub operation. */
-export type NotificationHubCreateOrUpdateParameters = Resource & {
+export interface NotificationHubCreateOrUpdateParameters extends Resource {
   /** The NotificationHub name. */
   namePropertiesName?: string;
   /** The RegistrationTtl of the created NotificationHub */
@@ -441,10 +441,10 @@ export type NotificationHubCreateOrUpdateParameters = Resource & {
   admCredential?: AdmCredential;
   /** The BaiduCredential of the created NotificationHub */
   baiduCredential?: BaiduCredential;
-};
+}
 
 /** Description of a NotificationHub Resource. */
-export type NotificationHubResource = Resource & {
+export interface NotificationHubResource extends Resource {
   /** The NotificationHub name. */
   namePropertiesName?: string;
   /** The RegistrationTtl of the created NotificationHub */
@@ -463,10 +463,10 @@ export type NotificationHubResource = Resource & {
   admCredential?: AdmCredential;
   /** The BaiduCredential of the created NotificationHub */
   baiduCredential?: BaiduCredential;
-};
+}
 
 /** Parameters supplied to the patch NotificationHub operation. */
-export type NotificationHubPatchParameters = Resource & {
+export interface NotificationHubPatchParameters extends Resource {
   /** The NotificationHub name. */
   namePropertiesName?: string;
   /** The RegistrationTtl of the created NotificationHub */
@@ -485,20 +485,20 @@ export type NotificationHubPatchParameters = Resource & {
   admCredential?: AdmCredential;
   /** The BaiduCredential of the created NotificationHub */
   baiduCredential?: BaiduCredential;
-};
+}
 
 /** Description of a NotificationHub Resource. */
-export type DebugSendResponse = Resource & {
+export interface DebugSendResponse extends Resource {
   /** successful send */
   success?: number;
   /** send failure */
   failure?: number;
   /** actual failure description */
   results?: Record<string, unknown>;
-};
+}
 
 /** Description of a NotificationHub PNS Credentials. */
-export type PnsCredentialsResource = Resource & {
+export interface PnsCredentialsResource extends Resource {
   /** The ApnsCredential of the created NotificationHub */
   apnsCredential?: ApnsCredential;
   /** The WnsCredential of the created NotificationHub */
@@ -511,12 +511,15 @@ export type PnsCredentialsResource = Resource & {
   admCredential?: AdmCredential;
   /** The BaiduCredential of the created NotificationHub */
   baiduCredential?: BaiduCredential;
-};
+}
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
+  /** Free */
   Free = "Free",
+  /** Basic */
   Basic = "Basic",
+  /** Standard */
   Standard = "Standard"
 }
 

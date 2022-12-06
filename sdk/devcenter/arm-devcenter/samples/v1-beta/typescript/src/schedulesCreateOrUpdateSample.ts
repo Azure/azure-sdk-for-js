@@ -15,10 +15,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates or updates a Schedule.
  *
  * @summary Creates or updates a Schedule.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-10-12-preview/examples/Schedules_CreateDailyShutdownPoolSchedule.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-11-11-preview/examples/Schedules_CreateDailyShutdownPoolSchedule.json
  */
 async function schedulesCreateDailyShutdownPoolSchedule() {
-  const subscriptionId = "{subscriptionId}";
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
   const resourceGroupName = "rg1";
   const projectName = "DevProject";
   const poolName = "DevPool";

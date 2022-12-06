@@ -259,18 +259,18 @@ export interface ObjectAnchorsAccountPage {
   nextLink?: string;
 }
 
-export type ObjectAnchorsAccountIdentity = Identity & {};
+export interface ObjectAnchorsAccountIdentity extends Identity {}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** SpatialAnchorsAccount Response. */
-export type SpatialAnchorsAccount = TrackedResource & {
+export interface SpatialAnchorsAccount extends TrackedResource {
   /** The identity associated with this account */
   identity?: Identity;
   /** The plan associated with this account */
@@ -296,10 +296,10 @@ export type SpatialAnchorsAccount = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly accountDomain?: string;
-};
+}
 
 /** RemoteRenderingAccount Response. */
-export type RemoteRenderingAccount = TrackedResource & {
+export interface RemoteRenderingAccount extends TrackedResource {
   /** The identity associated with this account */
   identity?: Identity;
   /** The plan associated with this account */
@@ -325,10 +325,10 @@ export type RemoteRenderingAccount = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly accountDomain?: string;
-};
+}
 
 /** ObjectAnchorsAccount Response. */
-export type ObjectAnchorsAccount = TrackedResource & {
+export interface ObjectAnchorsAccount extends TrackedResource {
   identity?: ObjectAnchorsAccountIdentity;
   /** The plan associated with this account */
   plan?: Identity;
@@ -353,11 +353,13 @@ export type ObjectAnchorsAccount = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly accountDomain?: string;
-};
+}
 
 /** Known values of {@link NameUnavailableReason} that the service accepts. */
 export enum KnownNameUnavailableReason {
+  /** Invalid */
   Invalid = "Invalid",
+  /** AlreadyExists */
   AlreadyExists = "AlreadyExists"
 }
 
@@ -373,9 +375,13 @@ export type NameUnavailableReason = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 

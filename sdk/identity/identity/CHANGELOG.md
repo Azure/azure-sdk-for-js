@@ -1,4 +1,22 @@
 # Release History
+## 3.1.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Enable msal logging based on log level specified by user.
+### Other Changes
+
+- Upgraded version dependencies on msal libraries, since they have additional logging enabled.
+
+## 3.1.1 (2022-11-18)
+
+### Bugs Fixed
+
+- Fixed bug to update "expiresOnTimestamp" field in Managed Identity to be in seconds and not milliseconds.
 
 ## 3.1.0 (2022-11-08)
 

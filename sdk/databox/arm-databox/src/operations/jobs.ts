@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Jobs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,14 +19,15 @@ import {
   JobResource,
   JobsListNextOptionalParams,
   JobsListOptionalParams,
+  JobsListResponse,
   JobsListByResourceGroupNextOptionalParams,
   JobsListByResourceGroupOptionalParams,
+  JobsListByResourceGroupResponse,
   UnencryptedCredentials,
   JobsListCredentialsOptionalParams,
-  JobsListResponse,
+  JobsListCredentialsResponse,
   MarkDevicesShippedRequest,
   JobsMarkDevicesShippedOptionalParams,
-  JobsListByResourceGroupResponse,
   JobsGetOptionalParams,
   JobsGetResponse,
   JobsCreateOptionalParams,
@@ -39,7 +41,6 @@ import {
   JobsBookShipmentPickUpResponse,
   CancellationReason,
   JobsCancelOptionalParams,
-  JobsListCredentialsResponse,
   JobsListNextResponse,
   JobsListByResourceGroupNextResponse
 } from "../models";
@@ -72,22 +73,34 @@ export class JobsImpl implements Jobs {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: JobsListOptionalParams
+    options?: JobsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<JobResource[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: JobsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -116,19 +129,33 @@ export class JobsImpl implements Jobs {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: JobsListByResourceGroupOptionalParams
+    options?: JobsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<JobResource[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: JobsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -136,7 +163,9 @@ export class JobsImpl implements Jobs {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -176,11 +205,15 @@ export class JobsImpl implements Jobs {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listCredentialsPagingPage(
           resourceGroupName,
           jobName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -189,13 +222,11 @@ export class JobsImpl implements Jobs {
   private async *listCredentialsPagingPage(
     resourceGroupName: string,
     jobName: string,
-    options?: JobsListCredentialsOptionalParams
+    options?: JobsListCredentialsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<UnencryptedCredentials[]> {
-    let result = await this._listCredentials(
-      resourceGroupName,
-      jobName,
-      options
-    );
+    let result: JobsListCredentialsResponse;
+    result = await this._listCredentials(resourceGroupName, jobName, options);
     yield result.value || [];
   }
 
