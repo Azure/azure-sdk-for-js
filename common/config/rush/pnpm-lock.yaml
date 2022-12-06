@@ -1224,15 +1224,6 @@ packages:
       node-addon-api: 5.0.0
     dev: false
 
-  /@azure/msal-node/1.14.2:
-    resolution: {integrity: sha512-t3whVhhLdZVVeDEtUPD2Wqfa8BDi3EDMnpWp8dbuRW0GhUpikBfs4AQU0Fe6P9zS87n9LpmUTLrIcPEEuzkvfA==}
-    engines: {node: 10 || 12 || 14 || 16 || 18}
-    dependencies:
-      '@azure/msal-common': 7.6.0
-      jsonwebtoken: 8.5.1
-      uuid: 8.3.2
-    dev: false
-
   /@azure/msal-node/1.14.4:
     resolution: {integrity: sha512-j9GzZu5mTLWtuJ+cYN6e67UNymIS5OysblrOzH8lakt9XxH0GCPYjuqbOEKTP84r+Rbj3io+TuW1KS+0Xxuj/g==}
     engines: {node: 10 || 12 || 14 || 16 || 18}
@@ -1682,6 +1673,7 @@ packages:
   /@opentelemetry/api-metrics/0.33.0:
     resolution: {integrity: sha512-78evfPRRRnJA6uZ3xuBuS3VZlXTO/LRs+Ff1iv3O/7DgibCtq9k27T6Zlj8yRdJDFmcjcbQrvC0/CpDpWHaZYA==}
     engines: {node: '>=14'}
+    deprecated: Please use @opentelemetry/api >= 1.3.0
     dependencies:
       '@opentelemetry/api': 1.2.0
     dev: false
@@ -3845,7 +3837,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221103
+      typescript: 5.0.0-dev.20221205
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -7709,6 +7701,7 @@ packages:
 
   /rollup-plugin-terser/5.3.1_rollup@1.32.1:
     resolution: {integrity: sha512-1pkwkervMJQGFYvM9nscrUoncPwiKR/K+bHdjv6PFgRo3cgPHoRT83y2Aa3GvINj4539S15t/tpFPb775TDs6w==}
+    deprecated: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-terser
     peerDependencies:
       rollup: '>=0.66.0 <3'
     dependencies:
@@ -7722,6 +7715,7 @@ packages:
 
   /rollup-plugin-terser/5.3.1_rollup@2.79.1:
     resolution: {integrity: sha512-1pkwkervMJQGFYvM9nscrUoncPwiKR/K+bHdjv6PFgRo3cgPHoRT83y2Aa3GvINj4539S15t/tpFPb775TDs6w==}
+    deprecated: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-terser
     peerDependencies:
       rollup: '>=0.66.0 <3'
     dependencies:
@@ -8109,6 +8103,7 @@ packages:
 
   /sourcemap-codec/1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
+    deprecated: Please use @jridgewell/sourcemap-codec instead
     dev: false
 
   /spawn-command/0.0.2-1:
@@ -8793,8 +8788,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221103:
-    resolution: {integrity: sha512-hfqcsmiJ+5ktli1OAkwu4PyDDJ3kWW3tiUofd2t1uxwmni3ZT3Mrv1m2dZFg9VNDKqHrkt49izB3tAtD2bsyGw==}
+  /typescript/5.0.0-dev.20221205:
+    resolution: {integrity: sha512-afHkcfhaQqUk+Hjn+lUKtMqMttizIy5K2r75cz8l7/K+m0k6Yx9IoHRC5v8cjxB77ub2COdbr+0xsNodB7q6dg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9676,7 +9671,7 @@ packages:
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.0.3
       eslint: 8.27.0
       karma: 6.4.1
       karma-chrome-launcher: 3.1.1
@@ -15548,7 +15543,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@azure/msal-node': 1.14.2
+      '@azure/msal-node': 1.14.4
       '@microsoft/api-extractor': 7.33.5
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
@@ -16545,7 +16540,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-WV+mDUjIAgZc7nFKN74JZEbsiaafGlFDKmIm3vZ1D8qYqUs1TuBbe8+XiinYlyUPdGvc30BqRLeWVmfqn6+Ovg==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-XFXg3oREXtYWHf3BKiuT/6XqfPZRC6fgCCRbU2gPcN5Q9OcsGEmE7UxUnCpmybxXv4bcoVV2t18ReONSB/jZoQ==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -16565,7 +16560,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.6
       chalk: 4.1.2
       concurrently: 7.5.0
-      dotenv: 8.6.0
+      dotenv: 16.0.3
       eslint: 8.27.0
       fs-extra: 10.1.0
       minimist: 1.2.7
@@ -17046,7 +17041,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@azure/msal-node': 1.14.2
+      '@azure/msal-node': 1.14.4
       '@azure/msal-node-extensions': 1.0.0-alpha.25
       '@microsoft/api-extractor': 7.33.5
       '@types/jws': 3.2.4
@@ -17130,7 +17125,7 @@ packages:
       '@types/uuid': 8.3.4
       chai: 4.3.6
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.0.3
       eslint: 8.27.0
       events: 3.3.0
       inherits: 2.0.4
@@ -18926,7 +18921,7 @@ packages:
     dev: false
 
   file:projects/storage-blob.tgz:
-    resolution: {integrity: sha512-gSRlGWebNmHQ0pm27D14SFCHKT2g6vgaRSwL/qho4Me/2wW2NJEG3WLOEq3G7LXivOUKhsHVug8sJlJVmtnOjA==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-Ts3yA6oRQp9SsgX9zePHpgTHewCbQ/EoWFW5QQi2xXCv5JlDqWg2JstluQXjEqZfCR8vdntbOj7Jzhc5/7i2qQ==, tarball: file:projects/storage-blob.tgz}
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
