@@ -8,6 +8,7 @@ import {
   Recorder,
   RecorderStartOptions,
   env,
+  assertEnvironmentVariable,
   isPlaybackMode,
   SanitizerOptions,
 } from "@azure-tools/test-recorder";
@@ -16,6 +17,7 @@ import { parseConnectionString } from "@azure/communication-common";
 import { TokenCredential } from "@azure/identity";
 import { isNode } from "@azure/test-utils";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { v4 as uuid } from "uuid";
 
 if (isNode) {
   dotenv.config();
@@ -27,7 +29,7 @@ export interface RecordedClient<T> {
 }
 
 const envSetupForPlayback: { [k: string]: string } = {
-  COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=YQ==",
+  COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=YQ==",
   SKIP_UPDATE_CAPABILITIES_LIVE_TESTS: "false",
   COMMUNICATION_ENDPOINT: "https://endpoint/",
   AZURE_CLIENT_ID: "azure_client_id",
@@ -39,8 +41,8 @@ const envSetupForPlayback: { [k: string]: string } = {
 const sanitizerOptions: SanitizerOptions = {
   connectionStringSanitizers: [
     {
-      actualConnString: env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING,
-      fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"],
+      actualConnString: env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING,
+      fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"],
     },
   ],
   generalSanitizers: [
@@ -81,7 +83,7 @@ export async function createRecordedClient(
   const recorder = await createRecorder(context.currentTest);
 
   const client = new SipRoutingClient(
-    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
+    assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
     recorder.configureClientOptions({})
   );
 
@@ -103,7 +105,7 @@ export async function createRecordedClientWithToken(
 
   let credential: TokenCredential;
   const endpoint = parseConnectionString(
-    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? ""
+    assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING")
   ).endpoint;
 
   if (isPlaybackMode()) {
@@ -116,4 +118,21 @@ export async function createRecordedClientWithToken(
 
   // casting is a workaround to enable min-max testing
   return { client, recorder };
+}
+
+export async function clearSipConfiguration(): Promise<void> {
+  const client = new SipRoutingClient(
+    assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING")
+  );
+  await client.setRoutes([]);
+  await client.setTrunks([]);
+}
+
+let fqdnNumber = 1;
+export function getUniqueFqdn(recorder: Recorder): string {
+  const uniqueDomain = uuid().replace(/-/g, "");
+  return recorder.variable(`fqdn-${fqdnNumber++}`, `test.${uniqueDomain}.com`);
+}
+export function resetUniqueFqdns(): void {
+  fqdnNumber = 1;
 }

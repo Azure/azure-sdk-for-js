@@ -16,12 +16,6 @@ export const logger = credentialLogger("ChainedTokenCredential");
  * until one of the getToken methods returns an access token.
  */
 export class ChainedTokenCredential implements TokenCredential {
-  /**
-   * The message to use when the chained token fails to get a token
-   */
-  protected UnavailableMessage =
-    "ChainedTokenCredential => failed to retrieve a token from the included credentials";
-
   private _sources: TokenCredential[] = [];
 
   /**

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to List blob services of storage account. It returns a collection of one object named default.
  *
  * @summary List blob services of storage account. It returns a collection of one object named default.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/BlobServicesList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/BlobServicesList.json
  */
 async function listBlobServices() {
   const subscriptionId = "{subscription-id}";

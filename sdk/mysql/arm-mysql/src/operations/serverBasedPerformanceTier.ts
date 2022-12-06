@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ServerBasedPerformanceTier } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -51,8 +51,16 @@ export class ServerBasedPerformanceTierImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, serverName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          serverName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -60,9 +68,11 @@ export class ServerBasedPerformanceTierImpl
   private async *listPagingPage(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerBasedPerformanceTierListOptionalParams
+    options?: ServerBasedPerformanceTierListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<PerformanceTierProperties[]> {
-    let result = await this._list(resourceGroupName, serverName, options);
+    let result: ServerBasedPerformanceTierListResponse;
+    result = await this._list(resourceGroupName, serverName, options);
     yield result.value || [];
   }
 

@@ -25,8 +25,8 @@ async function defaultAccountsSet() {
   const defaultAccountPayload: DefaultAccountPayload = {
     accountName: "myDefaultAccount",
     resourceGroupName: "rg-1",
-    scope: "12345678-1234-1234-12345678abc",
-    scopeTenantId: "12345678-1234-1234-12345678abc",
+    scope: "11733A4E-BA84-46FF-91D1-AFF1A3215A90",
+    scopeTenantId: "11733A4E-BA84-46FF-91D1-AFF1A3215A90",
     scopeType: "Tenant",
     subscriptionId: "12345678-1234-1234-12345678aaa"
   };

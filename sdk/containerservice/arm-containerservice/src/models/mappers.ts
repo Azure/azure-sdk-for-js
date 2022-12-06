@@ -2042,6 +2042,12 @@ export const ManagedClusterAutoUpgradeProfile: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      nodeOSUpgradeChannel: {
+        serializedName: "nodeOSUpgradeChannel",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -3143,6 +3149,243 @@ export const TimeSpan: coreClient.CompositeMapper = {
         serializedName: "end",
         type: {
           name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const MaintenanceWindow: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MaintenanceWindow",
+    modelProperties: {
+      schedule: {
+        serializedName: "schedule",
+        type: {
+          name: "Composite",
+          className: "Schedule"
+        }
+      },
+      durationHours: {
+        defaultValue: 24,
+        constraints: {
+          InclusiveMaximum: 24,
+          InclusiveMinimum: 4
+        },
+        serializedName: "durationHours",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      utcOffset: {
+        constraints: {
+          Pattern: new RegExp("^(-|\\+)[0-9]{2}:[0-9]{2}$")
+        },
+        serializedName: "utcOffset",
+        type: {
+          name: "String"
+        }
+      },
+      startDate: {
+        serializedName: "startDate",
+        type: {
+          name: "Date"
+        }
+      },
+      startTime: {
+        constraints: {
+          Pattern: new RegExp("^\\d{2}:\\d{2}$")
+        },
+        serializedName: "startTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      notAllowedDates: {
+        serializedName: "notAllowedDates",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DateSpan"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Schedule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Schedule",
+    modelProperties: {
+      daily: {
+        serializedName: "daily",
+        type: {
+          name: "Composite",
+          className: "DailySchedule"
+        }
+      },
+      weekly: {
+        serializedName: "weekly",
+        type: {
+          name: "Composite",
+          className: "WeeklySchedule"
+        }
+      },
+      absoluteMonthly: {
+        serializedName: "absoluteMonthly",
+        type: {
+          name: "Composite",
+          className: "AbsoluteMonthlySchedule"
+        }
+      },
+      relativeMonthly: {
+        serializedName: "relativeMonthly",
+        type: {
+          name: "Composite",
+          className: "RelativeMonthlySchedule"
+        }
+      }
+    }
+  }
+};
+
+export const DailySchedule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DailySchedule",
+    modelProperties: {
+      intervalDays: {
+        constraints: {
+          InclusiveMaximum: 7,
+          InclusiveMinimum: 1
+        },
+        serializedName: "intervalDays",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const WeeklySchedule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WeeklySchedule",
+    modelProperties: {
+      intervalWeeks: {
+        constraints: {
+          InclusiveMaximum: 4,
+          InclusiveMinimum: 1
+        },
+        serializedName: "intervalWeeks",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      dayOfWeek: {
+        serializedName: "dayOfWeek",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AbsoluteMonthlySchedule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AbsoluteMonthlySchedule",
+    modelProperties: {
+      intervalMonths: {
+        constraints: {
+          InclusiveMaximum: 6,
+          InclusiveMinimum: 1
+        },
+        serializedName: "intervalMonths",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      dayOfMonth: {
+        constraints: {
+          InclusiveMaximum: 31,
+          InclusiveMinimum: 1
+        },
+        serializedName: "dayOfMonth",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const RelativeMonthlySchedule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RelativeMonthlySchedule",
+    modelProperties: {
+      intervalMonths: {
+        constraints: {
+          InclusiveMaximum: 6,
+          InclusiveMinimum: 1
+        },
+        serializedName: "intervalMonths",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      weekIndex: {
+        serializedName: "weekIndex",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      dayOfWeek: {
+        serializedName: "dayOfWeek",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DateSpan: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DateSpan",
+    modelProperties: {
+      start: {
+        serializedName: "start",
+        required: true,
+        type: {
+          name: "Date"
+        }
+      },
+      end: {
+        serializedName: "end",
+        required: true,
+        type: {
+          name: "Date"
         }
       }
     }
@@ -4483,6 +4726,13 @@ export const MaintenanceConfiguration: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      maintenanceWindow: {
+        serializedName: "properties.maintenanceWindow",
+        type: {
+          name: "Composite",
+          className: "MaintenanceWindow"
+        }
       }
     }
   }
@@ -5272,6 +5522,198 @@ export const FleetMember: coreClient.CompositeMapper = {
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClustersDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClustersDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClustersResetServicePrincipalProfileHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClustersResetServicePrincipalProfileHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClustersResetAADProfileHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClustersResetAADProfileHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClustersAbortLatestOperationHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClustersAbortLatestOperationHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClustersRotateClusterCertificatesHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClustersRotateClusterCertificatesHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClustersRotateServiceAccountSigningKeysHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClustersRotateServiceAccountSigningKeysHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClustersStopHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClustersStopHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClustersStartHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClustersStartHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClustersRunCommandHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClustersRunCommandHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClustersGetCommandResultHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClustersGetCommandResultHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AgentPoolsAbortLatestOperationHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgentPoolsAbortLatestOperationHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AgentPoolsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgentPoolsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
         type: {
           name: "String"
         }

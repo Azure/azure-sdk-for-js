@@ -222,28 +222,32 @@ export interface ValidationResult {
 }
 
 /** The resource model definition for a ARM tracked top level resource */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** Azure Health Bot resource definition */
-export type HealthBot = TrackedResource & {
+export interface HealthBot extends TrackedResource {
   /** SKU of the Azure Health Bot. */
   sku: Sku;
   /** The identity of the Azure Health Bot. */
   identity?: Identity;
   /** The set of properties specific to Azure Health Bot resource. */
   properties?: HealthBotProperties;
-};
+}
 
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
