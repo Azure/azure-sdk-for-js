@@ -24,6 +24,7 @@ export {
 export { KeepAliveOptions } from "./policies/keepAliveOptions";
 export { RedirectOptions } from "./policies/redirectOptions";
 export { disableKeepAlivePolicyName } from "./policies/disableKeepAlivePolicy";
+export { convertHttpClient } from "./httpClientAdapter";
 export {
   WebResourceLike,
   HttpHeadersLike,
