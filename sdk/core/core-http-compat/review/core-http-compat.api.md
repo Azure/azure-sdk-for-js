@@ -127,6 +127,7 @@ export type TransferProgressEvent = {
 export interface WebResourceLike {
     abortSignal?: AbortSignalLike;
     body?: any;
+    clone(): WebResourceLike;
     decompressResponse?: boolean;
     formData?: any;
     headers: HttpHeadersLike;

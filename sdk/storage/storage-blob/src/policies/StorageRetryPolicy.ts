@@ -141,7 +141,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
     secondaryHas404: boolean,
     attempt: number
   ): Promise<HttpOperationResponse> {
-    const newRequest: WebResource = (request as any).clone();
+    const newRequest: WebResource = request.clone();
 
     const isPrimaryRetry =
       secondaryHas404 ||

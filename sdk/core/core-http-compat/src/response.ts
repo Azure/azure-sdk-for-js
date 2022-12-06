@@ -45,6 +45,8 @@ export function toCompatResponse(
           return headers;
         } else if (prop === "request") {
           return request;
+        } else if (prop === originalResponse) {
+          return response;
         }
         return Reflect.get(target, prop, receiver);
       },

@@ -107,8 +107,18 @@ function getPropertyFromParameterPath(
 }
 
 const operationRequestMap = new WeakMap<OperationRequest, OperationRequestInfo>();
+const originalRequestSymbol = Symbol.for("@azure/core-client original request");
+
+function hasOriginalRequest(
+  request: OperationRequest
+): request is OperationRequest & { [originalRequestSymbol]: OperationRequest } {
+  return originalRequestSymbol in request;
+}
 
 export function getOperationRequestInfo(request: OperationRequest): OperationRequestInfo {
+  if (hasOriginalRequest(request)) {
+    return getOperationRequestInfo(request[originalRequestSymbol]);
+  }
   let info = operationRequestMap.get(request);
 
   if (!info) {

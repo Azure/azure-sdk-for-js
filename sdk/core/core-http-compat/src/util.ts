@@ -10,18 +10,27 @@ import {
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders as HttpHeadersV2, PipelineRequest } from "@azure/core-rest-pipeline";
 
-const originalRequest = Symbol("Original PipelineRequest");
-type CompatWebResourceLike = WebResourceLike & { [originalRequest]?: PipelineRequest };
+const originalRequestSymbol = Symbol("Original PipelineRequest");
+type CompatWebResourceLike = WebResourceLike & { [originalRequestSymbol]?: PipelineRequest };
+const originalClientRequestSymbol = Symbol.for("@azure/core-client original request");
+type PipelineRequestWithOriginal = PipelineRequest & {
+  [originalClientRequestSymbol]?: PipelineRequest;
+};
 
-export function toPipelineRequest(webResource: WebResourceLike): PipelineRequest {
+export function toPipelineRequest(
+  webResource: WebResourceLike,
+  options: {
+    originalRequest?: PipelineRequest;
+  } = {}
+): PipelineRequest {
   const compatWebResource = webResource as CompatWebResourceLike;
-  const request = compatWebResource[originalRequest];
+  const request = compatWebResource[originalRequestSymbol];
   const headers = createHttpHeaders(webResource.headers.toJson({ preserveCase: true }));
   if (request) {
     request.headers = headers;
     return request;
   } else {
-    return createPipelineRequest({
+    const newRequest = createPipelineRequest({
       url: webResource.url,
       method: webResource.method,
       headers,
@@ -29,13 +38,19 @@ export function toPipelineRequest(webResource: WebResourceLike): PipelineRequest
       timeout: webResource.timeout,
       requestId: webResource.requestId,
     });
+    if (options.originalRequest) {
+      (newRequest as PipelineRequestWithOriginal)[originalClientRequestSymbol] =
+        options.originalRequest;
+    }
+    return newRequest;
   }
 }
 
 export function toWebResourceLike(
   request: PipelineRequest,
-  options?: { createProxy?: boolean }
+  options?: { createProxy?: boolean; originalRequest?: PipelineRequest }
 ): WebResourceLike {
+  const originalRequest = options?.originalRequest ?? request;
   const webResource: WebResourceLike = {
     url: request.url,
     method: request.method,
@@ -43,13 +58,23 @@ export function toWebResourceLike(
     withCredentials: request.withCredentials,
     timeout: request.timeout,
     requestId: request.headers.get("x-ms-client-request-id") || request.requestId,
+    clone(): WebResourceLike {
+      throw new Error("Cannot clone a non-proxied WebResourceLike");
+    },
   };
 
   if (options?.createProxy) {
     return new Proxy(webResource, {
       get(target, prop, receiver) {
-        if (prop === originalRequest) {
+        if (prop === originalRequestSymbol) {
           return request;
+        } else if (prop === "clone") {
+          return () => {
+            return toWebResourceLike(toPipelineRequest(webResource, { originalRequest }), {
+              createProxy: true,
+              originalRequest,
+            });
+          };
         }
         return Reflect.get(target, prop, receiver);
       },
@@ -370,6 +395,11 @@ export interface WebResourceLike {
 
   /** Callback which fires upon download progress. */
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * Clone this request object.
+   */
+  clone(): WebResourceLike;
 }
 
 /**
