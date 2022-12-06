@@ -11,6 +11,7 @@ import {
   WebResourceLike as WebResource,
   KeepAliveOptions,
   ExtendedServiceClientOptions,
+  convertHttpClient,
 } from "@azure/core-http-compat";
 import {
   RequestBodyType as HttpRequestBody,
@@ -216,9 +217,10 @@ export function newPipeline(
 }
 
 export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceClientOptions {
-  const { httpClient, ...restOptions } = pipeline.options as StoragePipelineOptions;
+  const { httpClient: v1Client, ...restOptions } = pipeline.options as StoragePipelineOptions;
   // TODO: handle if this pipeline came from another package
-  // TODO: wrap httpClient in adapter
+
+  const httpClient = v1Client ? convertHttpClient(v1Client) : getCachedDefaultHttpClient();
 
   const packageDetails = `azsdk-js-azure-storage-blob/${SDK_VERSION}`;
   const userAgentPrefix =
@@ -287,7 +289,7 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
   }
   return {
     ...restOptions,
-    httpClient: getCachedDefaultHttpClient(),
+    httpClient,
     pipeline: corePipeline,
   };
 }
