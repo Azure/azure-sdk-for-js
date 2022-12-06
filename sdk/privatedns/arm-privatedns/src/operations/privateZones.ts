@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PrivateZones } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,8 +19,10 @@ import {
   PrivateZone,
   PrivateZonesListNextOptionalParams,
   PrivateZonesListOptionalParams,
+  PrivateZonesListResponse,
   PrivateZonesListByResourceGroupNextOptionalParams,
   PrivateZonesListByResourceGroupOptionalParams,
+  PrivateZonesListByResourceGroupResponse,
   PrivateZonesCreateOrUpdateOptionalParams,
   PrivateZonesCreateOrUpdateResponse,
   PrivateZonesUpdateOptionalParams,
@@ -27,8 +30,6 @@ import {
   PrivateZonesDeleteOptionalParams,
   PrivateZonesGetOptionalParams,
   PrivateZonesGetResponse,
-  PrivateZonesListResponse,
-  PrivateZonesListByResourceGroupResponse,
   PrivateZonesListNextResponse,
   PrivateZonesListByResourceGroupNextResponse
 } from "../models";
@@ -61,22 +62,34 @@ export class PrivateZonesImpl implements PrivateZones {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: PrivateZonesListOptionalParams
+    options?: PrivateZonesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PrivateZone[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PrivateZonesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -105,19 +118,33 @@ export class PrivateZonesImpl implements PrivateZones {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: PrivateZonesListByResourceGroupOptionalParams
+    options?: PrivateZonesListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PrivateZone[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PrivateZonesListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -125,7 +152,9 @@ export class PrivateZonesImpl implements PrivateZones {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
