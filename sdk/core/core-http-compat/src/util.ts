@@ -61,6 +61,12 @@ export function toWebResourceLike(
     clone(): WebResourceLike {
       throw new Error("Cannot clone a non-proxied WebResourceLike");
     },
+    prepare(): WebResourceLike {
+      throw new Error("WebResourceLike.prepare() is not supported by @azure/core-http-compat");
+    },
+    validateRequestProperties(): void {
+      /** do nothing */
+    },
   };
 
   if (options?.createProxy) {
@@ -406,6 +412,19 @@ export interface WebResourceLike {
    * Clone this request object.
    */
   clone(): WebResourceLike;
+
+  /**
+   * Validates that the required properties such as method, url, headers["Content-Type"],
+   * headers["accept-language"] are defined. It will throw an error if one of the above
+   * mentioned properties are not defined.
+   * Note: this a no-op for compat purposes.
+   */
+  validateRequestProperties(): void;
+
+  /**
+   * This is a no-op for compat purposes and will throw if called.
+   */
+  prepare(options: unknown): WebResourceLike;
 }
 
 /**

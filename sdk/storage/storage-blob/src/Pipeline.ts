@@ -70,7 +70,9 @@ export interface ServiceClientOptions {
   /**
    * Optional. Overrides the default policy factories.
    */
-  requestPolicyFactories?: RequestPolicyFactory[];
+  requestPolicyFactories?:
+    | RequestPolicyFactory[]
+    | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
 }
 
 /**

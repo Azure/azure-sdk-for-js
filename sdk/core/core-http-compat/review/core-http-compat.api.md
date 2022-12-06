@@ -143,6 +143,7 @@ export interface WebResourceLike {
     method: HttpMethods;
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
+    prepare(options: unknown): WebResourceLike;
     proxySettings?: ProxySettings;
     query?: {
         [key: string]: any;
@@ -153,6 +154,7 @@ export interface WebResourceLike {
     streamResponseStatusCodes?: Set<number>;
     timeout: number;
     url: string;
+    validateRequestProperties(): void;
     withCredentials: boolean;
 }
 

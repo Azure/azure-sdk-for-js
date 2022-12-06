@@ -3097,7 +3097,7 @@ export type SequenceNumberActionType = "max" | "update" | "increment";
 // @public
 export interface ServiceClientOptions {
     httpClient?: RequestPolicy;
-    requestPolicyFactories?: RequestPolicyFactory[];
+    requestPolicyFactories?: RequestPolicyFactory[] | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
 }
 
 // @public
