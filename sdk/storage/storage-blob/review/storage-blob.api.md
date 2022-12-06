@@ -666,7 +666,7 @@ export interface BlobFlatListSegmentInternal {
     blobItems: BlobItemInternalModel[];
 }
 
-// @public
+// @public (undocumented)
 export interface BlobFlatListSegmentModel {
     // (undocumented)
     blobItems: BlobItemInternal[];
