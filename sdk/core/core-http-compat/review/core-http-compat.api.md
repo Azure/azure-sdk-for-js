@@ -25,7 +25,7 @@ export interface CompatResponse extends Omit<FullOperationResponse, "request" | 
 export function createRequestPolicyFactoryPolicy(factories: RequestPolicyFactory[]): PipelinePolicy;
 
 // @public (undocumented)
-export const disbaleKeepAlivePolicyName = "DisableKeepAlivePolicy";
+export const disableKeepAlivePolicyName = "DisableKeepAlivePolicy";
 
 // @public
 export interface ExtendedClientOptions {
