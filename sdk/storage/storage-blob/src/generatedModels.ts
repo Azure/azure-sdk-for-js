@@ -118,178 +118,224 @@ import {
   HttpResponse,
 } from "./utils/utils.common";
 
+/** Contains response data for the appendBlockFromUrl operation. */
 export type AppendBlobAppendBlockFromUrlResponse = WithResponse<
   AppendBlobAppendBlockFromUrlResponseInternal,
   AppendBlobAppendBlockFromUrlHeaders
 >;
+/** Contains response data for the appendBlock operation. */
 export type AppendBlobAppendBlockResponse = WithResponse<
   AppendBlobAppendBlockResponseInternal,
   AppendBlobAppendBlockHeaders
 >;
+/** Contains response data for the create operation. */
 export type AppendBlobCreateResponse = WithResponse<
   AppendBlobCreateResponseInternal,
   AppendBlobCreateHeaders
 >;
+/** Contains response data for the abortCopyFromURL operation. */
 export type BlobAbortCopyFromURLResponse = WithResponse<
   BlobAbortCopyFromURLResponseInternal,
   BlobAbortCopyFromURLHeaders
 >;
+/** Contains response data for the copyFromURL operation. */
 export type BlobCopyFromURLResponse = WithResponse<
   BlobCopyFromURLResponseInternal,
   BlobCopyFromURLHeaders
 >;
+/** Contains response data for the createSnapshot operation. */
 export type BlobCreateSnapshotResponse = WithResponse<
   BlobCreateSnapshotResponseInternal,
   BlobCreateSnapshotHeaders
 >;
+/** Contains response data for the delete operation. */
 export type BlobDeleteResponse = WithResponse<BlobDeleteResponseInternal, BlobDeleteHeaders>;
+/** Contains response data for the deleteImmutabilityPolicy operation. */
 export type BlobDeleteImmutabilityPolicyResponse = WithResponse<
   BlobDeleteImmutabilityPolicyResponseInternal,
   BlobDeleteImmutabilityPolicyHeaders
 >;
+/** Contains response data for the download operation. */
 export type BlobDownloadResponseModel = WithResponse<
   BlobDownloadResponseInternal,
   BlobDownloadHeaders
 >;
+/** Contains response data for the getProperties operation. */
 export type BlobGetPropertiesResponseModel = WithResponse<
   BlobGetPropertiesResponseInternal,
   BlobGetPropertiesHeaders
 >;
+/** Contains response data for the query operation. */
 export type BlobQueryResponseModel = WithResponse<BlobQueryResponseInternal, BlobQueryHeaders>;
+/** Contains response data for the setHttpHeaders operation. */
 export type BlobSetHTTPHeadersResponse = WithResponse<
   BlobSetHttpHeadersResponseInternal,
   BlobSetHttpHeadersHeaders
 >;
+/** Contains response data for the setImmutabilityPolicy operation. */
 export type BlobSetImmutabilityPolicyResponse = WithResponse<
   BlobSetImmutabilityPolicyResponseInternal,
   BlobSetImmutabilityPolicyHeaders
 >;
+/** Contains response data for the setLegalHold operation. */
 export type BlobSetLegalHoldResponse = WithResponse<
   BlobSetLegalHoldResponseInternal,
   BlobSetLegalHoldHeaders
 >;
+/** Contains response data for the setMetadata operation. */
 export type BlobSetMetadataResponse = WithResponse<
   BlobSetMetadataResponseInternal,
   BlobSetMetadataHeaders
 >;
+/** Contains response data for the setTags operation. */
 export type BlobSetTagsResponse = WithResponse<BlobSetTagsResponseInternal, BlobSetTagsHeaders>;
+/** Contains response data for the setTier operation. */
 export type BlobSetTierResponse = WithResponse<BlobSetTierResponseInternal, BlobSetTierHeaders>;
+/** Contains response data for the startCopyFromURL operation. */
 export type BlobStartCopyFromURLResponse = WithResponse<
   BlobStartCopyFromURLResponseInternal,
   BlobStartCopyFromURLHeaders
 >;
+/** Contains response data for the undelete operation. */
 export type BlobUndeleteResponse = WithResponse<BlobUndeleteResponseInternal, BlobUndeleteHeaders>;
+/** Contains response data for the commitBlockList operation. */
 export type BlockBlobCommitBlockListResponse = WithResponse<
   BlockBlobCommitBlockListResponseInternal,
   BlockBlobCommitBlockListHeaders
 >;
+/** Contains response data for the getBlockList operation. */
 export type BlockBlobGetBlockListResponse = WithResponse<
   BlockBlobGetBlockListResponseInternal,
   BlockBlobGetBlockListHeaders
 >;
+/** Contains response data for the putBlobFromUrl operation. */
 export type BlockBlobPutBlobFromUrlResponse = WithResponse<
   BlockBlobPutBlobFromUrlResponseInternal,
   BlockBlobPutBlobFromUrlHeaders
 >;
+/** Contains response data for the stageBlockFromURL operation. */
 export type BlockBlobStageBlockFromURLResponse = WithResponse<
   BlockBlobStageBlockFromURLResponseInternal,
   BlockBlobStageBlockFromURLHeaders
 >;
+/** Contains response data for the stageBlock operation. */
 export type BlockBlobStageBlockResponse = WithResponse<
   BlockBlobStageBlockResponseInternal,
   BlockBlobStageBlockHeaders
 >;
+/** Contains response data for the upload operation. */
 export type BlockBlobUploadResponse = WithResponse<
   BlockBlobUploadResponseInternal,
   BlockBlobUploadHeaders
 >;
+/** Contains response data for the create operation. */
 export type ContainerCreateResponse = WithResponse<
   ContainerCreateResponseInternal,
   ContainerCreateHeaders
 >;
+/** Contains response data for the delete operation. */
 export type ContainerDeleteResponse = WithResponse<
   ContainerDeleteResponseInternal,
   ContainerDeleteHeaders
 >;
-
+/** Contains response data for the getProperties operation. */
 export type ContainerGetPropertiesResponse = WithResponse<
   ContainerGetPropertiesResponseInternal,
   ContainerGetPropertiesHeaders
 >;
+/** Contains response data for the rename operation. */
 export type ContainerRenameResponse = WithResponse<
   ContainerRenameResponseInternal,
   ContainerRenameHeaders
 >;
+/** Contains response data for the setAccessPolicy operation. */
 export type ContainerSetAccessPolicyResponse = WithResponse<
   ContainerSetAccessPolicyResponseInternal,
   ContainerSetAccessPolicyHeaders
 >;
+/** Contains response data for the setMetadata operation. */
 export type ContainerSetMetadataResponse = WithResponse<
   ContainerSetMetadataResponseInternal,
   ContainerSetMetadataHeaders
 >;
+/** Contains response data for the restore operation. */
 export type ContainerUndeleteResponse = WithResponse<
   ContainerUndeleteResponseInternal,
   ContainerUndeleteHeaders
 >;
+/** Contains response data for the clearPages operation. */
 export type PageBlobClearPagesResponse = WithResponse<
   PageBlobClearPagesResponseInternal,
   PageBlobClearPagesHeaders
 >;
+/** Contains response data for the copyIncremental operation. */
 export type PageBlobCopyIncrementalResponse = WithResponse<
   PageBlobCopyIncrementalResponseInternal,
   PageBlobCopyIncrementalHeaders
 >;
+/** Contains response data for the create operation. */
 export type PageBlobCreateResponse = WithResponse<
   PageBlobCreateResponseInternal,
   PageBlobCreateHeaders
 >;
+/** Contains response data for the getPageRangesDiff operation. */
 export type PageBlobGetPageRangesDiffResponseModel = WithResponse<
   PageBlobGetPageRangesDiffResponseInternal,
   PageBlobGetPageRangesDiffHeaders,
   PageList
 >;
+/** Contains response data for the getPageRanges operation. */
 export type PageBlobGetPageRangesResponseModel = WithResponse<
   PageBlobGetPageRangesResponseInternal,
   PageBlobGetPageRangesHeaders,
   PageList
 >;
+/** Contains response data for the resize operation. */
 export type PageBlobResizeResponse = WithResponse<
   PageBlobResizeResponseInternal,
   PageBlobResizeHeaders
 >;
+/** Contains response data for the updateSequenceNumber operation. */
 export type PageBlobUpdateSequenceNumberResponse = WithResponse<
   PageBlobUpdateSequenceNumberResponseInternal,
   PageBlobUpdateSequenceNumberHeaders
 >;
+/** Contains response data for the uploadPagesFromURL operation. */
 export type PageBlobUploadPagesFromURLResponse = WithResponse<
   PageBlobUploadPagesFromURLResponseInternal,
   PageBlobUploadPagesFromURLHeaders
 >;
+/** Contains response data for the uploadPages operation. */
 export type PageBlobUploadPagesResponse = WithResponse<
   PageBlobUploadPagesResponseInternal,
   PageBlobUploadPagesHeaders
 >;
+/** Contains response data for the getAccountInfo operation. */
 export type ServiceGetAccountInfoResponse = WithResponse<
   ServiceGetAccountInfoResponseInternal,
   ServiceGetAccountInfoHeaders
 >;
+/** Contains response data for the getProperties operation. */
 export type ServiceGetPropertiesResponse = WithResponse<
   ServiceGetPropertiesResponseInternal,
   ServiceGetPropertiesHeaders
 >;
+/** Contains response data for the getStatistics operation. */
 export type ServiceGetStatisticsResponse = WithResponse<
   ServiceGetStatisticsResponseInternal,
   ServiceGetStatisticsHeaders
 >;
+/** Contains response data for the listContainersSegment operation. */
 export type ServiceListContainersSegmentResponse = WithResponse<
   ServiceListContainersSegmentResponseInternal,
   ServiceListContainersSegmentHeaders
 >;
+/** Contains response data for the setProperties operation. */
 export type ServiceSetPropertiesResponse = WithResponse<
   ServiceSetPropertiesResponseInternal,
   ServiceSetPropertiesHeaders
 >;
+/** Contains response data for the submitBatch operation. */
 export type ServiceSubmitBatchResponseModel = WithResponse<
   ServiceSubmitBatchResponseInternal,
   ServiceSubmitBatchHeaders
