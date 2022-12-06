@@ -618,15 +618,82 @@ export class NetworkConnectionsImpl implements NetworkConnections {
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param options The options parameters.
    */
-  runHealthChecks(
+  async beginRunHealthChecks(
+    resourceGroupName: string,
+    networkConnectionName: string,
+    options?: NetworkConnectionsRunHealthChecksOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, networkConnectionName, options },
+      runHealthChecksOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Triggers a new health check run. The execution and health check result can be tracked via the
+   * network Connection health check details
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
+   * @param options The options parameters.
+   */
+  async beginRunHealthChecksAndWait(
     resourceGroupName: string,
     networkConnectionName: string,
     options?: NetworkConnectionsRunHealthChecksOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, networkConnectionName, options },
-      runHealthChecksOperationSpec
+    const poller = await this.beginRunHealthChecks(
+      resourceGroupName,
+      networkConnectionName,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -882,6 +949,9 @@ const runHealthChecksOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

@@ -8,7 +8,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v18.7.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.1 Node/v18.7.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
         "x-ms-date": "Tue, 22 Nov 2022 20:49:26 GMT"
@@ -43,7 +43,7 @@
         "Connection": "keep-alive",
         "Content-Length": "2038",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v18.7.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.1 Node/v18.7.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
         "x-ms-content-sha256": "ycLdhTl\u002BeQ9l6W3yS2Af/\u002BrcAXRcjgOUZLM6hNzHTwQ=",
         "x-ms-date": "Tue, 22 Nov 2022 20:49:27 GMT"
@@ -266,7 +266,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v18.7.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.1 Node/v18.7.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
         "x-ms-date": "Tue, 22 Nov 2022 20:49:38 GMT"
@@ -400,7 +400,7 @@
         "Connection": "keep-alive",
         "Content-Length": "224",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v18.7.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.1 Node/v18.7.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
         "x-ms-content-sha256": "B5ysOSm4zwZg5BuUqBzfD6InC7GGtTLTDJh11JtPrSw=",
         "x-ms-date": "Tue, 22 Nov 2022 20:49:39 GMT"
@@ -539,7 +539,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v18.7.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.1 Node/v18.7.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
         "x-ms-date": "Tue, 22 Nov 2022 20:49:40 GMT"
@@ -671,7 +671,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v18.7.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.1 Node/v18.7.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
         "x-ms-date": "Tue, 22 Nov 2022 20:49:42 GMT"
@@ -807,7 +807,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v18.7.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.1 Node/v18.7.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
         "x-ms-date": "Tue, 22 Nov 2022 20:49:44 GMT"
@@ -833,7 +833,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.4 core-rest-pipeline/1.10.1 Node/v18.7.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.1 Node/v18.7.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
         "x-ms-date": "Tue, 22 Nov 2022 20:49:44 GMT"

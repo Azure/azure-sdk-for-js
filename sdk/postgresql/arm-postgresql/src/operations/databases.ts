@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Databases } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,12 +17,12 @@ import { LroImpl } from "../lroImpl";
 import {
   Database,
   DatabasesListByServerOptionalParams,
+  DatabasesListByServerResponse,
   DatabasesCreateOrUpdateOptionalParams,
   DatabasesCreateOrUpdateResponse,
   DatabasesDeleteOptionalParams,
   DatabasesGetOptionalParams,
-  DatabasesGetResponse,
-  DatabasesListByServerResponse
+  DatabasesGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -61,11 +61,15 @@ export class DatabasesImpl implements Databases {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByServerPagingPage(
           resourceGroupName,
           serverName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -74,13 +78,11 @@ export class DatabasesImpl implements Databases {
   private async *listByServerPagingPage(
     resourceGroupName: string,
     serverName: string,
-    options?: DatabasesListByServerOptionalParams
+    options?: DatabasesListByServerOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Database[]> {
-    let result = await this._listByServer(
-      resourceGroupName,
-      serverName,
-      options
-    );
+    let result: DatabasesListByServerResponse;
+    result = await this._listByServer(resourceGroupName, serverName, options);
     yield result.value || [];
   }
 

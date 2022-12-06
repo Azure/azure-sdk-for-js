@@ -118,9 +118,9 @@ You can translate coordinates into human readable street addresses. This process
 This is often used for applications that consume GPS feeds and want to discover addresses at specific coordinate points.
 
 ```javascript
-const coordinates: LatLon = [47.59118, -122.3327]; // [latitude, longitude]
+const coordinates = [47.59118, -122.3327]; // [latitude, longitude]
 
-const { addresses } = await client.reverseSearchAddress(coordinates);
+const addresses = await client.reverseSearchAddress(coordinates).result;
 for (const { address } of addresses) {
   console.log(address);
 }
@@ -131,9 +131,9 @@ for (const { address } of addresses) {
 Translate coordinate location into a human understandable cross street by using Search Address Reverse Cross Street API. Most often, this is needed in tracking applications that receive a GPS feed from a device or asset, and wish to know where the coordinate is located.
 
 ```javascript
-const coordinates: LatLon = [47.59118, -122.3327];
+const coordinates = [47.59118, -122.3327]; // [latitude, longitude]
 
-const { addresses } = await client.reverseSearchCrossStreetAddress(coordinates);
+const addresses = await client.reverseSearchCrossStreetAddress(coordinates).result;
 for (const { address } of addresses) {
   console.log(address);
 }

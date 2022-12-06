@@ -651,8 +651,11 @@ export interface ManagementGroupsDeleteHeaders {
 
 /** Known values of {@link Enum0} that the service accepts. */
 export enum KnownEnum0 {
+  /** Children */
   Children = "children",
+  /** Path */
   Path = "path",
+  /** Ancestors */
   Ancestors = "ancestors"
 }
 
@@ -669,7 +672,9 @@ export type Enum0 = string;
 
 /** Known values of {@link ManagementGroupChildType} that the service accepts. */
 export enum KnownManagementGroupChildType {
+  /** MicrosoftManagementManagementGroups */
   MicrosoftManagementManagementGroups = "Microsoft.Management/managementGroups",
+  /** Subscriptions */
   Subscriptions = "/subscriptions"
 }
 
@@ -685,10 +690,15 @@ export type ManagementGroupChildType = string;
 
 /** Known values of {@link Enum2} that the service accepts. */
 export enum KnownEnum2 {
+  /** AllowedParents */
   AllowedParents = "AllowedParents",
+  /** AllowedChildren */
   AllowedChildren = "AllowedChildren",
+  /** ParentAndFirstLevelChildren */
   ParentAndFirstLevelChildren = "ParentAndFirstLevelChildren",
+  /** ParentOnly */
   ParentOnly = "ParentOnly",
+  /** ChildrenOnly */
   ChildrenOnly = "ChildrenOnly"
 }
 
@@ -707,9 +717,13 @@ export type Enum2 = string;
 
 /** Known values of {@link Enum3} that the service accepts. */
 export enum KnownEnum3 {
+  /** FullHierarchy */
   FullHierarchy = "FullHierarchy",
+  /** GroupsOnly */
   GroupsOnly = "GroupsOnly",
+  /** SubscriptionsOnly */
   SubscriptionsOnly = "SubscriptionsOnly",
+  /** Audit */
   Audit = "Audit"
 }
 
@@ -727,9 +741,13 @@ export type Enum3 = string;
 
 /** Known values of {@link Permissions} that the service accepts. */
 export enum KnownPermissions {
+  /** Noaccess */
   Noaccess = "noaccess",
+  /** View */
   View = "view",
+  /** Edit */
   Edit = "edit",
+  /** Delete */
   Delete = "delete"
 }
 

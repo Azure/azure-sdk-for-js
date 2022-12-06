@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists the available SKUs supported by Microsoft.Storage for given subscription.
  *
  * @summary Lists the available SKUs supported by Microsoft.Storage for given subscription.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/SKUList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/SKUList.json
  */
 async function skuList() {
   const subscriptionId = "{subscription-id}";
