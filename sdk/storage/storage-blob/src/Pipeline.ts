@@ -12,6 +12,8 @@ import {
   KeepAliveOptions,
   ExtendedServiceClientOptions,
   convertHttpClient,
+  createRequestPolicyFactoryPolicy,
+  HttpPipelineLogLevel,
 } from "@azure/core-http-compat";
 import {
   RequestBodyType as HttpRequestBody,
@@ -20,13 +22,14 @@ import {
   bearerTokenAuthenticationPolicy,
   Pipeline as CorePipeline,
   decompressResponsePolicyName,
+  PipelinePolicy,
 } from "@azure/core-rest-pipeline";
 import { authorizeRequestOnTenantChallenge, createClientPipeline } from "@azure/core-client";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log";
-import { StorageRetryOptions } from "./StorageRetryPolicyFactory";
+import { StorageRetryOptions, StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import {
@@ -40,6 +43,7 @@ import { storageBrowserPolicy } from "./policies/StorageBrowserPolicyV2";
 import { storageRetryPolicy } from "./policies/StorageRetryPolicyV2";
 import { storageSharedKeyCredentialPolicy } from "./policies/StorageSharedKeyCredentialPolicyV2";
 import { pathParameterWorkaroundPolicy } from "./policies/PathParameterWorkaroundPolicy";
+import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -216,9 +220,31 @@ export function newPipeline(
   return pipeline;
 }
 
+function processDownlevelPipeline(pipeline: PipelineLike): PipelinePolicy | undefined {
+  const knownFactoryFunctions = [
+    isAnonymousCredential,
+    isStorageSharedKeyCredential,
+    isCoreHttpBearerTokenFactory,
+    isStorageBrowserPolicyFactory,
+    isStorageRetryPolicyFactory,
+    isStorageTelemetryPolicyFactory,
+    isCoreHttpPolicyFactory,
+  ];
+  if (pipeline.factories.length) {
+    const novelFactories = pipeline.factories.slice().filter((factory) => {
+      return !knownFactoryFunctions.some((knownFactory) => knownFactory(factory));
+    });
+    if (novelFactories.length) {
+      // if there are any left over, wrap in a requestPolicyFactoryPolicy
+      return createRequestPolicyFactoryPolicy(novelFactories);
+    }
+  }
+  return undefined;
+}
+
 export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceClientOptions {
   const { httpClient: v1Client, ...restOptions } = pipeline.options as StoragePipelineOptions;
-  // TODO: handle if this pipeline came from another package
+  const oldPolicyWrapper = processDownlevelPipeline(pipeline);
 
   const httpClient = v1Client ? convertHttpClient(v1Client) : getCachedDefaultHttpClient();
 
@@ -266,6 +292,9 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
     corePipeline.addPolicy(pathParameterWorkaroundPolicy());
     corePipeline.addPolicy(storageRetryPolicy(restOptions.retryOptions), { phase: "Retry" });
     corePipeline.addPolicy(storageBrowserPolicy());
+    if (oldPolicyWrapper) {
+      corePipeline.addPolicy(oldPolicyWrapper);
+    }
     const credential = getCredentialFromPipeline(pipeline);
     if (isTokenCredential(credential)) {
       corePipeline.addPolicy(
@@ -308,7 +337,84 @@ export function getCredentialFromPipeline(
       // Only works if the factory has been attached a "credential" property.
       // We do that in newPipeline() when using TokenCredential.
       credential = (factory as any).credential;
+    } else if (isStorageSharedKeyCredential(factory)) {
+      return factory;
     }
   }
   return credential;
+}
+
+function isStorageSharedKeyCredential(
+  factory: RequestPolicyFactory
+): factory is StorageSharedKeyCredential {
+  if (factory instanceof StorageSharedKeyCredential) {
+    return true;
+  }
+  return factory.constructor.name === "StorageSharedKeyCredential";
+}
+
+function isAnonymousCredential(factory: RequestPolicyFactory): factory is AnonymousCredential {
+  if (factory instanceof AnonymousCredential) {
+    return true;
+  }
+  return factory.constructor.name === "AnonymousCredential";
+}
+
+function isCoreHttpBearerTokenFactory(factory: RequestPolicyFactory): boolean {
+  return isTokenCredential((factory as any).credential);
+}
+
+function isStorageBrowserPolicyFactory(
+  factory: RequestPolicyFactory
+): factory is StorageBrowserPolicyFactory {
+  if (factory instanceof StorageBrowserPolicyFactory) {
+    return true;
+  }
+  return factory.constructor.name === "StorageBrowserPolicyFactory";
+}
+
+function isStorageRetryPolicyFactory(
+  factory: RequestPolicyFactory
+): factory is StorageRetryPolicyFactory {
+  if (factory instanceof StorageRetryPolicyFactory) {
+    return true;
+  }
+  return factory.constructor.name === "StorageRetryPolicyFactory";
+}
+
+function isStorageTelemetryPolicyFactory(factory: RequestPolicyFactory): boolean {
+  return factory.constructor.name === "TelemetryPolicyFactory";
+}
+
+function isCoreHttpPolicyFactory(factory: RequestPolicyFactory): boolean {
+  const knownPolicies = [
+    "GenerateClientRequestIdPolicy",
+    "TracingPolicy",
+    "LogPolicy",
+    "ProxyPolicy",
+    "DisableResponseDecompressionPolicy",
+    "KeepAlivePolicy",
+    "DeserializationPolicy",
+  ];
+
+  const mockHttpClient: IHttpClient = {
+    sendRequest: async (request: WebResource) => {
+      return {
+        request,
+        headers: request.headers.clone(),
+        status: 500,
+      };
+    },
+  };
+  const mockRequestPolicyOptions: RequestPolicyOptions = {
+    log(_logLevel: HttpPipelineLogLevel, _message: string): void {
+      /* do nothing */
+    },
+    shouldLog(_logLevel: HttpPipelineLogLevel): boolean {
+      return false;
+    },
+  };
+  const policyInstance = factory.create(mockHttpClient, mockRequestPolicyOptions);
+  const policyName = policyInstance.constructor.name;
+  return knownPolicies.includes(policyName);
 }
