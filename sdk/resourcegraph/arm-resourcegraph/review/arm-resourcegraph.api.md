@@ -52,10 +52,10 @@ export interface Facet {
 }
 
 // @public
-export type FacetError = Facet & {
-    resultType: "FacetError";
+export interface FacetError extends Facet {
     errors: ErrorDetails[];
-};
+    resultType: "FacetError";
+}
 
 // @public
 export interface FacetRequest {
@@ -72,18 +72,21 @@ export interface FacetRequestOptions {
 }
 
 // @public
-export type FacetResult = Facet & {
-    resultType: "FacetResult";
-    totalRecords: number;
+export interface FacetResult extends Facet {
     count: number;
     data: Record<string, unknown>;
-};
+    resultType: "FacetResult";
+    totalRecords: number;
+}
 
 // @public
 export type FacetSortOrder = "asc" | "desc";
 
 // @public (undocumented)
 export type FacetUnion = Facet | FacetResult | FacetError;
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface Operation {

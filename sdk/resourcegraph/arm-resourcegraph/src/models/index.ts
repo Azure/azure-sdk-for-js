@@ -189,7 +189,7 @@ export interface Column {
 }
 
 /** Successfully executed facet containing additional statistics on the response of a query. */
-export type FacetResult = Facet & {
+export interface FacetResult extends Facet {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "FacetResult";
   /** Number of total records in the facet results. */
@@ -198,15 +198,16 @@ export type FacetResult = Facet & {
   count: number;
   /** A JObject array or Table containing the desired facets. Only present if the facet is valid. */
   data: Record<string, unknown>;
-};
+}
 
 /** A facet whose execution resulted in an error. */
-export type FacetError = Facet & {
+export interface FacetError extends Facet {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resultType: "FacetError";
   /** An array containing detected facet errors with details. */
   errors: ErrorDetails[];
-};
+}
+
 /** Defines values for ResultFormat. */
 export type ResultFormat = "table" | "objectArray";
 /** Defines values for AuthorizationScopeFilter. */
