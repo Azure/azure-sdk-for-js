@@ -18,7 +18,7 @@ import { Resource } from "../Resource";
 import { Container } from "./Container";
 import { ContainerDefinition } from "./ContainerDefinition";
 import { ContainerRequest } from "./ContainerRequest";
-import { ContainerResponse } from "./ContainerResponse";
+import { ContainerResponse, createContainerResponse } from "./ContainerResponse";
 import { validateOffer } from "../../utils/offers";
 
 /**
@@ -167,7 +167,7 @@ export class Containers {
       options,
     });
     const ref = new Container(this.database, response.result.id, this.clientContext);
-    return new ContainerResponse(response.result, response.headers, response.code, ref);
+    return createContainerResponse(response, ref);
   }
 
   /**

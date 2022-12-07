@@ -46,7 +46,7 @@ export class Scripts {
     return new UserDefinedFunction(this.container, id, this.clientContext);
   }
 
-  private $sprocs: StoredProcedures;
+  private $sprocs?: StoredProcedures;
   /**
    * Operations for creating new stored procedures, and reading/querying all stored procedures.
    *
@@ -59,7 +59,7 @@ export class Scripts {
     return this.$sprocs;
   }
 
-  private $triggers: Triggers;
+  private $triggers?: Triggers;
   /**
    * Operations for creating new triggers, and reading/querying all triggers.
    *
@@ -72,7 +72,7 @@ export class Scripts {
     return this.$triggers;
   }
 
-  private $udfs: UserDefinedFunctions;
+  private $udfs?: UserDefinedFunctions;
   /**
    * Operations for creating new user defined functions, and reading/querying all user defined functions.
    *

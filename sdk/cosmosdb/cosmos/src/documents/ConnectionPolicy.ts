@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { RetryOptions } from "../retry/retryOptions";
+import { WithRequired } from "../utils/typeUtils";
 import { ConnectionMode } from "./ConnectionMode";
 /**
  * Represents the Connection policy associated with a CosmosClient in the Azure Cosmos DB database service.
@@ -34,7 +35,7 @@ export interface ConnectionPolicy {
 /**
  * @hidden
  */
-export const defaultConnectionPolicy: ConnectionPolicy = Object.freeze({
+export const defaultConnectionPolicy: WithRequired<ConnectionPolicy, "enableEndpointDiscovery"|"preferredLocations"|"endpointRefreshRateInMs"> = Object.freeze({
   connectionMode: ConnectionMode.Gateway,
   requestTimeout: 60000,
   enableEndpointDiscovery: true,

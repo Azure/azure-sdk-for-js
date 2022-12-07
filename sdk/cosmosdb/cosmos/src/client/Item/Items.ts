@@ -13,7 +13,7 @@ import { FeedOptions, RequestOptions, Response } from "../../request";
 import { Container, PartitionKeyRange } from "../Container";
 import { Item } from "./Item";
 import { ItemDefinition } from "./ItemDefinition";
-import { ItemResponse } from "./ItemResponse";
+import { validateAndCreateItemResponse, ItemResponse } from "./ItemResponse";
 import {
   Batch,
   isKeyInRange,
@@ -31,7 +31,7 @@ import { hashV2PartitionKey } from "../../utils/hashing/v2";
 /**
  * @hidden
  */
-function isChangeFeedOptions(options: unknown): options is ChangeFeedOptions {
+function isChangeFeedOptions(options: any): options is ChangeFeedOptions {
   const optionsType = typeof options;
   return (
     options && !(optionsType === "string" || optionsType === "boolean" || optionsType === "number")
@@ -258,14 +258,14 @@ export class Items {
   public async create<T extends ItemDefinition = any>(
     body: T,
     options: RequestOptions = {}
-  ): Promise<ItemResponse<T>> {
+  ): Promise<ItemResponse<T & Required<ItemDefinition>>> {
     // Generate random document id if the id is missing in the payload and
     // options.disableAutomaticIdGeneration != true
     if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
       body.id = uuid();
     }
 
-    const { resource: partitionKeyDefinition } = await this.container.readPartitionKeyDefinition();
+    const partitionKeyDefinition = await this.container.readPartitionKeyDefinitionOrFail();
     const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
 
     const err = {};
@@ -291,13 +291,7 @@ export class Items {
       partitionKey,
       this.clientContext
     );
-    return new ItemResponse(
-      response.result,
-      response.headers,
-      response.code,
-      response.substatus,
-      ref
-    );
+    return validateAndCreateItemResponse(response, ref);
   }
 
   /**
@@ -311,7 +305,7 @@ export class Items {
   public async upsert(
     body: unknown,
     options?: RequestOptions
-  ): Promise<ItemResponse<ItemDefinition>>;
+  ): Promise<ItemResponse<Required<ItemDefinition>>>;
   /**
    * Upsert an item.
    *
@@ -326,12 +320,12 @@ export class Items {
   public async upsert<T extends ItemDefinition>(
     body: T,
     options?: RequestOptions
-  ): Promise<ItemResponse<T>>;
+  ): Promise<ItemResponse<T & Required<ItemDefinition>>>;
   public async upsert<T extends ItemDefinition>(
     body: T,
     options: RequestOptions = {}
-  ): Promise<ItemResponse<T>> {
-    const { resource: partitionKeyDefinition } = await this.container.readPartitionKeyDefinition();
+  ): Promise<ItemResponse<T & Required<ItemDefinition>>> {
+    const partitionKeyDefinition = await this.container.readPartitionKeyDefinitionOrFail();
     const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
 
     // Generate random document id if the id is missing in the payload and
@@ -363,13 +357,7 @@ export class Items {
       partitionKey,
       this.clientContext
     );
-    return new ItemResponse(
-      response.result,
-      response.headers,
-      response.code,
-      response.substatus,
-      ref
-    );
+    return validateAndCreateItemResponse(response, ref);
   }
 
   /**
@@ -408,7 +396,7 @@ export class Items {
     const { resources: partitionKeyRanges } = await this.container
       .readPartitionKeyRanges()
       .fetchAll();
-    const { resource: definition } = await this.container.getPartitionKeyDefinition();
+      const partitionKeyDefinition = await this.container.readPartitionKeyDefinitionOrFail();
     const batches: Batch[] = partitionKeyRanges.map((keyRange: PartitionKeyRange) => {
       return {
         min: keyRange.minInclusive,
@@ -419,15 +407,16 @@ export class Items {
       };
     });
     operations
-      .map((operation) => decorateOperation(operation, definition, options))
+      .map((operation) => decorateOperation(operation, partitionKeyDefinition, options))
       .forEach((operation: Operation, index: number) => {
-        const partitionProp = definition.paths[0].replace("/", "");
-        const isV2 = definition.version && definition.version === 2;
+        const partitionProp = partitionKeyDefinition.paths[0].replace("/", "");
+        const isV2 = partitionKeyDefinition.version && partitionKeyDefinition.version === 2;
         const toHashKey = getPartitionKeyToHash(operation, partitionProp);
         const hashed = isV2 ? hashV2PartitionKey(toHashKey) : hashV1PartitionKey(toHashKey);
         const batchForKey = batches.find((batch: Batch) => {
           return isKeyInRange(batch.min, batch.max, hashed);
         });
+        if(batchForKey === undefined) throw new Error(`No suitable batch found for partition key: ${toHashKey}`);
         batchForKey.operations.push(operation);
         batchForKey.indexes.push(index);
       });

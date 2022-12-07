@@ -58,29 +58,59 @@ export type Plugin<T> = (context: RequestContext, next: Next<T>) => Promise<Resp
 export type Next<T> = (context: RequestContext) => Promise<Response<T>>;
 
 /**
+ * TODO: Refactor to simplify recursion.
  * @internal
  */
 export async function executePlugins(
   requestContext: RequestContext,
   next: Plugin<any>,
   on: PluginOn
-): Promise<Response<any>> {
+): Promise<Response> {
+  /**
+   * If no plugins are supplied in requestContext hand over execution to {@link next} function.
+   */
   if (!requestContext.plugins) {
     return next(requestContext, undefined);
   }
-  let level = 0;
-  const _: Next<any> = (inner: RequestContext): Promise<Response<any>> => {
-    if (++level >= inner.plugins.length) {
+  let pluginIndex = 0;
+  /**
+   * Create a function whose closure has access to {@link pluginIndex} variable. which is used to keep
+   * track of current plugin in RequestContext.plugins array.
+   * @param inner 
+   * @returns 
+   */
+  const _: Next<any> = (inner: RequestContext): Promise<Response> => {
+    /**
+     * If {@link pluginIndex} has reached or exceeded length of plugins hand over execution to 
+     * {@link next} function.
+     */
+    if (++pluginIndex >= inner.plugins.length) {
       return next(requestContext, undefined);
-    } else if (inner.plugins[level].on !== on) {
+    } else if (inner.plugins[pluginIndex].on !== on) {
+      /**
+       * If current plugin's {@link on} variable don't match, skip this and hand over execution
+       * to next plugin. 
+       */
       return _(requestContext);
     } else {
-      return inner.plugins[level].plugin(inner, _);
+      /**
+       * If current plugin's {@link on} variable matches, execute this plugin and then hand over 
+       * execution to next plugin. 
+       */
+      return inner.plugins[pluginIndex].plugin(inner, _);
     }
   };
-  if (requestContext.plugins[level].on !== on) {
+  /**
+   * If FIRST plugin's {@link on} variable don't match, skip this and hand over execution
+   * to next plugin. 
+   */
+  if (requestContext.plugins[pluginIndex].on !== on) {
     return _(requestContext);
   } else {
-    return requestContext.plugins[level].plugin(requestContext, _);
+  /**
+   * If FIRST plugin's {@link on} variable matches, execute this plugin and then hand over 
+   * execution to next plugin. 
+   */
+    return requestContext.plugins[pluginIndex].plugin(requestContext, _);
   }
 }

@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { CosmosHeaders } from "../../queryExecutionContext";
+import { Response } from "../../request";
 import { ResourceResponse } from "../../request/ResourceResponse";
+import { BagOfProperties } from "../../request/Response";
 import { Resource } from "../Resource";
 import { Item } from "./Item";
 import { ItemDefinition } from "./ItemDefinition";
 
-export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T & Resource> {
+export class ItemResponse<T extends Required<ItemDefinition>> extends ResourceResponse<T & Resource> {
   constructor(
     resource: T & Resource,
     headers: CosmosHeaders,
@@ -19,4 +21,18 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
   }
   /** Reference to the {@link Item} the response corresponds to. */
   public readonly item: Item;
+}
+
+export function validateAndCreateItemResponse<T extends Required<ItemDefinition> = any>(response: Response<Resource & BagOfProperties>, item: Item): ItemResponse<T> {
+  if(response.result === undefined || response.code === undefined || response.substatus === undefined) { // substatus might not be essential
+    throw new Error('Failed to find necessary properties for Item Response.')
+  } else {
+    return new ItemResponse<T>(
+      response.result as T & Resource,
+      response.headers,
+      response.code,
+      response.substatus,
+      item
+    );
+  }  
 }

@@ -23,14 +23,14 @@ export interface RequestContext {
   resourceId?: string;
   globalEndpointManager: GlobalEndpointManager;
   connectionPolicy: ConnectionPolicy;
-  requestAgent: Agent;
+  requestAgent?: Agent;
   body?: any;
   headers?: CosmosHeaders;
   endpoint?: string;
   method: HTTPMethod;
   partitionKeyRangeId?: string;
   options: FeedOptions | RequestOptions;
-  plugins: PluginConfig[];
+  plugins?: PluginConfig[];
   partitionKey?: PartitionKey;
   pipeline?: Pipeline;
 }

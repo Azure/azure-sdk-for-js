@@ -12,11 +12,12 @@ import {
 import { PartitionKey } from "../../documents";
 import { extractPartitionKey, undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, Response } from "../../request";
+import { BagOfProperties } from "../../request/Response";
 import { PatchRequestBody } from "../../utils/patch";
 import { Container } from "../Container";
 import { Resource } from "../Resource";
 import { ItemDefinition } from "./ItemDefinition";
-import { ItemResponse } from "./ItemResponse";
+import { validateAndCreateItemResponse, ItemResponse } from "./ItemResponse";
 
 /**
  * Used to perform operations on a specific item.
@@ -71,20 +72,19 @@ export class Item {
    * ({body: item} = await item.read<TodoItem>());
    * ```
    */
-  public async read<T extends ItemDefinition = any>(
+  public async read<T extends Required<ItemDefinition> = any>(
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
     if (this.partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } =
-        await this.container.readPartitionKeyDefinition();
+      const partitionKeyDefinition = await this.container.readPartitionKeyDefinitionOrFail();
       this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
     }
 
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
-    let response: Response<T & Resource>;
+    let response: Response<Resource & BagOfProperties>;
     try {
-      response = await this.clientContext.read<T>({
+      response = await this.clientContext.read({
         path,
         resourceType: ResourceType.item,
         resourceId: id,
@@ -97,14 +97,7 @@ export class Item {
       }
       response = error;
     }
-
-    return new ItemResponse(
-      response.result,
-      response.headers,
-      response.code,
-      response.substatus,
-      this
-    );
+    return validateAndCreateItemResponse(response, this);
   }
 
   /**
@@ -118,7 +111,7 @@ export class Item {
   public replace(
     body: ItemDefinition,
     options?: RequestOptions
-  ): Promise<ItemResponse<ItemDefinition>>;
+  ): Promise<ItemResponse<Required<ItemDefinition>>>;
   /**
    * Replace the item's definition.
    *
@@ -133,14 +126,13 @@ export class Item {
   public replace<T extends ItemDefinition>(
     body: T,
     options?: RequestOptions
-  ): Promise<ItemResponse<T>>;
+  ): Promise<ItemResponse<T & Required<ItemDefinition>>>;
   public async replace<T extends ItemDefinition>(
     body: T,
     options: RequestOptions = {}
-  ): Promise<ItemResponse<T>> {
+  ): Promise<ItemResponse<T & Required<ItemDefinition>>> {
     if (this.partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } =
-        await this.container.readPartitionKeyDefinition();
+      const partitionKeyDefinition = await this.container.readPartitionKeyDefinitionOrFail();
       this.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
     }
 
@@ -160,13 +152,7 @@ export class Item {
       options,
       partitionKey: this.partitionKey,
     });
-    return new ItemResponse(
-      response.result,
-      response.headers,
-      response.code,
-      response.substatus,
-      this
-    );
+    return validateAndCreateItemResponse(response, this);
   }
 
   /**
@@ -177,32 +163,25 @@ export class Item {
    *
    * @param options - Additional options for the request
    */
-  public async delete<T extends ItemDefinition = any>(
+  public async delete<T extends Required<ItemDefinition> = any>(
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
     if (this.partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } =
-        await this.container.readPartitionKeyDefinition();
+      const partitionKeyDefinition = await this.container.readPartitionKeyDefinitionOrFail();
       this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
     }
 
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<T>({
+    const response: Response<T & Resource> = await this.clientContext.delete<T>({
       path,
       resourceType: ResourceType.item,
       resourceId: id,
       options,
       partitionKey: this.partitionKey,
     });
-    return new ItemResponse(
-      response.result,
-      response.headers,
-      response.code,
-      response.substatus,
-      this
-    );
+    return validateAndCreateItemResponse(response, this);
   }
 
   /**
@@ -213,13 +192,12 @@ export class Item {
    *
    * @param options - Additional options for the request
    */
-  public async patch<T extends ItemDefinition = any>(
+  public async patch<T extends Required<ItemDefinition> = any>(
     body: PatchRequestBody,
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
     if (this.partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } =
-        await this.container.readPartitionKeyDefinition();
+      const partitionKeyDefinition = await this.container.readPartitionKeyDefinitionOrFail();
       this.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
     }
 
@@ -234,12 +212,6 @@ export class Item {
       options,
       partitionKey: this.partitionKey,
     });
-    return new ItemResponse(
-      response.result,
-      response.headers,
-      response.code,
-      response.substatus,
-      this
-    );
+    return validateAndCreateItemResponse(response, this);
   }
 }

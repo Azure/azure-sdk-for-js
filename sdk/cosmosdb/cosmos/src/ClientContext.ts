@@ -8,7 +8,7 @@ import {
   createEmptyPipeline,
 } from "@azure/core-rest-pipeline";
 import { PartitionKeyRange } from "./client/Container/PartitionKeyRange";
-import { Resource } from "./client/Resource";
+import { isResource, Resource } from "./client/Resource";
 import { Constants, HTTPMethod, OperationType, ResourceType } from "./common/constants";
 import { getIdFromLink, getPathFromLink, parseLink } from "./common/helper";
 import { StatusCodes, SubStatusCodes } from "./common/statusCodes";
@@ -30,6 +30,8 @@ import { SessionContext } from "./session/SessionContext";
 import { BulkOptions } from "./utils/batch";
 import { sanitizeEndpoint } from "./utils/checkURL";
 import { AzureLogger, createClientLogger } from "@azure/logger";
+import { assertNotUndefinedOrFail, stripNullables, WithRequired } from "./utils/typeUtils";
+import { BagOfProperties } from "./request/Response";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -42,10 +44,10 @@ const QueryJsonContentType = "application/query+json";
 export class ClientContext {
   private readonly sessionContainer: SessionContainer;
   private connectionPolicy: ConnectionPolicy;
-  private pipeline: Pipeline;
+  private pipeline: Pipeline | null;
   public partitionKeyDefinitionCache: { [containerUrl: string]: any }; // TODO: PartitionKeyDefinitionCache
   public constructor(
-    private cosmosClientOptions: CosmosClientOptions,
+    private cosmosClientOptions: WithRequired<CosmosClientOptions, 'connectionPolicy'>,
     private globalEndpointManager: GlobalEndpointManager
   ) {
     this.connectionPolicy = cosmosClientOptions.connectionPolicy;
@@ -64,7 +66,7 @@ export class ClientContext {
             async authorizeRequest({ request, getAccessToken }) {
               const tokenResponse = await getAccessToken([scope], {});
               const AUTH_PREFIX = `type=aad&ver=1.0&sig=`;
-              const authorizationToken = `${AUTH_PREFIX}${tokenResponse.token}`;
+              const authorizationToken = `${AUTH_PREFIX}${stripNullables(tokenResponse).token}`;
               request.headers.set("Authorization", authorizationToken);
             },
           },
@@ -73,7 +75,7 @@ export class ClientContext {
     }
   }
   /** @hidden */
-  public async read<T>({
+  public async read({
     path,
     resourceType,
     resourceId,
@@ -85,9 +87,9 @@ export class ClientContext {
     resourceId: string;
     options?: RequestOptions;
     partitionKey?: PartitionKey;
-  }): Promise<Response<T & Resource>> {
+  }): Promise<Response<BagOfProperties & Resource>> {
     try {
-      const request: RequestContext = {
+      const request: WithRequired<RequestContext, "path" | "resourceId" | "resourceType" | "operationType" | "headers"> = {
         ...this.getContextDerivedPropsForRequestCreation(),
         method: HTTPMethod.get,
         path,
@@ -96,6 +98,7 @@ export class ClientContext {
         options,
         resourceType,
         partitionKey,
+        headers: {}
       };
 
       request.headers = await this.buildHeaders(request);
@@ -108,12 +111,24 @@ export class ClientContext {
       );
       const response = await executePlugins(request, RequestHandler.request, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Read, response.headers);
-      return response;
+      return this.validateResponseContainsResource(response);
     } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
       throw err;
     }
   }
+
+  private validateResponseContainsResource(response: Response<any>): Response<BagOfProperties & Resource> {
+    let result: any = assertNotUndefinedOrFail(response.result);
+    if(isResource(result)) {
+      result = result as Resource
+      return {
+        result,
+        ...response
+      }
+    }
+    throw new Error("Validation of Resource failed.")
+}
 
   public async queryFeed<T>({
     path,
@@ -133,11 +148,11 @@ export class ClientContext {
     options: FeedOptions;
     partitionKeyRangeId?: string;
     partitionKey?: PartitionKey;
-  }): Promise<Response<T & Resource>> {
+  }): Promise<Response<BagOfProperties & Resource>> {
     // Query operations will use ReadEndpoint even though it uses
     // GET(for queryFeed) and POST(for regular query operations)
 
-    const request: RequestContext = {
+    const request: WithRequired<RequestContext, "path" | "resourceId" | "resourceType" | "operationType" | "headers"> = {
       ...this.getContextDerivedPropsForRequestCreation(),
       method: HTTPMethod.get,
       path,
@@ -148,6 +163,7 @@ export class ClientContext {
       options,
       body: query,
       partitionKey,
+      headers: {}
     };
     const requestId = uuid();
     if (query !== undefined) {
@@ -187,7 +203,7 @@ export class ClientContext {
     query: SqlQuerySpec | string,
     options: FeedOptions = {}
   ): Promise<Response<PartitionedQueryExecutionInfo>> {
-    const request: RequestContext = {
+    const request: WithRequired<RequestContext, "path" | "resourceId" | "resourceType" | "operationType" | "headers"> = {
       ...this.getContextDerivedPropsForRequestCreation(),
       method: HTTPMethod.post,
       path,
@@ -196,6 +212,7 @@ export class ClientContext {
       resourceType,
       options,
       body: query,
+      headers: {}
     };
 
     request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
@@ -252,7 +269,7 @@ export class ClientContext {
     partitionKey?: PartitionKey;
   }): Promise<Response<T & Resource>> {
     try {
-      const request: RequestContext = {
+      const request: WithRequired<RequestContext, "path" | "resourceId" | "resourceType" | "operationType" | "headers"> = {
         ...this.getContextDerivedPropsForRequestCreation(),
         method: HTTPMethod.delete,
         operationType: OperationType.Delete,
@@ -261,6 +278,7 @@ export class ClientContext {
         options,
         resourceId,
         partitionKey,
+        headers: {}
       };
 
       request.headers = await this.buildHeaders(request);
@@ -299,7 +317,7 @@ export class ClientContext {
     partitionKey?: PartitionKey;
   }): Promise<Response<T & Resource>> {
     try {
-      const request: RequestContext = {
+      const request: WithRequired<RequestContext, "path" | "resourceId" | "resourceType" | "operationType" | "headers"> = {
         ...this.getContextDerivedPropsForRequestCreation(),
         method: HTTPMethod.patch,
         operationType: OperationType.Patch,
@@ -309,6 +327,7 @@ export class ClientContext {
         resourceId,
         options,
         partitionKey,
+        headers: {}
       };
 
       request.headers = await this.buildHeaders(request);
@@ -344,7 +363,7 @@ export class ClientContext {
     partitionKey?: PartitionKey;
   }): Promise<Response<T & U & Resource>> {
     try {
-      const request: RequestContext = {
+      const request: WithRequired<RequestContext, "path" | "resourceId" | "resourceType" | "operationType" | "headers"> = {
         ...this.getContextDerivedPropsForRequestCreation(),
         method: HTTPMethod.post,
         operationType: OperationType.Create,
@@ -354,6 +373,7 @@ export class ClientContext {
         body,
         options,
         partitionKey,
+        headers: {}
       };
 
       request.headers = await this.buildHeaders(request);
@@ -386,7 +406,7 @@ export class ClientContext {
     }
   }
 
-  private applySessionToken(requestContext: RequestContext): void {
+  private applySessionToken(requestContext: WithRequired<RequestContext, "headers" | "path">): void {
     const request = this.getSessionParams(requestContext.path);
 
     if (requestContext.headers && requestContext.headers[Constants.HttpHeaders.SessionToken]) {
@@ -428,7 +448,7 @@ export class ClientContext {
     partitionKey?: PartitionKey;
   }): Promise<Response<T & Resource>> {
     try {
-      const request: RequestContext = {
+      const request: WithRequired<RequestContext, "path" | "resourceId" | "resourceType" | "operationType" | "headers"> = {
         ...this.getContextDerivedPropsForRequestCreation(),
         method: HTTPMethod.put,
         operationType: OperationType.Replace,
@@ -438,6 +458,7 @@ export class ClientContext {
         resourceId,
         options,
         partitionKey,
+        headers: {}
       };
 
       request.headers = await this.buildHeaders(request);
@@ -473,7 +494,7 @@ export class ClientContext {
     partitionKey?: PartitionKey;
   }): Promise<Response<T & U & Resource>> {
     try {
-      const request: RequestContext = {
+      const request: WithRequired<RequestContext, "path" | "resourceId" | "resourceType" | "operationType" | "headers"> = {
         ...this.getContextDerivedPropsForRequestCreation(),
         method: HTTPMethod.post,
         operationType: OperationType.Upsert,
@@ -483,6 +504,7 @@ export class ClientContext {
         resourceId,
         options,
         partitionKey,
+        headers: {}
       };
 
       request.headers = await this.buildHeaders(request);
@@ -522,7 +544,7 @@ export class ClientContext {
     const path = getPathFromLink(sprocLink);
     const id = getIdFromLink(sprocLink);
 
-    const request: RequestContext = {
+    const request: WithRequired<RequestContext, "path" | "resourceId" | "resourceType" | "operationType" | "headers"> = {
       ...this.getContextDerivedPropsForRequestCreation(),
       method: HTTPMethod.post,
       operationType: OperationType.Execute,
@@ -532,6 +554,7 @@ export class ClientContext {
       resourceId: id,
       body: params,
       partitionKey,
+      headers: {}
     };
 
     request.headers = await this.buildHeaders(request);
@@ -552,14 +575,16 @@ export class ClientContext {
     options: RequestOptions = {}
   ): Promise<Response<DatabaseAccount>> {
     const endpoint = options.urlConnection || this.cosmosClientOptions.endpoint;
-    const request: RequestContext = {
+    const request: WithRequired<RequestContext, "path" | "resourceId" | "resourceType" | "operationType" | "headers"> = {
       ...this.getContextDerivedPropsForRequestCreation(),
       endpoint,
       method: HTTPMethod.get,
+      resourceId: undefined as any,
       operationType: OperationType.Read,
       path: "",
       resourceType: ResourceType.none,
       options,
+      headers: {}
     };
 
     request.headers = await this.buildHeaders(request);
@@ -605,7 +630,7 @@ export class ClientContext {
     options?: RequestOptions;
   }): Promise<Response<any>> {
     try {
-      const request: RequestContext = {
+      const request: WithRequired<RequestContext, "path" | "resourceId" | "resourceType" | "operationType" | "headers"> = {
         ...this.getContextDerivedPropsForRequestCreation(),
         method: HTTPMethod.post,
         operationType: OperationType.Batch,
@@ -615,6 +640,7 @@ export class ClientContext {
         resourceId,
         options,
         partitionKey,
+        headers: {}
       };
 
       request.headers = await this.buildHeaders(request);
@@ -652,7 +678,7 @@ export class ClientContext {
     options?: RequestOptions;
   }): Promise<Response<any>> {
     try {
-      const request: RequestContext = {
+      const request: WithRequired<RequestContext, "path" | "resourceId" | "resourceType" | "operationType" | "headers"> = {
         ...this.getContextDerivedPropsForRequestCreation(),
         method: HTTPMethod.post,
         operationType: OperationType.Batch,
@@ -661,6 +687,7 @@ export class ClientContext {
         resourceType: ResourceType.item,
         resourceId,
         options,
+        headers: {}
       };
 
       request.headers = await this.buildHeaders(request);
@@ -686,10 +713,10 @@ export class ClientContext {
   }
 
   private captureSessionToken(
-    err: ErrorResponse,
+    err: ErrorResponse | undefined,
     path: string,
     operationType: OperationType,
-    resHeaders: CosmosHeaders
+    resHeaders?: CosmosHeaders
   ): void {
     const request = this.getSessionParams(path);
     request.operationType = operationType;
@@ -712,10 +739,10 @@ export class ClientContext {
 
   private getSessionParams(resourceLink: string): SessionContext {
     const resourceId: string = null;
-    let resourceAddress: string = null;
+    let resourceAddress: string | undefined = null;
     const parserOutput = parseLink(resourceLink);
 
-    resourceAddress = parserOutput.objectBody.self;
+    resourceAddress = parserOutput.objectBody?.self;
 
     const resourceType = parserOutput.type;
     return {
@@ -726,7 +753,7 @@ export class ClientContext {
     };
   }
 
-  private isMasterResource(resourceType: string): boolean {
+  private isMasterResource(resourceType?: string): boolean {
     if (
       resourceType === Constants.Path.OffersPathSegment ||
       resourceType === Constants.Path.DatabasesPathSegment ||
@@ -743,7 +770,7 @@ export class ClientContext {
     return false;
   }
 
-  private buildHeaders(requestContext: RequestContext): Promise<CosmosHeaders> {
+  private buildHeaders(requestContext: WithRequired<RequestContext, "path" | "resourceId" | "resourceType" | "headers">): Promise<CosmosHeaders> {
     return getHeaders({
       clientOptions: this.cosmosClientOptions,
       defaultHeaders: {
@@ -768,10 +795,10 @@ export class ClientContext {
   private getContextDerivedPropsForRequestCreation(): {
     globalEndpointManager: GlobalEndpointManager;
     connectionPolicy: ConnectionPolicy;
-    requestAgent: Agent;
+    requestAgent?: Agent;
     client?: ClientContext;
     pipeline?: Pipeline;
-    plugins: PluginConfig[];
+    plugins?: PluginConfig[];
   } {
     return {
       globalEndpointManager: this.globalEndpointManager,

@@ -4,7 +4,7 @@
 import { CosmosContainerChildResourceKind } from "../../common/constants";
 import { CosmosKeyType } from "../../common/constants";
 
-export class SasTokenProperties {
+export type SasTokenProperties {
   user: string;
   userTag: string;
   databaseName: string;

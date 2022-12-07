@@ -38,7 +38,7 @@ export class SessionContainer {
     }
   }
 
-  public set(request: SessionContext, resHeaders: CosmosHeaders): void {
+  public set(request: SessionContext, resHeaders?: CosmosHeaders): void {
     // TODO: we check the master logic a few different places. Might not need it.
     if (
       !resHeaders ||

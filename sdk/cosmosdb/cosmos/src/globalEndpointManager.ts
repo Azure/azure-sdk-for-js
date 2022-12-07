@@ -5,6 +5,7 @@ import { CosmosClientOptions } from "./CosmosClientOptions";
 import { Location, DatabaseAccount } from "./documents";
 import { RequestOptions } from "./index";
 import { ResourceResponse } from "./request";
+import { DeepRequired, WithRequired } from "./utils/typeUtils";
 
 /**
  * @hidden
@@ -20,7 +21,7 @@ export class GlobalEndpointManager {
    */
   public enableEndpointDiscovery: boolean;
   private isRefreshing: boolean;
-  private options: CosmosClientOptions;
+  private options: DeepRequired<CosmosClientOptions, ["connectionPolicy", "enableEndpointDiscovery"] | ["connectionPolicy", "preferredLocations"]>;
   /**
    * List of azure regions to be used as preferred locations for read requests.
    */
@@ -32,7 +33,7 @@ export class GlobalEndpointManager {
    * @param options - The document client instance.
    */
   constructor(
-    options: CosmosClientOptions,
+    options: DeepRequired<CosmosClientOptions, ["connectionPolicy", "enableEndpointDiscovery"] | ["connectionPolicy", "preferredLocations"]>,
     private readDatabaseAccount: (
       opts: RequestOptions
     ) => Promise<ResourceResponse<DatabaseAccount>>
@@ -41,7 +42,7 @@ export class GlobalEndpointManager {
     this.defaultEndpoint = options.endpoint;
     this.enableEndpointDiscovery = options.connectionPolicy.enableEndpointDiscovery;
     this.isRefreshing = false;
-    this.preferredLocations = this.options.connectionPolicy.preferredLocations;
+    this.preferredLocations = options.connectionPolicy.preferredLocations;
   }
 
   /**

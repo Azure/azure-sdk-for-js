@@ -11,3 +11,8 @@ export interface Response<T> {
   code?: number;
   substatus?: number;
 }
+
+
+export type BagOfProperties = {
+  [key: string]: unknown
+}

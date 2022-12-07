@@ -23,6 +23,8 @@ import { PartitionKeyRange } from "./PartitionKeyRange";
 import { Offer, OfferDefinition } from "../Offer";
 import { OfferResponse } from "../Offer/OfferResponse";
 import { Resource } from "../Resource";
+import { createContainerResponse } from "./ContainerResponse";
+import { assertNotUndefinedOrFail } from "../../utils/typeUtils";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -132,7 +134,7 @@ export class Container {
       options,
     });
     this.clientContext.partitionKeyDefinitionCache[this.url] = response.result.partitionKey;
-    return new ContainerResponse(response.result, response.headers, response.code, this);
+    return createContainerResponse(response, this);
   }
 
   /** Replace the container's definition */
@@ -155,7 +157,7 @@ export class Container {
       resourceId: id,
       options,
     });
-    return new ContainerResponse(response.result, response.headers, response.code, this);
+    return createContainerResponse(response, this);
   }
 
   /** Delete the container */
@@ -169,7 +171,7 @@ export class Container {
       resourceId: id,
       options,
     });
-    return new ContainerResponse(response.result, response.headers, response.code, this);
+    return createContainerResponse(response, this);
   }
 
   /**
@@ -183,6 +185,7 @@ export class Container {
   /**
    * Gets the partition key definition first by looking into the cache otherwise by reading the collection.
    * @hidden
+   * @deprecated
    */
   public async readPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>> {
     // $ISSUE-felixfan-2016-03-17: Make name based path and link based path use the same key
@@ -203,6 +206,10 @@ export class Container {
     );
   }
 
+  public async readPartitionKeyDefinitionOrFail(): Promise<PartitionKeyDefinition> {
+    const { resource: partitionKeyDefinition, statusCode } = await this.readPartitionKeyDefinition();
+    return assertNotUndefinedOrFail(partitionKeyDefinition, `Failed to read PartitonKeyDefinition of Container. statusCode: ${statusCode}`);
+  }
   /**
    * Gets offer on container. If none exists, returns an OfferResponse with undefined.
    */

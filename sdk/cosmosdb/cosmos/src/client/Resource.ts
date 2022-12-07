@@ -12,3 +12,13 @@ export interface Resource {
   /** System generated property. Represents the resource etag required for optimistic concurrency control. */
   _etag: string;
 }
+
+/**
+ * Type check function for Resource
+ * @hidden
+ * @returns 
+ */
+export function isResource(res: any): res is Resource {
+  const result = (res as Resource);
+  return (result.id !== undefined && result._rid !== undefined && result._ts !== undefined && result._self !== undefined && result._etag !== undefined)
+}

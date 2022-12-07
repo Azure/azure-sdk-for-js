@@ -21,8 +21,8 @@ export function jsonStringifyAndEscapeNonASCII(arg: unknown): string {
  * @hidden
  */
 export function parseLink(resourcePath: string): {
-  type: ResourceType;
-  objectBody: {
+  type?: ResourceType;
+  objectBody?: {
     id: string;
     self: string;
   };

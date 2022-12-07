@@ -32,7 +32,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
   headers: any;
   result: any;
   code: number;
-  substatus: number;
+  substatus?: number;
 }> {
   const controller = new AbortController();
   const signal = controller.signal;

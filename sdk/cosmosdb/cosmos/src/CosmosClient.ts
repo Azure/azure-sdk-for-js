@@ -11,6 +11,7 @@ import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
 import { RequestOptions, ResourceResponse } from "./request";
 import { checkURL } from "./utils/checkURL";
+import { DeepRequired } from "./utils/typeUtils";
 
 /**
  * Provides a client-side logical representation of the Azure Cosmos DB database account.
@@ -61,46 +62,51 @@ export class CosmosClient {
    */
   constructor(options: CosmosClientOptions);
   constructor(optionsOrConnectionString: string | CosmosClientOptions) {
-    if (typeof optionsOrConnectionString === "string") {
-      optionsOrConnectionString = parseConnectionString(optionsOrConnectionString);
-    }
+    
+    const clientOptionsTwo: CosmosClientOptions = typeof optionsOrConnectionString === "string" 
+      ? parseConnectionString(optionsOrConnectionString) 
+      : optionsOrConnectionString;
 
-    const endpoint = checkURL(optionsOrConnectionString.endpoint);
+    const endpoint = checkURL(clientOptionsTwo.endpoint);
     if (!endpoint) {
       throw new Error("Invalid endpoint specified");
     }
 
-    optionsOrConnectionString.connectionPolicy = Object.assign(
-      {},
-      defaultConnectionPolicy,
-      optionsOrConnectionString.connectionPolicy
-    );
-
-    optionsOrConnectionString.defaultHeaders = optionsOrConnectionString.defaultHeaders || {};
-    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.CacheControl] = "no-cache";
-    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.Version] =
-      Constants.CurrentVersion;
-    if (optionsOrConnectionString.consistencyLevel !== undefined) {
-      optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.ConsistencyLevel] =
-        optionsOrConnectionString.consistencyLevel;
+    const clientOptions: DeepRequired<CosmosClientOptions, ["connectionPolicy", "enableEndpointDiscovery"] | ["connectionPolicy", "preferredLocations"] | ["connectionPolicy", "endpointRefreshRateInMs"]>
+    = {
+      ...clientOptionsTwo,
+      connectionPolicy: Object.assign(
+        {},
+        defaultConnectionPolicy,
+        clientOptionsTwo.connectionPolicy
+      ),
     }
 
-    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.UserAgent] = getUserAgent(
-      optionsOrConnectionString.userAgentSuffix
+    clientOptions.defaultHeaders = clientOptions.defaultHeaders || {};
+    clientOptions.defaultHeaders[Constants.HttpHeaders.CacheControl] = "no-cache";
+    clientOptions.defaultHeaders[Constants.HttpHeaders.Version] =
+      Constants.CurrentVersion;
+    if (clientOptions.consistencyLevel !== undefined) {
+      clientOptions.defaultHeaders[Constants.HttpHeaders.ConsistencyLevel] =
+        clientOptions.consistencyLevel;
+    }
+
+    clientOptions.defaultHeaders[Constants.HttpHeaders.UserAgent] = getUserAgent(
+      clientOptions.userAgentSuffix
     );
 
     const globalEndpointManager = new GlobalEndpointManager(
-      optionsOrConnectionString,
+      clientOptions,
       async (opts: RequestOptions) => this.getDatabaseAccount(opts)
     );
-    this.clientContext = new ClientContext(optionsOrConnectionString, globalEndpointManager);
+    this.clientContext = new ClientContext(clientOptions, globalEndpointManager);
     if (
-      optionsOrConnectionString.connectionPolicy?.enableEndpointDiscovery &&
-      optionsOrConnectionString.connectionPolicy?.enableBackgroundEndpointRefreshing
+      clientOptions.connectionPolicy?.enableEndpointDiscovery &&
+      clientOptions.connectionPolicy?.enableBackgroundEndpointRefreshing
     ) {
       this.backgroundRefreshEndpointList(
         globalEndpointManager,
-        optionsOrConnectionString.connectionPolicy.endpointRefreshRateInMs ||
+        clientOptions.connectionPolicy.endpointRefreshRateInMs ||
           defaultConnectionPolicy.endpointRefreshRateInMs
       );
     }

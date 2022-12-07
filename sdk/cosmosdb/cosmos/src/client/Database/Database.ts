@@ -93,7 +93,7 @@ export class Database {
       resourceId: id,
       options,
     });
-    return new DatabaseResponse(response.result, response.headers, response.code, this);
+    return new DatabaseResponse(response.result!, response.headers, response.code!, this);
   }
 
   /** Delete the given Database. */
