@@ -13,6 +13,8 @@ import { S_IRWXO } from "constants";
 import { resolveProject } from "../../util/resolveProject";
 import { findSamplesRelativeDir } from "../../util/findSamplesDir";
 
+const defaultVersions = [14, 16, 18, 19];
+
 const log = createPrinter("check-node-versions-samples");
 
 async function spawnCMD(cmd: string, args: string[], errorMessage?: string): Promise<void> {
@@ -224,7 +226,7 @@ export const commandInfo = makeCommandInfo(
     "node-versions": {
       kind: "string",
       description: "A comma separated list of node versions to use",
-      default: "14,16,17",
+      default: defaultVersions.join(","),
     },
     "node-version": {
       kind: "string",
