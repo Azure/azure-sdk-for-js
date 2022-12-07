@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AnonymousCredential } from "../../src";
+import { AnonymousCredential, StoragePipelineOptions } from "../../src";
 import { BlobServiceClient } from "../../src";
 import { newPipeline } from "../../src";
 import { SimpleTokenCredential } from "./testutils.common";
 import { TokenCredential } from "@azure/core-auth";
+import { createXhrHttpClient } from "@azure/test-utils";
+import { _testOnlySetCachedDefaultHttpClient } from "../../src/utils/cache";
 
 export * from "./testutils.common";
 
@@ -16,7 +18,8 @@ export function getGenericCredential(accountType: string): AnonymousCredential {
 }
 export function getGenericBSU(
   accountType: string,
-  accountNameSuffix: string = ""
+  accountNameSuffix: string = "",
+  pipelineOptions: StoragePipelineOptions = {}
 ): BlobServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
@@ -34,12 +37,15 @@ export function getGenericBSU(
   if (accountSAS) {
     accountSAS = accountSAS.startsWith("?") ? accountSAS : `?${accountSAS}`;
   }
+  // don't add the test account SAS value.
+  if (accountSAS === "?fakeSasToken") {
+    accountSAS = "";
+  }
+
+  _testOnlySetCachedDefaultHttpClient(createXhrHttpClient());
 
   const credentials = getGenericCredential(accountType);
-  const pipeline = newPipeline(credentials, {
-    // Enable logger when debugging
-    // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-  });
+  const pipeline = newPipeline(credentials, pipelineOptions);
   const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.blob.core.windows.net${accountSAS}`;
   return new BlobServiceClient(blobPrimaryURL, pipeline);
 }
@@ -88,10 +94,8 @@ export function getTokenBSU(): BlobServiceClient {
   }
 
   const credentials = getTokenCredential();
-  const pipeline = newPipeline(credentials, {
-    // Enable logger when debugging
-    // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-  });
+  const pipeline = newPipeline(credentials);
+  (pipeline as any)._httpClient = createXhrHttpClient();
   const blobPrimaryURL = `https://${accountName}.blob.core.windows.net/`;
   return new BlobServiceClient(blobPrimaryURL, pipeline);
 }
@@ -108,8 +112,8 @@ export function getImmutableContainerName(): string {
   return immutableContainerName;
 }
 
-export function getBSU(): BlobServiceClient {
-  return getGenericBSU("");
+export function getBSU(pipelineOptions: StoragePipelineOptions = {}): BlobServiceClient {
+  return getGenericBSU("", undefined, pipelineOptions);
 }
 
 export function getAlternateBSU(): BlobServiceClient {
@@ -189,6 +193,9 @@ export function getBrowserFile(name: string, size: number): File {
 }
 
 export function getSASConnectionStringFromEnvironment(): string {
+  const xhrClient = createXhrHttpClient();
+  _testOnlySetCachedDefaultHttpClient(xhrClient);
   const env = (self as any).__env__;
+
   return `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${env.ACCOUNT_SAS}`;
 }

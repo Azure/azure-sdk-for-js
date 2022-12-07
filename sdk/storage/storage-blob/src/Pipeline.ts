@@ -23,6 +23,7 @@ import {
   Pipeline as CorePipeline,
   decompressResponsePolicyName,
   PipelinePolicy,
+  HttpClient,
 } from "@azure/core-rest-pipeline";
 import { authorizeRequestOnTenantChallenge, createClientPipeline } from "@azure/core-client";
 import { parseXML, stringifyXML } from "@azure/core-xml";
@@ -246,18 +247,21 @@ function processDownlevelPipeline(pipeline: PipelineLike): PipelinePolicy | unde
 
 export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceClientOptions {
   const { httpClient: v1Client, ...restOptions } = pipeline.options as StoragePipelineOptions;
-  const oldPolicyWrapper = processDownlevelPipeline(pipeline);
 
-  const httpClient = v1Client ? convertHttpClient(v1Client) : getCachedDefaultHttpClient();
-
-  const packageDetails = `azsdk-js-azure-storage-blob/${SDK_VERSION}`;
-  const userAgentPrefix =
-    restOptions.userAgentOptions && restOptions.userAgentOptions.userAgentPrefix
-      ? `${restOptions.userAgentOptions.userAgentPrefix} ${packageDetails}`
-      : `${packageDetails}`;
+  let httpClient: HttpClient = (pipeline as any)._coreHttpClient;
+  if (!httpClient) {
+    httpClient = v1Client ? convertHttpClient(v1Client) : getCachedDefaultHttpClient();
+    (pipeline as any)._coreHttpClient = httpClient;
+  }
 
   let corePipeline: CorePipeline = (pipeline as any)._corePipeline;
   if (!corePipeline) {
+    const oldPolicyWrapper = processDownlevelPipeline(pipeline);
+    const packageDetails = `azsdk-js-azure-storage-blob/${SDK_VERSION}`;
+    const userAgentPrefix =
+      restOptions.userAgentOptions && restOptions.userAgentOptions.userAgentPrefix
+        ? `${restOptions.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
     corePipeline = createClientPipeline({
       ...restOptions,
       loggingOptions: {
