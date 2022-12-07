@@ -155,7 +155,7 @@
     "ms": "^2.1.3",
     "nyc": "^15.0.0",
     "prettier": "^2.5.1",
-    "puppeteer": "^14.0.0",
+    "puppeteer": "^19.2.2",
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
     "typescript": "~4.8.0",
