@@ -241,8 +241,6 @@ To see how to use Anomaly Detector library to conduct Multivariate Anomaly Detec
 
 ### General
 
-Anomaly Detector client library will raise exceptions defined in [Azure Core](https://azuresdkdocs.blob.core.windows.net/$web/python/azure-core/latest/azure.core.html#module-azure.core.exceptions).
-
 ### Logging
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
@@ -261,7 +259,7 @@ These code samples show common scenario operations with the Azure Anomaly Detect
 
 - Univariate Anomaly Detection - Batch Detection: [sample_detect_entire_series_anomaly.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1-beta/typescript/src/sample_detect_entire_series_anomaly.ts)
 
-- Univariate Anomaly Detection - Streaming Detection: [sample_detect_last_point_anomaly.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1-beta/typescript/src/sample_detect_last_point_anomaly.ts)
+- Univariate Anomaly Detection - Streaming Detection: [ample_detect_last_point_anomaly.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1-beta/typescript/src/sample_detect_last_point_anomaly.ts)
 
 - Univariate Anomaly Detection - Change Point Detection: [sample_detect_change_point.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1-beta/typescript/src/sample_detect_change_point.ts)
 
@@ -278,7 +276,6 @@ This project welcomes contributions and suggestions. Most contributions require 
 When you submit a pull request, a CLA-bot will automatically determine whether you need to provide a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions provided by the bot. You will only need to do this once across all repos using our CLA.
 
 This project has adopted the [Microsoft Open Source Code of Conduct][code_of_conduct]. For more information see the [Code of Conduct FAQ][coc_faq] or contact [opencode@microsoft.com][coc_contact] with any additional questions or comments.
-
 
 <!-- LINKS -->
 [cla]: https://cla.microsoft.com
