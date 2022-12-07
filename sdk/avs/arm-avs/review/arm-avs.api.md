@@ -16,6 +16,12 @@ export interface Addon extends Resource {
 }
 
 // @public
+export interface AddonArcProperties extends AddonProperties {
+    addonType: "Arc";
+    vCenter?: string;
+}
+
+// @public
 export interface AddonHcxProperties extends AddonProperties {
     addonType: "HCX";
     offer: string;
@@ -29,12 +35,12 @@ export interface AddonList {
 
 // @public
 export interface AddonProperties {
-    addonType: "SRM" | "VR" | "HCX";
+    addonType: "SRM" | "VR" | "HCX" | "Arc";
     readonly provisioningState?: AddonProvisioningState;
 }
 
 // @public (undocumented)
-export type AddonPropertiesUnion = AddonProperties | AddonSrmProperties | AddonVrProperties | AddonHcxProperties;
+export type AddonPropertiesUnion = AddonProperties | AddonSrmProperties | AddonVrProperties | AddonHcxProperties | AddonArcProperties;
 
 // @public
 export type AddonProvisioningState = string;
@@ -109,6 +115,9 @@ export interface AdminCredentials {
 }
 
 // @public
+export type AffinityStrength = string;
+
+// @public
 export type AffinityType = string;
 
 // @public
@@ -166,6 +175,9 @@ export interface AvailabilityProperties {
 
 // @public
 export type AvailabilityStrategy = string;
+
+// @public
+export type AzureHybridBenefitType = string;
 
 // @public (undocumented)
 export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
@@ -323,6 +335,7 @@ export interface Clusters {
     beginUpdateAndWait(resourceGroupName: string, privateCloudName: string, clusterName: string, clusterUpdate: ClusterUpdate, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
     get(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<ClustersGetResponse>;
     list(resourceGroupName: string, privateCloudName: string, options?: ClustersListOptionalParams): PagedAsyncIterableIterator<Cluster>;
+    listZones(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersListZonesOptionalParams): Promise<ClustersListZonesResponse>;
 }
 
 // @public
@@ -362,6 +375,13 @@ export interface ClustersListOptionalParams extends coreClient.OperationOptions 
 export type ClustersListResponse = ClusterList;
 
 // @public
+export interface ClustersListZonesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClustersListZonesResponse = ClusterZoneList;
+
+// @public
 export interface ClustersUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -374,6 +394,17 @@ export type ClustersUpdateResponse = Cluster;
 export interface ClusterUpdate {
     clusterSize?: number;
     hosts?: string[];
+}
+
+// @public
+export interface ClusterZone {
+    readonly hosts?: string[];
+    readonly zone?: string;
+}
+
+// @public
+export interface ClusterZoneList {
+    zones?: ClusterZone[];
 }
 
 // @public
@@ -478,6 +509,7 @@ export type EncryptionKeyStatus = string;
 
 // @public
 export interface EncryptionKeyVaultProperties {
+    readonly autoDetectedKeyVersion?: string;
     keyName?: string;
     readonly keyState?: EncryptionKeyStatus;
     keyVaultUrl?: string;
@@ -673,6 +705,7 @@ export type InternetEnum = string;
 // @public
 export enum KnownAddonProvisioningState {
     Building = "Building",
+    Canceled = "Canceled",
     Cancelled = "Cancelled",
     Deleting = "Deleting",
     Failed = "Failed",
@@ -682,9 +715,16 @@ export enum KnownAddonProvisioningState {
 
 // @public
 export enum KnownAddonType {
+    Arc = "Arc",
     HCX = "HCX",
     SRM = "SRM",
     VR = "VR"
+}
+
+// @public
+export enum KnownAffinityStrength {
+    Must = "Must",
+    Should = "Should"
 }
 
 // @public
@@ -700,6 +740,12 @@ export enum KnownAvailabilityStrategy {
 }
 
 // @public
+export enum KnownAzureHybridBenefitType {
+    None = "None",
+    SqlHost = "SqlHost"
+}
+
+// @public
 export enum KnownCloudLinkStatus {
     Active = "Active",
     Building = "Building",
@@ -710,6 +756,7 @@ export enum KnownCloudLinkStatus {
 
 // @public
 export enum KnownClusterProvisioningState {
+    Canceled = "Canceled",
     Cancelled = "Cancelled",
     Deleting = "Deleting",
     Failed = "Failed",
@@ -719,6 +766,7 @@ export enum KnownClusterProvisioningState {
 
 // @public
 export enum KnownDatastoreProvisioningState {
+    Canceled = "Canceled",
     Cancelled = "Cancelled",
     Creating = "Creating",
     Deleting = "Deleting",
@@ -780,6 +828,7 @@ export enum KnownEncryptionVersionType {
 
 // @public
 export enum KnownExpressRouteAuthorizationProvisioningState {
+    Canceled = "Canceled",
     Failed = "Failed",
     Succeeded = "Succeeded",
     Updating = "Updating"
@@ -787,6 +836,7 @@ export enum KnownExpressRouteAuthorizationProvisioningState {
 
 // @public
 export enum KnownGlobalReachConnectionProvisioningState {
+    Canceled = "Canceled",
     Failed = "Failed",
     Succeeded = "Succeeded",
     Updating = "Updating"
@@ -820,6 +870,12 @@ export enum KnownMountOptionEnum {
 }
 
 // @public
+export enum KnownNsxPublicIpQuotaRaisedEnum {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownOptionalParamEnum {
     Optional = "Optional",
     Required = "Required"
@@ -828,6 +884,7 @@ export enum KnownOptionalParamEnum {
 // @public
 export enum KnownPlacementPolicyProvisioningState {
     Building = "Building",
+    Canceled = "Canceled",
     Deleting = "Deleting",
     Failed = "Failed",
     Succeeded = "Succeeded",
@@ -862,6 +919,7 @@ export enum KnownPortMirroringStatusEnum {
 // @public
 export enum KnownPrivateCloudProvisioningState {
     Building = "Building",
+    Canceled = "Canceled",
     Cancelled = "Cancelled",
     Deleting = "Deleting",
     Failed = "Failed",
@@ -891,6 +949,7 @@ export enum KnownScriptExecutionParameterType {
 
 // @public
 export enum KnownScriptExecutionProvisioningState {
+    Canceled = "Canceled",
     Cancelled = "Cancelled",
     Cancelling = "Cancelling",
     Deleting = "Deleting",
@@ -965,6 +1024,7 @@ export enum KnownVMTypeEnum {
 // @public
 export enum KnownWorkloadNetworkDhcpProvisioningState {
     Building = "Building",
+    Canceled = "Canceled",
     Deleting = "Deleting",
     Failed = "Failed",
     Succeeded = "Succeeded",
@@ -974,6 +1034,7 @@ export enum KnownWorkloadNetworkDhcpProvisioningState {
 // @public
 export enum KnownWorkloadNetworkDnsServiceProvisioningState {
     Building = "Building",
+    Canceled = "Canceled",
     Deleting = "Deleting",
     Failed = "Failed",
     Succeeded = "Succeeded",
@@ -983,6 +1044,7 @@ export enum KnownWorkloadNetworkDnsServiceProvisioningState {
 // @public
 export enum KnownWorkloadNetworkDnsZoneProvisioningState {
     Building = "Building",
+    Canceled = "Canceled",
     Deleting = "Deleting",
     Failed = "Failed",
     Succeeded = "Succeeded",
@@ -990,8 +1052,14 @@ export enum KnownWorkloadNetworkDnsZoneProvisioningState {
 }
 
 // @public
+export enum KnownWorkloadNetworkName {
+    Default = "default"
+}
+
+// @public
 export enum KnownWorkloadNetworkPortMirroringProvisioningState {
     Building = "Building",
+    Canceled = "Canceled",
     Deleting = "Deleting",
     Failed = "Failed",
     Succeeded = "Succeeded",
@@ -1001,6 +1069,7 @@ export enum KnownWorkloadNetworkPortMirroringProvisioningState {
 // @public
 export enum KnownWorkloadNetworkPublicIPProvisioningState {
     Building = "Building",
+    Canceled = "Canceled",
     Deleting = "Deleting",
     Failed = "Failed",
     Succeeded = "Succeeded",
@@ -1010,6 +1079,7 @@ export enum KnownWorkloadNetworkPublicIPProvisioningState {
 // @public
 export enum KnownWorkloadNetworkSegmentProvisioningState {
     Building = "Building",
+    Canceled = "Canceled",
     Deleting = "Deleting",
     Failed = "Failed",
     Succeeded = "Succeeded",
@@ -1019,6 +1089,7 @@ export enum KnownWorkloadNetworkSegmentProvisioningState {
 // @public
 export enum KnownWorkloadNetworkVMGroupProvisioningState {
     Building = "Building",
+    Canceled = "Canceled",
     Deleting = "Deleting",
     Failed = "Failed",
     Succeeded = "Succeeded",
@@ -1040,6 +1111,7 @@ export type LocationsCheckQuotaAvailabilityResponse = Quota;
 
 // @public
 export interface LocationsCheckTrialAvailabilityOptionalParams extends coreClient.OperationOptions {
+    sku?: Sku;
 }
 
 // @public
@@ -1088,6 +1160,9 @@ export type MountOptionEnum = string;
 export interface NetAppVolume {
     id: string;
 }
+
+// @public
+export type NsxPublicIpQuotaRaisedEnum = string;
 
 // @public
 export interface Operation {
@@ -1229,6 +1304,8 @@ export type PlacementPolicyType = string;
 
 // @public
 export interface PlacementPolicyUpdate {
+    affinityStrength?: AffinityStrength;
+    azureHybridBenefitType?: AzureHybridBenefitType;
     hostMembers?: string[];
     state?: PlacementPolicyState;
     vmMembers?: string[];
@@ -1253,6 +1330,7 @@ export interface PrivateCloud extends TrackedResource {
     managementCluster?: ManagementCluster;
     readonly managementNetwork?: string;
     networkBlock?: string;
+    readonly nsxPublicIpQuotaRaised?: NsxPublicIpQuotaRaisedEnum;
     readonly nsxtCertificateThumbprint?: string;
     nsxtPassword?: string;
     readonly provisioningNetwork?: string;
@@ -1284,6 +1362,7 @@ export interface PrivateCloudProperties extends PrivateCloudUpdateProperties {
     readonly externalCloudLinks?: string[];
     readonly managementNetwork?: string;
     networkBlock: string;
+    readonly nsxPublicIpQuotaRaised?: NsxPublicIpQuotaRaisedEnum;
     readonly nsxtCertificateThumbprint?: string;
     nsxtPassword?: string;
     readonly provisioningNetwork?: string;
@@ -1589,7 +1668,9 @@ export type ScriptOutputStreamType = string;
 
 // @public
 export interface ScriptPackage extends ProxyResource {
+    readonly company?: string;
     readonly description?: string;
+    readonly uri?: string;
     readonly version?: string;
 }
 
@@ -1749,7 +1830,9 @@ export type VMGroupStatusEnum = string;
 
 // @public
 export interface VmHostPlacementPolicyProperties extends PlacementPolicyProperties {
+    affinityStrength?: AffinityStrength;
     affinityType: AffinityType;
+    azureHybridBenefitType?: AzureHybridBenefitType;
     hostMembers: string[];
     type: "VmHost";
     vmMembers: string[];
@@ -1764,6 +1847,10 @@ export interface VmPlacementPolicyProperties extends PlacementPolicyProperties {
 
 // @public
 export type VMTypeEnum = string;
+
+// @public
+export interface WorkloadNetwork extends ProxyResource {
+}
 
 // @public
 export interface WorkloadNetworkDhcp extends ProxyResource {
@@ -1858,6 +1945,15 @@ export interface WorkloadNetworkGatewayList {
 }
 
 // @public
+export interface WorkloadNetworkList {
+    readonly nextLink?: string;
+    readonly value?: WorkloadNetwork[];
+}
+
+// @public
+export type WorkloadNetworkName = string;
+
+// @public
 export interface WorkloadNetworkPortMirroring extends ProxyResource {
     destination?: string;
     direction?: PortMirroringDirectionEnum;
@@ -1936,6 +2032,7 @@ export interface WorkloadNetworks {
     beginUpdateSegmentsAndWait(resourceGroupName: string, privateCloudName: string, segmentId: string, workloadNetworkSegment: WorkloadNetworkSegment, options?: WorkloadNetworksUpdateSegmentsOptionalParams): Promise<WorkloadNetworksUpdateSegmentsResponse>;
     beginUpdateVMGroup(resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksUpdateVMGroupOptionalParams): Promise<PollerLike<PollOperationState<WorkloadNetworksUpdateVMGroupResponse>, WorkloadNetworksUpdateVMGroupResponse>>;
     beginUpdateVMGroupAndWait(resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksUpdateVMGroupOptionalParams): Promise<WorkloadNetworksUpdateVMGroupResponse>;
+    get(resourceGroupName: string, privateCloudName: string, workloadNetworkName: WorkloadNetworkName, options?: WorkloadNetworksGetOptionalParams): Promise<WorkloadNetworksGetResponse>;
     getDhcp(resourceGroupName: string, dhcpId: string, privateCloudName: string, options?: WorkloadNetworksGetDhcpOptionalParams): Promise<WorkloadNetworksGetDhcpResponse>;
     getDnsService(resourceGroupName: string, privateCloudName: string, dnsServiceId: string, options?: WorkloadNetworksGetDnsServiceOptionalParams): Promise<WorkloadNetworksGetDnsServiceResponse>;
     getDnsZone(resourceGroupName: string, privateCloudName: string, dnsZoneId: string, options?: WorkloadNetworksGetDnsZoneOptionalParams): Promise<WorkloadNetworksGetDnsZoneResponse>;
@@ -1945,6 +2042,7 @@ export interface WorkloadNetworks {
     getSegment(resourceGroupName: string, privateCloudName: string, segmentId: string, options?: WorkloadNetworksGetSegmentOptionalParams): Promise<WorkloadNetworksGetSegmentResponse>;
     getVirtualMachine(resourceGroupName: string, privateCloudName: string, virtualMachineId: string, options?: WorkloadNetworksGetVirtualMachineOptionalParams): Promise<WorkloadNetworksGetVirtualMachineResponse>;
     getVMGroup(resourceGroupName: string, privateCloudName: string, vmGroupId: string, options?: WorkloadNetworksGetVMGroupOptionalParams): Promise<WorkloadNetworksGetVMGroupResponse>;
+    list(resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListOptionalParams): PagedAsyncIterableIterator<WorkloadNetwork>;
     listDhcp(resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListDhcpOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkDhcp>;
     listDnsServices(resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListDnsServicesOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkDnsService>;
     listDnsZones(resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListDnsZonesOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkDnsZone>;
@@ -2121,6 +2219,10 @@ export interface WorkloadNetworksGetGatewayOptionalParams extends coreClient.Ope
 export type WorkloadNetworksGetGatewayResponse = WorkloadNetworkGateway;
 
 // @public
+export interface WorkloadNetworksGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
 export interface WorkloadNetworksGetPortMirroringOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -2133,6 +2235,9 @@ export interface WorkloadNetworksGetPublicIPOptionalParams extends coreClient.Op
 
 // @public
 export type WorkloadNetworksGetPublicIPResponse = WorkloadNetworkPublicIP;
+
+// @public
+export type WorkloadNetworksGetResponse = WorkloadNetwork;
 
 // @public
 export interface WorkloadNetworksGetSegmentOptionalParams extends coreClient.OperationOptions {
@@ -2212,6 +2317,17 @@ export interface WorkloadNetworksListGatewaysOptionalParams extends coreClient.O
 export type WorkloadNetworksListGatewaysResponse = WorkloadNetworkGatewayList;
 
 // @public
+export interface WorkloadNetworksListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkloadNetworksListNextResponse = WorkloadNetworkList;
+
+// @public
+export interface WorkloadNetworksListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
 export interface WorkloadNetworksListPortMirroringNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -2238,6 +2354,9 @@ export interface WorkloadNetworksListPublicIPsOptionalParams extends coreClient.
 
 // @public
 export type WorkloadNetworksListPublicIPsResponse = WorkloadNetworkPublicIPsList;
+
+// @public
+export type WorkloadNetworksListResponse = WorkloadNetworkList;
 
 // @public
 export interface WorkloadNetworksListSegmentsNextOptionalParams extends coreClient.OperationOptions {

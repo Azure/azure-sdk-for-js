@@ -168,7 +168,10 @@ export class IdentityTestContext implements IdentityTestContextInterface {
     const totalOptions: http.RequestOptions[] = [];
 
     try {
-      const fakeRequest = (options: string | URL | http.RequestOptions, resolve: any) => {
+      const fakeRequest = (
+        options: string | URL | http.RequestOptions,
+        resolve: any
+      ): http.ClientRequest => {
         totalOptions.push(options as http.RequestOptions);
 
         if (!responses.length) {

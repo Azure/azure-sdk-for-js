@@ -9,7 +9,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function main() {
-  const envValue = process.env.MY_VARIABLE || "<my variable>";
+  const envValue = process.env.MY_VARIABLE ?? "<my variable>";
 
   console.log("Here's what we found:", envValue);
 }

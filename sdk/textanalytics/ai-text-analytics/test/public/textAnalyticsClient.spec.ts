@@ -1432,7 +1432,8 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("output order is same as the input's one with multiple actions", async function () {
+        // FIXME: Skip the test once the pointer is fixed to entityRecognitionPiiTasks
+        it.skip("output order is same as the input's one with multiple actions", async function () {
           const docs = [
             { id: "1", text: "one" },
             { id: "2", text: "two" },
@@ -2249,7 +2250,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("show stats and model version", async function () {
+        it.skip("show stats and model version", async function () {
           const docs = [
             { id: "56", text: ":)" },
             { id: "0", text: ":(" },

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Posts a stop action to a compute instance
  *
  * @summary Posts a stop action to a compute instance
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Compute/stop.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/stop.json
  */
 async function stopComputeInstanceCompute() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

@@ -2,11 +2,36 @@
 // Licensed under the MIT license.
 
 /**
- * @internal
- *
- * Valid key names in WWW-Authenticate header.
+ * Parameters parsed out of the WWW-Authenticate header value by the parseWWWAuthenticate function.
  */
-const validParsedWWWAuthenticateProperties = [
+export interface WWWAuthenticate {
+  /**
+   * The authorization parameter, if present.
+   */
+  authorization?: string;
+
+  /**
+   * The authorization_url parameter, if present.
+   */
+  authorization_url?: string;
+
+  /**
+   * The resource parameter, if present.
+   */
+  resource?: string;
+
+  /**
+   * The scope parameter, if present.
+   */
+  scope?: string;
+
+  /**
+   * The tenantId parameter, if present.
+   */
+  tenantId?: string;
+}
+
+const validWWWAuthenticateProperties: readonly (keyof WWWAuthenticate)[] = [
   "authorization",
   "authorization_url",
   "resource",
@@ -15,47 +40,26 @@ const validParsedWWWAuthenticateProperties = [
 ] as const;
 
 /**
- * @internal
- *
- * A union type representing all valid key names in WWW-Authenticate header.
- */
-type ValidParsedWWWAuthenticateProperties = typeof validParsedWWWAuthenticateProperties[number];
-
-/**
- * @internal
- *
- * Holds the known WWWAuthenticate keys and their values as a result of
- * parsing a WWW-Authenticate header.
- */
-export type ParsedWWWAuthenticate = {
-  [Key in ValidParsedWWWAuthenticateProperties]?: string;
-};
-
-/**
- * Parses an WWW-Authenticate response.
+ * Parses an WWW-Authenticate response header.
  * This transforms a string value like:
  * `Bearer authorization="https://some.url/tenantId", resource="https://some.url"`
  * into an object like:
  * `{ authorization: "https://some.url/tenantId", resource: "https://some.url" }`
- * @param wwwAuthenticate - String value in the WWW-Authenticate header
+ * @param headerValue - String value in the WWW-Authenticate header
  */
-export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenticate {
+export function parseWWWAuthenticateHeader(headerValue: string): WWWAuthenticate {
   const pairDelimiter = /,? +/;
-  const parsed = wwwAuthenticate
-    .split(pairDelimiter)
-    .reduce<ParsedWWWAuthenticate>((kvPairs, p) => {
-      if (p.match(/\w="/)) {
-        // 'sampleKey="sample_value"' -> [sampleKey, "sample_value"] -> { sampleKey: sample_value }
-        const [key, value] = p.split("=");
-        if (
-          validParsedWWWAuthenticateProperties.includes(key as ValidParsedWWWAuthenticateProperties)
-        ) {
-          // The values will be wrapped in quotes, which need to be stripped out.
-          return { ...kvPairs, [key]: value.slice(1, -1) };
-        }
+  const parsed = headerValue.split(pairDelimiter).reduce<WWWAuthenticate>((kvPairs, p) => {
+    if (p.match(/\w="/)) {
+      // 'sampleKey="sample_value"' -> [sampleKey, "sample_value"] -> { sampleKey: sample_value }
+      const [key, value] = p.split("=");
+      if (validWWWAuthenticateProperties.includes(key as keyof WWWAuthenticate)) {
+        // The values will be wrapped in quotes, which need to be stripped out.
+        return { ...kvPairs, [key]: value.slice(1, -1) };
       }
-      return kvPairs;
-    }, {});
+    }
+    return kvPairs;
+  }, {});
 
   // Finally, we pull the tenantId from the authorization header to support multi-tenant authentication.
   if (parsed.authorization) {

@@ -28,6 +28,9 @@ export interface CodeMessageErrorError {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface ManagementAssociation {
     readonly id?: string;
     location?: string;

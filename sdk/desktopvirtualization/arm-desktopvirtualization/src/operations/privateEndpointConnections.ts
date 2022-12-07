@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PrivateEndpointConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,16 +17,16 @@ import {
   PrivateEndpointConnectionWithSystemData,
   PrivateEndpointConnectionsListByHostPoolNextOptionalParams,
   PrivateEndpointConnectionsListByHostPoolOptionalParams,
+  PrivateEndpointConnectionsListByHostPoolResponse,
   PrivateEndpointConnectionsListByWorkspaceNextOptionalParams,
   PrivateEndpointConnectionsListByWorkspaceOptionalParams,
-  PrivateEndpointConnectionsListByHostPoolResponse,
+  PrivateEndpointConnectionsListByWorkspaceResponse,
   PrivateEndpointConnectionsGetByHostPoolOptionalParams,
   PrivateEndpointConnectionsGetByHostPoolResponse,
   PrivateEndpointConnectionsDeleteByHostPoolOptionalParams,
   PrivateEndpointConnection,
   PrivateEndpointConnectionsUpdateByHostPoolOptionalParams,
   PrivateEndpointConnectionsUpdateByHostPoolResponse,
-  PrivateEndpointConnectionsListByWorkspaceResponse,
   PrivateEndpointConnectionsGetByWorkspaceOptionalParams,
   PrivateEndpointConnectionsGetByWorkspaceResponse,
   PrivateEndpointConnectionsDeleteByWorkspaceOptionalParams,
@@ -72,11 +73,15 @@ export class PrivateEndpointConnectionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByHostPoolPagingPage(
           resourceGroupName,
           hostPoolName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -85,15 +90,22 @@ export class PrivateEndpointConnectionsImpl
   private async *listByHostPoolPagingPage(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: PrivateEndpointConnectionsListByHostPoolOptionalParams
+    options?: PrivateEndpointConnectionsListByHostPoolOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PrivateEndpointConnectionWithSystemData[]> {
-    let result = await this._listByHostPool(
-      resourceGroupName,
-      hostPoolName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PrivateEndpointConnectionsListByHostPoolResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByHostPool(
+        resourceGroupName,
+        hostPoolName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByHostPoolNext(
         resourceGroupName,
@@ -102,7 +114,9 @@ export class PrivateEndpointConnectionsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -143,11 +157,15 @@ export class PrivateEndpointConnectionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByWorkspacePagingPage(
           resourceGroupName,
           workspaceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -156,15 +174,22 @@ export class PrivateEndpointConnectionsImpl
   private async *listByWorkspacePagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: PrivateEndpointConnectionsListByWorkspaceOptionalParams
+    options?: PrivateEndpointConnectionsListByWorkspaceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PrivateEndpointConnectionWithSystemData[]> {
-    let result = await this._listByWorkspace(
-      resourceGroupName,
-      workspaceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PrivateEndpointConnectionsListByWorkspaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByWorkspace(
+        resourceGroupName,
+        workspaceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByWorkspaceNext(
         resourceGroupName,
@@ -173,7 +198,9 @@ export class PrivateEndpointConnectionsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

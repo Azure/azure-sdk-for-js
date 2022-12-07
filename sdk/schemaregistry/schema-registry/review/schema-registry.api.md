@@ -17,6 +17,13 @@ export interface GetSchemaPropertiesOptions extends OperationOptions {
 }
 
 // @public
+export enum KnownSchemaFormats {
+    Avro = "Avro",
+    Custom = "Custom",
+    Json = "Json"
+}
+
+// @public
 export interface RegisterSchemaOptions extends OperationOptions {
 }
 
@@ -28,11 +35,10 @@ export interface Schema {
 
 // @public
 export interface SchemaDescription {
-    definition?: string;
-    format?: string;
+    definition: string;
+    format: string;
     groupName: string;
     name: string;
-    version?: number;
 }
 
 // @public
@@ -56,7 +62,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: SchemaRegistryClientOptions);
     readonly fullyQualifiedNamespace: string;
     getSchema(schemaId: string, options?: GetSchemaOptions): Promise<Schema>;
-    getSchema(schemaDescription: SchemaDescription, options?: GetSchemaOptions): Promise<Schema>;
+    getSchema(name: string, groupName: string, version: number, options?: GetSchemaOptions): Promise<Schema>;
     getSchemaProperties(schema: SchemaDescription, options?: GetSchemaPropertiesOptions): Promise<SchemaProperties>;
     registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaProperties>;
 }

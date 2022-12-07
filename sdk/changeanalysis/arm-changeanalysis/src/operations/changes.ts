@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Changes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,9 +17,9 @@ import {
   Change,
   ChangesListChangesByResourceGroupNextOptionalParams,
   ChangesListChangesByResourceGroupOptionalParams,
+  ChangesListChangesByResourceGroupResponse,
   ChangesListChangesBySubscriptionNextOptionalParams,
   ChangesListChangesBySubscriptionOptionalParams,
-  ChangesListChangesByResourceGroupResponse,
   ChangesListChangesBySubscriptionResponse,
   ChangesListChangesByResourceGroupNextResponse,
   ChangesListChangesBySubscriptionNextResponse
@@ -64,12 +65,16 @@ export class ChangesImpl implements Changes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listChangesByResourceGroupPagingPage(
           resourceGroupName,
           startTime,
           endTime,
-          options
+          options,
+          settings
         );
       }
     };
@@ -79,16 +84,23 @@ export class ChangesImpl implements Changes {
     resourceGroupName: string,
     startTime: Date,
     endTime: Date,
-    options?: ChangesListChangesByResourceGroupOptionalParams
+    options?: ChangesListChangesByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Change[]> {
-    let result = await this._listChangesByResourceGroup(
-      resourceGroupName,
-      startTime,
-      endTime,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ChangesListChangesByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listChangesByResourceGroup(
+        resourceGroupName,
+        startTime,
+        endTime,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listChangesByResourceGroupNext(
         resourceGroupName,
@@ -98,7 +110,9 @@ export class ChangesImpl implements Changes {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -142,11 +156,15 @@ export class ChangesImpl implements Changes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listChangesBySubscriptionPagingPage(
           startTime,
           endTime,
-          options
+          options,
+          settings
         );
       }
     };
@@ -155,15 +173,22 @@ export class ChangesImpl implements Changes {
   private async *listChangesBySubscriptionPagingPage(
     startTime: Date,
     endTime: Date,
-    options?: ChangesListChangesBySubscriptionOptionalParams
+    options?: ChangesListChangesBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Change[]> {
-    let result = await this._listChangesBySubscription(
-      startTime,
-      endTime,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ChangesListChangesBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listChangesBySubscription(
+        startTime,
+        endTime,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listChangesBySubscriptionNext(
         startTime,
@@ -172,7 +197,9 @@ export class ChangesImpl implements Changes {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

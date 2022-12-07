@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { tracingClient } from "../tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { JobRouterAdministration } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
@@ -258,14 +259,20 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
    *              https://datatracker.ietf.org/doc/html/rfc7386
    * @param options The options parameters.
    */
-  upsertClassificationPolicy(
+  async upsertClassificationPolicy(
     id: string,
     patch: ClassificationPolicy,
     options?: JobRouterAdministrationUpsertClassificationPolicyOptionalParams
   ): Promise<JobRouterAdministrationUpsertClassificationPolicyResponse> {
-    return this.client.sendOperationRequest(
-      { id, patch, options },
-      upsertClassificationPolicyOperationSpec
+    return tracingClient.withSpan(
+      "JobRouterApiClient.upsertClassificationPolicy",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { id, patch, options },
+          upsertClassificationPolicyOperationSpec
+        ) as Promise<JobRouterAdministrationUpsertClassificationPolicyResponse>;
+      }
     );
   }
 
@@ -274,13 +281,19 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
    * @param id Id of the classification policy
    * @param options The options parameters.
    */
-  getClassificationPolicy(
+  async getClassificationPolicy(
     id: string,
     options?: JobRouterAdministrationGetClassificationPolicyOptionalParams
   ): Promise<JobRouterAdministrationGetClassificationPolicyResponse> {
-    return this.client.sendOperationRequest(
-      { id, options },
-      getClassificationPolicyOperationSpec
+    return tracingClient.withSpan(
+      "JobRouterApiClient.getClassificationPolicy",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { id, options },
+          getClassificationPolicyOperationSpec
+        ) as Promise<JobRouterAdministrationGetClassificationPolicyResponse>;
+      }
     );
   }
 
@@ -289,13 +302,19 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
    * @param id Id of the classification policy
    * @param options The options parameters.
    */
-  deleteClassificationPolicy(
+  async deleteClassificationPolicy(
     id: string,
     options?: JobRouterAdministrationDeleteClassificationPolicyOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { id, options },
-      deleteClassificationPolicyOperationSpec
+    return tracingClient.withSpan(
+      "JobRouterApiClient.deleteClassificationPolicy",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { id, options },
+          deleteClassificationPolicyOperationSpec
+        ) as Promise<void>;
+      }
     );
   }
 
@@ -303,12 +322,18 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
    * Retrieves existing classification policies
    * @param options The options parameters.
    */
-  private _listClassificationPolicies(
+  private async _listClassificationPolicies(
     options?: JobRouterAdministrationListClassificationPoliciesOptionalParams
   ): Promise<JobRouterAdministrationListClassificationPoliciesResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listClassificationPoliciesOperationSpec
+    return tracingClient.withSpan(
+      "JobRouterApiClient._listClassificationPolicies",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          listClassificationPoliciesOperationSpec
+        ) as Promise<JobRouterAdministrationListClassificationPoliciesResponse>;
+      }
     );
   }
 
@@ -319,14 +344,20 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
    *              https://datatracker.ietf.org/doc/html/rfc7386
    * @param options The options parameters.
    */
-  upsertDistributionPolicy(
+  async upsertDistributionPolicy(
     id: string,
     patch: DistributionPolicy,
     options?: JobRouterAdministrationUpsertDistributionPolicyOptionalParams
   ): Promise<JobRouterAdministrationUpsertDistributionPolicyResponse> {
-    return this.client.sendOperationRequest(
-      { id, patch, options },
-      upsertDistributionPolicyOperationSpec
+    return tracingClient.withSpan(
+      "JobRouterApiClient.upsertDistributionPolicy",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { id, patch, options },
+          upsertDistributionPolicyOperationSpec
+        ) as Promise<JobRouterAdministrationUpsertDistributionPolicyResponse>;
+      }
     );
   }
 
@@ -335,13 +366,19 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
    * @param id Id of the distribution policy
    * @param options The options parameters.
    */
-  getDistributionPolicy(
+  async getDistributionPolicy(
     id: string,
     options?: JobRouterAdministrationGetDistributionPolicyOptionalParams
   ): Promise<JobRouterAdministrationGetDistributionPolicyResponse> {
-    return this.client.sendOperationRequest(
-      { id, options },
-      getDistributionPolicyOperationSpec
+    return tracingClient.withSpan(
+      "JobRouterApiClient.getDistributionPolicy",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { id, options },
+          getDistributionPolicyOperationSpec
+        ) as Promise<JobRouterAdministrationGetDistributionPolicyResponse>;
+      }
     );
   }
 
@@ -350,13 +387,19 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
    * @param id Id of the distribution policy
    * @param options The options parameters.
    */
-  deleteDistributionPolicy(
+  async deleteDistributionPolicy(
     id: string,
     options?: JobRouterAdministrationDeleteDistributionPolicyOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { id, options },
-      deleteDistributionPolicyOperationSpec
+    return tracingClient.withSpan(
+      "JobRouterApiClient.deleteDistributionPolicy",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { id, options },
+          deleteDistributionPolicyOperationSpec
+        ) as Promise<void>;
+      }
     );
   }
 
@@ -364,12 +407,18 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
    * Retrieves existing distribution policies
    * @param options The options parameters.
    */
-  private _listDistributionPolicies(
+  private async _listDistributionPolicies(
     options?: JobRouterAdministrationListDistributionPoliciesOptionalParams
   ): Promise<JobRouterAdministrationListDistributionPoliciesResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listDistributionPoliciesOperationSpec
+    return tracingClient.withSpan(
+      "JobRouterApiClient._listDistributionPolicies",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          listDistributionPoliciesOperationSpec
+        ) as Promise<JobRouterAdministrationListDistributionPoliciesResponse>;
+      }
     );
   }
 
@@ -380,14 +429,20 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
    *              https://datatracker.ietf.org/doc/html/rfc7386
    * @param options The options parameters.
    */
-  upsertExceptionPolicy(
+  async upsertExceptionPolicy(
     id: string,
     patch: ExceptionPolicy,
     options?: JobRouterAdministrationUpsertExceptionPolicyOptionalParams
   ): Promise<JobRouterAdministrationUpsertExceptionPolicyResponse> {
-    return this.client.sendOperationRequest(
-      { id, patch, options },
-      upsertExceptionPolicyOperationSpec
+    return tracingClient.withSpan(
+      "JobRouterApiClient.upsertExceptionPolicy",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { id, patch, options },
+          upsertExceptionPolicyOperationSpec
+        ) as Promise<JobRouterAdministrationUpsertExceptionPolicyResponse>;
+      }
     );
   }
 
@@ -396,13 +451,19 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
    * @param id Id of the exception policy to retrieve
    * @param options The options parameters.
    */
-  getExceptionPolicy(
+  async getExceptionPolicy(
     id: string,
     options?: JobRouterAdministrationGetExceptionPolicyOptionalParams
   ): Promise<JobRouterAdministrationGetExceptionPolicyResponse> {
-    return this.client.sendOperationRequest(
-      { id, options },
-      getExceptionPolicyOperationSpec
+    return tracingClient.withSpan(
+      "JobRouterApiClient.getExceptionPolicy",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { id, options },
+          getExceptionPolicyOperationSpec
+        ) as Promise<JobRouterAdministrationGetExceptionPolicyResponse>;
+      }
     );
   }
 
@@ -411,13 +472,19 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
    * @param id Id of the exception policy to delete
    * @param options The options parameters.
    */
-  deleteExceptionPolicy(
+  async deleteExceptionPolicy(
     id: string,
     options?: JobRouterAdministrationDeleteExceptionPolicyOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { id, options },
-      deleteExceptionPolicyOperationSpec
+    return tracingClient.withSpan(
+      "JobRouterApiClient.deleteExceptionPolicy",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { id, options },
+          deleteExceptionPolicyOperationSpec
+        ) as Promise<void>;
+      }
     );
   }
 
@@ -425,12 +492,18 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
    * Retrieves existing exception policies
    * @param options The options parameters.
    */
-  private _listExceptionPolicies(
+  private async _listExceptionPolicies(
     options?: JobRouterAdministrationListExceptionPoliciesOptionalParams
   ): Promise<JobRouterAdministrationListExceptionPoliciesResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listExceptionPoliciesOperationSpec
+    return tracingClient.withSpan(
+      "JobRouterApiClient._listExceptionPolicies",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          listExceptionPoliciesOperationSpec
+        ) as Promise<JobRouterAdministrationListExceptionPoliciesResponse>;
+      }
     );
   }
 
@@ -441,14 +514,20 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
    *              https://datatracker.ietf.org/doc/html/rfc7386
    * @param options The options parameters.
    */
-  upsertQueue(
+  async upsertQueue(
     id: string,
     patch: JobQueue,
     options?: JobRouterAdministrationUpsertQueueOptionalParams
   ): Promise<JobRouterAdministrationUpsertQueueResponse> {
-    return this.client.sendOperationRequest(
-      { id, patch, options },
-      upsertQueueOperationSpec
+    return tracingClient.withSpan(
+      "JobRouterApiClient.upsertQueue",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { id, patch, options },
+          upsertQueueOperationSpec
+        ) as Promise<JobRouterAdministrationUpsertQueueResponse>;
+      }
     );
   }
 
@@ -457,13 +536,19 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
    * @param id Id of the queue to retrieve
    * @param options The options parameters.
    */
-  getQueue(
+  async getQueue(
     id: string,
     options?: JobRouterAdministrationGetQueueOptionalParams
   ): Promise<JobRouterAdministrationGetQueueResponse> {
-    return this.client.sendOperationRequest(
-      { id, options },
-      getQueueOperationSpec
+    return tracingClient.withSpan(
+      "JobRouterApiClient.getQueue",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { id, options },
+          getQueueOperationSpec
+        ) as Promise<JobRouterAdministrationGetQueueResponse>;
+      }
     );
   }
 
@@ -472,13 +557,19 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
    * @param id Id of the queue to delete
    * @param options The options parameters.
    */
-  deleteQueue(
+  async deleteQueue(
     id: string,
     options?: JobRouterAdministrationDeleteQueueOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { id, options },
-      deleteQueueOperationSpec
+    return tracingClient.withSpan(
+      "JobRouterApiClient.deleteQueue",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { id, options },
+          deleteQueueOperationSpec
+        ) as Promise<void>;
+      }
     );
   }
 
@@ -486,12 +577,18 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
    * Retrieves existing queues
    * @param options The options parameters.
    */
-  private _listQueues(
+  private async _listQueues(
     options?: JobRouterAdministrationListQueuesOptionalParams
   ): Promise<JobRouterAdministrationListQueuesResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listQueuesOperationSpec
+    return tracingClient.withSpan(
+      "JobRouterApiClient._listQueues",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          listQueuesOperationSpec
+        ) as Promise<JobRouterAdministrationListQueuesResponse>;
+      }
     );
   }
 
@@ -501,13 +598,21 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
    *                 method.
    * @param options The options parameters.
    */
-  private _listClassificationPoliciesNext(
+  private async _listClassificationPoliciesNext(
     nextLink: string,
     options?: JobRouterAdministrationListClassificationPoliciesNextOptionalParams
   ): Promise<JobRouterAdministrationListClassificationPoliciesNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listClassificationPoliciesNextOperationSpec
+    return tracingClient.withSpan(
+      "JobRouterApiClient._listClassificationPoliciesNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          listClassificationPoliciesNextOperationSpec
+        ) as Promise<
+          JobRouterAdministrationListClassificationPoliciesNextResponse
+        >;
+      }
     );
   }
 
@@ -517,13 +622,21 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
    *                 method.
    * @param options The options parameters.
    */
-  private _listDistributionPoliciesNext(
+  private async _listDistributionPoliciesNext(
     nextLink: string,
     options?: JobRouterAdministrationListDistributionPoliciesNextOptionalParams
   ): Promise<JobRouterAdministrationListDistributionPoliciesNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listDistributionPoliciesNextOperationSpec
+    return tracingClient.withSpan(
+      "JobRouterApiClient._listDistributionPoliciesNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          listDistributionPoliciesNextOperationSpec
+        ) as Promise<
+          JobRouterAdministrationListDistributionPoliciesNextResponse
+        >;
+      }
     );
   }
 
@@ -532,13 +645,19 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
    * @param nextLink The nextLink from the previous successful call to the ListExceptionPolicies method.
    * @param options The options parameters.
    */
-  private _listExceptionPoliciesNext(
+  private async _listExceptionPoliciesNext(
     nextLink: string,
     options?: JobRouterAdministrationListExceptionPoliciesNextOptionalParams
   ): Promise<JobRouterAdministrationListExceptionPoliciesNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listExceptionPoliciesNextOperationSpec
+    return tracingClient.withSpan(
+      "JobRouterApiClient._listExceptionPoliciesNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          listExceptionPoliciesNextOperationSpec
+        ) as Promise<JobRouterAdministrationListExceptionPoliciesNextResponse>;
+      }
     );
   }
 
@@ -547,13 +666,19 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
    * @param nextLink The nextLink from the previous successful call to the ListQueues method.
    * @param options The options parameters.
    */
-  private _listQueuesNext(
+  private async _listQueuesNext(
     nextLink: string,
     options?: JobRouterAdministrationListQueuesNextOptionalParams
   ): Promise<JobRouterAdministrationListQueuesNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listQueuesNextOperationSpec
+    return tracingClient.withSpan(
+      "JobRouterApiClient._listQueuesNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          listQueuesNextOperationSpec
+        ) as Promise<JobRouterAdministrationListQueuesNextResponse>;
+      }
     );
   }
 }

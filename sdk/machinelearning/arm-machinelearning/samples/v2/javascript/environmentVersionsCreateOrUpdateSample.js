@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Creates or updates an EnvironmentVersion.
  *
  * @summary Creates or updates an EnvironmentVersion.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/EnvironmentVersion/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/EnvironmentVersion/createOrUpdate.json
  */
 async function createOrUpdateEnvironmentVersion() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";

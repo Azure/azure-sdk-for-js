@@ -55,7 +55,7 @@ export function sourcemapsExtra() {
         },
       });
 
-      return load instanceof Function ? load.call(shim, id): load.handler.call(shim, id);
+      return load instanceof Function ? load.call(shim, id) : load.handler.call(shim, id);
     },
   });
 }

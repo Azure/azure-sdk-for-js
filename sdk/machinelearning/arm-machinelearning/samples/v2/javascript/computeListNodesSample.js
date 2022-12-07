@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Get the details (e.g IP address, port etc) of all the compute nodes in the compute.
  *
  * @summary Get the details (e.g IP address, port etc) of all the compute nodes in the compute.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Compute/listNodes.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/listNodes.json
  */
 async function getComputeNodesInformationForACompute() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

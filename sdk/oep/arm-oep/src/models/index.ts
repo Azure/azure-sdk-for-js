@@ -207,17 +207,19 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
-export type EnergyService = Resource & {
+export interface EnergyService extends Resource {
   properties?: EnergyServiceProperties;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** Geo-location where the resource lives. */
   location: string;
-};
+}
 
 /** Known values of {@link CheckNameAvailabilityReason} that the service accepts. */
 export enum KnownCheckNameAvailabilityReason {
+  /** Invalid */
   Invalid = "Invalid",
+  /** AlreadyExists */
   AlreadyExists = "AlreadyExists"
 }
 
@@ -233,12 +235,19 @@ export type CheckNameAvailabilityReason = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Updating */
   Updating = "Updating"
 }
 
@@ -259,9 +268,13 @@ export type ProvisioningState = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -279,8 +292,11 @@ export type CreatedByType = string;
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
+  /** User */
   User = "user",
+  /** System */
   System = "system",
+  /** UserSystem */
   UserSystem = "user,system"
 }
 
@@ -297,6 +313,7 @@ export type Origin = string;
 
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
+  /** Internal */
   Internal = "Internal"
 }
 

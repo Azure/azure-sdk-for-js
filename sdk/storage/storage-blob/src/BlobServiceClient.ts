@@ -509,7 +509,7 @@ export class BlobServiceClient extends StorageClient {
   }
 
   /**
-   * Create a Blob container.
+   * Create a Blob container. @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
    *
    * @param containerName - Name of the container to create.
    * @param options - Options to configure Container Create operation.

@@ -39,7 +39,7 @@ export interface NetworkConnections {
   ): PagedAsyncIterableIterator<NetworkConnection>;
   /**
    * Lists network connections in a resource group
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -48,7 +48,7 @@ export interface NetworkConnections {
   ): PagedAsyncIterableIterator<NetworkConnection>;
   /**
    * Lists health check status details
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param options The options parameters.
    */
@@ -59,7 +59,7 @@ export interface NetworkConnections {
   ): PagedAsyncIterableIterator<HealthCheckStatusDetails>;
   /**
    * Gets a network connection resource
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param options The options parameters.
    */
@@ -70,7 +70,7 @@ export interface NetworkConnections {
   ): Promise<NetworkConnectionsGetResponse>;
   /**
    * Creates or updates a Network Connections resource
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param body Represents network connection
    * @param options The options parameters.
@@ -88,7 +88,7 @@ export interface NetworkConnections {
   >;
   /**
    * Creates or updates a Network Connections resource
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param body Represents network connection
    * @param options The options parameters.
@@ -101,7 +101,7 @@ export interface NetworkConnections {
   ): Promise<NetworkConnectionsCreateOrUpdateResponse>;
   /**
    * Partially updates a Network Connection
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param body Represents network connection
    * @param options The options parameters.
@@ -119,7 +119,7 @@ export interface NetworkConnections {
   >;
   /**
    * Partially updates a Network Connection
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param body Represents network connection
    * @param options The options parameters.
@@ -132,7 +132,7 @@ export interface NetworkConnections {
   ): Promise<NetworkConnectionsUpdateResponse>;
   /**
    * Deletes a Network Connections resource
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param options The options parameters.
    */
@@ -143,7 +143,7 @@ export interface NetworkConnections {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a Network Connections resource
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param options The options parameters.
    */
@@ -154,7 +154,7 @@ export interface NetworkConnections {
   ): Promise<void>;
   /**
    * Gets health check status details.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param options The options parameters.
    */
@@ -166,11 +166,23 @@ export interface NetworkConnections {
   /**
    * Triggers a new health check run. The execution and health check result can be tracked via the
    * network Connection health check details
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param options The options parameters.
    */
-  runHealthChecks(
+  beginRunHealthChecks(
+    resourceGroupName: string,
+    networkConnectionName: string,
+    options?: NetworkConnectionsRunHealthChecksOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Triggers a new health check run. The execution and health check result can be tracked via the
+   * network Connection health check details
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
+   * @param options The options parameters.
+   */
+  beginRunHealthChecksAndWait(
     resourceGroupName: string,
     networkConnectionName: string,
     options?: NetworkConnectionsRunHealthChecksOptionalParams

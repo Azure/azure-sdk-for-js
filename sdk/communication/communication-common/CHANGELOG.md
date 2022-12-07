@@ -1,12 +1,24 @@
 # Release History
 
-## 2.1.1 (Unreleased)
+## 2.2.1 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+### Other Changes
+
+## 2.2.0 (2022-11-03)
+
+### Features Added
+
+- Optimized the logic for deserializing types derived from the `CommunicationIdentifier`.
+
+### Bugs Fixed
+
+- Fixed the logic of `getIdentifierRawId` and `createIdentifierFromRawId` for `PhoneNumberIdentifier` to always maintain the original phone number string whether it included the leading `+` sign or not.
 
 ### Other Changes
 

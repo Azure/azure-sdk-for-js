@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.1 (Unreleased)
+## 3.1.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,28 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 3.1.0 (2022-11-16)
+    
+**Features**
+
+  - Added Interface ArcSetting
+  - Added Interface Cluster
+  - Added Interface Extension
+  - Added Interface ProxyResource
+  - Added Interface TrackedResource
+    
+## 3.0.2 (2022-10-08)
+
+**Bugs Fixed**
+
+  -  revert credential scopes
+
+## 3.0.1 (2022-09-30)
+
+**Bugs Fixed**
+
+  -  fix better user experience of credential scopes in government cloud
 
 ## 3.0.0 (2022-05-17)
     
