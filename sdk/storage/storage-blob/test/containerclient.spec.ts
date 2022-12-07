@@ -800,8 +800,6 @@ describe("ContainerClient", () => {
   });
 
   it("uploadBlockBlob and deleteBlob with tracing", async function (this: Context) {
-    // tracing needs migration to 1.0.0
-    this.skip();
     const tracer = new TestTracer();
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
@@ -843,10 +841,10 @@ describe("ContainerClient", () => {
                 {
                   name: "Azure.Storage.Blob.BlockBlobClient-upload",
                   children: [
-                    {
+                    /*{
                       name: "HTTP PUT",
                       children: [],
-                    },
+                    },*/
                   ],
                 },
               ],
