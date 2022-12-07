@@ -261,7 +261,7 @@ These code samples show common scenario operations with the Azure Anomaly Detect
 
 - Univariate Anomaly Detection - Batch Detection: [sample_detect_entire_series_anomaly.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1-beta/typescript/src/sample_detect_entire_series_anomaly.ts)
 
-- Univariate Anomaly Detection - Streaming Detection: [ample_detect_last_point_anomaly.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1-beta/typescript/src/sample_detect_last_point_anomaly.ts)
+- Univariate Anomaly Detection - Streaming Detection: [sample_detect_last_point_anomaly.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1-beta/typescript/src/sample_detect_last_point_anomaly.ts)
 
 - Univariate Anomaly Detection - Change Point Detection: [sample_detect_change_point.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1-beta/typescript/src/sample_detect_change_point.ts)
 
