@@ -5,7 +5,6 @@
  * This sample demonstrates how get a list of typedefs
  *
  * @summary gets a list of typedefs for entities
- * @azsdk-weight 40
  */
 
 import PurviewCatalog from "@azure-rest/purview-catalog";
@@ -27,7 +26,7 @@ async function main() {
   }
 
   if (!dataSources.body.entityDefs) {
-    throw new Error("entityDefs is not defined");
+    throw new Error("entityDefs is undefined");
   }
 
   console.log(dataSources.body.entityDefs.map((ds) => ds.name).join("\n"));
