@@ -41,7 +41,5 @@ export class AzureApplicationCredential extends ChainedTokenCredential {
    */
   constructor(options?: AzureApplicationCredentialOptions) {
     super(...AzureApplicationCredentials.map((ctor) => new ctor(options)));
-    this.UnavailableMessage =
-      "ApplicationCredential => failed to retrieve a token from the included credentials. To troubleshoot, visit https://aka.ms/azsdk/js/identity/applicationcredential/troubleshoot.";
   }
 }

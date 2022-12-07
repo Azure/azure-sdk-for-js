@@ -120,7 +120,6 @@ specifiers:
   '@rush-temp/arm-machinelearning': file:./projects/arm-machinelearning.tgz
   '@rush-temp/arm-machinelearningcompute': file:./projects/arm-machinelearningcompute.tgz
   '@rush-temp/arm-machinelearningexperimentation': file:./projects/arm-machinelearningexperimentation.tgz
-  '@rush-temp/arm-machinelearningservices': file:./projects/arm-machinelearningservices.tgz
   '@rush-temp/arm-managedapplications': file:./projects/arm-managedapplications.tgz
   '@rush-temp/arm-managementgroups': file:./projects/arm-managementgroups.tgz
   '@rush-temp/arm-managementpartner': file:./projects/arm-managementpartner.tgz
@@ -447,7 +446,6 @@ dependencies:
   '@rush-temp/arm-machinelearning': file:projects/arm-machinelearning.tgz
   '@rush-temp/arm-machinelearningcompute': file:projects/arm-machinelearningcompute.tgz
   '@rush-temp/arm-machinelearningexperimentation': file:projects/arm-machinelearningexperimentation.tgz
-  '@rush-temp/arm-machinelearningservices': file:projects/arm-machinelearningservices.tgz
   '@rush-temp/arm-managedapplications': file:projects/arm-managedapplications.tgz
   '@rush-temp/arm-managementgroups': file:projects/arm-managementgroups.tgz
   '@rush-temp/arm-managementpartner': file:projects/arm-managementpartner.tgz
@@ -3495,6 +3493,7 @@ packages:
 
   /commander/2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
+    requiresBuild: true
     dev: false
 
   /commondir/1.0.1:
@@ -13091,33 +13090,6 @@ packages:
       - supports-color
     dev: false
 
-  file:projects/arm-machinelearningservices.tgz:
-    resolution: {integrity: sha512-S1XE45MAbvRlYLfOfkmknLXTjX1MBdBpu6w0n0Kcgm3cydofbxOuj38sj1BQ2FIQzcP5MaqbCrdgQ09fGWDpdg==, tarball: file:projects/arm-machinelearningservices.tgz}
-    name: '@rush-temp/arm-machinelearningservices'
-    version: 0.0.0
-    dependencies:
-      '@azure-tools/test-recorder': 1.0.2
-      '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.33.6
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
-      cross-env: 7.0.3
-      mkdirp: 1.0.4
-      mocha: 7.2.0
-      rimraf: 3.0.2
-      rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
-      tslib: 2.4.1
-      typescript: 4.2.4
-      uglify-js: 3.17.4
-    transitivePeerDependencies:
-      - '@types/node'
-      - encoding
-      - supports-color
-    dev: false
-
   file:projects/arm-managedapplications.tgz:
     resolution: {integrity: sha512-upZnU6/BmJIfn4KK8OZM9NMPYWp2IgCAyDpeF4L6ohYcnLTsHIY9mRVdqYQUwLqWdgfBx+W9PRtNMXlw5qP+Zw==, tarball: file:projects/arm-managedapplications.tgz}
     name: '@rush-temp/arm-managedapplications'
@@ -13339,7 +13311,7 @@ packages:
     dev: false
 
   file:projects/arm-mixedreality.tgz:
-    resolution: {integrity: sha512-WqInqlzfFfrBXJhZ0OTjknMC8wS+0LqfKABgeZjvXU0G6cRWOem5bFBB7pydyNokT3rf2T/pEt2dXDKRA5oc/A==, tarball: file:projects/arm-mixedreality.tgz}
+    resolution: {integrity: sha512-KnV668CfzT0Nlp+A5ya+LZAM/Xy/E8N+zhG6q4fGpDPH8qxHN7noeRRxWqtiFUz25EzOVD12rLDaOo/HBNE7pw==, tarball: file:projects/arm-mixedreality.tgz}
     name: '@rush-temp/arm-mixedreality'
     version: 0.0.0
     dependencies:
@@ -13350,18 +13322,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -13503,7 +13476,7 @@ packages:
     dev: false
 
   file:projects/arm-mysql.tgz:
-    resolution: {integrity: sha512-TstSRAuHqQuZFtM2LFnJMtRKiZ40I+F/1e5fzxage+ZrWR49E0hUuwkBscmwMA7rImMjanQIBkQNMz21lEkGHg==, tarball: file:projects/arm-mysql.tgz}
+    resolution: {integrity: sha512-YUMe34srjnAF1zy+ch75FpWD2WUacjid0flq7udHzhIKtPY4HtErOAM2POdEQsvpCxLPVvR2aDl1I2sMxbCLEQ==, tarball: file:projects/arm-mysql.tgz}
     name: '@rush-temp/arm-mysql'
     version: 0.0.0
     dependencies:
@@ -13514,18 +13487,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -13708,7 +13682,7 @@ packages:
     dev: false
 
   file:projects/arm-notificationhubs.tgz:
-    resolution: {integrity: sha512-V5ChjTVDgOX8qpTtuQhkXnNvujo/X26d0dv78aCsEBElzBbA6SU9ninu7gwaVs3RDPtuxZH/VKU8qHZ472JIuA==, tarball: file:projects/arm-notificationhubs.tgz}
+    resolution: {integrity: sha512-gxSPw1ahBP5StfKlu609u76f26R0CIsQOnIZnwViYI0oItVYcHDzMlYLBHGvr4Cbvw8H2MnEy6PmVPcSCA38UQ==, tarball: file:projects/arm-notificationhubs.tgz}
     name: '@rush-temp/arm-notificationhubs'
     version: 0.0.0
     dependencies:
@@ -13719,23 +13693,24 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
   file:projects/arm-oep.tgz:
-    resolution: {integrity: sha512-ju1DhGEwTHWW0VzJGtrn69Z4fr6TAMWWGrFM7TFuQv3P8FFSt+owkqgRDglTsAZb1LpQvjuNKgMi7HBeTvgzbA==, tarball: file:projects/arm-oep.tgz}
+    resolution: {integrity: sha512-RXTfbW/VAdb9rxDv+UPjWwDepuQu6eascV7t2bOG0wjt5fpsNinWX6ONUinCPyx91TS9ojpN4m6E4AsATna1KQ==, tarball: file:projects/arm-oep.tgz}
     name: '@rush-temp/arm-oep'
     version: 0.0.0
     dependencies:
@@ -13746,18 +13721,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -14090,7 +14066,7 @@ packages:
     dev: false
 
   file:projects/arm-privatedns.tgz:
-    resolution: {integrity: sha512-cX5GnFdjQdjjLVokMyyfd7x/d3q00nX/8eAtax+z0xrAhDOb7QjUXvcQ1Yt8NUg6gUpnsn6/EbJrE241Bx8EdQ==, tarball: file:projects/arm-privatedns.tgz}
+    resolution: {integrity: sha512-5xP4BntnswVoVIAX21zyXy33KaUffUmK+PaAZiPOaHuTVJlx2G8zyz7a9YRNXbipawVGCaV+U1Vdz41AT6VuQQ==, tarball: file:projects/arm-privatedns.tgz}
     name: '@rush-temp/arm-privatedns'
     version: 0.0.0
     dependencies:
@@ -14101,23 +14077,24 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
   file:projects/arm-purview.tgz:
-    resolution: {integrity: sha512-+NYv23RIcHrs3aff6rIACuHW4ezMwQKFxw9tdwdRFZS0X7ISMGPRUXuQd1Q0k9xtQWQpt0c0NTgiFMPW/rJSpw==, tarball: file:projects/arm-purview.tgz}
+    resolution: {integrity: sha512-P+RGEiCZxLv2CkHwh5eTpDcsfOsa5hKS53P1Hg0Pi71SADkkPBC65kyNGyxoljCMJ4p/LlARwTasGSVHQvmejg==, tarball: file:projects/arm-purview.tgz}
     name: '@rush-temp/arm-purview'
     version: 0.0.0
     dependencies:
@@ -14128,23 +14105,24 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
   file:projects/arm-quota.tgz:
-    resolution: {integrity: sha512-cN3xFWbIDrv1g9D/0cNrd8of1OFWUiwrpMCzXIh4H8dDB5XYCRQluvA4+zrxxB63cg3yMyV+EWZm3e8AMyosiQ==, tarball: file:projects/arm-quota.tgz}
+    resolution: {integrity: sha512-sp/eJB+yq8Q8CHnMegiaAd2m6oUvxMz6lS6TAh/+3vtqa8pfO2llNhHnla4qAhiE/1mF6IEP0X8S8Eb0mcIrxw==, tarball: file:projects/arm-quota.tgz}
     name: '@rush-temp/arm-quota'
     version: 0.0.0
     dependencies:
@@ -14155,18 +14133,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -15843,7 +15822,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-/i/QMGXP/g10uWLW/0Wrait10N30QJaEJKnNioHUwg6wLgaZKnKkGQCyZgbHKAB7o8rkQsNSLIYBz920/Mt1Fg==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-aJ10TxMFU+MdVJyQmkeThKCZbnZ6QmU9tzOoBz7yXNgmNlTMDVjYE6dpwJnWgHpDjOLHlYfnO5sEepLhZ/8Z8A==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
@@ -15895,7 +15874,7 @@ packages:
     dev: false
 
   file:projects/communication-network-traversal.tgz:
-    resolution: {integrity: sha512-8BxjW4TN+CR+jUFtm7WWGCLTSlmwVL5tHETlolRYZ4pT7mbg5u5U4g90FNC2cuVcWD21efKwcxwqtG7YuPF3pw==, tarball: file:projects/communication-network-traversal.tgz}
+    resolution: {integrity: sha512-/gHUTUZtOKjvHerwEWLt+fwQYvXqdowYDQg+aJXp5/Q3TJrnDnnZD0LB+cy7rsFVnhbcIz4i+E78C6FoVb4zFw==, tarball: file:projects/communication-network-traversal.tgz}
     name: '@rush-temp/communication-network-traversal'
     version: 0.0.0
     dependencies:
@@ -16210,7 +16189,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-lbB/XCtJj1Yu3U0IOFrDoGvmldSyoUzyMs+Ld26jWRYXAUfPst1Pe32s46bRUQXz2vKil2VyAa8CKP6tNwvZ9g==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-PPKv4JTFreCJk+dV0wu2wJerbWwauVnc9oyVq2k2DEUWpbpTddLyndJriQBhdqfw3P1CGw3cHa1eM0naH6rxNQ==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -16942,7 +16921,7 @@ packages:
     dev: false
 
   file:projects/dtdl-parser.tgz:
-    resolution: {integrity: sha512-tpIsaZWhGDJnpVqy/VriUYjEM5qzcjiQQGnK0KfuZy5x36FdS9w0p5SVKr3fZWnYpBYRNST/8H6m79K3A5xYJw==, tarball: file:projects/dtdl-parser.tgz}
+    resolution: {integrity: sha512-oadak9uqVnuit3rJujUthnEnz749jsjM7CwpLJrcr6L5LeP56GUTojveukyCl5ZqNyN1z4Fc6q2rHtnFBKnZyw==, tarball: file:projects/dtdl-parser.tgz}
     name: '@rush-temp/dtdl-parser'
     version: 0.0.0
     dependencies:
@@ -17031,7 +17010,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-PMSU1jvA/NG48hJyh9CqrJDiPMIM3wrFX9Q3czHTWHbEmwkhzN456sN+y4YCbHb+kOJzjN/6EuuiQd9XBKReZw==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-7ACdup/0WPSX9xWbupocwyG+bDs4qZLHwfBu3FqtJKcC5iE3DHUP201M25ZOLbxMkeFv/vazR4SYn6JXeBof+Q==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -18292,7 +18271,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-f2Mz829O/deVSeFCWsgd/wsbBvyPQeEsbqiZ5Mpji8E1Mt73o5Hsgpio4UhGwYiamC+Tht7VgZ9Tz5PqqJ2jCw==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-4SZI+GsuvYZ7ljHY8A8lqLnCgwOEDYS1mGM0M64Dr+dP7gXDSiOf2pYw06fKFrXZVg9h9GQwgBImh6CVjJAmdA==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:

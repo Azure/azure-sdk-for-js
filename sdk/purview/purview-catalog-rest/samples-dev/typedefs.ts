@@ -26,7 +26,11 @@ async function main() {
     throw dataSources;
   }
 
-  console.log(dataSources.body.entityDefs?.map((ds) => ds.name).join("\n"));
+  if (!dataSources.body.entityDefs) {
+    throw new Error("entityDefs is not defined");
+  }
+
+  console.log(dataSources.body.entityDefs.map((ds) => ds.name).join("\n"));
 }
 
 main().catch(console.error);

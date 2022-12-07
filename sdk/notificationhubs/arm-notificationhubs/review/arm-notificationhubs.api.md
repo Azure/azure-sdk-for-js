@@ -53,16 +53,16 @@ export interface CheckAvailabilityParameters {
 }
 
 // @public
-export type CheckAvailabilityResult = Resource & {
+export interface CheckAvailabilityResult extends Resource {
     isAvailiable?: boolean;
-};
+}
 
 // @public
-export type DebugSendResponse = Resource & {
-    success?: number;
+export interface DebugSendResponse extends Resource {
     failure?: number;
     results?: Record<string, unknown>;
-};
+    success?: number;
+}
 
 // @public
 export interface ErrorResponse {
@@ -77,12 +77,12 @@ export interface GcmCredential {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export enum KnownSkuName {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Free = "Free",
-    // (undocumented)
     Standard = "Standard"
 }
 
@@ -94,22 +94,22 @@ export interface MpnsCredential {
 }
 
 // @public
-export type NamespaceCreateOrUpdateParameters = Resource & {
-    namePropertiesName?: string;
-    provisioningState?: string;
-    region?: string;
-    readonly metricId?: string;
-    status?: string;
+export interface NamespaceCreateOrUpdateParameters extends Resource {
     createdAt?: Date;
-    updatedAt?: Date;
-    serviceBusEndpoint?: string;
-    subscriptionId?: string;
-    scaleUnit?: string;
-    enabled?: boolean;
     critical?: boolean;
     dataCenter?: string;
+    enabled?: boolean;
+    readonly metricId?: string;
+    namePropertiesName?: string;
     namespaceType?: NamespaceType;
-};
+    provisioningState?: string;
+    region?: string;
+    scaleUnit?: string;
+    serviceBusEndpoint?: string;
+    status?: string;
+    subscriptionId?: string;
+    updatedAt?: Date;
+}
 
 // @public
 export interface NamespaceListResult {
@@ -126,22 +126,22 @@ export interface NamespacePatchParameters {
 }
 
 // @public
-export type NamespaceResource = Resource & {
-    namePropertiesName?: string;
-    provisioningState?: string;
-    region?: string;
-    readonly metricId?: string;
-    status?: string;
+export interface NamespaceResource extends Resource {
     createdAt?: Date;
-    updatedAt?: Date;
-    serviceBusEndpoint?: string;
-    subscriptionId?: string;
-    scaleUnit?: string;
-    enabled?: boolean;
     critical?: boolean;
     dataCenter?: string;
+    enabled?: boolean;
+    readonly metricId?: string;
+    namePropertiesName?: string;
     namespaceType?: NamespaceType;
-};
+    provisioningState?: string;
+    region?: string;
+    scaleUnit?: string;
+    serviceBusEndpoint?: string;
+    status?: string;
+    subscriptionId?: string;
+    updatedAt?: Date;
+}
 
 // @public
 export interface Namespaces {
@@ -273,17 +273,17 @@ export type NamespacesRegenerateKeysResponse = ResourceListKeys;
 export type NamespaceType = "Messaging" | "NotificationHub";
 
 // @public
-export type NotificationHubCreateOrUpdateParameters = Resource & {
-    namePropertiesName?: string;
-    registrationTtl?: string;
-    authorizationRules?: SharedAccessAuthorizationRuleProperties[];
+export interface NotificationHubCreateOrUpdateParameters extends Resource {
+    admCredential?: AdmCredential;
     apnsCredential?: ApnsCredential;
-    wnsCredential?: WnsCredential;
+    authorizationRules?: SharedAccessAuthorizationRuleProperties[];
+    baiduCredential?: BaiduCredential;
     gcmCredential?: GcmCredential;
     mpnsCredential?: MpnsCredential;
-    admCredential?: AdmCredential;
-    baiduCredential?: BaiduCredential;
-};
+    namePropertiesName?: string;
+    registrationTtl?: string;
+    wnsCredential?: WnsCredential;
+}
 
 // @public
 export interface NotificationHubListResult {
@@ -292,30 +292,30 @@ export interface NotificationHubListResult {
 }
 
 // @public
-export type NotificationHubPatchParameters = Resource & {
-    namePropertiesName?: string;
-    registrationTtl?: string;
-    authorizationRules?: SharedAccessAuthorizationRuleProperties[];
+export interface NotificationHubPatchParameters extends Resource {
+    admCredential?: AdmCredential;
     apnsCredential?: ApnsCredential;
-    wnsCredential?: WnsCredential;
+    authorizationRules?: SharedAccessAuthorizationRuleProperties[];
+    baiduCredential?: BaiduCredential;
     gcmCredential?: GcmCredential;
     mpnsCredential?: MpnsCredential;
-    admCredential?: AdmCredential;
-    baiduCredential?: BaiduCredential;
-};
+    namePropertiesName?: string;
+    registrationTtl?: string;
+    wnsCredential?: WnsCredential;
+}
 
 // @public
-export type NotificationHubResource = Resource & {
-    namePropertiesName?: string;
-    registrationTtl?: string;
-    authorizationRules?: SharedAccessAuthorizationRuleProperties[];
+export interface NotificationHubResource extends Resource {
+    admCredential?: AdmCredential;
     apnsCredential?: ApnsCredential;
-    wnsCredential?: WnsCredential;
+    authorizationRules?: SharedAccessAuthorizationRuleProperties[];
+    baiduCredential?: BaiduCredential;
     gcmCredential?: GcmCredential;
     mpnsCredential?: MpnsCredential;
-    admCredential?: AdmCredential;
-    baiduCredential?: BaiduCredential;
-};
+    namePropertiesName?: string;
+    registrationTtl?: string;
+    wnsCredential?: WnsCredential;
+}
 
 // @public
 export interface NotificationHubs {
@@ -506,14 +506,14 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
-export type PnsCredentialsResource = Resource & {
+export interface PnsCredentialsResource extends Resource {
+    admCredential?: AdmCredential;
     apnsCredential?: ApnsCredential;
-    wnsCredential?: WnsCredential;
+    baiduCredential?: BaiduCredential;
     gcmCredential?: GcmCredential;
     mpnsCredential?: MpnsCredential;
-    admCredential?: AdmCredential;
-    baiduCredential?: BaiduCredential;
-};
+    wnsCredential?: WnsCredential;
+}
 
 // @public
 export interface PolicykeyResource {
@@ -566,17 +566,17 @@ export interface SharedAccessAuthorizationRuleProperties {
 }
 
 // @public
-export type SharedAccessAuthorizationRuleResource = Resource & {
-    rights?: AccessRights[];
-    readonly primaryKey?: string;
-    readonly secondaryKey?: string;
-    readonly keyName?: string;
+export interface SharedAccessAuthorizationRuleResource extends Resource {
     readonly claimType?: string;
     readonly claimValue?: string;
-    readonly modifiedTime?: string;
     readonly createdTime?: string;
+    readonly keyName?: string;
+    readonly modifiedTime?: string;
+    readonly primaryKey?: string;
     readonly revision?: number;
-};
+    rights?: AccessRights[];
+    readonly secondaryKey?: string;
+}
 
 // @public
 export interface Sku {
