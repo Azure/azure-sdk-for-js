@@ -1981,7 +1981,6 @@ matrix(
             }),
             {
               name: "SyntaxError",
-
             }
           );
         });
