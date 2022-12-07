@@ -74,6 +74,9 @@ export const nextLink: OperationURLParameter = {
 export const location: OperationURLParameter = {
   parameterPath: "location",
   mapper: {
+    constraints: {
+      MinLength: 1
+    },
     serializedName: "location",
     required: true,
     type: {
@@ -85,6 +88,9 @@ export const location: OperationURLParameter = {
 export const operationId: OperationURLParameter = {
   parameterPath: "operationId",
   mapper: {
+    constraints: {
+      MinLength: 1
+    },
     serializedName: "operationId",
     required: true,
     type: {
