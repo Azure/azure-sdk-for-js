@@ -590,7 +590,7 @@ export interface OperationsDiscovery {
    * Default value is "user,system".
    */
   origin?: string;
-  /** Any object */
+  /** ClientDiscovery properties. */
   properties?: Record<string, unknown>;
 }
 
@@ -789,13 +789,13 @@ export interface LBBackendAddressPoolResourceSettings {
 }
 
 /** Defines the move collection errors. */
-export type MoveCollectionPropertiesErrors = MoveResourceError & {};
+export interface MoveCollectionPropertiesErrors extends MoveResourceError {}
 
 /** Defines the move resource errors. */
-export type MoveResourcePropertiesErrors = MoveResourceError & {};
+export interface MoveResourcePropertiesErrors extends MoveResourceError {}
 
 /** Gets or sets the virtual machine resource settings. */
-export type VirtualMachineResourceSettings = ResourceSettings & {
+export interface VirtualMachineResourceSettings extends ResourceSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Microsoft.Compute/virtualMachines";
   /** Gets or sets the Resource tags. */
@@ -808,10 +808,10 @@ export type VirtualMachineResourceSettings = ResourceSettings & {
   targetVmSize?: string;
   /** Gets or sets the target availability set id for virtual machines not in an availability set at source. */
   targetAvailabilitySetId?: string;
-};
+}
 
 /** Gets or sets the availability set resource settings. */
-export type AvailabilitySetResourceSettings = ResourceSettings & {
+export interface AvailabilitySetResourceSettings extends ResourceSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Microsoft.Compute/availabilitySets";
   /** Gets or sets the Resource tags. */
@@ -820,10 +820,10 @@ export type AvailabilitySetResourceSettings = ResourceSettings & {
   faultDomain?: number;
   /** Gets or sets the target update domain. */
   updateDomain?: number;
-};
+}
 
 /** Defines the virtual network resource settings. */
-export type VirtualNetworkResourceSettings = ResourceSettings & {
+export interface VirtualNetworkResourceSettings extends ResourceSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Microsoft.Network/virtualNetworks";
   /** Gets or sets the Resource tags. */
@@ -842,10 +842,10 @@ export type VirtualNetworkResourceSettings = ResourceSettings & {
   dnsServers?: string[];
   /** Gets or sets List of subnets in a VirtualNetwork. */
   subnets?: SubnetResourceSettings[];
-};
+}
 
 /** Defines the network interface resource settings. */
-export type NetworkInterfaceResourceSettings = ResourceSettings & {
+export interface NetworkInterfaceResourceSettings extends ResourceSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Microsoft.Network/networkInterfaces";
   /** Gets or sets the Resource tags. */
@@ -854,20 +854,20 @@ export type NetworkInterfaceResourceSettings = ResourceSettings & {
   ipConfigurations?: NicIpConfigurationResourceSettings[];
   /** Gets or sets a value indicating whether accelerated networking is enabled. */
   enableAcceleratedNetworking?: boolean;
-};
+}
 
 /** Defines the NSG resource settings. */
-export type NetworkSecurityGroupResourceSettings = ResourceSettings & {
+export interface NetworkSecurityGroupResourceSettings extends ResourceSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Microsoft.Network/networkSecurityGroups";
   /** Gets or sets the Resource tags. */
   tags?: { [propertyName: string]: string };
   /** Gets or sets Security rules of network security group. */
   securityRules?: NsgSecurityRule[];
-};
+}
 
 /** Defines the load balancer resource settings. */
-export type LoadBalancerResourceSettings = ResourceSettings & {
+export interface LoadBalancerResourceSettings extends ResourceSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Microsoft.Network/loadBalancers";
   /** Gets or sets the Resource tags. */
@@ -883,42 +883,42 @@ export type LoadBalancerResourceSettings = ResourceSettings & {
    *  precedence only if frontend IP configurations settings are not present.
    */
   zones?: string;
-};
+}
 
 /** Defines the SQL Server resource settings. */
-export type SqlServerResourceSettings = ResourceSettings & {
+export interface SqlServerResourceSettings extends ResourceSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Microsoft.Sql/servers";
-};
+}
 
 /** Defines the Sql ElasticPool resource settings. */
-export type SqlElasticPoolResourceSettings = ResourceSettings & {
+export interface SqlElasticPoolResourceSettings extends ResourceSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Microsoft.Sql/servers/elasticPools";
   /** Gets or sets the Resource tags. */
   tags?: { [propertyName: string]: string };
   /** Defines the zone redundant resource setting. */
   zoneRedundant?: ZoneRedundant;
-};
+}
 
 /** Defines the Sql Database resource settings. */
-export type SqlDatabaseResourceSettings = ResourceSettings & {
+export interface SqlDatabaseResourceSettings extends ResourceSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Microsoft.Sql/servers/databases";
   /** Gets or sets the Resource tags. */
   tags?: { [propertyName: string]: string };
   /** Defines the zone redundant resource setting. */
   zoneRedundant?: ZoneRedundant;
-};
+}
 
 /** Defines the resource group resource settings. */
-export type ResourceGroupResourceSettings = ResourceSettings & {
+export interface ResourceGroupResourceSettings extends ResourceSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "resourceGroups";
-};
+}
 
 /** Defines the public IP address resource settings. */
-export type PublicIPAddressResourceSettings = ResourceSettings & {
+export interface PublicIPAddressResourceSettings extends ResourceSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Microsoft.Network/publicIPAddresses";
   /** Gets or sets the Resource tags. */
@@ -933,48 +933,52 @@ export type PublicIPAddressResourceSettings = ResourceSettings & {
   sku?: string;
   /** Gets or sets public IP zones. */
   zones?: string;
-};
+}
 
 /** Defines the key vault resource settings. */
-export type KeyVaultResourceSettings = ResourceSettings & {
+export interface KeyVaultResourceSettings extends ResourceSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Microsoft.KeyVault/vaults";
-};
+}
 
 /** Defines the disk encryption set resource settings. */
-export type DiskEncryptionSetResourceSettings = ResourceSettings & {
+export interface DiskEncryptionSetResourceSettings extends ResourceSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Microsoft.Compute/diskEncryptionSets";
-};
+}
 
 /** Defines the move resource status. */
-export type MoveResourcePropertiesMoveStatus = MoveResourceStatus & {};
+export interface MoveResourcePropertiesMoveStatus extends MoveResourceStatus {}
 
 /** Defines reference to NSG. */
-export type NsgReference = AzureResourceReference & {};
+export interface NsgReference extends AzureResourceReference {}
 
 /** Defines reference to a proxy resource. */
-export type ProxyResourceReference = AzureResourceReference & {
+export interface ProxyResourceReference extends AzureResourceReference {
   /** Gets the name of the proxy resource on the target side. */
   name?: string;
-};
+}
 
 /** Defines reference to a public IP. */
-export type PublicIpReference = AzureResourceReference & {};
+export interface PublicIpReference extends AzureResourceReference {}
 
 /** Defines reference to subnet. */
-export type SubnetReference = ProxyResourceReference & {};
+export interface SubnetReference extends ProxyResourceReference {}
 
 /** Defines reference to load balancer backend address pools. */
-export type LoadBalancerBackendAddressPoolReference = ProxyResourceReference & {};
+export interface LoadBalancerBackendAddressPoolReference
+  extends ProxyResourceReference {}
 
 /** Defines reference to load balancer NAT rules. */
-export type LoadBalancerNatRuleReference = ProxyResourceReference & {};
+export interface LoadBalancerNatRuleReference extends ProxyResourceReference {}
 
 /** Known values of {@link ResourceIdentityType} that the service accepts. */
 export enum KnownResourceIdentityType {
+  /** None */
   None = "None",
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
   UserAssigned = "UserAssigned"
 }
 
@@ -991,9 +995,13 @@ export type ResourceIdentityType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Updating */
   Updating = "Updating",
+  /** Creating */
   Creating = "Creating",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -1011,9 +1019,13 @@ export type ProvisioningState = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -1031,7 +1043,9 @@ export type CreatedByType = string;
 
 /** Known values of {@link MoveResourceInputType} that the service accepts. */
 export enum KnownMoveResourceInputType {
+  /** MoveResourceId */
   MoveResourceId = "MoveResourceId",
+  /** MoveResourceSourceId */
   MoveResourceSourceId = "MoveResourceSourceId"
 }
 
@@ -1047,20 +1061,35 @@ export type MoveResourceInputType = string;
 
 /** Known values of {@link MoveState} that the service accepts. */
 export enum KnownMoveState {
+  /** AssignmentPending */
   AssignmentPending = "AssignmentPending",
+  /** PreparePending */
   PreparePending = "PreparePending",
+  /** PrepareInProgress */
   PrepareInProgress = "PrepareInProgress",
+  /** PrepareFailed */
   PrepareFailed = "PrepareFailed",
+  /** MovePending */
   MovePending = "MovePending",
+  /** MoveInProgress */
   MoveInProgress = "MoveInProgress",
+  /** MoveFailed */
   MoveFailed = "MoveFailed",
+  /** DiscardInProgress */
   DiscardInProgress = "DiscardInProgress",
+  /** DiscardFailed */
   DiscardFailed = "DiscardFailed",
+  /** CommitPending */
   CommitPending = "CommitPending",
+  /** CommitInProgress */
   CommitInProgress = "CommitInProgress",
+  /** CommitFailed */
   CommitFailed = "CommitFailed",
+  /** Committed */
   Committed = "Committed",
+  /** DeleteSourcePending */
   DeleteSourcePending = "DeleteSourcePending",
+  /** ResourceMoveCompleted */
   ResourceMoveCompleted = "ResourceMoveCompleted"
 }
 
@@ -1089,6 +1118,7 @@ export type MoveState = string;
 
 /** Known values of {@link JobName} that the service accepts. */
 export enum KnownJobName {
+  /** InitialSync */
   InitialSync = "InitialSync"
 }
 
@@ -1103,7 +1133,9 @@ export type JobName = string;
 
 /** Known values of {@link ResolutionType} that the service accepts. */
 export enum KnownResolutionType {
+  /** Manual */
   Manual = "Manual",
+  /** Automatic */
   Automatic = "Automatic"
 }
 
@@ -1119,7 +1151,9 @@ export type ResolutionType = string;
 
 /** Known values of {@link DependencyType} that the service accepts. */
 export enum KnownDependencyType {
+  /** RequiredForPrepare */
   RequiredForPrepare = "RequiredForPrepare",
+  /** RequiredForMove */
   RequiredForMove = "RequiredForMove"
 }
 
@@ -1135,7 +1169,9 @@ export type DependencyType = string;
 
 /** Known values of {@link DependencyLevel} that the service accepts. */
 export enum KnownDependencyLevel {
+  /** Direct */
   Direct = "Direct",
+  /** Descendant */
   Descendant = "Descendant"
 }
 
@@ -1151,9 +1187,13 @@ export type DependencyLevel = string;
 
 /** Known values of {@link TargetAvailabilityZone} that the service accepts. */
 export enum KnownTargetAvailabilityZone {
+  /** One */
   One = "1",
+  /** Two */
   Two = "2",
+  /** Three */
   Three = "3",
+  /** NA */
   NA = "NA"
 }
 
@@ -1171,7 +1211,9 @@ export type TargetAvailabilityZone = string;
 
 /** Known values of {@link ZoneRedundant} that the service accepts. */
 export enum KnownZoneRedundant {
+  /** Enable */
   Enable = "Enable",
+  /** Disable */
   Disable = "Disable"
 }
 
@@ -1386,10 +1428,7 @@ export type MoveResourcesGetResponse = MoveResource;
 
 /** Optional parameters. */
 export interface MoveResourcesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For example, you can use $filter=Properties/ProvisioningState eq 'Succeeded'. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type MoveResourcesListNextResponse = MoveResourceCollection;
@@ -1410,14 +1449,7 @@ export type UnresolvedDependenciesGetResponse = UnresolvedDependencyCollection;
 
 /** Optional parameters. */
 export interface UnresolvedDependenciesGetNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For example, $apply=filter(count eq 2). */
-  filter?: string;
-  /** Defines the dependency level. */
-  dependencyLevel?: DependencyLevel;
-  /** OData order by query option. For example, you can use $orderby=Count desc. */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getNext operation. */
 export type UnresolvedDependenciesGetNextResponse = UnresolvedDependencyCollection;

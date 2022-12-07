@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { MoveCollections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,8 +19,10 @@ import {
   MoveCollection,
   MoveCollectionsListMoveCollectionsBySubscriptionNextOptionalParams,
   MoveCollectionsListMoveCollectionsBySubscriptionOptionalParams,
+  MoveCollectionsListMoveCollectionsBySubscriptionResponse,
   MoveCollectionsListMoveCollectionsByResourceGroupNextOptionalParams,
   MoveCollectionsListMoveCollectionsByResourceGroupOptionalParams,
+  MoveCollectionsListMoveCollectionsByResourceGroupResponse,
   MoveCollectionsCreateOptionalParams,
   MoveCollectionsCreateResponse,
   MoveCollectionsUpdateOptionalParams,
@@ -40,8 +43,6 @@ import {
   MoveCollectionsResolveDependenciesResponse,
   MoveCollectionsBulkRemoveOptionalParams,
   MoveCollectionsBulkRemoveResponse,
-  MoveCollectionsListMoveCollectionsBySubscriptionResponse,
-  MoveCollectionsListMoveCollectionsByResourceGroupResponse,
   MoveCollectionsListRequiredForOptionalParams,
   MoveCollectionsListRequiredForResponse,
   MoveCollectionsListMoveCollectionsBySubscriptionNextResponse,
@@ -76,25 +77,40 @@ export class MoveCollectionsImpl implements MoveCollections {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listMoveCollectionsBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listMoveCollectionsBySubscriptionPagingPage(
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listMoveCollectionsBySubscriptionPagingPage(
-    options?: MoveCollectionsListMoveCollectionsBySubscriptionOptionalParams
+    options?: MoveCollectionsListMoveCollectionsBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<MoveCollection[]> {
-    let result = await this._listMoveCollectionsBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: MoveCollectionsListMoveCollectionsBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listMoveCollectionsBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listMoveCollectionsBySubscriptionNext(
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -128,10 +144,14 @@ export class MoveCollectionsImpl implements MoveCollections {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMoveCollectionsByResourceGroupPagingPage(
           resourceGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -139,14 +159,21 @@ export class MoveCollectionsImpl implements MoveCollections {
 
   private async *listMoveCollectionsByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: MoveCollectionsListMoveCollectionsByResourceGroupOptionalParams
+    options?: MoveCollectionsListMoveCollectionsByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<MoveCollection[]> {
-    let result = await this._listMoveCollectionsByResourceGroup(
-      resourceGroupName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: MoveCollectionsListMoveCollectionsByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listMoveCollectionsByResourceGroup(
+        resourceGroupName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listMoveCollectionsByResourceGroupNext(
         resourceGroupName,
@@ -154,7 +181,9 @@ export class MoveCollectionsImpl implements MoveCollections {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -1320,7 +1349,6 @@ const listMoveCollectionsBySubscriptionNextOperationSpec: coreClient.OperationSp
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1340,7 +1368,6 @@ const listMoveCollectionsByResourceGroupNextOperationSpec: coreClient.OperationS
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
