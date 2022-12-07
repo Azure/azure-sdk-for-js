@@ -38,6 +38,13 @@ export function toPipelineRequest(
       timeout: webResource.timeout,
       requestId: webResource.requestId,
       abortSignal: webResource.abortSignal,
+      body: webResource.body,
+      formData: webResource.formData,
+      disableKeepAlive: !!webResource.keepAlive,
+      onDownloadProgress: webResource.onDownloadProgress,
+      onUploadProgress: webResource.onUploadProgress,
+      proxySettings: webResource.proxySettings,
+      streamResponseStatusCodes: webResource.streamResponseStatusCodes,
     });
     if (options.originalRequest) {
       (newRequest as PipelineRequestWithOriginal)[originalClientRequestSymbol] =
@@ -60,6 +67,13 @@ export function toWebResourceLike(
     timeout: request.timeout,
     requestId: request.headers.get("x-ms-client-request-id") || request.requestId,
     abortSignal: request.abortSignal,
+    body: request.body,
+    formData: request.formData,
+    keepAlive: !!request.disableKeepAlive,
+    onDownloadProgress: request.onDownloadProgress,
+    onUploadProgress: request.onUploadProgress,
+    proxySettings: request.proxySettings,
+    streamResponseStatusCodes: request.streamResponseStatusCodes,
     clone(): WebResourceLike {
       throw new Error("Cannot clone a non-proxied WebResourceLike");
     },
@@ -87,17 +101,28 @@ export function toWebResourceLike(
         return Reflect.get(target, prop, receiver);
       },
       set(target: any, prop, value, receiver) {
-        if (prop === "url") {
-          request.url = value;
-        } else if (prop === "method") {
-          request.method = value;
-        } else if (prop === "withCredentials") {
-          request.withCredentials = value;
-        } else if (prop === "timeout") {
-          request.timeout = value;
-        } else if (prop === "requestId") {
-          request.requestId = value;
+        if (prop === "keepAlive") {
+          request.disableKeepAlive = !value;
         }
+        const passThroughProps = [
+          "url",
+          "method",
+          "withCredentials",
+          "timeout",
+          "requestId",
+          "abortSignal",
+          "body",
+          "formData",
+          "onDownloadProgress",
+          "onUploadProgress",
+          "proxySettings",
+          "streamResponseStatusCodes",
+        ];
+
+        if (typeof prop === "string" && passThroughProps.includes(prop)) {
+          (request as any)[prop] = value;
+        }
+
         return Reflect.set(target, prop, value, receiver);
       },
     });
