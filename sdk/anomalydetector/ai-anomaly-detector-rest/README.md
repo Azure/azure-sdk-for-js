@@ -20,6 +20,13 @@ Install the Azure AnomalyDetectorRest REST client REST client library for JavaSc
 npm install @azure-rest/ai-anomaly-detector
 ```
 
+|SDK version|Supported API version of service |
+|-------------|---------------|
+|3.0.0-beta.6| 1.1|
+|3.0.0-beta.4, 3.0.0-beta.5| 1.1-preview-1|
+|3.0.0-beta.3 | 1.1-preview|
+|3.0.0-preview.1, 3.0.0-beta.2  | 1.0 |
+
 ### Create and authenticate a `AnomalyDetectorRestClient`
 
 To use an [Azure Active Directory (AAD) token credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token),
