@@ -37,6 +37,7 @@ export function toPipelineRequest(
       withCredentials: webResource.withCredentials,
       timeout: webResource.timeout,
       requestId: webResource.requestId,
+      abortSignal: webResource.abortSignal,
     });
     if (options.originalRequest) {
       (newRequest as PipelineRequestWithOriginal)[originalClientRequestSymbol] =
@@ -58,6 +59,7 @@ export function toWebResourceLike(
     withCredentials: request.withCredentials,
     timeout: request.timeout,
     requestId: request.headers.get("x-ms-client-request-id") || request.requestId,
+    abortSignal: request.abortSignal,
     clone(): WebResourceLike {
       throw new Error("Cannot clone a non-proxied WebResourceLike");
     },
