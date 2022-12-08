@@ -72,6 +72,5 @@ export class AnomalyDetectorClient extends AnomalyDetector {
 
     super(endpointUrl, internalPipelineOptions);
     this.pipeline.addPolicy(authPolicy);
-    
   }
 }
