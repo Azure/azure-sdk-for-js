@@ -38,10 +38,10 @@ export async function main() {
   // Already available models
   const modelList = client.listMultivariateModel();
   console.log("The latest 5 available models (if exist):");
-  for (var i = 0; i < 5; i++) {
-    var modelDetail = (await modelList.next());
-    if (modelDetail.done) break;
-    console.log(modelDetail.value);
+  for (let i = 0; i < 5; i++) {
+    const { value: modelDetail , done} = await modelList.next();
+    if (done) break;
+    console.log(modelDetail);
   };
 
   // construct model request (notice that the start and end time are local time and may not align with your data source)
@@ -63,7 +63,7 @@ export async function main() {
   var modelStatus = modelResponse.modelInfo?.status;
 
   while (modelStatus != "READY" && modelStatus != "FAILED") {
-    await sleep(2000).then(() => { });
+    await sleep(2000);
     modelResponse = await client.getMultivariateModel(modelId);
     modelStatus = modelResponse.modelInfo?.status;
   };
@@ -86,10 +86,10 @@ export async function main() {
     startTime: new Date(2021, 0, 2, 12, 0, 0),
     endTime: new Date(2021, 0, 3, 0, 0, 0)
   };
-  var resultHeader = await client.detectAnomaly(modelId, detectRequest);
-  var resultId = resultHeader.location?.split("/").pop() ?? "";
-  var result = await client.getDetectionResult(resultId);
-  var resultStatus = result.summary.status;
+  const resultHeader = await client.detectAnomaly(modelId, detectRequest);
+  const resultId = resultHeader.location?.split("/").pop() ?? "";
+  let result = await client.getDetectionResult(resultId);
+  let resultStatus = result.summary.status;
 
   while (resultStatus != 'READY' && resultStatus != "FAILED") {
     await sleep(1000).then(() => { });
@@ -111,14 +111,20 @@ export async function main() {
   console.log("Result Id: " + result.resultId);
 
   // export the model
-  var exportResult = await client.exportModel(modelId);
-  var modelPath = "model.zip"
-  var destination = fs.createWriteStream(modelPath);
+  const exportResult = await client.exportModel(modelId);
+  const modelPath = "model.zip"
+  const destination = fs.createWriteStream(modelPath);
   exportResult.readableStreamBody?.pipe(destination);
   console.log("New model has been exported to " + modelPath + ".");
 
   // delete model
-  await client.deleteMultivariateModel(modelId);
+  try {
+    await client.deleteMultivariateModel(modelId);
+    console.log("New model has been deleted.");
+  } catch (err) {
+    console.log("Failed to delete the new model.");
+  }
+  
 }
 
 main().catch((err) => {

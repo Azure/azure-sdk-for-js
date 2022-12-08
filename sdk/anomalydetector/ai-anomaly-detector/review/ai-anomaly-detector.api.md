@@ -27,38 +27,18 @@ export class AnomalyDetector extends coreClient.ServiceClient {
     constructor(endpoint: string, options?: AnomalyDetectorOptionalParams);
     // (undocumented)
     apiVersion: string;
-    // Warning: (ae-forgotten-export) The symbol "DeleteMultivariateModelOptionalParams" needs to be exported by the entry point index.d.ts
     deleteMultivariateModel(modelId: string, options?: DeleteMultivariateModelOptionalParams): Promise<void>;
-    // Warning: (ae-forgotten-export) The symbol "DetectAnomalyOptionalParams" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "DetectAnomalyResponse" needs to be exported by the entry point index.d.ts
     detectAnomaly(modelId: string, body: DetectionRequest, options?: DetectAnomalyOptionalParams): Promise<DetectAnomalyResponse>;
-    // Warning: (ae-forgotten-export) The symbol "DetectChangePointOptionalParams" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "DetectChangePointOperationResponse" needs to be exported by the entry point index.d.ts
     detectChangePoint(body: DetectChangePointRequest, options?: DetectChangePointOptionalParams): Promise<DetectChangePointOperationResponse>;
-    // Warning: (ae-forgotten-export) The symbol "DetectEntireSeriesOptionalParams" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "DetectEntireSeriesResponse" needs to be exported by the entry point index.d.ts
     detectEntireSeries(body: DetectRequest, options?: DetectEntireSeriesOptionalParams): Promise<DetectEntireSeriesResponse>;
-    // Warning: (ae-forgotten-export) The symbol "DetectLastPointOptionalParams" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "DetectLastPointOperationResponse" needs to be exported by the entry point index.d.ts
     detectLastPoint(body: DetectRequest, options?: DetectLastPointOptionalParams): Promise<DetectLastPointOperationResponse>;
     // (undocumented)
     endpoint: string;
-    // Warning: (ae-forgotten-export) The symbol "ExportModelOptionalParams" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "ExportModelResponse" needs to be exported by the entry point index.d.ts
     exportModel(modelId: string, options?: ExportModelOptionalParams): Promise<ExportModelResponse>;
-    // Warning: (ae-forgotten-export) The symbol "GetDetectionResultOptionalParams" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "GetDetectionResultResponse" needs to be exported by the entry point index.d.ts
     getDetectionResult(resultId: string, options?: GetDetectionResultOptionalParams): Promise<GetDetectionResultResponse>;
-    // Warning: (ae-forgotten-export) The symbol "GetMultivariateModelOptionalParams" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "GetMultivariateModelResponse" needs to be exported by the entry point index.d.ts
     getMultivariateModel(modelId: string, options?: GetMultivariateModelOptionalParams): Promise<GetMultivariateModelResponse>;
-    // Warning: (ae-forgotten-export) The symbol "LastDetectAnomalyOptionalParams" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "LastDetectAnomalyResponse" needs to be exported by the entry point index.d.ts
     lastDetectAnomaly(modelId: string, body: LastDetectionRequest, options?: LastDetectAnomalyOptionalParams): Promise<LastDetectAnomalyResponse>;
-    // Warning: (ae-forgotten-export) The symbol "ListMultivariateModelOptionalParams" needs to be exported by the entry point index.d.ts
     listMultivariateModel(options?: ListMultivariateModelOptionalParams): PagedAsyncIterableIterator<AnomalyDetectorClientModelSnapshot>;
-    // Warning: (ae-forgotten-export) The symbol "TrainMultivariateModelOptionalParams" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "TrainMultivariateModelResponse" needs to be exported by the entry point index.d.ts
     trainMultivariateModel(body: AnomalyDetectorClientModelInfo, options?: TrainMultivariateModelOptionalParams): Promise<TrainMultivariateModelResponse>;
 }
 
@@ -251,6 +231,24 @@ export interface CorrelationChanges {
 }
 
 // @public
+export interface DeleteMultivariateModelOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface DetectAnomalyOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DetectAnomalyResponse = AnomalyDetectorDetectAnomalyHeaders;
+
+// @public
+export type DetectChangePointOperationResponse = DetectChangePointResponse;
+
+// @public
+export interface DetectChangePointOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
 export interface DetectChangePointRequest {
     customInterval?: number;
     granularity: TimeGranularity;
@@ -280,6 +278,13 @@ export interface DetectEntireResponse {
 }
 
 // @public
+export interface DetectEntireSeriesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DetectEntireSeriesResponse = DetectEntireResponse;
+
+// @public
 export interface DetectionRequest {
     endTime: Date;
     source: string;
@@ -306,6 +311,13 @@ export interface DetectionResultSummary {
 
 // @public
 export type DetectionStatus = "CREATED" | "RUNNING" | "READY" | "FAILED";
+
+// @public
+export type DetectLastPointOperationResponse = DetectLastPointResponse;
+
+// @public
+export interface DetectLastPointOptionalParams extends coreClient.OperationOptions {
+}
 
 // @public
 export interface DetectLastPointResponse {
@@ -341,7 +353,31 @@ export interface DiagnosticsInfo {
 }
 
 // @public
+export interface ExportModelOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExportModelResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+};
+
+// @public
 export type FillNAMethod = string;
+
+// @public
+export interface GetDetectionResultOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GetDetectionResultResponse = DetectionResult;
+
+// @public
+export interface GetMultivariateModelOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GetMultivariateModelResponse = AnomalyDetectorClientModel;
 
 // @public
 export type ImputeMode = string;
@@ -379,6 +415,13 @@ export enum KnownTimeGranularity {
     yearly = "yearly"
 }
 
+// @public
+export interface LastDetectAnomalyOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LastDetectAnomalyResponse = LastDetectionResult;
+
 // @public (undocumented)
 export interface LastDetectionRequest {
     detectingPoints: number;
@@ -394,6 +437,12 @@ export interface LastDetectionResult {
 }
 
 // @public
+export interface ListMultivariateModelOptionalParams extends coreClient.OperationOptions {
+    skip?: number;
+    top?: number;
+}
+
+// @public
 export type TimeGranularity = "yearly" | "monthly" | "weekly" | "daily" | "hourly" | "minutely" | "secondly" | "microsecond" | "none";
 
 // @public
@@ -401,6 +450,13 @@ export interface TimeSeriesPoint {
     timestamp?: Date;
     value: number;
 }
+
+// @public
+export interface TrainMultivariateModelOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TrainMultivariateModelResponse = AnomalyDetectorTrainMultivariateModelHeaders;
 
 // @public (undocumented)
 export interface VariableValues {

@@ -2,13 +2,10 @@
 
 ## 3.0.0-beta.6 (Unreleased)
 
-### Features Added
-
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
+- Migrated to the Core v2 HTTP pipeline. As a result of this migration:
+  - The response types no longer contain the raw response `_response`.
 
 ## 3.0.0-beta.5 (2022-01-23)
 

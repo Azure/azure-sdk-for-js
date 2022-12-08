@@ -11,5 +11,5 @@ import { createTracingClient } from "@azure/core-tracing";
 export const tracingClient = createTracingClient({
   namespace: "Microsoft.CognitiveServices",
   packageName: "@azure/ai-anomaly-detector",
-  packageVersion: "3.0.0-beta.7"
+  packageVersion: "3.0.0-beta.6"
 });
