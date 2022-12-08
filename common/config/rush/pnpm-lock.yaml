@@ -3493,6 +3493,7 @@ packages:
 
   /commander/2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
+    requiresBuild: true
     dev: false
 
   /commondir/1.0.1:
@@ -3928,7 +3929,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221206
+      typescript: 5.0.0-dev.20221207
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -6317,11 +6318,11 @@ packages:
       sourcemap-codec: 1.4.8
     dev: false
 
-  /magic-string/0.26.7:
-    resolution: {integrity: sha512-hX9XH3ziStPoPhJxLq1syWuZMxbDvGNbVchfrdCtanC7D13888bMFow61x8axrx+GfHLtVeAx2kxL7tTGRl+Ow==}
+  /magic-string/0.27.0:
+    resolution: {integrity: sha512-8UnnX2PeRAPZuN12svgR9j7M1uWMovg/CEnIwIG0LFkXSJJe4PdfUGiTGl8V9bsBHFUtfVINcSyYxd7q+kx9fA==}
     engines: {node: '>=12'}
     dependencies:
-      sourcemap-codec: 1.4.8
+      '@jridgewell/sourcemap-codec': 1.4.14
     dev: false
 
   /make-dir/2.1.0:
@@ -8949,8 +8950,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221206:
-    resolution: {integrity: sha512-Yl7kEx5CxhDafU4SgjeLmlUZ7kbxKZBXlvnQQlfRLHtXSRyy4BsTx6h6loHDnCWkmRwpcyPJ88uquATOUGfLwQ==}
+  /typescript/5.0.0-dev.20221207:
+    resolution: {integrity: sha512-xPWWjASgLapa35nseHVRmQK6L0k3E1hb8OcN3I7XZHqYGUxk3n+RcncQSb4gGVromTEy7OHaoNSWLrkDO0+T1Q==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9715,7 +9716,7 @@ packages:
     dev: false
 
   file:projects/ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-MSht6l6NAV7BS2PowRAdrdKhyzMG82lFcGuid6qoNbNaDatbfMXNo2qpclOlpOPbNpZQ4/cTcvBAJJKEBVp60w==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-n+oq96I1elLgv67fkhebl7knNXsDi1/NWh+mrWDY+4Wz562JBo8weCSw0M65BLi1M4zwHapvkbV0wkvaHcvyZw==, tarball: file:projects/ai-form-recognizer.tgz}
     name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
@@ -9744,7 +9745,7 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5_karma@6.4.1
       karma-sourcemap-loader: 0.3.8
-      magic-string: 0.26.7
+      magic-string: 0.27.0
       mocha: 7.2.0
       mocha-junit-reporter: 2.2.0_mocha@7.2.0
       nyc: 15.1.0
@@ -10007,7 +10008,7 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-scaffolder.tgz:
-    resolution: {integrity: sha512-lFbcnRHf9/DE+Lpa9kmQrKNYiwJl3vg42f8vl+1jOlFFTcFFrbGjCZQo7/VyBNb7a+a6AARtGDKmHKQUmUs+rQ==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
+    resolution: {integrity: sha512-aQUQ5CLltieAlB8UbJbuzwZ/FNC1xQc6cCPXyYGdolYhnbxQIzsmHjg3xABsQqoyejfqJxuto3HzwYE0SY5rAA==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
     name: '@rush-temp/api-management-custom-widgets-scaffolder'
     version: 0.0.0
     dependencies:
@@ -10029,6 +10030,7 @@ packages:
       eslint: 7.32.0
       glob: 7.2.3
       inquirer: 8.2.5
+      magic-string: 0.27.0
       mocha: 7.2.0
       mocha-junit-reporter: 2.2.0_mocha@7.2.0
       mustache: 4.2.0
@@ -15778,7 +15780,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-/i/QMGXP/g10uWLW/0Wrait10N30QJaEJKnNioHUwg6wLgaZKnKkGQCyZgbHKAB7o8rkQsNSLIYBz920/Mt1Fg==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-aJ10TxMFU+MdVJyQmkeThKCZbnZ6QmU9tzOoBz7yXNgmNlTMDVjYE6dpwJnWgHpDjOLHlYfnO5sEepLhZ/8Z8A==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
@@ -15830,7 +15832,7 @@ packages:
     dev: false
 
   file:projects/communication-network-traversal.tgz:
-    resolution: {integrity: sha512-8BxjW4TN+CR+jUFtm7WWGCLTSlmwVL5tHETlolRYZ4pT7mbg5u5U4g90FNC2cuVcWD21efKwcxwqtG7YuPF3pw==, tarball: file:projects/communication-network-traversal.tgz}
+    resolution: {integrity: sha512-/gHUTUZtOKjvHerwEWLt+fwQYvXqdowYDQg+aJXp5/Q3TJrnDnnZD0LB+cy7rsFVnhbcIz4i+E78C6FoVb4zFw==, tarball: file:projects/communication-network-traversal.tgz}
     name: '@rush-temp/communication-network-traversal'
     version: 0.0.0
     dependencies:
@@ -16145,7 +16147,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-FohZhL1nEjGi/9HxIaQKjgP07gL1O++dXUtBoYbeIq4DJhlY8wivalEbwErJch88M5l+vOY0e9jKfjSp8VXXHg==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-vJ7aD2zobl65Rwr8xx9e21lUr0OnvQSx5Wnhyy4YWdtZA77wD5hTLqB3nXbtQhni6siHOObS5UgZepNRivjq/g==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -16877,7 +16879,7 @@ packages:
     dev: false
 
   file:projects/dtdl-parser.tgz:
-    resolution: {integrity: sha512-tpIsaZWhGDJnpVqy/VriUYjEM5qzcjiQQGnK0KfuZy5x36FdS9w0p5SVKr3fZWnYpBYRNST/8H6m79K3A5xYJw==, tarball: file:projects/dtdl-parser.tgz}
+    resolution: {integrity: sha512-oadak9uqVnuit3rJujUthnEnz749jsjM7CwpLJrcr6L5LeP56GUTojveukyCl5ZqNyN1z4Fc6q2rHtnFBKnZyw==, tarball: file:projects/dtdl-parser.tgz}
     name: '@rush-temp/dtdl-parser'
     version: 0.0.0
     dependencies:
@@ -16966,7 +16968,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-j/S7lD5JD3mwUE5WQWMzk7VDFqwkWiIBtJZIPAha28VrJoOM51Wi88bhftXNzvzA8pWvUBYVQN8KiFz9He+PMg==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-8Z/Lp4mVyIyb92vRhanHwLEvH1v94/qa08iKbBRpTwyyFau+hFu+/F70Gsigf1ZP8z2WjrT3X5MpTKGi9PkMiA==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -18227,7 +18229,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-f2Mz829O/deVSeFCWsgd/wsbBvyPQeEsbqiZ5Mpji8E1Mt73o5Hsgpio4UhGwYiamC+Tht7VgZ9Tz5PqqJ2jCw==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-4SZI+GsuvYZ7ljHY8A8lqLnCgwOEDYS1mGM0M64Dr+dP7gXDSiOf2pYw06fKFrXZVg9h9GQwgBImh6CVjJAmdA==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
