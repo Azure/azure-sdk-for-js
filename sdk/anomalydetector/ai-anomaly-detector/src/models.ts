@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineOptions } from "@azure/core-http";
+import { PipelineOptions } from "@azure/core-rest-pipeline";
 
 /**
  * Client options used to configure Form Recognizer API requests.
@@ -50,28 +50,16 @@ export enum KnownTimeGranularity {
 export {
   DetectRequest,
   DetectChangePointRequest,
-  AnomalyDetectorDetectChangePointResponse,
-  AnomalyDetectorDetectEntireSeriesResponse,
-  AnomalyDetectorDetectLastPointResponse,
   DetectLastPointResponse,
   DetectChangePointResponse,
   DetectEntireResponse,
   TimeSeriesPoint,
-  AnomalyDetectorTrainMultivariateModelResponse,
-  AnomalyDetectorGetMultivariateModelResponse,
-  AnomalyDetectorDetectAnomalyResponse,
   DetectionRequest,
   DetectionResult,
   DetectionResultSummary,
   DetectionStatus,
   AnomalyState,
   AnomalyValue,
-  AnomalyDetectorGetDetectionResultResponse,
-  AnomalyDetectorExportModelResponse,
-  AnomalyDetectorListMultivariateModelNextOptionalParams,
-  AnomalyDetectorListMultivariateModelOptionalParams,
-  AnomalyDetectorListMultivariateModelResponse,
-  AnomalyDetectorListMultivariateModelNextResponse,
   Model as AnomalyDetectorClientModel,
   ModelInfo as AnomalyDetectorClientModelInfo,
   ModelList as AnomalyDetectorClientModelList,
@@ -87,15 +75,6 @@ export {
   AnomalyDetectorDetectAnomalyHeaders,
   AnomalyDetectorTrainMultivariateModelHeaders,
   TimeGranularity,
-  AnomalyDetectorExportModelOptionalParams,
-  AnomalyDetectorGetDetectionResultOptionalParams,
-  AnomalyDetectorDetectAnomalyOptionalParams,
-  AnomalyDetectorDeleteMultivariateModelOptionalParams,
-  AnomalyDetectorGetMultivariateModelOptionalParams,
-  AnomalyDetectorTrainMultivariateModelOptionalParams,
-  AnomalyDetectorDetectChangePointOptionalParams,
-  AnomalyDetectorDetectLastPointOptionalParams,
-  AnomalyDetectorDetectEntireSeriesOptionalParams,
   AnomalyDetectorListMultivariateModelNextExceptionHeaders,
   AnomalyDetectorLastDetectAnomalyExceptionHeaders,
   AnomalyDetectorExportModelExceptionHeaders,
@@ -109,7 +88,6 @@ export {
   AnomalyDetectorDetectLastPointExceptionHeaders,
   ImputeMode,
   KnownImputeMode,
-  AnomalyDetectorLastDetectAnomalyResponse,
   KnownFillNAMethod,
   AnomalyDetectorDetectEntireSeriesExceptionHeaders,
   LastDetectionResult,
@@ -117,5 +95,4 @@ export {
   LastDetectionRequest,
   CorrelationChanges,
   AnomalyInterpretation,
-  AnomalyDetectorLastDetectAnomalyOptionalParams,
 } from "./generated/models";

@@ -3,49 +3,26 @@
 
 import { KeyCredential } from "@azure/core-auth";
 import {
-  RequestPolicyFactory,
-  RequestPolicy,
-  RequestPolicyOptions,
-  BaseRequestPolicy,
-  HttpOperationResponse,
-  RequestPolicyOptionsLike,
-  WebResourceLike,
-} from "@azure/core-http";
+  PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 
 const API_KEY_HEADER_NAME = "Ocp-Apim-Subscription-Key";
+const POLICY_NAME = "anomalyDetectorAzureKeyCredentialPolicy";
 
 /**
  * Create an HTTP pipeline policy to authenticate a request
- * using an `AzureKeyCredential` for Azure Anomaly Detector
+ * using an `AzureKeyCredential` for AI Anomaly Detector
+ * @internal
  */
-export function createAnomalyDetectorAzureKeyCredentialPolicy(
-  credential: KeyCredential
-): RequestPolicyFactory {
+export function anomalyDetectorAzureKeyCredentialPolicy(credential: KeyCredential): PipelinePolicy {
   return {
-    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new AnomalyDetectorAzureKeyCredentialPolicy(nextPolicy, options, credential);
+    name: POLICY_NAME,
+    sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      request.headers.set(API_KEY_HEADER_NAME, credential.key);
+      return next(request);
     },
-  };
-}
-
-/**
- * A concrete implementation of an AzureKeyCredential policy
- * using the appropriate header for Azure Anomaly Detector
- */
-class AnomalyDetectorAzureKeyCredentialPolicy extends BaseRequestPolicy {
-  private credential: KeyCredential;
-
-  constructor(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptionsLike,
-    credential: KeyCredential
-  ) {
-    super(nextPolicy, options);
-    this.credential = credential;
-  }
-
-  public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
-    webResource.headers.set(API_KEY_HEADER_NAME, this.credential.key);
-    return this._nextPolicy.sendRequest(webResource);
   }
 }

@@ -7,6 +7,6 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
+export { getContinuationToken } from "./pagingHelper";
 export * from "./models";
 export { AnomalyDetector } from "./anomalyDetector";
-export { AnomalyDetectorContext } from "./anomalyDetectorContext";

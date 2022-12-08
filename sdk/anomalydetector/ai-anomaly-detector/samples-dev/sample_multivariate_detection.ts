@@ -36,7 +36,7 @@ export async function main() {
   const client = new AnomalyDetectorClient(endpoint, new AzureKeyCredential(apiKey));
 
   // Already available models
-  const modelList = await client.listMultivariateModel();
+  const modelList = client.listMultivariateModel();
   console.log("The latest 5 available models (if exist):");
   for (var i = 0; i < 5; i++) {
     var modelDetail = (await modelList.next());
@@ -118,14 +118,7 @@ export async function main() {
   console.log("New model has been exported to " + modelPath + ".");
 
   // delete model
-  var deleteResult = await client.deleteMultivariateModel(modelId);
-
-  if (deleteResult._response.status == 204) {
-    console.log("New model has been deleted.")
-  }
-  else {
-    console.log("Failed to delete the new model.");
-  };
+  await client.deleteMultivariateModel(modelId);
 }
 
 main().catch((err) => {

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AnomalyDetector } from "./generated";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   SDK_VERSION,
   DEFAULT_COGNITIVE_SCOPE,
@@ -10,19 +10,18 @@ import {
   AnomalyDetectorLoggingAllowedQueryParameters,
 } from "./constants";
 import {
-  isTokenCredential,
   bearerTokenAuthenticationPolicy,
   InternalPipelineOptions,
-  createPipelineFromOptions,
   PipelineOptions,
-} from "@azure/core-http";
-import { createAnomalyDetectorAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
+} from "@azure/core-rest-pipeline";
+import { anomalyDetectorAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import { logger } from "./logger";
 
 /**
  * Client class for interacting with Azure Anomaly Detector service.
  */
 export class AnomalyDetectorClient extends AnomalyDetector {
+
   /**
    * Creates an instance of AnomalyDetectorClient.
    *
@@ -58,22 +57,21 @@ export class AnomalyDetectorClient extends AnomalyDetector {
     }
 
     const authPolicy = isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy(credential, DEFAULT_COGNITIVE_SCOPE)
-      : createAnomalyDetectorAzureKeyCredentialPolicy(credential);
+      ? bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_COGNITIVE_SCOPE })
+      : anomalyDetectorAzureKeyCredentialPolicy(credential);
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
       ...{
         loggingOptions: {
           logger: logger.info,
-          allowedHeaderNames: AnomalyDetectorLoggingAllowedHeaderNames,
-          allowedQueryParameters: AnomalyDetectorLoggingAllowedQueryParameters,
+          additionalAllowedHeaderNames: AnomalyDetectorLoggingAllowedHeaderNames,
+          additionalAllowedQueryParameters: AnomalyDetectorLoggingAllowedQueryParameters
         },
       },
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-
-    super(endpointUrl, pipeline);
+    super(endpointUrl, internalPipelineOptions);
+    super.pipeline.addPolicy(authPolicy);
   }
 }

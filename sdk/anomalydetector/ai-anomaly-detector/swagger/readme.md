@@ -6,7 +6,7 @@
 
 ```yaml
 v3: true
-package-name: "@azure/ai-form-recognizer"
+package-name: "@azure/ai-anomaly-detector"
 title: AnomalyDetector
 description: AnomalyDetector Client
 generate-metadata: false
@@ -15,12 +15,14 @@ output-folder: ../
 source-code-folder-path: ./src/generated
 require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/7086ee861c3a6196bb98f8b327af11d03e545a05/specification/cognitiveservices/data-plane/AnomalyDetector/readme.md
 add-credentials: false
-package-version: "3.0.0-beta.4"
+package-version: "3.0.0-beta.7"
 tracing-info:
   namespace: "Microsoft.CognitiveServices"
   packagePrefix: "Azure.CognitiveServices.AnomalyDetector"
 hide-clients: false
-use-core-v2: false
+use-core-v2: true
+use-extension:
+  "@autorest/typescript": "latest"
 ```
 
 ```yaml

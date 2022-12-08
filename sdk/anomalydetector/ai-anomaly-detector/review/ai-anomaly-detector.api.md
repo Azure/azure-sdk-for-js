@@ -6,10 +6,10 @@
 
 /// <reference types="node" />
 
-import * as coreHttp from '@azure/core-http';
+import * as coreClient from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-http';
+import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -23,19 +23,43 @@ export interface AlignPolicy {
 }
 
 // @public (undocumented)
-export class AnomalyDetector extends AnomalyDetectorContext {
+export class AnomalyDetector extends coreClient.ServiceClient {
     constructor(endpoint: string, options?: AnomalyDetectorOptionalParams);
-    deleteMultivariateModel(modelId: string, options?: AnomalyDetectorDeleteMultivariateModelOptionalParams): Promise<coreHttp.RestResponse>;
-    detectAnomaly(modelId: string, body: DetectionRequest, options?: AnomalyDetectorDetectAnomalyOptionalParams): Promise<AnomalyDetectorDetectAnomalyResponse>;
-    detectChangePoint(body: DetectChangePointRequest, options?: AnomalyDetectorDetectChangePointOptionalParams): Promise<AnomalyDetectorDetectChangePointResponse>;
-    detectEntireSeries(body: DetectRequest, options?: AnomalyDetectorDetectEntireSeriesOptionalParams): Promise<AnomalyDetectorDetectEntireSeriesResponse>;
-    detectLastPoint(body: DetectRequest, options?: AnomalyDetectorDetectLastPointOptionalParams): Promise<AnomalyDetectorDetectLastPointResponse>;
-    exportModel(modelId: string, options?: AnomalyDetectorExportModelOptionalParams): Promise<AnomalyDetectorExportModelResponse>;
-    getDetectionResult(resultId: string, options?: AnomalyDetectorGetDetectionResultOptionalParams): Promise<AnomalyDetectorGetDetectionResultResponse>;
-    getMultivariateModel(modelId: string, options?: AnomalyDetectorGetMultivariateModelOptionalParams): Promise<AnomalyDetectorGetMultivariateModelResponse>;
-    lastDetectAnomaly(modelId: string, body: LastDetectionRequest, options?: AnomalyDetectorLastDetectAnomalyOptionalParams): Promise<AnomalyDetectorLastDetectAnomalyResponse>;
-    listMultivariateModel(options?: AnomalyDetectorListMultivariateModelOptionalParams): PagedAsyncIterableIterator<AnomalyDetectorClientModelSnapshot>;
-    trainMultivariateModel(body: AnomalyDetectorClientModelInfo, options?: AnomalyDetectorTrainMultivariateModelOptionalParams): Promise<AnomalyDetectorTrainMultivariateModelResponse>;
+    // (undocumented)
+    apiVersion: string;
+    // Warning: (ae-forgotten-export) The symbol "DeleteMultivariateModelOptionalParams" needs to be exported by the entry point index.d.ts
+    deleteMultivariateModel(modelId: string, options?: DeleteMultivariateModelOptionalParams): Promise<void>;
+    // Warning: (ae-forgotten-export) The symbol "DetectAnomalyOptionalParams" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "DetectAnomalyResponse" needs to be exported by the entry point index.d.ts
+    detectAnomaly(modelId: string, body: DetectionRequest, options?: DetectAnomalyOptionalParams): Promise<DetectAnomalyResponse>;
+    // Warning: (ae-forgotten-export) The symbol "DetectChangePointOptionalParams" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "DetectChangePointOperationResponse" needs to be exported by the entry point index.d.ts
+    detectChangePoint(body: DetectChangePointRequest, options?: DetectChangePointOptionalParams): Promise<DetectChangePointOperationResponse>;
+    // Warning: (ae-forgotten-export) The symbol "DetectEntireSeriesOptionalParams" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "DetectEntireSeriesResponse" needs to be exported by the entry point index.d.ts
+    detectEntireSeries(body: DetectRequest, options?: DetectEntireSeriesOptionalParams): Promise<DetectEntireSeriesResponse>;
+    // Warning: (ae-forgotten-export) The symbol "DetectLastPointOptionalParams" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "DetectLastPointOperationResponse" needs to be exported by the entry point index.d.ts
+    detectLastPoint(body: DetectRequest, options?: DetectLastPointOptionalParams): Promise<DetectLastPointOperationResponse>;
+    // (undocumented)
+    endpoint: string;
+    // Warning: (ae-forgotten-export) The symbol "ExportModelOptionalParams" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "ExportModelResponse" needs to be exported by the entry point index.d.ts
+    exportModel(modelId: string, options?: ExportModelOptionalParams): Promise<ExportModelResponse>;
+    // Warning: (ae-forgotten-export) The symbol "GetDetectionResultOptionalParams" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "GetDetectionResultResponse" needs to be exported by the entry point index.d.ts
+    getDetectionResult(resultId: string, options?: GetDetectionResultOptionalParams): Promise<GetDetectionResultResponse>;
+    // Warning: (ae-forgotten-export) The symbol "GetMultivariateModelOptionalParams" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "GetMultivariateModelResponse" needs to be exported by the entry point index.d.ts
+    getMultivariateModel(modelId: string, options?: GetMultivariateModelOptionalParams): Promise<GetMultivariateModelResponse>;
+    // Warning: (ae-forgotten-export) The symbol "LastDetectAnomalyOptionalParams" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "LastDetectAnomalyResponse" needs to be exported by the entry point index.d.ts
+    lastDetectAnomaly(modelId: string, body: LastDetectionRequest, options?: LastDetectAnomalyOptionalParams): Promise<LastDetectAnomalyResponse>;
+    // Warning: (ae-forgotten-export) The symbol "ListMultivariateModelOptionalParams" needs to be exported by the entry point index.d.ts
+    listMultivariateModel(options?: ListMultivariateModelOptionalParams): PagedAsyncIterableIterator<AnomalyDetectorClientModelSnapshot>;
+    // Warning: (ae-forgotten-export) The symbol "TrainMultivariateModelOptionalParams" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "TrainMultivariateModelResponse" needs to be exported by the entry point index.d.ts
+    trainMultivariateModel(body: AnomalyDetectorClientModelInfo, options?: TrainMultivariateModelOptionalParams): Promise<TrainMultivariateModelResponse>;
 }
 
 // @public
@@ -117,22 +141,9 @@ export interface AnomalyDetectorClientVariableState {
     variable?: string;
 }
 
-// @public (undocumented)
-export class AnomalyDetectorContext extends coreHttp.ServiceClient {
-    constructor(endpoint: string, options?: AnomalyDetectorOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    endpoint: string;
-}
-
 // @public
 export interface AnomalyDetectorDeleteMultivariateModelExceptionHeaders {
     xMsErrorCode?: string;
-}
-
-// @public
-export interface AnomalyDetectorDeleteMultivariateModelOptionalParams extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -146,32 +157,9 @@ export interface AnomalyDetectorDetectAnomalyHeaders {
 }
 
 // @public
-export interface AnomalyDetectorDetectAnomalyOptionalParams extends coreHttp.OperationOptions {
-}
-
-// @public
-export type AnomalyDetectorDetectAnomalyResponse = AnomalyDetectorDetectAnomalyHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: AnomalyDetectorDetectAnomalyHeaders;
-    };
-};
-
-// @public
 export interface AnomalyDetectorDetectChangePointExceptionHeaders {
     xMsErrorCode?: string;
 }
-
-// @public
-export interface AnomalyDetectorDetectChangePointOptionalParams extends coreHttp.OperationOptions {
-}
-
-// @public
-export type AnomalyDetectorDetectChangePointResponse = DetectChangePointResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: DetectChangePointResponse;
-    };
-};
 
 // @public
 export interface AnomalyDetectorDetectEntireSeriesExceptionHeaders {
@@ -179,33 +167,9 @@ export interface AnomalyDetectorDetectEntireSeriesExceptionHeaders {
 }
 
 // @public
-export interface AnomalyDetectorDetectEntireSeriesOptionalParams extends coreHttp.OperationOptions {
-}
-
-// @public
-export type AnomalyDetectorDetectEntireSeriesResponse = DetectEntireResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: DetectEntireResponse;
-    };
-};
-
-// @public
 export interface AnomalyDetectorDetectLastPointExceptionHeaders {
     xMsErrorCode?: string;
 }
-
-// @public
-export interface AnomalyDetectorDetectLastPointOptionalParams extends coreHttp.OperationOptions {
-}
-
-// @public
-export type AnomalyDetectorDetectLastPointResponse = DetectLastPointResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: DetectLastPointResponse;
-    };
-};
 
 // @public
 export interface AnomalyDetectorExportModelExceptionHeaders {
@@ -213,32 +177,9 @@ export interface AnomalyDetectorExportModelExceptionHeaders {
 }
 
 // @public
-export interface AnomalyDetectorExportModelOptionalParams extends coreHttp.OperationOptions {
-}
-
-// @public
-export type AnomalyDetectorExportModelResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-    _response: coreHttp.HttpResponse;
-};
-
-// @public
 export interface AnomalyDetectorGetDetectionResultExceptionHeaders {
     xMsErrorCode?: string;
 }
-
-// @public
-export interface AnomalyDetectorGetDetectionResultOptionalParams extends coreHttp.OperationOptions {
-}
-
-// @public
-export type AnomalyDetectorGetDetectionResultResponse = DetectionResult & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: DetectionResult;
-    };
-};
 
 // @public
 export interface AnomalyDetectorGetMultivariateModelExceptionHeaders {
@@ -246,33 +187,9 @@ export interface AnomalyDetectorGetMultivariateModelExceptionHeaders {
 }
 
 // @public
-export interface AnomalyDetectorGetMultivariateModelOptionalParams extends coreHttp.OperationOptions {
-}
-
-// @public
-export type AnomalyDetectorGetMultivariateModelResponse = AnomalyDetectorClientModel & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AnomalyDetectorClientModel;
-    };
-};
-
-// @public
 export interface AnomalyDetectorLastDetectAnomalyExceptionHeaders {
     xMsErrorCode?: string;
 }
-
-// @public
-export interface AnomalyDetectorLastDetectAnomalyOptionalParams extends coreHttp.OperationOptions {
-}
-
-// @public
-export type AnomalyDetectorLastDetectAnomalyResponse = LastDetectionResult & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: LastDetectionResult;
-    };
-};
 
 // @public
 export interface AnomalyDetectorListMultivariateModelExceptionHeaders {
@@ -285,35 +202,7 @@ export interface AnomalyDetectorListMultivariateModelNextExceptionHeaders {
 }
 
 // @public
-export interface AnomalyDetectorListMultivariateModelNextOptionalParams extends coreHttp.OperationOptions {
-    skip?: number;
-    top?: number;
-}
-
-// @public
-export type AnomalyDetectorListMultivariateModelNextResponse = AnomalyDetectorClientModelList & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AnomalyDetectorClientModelList;
-    };
-};
-
-// @public
-export interface AnomalyDetectorListMultivariateModelOptionalParams extends coreHttp.OperationOptions {
-    skip?: number;
-    top?: number;
-}
-
-// @public
-export type AnomalyDetectorListMultivariateModelResponse = AnomalyDetectorClientModelList & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AnomalyDetectorClientModelList;
-    };
-};
-
-// @public
-export interface AnomalyDetectorOptionalParams extends coreHttp.ServiceClientOptions {
+export interface AnomalyDetectorOptionalParams extends coreClient.ServiceClientOptions {
     apiVersion?: string;
     endpoint?: string;
 }
@@ -327,17 +216,6 @@ export interface AnomalyDetectorTrainMultivariateModelExceptionHeaders {
 export interface AnomalyDetectorTrainMultivariateModelHeaders {
     location?: string;
 }
-
-// @public
-export interface AnomalyDetectorTrainMultivariateModelOptionalParams extends coreHttp.OperationOptions {
-}
-
-// @public
-export type AnomalyDetectorTrainMultivariateModelResponse = AnomalyDetectorTrainMultivariateModelHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: AnomalyDetectorTrainMultivariateModelHeaders;
-    };
-};
 
 // @public (undocumented)
 export interface AnomalyInterpretation {
@@ -469,34 +347,22 @@ export type FillNAMethod = string;
 export type ImputeMode = string;
 
 // @public
-export const enum KnownFillNAMethod {
-    // (undocumented)
+export enum KnownFillNAMethod {
     Fixed = "Fixed",
-    // (undocumented)
     Linear = "Linear",
-    // (undocumented)
     NotFill = "NotFill",
-    // (undocumented)
     Previous = "Previous",
-    // (undocumented)
     Subsequent = "Subsequent",
-    // (undocumented)
     Zero = "Zero"
 }
 
 // @public
-export const enum KnownImputeMode {
-    // (undocumented)
+export enum KnownImputeMode {
     Auto = "auto",
-    // (undocumented)
     Fixed = "fixed",
-    // (undocumented)
     Linear = "linear",
-    // (undocumented)
     NotFill = "notFill",
-    // (undocumented)
     Previous = "previous",
-    // (undocumented)
     Zero = "zero"
 }
 

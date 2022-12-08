@@ -10,7 +10,7 @@ import {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter
-} from "@azure/core-http";
+} from "@azure/core-client";
 import {
   DetectRequest as DetectRequestMapper,
   DetectChangePointRequest as DetectChangePointRequestMapper,
@@ -86,6 +86,7 @@ export const body2: OperationParameter = {
 export const skip: OperationQueryParameter = {
   parameterPath: ["options", "skip"],
   mapper: {
+    defaultValue: 0,
     serializedName: "$skip",
     type: {
       name: "Number"
