@@ -3,7 +3,7 @@
 
 export {
   AttachmentType,
-  ReviewNote,
+  CampaignBriefReviewNote,
   OptInDetails,
   Option,
   Type,
@@ -12,6 +12,7 @@ export {
   CampaignBriefStatus,
   BusinessPointOfContact,
   BusinessInformation,
+  EstimatedMonthlyVolume,
   UseCaseInfo,
   CampaignBriefAttachmentSummary,
   CampaignBriefUseCaseType,

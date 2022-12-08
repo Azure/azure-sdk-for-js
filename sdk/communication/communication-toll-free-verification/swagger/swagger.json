@@ -542,21 +542,6 @@
     }
   },
   "definitions": {
-    "ReviewNote": {
-      "description": "Holds a note about a Campaign Brief that has gone thru stages of review process.",
-      "type": "object",
-      "properties": {
-        "message": {
-          "description": "Note related to a Campaign Brief that may imply changes needed from the client.",
-          "type": "string"
-        },
-        "date": {
-          "format": "date-time",
-          "description": "Date and time when the note was added to the Campaign Brief.",
-          "type": "string"
-        }
-      }
-    },
     "Address": {
       "type": "object",
       "properties": {
@@ -657,7 +642,7 @@
           "description": "Notes added to the Campaign Brief after being reviewed to help customer understand\r\nreview results and necessary follow up actions.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ReviewNote"
+            "$ref": "#/definitions/CampaignBriefReviewNote"
           }
         },
         "submissionDate": {
@@ -696,7 +681,24 @@
         },
         "estimatedMonthlyVolume": {
           "description": "Estimated total messages per month.",
-          "type": "string"
+          "enum": [
+            "V10",
+            "V100",
+            "V1000",
+            "V10000",
+            "V100000",
+            "V250000",
+            "V500000",
+            "V750000",
+            "V1000000",
+            "V5000000",
+            "V10000000OrMore"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "EstimatedMonthlyVolume",
+            "modelAsString": true
+          }
         },
         "additionalInformation": {
           "description": "Campaign opt in additional information - image URLs or opt in description.",
@@ -796,7 +798,7 @@
           "type": "string"
         },
         "type": {
-          "description": "Attachment type describing the purpose of the attachment\r\ne.g. 'callToAction', 'termsOfService'",
+          "description": "Attachment type describing the purpose of the attachment\r\ne.g. 'OptInSmsKeyword', 'OptInIVR'",
           "enum": [
             "OptInSmsKeyword",
             "OptInIVR",
@@ -830,6 +832,21 @@
         },
         "nextLink": {
           "description": "Represents the URL link to the next page.",
+          "type": "string"
+        }
+      }
+    },
+    "CampaignBriefReviewNote": {
+      "description": "Holds a note about a Campaign Brief that has gone through stages of a review process.",
+      "type": "object",
+      "properties": {
+        "message": {
+          "description": "Note related to a Campaign Brief that may imply changes needed from the client.",
+          "type": "string"
+        },
+        "date": {
+          "format": "date-time",
+          "description": "Date and time when the note was added to the Campaign Brief.",
           "type": "string"
         }
       }
@@ -906,53 +923,53 @@
         },
         "useCase": {
           "description": "Use case the campaign will be sending messages for e.g. appointments, sweepstakes.",
-          "type": "string",
           "enum": [
-            "twoFactorAuthentication",
-            "appNotifications",
-            "appointments",
-            "auctions",
-            "autoRepairServices",
-            "bankTransfers",
-            "billing",
-            "bookingConfirmations",
-            "businessUpdates",
-            "careerTraining",
-            "chatbot",
-            "conversationalOrAlerts",
-            "courierServicesAndDeliveries",
-            "cOVID19Alerts",
-            "emergencyAlerts",
-            "eventsAndPlanning",
-            "financialServices",
-            "fraudAlerts",
-            "fundraising",
-            "generalMarketing",
-            "generalSchoolUpdates",
-            "healthcareAlerts",
-            "housingCommunityUpdates",
-            "hROrStaffing",
-            "insuranceServices",
-            "jobDispatch",
-            "legalServices",
-            "mixed",
-            "motivationalReminders",
-            "notaryNotifications",
-            "orderNotifications",
-            "political",
-            "works",
-            "realEstateServices",
-            "religiousServices",
-            "repairAndDiagnosticsAlerts",
-            "rewardsProgram",
-            "surveys",
-            "systemAlerts",
-            "votingReminders",
-            "waitlistAlerts",
-            "webinarReminders",
-            "workshopAlerts",
-            "other"
+            "TwoFactorAuthentication",
+            "AppNotifications",
+            "Appointments",
+            "Auctions",
+            "AutoRepairServices",
+            "BankTransfers",
+            "Billing",
+            "BookingConfirmations",
+            "BusinessUpdates",
+            "CareerTraining",
+            "Chatbot",
+            "ConversationalOrAlerts",
+            "CourierServicesAndDeliveries",
+            "COVID19Alerts",
+            "EmergencyAlerts",
+            "EventsAndPlanning",
+            "FinancialServices",
+            "FraudAlerts",
+            "Fundraising",
+            "GeneralMarketing",
+            "GeneralSchoolUpdates",
+            "HealthcareAlerts",
+            "HousingCommunityUpdates",
+            "HROrStaffing",
+            "InsuranceServices",
+            "JobDispatch",
+            "LegalServices",
+            "Mixed",
+            "MotivationalReminders",
+            "NotaryNotifications",
+            "OrderNotifications",
+            "Political",
+            "Works",
+            "RealEstateServices",
+            "ReligiousServices",
+            "RepairAndDiagnosticsAlerts",
+            "RewardsProgram",
+            "Surveys",
+            "SystemAlerts",
+            "VotingReminders",
+            "WaitlistAlerts",
+            "WebinarReminders",
+            "WorkshopAlerts",
+            "Other"
           ],
+          "type": "string",
           "x-ms-enum": {
             "name": "CampaignBriefUseCaseType",
             "modelAsString": true

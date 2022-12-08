@@ -89,8 +89,8 @@ export class TollFreeVerificationClient {
       options,
       async (updatedOptions) => {
         return this.client.tollFreeVerification.getCampaignBrief(
-          campaignBriefId,
           countryCode,
+          campaignBriefId,
           updatedOptions
         );
       }
@@ -128,8 +128,8 @@ export class TollFreeVerificationClient {
       options,
       async (updatedOptions) => {
         return this.client.tollFreeVerification.upsertCampaignBrief(
-          campaignBriefId,
           countryCode,
+          campaignBriefId,
           updatedOptions
         );
       }
@@ -146,8 +146,8 @@ export class TollFreeVerificationClient {
       options,
       async (updatedOptions) => {
         return this.client.tollFreeVerification.deleteCampaignBrief(
-          campaignBriefId,
           countryCode,
+          campaignBriefId,
           updatedOptions
         );
       }
@@ -164,8 +164,8 @@ export class TollFreeVerificationClient {
       options,
       async (updatedOptions) => {
         return this.client.tollFreeVerification.submitCampaignBrief(
-          campaignBriefId,
           countryCode,
+          campaignBriefId,
           updatedOptions
         );
       }
@@ -212,9 +212,9 @@ export class TollFreeVerificationClient {
       options,
       async (updatedOptions) => {
         return this.client.tollFreeVerification.deleteCampaignBriefAttachment(
+          countryCode,
           campaignBriefId,
           attachmentId,
-          countryCode,
           updatedOptions
         );
       }

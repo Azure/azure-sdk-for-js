@@ -33,7 +33,7 @@ export const CampaignBrief: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReviewNote"
+              className: "CampaignBriefReviewNote"
             }
           }
         }
@@ -145,10 +145,10 @@ export const CampaignBrief: coreClient.CompositeMapper = {
   }
 };
 
-export const ReviewNote: coreClient.CompositeMapper = {
+export const CampaignBriefReviewNote: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ReviewNote",
+    className: "CampaignBriefReviewNote",
     modelProperties: {
       message: {
         serializedName: "message",

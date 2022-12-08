@@ -17,7 +17,7 @@ export interface CampaignBrief {
    * Notes added to the Campaign Brief after being reviewed to help customer understand
    * review results and necessary follow up actions.
    */
-  reviewNotes?: ReviewNote[];
+  reviewNotes?: CampaignBriefReviewNote[];
   /** Date and time when the Campaign Brief was submitted. */
   submissionDate?: Date;
   /** Last date and time when the Campaign Brief status was updated. */
@@ -31,7 +31,7 @@ export interface CampaignBrief {
   /** List of numbers provisioned for the Campaign e.g. 18881234567 */
   phoneNumbers?: string[];
   /** Estimated total messages per month. */
-  estimatedMonthlyVolume?: string;
+  estimatedMonthlyVolume?: EstimatedMonthlyVolume;
   /** Campaign opt in additional information - image URLs or opt in description. */
   additionalInformation?: string;
   /** A list of summarized data of attachments currently added to the Campaign Brief */
@@ -41,8 +41,8 @@ export interface CampaignBrief {
   propertiesToClear?: string[];
 }
 
-/** Holds a note about a Campaign Brief that has gone thru stages of review process. */
-export interface ReviewNote {
+/** Holds a note about a Campaign Brief that has gone through stages of a review process. */
+export interface CampaignBriefReviewNote {
   /** Note related to a Campaign Brief that may imply changes needed from the client. */
   message?: string;
   /** Date and time when the note was added to the Campaign Brief. */
@@ -99,7 +99,7 @@ export interface CampaignBriefAttachmentSummary {
   id?: string;
   /**
    * Attachment type describing the purpose of the attachment
-   * e.g. 'callToAction', 'termsOfService'
+   * e.g. 'OptInSmsKeyword', 'OptInIVR'
    */
   type?: AttachmentType;
   /**
@@ -199,50 +199,63 @@ export type CampaignBriefStatus =
   | "cancelled";
 /** Defines values for CampaignBriefUseCaseType. */
 export type CampaignBriefUseCaseType =
-  | "twoFactorAuthentication"
-  | "appNotifications"
-  | "appointments"
-  | "auctions"
-  | "autoRepairServices"
-  | "bankTransfers"
-  | "billing"
-  | "bookingConfirmations"
-  | "businessUpdates"
-  | "careerTraining"
-  | "chatbot"
-  | "conversationalOrAlerts"
-  | "courierServicesAndDeliveries"
-  | "cOVID19Alerts"
-  | "emergencyAlerts"
-  | "eventsAndPlanning"
-  | "financialServices"
-  | "fraudAlerts"
-  | "fundraising"
-  | "generalMarketing"
-  | "generalSchoolUpdates"
-  | "healthcareAlerts"
-  | "housingCommunityUpdates"
-  | "hROrStaffing"
-  | "insuranceServices"
-  | "jobDispatch"
-  | "legalServices"
-  | "mixed"
-  | "motivationalReminders"
-  | "notaryNotifications"
-  | "orderNotifications"
-  | "political"
-  | "works"
-  | "realEstateServices"
-  | "religiousServices"
-  | "repairAndDiagnosticsAlerts"
-  | "rewardsProgram"
-  | "surveys"
-  | "systemAlerts"
-  | "votingReminders"
-  | "waitlistAlerts"
-  | "webinarReminders"
-  | "workshopAlerts"
-  | "other";
+  | "TwoFactorAuthentication"
+  | "AppNotifications"
+  | "Appointments"
+  | "Auctions"
+  | "AutoRepairServices"
+  | "BankTransfers"
+  | "Billing"
+  | "BookingConfirmations"
+  | "BusinessUpdates"
+  | "CareerTraining"
+  | "Chatbot"
+  | "ConversationalOrAlerts"
+  | "CourierServicesAndDeliveries"
+  | "COVID19Alerts"
+  | "EmergencyAlerts"
+  | "EventsAndPlanning"
+  | "FinancialServices"
+  | "FraudAlerts"
+  | "Fundraising"
+  | "GeneralMarketing"
+  | "GeneralSchoolUpdates"
+  | "HealthcareAlerts"
+  | "HousingCommunityUpdates"
+  | "HROrStaffing"
+  | "InsuranceServices"
+  | "JobDispatch"
+  | "LegalServices"
+  | "Mixed"
+  | "MotivationalReminders"
+  | "NotaryNotifications"
+  | "OrderNotifications"
+  | "Political"
+  | "Works"
+  | "RealEstateServices"
+  | "ReligiousServices"
+  | "RepairAndDiagnosticsAlerts"
+  | "RewardsProgram"
+  | "Surveys"
+  | "SystemAlerts"
+  | "VotingReminders"
+  | "WaitlistAlerts"
+  | "WebinarReminders"
+  | "WorkshopAlerts"
+  | "Other";
+/** Defines values for EstimatedMonthlyVolume. */
+export type EstimatedMonthlyVolume =
+  | "V10"
+  | "V100"
+  | "V1000"
+  | "V10000"
+  | "V100000"
+  | "V250000"
+  | "V500000"
+  | "V750000"
+  | "V1000000"
+  | "V5000000"
+  | "V10000000OrMore";
 /** Defines values for AttachmentType. */
 export type AttachmentType =
   | "OptInSmsKeyword"

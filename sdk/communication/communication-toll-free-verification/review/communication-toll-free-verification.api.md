@@ -52,7 +52,7 @@ export interface CampaignBrief {
     // (undocumented)
     businessPointOfContact?: BusinessPointOfContact;
     countryCode?: string;
-    estimatedMonthlyVolume?: string;
+    estimatedMonthlyVolume?: EstimatedMonthlyVolume;
     id: string;
     // (undocumented)
     multipleNumbersJustification?: string;
@@ -61,7 +61,7 @@ export interface CampaignBrief {
     phoneNumbers?: string[];
     // (undocumented)
     propertiesToClear?: string[];
-    reviewNotes?: ReviewNote[];
+    reviewNotes?: CampaignBriefReviewNote[];
     statusUpdatedDate?: Date;
     submissionDate?: Date;
     submissionStatus?: CampaignBriefStatus;
@@ -92,6 +92,12 @@ export interface CampaignBriefAttachmentSummary {
 }
 
 // @public
+export interface CampaignBriefReviewNote {
+    date?: Date;
+    message?: string;
+}
+
+// @public
 export interface CampaignBriefs {
     campaignBriefs?: CampaignBrief[];
     nextLink?: string;
@@ -101,7 +107,10 @@ export interface CampaignBriefs {
 export type CampaignBriefStatus = "submitted" | "approved" | "updateRequested" | "draft" | "denied" | "cancelled";
 
 // @public
-export type CampaignBriefUseCaseType = "twoFactorAuthentication" | "appNotifications" | "appointments" | "auctions" | "autoRepairServices" | "bankTransfers" | "billing" | "bookingConfirmations" | "businessUpdates" | "careerTraining" | "chatbot" | "conversationalOrAlerts" | "courierServicesAndDeliveries" | "cOVID19Alerts" | "emergencyAlerts" | "eventsAndPlanning" | "financialServices" | "fraudAlerts" | "fundraising" | "generalMarketing" | "generalSchoolUpdates" | "healthcareAlerts" | "housingCommunityUpdates" | "hROrStaffing" | "insuranceServices" | "jobDispatch" | "legalServices" | "mixed" | "motivationalReminders" | "notaryNotifications" | "orderNotifications" | "political" | "works" | "realEstateServices" | "religiousServices" | "repairAndDiagnosticsAlerts" | "rewardsProgram" | "surveys" | "systemAlerts" | "votingReminders" | "waitlistAlerts" | "webinarReminders" | "workshopAlerts" | "other";
+export type CampaignBriefUseCaseType = "TwoFactorAuthentication" | "AppNotifications" | "Appointments" | "Auctions" | "AutoRepairServices" | "BankTransfers" | "Billing" | "BookingConfirmations" | "BusinessUpdates" | "CareerTraining" | "Chatbot" | "ConversationalOrAlerts" | "CourierServicesAndDeliveries" | "COVID19Alerts" | "EmergencyAlerts" | "EventsAndPlanning" | "FinancialServices" | "FraudAlerts" | "Fundraising" | "GeneralMarketing" | "GeneralSchoolUpdates" | "HealthcareAlerts" | "HousingCommunityUpdates" | "HROrStaffing" | "InsuranceServices" | "JobDispatch" | "LegalServices" | "Mixed" | "MotivationalReminders" | "NotaryNotifications" | "OrderNotifications" | "Political" | "Works" | "RealEstateServices" | "ReligiousServices" | "RepairAndDiagnosticsAlerts" | "RewardsProgram" | "Surveys" | "SystemAlerts" | "VotingReminders" | "WaitlistAlerts" | "WebinarReminders" | "WorkshopAlerts" | "Other";
+
+// @public
+export type EstimatedMonthlyVolume = "V10" | "V100" | "V1000" | "V10000" | "V100000" | "V250000" | "V500000" | "V750000" | "V1000000" | "V5000000" | "V10000000OrMore";
 
 // @public
 export type FileType = "png" | "jpg" | "jpeg" | "pdf";
@@ -120,12 +129,6 @@ export interface Option {
     imageUrls?: string[];
     // (undocumented)
     type: Type;
-}
-
-// @public
-export interface ReviewNote {
-    date?: Date;
-    message?: string;
 }
 
 // @public (undocumented)
