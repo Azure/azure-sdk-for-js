@@ -240,7 +240,6 @@ specifiers:
   '@rush-temp/dev-tool': file:./projects/dev-tool.tgz
   '@rush-temp/developer-devcenter': file:./projects/developer-devcenter.tgz
   '@rush-temp/digital-twins-core': file:./projects/digital-twins-core.tgz
-  '@rush-temp/dtdl-parser': file:./projects/dtdl-parser.tgz
   '@rush-temp/eslint-plugin-azure-sdk': file:./projects/eslint-plugin-azure-sdk.tgz
   '@rush-temp/event-hubs': file:./projects/event-hubs.tgz
   '@rush-temp/eventgrid': file:./projects/eventgrid.tgz
@@ -567,7 +566,6 @@ dependencies:
   '@rush-temp/dev-tool': file:projects/dev-tool.tgz
   '@rush-temp/developer-devcenter': file:projects/developer-devcenter.tgz
   '@rush-temp/digital-twins-core': file:projects/digital-twins-core.tgz
-  '@rush-temp/dtdl-parser': file:projects/dtdl-parser.tgz
   '@rush-temp/eslint-plugin-azure-sdk': file:projects/eslint-plugin-azure-sdk.tgz
   '@rush-temp/event-hubs': file:projects/event-hubs.tgz
   '@rush-temp/eventgrid': file:projects/eventgrid.tgz
@@ -4019,7 +4017,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221207
+      typescript: 5.0.0-dev.20221208
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -9080,8 +9078,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221207:
-    resolution: {integrity: sha512-xPWWjASgLapa35nseHVRmQK6L0k3E1hb8OcN3I7XZHqYGUxk3n+RcncQSb4gGVromTEy7OHaoNSWLrkDO0+T1Q==}
+  /typescript/5.0.0-dev.20221208:
+    resolution: {integrity: sha512-X9uK69qwF9KNf5i+SDMKAtS66MmUL+tbwbrtpyEplnWWdfErtw6ZRegxdgaTOAC7pFMALQuR/PCvkL6O78VbKg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -17045,58 +17043,6 @@ packages:
       - bufferutil
       - debug
       - encoding
-      - supports-color
-      - utf-8-validate
-    dev: false
-
-  file:projects/dtdl-parser.tgz:
-    resolution: {integrity: sha512-oadak9uqVnuit3rJujUthnEnz749jsjM7CwpLJrcr6L5LeP56GUTojveukyCl5ZqNyN1z4Fc6q2rHtnFBKnZyw==, tarball: file:projects/dtdl-parser.tgz}
-    name: '@rush-temp/dtdl-parser'
-    version: 0.0.0
-    dependencies:
-      '@microsoft/api-extractor': 7.33.6
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
-      '@types/chai': 4.3.4
-      '@types/chai-as-promised': 7.1.5
-      '@types/mocha': 7.0.2
-      '@types/node': 14.18.33
-      '@types/sinon': 9.0.11
-      chai: 4.3.7
-      chai-as-promised: 7.1.1_chai@4.3.7
-      cross-env: 7.0.3
-      eslint: 8.28.0
-      inherits: 2.0.4
-      karma: 6.4.1
-      karma-chrome-launcher: 3.1.1
-      karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.4.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.4.1
-      karma-json-preprocessor: 0.3.3_karma@6.4.1
-      karma-junit-reporter: 2.0.1_karma@6.4.1
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.4.1
-      mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 15.1.0
-      prettier: 1.19.1
-      rimraf: 3.0.2
-      rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
-      rollup-plugin-terser: 5.3.1_rollup@2.79.1
-      rollup-plugin-visualizer: 5.8.3_rollup@2.79.1
-      sinon: 9.2.4
-      ts-node: 9.1.1_typescript@4.6.4
-      tslib: 2.4.1
-      typescript: 4.6.4
-      util: 0.12.5
-    transitivePeerDependencies:
-      - bufferutil
-      - debug
       - supports-color
       - utf-8-validate
     dev: false
