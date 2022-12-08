@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-                
+
 trigger:
   branches:
     include:
@@ -36,5 +36,3 @@ extends:
     Artifacts:
       - name: azure-digital-twins-core
         safeName: azuredigitaltwinscore
-      - name: azure-dtdl-parser
-        safeName: azuredtdlparser
