@@ -36,3 +36,9 @@ extends:
         safeName: azurerestmapsroute
       - name: azure-maps-common
         safeName: azuremapscommon
+      - name: azure-rest-maps-render
+        safeName: azurerestmapsrender
+      - name: azure-rest-maps-geolocation
+        safeName: azurerestmapsgeolocation
+      - name: azure-rest-maps-search
+        safeName: azurerestmapssearch

@@ -25,32 +25,24 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:25:02 GMT",
-        "MS-CV": "ET2eCfTcgUyy0G5npYDKfg.0",
+        "Date": "Fri, 02 Dec 2022 00:18:05 GMT",
+        "MS-CV": "ItBVj98RiUmtSNtwO0vzQg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0z3kaYwAAAAAQJY3RuoBFRYHH1hVmCv9gUFJHMDFFREdFMDkwOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0PkSJYwAAAABo3i8ah2xTQLxdkVQbSONKUFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "172ms"
+        "X-Processing-Time": "100ms"
       },
       "ResponseBody": {
         "trunks": {},
-        "routes": [
-          {
-            "description": "myFirstRoute\u0027s description",
-            "name": "myFirstRoute",
-            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
-            "trunks": []
-          },
-          {
-            "description": "mySecondRoute\u0027s description",
-            "name": "mySecondRoute",
-            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
-            "trunks": []
-          }
-        ]
+        "routes": []
       }
     }
   ],
-  "Variables": {}
+  "Variables": {
+    "fqdn-1": "test.00f0c52f6d73440f907b788e748c8c2c.com",
+    "fqdn-2": "test.af319074c8b643ae8be7759d19e386b3.com",
+    "fqdn-3": "test.74a4475fa5a145cda3eb2d479f0b33cb.com",
+    "fqdn-4": "test.09490999f5d14a7c962ff2e8364af755.com"
+  }
 }

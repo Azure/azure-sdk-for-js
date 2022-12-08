@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Lists managed cluster snapshots in the specified subscription and resource group.
  *
  * @summary Lists managed cluster snapshots in the specified subscription and resource group.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-09-02-preview/examples/ManagedClusterSnapshotsListByResourceGroup.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-10-02-preview/examples/ManagedClusterSnapshotsListByResourceGroup.json
  */
 async function listManagedClusterSnapshotsByResourceGroup() {
   const subscriptionId = "subid1";

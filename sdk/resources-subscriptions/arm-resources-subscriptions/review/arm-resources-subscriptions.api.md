@@ -44,28 +44,24 @@ export interface ErrorResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export enum KnownRegionCategory {
-    // (undocumented)
     Extended = "Extended",
-    // (undocumented)
     Other = "Other",
-    // (undocumented)
     Recommended = "Recommended"
 }
 
 // @public
 export enum KnownRegionType {
-    // (undocumented)
     Logical = "Logical",
-    // (undocumented)
     Physical = "Physical"
 }
 
 // @public
 export enum KnownResourceNameStatus {
-    // (undocumented)
     Allowed = "Allowed",
-    // (undocumented)
     Reserved = "Reserved"
 }
 

@@ -116,18 +116,18 @@ export interface ProviderInstanceListResult {
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** SAP monitor info on Azure (ARM properties and SAP monitor properties) */
-export type SapMonitor = TrackedResource & {
+export interface SapMonitor extends TrackedResource {
   /**
    * State of provisioning of the HanaInstance
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -153,10 +153,10 @@ export type SapMonitor = TrackedResource & {
   readonly sapMonitorCollectorVersion?: string;
   /** The subnet which the SAP monitor will be deployed in */
   monitorSubnet?: string;
-};
+}
 
 /** A provider instance associated with a SAP monitor. */
-export type ProviderInstance = ProxyResource & {
+export interface ProviderInstance extends ProxyResource {
   /** The type of provider instance. */
   typePropertiesType?: string;
   /** A JSON string containing the properties of the provider instance. */
@@ -168,16 +168,23 @@ export type ProviderInstance = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: HanaProvisioningStatesEnum;
-};
+}
 
 /** Known values of {@link HanaProvisioningStatesEnum} that the service accepts. */
 export enum KnownHanaProvisioningStatesEnum {
+  /** Accepted */
   Accepted = "Accepted",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Failed */
   Failed = "Failed",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Migrating */
   Migrating = "Migrating"
 }
 

@@ -12,11 +12,13 @@ import {
   AgentPool,
   AgentPoolsListOptionalParams,
   AgentPoolsAbortLatestOperationOptionalParams,
+  AgentPoolsAbortLatestOperationResponse,
   AgentPoolsGetOptionalParams,
   AgentPoolsGetResponse,
   AgentPoolsCreateOrUpdateOptionalParams,
   AgentPoolsCreateOrUpdateResponse,
   AgentPoolsDeleteOptionalParams,
+  AgentPoolsDeleteResponse,
   AgentPoolsGetUpgradeProfileOptionalParams,
   AgentPoolsGetUpgradeProfileResponse,
   AgentPoolsGetAvailableAgentPoolVersionsOptionalParams,
@@ -39,21 +41,40 @@ export interface AgentPools {
     options?: AgentPoolsListOptionalParams
   ): PagedAsyncIterableIterator<AgentPool>;
   /**
-   * Aborting last running operation on agent pool. We return a 204 no content code here to indicate that
-   * the operation has been accepted and an abort will be attempted but is not guaranteed to complete
-   * successfully. Please look up the provisioning state of the agent pool to keep track of whether it
-   * changes to Canceled. A canceled provisioning state indicates that the abort was successful
+   * Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a
+   * Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, an error is returned.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
-  abortLatestOperation(
+  beginAbortLatestOperation(
     resourceGroupName: string,
     resourceName: string,
     agentPoolName: string,
     options?: AgentPoolsAbortLatestOperationOptionalParams
-  ): Promise<void>;
+  ): Promise<
+    PollerLike<
+      PollOperationState<AgentPoolsAbortLatestOperationResponse>,
+      AgentPoolsAbortLatestOperationResponse
+    >
+  >;
+  /**
+   * Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a
+   * Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, an error is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param agentPoolName The name of the agent pool.
+   * @param options The options parameters.
+   */
+  beginAbortLatestOperationAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    options?: AgentPoolsAbortLatestOperationOptionalParams
+  ): Promise<AgentPoolsAbortLatestOperationResponse>;
   /**
    * Gets the specified managed cluster agent pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -114,7 +135,12 @@ export interface AgentPools {
     resourceName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    PollerLike<
+      PollOperationState<AgentPoolsDeleteResponse>,
+      AgentPoolsDeleteResponse
+    >
+  >;
   /**
    * Deletes an agent pool in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -127,7 +153,7 @@ export interface AgentPools {
     resourceName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<AgentPoolsDeleteResponse>;
   /**
    * Gets the upgrade profile for an agent pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
