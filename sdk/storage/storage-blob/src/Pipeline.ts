@@ -223,7 +223,9 @@ export function newPipeline(
   return pipeline;
 }
 
-function processDownlevelPipeline(pipeline: PipelineLike): PipelinePolicy | undefined {
+function processDownlevelPipeline(
+  pipeline: PipelineLike
+): { wrappedPolicies: PipelinePolicy; afterRetry: boolean } | undefined {
   const knownFactoryFunctions = [
     isAnonymousCredential,
     isStorageSharedKeyCredential,
@@ -234,12 +236,16 @@ function processDownlevelPipeline(pipeline: PipelineLike): PipelinePolicy | unde
     isCoreHttpPolicyFactory,
   ];
   if (pipeline.factories.length) {
-    const novelFactories = pipeline.factories.slice().filter((factory) => {
+    const novelFactories = pipeline.factories.filter((factory) => {
       return !knownFactoryFunctions.some((knownFactory) => knownFactory(factory));
     });
     if (novelFactories.length) {
+      const hasInjector = novelFactories.some((factory) => isInjectorPolicyFactory(factory));
       // if there are any left over, wrap in a requestPolicyFactoryPolicy
-      return createRequestPolicyFactoryPolicy(novelFactories);
+      return {
+        wrappedPolicies: createRequestPolicyFactoryPolicy(novelFactories),
+        afterRetry: hasInjector,
+      };
     }
   }
   return undefined;
@@ -256,7 +262,6 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
 
   let corePipeline: CorePipeline = (pipeline as any)._corePipeline;
   if (!corePipeline) {
-    const oldPolicyWrapper = processDownlevelPipeline(pipeline);
     const packageDetails = `azsdk-js-azure-storage-blob/${SDK_VERSION}`;
     const userAgentPrefix =
       restOptions.userAgentOptions && restOptions.userAgentOptions.userAgentPrefix
@@ -298,8 +303,12 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
     corePipeline.addPolicy(pathParameterWorkaroundPolicy());
     corePipeline.addPolicy(storageRetryPolicy(restOptions.retryOptions), { phase: "Retry" });
     corePipeline.addPolicy(storageBrowserPolicy());
-    if (oldPolicyWrapper) {
-      corePipeline.addPolicy(oldPolicyWrapper);
+    const downlevelResults = processDownlevelPipeline(pipeline);
+    if (downlevelResults) {
+      corePipeline.addPolicy(
+        downlevelResults.wrappedPolicies,
+        downlevelResults.afterRetry ? { afterPhase: "Retry" } : undefined
+      );
     }
     const credential = getCredentialFromPipeline(pipeline);
     if (isTokenCredential(credential)) {
@@ -390,6 +399,10 @@ function isStorageRetryPolicyFactory(
 
 function isStorageTelemetryPolicyFactory(factory: RequestPolicyFactory): boolean {
   return factory.constructor.name === "TelemetryPolicyFactory";
+}
+
+function isInjectorPolicyFactory(factory: RequestPolicyFactory): boolean {
+  return factory.constructor.name === "InjectorPolicyFactory";
 }
 
 function isCoreHttpPolicyFactory(factory: RequestPolicyFactory): boolean {
