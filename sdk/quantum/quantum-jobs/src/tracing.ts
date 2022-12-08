@@ -6,7 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-/// <reference lib="esnext.asynciterable" />
-export * from "./models";
-export { QuantumJobClient } from "./quantumJobClient";
-export * from "./operationsInterfaces";
+import { createTracingClient } from "@azure/core-tracing";
+
+export const tracingClient = createTracingClient({
+  namespace: "Microsoft.Quantum",
+  packageName: "@azure/quantum-jobs",
+  packageVersion: "1.0.0-beta.2"
+});
