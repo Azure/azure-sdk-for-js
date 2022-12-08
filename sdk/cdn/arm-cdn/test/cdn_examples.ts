@@ -134,9 +134,9 @@ describe("Cdn test", () => {
     assert.equal(res.type, "Microsoft.Cdn/profiles/endpoints");
   });
 
-  it("customDomains enable test", async function () {
-    const res = await client.customDomains.beginEnableCustomHttps(resourceGroup, profileName, endpointName, "www-qiaozha-xyz");
-    // assert.equal(res, "www-qiaozha-xyz");
+  it.skip("customDomains enable test", async function () {
+    const res = await client.customDomains.beginEnableCustomHttpsAndWait(resourceGroup, profileName, endpointName, "www.qiaozha.com");
+    assert.equal(res.name, "www.qiaozha.com");
   });
 
   it("endpoints delete test", async function () {
