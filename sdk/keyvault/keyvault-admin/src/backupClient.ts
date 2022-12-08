@@ -22,7 +22,7 @@ import { LATEST_API_VERSION } from "./constants";
 import { PollerLike } from "@azure/core-lro";
 import { TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { createChallengeCallbacks } from "../../keyvault-common/src";
+import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
 import { logger } from "./log";
 import { mappings } from "./mappings";
 
@@ -63,7 +63,7 @@ export class KeyVaultBackupClient {
    *
    * let client = new KeyVaultBackupClient(vaultUrl, credentials);
    * ```
-   * @param vaultUrl - the URL of the Key Vault. It should have this shape: `https://${your-key-vault-name}.vault.azure.net`
+   * @param vaultUrl - the URL of the Key Vault. It should have this shape: `https://${your-key-vault-name}.vault.azure.net`. You should validate that this URL references a valid Key Vault or Managed HSM resource. See https://aka.ms/azsdk/blog/vault-uri for details.
    * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
    * @param options - options used to configure Key Vault API requests.
    */
@@ -95,7 +95,7 @@ export class KeyVaultBackupClient {
         // The scopes will be populated in the challenge callbacks based on the WWW-authenticate header
         // returned by the challenge, so pass an empty array as a placeholder.
         scopes: [],
-        challengeCallbacks: createChallengeCallbacks(),
+        challengeCallbacks: createKeyVaultChallengeCallbacks(options),
       })
     );
   }

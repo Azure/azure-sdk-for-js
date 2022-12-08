@@ -36,29 +36,29 @@ export interface Amount {
 }
 
 // @public
-export type AmountWithExchangeRate = Amount & {
+export interface AmountWithExchangeRate extends Amount {
     readonly exchangeRate?: number;
     readonly exchangeRateMonth?: number;
-};
+}
 
 // @public
-export type Balance = Resource & {
-    readonly currency?: string;
+export interface Balance extends Resource {
+    readonly adjustmentDetails?: BalancePropertiesAdjustmentDetailsItem[];
+    readonly adjustments?: number;
+    readonly azureMarketplaceServiceCharges?: number;
     readonly beginningBalance?: number;
+    billingFrequency?: BillingFrequency;
+    readonly chargesBilledSeparately?: number;
+    readonly currency?: string;
     readonly endingBalance?: number;
     readonly newPurchases?: number;
-    readonly adjustments?: number;
-    readonly utilized?: number;
+    readonly newPurchasesDetails?: BalancePropertiesNewPurchasesDetailsItem[];
+    readonly priceHidden?: boolean;
     readonly serviceOverage?: number;
-    readonly chargesBilledSeparately?: number;
     readonly totalOverage?: number;
     readonly totalUsage?: number;
-    readonly azureMarketplaceServiceCharges?: number;
-    billingFrequency?: BillingFrequency;
-    readonly priceHidden?: boolean;
-    readonly newPurchasesDetails?: BalancePropertiesNewPurchasesDetailsItem[];
-    readonly adjustmentDetails?: BalancePropertiesAdjustmentDetailsItem[];
-};
+    readonly utilized?: number;
+}
 
 // @public (undocumented)
 export interface BalancePropertiesAdjustmentDetailsItem {
@@ -96,18 +96,18 @@ export type BalancesGetForBillingPeriodByBillingAccountResponse = Balance;
 export type BillingFrequency = string;
 
 // @public
-export type Budget = ProxyResource & {
-    category?: CategoryType;
+export interface Budget extends ProxyResource {
     amount?: number;
-    timeGrain?: TimeGrainType;
-    timePeriod?: BudgetTimePeriod;
-    filter?: BudgetFilter;
+    category?: CategoryType;
     readonly currentSpend?: CurrentSpend;
+    filter?: BudgetFilter;
+    readonly forecastSpend?: ForecastSpend;
     notifications?: {
         [propertyName: string]: Notification_2;
     };
-    readonly forecastSpend?: ForecastSpend;
-};
+    timeGrain?: TimeGrainType;
+    timePeriod?: BudgetTimePeriod;
+}
 
 // @public
 export interface BudgetComparisonExpression {
@@ -210,9 +210,9 @@ export interface ChargesListResult {
 }
 
 // @public
-export type ChargeSummary = ProxyResource & {
+export interface ChargeSummary extends ProxyResource {
     kind: ChargeSummaryKind;
-};
+}
 
 // @public
 export type ChargeSummaryKind = string;
@@ -292,16 +292,16 @@ export interface CreditsGetOptionalParams extends coreClient.OperationOptions {
 export type CreditsGetResponse = CreditSummary;
 
 // @public
-export type CreditSummary = Resource & {
+export interface CreditSummary extends Resource {
     readonly balanceSummary?: CreditBalanceSummary;
-    readonly pendingCreditAdjustments?: Amount;
-    readonly expiredCredit?: Amount;
-    readonly pendingEligibleCharges?: Amount;
-    readonly creditCurrency?: string;
     readonly billingCurrency?: string;
-    readonly reseller?: Reseller;
+    readonly creditCurrency?: string;
     readonly eTag?: string;
-};
+    readonly expiredCredit?: Amount;
+    readonly pendingCreditAdjustments?: Amount;
+    readonly pendingEligibleCharges?: Amount;
+    readonly reseller?: Reseller;
+}
 
 // @public
 export type CultureCode = string;
@@ -375,31 +375,31 @@ export interface EventsOperations {
 }
 
 // @public
-export type EventSummary = ProxyResource & {
-    readonly transactionDate?: Date;
-    readonly description?: string;
-    readonly newCredit?: Amount;
+export interface EventSummary extends ProxyResource {
     readonly adjustments?: Amount;
-    readonly creditExpired?: Amount;
+    readonly adjustmentsInBillingCurrency?: AmountWithExchangeRate;
+    readonly billingCurrency?: string;
+    readonly billingProfileDisplayName?: string;
+    readonly billingProfileId?: string;
+    readonly canceledCredit?: Amount;
     readonly charges?: Amount;
+    readonly chargesInBillingCurrency?: AmountWithExchangeRate;
     readonly closedBalance?: Amount;
+    readonly closedBalanceInBillingCurrency?: AmountWithExchangeRate;
+    readonly creditCurrency?: string;
+    readonly creditExpired?: Amount;
+    readonly creditExpiredInBillingCurrency?: AmountWithExchangeRate;
+    readonly description?: string;
+    readonly eTagPropertiesETag?: string;
     eventType?: EventType;
     readonly invoiceNumber?: string;
-    readonly billingProfileId?: string;
-    readonly billingProfileDisplayName?: string;
     readonly lotId?: string;
     readonly lotSource?: string;
-    readonly canceledCredit?: Amount;
-    readonly creditCurrency?: string;
-    readonly billingCurrency?: string;
-    readonly reseller?: Reseller;
-    readonly creditExpiredInBillingCurrency?: AmountWithExchangeRate;
+    readonly newCredit?: Amount;
     readonly newCreditInBillingCurrency?: AmountWithExchangeRate;
-    readonly adjustmentsInBillingCurrency?: AmountWithExchangeRate;
-    readonly chargesInBillingCurrency?: AmountWithExchangeRate;
-    readonly closedBalanceInBillingCurrency?: AmountWithExchangeRate;
-    readonly eTagPropertiesETag?: string;
-};
+    readonly reseller?: Reseller;
+    readonly transactionDate?: Date;
+}
 
 // @public
 export type EventType = string;
@@ -423,77 +423,49 @@ export interface HighCasedErrorResponse {
 
 // @public
 export enum KnownBillingFrequency {
-    // (undocumented)
     Month = "Month",
-    // (undocumented)
     Quarter = "Quarter",
-    // (undocumented)
     Year = "Year"
 }
 
 // @public
 export enum KnownBudgetOperatorType {
-    // (undocumented)
     In = "In"
 }
 
 // @public
 export enum KnownCategoryType {
-    // (undocumented)
     Cost = "Cost"
 }
 
 // @public
 export enum KnownChargeSummaryKind {
-    // (undocumented)
     Legacy = "legacy",
-    // (undocumented)
     Modern = "modern"
 }
 
 // @public
 export enum KnownCultureCode {
-    // (undocumented)
     CsCz = "cs-cz",
-    // (undocumented)
     DaDk = "da-dk",
-    // (undocumented)
     DeDe = "de-de",
-    // (undocumented)
     EnGb = "en-gb",
-    // (undocumented)
     EnUs = "en-us",
-    // (undocumented)
     EsEs = "es-es",
-    // (undocumented)
     FrFr = "fr-fr",
-    // (undocumented)
     HuHu = "hu-hu",
-    // (undocumented)
     ItIt = "it-it",
-    // (undocumented)
     JaJp = "ja-jp",
-    // (undocumented)
     KoKr = "ko-kr",
-    // (undocumented)
     NbNo = "nb-no",
-    // (undocumented)
     NlNl = "nl-nl",
-    // (undocumented)
     PlPl = "pl-pl",
-    // (undocumented)
     PtBr = "pt-br",
-    // (undocumented)
     PtPt = "pt-pt",
-    // (undocumented)
     RuRu = "ru-ru",
-    // (undocumented)
     SvSe = "sv-se",
-    // (undocumented)
     TrTr = "tr-tr",
-    // (undocumented)
     ZhCn = "zh-cn",
-    // (undocumented)
     ZhTw = "zh-tw"
 }
 
@@ -505,19 +477,12 @@ export enum KnownDatagrain {
 
 // @public
 export enum KnownEventType {
-    // (undocumented)
     NewCredit = "NewCredit",
-    // (undocumented)
     PendingAdjustments = "PendingAdjustments",
-    // (undocumented)
     PendingCharges = "PendingCharges",
-    // (undocumented)
     PendingExpiredCredit = "PendingExpiredCredit",
-    // (undocumented)
     PendingNewCredit = "PendingNewCredit",
-    // (undocumented)
     SettledCharges = "SettledCharges",
-    // (undocumented)
     UnKnown = "UnKnown"
 }
 
@@ -530,11 +495,8 @@ export enum KnownLookBackPeriod {
 
 // @public
 export enum KnownLotSource {
-    // (undocumented)
     ConsumptionCommitment = "ConsumptionCommitment",
-    // (undocumented)
     PromotionalCredit = "PromotionalCredit",
-    // (undocumented)
     PurchasedCredit = "PurchasedCredit"
 }
 
@@ -547,53 +509,37 @@ export enum KnownMetrictype {
 
 // @public
 export enum KnownOperatorType {
-    // (undocumented)
     EqualTo = "EqualTo",
-    // (undocumented)
     GreaterThan = "GreaterThan",
-    // (undocumented)
     GreaterThanOrEqualTo = "GreaterThanOrEqualTo"
 }
 
 // @public
 export enum KnownPricingModelType {
-    // (undocumented)
     OnDemand = "On Demand",
-    // (undocumented)
     Reservation = "Reservation",
-    // (undocumented)
     Spot = "Spot"
 }
 
 // @public
 export enum KnownReservationRecommendationKind {
-    // (undocumented)
     Legacy = "legacy",
-    // (undocumented)
     Modern = "modern"
 }
 
 // @public
 export enum KnownScope {
-    // (undocumented)
     Shared = "Shared",
-    // (undocumented)
     Single = "Single"
 }
 
 // @public
 export enum KnownStatus {
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Complete = "Complete",
-    // (undocumented)
     Expired = "Expired",
-    // (undocumented)
     Inactive = "Inactive",
-    // (undocumented)
     None = "None"
 }
 
@@ -605,65 +551,57 @@ export enum KnownTerm {
 
 // @public
 export enum KnownThresholdType {
-    // (undocumented)
     Actual = "Actual",
-    // (undocumented)
     Forecasted = "Forecasted"
 }
 
 // @public
 export enum KnownTimeGrainType {
-    // (undocumented)
     Annually = "Annually",
-    // (undocumented)
     BillingAnnual = "BillingAnnual",
-    // (undocumented)
     BillingMonth = "BillingMonth",
-    // (undocumented)
     BillingQuarter = "BillingQuarter",
-    // (undocumented)
     Monthly = "Monthly",
-    // (undocumented)
     Quarterly = "Quarterly"
 }
 
 // @public
 export enum KnownUsageDetailsKind {
-    // (undocumented)
     Legacy = "legacy",
-    // (undocumented)
     Modern = "modern"
 }
 
 // @public
-export type LegacyChargeSummary = ChargeSummary & {
-    readonly billingPeriodId?: string;
-    readonly usageStart?: string;
-    readonly usageEnd?: string;
+export interface LegacyChargeSummary extends ChargeSummary {
     readonly azureCharges?: number;
+    readonly billingPeriodId?: string;
     readonly chargesBilledSeparately?: number;
-    readonly marketplaceCharges?: number;
     readonly currency?: string;
-};
+    kind: "legacy";
+    readonly marketplaceCharges?: number;
+    readonly usageEnd?: string;
+    readonly usageStart?: string;
+}
 
 // @public
-export type LegacyReservationRecommendation = ReservationRecommendation & {
-    readonly lookBackPeriod?: string;
-    readonly instanceFlexibilityRatio?: number;
-    readonly instanceFlexibilityGroup?: string;
-    readonly normalizedSize?: string;
-    readonly recommendedQuantityNormalized?: number;
-    readonly meterId?: string;
-    readonly resourceType?: string;
-    readonly term?: string;
+export interface LegacyReservationRecommendation extends ReservationRecommendation {
     readonly costWithNoReservedInstances?: number;
-    readonly recommendedQuantity?: number;
-    readonly totalCostWithReservedInstances?: number;
-    readonly netSavings?: number;
     readonly firstUsageDate?: Date;
+    readonly instanceFlexibilityGroup?: string;
+    readonly instanceFlexibilityRatio?: number;
+    kind: "legacy";
+    readonly lookBackPeriod?: string;
+    readonly meterId?: string;
+    readonly netSavings?: number;
+    readonly normalizedSize?: string;
+    readonly recommendedQuantity?: number;
+    readonly recommendedQuantityNormalized?: number;
+    readonly resourceType?: string;
     scope: string;
     readonly skuProperties?: SkuProperty[];
-};
+    readonly term?: string;
+    readonly totalCostWithReservedInstances?: number;
+}
 
 // @public
 export interface LegacyReservationRecommendationProperties {
@@ -688,66 +626,68 @@ export interface LegacyReservationRecommendationProperties {
 export type LegacyReservationRecommendationPropertiesUnion = LegacyReservationRecommendationProperties | LegacySingleScopeReservationRecommendationProperties | LegacySharedScopeReservationRecommendationProperties;
 
 // @public
-export type LegacyReservationTransaction = ReservationTransaction & {};
+export interface LegacyReservationTransaction extends ReservationTransaction {
+}
 
 // @public
-export type LegacySharedScopeReservationRecommendationProperties = LegacyReservationRecommendationProperties & {
+export interface LegacySharedScopeReservationRecommendationProperties extends LegacyReservationRecommendationProperties {
     scope: "Shared";
-};
+}
 
 // @public
-export type LegacySingleScopeReservationRecommendationProperties = LegacyReservationRecommendationProperties & {
+export interface LegacySingleScopeReservationRecommendationProperties extends LegacyReservationRecommendationProperties {
     scope: "Single";
     readonly subscriptionId?: string;
-};
+}
 
 // @public
-export type LegacyUsageDetail = UsageDetail & {
+export interface LegacyUsageDetail extends UsageDetail {
+    readonly accountName?: string;
+    readonly accountOwnerId?: string;
+    readonly additionalInfo?: string;
     readonly billingAccountId?: string;
     readonly billingAccountName?: string;
-    readonly billingPeriodStartDate?: Date;
+    readonly billingCurrency?: string;
     readonly billingPeriodEndDate?: Date;
+    readonly billingPeriodStartDate?: Date;
     readonly billingProfileId?: string;
     readonly billingProfileName?: string;
-    readonly accountOwnerId?: string;
-    readonly accountName?: string;
-    readonly subscriptionId?: string;
-    readonly subscriptionName?: string;
-    readonly date?: Date;
-    readonly product?: string;
-    readonly partNumber?: string;
-    readonly meterId?: string;
-    readonly meterDetails?: MeterDetailsResponse;
-    readonly quantity?: number;
-    readonly effectivePrice?: number;
-    readonly cost?: number;
-    readonly unitPrice?: number;
-    readonly billingCurrency?: string;
-    readonly resourceLocation?: string;
+    readonly chargeType?: string;
     readonly consumedService?: string;
+    readonly cost?: number;
+    readonly costCenter?: string;
+    readonly date?: Date;
+    readonly effectivePrice?: number;
+    readonly frequency?: string;
+    readonly invoiceSection?: string;
+    readonly isAzureCreditEligible?: boolean;
+    kind: "legacy";
+    readonly meterDetails?: MeterDetailsResponse;
+    readonly meterId?: string;
+    readonly offerId?: string;
+    readonly partNumber?: string;
+    readonly payGPrice?: number;
+    readonly planName?: string;
+    readonly pricingModel?: PricingModelType;
+    readonly product?: string;
+    readonly productOrderId?: string;
+    readonly productOrderName?: string;
+    readonly publisherName?: string;
+    readonly publisherType?: string;
+    readonly quantity?: number;
+    readonly reservationId?: string;
+    readonly reservationName?: string;
+    readonly resourceGroup?: string;
     readonly resourceId?: string;
+    readonly resourceLocation?: string;
     readonly resourceName?: string;
     readonly serviceInfo1?: string;
     readonly serviceInfo2?: string;
-    readonly additionalInfo?: string;
-    readonly invoiceSection?: string;
-    readonly costCenter?: string;
-    readonly resourceGroup?: string;
-    readonly reservationId?: string;
-    readonly reservationName?: string;
-    readonly productOrderId?: string;
-    readonly productOrderName?: string;
-    readonly offerId?: string;
-    readonly isAzureCreditEligible?: boolean;
+    readonly subscriptionId?: string;
+    readonly subscriptionName?: string;
     readonly term?: string;
-    readonly publisherName?: string;
-    readonly publisherType?: string;
-    readonly planName?: string;
-    readonly chargeType?: string;
-    readonly frequency?: string;
-    readonly payGPrice?: number;
-    readonly pricingModel?: PricingModelType;
-};
+    readonly unitPrice?: number;
+}
 
 // @public
 export type LookBackPeriod = string;
@@ -798,66 +738,66 @@ export interface LotsOperations {
 export type LotSource = string;
 
 // @public
-export type LotSummary = ProxyResource & {
-    readonly originalAmount?: Amount;
+export interface LotSummary extends ProxyResource {
+    readonly billingCurrency?: string;
     readonly closedBalance?: Amount;
-    readonly source?: LotSource;
-    readonly startDate?: Date;
+    readonly closedBalanceInBillingCurrency?: AmountWithExchangeRate;
+    readonly creditCurrency?: string;
+    readonly eTagPropertiesETag?: string;
     readonly expirationDate?: Date;
+    readonly originalAmount?: Amount;
+    readonly originalAmountInBillingCurrency?: AmountWithExchangeRate;
     readonly poNumber?: string;
     readonly purchasedDate?: Date;
-    readonly status?: Status;
-    readonly creditCurrency?: string;
-    readonly billingCurrency?: string;
-    readonly originalAmountInBillingCurrency?: AmountWithExchangeRate;
-    readonly closedBalanceInBillingCurrency?: AmountWithExchangeRate;
     readonly reseller?: Reseller;
-    readonly eTagPropertiesETag?: string;
-};
+    readonly source?: LotSource;
+    readonly startDate?: Date;
+    readonly status?: Status;
+}
 
 // @public
-export type ManagementGroupAggregatedCostResult = Resource & {
-    readonly billingPeriodId?: string;
-    readonly usageStart?: Date;
-    readonly usageEnd?: Date;
+export interface ManagementGroupAggregatedCostResult extends Resource {
     readonly azureCharges?: number;
-    readonly marketplaceCharges?: number;
+    readonly billingPeriodId?: string;
     readonly chargesBilledSeparately?: number;
-    readonly currency?: string;
     children?: ManagementGroupAggregatedCostResult[];
-    includedSubscriptions?: string[];
+    readonly currency?: string;
     excludedSubscriptions?: string[];
-};
+    includedSubscriptions?: string[];
+    readonly marketplaceCharges?: number;
+    readonly usageEnd?: Date;
+    readonly usageStart?: Date;
+}
 
 // @public
-export type Marketplace = Resource & {
-    readonly billingPeriodId?: string;
-    readonly usageStart?: Date;
-    readonly usageEnd?: Date;
-    readonly resourceRate?: number;
-    readonly offerName?: string;
-    readonly resourceGroup?: string;
-    readonly additionalInfo?: string;
-    readonly orderNumber?: string;
-    readonly instanceName?: string;
-    readonly instanceId?: string;
-    readonly currency?: string;
-    readonly consumedQuantity?: number;
-    readonly unitOfMeasure?: string;
-    readonly pretaxCost?: number;
-    readonly isEstimated?: boolean;
-    readonly meterId?: string;
-    readonly subscriptionGuid?: string;
-    readonly subscriptionName?: string;
+export interface Marketplace extends Resource {
     readonly accountName?: string;
-    readonly departmentName?: string;
+    readonly additionalInfo?: string;
+    readonly additionalProperties?: string;
+    readonly billingPeriodId?: string;
+    readonly consumedQuantity?: number;
     readonly consumedService?: string;
     readonly costCenter?: string;
-    readonly additionalProperties?: string;
-    readonly publisherName?: string;
-    readonly planName?: string;
+    readonly currency?: string;
+    readonly departmentName?: string;
+    readonly instanceId?: string;
+    readonly instanceName?: string;
+    readonly isEstimated?: boolean;
     readonly isRecurringCharge?: boolean;
-};
+    readonly meterId?: string;
+    readonly offerName?: string;
+    readonly orderNumber?: string;
+    readonly planName?: string;
+    readonly pretaxCost?: number;
+    readonly publisherName?: string;
+    readonly resourceGroup?: string;
+    readonly resourceRate?: number;
+    readonly subscriptionGuid?: string;
+    readonly subscriptionName?: string;
+    readonly unitOfMeasure?: string;
+    readonly usageEnd?: Date;
+    readonly usageStart?: Date;
+}
 
 // @public
 export interface Marketplaces {
@@ -916,42 +856,44 @@ export interface MeterDetailsResponse {
 export type Metrictype = string;
 
 // @public
-export type ModernChargeSummary = ChargeSummary & {
-    readonly billingPeriodId?: string;
-    readonly usageStart?: string;
-    readonly usageEnd?: string;
+export interface ModernChargeSummary extends ChargeSummary {
     readonly azureCharges?: Amount;
-    readonly chargesBilledSeparately?: Amount;
-    readonly marketplaceCharges?: Amount;
     readonly billingAccountId?: string;
+    readonly billingPeriodId?: string;
     readonly billingProfileId?: string;
-    readonly invoiceSectionId?: string;
+    readonly chargesBilledSeparately?: Amount;
     readonly customerId?: string;
+    readonly invoiceSectionId?: string;
     readonly isInvoiced?: boolean;
-};
+    kind: "modern";
+    readonly marketplaceCharges?: Amount;
+    readonly usageEnd?: string;
+    readonly usageStart?: string;
+}
 
 // @public
-export type ModernReservationRecommendation = ReservationRecommendation & {
+export interface ModernReservationRecommendation extends ReservationRecommendation {
+    readonly costWithNoReservedInstances?: Amount;
+    readonly firstUsageDate?: Date;
+    readonly instanceFlexibilityGroup?: string;
+    readonly instanceFlexibilityRatio?: number;
+    kind: "modern";
     readonly locationPropertiesLocation?: string;
     readonly lookBackPeriod?: number;
-    readonly instanceFlexibilityRatio?: number;
-    readonly instanceFlexibilityGroup?: string;
-    readonly normalizedSize?: string;
-    readonly recommendedQuantityNormalized?: number;
     readonly meterId?: string;
-    readonly term?: string;
-    readonly costWithNoReservedInstances?: Amount;
-    readonly recommendedQuantity?: number;
-    readonly totalCostWithReservedInstances?: Amount;
     readonly netSavings?: Amount;
-    readonly firstUsageDate?: Date;
+    readonly normalizedSize?: string;
+    readonly recommendedQuantity?: number;
+    readonly recommendedQuantityNormalized?: number;
     readonly scope?: string;
-    readonly skuProperties?: SkuProperty[];
     readonly skuName?: string;
-};
+    readonly skuProperties?: SkuProperty[];
+    readonly term?: string;
+    readonly totalCostWithReservedInstances?: Amount;
+}
 
 // @public
-export type ModernReservationTransaction = ReservationTransactionResource & {
+export interface ModernReservationTransaction extends ReservationTransactionResource {
     readonly amount?: number;
     readonly armSkuName?: string;
     readonly billingFrequency?: string;
@@ -972,7 +914,7 @@ export type ModernReservationTransaction = ReservationTransactionResource & {
     readonly reservationOrderId?: string;
     readonly reservationOrderName?: string;
     readonly term?: string;
-};
+}
 
 // @public
 export interface ModernReservationTransactionsListResult {
@@ -981,80 +923,81 @@ export interface ModernReservationTransactionsListResult {
 }
 
 // @public
-export type ModernUsageDetail = UsageDetail & {
+export interface ModernUsageDetail extends UsageDetail {
+    readonly additionalInfo?: string;
+    readonly benefitId?: string;
+    readonly benefitName?: string;
     readonly billingAccountId?: string;
-    readonly effectivePrice?: number;
-    readonly pricingModel?: PricingModelType;
     readonly billingAccountName?: string;
-    readonly billingPeriodStartDate?: Date;
+    readonly billingCurrencyCode?: string;
     readonly billingPeriodEndDate?: Date;
+    readonly billingPeriodStartDate?: Date;
     readonly billingProfileId?: string;
     readonly billingProfileName?: string;
-    readonly subscriptionGuid?: string;
-    readonly subscriptionName?: string;
+    readonly chargeType?: string;
+    readonly consumedService?: string;
+    readonly costAllocationRuleName?: string;
+    readonly costCenter?: string;
+    readonly costInBillingCurrency?: number;
+    readonly costInPricingCurrency?: number;
+    readonly costInUSD?: number;
+    readonly customerName?: string;
+    readonly customerTenantId?: string;
     readonly date?: Date;
-    readonly product?: string;
+    readonly effectivePrice?: number;
+    readonly exchangeRate?: string;
+    readonly exchangeRateDate?: Date;
+    readonly exchangeRatePricingToBilling?: number;
+    readonly frequency?: string;
+    readonly instanceName?: string;
+    readonly invoiceId?: string;
+    readonly invoiceSectionId?: string;
+    readonly invoiceSectionName?: string;
+    readonly isAzureCreditEligible?: boolean;
+    kind: "modern";
+    readonly marketPrice?: number;
+    readonly meterCategory?: string;
     readonly meterId?: string;
     readonly meterName?: string;
     readonly meterRegion?: string;
-    readonly meterCategory?: string;
     readonly meterSubCategory?: string;
-    readonly serviceFamily?: string;
-    readonly quantity?: number;
-    readonly unitOfMeasure?: string;
-    readonly instanceName?: string;
-    readonly costInUSD?: number;
-    readonly unitPrice?: number;
-    readonly billingCurrencyCode?: string;
-    readonly resourceLocation?: string;
-    readonly consumedService?: string;
-    readonly serviceInfo1?: string;
-    readonly serviceInfo2?: string;
-    readonly additionalInfo?: string;
-    readonly invoiceSectionId?: string;
-    readonly invoiceSectionName?: string;
-    readonly costCenter?: string;
-    readonly resourceGroup?: string;
-    readonly reservationId?: string;
-    readonly reservationName?: string;
-    readonly productOrderId?: string;
-    readonly productOrderName?: string;
-    readonly isAzureCreditEligible?: boolean;
-    readonly term?: string;
-    readonly publisherName?: string;
-    readonly publisherType?: string;
-    readonly chargeType?: string;
-    readonly frequency?: string;
-    readonly costInBillingCurrency?: number;
-    readonly costInPricingCurrency?: number;
-    readonly exchangeRate?: string;
-    readonly exchangeRateDate?: Date;
-    readonly invoiceId?: string;
-    readonly previousInvoiceId?: string;
-    readonly pricingCurrencyCode?: string;
-    readonly productIdentifier?: string;
-    readonly resourceLocationNormalized?: string;
-    readonly servicePeriodStartDate?: Date;
-    readonly servicePeriodEndDate?: Date;
-    readonly customerTenantId?: string;
-    readonly customerName?: string;
-    readonly partnerTenantId?: string;
+    readonly partnerEarnedCreditApplied?: string;
+    readonly partnerEarnedCreditRate?: number;
     readonly partnerName?: string;
-    readonly resellerMpnId?: string;
-    readonly resellerName?: string;
-    readonly publisherId?: string;
-    readonly marketPrice?: number;
-    readonly exchangeRatePricingToBilling?: number;
+    readonly partnerTenantId?: string;
     readonly paygCostInBillingCurrency?: number;
     readonly paygCostInUSD?: number;
-    readonly partnerEarnedCreditRate?: number;
-    readonly partnerEarnedCreditApplied?: string;
     readonly payGPrice?: number;
-    readonly benefitId?: string;
-    readonly benefitName?: string;
+    readonly previousInvoiceId?: string;
+    readonly pricingCurrencyCode?: string;
+    readonly pricingModel?: PricingModelType;
+    readonly product?: string;
+    readonly productIdentifier?: string;
+    readonly productOrderId?: string;
+    readonly productOrderName?: string;
     readonly provider?: string;
-    readonly costAllocationRuleName?: string;
-};
+    readonly publisherId?: string;
+    readonly publisherName?: string;
+    readonly publisherType?: string;
+    readonly quantity?: number;
+    readonly resellerMpnId?: string;
+    readonly resellerName?: string;
+    readonly reservationId?: string;
+    readonly reservationName?: string;
+    readonly resourceGroup?: string;
+    readonly resourceLocation?: string;
+    readonly resourceLocationNormalized?: string;
+    readonly serviceFamily?: string;
+    readonly serviceInfo1?: string;
+    readonly serviceInfo2?: string;
+    readonly servicePeriodEndDate?: Date;
+    readonly servicePeriodStartDate?: Date;
+    readonly subscriptionGuid?: string;
+    readonly subscriptionName?: string;
+    readonly term?: string;
+    readonly unitOfMeasure?: string;
+    readonly unitPrice?: number;
+}
 
 // @public
 interface Notification_2 {
@@ -1152,11 +1095,11 @@ export interface PriceSheetProperties {
 }
 
 // @public
-export type PriceSheetResult = Resource & {
-    readonly pricesheets?: PriceSheetProperties[];
-    readonly nextLink?: string;
+export interface PriceSheetResult extends Resource {
     readonly download?: MeterDetails;
-};
+    readonly nextLink?: string;
+    readonly pricesheets?: PriceSheetProperties[];
+}
 
 // @public
 export type PricingModelType = string;
@@ -1176,19 +1119,19 @@ export interface Reseller {
 }
 
 // @public
-export type ReservationDetail = Resource & {
-    readonly reservationOrderId?: string;
-    readonly instanceFlexibilityRatio?: string;
+export interface ReservationDetail extends Resource {
     readonly instanceFlexibilityGroup?: string;
+    readonly instanceFlexibilityRatio?: string;
+    readonly instanceId?: string;
+    readonly kind?: string;
     readonly reservationId?: string;
-    readonly skuName?: string;
+    readonly reservationOrderId?: string;
     readonly reservedHours?: number;
+    readonly skuName?: string;
+    readonly totalReservedQuantity?: number;
     readonly usageDate?: Date;
     readonly usedHours?: number;
-    readonly instanceId?: string;
-    readonly totalReservedQuantity?: number;
-    readonly kind?: string;
-};
+}
 
 // @public
 export interface ReservationDetailsListResult {
@@ -1197,9 +1140,9 @@ export interface ReservationDetailsListResult {
 }
 
 // @public
-export type ReservationRecommendation = Resource & ResourceAttributes & {
+export interface ReservationRecommendation extends Resource, ResourceAttributes {
     kind: ReservationRecommendationKind;
-};
+}
 
 // @public
 export interface ReservationRecommendationDetails {
@@ -1225,16 +1168,16 @@ export interface ReservationRecommendationDetailsGetOptionalParams extends coreC
 export type ReservationRecommendationDetailsGetResponse = ReservationRecommendationDetailsModel;
 
 // @public
-export type ReservationRecommendationDetailsModel = Resource & {
-    location?: string;
-    sku?: string;
+export interface ReservationRecommendationDetailsModel extends Resource {
     readonly currency?: string;
+    location?: string;
     readonly resource?: ReservationRecommendationDetailsResourceProperties;
     readonly resourceGroup?: string;
     readonly savings?: ReservationRecommendationDetailsSavingsProperties;
     readonly scope?: string;
+    sku?: string;
     readonly usage?: ReservationRecommendationDetailsUsageProperties;
-};
+}
 
 // @public
 export interface ReservationRecommendationDetailsResourceProperties {
@@ -1428,50 +1371,50 @@ export interface ReservationSummariesListResult {
 }
 
 // @public
-export type ReservationSummary = Resource & {
-    readonly reservationOrderId?: string;
-    readonly reservationId?: string;
-    readonly skuName?: string;
-    readonly reservedHours?: number;
-    readonly usageDate?: Date;
-    readonly usedHours?: number;
-    readonly minUtilizationPercentage?: number;
+export interface ReservationSummary extends Resource {
     readonly avgUtilizationPercentage?: number;
-    readonly maxUtilizationPercentage?: number;
     readonly kind?: string;
+    readonly maxUtilizationPercentage?: number;
+    readonly minUtilizationPercentage?: number;
     readonly purchasedQuantity?: number;
     readonly remainingQuantity?: number;
+    readonly reservationId?: string;
+    readonly reservationOrderId?: string;
+    readonly reservedHours?: number;
+    readonly skuName?: string;
     readonly totalReservedQuantity?: number;
+    readonly usageDate?: Date;
+    readonly usedHours?: number;
     readonly usedQuantity?: number;
     readonly utilizedPercentage?: number;
-};
+}
 
 // @public
-export type ReservationTransaction = ReservationTransactionResource & {
-    readonly eventDate?: Date;
-    readonly reservationOrderId?: string;
-    readonly description?: string;
-    readonly eventType?: string;
-    readonly quantity?: number;
+export interface ReservationTransaction extends ReservationTransactionResource {
+    readonly accountName?: string;
+    readonly accountOwnerEmail?: string;
     readonly amount?: number;
+    readonly armSkuName?: string;
+    readonly billingFrequency?: string;
+    readonly billingMonth?: number;
+    readonly costCenter?: string;
     readonly currency?: string;
-    readonly reservationOrderName?: string;
+    readonly currentEnrollment?: string;
+    readonly departmentName?: string;
+    readonly description?: string;
+    readonly eventDate?: Date;
+    readonly eventType?: string;
+    readonly monetaryCommitment?: number;
+    readonly overage?: number;
     readonly purchasingEnrollment?: string;
     readonly purchasingSubscriptionGuid?: string;
     readonly purchasingSubscriptionName?: string;
-    readonly armSkuName?: string;
-    readonly term?: string;
+    readonly quantity?: number;
     readonly region?: string;
-    readonly accountName?: string;
-    readonly accountOwnerEmail?: string;
-    readonly departmentName?: string;
-    readonly costCenter?: string;
-    readonly currentEnrollment?: string;
-    readonly billingFrequency?: string;
-    readonly billingMonth?: number;
-    readonly monetaryCommitment?: number;
-    readonly overage?: number;
-};
+    readonly reservationOrderId?: string;
+    readonly reservationOrderName?: string;
+    readonly term?: string;
+}
 
 // @public
 export interface ReservationTransactionResource {
@@ -1573,11 +1516,11 @@ export interface TagsGetOptionalParams extends coreClient.OperationOptions {
 export type TagsGetResponse = TagsResult;
 
 // @public
-export type TagsResult = ProxyResource & {
-    tags?: Tag[];
+export interface TagsResult extends ProxyResource {
     readonly nextLink?: string;
     readonly previousLink?: string;
-};
+    tags?: Tag[];
+}
 
 // @public
 export type Term = string;
@@ -1589,9 +1532,9 @@ export type ThresholdType = string;
 export type TimeGrainType = string;
 
 // @public
-export type UsageDetail = Resource & {
+export interface UsageDetail extends Resource {
     kind: UsageDetailsKind;
-};
+}
 
 // @public
 export interface UsageDetails {

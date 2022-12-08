@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to The operation to update a capacity reservation.
  *
  * @summary The operation to update a capacity reservation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/capacityReservationExamples/CapacityReservation_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/capacityReservationExamples/CapacityReservation_Update_MaximumSet_Gen.json
  */
 async function capacityReservationsUpdateMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -35,7 +35,7 @@ async function capacityReservationsUpdateMaximumSetGen() {
       ],
       utilizationInfo: {},
     },
-    sku: { name: "DSv3-Type1", capacity: 7, tier: "aaa" },
+    sku: { name: "Standard_DS1_v2", capacity: 7, tier: "aaa" },
     tags: { key4974: "aaaaaaaaaaaaaaaa" },
   };
   const credential = new DefaultAzureCredential();
@@ -55,7 +55,7 @@ capacityReservationsUpdateMaximumSetGen().catch(console.error);
  * This sample demonstrates how to The operation to update a capacity reservation.
  *
  * @summary The operation to update a capacity reservation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/capacityReservationExamples/CapacityReservation_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/capacityReservationExamples/CapacityReservation_Update_MinimumSet_Gen.json
  */
 async function capacityReservationsUpdateMinimumSetGen() {
   const subscriptionId = "{subscription-id}";

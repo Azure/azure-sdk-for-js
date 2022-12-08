@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or update a Shared Image Gallery.
  *
  * @summary Create or update a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/CommunityGallery_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/CommunityGallery_Create.json
  */
 async function createACommunityGallery() {
   const subscriptionId = "{subscription-id}";
@@ -50,7 +50,7 @@ createACommunityGallery().catch(console.error);
  * This sample demonstrates how to Create or update a Shared Image Gallery.
  *
  * @summary Create or update a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/Gallery_Create_WithSharingProfile.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_Create_WithSharingProfile.json
  */
 async function createOrUpdateASimpleGalleryWithSharingProfile() {
   const subscriptionId = "{subscription-id}";
@@ -77,7 +77,7 @@ createOrUpdateASimpleGalleryWithSharingProfile().catch(console.error);
  * This sample demonstrates how to Create or update a Shared Image Gallery.
  *
  * @summary Create or update a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/Gallery_Create_SoftDeletionEnabled.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_Create_SoftDeletionEnabled.json
  */
 async function createOrUpdateASimpleGalleryWithSoftDeletionEnabled() {
   const subscriptionId = "{subscription-id}";
@@ -104,7 +104,7 @@ createOrUpdateASimpleGalleryWithSoftDeletionEnabled().catch(console.error);
  * This sample demonstrates how to Create or update a Shared Image Gallery.
  *
  * @summary Create or update a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/Gallery_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_Create.json
  */
 async function createOrUpdateASimpleGallery() {
   const subscriptionId = "{subscription-id}";

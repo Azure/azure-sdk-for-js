@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
+import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
 
 /**
  * Defines options for the {@link UsernamePasswordCredential} class.
  */
 export interface UsernamePasswordCredentialOptions
-  extends TokenCredentialOptions,
+  extends MultiTenantTokenCredentialOptions,
     CredentialPersistenceOptions {}

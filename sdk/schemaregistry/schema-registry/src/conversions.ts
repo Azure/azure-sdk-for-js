@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SchemaProperties, Schema } from "./models";
+import { Schema, SchemaProperties } from "./models";
 
 import {
   SchemaGetByIdResponse,
-  SchemaRegisterResponse,
   SchemaQueryIdByContentResponse as SchemaQueryIdByDefinitionResponse,
+  SchemaRegisterResponse,
 } from "./generated/models";
 import { getSchemaDefinition } from "./getSchemaDefinition";
 
@@ -34,8 +34,24 @@ export async function convertSchemaResponse(response: GeneratedSchemaResponse): 
       format: mapContentTypeToFormat(response.contentType!),
       groupName: response.schemaGroupName!,
       name: response.schemaName!,
+      version: response.schemaVersion!,
     },
   };
+}
+
+const customContentType = "text/plain; charset=utf-8";
+const customFormat = "Custom";
+
+/**
+ * @internal
+ * @param format - schema format
+ * @returns corresponding content-type value
+ */
+export function buildContentType(format: string): string {
+  const lowercaseFormat = format.toLowerCase();
+  return lowercaseFormat === customFormat.toLowerCase()
+    ? customContentType
+    : `application/json; serialization=${format}`;
 }
 
 /**
@@ -54,11 +70,13 @@ export function convertSchemaIdResponse(
       format: schemaFormat,
       groupName: response.schemaGroupName!,
       name: response.schemaName!,
+      version: response.schemaVersion!,
     };
   };
 }
 
 function mapContentTypeToFormat(contentType: string): string {
+  if (contentType === customContentType) return customFormat;
   const parts = /.*serialization=(.*)$/.exec(contentType);
   const schemaFormat = parts?.[1];
   if (schemaFormat) {

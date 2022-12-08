@@ -12,7 +12,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
-  ApiVersion73,
+  ApiVersion74Preview1,
   KeyVaultClientOptionalParams,
   JsonWebKeyType,
   CreateKeyOptionalParams,
@@ -75,7 +75,7 @@ import {
 } from "./models";
 
 export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
-  apiVersion: ApiVersion73;
+  apiVersion: ApiVersion74Preview1;
 
   /**
    * Initializes a new instance of the KeyVaultClient class.
@@ -83,7 +83,7 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion73,
+    apiVersion: ApiVersion74Preview1,
     options?: KeyVaultClientOptionalParams
   ) {
     if (apiVersion === undefined) {
@@ -98,7 +98,7 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-keyvault-keys/4.5.1`;
+    const packageDetails = `azsdk-js-keyvault-keys/4.7.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -146,6 +146,8 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
    * permission.
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name for the new key. The system will generate the version name for the new key.
+   *                The value you provide may be copied globally for the purpose of running the service. The value
+   *                provided should not include personally identifiable or sensitive information.
    * @param kty The type of key to create. For valid values, see JsonWebKeyType.
    * @param options The options parameters.
    */
@@ -184,7 +186,9 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
    * key already exists, Azure Key Vault creates a new version of the key. This operation requires the
    * keys/import permission.
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
-   * @param keyName Name for the imported key.
+   * @param keyName Name for the imported key. The value you provide may be copied globally for the
+   *                purpose of running the service. The value provided should not include personally identifiable or
+   *                sensitive information.
    * @param key The Json web key
    * @param options The options parameters.
    */
@@ -385,6 +389,9 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
    * data may be decrypted, the size of this block is dependent on the target key and the algorithm to be
    * used. The DECRYPT operation applies to asymmetric and symmetric keys stored in Azure Key Vault since
    * it uses the private portion of the key. This operation requires the keys/decrypt permission.
+   * Microsoft recommends not to use CBC algorithms for decryption without first ensuring the integrity
+   * of the ciphertext using an HMAC, for example. See
+   * https://docs.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more information.
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
    * @param keyVersion The version of the key.

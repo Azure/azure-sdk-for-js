@@ -1,0 +1,93 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/azsdk_js_test:get-id?api-version=2022-10",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "160",
+        "Content-Type": "application/json; serialization=null",
+        "User-Agent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.1 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "9d3d093e-27a1-4945-98cc-17312480460a"
+      },
+      "RequestBody": {
+        "type": "record",
+        "name": "User",
+        "namespace": "com.azure.schemaregistry.samples",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "favoriteNumber",
+            "type": "int"
+          }
+        ]
+      },
+      "StatusCode": 415,
+      "ResponseHeaders": {
+        "Content-Type": "application/json",
+        "Date": "Mon, 07 Nov 2022 21:24:02 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000",
+        "Transfer-Encoding": "chunked",
+        "x-ms-error-code": "InvalidSchemaType"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidSchemaType",
+          "message": "Invalid schema type for POST request. \u0027null\u0027 is not supported. TrackingId:e6ff6f02-227a-49cc-b56d-9be29e652370_G1, SystemTracker:dealmahaschemaregistry-avro.servicebus.windows.net:$schemaGroups/group-1/schemas/azsdk_js_test:get-id, Timestamp:2022-11-07T21:24:02"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/azsdk_js_test:get-id?api-version=2022-10",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "160",
+        "Content-Type": "application/json; serialization=not-valid",
+        "User-Agent": "azsdk-js-schema-registry/1.3.0-beta.1 core-rest-pipeline/1.10.1 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "4cf81923-c074-47c2-ba51-2a621bd55280"
+      },
+      "RequestBody": {
+        "type": "record",
+        "name": "User",
+        "namespace": "com.azure.schemaregistry.samples",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "favoriteNumber",
+            "type": "int"
+          }
+        ]
+      },
+      "StatusCode": 415,
+      "ResponseHeaders": {
+        "Content-Type": "application/json",
+        "Date": "Mon, 07 Nov 2022 21:24:02 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000",
+        "Transfer-Encoding": "chunked",
+        "x-ms-error-code": "InvalidSchemaType"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidSchemaType",
+          "message": "Invalid schema type for POST request. \u0027not-valid\u0027 is not supported. TrackingId:cb246a97-2d7b-4761-94e7-268f7f47d178_G1, SystemTracker:dealmahaschemaregistry-avro.servicebus.windows.net:$schemaGroups/group-1/schemas/azsdk_js_test:get-id, Timestamp:2022-11-07T21:24:03"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

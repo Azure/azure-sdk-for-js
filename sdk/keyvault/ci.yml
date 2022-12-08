@@ -42,3 +42,5 @@ extends:
         safeName: azurekeyvaultsecrets
       - name: azure-keyvault-admin
         safeName: azurekeyvaultadmin
+      - name: azure-keyvault-common
+        safeName: azurekeyvaultcommon

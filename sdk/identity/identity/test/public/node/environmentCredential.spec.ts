@@ -3,13 +3,13 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import sinon from "sinon";
-import { assert } from "@azure/test-utils";
-import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { EnvironmentCredential, UsernamePasswordCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
+import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { assert } from "@azure/test-utils";
 import { getError } from "../../authTestUtils";
+import sinon from "sinon";
 
 describe("EnvironmentCredential", function () {
   let cleanup: MsalTestCleanup;

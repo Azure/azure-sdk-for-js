@@ -42,6 +42,8 @@ import {
   PublicIPAddressesUpdateTagsResponse,
   PublicIPAddressesListAllResponse,
   PublicIPAddressesListResponse,
+  PublicIPAddressesDdosProtectionStatusOptionalParams,
+  PublicIPAddressesDdosProtectionStatusResponse,
   PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesResponse,
   PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesResponse,
   PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams,
@@ -820,6 +822,94 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
   }
 
   /**
+   * Gets the Ddos Protection Status of a Public IP Address
+   * @param resourceGroupName The name of the resource group.
+   * @param publicIpAddressName The name of the public IP address.
+   * @param options The options parameters.
+   */
+  async beginDdosProtectionStatus(
+    resourceGroupName: string,
+    publicIpAddressName: string,
+    options?: PublicIPAddressesDdosProtectionStatusOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<PublicIPAddressesDdosProtectionStatusResponse>,
+      PublicIPAddressesDdosProtectionStatusResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<PublicIPAddressesDdosProtectionStatusResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, publicIpAddressName, options },
+      ddosProtectionStatusOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Gets the Ddos Protection Status of a Public IP Address
+   * @param resourceGroupName The name of the resource group.
+   * @param publicIpAddressName The name of the public IP address.
+   * @param options The options parameters.
+   */
+  async beginDdosProtectionStatusAndWait(
+    resourceGroupName: string,
+    publicIpAddressName: string,
+    options?: PublicIPAddressesDdosProtectionStatusOptionalParams
+  ): Promise<PublicIPAddressesDdosProtectionStatusResponse> {
+    const poller = await this.beginDdosProtectionStatus(
+      resourceGroupName,
+      publicIpAddressName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Gets information about all public IP addresses on a virtual machine scale set level.
    * @param resourceGroupName The name of the resource group.
    * @param virtualMachineScaleSetName The name of the virtual machine scale set.
@@ -1264,6 +1354,37 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const ddosProtectionStatusOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}/ddosProtectionStatus",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PublicIpDdosProtectionStatusResult
+    },
+    201: {
+      bodyMapper: Mappers.PublicIpDdosProtectionStatusResult
+    },
+    202: {
+      bodyMapper: Mappers.PublicIpDdosProtectionStatusResult
+    },
+    204: {
+      bodyMapper: Mappers.PublicIpDdosProtectionStatusResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.publicIpAddressName
   ],
   headerParameters: [Parameters.accept],
   serializer

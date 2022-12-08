@@ -7,9 +7,7 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { Durations, MetricsQueryClient } = require("@azure/monitor-query");
-const dotenv = require("dotenv");
-
-dotenv.config();
+require("dotenv").config();
 
 const metricsResourceId = process.env.METRICS_RESOURCE_ID;
 
@@ -34,7 +32,7 @@ async function main() {
     console.log(`Picking an example list of metrics to query: ${metricNames}`);
     const metricsResponse = await metricsQueryClient.queryResource(metricsResourceId, metricNames, {
       granularity: "PT1M",
-      timespan: { duration: Durations.fiveMinutes }
+      timespan: { duration: Durations.fiveMinutes },
     });
 
     console.log(
@@ -54,3 +52,5 @@ main().catch((err) => {
   console.error("The sample encountered an error:", err);
   process.exit(1);
 });
+
+module.exports = { main };

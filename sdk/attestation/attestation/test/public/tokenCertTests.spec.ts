@@ -26,17 +26,17 @@ describe("TokenCertTests", function () {
     await recorder.stop();
   });
 
-  it("#GetCertificateAAD", async () => {
+  it("#GetCertificateAAD", async function () {
     const client = createRecordedClient(recorder, "AAD");
     await getCertificatesTest(client);
   });
 
-  it("#GetCertificatesIsolated", async () => {
+  it("#GetCertificatesIsolated", async function () {
     const client = createRecordedClient(recorder, "Isolated");
     await getCertificatesTest(client);
   });
 
-  it("#GetCertificatesShared", async () => {
+  it("#GetCertificatesShared", async function () {
     const client = createRecordedClient(recorder, "Shared");
     await getCertificatesTest(client);
   });
@@ -56,17 +56,17 @@ describe("TokenCertTests", function () {
     }
   }
 
-  it("#GetMetadataConfigAAD", async () => {
+  it("#GetMetadataConfigAAD", async function () {
     const client = createRecordedClient(recorder, "AAD");
     await getMetadataConfigTest(client, getAttestationUri("AAD"));
   });
 
-  it("#GetMetadataConfigIsolated", async () => {
+  it("#GetMetadataConfigIsolated", async function () {
     const client = createRecordedClient(recorder, "Isolated");
     await getMetadataConfigTest(client, getAttestationUri("Isolated"));
   });
 
-  it("#GetMetadataConfigShared", async () => {
+  it("#GetMetadataConfigShared", async function () {
     const client = createRecordedClient(recorder, "Shared");
     await getMetadataConfigTest(client, getAttestationUri("Shared"));
   });

@@ -37,6 +37,8 @@ import {
   Patch,
   ReservationUpdateOptionalParams,
   ReservationUpdateResponse,
+  ReservationArchiveOptionalParams,
+  ReservationUnarchiveOptionalParams,
   ReservationListRevisionsResponse,
   ReservationListAllResponse,
   ReservationListNextResponse,
@@ -610,6 +612,41 @@ export class ReservationImpl implements Reservation {
   }
 
   /**
+   * Archiving a `Reservation` moves it to `Archived` state.
+   * @param reservationOrderId Order Id of the reservation
+   * @param reservationId Id of the Reservation Item
+   * @param options The options parameters.
+   */
+  archive(
+    reservationOrderId: string,
+    reservationId: string,
+    options?: ReservationArchiveOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { reservationOrderId, reservationId, options },
+      archiveOperationSpec
+    );
+  }
+
+  /**
+   * Unarchiving a `Reservation` moves it to the state it was before archiving.
+   *
+   * @param reservationOrderId Order Id of the reservation
+   * @param reservationId Id of the Reservation Item
+   * @param options The options parameters.
+   */
+  unarchive(
+    reservationOrderId: string,
+    reservationId: string,
+    options?: ReservationUnarchiveOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { reservationOrderId, reservationId, options },
+      unarchiveOperationSpec
+    );
+  }
+
+  /**
    * List of all the revisions for the `Reservation`.
    * @param reservationId Id of the Reservation Item
    * @param reservationOrderId Order Id of the reservation
@@ -903,6 +940,44 @@ const updateOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
+  serializer
+};
+const archiveOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}/archive",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.reservationOrderId,
+    Parameters.reservationId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const unarchiveOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}/unarchive",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.reservationOrderId,
+    Parameters.reservationId
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listRevisionsOperationSpec: coreClient.OperationSpec = {

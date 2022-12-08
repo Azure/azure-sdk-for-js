@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Get geodata for a single IP address
  *
  * @summary Get geodata for a single IP address
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/enrichment/GetGeodataByIp.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/enrichment/GetGeodataByIp.json
  */
 async function getGeodataForASingleIPAddress() {
   const subscriptionId = "bd794837-4d29-4647-9105-6339bfdb4e6a";

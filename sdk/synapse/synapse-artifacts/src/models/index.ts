@@ -73,6 +73,7 @@ export type DatasetUnion =
   | AmazonRdsForSqlServerTableDataset
   | RestResourceDataset
   | SapTableResourceDataset
+  | SapOdpResourceDataset
   | WebTableDataset
   | AzureSearchIndexDataset
   | HttpDataset
@@ -163,11 +164,17 @@ export type LinkedServiceUnion =
   | SapCloudForCustomerLinkedService
   | SapEccLinkedService
   | SapOpenHubLinkedService
+  | SapOdpLinkedService
   | RestServiceLinkedService
   | TeamDeskLinkedService
   | QuickbaseLinkedService
   | SmartsheetLinkedService
   | ZendeskLinkedService
+  | DataworldLinkedService
+  | AppFiguresLinkedService
+  | AsanaLinkedService
+  | TwilioLinkedService
+  | GoogleSheetsLinkedService
   | AmazonS3LinkedService
   | AmazonRedshiftLinkedService
   | CustomDataSourceLinkedService
@@ -219,7 +226,8 @@ export type LinkedServiceUnion =
   | AzureDataExplorerLinkedService
   | AzureFunctionLinkedService
   | SnowflakeLinkedService
-  | SharePointOnlineListLinkedService;
+  | SharePointOnlineListLinkedService
+  | AzureSynapseArtifactsLinkedService;
 export type ActivityUnion =
   | Activity
   | ControlActivityUnion
@@ -397,6 +405,7 @@ export type ControlActivityUnion =
   | SwitchActivity
   | ForEachActivity
   | WaitActivity
+  | FailActivity
   | UntilActivity
   | ValidationActivity
   | FilterActivity
@@ -452,6 +461,7 @@ export type TabularSourceUnion =
   | SapEccSource
   | SapHanaSource
   | SapOpenHubSource
+  | SapOdpSource
   | SapTableSource
   | SqlSource
   | SqlServerSource
@@ -517,6 +527,8 @@ export interface LinkConnectionResource {
   type?: string;
   /** Properties of link connection */
   properties: LinkConnection;
+  /** Link connection description */
+  description?: string;
 }
 
 export interface LinkConnection {
@@ -557,6 +569,15 @@ export interface LinkConnectionSourceDatabaseTypeProperties {
 export interface LinkConnectionTargetDatabase {
   /** Linked service reference */
   linkedService?: LinkedServiceReference;
+  /** Target database type properties */
+  typeProperties?: LinkConnectionTargetDatabaseTypeProperties;
+}
+
+export interface LinkConnectionTargetDatabaseTypeProperties {
+  /** Enable cross table transaction consistency on target database */
+  crossTableTransaction?: boolean;
+  /** Drop and recreate same existing target table on link connection target database */
+  dropExistingTargetTableOnStart?: boolean;
 }
 
 export interface LinkConnectionLandingZone {
@@ -577,10 +598,12 @@ export interface SecretBase {
 }
 
 export interface LinkConnectionCompute {
-  /** Link connection's compute core count */
+  /** Compute core count used by the link connection */
   coreCount?: number;
   /** Link connection's compute type */
   computeType?: string;
+  /** Link connection's data process interval in minutes */
+  dataProcessIntervalMinutes?: number;
 }
 
 /** The object that defines the structure of an Azure Synapse error response. */
@@ -625,6 +648,8 @@ export interface LinkTableRequestTarget {
   schemaName?: string;
   /** Target table distribution options for link table request */
   distributionOptions?: LinkTableRequestTargetDistributionOptions;
+  /** Target table structure options for link table request */
+  structureOptions?: LinkTableRequestTargetStructureOptions;
 }
 
 export interface LinkTableRequestTargetDistributionOptions {
@@ -632,6 +657,11 @@ export interface LinkTableRequestTargetDistributionOptions {
   type?: string;
   /** Target table distribution column */
   distributionColumn?: string;
+}
+
+export interface LinkTableRequestTargetStructureOptions {
+  /** Target table structure type */
+  type?: string;
 }
 
 export interface LinkConnectionDetailedStatus {
@@ -653,6 +683,23 @@ export interface LinkConnectionDetailedStatus {
   continuousRunId?: string;
   /** Link connection error */
   error?: any;
+  /** Link connection refresh status */
+  refreshStatus?: LinkConnectionRefreshStatus;
+  /** Link connection landing zone credential expire time */
+  landingZoneCredentialExpireTime?: Date;
+}
+
+export interface LinkConnectionRefreshStatus {
+  /**
+   * Link connection refresh status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly refreshStatus?: string;
+  /**
+   * Link connection refresh error message
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorMessage?: string;
 }
 
 export interface LinkTableListResponse {
@@ -686,7 +733,7 @@ export interface LinkConnectionQueryTableStatus {
 }
 
 export interface LinkTableStatus {
-  /** Link table id */
+  /** ID provided by the client */
   id?: string;
   /** Link table status */
   status?: string;
@@ -696,6 +743,14 @@ export interface LinkTableStatus {
   startTime?: any;
   /** Link table stop time */
   stopTime?: any;
+  /** Link table ID */
+  linkTableId?: string;
+  /** Link table error code */
+  errorCode?: string;
+  /** Link table last processed data time */
+  lastProcessedData?: Date;
+  /** Link table last transaction commit time */
+  lastTransactionCommitTime?: Date;
 }
 
 export interface UpdateLandingZoneCredential {
@@ -1101,6 +1156,7 @@ export interface Dataset {
     | "AmazonRdsForSqlServerTable"
     | "RestResource"
     | "SapTableResource"
+    | "SapOdpResource"
     | "WebTable"
     | "AzureSearchIndex"
     | "HttpFile"
@@ -1225,11 +1281,17 @@ export interface LinkedService {
     | "SapCloudForCustomer"
     | "SapEcc"
     | "SapOpenHub"
+    | "SapOdp"
     | "RestService"
     | "TeamDesk"
     | "Quickbase"
     | "Smartsheet"
     | "Zendesk"
+    | "Dataworld"
+    | "AppFigures"
+    | "Asana"
+    | "Twilio"
+    | "GoogleSheets"
     | "AmazonS3"
     | "AmazonRedshift"
     | "CustomDataSource"
@@ -1281,7 +1343,8 @@ export interface LinkedService {
     | "AzureDataExplorer"
     | "AzureFunction"
     | "Snowflake"
-    | "SharePointOnlineList";
+    | "SharePointOnlineList"
+    | "AzureSynapseArtifacts";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** The integration runtime reference. */
@@ -1565,6 +1628,8 @@ export interface Notebook {
   description?: string;
   /** Big data pool reference. */
   bigDataPool?: BigDataPoolReference;
+  /** The spark configuration of the spark job. */
+  targetSparkConfiguration?: SparkConfigurationReference;
   /** Session properties. */
   sessionProperties?: NotebookSessionProperties;
   /** Notebook root-level metadata. */
@@ -1584,6 +1649,14 @@ export interface BigDataPoolReference {
   /** Big data pool reference type. */
   type: BigDataPoolReferenceType;
   /** Reference big data pool name. */
+  referenceName: string;
+}
+
+/** Spark configuration reference. */
+export interface SparkConfigurationReference {
+  /** Spark configuration reference type. */
+  type: SparkConfigurationReferenceType;
+  /** Reference spark configuration name. */
   referenceName: string;
 }
 
@@ -1706,6 +1779,7 @@ export interface Activity {
     | "AzureMLExecutePipeline"
     | "DataLakeAnalyticsU-SQL"
     | "Wait"
+    | "Fail"
     | "Until"
     | "Validation"
     | "Filter"
@@ -1991,6 +2065,8 @@ export interface SparkJobDefinition {
   description?: string;
   /** Big data pool reference. */
   targetBigDataPool: BigDataPoolReference;
+  /** The spark configuration of the spark job. */
+  targetSparkConfiguration?: SparkConfigurationReference;
   /** The required Spark version of the application. */
   requiredSparkVersion?: string;
   /** The language of the Spark application. */
@@ -2568,17 +2644,6 @@ export interface RerunTumblingWindowTriggerActionParameters {
   maxConcurrency: number;
 }
 
-/** A list of rerun triggers. */
-export interface RerunTriggerListResponse {
-  /** List of rerun triggers. */
-  value: RerunTriggerResource[];
-  /**
-   * The continuation token for getting the next page of results, if any remaining results exist, null otherwise.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
 /** The request payload of get SSIS object metadata. */
 export interface GetSsisObjectMetadataRequest {
   /** Metadata path. */
@@ -2727,6 +2792,17 @@ export interface DataFlowDebugResultResponse {
   status?: string;
   /** The result data of data preview, statistics or expression preview. */
   data?: string;
+}
+
+/** A list of rerun triggers. */
+export interface RerunTriggerListResponse {
+  /** List of rerun triggers. */
+  value: RerunTriggerResource[];
+  /**
+   * The continuation token for getting the next page of results, if any remaining results exist, null otherwise.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** A data flow transformation. */
@@ -2965,6 +3041,7 @@ export interface CopySource {
     | "SapEccSource"
     | "SapHanaSource"
     | "SapOpenHubSource"
+    | "SapOdpSource"
     | "SapTableSource"
     | "RestSource"
     | "SqlSource"
@@ -3863,8 +3940,10 @@ export interface ExcelDataset extends Dataset {
   type: "Excel";
   /** The location of the excel storage. */
   location?: DatasetLocationUnion;
-  /** The sheet of excel file. Type: string (or Expression with resultType string). */
+  /** The sheet name of excel file. Type: string (or Expression with resultType string). */
   sheetName?: any;
+  /** The sheet index of excel file and default value is 0. Type: integer (or Expression with resultType integer) */
+  sheetIndex?: any;
   /** The partial data of one sheet. Type: string (or Expression with resultType string). */
   range?: any;
   /** When used as input, treat the first row of data as headers. When used as output,write the headers into the output as the first row of data. The default value is false. Type: boolean (or Expression with resultType boolean). */
@@ -4407,6 +4486,16 @@ export interface SapTableResourceDataset extends Dataset {
   type: "SapTableResource";
   /** The name of the SAP Table. Type: string (or Expression with resultType string). */
   tableName: any;
+}
+
+/** SAP ODP Resource properties. */
+export interface SapOdpResourceDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SapOdpResource";
+  /** The context of the SAP ODP Object. Type: string (or Expression with resultType string). */
+  context: any;
+  /** The name of the SAP ODP Object. Type: string (or Expression with resultType string). */
+  objectName: any;
 }
 
 /** The dataset points to a HTML table in the web page. */
@@ -5661,6 +5750,48 @@ export interface SapOpenHubLinkedService extends LinkedService {
   encryptedCredential?: any;
 }
 
+/** SAP ODP Linked Service. */
+export interface SapOdpLinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SapOdp";
+  /** Host name of the SAP instance where the table is located. Type: string (or Expression with resultType string). */
+  server?: any;
+  /** System number of the SAP system where the table is located. (Usually a two-digit decimal number represented as a string.) Type: string (or Expression with resultType string). */
+  systemNumber?: any;
+  /** Client ID of the client on the SAP system where the table is located. (Usually a three-digit decimal number represented as a string) Type: string (or Expression with resultType string). */
+  clientId?: any;
+  /** Language of the SAP system where the table is located. The default value is EN. Type: string (or Expression with resultType string). */
+  language?: any;
+  /** SystemID of the SAP system where the table is located. Type: string (or Expression with resultType string). */
+  systemId?: any;
+  /** Username to access the SAP server where the table is located. Type: string (or Expression with resultType string). */
+  userName?: any;
+  /** Password to access the SAP server where the table is located. */
+  password?: SecretBaseUnion;
+  /** The hostname of the SAP Message Server. Type: string (or Expression with resultType string). */
+  messageServer?: any;
+  /** The service name or port number of the Message Server. Type: string (or Expression with resultType string). */
+  messageServerService?: any;
+  /** SNC activation indicator to access the SAP server where the table is located. Must be either 0 (off) or 1 (on). Type: string (or Expression with resultType string). */
+  sncMode?: any;
+  /** Initiator's SNC name to access the SAP server where the table is located. Type: string (or Expression with resultType string). */
+  sncMyName?: any;
+  /** Communication partner's SNC name to access the SAP server where the table is located. Type: string (or Expression with resultType string). */
+  sncPartnerName?: any;
+  /** External security product's library to access the SAP server where the table is located. Type: string (or Expression with resultType string). */
+  sncLibraryPath?: any;
+  /** SNC Quality of Protection. Allowed value include: 1, 2, 3, 8, 9. Type: string (or Expression with resultType string). */
+  sncQop?: any;
+  /** SNC X509 certificate file path. Type: string (or Expression with resultType string). */
+  x509CertificatePath?: any;
+  /** The Logon Group for the SAP System. Type: string (or Expression with resultType string). */
+  logonGroup?: any;
+  /** The subscriber name. Type: string (or Expression with resultType string). */
+  subscriberName?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: any;
+}
+
 /** Rest Service linked service. */
 export interface RestServiceLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -5687,6 +5818,16 @@ export interface RestServiceLinkedService extends LinkedService {
   aadResourceId?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
+  /** The client ID associated with your application. Type: string (or Expression with resultType string). */
+  clientId?: any;
+  /** The client secret associated with your application. */
+  clientSecret?: SecretBaseUnion;
+  /** The token endpoint of the authorization server to acquire access token. Type: string (or Expression with resultType string). */
+  tokenEndpoint?: any;
+  /** The target service or resource to which the access will be requested. Type: string (or Expression with resultType string). */
+  resource?: any;
+  /** The scope of the access required. It describes what kind of access will be requested. Type: string (or Expression with resultType string). */
+  scope?: any;
 }
 
 /** Linked service for TeamDesk. */
@@ -5743,6 +5884,58 @@ export interface ZendeskLinkedService extends LinkedService {
   password?: SecretBaseUnion;
   /** The api token for the Zendesk source. */
   apiToken?: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: any;
+}
+
+/** Linked service for Dataworld. */
+export interface DataworldLinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Dataworld";
+  /** The api token for the Dataworld source. */
+  apiToken: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: any;
+}
+
+/** Linked service for AppFigures. */
+export interface AppFiguresLinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AppFigures";
+  /** The username of the Appfigures source. */
+  userName: any;
+  /** The password of the AppFigures source. */
+  password: SecretBaseUnion;
+  /** The client key for the AppFigures source. */
+  clientKey: SecretBaseUnion;
+}
+
+/** Linked service for Asana. */
+export interface AsanaLinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Asana";
+  /** The api token for the Asana source. */
+  apiToken: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: any;
+}
+
+/** Linked service for Twilio. */
+export interface TwilioLinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Twilio";
+  /** The Account SID of Twilio service. */
+  userName: any;
+  /** The auth token of Twilio service. */
+  password: SecretBaseUnion;
+}
+
+/** Linked service for GoogleSheets. */
+export interface GoogleSheetsLinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "GoogleSheets";
+  /** The api token for the GoogleSheets source. */
+  apiToken: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
 }
@@ -6890,6 +7083,16 @@ export interface SharePointOnlineListLinkedService extends LinkedService {
   encryptedCredential?: any;
 }
 
+/** Azure Synapse Analytics (Artifacts) linked service. */
+export interface AzureSynapseArtifactsLinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AzureSynapseArtifacts";
+  /** https://<workspacename>.dev.azuresynapse.net, Azure Synapse Analytics workspace URL. Type: string (or Expression with resultType string). */
+  endpoint: any;
+  /** Required to specify MSI, if using system assigned managed identity as authentication method. Type: string (or Expression with resultType string). */
+  authentication?: any;
+}
+
 /** Base class for all control activities like IfCondition, ForEach , Until. */
 export interface ControlActivity extends Activity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -6900,6 +7103,7 @@ export interface ControlActivity extends Activity {
     | "Switch"
     | "ForEach"
     | "Wait"
+    | "Fail"
     | "Until"
     | "Validation"
     | "Filter"
@@ -7032,6 +7236,8 @@ export interface DataFlowSource extends Transformation {
 export interface DataFlowSink extends Transformation {
   /** Schema linked service reference. */
   schemaLinkedService?: LinkedServiceReference;
+  /** Rejected data linked service reference. */
+  rejectedDataLinkedService?: LinkedServiceReference;
 }
 
 /** The location of azure blob dataset. */
@@ -7748,6 +7954,7 @@ export interface TabularSource extends CopySource {
     | "SapEccSource"
     | "SapHanaSource"
     | "SapOpenHubSource"
+    | "SapOdpSource"
     | "SapTableSource"
     | "SqlSource"
     | "SqlServerSource"
@@ -8859,6 +9066,16 @@ export interface WaitActivity extends ControlActivity {
   waitTimeInSeconds: any;
 }
 
+/** This activity will fail within its own scope and output a custom error message and error code. The error message and code can provided either as a string literal or as an expression that can be evaluated to a string at runtime. The activity scope can be the whole pipeline or a control activity (e.g. foreach, switch, until), if the fail activity is contained in it. */
+export interface FailActivity extends ControlActivity {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Fail";
+  /** The error message that surfaced in the Fail activity. It can be dynamic content that's evaluated to a non empty/blank string at runtime. Type: string (or Expression with resultType string). */
+  message: any;
+  /** The error code that categorizes the error type of the Fail activity. It can be dynamic content that's evaluated to a non empty/blank string at runtime. Type: string (or Expression with resultType string). */
+  errorCode: any;
+}
+
 /** This activity executes inner activities until the specified boolean expression results to true or timeout is reached, whichever is earlier. */
 export interface UntilActivity extends ControlActivity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -9359,6 +9576,8 @@ export interface ExecuteDataFlowActivity extends ExecutionActivity {
   continueOnError?: any;
   /** Concurrent run setting used for data flow execution. Allows sinks with the same save order to be processed concurrently. Type: boolean (or Expression with resultType boolean) */
   runConcurrently?: any;
+  /** Specify number of parallel staging for sources applicable to the sink. Type: integer (or Expression with resultType integer) */
+  sourceStagingConcurrency?: any;
 }
 
 /** Script activity type. */
@@ -9381,6 +9600,14 @@ export interface SynapseNotebookActivity extends ExecutionActivity {
   sparkPool?: BigDataPoolParametrizationReference;
   /** Notebook parameters. */
   parameters?: { [propertyName: string]: NotebookParameter };
+  /** Number of core and memory to be used for executors allocated in the specified Spark pool for the session, which will be used for overriding 'executorCores' and 'executorMemory' of the notebook you provide. Type: string (or Expression with resultType string). */
+  executorSize?: any;
+  /** Spark configuration properties, which will override the 'conf' of the notebook you provide. */
+  conf?: any;
+  /** Number of core and memory to be used for driver allocated in the specified Spark pool for the session, which will be used for overriding 'driverCores' and 'driverMemory' of the notebook you provide. Type: string (or Expression with resultType string). */
+  driverSize?: any;
+  /** Number of executors to launch for this session, which will override the 'numExecutors' of the notebook you provide. */
+  numExecutors?: number;
 }
 
 /** Execute spark job activity. */
@@ -9581,6 +9808,20 @@ export interface SapOpenHubSource extends TabularSource {
   customRfcReadTableFunctionModule?: any;
   /** The single character that will be used as delimiter passed to SAP RFC as well as splitting the output data retrieved. Type: string (or Expression with resultType string). */
   sapDataColumnDelimiter?: any;
+}
+
+/** A copy activity source for SAP ODP source. */
+export interface SapOdpSource extends TabularSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SapOdpSource";
+  /** The extraction mode. Allowed value include: Full, Delta and Recovery. The default value is Full. Type: string (or Expression with resultType string). */
+  extractionMode?: any;
+  /** The subscriber process to manage the delta process. Type: string (or Expression with resultType string). */
+  subscriberProcess?: any;
+  /** Specifies the selection conditions from source data. Type: array of objects(selection) (or Expression with resultType array of objects). */
+  selection?: any;
+  /** Specifies the columns to be selected from source data. Type: array of objects(projection) (or Expression with resultType array of objects). */
+  projection?: any;
 }
 
 /** A copy activity source for SAP Table source. */
@@ -10350,6 +10591,21 @@ export enum KnownBigDataPoolReferenceType {
  */
 export type BigDataPoolReferenceType = string;
 
+/** Known values of {@link SparkConfigurationReferenceType} that the service accepts. */
+export enum KnownSparkConfigurationReferenceType {
+  /** SparkConfigurationReference */
+  SparkConfigurationReference = "SparkConfigurationReference"
+}
+
+/**
+ * Defines values for SparkConfigurationReferenceType. \
+ * {@link KnownSparkConfigurationReferenceType} can be used interchangeably with SparkConfigurationReferenceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SparkConfigurationReference**
+ */
+export type SparkConfigurationReferenceType = string;
+
 /** Known values of {@link CellOutputType} that the service accepts. */
 export enum KnownCellOutputType {
   /** ExecuteResult */
@@ -11091,7 +11347,9 @@ export enum KnownRestServiceAuthenticationType {
   /** AadServicePrincipal */
   AadServicePrincipal = "AadServicePrincipal",
   /** ManagedServiceIdentity */
-  ManagedServiceIdentity = "ManagedServiceIdentity"
+  ManagedServiceIdentity = "ManagedServiceIdentity",
+  /** OAuth2ClientCredential */
+  OAuth2ClientCredential = "OAuth2ClientCredential"
 }
 
 /**
@@ -11102,7 +11360,8 @@ export enum KnownRestServiceAuthenticationType {
  * **Anonymous** \
  * **Basic** \
  * **AadServicePrincipal** \
- * **ManagedServiceIdentity**
+ * **ManagedServiceIdentity** \
+ * **OAuth2ClientCredential**
  */
 export type RestServiceAuthenticationType = string;
 

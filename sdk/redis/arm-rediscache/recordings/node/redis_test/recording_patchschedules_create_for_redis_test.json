@@ -1,0 +1,73 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Cache/redis/myrediscachexxx111/patchSchedules/default?api-version=2022-06-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "146",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-rediscache/7.1.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "334e502f-408d-414e-8c96-ec59c7a32820"
+      },
+      "RequestBody": {
+        "properties": {
+          "scheduleEntries": [
+            {
+              "dayOfWeek": "Monday",
+              "startHourUtc": 12,
+              "maintenanceWindow": "PT5H"
+            },
+            {
+              "dayOfWeek": "Tuesday",
+              "startHourUtc": 12
+            }
+          ]
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 21 Oct 2022 07:06:31 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "15cbaf3b-3693-4bec-8e0b-03dc38dbc973",
+        "x-ms-ratelimit-remaining-subscription-writes": "1196",
+        "x-ms-request-id": "1e139cae-93c6-4a58-aaca-2ac3dbd12238",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221021T070631Z:15cbaf3b-3693-4bec-8e0b-03dc38dbc973",
+        "x-rp-server-mvid": "be1ed6d8-4bcc-498f-a45e-34b9fb6c6358"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Cache/Redis/myrediscachexxx111/patchSchedules/default",
+        "location": "East US",
+        "name": "myrediscachexxx111/default",
+        "type": "Microsoft.Cache/Redis/PatchSchedules",
+        "properties": {
+          "scheduleEntries": [
+            {
+              "dayOfWeek": "Monday",
+              "startHourUtc": 12,
+              "maintenanceWindow": "PT5H"
+            },
+            {
+              "dayOfWeek": "Tuesday",
+              "startHourUtc": 12,
+              "maintenanceWindow": "PT5H"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

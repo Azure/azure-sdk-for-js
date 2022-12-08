@@ -15,7 +15,11 @@ import {
   LiveOutputsGetResponse,
   LiveOutputsCreateOptionalParams,
   LiveOutputsCreateResponse,
-  LiveOutputsDeleteOptionalParams
+  LiveOutputsDeleteOptionalParams,
+  LiveOutputsAsyncOperationOptionalParams,
+  LiveOutputsAsyncOperationResponse,
+  LiveOutputsOperationLocationOptionalParams,
+  LiveOutputsOperationLocationResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -120,4 +124,34 @@ export interface LiveOutputs {
     liveOutputName: string,
     options?: LiveOutputsDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * Get a Live Output operation status.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param operationId The ID of an ongoing async operation.
+   * @param options The options parameters.
+   */
+  asyncOperation(
+    resourceGroupName: string,
+    accountName: string,
+    operationId: string,
+    options?: LiveOutputsAsyncOperationOptionalParams
+  ): Promise<LiveOutputsAsyncOperationResponse>;
+  /**
+   * Get a Live Output operation status.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param liveOutputName The name of the live output.
+   * @param operationId The ID of an ongoing async operation.
+   * @param options The options parameters.
+   */
+  operationLocation(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    liveOutputName: string,
+    operationId: string,
+    options?: LiveOutputsOperationLocationOptionalParams
+  ): Promise<LiveOutputsOperationLocationResponse>;
 }

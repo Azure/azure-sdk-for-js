@@ -23,7 +23,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function reservationTransactionsByEnrollmentNumber() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const filter =
-    "properties/eventDate ge 2020-05-20 AND properties/eventDate le 2020-05-30";
+    "properties/eventDate+ge+2020-05-20+AND+properties/eventDate+le+2020-05-30";
   const billingAccountId = "123456";
   const options: ReservationTransactionsListOptionalParams = { filter };
   const credential = new DefaultAzureCredential();

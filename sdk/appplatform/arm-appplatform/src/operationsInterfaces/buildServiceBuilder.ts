@@ -15,7 +15,9 @@ import {
   BuildServiceBuilderGetResponse,
   BuildServiceBuilderCreateOrUpdateOptionalParams,
   BuildServiceBuilderCreateOrUpdateResponse,
-  BuildServiceBuilderDeleteOptionalParams
+  BuildServiceBuilderDeleteOptionalParams,
+  BuildServiceBuilderListDeploymentsOptionalParams,
+  BuildServiceBuilderListDeploymentsResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -124,4 +126,20 @@ export interface BuildServiceBuilder {
     builderName: string,
     options?: BuildServiceBuilderDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * List deployments that are using the builder.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param buildServiceName The name of the build service resource.
+   * @param builderName The name of the builder resource.
+   * @param options The options parameters.
+   */
+  listDeployments(
+    resourceGroupName: string,
+    serviceName: string,
+    buildServiceName: string,
+    builderName: string,
+    options?: BuildServiceBuilderListDeploymentsOptionalParams
+  ): Promise<BuildServiceBuilderListDeploymentsResponse>;
 }

@@ -209,8 +209,7 @@ export const getIdentifierRawId = (identifier: CommunicationIdentifier): string 
     case "phoneNumber": {
       const { phoneNumber, rawId } = identifierKind;
       if (rawId) return rawId;
-      // strip the leading +. We just assume correct E.164 format here because validation should only happen server-side, not client-side.
-      return `4:${phoneNumber.replace(/^\+/, "")}`;
+      return `4:${phoneNumber}`;
     }
     case "unknown": {
       return identifierKind.id;
@@ -225,7 +224,7 @@ export const getIdentifierRawId = (identifier: CommunicationIdentifier): string 
  */
 export const createIdentifierFromRawId = (rawId: string): CommunicationIdentifierKind => {
   if (rawId.startsWith("4:")) {
-    return { kind: "phoneNumber", phoneNumber: `+${rawId.substring("4:".length)}` };
+    return { kind: "phoneNumber", phoneNumber: `${rawId.substring("4:".length)}` };
   }
 
   const segments = rawId.split(":");

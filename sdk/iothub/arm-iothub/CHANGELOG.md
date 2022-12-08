@@ -1,6 +1,6 @@
 # Release History
 
-## 6.1.3 (Unreleased)
+## 6.2.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 6.2.0 (2022-08-18)
+    
+**Features**
+
+  - Added Interface IotHubDescription
+    
 ## 6.1.2 (2022-06-14)
 
 **Features**

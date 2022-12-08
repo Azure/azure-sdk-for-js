@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { BuildServiceOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,21 +17,21 @@ import {
   BuildService,
   BuildServiceListBuildServicesNextOptionalParams,
   BuildServiceListBuildServicesOptionalParams,
+  BuildServiceListBuildServicesResponse,
   Build,
   BuildServiceListBuildsNextOptionalParams,
   BuildServiceListBuildsOptionalParams,
+  BuildServiceListBuildsResponse,
   BuildResult,
   BuildServiceListBuildResultsNextOptionalParams,
   BuildServiceListBuildResultsOptionalParams,
-  BuildServiceListBuildServicesResponse,
+  BuildServiceListBuildResultsResponse,
   BuildServiceGetBuildServiceOptionalParams,
   BuildServiceGetBuildServiceResponse,
-  BuildServiceListBuildsResponse,
   BuildServiceGetBuildOptionalParams,
   BuildServiceGetBuildResponse,
   BuildServiceCreateOrUpdateBuildOptionalParams,
   BuildServiceCreateOrUpdateBuildResponse,
-  BuildServiceListBuildResultsResponse,
   BuildServiceGetBuildResultOptionalParams,
   BuildServiceGetBuildResultResponse,
   BuildServiceGetBuildResultLogOptionalParams,
@@ -87,11 +88,15 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listBuildServicesPagingPage(
           resourceGroupName,
           serviceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -100,15 +105,22 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
   private async *listBuildServicesPagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: BuildServiceListBuildServicesOptionalParams
+    options?: BuildServiceListBuildServicesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<BuildService[]> {
-    let result = await this._listBuildServices(
-      resourceGroupName,
-      serviceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: BuildServiceListBuildServicesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBuildServices(
+        resourceGroupName,
+        serviceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBuildServicesNext(
         resourceGroupName,
@@ -117,7 +129,9 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -162,12 +176,16 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listBuildsPagingPage(
           resourceGroupName,
           serviceName,
           buildServiceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -177,16 +195,23 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     resourceGroupName: string,
     serviceName: string,
     buildServiceName: string,
-    options?: BuildServiceListBuildsOptionalParams
+    options?: BuildServiceListBuildsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Build[]> {
-    let result = await this._listBuilds(
-      resourceGroupName,
-      serviceName,
-      buildServiceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: BuildServiceListBuildsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBuilds(
+        resourceGroupName,
+        serviceName,
+        buildServiceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBuildsNext(
         resourceGroupName,
@@ -196,7 +221,9 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -246,13 +273,17 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listBuildResultsPagingPage(
           resourceGroupName,
           serviceName,
           buildServiceName,
           buildName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -263,17 +294,24 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     serviceName: string,
     buildServiceName: string,
     buildName: string,
-    options?: BuildServiceListBuildResultsOptionalParams
+    options?: BuildServiceListBuildResultsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<BuildResult[]> {
-    let result = await this._listBuildResults(
-      resourceGroupName,
-      serviceName,
-      buildServiceName,
-      buildName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: BuildServiceListBuildResultsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBuildResults(
+        resourceGroupName,
+        serviceName,
+        buildServiceName,
+        buildName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBuildResultsNext(
         resourceGroupName,
@@ -284,7 +322,9 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

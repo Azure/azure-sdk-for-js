@@ -342,7 +342,9 @@ export interface OperationListResult {
 
 /** Known values of {@link RegionType} that the service accepts. */
 export enum KnownRegionType {
+  /** Physical */
   Physical = "Physical",
+  /** Logical */
   Logical = "Logical"
 }
 
@@ -358,8 +360,11 @@ export type RegionType = string;
 
 /** Known values of {@link RegionCategory} that the service accepts. */
 export enum KnownRegionCategory {
+  /** Recommended */
   Recommended = "Recommended",
+  /** Extended */
   Extended = "Extended",
+  /** Other */
   Other = "Other"
 }
 
@@ -376,7 +381,9 @@ export type RegionCategory = string;
 
 /** Known values of {@link ResourceNameStatus} that the service accepts. */
 export enum KnownResourceNameStatus {
+  /** Allowed */
   Allowed = "Allowed",
+  /** Reserved */
   Reserved = "Reserved"
 }
 

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets a list of repositories metadata.
  *
  * @summary Gets a list of repositories metadata.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/repositories/GetRepositories.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/repositories/GetRepositories.json
  */
 async function getRepositoryList() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

@@ -127,6 +127,9 @@ import {
   VpnServerConfigurationPolicyGroup as VpnServerConfigurationPolicyGroupMapper,
   VirtualHub as VirtualHubMapper,
   EffectiveRoutesParameters as EffectiveRoutesParametersMapper,
+  GetInboundRoutesParameters as GetInboundRoutesParametersMapper,
+  GetOutboundRoutesParameters as GetOutboundRoutesParametersMapper,
+  RouteMap as RouteMapMapper,
   HubVirtualNetworkConnection as HubVirtualNetworkConnectionMapper,
   VpnGateway as VpnGatewayMapper,
   VpnGatewayPacketCaptureStartParameters as VpnGatewayPacketCaptureStartParametersMapper,
@@ -145,7 +148,8 @@ import {
   HubIpConfiguration as HubIpConfigurationMapper,
   HubRouteTable as HubRouteTableMapper,
   RoutingIntent as RoutingIntentMapper,
-  WebApplicationFirewallPolicy as WebApplicationFirewallPolicyMapper
+  WebApplicationFirewallPolicy as WebApplicationFirewallPolicyMapper,
+  SwapResource as SwapResourceMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -197,7 +201,7 @@ export const applicationGatewayName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-01-01",
+    defaultValue: "2022-05-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -293,6 +297,17 @@ export const parameters2: OperationParameter = {
   mapper: ApplicationGatewayPrivateEndpointConnectionMapper
 };
 
+export const location: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const applicationSecurityGroupName: OperationURLParameter = {
   parameterPath: "applicationSecurityGroupName",
   mapper: {
@@ -307,17 +322,6 @@ export const applicationSecurityGroupName: OperationURLParameter = {
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
   mapper: ApplicationSecurityGroupMapper
-};
-
-export const location: OperationURLParameter = {
-  parameterPath: "location",
-  mapper: {
-    serializedName: "location",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
 };
 
 export const azureFirewallName: OperationURLParameter = {
@@ -399,6 +403,17 @@ export const domainNameLabel: OperationQueryParameter = {
   }
 };
 
+export const providerport: OperationURLParameter = {
+  parameterPath: "providerport",
+  mapper: {
+    serializedName: "providerport",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
   mapper: ActiveConfigurationParameterMapper
@@ -411,6 +426,20 @@ export const networkManagerName: OperationURLParameter = {
     required: true,
     type: {
       name: "String"
+    }
+  }
+};
+
+export const top: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    constraints: {
+      InclusiveMaximum: 20,
+      InclusiveMinimum: 1
+    },
+    serializedName: "$top",
+    type: {
+      name: "Number"
     }
   }
 };
@@ -445,17 +474,6 @@ export const virtualWANName: OperationURLParameter = {
 export const vpnClientParams: OperationParameter = {
   parameterPath: "vpnClientParams",
   mapper: VirtualWanVpnProfileParametersMapper
-};
-
-export const providerport: OperationURLParameter = {
-  parameterPath: "providerport",
-  mapper: {
-    serializedName: "providerport",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
 };
 
 export const cloudServiceName: OperationURLParameter = {
@@ -759,6 +777,16 @@ export const authorizationParameters1: OperationParameter = {
   mapper: ExpressRoutePortAuthorizationMapper
 };
 
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const firewallPolicyName: OperationURLParameter = {
   parameterPath: "firewallPolicyName",
   mapper: {
@@ -1012,20 +1040,6 @@ export const force: OperationQueryParameter = {
 export const parameters30: OperationParameter = {
   parameterPath: "parameters",
   mapper: PatchObjectMapper
-};
-
-export const top: OperationQueryParameter = {
-  parameterPath: ["options", "top"],
-  mapper: {
-    constraints: {
-      InclusiveMaximum: 20,
-      InclusiveMinimum: 1
-    },
-    serializedName: "$top",
-    type: {
-      name: "Number"
-    }
-  }
 };
 
 export const skipToken: OperationQueryParameter = {
@@ -1663,6 +1677,26 @@ export const ipAddress: OperationQueryParameter = {
   }
 };
 
+export const top1: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    serializedName: "top",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const skipToken1: OperationQueryParameter = {
+  parameterPath: ["options", "skipToken"],
+  mapper: {
+    serializedName: "skipToken",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const subnetName: OperationURLParameter = {
   parameterPath: "subnetName",
   mapper: {
@@ -2016,6 +2050,32 @@ export const effectiveRoutesParameters: OperationParameter = {
   mapper: EffectiveRoutesParametersMapper
 };
 
+export const getInboundRoutesParameters: OperationParameter = {
+  parameterPath: "getInboundRoutesParameters",
+  mapper: GetInboundRoutesParametersMapper
+};
+
+export const getOutboundRoutesParameters: OperationParameter = {
+  parameterPath: "getOutboundRoutesParameters",
+  mapper: GetOutboundRoutesParametersMapper
+};
+
+export const routeMapName: OperationURLParameter = {
+  parameterPath: "routeMapName",
+  mapper: {
+    serializedName: "routeMapName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const routeMapParameters: OperationParameter = {
+  parameterPath: "routeMapParameters",
+  mapper: RouteMapMapper
+};
+
 export const hubVirtualNetworkConnectionParameters: OperationParameter = {
   parameterPath: "hubVirtualNetworkConnectionParameters",
   mapper: HubVirtualNetworkConnectionMapper
@@ -2228,12 +2288,30 @@ export const parameters87: OperationParameter = {
   mapper: WebApplicationFirewallPolicyMapper
 };
 
-export const filter: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
+export const resourceName: OperationURLParameter = {
+  parameterPath: "resourceName",
   mapper: {
-    serializedName: "$filter",
+    serializedName: "resourceName",
+    required: true,
     type: {
       name: "String"
     }
   }
+};
+
+export const singletonResource: OperationURLParameter = {
+  parameterPath: "singletonResource",
+  mapper: {
+    defaultValue: "swap",
+    isConstant: true,
+    serializedName: "singletonResource",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters88: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SwapResourceMapper
 };

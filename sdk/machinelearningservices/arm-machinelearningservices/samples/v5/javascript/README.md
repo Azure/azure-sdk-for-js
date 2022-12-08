@@ -46,7 +46,7 @@ These sample programs show how to use the JavaScript client libraries for in som
 
 ## Prerequisites
 
-The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
+The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
 
 You need [an Azure subscription][freesub] to run these sample programs.
 

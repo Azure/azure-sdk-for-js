@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Retrieve throughput distribution for an Azure Cosmos DB SQL container
  *
  * @summary Retrieve throughput distribution for an Azure Cosmos DB SQL container
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBSqlContainerRetrieveThroughputDistribution.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBSqlContainerRetrieveThroughputDistribution.json
  */
 async function cosmosDbSqlContainerRetrieveThroughputDistribution() {
   const subscriptionId = "subid";

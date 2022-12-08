@@ -20,7 +20,9 @@ import {
   CertificatePatch as CertificatePatchMapper,
   CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
   ManagedEnvironmentStorage as ManagedEnvironmentStorageMapper,
-  SourceControl as SourceControlMapper
+  SourceControl as SourceControlMapper,
+  ConnectedEnvironment as ConnectedEnvironmentMapper,
+  ConnectedEnvironmentStorage as ConnectedEnvironmentStorageMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -90,7 +92,7 @@ export const containerAppName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-03-01",
+    defaultValue: "2022-06-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -213,6 +215,17 @@ export const daprComponentEnvelope: OperationParameter = {
   mapper: DaprComponentMapper
 };
 
+export const detectorName: OperationURLParameter = {
+  parameterPath: "detectorName",
+  mapper: {
+    serializedName: "detectorName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const environmentEnvelope: OperationParameter = {
   parameterPath: "environmentEnvelope",
   mapper: ManagedEnvironmentMapper
@@ -274,4 +287,39 @@ export const sourceControlName: OperationURLParameter = {
 export const sourceControlEnvelope: OperationParameter = {
   parameterPath: "sourceControlEnvelope",
   mapper: SourceControlMapper
+};
+
+export const connectedEnvironmentName: OperationURLParameter = {
+  parameterPath: "connectedEnvironmentName",
+  mapper: {
+    serializedName: "connectedEnvironmentName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const environmentEnvelope1: OperationParameter = {
+  parameterPath: "environmentEnvelope",
+  mapper: ConnectedEnvironmentMapper
+};
+
+export const storageEnvelope1: OperationParameter = {
+  parameterPath: "storageEnvelope",
+  mapper: ConnectedEnvironmentStorageMapper
+};
+
+export const location: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    constraints: {
+      MinLength: 1
+    },
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };

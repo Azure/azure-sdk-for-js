@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Revokes access to a diskRestorePoint.
  *
  * @summary Revokes access to a diskRestorePoint.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-02/DiskRP/examples/diskRestorePointExamples/DiskRestorePoint_EndGetAccess.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskRestorePointExamples/DiskRestorePoint_EndGetAccess.json
  */
 async function revokesAccessToADiskRestorePoint() {
   const subscriptionId = "{subscription-id}";

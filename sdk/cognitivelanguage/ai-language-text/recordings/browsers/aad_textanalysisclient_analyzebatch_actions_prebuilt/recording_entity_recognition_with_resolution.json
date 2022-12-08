@@ -1,0 +1,812 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs?api-version=2022-10-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "652",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "e6f8aa3c-2c8f-4ea7-9d74-57027a22d92d",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.1 OS/Win32"
+      },
+      "RequestBody": {
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "0",
+              "text": "The dog is 14 inches tall and weighs 20 lbs. It is 5 years old.",
+              "language": "en"
+            },
+            {
+              "id": "1",
+              "text": "This is the first aircraft of its kind. It can fly at over 1,300 meter per second and carry 65-80 passengers.",
+              "language": "en"
+            },
+            {
+              "id": "2",
+              "text": "The apartment is 840 sqft. and it has 2 bedrooms. It costs 2,000 US dollars per month and will be available on 11/01/2022.",
+              "language": "en"
+            },
+            {
+              "id": "3",
+              "text": "They retrieved 200 terabytes of data between October 24th, 2022 and October 28th, 2022.",
+              "language": "en"
+            }
+          ]
+        },
+        "tasks": [
+          {
+            "kind": "EntityRecognition",
+            "parameters": {
+              "modelVersion": "2022-10-01-preview"
+            }
+          }
+        ]
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "apim-request-id": "bd5f5ef1-489a-473c-baaa-b9fbc557b246",
+        "Content-Length": "0",
+        "Date": "Thu, 17 Nov 2022 20:43:21 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/13185bde-9e30-495d-9a9a-192c2e677616?api-version=2022-10-01-preview",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "194",
+        "x-ms-region": "West US 2"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/13185bde-9e30-495d-9a9a-192c2e677616?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "48471ef1-9970-4cd4-ae95-108a2f62182c",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "5afaddc6-a6f6-4bed-bbfc-5c57b27e0f92",
+        "Content-Length": "279",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 17 Nov 2022 20:43:21 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "6",
+        "x-ms-region": "West US 2"
+      },
+      "ResponseBody": {
+        "jobId": "13185bde-9e30-495d-9a9a-192c2e677616",
+        "lastUpdateDateTime": "2022-11-17T20:43:21Z",
+        "createdDateTime": "2022-11-17T20:43:21Z",
+        "expirationDateTime": "2022-11-18T20:43:21Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/13185bde-9e30-495d-9a9a-192c2e677616?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "d2fbdc84-f158-4b0e-aab9-19256ad5e0c9",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "afff4acd-073c-41a7-ad6f-2667c41f31a2",
+        "Content-Length": "279",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 17 Nov 2022 20:43:21 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "6",
+        "x-ms-region": "West US 2"
+      },
+      "ResponseBody": {
+        "jobId": "13185bde-9e30-495d-9a9a-192c2e677616",
+        "lastUpdateDateTime": "2022-11-17T20:43:21Z",
+        "createdDateTime": "2022-11-17T20:43:21Z",
+        "expirationDateTime": "2022-11-18T20:43:21Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/13185bde-9e30-495d-9a9a-192c2e677616?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "22c1e7a2-15ba-457e-a110-531afdcceeb6",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "915e9ef6-d53b-4336-bada-a361d8dc0169",
+        "Content-Length": "279",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 17 Nov 2022 20:43:23 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "7",
+        "x-ms-region": "West US 2"
+      },
+      "ResponseBody": {
+        "jobId": "13185bde-9e30-495d-9a9a-192c2e677616",
+        "lastUpdateDateTime": "2022-11-17T20:43:21Z",
+        "createdDateTime": "2022-11-17T20:43:21Z",
+        "expirationDateTime": "2022-11-18T20:43:21Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/13185bde-9e30-495d-9a9a-192c2e677616?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "2771d01a-954c-493a-a21e-2e2eb9a42b7b",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "f027cfe3-5138-4f66-9b59-9415852cbc86",
+        "Content-Length": "3553",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 17 Nov 2022 20:43:24 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "107",
+        "x-ms-region": "West US 2"
+      },
+      "ResponseBody": {
+        "jobId": "13185bde-9e30-495d-9a9a-192c2e677616",
+        "lastUpdateDateTime": "2022-11-17T20:43:24Z",
+        "createdDateTime": "2022-11-17T20:43:21Z",
+        "expirationDateTime": "2022-11-18T20:43:21Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "items": [
+            {
+              "kind": "EntityRecognitionLROResults",
+              "lastUpdateDateTime": "2022-11-17T20:43:24.7675228Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "entities": [
+                      {
+                        "text": "14 inches",
+                        "category": "Quantity",
+                        "subcategory": "Dimension",
+                        "offset": 11,
+                        "length": 9,
+                        "confidenceScore": 0.8,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "LengthResolution",
+                            "unit": "Inch",
+                            "value": 14.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "20 lbs",
+                        "category": "Quantity",
+                        "subcategory": "Dimension",
+                        "offset": 37,
+                        "length": 6,
+                        "confidenceScore": 0.8,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "WeightResolution",
+                            "unit": "Pound",
+                            "value": 20.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "5 years old",
+                        "category": "Quantity",
+                        "subcategory": "Age",
+                        "offset": 51,
+                        "length": 11,
+                        "confidenceScore": 0.98,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "AgeResolution",
+                            "unit": "Year",
+                            "value": 5.0
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "first",
+                        "category": "Quantity",
+                        "subcategory": "Ordinal",
+                        "offset": 12,
+                        "length": 5,
+                        "confidenceScore": 0.8,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "OrdinalResolution",
+                            "offset": "1",
+                            "relativeTo": "Start",
+                            "value": "1"
+                          }
+                        ]
+                      },
+                      {
+                        "text": "aircraft",
+                        "category": "Product",
+                        "offset": 18,
+                        "length": 8,
+                        "confidenceScore": 0.8
+                      },
+                      {
+                        "text": "1,300 meter per second",
+                        "category": "Quantity",
+                        "subcategory": "Dimension",
+                        "offset": 59,
+                        "length": 22,
+                        "confidenceScore": 0.8,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "SpeedResolution",
+                            "unit": "MeterPerSecond",
+                            "value": 1300.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "65-80",
+                        "category": "Quantity",
+                        "subcategory": "NumberRange",
+                        "offset": 92,
+                        "length": 5,
+                        "confidenceScore": 0.85,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "NumericRangeResolution",
+                            "rangeKind": "Number",
+                            "minimum": 65.0,
+                            "maximum": 80.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "passengers",
+                        "category": "PersonType",
+                        "offset": 98,
+                        "length": 10,
+                        "confidenceScore": 0.96
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "2",
+                    "entities": [
+                      {
+                        "text": "apartment",
+                        "category": "Location",
+                        "offset": 4,
+                        "length": 9,
+                        "confidenceScore": 0.81
+                      },
+                      {
+                        "text": "840 sqft",
+                        "category": "Quantity",
+                        "subcategory": "Dimension",
+                        "offset": 17,
+                        "length": 8,
+                        "confidenceScore": 0.8,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "AreaResolution",
+                            "unit": "SquareFoot",
+                            "value": 840.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "2",
+                        "category": "Quantity",
+                        "subcategory": "Number",
+                        "offset": 38,
+                        "length": 1,
+                        "confidenceScore": 0.98,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "NumberResolution",
+                            "numberKind": "Integer",
+                            "value": 2.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "bedrooms",
+                        "category": "Location",
+                        "offset": 40,
+                        "length": 8,
+                        "confidenceScore": 0.66
+                      },
+                      {
+                        "text": "2,000 US dollars",
+                        "category": "Quantity",
+                        "subcategory": "Currency",
+                        "offset": 59,
+                        "length": 16,
+                        "confidenceScore": 0.99,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "CurrencyResolution",
+                            "unit": "United States dollar",
+                            "iso4217": "USD",
+                            "value": 2000.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "11/01/2022",
+                        "category": "DateTime",
+                        "subcategory": "Date",
+                        "offset": 111,
+                        "length": 10,
+                        "confidenceScore": 0.99,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "DateTimeResolution",
+                            "dateTimeSubKind": "Date",
+                            "timex": "2022-11-01",
+                            "value": "2022-11-01"
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "3",
+                    "entities": [
+                      {
+                        "text": "200 terabytes",
+                        "category": "Quantity",
+                        "subcategory": "Dimension",
+                        "offset": 15,
+                        "length": 13,
+                        "confidenceScore": 0.8,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "InformationResolution",
+                            "unit": "Terabyte",
+                            "value": 200.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "between October 24th, 2022 and October 28th, 2022",
+                        "category": "DateTime",
+                        "subcategory": "DateRange",
+                        "offset": 37,
+                        "length": 49,
+                        "confidenceScore": 0.69,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "TemporalSpanResolution",
+                            "duration": "P4D",
+                            "begin": "2022-10-24",
+                            "end": "2022-10-28"
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2022-10-01-preview"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/13185bde-9e30-495d-9a9a-192c2e677616?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "c1fbf608-19a9-4e20-97ce-bbe6f0ec7990",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "1ecd733c-ffc8-4c6d-a257-0908d345bcc0",
+        "Content-Length": "3553",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 17 Nov 2022 20:43:25 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "56",
+        "x-ms-region": "West US 2"
+      },
+      "ResponseBody": {
+        "jobId": "13185bde-9e30-495d-9a9a-192c2e677616",
+        "lastUpdateDateTime": "2022-11-17T20:43:24Z",
+        "createdDateTime": "2022-11-17T20:43:21Z",
+        "expirationDateTime": "2022-11-18T20:43:21Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "items": [
+            {
+              "kind": "EntityRecognitionLROResults",
+              "lastUpdateDateTime": "2022-11-17T20:43:24.7675228Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "entities": [
+                      {
+                        "text": "14 inches",
+                        "category": "Quantity",
+                        "subcategory": "Dimension",
+                        "offset": 11,
+                        "length": 9,
+                        "confidenceScore": 0.8,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "LengthResolution",
+                            "unit": "Inch",
+                            "value": 14.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "20 lbs",
+                        "category": "Quantity",
+                        "subcategory": "Dimension",
+                        "offset": 37,
+                        "length": 6,
+                        "confidenceScore": 0.8,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "WeightResolution",
+                            "unit": "Pound",
+                            "value": 20.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "5 years old",
+                        "category": "Quantity",
+                        "subcategory": "Age",
+                        "offset": 51,
+                        "length": 11,
+                        "confidenceScore": 0.98,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "AgeResolution",
+                            "unit": "Year",
+                            "value": 5.0
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "first",
+                        "category": "Quantity",
+                        "subcategory": "Ordinal",
+                        "offset": 12,
+                        "length": 5,
+                        "confidenceScore": 0.8,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "OrdinalResolution",
+                            "offset": "1",
+                            "relativeTo": "Start",
+                            "value": "1"
+                          }
+                        ]
+                      },
+                      {
+                        "text": "aircraft",
+                        "category": "Product",
+                        "offset": 18,
+                        "length": 8,
+                        "confidenceScore": 0.8
+                      },
+                      {
+                        "text": "1,300 meter per second",
+                        "category": "Quantity",
+                        "subcategory": "Dimension",
+                        "offset": 59,
+                        "length": 22,
+                        "confidenceScore": 0.8,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "SpeedResolution",
+                            "unit": "MeterPerSecond",
+                            "value": 1300.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "65-80",
+                        "category": "Quantity",
+                        "subcategory": "NumberRange",
+                        "offset": 92,
+                        "length": 5,
+                        "confidenceScore": 0.85,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "NumericRangeResolution",
+                            "rangeKind": "Number",
+                            "minimum": 65.0,
+                            "maximum": 80.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "passengers",
+                        "category": "PersonType",
+                        "offset": 98,
+                        "length": 10,
+                        "confidenceScore": 0.96
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "2",
+                    "entities": [
+                      {
+                        "text": "apartment",
+                        "category": "Location",
+                        "offset": 4,
+                        "length": 9,
+                        "confidenceScore": 0.81
+                      },
+                      {
+                        "text": "840 sqft",
+                        "category": "Quantity",
+                        "subcategory": "Dimension",
+                        "offset": 17,
+                        "length": 8,
+                        "confidenceScore": 0.8,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "AreaResolution",
+                            "unit": "SquareFoot",
+                            "value": 840.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "2",
+                        "category": "Quantity",
+                        "subcategory": "Number",
+                        "offset": 38,
+                        "length": 1,
+                        "confidenceScore": 0.98,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "NumberResolution",
+                            "numberKind": "Integer",
+                            "value": 2.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "bedrooms",
+                        "category": "Location",
+                        "offset": 40,
+                        "length": 8,
+                        "confidenceScore": 0.66
+                      },
+                      {
+                        "text": "2,000 US dollars",
+                        "category": "Quantity",
+                        "subcategory": "Currency",
+                        "offset": 59,
+                        "length": 16,
+                        "confidenceScore": 0.99,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "CurrencyResolution",
+                            "unit": "United States dollar",
+                            "iso4217": "USD",
+                            "value": 2000.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "11/01/2022",
+                        "category": "DateTime",
+                        "subcategory": "Date",
+                        "offset": 111,
+                        "length": 10,
+                        "confidenceScore": 0.99,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "DateTimeResolution",
+                            "dateTimeSubKind": "Date",
+                            "timex": "2022-11-01",
+                            "value": "2022-11-01"
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "3",
+                    "entities": [
+                      {
+                        "text": "200 terabytes",
+                        "category": "Quantity",
+                        "subcategory": "Dimension",
+                        "offset": 15,
+                        "length": 13,
+                        "confidenceScore": 0.8,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "InformationResolution",
+                            "unit": "Terabyte",
+                            "value": 200.0
+                          }
+                        ]
+                      },
+                      {
+                        "text": "between October 24th, 2022 and October 28th, 2022",
+                        "category": "DateTime",
+                        "subcategory": "DateRange",
+                        "offset": 37,
+                        "length": 49,
+                        "confidenceScore": 0.69,
+                        "resolutions": [
+                          {
+                            "resolutionKind": "TemporalSpanResolution",
+                            "duration": "P4D",
+                            "begin": "2022-10-24",
+                            "end": "2022-10-28"
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2022-10-01-preview"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

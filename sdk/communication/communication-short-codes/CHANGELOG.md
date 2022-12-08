@@ -4,23 +4,15 @@
 
 ### Features Added
 
-- Updated to `@azure/core-tracing` 1.0.
-
-### Breaking Changes
-
-### Bugs Fixed
-
 ### Other Changes
 
-## 1.0.0-beta.4 (Unreleased)
+- Updated to `@azure/communication-common` 2.2.0.
+
+## 1.0.0-beta.4 (2022-08-18)
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Updated to `@azure/core-tracing` 1.0.
+- Use GA API
 
 ## 1.0.0-beta.3 (2022-07-12)
 ### Features Added

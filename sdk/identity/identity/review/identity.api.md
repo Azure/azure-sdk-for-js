@@ -58,9 +58,13 @@ export interface AuthenticationRequiredErrorOptions {
 
 // @public
 export class AuthorizationCodeCredential implements TokenCredential {
-    constructor(tenantId: string | "common", clientId: string, clientSecret: string, authorizationCode: string, redirectUri: string, options?: TokenCredentialOptions);
-    constructor(tenantId: string | "common", clientId: string, authorizationCode: string, redirectUri: string, options?: TokenCredentialOptions);
+    constructor(tenantId: string | "common", clientId: string, clientSecret: string, authorizationCode: string, redirectUri: string, options?: AuthorizationCodeCredentialOptions);
+    constructor(tenantId: string | "common", clientId: string, authorizationCode: string, redirectUri: string, options?: AuthorizationCodeCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
+}
+
+// @public
+export interface AuthorizationCodeCredentialOptions extends MultiTenantTokenCredentialOptions {
 }
 
 // @public
@@ -78,7 +82,7 @@ export class AzureCliCredential implements TokenCredential {
 }
 
 // @public
-export interface AzureCliCredentialOptions extends TokenCredentialOptions {
+export interface AzureCliCredentialOptions extends MultiTenantTokenCredentialOptions {
     tenantId?: string;
 }
 
@@ -89,7 +93,7 @@ export class AzurePowerShellCredential implements TokenCredential {
 }
 
 // @public
-export interface AzurePowerShellCredentialOptions extends TokenCredentialOptions {
+export interface AzurePowerShellCredentialOptions extends MultiTenantTokenCredentialOptions {
     tenantId?: string;
 }
 
@@ -105,8 +109,12 @@ export class ChainedTokenCredential implements TokenCredential {
 
 // @public
 export class ClientAssertionCredential implements TokenCredential {
-    constructor(tenantId: string, clientId: string, getAssertion: () => Promise<string>, options?: TokenCredentialOptions);
+    constructor(tenantId: string, clientId: string, getAssertion: () => Promise<string>, options?: ClientAssertionCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
+}
+
+// @public
+export interface ClientAssertionCredentialOptions extends MultiTenantTokenCredentialOptions {
 }
 
 // @public
@@ -118,7 +126,7 @@ export class ClientCertificateCredential implements TokenCredential {
 }
 
 // @public
-export interface ClientCertificateCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
+export interface ClientCertificateCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions {
     sendCertificateChain?: boolean;
 }
 
@@ -144,7 +152,7 @@ export class ClientSecretCredential implements TokenCredential {
 }
 
 // @public
-export interface ClientSecretCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
+export interface ClientSecretCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions {
 }
 
 // @public
@@ -173,7 +181,7 @@ export interface DefaultAzureCredentialClientIdOptions extends DefaultAzureCrede
 }
 
 // @public
-export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
+export interface DefaultAzureCredentialOptions extends MultiTenantTokenCredentialOptions {
     tenantId?: string;
 }
 
@@ -216,7 +224,7 @@ export class EnvironmentCredential implements TokenCredential {
 }
 
 // @public
-export interface EnvironmentCredentialOptions extends TokenCredentialOptions {
+export interface EnvironmentCredentialOptions extends MultiTenantTokenCredentialOptions {
 }
 
 // @public
@@ -262,7 +270,7 @@ export interface InteractiveBrowserCredentialNodeOptions extends InteractiveCred
 }
 
 // @public
-export interface InteractiveCredentialOptions extends TokenCredentialOptions {
+export interface InteractiveCredentialOptions extends MultiTenantTokenCredentialOptions {
     authenticationRecord?: AuthenticationRecord;
     disableAutomaticAuthentication?: boolean;
 }
@@ -289,9 +297,14 @@ export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredent
 }
 
 // @public
+export interface MultiTenantTokenCredentialOptions extends TokenCredentialOptions {
+    additionallyAllowedTenants?: string[];
+}
+
+// @public
 export class OnBehalfOfCredential implements TokenCredential {
-    constructor(options: OnBehalfOfCredentialCertificateOptions & TokenCredentialOptions & CredentialPersistenceOptions);
-    constructor(options: OnBehalfOfCredentialSecretOptions & TokenCredentialOptions & CredentialPersistenceOptions);
+    constructor(options: OnBehalfOfCredentialCertificateOptions & MultiTenantTokenCredentialOptions & CredentialPersistenceOptions);
+    constructor(options: OnBehalfOfCredentialSecretOptions & MultiTenantTokenCredentialOptions & CredentialPersistenceOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
@@ -305,7 +318,7 @@ export interface OnBehalfOfCredentialCertificateOptions {
 }
 
 // @public
-export type OnBehalfOfCredentialOptions = (OnBehalfOfCredentialSecretOptions | OnBehalfOfCredentialCertificateOptions) & TokenCredentialOptions & CredentialPersistenceOptions;
+export type OnBehalfOfCredentialOptions = (OnBehalfOfCredentialSecretOptions | OnBehalfOfCredentialCertificateOptions) & MultiTenantTokenCredentialOptions & CredentialPersistenceOptions;
 
 // @public
 export interface OnBehalfOfCredentialSecretOptions {
@@ -345,7 +358,7 @@ export class UsernamePasswordCredential implements TokenCredential {
 }
 
 // @public
-export interface UsernamePasswordCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
+export interface UsernamePasswordCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions {
 }
 
 // @public
@@ -355,7 +368,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
 }
 
 // @public
-export interface VisualStudioCodeCredentialOptions extends TokenCredentialOptions {
+export interface VisualStudioCodeCredentialOptions extends MultiTenantTokenCredentialOptions {
     tenantId?: string;
 }
 

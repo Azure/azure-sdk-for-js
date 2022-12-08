@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
  *
  * @summary Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_ConvertToSinglePlacementGroup_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_ConvertToSinglePlacementGroup_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsConvertToSinglePlacementGroupMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -40,7 +40,7 @@ virtualMachineScaleSetsConvertToSinglePlacementGroupMaximumSetGen().catch(consol
  * This sample demonstrates how to Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
  *
  * @summary Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_ConvertToSinglePlacementGroup_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_ConvertToSinglePlacementGroup_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsConvertToSinglePlacementGroupMinimumSetGen() {
   const subscriptionId = "{subscription-id}";

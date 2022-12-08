@@ -22,7 +22,7 @@ import {
   SnapshotOptions,
   TrackedMessageIdsInfo,
 } from "./utils";
-
+import Long from "long";
 import * as appInsights from "applicationinsights";
 import * as dotenv from "dotenv";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -210,7 +210,7 @@ export class ServiceBusStressTester {
   public async peekMessages(
     receiver: ServiceBusReceiver,
     maxMsgCount = 10,
-    fromSequenceNumber?: Long.Long
+    fromSequenceNumber?: Long
   ): Promise<ServiceBusReceivedMessage[]> {
     try {
       const messages = await receiver.peekMessages(maxMsgCount, {

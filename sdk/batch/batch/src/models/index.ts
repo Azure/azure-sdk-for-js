@@ -416,7 +416,9 @@ export interface Certificate {
  */
 export interface ApplicationPackageReference {
   /**
-   * The ID of the application to deploy.
+   * The ID of the application to deploy. When creating a pool, the package's application ID must
+   * be fully qualified
+   * (/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}).
    */
   applicationId: string;
   /**
@@ -961,7 +963,8 @@ export interface WindowsUserConfiguration {
  */
 export interface UserAccount {
   /**
-   * The name of the user Account.
+   * The name of the user Account. Names can contain any Unicode characters up to a maximum length
+   * of 20.
    */
   name: string;
   /**
@@ -1044,9 +1047,9 @@ export interface OutputFileBlobContainerDestination {
   identityReference?: ComputeNodeIdentityReference;
   /**
    * A list of name-value pairs for headers to be used in uploading output files. These headers
-   * will be specified when uploading files to Azure Storage. For more information, see [Request
-   * Headers (All Blob
-   * Types)](https://docs.microsoft.com/rest/api/storageservices/put-blob#request-headers-all-blob-types).
+   * will be specified when uploading files to Azure Storage. Official document on allowed headers
+   * when uploading blobs:
+   * https://docs.microsoft.com/en-us/rest/api/storageservices/put-blob#request-headers-all-blob-types
    */
   uploadHeaders?: HttpHeader[];
 }
@@ -2264,10 +2267,12 @@ export interface PoolSpecification {
    */
   certificateReferences?: CertificateReference[];
   /**
-   * The list of Packages to be installed on each Compute Node in the Pool. Changes to Package
-   * references affect all new Nodes joining the Pool, but do not affect Compute Nodes that are
-   * already in the Pool until they are rebooted or reimaged. There is a maximum of 10 Package
-   * references on any given Pool.
+   * The list of Packages to be installed on each Compute Node in the Pool. When creating a pool,
+   * the package's application ID must be fully qualified
+   * (/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}).
+   * Changes to Package references affect all new Nodes joining the Pool, but do not affect Compute
+   * Nodes that are already in the Pool until they are rebooted or reimaged. There is a maximum of
+   * 10 Package references on any given Pool.
    */
   applicationPackageReferences?: ApplicationPackageReference[];
   /**
@@ -2292,6 +2297,11 @@ export interface PoolSpecification {
    * CIFS/SMB, and Blobfuse.
    */
   mountConfiguration?: MountConfiguration[];
+  /**
+   * The desired node communication mode for the pool. If omitted, the default value is Default.
+   * Possible values include: 'default', 'classic', 'simplified'
+   */
+  targetNodeCommunicationMode?: NodeCommunicationMode;
 }
 
 /**
@@ -3651,6 +3661,17 @@ export interface CloudPool {
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
    */
   identity?: BatchPoolIdentity;
+  /**
+   * The desired node communication mode for the pool. If omitted, the default value is Default.
+   * Possible values include: 'default', 'classic', 'simplified'
+   */
+  targetNodeCommunicationMode?: NodeCommunicationMode;
+  /**
+   * The current state of the pool communication mode. Possible values include: 'default',
+   * 'classic', 'simplified'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly currentNodeCommunicationMode?: NodeCommunicationMode;
 }
 
 /**
@@ -3768,10 +3789,12 @@ export interface PoolAddParameter {
    */
   certificateReferences?: CertificateReference[];
   /**
-   * The list of Packages to be installed on each Compute Node in the Pool. Changes to Package
-   * references affect all new Nodes joining the Pool, but do not affect Compute Nodes that are
-   * already in the Pool until they are rebooted or reimaged. There is a maximum of 10 Package
-   * references on any given Pool.
+   * The list of Packages to be installed on each Compute Node in the Pool. When creating a pool,
+   * the package's application ID must be fully qualified
+   * (/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}).
+   * Changes to Package references affect all new Nodes joining the Pool, but do not affect Compute
+   * Nodes that are already in the Pool until they are rebooted or reimaged. There is a maximum of
+   * 10 Package references on any given Pool.
    */
   applicationPackageReferences?: ApplicationPackageReference[];
   /**
@@ -3806,6 +3829,11 @@ export interface PoolAddParameter {
    * storage using Azure fileshare, NFS, CIFS or Blobfuse based file system.
    */
   mountConfiguration?: MountConfiguration[];
+  /**
+   * The desired node communication mode for the pool. If omitted, the default value is Default.
+   * Possible values include: 'default', 'classic', 'simplified'
+   */
+  targetNodeCommunicationMode?: NodeCommunicationMode;
 }
 
 /**
@@ -5206,6 +5234,12 @@ export interface PoolUpdatePropertiesParameter {
    * any existing metadata is removed from the Pool.
    */
   metadata: MetadataItem[];
+  /**
+   * The desired node communication mode for the pool. This setting replaces any existing
+   * targetNodeCommunication setting on the Pool. If omitted, the existing setting is default.
+   * Possible values include: 'default', 'classic', 'simplified'
+   */
+  targetNodeCommunicationMode?: NodeCommunicationMode;
 }
 
 /**
@@ -5246,6 +5280,12 @@ export interface PoolPatchParameter {
    * any metadata is removed from the Pool. If omitted, any existing metadata is left unchanged.
    */
   metadata?: MetadataItem[];
+  /**
+   * The desired node communication mode for the pool. If this element is present, it replaces the
+   * existing targetNodeCommunicationMode configured on the Pool. If omitted, any existing metadata
+   * is left unchanged. Possible values include: 'default', 'classic', 'simplified'
+   */
+  targetNodeCommunicationMode?: NodeCommunicationMode;
 }
 
 /**
@@ -12416,6 +12456,14 @@ export type NetworkSecurityGroupRuleAccess = 'allow' | 'deny';
  * @enum {string}
  */
 export type IPAddressProvisioningType = 'batchmanaged' | 'usermanaged' | 'nopublicipaddresses';
+
+/**
+ * Defines values for NodeCommunicationMode.
+ * Possible values include: 'default', 'classic', 'simplified'
+ * @readonly
+ * @enum {string}
+ */
+export type NodeCommunicationMode = 'default' | 'classic' | 'simplified';
 
 /**
  * Defines values for PoolLifetimeOption.

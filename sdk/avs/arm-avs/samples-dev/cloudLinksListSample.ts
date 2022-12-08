@@ -15,10 +15,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to List cloud link in a private cloud
  *
  * @summary List cloud link in a private cloud
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/CloudLinks_List.json
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/CloudLinks_List.json
  */
 async function cloudLinksList() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "group1";
   const privateCloudName = "cloud1";
   const credential = new DefaultAzureCredential();

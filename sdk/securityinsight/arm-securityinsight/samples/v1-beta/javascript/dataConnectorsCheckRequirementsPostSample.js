@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Get requirements state for a data connector type.
  *
  * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsAzureActiveDirectoryNoAuthorization.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsAzureActiveDirectoryNoAuthorization.json
  */
 async function checkRequirementsForAadNoAuthorization() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -41,7 +41,7 @@ checkRequirementsForAadNoAuthorization().catch(console.error);
  * This sample demonstrates how to Get requirements state for a data connector type.
  *
  * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsAzureActiveDirectoryNoLicense.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsAzureActiveDirectoryNoLicense.json
  */
 async function checkRequirementsForAadNoLicense() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -67,7 +67,7 @@ checkRequirementsForAadNoLicense().catch(console.error);
  * This sample demonstrates how to Get requirements state for a data connector type.
  *
  * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsAzureActiveDirectory.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsAzureActiveDirectory.json
  */
 async function checkRequirementsForAad() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -93,7 +93,7 @@ checkRequirementsForAad().catch(console.error);
  * This sample demonstrates how to Get requirements state for a data connector type.
  *
  * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsAzureSecurityCenter.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsAzureSecurityCenter.json
  */
 async function checkRequirementsForAsc() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -119,7 +119,7 @@ checkRequirementsForAsc().catch(console.error);
  * This sample demonstrates how to Get requirements state for a data connector type.
  *
  * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsDynamics365.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsDynamics365.json
  */
 async function checkRequirementsForDynamics365() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -145,7 +145,7 @@ checkRequirementsForDynamics365().catch(console.error);
  * This sample demonstrates how to Get requirements state for a data connector type.
  *
  * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsIoT.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsIoT.json
  */
 async function checkRequirementsForIoT() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -171,7 +171,7 @@ checkRequirementsForIoT().catch(console.error);
  * This sample demonstrates how to Get requirements state for a data connector type.
  *
  * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsMicrosoftCloudAppSecurity.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsMicrosoftCloudAppSecurity.json
  */
 async function checkRequirementsForMcas() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -197,7 +197,7 @@ checkRequirementsForMcas().catch(console.error);
  * This sample demonstrates how to Get requirements state for a data connector type.
  *
  * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsMdatp.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsMdatp.json
  */
 async function checkRequirementsForMdatp() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -223,7 +223,7 @@ checkRequirementsForMdatp().catch(console.error);
  * This sample demonstrates how to Get requirements state for a data connector type.
  *
  * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsMicrosoftThreatIntelligence.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsMicrosoftThreatIntelligence.json
  */
 async function checkRequirementsForMicrosoftThreatIntelligence() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -249,7 +249,7 @@ checkRequirementsForMicrosoftThreatIntelligence().catch(console.error);
  * This sample demonstrates how to Get requirements state for a data connector type.
  *
  * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsMicrosoftThreatProtection.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsMicrosoftThreatProtection.json
  */
 async function checkRequirementsForMicrosoftThreatProtection() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -275,7 +275,7 @@ checkRequirementsForMicrosoftThreatProtection().catch(console.error);
  * This sample demonstrates how to Get requirements state for a data connector type.
  *
  * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsOffice365Project.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsOffice365Project.json
  */
 async function checkRequirementsForOffice365Project() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -301,7 +301,7 @@ checkRequirementsForOffice365Project().catch(console.error);
  * This sample demonstrates how to Get requirements state for a data connector type.
  *
  * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsOfficeATP.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsOfficeATP.json
  */
 async function checkRequirementsForOfficeAtp() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -327,7 +327,7 @@ checkRequirementsForOfficeAtp().catch(console.error);
  * This sample demonstrates how to Get requirements state for a data connector type.
  *
  * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsOfficeIRM.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsOfficeIRM.json
  */
 async function checkRequirementsForOfficeIrm() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -353,7 +353,7 @@ checkRequirementsForOfficeIrm().catch(console.error);
  * This sample demonstrates how to Get requirements state for a data connector type.
  *
  * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsOfficePowerBI.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsOfficePowerBI.json
  */
 async function checkRequirementsForOfficePowerBi() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -379,7 +379,7 @@ checkRequirementsForOfficePowerBi().catch(console.error);
  * This sample demonstrates how to Get requirements state for a data connector type.
  *
  * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsThreatIntelligenceTaxii.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsThreatIntelligenceTaxii.json
  */
 async function checkRequirementsForTiTaxii() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -405,7 +405,7 @@ checkRequirementsForTiTaxii().catch(console.error);
  * This sample demonstrates how to Get requirements state for a data connector type.
  *
  * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsThreatIntelligence.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsThreatIntelligence.json
  */
 async function checkRequirementsForTi() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

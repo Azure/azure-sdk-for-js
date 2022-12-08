@@ -11,6 +11,7 @@
 
 const {
   AzureKeyCredential,
+  KnownHealthcareDocumentType,
   KnownFhirVersion,
   TextAnalysisClient,
 } = require("@azure/ai-language-text");
@@ -36,6 +37,7 @@ async function main() {
     {
       kind: "Healthcare",
       fhirVersion: KnownFhirVersion["4.0.1"],
+      documentType: KnownHealthcareDocumentType.DischargeSummary,
     },
   ];
   const poller = await client.beginAnalyzeBatch(actions, documents, "en");
@@ -84,9 +86,9 @@ async function main() {
             console.log(`\t\t\t- "${role.entity.text}" with the role ${role.name}`);
           }
         }
-      }
-      if (result.fhirBundle) {
-        console.log(`FHIR object: ${JSON.stringify(result.fhirBundle, undefined, 2)}`);
+        if (result.fhirBundle) {
+          console.log(`FHIR object: ${JSON.stringify(result.fhirBundle, undefined, 2)}`);
+        }
       }
     }
   }

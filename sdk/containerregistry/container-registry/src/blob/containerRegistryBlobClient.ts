@@ -45,7 +45,7 @@ function assertHasProperty<T, U extends keyof T>(
   property: U
 ): asserts obj is T & Required<Pick<T, U>> {
   if (!Object.prototype.hasOwnProperty.call(obj, property)) {
-    throw new RestError(`Expected property ${property} to be defined.`);
+    throw new RestError(`Expected property ${String(property)} to be defined.`);
   }
 }
 

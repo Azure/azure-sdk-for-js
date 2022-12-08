@@ -20,7 +20,6 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function queryLatestAtResourceGroupLevelPolicyAssignmentScope() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName = "myResourceGroup";
   const policyAssignmentName = "myPolicyAssignment";
   const credential = new DefaultAzureCredential();
@@ -28,7 +27,7 @@ async function queryLatestAtResourceGroupLevelPolicyAssignmentScope() {
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForResourceGroupLevelPolicyAssignment(
     policyStatesResource,
-    subscriptionId2,
+    subscriptionId,
     resourceGroupName,
     policyAssignmentName
   )) {
@@ -48,7 +47,6 @@ queryLatestAtResourceGroupLevelPolicyAssignmentScope().catch(console.error);
 async function queryLatestAtResourceGroupLevelPolicyAssignmentScopeWithNextLink() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName = "myResourceGroup";
   const policyAssignmentName = "myPolicyAssignment";
   const skipToken = "WpmWfBSvPhkAK6QD";
@@ -60,7 +58,7 @@ async function queryLatestAtResourceGroupLevelPolicyAssignmentScopeWithNextLink(
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForResourceGroupLevelPolicyAssignment(
     policyStatesResource,
-    subscriptionId2,
+    subscriptionId,
     resourceGroupName,
     policyAssignmentName,
     options

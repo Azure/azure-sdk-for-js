@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Handles requests to list all Domains resources under the parent EmailServices resource.
  *
  * @summary Handles requests to list all Domains resources under the parent EmailServices resource.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2021-10-01-preview/examples/domains/listByEmailService.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/domains/listByEmailService.json
  */
 async function listDomainsResourcesByEmailServiceName() {
   const subscriptionId = "12345";

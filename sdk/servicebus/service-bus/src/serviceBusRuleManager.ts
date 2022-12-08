@@ -15,7 +15,7 @@ import { getUniqueName } from "./util/utils";
 import { throwErrorIfConnectionClosed } from "./util/errors";
 import { SqlRuleFilter } from "./serializers/ruleResourceSerializer";
 import { tracingClient } from "./diagnostics/tracing";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { getPagedAsyncIterator, PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
 import { OperationOptions } from "@azure/core-client";
 import { ListRequestOptions } from "./serviceBusAtomManagementClient";
 
@@ -200,34 +200,6 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
     );
   }
 
-  private async *listRulesPage(
-    marker?: string,
-    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
-  ): AsyncIterableIterator<RuleProperties[]> {
-    do {
-      const rules = await this.getRules({
-        skip: Number(marker),
-        maxCount: options.maxPageSize ?? 100,
-        ...options,
-      });
-      if (rules.length > 0) {
-        yield rules;
-        marker = String(Number(marker ?? 0) + rules.length);
-      } else {
-        break;
-      }
-    } while (marker);
-  }
-
-  private async *listRulesAll(
-    options: OperationOptions = {}
-  ): AsyncIterableIterator<RuleProperties> {
-    let marker: string | undefined;
-    for await (const segment of this.listRulesPage(marker, options)) {
-      yield* segment;
-    }
-  }
-
   /**
    * Returns an async iterable iterator to list all the rules
    * under the specified subscription.
@@ -241,27 +213,25 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
     options?: OperationOptions
   ): PagedAsyncIterableIterator<RuleProperties, RuleProperties[], { maxPageSize?: number }> {
     logger.verbose(`Performing operation - listRules() with options: %j`, options);
-    const iter = this.listRulesAll(options);
-    return {
-      /**
-       */
-      next() {
-        return iter.next();
-      },
-      /**
-       */
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      /**
-       */
-      byPage: (settings: { maxPageSize?: number } = {}) => {
-        return this.listRulesPage(undefined, {
-          maxPageSize: settings.maxPageSize,
+    const pagedResult: PagedResult<RuleProperties[], { maxPageSize?: number }, number> = {
+      firstPageLink: 0,
+      getPage: async (pageLink, maxPageSize) => {
+        const top = maxPageSize ?? 100;
+        const rules = await this.getRules({
+          skip: pageLink,
+          maxCount: top,
           ...options,
         });
+        return rules.length
+          ? {
+              page: rules,
+              nextPageLink: rules.length > 0 ? pageLink + rules.length : undefined,
+            }
+          : undefined;
       },
     };
+
+    return getPagedAsyncIterator(pagedResult);
   }
 
   /**

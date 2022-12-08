@@ -71,11 +71,11 @@ export type AnalyzeResultOperationStatus = "notStarted" | "running" | "failed" |
 export { AzureKeyCredential }
 
 // @public
-export interface BeginBuildModelOptions extends CreateModelOptions {
+export interface BeginBuildDocumentModelOptions extends CreateDocumentModelOptions {
 }
 
 // @public
-export interface BeginComposeModelOptions extends CreateModelOptions {
+export interface BeginComposeDocumentModelOptions extends CreateDocumentModelOptions {
 }
 
 // @public
@@ -104,11 +104,11 @@ export interface CopyAuthorization {
 }
 
 // @public
-export function createModelFromSchema(schema: Omit<DocumentModelDetails, "createdDateTime">): DocumentModel<AnalyzeResult<unknown>>;
+export interface CreateDocumentModelOptions extends OperationOptions, CommonModelCreationOptions, PollerOptions<DocumentModelOperationState> {
+}
 
 // @public
-export interface CreateModelOptions extends OperationOptions, CommonModelCreationOptions, PollerOptions<DocumentModelOperationState> {
-}
+export function createModelFromSchema(schema: Omit<DocumentModelDetails, "createdOn">): DocumentModel<AnalyzeResult<unknown>>;
 
 // @public
 export interface CurrencyValue {
@@ -123,7 +123,7 @@ export interface CustomDocumentModelsDetails {
 }
 
 // @public
-export interface DeleteModelOptions extends OperationOptions {
+export interface DeleteDocumentModelOptions extends OperationOptions {
 }
 
 // @public
@@ -267,15 +267,15 @@ export class DocumentModelAdministrationClient {
     constructor(endpoint: string, credential: TokenCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: DocumentModelAdministrationClientOptions);
-    beginBuildModel(modelId: string, containerUrl: string, buildMode: DocumentModelBuildMode, options?: BeginBuildModelOptions): Promise<DocumentModelPoller>;
-    beginComposeModel(modelId: string, componentModelIds: Iterable<string>, options?: BeginComposeModelOptions): Promise<DocumentModelPoller>;
+    beginBuildDocumentModel(modelId: string, containerUrl: string, buildMode: DocumentModelBuildMode, options?: BeginBuildDocumentModelOptions): Promise<DocumentModelPoller>;
+    beginComposeDocumentModel(modelId: string, componentModelIds: Iterable<string>, options?: BeginComposeDocumentModelOptions): Promise<DocumentModelPoller>;
     beginCopyModelTo(sourceModelId: string, authorization: CopyAuthorization, options?: BeginCopyModelOptions): Promise<DocumentModelPoller>;
-    deleteModel(modelId: string, options?: DeleteModelOptions): Promise<void>;
+    deleteDocumentModel(modelId: string, options?: DeleteDocumentModelOptions): Promise<void>;
     getCopyAuthorization(destinationModelId: string, options?: GetCopyAuthorizationOptions): Promise<CopyAuthorization>;
-    getModel(modelId: string, options?: GetModelOptions): Promise<DocumentModelDetails>;
+    getDocumentModel(modelId: string, options?: GetModelOptions): Promise<DocumentModelDetails>;
     getOperation(operationId: string, options?: GetOperationOptions): Promise<OperationDetails>;
     getResourceDetails(options?: GetResourceDetailsOptions): Promise<ResourceDetails>;
-    listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<DocumentModelSummary>;
+    listDocumentModels(options?: ListModelsOptions): PagedAsyncIterableIterator<DocumentModelSummary>;
     listOperations(options?: ListOperationsOptions): PagedAsyncIterableIterator<OperationSummary>;
 }
 
@@ -293,9 +293,34 @@ export const DocumentModelBuildMode: {
 };
 
 // @public
-export interface DocumentModelDetails extends DocumentModelSummary {
+export interface DocumentModelBuildOperationDetails extends OperationDetails {
+    kind: "documentModelBuild";
+    result?: DocumentModelDetails;
+}
+
+// @public
+export interface DocumentModelComposeOperationDetails extends OperationDetails {
+    kind: "documentModelCompose";
+    result?: DocumentModelDetails;
+}
+
+// @public
+export interface DocumentModelCopyToOperationDetails extends OperationDetails {
+    kind: "documentModelCopyTo";
+    result?: DocumentModelDetails;
+}
+
+// @public
+export interface DocumentModelDetails {
+    apiVersion?: string;
+    createdOn: Date;
+    description?: string;
     docTypes?: {
         [propertyName: string]: DocumentTypeDetails;
+    };
+    modelId: string;
+    tags?: {
+        [propertyName: string]: string;
     };
 }
 
@@ -316,7 +341,7 @@ export type DocumentModelPoller = PollerLike<DocumentModelOperationState, Docume
 // @public
 export interface DocumentModelSummary {
     apiVersion?: string;
-    createdDateTime: Date;
+    createdOn: Date;
     description?: string;
     modelId: string;
     tags?: {
@@ -341,7 +366,6 @@ export interface DocumentObjectField<Properties = {
 export interface DocumentPage {
     angle?: number;
     height?: number;
-    kind: DocumentPageKind;
     lines?: DocumentLine[];
     pageNumber: number;
     selectionMarks?: DocumentSelectionMark[];
@@ -350,9 +374,6 @@ export interface DocumentPage {
     width?: number;
     words?: DocumentWord[];
 }
-
-// @public
-export type DocumentPageKind = string;
 
 // @public
 export interface DocumentParagraph {
@@ -476,7 +497,8 @@ export type FormRecognizerApiVersion = typeof FormRecognizerApiVersion[keyof typ
 
 // @public
 export const FormRecognizerApiVersion: {
-    readonly Latest: "2022-06-30-preview";
+    readonly Latest: "2022-08-31";
+    readonly Stable: "2022-08-31";
 };
 
 // @public
@@ -500,7 +522,7 @@ export interface GetOperationOptions extends OperationOptions {
 }
 
 // @public
-export type GetOperationResponse = OperationDetails;
+export type GetOperationResponse = OperationDetailsUnion;
 
 // @public
 export interface GetResourceDetailsOptions extends OperationOptions {
@@ -530,10 +552,23 @@ export interface ListOperationsOptions extends OperationOptions {
 }
 
 // @public
-export interface OperationDetails extends OperationSummary {
+export interface OperationDetails {
+    apiVersion?: string;
+    createdOn: Date;
     error?: ErrorModel;
-    result?: Record<string, unknown>;
+    kind: "documentModelBuild" | "documentModelCompose" | "documentModelCopyTo";
+    lastUpdatedOn: Date;
+    operationId: string;
+    percentCompleted?: number;
+    resourceLocation: string;
+    status: OperationStatus;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
+
+// @public (undocumented)
+export type OperationDetailsUnion = OperationDetails | DocumentModelBuildOperationDetails | DocumentModelComposeOperationDetails | DocumentModelCopyToOperationDetails;
 
 // @public
 export type OperationKind = string;
@@ -544,9 +579,9 @@ export type OperationStatus = "notStarted" | "running" | "failed" | "succeeded" 
 // @public
 export interface OperationSummary {
     apiVersion?: string;
-    createdDateTime: Date;
+    createdOn: Date;
     kind: OperationKind;
-    lastUpdatedDateTime: Date;
+    lastUpdatedOn: Date;
     operationId: string;
     percentCompleted?: number;
     resourceLocation: string;

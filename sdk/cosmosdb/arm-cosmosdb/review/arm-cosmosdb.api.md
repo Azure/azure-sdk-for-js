@@ -1119,9 +1119,10 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
     enableFreeTier?: boolean;
     enableMaterializedViews?: boolean;
     enableMultipleWriteLocations?: boolean;
+    enablePartitionMerge?: boolean;
     ipRules?: IpAddressOrRange[];
     isVirtualNetworkFilterEnabled?: boolean;
-    keysMetadata?: DatabaseAccountKeysMetadata;
+    readonly keysMetadata?: DatabaseAccountKeysMetadata;
     keyVaultKeyUri?: string;
     kind?: DatabaseAccountKind;
     locations: Location_2[];
@@ -1155,11 +1156,12 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
     enableFreeTier?: boolean;
     enableMaterializedViews?: boolean;
     enableMultipleWriteLocations?: boolean;
+    enablePartitionMerge?: boolean;
     readonly failoverPolicies?: FailoverPolicy[];
     readonly instanceId?: string;
     ipRules?: IpAddressOrRange[];
     isVirtualNetworkFilterEnabled?: boolean;
-    keysMetadata?: DatabaseAccountKeysMetadata;
+    readonly keysMetadata?: DatabaseAccountKeysMetadata;
     keyVaultKeyUri?: string;
     kind?: DatabaseAccountKind;
     readonly locations?: Location_2[];
@@ -1177,10 +1179,10 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
 
 // @public
 export interface DatabaseAccountKeysMetadata {
-    primaryMasterKey?: AccountKeyMetadata;
-    primaryReadonlyMasterKey?: AccountKeyMetadata;
-    secondaryMasterKey?: AccountKeyMetadata;
-    secondaryReadonlyMasterKey?: AccountKeyMetadata;
+    readonly primaryMasterKey?: AccountKeyMetadata;
+    readonly primaryReadonlyMasterKey?: AccountKeyMetadata;
+    readonly secondaryMasterKey?: AccountKeyMetadata;
+    readonly secondaryReadonlyMasterKey?: AccountKeyMetadata;
 }
 
 // @public
@@ -1402,10 +1404,11 @@ export interface DatabaseAccountUpdateParameters {
     enableFreeTier?: boolean;
     enableMaterializedViews?: boolean;
     enableMultipleWriteLocations?: boolean;
+    enablePartitionMerge?: boolean;
     identity?: ManagedServiceIdentity;
     ipRules?: IpAddressOrRange[];
     isVirtualNetworkFilterEnabled?: boolean;
-    keysMetadata?: DatabaseAccountKeysMetadata;
+    readonly keysMetadata?: DatabaseAccountKeysMetadata;
     keyVaultKeyUri?: string;
     location?: string;
     locations?: Location_2[];
@@ -2182,6 +2185,7 @@ export enum KnownNotebookWorkspaceName {
 export enum KnownOperationType {
     Create = "Create",
     Delete = "Delete",
+    Recreate = "Recreate",
     Replace = "Replace",
     SystemOperation = "SystemOperation"
 }
@@ -2500,8 +2504,10 @@ export interface MongoDBCollectionListResult {
 // @public
 export interface MongoDBCollectionResource {
     analyticalStorageTtl?: number;
+    createMode?: CreateMode;
     id: string;
     indexes?: MongoIndex[];
+    restoreParameters?: ResourceRestoreParameters;
     shardKey?: {
         [propertyName: string]: string;
     };
@@ -2536,7 +2542,9 @@ export interface MongoDBDatabaseListResult {
 
 // @public
 export interface MongoDBDatabaseResource {
+    createMode?: CreateMode;
     id: string;
+    restoreParameters?: ResourceRestoreParameters;
 }
 
 // @public
@@ -2571,6 +2579,10 @@ export interface MongoDBResources {
     beginMongoDBContainerRedistributeThroughputAndWait(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, redistributeThroughputParameters: RedistributeThroughputParameters, options?: MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams): Promise<MongoDBResourcesMongoDBContainerRedistributeThroughputResponse>;
     beginMongoDBContainerRetrieveThroughputDistribution(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, retrieveThroughputParameters: RetrieveThroughputParameters, options?: MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams): Promise<PollerLike<PollOperationState<MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse>, MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse>>;
     beginMongoDBContainerRetrieveThroughputDistributionAndWait(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, retrieveThroughputParameters: RetrieveThroughputParameters, options?: MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams): Promise<MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse>;
+    beginMongoDBDatabaseRedistributeThroughput(resourceGroupName: string, accountName: string, databaseName: string, redistributeThroughputParameters: RedistributeThroughputParameters, options?: MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams): Promise<PollerLike<PollOperationState<MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse>, MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse>>;
+    beginMongoDBDatabaseRedistributeThroughputAndWait(resourceGroupName: string, accountName: string, databaseName: string, redistributeThroughputParameters: RedistributeThroughputParameters, options?: MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams): Promise<MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse>;
+    beginMongoDBDatabaseRetrieveThroughputDistribution(resourceGroupName: string, accountName: string, databaseName: string, retrieveThroughputParameters: RetrieveThroughputParameters, options?: MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams): Promise<PollerLike<PollOperationState<MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse>, MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse>>;
+    beginMongoDBDatabaseRetrieveThroughputDistributionAndWait(resourceGroupName: string, accountName: string, databaseName: string, retrieveThroughputParameters: RetrieveThroughputParameters, options?: MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams): Promise<MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse>;
     beginRetrieveContinuousBackupInformation(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, location: ContinuousBackupRestoreLocation, options?: MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams): Promise<PollerLike<PollOperationState<MongoDBResourcesRetrieveContinuousBackupInformationResponse>, MongoDBResourcesRetrieveContinuousBackupInformationResponse>>;
     beginRetrieveContinuousBackupInformationAndWait(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, location: ContinuousBackupRestoreLocation, options?: MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams): Promise<MongoDBResourcesRetrieveContinuousBackupInformationResponse>;
     beginUpdateMongoDBCollectionThroughput(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, updateThroughputParameters: ThroughputSettingsUpdateParameters, options?: MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams): Promise<PollerLike<PollOperationState<MongoDBResourcesUpdateMongoDBCollectionThroughputResponse>, MongoDBResourcesUpdateMongoDBCollectionThroughputResponse>>;
@@ -2781,6 +2793,24 @@ export interface MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionO
 
 // @public
 export type MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse = PhysicalPartitionThroughputInfoResult;
+
+// @public
+export interface MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse = PhysicalPartitionThroughputInfoResult;
+
+// @public
+export interface MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse = PhysicalPartitionThroughputInfoResult;
 
 // @public
 export interface MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams extends coreClient.OperationOptions {
@@ -3340,6 +3370,10 @@ export interface Resource {
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned,UserAssigned" | "None";
 
 // @public
+export interface ResourceRestoreParameters extends RestoreParametersBase {
+}
+
+// @public
 export interface RestorableDatabaseAccountGetResult {
     accountName?: string;
     readonly apiType?: ApiType;
@@ -3771,13 +3805,17 @@ export interface RestorableTablesListResult {
 export type RestoreMode = string;
 
 // @public
-export interface RestoreParameters {
+export interface RestoreParameters extends RestoreParametersBase {
     databasesToRestore?: DatabaseRestoreResource[];
     gremlinDatabasesToRestore?: GremlinDatabaseRestoreResource[];
     restoreMode?: RestoreMode;
+    tablesToRestore?: string[];
+}
+
+// @public
+export interface RestoreParametersBase {
     restoreSource?: string;
     restoreTimestampInUtc?: Date;
-    tablesToRestore?: string[];
 }
 
 // @public
@@ -3926,10 +3964,12 @@ export interface SqlContainerResource {
     analyticalStorageTtl?: number;
     clientEncryptionPolicy?: ClientEncryptionPolicy;
     conflictResolutionPolicy?: ConflictResolutionPolicy;
+    createMode?: CreateMode;
     defaultTtl?: number;
     id: string;
     indexingPolicy?: IndexingPolicy;
     partitionKey?: ContainerPartitionKey;
+    restoreParameters?: ResourceRestoreParameters;
     uniqueKeyPolicy?: UniqueKeyPolicy;
 }
 
@@ -3964,7 +4004,9 @@ export interface SqlDatabaseListResult {
 
 // @public
 export interface SqlDatabaseResource {
+    createMode?: CreateMode;
     id: string;
+    restoreParameters?: ResourceRestoreParameters;
 }
 
 // @public
@@ -4032,6 +4074,10 @@ export interface SqlResources {
     beginSqlContainerRedistributeThroughputAndWait(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, redistributeThroughputParameters: RedistributeThroughputParameters, options?: SqlResourcesSqlContainerRedistributeThroughputOptionalParams): Promise<SqlResourcesSqlContainerRedistributeThroughputResponse>;
     beginSqlContainerRetrieveThroughputDistribution(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, retrieveThroughputParameters: RetrieveThroughputParameters, options?: SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams): Promise<PollerLike<PollOperationState<SqlResourcesSqlContainerRetrieveThroughputDistributionResponse>, SqlResourcesSqlContainerRetrieveThroughputDistributionResponse>>;
     beginSqlContainerRetrieveThroughputDistributionAndWait(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, retrieveThroughputParameters: RetrieveThroughputParameters, options?: SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams): Promise<SqlResourcesSqlContainerRetrieveThroughputDistributionResponse>;
+    beginSqlDatabaseRedistributeThroughput(resourceGroupName: string, accountName: string, databaseName: string, redistributeThroughputParameters: RedistributeThroughputParameters, options?: SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams): Promise<PollerLike<PollOperationState<SqlResourcesSqlDatabaseRedistributeThroughputResponse>, SqlResourcesSqlDatabaseRedistributeThroughputResponse>>;
+    beginSqlDatabaseRedistributeThroughputAndWait(resourceGroupName: string, accountName: string, databaseName: string, redistributeThroughputParameters: RedistributeThroughputParameters, options?: SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams): Promise<SqlResourcesSqlDatabaseRedistributeThroughputResponse>;
+    beginSqlDatabaseRetrieveThroughputDistribution(resourceGroupName: string, accountName: string, databaseName: string, retrieveThroughputParameters: RetrieveThroughputParameters, options?: SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams): Promise<PollerLike<PollOperationState<SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse>, SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse>>;
+    beginSqlDatabaseRetrieveThroughputDistributionAndWait(resourceGroupName: string, accountName: string, databaseName: string, retrieveThroughputParameters: RetrieveThroughputParameters, options?: SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams): Promise<SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse>;
     beginUpdateSqlContainerThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, updateThroughputParameters: ThroughputSettingsUpdateParameters, options?: SqlResourcesUpdateSqlContainerThroughputOptionalParams): Promise<PollerLike<PollOperationState<SqlResourcesUpdateSqlContainerThroughputResponse>, SqlResourcesUpdateSqlContainerThroughputResponse>>;
     beginUpdateSqlContainerThroughputAndWait(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, updateThroughputParameters: ThroughputSettingsUpdateParameters, options?: SqlResourcesUpdateSqlContainerThroughputOptionalParams): Promise<SqlResourcesUpdateSqlContainerThroughputResponse>;
     beginUpdateSqlDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, updateThroughputParameters: ThroughputSettingsUpdateParameters, options?: SqlResourcesUpdateSqlDatabaseThroughputOptionalParams): Promise<PollerLike<PollOperationState<SqlResourcesUpdateSqlDatabaseThroughputResponse>, SqlResourcesUpdateSqlDatabaseThroughputResponse>>;
@@ -4367,6 +4413,24 @@ export interface SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalP
 
 // @public
 export type SqlResourcesSqlContainerRetrieveThroughputDistributionResponse = PhysicalPartitionThroughputInfoResult;
+
+// @public
+export interface SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SqlResourcesSqlDatabaseRedistributeThroughputResponse = PhysicalPartitionThroughputInfoResult;
+
+// @public
+export interface SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse = PhysicalPartitionThroughputInfoResult;
 
 // @public
 export interface SqlResourcesUpdateSqlContainerThroughputOptionalParams extends coreClient.OperationOptions {

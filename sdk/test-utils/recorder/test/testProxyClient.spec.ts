@@ -89,7 +89,7 @@ describe("TestProxyClient functions", () => {
                 ...req,
                 url: "http://localhost:5000/dummy_path?sas=sas",
                 headers: createHttpHeaders({
-                  "x-recording-upstream-base-uri": initialRequest.url,
+                  "x-recording-upstream-base-uri": new URL(initialRequest.url).origin,
                   "x-recording-id": client.recordingId,
                   "x-recording-mode": getTestMode(),
                 }),

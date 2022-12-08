@@ -82,7 +82,7 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
     // so only include this policy when we're in Node.
     pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });
   }
-  pipeline.addPolicy(logPolicy(options.loggingOptions), { afterPhase: "Retry" });
+  pipeline.addPolicy(logPolicy(options.loggingOptions), { afterPhase: "Sign" });
 
   return pipeline;
 }

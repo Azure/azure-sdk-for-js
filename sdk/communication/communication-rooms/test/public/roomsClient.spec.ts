@@ -185,7 +185,7 @@ describe("RoomsClient", function () {
           return;
         })
         .catch((error) => {
-          assert.equal(error.status, 400);
+          assert.equal(error.statusCode, 400);
         });
     });
   });

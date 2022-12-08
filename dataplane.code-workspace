@@ -29,6 +29,9 @@
       "path": "sdk/communication/communication-common"
     },
     {
+      "path": "sdk/communication/communication-email"
+    },
+    {
       "name": "communication-identity",
       "path": "sdk/communication/communication-identity"
     },
@@ -139,6 +142,18 @@
     {
       "name": "logger",
       "path": "sdk/core/logger"
+    },
+    {
+      "name": "maps-common",
+      "path": "sdk/maps/maps-common"
+    },
+    {
+      "name": "maps-search",
+      "path": "sdk/maps/maps-search"
+    },
+    {
+      "name": "maps-route-rest",
+      "path": "sdk/maps/maps-route-rest"
     },
     {
       "name": "metrics-advisor",
@@ -274,6 +289,9 @@
     },
     {
       "path": "sdk/instrumentation/opentelemetry-instrumentation-azure-sdk"
+    },
+    {
+      "path": "sdk/core/core-http-compat"
     }
   ],
   "settings": {

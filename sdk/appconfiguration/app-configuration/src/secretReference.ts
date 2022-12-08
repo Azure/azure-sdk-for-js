@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { JsonSecretReferenceValue } from "./internal/jsonModels";
 import { ConfigurationSetting, ConfigurationSettingParam } from "./models";
+import { JsonSecretReferenceValue } from "./internal/jsonModels";
 
 /**
  * content-type for the secret reference.

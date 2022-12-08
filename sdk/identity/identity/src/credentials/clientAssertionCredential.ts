@@ -2,12 +2,15 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-
+import {
+  processMultiTenantRequest,
+  resolveAddionallyAllowedTenantIds,
+} from "../util/tenantIdUtils";
+import { ClientAssertionCredentialOptions } from "./clientAssertionCredentialOptions";
+import { MsalClientAssertion } from "../msal/nodeFlows/msalClientAssertion";
+import { MsalFlow } from "../msal/flows";
 import { credentialLogger } from "../util/logging";
 import { tracingClient } from "../util/tracing";
-import { MsalFlow } from "../msal/flows";
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
-import { MsalClientAssertion } from "../msal/nodeFlows/msalClientAssertion";
 
 const logger = credentialLogger("ClientAssertionCredential");
 
@@ -17,8 +20,9 @@ const logger = credentialLogger("ClientAssertionCredential");
 export class ClientAssertionCredential implements TokenCredential {
   private msalFlow: MsalFlow;
   private tenantId: string;
+  private additionallyAllowedTenantIds: string[];
   private clientId: string;
-  private options: TokenCredentialOptions;
+  private options: ClientAssertionCredentialOptions;
 
   /**
    * Creates an instance of the ClientAssertionCredential with the details
@@ -34,7 +38,7 @@ export class ClientAssertionCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     getAssertion: () => Promise<string>,
-    options: TokenCredentialOptions = {}
+    options: ClientAssertionCredentialOptions = {}
   ) {
     if (!tenantId || !clientId || !getAssertion) {
       throw new Error(
@@ -42,6 +46,9 @@ export class ClientAssertionCredential implements TokenCredential {
       );
     }
     this.tenantId = tenantId;
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants
+    );
     this.clientId = clientId;
     this.options = options;
     this.msalFlow = new MsalClientAssertion({
@@ -67,6 +74,12 @@ export class ClientAssertionCredential implements TokenCredential {
       `${this.constructor.name}.getToken`,
       options,
       async (newOptions) => {
+        newOptions.tenantId = processMultiTenantRequest(
+          this.tenantId,
+          newOptions,
+          this.additionallyAllowedTenantIds
+        );
+
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
         return this.msalFlow.getToken(arrayScopes, newOptions);
       }

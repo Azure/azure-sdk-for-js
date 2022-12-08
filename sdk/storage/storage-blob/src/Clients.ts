@@ -12,7 +12,7 @@ import {
   TransferProgressEvent,
   URLBuilder,
 } from "@azure/core-http";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { PollOperationState } from "@azure/core-lro";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { Readable } from "stream";
 
@@ -85,6 +85,7 @@ import {
   BlobQueryArrowField,
   BlobImmutabilityPolicy,
   HttpAuthorization,
+  PollerLikeWithCancellation,
 } from "./models";
 import {
   PageBlobGetPageRangesDiffResponse,
@@ -1733,7 +1734,10 @@ export class BlobClient extends StorageClient {
     copySource: string,
     options: BlobBeginCopyFromURLOptions = {}
   ): Promise<
-    PollerLike<PollOperationState<BlobBeginCopyFromURLResponse>, BlobBeginCopyFromURLResponse>
+    PollerLikeWithCancellation<
+      PollOperationState<BlobBeginCopyFromURLResponse>,
+      BlobBeginCopyFromURLResponse
+    >
   > {
     const client: CopyPollerBlobClient = {
       abortCopyFromURL: (...args) => this.abortCopyFromURL(...args),

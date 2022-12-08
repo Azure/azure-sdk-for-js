@@ -21,6 +21,20 @@
       "metadata": {
         "description": "The client OID to grant access to test resources."
       }
+    },
+    "dataCollectionEndpointName": {
+      "type": "string",
+      "defaultValue": "azmonitordce",
+      "metadata": {
+        "description": "Specifies the name of the Data Collection Endpoint to create."
+      }
+    },
+    "dataCollectionRuleName": {
+      "type": "string",
+      "defaultValue": "azmonitordcr",
+      "metadata": {
+        "description": "Specifies the name of the Data Collection Rule to create."
+      }
     }
   },
   "variables": {
@@ -108,6 +122,99 @@
         "Application_Type": "web",
         "applicationId": "[variables('appInsightsName')]"
       }
+    },
+    {
+      "type": "Microsoft.Insights/dataCollectionEndpoints",
+      "name": "[parameters('dataCollectionEndpointName')]",
+      "location": "[parameters('location')]",
+      "apiVersion": "2021-04-01",
+      "properties": {
+        "networkAcls": {
+          "publicNetworkAccess": "Enabled"
+        }
+      }
+    },
+
+    {
+      "type": "Microsoft.Insights/dataCollectionRules",
+      "name": "[parameters('dataCollectionRuleName')]",
+      "location": "[parameters('location')]",
+      "apiVersion": "2021-09-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Insights/dataCollectionEndpoints', parameters('dataCollectionEndpointName'))]",
+        "[resourceId('microsoft.operationalinsights/workspaces', variables('workspaceName'))]",
+        "[resourceId('Microsoft.OperationalInsights/workspaces/tables', variables('workspaceName'), 'MyTable_CL')]"
+      ],
+      "properties": {
+        "dataCollectionEndpointId": "[resourceId('Microsoft.Insights/dataCollectionEndpoints', parameters('dataCollectionEndpointName'))]",
+        "streamDeclarations": {
+          "Custom-MyTableRawData": {
+            "columns": [
+              {
+                "name": "Time",
+                "type": "datetime"
+              },
+              {
+                "name": "Computer",
+                "type": "string"
+              },
+              {
+                "name": "AdditionalContext",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "destinations": {
+          "logAnalytics": [
+            {
+              "workspaceResourceId": "[resourceId('microsoft.operationalinsights/workspaces', variables('workspaceName'))]",
+              "name": "clv2ws1"
+            }
+          ]
+        },
+        "dataFlows": [
+          {
+            "streams": ["Custom-MyTableRawData"],
+            "destinations": ["clv2ws1"],
+            "transformKql": "source | extend jsonContext = parse_json(AdditionalContext) | project TimeGenerated = Time, Computer, AdditionalContext = jsonContext, ExtendedColumn=tostring(jsonContext.CounterName)",
+            "outputStream": "Custom-MyTable_CL"
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.OperationalInsights/workspaces/tables",
+      "apiVersion": "2021-12-01-preview",
+      "name": "[concat(variables('workspaceName'), '/', 'MyTable_CL')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.OperationalInsights/workspaces', variables('workspaceName'))]"
+      ],
+      "properties": {
+        "totalRetentionInDays": 30,
+        "plan": "Analytics",
+        "schema": {
+          "name": "MyTable_CL",
+          "columns": [
+            {
+              "name": "TimeGenerated",
+              "type": "datetime",
+              "description": "The time at which the data was generated"
+            },
+            {
+              "name": "AdditionalContext",
+              "type": "dynamic",
+              "description": "Additional message properties"
+            },
+            {
+              "name": "ExtendedColumn",
+              "type": "string",
+              "description": "An additional column extended at ingestion time"
+            }
+          ]
+        },
+        "retentionInDays": 30
+      }
     }
   ],
   "outputs": {
@@ -138,6 +245,14 @@
     "MQ_APPLICATIONINSIGHTS_CONNECTION_STRING": {
       "value": "[reference(resourceId('Microsoft.Insights/components', parameters('baseName')), '2015-05-01').ConnectionString]",
       "type": "string"
+    },
+    "LOGS_INGESTION_ENDPOINT": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Insights/dataCollectionEndpoints', parameters('dataCollectionEndpointName')), '2021-04-01').logsIngestion.endpoint]"
+    },
+    "DATA_COLLECTION_RULE_ID": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Insights/dataCollectionRules', parameters('dataCollectionRuleName')), '2021-04-01').immutableId]"
     }
   }
 }

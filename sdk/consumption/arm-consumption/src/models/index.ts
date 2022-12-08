@@ -906,13 +906,13 @@ export interface DownloadProperties {
 }
 
 /** An usage detail resource. */
-export type UsageDetail = Resource & {
+export interface UsageDetail extends Resource {
   /** Specifies the kind of usage details. */
   kind: UsageDetailsKind;
-};
+}
 
 /** A marketplace resource. */
-export type Marketplace = Resource & {
+export interface Marketplace extends Resource {
   /**
    * The id of the billing period resource that the usage belongs to.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1043,10 +1043,10 @@ export type Marketplace = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isRecurringCharge?: boolean;
-};
+}
 
 /** A balance resource. */
-export type Balance = Resource & {
+export interface Balance extends Resource {
   /**
    * The ISO currency in which the meter is charged, for example, USD.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1119,10 +1119,10 @@ export type Balance = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly adjustmentDetails?: BalancePropertiesAdjustmentDetailsItem[];
-};
+}
 
 /** reservation summary resource. */
-export type ReservationSummary = Resource & {
+export interface ReservationSummary extends Resource {
   /**
    * The reservation order ID is the identifier for a reservation purchase. Each reservation order ID represents a single purchase transaction. A reservation order contains reservations. The reservation order specifies the VM size and region for the reservations.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1198,10 +1198,10 @@ export type ReservationSummary = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly utilizedPercentage?: number;
-};
+}
 
 /** reservation detail resource. */
-export type ReservationDetail = Resource & {
+export interface ReservationDetail extends Resource {
   /**
    * The reservation order ID is the identifier for a reservation purchase. Each reservation order ID represents a single purchase transaction. A reservation order contains reservations. The reservation order specifies the VM size and region for the reservations.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1257,17 +1257,18 @@ export type ReservationDetail = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly kind?: string;
-};
+}
 
 /** A reservation recommendation resource. */
-export type ReservationRecommendation = Resource &
-  ResourceAttributes & {
-    /** Specifies the kind of reservation recommendation. */
-    kind: ReservationRecommendationKind;
-  };
+export interface ReservationRecommendation
+  extends Resource,
+    ResourceAttributes {
+  /** Specifies the kind of reservation recommendation. */
+  kind: ReservationRecommendationKind;
+}
 
 /** Reservation recommendation details. */
-export type ReservationRecommendationDetailsModel = Resource & {
+export interface ReservationRecommendationDetailsModel extends Resource {
   /** Resource Location. */
   location?: string;
   /** Resource sku */
@@ -1302,10 +1303,10 @@ export type ReservationRecommendationDetailsModel = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly usage?: ReservationRecommendationDetailsUsageProperties;
-};
+}
 
 /** An pricesheet resource. */
-export type PriceSheetResult = Resource & {
+export interface PriceSheetResult extends Resource {
   /**
    * Price sheet
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1321,10 +1322,10 @@ export type PriceSheetResult = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly download?: MeterDetails;
-};
+}
 
 /** A management group aggregated cost resource. */
-export type ManagementGroupAggregatedCostResult = Resource & {
+export interface ManagementGroupAggregatedCostResult extends Resource {
   /**
    * The id of the billing period resource that the aggregated cost belongs to.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1366,10 +1367,10 @@ export type ManagementGroupAggregatedCostResult = Resource & {
   includedSubscriptions?: string[];
   /** List of subscription Guids excluded from the calculation of aggregated cost */
   excludedSubscriptions?: string[];
-};
+}
 
 /** A credit summary resource. */
-export type CreditSummary = Resource & {
+export interface CreditSummary extends Resource {
   /**
    * Summary of balances associated with this credit summary.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1410,10 +1411,10 @@ export type CreditSummary = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly eTag?: string;
-};
+}
 
 /** A budget resource. */
-export type Budget = ProxyResource & {
+export interface Budget extends ProxyResource {
   /** The category of the budget, whether the budget tracks cost or usage. */
   category?: CategoryType;
   /** The total amount of cost to track with the budget */
@@ -1436,10 +1437,10 @@ export type Budget = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly forecastSpend?: ForecastSpend;
-};
+}
 
 /** A resource listing all tags. */
-export type TagsResult = ProxyResource & {
+export interface TagsResult extends ProxyResource {
   /** A list of Tag. */
   tags?: Tag[];
   /**
@@ -1452,16 +1453,16 @@ export type TagsResult = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly previousLink?: string;
-};
+}
 
 /** A charge summary resource. */
-export type ChargeSummary = ProxyResource & {
+export interface ChargeSummary extends ProxyResource {
   /** Specifies the kind of charge summary. */
   kind: ChargeSummaryKind;
-};
+}
 
 /** An event summary resource. */
-export type EventSummary = ProxyResource & {
+export interface EventSummary extends ProxyResource {
   /**
    * The date of the event.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1574,10 +1575,10 @@ export type EventSummary = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly eTagPropertiesETag?: string;
-};
+}
 
 /** A lot summary resource. */
-export type LotSummary = ProxyResource & {
+export interface LotSummary extends ProxyResource {
   /**
    * The original amount of a lot.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1648,10 +1649,10 @@ export type LotSummary = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly eTagPropertiesETag?: string;
-};
+}
 
 /** Reservation transaction resource. */
-export type ReservationTransaction = ReservationTransactionResource & {
+export interface ReservationTransaction extends ReservationTransactionResource {
   /**
    * The date of the transaction
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1767,10 +1768,11 @@ export type ReservationTransaction = ReservationTransactionResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly overage?: number;
-};
+}
 
 /** Modern Reservation transaction resource. */
-export type ModernReservationTransaction = ReservationTransactionResource & {
+export interface ModernReservationTransaction
+  extends ReservationTransactionResource {
   /**
    * The charge of the transaction.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1871,10 +1873,10 @@ export type ModernReservationTransaction = ReservationTransactionResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly term?: string;
-};
+}
 
 /** The amount with exchange rate. */
-export type AmountWithExchangeRate = Amount & {
+export interface AmountWithExchangeRate extends Amount {
   /**
    * The exchange rate.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1885,10 +1887,11 @@ export type AmountWithExchangeRate = Amount & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly exchangeRateMonth?: number;
-};
+}
 
 /** The properties of the legacy reservation recommendation for single scope. */
-export type LegacySingleScopeReservationRecommendationProperties = LegacyReservationRecommendationProperties & {
+export interface LegacySingleScopeReservationRecommendationProperties
+  extends LegacyReservationRecommendationProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   scope: "Single";
   /**
@@ -1896,16 +1899,19 @@ export type LegacySingleScopeReservationRecommendationProperties = LegacyReserva
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly subscriptionId?: string;
-};
+}
 
 /** The properties of the legacy reservation recommendation for shared scope. */
-export type LegacySharedScopeReservationRecommendationProperties = LegacyReservationRecommendationProperties & {
+export interface LegacySharedScopeReservationRecommendationProperties
+  extends LegacyReservationRecommendationProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   scope: "Shared";
-};
+}
 
 /** Legacy usage detail. */
-export type LegacyUsageDetail = UsageDetail & {
+export interface LegacyUsageDetail extends UsageDetail {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "legacy";
   /**
    * Billing Account identifier.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2126,10 +2132,12 @@ export type LegacyUsageDetail = UsageDetail & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly pricingModel?: PricingModelType;
-};
+}
 
 /** Modern usage detail. */
-export type ModernUsageDetail = UsageDetail & {
+export interface ModernUsageDetail extends UsageDetail {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "modern";
   /**
    * Billing Account identifier.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2490,10 +2498,13 @@ export type ModernUsageDetail = UsageDetail & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly costAllocationRuleName?: string;
-};
+}
 
 /** Legacy reservation recommendation. */
-export type LegacyReservationRecommendation = ReservationRecommendation & {
+export interface LegacyReservationRecommendation
+  extends ReservationRecommendation {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "legacy";
   /**
    * The number of days of usage to look back for recommendation.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2566,10 +2577,13 @@ export type LegacyReservationRecommendation = ReservationRecommendation & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly skuProperties?: SkuProperty[];
-};
+}
 
 /** Modern reservation recommendation. */
-export type ModernReservationRecommendation = ReservationRecommendation & {
+export interface ModernReservationRecommendation
+  extends ReservationRecommendation {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "modern";
   /**
    * Resource Location.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2650,10 +2664,12 @@ export type ModernReservationRecommendation = ReservationRecommendation & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly skuName?: string;
-};
+}
 
 /** Legacy charge summary. */
-export type LegacyChargeSummary = ChargeSummary & {
+export interface LegacyChargeSummary extends ChargeSummary {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "legacy";
   /**
    * The id of the billing period resource that the charge belongs to.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2689,10 +2705,12 @@ export type LegacyChargeSummary = ChargeSummary & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly currency?: string;
-};
+}
 
 /** Modern charge summary. */
-export type ModernChargeSummary = ChargeSummary & {
+export interface ModernChargeSummary extends ChargeSummary {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "modern";
   /**
    * The id of the billing period resource that the charge belongs to.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2748,10 +2766,10 @@ export type ModernChargeSummary = ChargeSummary & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isInvoiced?: boolean;
-};
+}
 
 /** Legacy Reservation transaction resource. */
-export type LegacyReservationTransaction = ReservationTransaction & {};
+export interface LegacyReservationTransaction extends ReservationTransaction {}
 
 /** Known values of {@link Metrictype} that the service accepts. */
 export enum KnownMetrictype {
@@ -2776,7 +2794,9 @@ export type Metrictype = string;
 
 /** Known values of {@link UsageDetailsKind} that the service accepts. */
 export enum KnownUsageDetailsKind {
+  /** Legacy */
   Legacy = "legacy",
+  /** Modern */
   Modern = "modern"
 }
 
@@ -2792,6 +2812,7 @@ export type UsageDetailsKind = string;
 
 /** Known values of {@link CategoryType} that the service accepts. */
 export enum KnownCategoryType {
+  /** Cost */
   Cost = "Cost"
 }
 
@@ -2806,11 +2827,17 @@ export type CategoryType = string;
 
 /** Known values of {@link TimeGrainType} that the service accepts. */
 export enum KnownTimeGrainType {
+  /** Monthly */
   Monthly = "Monthly",
+  /** Quarterly */
   Quarterly = "Quarterly",
+  /** Annually */
   Annually = "Annually",
+  /** BillingMonth */
   BillingMonth = "BillingMonth",
+  /** BillingQuarter */
   BillingQuarter = "BillingQuarter",
+  /** BillingAnnual */
   BillingAnnual = "BillingAnnual"
 }
 
@@ -2830,6 +2857,7 @@ export type TimeGrainType = string;
 
 /** Known values of {@link BudgetOperatorType} that the service accepts. */
 export enum KnownBudgetOperatorType {
+  /** In */
   In = "In"
 }
 
@@ -2844,8 +2872,11 @@ export type BudgetOperatorType = string;
 
 /** Known values of {@link OperatorType} that the service accepts. */
 export enum KnownOperatorType {
+  /** EqualTo */
   EqualTo = "EqualTo",
+  /** GreaterThan */
   GreaterThan = "GreaterThan",
+  /** GreaterThanOrEqualTo */
   GreaterThanOrEqualTo = "GreaterThanOrEqualTo"
 }
 
@@ -2862,7 +2893,9 @@ export type OperatorType = string;
 
 /** Known values of {@link ThresholdType} that the service accepts. */
 export enum KnownThresholdType {
+  /** Actual */
   Actual = "Actual",
+  /** Forecasted */
   Forecasted = "Forecasted"
 }
 
@@ -2878,26 +2911,47 @@ export type ThresholdType = string;
 
 /** Known values of {@link CultureCode} that the service accepts. */
 export enum KnownCultureCode {
+  /** EnUs */
   EnUs = "en-us",
+  /** JaJp */
   JaJp = "ja-jp",
+  /** ZhCn */
   ZhCn = "zh-cn",
+  /** DeDe */
   DeDe = "de-de",
+  /** EsEs */
   EsEs = "es-es",
+  /** FrFr */
   FrFr = "fr-fr",
+  /** ItIt */
   ItIt = "it-it",
+  /** KoKr */
   KoKr = "ko-kr",
+  /** PtBr */
   PtBr = "pt-br",
+  /** RuRu */
   RuRu = "ru-ru",
+  /** ZhTw */
   ZhTw = "zh-tw",
+  /** CsCz */
   CsCz = "cs-cz",
+  /** PlPl */
   PlPl = "pl-pl",
+  /** TrTr */
   TrTr = "tr-tr",
+  /** DaDk */
   DaDk = "da-dk",
+  /** EnGb */
   EnGb = "en-gb",
+  /** HuHu */
   HuHu = "hu-hu",
+  /** NbNo */
   NbNo = "nb-no",
+  /** NlNl */
   NlNl = "nl-nl",
+  /** PtPt */
   PtPt = "pt-pt",
+  /** SvSe */
   SvSe = "sv-se"
 }
 
@@ -2932,7 +2986,9 @@ export type CultureCode = string;
 
 /** Known values of {@link ChargeSummaryKind} that the service accepts. */
 export enum KnownChargeSummaryKind {
+  /** Legacy */
   Legacy = "legacy",
+  /** Modern */
   Modern = "modern"
 }
 
@@ -2948,8 +3004,11 @@ export type ChargeSummaryKind = string;
 
 /** Known values of {@link BillingFrequency} that the service accepts. */
 export enum KnownBillingFrequency {
+  /** Month */
   Month = "Month",
+  /** Quarter */
   Quarter = "Quarter",
+  /** Year */
   Year = "Year"
 }
 
@@ -2984,7 +3043,9 @@ export type Datagrain = string;
 
 /** Known values of {@link ReservationRecommendationKind} that the service accepts. */
 export enum KnownReservationRecommendationKind {
+  /** Legacy */
   Legacy = "legacy",
+  /** Modern */
   Modern = "modern"
 }
 
@@ -3039,12 +3100,19 @@ export type LookBackPeriod = string;
 
 /** Known values of {@link EventType} that the service accepts. */
 export enum KnownEventType {
+  /** SettledCharges */
   SettledCharges = "SettledCharges",
+  /** PendingCharges */
   PendingCharges = "PendingCharges",
+  /** PendingAdjustments */
   PendingAdjustments = "PendingAdjustments",
+  /** PendingNewCredit */
   PendingNewCredit = "PendingNewCredit",
+  /** PendingExpiredCredit */
   PendingExpiredCredit = "PendingExpiredCredit",
+  /** UnKnown */
   UnKnown = "UnKnown",
+  /** NewCredit */
   NewCredit = "NewCredit"
 }
 
@@ -3065,8 +3133,11 @@ export type EventType = string;
 
 /** Known values of {@link LotSource} that the service accepts. */
 export enum KnownLotSource {
+  /** PurchasedCredit */
   PurchasedCredit = "PurchasedCredit",
+  /** PromotionalCredit */
   PromotionalCredit = "PromotionalCredit",
+  /** ConsumptionCommitment */
   ConsumptionCommitment = "ConsumptionCommitment"
 }
 
@@ -3083,11 +3154,17 @@ export type LotSource = string;
 
 /** Known values of {@link Status} that the service accepts. */
 export enum KnownStatus {
+  /** None */
   None = "None",
+  /** Active */
   Active = "Active",
+  /** Inactive */
   Inactive = "Inactive",
+  /** Expired */
   Expired = "Expired",
+  /** Complete */
   Complete = "Complete",
+  /** Canceled */
   Canceled = "Canceled"
 }
 
@@ -3107,8 +3184,11 @@ export type Status = string;
 
 /** Known values of {@link PricingModelType} that the service accepts. */
 export enum KnownPricingModelType {
+  /** OnDemand */
   OnDemand = "On Demand",
+  /** Reservation */
   Reservation = "Reservation",
+  /** Spot */
   Spot = "Spot"
 }
 
@@ -3125,7 +3205,9 @@ export type PricingModelType = string;
 
 /** Known values of {@link Scope} that the service accepts. */
 export enum KnownScope {
+  /** Single */
   Single = "Single",
+  /** Shared */
   Shared = "Shared"
 }
 

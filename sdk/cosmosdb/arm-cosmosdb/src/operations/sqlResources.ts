@@ -72,9 +72,13 @@ import {
   SqlResourcesMigrateSqlContainerToManualThroughputOptionalParams,
   SqlResourcesMigrateSqlContainerToManualThroughputResponse,
   RetrieveThroughputParameters,
+  SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams,
+  SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse,
+  RedistributeThroughputParameters,
+  SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams,
+  SqlResourcesSqlDatabaseRedistributeThroughputResponse,
   SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams,
   SqlResourcesSqlContainerRetrieveThroughputDistributionResponse,
-  RedistributeThroughputParameters,
   SqlResourcesSqlContainerRedistributeThroughputOptionalParams,
   SqlResourcesSqlContainerRedistributeThroughputResponse,
   SqlResourcesListSqlStoredProceduresResponse,
@@ -2044,6 +2048,220 @@ export class SqlResourcesImpl implements SqlResources {
       accountName,
       databaseName,
       containerName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Retrieve throughput distribution for an Azure Cosmos DB SQL database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
+   *                                     for the current SQL database.
+   * @param options The options parameters.
+   */
+  async beginSqlDatabaseRetrieveThroughputDistribution(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    retrieveThroughputParameters: RetrieveThroughputParameters,
+    options?: SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse
+      >,
+      SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        retrieveThroughputParameters,
+        options
+      },
+      sqlDatabaseRetrieveThroughputDistributionOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Retrieve throughput distribution for an Azure Cosmos DB SQL database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
+   *                                     for the current SQL database.
+   * @param options The options parameters.
+   */
+  async beginSqlDatabaseRetrieveThroughputDistributionAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    retrieveThroughputParameters: RetrieveThroughputParameters,
+    options?: SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams
+  ): Promise<SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse> {
+    const poller = await this.beginSqlDatabaseRetrieveThroughputDistribution(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      retrieveThroughputParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Redistribute throughput for an Azure Cosmos DB SQL database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
+   *                                         the current SQL database.
+   * @param options The options parameters.
+   */
+  async beginSqlDatabaseRedistributeThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    redistributeThroughputParameters: RedistributeThroughputParameters,
+    options?: SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SqlResourcesSqlDatabaseRedistributeThroughputResponse>,
+      SqlResourcesSqlDatabaseRedistributeThroughputResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<SqlResourcesSqlDatabaseRedistributeThroughputResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        redistributeThroughputParameters,
+        options
+      },
+      sqlDatabaseRedistributeThroughputOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Redistribute throughput for an Azure Cosmos DB SQL database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
+   *                                         the current SQL database.
+   * @param options The options parameters.
+   */
+  async beginSqlDatabaseRedistributeThroughputAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    redistributeThroughputParameters: RedistributeThroughputParameters,
+    options?: SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams
+  ): Promise<SqlResourcesSqlDatabaseRedistributeThroughputResponse> {
+    const poller = await this.beginSqlDatabaseRedistributeThroughput(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      redistributeThroughputParameters,
       options
     );
     return poller.pollUntilDone();
@@ -4178,6 +4396,74 @@ const migrateSqlContainerToManualThroughputOperationSpec: coreClient.OperationSp
     Parameters.containerName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const sqlDatabaseRetrieveThroughputDistributionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/retrieveThroughputDistribution",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    201: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    202: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    204: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.retrieveThroughputParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const sqlDatabaseRedistributeThroughputOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/redistributeThroughput",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    201: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    202: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    204: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.redistributeThroughputParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const sqlContainerRetrieveThroughputDistributionOperationSpec: coreClient.OperationSpec = {

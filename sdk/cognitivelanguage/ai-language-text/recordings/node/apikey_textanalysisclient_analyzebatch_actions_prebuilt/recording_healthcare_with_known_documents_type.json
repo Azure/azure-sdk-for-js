@@ -1,0 +1,3899 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs?api-version=2022-10-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "447",
+        "Content-Type": "application/json",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "a436b1cb-59d5-4653-bd6b-fa69d51f23d9"
+      },
+      "RequestBody": {
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "0",
+              "text": "The patient is a 54-year-old gentleman with a history of progressive angina over the past several months.",
+              "language": "en"
+            },
+            {
+              "id": "1",
+              "text": "Prescribed 100mg ibuprofen, taken twice daily.",
+              "language": "en"
+            },
+            {
+              "id": "2",
+              "text": "Patient does not suffer from high blood pressure.",
+              "language": "en"
+            }
+          ]
+        },
+        "tasks": [
+          {
+            "kind": "Healthcare",
+            "parameters": {
+              "fhirVersion": "4.0.1",
+              "documentType": "DischargeSummary"
+            }
+          }
+        ]
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "apim-request-id": "394fdae4-7b55-4a67-8ed2-e3b2cfd956d0",
+        "Content-Length": "0",
+        "Date": "Tue, 01 Nov 2022 22:53:35 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/3cc73d9a-e321-44dd-953c-077c6085fbc1?api-version=2022-10-01-preview",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "313",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/3cc73d9a-e321-44dd-953c-077c6085fbc1?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "76879e74-c20c-4a4a-97b4-5e30bce2a4d5"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "8febb964-f94b-4d5d-b31c-e83da7d35e82",
+        "Content-Length": "279",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 01 Nov 2022 22:53:35 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "10",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "3cc73d9a-e321-44dd-953c-077c6085fbc1",
+        "lastUpdateDateTime": "2022-11-01T22:53:35Z",
+        "createdDateTime": "2022-11-01T22:53:35Z",
+        "expirationDateTime": "2022-11-02T22:53:35Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/3cc73d9a-e321-44dd-953c-077c6085fbc1?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "c07fe2a5-1145-4de2-a893-bccdcc879b32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "424d8015-5cdb-4b18-b140-932f86294de0",
+        "Content-Length": "279",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 01 Nov 2022 22:53:35 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "10",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "3cc73d9a-e321-44dd-953c-077c6085fbc1",
+        "lastUpdateDateTime": "2022-11-01T22:53:35Z",
+        "createdDateTime": "2022-11-01T22:53:35Z",
+        "expirationDateTime": "2022-11-02T22:53:35Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/3cc73d9a-e321-44dd-953c-077c6085fbc1?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "5fab54fe-fde6-459e-8ac7-e0cc7e0c9546"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "7ba49266-bf3f-4caf-bed1-a94b596c2081",
+        "Content-Length": "26853",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 01 Nov 2022 22:53:37 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "68",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "3cc73d9a-e321-44dd-953c-077c6085fbc1",
+        "lastUpdateDateTime": "2022-11-01T22:53:37Z",
+        "createdDateTime": "2022-11-01T22:53:35Z",
+        "expirationDateTime": "2022-11-02T22:53:35Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "items": [
+            {
+              "kind": "HealthcareLROResults",
+              "lastUpdateDateTime": "2022-11-01T22:53:37.2826805Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "entities": [
+                      {
+                        "offset": 17,
+                        "length": 11,
+                        "text": "54-year-old",
+                        "category": "Age",
+                        "confidenceScore": 1.0
+                      },
+                      {
+                        "offset": 29,
+                        "length": 9,
+                        "text": "gentleman",
+                        "category": "Gender",
+                        "confidenceScore": 1.0,
+                        "name": "Male population group",
+                        "links": [
+                          {
+                            "dataSource": "UMLS",
+                            "id": "C0025266"
+                          },
+                          {
+                            "dataSource": "AOD",
+                            "id": "0000026918"
+                          },
+                          {
+                            "dataSource": "CHV",
+                            "id": "0000007919"
+                          },
+                          {
+                            "dataSource": "LCH",
+                            "id": "U002897"
+                          },
+                          {
+                            "dataSource": "LCH_NW",
+                            "id": "sh85083510"
+                          },
+                          {
+                            "dataSource": "MEDLINEPLUS",
+                            "id": "24"
+                          },
+                          {
+                            "dataSource": "MSH",
+                            "id": "D008571"
+                          },
+                          {
+                            "dataSource": "NCI",
+                            "id": "C14366"
+                          },
+                          {
+                            "dataSource": "PSY",
+                            "id": "30625"
+                          },
+                          {
+                            "dataSource": "SNOMEDCT_US",
+                            "id": "339947000"
+                          }
+                        ]
+                      },
+                      {
+                        "offset": 57,
+                        "length": 11,
+                        "text": "progressive",
+                        "category": "Course",
+                        "confidenceScore": 0.9
+                      },
+                      {
+                        "offset": 69,
+                        "length": 6,
+                        "text": "angina",
+                        "category": "SymptomOrSign",
+                        "confidenceScore": 0.83,
+                        "name": "Angina Pectoris",
+                        "links": [
+                          {
+                            "dataSource": "UMLS",
+                            "id": "C0002962"
+                          },
+                          {
+                            "dataSource": "AOD",
+                            "id": "0000005330"
+                          },
+                          {
+                            "dataSource": "BI",
+                            "id": "BI00047"
+                          },
+                          {
+                            "dataSource": "CCPSS",
+                            "id": "1017852"
+                          },
+                          {
+                            "dataSource": "CCS",
+                            "id": "7.2.4.1"
+                          },
+                          {
+                            "dataSource": "CHV",
+                            "id": "0000001165"
+                          },
+                          {
+                            "dataSource": "COSTAR",
+                            "id": "054"
+                          },
+                          {
+                            "dataSource": "CSP",
+                            "id": "1393-3407"
+                          },
+                          {
+                            "dataSource": "CST",
+                            "id": "ANGINA PECTORIS"
+                          },
+                          {
+                            "dataSource": "DXP",
+                            "id": "U000113"
+                          },
+                          {
+                            "dataSource": "HPO",
+                            "id": "HP:0001681"
+                          },
+                          {
+                            "dataSource": "ICD10",
+                            "id": "I20.9"
+                          },
+                          {
+                            "dataSource": "ICD10AM",
+                            "id": "I20.9"
+                          },
+                          {
+                            "dataSource": "ICD10CM",
+                            "id": "I20.9"
+                          },
+                          {
+                            "dataSource": "ICD9CM",
+                            "id": "413"
+                          },
+                          {
+                            "dataSource": "ICPC",
+                            "id": "K74"
+                          },
+                          {
+                            "dataSource": "ICPC2EENG",
+                            "id": "K74"
+                          },
+                          {
+                            "dataSource": "ICPC2ICD10ENG",
+                            "id": "MTHU006338"
+                          },
+                          {
+                            "dataSource": "ICPC2P",
+                            "id": "K74001"
+                          },
+                          {
+                            "dataSource": "LCH",
+                            "id": "U000244"
+                          },
+                          {
+                            "dataSource": "LCH_NW",
+                            "id": "sh85005022"
+                          },
+                          {
+                            "dataSource": "LNC",
+                            "id": "LA14275-4"
+                          },
+                          {
+                            "dataSource": "MDR",
+                            "id": "10002383"
+                          },
+                          {
+                            "dataSource": "MEDCIN",
+                            "id": "33215"
+                          },
+                          {
+                            "dataSource": "MEDLINEPLUS",
+                            "id": "142"
+                          },
+                          {
+                            "dataSource": "MSH",
+                            "id": "D000787"
+                          },
+                          {
+                            "dataSource": "MTH",
+                            "id": "053"
+                          },
+                          {
+                            "dataSource": "MTHICD9",
+                            "id": "413.9"
+                          },
+                          {
+                            "dataSource": "MTHICPC2EAE",
+                            "id": "K74"
+                          },
+                          {
+                            "dataSource": "NCI",
+                            "id": "C51221"
+                          },
+                          {
+                            "dataSource": "NCI_CTCAE",
+                            "id": "E10110"
+                          },
+                          {
+                            "dataSource": "NCI_FDA",
+                            "id": "1710"
+                          },
+                          {
+                            "dataSource": "NCI_NICHD",
+                            "id": "C51221"
+                          },
+                          {
+                            "dataSource": "NOC",
+                            "id": "040504"
+                          },
+                          {
+                            "dataSource": "OMIM",
+                            "id": "MTHU009903"
+                          },
+                          {
+                            "dataSource": "OMS",
+                            "id": "29.13"
+                          },
+                          {
+                            "dataSource": "PCDS",
+                            "id": "PRB_02040.07"
+                          },
+                          {
+                            "dataSource": "PSY",
+                            "id": "02530"
+                          },
+                          {
+                            "dataSource": "QMR",
+                            "id": "Q0300326"
+                          },
+                          {
+                            "dataSource": "RCD",
+                            "id": "G33.."
+                          },
+                          {
+                            "dataSource": "RCDAE",
+                            "id": "Ua1eH"
+                          },
+                          {
+                            "dataSource": "SNM",
+                            "id": "F-71500"
+                          },
+                          {
+                            "dataSource": "SNMI",
+                            "id": "D3-12000"
+                          },
+                          {
+                            "dataSource": "SNOMEDCT_US",
+                            "id": "194828000"
+                          },
+                          {
+                            "dataSource": "WHO",
+                            "id": "0422"
+                          }
+                        ]
+                      },
+                      {
+                        "offset": 85,
+                        "length": 19,
+                        "text": "past several months",
+                        "category": "Time",
+                        "confidenceScore": 0.99
+                      }
+                    ],
+                    "relations": [
+                      {
+                        "confidenceScore": 0.84,
+                        "relationType": "CourseOfCondition",
+                        "entities": [
+                          {
+                            "ref": "#/results/documents/0/entities/2",
+                            "role": "Course"
+                          },
+                          {
+                            "ref": "#/results/documents/0/entities/3",
+                            "role": "Condition"
+                          }
+                        ]
+                      },
+                      {
+                        "confidenceScore": 0.89,
+                        "relationType": "TimeOfCondition",
+                        "entities": [
+                          {
+                            "ref": "#/results/documents/0/entities/3",
+                            "role": "Condition"
+                          },
+                          {
+                            "ref": "#/results/documents/0/entities/4",
+                            "role": "Time"
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": [],
+                    "fhirBundle": {
+                      "resourceType": "Bundle",
+                      "id": "ef4b28fa-a1b0-4939-9394-bc6d8e894c7d",
+                      "meta": {
+                        "profile": [
+                          "http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"
+                        ]
+                      },
+                      "identifier": {
+                        "system": "urn:ietf:rfc:3986",
+                        "value": "urn:uuid:ef4b28fa-a1b0-4939-9394-bc6d8e894c7d"
+                      },
+                      "type": "document",
+                      "entry": [
+                        {
+                          "fullUrl": "Composition/01688c5b-65f4-4b39-a831-9281933cdafa",
+                          "resource": {
+                            "resourceType": "Composition",
+                            "id": "01688c5b-65f4-4b39-a831-9281933cdafa",
+                            "status": "final",
+                            "type": {
+                              "coding": [
+                                {
+                                  "system": "http://loinc.org",
+                                  "code": "34117-2",
+                                  "display": "History and physical note"
+                                }
+                              ],
+                              "text": "History and physical note"
+                            },
+                            "subject": {
+                              "reference": "Patient/26d14ad5-f948-4510-a2ba-b88e2f5d8bc5",
+                              "type": "Patient"
+                            },
+                            "encounter": {
+                              "reference": "Encounter/82e4be1c-d75e-487d-800c-466ae68e2a89",
+                              "type": "Encounter",
+                              "display": "unknown"
+                            },
+                            "date": "2022-11-01",
+                            "author": [
+                              {
+                                "reference": "Practitioner/ed840da9-b262-4b93-a23a-1530021786ed",
+                                "type": "Practitioner",
+                                "display": "Unknown"
+                              }
+                            ],
+                            "title": "History and physical note",
+                            "section": [
+                              {
+                                "title": "General",
+                                "code": {
+                                  "coding": [
+                                    {
+                                      "system": "",
+                                      "display": "Unrecognized Section"
+                                    }
+                                  ],
+                                  "text": "General"
+                                },
+                                "text": {
+                                  "status": "additional",
+                                  "div": "\u003Cdiv\u003E\r\n\t\t\t\t\t\t\t\u003Ch1\u003EGeneral\u003C/h1\u003E\r\n\t\t\t\t\t\t\t\u003Cp\u003EThe patient is a 54-year-old gentleman with a history of progressive angina over the past several months.\u003C/p\u003E\r\n\t\t\t\t\t\u003C/div\u003E"
+                                },
+                                "entry": [
+                                  {
+                                    "reference": "List/fa83fc45-49e7-4be8-92fa-161f70f95e19",
+                                    "type": "List",
+                                    "display": "General"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "fullUrl": "Practitioner/ed840da9-b262-4b93-a23a-1530021786ed",
+                          "resource": {
+                            "resourceType": "Practitioner",
+                            "id": "ed840da9-b262-4b93-a23a-1530021786ed",
+                            "name": [
+                              {
+                                "text": "Unknown",
+                                "family": "Unknown"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "fullUrl": "Patient/26d14ad5-f948-4510-a2ba-b88e2f5d8bc5",
+                          "resource": {
+                            "resourceType": "Patient",
+                            "id": "26d14ad5-f948-4510-a2ba-b88e2f5d8bc5",
+                            "gender": "unknown"
+                          }
+                        },
+                        {
+                          "fullUrl": "Encounter/82e4be1c-d75e-487d-800c-466ae68e2a89",
+                          "resource": {
+                            "resourceType": "Encounter",
+                            "id": "82e4be1c-d75e-487d-800c-466ae68e2a89",
+                            "meta": {
+                              "profile": [
+                                "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
+                              ]
+                            },
+                            "status": "finished",
+                            "class": {
+                              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                              "display": "unknown"
+                            },
+                            "subject": {
+                              "reference": "Patient/26d14ad5-f948-4510-a2ba-b88e2f5d8bc5",
+                              "type": "Patient"
+                            },
+                            "period": {
+                              "start": "2022-11-01",
+                              "end": "2022-11-01"
+                            }
+                          }
+                        },
+                        {
+                          "fullUrl": "Observation/9023751f-e2bc-4ed6-8c66-03178423efbc",
+                          "resource": {
+                            "resourceType": "Observation",
+                            "id": "9023751f-e2bc-4ed6-8c66-03178423efbc",
+                            "extension": [
+                              {
+                                "extension": [
+                                  {
+                                    "url": "offset",
+                                    "valueInteger": 69
+                                  },
+                                  {
+                                    "url": "length",
+                                    "valueInteger": 6
+                                  }
+                                ],
+                                "url": "http://hl7.org/fhir/StructureDefinition/derivation-reference"
+                              }
+                            ],
+                            "status": "final",
+                            "category": [
+                              {
+                                "coding": [
+                                  {
+                                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                    "code": "exam",
+                                    "display": "Exam"
+                                  }
+                                ],
+                                "text": "Exam"
+                              }
+                            ],
+                            "code": {
+                              "coding": [
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls",
+                                  "code": "C0002962",
+                                  "display": "Angina Pectoris"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/aod",
+                                  "code": "0000005330"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/bi",
+                                  "code": "BI00047"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/ccpss",
+                                  "code": "1017852"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/ccs",
+                                  "code": "7.2.4.1"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/chv",
+                                  "code": "0000001165"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/costar",
+                                  "code": "054"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/csp",
+                                  "code": "1393-3407"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/cst",
+                                  "code": "ANGINA PECTORIS"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/dxp",
+                                  "code": "U000113"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/hpo",
+                                  "code": "HP:0001681"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/icd-10",
+                                  "code": "I20.9"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/icd-10-am",
+                                  "code": "I20.9"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                                  "code": "I20.9"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/icd-9-cm",
+                                  "code": "413"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/icpc",
+                                  "code": "K74"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/icpc2eeng",
+                                  "code": "K74"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/icpc2icd10eng",
+                                  "code": "MTHU006338"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/icpc-2p",
+                                  "code": "K74001"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/lch",
+                                  "code": "U000244"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/lch_nw",
+                                  "code": "sh85005022"
+                                },
+                                {
+                                  "system": "http://loinc.org",
+                                  "code": "LA14275-4"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/mdr",
+                                  "code": "10002383"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/medcin",
+                                  "code": "33215"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/medlineplus",
+                                  "code": "142"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/msh",
+                                  "code": "D000787"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/mth",
+                                  "code": "053"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/mthicd9",
+                                  "code": "413.9"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/mthicpc2eae",
+                                  "code": "K74"
+                                },
+                                {
+                                  "system": "http://ncimeta.nci.nih.gov",
+                                  "code": "C51221"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_ctcae",
+                                  "code": "E10110"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_fda",
+                                  "code": "1710"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_nichd",
+                                  "code": "C51221"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/noc",
+                                  "code": "040504"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/omim",
+                                  "code": "MTHU009903"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/oms",
+                                  "code": "29.13"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/pcds",
+                                  "code": "PRB_02040.07"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/psy",
+                                  "code": "02530"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/qmr",
+                                  "code": "Q0300326"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/rcd",
+                                  "code": "G33.."
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/rcdae",
+                                  "code": "Ua1eH"
+                                },
+                                {
+                                  "system": "http://snomed.info/sct",
+                                  "code": "F-71500"
+                                },
+                                {
+                                  "system": "http://snomed.info/sct",
+                                  "code": "D3-12000"
+                                },
+                                {
+                                  "system": "http://snomed.info/sct",
+                                  "code": "194828000"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/who",
+                                  "code": "0422"
+                                }
+                              ],
+                              "text": "angina"
+                            },
+                            "subject": {
+                              "reference": "Patient/26d14ad5-f948-4510-a2ba-b88e2f5d8bc5",
+                              "type": "Patient"
+                            },
+                            "encounter": {
+                              "reference": "Encounter/82e4be1c-d75e-487d-800c-466ae68e2a89",
+                              "type": "Encounter",
+                              "display": "unknown"
+                            },
+                            "effectiveTiming": {
+                              "repeat": {
+                                "duration": 1,
+                                "durationUnit": "mo"
+                              },
+                              "code": {
+                                "text": "past several months"
+                              }
+                            },
+                            "interpretation": [
+                              {
+                                "extension": [
+                                  {
+                                    "extension": [
+                                      {
+                                        "url": "offset",
+                                        "valueInteger": 57
+                                      },
+                                      {
+                                        "url": "length",
+                                        "valueInteger": 11
+                                      }
+                                    ],
+                                    "url": "http://hl7.org/fhir/StructureDefinition/derivation-reference"
+                                  }
+                                ],
+                                "text": "progressive"
+                              },
+                              {
+                                "coding": [
+                                  {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                                    "code": "POS",
+                                    "display": "Positive"
+                                  }
+                                ],
+                                "text": "Positive"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "fullUrl": "List/fa83fc45-49e7-4be8-92fa-161f70f95e19",
+                          "resource": {
+                            "resourceType": "List",
+                            "id": "fa83fc45-49e7-4be8-92fa-161f70f95e19",
+                            "status": "current",
+                            "mode": "snapshot",
+                            "title": "General",
+                            "subject": {
+                              "reference": "Patient/26d14ad5-f948-4510-a2ba-b88e2f5d8bc5",
+                              "type": "Patient"
+                            },
+                            "encounter": {
+                              "reference": "Encounter/82e4be1c-d75e-487d-800c-466ae68e2a89",
+                              "type": "Encounter",
+                              "display": "unknown"
+                            },
+                            "entry": [
+                              {
+                                "item": {
+                                  "reference": "Observation/9023751f-e2bc-4ed6-8c66-03178423efbc",
+                                  "type": "Observation",
+                                  "display": "angina"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "1",
+                    "entities": [
+                      {
+                        "offset": 11,
+                        "length": 5,
+                        "text": "100mg",
+                        "category": "Dosage",
+                        "confidenceScore": 0.98
+                      },
+                      {
+                        "offset": 17,
+                        "length": 9,
+                        "text": "ibuprofen",
+                        "category": "MedicationName",
+                        "confidenceScore": 1.0,
+                        "name": "ibuprofen",
+                        "links": [
+                          {
+                            "dataSource": "UMLS",
+                            "id": "C0020740"
+                          },
+                          {
+                            "dataSource": "AOD",
+                            "id": "0000019879"
+                          },
+                          {
+                            "dataSource": "ATC",
+                            "id": "M01AE01"
+                          },
+                          {
+                            "dataSource": "CCPSS",
+                            "id": "0046165"
+                          },
+                          {
+                            "dataSource": "CHV",
+                            "id": "0000006519"
+                          },
+                          {
+                            "dataSource": "CSP",
+                            "id": "2270-2077"
+                          },
+                          {
+                            "dataSource": "DRUGBANK",
+                            "id": "DB01050"
+                          },
+                          {
+                            "dataSource": "GS",
+                            "id": "1611"
+                          },
+                          {
+                            "dataSource": "LCH_NW",
+                            "id": "sh97005926"
+                          },
+                          {
+                            "dataSource": "LNC",
+                            "id": "LP16165-0"
+                          },
+                          {
+                            "dataSource": "MEDCIN",
+                            "id": "40458"
+                          },
+                          {
+                            "dataSource": "MMSL",
+                            "id": "d00015"
+                          },
+                          {
+                            "dataSource": "MSH",
+                            "id": "D007052"
+                          },
+                          {
+                            "dataSource": "MTHSPL",
+                            "id": "WK2XYI10QM"
+                          },
+                          {
+                            "dataSource": "NCI",
+                            "id": "C561"
+                          },
+                          {
+                            "dataSource": "NCI_CTRP",
+                            "id": "C561"
+                          },
+                          {
+                            "dataSource": "NCI_DCP",
+                            "id": "00803"
+                          },
+                          {
+                            "dataSource": "NCI_DTP",
+                            "id": "NSC0256857"
+                          },
+                          {
+                            "dataSource": "NCI_FDA",
+                            "id": "WK2XYI10QM"
+                          },
+                          {
+                            "dataSource": "NCI_NCI-GLOSS",
+                            "id": "CDR0000613511"
+                          },
+                          {
+                            "dataSource": "NDDF",
+                            "id": "002377"
+                          },
+                          {
+                            "dataSource": "PDQ",
+                            "id": "CDR0000040475"
+                          },
+                          {
+                            "dataSource": "RCD",
+                            "id": "x02MO"
+                          },
+                          {
+                            "dataSource": "RXNORM",
+                            "id": "5640"
+                          },
+                          {
+                            "dataSource": "SNM",
+                            "id": "E-7772"
+                          },
+                          {
+                            "dataSource": "SNMI",
+                            "id": "C-603C0"
+                          },
+                          {
+                            "dataSource": "SNOMEDCT_US",
+                            "id": "387207008"
+                          },
+                          {
+                            "dataSource": "USP",
+                            "id": "m39860"
+                          },
+                          {
+                            "dataSource": "USPMG",
+                            "id": "MTHU000060"
+                          },
+                          {
+                            "dataSource": "VANDF",
+                            "id": "4017840"
+                          }
+                        ]
+                      },
+                      {
+                        "offset": 34,
+                        "length": 11,
+                        "text": "twice daily",
+                        "category": "Frequency",
+                        "confidenceScore": 1.0
+                      }
+                    ],
+                    "relations": [
+                      {
+                        "confidenceScore": 1.0,
+                        "relationType": "DosageOfMedication",
+                        "entities": [
+                          {
+                            "ref": "#/results/documents/1/entities/0",
+                            "role": "Dosage"
+                          },
+                          {
+                            "ref": "#/results/documents/1/entities/1",
+                            "role": "Medication"
+                          }
+                        ]
+                      },
+                      {
+                        "confidenceScore": 1.0,
+                        "relationType": "FrequencyOfMedication",
+                        "entities": [
+                          {
+                            "ref": "#/results/documents/1/entities/1",
+                            "role": "Medication"
+                          },
+                          {
+                            "ref": "#/results/documents/1/entities/2",
+                            "role": "Frequency"
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": [],
+                    "fhirBundle": {
+                      "resourceType": "Bundle",
+                      "id": "a7b45a95-ba15-441b-af52-5288a5b21c7d",
+                      "meta": {
+                        "profile": [
+                          "http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"
+                        ]
+                      },
+                      "identifier": {
+                        "system": "urn:ietf:rfc:3986",
+                        "value": "urn:uuid:a7b45a95-ba15-441b-af52-5288a5b21c7d"
+                      },
+                      "type": "document",
+                      "entry": [
+                        {
+                          "fullUrl": "Composition/43bcd00e-4099-4e83-b3bd-f9937654ec4a",
+                          "resource": {
+                            "resourceType": "Composition",
+                            "id": "43bcd00e-4099-4e83-b3bd-f9937654ec4a",
+                            "status": "final",
+                            "type": {
+                              "coding": [
+                                {
+                                  "system": "http://loinc.org",
+                                  "code": "11526-1",
+                                  "display": "Pathology study"
+                                }
+                              ],
+                              "text": "Pathology study"
+                            },
+                            "subject": {
+                              "reference": "Patient/91543410-44e0-4393-8be7-1219a627c5b1",
+                              "type": "Patient"
+                            },
+                            "encounter": {
+                              "reference": "Encounter/d387ebb9-090d-4fcd-b77f-9223f5b74926",
+                              "type": "Encounter",
+                              "display": "unknown"
+                            },
+                            "date": "2022-11-01",
+                            "author": [
+                              {
+                                "reference": "Practitioner/301e60c5-4ae0-42a8-a27f-25c995a93210",
+                                "type": "Practitioner",
+                                "display": "Unknown"
+                              }
+                            ],
+                            "title": "Pathology study",
+                            "section": [
+                              {
+                                "title": "General",
+                                "code": {
+                                  "coding": [
+                                    {
+                                      "system": "",
+                                      "display": "Unrecognized Section"
+                                    }
+                                  ],
+                                  "text": "General"
+                                },
+                                "text": {
+                                  "status": "additional",
+                                  "div": "\u003Cdiv\u003E\r\n\t\t\t\t\t\t\t\u003Ch1\u003EGeneral\u003C/h1\u003E\r\n\t\t\t\t\t\t\t\u003Cp\u003EPrescribed 100mg ibuprofen, taken twice daily.\u003C/p\u003E\r\n\t\t\t\t\t\u003C/div\u003E"
+                                },
+                                "entry": [
+                                  {
+                                    "reference": "List/c832b868-b954-4480-847a-0ed32f28603c",
+                                    "type": "List",
+                                    "display": "General"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "fullUrl": "Practitioner/301e60c5-4ae0-42a8-a27f-25c995a93210",
+                          "resource": {
+                            "resourceType": "Practitioner",
+                            "id": "301e60c5-4ae0-42a8-a27f-25c995a93210",
+                            "name": [
+                              {
+                                "text": "Unknown",
+                                "family": "Unknown"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "fullUrl": "Patient/91543410-44e0-4393-8be7-1219a627c5b1",
+                          "resource": {
+                            "resourceType": "Patient",
+                            "id": "91543410-44e0-4393-8be7-1219a627c5b1",
+                            "gender": "unknown"
+                          }
+                        },
+                        {
+                          "fullUrl": "Encounter/d387ebb9-090d-4fcd-b77f-9223f5b74926",
+                          "resource": {
+                            "resourceType": "Encounter",
+                            "id": "d387ebb9-090d-4fcd-b77f-9223f5b74926",
+                            "meta": {
+                              "profile": [
+                                "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
+                              ]
+                            },
+                            "status": "finished",
+                            "class": {
+                              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                              "display": "unknown"
+                            },
+                            "subject": {
+                              "reference": "Patient/91543410-44e0-4393-8be7-1219a627c5b1",
+                              "type": "Patient"
+                            },
+                            "period": {
+                              "start": "2022-11-01",
+                              "end": "2022-11-01"
+                            }
+                          }
+                        },
+                        {
+                          "fullUrl": "MedicationStatement/a3b0a1e4-8c97-4567-9b3a-88d9503703d3",
+                          "resource": {
+                            "resourceType": "MedicationStatement",
+                            "id": "a3b0a1e4-8c97-4567-9b3a-88d9503703d3",
+                            "extension": [
+                              {
+                                "extension": [
+                                  {
+                                    "url": "offset",
+                                    "valueInteger": 17
+                                  },
+                                  {
+                                    "url": "length",
+                                    "valueInteger": 9
+                                  }
+                                ],
+                                "url": "http://hl7.org/fhir/StructureDefinition/derivation-reference"
+                              }
+                            ],
+                            "status": "active",
+                            "medicationCodeableConcept": {
+                              "coding": [
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls",
+                                  "code": "C0020740",
+                                  "display": "ibuprofen"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/aod",
+                                  "code": "0000019879"
+                                },
+                                {
+                                  "system": "http://www.whocc.no/atc",
+                                  "code": "M01AE01"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/ccpss",
+                                  "code": "0046165"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/chv",
+                                  "code": "0000006519"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/csp",
+                                  "code": "2270-2077"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/drugbank",
+                                  "code": "DB01050"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/gs",
+                                  "code": "1611"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/lch_nw",
+                                  "code": "sh97005926"
+                                },
+                                {
+                                  "system": "http://loinc.org",
+                                  "code": "LP16165-0"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/medcin",
+                                  "code": "40458"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/mmsl",
+                                  "code": "d00015"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/msh",
+                                  "code": "D007052"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/mthspl",
+                                  "code": "WK2XYI10QM"
+                                },
+                                {
+                                  "system": "http://ncimeta.nci.nih.gov",
+                                  "code": "C561"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_ctrp",
+                                  "code": "C561"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_dcp",
+                                  "code": "00803"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_dtp",
+                                  "code": "NSC0256857"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_fda",
+                                  "code": "WK2XYI10QM"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_nci-gloss",
+                                  "code": "CDR0000613511"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nddf",
+                                  "code": "002377"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/pdq",
+                                  "code": "CDR0000040475"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/rcd",
+                                  "code": "x02MO"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                                  "code": "5640"
+                                },
+                                {
+                                  "system": "http://snomed.info/sct",
+                                  "code": "E-7772"
+                                },
+                                {
+                                  "system": "http://snomed.info/sct",
+                                  "code": "C-603C0"
+                                },
+                                {
+                                  "system": "http://snomed.info/sct",
+                                  "code": "387207008"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/usp",
+                                  "code": "m39860"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/uspmg",
+                                  "code": "MTHU000060"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/ndfrt",
+                                  "code": "4017840"
+                                }
+                              ],
+                              "text": "ibuprofen"
+                            },
+                            "subject": {
+                              "reference": "Patient/91543410-44e0-4393-8be7-1219a627c5b1",
+                              "type": "Patient"
+                            },
+                            "context": {
+                              "reference": "Encounter/d387ebb9-090d-4fcd-b77f-9223f5b74926",
+                              "type": "Encounter",
+                              "display": "unknown"
+                            },
+                            "dosage": [
+                              {
+                                "text": "100mg",
+                                "timing": {
+                                  "repeat": {
+                                    "frequency": 2,
+                                    "period": 1,
+                                    "periodUnit": "d"
+                                  },
+                                  "code": {
+                                    "text": "twice daily"
+                                  }
+                                },
+                                "doseAndRate": [
+                                  {
+                                    "doseQuantity": {
+                                      "value": 100
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "fullUrl": "List/c832b868-b954-4480-847a-0ed32f28603c",
+                          "resource": {
+                            "resourceType": "List",
+                            "id": "c832b868-b954-4480-847a-0ed32f28603c",
+                            "status": "current",
+                            "mode": "snapshot",
+                            "title": "General",
+                            "subject": {
+                              "reference": "Patient/91543410-44e0-4393-8be7-1219a627c5b1",
+                              "type": "Patient"
+                            },
+                            "encounter": {
+                              "reference": "Encounter/d387ebb9-090d-4fcd-b77f-9223f5b74926",
+                              "type": "Encounter",
+                              "display": "unknown"
+                            },
+                            "entry": [
+                              {
+                                "item": {
+                                  "reference": "MedicationStatement/a3b0a1e4-8c97-4567-9b3a-88d9503703d3",
+                                  "type": "MedicationStatement",
+                                  "display": "ibuprofen"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "entities": [
+                      {
+                        "offset": 29,
+                        "length": 19,
+                        "text": "high blood pressure",
+                        "category": "SymptomOrSign",
+                        "confidenceScore": 1.0,
+                        "assertion": {
+                          "certainty": "negative"
+                        },
+                        "name": "Hypertensive disease",
+                        "links": [
+                          {
+                            "dataSource": "UMLS",
+                            "id": "C0020538"
+                          },
+                          {
+                            "dataSource": "AOD",
+                            "id": "0000023317"
+                          },
+                          {
+                            "dataSource": "BI",
+                            "id": "BI00001"
+                          },
+                          {
+                            "dataSource": "CCPSS",
+                            "id": "1017493"
+                          },
+                          {
+                            "dataSource": "CCS",
+                            "id": "7.1"
+                          },
+                          {
+                            "dataSource": "CHV",
+                            "id": "0000015800"
+                          },
+                          {
+                            "dataSource": "COSTAR",
+                            "id": "397"
+                          },
+                          {
+                            "dataSource": "CSP",
+                            "id": "0571-5243"
+                          },
+                          {
+                            "dataSource": "CST",
+                            "id": "HYPERTENS"
+                          },
+                          {
+                            "dataSource": "DXP",
+                            "id": "U002034"
+                          },
+                          {
+                            "dataSource": "HPO",
+                            "id": "HP:0000822"
+                          },
+                          {
+                            "dataSource": "ICD10",
+                            "id": "I10-I15.9"
+                          },
+                          {
+                            "dataSource": "ICD10AM",
+                            "id": "I10-I15.9"
+                          },
+                          {
+                            "dataSource": "ICD10CM",
+                            "id": "I10"
+                          },
+                          {
+                            "dataSource": "ICD9CM",
+                            "id": "997.91"
+                          },
+                          {
+                            "dataSource": "ICPC2ICD10ENG",
+                            "id": "MTHU035456"
+                          },
+                          {
+                            "dataSource": "ICPC2P",
+                            "id": "K85004"
+                          },
+                          {
+                            "dataSource": "LCH",
+                            "id": "U002317"
+                          },
+                          {
+                            "dataSource": "LCH_NW",
+                            "id": "sh85063723"
+                          },
+                          {
+                            "dataSource": "LNC",
+                            "id": "LA14293-7"
+                          },
+                          {
+                            "dataSource": "MDR",
+                            "id": "10020772"
+                          },
+                          {
+                            "dataSource": "MEDCIN",
+                            "id": "33288"
+                          },
+                          {
+                            "dataSource": "MEDLINEPLUS",
+                            "id": "34"
+                          },
+                          {
+                            "dataSource": "MSH",
+                            "id": "D006973"
+                          },
+                          {
+                            "dataSource": "MTH",
+                            "id": "005"
+                          },
+                          {
+                            "dataSource": "MTHICD9",
+                            "id": "997.91"
+                          },
+                          {
+                            "dataSource": "NANDA-I",
+                            "id": "00905"
+                          },
+                          {
+                            "dataSource": "NCI",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_CPTAC",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_CTCAE",
+                            "id": "E13785"
+                          },
+                          {
+                            "dataSource": "NCI_CTRP",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_FDA",
+                            "id": "1908"
+                          },
+                          {
+                            "dataSource": "NCI_GDC",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_NCI-GLOSS",
+                            "id": "CDR0000458091"
+                          },
+                          {
+                            "dataSource": "NCI_NICHD",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_caDSR",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NOC",
+                            "id": "060808"
+                          },
+                          {
+                            "dataSource": "OMIM",
+                            "id": "MTHU002068"
+                          },
+                          {
+                            "dataSource": "PCDS",
+                            "id": "PRB_11000.06"
+                          },
+                          {
+                            "dataSource": "PDQ",
+                            "id": "CDR0000686951"
+                          },
+                          {
+                            "dataSource": "PSY",
+                            "id": "23830"
+                          },
+                          {
+                            "dataSource": "RCD",
+                            "id": "XE0Ub"
+                          },
+                          {
+                            "dataSource": "SNM",
+                            "id": "F-70700"
+                          },
+                          {
+                            "dataSource": "SNMI",
+                            "id": "D3-02000"
+                          },
+                          {
+                            "dataSource": "SNOMEDCT_US",
+                            "id": "38341003"
+                          },
+                          {
+                            "dataSource": "WHO",
+                            "id": "0210"
+                          }
+                        ]
+                      }
+                    ],
+                    "relations": [],
+                    "warnings": [],
+                    "fhirBundle": {
+                      "resourceType": "Bundle",
+                      "id": "f29e3f9c-7551-48e9-b11d-5236a21a076a",
+                      "meta": {
+                        "profile": [
+                          "http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"
+                        ]
+                      },
+                      "identifier": {
+                        "system": "urn:ietf:rfc:3986",
+                        "value": "urn:uuid:f29e3f9c-7551-48e9-b11d-5236a21a076a"
+                      },
+                      "type": "document",
+                      "entry": [
+                        {
+                          "fullUrl": "Composition/f2b3717f-b448-4ea0-ac27-3ccb069f6799",
+                          "resource": {
+                            "resourceType": "Composition",
+                            "id": "f2b3717f-b448-4ea0-ac27-3ccb069f6799",
+                            "status": "final",
+                            "type": {
+                              "coding": [
+                                {
+                                  "system": "http://loinc.org",
+                                  "code": "11526-1",
+                                  "display": "Pathology study"
+                                }
+                              ],
+                              "text": "Pathology study"
+                            },
+                            "subject": {
+                              "reference": "Patient/b7789786-7332-43fb-9009-c8a2e94bffd0",
+                              "type": "Patient"
+                            },
+                            "encounter": {
+                              "reference": "Encounter/cd3f3775-7b1f-451f-be74-92db43aaedeb",
+                              "type": "Encounter",
+                              "display": "unknown"
+                            },
+                            "date": "2022-11-01",
+                            "author": [
+                              {
+                                "reference": "Practitioner/009ac463-8882-492e-ae95-05f883f5f420",
+                                "type": "Practitioner",
+                                "display": "Unknown"
+                              }
+                            ],
+                            "title": "Pathology study",
+                            "section": [
+                              {
+                                "title": "General",
+                                "code": {
+                                  "coding": [
+                                    {
+                                      "system": "",
+                                      "display": "Unrecognized Section"
+                                    }
+                                  ],
+                                  "text": "General"
+                                },
+                                "text": {
+                                  "status": "additional",
+                                  "div": "\u003Cdiv\u003E\r\n\t\t\t\t\t\t\t\u003Ch1\u003EGeneral\u003C/h1\u003E\r\n\t\t\t\t\t\t\t\u003Cp\u003EPatient does not suffer from high blood pressure.\u003C/p\u003E\r\n\t\t\t\t\t\u003C/div\u003E"
+                                },
+                                "entry": [
+                                  {
+                                    "reference": "List/e194c49b-fd88-470f-ab15-7f4f3c8805ff",
+                                    "type": "List",
+                                    "display": "General"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "fullUrl": "Practitioner/009ac463-8882-492e-ae95-05f883f5f420",
+                          "resource": {
+                            "resourceType": "Practitioner",
+                            "id": "009ac463-8882-492e-ae95-05f883f5f420",
+                            "name": [
+                              {
+                                "text": "Unknown",
+                                "family": "Unknown"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "fullUrl": "Patient/b7789786-7332-43fb-9009-c8a2e94bffd0",
+                          "resource": {
+                            "resourceType": "Patient",
+                            "id": "b7789786-7332-43fb-9009-c8a2e94bffd0",
+                            "gender": "unknown"
+                          }
+                        },
+                        {
+                          "fullUrl": "Encounter/cd3f3775-7b1f-451f-be74-92db43aaedeb",
+                          "resource": {
+                            "resourceType": "Encounter",
+                            "id": "cd3f3775-7b1f-451f-be74-92db43aaedeb",
+                            "meta": {
+                              "profile": [
+                                "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
+                              ]
+                            },
+                            "status": "finished",
+                            "class": {
+                              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                              "display": "unknown"
+                            },
+                            "subject": {
+                              "reference": "Patient/b7789786-7332-43fb-9009-c8a2e94bffd0",
+                              "type": "Patient"
+                            },
+                            "period": {
+                              "start": "2022-11-01",
+                              "end": "2022-11-01"
+                            }
+                          }
+                        },
+                        {
+                          "fullUrl": "Observation/cc742789-8ac3-46a7-921b-ffd7dd068c26",
+                          "resource": {
+                            "resourceType": "Observation",
+                            "id": "cc742789-8ac3-46a7-921b-ffd7dd068c26",
+                            "extension": [
+                              {
+                                "extension": [
+                                  {
+                                    "url": "offset",
+                                    "valueInteger": 29
+                                  },
+                                  {
+                                    "url": "length",
+                                    "valueInteger": 19
+                                  }
+                                ],
+                                "url": "http://hl7.org/fhir/StructureDefinition/derivation-reference"
+                              }
+                            ],
+                            "status": "final",
+                            "category": [
+                              {
+                                "coding": [
+                                  {
+                                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                    "code": "exam",
+                                    "display": "Exam"
+                                  }
+                                ],
+                                "text": "Exam"
+                              }
+                            ],
+                            "code": {
+                              "coding": [
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls",
+                                  "code": "C0020538",
+                                  "display": "Hypertensive disease"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/aod",
+                                  "code": "0000023317"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/bi",
+                                  "code": "BI00001"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/ccpss",
+                                  "code": "1017493"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/ccs",
+                                  "code": "7.1"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/chv",
+                                  "code": "0000015800"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/costar",
+                                  "code": "397"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/csp",
+                                  "code": "0571-5243"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/cst",
+                                  "code": "HYPERTENS"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/dxp",
+                                  "code": "U002034"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/hpo",
+                                  "code": "HP:0000822"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/icd-10",
+                                  "code": "I10-I15.9"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/icd-10-am",
+                                  "code": "I10-I15.9"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                                  "code": "I10"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/icd-9-cm",
+                                  "code": "997.91"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/icpc2icd10eng",
+                                  "code": "MTHU035456"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/icpc-2p",
+                                  "code": "K85004"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/lch",
+                                  "code": "U002317"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/lch_nw",
+                                  "code": "sh85063723"
+                                },
+                                {
+                                  "system": "http://loinc.org",
+                                  "code": "LA14293-7"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/mdr",
+                                  "code": "10020772"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/medcin",
+                                  "code": "33288"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/medlineplus",
+                                  "code": "34"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/msh",
+                                  "code": "D006973"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/mth",
+                                  "code": "005"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/mthicd9",
+                                  "code": "997.91"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nanda-i",
+                                  "code": "00905"
+                                },
+                                {
+                                  "system": "http://ncimeta.nci.nih.gov",
+                                  "code": "C3117"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_cptac",
+                                  "code": "C3117"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_ctcae",
+                                  "code": "E13785"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_ctrp",
+                                  "code": "C3117"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_fda",
+                                  "code": "1908"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_gdc",
+                                  "code": "C3117"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_nci-gloss",
+                                  "code": "CDR0000458091"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_nichd",
+                                  "code": "C3117"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_cadsr",
+                                  "code": "C3117"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/noc",
+                                  "code": "060808"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/omim",
+                                  "code": "MTHU002068"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/pcds",
+                                  "code": "PRB_11000.06"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/pdq",
+                                  "code": "CDR0000686951"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/psy",
+                                  "code": "23830"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/rcd",
+                                  "code": "XE0Ub"
+                                },
+                                {
+                                  "system": "http://snomed.info/sct",
+                                  "code": "F-70700"
+                                },
+                                {
+                                  "system": "http://snomed.info/sct",
+                                  "code": "D3-02000"
+                                },
+                                {
+                                  "system": "http://snomed.info/sct",
+                                  "code": "38341003"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/who",
+                                  "code": "0210"
+                                }
+                              ],
+                              "text": "high blood pressure"
+                            },
+                            "subject": {
+                              "reference": "Patient/b7789786-7332-43fb-9009-c8a2e94bffd0",
+                              "type": "Patient"
+                            },
+                            "encounter": {
+                              "reference": "Encounter/cd3f3775-7b1f-451f-be74-92db43aaedeb",
+                              "type": "Encounter",
+                              "display": "unknown"
+                            },
+                            "interpretation": [
+                              {
+                                "coding": [
+                                  {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                                    "code": "NEG",
+                                    "display": "Negative"
+                                  }
+                                ],
+                                "text": "Negative"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "fullUrl": "List/e194c49b-fd88-470f-ab15-7f4f3c8805ff",
+                          "resource": {
+                            "resourceType": "List",
+                            "id": "e194c49b-fd88-470f-ab15-7f4f3c8805ff",
+                            "status": "current",
+                            "mode": "snapshot",
+                            "title": "General",
+                            "subject": {
+                              "reference": "Patient/b7789786-7332-43fb-9009-c8a2e94bffd0",
+                              "type": "Patient"
+                            },
+                            "encounter": {
+                              "reference": "Encounter/cd3f3775-7b1f-451f-be74-92db43aaedeb",
+                              "type": "Encounter",
+                              "display": "unknown"
+                            },
+                            "entry": [
+                              {
+                                "item": {
+                                  "reference": "Observation/cc742789-8ac3-46a7-921b-ffd7dd068c26",
+                                  "type": "Observation",
+                                  "display": "high blood pressure"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2022-03-01"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/3cc73d9a-e321-44dd-953c-077c6085fbc1?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 Node/v18.6.0 OS/(x64-Linux-5.15.68.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "9eeaa8fb-c8bd-4eb8-b438-f8174696ba8a"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "821e1183-3c53-4064-b491-6c64b5e81635",
+        "Content-Length": "26853",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 01 Nov 2022 22:53:37 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "174",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "3cc73d9a-e321-44dd-953c-077c6085fbc1",
+        "lastUpdateDateTime": "2022-11-01T22:53:37Z",
+        "createdDateTime": "2022-11-01T22:53:35Z",
+        "expirationDateTime": "2022-11-02T22:53:35Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "items": [
+            {
+              "kind": "HealthcareLROResults",
+              "lastUpdateDateTime": "2022-11-01T22:53:37.2826805Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "entities": [
+                      {
+                        "offset": 17,
+                        "length": 11,
+                        "text": "54-year-old",
+                        "category": "Age",
+                        "confidenceScore": 1.0
+                      },
+                      {
+                        "offset": 29,
+                        "length": 9,
+                        "text": "gentleman",
+                        "category": "Gender",
+                        "confidenceScore": 1.0,
+                        "name": "Male population group",
+                        "links": [
+                          {
+                            "dataSource": "UMLS",
+                            "id": "C0025266"
+                          },
+                          {
+                            "dataSource": "AOD",
+                            "id": "0000026918"
+                          },
+                          {
+                            "dataSource": "CHV",
+                            "id": "0000007919"
+                          },
+                          {
+                            "dataSource": "LCH",
+                            "id": "U002897"
+                          },
+                          {
+                            "dataSource": "LCH_NW",
+                            "id": "sh85083510"
+                          },
+                          {
+                            "dataSource": "MEDLINEPLUS",
+                            "id": "24"
+                          },
+                          {
+                            "dataSource": "MSH",
+                            "id": "D008571"
+                          },
+                          {
+                            "dataSource": "NCI",
+                            "id": "C14366"
+                          },
+                          {
+                            "dataSource": "PSY",
+                            "id": "30625"
+                          },
+                          {
+                            "dataSource": "SNOMEDCT_US",
+                            "id": "339947000"
+                          }
+                        ]
+                      },
+                      {
+                        "offset": 57,
+                        "length": 11,
+                        "text": "progressive",
+                        "category": "Course",
+                        "confidenceScore": 0.9
+                      },
+                      {
+                        "offset": 69,
+                        "length": 6,
+                        "text": "angina",
+                        "category": "SymptomOrSign",
+                        "confidenceScore": 0.83,
+                        "name": "Angina Pectoris",
+                        "links": [
+                          {
+                            "dataSource": "UMLS",
+                            "id": "C0002962"
+                          },
+                          {
+                            "dataSource": "AOD",
+                            "id": "0000005330"
+                          },
+                          {
+                            "dataSource": "BI",
+                            "id": "BI00047"
+                          },
+                          {
+                            "dataSource": "CCPSS",
+                            "id": "1017852"
+                          },
+                          {
+                            "dataSource": "CCS",
+                            "id": "7.2.4.1"
+                          },
+                          {
+                            "dataSource": "CHV",
+                            "id": "0000001165"
+                          },
+                          {
+                            "dataSource": "COSTAR",
+                            "id": "054"
+                          },
+                          {
+                            "dataSource": "CSP",
+                            "id": "1393-3407"
+                          },
+                          {
+                            "dataSource": "CST",
+                            "id": "ANGINA PECTORIS"
+                          },
+                          {
+                            "dataSource": "DXP",
+                            "id": "U000113"
+                          },
+                          {
+                            "dataSource": "HPO",
+                            "id": "HP:0001681"
+                          },
+                          {
+                            "dataSource": "ICD10",
+                            "id": "I20.9"
+                          },
+                          {
+                            "dataSource": "ICD10AM",
+                            "id": "I20.9"
+                          },
+                          {
+                            "dataSource": "ICD10CM",
+                            "id": "I20.9"
+                          },
+                          {
+                            "dataSource": "ICD9CM",
+                            "id": "413"
+                          },
+                          {
+                            "dataSource": "ICPC",
+                            "id": "K74"
+                          },
+                          {
+                            "dataSource": "ICPC2EENG",
+                            "id": "K74"
+                          },
+                          {
+                            "dataSource": "ICPC2ICD10ENG",
+                            "id": "MTHU006338"
+                          },
+                          {
+                            "dataSource": "ICPC2P",
+                            "id": "K74001"
+                          },
+                          {
+                            "dataSource": "LCH",
+                            "id": "U000244"
+                          },
+                          {
+                            "dataSource": "LCH_NW",
+                            "id": "sh85005022"
+                          },
+                          {
+                            "dataSource": "LNC",
+                            "id": "LA14275-4"
+                          },
+                          {
+                            "dataSource": "MDR",
+                            "id": "10002383"
+                          },
+                          {
+                            "dataSource": "MEDCIN",
+                            "id": "33215"
+                          },
+                          {
+                            "dataSource": "MEDLINEPLUS",
+                            "id": "142"
+                          },
+                          {
+                            "dataSource": "MSH",
+                            "id": "D000787"
+                          },
+                          {
+                            "dataSource": "MTH",
+                            "id": "053"
+                          },
+                          {
+                            "dataSource": "MTHICD9",
+                            "id": "413.9"
+                          },
+                          {
+                            "dataSource": "MTHICPC2EAE",
+                            "id": "K74"
+                          },
+                          {
+                            "dataSource": "NCI",
+                            "id": "C51221"
+                          },
+                          {
+                            "dataSource": "NCI_CTCAE",
+                            "id": "E10110"
+                          },
+                          {
+                            "dataSource": "NCI_FDA",
+                            "id": "1710"
+                          },
+                          {
+                            "dataSource": "NCI_NICHD",
+                            "id": "C51221"
+                          },
+                          {
+                            "dataSource": "NOC",
+                            "id": "040504"
+                          },
+                          {
+                            "dataSource": "OMIM",
+                            "id": "MTHU009903"
+                          },
+                          {
+                            "dataSource": "OMS",
+                            "id": "29.13"
+                          },
+                          {
+                            "dataSource": "PCDS",
+                            "id": "PRB_02040.07"
+                          },
+                          {
+                            "dataSource": "PSY",
+                            "id": "02530"
+                          },
+                          {
+                            "dataSource": "QMR",
+                            "id": "Q0300326"
+                          },
+                          {
+                            "dataSource": "RCD",
+                            "id": "G33.."
+                          },
+                          {
+                            "dataSource": "RCDAE",
+                            "id": "Ua1eH"
+                          },
+                          {
+                            "dataSource": "SNM",
+                            "id": "F-71500"
+                          },
+                          {
+                            "dataSource": "SNMI",
+                            "id": "D3-12000"
+                          },
+                          {
+                            "dataSource": "SNOMEDCT_US",
+                            "id": "194828000"
+                          },
+                          {
+                            "dataSource": "WHO",
+                            "id": "0422"
+                          }
+                        ]
+                      },
+                      {
+                        "offset": 85,
+                        "length": 19,
+                        "text": "past several months",
+                        "category": "Time",
+                        "confidenceScore": 0.99
+                      }
+                    ],
+                    "relations": [
+                      {
+                        "confidenceScore": 0.84,
+                        "relationType": "CourseOfCondition",
+                        "entities": [
+                          {
+                            "ref": "#/results/documents/0/entities/2",
+                            "role": "Course"
+                          },
+                          {
+                            "ref": "#/results/documents/0/entities/3",
+                            "role": "Condition"
+                          }
+                        ]
+                      },
+                      {
+                        "confidenceScore": 0.89,
+                        "relationType": "TimeOfCondition",
+                        "entities": [
+                          {
+                            "ref": "#/results/documents/0/entities/3",
+                            "role": "Condition"
+                          },
+                          {
+                            "ref": "#/results/documents/0/entities/4",
+                            "role": "Time"
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": [],
+                    "fhirBundle": {
+                      "resourceType": "Bundle",
+                      "id": "ef4b28fa-a1b0-4939-9394-bc6d8e894c7d",
+                      "meta": {
+                        "profile": [
+                          "http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"
+                        ]
+                      },
+                      "identifier": {
+                        "system": "urn:ietf:rfc:3986",
+                        "value": "urn:uuid:ef4b28fa-a1b0-4939-9394-bc6d8e894c7d"
+                      },
+                      "type": "document",
+                      "entry": [
+                        {
+                          "fullUrl": "Composition/01688c5b-65f4-4b39-a831-9281933cdafa",
+                          "resource": {
+                            "resourceType": "Composition",
+                            "id": "01688c5b-65f4-4b39-a831-9281933cdafa",
+                            "status": "final",
+                            "type": {
+                              "coding": [
+                                {
+                                  "system": "http://loinc.org",
+                                  "code": "34117-2",
+                                  "display": "History and physical note"
+                                }
+                              ],
+                              "text": "History and physical note"
+                            },
+                            "subject": {
+                              "reference": "Patient/26d14ad5-f948-4510-a2ba-b88e2f5d8bc5",
+                              "type": "Patient"
+                            },
+                            "encounter": {
+                              "reference": "Encounter/82e4be1c-d75e-487d-800c-466ae68e2a89",
+                              "type": "Encounter",
+                              "display": "unknown"
+                            },
+                            "date": "2022-11-01",
+                            "author": [
+                              {
+                                "reference": "Practitioner/ed840da9-b262-4b93-a23a-1530021786ed",
+                                "type": "Practitioner",
+                                "display": "Unknown"
+                              }
+                            ],
+                            "title": "History and physical note",
+                            "section": [
+                              {
+                                "title": "General",
+                                "code": {
+                                  "coding": [
+                                    {
+                                      "system": "",
+                                      "display": "Unrecognized Section"
+                                    }
+                                  ],
+                                  "text": "General"
+                                },
+                                "text": {
+                                  "status": "additional",
+                                  "div": "\u003Cdiv\u003E\r\n\t\t\t\t\t\t\t\u003Ch1\u003EGeneral\u003C/h1\u003E\r\n\t\t\t\t\t\t\t\u003Cp\u003EThe patient is a 54-year-old gentleman with a history of progressive angina over the past several months.\u003C/p\u003E\r\n\t\t\t\t\t\u003C/div\u003E"
+                                },
+                                "entry": [
+                                  {
+                                    "reference": "List/fa83fc45-49e7-4be8-92fa-161f70f95e19",
+                                    "type": "List",
+                                    "display": "General"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "fullUrl": "Practitioner/ed840da9-b262-4b93-a23a-1530021786ed",
+                          "resource": {
+                            "resourceType": "Practitioner",
+                            "id": "ed840da9-b262-4b93-a23a-1530021786ed",
+                            "name": [
+                              {
+                                "text": "Unknown",
+                                "family": "Unknown"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "fullUrl": "Patient/26d14ad5-f948-4510-a2ba-b88e2f5d8bc5",
+                          "resource": {
+                            "resourceType": "Patient",
+                            "id": "26d14ad5-f948-4510-a2ba-b88e2f5d8bc5",
+                            "gender": "unknown"
+                          }
+                        },
+                        {
+                          "fullUrl": "Encounter/82e4be1c-d75e-487d-800c-466ae68e2a89",
+                          "resource": {
+                            "resourceType": "Encounter",
+                            "id": "82e4be1c-d75e-487d-800c-466ae68e2a89",
+                            "meta": {
+                              "profile": [
+                                "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
+                              ]
+                            },
+                            "status": "finished",
+                            "class": {
+                              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                              "display": "unknown"
+                            },
+                            "subject": {
+                              "reference": "Patient/26d14ad5-f948-4510-a2ba-b88e2f5d8bc5",
+                              "type": "Patient"
+                            },
+                            "period": {
+                              "start": "2022-11-01",
+                              "end": "2022-11-01"
+                            }
+                          }
+                        },
+                        {
+                          "fullUrl": "Observation/9023751f-e2bc-4ed6-8c66-03178423efbc",
+                          "resource": {
+                            "resourceType": "Observation",
+                            "id": "9023751f-e2bc-4ed6-8c66-03178423efbc",
+                            "extension": [
+                              {
+                                "extension": [
+                                  {
+                                    "url": "offset",
+                                    "valueInteger": 69
+                                  },
+                                  {
+                                    "url": "length",
+                                    "valueInteger": 6
+                                  }
+                                ],
+                                "url": "http://hl7.org/fhir/StructureDefinition/derivation-reference"
+                              }
+                            ],
+                            "status": "final",
+                            "category": [
+                              {
+                                "coding": [
+                                  {
+                                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                    "code": "exam",
+                                    "display": "Exam"
+                                  }
+                                ],
+                                "text": "Exam"
+                              }
+                            ],
+                            "code": {
+                              "coding": [
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls",
+                                  "code": "C0002962",
+                                  "display": "Angina Pectoris"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/aod",
+                                  "code": "0000005330"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/bi",
+                                  "code": "BI00047"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/ccpss",
+                                  "code": "1017852"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/ccs",
+                                  "code": "7.2.4.1"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/chv",
+                                  "code": "0000001165"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/costar",
+                                  "code": "054"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/csp",
+                                  "code": "1393-3407"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/cst",
+                                  "code": "ANGINA PECTORIS"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/dxp",
+                                  "code": "U000113"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/hpo",
+                                  "code": "HP:0001681"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/icd-10",
+                                  "code": "I20.9"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/icd-10-am",
+                                  "code": "I20.9"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                                  "code": "I20.9"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/icd-9-cm",
+                                  "code": "413"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/icpc",
+                                  "code": "K74"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/icpc2eeng",
+                                  "code": "K74"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/icpc2icd10eng",
+                                  "code": "MTHU006338"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/icpc-2p",
+                                  "code": "K74001"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/lch",
+                                  "code": "U000244"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/lch_nw",
+                                  "code": "sh85005022"
+                                },
+                                {
+                                  "system": "http://loinc.org",
+                                  "code": "LA14275-4"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/mdr",
+                                  "code": "10002383"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/medcin",
+                                  "code": "33215"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/medlineplus",
+                                  "code": "142"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/msh",
+                                  "code": "D000787"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/mth",
+                                  "code": "053"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/mthicd9",
+                                  "code": "413.9"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/mthicpc2eae",
+                                  "code": "K74"
+                                },
+                                {
+                                  "system": "http://ncimeta.nci.nih.gov",
+                                  "code": "C51221"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_ctcae",
+                                  "code": "E10110"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_fda",
+                                  "code": "1710"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_nichd",
+                                  "code": "C51221"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/noc",
+                                  "code": "040504"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/omim",
+                                  "code": "MTHU009903"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/oms",
+                                  "code": "29.13"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/pcds",
+                                  "code": "PRB_02040.07"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/psy",
+                                  "code": "02530"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/qmr",
+                                  "code": "Q0300326"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/rcd",
+                                  "code": "G33.."
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/rcdae",
+                                  "code": "Ua1eH"
+                                },
+                                {
+                                  "system": "http://snomed.info/sct",
+                                  "code": "F-71500"
+                                },
+                                {
+                                  "system": "http://snomed.info/sct",
+                                  "code": "D3-12000"
+                                },
+                                {
+                                  "system": "http://snomed.info/sct",
+                                  "code": "194828000"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/who",
+                                  "code": "0422"
+                                }
+                              ],
+                              "text": "angina"
+                            },
+                            "subject": {
+                              "reference": "Patient/26d14ad5-f948-4510-a2ba-b88e2f5d8bc5",
+                              "type": "Patient"
+                            },
+                            "encounter": {
+                              "reference": "Encounter/82e4be1c-d75e-487d-800c-466ae68e2a89",
+                              "type": "Encounter",
+                              "display": "unknown"
+                            },
+                            "effectiveTiming": {
+                              "repeat": {
+                                "duration": 1,
+                                "durationUnit": "mo"
+                              },
+                              "code": {
+                                "text": "past several months"
+                              }
+                            },
+                            "interpretation": [
+                              {
+                                "extension": [
+                                  {
+                                    "extension": [
+                                      {
+                                        "url": "offset",
+                                        "valueInteger": 57
+                                      },
+                                      {
+                                        "url": "length",
+                                        "valueInteger": 11
+                                      }
+                                    ],
+                                    "url": "http://hl7.org/fhir/StructureDefinition/derivation-reference"
+                                  }
+                                ],
+                                "text": "progressive"
+                              },
+                              {
+                                "coding": [
+                                  {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                                    "code": "POS",
+                                    "display": "Positive"
+                                  }
+                                ],
+                                "text": "Positive"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "fullUrl": "List/fa83fc45-49e7-4be8-92fa-161f70f95e19",
+                          "resource": {
+                            "resourceType": "List",
+                            "id": "fa83fc45-49e7-4be8-92fa-161f70f95e19",
+                            "status": "current",
+                            "mode": "snapshot",
+                            "title": "General",
+                            "subject": {
+                              "reference": "Patient/26d14ad5-f948-4510-a2ba-b88e2f5d8bc5",
+                              "type": "Patient"
+                            },
+                            "encounter": {
+                              "reference": "Encounter/82e4be1c-d75e-487d-800c-466ae68e2a89",
+                              "type": "Encounter",
+                              "display": "unknown"
+                            },
+                            "entry": [
+                              {
+                                "item": {
+                                  "reference": "Observation/9023751f-e2bc-4ed6-8c66-03178423efbc",
+                                  "type": "Observation",
+                                  "display": "angina"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "1",
+                    "entities": [
+                      {
+                        "offset": 11,
+                        "length": 5,
+                        "text": "100mg",
+                        "category": "Dosage",
+                        "confidenceScore": 0.98
+                      },
+                      {
+                        "offset": 17,
+                        "length": 9,
+                        "text": "ibuprofen",
+                        "category": "MedicationName",
+                        "confidenceScore": 1.0,
+                        "name": "ibuprofen",
+                        "links": [
+                          {
+                            "dataSource": "UMLS",
+                            "id": "C0020740"
+                          },
+                          {
+                            "dataSource": "AOD",
+                            "id": "0000019879"
+                          },
+                          {
+                            "dataSource": "ATC",
+                            "id": "M01AE01"
+                          },
+                          {
+                            "dataSource": "CCPSS",
+                            "id": "0046165"
+                          },
+                          {
+                            "dataSource": "CHV",
+                            "id": "0000006519"
+                          },
+                          {
+                            "dataSource": "CSP",
+                            "id": "2270-2077"
+                          },
+                          {
+                            "dataSource": "DRUGBANK",
+                            "id": "DB01050"
+                          },
+                          {
+                            "dataSource": "GS",
+                            "id": "1611"
+                          },
+                          {
+                            "dataSource": "LCH_NW",
+                            "id": "sh97005926"
+                          },
+                          {
+                            "dataSource": "LNC",
+                            "id": "LP16165-0"
+                          },
+                          {
+                            "dataSource": "MEDCIN",
+                            "id": "40458"
+                          },
+                          {
+                            "dataSource": "MMSL",
+                            "id": "d00015"
+                          },
+                          {
+                            "dataSource": "MSH",
+                            "id": "D007052"
+                          },
+                          {
+                            "dataSource": "MTHSPL",
+                            "id": "WK2XYI10QM"
+                          },
+                          {
+                            "dataSource": "NCI",
+                            "id": "C561"
+                          },
+                          {
+                            "dataSource": "NCI_CTRP",
+                            "id": "C561"
+                          },
+                          {
+                            "dataSource": "NCI_DCP",
+                            "id": "00803"
+                          },
+                          {
+                            "dataSource": "NCI_DTP",
+                            "id": "NSC0256857"
+                          },
+                          {
+                            "dataSource": "NCI_FDA",
+                            "id": "WK2XYI10QM"
+                          },
+                          {
+                            "dataSource": "NCI_NCI-GLOSS",
+                            "id": "CDR0000613511"
+                          },
+                          {
+                            "dataSource": "NDDF",
+                            "id": "002377"
+                          },
+                          {
+                            "dataSource": "PDQ",
+                            "id": "CDR0000040475"
+                          },
+                          {
+                            "dataSource": "RCD",
+                            "id": "x02MO"
+                          },
+                          {
+                            "dataSource": "RXNORM",
+                            "id": "5640"
+                          },
+                          {
+                            "dataSource": "SNM",
+                            "id": "E-7772"
+                          },
+                          {
+                            "dataSource": "SNMI",
+                            "id": "C-603C0"
+                          },
+                          {
+                            "dataSource": "SNOMEDCT_US",
+                            "id": "387207008"
+                          },
+                          {
+                            "dataSource": "USP",
+                            "id": "m39860"
+                          },
+                          {
+                            "dataSource": "USPMG",
+                            "id": "MTHU000060"
+                          },
+                          {
+                            "dataSource": "VANDF",
+                            "id": "4017840"
+                          }
+                        ]
+                      },
+                      {
+                        "offset": 34,
+                        "length": 11,
+                        "text": "twice daily",
+                        "category": "Frequency",
+                        "confidenceScore": 1.0
+                      }
+                    ],
+                    "relations": [
+                      {
+                        "confidenceScore": 1.0,
+                        "relationType": "DosageOfMedication",
+                        "entities": [
+                          {
+                            "ref": "#/results/documents/1/entities/0",
+                            "role": "Dosage"
+                          },
+                          {
+                            "ref": "#/results/documents/1/entities/1",
+                            "role": "Medication"
+                          }
+                        ]
+                      },
+                      {
+                        "confidenceScore": 1.0,
+                        "relationType": "FrequencyOfMedication",
+                        "entities": [
+                          {
+                            "ref": "#/results/documents/1/entities/1",
+                            "role": "Medication"
+                          },
+                          {
+                            "ref": "#/results/documents/1/entities/2",
+                            "role": "Frequency"
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": [],
+                    "fhirBundle": {
+                      "resourceType": "Bundle",
+                      "id": "a7b45a95-ba15-441b-af52-5288a5b21c7d",
+                      "meta": {
+                        "profile": [
+                          "http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"
+                        ]
+                      },
+                      "identifier": {
+                        "system": "urn:ietf:rfc:3986",
+                        "value": "urn:uuid:a7b45a95-ba15-441b-af52-5288a5b21c7d"
+                      },
+                      "type": "document",
+                      "entry": [
+                        {
+                          "fullUrl": "Composition/43bcd00e-4099-4e83-b3bd-f9937654ec4a",
+                          "resource": {
+                            "resourceType": "Composition",
+                            "id": "43bcd00e-4099-4e83-b3bd-f9937654ec4a",
+                            "status": "final",
+                            "type": {
+                              "coding": [
+                                {
+                                  "system": "http://loinc.org",
+                                  "code": "11526-1",
+                                  "display": "Pathology study"
+                                }
+                              ],
+                              "text": "Pathology study"
+                            },
+                            "subject": {
+                              "reference": "Patient/91543410-44e0-4393-8be7-1219a627c5b1",
+                              "type": "Patient"
+                            },
+                            "encounter": {
+                              "reference": "Encounter/d387ebb9-090d-4fcd-b77f-9223f5b74926",
+                              "type": "Encounter",
+                              "display": "unknown"
+                            },
+                            "date": "2022-11-01",
+                            "author": [
+                              {
+                                "reference": "Practitioner/301e60c5-4ae0-42a8-a27f-25c995a93210",
+                                "type": "Practitioner",
+                                "display": "Unknown"
+                              }
+                            ],
+                            "title": "Pathology study",
+                            "section": [
+                              {
+                                "title": "General",
+                                "code": {
+                                  "coding": [
+                                    {
+                                      "system": "",
+                                      "display": "Unrecognized Section"
+                                    }
+                                  ],
+                                  "text": "General"
+                                },
+                                "text": {
+                                  "status": "additional",
+                                  "div": "\u003Cdiv\u003E\r\n\t\t\t\t\t\t\t\u003Ch1\u003EGeneral\u003C/h1\u003E\r\n\t\t\t\t\t\t\t\u003Cp\u003EPrescribed 100mg ibuprofen, taken twice daily.\u003C/p\u003E\r\n\t\t\t\t\t\u003C/div\u003E"
+                                },
+                                "entry": [
+                                  {
+                                    "reference": "List/c832b868-b954-4480-847a-0ed32f28603c",
+                                    "type": "List",
+                                    "display": "General"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "fullUrl": "Practitioner/301e60c5-4ae0-42a8-a27f-25c995a93210",
+                          "resource": {
+                            "resourceType": "Practitioner",
+                            "id": "301e60c5-4ae0-42a8-a27f-25c995a93210",
+                            "name": [
+                              {
+                                "text": "Unknown",
+                                "family": "Unknown"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "fullUrl": "Patient/91543410-44e0-4393-8be7-1219a627c5b1",
+                          "resource": {
+                            "resourceType": "Patient",
+                            "id": "91543410-44e0-4393-8be7-1219a627c5b1",
+                            "gender": "unknown"
+                          }
+                        },
+                        {
+                          "fullUrl": "Encounter/d387ebb9-090d-4fcd-b77f-9223f5b74926",
+                          "resource": {
+                            "resourceType": "Encounter",
+                            "id": "d387ebb9-090d-4fcd-b77f-9223f5b74926",
+                            "meta": {
+                              "profile": [
+                                "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
+                              ]
+                            },
+                            "status": "finished",
+                            "class": {
+                              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                              "display": "unknown"
+                            },
+                            "subject": {
+                              "reference": "Patient/91543410-44e0-4393-8be7-1219a627c5b1",
+                              "type": "Patient"
+                            },
+                            "period": {
+                              "start": "2022-11-01",
+                              "end": "2022-11-01"
+                            }
+                          }
+                        },
+                        {
+                          "fullUrl": "MedicationStatement/a3b0a1e4-8c97-4567-9b3a-88d9503703d3",
+                          "resource": {
+                            "resourceType": "MedicationStatement",
+                            "id": "a3b0a1e4-8c97-4567-9b3a-88d9503703d3",
+                            "extension": [
+                              {
+                                "extension": [
+                                  {
+                                    "url": "offset",
+                                    "valueInteger": 17
+                                  },
+                                  {
+                                    "url": "length",
+                                    "valueInteger": 9
+                                  }
+                                ],
+                                "url": "http://hl7.org/fhir/StructureDefinition/derivation-reference"
+                              }
+                            ],
+                            "status": "active",
+                            "medicationCodeableConcept": {
+                              "coding": [
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls",
+                                  "code": "C0020740",
+                                  "display": "ibuprofen"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/aod",
+                                  "code": "0000019879"
+                                },
+                                {
+                                  "system": "http://www.whocc.no/atc",
+                                  "code": "M01AE01"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/ccpss",
+                                  "code": "0046165"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/chv",
+                                  "code": "0000006519"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/csp",
+                                  "code": "2270-2077"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/drugbank",
+                                  "code": "DB01050"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/gs",
+                                  "code": "1611"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/lch_nw",
+                                  "code": "sh97005926"
+                                },
+                                {
+                                  "system": "http://loinc.org",
+                                  "code": "LP16165-0"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/medcin",
+                                  "code": "40458"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/mmsl",
+                                  "code": "d00015"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/msh",
+                                  "code": "D007052"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/mthspl",
+                                  "code": "WK2XYI10QM"
+                                },
+                                {
+                                  "system": "http://ncimeta.nci.nih.gov",
+                                  "code": "C561"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_ctrp",
+                                  "code": "C561"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_dcp",
+                                  "code": "00803"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_dtp",
+                                  "code": "NSC0256857"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_fda",
+                                  "code": "WK2XYI10QM"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_nci-gloss",
+                                  "code": "CDR0000613511"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nddf",
+                                  "code": "002377"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/pdq",
+                                  "code": "CDR0000040475"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/rcd",
+                                  "code": "x02MO"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                                  "code": "5640"
+                                },
+                                {
+                                  "system": "http://snomed.info/sct",
+                                  "code": "E-7772"
+                                },
+                                {
+                                  "system": "http://snomed.info/sct",
+                                  "code": "C-603C0"
+                                },
+                                {
+                                  "system": "http://snomed.info/sct",
+                                  "code": "387207008"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/usp",
+                                  "code": "m39860"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/uspmg",
+                                  "code": "MTHU000060"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/ndfrt",
+                                  "code": "4017840"
+                                }
+                              ],
+                              "text": "ibuprofen"
+                            },
+                            "subject": {
+                              "reference": "Patient/91543410-44e0-4393-8be7-1219a627c5b1",
+                              "type": "Patient"
+                            },
+                            "context": {
+                              "reference": "Encounter/d387ebb9-090d-4fcd-b77f-9223f5b74926",
+                              "type": "Encounter",
+                              "display": "unknown"
+                            },
+                            "dosage": [
+                              {
+                                "text": "100mg",
+                                "timing": {
+                                  "repeat": {
+                                    "frequency": 2,
+                                    "period": 1,
+                                    "periodUnit": "d"
+                                  },
+                                  "code": {
+                                    "text": "twice daily"
+                                  }
+                                },
+                                "doseAndRate": [
+                                  {
+                                    "doseQuantity": {
+                                      "value": 100
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "fullUrl": "List/c832b868-b954-4480-847a-0ed32f28603c",
+                          "resource": {
+                            "resourceType": "List",
+                            "id": "c832b868-b954-4480-847a-0ed32f28603c",
+                            "status": "current",
+                            "mode": "snapshot",
+                            "title": "General",
+                            "subject": {
+                              "reference": "Patient/91543410-44e0-4393-8be7-1219a627c5b1",
+                              "type": "Patient"
+                            },
+                            "encounter": {
+                              "reference": "Encounter/d387ebb9-090d-4fcd-b77f-9223f5b74926",
+                              "type": "Encounter",
+                              "display": "unknown"
+                            },
+                            "entry": [
+                              {
+                                "item": {
+                                  "reference": "MedicationStatement/a3b0a1e4-8c97-4567-9b3a-88d9503703d3",
+                                  "type": "MedicationStatement",
+                                  "display": "ibuprofen"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "entities": [
+                      {
+                        "offset": 29,
+                        "length": 19,
+                        "text": "high blood pressure",
+                        "category": "SymptomOrSign",
+                        "confidenceScore": 1.0,
+                        "assertion": {
+                          "certainty": "negative"
+                        },
+                        "name": "Hypertensive disease",
+                        "links": [
+                          {
+                            "dataSource": "UMLS",
+                            "id": "C0020538"
+                          },
+                          {
+                            "dataSource": "AOD",
+                            "id": "0000023317"
+                          },
+                          {
+                            "dataSource": "BI",
+                            "id": "BI00001"
+                          },
+                          {
+                            "dataSource": "CCPSS",
+                            "id": "1017493"
+                          },
+                          {
+                            "dataSource": "CCS",
+                            "id": "7.1"
+                          },
+                          {
+                            "dataSource": "CHV",
+                            "id": "0000015800"
+                          },
+                          {
+                            "dataSource": "COSTAR",
+                            "id": "397"
+                          },
+                          {
+                            "dataSource": "CSP",
+                            "id": "0571-5243"
+                          },
+                          {
+                            "dataSource": "CST",
+                            "id": "HYPERTENS"
+                          },
+                          {
+                            "dataSource": "DXP",
+                            "id": "U002034"
+                          },
+                          {
+                            "dataSource": "HPO",
+                            "id": "HP:0000822"
+                          },
+                          {
+                            "dataSource": "ICD10",
+                            "id": "I10-I15.9"
+                          },
+                          {
+                            "dataSource": "ICD10AM",
+                            "id": "I10-I15.9"
+                          },
+                          {
+                            "dataSource": "ICD10CM",
+                            "id": "I10"
+                          },
+                          {
+                            "dataSource": "ICD9CM",
+                            "id": "997.91"
+                          },
+                          {
+                            "dataSource": "ICPC2ICD10ENG",
+                            "id": "MTHU035456"
+                          },
+                          {
+                            "dataSource": "ICPC2P",
+                            "id": "K85004"
+                          },
+                          {
+                            "dataSource": "LCH",
+                            "id": "U002317"
+                          },
+                          {
+                            "dataSource": "LCH_NW",
+                            "id": "sh85063723"
+                          },
+                          {
+                            "dataSource": "LNC",
+                            "id": "LA14293-7"
+                          },
+                          {
+                            "dataSource": "MDR",
+                            "id": "10020772"
+                          },
+                          {
+                            "dataSource": "MEDCIN",
+                            "id": "33288"
+                          },
+                          {
+                            "dataSource": "MEDLINEPLUS",
+                            "id": "34"
+                          },
+                          {
+                            "dataSource": "MSH",
+                            "id": "D006973"
+                          },
+                          {
+                            "dataSource": "MTH",
+                            "id": "005"
+                          },
+                          {
+                            "dataSource": "MTHICD9",
+                            "id": "997.91"
+                          },
+                          {
+                            "dataSource": "NANDA-I",
+                            "id": "00905"
+                          },
+                          {
+                            "dataSource": "NCI",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_CPTAC",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_CTCAE",
+                            "id": "E13785"
+                          },
+                          {
+                            "dataSource": "NCI_CTRP",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_FDA",
+                            "id": "1908"
+                          },
+                          {
+                            "dataSource": "NCI_GDC",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_NCI-GLOSS",
+                            "id": "CDR0000458091"
+                          },
+                          {
+                            "dataSource": "NCI_NICHD",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NCI_caDSR",
+                            "id": "C3117"
+                          },
+                          {
+                            "dataSource": "NOC",
+                            "id": "060808"
+                          },
+                          {
+                            "dataSource": "OMIM",
+                            "id": "MTHU002068"
+                          },
+                          {
+                            "dataSource": "PCDS",
+                            "id": "PRB_11000.06"
+                          },
+                          {
+                            "dataSource": "PDQ",
+                            "id": "CDR0000686951"
+                          },
+                          {
+                            "dataSource": "PSY",
+                            "id": "23830"
+                          },
+                          {
+                            "dataSource": "RCD",
+                            "id": "XE0Ub"
+                          },
+                          {
+                            "dataSource": "SNM",
+                            "id": "F-70700"
+                          },
+                          {
+                            "dataSource": "SNMI",
+                            "id": "D3-02000"
+                          },
+                          {
+                            "dataSource": "SNOMEDCT_US",
+                            "id": "38341003"
+                          },
+                          {
+                            "dataSource": "WHO",
+                            "id": "0210"
+                          }
+                        ]
+                      }
+                    ],
+                    "relations": [],
+                    "warnings": [],
+                    "fhirBundle": {
+                      "resourceType": "Bundle",
+                      "id": "f29e3f9c-7551-48e9-b11d-5236a21a076a",
+                      "meta": {
+                        "profile": [
+                          "http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"
+                        ]
+                      },
+                      "identifier": {
+                        "system": "urn:ietf:rfc:3986",
+                        "value": "urn:uuid:f29e3f9c-7551-48e9-b11d-5236a21a076a"
+                      },
+                      "type": "document",
+                      "entry": [
+                        {
+                          "fullUrl": "Composition/f2b3717f-b448-4ea0-ac27-3ccb069f6799",
+                          "resource": {
+                            "resourceType": "Composition",
+                            "id": "f2b3717f-b448-4ea0-ac27-3ccb069f6799",
+                            "status": "final",
+                            "type": {
+                              "coding": [
+                                {
+                                  "system": "http://loinc.org",
+                                  "code": "11526-1",
+                                  "display": "Pathology study"
+                                }
+                              ],
+                              "text": "Pathology study"
+                            },
+                            "subject": {
+                              "reference": "Patient/b7789786-7332-43fb-9009-c8a2e94bffd0",
+                              "type": "Patient"
+                            },
+                            "encounter": {
+                              "reference": "Encounter/cd3f3775-7b1f-451f-be74-92db43aaedeb",
+                              "type": "Encounter",
+                              "display": "unknown"
+                            },
+                            "date": "2022-11-01",
+                            "author": [
+                              {
+                                "reference": "Practitioner/009ac463-8882-492e-ae95-05f883f5f420",
+                                "type": "Practitioner",
+                                "display": "Unknown"
+                              }
+                            ],
+                            "title": "Pathology study",
+                            "section": [
+                              {
+                                "title": "General",
+                                "code": {
+                                  "coding": [
+                                    {
+                                      "system": "",
+                                      "display": "Unrecognized Section"
+                                    }
+                                  ],
+                                  "text": "General"
+                                },
+                                "text": {
+                                  "status": "additional",
+                                  "div": "\u003Cdiv\u003E\r\n\t\t\t\t\t\t\t\u003Ch1\u003EGeneral\u003C/h1\u003E\r\n\t\t\t\t\t\t\t\u003Cp\u003EPatient does not suffer from high blood pressure.\u003C/p\u003E\r\n\t\t\t\t\t\u003C/div\u003E"
+                                },
+                                "entry": [
+                                  {
+                                    "reference": "List/e194c49b-fd88-470f-ab15-7f4f3c8805ff",
+                                    "type": "List",
+                                    "display": "General"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "fullUrl": "Practitioner/009ac463-8882-492e-ae95-05f883f5f420",
+                          "resource": {
+                            "resourceType": "Practitioner",
+                            "id": "009ac463-8882-492e-ae95-05f883f5f420",
+                            "name": [
+                              {
+                                "text": "Unknown",
+                                "family": "Unknown"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "fullUrl": "Patient/b7789786-7332-43fb-9009-c8a2e94bffd0",
+                          "resource": {
+                            "resourceType": "Patient",
+                            "id": "b7789786-7332-43fb-9009-c8a2e94bffd0",
+                            "gender": "unknown"
+                          }
+                        },
+                        {
+                          "fullUrl": "Encounter/cd3f3775-7b1f-451f-be74-92db43aaedeb",
+                          "resource": {
+                            "resourceType": "Encounter",
+                            "id": "cd3f3775-7b1f-451f-be74-92db43aaedeb",
+                            "meta": {
+                              "profile": [
+                                "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
+                              ]
+                            },
+                            "status": "finished",
+                            "class": {
+                              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                              "display": "unknown"
+                            },
+                            "subject": {
+                              "reference": "Patient/b7789786-7332-43fb-9009-c8a2e94bffd0",
+                              "type": "Patient"
+                            },
+                            "period": {
+                              "start": "2022-11-01",
+                              "end": "2022-11-01"
+                            }
+                          }
+                        },
+                        {
+                          "fullUrl": "Observation/cc742789-8ac3-46a7-921b-ffd7dd068c26",
+                          "resource": {
+                            "resourceType": "Observation",
+                            "id": "cc742789-8ac3-46a7-921b-ffd7dd068c26",
+                            "extension": [
+                              {
+                                "extension": [
+                                  {
+                                    "url": "offset",
+                                    "valueInteger": 29
+                                  },
+                                  {
+                                    "url": "length",
+                                    "valueInteger": 19
+                                  }
+                                ],
+                                "url": "http://hl7.org/fhir/StructureDefinition/derivation-reference"
+                              }
+                            ],
+                            "status": "final",
+                            "category": [
+                              {
+                                "coding": [
+                                  {
+                                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                    "code": "exam",
+                                    "display": "Exam"
+                                  }
+                                ],
+                                "text": "Exam"
+                              }
+                            ],
+                            "code": {
+                              "coding": [
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls",
+                                  "code": "C0020538",
+                                  "display": "Hypertensive disease"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/aod",
+                                  "code": "0000023317"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/bi",
+                                  "code": "BI00001"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/ccpss",
+                                  "code": "1017493"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/ccs",
+                                  "code": "7.1"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/chv",
+                                  "code": "0000015800"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/costar",
+                                  "code": "397"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/csp",
+                                  "code": "0571-5243"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/cst",
+                                  "code": "HYPERTENS"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/dxp",
+                                  "code": "U002034"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/hpo",
+                                  "code": "HP:0000822"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/icd-10",
+                                  "code": "I10-I15.9"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/icd-10-am",
+                                  "code": "I10-I15.9"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                                  "code": "I10"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/icd-9-cm",
+                                  "code": "997.91"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/icpc2icd10eng",
+                                  "code": "MTHU035456"
+                                },
+                                {
+                                  "system": "http://hl7.org/fhir/sid/icpc-2p",
+                                  "code": "K85004"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/lch",
+                                  "code": "U002317"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/lch_nw",
+                                  "code": "sh85063723"
+                                },
+                                {
+                                  "system": "http://loinc.org",
+                                  "code": "LA14293-7"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/mdr",
+                                  "code": "10020772"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/medcin",
+                                  "code": "33288"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/medlineplus",
+                                  "code": "34"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/msh",
+                                  "code": "D006973"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/mth",
+                                  "code": "005"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/mthicd9",
+                                  "code": "997.91"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nanda-i",
+                                  "code": "00905"
+                                },
+                                {
+                                  "system": "http://ncimeta.nci.nih.gov",
+                                  "code": "C3117"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_cptac",
+                                  "code": "C3117"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_ctcae",
+                                  "code": "E13785"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_ctrp",
+                                  "code": "C3117"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_fda",
+                                  "code": "1908"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_gdc",
+                                  "code": "C3117"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_nci-gloss",
+                                  "code": "CDR0000458091"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_nichd",
+                                  "code": "C3117"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/nci_cadsr",
+                                  "code": "C3117"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/noc",
+                                  "code": "060808"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/omim",
+                                  "code": "MTHU002068"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/pcds",
+                                  "code": "PRB_11000.06"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/pdq",
+                                  "code": "CDR0000686951"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/psy",
+                                  "code": "23830"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/rcd",
+                                  "code": "XE0Ub"
+                                },
+                                {
+                                  "system": "http://snomed.info/sct",
+                                  "code": "F-70700"
+                                },
+                                {
+                                  "system": "http://snomed.info/sct",
+                                  "code": "D3-02000"
+                                },
+                                {
+                                  "system": "http://snomed.info/sct",
+                                  "code": "38341003"
+                                },
+                                {
+                                  "system": "http://www.nlm.nih.gov/research/umls/who",
+                                  "code": "0210"
+                                }
+                              ],
+                              "text": "high blood pressure"
+                            },
+                            "subject": {
+                              "reference": "Patient/b7789786-7332-43fb-9009-c8a2e94bffd0",
+                              "type": "Patient"
+                            },
+                            "encounter": {
+                              "reference": "Encounter/cd3f3775-7b1f-451f-be74-92db43aaedeb",
+                              "type": "Encounter",
+                              "display": "unknown"
+                            },
+                            "interpretation": [
+                              {
+                                "coding": [
+                                  {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                                    "code": "NEG",
+                                    "display": "Negative"
+                                  }
+                                ],
+                                "text": "Negative"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "fullUrl": "List/e194c49b-fd88-470f-ab15-7f4f3c8805ff",
+                          "resource": {
+                            "resourceType": "List",
+                            "id": "e194c49b-fd88-470f-ab15-7f4f3c8805ff",
+                            "status": "current",
+                            "mode": "snapshot",
+                            "title": "General",
+                            "subject": {
+                              "reference": "Patient/b7789786-7332-43fb-9009-c8a2e94bffd0",
+                              "type": "Patient"
+                            },
+                            "encounter": {
+                              "reference": "Encounter/cd3f3775-7b1f-451f-be74-92db43aaedeb",
+                              "type": "Encounter",
+                              "display": "unknown"
+                            },
+                            "entry": [
+                              {
+                                "item": {
+                                  "reference": "Observation/cc742789-8ac3-46a7-921b-ffd7dd068c26",
+                                  "type": "Observation",
+                                  "display": "high blood pressure"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2022-03-01"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

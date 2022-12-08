@@ -61,6 +61,7 @@ import {
 import {
   AnalyzeHealthcareEntitiesPollerLike,
   BeginAnalyzeHealthcarePoller,
+  PollerLikeWithCancellation,
 } from "./lro/health/poller";
 import {
   AnalyzeHealthcareOperationState,
@@ -81,6 +82,7 @@ export {
   AnalyzeActionsPollerLike,
   AnalyzeActionsOperationState,
   BeginAnalyzeHealthcareEntitiesOptions,
+  PollerLikeWithCancellation,
   AnalyzeHealthcareEntitiesPollerLike,
   AnalyzeHealthcareOperationState,
   AnalysisPollOperationState,

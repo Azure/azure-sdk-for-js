@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure/test-utils";
-import { parseNotificationHubsConnectionString } from "../../../src/utils/connectionStringUtils.js";
+import { parseNotificationHubsConnectionString } from "../../../src/auth/connectionStringUtils.js";
 
 describe("parseNotificationHubsConnectionString", () => {
   it("should parse a well formed connection string", () => {

@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/create?api-version=7.3",
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/create?api-version=7.4-preview.1",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -17,9 +17,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "33de1c54-1dae-488a-b1ac-7ae371f204c9",
-        "x-ms-useragent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "f5091a7f-6a65-4507-9cbb-1c88357df2ef",
+        "x-ms-useragent": "azsdk-js-keyvault-keys/4.6.1 azsdk-js-keyvault-keys/4.6.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 401,
@@ -32,13 +32,13 @@
         "WWW-Authenticate": "Bearer authorization=\u0022https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012\u0022, resource=\u0022https://managedhsm.azure.net\u0022",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "SAMEORIGIN",
-        "x-ms-request-id": "a362ab22-de0f-11ec-89df-000d3a602e9a",
-        "x-ms-server-latency": "0"
+        "x-ms-request-id": "73a4ef9e-6055-11ed-98a8-0022488d4c2b",
+        "x-ms-server-latency": "1"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/create?api-version=7.3",
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/create?api-version=7.4-preview.1",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -55,9 +55,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "33de1c54-1dae-488a-b1ac-7ae371f204c9",
-        "x-ms-useragent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "f5091a7f-6a65-4507-9cbb-1c88357df2ef",
+        "x-ms-useragent": "azsdk-js-keyvault-keys/4.6.1 azsdk-js-keyvault-keys/4.6.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": {
         "kty": "AES",
@@ -73,19 +73,19 @@
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "SAMEORIGIN",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.1.236;act_addr_fam=Ipv4;",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.76.222;act_addr_fam=Ipv4;",
         "x-ms-keyvault-region": "northus",
-        "x-ms-request-id": "a384443a-de0f-11ec-89df-000d3a602e9a",
-        "x-ms-server-latency": "179"
+        "x-ms-request-id": "73d11da8-6055-11ed-98a8-0022488d4c2b",
+        "x-ms-server-latency": "171"
       },
       "ResponseBody": {
         "attributes": {
-          "created": 1653691929,
+          "created": 1668015565,
           "enabled": true,
           "exportable": false,
           "recoverableDays": 7,
           "recoveryLevel": "CustomizedRecoverable\u002BPurgeable",
-          "updated": 1653691929
+          "updated": 1668015565
         },
         "key": {
           "key_ops": [
@@ -97,13 +97,13 @@
             "encrypt",
             "decrypt"
           ],
-          "kid": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/5eac148eff58017b13d44d3e7c0f9c14",
+          "kid": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/78778281b5b4427284fec63ccfac9188",
           "kty": "oct-HSM"
         }
       }
     },
     {
-      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/5eac148eff58017b13d44d3e7c0f9c14?api-version=7.3",
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/78778281b5b4427284fec63ccfac9188?api-version=7.4-preview.1",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -117,9 +117,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "a4055277-6d3f-477b-9333-f85664510b71",
-        "x-ms-useragent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "b7121922-4282-4b00-93ed-9fab32163cd0",
+        "x-ms-useragent": "azsdk-js-keyvault-keys/4.6.1 azsdk-js-keyvault-keys/4.6.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 401,
@@ -132,14 +132,14 @@
         "WWW-Authenticate": "Bearer authorization=\u0022https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012\u0022, resource=\u0022https://managedhsm.azure.net\u0022",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "SAMEORIGIN",
-        "x-ms-build-version": "1.0.20220503-3-e1430fa9-1.0.20220430-1-f02155ab-pre-openssl",
-        "x-ms-request-id": "a3a964f4-de0f-11ec-89df-000d3a602e9a",
+        "x-ms-build-version": "1.0.20221020-1-945ffe56-develop",
+        "x-ms-request-id": "73f58be8-6055-11ed-98a8-0022488d4c2b",
         "x-ms-server-latency": "0"
       },
       "ResponseBody": "OK"
     },
     {
-      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/5eac148eff58017b13d44d3e7c0f9c14?api-version=7.3",
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/78778281b5b4427284fec63ccfac9188?api-version=7.4-preview.1",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -154,9 +154,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "a4055277-6d3f-477b-9333-f85664510b71",
-        "x-ms-useragent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "b7121922-4282-4b00-93ed-9fab32163cd0",
+        "x-ms-useragent": "azsdk-js-keyvault-keys/4.6.1 azsdk-js-keyvault-keys/4.6.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -168,20 +168,20 @@
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "SAMEORIGIN",
-        "x-ms-build-version": "1.0.20220503-3-e1430fa9-1.0.20220430-1-f02155ab-pre-openssl",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.1.236;act_addr_fam=Ipv4;",
+        "x-ms-build-version": "1.0.20221020-1-945ffe56-develop",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.76.222;act_addr_fam=Ipv4;",
         "x-ms-keyvault-region": "northus",
-        "x-ms-request-id": "a3c6b126-de0f-11ec-89df-000d3a602e9a",
-        "x-ms-server-latency": "59"
+        "x-ms-request-id": "74070c56-6055-11ed-98a8-0022488d4c2b",
+        "x-ms-server-latency": "67"
       },
       "ResponseBody": {
         "attributes": {
-          "created": 1653691929,
+          "created": 1668015565,
           "enabled": true,
           "exportable": false,
           "recoverableDays": 7,
           "recoveryLevel": "CustomizedRecoverable\u002BPurgeable",
-          "updated": 1653691929
+          "updated": 1668015565
         },
         "key": {
           "key_ops": [
@@ -193,13 +193,13 @@
             "sign",
             "verify"
           ],
-          "kid": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/5eac148eff58017b13d44d3e7c0f9c14",
+          "kid": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/78778281b5b4427284fec63ccfac9188",
           "kty": "oct-HSM"
         }
       }
     },
     {
-      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/5eac148eff58017b13d44d3e7c0f9c14/encrypt?api-version=7.3",
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/78778281b5b4427284fec63ccfac9188/encrypt?api-version=7.4-preview.1",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -216,9 +216,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "c1949060-847b-476d-bcea-daa91ea38e14",
-        "x-ms-useragent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "2bb8c661-c103-43c4-99ff-4bfd4bc78ce4",
+        "x-ms-useragent": "azsdk-js-keyvault-keys/4.6.1 azsdk-js-keyvault-keys/4.6.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": {
         "alg": "A256GCM",
@@ -233,21 +233,21 @@
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "SAMEORIGIN",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.1.236;act_addr_fam=Ipv4;",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.76.222;act_addr_fam=Ipv4;",
         "x-ms-keyvault-region": "northus",
-        "x-ms-request-id": "a3d91de8-de0f-11ec-89df-000d3a602e9a",
-        "x-ms-server-latency": "0"
+        "x-ms-request-id": "7438ed48-6055-11ed-98a8-0022488d4c2b",
+        "x-ms-server-latency": "1"
       },
       "ResponseBody": {
         "alg": "A256GCM",
-        "iv": "NAyytM4XvrNoVuMW",
-        "kid": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/5eac148eff58017b13d44d3e7c0f9c14",
-        "tag": "1zc17tUQb2O1ABYRGuHm-Q",
-        "value": "rAxUAdjipdQ3Vj7pDYW_qmr4_wXBsGV_2dWfXdATMPSaB5Q"
+        "iv": "pXDY9kdK3RjQ_Lvy",
+        "kid": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/78778281b5b4427284fec63ccfac9188",
+        "tag": "agTDBX5a-CCEdpVHRivcNw",
+        "value": "hDBxIXuHB3Hb3E_Fi3R18DHYT5ux0lOuWLZdb3J3LBHOjbA"
       }
     },
     {
-      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/5eac148eff58017b13d44d3e7c0f9c14/decrypt?api-version=7.3",
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/78778281b5b4427284fec63ccfac9188/decrypt?api-version=7.4-preview.1",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -264,15 +264,15 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "209fd661-9232-40df-bfbd-fb341713cd34",
-        "x-ms-useragent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "6703ea37-95c3-4f74-9e7e-be7edb02fe9d",
+        "x-ms-useragent": "azsdk-js-keyvault-keys/4.6.1 azsdk-js-keyvault-keys/4.6.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": {
         "alg": "A256GCM",
-        "value": "rAxUAdjipdQ3Vj7pDYW_qmr4_wXBsGV_2dWfXdATMPSaB5Q",
-        "iv": "NAyytM4XvrNoVuMW",
-        "tag": "1zc17tUQb2O1ABYRGuHm-Q"
+        "value": "hDBxIXuHB3Hb3E_Fi3R18DHYT5ux0lOuWLZdb3J3LBHOjbA",
+        "iv": "pXDY9kdK3RjQ_Lvy",
+        "tag": "agTDBX5a-CCEdpVHRivcNw"
       },
       "StatusCode": 200,
       "ResponseHeaders": {
@@ -283,19 +283,19 @@
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "SAMEORIGIN",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.1.236;act_addr_fam=Ipv4;",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.76.222;act_addr_fam=Ipv4;",
         "x-ms-keyvault-region": "northus",
-        "x-ms-request-id": "a3e2480a-de0f-11ec-89df-000d3a602e9a",
+        "x-ms-request-id": "74437eca-6055-11ed-98a8-0022488d4c2b",
         "x-ms-server-latency": "0"
       },
       "ResponseBody": {
         "alg": "A256GCM",
-        "kid": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/5eac148eff58017b13d44d3e7c0f9c14",
+        "kid": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/78778281b5b4427284fec63ccfac9188",
         "value": "ZW5jcnlwdHMgYW5kIGRlY3J5cHRzIHVzaW5nIEFFUy1HQ00"
       }
     },
     {
-      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test?api-version=7.3",
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test?api-version=7.4-preview.1",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -310,9 +310,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "d534fbfe-c2a7-4fb4-b1e8-0e3335057970",
-        "x-ms-useragent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "21e5b88a-1b5e-41dd-b95c-ad40077fd970",
+        "x-ms-useragent": "azsdk-js-keyvault-keys/4.6.1 azsdk-js-keyvault-keys/4.6.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -324,21 +324,21 @@
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "SAMEORIGIN",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.1.236;act_addr_fam=Ipv4;",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.76.222;act_addr_fam=Ipv4;",
         "x-ms-keyvault-region": "northus",
-        "x-ms-request-id": "a3ebba48-de0f-11ec-89df-000d3a602e9a",
-        "x-ms-server-latency": "72"
+        "x-ms-request-id": "7469bd38-6055-11ed-98a8-0022488d4c2b",
+        "x-ms-server-latency": "82"
       },
       "ResponseBody": {
         "attributes": {
-          "created": 1653691929,
+          "created": 1668015565,
           "enabled": true,
           "exportable": false,
           "recoverableDays": 7,
           "recoveryLevel": "CustomizedRecoverable\u002BPurgeable",
-          "updated": 1653691929
+          "updated": 1668015565
         },
-        "deletedDate": 1653691929,
+        "deletedDate": 1668015566,
         "key": {
           "key_ops": [
             "deriveKey",
@@ -349,15 +349,15 @@
             "verify",
             "sign"
           ],
-          "kid": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/5eac148eff58017b13d44d3e7c0f9c14",
+          "kid": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/78778281b5b4427284fec63ccfac9188",
           "kty": "oct-HSM"
         },
         "recoveryId": "https://azure_managedhsm.managedhsm.azure.net/deletedkeys/cryptography-client-test",
-        "scheduledPurgeDate": 1654296729
+        "scheduledPurgeDate": 1668620366
       }
     },
     {
-      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/deletedkeys/cryptography-client-test?api-version=7.3",
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/deletedkeys/cryptography-client-test?api-version=7.4-preview.1",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -372,9 +372,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "47bc1140-96da-4838-8c2f-448d8fb91bdf",
-        "x-ms-useragent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "71a4ab26-9920-433c-a10b-61026572762c",
+        "x-ms-useragent": "azsdk-js-keyvault-keys/4.6.1 azsdk-js-keyvault-keys/4.6.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -386,22 +386,22 @@
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "SAMEORIGIN",
-        "x-ms-build-version": "1.0.20220503-3-e1430fa9-1.0.20220430-1-f02155ab-pre-openssl",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.1.236;act_addr_fam=Ipv4;",
+        "x-ms-build-version": "1.0.20221020-1-945ffe56-develop",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.76.222;act_addr_fam=Ipv4;",
         "x-ms-keyvault-region": "northus",
-        "x-ms-request-id": "a3ffb566-de0f-11ec-89df-000d3a602e9a",
-        "x-ms-server-latency": "28"
+        "x-ms-request-id": "748050fc-6055-11ed-98a8-0022488d4c2b",
+        "x-ms-server-latency": "26"
       },
       "ResponseBody": {
         "attributes": {
-          "created": 1653691929,
+          "created": 1668015565,
           "enabled": true,
           "exportable": false,
           "recoverableDays": 7,
           "recoveryLevel": "CustomizedRecoverable\u002BPurgeable",
-          "updated": 1653691929
+          "updated": 1668015565
         },
-        "deletedDate": 1653691929,
+        "deletedDate": 1668015565,
         "key": {
           "key_ops": [
             "decrypt",
@@ -412,15 +412,15 @@
             "wrapKey",
             "deriveKey"
           ],
-          "kid": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/5eac148eff58017b13d44d3e7c0f9c14",
+          "kid": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/78778281b5b4427284fec63ccfac9188",
           "kty": "oct-HSM"
         },
         "recoveryId": "https://azure_managedhsm.managedhsm.azure.net/deletedkeys/cryptography-client-test",
-        "scheduledPurgeDate": 1654296729
+        "scheduledPurgeDate": 1668620365
       }
     },
     {
-      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/deletedkeys/cryptography-client-test?api-version=7.3",
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/deletedkeys/cryptography-client-test?api-version=7.4-preview.1",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -435,9 +435,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "a8209873-660e-4894-b789-c8c87727faaa",
-        "x-ms-useragent": "azsdk-js-keyvault-keys/4.5.0-beta.1 azsdk-js-keyvault-keys/4.5.0-beta.1 core-rest-pipeline/1.8.1 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "15462d83-8fd1-4c4b-95b7-338ebc1bca44",
+        "x-ms-useragent": "azsdk-js-keyvault-keys/4.6.1 azsdk-js-keyvault-keys/4.6.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 204,
@@ -449,10 +449,10 @@
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "SAMEORIGIN",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.1.236;act_addr_fam=Ipv4;",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.76.222;act_addr_fam=Ipv4;",
         "x-ms-keyvault-region": "northus",
-        "x-ms-request-id": "a40cf30c-de0f-11ec-89df-000d3a602e9a",
-        "x-ms-server-latency": "90"
+        "x-ms-request-id": "748f1966-6055-11ed-98a8-0022488d4c2b",
+        "x-ms-server-latency": "105"
       },
       "ResponseBody": null
     }

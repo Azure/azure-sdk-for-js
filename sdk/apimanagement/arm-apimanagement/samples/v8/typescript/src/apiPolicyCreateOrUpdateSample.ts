@@ -65,7 +65,7 @@ async function apiManagementCreateApiPolicyNonXmlEncoded() {
   const parameters: PolicyContract = {
     format: "rawxml",
     value:
-      '<policies>     <inbound>     <base />  <set-header name="newvalue" exists-action="override">   <value>"@(context.Request.Headers.FirstOrDefault(h => h.Ke=="Via"))" </value>    </set-header>  </inbound>      </policies>'
+      '<policies>\r\n     <inbound>\r\n     <base />\r\n  <set-header name="newvalue" exists-action="override">\r\n   <value>"@(context.Request.Headers.FirstOrDefault(h => h.Ke=="Via"))" </value>\r\n    </set-header>\r\n  </inbound>\r\n      </policies>'
   };
   const options: ApiPolicyCreateOrUpdateOptionalParams = { ifMatch };
   const credential = new DefaultAzureCredential();

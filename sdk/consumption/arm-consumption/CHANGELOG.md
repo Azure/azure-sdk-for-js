@@ -1,6 +1,6 @@
 # Release History
 
-## 9.0.2 (Unreleased)
+## 9.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,38 @@
 
 ### Other Changes
 
+## 9.1.0 (2022-09-05)
+    
+**Features**
+
+  - Added Interface AmountWithExchangeRate
+  - Added Interface Balance
+  - Added Interface Budget
+  - Added Interface ChargeSummary
+  - Added Interface CreditSummary
+  - Added Interface EventSummary
+  - Added Interface LegacyChargeSummary
+  - Added Interface LegacyReservationRecommendation
+  - Added Interface LegacyReservationTransaction
+  - Added Interface LegacySharedScopeReservationRecommendationProperties
+  - Added Interface LegacySingleScopeReservationRecommendationProperties
+  - Added Interface LegacyUsageDetail
+  - Added Interface LotSummary
+  - Added Interface ManagementGroupAggregatedCostResult
+  - Added Interface Marketplace
+  - Added Interface ModernChargeSummary
+  - Added Interface ModernReservationRecommendation
+  - Added Interface ModernReservationTransaction
+  - Added Interface ModernUsageDetail
+  - Added Interface PriceSheetResult
+  - Added Interface ReservationDetail
+  - Added Interface ReservationRecommendation
+  - Added Interface ReservationRecommendationDetailsModel
+  - Added Interface ReservationSummary
+  - Added Interface ReservationTransaction
+  - Added Interface TagsResult
+  - Added Interface UsageDetail
+    
 ## 9.0.1 (2022-04-11)
 
 **features**

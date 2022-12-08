@@ -122,7 +122,7 @@ export const accountName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-05-15-preview",
+    defaultValue: "2022-08-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {

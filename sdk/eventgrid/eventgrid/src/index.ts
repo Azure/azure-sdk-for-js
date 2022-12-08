@@ -87,6 +87,8 @@ export {
   DeviceTwinInfo,
   DeviceTwinInfoProperties,
   DeviceTwinInfoX509Thumbprint,
+  HealthcareDicomImageCreatedEventData,
+  HealthcareDicomImageDeletedEventData,
   HealthcareFhirResourceCreatedEventData,
   HealthcareFhirResourceUpdatedEventData,
   HealthcareFhirResourceDeletedEventData,

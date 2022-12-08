@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets an existing attestation at resource scope.
  *
  * @summary Gets an existing attestation at resource scope.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-01-01/examples/Attestations_GetResourceScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2022-09-01/examples/Attestations_GetResourceScope.json
  */
 async function getAttestationAtIndividualResourceScope() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

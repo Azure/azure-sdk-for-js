@@ -20,7 +20,6 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function filterAndAggregateOnly() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const fromParam = new Date("2019-10-05T18:00:00Z");
   const filter = "PolicyDefinitionAction eq 'deny'";
   const apply = "aggregate($count as NumDenyStates)";
@@ -32,7 +31,7 @@ async function filterAndAggregateOnly() {
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForSubscription(
     policyStatesResource,
-    subscriptionId2,
+    subscriptionId,
     options
   )) {
     resArray.push(item);
@@ -51,7 +50,6 @@ filterAndAggregateOnly().catch(console.error);
 async function filterAndGroupWithAggregate() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
   const orderBy = "NumAuditDenyNonComplianceRecords desc";
   const fromParam = new Date("2019-10-05T18:00:00Z");
@@ -86,7 +84,6 @@ filterAndGroupWithAggregate().catch(console.error);
 async function filterAndGroupWithoutAggregate() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
   const fromParam = new Date("2019-10-05T18:00:00Z");
   const filter =
@@ -101,7 +98,7 @@ async function filterAndGroupWithoutAggregate() {
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForSubscription(
     policyStatesResource,
-    subscriptionId2,
+    subscriptionId,
     options
   )) {
     resArray.push(item);
@@ -120,7 +117,6 @@ filterAndGroupWithoutAggregate().catch(console.error);
 async function filterAndMultipleGroups() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 10;
   const orderBy = "NumNonCompliantResources desc";
   const filter = "IsCompliant eq false";
@@ -134,7 +130,7 @@ async function filterAndMultipleGroups() {
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForSubscription(
     policyStatesResource,
-    subscriptionId2,
+    subscriptionId,
     options
   )) {
     resArray.push(item);
@@ -153,13 +149,12 @@ filterAndMultipleGroups().catch(console.error);
 async function queryLatestAtSubscriptionScope() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForSubscription(
     policyStatesResource,
-    subscriptionId2
+    subscriptionId
   )) {
     resArray.push(item);
   }
@@ -177,7 +172,6 @@ queryLatestAtSubscriptionScope().catch(console.error);
 async function queryLatestAtSubscriptionScopeWithNextLink() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options = {
     queryOptions: { skipToken: skipToken },
@@ -206,7 +200,6 @@ queryLatestAtSubscriptionScopeWithNextLink().catch(console.error);
 async function timeRangeSortSelectAndLimit() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
   const orderBy =
     "Timestamp desc, PolicyAssignmentId asc, SubscriptionId asc, ResourceGroup asc, ResourceId";

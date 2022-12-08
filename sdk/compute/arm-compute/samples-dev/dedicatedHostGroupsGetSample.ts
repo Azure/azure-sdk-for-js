@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Retrieves information about a dedicated host group.
  *
  * @summary Retrieves information about a dedicated host group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/dedicatedHostExamples/DedicatedHostGroup_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHostGroup_Get.json
  */
 async function createADedicatedHostGroup() {
   const subscriptionId = "{subscriptionId}";
@@ -36,7 +36,7 @@ createADedicatedHostGroup().catch(console.error);
  * This sample demonstrates how to Retrieves information about a dedicated host group.
  *
  * @summary Retrieves information about a dedicated host group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/dedicatedHostExamples/DedicatedHostGroup_Get_UltraSSDEnabledDedicatedHostGroup.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHostGroup_Get_UltraSSDEnabledDedicatedHostGroup.json
  */
 async function createAnUltraSsdEnabledDedicatedHostGroup() {
   const subscriptionId = "{subscriptionId}";

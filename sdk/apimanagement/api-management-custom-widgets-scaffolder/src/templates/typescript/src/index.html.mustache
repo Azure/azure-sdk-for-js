@@ -14,7 +14,7 @@
       const appInstance = new App(secrets)
       if (!secrets.userId) return
 
-      appInstance.request(`/subscriptions/000/resourceGroups/000/providers/Microsoft.ApiManagement/service/000/users/${secrets.userId}`)
+      appInstance.request(`/users/${secrets.userId}`)
         .then(e => e.json())
         .then(({properties}) => {
           if (properties.email) document.getElementById("email").value = properties.email

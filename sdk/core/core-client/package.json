@@ -62,7 +62,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-client/",
   "sideEffects": false,
@@ -78,15 +78,15 @@
   },
   "devDependencies": {
     "@azure/core-xml": "^1.0.0",
-    "@microsoft/api-extractor": "7.18.11",
+    "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^12.0.0",
+    "@types/node": "^14.0.0",
     "@types/sinon": "^9.0.4",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/dev-tool": "^1.0.0",
     "chai": "^4.2.0",
-    "downlevel-dts": "^0.8.0",
+    "downlevel-dts": "^0.10.0",
     "cross-env": "^7.0.2",
     "eslint": "^8.0.0",
     "inherits": "^2.0.3",
@@ -107,7 +107,7 @@
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~4.6.0",
+    "typescript": "~4.8.0",
     "util": "^0.12.1"
   }
 }

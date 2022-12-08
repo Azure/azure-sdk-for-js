@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import Sinon, * as sinon from "sinon";
-import * as https from "https";
 import * as http from "http";
-import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
-import { PassThrough } from "stream";
-import { RestError } from "@azure/core-rest-pipeline";
+import * as https from "https";
+import { AccessToken, GetTokenOptions, TokenCredential } from "../src";
 import { AzureLogLevel, AzureLogger, getLogLevel, setLogLevel } from "@azure/logger";
-import { getError } from "./authTestUtils";
+import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import {
   IdentityTestContextInterface,
   RawTestResponse,
   TestResponse,
   createResponse,
 } from "./httpRequestsCommon";
-import { AccessToken, GetTokenOptions, TokenCredential } from "../src";
+import Sinon, * as sinon from "sinon";
+import { PassThrough } from "stream";
+import { RestError } from "@azure/core-rest-pipeline";
+import { getError } from "./authTestUtils";
 import { openIdConfigurationResponse } from "./msalTestUtils";
 
 /**
@@ -168,7 +168,10 @@ export class IdentityTestContext implements IdentityTestContextInterface {
     const totalOptions: http.RequestOptions[] = [];
 
     try {
-      const fakeRequest = (options: string | URL | http.RequestOptions, resolve: any) => {
+      const fakeRequest = (
+        options: string | URL | http.RequestOptions,
+        resolve: any
+      ): http.ClientRequest => {
         totalOptions.push(options as http.RequestOptions);
 
         if (!responses.length) {
@@ -189,7 +192,8 @@ export class IdentityTestContext implements IdentityTestContextInterface {
       this.sandbox.replace(providerObject.Agent.prototype as any, "request", fakeRequest);
     } catch (e: any) {
       console.debug(
-        "Failed to replace the request. This might be expected if you're running multiple sendCredentialRequests() calls."
+        "Failed to replace the request. This might be expected if you're running multiple sendCredentialRequests() calls.",
+        e.message
       );
     }
 

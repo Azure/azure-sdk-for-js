@@ -1,0 +1,104 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models?skip=0\u0026top=10",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "fake_key",
+        "User-Agent": "azsdk-js-ai-anomaly-detector-rest/1.0.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Linux-5.4.0-1094-azure)",
+        "x-ms-client-request-id": "4ff02736-e48b-48b5-aa79-b1d05c96ca8b"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "777929de-bbcb-4475-9a9e-595db1028ef2",
+        "Content-Length": "1856",
+        "Content-Type": "application/json",
+        "Date": "Sat, 05 Nov 2022 04:07:32 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "46",
+        "x-ms-region": "West US 2"
+      },
+      "ResponseBody": {
+        "models": [
+          {
+            "modelId": "e471dd74-5c7a-11ed-8b9c-f2c260c1bff1",
+            "createdTime": "2022-11-04T19:57:20Z",
+            "lastUpdatedTime": "2022-11-04T19:57:23Z",
+            "modelInfo": {
+              "dataSource": "\u003Cyour data source\u003E",
+              "dataSchema": "MultiTable",
+              "startTime": "2021-01-02T00:00:00Z",
+              "endTime": "2021-01-02T05:00:00Z",
+              "displayName": "Devops-MultiAD",
+              "slidingWindow": 200,
+              "alignPolicy": {
+                "alignMode": "Outer",
+                "fillNAMethod": "Linear",
+                "paddingValue": 0.0
+              },
+              "status": "FAILED",
+              "errors": [
+                {
+                  "code": "GetDataError",
+                  "message": "FailToAccessBlobURLInvalidIdentityError(\u0027Failed to get system assigned managed identity. Please enable system assigned managed identity and grant \u0027Storage Blob Data Reader\u0027 role to your Anomaly Detector to resolve this problem.\u0027, inner_exception=None)"
+                }
+              ],
+              "diagnosticsInfo": {
+                "modelState": {
+                  "epochIds": [],
+                  "trainLosses": [],
+                  "validationLosses": [],
+                  "latenciesInSeconds": []
+                },
+                "variableStates": []
+              }
+            }
+          },
+          {
+            "modelId": "b96dd010-5c7a-11ed-80b3-6e033f3e188c",
+            "createdTime": "2022-11-04T19:56:08Z",
+            "lastUpdatedTime": "2022-11-04T19:56:09Z",
+            "modelInfo": {
+              "dataSource": "\u003Cyour data source\u003E",
+              "dataSchema": "MultiTable",
+              "startTime": "2021-01-02T00:00:00Z",
+              "endTime": "2021-01-02T05:00:00Z",
+              "displayName": "Devops-MultiAD",
+              "slidingWindow": 200,
+              "alignPolicy": {
+                "alignMode": "Outer",
+                "fillNAMethod": "Linear",
+                "paddingValue": 0.0
+              },
+              "status": "FAILED",
+              "errors": [
+                {
+                  "code": "GetDataError",
+                  "message": "FailToAccessBlobURLInvalidIdentityError(\u0027Failed to get system assigned managed identity. Please enable system assigned managed identity and grant \u0027Storage Blob Data Reader\u0027 role to your Anomaly Detector to resolve this problem.\u0027, inner_exception=None)"
+                }
+              ],
+              "diagnosticsInfo": {
+                "modelState": {
+                  "epochIds": [],
+                  "trainLosses": [],
+                  "validationLosses": [],
+                  "latenciesInSeconds": []
+                },
+                "variableStates": []
+              }
+            }
+          }
+        ],
+        "currentCount": 2,
+        "maxCount": 1000,
+        "nextLink": ""
+      }
+    }
+  ],
+  "Variables": {}
+}

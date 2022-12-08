@@ -19,11 +19,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function triggerEvaluationsForAllResourcesInASubscription() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const result = await client.policyStates.beginTriggerSubscriptionEvaluationAndWait(
-    subscriptionId2
+    subscriptionId
   );
   console.log(result);
 }

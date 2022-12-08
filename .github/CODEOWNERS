@@ -28,6 +28,9 @@
 /sdk/core/core-client-rest/ @xirzec @joheredi @jeremymeng @deyaaeldeen
 
 # PRLabel: %Azure.Core
+/sdk/core/core-lro/ @deyaaeldeen @joheredi
+
+# PRLabel: %Azure.Core
 /sdk/core/core-tracing/ @xirzec @jeremymeng @joheredi
 
 # Service teams
@@ -38,40 +41,52 @@
 /sdk/attestation/ @LarryOsterman @deyaaeldeen @anilba06 @gkostal
 
 # PRLabel: %Batch
-/sdk/batch/ @dpwatrous @paterasMSFT @zfengms @deyaaeldeen
+/sdk/batch/ @dpwatrous @paterasMSFT @zfengms @NickKouds @deyaaeldeen
+
+# PRLabel: %Communication
+/sdk/communication/
+
+# PRLabel: %Communication - Alpha IDs
+/sdk/communication/communication-alpha-ids/ @guilhermeluizsp @danielav7
 
 # PRLabel: %Communication - Identity
-/sdk/communication/communication-identity/ @petrsvihlik @AikoBB @maximrytych-ms
+/sdk/communication/communication-identity/ @petrsvihlik @AikoBB @maximrytych-ms @ostoliarova-msft @mjafferi-msft
 
 # PRLabel: %Communication - Chat
 /sdk/communication/communication-chat/ @LuChen-Microsoft
 
+# PRLabel: %Communication - Email
+/sdk/communication/communication-email/ @yogeshmo
+
+# PRLabel: %Communication - Job Router
+/sdk/communication/communication-job-router/ @bgams @marche0133
+
 # PRLabel: %Communication - Phone Numbers
-/sdk/communication/communication-phone-numbers/ @miguhern @whisper6284 @lucasrsant @RoyHerrod @danielav7
+/sdk/communication/communication-phone-numbers/ @miguhern @whisper6284 @RoyHerrod @danielav7
 
 # PRLabel: %Communication - Network Traversal
 /sdk/communication/communication-network-traversal/ @ajpeacock0 @nathpete-msft
 
+# PRLabel: %Communication - Rooms
+/sdk/communication/communication-rooms/ @anujissarMS
+
 # PRLabel: %Communication - SMS
-/sdk/communication/communication-sms/ @petrsvihlik
+/sdk/communication/communication-sms/ @arifibrahim4
 
 # PRLabel: %Communication - Short Codes
 /sdk/communication/communication-short-codes/ @guilhermeluizsp @danielav7
 
 # PRLabel: %Communication - Common
-/sdk/communication/communication-common/ @petrsvihlik @AikoBB @maximrytych-ms
-
-# PRLabel: %Communication
-/sdk/communication/communication/ @petrsvihlik @AikoBB @maximrytych-ms
+/sdk/communication/communication-common/ @petrsvihlik @AikoBB @maximrytych-ms @ostoliarova-msft @mjafferi-msft
 
 # PRLabel: %Container Registry
 /sdk/containerregistry/ @jeremymeng @timovv
 
 # PRLabel: %Cosmos
-/sdk/cosmosdb/ @jay-most @kushagraThapar @simorenoh @simplynaveen20 @xinlian12 @sajeetharan
+/sdk/cosmosdb/ @kushagraThapar @kirankumarkolli @abkolant-MSFT
 
 # ServiceLabel: %Cosmos %Service Attention
-#/<NotInRepo>/ @sajeetharan @simorenoh @pjohari-ms
+#/<NotInRepo>/ @sajeetharan @abkolant-MSFT @pjohari-ms
 
 # PRLabel: %Digital Twins
 /sdk/digitaltwins/ @johngallardo @olivakar @sjiherzig
@@ -109,6 +124,9 @@
 # PRLabel: %Purview
 /sdk/purview/ @qiaozha
 
+# PRLabel: %Personalizer
+/sdk/personalizer/ @sharathmalladi 
+
 # PRLabel: %Farmbeats
 /sdk/agrifood/ @joheredi
 
@@ -122,12 +140,15 @@
 /sdk/web-pubsub/ @vicancy @xirzec @bterlson
 
 # PRLabel: %EngSys
-/sdk/template/ @praveenkuttappan @mikeharder @weshaggard @benbp
+/sdk/template/ @ckairen @mikeharder @weshaggard @benbp
 
 /sdk/test-utils/ @HarshaNalluru @timovv
 
 # PRLabel: %Cognitive - Text Analytics
 /sdk/textanalytics/ @deyaaeldeen @witemple-msft
+
+# PRLabel: %Cognitive - Language
+/sdk/cognitivelanguage/ @deyaaeldeen
 
 # PRLabel: %Schema Registry
 /sdk/schemaregistry/ @deyaaeldeen
@@ -139,8 +160,7 @@
 /sdk/metricsadvisor/ @KarishmaGhiya @jeremymeng
 
 # PRLabel: %Search
-/sdk/search/ @sarangan12 @xirzec
-
+/sdk/search/ @dgetu @xirzec
 
 # PRLabel: %Mixed Reality
 /sdk/mixedreality/ @craigktreasure
@@ -816,7 +836,7 @@ sdk/dnsresolver/arm-dnsresolver @qiaozha @dw511214992 @MaryGao
 sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Monitor
-/sdk/monitor/ @hectorhdzg
+/sdk/monitor/ @hectorhdzg @JacksonWeber
 /sdk/monitor/monitor-query @KarishmaGhiya
 
 # ServiceLabel: %AAD %Service Attention
@@ -877,7 +897,7 @@ sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 #/<NotInRepo>/          @darshanhs90 @AshishGargMicrosoft
 
 # ServiceLabel: %Automation %Service Attention
-#/<NotInRepo>/          @jaspkaur28
+#/<NotInRepo>/          @jaspkaur28 @omairabdullah
 
 # ServiceLabel: %AVS %Service Attention
 #/<NotInRepo>/          @divka78 @amitchat @aishu
@@ -907,7 +927,7 @@ sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 #/<NotInRepo>/          @assafi
 
 # ServiceLabel: %Cognitive - Form Recognizer %Service Attention
-#/<NotInRepo>/          @ctstone @anrothMSFT
+#/<NotInRepo>/          @ctstone @vkurpad
 
 # ServiceLabel: %Cognitive - Anomaly Detector %Service Attention
 #/<NotInRepo>/          @yingqunpku @bowgong
@@ -1202,7 +1222,7 @@ sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 #/<NotInRepo>/          @sunilagarwal @lfittl-msft @sr-msft @niklarin
 
 # ServiceLabel: %Recovery Services Backup %Service Attention
-#/<NotInRepo>/          @pvrk @adityabalaji-msft
+#/<NotInRepo>/          @pvrk @adityabalaji-msft @Daya-Patil
 
 # ServiceLabel: %Recovery Services Site-Recovery %Service Attention
 #/<NotInRepo>/          @Sharmistha-Rai
@@ -1416,9 +1436,9 @@ sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 ###########
 # Eng Sys
 ###########
-/eng/   @praveenkuttappan @mikeharder @weshaggard @benbp
-/**/tests.yml   @praveenkuttappan @benbp
-/**/ci.yml      @praveenkuttappan @benbp
+/eng/   @ckairen @mikeharder @weshaggard @benbp
+/**/tests.yml   @ckairen @benbp
+/**/ci.yml      @ckairen @benbp
 
 ###########
 # Config

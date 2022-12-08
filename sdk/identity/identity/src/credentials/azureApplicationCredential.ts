@@ -1,28 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { TokenCredential } from "@azure/core-auth";
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
+import { AzureApplicationCredentialOptions } from "./azureApplicationCredentialOptions";
 import { ChainedTokenCredential } from "./chainedTokenCredential";
-import { EnvironmentCredential } from "./environmentCredential";
-import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
 import { DefaultManagedIdentityCredential } from "./defaultAzureCredential";
-
-/**
- * Provides options to configure the {@link AzureApplicationCredential} class.
- */
-export interface AzureApplicationCredentialOptions
-  extends TokenCredentialOptions,
-    CredentialPersistenceOptions {
-  /**
-   * Optionally pass in a user assigned client ID to be used by the {@link ManagedIdentityCredential}.
-   * This client ID can also be passed through to the {@link ManagedIdentityCredential} through the environment variable: AZURE_CLIENT_ID.
-   */
-  managedIdentityClientId?: string;
-}
+import { EnvironmentCredential } from "./environmentCredential";
+import { TokenCredential } from "@azure/core-auth";
 
 /**
  * The type of a class that implements TokenCredential and accepts

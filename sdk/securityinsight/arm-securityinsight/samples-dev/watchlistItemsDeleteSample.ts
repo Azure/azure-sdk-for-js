@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Delete a watchlist item.
  *
  * @summary Delete a watchlist item.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/watchlists/DeleteWatchlistItem.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/watchlists/DeleteWatchlistItem.json
  */
 async function deleteAWatchlistItem() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

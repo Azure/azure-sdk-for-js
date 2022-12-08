@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Retrieves information about a gallery image version.
  *
  * @summary Retrieves information about a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryImageVersion_Get_WithReplicationStatus.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Get_WithReplicationStatus.json
  */
 async function getAGalleryImageVersionWithReplicationStatus() {
   const subscriptionId = "{subscription-id}";
@@ -43,7 +43,7 @@ getAGalleryImageVersionWithReplicationStatus().catch(console.error);
  * This sample demonstrates how to Retrieves information about a gallery image version.
  *
  * @summary Retrieves information about a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryImageVersion_Get_WithSnapshotsAsSource.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Get_WithSnapshotsAsSource.json
  */
 async function getAGalleryImageVersionWithSnapshotsAsASource() {
   const subscriptionId = "{subscription-id}";
@@ -68,7 +68,7 @@ getAGalleryImageVersionWithSnapshotsAsASource().catch(console.error);
  * This sample demonstrates how to Retrieves information about a gallery image version.
  *
  * @summary Retrieves information about a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryImageVersion_Get_WithVhdAsSource.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Get_WithVhdAsSource.json
  */
 async function getAGalleryImageVersionWithVhdAsASource() {
   const subscriptionId = "{subscription-id}";
@@ -93,7 +93,7 @@ getAGalleryImageVersionWithVhdAsASource().catch(console.error);
  * This sample demonstrates how to Retrieves information about a gallery image version.
  *
  * @summary Retrieves information about a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryImageVersion_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Get.json
  */
 async function getAGalleryImageVersion() {
   const subscriptionId = "{subscription-id}";

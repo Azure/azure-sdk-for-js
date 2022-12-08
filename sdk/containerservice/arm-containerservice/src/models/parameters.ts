@@ -56,7 +56,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-06-02-preview",
+    defaultValue: "2022-10-02-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -256,6 +256,11 @@ export const parameters4: OperationParameter = {
 export const agentPoolName: OperationURLParameter = {
   parameterPath: "agentPoolName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9]{0,11}$"),
+      MaxLength: 12,
+      MinLength: 1
+    },
     serializedName: "agentPoolName",
     required: true,
     type: {
@@ -267,6 +272,17 @@ export const agentPoolName: OperationURLParameter = {
 export const parameters5: OperationParameter = {
   parameterPath: "parameters",
   mapper: AgentPoolMapper
+};
+
+export const agentPoolName1: OperationURLParameter = {
+  parameterPath: "agentPoolName",
+  mapper: {
+    serializedName: "agentPoolName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
@@ -304,7 +320,8 @@ export const trustedAccessRoleBindingName: OperationURLParameter = {
   parameterPath: "trustedAccessRoleBindingName",
   mapper: {
     constraints: {
-      MaxLength: 36,
+      Pattern: new RegExp("^([A-Za-z0-9-])+$"),
+      MaxLength: 24,
       MinLength: 1
     },
     serializedName: "trustedAccessRoleBindingName",
@@ -323,6 +340,18 @@ export const trustedAccessRoleBinding: OperationParameter = {
 export const parameters10: OperationParameter = {
   parameterPath: "parameters",
   mapper: FleetMapper
+};
+
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-09-02-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const fleetName: OperationURLParameter = {

@@ -540,7 +540,7 @@ describe("DataLakePathClient Node.js only", () => {
         permissions: {
           read: false,
           write: true,
-          execute: true,
+          execute: false,
         },
       },
     ];
@@ -571,10 +571,7 @@ describe("DataLakePathClient Node.js only", () => {
 
     assert.deepStrictEqual(response.owner, "$superuser");
     assert.deepStrictEqual(response.group, "$superuser");
-    assert.deepStrictEqual(response.permissions, {
-      ...permissions,
-      other: { ...permissions.other, execute: true },
-    });
+    assert.deepStrictEqual(response.permissions, permissions);
     assert.deepStrictEqual(response.acl, acl);
   });
 
@@ -628,7 +625,7 @@ describe("DataLakePathClient Node.js only", () => {
       other: {
         read: false,
         write: true,
-        execute: false,
+        execute: true,
       },
     };
 

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists all the Azure Cosmos DB database accounts available under the subscription.
  *
  * @summary Lists all the Azure Cosmos DB database accounts available under the subscription.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBDatabaseAccountList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBDatabaseAccountList.json
  */
 async function cosmosDbDatabaseAccountList() {
   const subscriptionId = "subid";

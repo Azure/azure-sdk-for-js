@@ -23,7 +23,7 @@ export function formDataPolicy(): PipelinePolicy {
           request.body = wwwFormUrlEncode(request.formData);
           request.formData = undefined;
         } else {
-          prepareFormData(request.formData, request);
+          await prepareFormData(request.formData, request);
         }
       }
       return next(request);

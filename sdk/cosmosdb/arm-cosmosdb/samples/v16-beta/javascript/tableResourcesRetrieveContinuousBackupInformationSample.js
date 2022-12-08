@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Retrieves continuous backup information for a table.
  *
  * @summary Retrieves continuous backup information for a table.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBTableBackupInformation.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBTableBackupInformation.json
  */
 async function cosmosDbTableCollectionBackupInformation() {
   const subscriptionId = "subid";

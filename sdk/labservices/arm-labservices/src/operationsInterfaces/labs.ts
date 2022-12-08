@@ -46,8 +46,8 @@ export interface Labs {
   /**
    * Returns the properties of a lab resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   get(
@@ -58,8 +58,8 @@ export interface Labs {
   /**
    * Operation to create or update a lab resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param body The request body.
    * @param options The options parameters.
    */
@@ -77,8 +77,8 @@ export interface Labs {
   /**
    * Operation to create or update a lab resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param body The request body.
    * @param options The options parameters.
    */
@@ -91,8 +91,8 @@ export interface Labs {
   /**
    * Operation to update a lab resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param body The request body.
    * @param options The options parameters.
    */
@@ -107,8 +107,8 @@ export interface Labs {
   /**
    * Operation to update a lab resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param body The request body.
    * @param options The options parameters.
    */
@@ -121,8 +121,8 @@ export interface Labs {
   /**
    * Operation to delete a lab resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   beginDelete(
@@ -133,8 +133,8 @@ export interface Labs {
   /**
    * Operation to delete a lab resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -145,8 +145,8 @@ export interface Labs {
   /**
    * Publish or re-publish a lab. This will create or update all lab resources, such as virtual machines.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   beginPublish(
@@ -157,8 +157,8 @@ export interface Labs {
   /**
    * Publish or re-publish a lab. This will create or update all lab resources, such as virtual machines.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   beginPublishAndWait(
@@ -169,8 +169,8 @@ export interface Labs {
   /**
    * Action used to manually kick off an AAD group sync job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   beginSyncGroup(
@@ -181,8 +181,8 @@ export interface Labs {
   /**
    * Action used to manually kick off an AAD group sync job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   beginSyncGroupAndWait(

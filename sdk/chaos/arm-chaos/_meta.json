@@ -1,0 +1,8 @@
+{
+  "commit": "54b27b92dc50b8f7361c6afb9872066ab14700b5",
+  "readme": "specification/chaos/resource-manager/readme.md",
+  "autorest_command": "autorest --version=3.8.4 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\chaos\\resource-manager\\readme.md --use=@autorest/typescript@6.0.0-rc.2.20221018.1 --generate-sample=true",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
+  "release_tool": "@azure-tools/js-sdk-release-tools@2.4.2",
+  "use": "@autorest/typescript@6.0.0-rc.2.20221018.1"
+}

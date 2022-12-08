@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to This action cannot be performed on a cluster that is not using a service principal
  *
  * @summary This action cannot be performed on a cluster that is not using a service principal
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-06-02-preview/examples/ManagedClustersResetServicePrincipalProfile.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-10-02-preview/examples/ManagedClustersResetServicePrincipalProfile.json
  */
 async function resetServicePrincipalProfile() {
   const subscriptionId = "subid1";

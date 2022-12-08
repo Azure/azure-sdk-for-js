@@ -31,6 +31,9 @@ export interface CompanyInformation {
     url?: string;
 }
 
+// @public (undocumented)
+export const CompanyInformationMapper: coreClient.CompositeMapper;
+
 // @public
 export interface ContactInformation {
     email?: string;
@@ -80,6 +83,9 @@ export interface MessageDetails {
     supportedProtocol?: MessageProtocol;
     useCases?: UseCase[];
 }
+
+// @public (undocumented)
+export const MessageDetailsMapper: coreClient.CompositeMapper;
 
 // @public
 export type MessageDirection = "toUser" | "fromUser";
@@ -140,6 +146,9 @@ export interface ProgramDetails {
     termsOfServiceUrl?: string;
     url?: string;
 }
+
+// @public (undocumented)
+export const ProgramDetailsMapper: coreClient.CompositeMapper;
 
 // @public
 export type Recurrence = "subscription" | "transaction";
@@ -240,6 +249,9 @@ export interface TrafficDetails {
     spikeDetails?: string;
     totalMonthlyVolume?: number;
 }
+
+// @public (undocumented)
+export const TrafficDetailsMapper: coreClient.CompositeMapper;
 
 // @public
 export interface UseCase {

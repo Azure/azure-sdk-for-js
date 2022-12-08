@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists all of the available Cosmos DB Resource Provider operations.
  *
  * @summary Lists all of the available Cosmos DB Resource Provider operations.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBOperationsList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBOperationsList.json
  */
 async function cosmosDbOperationsList() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

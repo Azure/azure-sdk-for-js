@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates or updates a workspace with the specified parameters.
  *
  * @summary Creates or updates a workspace with the specified parameters.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Workspace/create.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Workspace/create.json
  */
 async function createWorkspace() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";

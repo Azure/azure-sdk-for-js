@@ -1,0 +1,113 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/anomalydetector/v1.1/multivariate/models?skip=0\u0026top=10",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "fake_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "94982a87-37b9-4f73-accf-b8188883dd11",
+        "x-ms-useragent": "azsdk-js-ai-anomaly-detector-rest/1.0.0-beta.1 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "7aaf00fd-60ce-489c-a983-13fcf2f1daa8",
+        "Content-Length": "1856",
+        "Content-Type": "application/json",
+        "Date": "Sat, 05 Nov 2022 04:07:34 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "192",
+        "x-ms-region": "West US 2"
+      },
+      "ResponseBody": {
+        "models": [
+          {
+            "modelId": "e471dd74-5c7a-11ed-8b9c-f2c260c1bff1",
+            "createdTime": "2022-11-04T19:57:20Z",
+            "lastUpdatedTime": "2022-11-04T19:57:23Z",
+            "modelInfo": {
+              "dataSource": "\u003Cyour data source\u003E",
+              "dataSchema": "MultiTable",
+              "startTime": "2021-01-02T00:00:00Z",
+              "endTime": "2021-01-02T05:00:00Z",
+              "displayName": "Devops-MultiAD",
+              "slidingWindow": 200,
+              "alignPolicy": {
+                "alignMode": "Outer",
+                "fillNAMethod": "Linear",
+                "paddingValue": 0.0
+              },
+              "status": "FAILED",
+              "errors": [
+                {
+                  "code": "GetDataError",
+                  "message": "FailToAccessBlobURLInvalidIdentityError(\u0027Failed to get system assigned managed identity. Please enable system assigned managed identity and grant \u0027Storage Blob Data Reader\u0027 role to your Anomaly Detector to resolve this problem.\u0027, inner_exception=None)"
+                }
+              ],
+              "diagnosticsInfo": {
+                "modelState": {
+                  "epochIds": [],
+                  "trainLosses": [],
+                  "validationLosses": [],
+                  "latenciesInSeconds": []
+                },
+                "variableStates": []
+              }
+            }
+          },
+          {
+            "modelId": "b96dd010-5c7a-11ed-80b3-6e033f3e188c",
+            "createdTime": "2022-11-04T19:56:08Z",
+            "lastUpdatedTime": "2022-11-04T19:56:09Z",
+            "modelInfo": {
+              "dataSource": "\u003Cyour data source\u003E",
+              "dataSchema": "MultiTable",
+              "startTime": "2021-01-02T00:00:00Z",
+              "endTime": "2021-01-02T05:00:00Z",
+              "displayName": "Devops-MultiAD",
+              "slidingWindow": 200,
+              "alignPolicy": {
+                "alignMode": "Outer",
+                "fillNAMethod": "Linear",
+                "paddingValue": 0.0
+              },
+              "status": "FAILED",
+              "errors": [
+                {
+                  "code": "GetDataError",
+                  "message": "FailToAccessBlobURLInvalidIdentityError(\u0027Failed to get system assigned managed identity. Please enable system assigned managed identity and grant \u0027Storage Blob Data Reader\u0027 role to your Anomaly Detector to resolve this problem.\u0027, inner_exception=None)"
+                }
+              ],
+              "diagnosticsInfo": {
+                "modelState": {
+                  "epochIds": [],
+                  "trainLosses": [],
+                  "validationLosses": [],
+                  "latenciesInSeconds": []
+                },
+                "variableStates": []
+              }
+            }
+          }
+        ],
+        "currentCount": 2,
+        "maxCount": 1000,
+        "nextLink": ""
+      }
+    }
+  ],
+  "Variables": {}
+}

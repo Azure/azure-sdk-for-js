@@ -1,0 +1,13 @@
+trigger: none
+
+stages:
+  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+    parameters:
+      PackageName: "@azure/ai-language-conversations"
+      EnvVars:
+        ENDPOINT: $(clu-uri)
+        LANGUAGE_API_KEY: $(clu-key)
+        LANGUAGE_CLU_PROJECT_NAME: $(clu-project)
+        LANGUAGE_CLU_DEPLOYMENT_NAME: $(clu-project-deployment)
+        LANGUAGE_ORCHESTRATION_PROJECT_NAME: $(clu-workflow-project)
+        LANGUAGE_ORCHESTRATION_DEPLOYMENT_NAME: $(clu-workflow-project-deployment)

@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or update an Azure Cosmos DB Cassandra View
  *
  * @summary Create or update an Azure Cosmos DB Cassandra View
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBCassandraViewCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBCassandraViewCreateUpdate.json
  */
 async function cosmosDbCassandraViewCreateUpdate() {
   const subscriptionId = "subid";

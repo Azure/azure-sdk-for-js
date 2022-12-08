@@ -4,6 +4,8 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/abort-controller';
+
 // @public
 export function computeSha256Hash(content: string, encoding: "base64" | "hex"): Promise<string>;
 
@@ -11,7 +13,13 @@ export function computeSha256Hash(content: string, encoding: "base64" | "hex"): 
 export function computeSha256Hmac(key: string, stringToSign: string, encoding: "base64" | "hex"): Promise<string>;
 
 // @public
-export function delay(timeInMs: number): Promise<void>;
+export function delay(timeInMs: number, options?: DelayOptions): Promise<void>;
+
+// @public
+export interface DelayOptions {
+    abortErrorMsg?: string;
+    abortSignal?: AbortSignalLike;
+}
 
 // @public
 export function getErrorMessage(e: unknown): string;

@@ -323,35 +323,36 @@ export interface EmailServiceResourceList {
 }
 
 /** Data POST-ed to the nameAvailability action */
-export type NameAvailabilityParameters = CheckNameAvailabilityRequest;
+export interface NameAvailabilityParameters
+  extends CheckNameAvailabilityRequest {}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** A class representing update parameters for CommunicationService resource. */
-export type CommunicationServiceResourceUpdate = TaggedResource & {
+export interface CommunicationServiceResourceUpdate extends TaggedResource {
   /** List of email Domain resource Ids. */
   linkedDomains?: string[];
-};
+}
 
 /** A class that describes the PATCH request parameters of a Domains resource. */
-export type UpdateDomainRequestParameters = TaggedResource & {
+export interface UpdateDomainRequestParameters extends TaggedResource {
   /** Collection of valid sender usernames. This is a key-value pair where key=username and value=display name. */
   validSenderUsernames?: { [propertyName: string]: string };
   /** Describes whether user engagement tracking is enabled or disabled. */
   userEngagementTracking?: UserEngagementTracking;
-};
+}
 
 /** A class representing update parameters for EmailService resource. */
-export type EmailServiceResourceUpdate = TaggedResource;
+export interface EmailServiceResourceUpdate extends TaggedResource {}
 
 /** A class representing a CommunicationService resource. */
-export type CommunicationServiceResource = TrackedResource & {
+export interface CommunicationServiceResource extends TrackedResource {
   /**
    * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -381,10 +382,10 @@ export type CommunicationServiceResource = TrackedResource & {
   readonly immutableResourceId?: string;
   /** List of email Domain resource Ids. */
   linkedDomains?: string[];
-};
+}
 
 /** A class representing a Domains resource. */
-export type DomainResource = TrackedResource & {
+export interface DomainResource extends TrackedResource {
   /**
    * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -421,10 +422,10 @@ export type DomainResource = TrackedResource & {
   validSenderUsernames?: { [propertyName: string]: string };
   /** Describes whether user engagement tracking is enabled or disabled. */
   userEngagementTracking?: UserEngagementTracking;
-};
+}
 
 /** A class representing an EmailService resource. */
-export type EmailServiceResource = TrackedResource & {
+export interface EmailServiceResource extends TrackedResource {
   /**
    * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -432,7 +433,7 @@ export type EmailServiceResource = TrackedResource & {
   readonly provisioningState?: EmailServicesProvisioningState;
   /** The location where the email service stores its data at rest. */
   dataLocation?: string;
-};
+}
 
 /** Defines headers for CommunicationServices_update operation. */
 export interface CommunicationServicesUpdateHeaders {
@@ -450,12 +451,6 @@ export interface CommunicationServicesCreateOrUpdateHeaders {
 export interface CommunicationServicesDeleteHeaders {
   /** URL to query for status of the operation. */
   location?: string;
-}
-
-/** Defines headers for CommunicationServices_regenerateKey operation. */
-export interface CommunicationServicesRegenerateKeyHeaders {
-  /** URL to query for status of the operation. */
-  azureAsyncOperation?: string;
 }
 
 /** Defines headers for Domains_createOrUpdate operation. */
@@ -508,8 +503,11 @@ export interface EmailServicesUpdateHeaders {
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
+  /** User */
   User = "user",
+  /** System */
   System = "system",
+  /** UserSystem */
   UserSystem = "user,system"
 }
 
@@ -526,6 +524,7 @@ export type Origin = string;
 
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
+  /** Internal */
   Internal = "Internal"
 }
 
@@ -540,7 +539,9 @@ export type ActionType = string;
 
 /** Known values of {@link CheckNameAvailabilityReason} that the service accepts. */
 export enum KnownCheckNameAvailabilityReason {
+  /** Invalid */
   Invalid = "Invalid",
+  /** AlreadyExists */
   AlreadyExists = "AlreadyExists"
 }
 
@@ -556,14 +557,23 @@ export type CheckNameAvailabilityReason = string;
 
 /** Known values of {@link CommunicationServicesProvisioningState} that the service accepts. */
 export enum KnownCommunicationServicesProvisioningState {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Running */
   Running = "Running",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Moving */
   Moving = "Moving"
 }
 
@@ -586,9 +596,13 @@ export type CommunicationServicesProvisioningState = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -606,14 +620,23 @@ export type CreatedByType = string;
 
 /** Known values of {@link DomainsProvisioningState} that the service accepts. */
 export enum KnownDomainsProvisioningState {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Running */
   Running = "Running",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Moving */
   Moving = "Moving"
 }
 
@@ -636,8 +659,11 @@ export type DomainsProvisioningState = string;
 
 /** Known values of {@link DomainManagement} that the service accepts. */
 export enum KnownDomainManagement {
+  /** AzureManaged */
   AzureManaged = "AzureManaged",
+  /** CustomerManaged */
   CustomerManaged = "CustomerManaged",
+  /** CustomerManagedInExchangeOnline */
   CustomerManagedInExchangeOnline = "CustomerManagedInExchangeOnline"
 }
 
@@ -654,11 +680,17 @@ export type DomainManagement = string;
 
 /** Known values of {@link VerificationStatus} that the service accepts. */
 export enum KnownVerificationStatus {
+  /** NotStarted */
   NotStarted = "NotStarted",
+  /** VerificationRequested */
   VerificationRequested = "VerificationRequested",
+  /** VerificationInProgress */
   VerificationInProgress = "VerificationInProgress",
+  /** VerificationFailed */
   VerificationFailed = "VerificationFailed",
+  /** Verified */
   Verified = "Verified",
+  /** CancellationRequested */
   CancellationRequested = "CancellationRequested"
 }
 
@@ -678,7 +710,9 @@ export type VerificationStatus = string;
 
 /** Known values of {@link UserEngagementTracking} that the service accepts. */
 export enum KnownUserEngagementTracking {
+  /** Disabled */
   Disabled = "Disabled",
+  /** Enabled */
   Enabled = "Enabled"
 }
 
@@ -694,10 +728,15 @@ export type UserEngagementTracking = string;
 
 /** Known values of {@link VerificationType} that the service accepts. */
 export enum KnownVerificationType {
+  /** Domain */
   Domain = "Domain",
+  /** SPF */
   SPF = "SPF",
+  /** Dkim */
   Dkim = "DKIM",
+  /** Dkim2 */
   Dkim2 = "DKIM2",
+  /** Dmarc */
   Dmarc = "DMARC"
 }
 
@@ -716,14 +755,23 @@ export type VerificationType = string;
 
 /** Known values of {@link EmailServicesProvisioningState} that the service accepts. */
 export enum KnownEmailServicesProvisioningState {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Running */
   Running = "Running",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Moving */
   Moving = "Moving"
 }
 

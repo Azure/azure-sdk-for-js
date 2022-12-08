@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { FleetMembers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,12 @@ import {
   FleetMember,
   FleetMembersListByFleetNextOptionalParams,
   FleetMembersListByFleetOptionalParams,
+  FleetMembersListByFleetResponse,
   FleetMembersCreateOrUpdateOptionalParams,
   FleetMembersCreateOrUpdateResponse,
   FleetMembersGetOptionalParams,
   FleetMembersGetResponse,
   FleetMembersDeleteOptionalParams,
-  FleetMembersListByFleetResponse,
   FleetMembersListByFleetNextResponse
 } from "../models";
 
@@ -63,11 +64,15 @@ export class FleetMembersImpl implements FleetMembers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByFleetPagingPage(
           resourceGroupName,
           fleetName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -76,11 +81,18 @@ export class FleetMembersImpl implements FleetMembers {
   private async *listByFleetPagingPage(
     resourceGroupName: string,
     fleetName: string,
-    options?: FleetMembersListByFleetOptionalParams
+    options?: FleetMembersListByFleetOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<FleetMember[]> {
-    let result = await this._listByFleet(resourceGroupName, fleetName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: FleetMembersListByFleetResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByFleet(resourceGroupName, fleetName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByFleetNext(
         resourceGroupName,
@@ -89,7 +101,9 @@ export class FleetMembersImpl implements FleetMembers {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -174,7 +188,8 @@ export class FleetMembersImpl implements FleetMembers {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -376,7 +391,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters12,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -405,7 +420,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -429,7 +444,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -452,7 +467,7 @@ const listByFleetOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -473,7 +488,7 @@ const listByFleetNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

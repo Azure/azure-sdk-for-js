@@ -15,10 +15,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Return quota for subscription by region
  *
  * @summary Return quota for subscription by region
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/Locations_CheckQuotaAvailability.json
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/Locations_CheckQuotaAvailability.json
  */
 async function locationsCheckQuotaAvailability() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const location = "eastus";
   const credential = new DefaultAzureCredential();
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);

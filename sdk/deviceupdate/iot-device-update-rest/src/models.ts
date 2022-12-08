@@ -45,12 +45,12 @@ export interface UpdateInfo {
 }
 
 export interface PatchBody {
-  /** The device class friendly name. */
+  /** The device class friendly name. Friendly name can be 1-100 characters, alphanumeric, dot, and dash. */
   friendlyName: string;
 }
 
 export interface Deployment {
-  /** The caller-provided deployment identifier. */
+  /** The caller-provided deployment identifier. This cannot be longer than 73 characters, must be all lower-case, and cannot contain '&', '^', '[', ']', '{', '}', '|', '<', '>', forward slash, backslash, or double quote. The Updates view in the Azure Portal IoT Hub resource generates a GUID for deploymentId when you create a deployment. */
   deploymentId: string;
   /** The deployment start datetime. */
   startDateTime: Date | string;

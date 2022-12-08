@@ -130,6 +130,7 @@ export type SerializedCommunicationCloudEnvironment = "public" | "dod" | "gcch";
 // @public
 export interface SerializedCommunicationIdentifier {
     communicationUser?: SerializedCommunicationUserIdentifier;
+    kind?: string;
     microsoftTeamsUser?: SerializedMicrosoftTeamsUserIdentifier;
     phoneNumber?: SerializedPhoneNumberIdentifier;
     rawId?: string;

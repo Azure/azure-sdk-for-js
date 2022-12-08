@@ -7,7 +7,7 @@ import {
   MeterProvider,
   PeriodicExportingMetricReader,
   PeriodicExportingMetricReaderOptions,
-} from "@opentelemetry/sdk-metrics-base";
+} from "@opentelemetry/sdk-metrics";
 
 import { AzureMonitorTraceExporter, AzureMonitorMetricExporter } from "../../src";
 import { Expectation, Scenario } from "./types";
@@ -15,6 +15,9 @@ import { msToTimeSpan } from "../../src/utils/breezeUtils";
 import { SpanStatusCode } from "@opentelemetry/api";
 import { TelemetryItem as Envelope } from "../../src/generated";
 import { FlushSpanProcessor } from "./flushSpanProcessor";
+import { StandardMetrics } from "../../src/utils/constants/applicationinsights";
+import { Resource } from "@opentelemetry/resources";
+import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
 
 function delay<T>(t: number, value?: T): Promise<T | void> {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
@@ -47,6 +50,12 @@ export class TraceBasicScenario implements Scenario {
         foo: "bar",
       },
     });
+    root.recordException({
+      code: "TestExceptionCode",
+      message: "TestExceptionMessage",
+      name: "TestExceptionName",
+      stack: "TestExceptionStack",
+    });
 
     const ctx = opentelemetry.trace.setSpan(opentelemetry.context.active(), root);
     const child1 = tracer.startSpan(
@@ -60,31 +69,11 @@ export class TraceBasicScenario implements Scenario {
       },
       ctx
     );
-    const child2 = tracer.startSpan(
-      `${this.constructor.name}.Child.2`,
-      {
-        startTime: 0,
-        kind: opentelemetry.SpanKind.CLIENT,
-        attributes: {
-          numbers: "1234",
-        },
-      },
-      ctx
-    );
-    child1.setStatus({ code: SpanStatusCode.OK });
-    child2.recordException({
-      code: "TestExceptionCode",
-      message: "TestExceptionMessage",
-      name: "TestExceptionName",
-      stack: "TestExceptionStack",
-    });
     let eventAttributes: any = {};
     eventAttributes["SomeAttribute"] = "Test";
-    child2.addEvent("TestEvent", eventAttributes);
+    child1.addEvent("TestEvent", eventAttributes);
     child1.end(100);
     await delay(0);
-    child2.setStatus({ code: SpanStatusCode.OK });
-    child2.end(100);
     root.setStatus({ code: SpanStatusCode.OK });
     root.end(600);
   }
@@ -131,40 +120,23 @@ export class TraceBasicScenario implements Scenario {
               },
             } as any,
           },
-          children: [],
-        },
-        {
-          name: "Microsoft.ApplicationInsights.RemoteDependency",
-          ...COMMON_ENVELOPE_PARAMS,
-          data: {
-            baseType: "RemoteDependencyData",
-            baseData: {
-              version: 2,
-              name: "TraceBasicScenario.Child.2",
-              duration: msToTimeSpan(100),
-              success: true,
-              resultCode: "0",
-              properties: {
-                numbers: "1234",
+          children: [
+            {
+              name: "Microsoft.ApplicationInsights.Message",
+              ...COMMON_ENVELOPE_PARAMS,
+              data: {
+                baseType: "MessageData",
+                baseData: {
+                  version: 2,
+                  message: "TestEvent",
+                  properties: {
+                    SomeAttribute: "Test",
+                  },
+                } as any,
               },
-            } as any,
-          },
-          children: [],
-        },
-        {
-          name: "Microsoft.ApplicationInsights.Message",
-          ...COMMON_ENVELOPE_PARAMS,
-          data: {
-            baseType: "MessageData",
-            baseData: {
-              version: 2,
-              message: "TestEvent",
-              properties: {
-                SomeAttribute: "Test",
-              },
-            } as any,
-          },
-          children: [],
+              children: [],
+            },
+          ],
         },
         {
           name: "Microsoft.ApplicationInsights.Exception",
@@ -191,7 +163,18 @@ export class TraceBasicScenario implements Scenario {
 }
 
 export class MetricBasicScenario implements Scenario {
-  private _provider = new MeterProvider();
+  private _provider: MeterProvider;
+
+  constructor() {
+    const testResource = new Resource({
+      [SemanticResourceAttributes.SERVICE_NAME]: "my-helloworld-service",
+      [SemanticResourceAttributes.SERVICE_NAMESPACE]: "my-namespace",
+      [SemanticResourceAttributes.SERVICE_INSTANCE_ID]: "my-instance",
+    });
+    this._provider = new MeterProvider({
+      resource: testResource,
+    });
+  }
 
   prepare(): void {
     const exporter = new AzureMonitorMetricExporter({
@@ -209,13 +192,29 @@ export class MetricBasicScenario implements Scenario {
   async run(): Promise<void> {
     const meter = this._provider.getMeter("basic");
     let counter = meter.createCounter("testCounter");
+    let counter2 = meter.createCounter("testCounter2");
     let histogram = meter.createHistogram("testHistogram");
+    let attributes = { testAttribute: "testValue" };
     counter.add(1);
     counter.add(2);
+    counter2.add(12, attributes);
     histogram.record(1);
     histogram.record(2);
     histogram.record(3);
     histogram.record(4);
+    let dependencyDurationMetric = meter.createHistogram(StandardMetrics.HTTP_DEPENDENCY_DURATION);
+    dependencyDurationMetric.record(1234, {
+      "http.status_code": "400",
+      "net.peer.name": "http://www.test.com",
+    });
+    dependencyDurationMetric.record(4567, {
+      "http.status_code": "400",
+      "net.peer.name": "http://www.test.com",
+    });
+    let requestyDurationMetric = meter.createHistogram(StandardMetrics.HTTP_REQUEST_DURATION);
+    requestyDurationMetric.record(4567, {
+      "http.status_code": "200",
+    });
     await delay(0);
   }
 
@@ -225,7 +224,6 @@ export class MetricBasicScenario implements Scenario {
 
   flush(): Promise<void> {
     return delay(100);
-    // return metricReader.forceFlush();
   }
 
   expectation: Expectation[] = [
@@ -243,6 +241,39 @@ export class MetricBasicScenario implements Scenario {
               count: 1,
               dataPointType: "Aggregation",
             },
+          ],
+        } as any,
+      },
+      children: [],
+    },
+    {
+      ...COMMON_ENVELOPE_PARAMS,
+      name: "Microsoft.ApplicationInsights.Metric",
+      data: {
+        baseType: "MetricData",
+        baseData: {
+          version: 2,
+          metrics: [
+            {
+              name: "testCounter2",
+              value: 12,
+              count: 1,
+              dataPointType: "Aggregation",
+            },
+          ],
+          properties: { testAttribute: "testValue" },
+        } as any,
+      },
+      children: [],
+    },
+    {
+      ...COMMON_ENVELOPE_PARAMS,
+      name: "Microsoft.ApplicationInsights.Metric",
+      data: {
+        baseType: "MetricData",
+        baseData: {
+          version: 2,
+          metrics: [
             {
               name: "testHistogram",
               value: 10,
@@ -252,6 +283,66 @@ export class MetricBasicScenario implements Scenario {
               dataPointType: "Aggregation",
             },
           ],
+        } as any,
+      },
+      children: [],
+    },
+    {
+      ...COMMON_ENVELOPE_PARAMS,
+      name: "Microsoft.ApplicationInsights.Metric",
+      data: {
+        baseType: "MetricData",
+        baseData: {
+          version: 2,
+          metrics: [
+            {
+              name: "azureMonitor.http.dependencyDuration",
+              value: 5801,
+              count: 2,
+              max: 4567,
+              min: 1234,
+              dataPointType: "Aggregation",
+            },
+          ],
+          properties: {
+            "Dependency.Success": "False",
+            "Dependency.Type": "http",
+            "_MS.IsAutocollected": "True",
+            "_MS.MetricId": "dependencies/duration",
+            "cloud/roleInstance": "my-instance",
+            "cloud/roleName": "my-namespace.my-helloworld-service",
+            "dependency/resultCode": "400",
+            "dependency/target": "http://www.test.com",
+          },
+        } as any,
+      },
+      children: [],
+    },
+    {
+      ...COMMON_ENVELOPE_PARAMS,
+      name: "Microsoft.ApplicationInsights.Metric",
+      data: {
+        baseType: "MetricData",
+        baseData: {
+          version: 2,
+          metrics: [
+            {
+              name: "azureMonitor.http.requestDuration",
+              value: 4567,
+              count: 1,
+              max: 4567,
+              min: 4567,
+              dataPointType: "Aggregation",
+            },
+          ],
+          properties: {
+            "Request.Success": "True",
+            "_MS.IsAutocollected": "True",
+            "_MS.MetricId": "requests/duration",
+            "cloud/roleInstance": "my-instance",
+            "cloud/roleName": "my-namespace.my-helloworld-service",
+            "request/resultCode": "200",
+          },
         } as any,
       },
       children: [],

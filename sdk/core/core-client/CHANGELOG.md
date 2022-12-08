@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Ported support for `xmlIsMsText` from `@azure/core-http`.
+
 ### Breaking Changes
 
 ### Bugs Fixed

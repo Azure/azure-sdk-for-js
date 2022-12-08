@@ -18,10 +18,9 @@
       }
     },
     "NodeTestVersion": [
-      "12.x",
       "14.x",
       "16.x",
-      "17.x"
+      "18.x"
     ],
     "TestType": "node",
     "TestResultsFiles": "**/test-results.xml"
@@ -49,7 +48,7 @@
           "TestResultsFiles": "**/test-results.browser.xml"
         }
       },
-      "NodeTestVersion": "12.x"
+      "NodeTestVersion": "14.x"
     },
     {
       "Agent": {
@@ -59,7 +58,7 @@
         }
       },
       "TestType": "node",
-      "NodeTestVersion": "12.x",
+      "NodeTestVersion": "14.x",
       "DependencyVersion": [
         "max",
         "min"

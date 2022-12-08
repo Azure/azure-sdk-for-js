@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure/test-utils";
-import { PipelinePolicy, createHttpHeaders, createEmptyPipeline } from "@azure/core-rest-pipeline";
+import { PipelinePolicy, createEmptyPipeline, createHttpHeaders } from "@azure/core-rest-pipeline";
 import {
-  serializationPolicy,
-  OperationRequest,
-  createSerializer,
   DictionaryMapper,
   OperationArguments,
+  OperationRequest,
   OperationSpec,
+  createSerializer,
+  serializationPolicy,
 } from "@azure/core-client";
 import { ExtendedServiceClient, disbaleKeepAlivePolicyName } from "../src/index";
 

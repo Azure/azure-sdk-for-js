@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Cancels the current virtual machine scale set rolling upgrade.
  *
  * @summary Cancels the current virtual machine scale set rolling upgrade.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrades_Cancel_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrades_Cancel_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetRollingUpgradesCancelMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -36,7 +36,7 @@ virtualMachineScaleSetRollingUpgradesCancelMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Cancels the current virtual machine scale set rolling upgrade.
  *
  * @summary Cancels the current virtual machine scale set rolling upgrade.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrades_Cancel_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrades_Cancel_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetRollingUpgradesCancelMinimumSetGen() {
   const subscriptionId = "{subscription-id}";

@@ -1005,6 +1005,8 @@ export interface CommonEncryptionCenc {
   contentKeys?: StreamingPolicyContentKeys;
   /** Configuration of DRMs for CommonEncryptionCenc encryption scheme */
   drm?: CencDrmConfiguration;
+  /** Optional configuration supporting ClearKey in CommonEncryptionCenc encryption scheme. */
+  clearKeyEncryptionConfiguration?: ClearKeyEncryptionConfiguration;
 }
 
 /** Class to specify DRM configurations of CommonEncryptionCenc scheme in Streaming Policy */
@@ -1029,6 +1031,12 @@ export interface StreamingPolicyWidevineConfiguration {
   customLicenseAcquisitionUrlTemplate?: string;
 }
 
+/** Class to specify ClearKey configuration of common encryption schemes in Streaming Policy */
+export interface ClearKeyEncryptionConfiguration {
+  /** Template for the URL of the custom service delivering content keys to end user players. Not required when using Azure Media Services for issuing licenses. The template supports replaceable tokens that the service will update at runtime with the value specific to the request.  The currently supported token value is {AlternativeMediaId}, which is replaced with the value of StreamingLocatorId.AlternativeMediaId. */
+  customKeysAcquisitionUrlTemplate?: string;
+}
+
 /** Class for CommonEncryptionCbcs encryption scheme */
 export interface CommonEncryptionCbcs {
   /** Representing supported protocols */
@@ -1039,6 +1047,8 @@ export interface CommonEncryptionCbcs {
   contentKeys?: StreamingPolicyContentKeys;
   /** Configuration of DRMs for current encryption scheme */
   drm?: CbcsDrmConfiguration;
+  /** Optional configuration supporting ClearKey in CommonEncryptionCbcs encryption scheme. */
+  clearKeyEncryptionConfiguration?: ClearKeyEncryptionConfiguration;
 }
 
 /** Class to specify DRM configurations of CommonEncryptionCbcs scheme in Streaming Policy */
@@ -1248,6 +1258,16 @@ export interface LiveEventActionInput {
   removeOutputsOnStop?: boolean;
 }
 
+/** The status of an async operation. */
+export interface AsyncOperationResult {
+  /** The error object */
+  error?: ErrorDetail;
+  /** Operation Id of the async operation. */
+  name?: string;
+  /** Operation status of the async operation. */
+  status?: AsyncOperationStatus;
+}
+
 /** The LiveOutput list result. */
 export interface LiveOutputListResult {
   /** The result of the List LiveOutput operation. */
@@ -1349,7 +1369,7 @@ export interface StreamingEntityScaleUnit {
   scaleUnit?: number;
 }
 
-/** The HLS setting for a text track. */
+/** The HLS setting for a track. */
 export interface HlsSettings {
   /** The default for the HLS setting. */
   default?: boolean;
@@ -1357,6 +1377,12 @@ export interface HlsSettings {
   forced?: boolean;
   /** The characteristics for the HLS setting. */
   characteristics?: string;
+}
+
+/** The DASH setting for a track. */
+export interface DashSettings {
+  /** The role for the DASH setting. */
+  role?: string;
 }
 
 /** Configures the Explicit Analog Television Output Restriction control bits. For further details see the PlayReady Compliance Rules. */
@@ -1417,6 +1443,8 @@ export interface ContentKeyPolicyTokenClaim {
 export interface ContentKeyPolicyPlayReadyLicense {
   /** A flag indicating whether test devices can use the license. */
   allowTestDevices: boolean;
+  /** The security level. */
+  securityLevel?: SecurityLevel;
   /** The begin date of license */
   beginDate?: Date;
   /** The expiration date of license. */
@@ -1646,6 +1674,23 @@ export interface PrivateLinkResource extends Resource {
 export interface AudioTrack extends TrackBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.AudioTrack";
+  /** The file name to the source file. This file is located in the storage container of the asset. */
+  fileName?: string;
+  /** The display name of the audio track on a video player. In HLS, this maps to the NAME attribute of EXT-X-MEDIA. */
+  displayName?: string;
+  /** The RFC5646 language code for the audio track. */
+  languageCode?: string;
+  /** The HLS specific setting for the audio track. */
+  hlsSettings?: HlsSettings;
+  /** The DASH specific setting for the audio track. */
+  dashSettings?: DashSettings;
+  /** The MPEG-4 audio track ID for the audio track. */
+  mpeg4TrackId?: number;
+  /**
+   * The stream bit rate for the audio track.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly bitRate?: number;
 }
 
 /** Represents a video track in the asset. */
@@ -1750,7 +1795,7 @@ export interface ContentKeyPolicyTokenRestriction
   /** The audience for the token. */
   audience: string;
   /** The primary verification key. */
-  primaryVerificationKey: ContentKeyPolicyRestrictionTokenKeyUnion;
+  primaryVerificationKey: ContentKeyPolicyRestrictionTokenKeyUnion | null;
   /** A list of alternative verification keys. */
   alternateVerificationKeys?: ContentKeyPolicyRestrictionTokenKeyUnion[];
   /** A list of required token claims. */
@@ -2318,6 +2363,8 @@ export interface LiveOutput extends ProxyResource {
   assetName?: string;
   /** ISO 8601 time between 1 minute to 25 hours to indicate the maximum content length that can be archived in the asset for this live output. This also sets the maximum content length for the rewind window. For example, use PT1H30M to indicate 1 hour and 30 minutes of archive window. */
   archiveWindowLength?: string;
+  /** ISO 8601 time between 1 minute to the duration of archiveWindowLength to control seek-able window length during Live. The service won't use this property once LiveOutput stops. The archived VOD will have full content with original ArchiveWindowLength. For example, use PT1H30M to indicate 1 hour and 30 minutes of rewind window length. Service will use implicit default value 30m only if Live Event enables LL. */
+  rewindWindowLength?: string;
   /** The manifest file name. If not provided, the service will generate one automatically. */
   manifestName?: string;
   /** HTTP Live Streaming (HLS) packing setting for the live output. */
@@ -3459,6 +3506,27 @@ export enum KnownStreamOptionsFlag {
  */
 export type StreamOptionsFlag = string;
 
+/** Known values of {@link AsyncOperationStatus} that the service accepts. */
+export enum KnownAsyncOperationStatus {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** InProgress */
+  InProgress = "InProgress"
+}
+
+/**
+ * Defines values for AsyncOperationStatus. \
+ * {@link KnownAsyncOperationStatus} can be used interchangeably with AsyncOperationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **InProgress**
+ */
+export type AsyncOperationStatus = string;
+
 /** Known values of {@link LiveOutputResourceState} that the service accepts. */
 export enum KnownLiveOutputResourceState {
   /** Live output is being created. No content is archived in the asset until the live output is in running state. */
@@ -3551,6 +3619,30 @@ export enum KnownContentKeyPolicyPlayReadyUnknownOutputPassingOption {
  * **AllowedWithVideoConstriction**: Passing the video portion of protected content to an Unknown Output is allowed but with constrained resolution.
  */
 export type ContentKeyPolicyPlayReadyUnknownOutputPassingOption = string;
+
+/** Known values of {@link SecurityLevel} that the service accepts. */
+export enum KnownSecurityLevel {
+  /** Represents a SecurityLevel that is unavailable in current API version. */
+  Unknown = "Unknown",
+  /** For clients under development or test. No protection against unauthorized use. */
+  SL150 = "SL150",
+  /** For hardened devices and applications consuming commercial content. Software or hardware protection. */
+  SL2000 = "SL2000",
+  /** For hardened devices only. Hardware protection. */
+  SL3000 = "SL3000"
+}
+
+/**
+ * Defines values for SecurityLevel. \
+ * {@link KnownSecurityLevel} can be used interchangeably with SecurityLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Represents a SecurityLevel that is unavailable in current API version. \
+ * **SL150**: For clients under development or test. No protection against unauthorized use. \
+ * **SL2000**: For hardened devices and applications consuming commercial content. Software or hardware protection. \
+ * **SL3000**: For hardened devices only. Hardware protection.
+ */
+export type SecurityLevel = string;
 
 /** Known values of {@link ContentKeyPolicyPlayReadyLicenseType} that the service accepts. */
 export enum KnownContentKeyPolicyPlayReadyLicenseType {
@@ -4890,6 +4982,20 @@ export interface LiveEventsResetOptionalParams
 }
 
 /** Optional parameters. */
+export interface LiveEventsAsyncOperationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the asyncOperation operation. */
+export type LiveEventsAsyncOperationResponse = AsyncOperationResult;
+
+/** Optional parameters. */
+export interface LiveEventsOperationLocationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the operationLocation operation. */
+export type LiveEventsOperationLocationResponse = LiveEvent;
+
+/** Optional parameters. */
 export interface LiveEventsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -4930,6 +5036,20 @@ export interface LiveOutputsDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface LiveOutputsAsyncOperationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the asyncOperation operation. */
+export type LiveOutputsAsyncOperationResponse = AsyncOperationResult;
+
+/** Optional parameters. */
+export interface LiveOutputsOperationLocationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the operationLocation operation. */
+export type LiveOutputsOperationLocationResponse = LiveOutput;
 
 /** Optional parameters. */
 export interface LiveOutputsListNextOptionalParams
@@ -5022,6 +5142,20 @@ export interface StreamingEndpointsScaleOptionalParams
 }
 
 /** Optional parameters. */
+export interface StreamingEndpointsAsyncOperationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the asyncOperation operation. */
+export type StreamingEndpointsAsyncOperationResponse = AsyncOperationResult;
+
+/** Optional parameters. */
+export interface StreamingEndpointsOperationLocationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the operationLocation operation. */
+export type StreamingEndpointsOperationLocationResponse = StreamingEndpoint;
+
+/** Optional parameters. */
 export interface StreamingEndpointsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -5033,8 +5167,6 @@ export interface AzureMediaServicesOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
-  /** Api Version */
-  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

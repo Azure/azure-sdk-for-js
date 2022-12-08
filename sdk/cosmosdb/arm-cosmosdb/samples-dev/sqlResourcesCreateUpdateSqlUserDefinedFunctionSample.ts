@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or update an Azure Cosmos DB SQL userDefinedFunction
  *
  * @summary Create or update an Azure Cosmos DB SQL userDefinedFunction
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBSqlUserDefinedFunctionCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBSqlUserDefinedFunctionCreateUpdate.json
  */
 async function cosmosDbSqlUserDefinedFunctionCreateUpdate() {
   const subscriptionId = "subid";

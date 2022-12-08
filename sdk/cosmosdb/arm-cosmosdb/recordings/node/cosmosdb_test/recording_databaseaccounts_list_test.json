@@ -1,15 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/databaseAccounts?api-version=2022-05-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-cosmosdb/16.0.0-beta.3 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "0a0649f6-521f-47f6-809d-5217eb1e100c"
+        "User-Agent": "azsdk-js-arm-cosmosdb/16.0.0-beta.4 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "23a02cfd-e233-4534-a499-57171c3ee245"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,18 +17,18 @@
         "Cache-Control": "no-store, no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Fri, 22 Jul 2022 05:59:59 GMT",
+        "Date": "Sun, 09 Oct 2022 08:22:36 GMT",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "a66017e2-70d2-4d63-944b-f0c819210ef1",
+        "x-ms-correlation-request-id": "72181a33-48a4-4f90-a9bf-a3ff3c6a6f46",
         "x-ms-gatewayversion": "version=2.14.0",
-        "x-ms-ratelimit-remaining-subscription-reads": "11885",
-        "x-ms-request-id": "a66017e2-70d2-4d63-944b-f0c819210ef1",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220722T055959Z:a66017e2-70d2-4d63-944b-f0c819210ef1"
+        "x-ms-ratelimit-remaining-subscription-reads": "11867",
+        "x-ms-request-id": "72181a33-48a4-4f90-a9bf-a3ff3c6a6f46",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221009T082236Z:72181a33-48a4-4f90-a9bf-a3ff3c6a6f46"
       },
       "ResponseBody": {
         "value": [
@@ -40,7 +40,7 @@
             "kind": "GlobalDocumentDB",
             "tags": {},
             "systemData": {
-              "createdAt": "2022-07-22T05:56:31.1265557Z"
+              "createdAt": "2022-10-09T08:18:50.9191829Z"
             },
             "properties": {
               "provisioningState": "Succeeded",
@@ -58,11 +58,12 @@
               "analyticalStorageConfiguration": {
                 "schemaType": "WellDefined"
               },
-              "instanceId": "feeaa5fa-8daf-4b78-a441-21cd3a09b939",
+              "instanceId": "f005db44-504f-4afe-8c6d-21543af8b679",
               "databaseAccountOfferType": "Standard",
               "defaultIdentity": "FirstPartyIdentity",
               "networkAclBypass": "None",
               "disableLocalAuth": false,
+              "enablePartitionMerge": false,
               "consistencyPolicy": {
                 "defaultConsistencyLevel": "Session",
                 "maxIntervalInSeconds": 5,
@@ -165,16 +166,16 @@
               },
               "keysMetadata": {
                 "primaryMasterKey": {
-                  "generationTime": "2022-07-22T05:56:31.1265557Z"
+                  "generationTime": "2022-10-09T08:18:50.9191829Z"
                 },
                 "secondaryMasterKey": {
-                  "generationTime": "2022-07-22T05:56:31.1265557Z"
+                  "generationTime": "2022-10-09T08:18:50.9191829Z"
                 },
                 "primaryReadonlyMasterKey": {
-                  "generationTime": "2022-07-22T05:56:31.1265557Z"
+                  "generationTime": "2022-10-09T08:18:50.9191829Z"
                 },
                 "secondaryReadonlyMasterKey": {
-                  "generationTime": "2022-07-22T05:56:31.1265557Z"
+                  "generationTime": "2022-10-09T08:18:50.9191829Z"
                 }
               }
             },

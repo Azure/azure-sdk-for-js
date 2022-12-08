@@ -1,8 +1,18 @@
 # Release History
-    
-## 3.0.0-beta.3 (2022-06-17)
 
-The package of @azure/arm-labservices is using our next generation design principles since version 3.0.0-beta.3, which contains breaking changes.
+## 3.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 3.0.0 (2022-08-24)
+
+The package of @azure/arm-labservices is using our next generation design principles since version 3.0.0, which contains breaking changes.
 
 To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
 

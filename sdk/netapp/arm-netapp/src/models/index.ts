@@ -182,6 +182,21 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
+/** Provides region specific information. */
+export interface RegionInfo {
+  /** Provides storage to network proximity information in the region. */
+  storageToNetworkProximity?: RegionStorageToNetworkProximity;
+  /** Provides logical availability zone mappings for the subscription for a region. */
+  availabilityZoneMappings?: RegionInfoAvailabilityZoneMappingsItem[];
+}
+
+export interface RegionInfoAvailabilityZoneMappingsItem {
+  /** Logical availability zone. */
+  availabilityZone?: string;
+  /** Available availability zone */
+  isAvailable?: boolean;
+}
+
 /** List of NetApp account resources */
 export interface NetAppAccountList {
   /** Multiple NetApp accounts */
@@ -256,8 +271,75 @@ export interface LdapSearchScopeOpt {
 
 /** Encryption settings */
 export interface AccountEncryption {
-  /** Encryption Key Source. Possible values are: 'Microsoft.NetApp'. */
-  keySource?: string;
+  /** The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.NetApp, Microsoft.KeyVault */
+  keySource?: KeySource;
+  /** Properties provided by KeVault. Applicable if keySource is 'Microsoft.KeyVault'. */
+  keyVaultProperties?: KeyVaultProperties;
+  /** Identity used to authenticate to KeyVault. Applicable if keySource is 'Microsoft.KeyVault'. */
+  identity?: EncryptionIdentity;
+}
+
+/** Properties of key vault. */
+export interface KeyVaultProperties {
+  /**
+   * UUID v4 used to identify the Azure Key Vault configuration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keyVaultId?: string;
+  /** The Uri of KeyVault. */
+  keyVaultUri: string;
+  /** The name of KeyVault key. */
+  keyName: string;
+  /** The resource ID of KeyVault. */
+  keyVaultResourceId: string;
+  /**
+   * Status of the KeyVault connection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: KeyVaultStatus;
+}
+
+/** Identity used to authenticate with key vault. */
+export interface EncryptionIdentity {
+  /**
+   * The principal ID (object ID) of the identity used to authenticate with key vault. Read-only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /** The ARM resource identifier of the user assigned identity used to authenticate with key vault. Applicable if identity.type has 'UserAssigned'. It should match key of identity.userAssignedIdentities. */
+  userAssignedIdentity?: string;
+}
+
+/** Identity for the resource. */
+export interface Identity {
+  /**
+   * The principal ID of resource identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The identity type. */
+  type: IdentityType;
+  /** Gets or sets a list of key value pairs that describe the set of User Assigned identities that will be used with this storage account. The key is the ARM resource identifier of the identity. Only 1 User Assigned identity is permitted here. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** UserAssignedIdentity for the resource. */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
 }
 
 /** NetApp account patch resource */
@@ -290,6 +372,11 @@ export interface NetAppAccountPatch {
   activeDirectories?: ActiveDirectory[];
   /** Encryption settings */
   encryption?: AccountEncryption;
+  /**
+   * Shows the status of disableShowmount for all volumes under the subscription, null equals false
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly disableShowmount?: boolean;
 }
 
 /** An error response from the service. */
@@ -482,7 +569,7 @@ export interface VolumePatch {
   tags?: { [propertyName: string]: string };
   /** The service level of the file system */
   serviceLevel?: ServiceLevel;
-  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. Minimum size is 100 GiB. Upper limit is 100TiB. Specified in bytes. */
+  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. Minimum size is 100 GiB. Upper limit is 100TiB, 500Tib for LargeVolume. Specified in bytes. */
   usageThreshold?: number;
   /** Set of export policy rules */
   exportPolicy?: VolumePatchPropertiesExportPolicy;
@@ -578,6 +665,12 @@ export interface AuthorizeRequest {
 export interface PoolChangeRequest {
   /** Resource id of the pool to move volume to */
   newPoolResourceId: string;
+}
+
+/** Relocate volume request */
+export interface RelocateVolumeRequest {
+  /** New creation token for the volume that controls the mount point name */
+  creationToken?: string;
 }
 
 /** List of Snapshots */
@@ -1015,8 +1108,6 @@ export interface VaultList {
 
 /** Vault information */
 export interface Vault {
-  /** Resource location */
-  location: string;
   /**
    * Resource Id
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1144,7 +1235,7 @@ export interface VolumeGroupVolumeProperties {
   creationToken: string;
   /** The service level of the file system */
   serviceLevel?: ServiceLevel;
-  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. Minimum size is 100 GiB. Upper limit is 100TiB. Specified in bytes. */
+  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. Minimum size is 500 GiB. Upper limit is 100TiB, 500Tib for LargeVolume. Specified in bytes. */
   usageThreshold: number;
   /** Set of export policy rules */
   exportPolicy?: VolumePropertiesExportPolicy;
@@ -1157,6 +1248,8 @@ export interface VolumeGroupVolumeProperties {
   readonly provisioningState?: string;
   /** UUID v4 or resource identifier used to identify the Snapshot. */
   snapshotId?: string;
+  /** If enabled (true) the snapshot the volume was created from will be automatically deleted after the volume create operation has finished.  Defaults to false */
+  deleteBaseSnapshot?: boolean;
   /** UUID v4 or resource identifier used to identify the Backup. */
   backupId?: string;
   /**
@@ -1197,6 +1290,10 @@ export interface VolumeGroupVolumeProperties {
   securityStyle?: SecurityStyle;
   /** Enables encryption for in-flight smb3 data. Only applicable for SMB/DualProtocol volume. To be used with swagger version 2020-08-01 or later */
   smbEncryption?: boolean;
+  /** Enables access based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume */
+  smbAccessBasedEnumeration?: SmbAccessBasedEnumeration;
+  /** Enables non browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume */
+  smbNonBrowsable?: SmbNonBrowsable;
   /** Enables continuously available share property for smb volume. Only applicable for SMB volume */
   smbContinuouslyAvailable?: boolean;
   /** Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
@@ -1512,6 +1609,8 @@ export interface NetAppAccount extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
+  /** The identity of the resource. */
+  identity?: Identity;
   /**
    * Azure lifecycle management
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1521,6 +1620,11 @@ export interface NetAppAccount extends TrackedResource {
   activeDirectories?: ActiveDirectory[];
   /** Encryption settings */
   encryption?: AccountEncryption;
+  /**
+   * Shows the status of disableShowmount for all volumes under the subscription, null equals false
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly disableShowmount?: boolean;
 }
 
 /** Capacity pool resource */
@@ -1580,7 +1684,7 @@ export interface Volume extends TrackedResource {
   creationToken: string;
   /** The service level of the file system */
   serviceLevel?: ServiceLevel;
-  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. Minimum size is 100 GiB. Upper limit is 100TiB. Specified in bytes. */
+  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. Minimum size is 500 GiB. Upper limit is 100TiB, 500Tib for LargeVolume. Specified in bytes. */
   usageThreshold: number;
   /** Set of export policy rules */
   exportPolicy?: VolumePropertiesExportPolicy;
@@ -1593,6 +1697,8 @@ export interface Volume extends TrackedResource {
   readonly provisioningState?: string;
   /** UUID v4 or resource identifier used to identify the Snapshot. */
   snapshotId?: string;
+  /** If enabled (true) the snapshot the volume was created from will be automatically deleted after the volume create operation has finished.  Defaults to false */
+  deleteBaseSnapshot?: boolean;
   /** UUID v4 or resource identifier used to identify the Backup. */
   backupId?: string;
   /**
@@ -1633,6 +1739,10 @@ export interface Volume extends TrackedResource {
   securityStyle?: SecurityStyle;
   /** Enables encryption for in-flight smb3 data. Only applicable for SMB/DualProtocol volume. To be used with swagger version 2020-08-01 or later */
   smbEncryption?: boolean;
+  /** Enables access based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume */
+  smbAccessBasedEnumeration?: SmbAccessBasedEnumeration;
+  /** Enables non browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume */
+  smbNonBrowsable?: SmbNonBrowsable;
   /** Enables continuously available share property for smb volume. Only applicable for SMB volume */
   smbContinuouslyAvailable?: boolean;
   /** Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
@@ -1875,6 +1985,30 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link RegionStorageToNetworkProximity} that the service accepts. */
+export enum KnownRegionStorageToNetworkProximity {
+  /** Basic network connectivity. */
+  Default = "Default",
+  /** Standard T1 network connectivity. */
+  T1 = "T1",
+  /** Standard T2 network connectivity. */
+  T2 = "T2",
+  /** Standard T1 and T2 network connectivity. */
+  T1AndT2 = "T1AndT2"
+}
+
+/**
+ * Defines values for RegionStorageToNetworkProximity. \
+ * {@link KnownRegionStorageToNetworkProximity} can be used interchangeably with RegionStorageToNetworkProximity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default**: Basic network connectivity. \
+ * **T1**: Standard T1 network connectivity. \
+ * **T2**: Standard T2 network connectivity. \
+ * **T1AndT2**: Standard T1 and T2 network connectivity.
+ */
+export type RegionStorageToNetworkProximity = string;
+
 /** Known values of {@link ActiveDirectoryStatus} that the service accepts. */
 export enum KnownActiveDirectoryStatus {
   /** Active Directory created but not in use */
@@ -1901,6 +2035,75 @@ export enum KnownActiveDirectoryStatus {
  * **Updating**: Active Directory Updating
  */
 export type ActiveDirectoryStatus = string;
+
+/** Known values of {@link KeySource} that the service accepts. */
+export enum KnownKeySource {
+  /** Microsoft-managed key encryption */
+  MicrosoftNetApp = "Microsoft.NetApp",
+  /** Customer-managed key encryption */
+  MicrosoftKeyVault = "Microsoft.KeyVault"
+}
+
+/**
+ * Defines values for KeySource. \
+ * {@link KnownKeySource} can be used interchangeably with KeySource,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Microsoft.NetApp**: Microsoft-managed key encryption \
+ * **Microsoft.KeyVault**: Customer-managed key encryption
+ */
+export type KeySource = string;
+
+/** Known values of {@link KeyVaultStatus} that the service accepts. */
+export enum KnownKeyVaultStatus {
+  /** KeyVault connection created but not in use */
+  Created = "Created",
+  /** KeyVault connection in use by SMB Volume */
+  InUse = "InUse",
+  /** KeyVault connection Deleted */
+  Deleted = "Deleted",
+  /** Error with the KeyVault connection */
+  Error = "Error",
+  /** KeyVault connection Updating */
+  Updating = "Updating"
+}
+
+/**
+ * Defines values for KeyVaultStatus. \
+ * {@link KnownKeyVaultStatus} can be used interchangeably with KeyVaultStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Created**: KeyVault connection created but not in use \
+ * **InUse**: KeyVault connection in use by SMB Volume \
+ * **Deleted**: KeyVault connection Deleted \
+ * **Error**: Error with the KeyVault connection \
+ * **Updating**: KeyVault connection Updating
+ */
+export type KeyVaultStatus = string;
+
+/** Known values of {@link IdentityType} that the service accepts. */
+export enum KnownIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+}
+
+/**
+ * Defines values for IdentityType. \
+ * {@link KnownIdentityType} can be used interchangeably with IdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
+ */
+export type IdentityType = string;
 
 /** Known values of {@link ServiceLevel} that the service accepts. */
 export enum KnownServiceLevel {
@@ -2075,6 +2278,42 @@ export enum KnownSecurityStyle {
  * **unix**
  */
 export type SecurityStyle = string;
+
+/** Known values of {@link SmbAccessBasedEnumeration} that the service accepts. */
+export enum KnownSmbAccessBasedEnumeration {
+  /** smbAccessBasedEnumeration share setting is disabled */
+  Disabled = "Disabled",
+  /** smbAccessBasedEnumeration share setting is enabled */
+  Enabled = "Enabled"
+}
+
+/**
+ * Defines values for SmbAccessBasedEnumeration. \
+ * {@link KnownSmbAccessBasedEnumeration} can be used interchangeably with SmbAccessBasedEnumeration,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: smbAccessBasedEnumeration share setting is disabled \
+ * **Enabled**: smbAccessBasedEnumeration share setting is enabled
+ */
+export type SmbAccessBasedEnumeration = string;
+
+/** Known values of {@link SmbNonBrowsable} that the service accepts. */
+export enum KnownSmbNonBrowsable {
+  /** smbNonBrowsable share setting is disabled */
+  Disabled = "Disabled",
+  /** smbNonBrowsable share setting is enabled */
+  Enabled = "Enabled"
+}
+
+/**
+ * Defines values for SmbNonBrowsable. \
+ * {@link KnownSmbNonBrowsable} can be used interchangeably with SmbNonBrowsable,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: smbNonBrowsable share setting is disabled \
+ * **Enabled**: smbNonBrowsable share setting is enabled
+ */
+export type SmbNonBrowsable = string;
 
 /** Known values of {@link EncryptionKeySource} that the service accepts. */
 export enum KnownEncryptionKeySource {
@@ -2264,6 +2503,13 @@ export interface NetAppResourceCheckQuotaAvailabilityOptionalParams
 export type NetAppResourceCheckQuotaAvailabilityResponse = CheckAvailabilityResponse;
 
 /** Optional parameters. */
+export interface NetAppResourceQueryRegionInfoOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the queryRegionInfo operation. */
+export type NetAppResourceQueryRegionInfoResponse = RegionInfo;
+
+/** Optional parameters. */
 export interface NetAppResourceQuotaLimitsListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2330,6 +2576,15 @@ export interface AccountsUpdateOptionalParams
 
 /** Contains response data for the update operation. */
 export type AccountsUpdateResponse = NetAppAccount;
+
+/** Optional parameters. */
+export interface AccountsRenewCredentialsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface AccountsListBySubscriptionNextOptionalParams
@@ -2543,6 +2798,8 @@ export interface VolumesPoolChangeOptionalParams
 /** Optional parameters. */
 export interface VolumesRelocateOptionalParams
   extends coreClient.OperationOptions {
+  /** Relocate volume request */
+  body?: RelocateVolumeRequest;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */

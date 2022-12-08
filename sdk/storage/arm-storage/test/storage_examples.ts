@@ -84,7 +84,7 @@ describe("Storage test", () => {
         key2: "value2",
       }
     }, testPollingOptions)
-    assert.equal(res.name,storageAccountName)
+    assert.equal(res.name, storageAccountName)
   });
 
   it("blobContainers create test", async function () {

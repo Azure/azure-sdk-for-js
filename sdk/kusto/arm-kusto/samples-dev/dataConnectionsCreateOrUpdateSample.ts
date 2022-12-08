@@ -19,7 +19,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates or updates a data connection.
  *
  * @summary Creates or updates a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDataConnectionsCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionsCreateOrUpdate.json
  */
 async function kustoDataConnectionsCreateOrUpdate() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
@@ -54,7 +54,7 @@ kustoDataConnectionsCreateOrUpdate().catch(console.error);
  * This sample demonstrates how to Creates or updates a data connection.
  *
  * @summary Creates or updates a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDataConnectionsEventGridCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionsEventGridCreateOrUpdate.json
  */
 async function kustoDataConnectionsEventGridCreateOrUpdate() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";

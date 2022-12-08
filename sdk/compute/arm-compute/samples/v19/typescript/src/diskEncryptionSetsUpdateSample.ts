@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Updates (patches) a disk encryption set.
  *
  * @summary Updates (patches) a disk encryption set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-02/DiskRP/examples/diskEncryptionSetExamples/DiskEncryptionSet_Update_WithRotationToLatestKeyVersionEnabled.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Update_WithRotationToLatestKeyVersionEnabled.json
  */
 async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueSucceeded() {
   const subscriptionId = "{subscription-id}";
@@ -51,7 +51,7 @@ updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueSucceeded(
  * This sample demonstrates how to Updates (patches) a disk encryption set.
  *
  * @summary Updates (patches) a disk encryption set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-02/DiskRP/examples/diskEncryptionSetExamples/DiskEncryptionSet_Update_WithRotationToLatestKeyVersionEnabledInProgress.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Update_WithRotationToLatestKeyVersionEnabledInProgress.json
  */
 async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueUpdating() {
   const subscriptionId = "{subscription-id}";
@@ -84,7 +84,7 @@ updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueUpdating()
  * This sample demonstrates how to Updates (patches) a disk encryption set.
  *
  * @summary Updates (patches) a disk encryption set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-02/DiskRP/examples/diskEncryptionSetExamples/DiskEncryptionSet_Update.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Update.json
  */
 async function updateADiskEncryptionSet() {
   const subscriptionId = "{subscription-id}";

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU.
  *
  * @summary Gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_List_MaximumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -51,7 +51,7 @@ virtualMachineImagesEdgeZoneListMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU.
  *
  * @summary Gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_List_MinimumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListMinimumSetGen() {
   const subscriptionId = "{subscription-id}";

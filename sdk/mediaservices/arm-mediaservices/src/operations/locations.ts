@@ -62,7 +62,7 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters6,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

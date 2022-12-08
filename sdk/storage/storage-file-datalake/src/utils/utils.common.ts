@@ -9,6 +9,7 @@ import {
   DevelopmentConnectionString,
   EncryptionAlgorithmAES25,
   HeaderConstants,
+  PathStylePorts,
   UrlConstants,
 } from "./constants";
 
@@ -571,8 +572,11 @@ export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
   // Case 2: localhost(:port), use broad regex to match port part.
   // Case 3: Ipv4, use broad regex which just check if host contains Ipv4.
   // For valid host please refer to https://man7.org/linux/man-pages/man7/hostname.7.html.
-  return /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
-    host
+  return (
+    /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
+      host
+    ) ||
+    (parsedUrl.getPort() !== undefined && PathStylePorts.includes(parsedUrl.getPort()!))
   );
 }
 
@@ -615,4 +619,15 @@ export function ToBlobContainerEncryptionScope(
     defaultEncryptionScope: fileSystemEncryptionScope.defaultEncryptionScope,
     preventEncryptionScopeOverride: true,
   };
+}
+
+/**
+ * Escape the file or directory name but keep path separator ('/').
+ */
+export function EscapePath(pathName: string): string {
+  const split = pathName.split("/");
+  for (let i = 0; i < split.length; i++) {
+    split[i] = encodeURIComponent(split[i]);
+  }
+  return split.join("/");
 }

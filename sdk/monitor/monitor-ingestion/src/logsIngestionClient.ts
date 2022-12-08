@@ -4,7 +4,7 @@
 import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions } from "@azure/core-client";
 import { GeneratedMonitorIngestionClient } from "./generated";
-import { UploadLogsError, UploadOptions, UploadResult } from "./models";
+import { UploadLogsError, UploadLogsOptions, UploadLogsResult } from "./models";
 import { GZippingPolicy } from "./gZippingPolicy";
 import { concurrentRun } from "./utils/concurrentPoolHelper";
 import { splitDataToChunks } from "./utils/splitDataToChunksHelper";
@@ -17,7 +17,7 @@ export interface LogsIngestionClientOptions extends CommonClientOptions {
   apiVersion?: string;
 }
 const defaultIngestionScope = "https://monitor.azure.com//.default";
-const DEFAULT_MAX_CONCURRENCY = 1;
+const DEFAULT_MAX_CONCURRENCY = 5;
 
 /**
  * Client for Monitor Logs Ingestion
@@ -60,17 +60,15 @@ export class LogsIngestionClient {
     ruleId: string,
     streamName: string,
     logs: Record<string, unknown>[],
-    options?: UploadOptions
-  ): Promise<UploadResult> {
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options?: UploadLogsOptions
+  ): Promise<UploadLogsResult> {
     // TODO: Do we need to worry about memory issues when loading data for 100GB ?? JS max allocation is 1 or 2GB
 
     // This splits logs into 1MB chunks
     const chunkArray = splitDataToChunks(logs);
     const noOfChunks = chunkArray.length;
-    const concurrency = Math.max(
-      options?.maxConcurrency ?? DEFAULT_MAX_CONCURRENCY,
-      DEFAULT_MAX_CONCURRENCY
-    );
+    const concurrency = Math.max(options?.maxConcurrency ?? DEFAULT_MAX_CONCURRENCY, 1);
 
     const uploadResultErrors: Array<UploadLogsError> = [];
     await concurrentRun(concurrency, chunkArray, async (eachChunk): Promise<void> => {
@@ -80,7 +78,7 @@ export class LogsIngestionClient {
         });
       } catch (e: any) {
         uploadResultErrors.push({
-          responseError: e,
+          cause: e,
           failedLogs: eachChunk,
         });
       }
@@ -88,17 +86,17 @@ export class LogsIngestionClient {
 
     if (uploadResultErrors.length === 0) {
       return {
-        uploadStatus: "Success",
+        status: "Success",
       };
     } else if (uploadResultErrors.length < noOfChunks && uploadResultErrors.length > 0) {
       return {
         errors: uploadResultErrors,
-        uploadStatus: "PartialFailure",
+        status: "PartialFailure",
       };
     } else {
       return {
         errors: uploadResultErrors,
-        uploadStatus: "Failure",
+        status: "Failure",
       };
     }
   }

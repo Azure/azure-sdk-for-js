@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to List all managed Cassandra clusters in this resource group.
  *
  * @summary List all managed Cassandra clusters in this resource group.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBManagedCassandraClusterListByResourceGroup.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBManagedCassandraClusterListByResourceGroup.json
  */
 async function cosmosDbManagedCassandraClusterListByResourceGroup() {
   const subscriptionId = "subid";

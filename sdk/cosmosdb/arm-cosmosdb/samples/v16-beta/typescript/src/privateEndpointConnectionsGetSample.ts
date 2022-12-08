@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets a private endpoint connection.
  *
  * @summary Gets a private endpoint connection.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBPrivateEndpointConnectionGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBPrivateEndpointConnectionGet.json
  */
 async function getsPrivateEndpointConnection() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";

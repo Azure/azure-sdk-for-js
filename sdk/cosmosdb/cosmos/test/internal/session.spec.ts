@@ -76,7 +76,7 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
   });
   const dbId = addEntropy("maxIntegratedCacheTestDB");
   const containerId = addEntropy("maxIntegratedCacheTestContainer");
-  const dedicatedGatewayMaxAge = 600000;
+  const dedicatedGatewayMaxAge = 20;
   const client = new CosmosClient({
     endpoint,
     key: masterKey,
@@ -85,42 +85,49 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
       {
         on: "request",
         plugin: async (context, next) => {
-          it("Should check if the max integrated cache staleness header is set and the value is correct.", async function () {
-            if (context.headers["x-ms-consistency-level"]) {
-              if (context.resourceType === ResourceType.item) {
-                if (context.headers["x-ms-dedicatedgateway-max-age"]) {
-                  assert.strictEqual(
-                    context.headers["x-ms-dedicatedgateway-max-age"].valueOf(),
-                    dedicatedGatewayMaxAge
-                  );
-                } else {
-                  assert(
-                    context.headers["x-ms-dedicatedgateway-max-age"],
-                    "x-ms-dedicatedgateway-max-age is not set."
-                  );
-                  assert.ifError(context.headers["x-ms-dedicatedgateway-max-age"]);
-                }
-              } else {
-                assert(
-                  context.headers["x-ms-dedicatedgateway-max-age"],
-                  "Attempt to use x-ms-dedicatedgateway-max-age on a non-item request."
-                );
-                assert.ifError(context.headers["x-ms-dedicatedgateway-max-age"]);
-              }
-            } else {
-              assert(
-                context.headers["x-ms-consistency-level"],
-                "x-ms-consistency-level is not set."
+          if (
+            context.resourceType === ResourceType.item &&
+            context.operationType !== OperationType.Create
+          ) {
+            assert.ok(typeof context.headers["x-ms-consistency-level"] === "undefined");
+            assert.ok(typeof context.headers["x-ms-dedicatedgateway-max-age"] !== "undefined");
+            assert.ok(typeof context.headers["x-ms-consistency-level"] === "string");
+            assert.ok(
+              context.headers["x-ms-consistency-level"] === "Eventual" ||
+                context.headers["x-ms-consistency-level"] === "Session",
+              `${context.headers["x-ms-dedicatedgateway-max-age"]} = EVENTUAL or SESSION`
+            );
+            if (
+              context.headers["x-ms-dedicatedgateway-max-age"] === "null" ||
+              context.headers["x-ms-dedicatedgateway-max-age"] === undefined ||
+              typeof context.headers["x-ms-dedicatedgateway-max-age"] === "undefined"
+            ) {
+              assert.ok(
+                context.headers["x-ms-dedicatedgateway-max-age"] === "null",
+                "x-ms-dedicatedgateway-max-age will be ignored."
               );
-              assert.ifError(context.headers["x-ms-consistency-level"]);
             }
-          });
+            assert.ok(
+              typeof context.headers["x-ms-dedicatedgateway-max-age"] === "string",
+              `${context.headers["x-ms-dedicatedgateway-max-age"]} = string`
+            );
+            assert.ok(
+              context.headers["x-ms-dedicatedgateway-max-age"] === "0",
+              "x-ms-dedicatedgateway-max-age will be ignored."
+            );
+
+            assert.ok(
+              context.headers["x-ms-dedicatedgateway-max-age"] === `"${dedicatedGatewayMaxAge}"`,
+              `${context.headers["x-ms-dedicatedgateway-max-age"]} = "${dedicatedGatewayMaxAge}"`
+            );
+          }
           const response = await next(context);
           return response;
         },
       },
     ],
   });
+
   const itemRequestFeedOptions = {
     maxIntegratedCacheStalenessInMs: dedicatedGatewayMaxAge,
   };
@@ -131,33 +138,29 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
     id: containerId,
   });
 
-  // Should pass with maxIntegratedCacheStalenessInMs and consistency level set.
-  await container.items.create({ id: "1" });
-  await container.item("1").read(itemRequestFeedOptions);
+  it("Should pass with maxIntegratedCacheStalenessInMs and consistency level set.", async function () {
+    assert.ok(container.items.create({ id: "1" }));
+    container.item("1").read(itemRequestFeedOptions);
+    container.items
+      .readAll({
+        maxIntegratedCacheStalenessInMs: 0,
+      })
+      .fetchAll();
+    const querySpec = {
+      query: "SELECT * FROM root r WHERE r.id=@id",
+      parameters: [
+        {
+          name: "@id",
+          value: "1",
+        },
+      ],
+    };
+    container.items.query(querySpec, itemRequestFeedOptions).fetchAll();
 
-  // Should pass with maxIntegratedCacheStalenessInMs and consistency level set.
-  // read document.
-  await container.items.readAll(itemRequestFeedOptions).fetchAll();
-
-  // Should pass with maxIntegratedCacheStalenessInMs and consistency level set.
-  // query documents
-  const querySpec = {
-    query: "SELECT * FROM root r WHERE r.id=@id",
-    parameters: [
-      {
-        name: "@id",
-        value: "1",
-      },
-    ],
-  };
-  await container.items.query(querySpec, itemRequestFeedOptions).fetchAll();
-
-  // Should fail: maxIntegratedCacheStalenessInMs should only be set at the item request level and query feed options
-  assert.doesNotThrow(async () => {
-    await container.read({
-      maxIntegratedCacheStalenessInMs: dedicatedGatewayMaxAge,
-    });
-  }, "maxIntegratedCacheStalenessInMs should only be set at the item request level and query feed options");
+    // Should fail: maxIntegratedCacheStalenessInMs cannot be 0
+    this.dedicatedGatewayMaxAge = 0;
+    await container.read(this.dedicatedGatewayMaxAge);
+  });
 });
 
 // For some reason this test does not pass against the emulator. Skipping it for now

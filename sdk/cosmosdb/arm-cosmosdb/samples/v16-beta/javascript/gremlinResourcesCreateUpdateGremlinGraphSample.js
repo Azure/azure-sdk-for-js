@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Create or update an Azure Cosmos DB Gremlin graph
  *
  * @summary Create or update an Azure Cosmos DB Gremlin graph
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBGremlinGraphCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBGremlinGraphCreateUpdate.json
  */
 async function cosmosDbGremlinGraphCreateUpdate() {
   const subscriptionId = "subid";

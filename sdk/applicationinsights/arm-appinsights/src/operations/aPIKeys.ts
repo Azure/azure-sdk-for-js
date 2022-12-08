@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { APIKeys } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -57,8 +57,16 @@ export class APIKeysImpl implements APIKeys {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, resourceName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          resourceName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -66,9 +74,11 @@ export class APIKeysImpl implements APIKeys {
   private async *listPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: APIKeysListOptionalParams
+    options?: APIKeysListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ApplicationInsightsComponentAPIKey[]> {
-    let result = await this._list(resourceGroupName, resourceName, options);
+    let result: APIKeysListResponse;
+    result = await this._list(resourceGroupName, resourceName, options);
     yield result.value || [];
   }
 

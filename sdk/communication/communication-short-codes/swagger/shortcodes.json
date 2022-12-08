@@ -3,7 +3,7 @@
   "info": {
     "title": "ShortCodesClient",
     "description": "The short codes client uses Azure Communication Services to purchase and manage short codes.",
-    "version": "2021-10-25-preview"
+    "version": "2022-09-06"
   },
   "paths": {
     "/shortCodes": {
@@ -98,7 +98,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Success",
+            "description": "Created",
             "schema": {
               "$ref": "#/definitions/USProgramBrief"
             }
@@ -143,7 +143,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Success"
+            "description": "No Content"
           },
           "default": {
             "description": "Failure",
@@ -348,7 +348,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Success",
+            "description": "Created",
             "schema": {
               "$ref": "#/definitions/ProgramBriefAttachment"
             }
@@ -451,7 +451,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Success"
+            "description": "No Content"
           },
           "default": {
             "description": "Failure",

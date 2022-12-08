@@ -486,6 +486,37 @@ export const SupportInfo: coreClient.CompositeMapper = {
   }
 };
 
+export const Identity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Identity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        defaultValue: "SystemAssigned",
+        isConstant: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const TrackedResourceUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1228,7 +1259,7 @@ export const RecurrencePattern: coreClient.CompositeMapper = {
         serializedName: "expirationDate",
         required: true,
         type: {
-          name: "Date"
+          name: "DateTime"
         }
       }
     }
@@ -1273,288 +1304,6 @@ export const ScheduleUpdate: coreClient.CompositeMapper = {
           MaxLength: 1000
         },
         serializedName: "properties.notes",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PagedUsers: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PagedUsers",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "User"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const UserUpdateProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "UserUpdateProperties",
-    modelProperties: {
-      additionalUsageQuota: {
-        serializedName: "additionalUsageQuota",
-        type: {
-          name: "TimeSpan"
-        }
-      }
-    }
-  }
-};
-
-export const UserUpdate: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "UserUpdate",
-    modelProperties: {
-      additionalUsageQuota: {
-        serializedName: "properties.additionalUsageQuota",
-        type: {
-          name: "TimeSpan"
-        }
-      }
-    }
-  }
-};
-
-export const InviteBody: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "InviteBody",
-    modelProperties: {
-      text: {
-        serializedName: "text",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PagedVirtualMachines: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PagedVirtualMachines",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "VirtualMachine"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const VirtualMachineConnectionProfile: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "VirtualMachineConnectionProfile",
-    modelProperties: {
-      privateIpAddress: {
-        serializedName: "privateIpAddress",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      sshAuthority: {
-        serializedName: "sshAuthority",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      sshInBrowserUrl: {
-        constraints: {
-          MaxLength: 2000,
-          MinLength: 3
-        },
-        serializedName: "sshInBrowserUrl",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      rdpAuthority: {
-        serializedName: "rdpAuthority",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      rdpInBrowserUrl: {
-        constraints: {
-          MaxLength: 2000,
-          MinLength: 3
-        },
-        serializedName: "rdpInBrowserUrl",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      adminUsername: {
-        serializedName: "adminUsername",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      nonAdminUsername: {
-        serializedName: "nonAdminUsername",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ResetPasswordBody: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ResetPasswordBody",
-    modelProperties: {
-      username: {
-        serializedName: "username",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      password: {
-        serializedName: "password",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ListUsagesResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ListUsagesResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Usage"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Usage: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Usage",
-    modelProperties: {
-      currentValue: {
-        serializedName: "currentValue",
-        type: {
-          name: "Number"
-        }
-      },
-      limit: {
-        serializedName: "limit",
-        type: {
-          name: "Number"
-        }
-      },
-      unit: {
-        serializedName: "unit",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "Composite",
-          className: "UsageName"
-        }
-      },
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const UsageName: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "UsageName",
-    modelProperties: {
-      localizedValue: {
-        serializedName: "localizedValue",
-        type: {
-          name: "String"
-        }
-      },
-      value: {
-        serializedName: "value",
         type: {
           name: "String"
         }
@@ -1819,6 +1568,298 @@ export const LabServicesSkuRestrictions: coreClient.CompositeMapper = {
   }
 };
 
+export const ListUsagesResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ListUsagesResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Usage"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Usage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Usage",
+    modelProperties: {
+      currentValue: {
+        serializedName: "currentValue",
+        type: {
+          name: "Number"
+        }
+      },
+      limit: {
+        serializedName: "limit",
+        type: {
+          name: "Number"
+        }
+      },
+      unit: {
+        serializedName: "unit",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "Composite",
+          className: "UsageName"
+        }
+      },
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UsageName: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UsageName",
+    modelProperties: {
+      localizedValue: {
+        serializedName: "localizedValue",
+        type: {
+          name: "String"
+        }
+      },
+      skuInstances: {
+        serializedName: "skuInstances",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PagedUsers: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PagedUsers",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "User"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UserUpdateProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserUpdateProperties",
+    modelProperties: {
+      additionalUsageQuota: {
+        serializedName: "additionalUsageQuota",
+        type: {
+          name: "TimeSpan"
+        }
+      }
+    }
+  }
+};
+
+export const UserUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserUpdate",
+    modelProperties: {
+      additionalUsageQuota: {
+        serializedName: "properties.additionalUsageQuota",
+        type: {
+          name: "TimeSpan"
+        }
+      }
+    }
+  }
+};
+
+export const InviteBody: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InviteBody",
+    modelProperties: {
+      text: {
+        serializedName: "text",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PagedVirtualMachines: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PagedVirtualMachines",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VirtualMachine"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualMachineConnectionProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualMachineConnectionProfile",
+    modelProperties: {
+      privateIpAddress: {
+        serializedName: "privateIpAddress",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      sshAuthority: {
+        serializedName: "sshAuthority",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      sshInBrowserUrl: {
+        constraints: {
+          MaxLength: 2000,
+          MinLength: 3
+        },
+        serializedName: "sshInBrowserUrl",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      rdpAuthority: {
+        serializedName: "rdpAuthority",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      rdpInBrowserUrl: {
+        constraints: {
+          MaxLength: 2000,
+          MinLength: 3
+        },
+        serializedName: "rdpInBrowserUrl",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      adminUsername: {
+        serializedName: "adminUsername",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      nonAdminUsername: {
+        serializedName: "nonAdminUsername",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResetPasswordBody: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResetPasswordBody",
+    modelProperties: {
+      username: {
+        serializedName: "username",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      password: {
+        serializedName: "password",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ImageProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2018,6 +2059,13 @@ export const LabPlanUpdate: coreClient.CompositeMapper = {
     className: "LabPlanUpdate",
     modelProperties: {
       ...TrackedResourceUpdate.type.modelProperties,
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "Identity"
+        }
+      },
       defaultConnectionProfile: {
         serializedName: "properties.defaultConnectionProfile",
         type: {
@@ -2680,6 +2728,13 @@ export const LabPlan: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SystemData"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "Identity"
         }
       },
       defaultConnectionProfile: {

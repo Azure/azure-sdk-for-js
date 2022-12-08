@@ -6,15 +6,15 @@ import { createDisableKeepAlivePolicy } from "./policies/disableKeepAlivePolicy"
 import { RedirectOptions } from "./policies/redirectOptions";
 import { redirectPolicyName } from "@azure/core-rest-pipeline";
 import {
-  ServiceClient,
-  ServiceClientOptions,
   CommonClientOptions,
+  FullOperationResponse,
   OperationArguments,
   OperationSpec,
-  FullOperationResponse,
   RawResponseCallback,
+  ServiceClient,
+  ServiceClientOptions,
 } from "@azure/core-client";
-import { toWebResourceLike, toHttpHeaderLike, WebResourceLike, HttpHeadersLike } from "./util";
+import { toCompatResponse } from "./response";
 
 /**
  * Options specific to Shim Clients.
@@ -94,28 +94,10 @@ export class ExtendedServiceClient extends ServiceClient {
 
     if (lastResponse) {
       Object.defineProperty(result, "_response", {
-        value: {
-          ...lastResponse,
-          request: toWebResourceLike(lastResponse.request),
-          headers: toHttpHeaderLike(lastResponse.headers),
-        },
+        value: toCompatResponse(lastResponse),
       });
     }
 
     return result;
   }
-}
-
-/**
- * Http Response that is compatible with the core-v1(core-http).
- */
-export interface CompatResponse extends Omit<FullOperationResponse, "request" | "headers"> {
-  /**
-   * A description of a HTTP request to be made to a remote server.
-   */
-  request: WebResourceLike;
-  /**
-   * A collection of HTTP header key/value pairs.
-   */
-  headers: HttpHeadersLike;
 }

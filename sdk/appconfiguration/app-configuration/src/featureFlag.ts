@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { JsonFeatureFlagValue } from "./internal/jsonModels";
 import { ConfigurationSetting, ConfigurationSettingParam } from "./models";
+import { JsonFeatureFlagValue } from "./internal/jsonModels";
 
 /**
  * The prefix for feature flags.
