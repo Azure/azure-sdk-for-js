@@ -1,11 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as http from "http";
 import { SimpleTokenCredential } from "./testutils.common";
-import { StorageSharedKeyCredential, BlobServiceClient } from "@azure/storage-blob";
+import {
+  StorageSharedKeyCredential,
+  BlobServiceClient,
+  StoragePipelineOptions,
+} from "@azure/storage-blob";
 import { BlobChangeFeedClient } from "../../src";
 import { TokenCredential } from "@azure/core-http";
-import { env } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
+
+if (isPlaybackMode()) {
+  // workaround for nock bug
+  // remove this after migrating to test-recorder v2
+  http.IncomingMessage.prototype.destroy = function () {
+    return this;
+  };
+}
 
 export * from "./testutils.common";
 
@@ -85,7 +98,8 @@ export function getConnectionStringFromEnvironment(): string {
 
 export function getBlobChangeFeedClient(
   accountType: string = "",
-  accountNameSuffix: string = ""
+  accountNameSuffix: string = "",
+  options: StoragePipelineOptions = {}
 ): BlobChangeFeedClient {
   if (
     env.STORAGE_CONNECTION_STRING &&
@@ -96,6 +110,6 @@ export function getBlobChangeFeedClient(
     const credential = getGenericCredential(accountType) as StorageSharedKeyCredential;
 
     const blobPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.blob.core.windows.net/`;
-    return new BlobChangeFeedClient(blobPrimaryURL, credential);
+    return new BlobChangeFeedClient(blobPrimaryURL, credential, options);
   }
 }
