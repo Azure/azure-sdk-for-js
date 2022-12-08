@@ -87,7 +87,7 @@ export class UserDefinedFunctions {
     const path = getPathFromLink(this.container.url, ResourceType.udf);
     const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.create<UserDefinedFunctionDefinition>({
+    const response = await this.clientContext.create({
       body,
       path,
       resourceType: ResourceType.udf,

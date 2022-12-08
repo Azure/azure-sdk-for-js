@@ -5,7 +5,7 @@ import { Constants, getIdFromLink, getPathFromLink, ResourceType } from "../../c
 import { RequestOptions } from "../../request";
 import { Container } from "../Container";
 import { ConflictDefinition } from "./ConflictDefinition";
-import { ConflictResponse } from "./ConflictResponse";
+import { ConflictResponse, createConflictResponse } from "./ConflictResponse";
 import { undefinedPartitionKey } from "../../extractPartitionKey";
 import { PartitionKey } from "../../documents";
 
@@ -42,13 +42,13 @@ export class Conflict {
     const path = getPathFromLink(this.url, ResourceType.conflicts);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.read<ConflictDefinition>({
+    const response = await this.clientContext.read({
       path,
       resourceType: ResourceType.user,
       resourceId: id,
       options,
     });
-    return new ConflictResponse(response.result, response.headers, response.code, this);
+    return createConflictResponse(response, this);
   }
 
   /**
@@ -56,20 +56,19 @@ export class Conflict {
    */
   public async delete(options?: RequestOptions): Promise<ConflictResponse> {
     if (this.partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } =
-        await this.container.readPartitionKeyDefinition();
+      const partitionKeyDefinition = await this.container.readPartitionKeyDefinitionOrFail();
       this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
     }
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<ConflictDefinition>({
+    const response = await this.clientContext.delete({
       path,
       resourceType: ResourceType.conflicts,
       resourceId: id,
       options,
       partitionKey: this.partitionKey,
     });
-    return new ConflictResponse(response.result, response.headers, response.code, this);
+    return createConflictResponse(response, this);
   }
 }

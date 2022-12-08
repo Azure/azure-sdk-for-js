@@ -65,7 +65,7 @@ export async function executePlugins(
   requestContext: RequestContext,
   next: Plugin<any>,
   on: PluginOn
-): Promise<Response> {
+): Promise<Response<any>> {
   /**
    * If no plugins are supplied in requestContext hand over execution to {@link next} function.
    */
@@ -79,7 +79,7 @@ export async function executePlugins(
    * @param inner 
    * @returns 
    */
-  const _: Next<any> = (inner: RequestContext): Promise<Response> => {
+  const _: Next<any> = (inner: RequestContext): Promise<Response<any>> => {
     /**
      * If {@link pluginIndex} has reached or exceeded length of plugins hand over execution to 
      * {@link next} function.

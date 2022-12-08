@@ -17,5 +17,5 @@ export class OfferResponse extends ResourceResponse<OfferDefinition & Resource> 
     this.offer = offer;
   }
   /** A reference to the {@link Offer} corresponding to the returned {@link OfferDefinition}. */
-  public readonly offer: Offer;
+  public readonly offer?: Offer;
 }

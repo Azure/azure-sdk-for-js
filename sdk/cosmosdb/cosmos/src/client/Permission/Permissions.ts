@@ -10,7 +10,7 @@ import { User } from "../User";
 import { Permission } from "./Permission";
 import { PermissionBody } from "./PermissionBody";
 import { PermissionDefinition } from "./PermissionDefinition";
-import { PermissionResponse } from "./PermissionResponse";
+import { createPermissionResponse, PermissionResponse } from "./PermissionResponse";
 
 /**
  * Use to create, replace, query, and read all Permissions.
@@ -80,7 +80,7 @@ export class Permissions {
     const path = getPathFromLink(this.user.url, ResourceType.permission);
     const id = getIdFromLink(this.user.url);
 
-    const response = await this.clientContext.create<PermissionDefinition, PermissionBody>({
+    const response = await this.clientContext.create({
       body,
       path,
       resourceType: ResourceType.permission,
@@ -88,7 +88,7 @@ export class Permissions {
       options,
     });
     const ref = new Permission(this.user, response.result.id, this.clientContext);
-    return new PermissionResponse(response.result, response.headers, response.code, ref);
+    return createPermissionResponse(response, ref);
   }
 
   /**
@@ -109,7 +109,7 @@ export class Permissions {
     const path = getPathFromLink(this.user.url, ResourceType.permission);
     const id = getIdFromLink(this.user.url);
 
-    const response = await this.clientContext.upsert<PermissionDefinition, PermissionBody>({
+    const response = await this.clientContext.upsert({
       body,
       path,
       resourceType: ResourceType.permission,
@@ -117,6 +117,6 @@ export class Permissions {
       options,
     });
     const ref = new Permission(this.user, response.result.id, this.clientContext);
-    return new PermissionResponse(response.result, response.headers, response.code, ref);
+    return createPermissionResponse(response, ref);
   }
 }

@@ -4,6 +4,7 @@ import { IndexingPolicy, PartitionKeyDefinition } from "../../documents";
 import { ConflictResolutionPolicy } from "../Conflict/ConflictResolutionPolicy";
 import { UniqueKeyPolicy } from "./UniqueKeyPolicy";
 import { GeospatialType } from "../../documents/GeospatialType";
+import { WithRequired } from "../../utils/typeUtils";
 
 export interface ContainerDefinition {
   /** The id of the container. */
@@ -23,3 +24,5 @@ export interface ContainerDefinition {
     type: GeospatialType;
   };
 }
+
+export type ContainerDefinitionResponse = WithRequired<ContainerDefinition, "partitionKey"| "id" >

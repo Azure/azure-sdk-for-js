@@ -11,7 +11,7 @@ import {
 import { RequestOptions } from "../../request";
 import { Container } from "../Container";
 import { TriggerDefinition } from "./TriggerDefinition";
-import { TriggerResponse } from "./TriggerResponse";
+import { createTriggerResponse, TriggerResponse } from "./TriggerResponse";
 
 /**
  * Operations to read, replace, or delete a {@link Trigger}.
@@ -44,13 +44,13 @@ export class Trigger {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.read<TriggerDefinition>({
+    const response = await this.clientContext.read({
       path,
       resourceType: ResourceType.trigger,
       resourceId: id,
       options,
     });
-    return new TriggerResponse(response.result, response.headers, response.code, this);
+    return createTriggerResponse(response, this);
   }
 
   /**
@@ -73,14 +73,14 @@ export class Trigger {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<TriggerDefinition>({
+    const response = await this.clientContext.replace({
       body,
       path,
       resourceType: ResourceType.trigger,
       resourceId: id,
       options,
     });
-    return new TriggerResponse(response.result, response.headers, response.code, this);
+    return createTriggerResponse(response, this);
   }
 
   /**
@@ -90,12 +90,12 @@ export class Trigger {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<TriggerDefinition>({
+    const response = await this.clientContext.delete({
       path,
       resourceType: ResourceType.trigger,
       resourceId: id,
       options,
     });
-    return new TriggerResponse(response.result, response.headers, response.code, this);
+    return createTriggerResponse(response, this);
   }
 }

@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { CosmosHeaders } from "../../queryExecutionContext";
-import { Response } from "../../request";
-import { ResourceResponse } from "../../request/ResourceResponse";
-import { assertNotUndefinedOrFail } from "../../utils/typeUtils";
+import { GuaranteedResourceResponse} from "../../request";
+import { MaterializedResponse } from "../../request/Response";
 import { Resource } from "../Resource";
-import { ContainerDefinition } from "./ContainerDefinition";
+import { ContainerDefinition, ContainerDefinitionResponse } from "./ContainerDefinition";
 import { Container } from "./index";
 
 /** Response object for Container operations */
-export class ContainerResponse extends ResourceResponse<ContainerDefinition & Resource> {
+export class ContainerResponse extends GuaranteedResourceResponse<ContainerDefinitionResponse & Resource> {
   constructor(
-    resource: ContainerDefinition & Resource,
+    resource: ContainerDefinitionResponse & Resource,
     headers: CosmosHeaders,
     statusCode: number,
     container: Container
@@ -23,14 +22,19 @@ export class ContainerResponse extends ResourceResponse<ContainerDefinition & Re
   public readonly container: Container;
 }
 
-export function createContainerResponse<T extends ContainerDefinition = any>(response: Response<T & Resource>, container: Container): ContainerResponse {
-  const resource: T & Resource = assertNotUndefinedOrFail(response.result);
-  const headers: CosmosHeaders = assertNotUndefinedOrFail(response.headers);
-  const code: number = assertNotUndefinedOrFail(response.code);
-  return new ContainerResponse(
-    resource,
-    headers,
-    code,
-    container
-  );
+export function createContainerResponse<T extends ContainerDefinition = any>(response: MaterializedResponse<T & Resource>, container: Container): ContainerResponse {
+  const resource = response.result;
+  if (resource.id !== undefined && resource.partitionKey !== undefined) {
+    const checkedResource: ContainerDefinitionResponse & Resource = {
+      ...resource,
+      partitionKey: resource.partitionKey,
+    }
+    return new ContainerResponse(
+      checkedResource,
+      response.headers,
+      response.code,
+      container
+    );
+  }
+  throw new Error("Necessary properties of ContainerDefinition missing.");
 }

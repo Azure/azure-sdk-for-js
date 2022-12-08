@@ -31,7 +31,7 @@ import { BulkOptions } from "./utils/batch";
 import { sanitizeEndpoint } from "./utils/checkURL";
 import { AzureLogger, createClientLogger } from "@azure/logger";
 import { assertNotUndefinedOrFail, stripNullables, WithRequired } from "./utils/typeUtils";
-import { BagOfProperties } from "./request/Response";
+import { MaterializedResponse } from "./request/Response";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -44,7 +44,7 @@ const QueryJsonContentType = "application/query+json";
 export class ClientContext {
   private readonly sessionContainer: SessionContainer;
   private connectionPolicy: ConnectionPolicy;
-  private pipeline: Pipeline | null;
+  private pipeline?: Pipeline;
   public partitionKeyDefinitionCache: { [containerUrl: string]: any }; // TODO: PartitionKeyDefinitionCache
   public constructor(
     private cosmosClientOptions: WithRequired<CosmosClientOptions, 'connectionPolicy'>,
@@ -53,7 +53,6 @@ export class ClientContext {
     this.connectionPolicy = cosmosClientOptions.connectionPolicy;
     this.sessionContainer = new SessionContainer();
     this.partitionKeyDefinitionCache = {};
-    this.pipeline = null;
     if (cosmosClientOptions.aadCredentials) {
       this.pipeline = createEmptyPipeline();
       const hrefEndpoint = sanitizeEndpoint(cosmosClientOptions.endpoint);
@@ -87,7 +86,7 @@ export class ClientContext {
     resourceId: string;
     options?: RequestOptions;
     partitionKey?: PartitionKey;
-  }): Promise<Response<BagOfProperties & Resource>> {
+  }): Promise<MaterializedResponse<Resource>> {
     try {
       const request: WithRequired<RequestContext, "path" | "resourceId" | "resourceType" | "operationType" | "headers"> = {
         ...this.getContextDerivedPropsForRequestCreation(),
@@ -111,26 +110,39 @@ export class ClientContext {
       );
       const response = await executePlugins(request, RequestHandler.request, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Read, response.headers);
-      return this.validateResponseContainsResource(response);
+      return this.validateObjectIsMaterializedResource(response);
     } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
       throw err;
     }
   }
 
-  private validateResponseContainsResource(response: Response<any>): Response<BagOfProperties & Resource> {
+  private validateObjectIsMaterializedResource<T>(response: Response<T>): MaterializedResponse<Resource> {
+    const resource = this.validateObjectIsResource(response);
+    return this.validateObjectIsMaterialized(resource);
+  }
+
+  private validateObjectIsMaterialized(resource: Response<any>): MaterializedResponse<any> {
+    if (resource.code === undefined || resource.headers === undefined || resource.result === undefined) throw new Error("Expected a Materialized Response");
+    return {
+      result: resource.result,
+      code: resource.code,
+      ...resource
+    }
+  }
+  private validateObjectIsResource(response: Response<any>): Response<Resource> {
     let result: any = assertNotUndefinedOrFail(response.result);
-    if(isResource(result)) {
+    if (isResource(result)) {
       result = result as Resource
       return {
         result,
         ...response
       }
     }
-    throw new Error("Validation of Resource failed.")
-}
+    throw new Error("Expected a resource.")
+  }
 
-  public async queryFeed<T>({
+  public async queryFeed({
     path,
     resourceType,
     resourceId,
@@ -144,11 +156,11 @@ export class ClientContext {
     resourceType: ResourceType;
     resourceId: string;
     resultFn: (result: { [key: string]: any }) => any[];
-    query: SqlQuerySpec | string;
+    query: SqlQuerySpec | string | undefined;
     options: FeedOptions;
     partitionKeyRangeId?: string;
     partitionKey?: PartitionKey;
-  }): Promise<Response<BagOfProperties & Resource>> {
+  }): Promise<MaterializedResponse<Resource>> {
     // Query operations will use ReadEndpoint even though it uses
     // GET(for queryFeed) and POST(for regular query operations)
 
@@ -193,7 +205,8 @@ export class ClientContext {
     const response = await RequestHandler.request(request);
     logger.info("query " + requestId + " finished - " + (Date.now() - start) + "ms");
     this.captureSessionToken(undefined, path, OperationType.Query, response.headers);
-    return this.processQueryFeedResponse(response, !!query, resultFn);
+    const materializedResponse: MaterializedResponse<any> = this.validateObjectIsMaterializedResource(response);
+    return this.processQueryFeedResponse(materializedResponse, !!query, resultFn);
   }
 
   public async getQueryPlan(
@@ -255,7 +268,7 @@ export class ClientContext {
     return new QueryIterator<PartitionKeyRange>(this, query, options, cb);
   }
 
-  public async delete<T>({
+  public async delete({
     path,
     resourceType,
     resourceId,
@@ -267,7 +280,7 @@ export class ClientContext {
     resourceId: string;
     options?: RequestOptions;
     partitionKey?: PartitionKey;
-  }): Promise<Response<T & Resource>> {
+  }): Promise<MaterializedResponse<Resource>> {
     try {
       const request: WithRequired<RequestContext, "path" | "resourceId" | "resourceType" | "operationType" | "headers"> = {
         ...this.getContextDerivedPropsForRequestCreation(),
@@ -294,14 +307,14 @@ export class ClientContext {
       } else {
         this.clearSessionToken(path);
       }
-      return response;
+      return this.validateObjectIsMaterializedResource(response);
     } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
       throw err;
     }
   }
 
-  public async patch<T>({
+  public async patch({
     body,
     path,
     resourceType,
@@ -315,7 +328,7 @@ export class ClientContext {
     resourceId: string;
     options?: RequestOptions;
     partitionKey?: PartitionKey;
-  }): Promise<Response<T & Resource>> {
+  }): Promise<MaterializedResponse<Resource>> {
     try {
       const request: WithRequired<RequestContext, "path" | "resourceId" | "resourceType" | "operationType" | "headers"> = {
         ...this.getContextDerivedPropsForRequestCreation(),
@@ -340,14 +353,14 @@ export class ClientContext {
       );
       const response = await executePlugins(request, RequestHandler.request, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Patch, response.headers);
-      return response;
+      return this.validateObjectIsMaterializedResource(response);
     } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
       throw err;
     }
   }
 
-  public async create<T, U = T>({
+  public async create({
     body,
     path,
     resourceType,
@@ -355,13 +368,13 @@ export class ClientContext {
     options = {},
     partitionKey,
   }: {
-    body: T;
+    body: any;
     path: string;
     resourceType: ResourceType;
     resourceId: string;
     options?: RequestOptions;
     partitionKey?: PartitionKey;
-  }): Promise<Response<T & U & Resource>> {
+  }): Promise<MaterializedResponse<Resource>> {
     try {
       const request: WithRequired<RequestContext, "path" | "resourceId" | "resourceType" | "operationType" | "headers"> = {
         ...this.getContextDerivedPropsForRequestCreation(),
@@ -386,7 +399,7 @@ export class ClientContext {
       );
       const response = await executePlugins(request, RequestHandler.request, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Create, response.headers);
-      return response;
+      return this.validateObjectIsMaterializedResource(response);
     } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
       throw err;
@@ -394,10 +407,10 @@ export class ClientContext {
   }
 
   private processQueryFeedResponse(
-    res: Response<any>,
+    res: MaterializedResponse<any>,
     isQuery: boolean,
     resultFn: (result: { [key: string]: any }) => any[]
-  ): Response<any> {
+  ): MaterializedResponse<any>  {
     if (isQuery) {
       return { result: resultFn(res.result), headers: res.headers, code: res.code };
     } else {
@@ -432,7 +445,7 @@ export class ClientContext {
     }
   }
 
-  public async replace<T>({
+  public async replace({
     body,
     path,
     resourceType,
@@ -446,7 +459,7 @@ export class ClientContext {
     resourceId: string;
     options?: RequestOptions;
     partitionKey?: PartitionKey;
-  }): Promise<Response<T & Resource>> {
+  }): Promise<MaterializedResponse<Resource>> {
     try {
       const request: WithRequired<RequestContext, "path" | "resourceId" | "resourceType" | "operationType" | "headers"> = {
         ...this.getContextDerivedPropsForRequestCreation(),
@@ -471,14 +484,14 @@ export class ClientContext {
       );
       const response = await executePlugins(request, RequestHandler.request, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Replace, response.headers);
-      return response;
+      return this.validateObjectIsMaterializedResource(response);
     } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
       throw err;
     }
   }
 
-  public async upsert<T, U = T>({
+  public async upsert({
     body,
     path,
     resourceType,
@@ -486,13 +499,13 @@ export class ClientContext {
     options = {},
     partitionKey,
   }: {
-    body: T;
+    body: any;
     path: string;
     resourceType: ResourceType;
     resourceId: string;
     options?: RequestOptions;
     partitionKey?: PartitionKey;
-  }): Promise<Response<T & U & Resource>> {
+  }): Promise<MaterializedResponse<Resource>> {
     try {
       const request: WithRequired<RequestContext, "path" | "resourceId" | "resourceType" | "operationType" | "headers"> = {
         ...this.getContextDerivedPropsForRequestCreation(),
@@ -518,7 +531,7 @@ export class ClientContext {
       );
       const response = await executePlugins(request, RequestHandler.request, PluginOn.operation);
       this.captureSessionToken(undefined, path, OperationType.Upsert, response.headers);
-      return response;
+      return this.validateObjectIsMaterializedResource(response);
     } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
       throw err;
@@ -535,7 +548,7 @@ export class ClientContext {
     params?: any[];
     options?: RequestOptions;
     partitionKey?: PartitionKey;
-  }): Promise<Response<T>> {
+  }): Promise<MaterializedResponse<T>> {
     // Accept a single parameter or an array of parameters.
     // Didn't add type annotation for this because we should legacy this behavior
     if (params !== null && params !== undefined && !Array.isArray(params)) {
@@ -563,7 +576,8 @@ export class ClientContext {
       request.resourceType,
       request.operationType
     );
-    return executePlugins(request, RequestHandler.request, PluginOn.operation);
+    const response = await executePlugins(request, RequestHandler.request, PluginOn.operation);
+    return this.validateObjectIsMaterialized(response);
   }
 
   /**
@@ -575,7 +589,7 @@ export class ClientContext {
     options: RequestOptions = {}
   ): Promise<Response<DatabaseAccount>> {
     const endpoint = options.urlConnection || this.cosmosClientOptions.endpoint;
-    const request: WithRequired<RequestContext, "path" | "resourceId" | "resourceType" | "operationType" | "headers"> = {
+    const request: WithRequired<RequestContext, "path" | "resourceType" | "operationType" | "headers"| "resourceId"> = {
       ...this.getContextDerivedPropsForRequestCreation(),
       endpoint,
       method: HTTPMethod.get,

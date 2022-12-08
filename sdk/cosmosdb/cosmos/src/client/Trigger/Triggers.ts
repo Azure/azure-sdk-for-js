@@ -9,7 +9,7 @@ import { Container } from "../Container";
 import { Resource } from "../Resource";
 import { Trigger } from "./Trigger";
 import { TriggerDefinition } from "./TriggerDefinition";
-import { TriggerResponse } from "./TriggerResponse";
+import { createTriggerResponse, TriggerResponse } from "./TriggerResponse";
 
 /**
  * Operations to create, upsert, query, and read all triggers.
@@ -83,7 +83,7 @@ export class Triggers {
     const path = getPathFromLink(this.container.url, ResourceType.trigger);
     const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.create<TriggerDefinition>({
+    const response = await this.clientContext.create({
       body,
       path,
       resourceType: ResourceType.trigger,
@@ -91,6 +91,6 @@ export class Triggers {
       options,
     });
     const ref = new Trigger(this.container, response.result.id, this.clientContext);
-    return new TriggerResponse(response.result, response.headers, response.code, ref);
+    return createTriggerResponse(response, ref);
   }
 }

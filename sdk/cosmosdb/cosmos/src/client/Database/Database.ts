@@ -7,9 +7,10 @@ import { RequestOptions } from "../../request";
 import { Container, Containers } from "../Container";
 import { User, Users } from "../User";
 import { DatabaseDefinition } from "./DatabaseDefinition";
-import { DatabaseResponse } from "./DatabaseResponse";
+import { createDatabaseResponse, DatabaseResponse } from "./DatabaseResponse";
 import { OfferResponse, OfferDefinition, Offer } from "../Offer";
 import { Resource } from "../Resource";
+import { MaterializedResponse } from "../../request/Response";
 
 /**
  * Operations for reading or deleting an existing database.
@@ -87,26 +88,26 @@ export class Database {
   public async read(options?: RequestOptions): Promise<DatabaseResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
-    const response = await this.clientContext.read<DatabaseDefinition>({
+    const response: MaterializedResponse<Resource> = await this.clientContext.read({
       path,
       resourceType: ResourceType.database,
       resourceId: id,
       options,
     });
-    return new DatabaseResponse(response.result!, response.headers, response.code!, this);
+    return createDatabaseResponse(response, this);
   }
 
   /** Delete the given Database. */
   public async delete(options?: RequestOptions): Promise<DatabaseResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
-    const response = await this.clientContext.delete<DatabaseDefinition>({
+    const response = await this.clientContext.delete({
       path,
       resourceType: ResourceType.database,
       resourceId: id,
       options,
     });
-    return new DatabaseResponse(response.result, response.headers, response.code, this);
+    return createDatabaseResponse(response, this);
   }
 
   /**
@@ -116,7 +117,7 @@ export class Database {
     const { resource: record } = await this.read();
     const path = "/offers";
     const url = record._self;
-    const response = await this.clientContext.queryFeed<OfferDefinition & Resource[]>({
+    const response = await this.clientContext.queryFeed({
       path,
       resourceId: "",
       resourceType: ResourceType.offer,

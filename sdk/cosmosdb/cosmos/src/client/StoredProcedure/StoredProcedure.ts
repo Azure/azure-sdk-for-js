@@ -45,7 +45,7 @@ export class StoredProcedure {
   public async read(options?: RequestOptions): Promise<StoredProcedureResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
-    const response = await this.clientContext.read<StoredProcedureDefinition>({
+    const response = await this.clientContext.read({
       path,
       resourceType: ResourceType.sproc,
       resourceId: id,
@@ -74,7 +74,7 @@ export class StoredProcedure {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<StoredProcedureDefinition>({
+    const response = await this.clientContext.replace({
       body,
       path,
       resourceType: ResourceType.sproc,
@@ -91,7 +91,7 @@ export class StoredProcedure {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<StoredProcedureDefinition>({
+    const response = await this.clientContext.delete({
       path,
       resourceType: ResourceType.sproc,
       resourceId: id,
@@ -116,8 +116,7 @@ export class StoredProcedure {
     options?: RequestOptions
   ): Promise<ResourceResponse<T>> {
     if (partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } =
-        await this.container.readPartitionKeyDefinition();
+      const partitionKeyDefinition = await this.container.readPartitionKeyDefinitionOrFail();
       partitionKey = undefinedPartitionKey(partitionKeyDefinition);
     }
     const response = await this.clientContext.execute<T>({

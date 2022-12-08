@@ -40,13 +40,10 @@ export function stripNullables<T>(value: T, msg?: string): NonNullable<T> {
   ? (Omit<T, Extract<keyof T, P[0]>> &
       Required<
         {
-          [K in Extract<keyof T, P[0]>]: NonNullable<
-            DeepRequired<T[K], ShiftUnion<P>>
-          >
+          [K in Extract<keyof T, P[0]>]: NonNullable<DeepRequired<T[K], ShiftUnion<P>>>
         }
       >)
   : T;
-
 
 // Analogues to array.prototype.shift
 export type Shift<T extends any[]> = ((...t: T) => any) extends ((

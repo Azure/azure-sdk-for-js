@@ -9,7 +9,7 @@ import { Database } from "../Database";
 import { Resource } from "../Resource";
 import { User } from "./User";
 import { UserDefinition } from "./UserDefinition";
-import { UserResponse } from "./UserResponse";
+import { createUserResponse, UserResponse } from "./UserResponse";
 
 /**
  * Used to create, upsert, query, and read all users.
@@ -72,7 +72,7 @@ export class Users {
 
     const path = getPathFromLink(this.database.url, ResourceType.user);
     const id = getIdFromLink(this.database.url);
-    const response = await this.clientContext.create<UserDefinition>({
+    const response = await this.clientContext.create({
       body,
       path,
       resourceType: ResourceType.user,
@@ -80,7 +80,7 @@ export class Users {
       options,
     });
     const ref = new User(this.database, response.result.id, this.clientContext);
-    return new UserResponse(response.result, response.headers, response.code, ref);
+    return createUserResponse(response, ref);
   }
 
   /**
@@ -96,7 +96,7 @@ export class Users {
     const path = getPathFromLink(this.database.url, ResourceType.user);
     const id = getIdFromLink(this.database.url);
 
-    const response = await this.clientContext.upsert<UserDefinition>({
+    const response = await this.clientContext.upsert({
       body,
       path,
       resourceType: ResourceType.user,
@@ -104,6 +104,6 @@ export class Users {
       options,
     });
     const ref = new User(this.database, response.result.id, this.clientContext);
-    return new UserResponse(response.result, response.headers, response.code, ref);
+    return createUserResponse(response, ref);
   }
 }

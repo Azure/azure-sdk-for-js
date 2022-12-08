@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { TriggerOperation, TriggerType } from "../../documents";
+import { WithRequired } from "../../utils/typeUtils";
 
 export interface TriggerDefinition {
   /** The id of the trigger. */
@@ -12,3 +13,5 @@ export interface TriggerDefinition {
   /** The trigger operation, should be one of the values of {@link TriggerOperation}. */
   triggerOperation: TriggerOperation;
 }
+
+export type TriggerDefinitionResponse = WithRequired<TriggerDefinition, "body"| "triggerType" | "triggerOperation" >

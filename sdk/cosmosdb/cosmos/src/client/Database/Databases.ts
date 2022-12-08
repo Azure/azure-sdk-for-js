@@ -10,7 +10,7 @@ import { Resource } from "../Resource";
 import { Database } from "./Database";
 import { DatabaseDefinition } from "./DatabaseDefinition";
 import { DatabaseRequest } from "./DatabaseRequest";
-import { DatabaseResponse } from "./DatabaseResponse";
+import { createDatabaseResponse, DatabaseResponse } from "./DatabaseResponse";
 import { validateOffer } from "../../utils/offers";
 
 /**
@@ -136,15 +136,15 @@ export class Databases {
     }
 
     const path = "/dbs"; // TODO: constant
-    const response = await this.clientContext.create<DatabaseRequest>({
+    const response = await this.clientContext.create({
       body,
       path,
       resourceType: ResourceType.database,
       resourceId: undefined,
       options,
     });
-    const ref = new Database(this.client, body.id, this.clientContext);
-    return new DatabaseResponse(response.result, response.headers, response.code, ref);
+    const ref = new Database(this.client, response.result.id, this.clientContext);
+    return createDatabaseResponse(response, ref);;
   }
 
   /**

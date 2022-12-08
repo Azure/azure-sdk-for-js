@@ -34,7 +34,7 @@ export class Offer {
    * Read the {@link OfferDefinition} for the given {@link Offer}.
    */
   public async read(options?: RequestOptions): Promise<OfferResponse> {
-    const response = await this.clientContext.read<OfferDefinition>({
+    const response = await this.clientContext.read({
       path: this.url,
       resourceType: ResourceType.offer,
       resourceId: this.id,
@@ -52,7 +52,7 @@ export class Offer {
     if (!isResourceValid(body, err)) {
       throw err;
     }
-    const response = await this.clientContext.replace<OfferDefinition>({
+    const response = await this.clientContext.replace({
       body,
       path: this.url,
       resourceType: ResourceType.offer,

@@ -9,10 +9,12 @@ import {
   ResourceType,
 } from "../../common";
 import { RequestOptions } from "../../request/RequestOptions";
+import { MaterializedResponse } from "../../request/Response";
+import { Resource } from "../Resource";
 import { User } from "../User";
 import { PermissionBody } from "./PermissionBody";
 import { PermissionDefinition } from "./PermissionDefinition";
-import { PermissionResponse } from "./PermissionResponse";
+import { createPermissionResponse, PermissionResponse } from "./PermissionResponse";
 
 /**
  * Use to read, replace, or delete a given {@link Permission} by id.
@@ -44,13 +46,13 @@ export class Permission {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.read<PermissionDefinition & PermissionBody>({
+    const response = await this.clientContext.read({
       path,
       resourceType: ResourceType.permission,
       resourceId: id,
       options,
     });
-    return new PermissionResponse(response.result, response.headers, response.code, this);
+    return createPermissionResponse(response, this);
   }
 
   /**
@@ -69,14 +71,14 @@ export class Permission {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<PermissionDefinition & PermissionBody>({
+    const response = await this.clientContext.replace({
       body,
       path,
       resourceType: ResourceType.permission,
       resourceId: id,
       options,
     });
-    return new PermissionResponse(response.result, response.headers, response.code, this);
+    return createPermissionResponse(response, this);
   }
 
   /**
@@ -86,12 +88,12 @@ export class Permission {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<PermissionDefinition & PermissionBody>({
+    const response: MaterializedResponse<Resource> = await this.clientContext.delete({
       path,
       resourceType: ResourceType.permission,
       resourceId: id,
       options,
     });
-    return new PermissionResponse(response.result, response.headers, response.code, this);
+    return createPermissionResponse(response, this);
   }
 }

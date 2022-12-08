@@ -8,11 +8,12 @@ import {
   isResourceValid,
   ResourceType,
 } from "../../common";
-import { RequestOptions } from "../../request";
+import { RequestOptions, Response } from "../../request";
 import { Database } from "../Database";
 import { Permission, Permissions } from "../Permission";
+import { Resource } from "../Resource";
 import { UserDefinition } from "./UserDefinition";
-import { UserResponse } from "./UserResponse";
+import { createUserResponse, UserResponse } from "./UserResponse";
 
 /**
  * Used to read, replace, and delete Users.
@@ -61,13 +62,13 @@ export class User {
   public async read(options?: RequestOptions): Promise<UserResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
-    const response = await this.clientContext.read<UserDefinition>({
+    const response: Response<Resource> = await this.clientContext.read({
       path,
       resourceType: ResourceType.user,
       resourceId: id,
       options,
     });
-    return new UserResponse(response.result, response.headers, response.code, this);
+    return createUserResponse(response, this);
   }
 
   /**
@@ -83,14 +84,14 @@ export class User {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<UserDefinition>({
+    const response = await this.clientContext.replace({
       body,
       path,
       resourceType: ResourceType.user,
       resourceId: id,
       options,
     });
-    return new UserResponse(response.result, response.headers, response.code, this);
+    return createUserResponse(response, this);
   }
 
   /**
@@ -100,12 +101,12 @@ export class User {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<UserDefinition>({
+    const response = await this.clientContext.delete({
       path,
       resourceType: ResourceType.user,
       resourceId: id,
       options,
     });
-    return new UserResponse(response.result, response.headers, response.code, this);
+    return createUserResponse(response, this);
   }
 }

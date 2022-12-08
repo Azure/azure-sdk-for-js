@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { CosmosHeaders } from "../index";
+import { WithRequired } from "../utils/typeUtils";
 
 /**
  * @hidden
@@ -12,7 +13,4 @@ export interface Response<T> {
   substatus?: number;
 }
 
-
-export type BagOfProperties = {
-  [key: string]: unknown
-}
+export type MaterializedResponse<T> = WithRequired<Response<T>, "result" | "code">

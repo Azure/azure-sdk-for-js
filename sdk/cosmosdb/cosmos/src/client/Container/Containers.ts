@@ -73,7 +73,7 @@ export class Containers {
     const id = getIdFromLink(this.database.url);
 
     return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
-      return this.clientContext.queryFeed<ContainerDefinition>({
+      return this.clientContext.queryFeed({
         path,
         resourceType: ResourceType.container,
         resourceId: id,

@@ -43,7 +43,7 @@ export class UserDefinedFunction {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.read<UserDefinedFunctionDefinition>({
+    const response = await this.clientContext.read({
       path,
       resourceType: ResourceType.udf,
       resourceId: id,
@@ -72,7 +72,7 @@ export class UserDefinedFunction {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<UserDefinedFunctionDefinition>({
+    const response = await this.clientContext.replace({
       body,
       path,
       resourceType: ResourceType.udf,

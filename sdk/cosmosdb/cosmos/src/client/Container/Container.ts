@@ -37,7 +37,7 @@ import { assertNotUndefinedOrFail } from "../../utils/typeUtils";
  * do this once on application start up.
  */
 export class Container {
-  private $items: Items;
+  private $items?: Items;
   /**
    * Operations for creating new items, and reading/querying all items
    *
@@ -55,7 +55,7 @@ export class Container {
     return this.$items;
   }
 
-  private $scripts: Scripts;
+  private $scripts?: Scripts;
   /**
    * All operations for Stored Procedures, Triggers, and User Defined Functions
    */
@@ -66,7 +66,7 @@ export class Container {
     return this.$scripts;
   }
 
-  private $conflicts: Conflicts;
+  private $conflicts?: Conflicts;
   /**
    * Operations for reading and querying conflicts for the given container.
    *
@@ -127,14 +127,16 @@ export class Container {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.read<ContainerDefinition>({
+    const response = await this.clientContext.read({
       path,
       resourceType: ResourceType.container,
       resourceId: id,
       options,
     });
-    this.clientContext.partitionKeyDefinitionCache[this.url] = response.result.partitionKey;
-    return createContainerResponse(response, this);
+
+    const containerResponse = createContainerResponse(response, this);
+    this.clientContext.partitionKeyDefinitionCache[this.url] = containerResponse.resource.partitionKey;
+    return containerResponse;
   }
 
   /** Replace the container's definition */
@@ -150,7 +152,7 @@ export class Container {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<ContainerDefinition>({
+    const response = await this.clientContext.replace({
       body,
       path,
       resourceType: ResourceType.container,
@@ -165,7 +167,7 @@ export class Container {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<ContainerDefinition>({
+    const response = await this.clientContext.delete({
       path,
       resourceType: ResourceType.container,
       resourceId: id,
@@ -217,7 +219,7 @@ export class Container {
     const { resource: container } = await this.read();
     const path = "/offers";
     const url = container._self;
-    const response = await this.clientContext.queryFeed<OfferDefinition & Resource[]>({
+    const response = await this.clientContext.queryFeed({
       path,
       resourceId: "",
       resourceType: ResourceType.offer,

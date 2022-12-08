@@ -12,7 +12,7 @@ import {
 import { PartitionKey } from "../../documents";
 import { extractPartitionKey, undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, Response } from "../../request";
-import { BagOfProperties } from "../../request/Response";
+import { MaterializedResponse } from "../../request/Response";
 import { PatchRequestBody } from "../../utils/patch";
 import { Container } from "../Container";
 import { Resource } from "../Resource";
@@ -82,7 +82,7 @@ export class Item {
 
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
-    let response: Response<Resource & BagOfProperties>;
+    let response: Response<Resource>;
     try {
       response = await this.clientContext.read({
         path,
@@ -144,7 +144,7 @@ export class Item {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<T>({
+    const response = await this.clientContext.replace({
       body,
       path,
       resourceType: ResourceType.item,
@@ -174,7 +174,7 @@ export class Item {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response: Response<T & Resource> = await this.clientContext.delete<T>({
+    const response: MaterializedResponse<Resource> = await this.clientContext.delete({
       path,
       resourceType: ResourceType.item,
       resourceId: id,
@@ -204,7 +204,7 @@ export class Item {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.patch<T>({
+    const response = await this.clientContext.patch({
       body,
       path,
       resourceType: ResourceType.item,

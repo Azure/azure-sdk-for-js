@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { WithRequired } from "../../utils/typeUtils";
+
 /**
  * Items in Cosmos DB are simply JSON objects.
  * Most of the Item operations allow for your to provide your own type
@@ -18,3 +20,5 @@ export interface ItemDefinition {
   ttl?: number;
   [key: string]: any;
 }
+
+export type ItemDefinitionResponse = WithRequired<ItemDefinition, "id" >

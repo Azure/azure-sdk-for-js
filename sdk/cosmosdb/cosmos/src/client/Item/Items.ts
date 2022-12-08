@@ -276,7 +276,7 @@ export class Items {
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.create<T>({
+    const response = await this.clientContext.create({
       body,
       path,
       resourceType: ResourceType.item,
@@ -342,7 +342,7 @@ export class Items {
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.upsert<T>({
+    const response = await this.clientContext.upsert({
       body,
       path,
       resourceType: ResourceType.item,

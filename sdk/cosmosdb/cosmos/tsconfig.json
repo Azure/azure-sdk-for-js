@@ -1,7 +1,6 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "declaration": true,
     "module": "esnext",
     "strict": true,
     "noUnusedLocals": true,
@@ -10,13 +9,7 @@
     "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": false,
     "outDir": "./dist-esm",
-    "sourceMap": true,
-    "declarationMap": true,
     "preserveConstEnums": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "importHelpers": true,
     "removeComments": false,
     "target": "ES2017",
     "newLine": "LF",

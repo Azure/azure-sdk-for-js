@@ -37,7 +37,7 @@ export class QueryIterator<T> {
   constructor(
     private clientContext: ClientContext,
     private query: SqlQuerySpec | string,
-    private options: FeedOptions,
+    private options: FeedOptions | undefined,
     private fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[],
     private resourceLink?: string,
     private resourceType?: ResourceType

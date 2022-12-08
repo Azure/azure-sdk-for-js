@@ -108,7 +108,7 @@ export class StoredProcedures {
     const path = getPathFromLink(this.container.url, ResourceType.sproc);
     const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.create<StoredProcedureDefinition>({
+    const response = await this.clientContext.create({
       body,
       path,
       resourceType: ResourceType.sproc,

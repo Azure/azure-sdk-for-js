@@ -36,7 +36,7 @@ export class Offers {
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
-      return this.clientContext.queryFeed<T>({
+      return this.clientContext.queryFeed({
         path: "/offers",
         resourceType: ResourceType.offer,
         resourceId: "",
