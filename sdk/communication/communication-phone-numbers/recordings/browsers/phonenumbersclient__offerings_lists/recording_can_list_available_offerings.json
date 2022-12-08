@@ -1,0 +1,31 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/availablePhoneNumbers/countries/US/offerings",
+   "query": {
+    "skip": "0",
+    "maxPageSize": "100",
+    "api-version": "2022-12-01"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"phoneNumberOfferings\":[{\"phoneNumberType\":\"geographic\",\"assignmentType\":\"person\",\"availableCapabilities\":{\"calling\":\"inbound+outbound\",\"sms\":\"none\"},\"cost\":{\"amount\":1.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}},{\"phoneNumberType\":\"geographic\",\"assignmentType\":\"application\",\"availableCapabilities\":{\"calling\":\"inbound+outbound\",\"sms\":\"none\"},\"cost\":{\"amount\":1.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}},{\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"application\",\"availableCapabilities\":{\"calling\":\"inbound+outbound\",\"sms\":\"inbound+outbound\"},\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}}],\"nextLink\":null}",
+   "responseHeaders": {
+    "api-supported-versions": "2021-03-07, 2022-12-01",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 08 Dec 2022 16:04:47 GMT",
+    "ms-cv": "uk4EtYJas0mRQ2f4AOs7bw.0",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0HguSYwAAAAAGTO1JH6YlRaBvvKx/2DIlTUVYMzFFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "1216ms"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "517a9840d915996e478c05b1c458a4c0"
+}

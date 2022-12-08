@@ -1,0 +1,31 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/availablePhoneNumbers/countries",
+   "query": {
+    "skip": "0",
+    "maxPageSize": "100",
+    "api-version": "2022-12-01"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"countries\":[{\"localizedName\":\"Canada\",\"countryCode\":\"CA\"},{\"localizedName\":\"Denmark\",\"countryCode\":\"DK\"},{\"localizedName\":\"Ireland\",\"countryCode\":\"IE\"},{\"localizedName\":\"Italy\",\"countryCode\":\"IT\"},{\"localizedName\":\"Puerto Rico\",\"countryCode\":\"PR\"},{\"localizedName\":\"Sweden\",\"countryCode\":\"SE\"},{\"localizedName\":\"United Kingdom\",\"countryCode\":\"GB\"},{\"localizedName\":\"United States\",\"countryCode\":\"US\"}],\"nextLink\":null}",
+   "responseHeaders": {
+    "api-supported-versions": "2022-12-01",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 08 Dec 2022 16:04:05 GMT",
+    "ms-cv": "ln0JZRP2O0269MtsSkJ3mA.0",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "08wqSYwAAAAAQN6I1ZnekQ44bEC/G/w8xTUVYMzFFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "2711ms"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "4f0dde844a749b7f7e28f2150ef79e4b"
+}

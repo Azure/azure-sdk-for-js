@@ -4,23 +4,24 @@
    "method": "POST",
    "url": "https://endpoint/SomeTenantId/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=SomeClientId&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=SomeClientId&client_secret=4pz8Q%7EwmO6OfRsaITAhxCRTYftzNVHJBnYQxicyk&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1327",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 09 Aug 2022 23:42:02 GMT",
+    "date": "Thu, 08 Dec 2022 16:04:31 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://endpoint/api/report?catId=GW+estsfd+wst\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://endpoint/api/report?catId=GW+estsfd+dms\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.13481.9 - EUS ProdSlices",
+    "x-ms-ests-server": "2.1.14167.14 - WUS2 ProdSlices",
+    "x-ms-httpver": "2",
     "x-ms-request-id": "sanitized",
     "x-xss-protection": "0"
    }
@@ -29,7 +30,7 @@
    "method": "POST",
    "url": "https://endpoint/availablePhoneNumbers/countries/US/:search",
    "query": {
-    "api-version": "2022-06-01-preview"
+    "api-version": "2022-12-01"
    },
    "requestBody": "{\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"person\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"inbound+outbound\"},\"quantity\":1}",
    "status": 400,
@@ -37,12 +38,12 @@
    "responseHeaders": {
     "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
     "content-type": "application/json",
-    "date": "Tue, 09 Aug 2022 23:42:04 GMT",
-    "ms-cv": "qVC/Mvd6yE2uy1Kc2A+VvA.0",
+    "date": "Thu, 08 Dec 2022 16:04:33 GMT",
+    "ms-cv": "BXPPR4qFQEie06iIw3L53Q.0",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0yvDyYgAAAAAi5E323BYWQ5JS8sKKqiwaTEFYMzExMDAwMTA4MDQ1ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+    "x-azure-ref": "0EAuSYwAAAACY3wwfTcykSIEqREN6YZbFTUVYMzFFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "1352ms"
+    "x-processing-time": "1275ms"
    }
   }
  ],
