@@ -23,7 +23,7 @@ export interface Address {
 }
 
 // @public
-export type AttachmentType = "OptInSmsKeyword" | "OptInIVR" | "OptInPointOfSale" | "OptInWebsite" | "OptInPaperForm" | "OptInOther";
+export type AttachmentType = "optInSmsKeyword" | "optInIVR" | "optInPointOfSale" | "optInWebsite" | "optInPaperForm" | "optInOther";
 
 // @public (undocumented)
 export interface BusinessInformation {
@@ -61,7 +61,7 @@ export interface CampaignBrief {
     phoneNumbers?: string[];
     // (undocumented)
     propertiesToClear?: string[];
-    reviewNotes?: CampaignBriefReviewNote[];
+    reviewNotes?: ReviewNote[];
     statusUpdatedDate?: Date;
     submissionDate?: Date;
     submissionStatus?: CampaignBriefStatus;
@@ -89,12 +89,6 @@ export interface CampaignBriefAttachmentSummary {
     fileName?: string;
     id?: string;
     type?: AttachmentType;
-}
-
-// @public
-export interface CampaignBriefReviewNote {
-    date?: Date;
-    message?: string;
 }
 
 // @public
@@ -129,6 +123,12 @@ export interface Option {
     imageUrls?: string[];
     // (undocumented)
     type: Type;
+}
+
+// @public
+export interface ReviewNote {
+    date?: Date;
+    message?: string;
 }
 
 // @public (undocumented)

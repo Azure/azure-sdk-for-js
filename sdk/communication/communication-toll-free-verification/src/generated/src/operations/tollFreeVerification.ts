@@ -323,7 +323,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
    * @param attachmentId Attachment Id. Must be a valid GUID
    * @param id Campaign Brief Attachment Id.
    * @param typeParam Attachment type describing the purpose of the attachment
-   *                  e.g. 'OptInSmsKeyword', 'OptInIVR'
+   *                  e.g. 'callToAction', 'termsOfService'
    * @param fileName The name of the file being attached
    *                 e.g. 'myFile01'
    * @param fileType The type of file being attached

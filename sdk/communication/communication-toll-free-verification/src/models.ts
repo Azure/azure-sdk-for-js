@@ -3,7 +3,7 @@
 
 export {
   AttachmentType,
-  CampaignBriefReviewNote,
+  ReviewNote,
   OptInDetails,
   Option,
   Type,

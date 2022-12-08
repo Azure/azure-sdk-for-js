@@ -17,7 +17,7 @@ export interface CampaignBrief {
    * Notes added to the Campaign Brief after being reviewed to help customer understand
    * review results and necessary follow up actions.
    */
-  reviewNotes?: CampaignBriefReviewNote[];
+  reviewNotes?: ReviewNote[];
   /** Date and time when the Campaign Brief was submitted. */
   submissionDate?: Date;
   /** Last date and time when the Campaign Brief status was updated. */
@@ -41,8 +41,8 @@ export interface CampaignBrief {
   propertiesToClear?: string[];
 }
 
-/** Holds a note about a Campaign Brief that has gone through stages of a review process. */
-export interface CampaignBriefReviewNote {
+/** Holds a note about a Campaign Brief that has gone thru stages of review process. */
+export interface ReviewNote {
   /** Note related to a Campaign Brief that may imply changes needed from the client. */
   message?: string;
   /** Date and time when the note was added to the Campaign Brief. */
@@ -99,7 +99,7 @@ export interface CampaignBriefAttachmentSummary {
   id?: string;
   /**
    * Attachment type describing the purpose of the attachment
-   * e.g. 'OptInSmsKeyword', 'OptInIVR'
+   * e.g. 'callToAction', 'termsOfService'
    */
   type?: AttachmentType;
   /**
@@ -162,7 +162,7 @@ export interface CampaignBriefAttachment {
   id: string;
   /**
    * Attachment type describing the purpose of the attachment
-   * e.g. 'OptInSmsKeyword', 'OptInIVR'
+   * e.g. 'callToAction', 'termsOfService'
    */
   type: AttachmentType;
   /**
@@ -258,12 +258,12 @@ export type EstimatedMonthlyVolume =
   | "V10000000OrMore";
 /** Defines values for AttachmentType. */
 export type AttachmentType =
-  | "OptInSmsKeyword"
-  | "OptInIVR"
-  | "OptInPointOfSale"
-  | "OptInWebsite"
-  | "OptInPaperForm"
-  | "OptInOther";
+  | "optInSmsKeyword"
+  | "optInIVR"
+  | "optInPointOfSale"
+  | "optInWebsite"
+  | "optInPaperForm"
+  | "optInOther";
 /** Defines values for Type. */
 export type Type =
   | "keywordSMS"
