@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  SavingsPlanOrderGetOptionalParams,
-  BillingBenefitsRP
-} from "@azure/arm-billingbenefits";
-import { DefaultAzureCredential } from "@azure/identity";
+const { BillingBenefitsRP } = require("@azure/arm-billingbenefits");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Get a savings plan order.
@@ -39,7 +36,7 @@ savingsPlanOrderGet().catch(console.error);
 async function savingsPlanOrderWithExpandedPaymentsGet() {
   const savingsPlanOrderId = "20000000-0000-0000-0000-000000000000";
   const expand = "schedule";
-  const options: SavingsPlanOrderGetOptionalParams = { expand };
+  const options = { expand };
   const credential = new DefaultAzureCredential();
   const client = new BillingBenefitsRP(credential);
   const result = await client.savingsPlanOrder.get(savingsPlanOrderId, options);

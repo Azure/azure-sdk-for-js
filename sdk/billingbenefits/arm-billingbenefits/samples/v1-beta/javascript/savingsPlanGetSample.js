@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  SavingsPlanGetOptionalParams,
-  BillingBenefitsRP
-} from "@azure/arm-billingbenefits";
-import { DefaultAzureCredential } from "@azure/identity";
+const { BillingBenefitsRP } = require("@azure/arm-billingbenefits");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Get savings plan.
@@ -25,10 +22,7 @@ async function savingsPlanItemGet() {
   const savingsPlanId = "30000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new BillingBenefitsRP(credential);
-  const result = await client.savingsPlan.get(
-    savingsPlanOrderId,
-    savingsPlanId
-  );
+  const result = await client.savingsPlan.get(savingsPlanOrderId, savingsPlanId);
   console.log(result);
 }
 
@@ -44,14 +38,10 @@ async function savingsPlanItemWithExpandedRenewPropertiesGet() {
   const savingsPlanOrderId = "20000000-0000-0000-0000-000000000000";
   const savingsPlanId = "30000000-0000-0000-0000-000000000000";
   const expand = "renewProperties";
-  const options: SavingsPlanGetOptionalParams = { expand };
+  const options = { expand };
   const credential = new DefaultAzureCredential();
   const client = new BillingBenefitsRP(credential);
-  const result = await client.savingsPlan.get(
-    savingsPlanOrderId,
-    savingsPlanId,
-    options
-  );
+  const result = await client.savingsPlan.get(savingsPlanOrderId, savingsPlanId, options);
   console.log(result);
 }
 

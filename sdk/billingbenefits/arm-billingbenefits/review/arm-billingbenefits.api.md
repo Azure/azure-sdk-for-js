@@ -33,8 +33,6 @@ export class BillingBenefitsRP extends coreClient.ServiceClient {
     // (undocumented)
     apiVersion: string;
     // (undocumented)
-    expand?: string;
-    // (undocumented)
     operations: Operations;
     // (undocumented)
     reservationOrderAlias: ReservationOrderAlias;
@@ -52,7 +50,6 @@ export interface BillingBenefitsRPOptionalParams extends coreClient.ServiceClien
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
-    expand?: string;
 }
 
 // @public
@@ -436,6 +433,7 @@ export interface SavingsPlan {
 
 // @public
 export interface SavingsPlanGetOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
 }
 
 // @public
@@ -443,12 +441,6 @@ export type SavingsPlanGetResponse = SavingsPlanModel;
 
 // @public
 export interface SavingsPlanListAllNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    refreshSummary?: string;
-    selectedState?: string;
-    skiptoken?: number;
-    take?: number;
 }
 
 // @public
@@ -588,6 +580,7 @@ export type SavingsPlanOrderElevateResponse = RoleAssignmentEntity;
 
 // @public
 export interface SavingsPlanOrderGetOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
 }
 
 // @public

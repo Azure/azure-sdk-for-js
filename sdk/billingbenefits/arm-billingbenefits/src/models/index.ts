@@ -1079,7 +1079,10 @@ export type SavingsPlanOrderAliasGetResponse = SavingsPlanOrderAliasModel;
 
 /** Optional parameters. */
 export interface SavingsPlanOrderGetOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** May be used to expand the detail information of some properties. */
+  expand?: string;
+}
 
 /** Contains response data for the get operation. */
 export type SavingsPlanOrderGetResponse = SavingsPlanOrderModel;
@@ -1134,7 +1137,10 @@ export type SavingsPlanListAllResponse = SavingsPlanModelListResult;
 
 /** Optional parameters. */
 export interface SavingsPlanGetOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** May be used to expand the detail information of some properties. */
+  expand?: string;
+}
 
 /** Contains response data for the get operation. */
 export type SavingsPlanGetResponse = SavingsPlanModel;
@@ -1162,20 +1168,7 @@ export type SavingsPlanListNextResponse = SavingsPlanModelList;
 
 /** Optional parameters. */
 export interface SavingsPlanListAllNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to filter by reservation properties. The filter supports 'eq', 'or', and 'and'. It does not currently support 'ne', 'gt', 'le', 'ge', or 'not'. Reservation properties include sku/name, properties/{appliedScopeType, archived, displayName, displayProvisioningState, effectiveDateTime, expiryDate, provisioningState, quantity, renew, reservedResourceType, term, userFriendlyAppliedScopeType, userFriendlyRenewState} */
-  filter?: string;
-  /** May be used to sort order by reservation properties. */
-  orderby?: string;
-  /** To indicate whether to refresh the roll up counts of the savings plans group by provisioning states */
-  refreshSummary?: string;
-  /** The number of savings plans to skip from the list before returning results */
-  skiptoken?: number;
-  /** The selected provisioning state */
-  selectedState?: string;
-  /** To number of savings plans to return */
-  take?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllNext operation. */
 export type SavingsPlanListAllNextResponse = SavingsPlanModelListResult;
@@ -1213,8 +1206,6 @@ export interface BillingBenefitsRPOptionalParams
   $host?: string;
   /** Api Version */
   apiVersion?: string;
-  /** May be used to expand the detail information of some properties. */
-  expand?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }
