@@ -24,5 +24,5 @@ export function anomalyDetectorAzureKeyCredentialPolicy(credential: KeyCredentia
       request.headers.set(API_KEY_HEADER_NAME, credential.key);
       return next(request);
     },
-  }
+  };
 }

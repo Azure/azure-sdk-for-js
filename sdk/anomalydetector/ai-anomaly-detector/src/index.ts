@@ -2,8 +2,5 @@
 // Licensed under the MIT license.
 
 export { AnomalyDetectorClient } from "./AnomalyDetectorClient";
-export {
-  AnomalyDetector,
-  AnomalyDetectorOptionalParams,
-} from "./generated";
+export { AnomalyDetector, AnomalyDetectorOptionalParams } from "./generated";
 export * from "./models";

@@ -21,7 +21,6 @@ import { logger } from "./logger";
  * Client class for interacting with Azure Anomaly Detector service.
  */
 export class AnomalyDetectorClient extends AnomalyDetector {
-
   /**
    * Creates an instance of AnomalyDetectorClient.
    *
@@ -66,7 +65,7 @@ export class AnomalyDetectorClient extends AnomalyDetector {
         loggingOptions: {
           logger: logger.info,
           additionalAllowedHeaderNames: AnomalyDetectorLoggingAllowedHeaderNames,
-          additionalAllowedQueryParameters: AnomalyDetectorLoggingAllowedQueryParameters
+          additionalAllowedQueryParameters: AnomalyDetectorLoggingAllowedQueryParameters,
         },
       },
     };
