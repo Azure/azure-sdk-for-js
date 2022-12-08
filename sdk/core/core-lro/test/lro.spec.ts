@@ -2498,6 +2498,22 @@ matrix(
           assert.equal(pollCount, implName === "createPoller" ? 2 : 1);
         });
       });
+      describe("general behavior", function () {
+        it("poll() doesn't poll after the operation is in a terminal state", async function () {
+          const poller = await createTestPoller({
+            routes: [
+              {
+                method: "PUT",
+                status: 200,
+                body: `{ "properties": { "provisioningState": "Succeeded"}, "id": "100", "name": "foo" }`,
+              },
+            ],
+          });
+          const result = await poller.pollUntilDone();
+          await poller.poll(); // This will fail if a polling request is sent
+          assert.equal(result.properties?.provisioningState, "Succeeded");
+        });
+      });
     });
   }
 );

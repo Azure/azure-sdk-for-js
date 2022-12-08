@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- poll() no longer sends a polling request if the operation is already in a terminal state.
+
 ### Other Changes
 
 ## 2.4.0 (2022-09-29)

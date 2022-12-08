@@ -14,6 +14,7 @@ import {
 import { deserializeState, initOperation, pollOperation } from "./operation";
 import { POLL_INTERVAL_IN_MS } from "./constants";
 import { delayMs } from "./util/delayMs";
+import { logger } from "../logger";
 
 const createStateProxy: <TResult, TState extends OperationState<TResult>>() => StateProxy<
   TState,
@@ -154,6 +155,10 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
           resultPromise = undefined;
         })),
       async poll(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<void> {
+        if (poller.isDone()) {
+          logger.warning(`The operation status is already ${state.status} but poll() was called.`);
+          return;
+        }
         await pollOperation({
           poll,
           state,
