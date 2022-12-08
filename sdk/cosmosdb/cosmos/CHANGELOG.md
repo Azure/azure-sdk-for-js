@@ -1,5 +1,5 @@
 # Release History
-
+- Fix add timeout message in timeout error
 ## 3.17.2 (2022-11-15)
 
 ### Bugs Fixed
