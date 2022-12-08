@@ -1,15 +1,13 @@
-# Azure Web PubSub CloudEvents handlers for Express
+# Azure Web PubSub Client
 
 [Azure Web PubSub service](https://aka.ms/awps/doc) is an Azure-managed service that helps developers easily build web applications with real-time features and publish-subscribe pattern. Any scenario that requires real-time publish-subscribe messaging between server and clients or among clients can use Azure Web PubSub service. Traditional real-time features that often require polling from server or submitting HTTP requests can also use Azure Web PubSub service.
 
-When a WebSocket connection connects, the Web PubSub service transforms the connection lifecycle and messages into [events in CloudEvents format](https://docs.microsoft.com/azure/azure-web-pubsub/concept-service-internals#workflow). This library provides an express middleware to handle events representing the WebSocket connection's lifecycle and messages, as shown in below diagram:
+You can use this library in your client side to manage the WebSocket client connections, as shown in below diagram:
 
-![cloudevents](https://user-images.githubusercontent.com/668244/140321213-6442b3b8-72ee-4c28-aec1-127f9ea8f5d9.png)
+![overflow](https://user-images.githubusercontent.com/668244/140014067-25a00959-04dc-47e8-ac25-6957bd0a71ce.png)
 
 Details about the terms used here are described in [Key concepts](#key-concepts) section.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub-express) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/web-pubsub-express) |
 [API reference documentation](https://aka.ms/awps/sdk/js) |
 [Product documentation](https://aka.ms/awps/doc) |
 [Samples][samples_ref]
@@ -19,34 +17,26 @@ Details about the terms used here are described in [Key concepts](#key-concepts)
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
-- [Express](https://expressjs.com/) version 4.x.x or higher
 
 ### Prerequisites
 
 - An [Azure subscription][azure_sub].
 - An existing Azure Web PubSub endpoint.
 
-### 1. Install the `@azure/web-pubsub-express` package
+### 1. Install the `@azure/web-pubsub-client` package
 
 ```bash
-npm install @azure/web-pubsub-express
+npm install @azure/web-pubsub-client
 ```
 
-### 2. Create a `WebPubSubEventHandler`
+### 2. Create a `WebPubSubClient` and copy `client-access-url` from Azure Portal
 
 ```js
-const express = require("express");
+const { WebPubSubClient } = require("@azure/web-pubsub-client");
 
-const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
-const handler = new WebPubSubEventHandler("chat");
+client = new WebPubSubClient("<<client-access-url>>");
 
-const app = express();
-
-app.use(handler.getMiddleware());
-
-app.listen(3000, () =>
-  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
-);
+await client.start();
 ```
 
 ## Key concepts
@@ -77,102 +67,14 @@ Event handler contains the logic to handle the client events. Event handler need
 
 ## Examples
 
-### Handle the `connect` request and assign `<userId>`
+### Start a client
 
 ```js
-const express = require("express");
+const { WebPubSubClient } = require("@azure/web-pubsub-client");
 
-const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
-const handler = new WebPubSubEventHandler("chat", {
-  handleConnect: (req, res) => {
-    // auth the connection and set the userId of the connection
-    res.success({
-      userId: "<userId>"
-    });
-  },
-  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]
-});
+client = new WebPubSubClient("<<client-access-url>>");
 
-const app = express();
-
-app.use(handler.getMiddleware());
-
-app.listen(3000, () =>
-  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
-);
-```
-
-### Only allow specified endpoints
-
-```js
-const express = require("express");
-
-const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
-const handler = new WebPubSubEventHandler("chat", {
-  allowedEndpoints: [
-    "https://<yourAllowedService1>.webpubsub.azure.com",
-    "https://<yourAllowedService2>.webpubsub.azure.com"
-  ]
-});
-
-const app = express();
-
-app.use(handler.getMiddleware());
-
-app.listen(3000, () =>
-  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
-);
-```
-
-### Set custom event handler path
-
-```js
-const express = require("express");
-
-const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
-const handler = new WebPubSubEventHandler("chat", {
-  path: "customPath1"
-});
-
-const app = express();
-
-app.use(handler.getMiddleware());
-
-app.listen(3000, () =>
-  // Azure WebPubSub Upstream ready at http://localhost:3000/customPath1
-  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
-);
-```
-
-### Set and read connection state
-
-```js
-const express = require("express");
-
-const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
-
-const handler = new WebPubSubEventHandler("chat", {
-  handleConnect(req, res) {
-    // You can set the state for the connection, it lasts throughout the lifetime of the connection
-    res.setState("calledTime", 1);
-    res.success();
-  },
-  handleUserEvent(req, res) {
-    var calledTime = req.context.states.calledTime++;
-    console.log(calledTime);
-    // You can also set the state here
-    res.setState("calledTime", calledTime);
-    res.success();
-  }
-});
-
-const app = express();
-
-app.use(handler.getMiddleware());
-
-app.listen(3000, () =>
-  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
-);
+await client.start();
 ```
 
 ## Troubleshooting

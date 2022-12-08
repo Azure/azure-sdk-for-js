@@ -12,7 +12,7 @@ import {
   GetClientAccessUrlOptions,
 } from "@azure/web-pubsub-client";
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
-require('dotenv').config()
+require("dotenv").config();
 
 const serviceClient = new WebPubSubServiceClient(process.env.WPS_CONNECTION_STRING!, "chat");
 

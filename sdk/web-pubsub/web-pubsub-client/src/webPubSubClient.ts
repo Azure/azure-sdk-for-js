@@ -698,7 +698,10 @@ export class WebPubSubClient {
             }
           }
         } catch (err) {
-          logger.warning(`An error occurred while handling the message with kind: ${message.kind} from service`, err);
+          logger.warning(
+            `An error occurred while handling the message with kind: ${message.kind} from service`,
+            err
+          );
         }
       };
     });

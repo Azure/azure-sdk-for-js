@@ -34,7 +34,7 @@ export function parseMessages(input: string): WebPubSubMessage | null {
       returnMessage = { ...parsedMessage, kind: "disconnected" } as DisconnectedMessage;
     } else {
       // Forward compatible
-      return null
+      return null;
     }
   } else if (typedMessage.type === "message") {
     if (typedMessage.from === "group") {
@@ -70,23 +70,36 @@ export function writeMessage(message: WebPubSubMessage): string {
   let data: any;
   switch (message.kind) {
     case "joinGroup": {
-      data = {type: "joinGroup", group: message.group, ackId: message.ackId } as JoinGroupData;
+      data = { type: "joinGroup", group: message.group, ackId: message.ackId } as JoinGroupData;
       break;
     }
     case "leaveGroup": {
-      data = {type: "leaveGroup", group: message.group, ackId: message.ackId} as LeaveGroupData;
+      data = { type: "leaveGroup", group: message.group, ackId: message.ackId } as LeaveGroupData;
       break;
     }
     case "sendEvent": {
-      data = {type: "event", event: message.event, ackId: message.ackId, dataType: message.dataType, data: getPayload(message.data, message.dataType)} as SendEventData;
+      data = {
+        type: "event",
+        event: message.event,
+        ackId: message.ackId,
+        dataType: message.dataType,
+        data: getPayload(message.data, message.dataType),
+      } as SendEventData;
       break;
     }
     case "sendToGroup": {
-      data = {type: "sendToGroup", group: message.group, ackId: message.ackId, dataType: message.dataType, data: getPayload(message.data, message.dataType), noEcho: message.noEcho} as SendToGroupData;
+      data = {
+        type: "sendToGroup",
+        group: message.group,
+        ackId: message.ackId,
+        dataType: message.dataType,
+        data: getPayload(message.data, message.dataType),
+        noEcho: message.noEcho,
+      } as SendToGroupData;
       break;
     }
     case "sequenceAck": {
-      data = {type: "sequenceAck", sequenceId: message.sequenceId} as SequenceAckData;
+      data = { type: "sequenceAck", sequenceId: message.sequenceId } as SequenceAckData;
       break;
     }
     default: {
