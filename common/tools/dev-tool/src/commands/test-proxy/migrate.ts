@@ -21,7 +21,7 @@ export default leafCommand(commandInfo, async () => {
     "-InitialPush",
     "-TestProxyExe",
     await getTestProxyExecutable(),
-  ]);
+  ]).result;
 
   return true;
 });
