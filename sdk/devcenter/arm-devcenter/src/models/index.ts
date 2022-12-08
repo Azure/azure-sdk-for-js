@@ -419,6 +419,8 @@ export interface DevBoxDefinitionUpdateProperties {
   sku?: Sku;
   /** The storage type used for the Operating System disk of Dev Boxes created using this definition. */
   osStorageType?: string;
+  /** Indicates whether Dev Boxes created with this definition are capable of hibernation. Not all images are capable of supporting hibernation. To find out more see https://aka.ms/devbox/hibernate */
+  hibernateSupport?: HibernateSupport;
 }
 
 /** The resource model definition representing SKU */
@@ -594,6 +596,30 @@ export interface UsageName {
   localizedValue?: string;
   /** The name of the resource. */
   value?: string;
+}
+
+/** The check availability request body. */
+export interface CheckNameAvailabilityRequest {
+  /** The name of the resource for which availability needs to be checked. */
+  name?: string;
+  /** The resource type. */
+  type?: string;
+}
+
+/** The check availability result. */
+export interface CheckNameAvailabilityResponse {
+  /** Indicates if the resource name is available. */
+  nameAvailable?: boolean;
+  /** The reason why the given name is not available. */
+  reason?: CheckNameAvailabilityReason;
+  /** Detailed reason why the given name is available. */
+  message?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
 }
 
 /** Results of the Microsoft.DevCenter SKU list operation. */
@@ -773,7 +799,7 @@ export interface AttachedNetworkConnection extends Resource {
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
   /** The resource ID of the NetworkConnection you want to attach. */
   networkConnectionId?: string;
   /**
@@ -799,7 +825,7 @@ export interface Gallery extends Resource {
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
   /** The resource ID of the backing Azure Compute Gallery. */
   galleryResourceId?: string;
 }
@@ -817,7 +843,7 @@ export interface Catalog extends Resource {
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
   /**
    * The synchronization state of the catalog.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -838,7 +864,7 @@ export interface EnvironmentType extends Resource {
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** Represents an allowed environment type. */
@@ -847,7 +873,7 @@ export interface AllowedEnvironmentType extends Resource {
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** Represents an environment type. */
@@ -870,7 +896,7 @@ export interface ProjectEnvironmentType extends Resource {
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** Represents a Schedule to execute a task. */
@@ -889,7 +915,7 @@ export interface Schedule extends Resource {
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** Health Check details. */
@@ -933,6 +959,8 @@ export interface DevBoxDefinitionUpdate extends TrackedResourceUpdate {
   sku?: Sku;
   /** The storage type used for the Operating System disk of Dev Boxes created using this definition. */
   osStorageType?: string;
+  /** Indicates whether Dev Boxes created with this definition are capable of hibernation. Not all images are capable of supporting hibernation. To find out more see https://aka.ms/devbox/hibernate */
+  hibernateSupport?: HibernateSupport;
 }
 
 /** The pool properties for partial update. Properties not provided in the update request will not be changed. */
@@ -981,7 +1009,12 @@ export interface ProjectProperties extends ProjectUpdateProperties {
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The URI of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly devCenterUri?: string;
 }
 
 /** Properties of a catalog. */
@@ -990,7 +1023,7 @@ export interface CatalogProperties extends CatalogUpdateProperties {
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
   /**
    * The synchronization state of the catalog.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1010,7 +1043,7 @@ export interface ProjectEnvironmentTypeProperties
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** Properties of a Dev Box definition. */
@@ -1020,7 +1053,7 @@ export interface DevBoxDefinitionProperties
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
   /**
    * Validation status of the configured image.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1077,7 +1110,7 @@ export interface PoolProperties extends PoolUpdateProperties {
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** The Schedule properties defining when and what to execute. */
@@ -1086,7 +1119,7 @@ export interface ScheduleProperties extends ScheduleUpdateProperties {
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** Network properties */
@@ -1095,7 +1128,7 @@ export interface NetworkProperties extends NetworkConnectionUpdateProperties {
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
   /**
    * Overall health status of the network connection. Health checks are run on creation, update, and periodically to validate the network connection.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1115,7 +1148,12 @@ export interface DevCenter extends TrackedResource {
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The URI of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly devCenterUri?: string;
 }
 
 /** Represents a project resource. */
@@ -1128,7 +1166,12 @@ export interface Project extends TrackedResource {
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The URI of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly devCenterUri?: string;
 }
 
 /** Represents a definition for a Developer Machine. */
@@ -1139,11 +1182,13 @@ export interface DevBoxDefinition extends TrackedResource {
   sku?: Sku;
   /** The storage type used for the Operating System disk of Dev Boxes created using this definition. */
   osStorageType?: string;
+  /** Indicates whether Dev Boxes created with this definition are capable of hibernation. Not all images are capable of supporting hibernation. To find out more see https://aka.ms/devbox/hibernate */
+  hibernateSupport?: HibernateSupport;
   /**
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
   /**
    * Validation status of the configured image.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1175,7 +1220,7 @@ export interface Pool extends TrackedResource {
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** Network related settings */
@@ -1194,7 +1239,7 @@ export interface NetworkConnection extends TrackedResource {
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
   /**
    * Overall health status of the network connection. Health checks are run on creation, update, and periodically to validate the network connection.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1237,7 +1282,7 @@ export interface Image extends ProxyResource {
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** Represents an image version. */
@@ -1266,8 +1311,68 @@ export interface ImageVersion extends ProxyResource {
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
 }
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
+  /** Accepted */
+  Accepted = "Accepted",
+  /** Running */
+  Running = "Running",
+  /** Creating */
+  Creating = "Creating",
+  /** Created */
+  Created = "Created",
+  /** Updating */
+  Updating = "Updating",
+  /** Updated */
+  Updated = "Updated",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Deleted */
+  Deleted = "Deleted",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** MovingResources */
+  MovingResources = "MovingResources",
+  /** TransientFailure */
+  TransientFailure = "TransientFailure",
+  /** RolloutInProgress */
+  RolloutInProgress = "RolloutInProgress",
+  /** StorageProvisioningFailed */
+  StorageProvisioningFailed = "StorageProvisioningFailed"
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **Accepted** \
+ * **Running** \
+ * **Creating** \
+ * **Created** \
+ * **Updating** \
+ * **Updated** \
+ * **Deleting** \
+ * **Deleted** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **MovingResources** \
+ * **TransientFailure** \
+ * **RolloutInProgress** \
+ * **StorageProvisioningFailed**
+ */
+export type ProvisioningState = string;
 
 /** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
 export enum KnownManagedServiceIdentityType {
@@ -1434,6 +1539,24 @@ export enum KnownImageValidationStatus {
  */
 export type ImageValidationStatus = string;
 
+/** Known values of {@link HibernateSupport} that the service accepts. */
+export enum KnownHibernateSupport {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled"
+}
+
+/**
+ * Defines values for HibernateSupport. \
+ * {@link KnownHibernateSupport} can be used interchangeably with HibernateSupport,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type HibernateSupport = string;
+
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
   /** User */
@@ -1484,6 +1607,24 @@ export enum KnownUsageUnit {
  * **Count**
  */
 export type UsageUnit = string;
+
+/** Known values of {@link CheckNameAvailabilityReason} that the service accepts. */
+export enum KnownCheckNameAvailabilityReason {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** AlreadyExists */
+  AlreadyExists = "AlreadyExists"
+}
+
+/**
+ * Defines values for CheckNameAvailabilityReason. \
+ * {@link KnownCheckNameAvailabilityReason} can be used interchangeably with CheckNameAvailabilityReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **AlreadyExists**
+ */
+export type CheckNameAvailabilityReason = string;
 
 /** Known values of {@link LicenseType} that the service accepts. */
 export enum KnownLicenseType {
@@ -2209,6 +2350,13 @@ export interface UsagesListByLocationNextOptionalParams
 export type UsagesListByLocationNextResponse = ListUsagesResult;
 
 /** Optional parameters. */
+export interface CheckNameAvailabilityExecuteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the execute operation. */
+export type CheckNameAvailabilityExecuteResponse = CheckNameAvailabilityResponse;
+
+/** Optional parameters. */
 export interface SkusListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
@@ -2433,7 +2581,12 @@ export type NetworkConnectionsGetHealthDetailsResponse = HealthCheckStatusDetail
 
 /** Optional parameters. */
 export interface NetworkConnectionsRunHealthChecksOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface NetworkConnectionsListBySubscriptionNextOptionalParams

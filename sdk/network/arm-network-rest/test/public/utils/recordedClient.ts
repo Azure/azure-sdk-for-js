@@ -5,7 +5,6 @@ import { Context } from "mocha";
 import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import "./env";
 import { NetworkManagementClient } from "../../../src/clientDefinitions";
-import { customizedTestPolicy } from "./customizedTestPolicy";
 import { TokenCredential } from "@azure/core-auth";
 import { ClientOptions } from "@azure-rest/core-client";
 import createNetworkManagementClient from "../../../src";
@@ -16,6 +15,7 @@ const envSetupForPlayback: Record<string, string> = {
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: "azure_subscription_id",
+  RESOURCE_GROUP_NAME: "azure_resource_group",
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
@@ -42,8 +42,5 @@ export function createTestNetworkManagementClient(
     credentials,
     recorder.configureClientOptions(options)
   );
-  client.pipeline.addPolicy(customizedTestPolicy(), {
-    beforePolicies: ["bearerTokenAuthenticationPolicy"],
-  });
   return client;
 }

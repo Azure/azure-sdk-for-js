@@ -1,6 +1,6 @@
 {
   "name": "@azure/maps-search",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "A client library for Azure Maps maps-search",
   "sdk-type": "client",
   "main": "dist/index.js",

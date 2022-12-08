@@ -33,8 +33,6 @@
     "./test/**/*.ts",
     "samples-dev/**/*.ts",
     "./test/**/*.ts",
-    "samples-dev/**/*.ts",
-    "./test/**/*.ts",
     "samples-dev/**/*.ts"
   ],
   "exclude": [

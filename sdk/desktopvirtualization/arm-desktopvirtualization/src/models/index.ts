@@ -588,7 +588,7 @@ export interface PrivateLinkResourceListResult {
 }
 
 /** Represents a Workspace definition. */
-export type Workspace = ResourceModelWithAllowedPropertySet & {
+export interface Workspace extends ResourceModelWithAllowedPropertySet {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -612,10 +612,10 @@ export type Workspace = ResourceModelWithAllowedPropertySet & {
   readonly cloudPcResource?: boolean;
   /** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
   publicNetworkAccess?: PublicNetworkAccess;
-};
+}
 
 /** Represents a scaling plan definition. */
-export type ScalingPlan = ResourceModelWithAllowedPropertySet & {
+export interface ScalingPlan extends ResourceModelWithAllowedPropertySet {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -640,10 +640,10 @@ export type ScalingPlan = ResourceModelWithAllowedPropertySet & {
   schedules?: ScalingSchedule[];
   /** List of ScalingHostPoolReference definitions. */
   hostPoolReferences?: ScalingHostPoolReference[];
-};
+}
 
 /** Represents a ApplicationGroup definition. */
-export type ApplicationGroup = ResourceModelWithAllowedPropertySet & {
+export interface ApplicationGroup extends ResourceModelWithAllowedPropertySet {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -674,10 +674,10 @@ export type ApplicationGroup = ResourceModelWithAllowedPropertySet & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly cloudPcResource?: boolean;
-};
+}
 
 /** Represents a HostPool definition. */
-export type HostPool = ResourceModelWithAllowedPropertySet & {
+export interface HostPool extends ResourceModelWithAllowedPropertySet {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -736,26 +736,26 @@ export type HostPool = ResourceModelWithAllowedPropertySet & {
   readonly cloudPcResource?: boolean;
   /** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
   publicNetworkAccess?: PublicNetworkAccess;
-};
+}
 
-export type ResourceModelWithAllowedPropertySetIdentity = Identity & {};
+export interface ResourceModelWithAllowedPropertySetIdentity extends Identity {}
 
-export type ResourceModelWithAllowedPropertySetSku = Sku & {};
+export interface ResourceModelWithAllowedPropertySetSku extends Sku {}
 
-export type ResourceModelWithAllowedPropertySetPlan = Plan & {};
+export interface ResourceModelWithAllowedPropertySetPlan extends Plan {}
 
 /** ApplicationGroup properties that can be patched. */
-export type ApplicationGroupPatch = Resource & {
+export interface ApplicationGroupPatch extends Resource {
   /** tags to be updated */
   tags?: { [propertyName: string]: string };
   /** Description of ApplicationGroup. */
   description?: string;
   /** Friendly name of ApplicationGroup. */
   friendlyName?: string;
-};
+}
 
 /** Represents a StartMenuItem definition. */
-export type StartMenuItem = Resource & {
+export interface StartMenuItem extends Resource {
   /** Alias of StartMenuItem. */
   appAlias?: string;
   /** Path to the file of StartMenuItem. */
@@ -766,10 +766,10 @@ export type StartMenuItem = Resource & {
   iconPath?: string;
   /** Index of the icon. */
   iconIndex?: number;
-};
+}
 
 /** Schema for Application properties. */
-export type Application = Resource & {
+export interface Application extends Resource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -812,10 +812,10 @@ export type Application = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly iconContent?: Uint8Array;
-};
+}
 
 /** Schema for Desktop properties. */
-export type Desktop = Resource & {
+export interface Desktop extends Resource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -840,10 +840,10 @@ export type Desktop = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly iconContent?: Uint8Array;
-};
+}
 
 /** HostPool properties that can be patched. */
-export type HostPoolPatch = Resource & {
+export interface HostPoolPatch extends Resource {
   /** tags to be updated */
   tags?: { [propertyName: string]: string };
   /** Friendly name of HostPool. */
@@ -880,10 +880,10 @@ export type HostPoolPatch = Resource & {
   startVMOnConnect?: boolean;
   /** Enabled to allow this resource to be access from the public network */
   publicNetworkAccess?: PublicNetworkAccess;
-};
+}
 
 /** Represents a UserSession definition. */
-export type UserSession = Resource & {
+export interface UserSession extends Resource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -904,10 +904,10 @@ export type UserSession = Resource & {
   activeDirectoryUserName?: string;
   /** The timestamp of the user session create. */
   createTime?: Date;
-};
+}
 
 /** Represents a SessionHost definition. */
-export type SessionHost = Resource & {
+export interface SessionHost extends Resource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -963,18 +963,18 @@ export type SessionHost = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sessionHostHealthCheckResults?: SessionHostHealthCheckReport[];
-};
+}
 
 /** SessionHost properties that can be patched. */
-export type SessionHostPatch = Resource & {
+export interface SessionHostPatch extends Resource {
   /** Allow a new session. */
   allowNewSession?: boolean;
   /** User assigned to SessionHost. */
   assignedUser?: string;
-};
+}
 
 /** Schema for MSIX Package properties. */
-export type MsixPackage = Resource & {
+export interface MsixPackage extends Resource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1002,20 +1002,20 @@ export type MsixPackage = Resource & {
   lastUpdated?: Date;
   /** List of package applications. */
   packageApplications?: MsixPackageApplications[];
-};
+}
 
 /** MSIX Package properties that can be patched. */
-export type MsixPackagePatch = Resource & {
+export interface MsixPackagePatch extends Resource {
   /** Set a version of the package to be active across hostpool. */
   isActive?: boolean;
   /** Set Registration mode. Regular or Delayed. */
   isRegularRegistration?: boolean;
   /** Display name for MSIX Package. */
   displayName?: string;
-};
+}
 
 /** Represents the definition of contents retrieved after expanding the MSIX Image. */
-export type ExpandMsixImage = Resource & {
+export interface ExpandMsixImage extends Resource {
   /** Alias of MSIX Package. */
   packageAlias?: string;
   /** VHD/CIM image path on Network Share. */
@@ -1042,20 +1042,20 @@ export type ExpandMsixImage = Resource & {
   lastUpdated?: Date;
   /** List of package applications. */
   packageApplications?: MsixPackageApplications[];
-};
+}
 
 /** The Private Endpoint Connection resource. */
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
   /** The resource of private end point. */
   privateEndpoint?: PrivateEndpoint;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
   provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 /** A private link resource */
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
   /**
    * The private link resource group id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1068,22 +1068,27 @@ export type PrivateLinkResource = Resource & {
   readonly requiredMembers?: string[];
   /** The private link resource Private link DNS zone name. */
   requiredZoneNames?: string[];
-};
+}
 
 /** The Private Endpoint Connection resource. */
-export type PrivateEndpointConnectionWithSystemData = PrivateEndpointConnection & {
+export interface PrivateEndpointConnectionWithSystemData
+  extends PrivateEndpointConnection {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-};
+}
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -1101,7 +1106,9 @@ export type CreatedByType = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1132,12 +1139,19 @@ export type ScalingHostPoolType = string;
 
 /** Known values of {@link ScalingScheduleDaysOfWeekItem} that the service accepts. */
 export enum KnownScalingScheduleDaysOfWeekItem {
+  /** Sunday */
   Sunday = "Sunday",
+  /** Monday */
   Monday = "Monday",
+  /** Tuesday */
   Tuesday = "Tuesday",
+  /** Wednesday */
   Wednesday = "Wednesday",
+  /** Thursday */
   Thursday = "Thursday",
+  /** Friday */
   Friday = "Friday",
+  /** Saturday */
   Saturday = "Saturday"
 }
 
@@ -1158,7 +1172,9 @@ export type ScalingScheduleDaysOfWeekItem = string;
 
 /** Known values of {@link SessionHostLoadBalancingAlgorithm} that the service accepts. */
 export enum KnownSessionHostLoadBalancingAlgorithm {
+  /** BreadthFirst */
   BreadthFirst = "BreadthFirst",
+  /** DepthFirst */
   DepthFirst = "DepthFirst"
 }
 
@@ -1174,7 +1190,9 @@ export type SessionHostLoadBalancingAlgorithm = string;
 
 /** Known values of {@link StopHostsWhen} that the service accepts. */
 export enum KnownStopHostsWhen {
+  /** ZeroSessions */
   ZeroSessions = "ZeroSessions",
+  /** ZeroActiveSessions */
   ZeroActiveSessions = "ZeroActiveSessions"
 }
 
@@ -1190,7 +1208,9 @@ export type StopHostsWhen = string;
 
 /** Known values of {@link ApplicationGroupType} that the service accepts. */
 export enum KnownApplicationGroupType {
+  /** RemoteApp */
   RemoteApp = "RemoteApp",
+  /** Desktop */
   Desktop = "Desktop"
 }
 
@@ -1233,7 +1253,9 @@ export type Operation = string;
 
 /** Known values of {@link RemoteApplicationType} that the service accepts. */
 export enum KnownRemoteApplicationType {
+  /** InBuilt */
   InBuilt = "InBuilt",
+  /** MsixApplication */
   MsixApplication = "MsixApplication"
 }
 
@@ -1249,8 +1271,11 @@ export type RemoteApplicationType = string;
 
 /** Known values of {@link CommandLineSetting} that the service accepts. */
 export enum KnownCommandLineSetting {
+  /** DoNotAllow */
   DoNotAllow = "DoNotAllow",
+  /** Allow */
   Allow = "Allow",
+  /** Require */
   Require = "Require"
 }
 
@@ -1288,7 +1313,9 @@ export type HostPoolType = string;
 
 /** Known values of {@link PersonalDesktopAssignmentType} that the service accepts. */
 export enum KnownPersonalDesktopAssignmentType {
+  /** Automatic */
   Automatic = "Automatic",
+  /** Direct */
   Direct = "Direct"
 }
 
@@ -1304,8 +1331,11 @@ export type PersonalDesktopAssignmentType = string;
 
 /** Known values of {@link LoadBalancerType} that the service accepts. */
 export enum KnownLoadBalancerType {
+  /** BreadthFirst */
   BreadthFirst = "BreadthFirst",
+  /** DepthFirst */
   DepthFirst = "DepthFirst",
+  /** Persistent */
   Persistent = "Persistent"
 }
 
@@ -1322,8 +1352,11 @@ export type LoadBalancerType = string;
 
 /** Known values of {@link RegistrationTokenOperation} that the service accepts. */
 export enum KnownRegistrationTokenOperation {
+  /** Delete */
   Delete = "Delete",
+  /** None */
   None = "None",
+  /** Update */
   Update = "Update"
 }
 
@@ -1340,9 +1373,13 @@ export type RegistrationTokenOperation = string;
 
 /** Known values of {@link SSOSecretType} that the service accepts. */
 export enum KnownSSOSecretType {
+  /** SharedKey */
   SharedKey = "SharedKey",
+  /** Certificate */
   Certificate = "Certificate",
+  /** SharedKeyInKeyVault */
   SharedKeyInKeyVault = "SharedKeyInKeyVault",
+  /** CertificateInKeyVault */
   CertificateInKeyVault = "CertificateInKeyVault"
 }
 
@@ -1360,8 +1397,11 @@ export type SSOSecretType = string;
 
 /** Known values of {@link PreferredAppGroupType} that the service accepts. */
 export enum KnownPreferredAppGroupType {
+  /** None */
   None = "None",
+  /** Desktop */
   Desktop = "Desktop",
+  /** RailApplications */
   RailApplications = "RailApplications"
 }
 
@@ -1378,7 +1418,9 @@ export type PreferredAppGroupType = string;
 
 /** Known values of {@link ApplicationType} that the service accepts. */
 export enum KnownApplicationType {
+  /** RemoteApp */
   RemoteApp = "RemoteApp",
+  /** Desktop */
   Desktop = "Desktop"
 }
 
@@ -1394,11 +1436,17 @@ export type ApplicationType = string;
 
 /** Known values of {@link SessionState} that the service accepts. */
 export enum KnownSessionState {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Active */
   Active = "Active",
+  /** Disconnected */
   Disconnected = "Disconnected",
+  /** Pending */
   Pending = "Pending",
+  /** LogOff */
   LogOff = "LogOff",
+  /** UserProfileDiskMounted */
   UserProfileDiskMounted = "UserProfileDiskMounted"
 }
 
@@ -1466,10 +1514,15 @@ export type Status = string;
 
 /** Known values of {@link UpdateState} that the service accepts. */
 export enum KnownUpdateState {
+  /** Initial */
   Initial = "Initial",
+  /** Pending */
   Pending = "Pending",
+  /** Started */
   Started = "Started",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -1557,8 +1610,11 @@ export type HealthCheckResult = string;
 
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected"
 }
 
@@ -1575,9 +1631,13 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed"
 }
 

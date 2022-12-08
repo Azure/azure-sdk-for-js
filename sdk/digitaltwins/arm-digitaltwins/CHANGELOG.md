@@ -1,15 +1,29 @@
 # Release History
+    
+## 3.2.0 (2022-11-30)
+    
+**Features**
 
-## 3.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface AzureDataExplorerConnectionProperties
+  - Added Interface ConnectionPropertiesPrivateLinkServiceConnectionState
+  - Added Interface DigitalTwinsDescription
+  - Added Interface DigitalTwinsEndpointResource
+  - Added Interface EventGrid
+  - Added Interface EventHub
+  - Added Interface ManagedIdentityReference
+  - Added Interface ServiceBus
+  - Added Interface TimeSeriesDatabaseConnection
+  - Added Interface UserAssignedIdentity
+  - Added Type Alias ConnectionType
+  - Added Type Alias IdentityType
+  - Interface DigitalTwinsEndpointResourceProperties has a new optional parameter identity
+  - Interface DigitalTwinsIdentity has a new optional parameter userAssignedIdentities
+  - Interface TimeSeriesDatabaseConnectionProperties has a new optional parameter identity
+  - Added Enum KnownIdentityType
+  - Enum KnownDigitalTwinsIdentityType has a new value SystemAssignedUserAssigned
+  - Enum KnownDigitalTwinsIdentityType has a new value UserAssigned
+    
+    
 ## 3.1.0 (2022-06-22)
     
 **Features**

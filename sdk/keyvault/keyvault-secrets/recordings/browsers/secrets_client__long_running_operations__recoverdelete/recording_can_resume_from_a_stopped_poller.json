@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-?api-version=7.3",
+      "RequestUri": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-?api-version=7.4-preview.1",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -18,8 +18,8 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "ebb43829-8c6f-4982-8ee5-96ca0e48c8fc",
-        "x-ms-useragent": "azsdk-js-keyvault-secrets/4.6.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+        "x-ms-client-request-id": "5a0d8c97-30fd-439d-a844-46f1dbf9904c",
+        "x-ms-useragent": "azsdk-js-keyvault-secrets/4.7.0-beta.1 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 401,
@@ -27,17 +27,17 @@
         "Cache-Control": "no-cache",
         "Content-Length": "97",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 12 Oct 2022 23:35:28 GMT",
+        "Date": "Fri, 11 Nov 2022 00:46:09 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
         "WWW-Authenticate": "Bearer authorization=\u0022https://login.windows.net/12345678-1234-1234-1234-123456789012\u0022, resource=\u0022https://vault.azure.net\u0022",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "ebb43829-8c6f-4982-8ee5-96ca0e48c8fc",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.77.94;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.9.538.1",
-        "x-ms-request-id": "7fe20ff5-b605-4b05-972d-65e65c678b3d"
+        "x-ms-client-request-id": "5a0d8c97-30fd-439d-a844-46f1dbf9904c",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.80.222;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-region": "australiacentral",
+        "x-ms-keyvault-service-version": "1.9.576.1",
+        "x-ms-request-id": "6764ec6a-9126-42c9-a3c7-36a3096a831d"
       },
       "ResponseBody": {
         "error": {
@@ -47,7 +47,7 @@
       }
     },
     {
-      "RequestUri": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-?api-version=7.3",
+      "RequestUri": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-?api-version=7.4-preview.1",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -65,8 +65,8 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "ebb43829-8c6f-4982-8ee5-96ca0e48c8fc",
-        "x-ms-useragent": "azsdk-js-keyvault-secrets/4.6.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+        "x-ms-client-request-id": "5a0d8c97-30fd-439d-a844-46f1dbf9904c",
+        "x-ms-useragent": "azsdk-js-keyvault-secrets/4.7.0-beta.1 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": {
         "value": "value",
@@ -77,33 +77,33 @@
         "Cache-Control": "no-cache",
         "Content-Length": "295",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 12 Oct 2022 23:35:29 GMT",
+        "Date": "Fri, 11 Nov 2022 00:46:09 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "ebb43829-8c6f-4982-8ee5-96ca0e48c8fc",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.77.94;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-rbac-assignment-id": "5196b96b-f6a1-5fd7-b398-8b892aef065a",
-        "x-ms-keyvault-rbac-cache": "ra_age=0;da_age=8030;rd_age=8030;brd_age=18920;ra_notif_age=5;dec_lev=1;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.9.538.1",
-        "x-ms-request-id": "d54d2c8b-487f-4c33-9bec-b7ecf6382961"
+        "x-ms-client-request-id": "5a0d8c97-30fd-439d-a844-46f1dbf9904c",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.80.222;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "e0879cc6-53b1-5604-999d-586eba05a46e",
+        "x-ms-keyvault-rbac-cache": "ra_age=118;da_age=5392;rd_age=5392;brd_age=3289;ra_notif_age=1278;dec_lev=1;",
+        "x-ms-keyvault-region": "australiacentral",
+        "x-ms-keyvault-service-version": "1.9.576.1",
+        "x-ms-request-id": "d269075d-e13a-4fcd-9217-a96b994c6eaf"
       },
       "ResponseBody": {
         "value": "value",
-        "id": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-/147bfdf642fb41449d61c5676b61f105",
+        "id": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-/96bf2703fefb432f9c3a1e5755122460",
         "attributes": {
           "enabled": true,
-          "created": 1665617730,
-          "updated": 1665617730,
+          "created": 1668127570,
+          "updated": 1668127570,
           "recoveryLevel": "CustomizedRecoverable\u002BPurgeable",
           "recoverableDays": 7
         }
       }
     },
     {
-      "RequestUri": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-?api-version=7.3",
+      "RequestUri": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-?api-version=7.4-preview.1",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -119,8 +119,8 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "d0f872c8-2b9c-46f2-a73e-1f7862da607d",
-        "x-ms-useragent": "azsdk-js-keyvault-secrets/4.6.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+        "x-ms-client-request-id": "c8a22898-1bf1-4aea-8634-828d28a9e5fe",
+        "x-ms-useragent": "azsdk-js-keyvault-secrets/4.7.0-beta.1 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -128,35 +128,35 @@
         "Cache-Control": "no-cache",
         "Content-Length": "454",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 12 Oct 2022 23:35:29 GMT",
+        "Date": "Fri, 11 Nov 2022 00:46:25 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "d0f872c8-2b9c-46f2-a73e-1f7862da607d",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.77.94;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-rbac-assignment-id": "5196b96b-f6a1-5fd7-b398-8b892aef065a",
-        "x-ms-keyvault-rbac-cache": "ra_age=0;da_age=8030;rd_age=8030;brd_age=18920;ra_notif_age=5;dec_lev=1;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.9.538.1",
-        "x-ms-request-id": "99ef3201-3ea2-4959-8a92-0b8435321783"
+        "x-ms-client-request-id": "c8a22898-1bf1-4aea-8634-828d28a9e5fe",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.80.222;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "e0879cc6-53b1-5604-999d-586eba05a46e",
+        "x-ms-keyvault-rbac-cache": "ra_age=134;da_age=5408;rd_age=5408;brd_age=3306;ra_notif_age=1295;dec_lev=1;",
+        "x-ms-keyvault-region": "australiacentral",
+        "x-ms-keyvault-service-version": "1.9.576.1",
+        "x-ms-request-id": "6317ba42-5309-44b5-96b3-e810b417eb66"
       },
       "ResponseBody": {
         "recoveryId": "https://keyvault_name.vault.azure.net/deletedsecrets/lroRecoverSecretName-canresumefromastoppedpoller-",
-        "deletedDate": 1665617730,
-        "scheduledPurgeDate": 1666222530,
-        "id": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-/147bfdf642fb41449d61c5676b61f105",
+        "deletedDate": 1668127586,
+        "scheduledPurgeDate": 1668732386,
+        "id": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-/96bf2703fefb432f9c3a1e5755122460",
         "attributes": {
           "enabled": true,
-          "created": 1665617730,
-          "updated": 1665617730,
+          "created": 1668127570,
+          "updated": 1668127570,
           "recoveryLevel": "CustomizedRecoverable\u002BPurgeable",
           "recoverableDays": 7
         }
       }
     },
     {
-      "RequestUri": "https://keyvault_name.vault.azure.net/deletedsecrets/lroRecoverSecretName-canresumefromastoppedpoller-?api-version=7.3",
+      "RequestUri": "https://keyvault_name.vault.azure.net/deletedsecrets/lroRecoverSecretName-canresumefromastoppedpoller-?api-version=7.4-preview.1",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -172,8 +172,8 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "13b160d3-0c83-4f23-a95b-73878da4dbf3",
-        "x-ms-useragent": "azsdk-js-keyvault-secrets/4.6.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+        "x-ms-client-request-id": "09145c1b-bbbc-46d3-8423-95682d88b94f",
+        "x-ms-useragent": "azsdk-js-keyvault-secrets/4.7.0-beta.1 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 404,
@@ -181,18 +181,18 @@
         "Cache-Control": "no-cache",
         "Content-Length": "123",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 12 Oct 2022 23:35:29 GMT",
+        "Date": "Fri, 11 Nov 2022 00:46:26 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "13b160d3-0c83-4f23-a95b-73878da4dbf3",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.77.94;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-rbac-assignment-id": "5196b96b-f6a1-5fd7-b398-8b892aef065a",
-        "x-ms-keyvault-rbac-cache": "ra_age=0;da_age=8031;rd_age=8031;brd_age=18920;ra_notif_age=5;dec_lev=1;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.9.538.1",
-        "x-ms-request-id": "8fbf5c92-93c0-4317-a5ff-0445d6ad3843"
+        "x-ms-client-request-id": "09145c1b-bbbc-46d3-8423-95682d88b94f",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.80.222;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "e0879cc6-53b1-5604-999d-586eba05a46e",
+        "x-ms-keyvault-rbac-cache": "ra_age=135;da_age=5408;rd_age=5408;brd_age=3306;ra_notif_age=1295;dec_lev=1;",
+        "x-ms-keyvault-region": "australiacentral",
+        "x-ms-keyvault-service-version": "1.9.576.1",
+        "x-ms-request-id": "8b855efc-4dd1-45bf-8367-505d172a96eb"
       },
       "ResponseBody": {
         "error": {
@@ -202,7 +202,7 @@
       }
     },
     {
-      "RequestUri": "https://keyvault_name.vault.azure.net/deletedsecrets/lroRecoverSecretName-canresumefromastoppedpoller-?api-version=7.3",
+      "RequestUri": "https://keyvault_name.vault.azure.net/deletedsecrets/lroRecoverSecretName-canresumefromastoppedpoller-?api-version=7.4-preview.1",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -218,8 +218,8 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "4d5f12ad-479c-48d5-aed9-14188196d6a7",
-        "x-ms-useragent": "azsdk-js-keyvault-secrets/4.6.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+        "x-ms-client-request-id": "cc9a635e-20bc-4a43-8022-f628b45a67a9",
+        "x-ms-useragent": "azsdk-js-keyvault-secrets/4.7.0-beta.1 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 404,
@@ -227,18 +227,18 @@
         "Cache-Control": "no-cache",
         "Content-Length": "123",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 12 Oct 2022 23:35:29 GMT",
+        "Date": "Fri, 11 Nov 2022 00:46:26 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "4d5f12ad-479c-48d5-aed9-14188196d6a7",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.77.94;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-rbac-assignment-id": "5196b96b-f6a1-5fd7-b398-8b892aef065a",
-        "x-ms-keyvault-rbac-cache": "ra_age=0;da_age=8031;rd_age=8031;brd_age=18920;ra_notif_age=5;dec_lev=0;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.9.538.1",
-        "x-ms-request-id": "040d2e30-f023-444c-9ac2-e90300fb3322"
+        "x-ms-client-request-id": "cc9a635e-20bc-4a43-8022-f628b45a67a9",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.80.222;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "e0879cc6-53b1-5604-999d-586eba05a46e",
+        "x-ms-keyvault-rbac-cache": "ra_age=135;da_age=5409;rd_age=5409;brd_age=3306;ra_notif_age=1295;dec_lev=0;",
+        "x-ms-keyvault-region": "australiacentral",
+        "x-ms-keyvault-service-version": "1.9.576.1",
+        "x-ms-request-id": "d3222830-f107-4f2e-917b-f2d30b1ee2ce"
       },
       "ResponseBody": {
         "error": {
@@ -248,7 +248,7 @@
       }
     },
     {
-      "RequestUri": "https://keyvault_name.vault.azure.net/deletedsecrets/lroRecoverSecretName-canresumefromastoppedpoller-?api-version=7.3",
+      "RequestUri": "https://keyvault_name.vault.azure.net/deletedsecrets/lroRecoverSecretName-canresumefromastoppedpoller-?api-version=7.4-preview.1",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -264,8 +264,8 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "530e1ee5-2638-47e5-867e-b97fe8f331c1",
-        "x-ms-useragent": "azsdk-js-keyvault-secrets/4.6.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+        "x-ms-client-request-id": "79fdd765-1484-43ea-b526-e68817b19f4a",
+        "x-ms-useragent": "azsdk-js-keyvault-secrets/4.7.0-beta.1 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -273,35 +273,35 @@
         "Cache-Control": "no-cache",
         "Content-Length": "454",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 12 Oct 2022 23:35:34 GMT",
+        "Date": "Fri, 11 Nov 2022 00:46:31 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "530e1ee5-2638-47e5-867e-b97fe8f331c1",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.77.94;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-rbac-assignment-id": "5196b96b-f6a1-5fd7-b398-8b892aef065a",
-        "x-ms-keyvault-rbac-cache": "ra_age=5;da_age=8036;rd_age=8036;brd_age=18925;ra_notif_age=10;dec_lev=0;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.9.538.1",
-        "x-ms-request-id": "9e20527f-721f-420a-b677-fe0af995150e"
+        "x-ms-client-request-id": "79fdd765-1484-43ea-b526-e68817b19f4a",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.80.222;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "e0879cc6-53b1-5604-999d-586eba05a46e",
+        "x-ms-keyvault-rbac-cache": "ra_age=140;da_age=5414;rd_age=5414;brd_age=3312;ra_notif_age=1301;dec_lev=0;",
+        "x-ms-keyvault-region": "australiacentral",
+        "x-ms-keyvault-service-version": "1.9.576.1",
+        "x-ms-request-id": "9d5a13c1-867d-47ea-b674-07e4382451f8"
       },
       "ResponseBody": {
         "recoveryId": "https://keyvault_name.vault.azure.net/deletedsecrets/lroRecoverSecretName-canresumefromastoppedpoller-",
-        "deletedDate": 1665617730,
-        "scheduledPurgeDate": 1666222530,
-        "id": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-/147bfdf642fb41449d61c5676b61f105",
+        "deletedDate": 1668127586,
+        "scheduledPurgeDate": 1668732386,
+        "id": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-/96bf2703fefb432f9c3a1e5755122460",
         "attributes": {
           "enabled": true,
-          "created": 1665617730,
-          "updated": 1665617730,
+          "created": 1668127570,
+          "updated": 1668127570,
           "recoveryLevel": "CustomizedRecoverable\u002BPurgeable",
           "recoverableDays": 7
         }
       }
     },
     {
-      "RequestUri": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-/?api-version=7.3",
+      "RequestUri": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-/?api-version=7.4-preview.1",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -317,8 +317,8 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "203d2e23-bbcd-4abc-a933-d3808e84f3f4",
-        "x-ms-useragent": "azsdk-js-keyvault-secrets/4.6.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+        "x-ms-client-request-id": "2e8c673c-9a6f-4750-a53c-bd4532589bde",
+        "x-ms-useragent": "azsdk-js-keyvault-secrets/4.7.0-beta.1 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 404,
@@ -326,18 +326,18 @@
         "Cache-Control": "no-cache",
         "Content-Length": "346",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 12 Oct 2022 23:35:34 GMT",
+        "Date": "Fri, 11 Nov 2022 00:46:31 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "203d2e23-bbcd-4abc-a933-d3808e84f3f4",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.77.94;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-rbac-assignment-id": "5196b96b-f6a1-5fd7-b398-8b892aef065a",
-        "x-ms-keyvault-rbac-cache": "ra_age=6;da_age=8036;rd_age=8036;brd_age=18926;ra_notif_age=10;dec_lev=0;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.9.538.1",
-        "x-ms-request-id": "bb176c00-ac72-48d7-9278-b61b0b3c776a"
+        "x-ms-client-request-id": "2e8c673c-9a6f-4750-a53c-bd4532589bde",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.80.222;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "e0879cc6-53b1-5604-999d-586eba05a46e",
+        "x-ms-keyvault-rbac-cache": "ra_age=140;da_age=5414;rd_age=5414;brd_age=3312;ra_notif_age=1301;dec_lev=0;",
+        "x-ms-keyvault-region": "australiacentral",
+        "x-ms-keyvault-service-version": "1.9.576.1",
+        "x-ms-request-id": "8fece9c0-7279-4cc7-9017-8f5fe1eaf2ff"
       },
       "ResponseBody": {
         "error": {
@@ -347,7 +347,7 @@
       }
     },
     {
-      "RequestUri": "https://keyvault_name.vault.azure.net/deletedsecrets/lroRecoverSecretName-canresumefromastoppedpoller-/recover?api-version=7.3",
+      "RequestUri": "https://keyvault_name.vault.azure.net/deletedsecrets/lroRecoverSecretName-canresumefromastoppedpoller-/recover?api-version=7.4-preview.1",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -364,8 +364,8 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "f132b4bc-f9ff-4ddd-b45b-3adda9f27db9",
-        "x-ms-useragent": "azsdk-js-keyvault-secrets/4.6.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+        "x-ms-client-request-id": "086c75cc-753c-4d5e-bb0d-dfbcfc676bb0",
+        "x-ms-useragent": "azsdk-js-keyvault-secrets/4.7.0-beta.1 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -373,32 +373,32 @@
         "Cache-Control": "no-cache",
         "Content-Length": "279",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 12 Oct 2022 23:35:35 GMT",
+        "Date": "Fri, 11 Nov 2022 00:46:31 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "f132b4bc-f9ff-4ddd-b45b-3adda9f27db9",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.77.94;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-rbac-assignment-id": "5196b96b-f6a1-5fd7-b398-8b892aef065a",
-        "x-ms-keyvault-rbac-cache": "ra_age=6;da_age=8036;rd_age=8036;brd_age=18926;ra_notif_age=10;dec_lev=1;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.9.538.1",
-        "x-ms-request-id": "e61eb0f1-4912-4dd6-9999-2a9ffbfc031f"
+        "x-ms-client-request-id": "086c75cc-753c-4d5e-bb0d-dfbcfc676bb0",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.80.222;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "e0879cc6-53b1-5604-999d-586eba05a46e",
+        "x-ms-keyvault-rbac-cache": "ra_age=141;da_age=5414;rd_age=5414;brd_age=3312;ra_notif_age=1301;dec_lev=1;",
+        "x-ms-keyvault-region": "australiacentral",
+        "x-ms-keyvault-service-version": "1.9.576.1",
+        "x-ms-request-id": "472660db-eace-48c6-ba38-f610417277e5"
       },
       "ResponseBody": {
-        "id": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-/147bfdf642fb41449d61c5676b61f105",
+        "id": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-/96bf2703fefb432f9c3a1e5755122460",
         "attributes": {
           "enabled": true,
-          "created": 1665617730,
-          "updated": 1665617730,
+          "created": 1668127570,
+          "updated": 1668127570,
           "recoveryLevel": "CustomizedRecoverable\u002BPurgeable",
           "recoverableDays": 7
         }
       }
     },
     {
-      "RequestUri": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-/?api-version=7.3",
+      "RequestUri": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-/?api-version=7.4-preview.1",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -414,8 +414,8 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "15fa25b0-1615-4c99-a23c-60edeb3db6af",
-        "x-ms-useragent": "azsdk-js-keyvault-secrets/4.6.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+        "x-ms-client-request-id": "f6e28ef9-764c-4ad9-83a5-39a166a28954",
+        "x-ms-useragent": "azsdk-js-keyvault-secrets/4.7.0-beta.1 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 404,
@@ -423,18 +423,18 @@
         "Cache-Control": "no-cache",
         "Content-Length": "346",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 12 Oct 2022 23:35:35 GMT",
+        "Date": "Fri, 11 Nov 2022 00:46:32 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "15fa25b0-1615-4c99-a23c-60edeb3db6af",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.77.94;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-rbac-assignment-id": "5196b96b-f6a1-5fd7-b398-8b892aef065a",
-        "x-ms-keyvault-rbac-cache": "ra_age=6;da_age=8036;rd_age=8036;brd_age=18926;ra_notif_age=11;dec_lev=0;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.9.538.1",
-        "x-ms-request-id": "05740698-d9fc-4ab4-9f94-14cfa5a78b1a"
+        "x-ms-client-request-id": "f6e28ef9-764c-4ad9-83a5-39a166a28954",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.80.222;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "e0879cc6-53b1-5604-999d-586eba05a46e",
+        "x-ms-keyvault-rbac-cache": "ra_age=141;da_age=5414;rd_age=5414;brd_age=3312;ra_notif_age=1301;dec_lev=0;",
+        "x-ms-keyvault-region": "australiacentral",
+        "x-ms-keyvault-service-version": "1.9.576.1",
+        "x-ms-request-id": "2a26cc1a-cab6-401b-b7d6-2a74e23f2e04"
       },
       "ResponseBody": {
         "error": {
@@ -444,7 +444,7 @@
       }
     },
     {
-      "RequestUri": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-/?api-version=7.3",
+      "RequestUri": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-/?api-version=7.4-preview.1",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -460,8 +460,8 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "64798fcd-0e63-4405-a295-82dba1842a2a",
-        "x-ms-useragent": "azsdk-js-keyvault-secrets/4.6.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+        "x-ms-client-request-id": "d4cf2e73-6612-4865-bc00-d7eb0c4f2597",
+        "x-ms-useragent": "azsdk-js-keyvault-secrets/4.7.0-beta.1 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 404,
@@ -469,18 +469,18 @@
         "Cache-Control": "no-cache",
         "Content-Length": "346",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 12 Oct 2022 23:35:35 GMT",
+        "Date": "Fri, 11 Nov 2022 00:46:32 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "64798fcd-0e63-4405-a295-82dba1842a2a",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.77.94;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-rbac-assignment-id": "5196b96b-f6a1-5fd7-b398-8b892aef065a",
-        "x-ms-keyvault-rbac-cache": "ra_age=6;da_age=8036;rd_age=8036;brd_age=18926;ra_notif_age=11;dec_lev=0;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.9.538.1",
-        "x-ms-request-id": "469f86ff-02c7-4752-95ed-0860fcfe30a2"
+        "x-ms-client-request-id": "d4cf2e73-6612-4865-bc00-d7eb0c4f2597",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.80.222;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "e0879cc6-53b1-5604-999d-586eba05a46e",
+        "x-ms-keyvault-rbac-cache": "ra_age=141;da_age=5415;rd_age=5415;brd_age=3313;ra_notif_age=1302;dec_lev=0;",
+        "x-ms-keyvault-region": "australiacentral",
+        "x-ms-keyvault-service-version": "1.9.576.1",
+        "x-ms-request-id": "416a4f61-8674-450f-a7aa-56db5261c12a"
       },
       "ResponseBody": {
         "error": {
@@ -490,7 +490,7 @@
       }
     },
     {
-      "RequestUri": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-/?api-version=7.3",
+      "RequestUri": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-/?api-version=7.4-preview.1",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -506,100 +506,8 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "f5f37646-3da0-42df-9516-4d38203c4484",
-        "x-ms-useragent": "azsdk-js-keyvault-secrets/4.6.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
-      },
-      "RequestBody": null,
-      "StatusCode": 404,
-      "ResponseHeaders": {
-        "Cache-Control": "no-cache",
-        "Content-Length": "346",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 12 Oct 2022 23:35:35 GMT",
-        "Expires": "-1",
-        "Pragma": "no-cache",
-        "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
-        "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "f5f37646-3da0-42df-9516-4d38203c4484",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.77.94;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-rbac-assignment-id": "5196b96b-f6a1-5fd7-b398-8b892aef065a",
-        "x-ms-keyvault-rbac-cache": "ra_age=6;da_age=8036;rd_age=8036;brd_age=18926;ra_notif_age=11;dec_lev=0;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.9.538.1",
-        "x-ms-request-id": "0fe9308e-b7aa-4b5d-a12a-ca425a2b855b"
-      },
-      "ResponseBody": {
-        "error": {
-          "code": "SecretNotFound",
-          "message": "A secret with (name/id) lroRecoverSecretName-canresumefromastoppedpoller- was not found in this key vault. If you recently deleted this secret you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"
-        }
-      }
-    },
-    {
-      "RequestUri": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-/?api-version=7.3",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "Referer": "http://localhost:9330/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "055dd9ac-2892-48f9-ad25-322372bfc8fd",
-        "x-ms-useragent": "azsdk-js-keyvault-secrets/4.6.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
-      },
-      "RequestBody": null,
-      "StatusCode": 404,
-      "ResponseHeaders": {
-        "Cache-Control": "no-cache",
-        "Content-Length": "346",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 12 Oct 2022 23:35:35 GMT",
-        "Expires": "-1",
-        "Pragma": "no-cache",
-        "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
-        "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "055dd9ac-2892-48f9-ad25-322372bfc8fd",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.77.94;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-rbac-assignment-id": "5196b96b-f6a1-5fd7-b398-8b892aef065a",
-        "x-ms-keyvault-rbac-cache": "ra_age=6;da_age=8036;rd_age=8036;brd_age=18926;ra_notif_age=11;dec_lev=0;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.9.538.1",
-        "x-ms-request-id": "b030aa76-4b55-49d7-b733-9b51d5883e4f"
-      },
-      "ResponseBody": {
-        "error": {
-          "code": "SecretNotFound",
-          "message": "A secret with (name/id) lroRecoverSecretName-canresumefromastoppedpoller- was not found in this key vault. If you recently deleted this secret you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"
-        }
-      }
-    },
-    {
-      "RequestUri": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-/?api-version=7.3",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "Referer": "http://localhost:9330/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "4fb23a85-e608-41a5-ab49-152f769faed1",
-        "x-ms-useragent": "azsdk-js-keyvault-secrets/4.6.1 core-rest-pipeline/1.9.3 OS/Linuxx86_64"
+        "x-ms-client-request-id": "5b768d37-d3eb-4a1d-be93-361f29ff8407",
+        "x-ms-useragent": "azsdk-js-keyvault-secrets/4.7.0-beta.1 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -607,26 +515,26 @@
         "Cache-Control": "no-cache",
         "Content-Length": "295",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 12 Oct 2022 23:35:40 GMT",
+        "Date": "Fri, 11 Nov 2022 00:46:32 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "4fb23a85-e608-41a5-ab49-152f769faed1",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.77.94;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-rbac-assignment-id": "5196b96b-f6a1-5fd7-b398-8b892aef065a",
-        "x-ms-keyvault-rbac-cache": "ra_age=11;da_age=8041;rd_age=8041;brd_age=18931;ra_notif_age=16;dec_lev=0;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.9.538.1",
-        "x-ms-request-id": "ad123c67-e3a4-4aac-bd9e-b13f76f477c2"
+        "x-ms-client-request-id": "5b768d37-d3eb-4a1d-be93-361f29ff8407",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.80.222;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "e0879cc6-53b1-5604-999d-586eba05a46e",
+        "x-ms-keyvault-rbac-cache": "ra_age=141;da_age=5415;rd_age=5415;brd_age=3313;ra_notif_age=1302;dec_lev=0;",
+        "x-ms-keyvault-region": "australiacentral",
+        "x-ms-keyvault-service-version": "1.9.576.1",
+        "x-ms-request-id": "fd5e92d4-466d-4ae3-b899-57e445377ed5"
       },
       "ResponseBody": {
         "value": "value",
-        "id": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-/147bfdf642fb41449d61c5676b61f105",
+        "id": "https://keyvault_name.vault.azure.net/secrets/lroRecoverSecretName-canresumefromastoppedpoller-/96bf2703fefb432f9c3a1e5755122460",
         "attributes": {
           "enabled": true,
-          "created": 1665617730,
-          "updated": 1665617730,
+          "created": 1668127570,
+          "updated": 1668127570,
           "recoveryLevel": "CustomizedRecoverable\u002BPurgeable",
           "recoverableDays": 7
         }

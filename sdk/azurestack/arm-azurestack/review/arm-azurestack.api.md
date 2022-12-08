@@ -82,9 +82,9 @@ export interface CloudManifestFileProperties {
 }
 
 // @public
-export type CloudManifestFileResponse = Resource & {
+export interface CloudManifestFileResponse extends Resource {
     properties?: CloudManifestFileProperties;
-};
+}
 
 // @public
 export interface Compatibility {
@@ -104,10 +104,10 @@ export type ComputeRole = string;
 export type CreatedByType = string;
 
 // @public
-export type CustomerSubscription = Resource & {
+export interface CustomerSubscription extends Resource {
     readonly systemData?: SystemData;
     tenantId?: string;
-};
+}
 
 // @public
 export interface CustomerSubscriptionList {
@@ -204,7 +204,11 @@ export interface ExtendedProduct {
 }
 
 // @public
-export type ExtendedProductProperties = VirtualMachineExtensionProductProperties & VirtualMachineProductProperties & {};
+export interface ExtendedProductProperties extends VirtualMachineExtensionProductProperties, VirtualMachineProductProperties {
+}
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface IconUris {
@@ -217,84 +221,61 @@ export interface IconUris {
 
 // @public
 export enum KnownCategory {
-    // (undocumented)
     Adfs = "ADFS",
-    // (undocumented)
     AzureAD = "AzureAD"
 }
 
 // @public
 export enum KnownCompatibilityIssue {
-    // (undocumented)
     AdfsIdentitySystemRequired = "ADFSIdentitySystemRequired",
-    // (undocumented)
     AzureADIdentitySystemRequired = "AzureADIdentitySystemRequired",
-    // (undocumented)
     CapacityBillingModelRequired = "CapacityBillingModelRequired",
-    // (undocumented)
     ConnectionToAzureRequired = "ConnectionToAzureRequired",
-    // (undocumented)
     ConnectionToInternetRequired = "ConnectionToInternetRequired",
-    // (undocumented)
     DevelopmentBillingModelRequired = "DevelopmentBillingModelRequired",
-    // (undocumented)
     DisconnectedEnvironmentRequired = "DisconnectedEnvironmentRequired",
-    // (undocumented)
     HigherDeviceVersionRequired = "HigherDeviceVersionRequired",
-    // (undocumented)
     LowerDeviceVersionRequired = "LowerDeviceVersionRequired",
-    // (undocumented)
     PayAsYouGoBillingModelRequired = "PayAsYouGoBillingModelRequired"
 }
 
 // @public
 export enum KnownComputeRole {
-    // (undocumented)
     IaaS = "IaaS",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     PaaS = "PaaS"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownLocation {
-    // (undocumented)
     Global = "global"
 }
 
 // @public
 export enum KnownOperatingSystem {
-    // (undocumented)
     Linux = "Linux",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     Windows = "Windows"
 }
 
 // @public
-export type LinkedSubscription = TrackedResource & {
+export interface LinkedSubscription extends TrackedResource {
+    readonly deviceConnectionStatus?: string;
+    readonly deviceId?: string;
+    readonly deviceLinkState?: string;
+    readonly deviceObjectId?: string;
+    readonly lastConnectedTime?: string;
     linkedSubscriptionId?: string;
     registrationResourceId?: string;
-    readonly deviceId?: string;
-    readonly deviceObjectId?: string;
-    readonly deviceLinkState?: string;
-    readonly lastConnectedTime?: string;
-    readonly deviceConnectionStatus?: string;
-};
+}
 
 // @public
 export interface LinkedSubscriptionParameter {
@@ -426,27 +407,27 @@ export interface OsDiskImage {
 }
 
 // @public
-export type Product = Resource & {
-    readonly systemData?: SystemData;
-    displayName?: string;
-    description?: string;
-    publisherDisplayName?: string;
-    publisherIdentifier?: string;
-    offer?: string;
-    offerVersion?: string;
-    sku?: string;
+export interface Product extends Resource {
     billingPartNumber?: string;
-    vmExtensionType?: string;
+    compatibility?: Compatibility;
+    description?: string;
+    displayName?: string;
     galleryItemIdentity?: string;
     iconUris?: IconUris;
-    links?: ProductLink[];
     legalTerms?: string;
-    privacyPolicy?: string;
+    links?: ProductLink[];
+    offer?: string;
+    offerVersion?: string;
     payloadLength?: number;
+    privacyPolicy?: string;
     productKind?: string;
     productProperties?: ProductProperties;
-    compatibility?: Compatibility;
-};
+    publisherDisplayName?: string;
+    publisherIdentifier?: string;
+    sku?: string;
+    readonly systemData?: SystemData;
+    vmExtensionType?: string;
+}
 
 // @public
 export interface ProductLink {
@@ -546,11 +527,11 @@ export type ProductsUploadLogResponse = ProductLog;
 export type ProvisioningState = "Creating" | "Failed" | "Succeeded" | "Canceled";
 
 // @public
-export type Registration = TrackedResource & {
-    objectId?: string;
-    cloudId?: string;
+export interface Registration extends TrackedResource {
     billingModel?: string;
-};
+    cloudId?: string;
+    objectId?: string;
+}
 
 // @public
 export interface RegistrationList {

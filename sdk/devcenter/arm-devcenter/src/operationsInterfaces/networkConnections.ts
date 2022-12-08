@@ -170,7 +170,19 @@ export interface NetworkConnections {
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param options The options parameters.
    */
-  runHealthChecks(
+  beginRunHealthChecks(
+    resourceGroupName: string,
+    networkConnectionName: string,
+    options?: NetworkConnectionsRunHealthChecksOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Triggers a new health check run. The execution and health check result can be tracked via the
+   * network Connection health check details
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
+   * @param options The options parameters.
+   */
+  beginRunHealthChecksAndWait(
     resourceGroupName: string,
     networkConnectionName: string,
     options?: NetworkConnectionsRunHealthChecksOptionalParams

@@ -49,10 +49,10 @@ export interface CatalogSku {
 }
 
 // @public
-export type CommitmentAssociation = Resource & {
+export interface CommitmentAssociation extends Resource {
     etag?: string;
     properties?: CommitmentAssociationProperties;
-};
+}
 
 // @public
 export interface CommitmentAssociationListResult {
@@ -105,11 +105,11 @@ export interface CommitmentAssociationsMoveOptionalParams extends coreClient.Ope
 export type CommitmentAssociationsMoveResponse = CommitmentAssociation;
 
 // @public
-export type CommitmentPlan = Resource & {
+export interface CommitmentPlan extends Resource {
     etag?: string;
     readonly properties?: CommitmentPlanProperties;
     sku?: ResourceSku;
-};
+}
 
 // @public
 export interface CommitmentPlanListResult {
@@ -209,28 +209,24 @@ export interface CommitmentPlansRemoveOptionalParams extends coreClient.Operatio
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export enum KnownResourceSkuRestrictionsReasonCode {
-    // (undocumented)
     NotAvailableForSubscription = "NotAvailableForSubscription",
-    // (undocumented)
     QuotaId = "QuotaId"
 }
 
 // @public
 export enum KnownResourceSkuRestrictionsType {
-    // (undocumented)
     Location = "location",
-    // (undocumented)
     Zone = "zone"
 }
 
 // @public
 export enum KnownSkuCapacityScaleType {
-    // (undocumented)
     Automatic = "Automatic",
-    // (undocumented)
     Manual = "Manual",
-    // (undocumented)
     None = "None"
 }
 

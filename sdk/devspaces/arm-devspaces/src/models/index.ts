@@ -142,22 +142,23 @@ export interface OrchestratorSpecificConnectionDetails {
 }
 
 /** The resource model definition for a ARM tracked top level resource. */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Tags for the Azure resource. */
   tags?: { [propertyName: string]: string };
   /** Region where the Azure resource is located. */
   location?: string;
-};
+}
 
 /** Contains information used to connect to a Kubernetes cluster */
-export type KubernetesConnectionDetails = OrchestratorSpecificConnectionDetails & {
+export interface KubernetesConnectionDetails
+  extends OrchestratorSpecificConnectionDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "Kubernetes";
   /** Gets the kubeconfig for the cluster. */
   kubeConfig?: string;
-};
+}
 
-export type Controller = TrackedResource & {
+export interface Controller extends TrackedResource {
   /** Model representing SKU for Azure Dev Spaces Controller. */
   sku: Sku;
   /**
@@ -184,16 +185,23 @@ export type Controller = TrackedResource & {
   targetContainerHostResourceId: string;
   /** Credentials of the target container host (base64). */
   targetContainerHostCredentialsBase64: string;
-};
+}
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Updating */
   Updating = "Updating",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Deleted */
   Deleted = "Deleted"
 }
 
@@ -214,6 +222,7 @@ export type ProvisioningState = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
+  /** S1 */
   S1 = "S1"
 }
 
@@ -228,6 +237,7 @@ export type SkuName = string;
 
 /** Known values of {@link SkuTier} that the service accepts. */
 export enum KnownSkuTier {
+  /** Standard */
   Standard = "Standard"
 }
 

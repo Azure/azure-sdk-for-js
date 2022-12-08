@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "105",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-cognitiveservices/7.3.0 core-rest-pipeline/1.10.0 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "2e66aa1b-20ab-4f58-ba30-2ff1010227f4"
+        "User-Agent": "azsdk-js-arm-cognitiveservices/7.3.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "17474af9-9b36-46b8-a975-54d2458da3d3"
       },
       "RequestBody": {
         "kind": "CognitiveServices",
@@ -26,26 +26,26 @@
       "StatusCode": 201,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "16142",
+        "Content-Length": "16374",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 31 Oct 2022 06:04:56 GMT",
-        "ETag": "\u00226c00a79a-0000-0100-0000-635f65870000\u0022",
+        "Date": "Tue, 22 Nov 2022 07:06:50 GMT",
+        "ETag": "\u0022cc000d91-0000-0100-0000-637c75090000\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "istio-envoy",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "650",
-        "x-ms-correlation-request-id": "8b998e22-9b17-4fd5-b8cb-c0292afa760a",
+        "x-envoy-upstream-service-time": "515",
+        "x-ms-correlation-request-id": "e936a0d0-9be8-4bed-9dfb-f7d22c3bb7b7",
         "x-ms-ratelimit-remaining-subscription-writes": "1199",
-        "x-ms-request-id": "01f5584f-33f7-4670-9fec-e2753f825f21",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221031T060456Z:8b998e22-9b17-4fd5-b8cb-c0292afa760a"
+        "x-ms-request-id": "d29e9d38-44a6-43e7-8928-b523297895cc",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221122T070651Z:e936a0d0-9be8-4bed-9dfb-f7d22c3bb7b7"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.CognitiveServices/accounts/myaccountxxxx",
         "name": "myaccountxxxx",
         "type": "Microsoft.CognitiveServices/accounts",
-        "etag": "\u00226c00a79a-0000-0100-0000-635f65870000\u0022",
+        "etag": "\u0022cc000d91-0000-0100-0000-637c75090000\u0022",
         "location": "eastus",
         "sku": {
           "name": "S0"
@@ -53,8 +53,8 @@
         "kind": "CognitiveServices",
         "properties": {
           "endpoint": "https://eastus.api.cognitive.microsoft.com/",
-          "internalId": "3cb04871052e4d5ab914094e2c531a74",
-          "dateCreated": "2022-10-31T06:04:54.8563583Z",
+          "internalId": "b1b6133f95d6449899681a18a95c3981",
+          "dateCreated": "2022-11-22T07:06:49.1738603Z",
           "apiProperties": {},
           "callRateLimit": {
             "rules": [
@@ -119,6 +119,18 @@
                 ]
               },
               {
+                "key": "formrecognizer",
+                "renewalPeriod": 1,
+                "count": 100,
+                "dynamicThrottlingEnabled": false,
+                "matchPatterns": [
+                  {
+                    "path": "formrecognizer/*",
+                    "method": "*"
+                  }
+                ]
+              },
+              {
                 "key": "customvision.training",
                 "renewalPeriod": 1,
                 "count": 10,
@@ -150,7 +162,7 @@
                 "key": "customvision.prediction",
                 "renewalPeriod": 1,
                 "count": 10,
-                "dynamicThrottlingEnabled": false,
+                "dynamicThrottlingEnabled": true,
                 "matchPatterns": [
                   {
                     "path": "customvision/v3.0/prediction/*",
@@ -873,6 +885,7 @@
             "Speech Services Speech to Text v2.0": "https://eastus.api.cognitive.microsoft.com/",
             "Speech Services Speech to Text v3.0": "https://eastus.api.cognitive.microsoft.com/",
             "Speech Services Speech to Text v3.1-preview.1": "https://eastus.api.cognitive.microsoft.com/",
+            "Speech Services Speech to Text v3.1": "https://eastus.api.cognitive.microsoft.com/",
             "Speech Services Custom Voice": "https://eastus.api.cognitive.microsoft.com/",
             "Speech Services Audio Content Creation": "https://eastus.api.cognitive.microsoft.com/",
             "Speech Services Speaker Verification": "https://eastus.api.cognitive.microsoft.com/",
@@ -887,17 +900,17 @@
           "provisioningState": "Succeeded"
         },
         "identity": {
-          "principalId": "5b4a082e-d542-4f36-ae7c-350ede6e6519",
+          "principalId": "fad3476d-57b4-4226-a2f4-a1d13cfb376d",
           "tenantId": "88888888-8888-8888-8888-888888888888",
           "type": "SystemAssigned"
         },
         "systemData": {
           "createdBy": "azure_client_id",
           "createdByType": "Application",
-          "createdAt": "2022-10-31T06:04:52.229799Z",
+          "createdAt": "2022-11-22T07:06:46.2090042Z",
           "lastModifiedBy": "azure_client_id",
           "lastModifiedByType": "Application",
-          "lastModifiedAt": "2022-10-31T06:04:52.229799Z"
+          "lastModifiedAt": "2022-11-22T07:06:46.2090042Z"
         }
       }
     }

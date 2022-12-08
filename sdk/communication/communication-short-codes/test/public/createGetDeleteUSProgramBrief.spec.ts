@@ -37,5 +37,5 @@ describe(`ShortCodesClient - creates US Program Brief using upsert`, function ()
 
     const delRes = await client.deleteUSProgramBrief(id);
     assert.isOk(delRes);
-  }).timeout(15000);
+  }).timeout(35000);
 });
