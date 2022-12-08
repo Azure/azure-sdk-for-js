@@ -3932,7 +3932,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221205
+      typescript: 5.0.0-dev.20221207
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -7455,6 +7455,7 @@ packages:
   /puppeteer/14.4.1:
     resolution: {integrity: sha512-+H0Gm84aXUvSLdSiDROtLlOofftClgw2TdceMvvCU9UvMryappoeS3+eOLfKvoy4sm8B8MWnYmPhWxVFudAOFQ==}
     engines: {node: '>=14.1.0'}
+    deprecated: < 18.1.0 is no longer supported
     requiresBuild: true
     dependencies:
       cross-fetch: 3.1.5
@@ -8977,8 +8978,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221205:
-    resolution: {integrity: sha512-afHkcfhaQqUk+Hjn+lUKtMqMttizIy5K2r75cz8l7/K+m0k6Yx9IoHRC5v8cjxB77ub2COdbr+0xsNodB7q6dg==}
+  /typescript/5.0.0-dev.20221207:
+    resolution: {integrity: sha512-xPWWjASgLapa35nseHVRmQK6L0k3E1hb8OcN3I7XZHqYGUxk3n+RcncQSb4gGVromTEy7OHaoNSWLrkDO0+T1Q==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -14149,28 +14150,30 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservices-siterecovery.tgz:
-    resolution: {integrity: sha512-PeiOw6tRFKqkVPLIOjpfYfbamggjEWRMsmQi9lFquXY2Fm8a0wJZG0Z4Ktru8q5zYcCYMUeZkNIeSK49hnuZrw==, tarball: file:projects/arm-recoveryservices-siterecovery.tgz}
+    resolution: {integrity: sha512-372llRwsqzWIJejFJ6Z6pQ2QUzAIG7SUInqHtZ0NRMS0o5sg7TRbw37pmiXmFcfIze6WQ/W0wHutXhgu+5tkTw==, tarball: file:projects/arm-recoveryservices-siterecovery.tgz}
     name: '@rush-temp/arm-recoveryservices-siterecovery'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.6
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - encoding
       - supports-color
     dev: false
 
