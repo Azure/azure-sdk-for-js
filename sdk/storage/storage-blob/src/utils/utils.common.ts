@@ -291,11 +291,32 @@ export function appendToURLPath(url: string, name: string): string {
  */
 export function setURLParameter(url: string, name: string, value?: string): string {
   const urlParsed = new URL(url);
-  if (value) {
-    urlParsed.searchParams.set(name, value!);
-  } else {
-    urlParsed.searchParams.delete(name);
+  // mutating searchParams will change the encoding, so we have to do this ourselves
+  const searchString = urlParsed.search;
+
+  if (!searchString) {
+    if (value) {
+      urlParsed.search = `?${name}=${value}`;
+      return urlParsed.toString();
+    }
+    return url;
   }
+
+  const searchPieces: string[] = [];
+
+  for (const pair of searchString.slice(1).split("&")) {
+    const [key] = pair.split("=", 2);
+    if (key === name) {
+      if (value) {
+        searchPieces.push(`${name}=${value}`);
+      }
+    } else {
+      searchPieces.push(pair);
+    }
+  }
+
+  urlParsed.search = searchPieces.length ? `?${searchPieces.join("&")}` : "";
+
   return urlParsed.toString();
 }
 
