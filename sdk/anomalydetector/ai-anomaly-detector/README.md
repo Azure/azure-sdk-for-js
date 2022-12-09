@@ -1,165 +1,245 @@
-# Azure Anomaly Detector client library for JavaScript
+# Azure AnomalyDetectorRest REST client library for JavaScript
 
-[Azure AnomalyDetector](https://azure.microsoft.com/services/cognitive-services/anomaly-detector/) API enables you to monitor and detect abnormalities in your time series data with machine learning.
+[Anomaly Detector](https://learn.microsoft.com/azure/cognitive-services/Anomaly-Detector/overview) is an AI service with a set of APIs, which enables you to monitor and detect anomalies in your time series data with little machine learning (ML) knowledge, either batch validation or real-time inference.
 
-Key links:
-- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector/)
-- [Package (NPM)](https://www.npmjs.com/package/@azure/ai-anomaly-detector)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-anomaly-detector)
-- [Product documentation](https://docs.microsoft.com/azure/cognitive-services/anomaly-detector/)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/anomalydetector/ai-anomaly-detector/samples)
-
-## Key concepts
-
-The `AnomalyDetectorClient` provides methods for anomaly detection:
-
-- `detectEntireSeries` - Detects anomalies on an entire data set
-- `detectLastPoint` - Detects anomalies in the latest data point
-- `detectChangePoint` - Evaluates change point score of every series point
+Please refer to our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library.
 
 ## Getting started
 
-### Currently supported environments
-
-- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
-- Latest versions of Safari, Chrome, Edge, and Firefox.
-
-See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
-
 ### Prerequisites
 
-- An [Azure subscription](https://azure.microsoft.com/free/).
-- An existing Anomaly Detector resource.
+- LTS versions of Node.js
+- You need an [Azure subscription][azure_sub] to use this package.
+- An existing Cognitive Services Anomaly Detector instance.
 
-If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resource-name>` with your own unique names:
+### Install the `@azure-rest/ai-anomaly-detector` package
 
-```PowerShell
-az cognitiveservices account create --kind AnomalyDetector --resource-group <your-resource-group-name> --name <your-resource-name>
-```
-
-### Install the `@azure/ai-anomaly-detector` package
-
-Install the Azure Anomaly Detector client library for JavaScript with `npm`:
+Install the Azure AnomalyDetectorRest REST client REST client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure/ai-anomaly-detector
+npm install @azure-rest/ai-anomaly-detector
 ```
 
-### Create and authenticate a `AnomalyDetectorClient`
+|SDK version|Supported API version of service |
+|-------------|---------------|
+|1.0.0-beta.1| 1.1|
 
-To create a client object to access the Anomaly Detector API, you will need the `endpoint` of your Anomaly Detector resource and a `credential`. The Anomaly Detector client can use either Azure Active Directory credentials or an API key credential to authenticate.
+### Create and authenticate a `AnomalyDetectorRestClient`
 
-You can find the endpoint for your Anomaly Detector resource in the Azure Portal by clicking `Keys and Endpoint` under Resource Management in the menu or by using the Azure CLI snippet below:
+To use an [Azure Active Directory (AAD) token credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token),
+provide an instance of the desired credential type obtained from the
+[@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) library.
 
-```bash
-az cognitiveservices account show --name <your-resource-name> --resource-group <your-resource-group-name> --query "endpoint"
-```
+To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) 
 
-#### Using an API Key
+After setup, you can choose which type of [credential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) from `@azure/identity` to use.
+As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
+can be used to authenticate the client.
 
-Use the Azure Portal to browse to your Anomaly Detector resource and retrieve an API key by clicking `Keys and Endpoint` under Resource Management, or use the Azure CLI snippet below:
+Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
+AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
-**Note:** Sometimes the API key is referred to as a "subscription key" or "subscription API key."
+## Key concepts
 
-```PowerShell
-az cognitiveservices account keys list --resource-group <your-resource-group-name> --name <your-resource-name>
-```
+With the Anomaly Detector, you can either detect anomalies in one variable using **Univariate Anomaly Detection**, or detect anomalies in multiple variables with **Multivariate Anomaly Detection**.
 
-Once you have an API key and endpoint, you can use the `AzureKeyCredential` class to authenticate the client as follows:
+|Feature  |Description  |
+|---------|---------|
+|Univariate Anomaly Detection | Detect anomalies in one variable, like revenue, cost, etc. The model was selected automatically based on your data pattern. |
+|Multivariate Anomaly Detection| Detect anomalies in multiple variables with correlations, which are usually gathered from equipment or other complex system. The underlying model used is Graph attention network.|
 
-```js
-const { AnomalyDetectorClient, AzureKeyCredential } = require("@azure/ai-anomaly-detector");
+### Univariate Anomaly Detection
 
-const client = new AnomalyDetectorClient("<endpoint>", new AzureKeyCredential("<API key>"));
-```
+The Univariate Anomaly Detection API enables you to monitor and detect abnormalities in your time series data without having to know machine learning. The algorithms adapt by automatically identifying and applying the best-fitting models to your data, regardless of industry, scenario, or data volume. Using your time series data, the API determines boundaries for anomaly detection, expected values, and which data points are anomalies.
 
-#### Using an Azure Active Directory Credential
+Using the Anomaly Detector doesn't require any prior experience in machine learning, and the REST API enables you to easily integrate the service into your applications and processes.
 
-Client API key authentication is used in most of the examples, but you can also authenticate with Azure Active Directory using the [Azure Identity library]. To use the DefaultAzureCredential provider shown below,
-or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
+With the Univariate Anomaly Detection, you can automatically detect anomalies throughout your time series data, or as they occur in real-time.
 
-```bash
-npm install @azure/identity
-```
+|Feature  |Description  |
+|---------|---------|
+| Streaming detection| Detect anomalies in your streaming data by using previously seen data points to determine if your latest one is an anomaly. This operation generates a model using the data points you send, and determines if the target point is an anomaly. By calling the API with each new data point you generate, you can monitor your data as it's created. |
+| Batch detection | Use your time series to detect any anomalies that might exist throughout your data. This operation generates a model using your entire time series data, with each point analyzed with the same model.         |
+| Change points detection | Use your time series to detect any trend change points that exist in your data. This operation generates a model using your entire time series data, with each point analyzed with the same model.    |
 
-You will also need to register a new AAD application and grant access to Anomaly Detector by assigning the `"Cognitive Services User"` role to your service principal (note: other roles such as `"Owner"` will not grant the necessary permissions, only `"Cognitive Services User"` will suffice to run the examples and the sample code).
+### Multivariate Anomaly Detection
 
-Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
+The **Multivariate Anomaly Detection** APIs further enable developers by easily integrating advanced AI for detecting anomalies from groups of metrics, without the need for machine learning knowledge or labeled data. Dependencies and inter-correlations between up to 300 different signals are now automatically counted as key factors. This new capability helps you to proactively protect your complex systems such as software applications, servers, factory machines, spacecraft, or even your business, from failures.
 
-```js
-const { AnomalyDetectorClient } = require("@azure/ai-anomaly-detector");
-const { DefaultAzureCredential } = require("@azure/identity");
+With the Multivariate Anomaly Detection, you can automatically detect anomalies throughout your time series data, or as they occur in real-time. There are three processes to use Multivariate Anomaly Detection.
 
-const client = new AnomalyDetectorClient("<endpoint>", new DefaultAzureCredential());
-```
+- **Training**: Use Train Model API to create and train a model, then use Get Model Status API to get the status and model metadata.
+- **Inference**:
+  - Use Async Inference API to trigger an asynchronous inference process and use Get Inference results API to get detection results on a batch of data.
+  - You could also use Sync Inference API to trigger a detection on one timestamp every time.
+- **Other operations**: List Model API and Delete Model API are supported in Multivariate Anomaly Detection model for model management.
+
+### Thread safety
+
+We guarantee that all client instance methods are thread-safe and independent of each other ([guideline](https://azure.github.io/azure-sdk/dotnet_introduction.html#dotnet-service-methods-thread-safety)). This ensures that the recommendation of reusing client instances is always safe, even across threads.
 
 ## Examples
 
-### Detect Change Points
+The following section provides several code snippets covering some of the most common Anomaly Detector service tasks, including:
 
-This sample demonstrates how to detect change points on entire series.
+- [Univariate Anomaly Detection - Batch detection](#batch-detection)
+- [Univariate Anomaly Detection - Streaming detection](#streaming-detection)
+- [Univariate Anomaly Detection - Detect change points](#detect-change-points)
+- [Multivariate Anomaly Detection](#multivariate-anomaly-detection-sample)
 
-```javascript
-const { AnomalyDetectorClient, TimeGranularity } = require("@azure/ai-anomaly-detector");
-const { AzureKeyCredential } = require("@azure/core-auth");
+### Batch detection
 
-// You will need to set this environment variables in .env file or edit the following values
-const apiKey = process.env["API_KEY"] || "";
-const endpoint = process.env["ENDPOINT"] || "";
+```typescript
+const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
+const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
+const timeSeriesDataPath = "./samples-dev/example-data/request-data.csv";
 
-async function main() {
+function read_series_from_file(path: string): Array<TimeSeriesPoint> {
+  let result = Array<TimeSeriesPoint>();
+  let input = fs.readFileSync(path).toString();
+  let parsed = parse(input, { skip_empty_lines: true });
+  parsed.forEach(function (e: Array<string>) {
+    result.push({ timestamp: new Date(e[0]), value: Number(e[1]) });
+  });
+  return result;
+}
+
+export async function main() {
   // create client
-  const client = new AnomalyDetectorClient(endpoint, new AzureKeyCredential(apiKey));
+  const credential = new AzureKeyCredential(apiKey);
+  const client = AnomalyDetector(endpoint, credential);
 
   // construct request
-  const request = {
-    series: [
-      { timestamp: new Date("2018-03-01T00:00:00Z"), value: 32858923 },
-      { timestamp: new Date("2018-03-02T00:00:00Z"), value: 29615278 },
-      { timestamp: new Date("2018-03-03T00:00:00Z"), value: 22839355 },
-      { timestamp: new Date("2018-03-04T00:00:00Z"), value: 25948736 },
-      { timestamp: new Date("2018-03-05T00:00:00Z"), value: 34139159 },
-      { timestamp: new Date("2018-03-06T00:00:00Z"), value: 33843985 },
-      { timestamp: new Date("2018-03-07T00:00:00Z"), value: 33637661 },
-      { timestamp: new Date("2018-03-08T00:00:00Z"), value: 32627350 },
-      { timestamp: new Date("2018-03-09T00:00:00Z"), value: 29881076 },
-      { timestamp: new Date("2018-03-10T00:00:00Z"), value: 22681575 },
-      { timestamp: new Date("2018-03-11T00:00:00Z"), value: 24629393 },
-      { timestamp: new Date("2018-03-12T00:00:00Z"), value: 34010679 },
-      { timestamp: new Date("2018-03-13T00:00:00Z"), value: 33893888 },
-      { timestamp: new Date("2018-03-14T00:00:00Z"), value: 33760076 },
-      { timestamp: new Date("2018-03-15T00:00:00Z"), value: 33093515 }
-    ],
-    granularity: TimeGranularity.daily
+  const options: DetectUnivariateEntireSeriesParameters = {
+    body: {
+      granularity: "daily",
+      imputeMode: "auto",
+      maxAnomalyRatio: 0.25,
+      sensitivity: 95,
+      series: read_series_from_file(timeSeriesDataPath),
+    },
+    headers: { "Content-Type": "application/json" },
   };
 
-  // get change point detect results
-  const result = await client.detectChangePoint(request);
-  const isChangePointDetected = result.isChangePoint.some((changePoint) => changePoint);
+  // get last detect result
+  const result = await client.path("/timeseries/entire/detect").post(options);
+  if (isUnexpected(result)) {
+    throw result;
+  }
 
-  if (isChangePointDetected) {
-    console.log("Change points were detected from the series at index:");
-    result.isChangePoint.forEach((changePoint, index) => {
-      if (changePoint === true) {
+  if (result.body.isAnomaly) {
+    result.body.isAnomaly.forEach(function (anomaly, index) {
+      if (anomaly === true) {
         console.log(index);
       }
     });
   } else {
-    console.log("There is no change point detected from the series.");
+    console.log("There is no anomaly detected from the series.");
   }
-  // output:
-  // Change points were detected from the series at index:
-  // 9
-}
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
 ```
 
-More Samples can be found [here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/anomalydetector/ai-anomaly-detector/samples)
+### Streaming Detection
+
+```typescript
+const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
+const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
+const timeSeriesDataPath = "./samples-dev/example-data/request-data.csv";
+
+function read_series_from_file(path: string): Array<TimeSeriesPoint> {
+  let result = Array<TimeSeriesPoint>();
+  let input = fs.readFileSync(path).toString();
+  let parsed = parse(input, { skip_empty_lines: true });
+  parsed.forEach(function (e: Array<string>) {
+    result.push({ timestamp: new Date(e[0]), value: Number(e[1]) });
+  });
+  return result;
+}
+
+export async function main() {
+  // create client
+  const credential = new AzureKeyCredential(apiKey);
+  const client = AnomalyDetector(endpoint, credential);
+
+  // construct request
+  const options: DetectUnivariateLastPointParameters = {
+    body: {
+      granularity: "daily",
+      imputeFixedValue: 800,
+      imputeMode: "fixed",
+      maxAnomalyRatio: 0.25,
+      sensitivity: 95,
+      series: read_series_from_file(timeSeriesDataPath),
+    },
+    headers: { "Content-Type": "application/json" },
+  };
+
+  // get last detect result
+  const result = await client.path("/timeseries/last/detect").post(options);
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  if (result.body.isAnomaly) {
+    console.log("The latest point is detected as anomaly.");
+  } else {
+    console.log("The latest point is not detected as anomaly.");
+  }
+```
+
+### Detect change points
+
+```typescript
+const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
+const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
+const timeSeriesDataPath = "./samples-dev/example-data/request-data.csv";
+
+function read_series_from_file(path: string): Array<TimeSeriesPoint> {
+  let result = Array<TimeSeriesPoint>();
+  let input = fs.readFileSync(path).toString();
+  let parsed = parse(input, { skip_empty_lines: true });
+  parsed.forEach(function (e: Array<string>) {
+    result.push({ timestamp: new Date(e[0]), value: Number(e[1]) });
+  });
+  return result;
+}
+
+export async function main() {
+  const credential = new AzureKeyCredential(apiKey);
+  const client = AnomalyDetector(endpoint, credential);
+  const options: DetectUnivariateChangePointParameters = {
+    body: {
+      granularity: "daily",
+      series: read_series_from_file(timeSeriesDataPath),
+    },
+    headers: { "Content-Type": "application/json" },
+  };
+  const result = await client.path("/timeseries/changepoint/detect").post(options);
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  if (result.body.isChangePoint === undefined) throw new Error("Empty isChangePoint");
+  if (
+    result.body.isChangePoint.some(function (changePoint) {
+      return changePoint === true;
+    })
+  ) {
+    console.log("Change points were detected from the series at index:");
+    result.body.isChangePoint.forEach(function (changePoint, index) {
+      if (changePoint === true) console.log(index);
+    });
+  } else {
+    console.log("There is no change point detected from the series.");
+  }
+```
+
+### Multivariate Anomaly Detection Sample
+
+To see how to use Anomaly Detector library to conduct Multivariate Anomaly Detection, see this [sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1-beta/typescript/src/sample_multivariate_detection.ts).
 
 ## Troubleshooting
+
+### General
 
 ### Logging
 
@@ -175,22 +255,34 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/anomalydetector/ai-anomaly-detector/samples)
-directory for detailed examples on how to use this library.
+These code samples show common scenario operations with the Azure Anomaly Detector library. More samples can be found under the [samples](https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/anomalydetector/Azure.AI.AnomalyDetector/tests/samples/) directory.
+
+- Univariate Anomaly Detection - Batch Detection: [sample_detect_entire_series_anomaly.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1-beta/typescript/src/sample_detect_entire_series_anomaly.ts)
+
+- Univariate Anomaly Detection - Streaming Detection: [ample_detect_last_point_anomaly.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1-beta/typescript/src/sample_detect_last_point_anomaly.ts)
+
+- Univariate Anomaly Detection - Change Point Detection: [sample_detect_change_point.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1-beta/typescript/src/sample_detect_change_point.ts)
+
+- Multivariate Anomaly Detection: [sample_multivariate_detection.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1-beta/typescript/src/sample_multivariate_detection.ts)
+
+### Additional documentation
+
+For more extensive documentation on Azure Anomaly Detector, see the [Anomaly Detector documentation](https://learn.microsoft.com/azure/cognitive-services/anomaly-detector/overview) on docs.microsoft.com.
 
 ## Contributing
 
-This project welcomes contributions and suggestions. Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
+This project welcomes contributions and suggestions. Most contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For details, visit [cla.microsoft.com][cla].
 
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+When you submit a pull request, a CLA-bot will automatically determine whether you need to provide a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions provided by the bot. You will only need to do this once across all repos using our CLA.
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+This project has adopted the [Microsoft Open Source Code of Conduct][code_of_conduct]. For more information see the [Code of Conduct FAQ][coc_faq] or contact [opencode@microsoft.com][coc_contact] with any additional questions or comments.
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
+<!-- LINKS -->
+[cla]: https://cla.microsoft.com
+[code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
+[coc_faq]: https://opensource.microsoft.com/codeofconduct/faq/
+[coc_contact]: mailto:opencode@microsoft.com
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/anomalydetector/ai-anomaly-detector-rest)
+- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/ai-anomaly-detector)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/ai-anomaly-detector?view=azure-node-preview)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples)
