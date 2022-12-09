@@ -6,7 +6,7 @@ import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecordedClient } from "./utils/recordedClient";
-import { getTestUSProgramBrief } from "./utils/testUSProgramBrief";
+import { getTestUSProgramBrief, runTestCleaningLeftovers } from "./utils/testUSProgramBrief";
 
 describe(`ShortCodesClient - updates US Program Brief using upsert`, function () {
   let recorder: Recorder;
@@ -24,18 +24,20 @@ describe(`ShortCodesClient - updates US Program Brief using upsert`, function ()
 
   it("can create and update a US Program Brief", async function () {
     const uspb = getTestUSProgramBrief();
-    const programBriefRequest: ShortCodesUpsertUSProgramBriefOptionalParams = {
-      body: uspb,
-    };
-    const submitRes = await client.upsertUSProgramBrief(uspb.id, programBriefRequest);
-    assert.isOk(submitRes);
+    await runTestCleaningLeftovers(uspb.id, client, async () => {
+      const programBriefRequest: ShortCodesUpsertUSProgramBriefOptionalParams = {
+        body: uspb,
+      };
+      const submitRes = await client.upsertUSProgramBrief(uspb.id, programBriefRequest);
+      assert.isOk(submitRes);
 
-    uspb.programDetails!.description = "TEST UPDATE";
-    programBriefRequest.body = uspb;
+      uspb.programDetails!.description = "TEST UPDATE";
+      programBriefRequest.body = uspb;
 
-    const updateRes = await client.upsertUSProgramBrief(uspb.id, programBriefRequest);
+      const updateRes = await client.upsertUSProgramBrief(uspb.id, programBriefRequest);
 
-    assert.isOk(updateRes);
-    assert.equal(updateRes.programDetails?.description, uspb.programDetails?.description);
+      assert.isOk(updateRes);
+      assert.equal(updateRes.programDetails?.description, uspb.programDetails?.description);
+    });
   }).timeout(35000);
 });

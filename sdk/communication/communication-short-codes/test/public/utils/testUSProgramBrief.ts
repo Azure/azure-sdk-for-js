@@ -15,6 +15,9 @@ import { CompositeMapper } from "@azure/core-client";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { v1 as uuid } from "uuid";
 
+const TestCompanyName: string = "Contoso";
+const TestProgramBriefName: string = "Contoso Loyalty Program";
+
 export function getTestUSProgramBrief(): USProgramBrief {
   let programBriefId = uuid();
 
@@ -29,7 +32,7 @@ export function getTestUSProgramBrief(): USProgramBrief {
         "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
       isPoliticalCampaign: false,
       isVanity: false,
-      name: "Contoso Loyalty Program",
+      name: TestProgramBriefName,
       numberType: "shortCode",
       privacyPolicyUrl: "https://contoso.com/privacy",
       callToActionTypes: ["sms", "website"],
@@ -39,7 +42,7 @@ export function getTestUSProgramBrief(): USProgramBrief {
     },
     companyInformation: {
       address: "1 Contoso Way Redmond, WA 98052",
-      name: "Contoso",
+      name: TestCompanyName,
       url: "https://contoso.com",
       contactInformation: {
         email: "alex@contoso.com",
@@ -177,5 +180,49 @@ export async function doesProgramBriefExist(
       return false;
     }
     throw e;
+  }
+}
+
+export async function findProgramBriefWithId(id: string, client: ShortCodesClient): Promise<USProgramBrief | null> {
+  for await (const programBrief of client.listUSProgramBriefs()) {
+    if (programBrief.id.toLowerCase() == id.toLowerCase()) {
+      return programBrief;
+    }
+  }
+
+  return null;
+}
+
+export async function runTestCleaningLeftovers(testProgramBriefId: string, client: ShortCodesClient, testLogic: () => Promise<void>) {
+  try {
+    await tryDeleteLeftOversFromPreviousTests(client);
+    await testLogic();
+  } catch (error) {
+    await tryDeleteProgramBrief(testProgramBriefId, client);
+    throw error;
+  }
+}
+
+async function tryDeleteLeftOversFromPreviousTests(client: ShortCodesClient): Promise<void> {
+  try {
+    for await (const programBrief of client.listUSProgramBriefs()) {
+      if (programBrief.programDetails?.name?.toLowerCase() == TestProgramBriefName.toLocaleLowerCase()
+        && programBrief.companyInformation?.name?.toLowerCase() == TestCompanyName.toLowerCase()
+        && programBrief.statusUpdatedDate) {
+        await tryDeleteProgramBrief(programBrief.id, client);
+      }
+    }
+  } catch (error) {
+    console.warn("Failed to delete left overs from previous tests", error);
+  }
+}
+
+function isOldEnoughToDelete()
+
+async function tryDeleteProgramBrief(id: string, client: ShortCodesClient): Promise<void> {
+  try {
+    await client.deleteUSProgramBrief(id);
+  } catch (error) {
+    console.warn("Failed to delete program brief", error);
   }
 }
