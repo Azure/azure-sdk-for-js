@@ -4017,7 +4017,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221208
+      typescript: 5.0.0-dev.20221209
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -9078,8 +9078,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221208:
-    resolution: {integrity: sha512-X9uK69qwF9KNf5i+SDMKAtS66MmUL+tbwbrtpyEplnWWdfErtw6ZRegxdgaTOAC7pFMALQuR/PCvkL6O78VbKg==}
+  /typescript/5.0.0-dev.20221209:
+    resolution: {integrity: sha512-1FzCXMc5vFSoL9j9R5GsMEHlDk03EyC+33UMCQvVW1La4suWPvNCqKA5EQBw6zbfE9fQPawKOcWlhOJ6uhRp4g==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -14686,7 +14686,7 @@ packages:
     dev: false
 
   file:projects/arm-search.tgz:
-    resolution: {integrity: sha512-DI1uNXcsqTZ9Ck9yCPW2LKnZK3dON9+hDPsjIton0TyXpM1G9T4+3MIacE6Rm97PxliJccXNrwzg9Y88TiSTCg==, tarball: file:projects/arm-search.tgz}
+    resolution: {integrity: sha512-iOwGP7Z5Vm24UkzTDGIpO5uMHmgdyZ+eADOwvuzoJvvZFGJ3Yokmza0LvOwSmR1ZUi9QhdHzxmcU8YIQ6Qltrw==, tarball: file:projects/arm-search.tgz}
     name: '@rush-temp/arm-search'
     version: 0.0.0
     dependencies:
@@ -14705,11 +14705,13 @@ packages:
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.1
-      typescript: 4.8.4
+      typescript: 4.2.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - '@types/node'
+      - encoding
       - supports-color
     dev: false
 

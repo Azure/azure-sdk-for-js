@@ -8,25 +8,31 @@
 
 import {
   env,
+  record,
+  RecorderEnvironmentSetup,
   Recorder,
-  RecorderStartOptions,
   delay,
-  isPlaybackMode,
+  isPlaybackMode
 } from "@azure-tools/test-recorder";
-import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
+import * as assert from "assert";
+import { ClientSecretCredential } from "@azure/identity";
 import { SearchManagementClient } from "../src/searchManagementClient";
 
-const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
-};
-
-const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+const recorderEnvSetup: RecorderEnvironmentSetup = {
+  replaceableVariables: {
+    AZURE_CLIENT_ID: "azure_client_id",
+    AZURE_CLIENT_SECRET: "azure_client_secret",
+    AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+    SUBSCRIPTION_ID: "azure_subscription_id"
+  },
+  customizationsOnRecordings: [
+    (recording: any): any =>
+      recording.replace(
+        /"access_token":"[^"]*"/g,
+        `"access_token":"access_token"`
+      )
+  ],
+  queryParametersToSkip: []
 };
 
 export const testPollingOptions = {
@@ -42,77 +48,80 @@ describe("Search test", () => {
   let searchServiceName: string;
   let keyname: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+  beforeEach(async function() {
+    recorder = record(this, recorderEnvSetup);
+    subscriptionId = env.SUBSCRIPTION_ID;
     // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new SearchManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    const credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      env.AZURE_CLIENT_SECRET
+    );
+    client = new SearchManagementClient(credential, subscriptionId);
     location = "eastus";
     resourceGroup = "myjstest";
     searchServiceName = "myjssearchservicexx"
     keyname = "testjskey";
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await recorder.stop();
   });
 
-  it("services create test", async function () {
-    const res = await client.services.beginCreateOrUpdateAndWait(resourceGroup, searchServiceName, {
+  it("services create test", async function() {
+    const res = await client.services.beginCreateOrUpdateAndWait(resourceGroup,searchServiceName,{
       location: location,
-      replicaCount: 1,
-      partitionCount: 1,
-      hostingMode: "default",
-      sku: {
-        name: "standard"
-      }
+        replicaCount: 1,
+        partitionCount:  1,
+        hostingMode: "default",
+        sku: {
+            name: "standard"
+        }
     });
-    assert.equal(res.name, searchServiceName);
+    assert.equal(res.name,searchServiceName);
   });
 
-  it("services get test", async function () {
-    const res = await client.services.get(resourceGroup, searchServiceName);
-    assert.equal(res.name, searchServiceName);
+  it("services get test", async function() {
+    const res = await client.services.get(resourceGroup,searchServiceName);
+    assert.equal(res.name,searchServiceName);
   });
 
-  it("services list test", async function () {
+  it("services list test", async function() {
     const resArray = new Array();
-    for await (let item of client.services.listByResourceGroup(resourceGroup)) {
-      resArray.push(item);
+    for await (let item of client.services.listByResourceGroup(resourceGroup)){
+        resArray.push(item);
     }
-    assert.equal(resArray.length, 1);
+    assert.equal(resArray.length,1);
   });
 
-  it("queryKeys create test", async function () {
-    const res = await client.queryKeys.create(resourceGroup, searchServiceName, keyname);
-    assert.notEqual(res.key, "");
+  it("queryKeys create test", async function() {
+    const res = await client.queryKeys.create(resourceGroup,searchServiceName,keyname);
+    assert.notEqual(res.key,"");
   });
 
-  it("queryKeys list test", async function () {
+  it("queryKeys list test", async function() {
     const resArray = new Array();
-    for await (let item of client.queryKeys.listBySearchService(resourceGroup, searchServiceName)) {
-      resArray.push(item);
+    for await (let item of client.queryKeys.listBySearchService(resourceGroup,searchServiceName)){
+        resArray.push(item);
     }
-    assert.equal(resArray.length, 2);
+    assert.equal(resArray.length,2);
   });
 
-  it("queryKeys delete test", async function () {
-    const res = await client.queryKeys.delete(resourceGroup, searchServiceName, keyname);
+  it("queryKeys delete test", async function() {
+    const res = await client.queryKeys.delete(resourceGroup,searchServiceName,keyname);
     const resArray = new Array();
-    for await (let item of client.queryKeys.listBySearchService(resourceGroup, searchServiceName)) {
-      resArray.push(item);
+    for await (let item of client.queryKeys.listBySearchService(resourceGroup,searchServiceName)){
+        resArray.push(item);
     }
-    assert.equal(resArray.length, 2);
+    assert.equal(resArray.length,2);
   });
 
-  it("services delete test", async function () {
-    const res = await client.services.delete(resourceGroup, searchServiceName);
+  it("services delete test", async function() {
+    const res = await client.services.delete(resourceGroup,searchServiceName);
     const resArray = new Array();
-    for await (let item of client.services.listByResourceGroup(resourceGroup)) {
-      resArray.push(item);
+    for await (let item of client.services.listByResourceGroup(resourceGroup)){
+        resArray.push(item);
     }
-    assert.equal(resArray.length, 0);
+    assert.equal(resArray.length,0);
   });
 });
