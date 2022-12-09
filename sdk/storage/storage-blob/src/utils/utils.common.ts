@@ -240,6 +240,11 @@ export function extractConnectionStringParts(connectionString: string): Connecti
       accountSas = "";
     }
 
+    // client constructors assume accountSas does *not* start with ?
+    if (accountSas.startsWith("?")) {
+      accountSas = accountSas.substring(1);
+    }
+
     return { kind: "SASConnString", url: blobEndpoint, accountName, accountSas };
   }
 }
