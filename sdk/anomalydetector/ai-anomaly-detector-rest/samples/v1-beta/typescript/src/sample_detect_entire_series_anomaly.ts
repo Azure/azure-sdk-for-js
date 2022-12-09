@@ -24,7 +24,6 @@ dotenv.config();
 // You will need to set this environment variables or edit the following values
 const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
 const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
-const apiVersion = "v1.1";
 const timeSeriesDataPath = "./samples-dev/example-data/request-data.csv";
 
 function read_series_from_file(path: string): Array<TimeSeriesPoint> {
@@ -40,7 +39,7 @@ function read_series_from_file(path: string): Array<TimeSeriesPoint> {
 export async function main() {
   // create client
   const credential = new AzureKeyCredential(apiKey);
-  const client = AnomalyDetector(endpoint, credential, { apiVersion });
+  const client = AnomalyDetector(endpoint, credential);
 
   // construct request
   const options: DetectUnivariateEntireSeriesParameters = {
@@ -61,12 +60,30 @@ export async function main() {
   }
 
   if (result.body.isAnomaly) {
-    console.log("The latest point is detected as anomaly.");
+    result.body.isAnomaly.forEach(function (anomaly, index) {
+      if (anomaly === true) {
+        console.log(index);
+      }
+    });
   } else {
-    console.log("The latest point is not detected as anomaly.");
+    console.log("There is no anomaly detected from the series.");
   }
-  // output
-  // The latest point is not detected as anomaly.
+  // output:
+  // Anomalies were detected from the series at index:
+  // 3
+  // 18
+  // 21
+  // 22
+  // 23
+  // 24
+  // 25
+  // 28
+  // 29
+  // 30
+  // 31
+  // 32
+  // 35
+  // 44
 }
 
 main().catch((err) => {

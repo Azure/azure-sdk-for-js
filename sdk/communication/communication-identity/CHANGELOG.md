@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Updated to `@azure/communication-common` 2.2.0.
+
 ## 1.2.0 (2022-10-12)
 
 ### Features Added

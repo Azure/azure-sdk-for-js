@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Get DigitalTwinsInstances resource.
  *
  * @summary Get DigitalTwinsInstances resource.
- * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-05-31/examples/DigitalTwinsGet_example.json
+ * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-10-31/examples/DigitalTwinsGet_example.json
  */
 async function getADigitalTwinsInstanceResource() {
   const subscriptionId = "50016170-c839-41ba-a724-51e9df440b9e";
@@ -33,7 +33,7 @@ getADigitalTwinsInstanceResource().catch(console.error);
  * This sample demonstrates how to Get DigitalTwinsInstances resource.
  *
  * @summary Get DigitalTwinsInstances resource.
- * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-05-31/examples/DigitalTwinsGet_WithPrivateEndpointConnection_example.json
+ * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-10-31/examples/DigitalTwinsGet_WithPrivateEndpointConnection_example.json
  */
 async function getADigitalTwinsInstanceResourceWithAPrivateEndpointConnection() {
   const subscriptionId = "50016170-c839-41ba-a724-51e9df440b9e";
@@ -51,7 +51,7 @@ getADigitalTwinsInstanceResourceWithAPrivateEndpointConnection().catch(console.e
  * This sample demonstrates how to Get DigitalTwinsInstances resource.
  *
  * @summary Get DigitalTwinsInstances resource.
- * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-05-31/examples/DigitalTwinsGet_WithIdentity_example.json
+ * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-10-31/examples/DigitalTwinsGet_WithIdentity_example.json
  */
 async function getADigitalTwinsInstanceResourceWithIdentity() {
   const subscriptionId = "50016170-c839-41ba-a724-51e9df440b9e";

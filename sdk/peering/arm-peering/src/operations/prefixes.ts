@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Prefixes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,12 +17,12 @@ import {
   PeeringServicePrefix,
   PrefixesListByPeeringServiceNextOptionalParams,
   PrefixesListByPeeringServiceOptionalParams,
+  PrefixesListByPeeringServiceResponse,
   PrefixesGetOptionalParams,
   PrefixesGetResponse,
   PrefixesCreateOrUpdateOptionalParams,
   PrefixesCreateOrUpdateResponse,
   PrefixesDeleteOptionalParams,
-  PrefixesListByPeeringServiceResponse,
   PrefixesListByPeeringServiceNextResponse
 } from "../models";
 
@@ -61,11 +62,15 @@ export class PrefixesImpl implements Prefixes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByPeeringServicePagingPage(
           resourceGroupName,
           peeringServiceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -74,15 +79,22 @@ export class PrefixesImpl implements Prefixes {
   private async *listByPeeringServicePagingPage(
     resourceGroupName: string,
     peeringServiceName: string,
-    options?: PrefixesListByPeeringServiceOptionalParams
+    options?: PrefixesListByPeeringServiceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PeeringServicePrefix[]> {
-    let result = await this._listByPeeringService(
-      resourceGroupName,
-      peeringServiceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PrefixesListByPeeringServiceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByPeeringService(
+        resourceGroupName,
+        peeringServiceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByPeeringServiceNext(
         resourceGroupName,
@@ -91,7 +103,9 @@ export class PrefixesImpl implements Prefixes {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

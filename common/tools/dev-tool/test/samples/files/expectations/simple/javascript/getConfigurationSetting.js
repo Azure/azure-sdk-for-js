@@ -9,7 +9,14 @@
 require("dotenv").config();
 
 async function main() {
-  const envValue = process.env.MY_VARIABLE || "<my variable>";
+  const envValue = process.env.MY_VARIABLE ?? "<my variable>";
+
+  // Let's test some new Node 14 syntax
+  const n = 1_999_999;
+
+  const f = (n) => n;
+
+  console.log(f?.(n)?.toString());
 
   console.log("Here's what we found:", envValue);
 }
