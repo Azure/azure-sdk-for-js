@@ -90,7 +90,9 @@ async function httpRequest(requestContext: RequestContext): Promise<{
         throw error;
       }
       // If the user didn't cancel, it must be an abort we called due to timeout
-      throw new TimeoutError(`Timeout Error! Request took more than ${requestContext.connectionPolicy.requestTimeout} ms`);
+      throw new TimeoutError(
+        `Timeout Error! Request took more than ${requestContext.connectionPolicy.requestTimeout} ms`
+      );
     }
     throw error;
   }
