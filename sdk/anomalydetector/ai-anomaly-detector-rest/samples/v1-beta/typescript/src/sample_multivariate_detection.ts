@@ -9,7 +9,7 @@
 
 import AnomalyDetector, {
   DetectMultivariateBatchAnomalyParameters,
-  CreateAndTrainMultivariateModelParameters,
+  TrainMultivariateModelParameters,
   ListMultivariateModelsParameters,
   paginate,
   isUnexpected,
@@ -23,7 +23,6 @@ dotenv.config();
 // You will need to set this environment variables or edit the following values
 const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
 const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
-const apiVersion = "v1.1";
 const dataSource = "<your data source>";
 
 function sleep(time: number): Promise<NodeJS.Timer> {
@@ -33,7 +32,7 @@ function sleep(time: number): Promise<NodeJS.Timer> {
 export async function main() {
   // create client
   const credential = new AzureKeyCredential(apiKey);
-  const client = AnomalyDetector(endpoint, credential, { apiVersion });
+  const client = AnomalyDetector(endpoint, credential);
 
   // Already available models
   const options: ListMultivariateModelsParameters = {
@@ -48,7 +47,7 @@ export async function main() {
   console.log(listModelsResult);
 
   // construct model request (notice that the start and end time are local time and may not align with your data source)
-  const createMultivariateModelParameters: CreateAndTrainMultivariateModelParameters = {
+  const createMultivariateModelParameters: TrainMultivariateModelParameters = {
     body: {
       alignPolicy: {
         alignMode: "Outer",
