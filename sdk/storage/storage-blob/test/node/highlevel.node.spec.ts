@@ -22,7 +22,6 @@ import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
 import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 import { streamToBuffer2 } from "../../src/utils/utils.node";
-import { delay } from "../../src/utils/utils.common";
 import { Context } from "mocha";
 
 describe("Highlevel", () => {
