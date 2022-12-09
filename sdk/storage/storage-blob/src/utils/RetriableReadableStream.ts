@@ -105,8 +105,8 @@ export class RetriableReadableStream extends Readable {
     if (this.options.doInjectErrorOnce) {
       this.options.doInjectErrorOnce = undefined;
       this.source.pause();
-      (this.source as Readable).destroy();
       this.sourceErrorOrEndHandler();
+      (this.source as Readable).destroy();
       return;
     }
 
