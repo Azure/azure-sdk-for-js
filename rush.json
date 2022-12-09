@@ -800,11 +800,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/dtdl-parser",
-      "projectFolder": "sdk/digitaltwins/dtdl-parser",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure-tests/perf-ai-form-recognizer",
       "projectFolder": "sdk/formrecognizer/perf-tests/ai-form-recognizer",
       "versionPolicyName": "test"
@@ -1480,11 +1475,6 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-machinelearningservices",
-      "projectFolder": "sdk/machinelearningservices/arm-machinelearningservices",
-      "versionPolicyName": "management"
-    },
-    {
       "packageName": "@azure/arm-managementpartner",
       "projectFolder": "sdk/managementpartner/arm-managementpartner",
       "versionPolicyName": "management"
@@ -1943,6 +1933,11 @@
       "packageName": "@azure/arm-loadtesting",
       "projectFolder": "sdk/loadtestservice/arm-loadtesting",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/web-pubsub-client",
+      "projectFolder": "sdk/web-pubsub/web-pubsub-client",
+      "versionPolicyName": "client"
     }
   ]
 }
