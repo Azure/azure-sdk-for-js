@@ -1,15 +1,32 @@
 # Release History
+    
+## 4.0.0 (2022-12-09)
+    
+**Breaking Changes**
 
-## 3.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface CustomizationPoliciesListNextOptionalParams no longer has parameter filter
+  - Interface DedicatedCloudNodesListByResourceGroupNextOptionalParams no longer has parameter filter
+  - Interface DedicatedCloudNodesListByResourceGroupNextOptionalParams no longer has parameter skipToken
+  - Interface DedicatedCloudNodesListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface DedicatedCloudNodesListBySubscriptionNextOptionalParams no longer has parameter filter
+  - Interface DedicatedCloudNodesListBySubscriptionNextOptionalParams no longer has parameter skipToken
+  - Interface DedicatedCloudNodesListBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface DedicatedCloudServicesListByResourceGroupNextOptionalParams no longer has parameter filter
+  - Interface DedicatedCloudServicesListByResourceGroupNextOptionalParams no longer has parameter skipToken
+  - Interface DedicatedCloudServicesListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface DedicatedCloudServicesListBySubscriptionNextOptionalParams no longer has parameter filter
+  - Interface DedicatedCloudServicesListBySubscriptionNextOptionalParams no longer has parameter skipToken
+  - Interface DedicatedCloudServicesListBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface SkusAvailabilityListNextOptionalParams no longer has parameter skuId
+  - Interface UsagesListNextOptionalParams no longer has parameter filter
+  - Interface VirtualMachinesListByResourceGroupNextOptionalParams no longer has parameter filter
+  - Interface VirtualMachinesListByResourceGroupNextOptionalParams no longer has parameter skipToken
+  - Interface VirtualMachinesListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface VirtualMachinesListBySubscriptionNextOptionalParams no longer has parameter filter
+  - Interface VirtualMachinesListBySubscriptionNextOptionalParams no longer has parameter skipToken
+  - Interface VirtualMachinesListBySubscriptionNextOptionalParams no longer has parameter top
+    
+    
 ## 3.0.1 (2022-07-06)
     
 **Features**

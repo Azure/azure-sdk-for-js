@@ -15535,7 +15535,7 @@ packages:
     dev: false
 
   file:projects/arm-vmwarecloudsimple.tgz:
-    resolution: {integrity: sha512-eUyrH2PrWkDatcMvkoe1sR4avEmtlkS2TWClIVjrENdFIH9KSahTX82z2kjnDz8XiFmdYcveA7nNNdChEqAPig==, tarball: file:projects/arm-vmwarecloudsimple.tgz}
+    resolution: {integrity: sha512-mwAoRM7nf7On81j0iEcRLMupYdMFnOLppGkqepPr383O8yB2polZKhPRKo6QFJPPOgJw1P4CWL8IKYIDvFEs8g==, tarball: file:projects/arm-vmwarecloudsimple.tgz}
     name: '@rush-temp/arm-vmwarecloudsimple'
     version: 0.0.0
     dependencies:
@@ -15546,18 +15546,18 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.33
       chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -19073,7 +19073,7 @@ packages:
     dev: false
 
   file:projects/quantum-jobs.tgz:
-    resolution: {integrity: sha512-tLelzKMNO5/3fkXY3ifyYjm3oF08Rvsm0v3tR2kNJ6ISpCaxSvasHXVHf5SJShuWgEwqZLaCyxST33cZKicmbQ==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-l/BSD4i+H4u/Se/aiY4QAQbZmNUBaATzCp8nZvTfq07EKyOG7V7gt/cN3YYhRDPsvN9179NAc9dJHMZv9KtTFg==, tarball: file:projects/quantum-jobs.tgz}
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
