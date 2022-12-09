@@ -6,40 +6,57 @@ import { Context } from "mocha";
 
 import { SipRoutingClient } from "../../../src";
 
-import { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { SipTrunk, SipTrunkRoute } from "../../../src/models";
-import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
+import {
+  clearSipConfiguration,
+  createRecordedClient,
+  createRecordedClientWithToken,
+  getUniqueFqdn,
+  resetUniqueFqdns,
+} from "./utils/recordedClient";
 import { matrix } from "@azure/test-utils";
 
 matrix([[true, false]], async function (useAad) {
   describe(`SipRoutingClient - set trunks${useAad ? " [AAD]" : ""}`, function () {
     let client: SipRoutingClient;
     let recorder: Recorder;
+    let firstFqdn = "";
+    let secondFqdn = "";
+
+    before(async function (this: Context) {
+      if (!isPlaybackMode()) {
+        await clearSipConfiguration();
+      }
+    });
 
     beforeEach(async function (this: Context) {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(this)
         : await createRecordedClient(this));
+      firstFqdn = getUniqueFqdn(recorder);
+      secondFqdn = getUniqueFqdn(recorder);
     });
 
     afterEach(async function (this: Context) {
       if (!this.currentTest?.isPending()) {
         await recorder.stop();
       }
+      resetUniqueFqdns();
     });
 
     it("can set a new trunk", async () => {
-      const trunk: SipTrunk = { fqdn: "111.fqdn.com", sipSignalingPort: 1231 };
+      const trunk: SipTrunk = { fqdn: firstFqdn, sipSignalingPort: 1231 };
 
       const setTrunk = await client.setTrunk(trunk);
       assert.deepEqual(setTrunk, trunk);
 
-      const getTrunk = await client.getTrunk("111.fqdn.com");
+      const getTrunk = await client.getTrunk(firstFqdn);
       assert.deepEqual(getTrunk, trunk);
     });
 
     it("can set an existing trunk", async () => {
-      const trunk: SipTrunk = { fqdn: "111.fqdn.com", sipSignalingPort: 1231 };
+      const trunk: SipTrunk = { fqdn: firstFqdn, sipSignalingPort: 1231 };
       await client.setTrunk(trunk);
 
       trunk.sipSignalingPort = 6789;
@@ -47,7 +64,7 @@ matrix([[true, false]], async function (useAad) {
       const setTrunk = await client.setTrunk(trunk);
       assert.deepEqual(setTrunk, trunk);
 
-      const getTrunk = await client.getTrunk("111.fqdn.com");
+      const getTrunk = await client.getTrunk(firstFqdn);
       assert.deepEqual(getTrunk, trunk);
     });
 
@@ -55,8 +72,8 @@ matrix([[true, false]], async function (useAad) {
       await client.setTrunks([]);
 
       const trunks: SipTrunk[] = [
-        { fqdn: "111.fqdn.com", sipSignalingPort: 8239 },
-        { fqdn: "222.fqdn.com", sipSignalingPort: 7348 },
+        { fqdn: firstFqdn, sipSignalingPort: 8239 },
+        { fqdn: secondFqdn, sipSignalingPort: 7348 },
       ];
 
       const setTrunks = await client.setTrunks(trunks);
@@ -68,8 +85,8 @@ matrix([[true, false]], async function (useAad) {
 
     it("can set multiple existing trunks", async () => {
       const trunks: SipTrunk[] = [
-        { fqdn: "111.fqdn.com", sipSignalingPort: 8239 },
-        { fqdn: "222.fqdn.com", sipSignalingPort: 7348 },
+        { fqdn: firstFqdn, sipSignalingPort: 8239 },
+        { fqdn: secondFqdn, sipSignalingPort: 7348 },
       ];
       await client.setTrunks(trunks);
 
@@ -96,8 +113,8 @@ matrix([[true, false]], async function (useAad) {
 
     it("can set empty trunks when not empty before", async () => {
       const trunks: SipTrunk[] = [
-        { fqdn: "111.fqdn.com", sipSignalingPort: 8239 },
-        { fqdn: "222.fqdn.com", sipSignalingPort: 7348 },
+        { fqdn: firstFqdn, sipSignalingPort: 8239 },
+        { fqdn: secondFqdn, sipSignalingPort: 7348 },
       ];
       await client.setTrunks(trunks);
 
@@ -130,7 +147,7 @@ matrix([[true, false]], async function (useAad) {
     it("cannot set invalid port trunk", async () => {
       await client.setTrunks([]);
 
-      const invalidTrunk: SipTrunk = { fqdn: "111.fqdn.com", sipSignalingPort: 0 };
+      const invalidTrunk: SipTrunk = { fqdn: firstFqdn, sipSignalingPort: 0 };
 
       try {
         await client.setTrunk(invalidTrunk);
@@ -138,7 +155,7 @@ matrix([[true, false]], async function (useAad) {
         assert.equal(error.code, "UnprocessableConfiguration");
 
         try {
-          await client.getTrunk("111.fqdn.com");
+          await client.getTrunk(firstFqdn);
         } catch (getError: any) {
           assert.equal(getError.code, "NotFound");
           return;
@@ -150,8 +167,8 @@ matrix([[true, false]], async function (useAad) {
 
     it("cannot set trunks without trunk used in route", async () => {
       const expectedTrunks: SipTrunk[] = [
-        { fqdn: "111.fqdn.com", sipSignalingPort: 8239 },
-        { fqdn: "222.fqdn.com", sipSignalingPort: 7348 },
+        { fqdn: firstFqdn, sipSignalingPort: 8239 },
+        { fqdn: secondFqdn, sipSignalingPort: 7348 },
       ];
       await client.setTrunks(expectedTrunks);
 
@@ -160,19 +177,19 @@ matrix([[true, false]], async function (useAad) {
           name: "myFirstRoute",
           description: "myFirstRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
-          trunks: ["111.fqdn.com", "222.fqdn.com"],
+          trunks: [firstFqdn, secondFqdn],
         },
         {
           name: "mySecondRoute",
           description: "mySecondRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
-          trunks: ["111.fqdn.com"],
+          trunks: [firstFqdn],
         },
       ];
       await client.setRoutes(expectedRoutes);
 
       try {
-        await client.setTrunks([{ fqdn: "111.fqdn.com", sipSignalingPort: 1234 }]);
+        await client.setTrunks([{ fqdn: firstFqdn, sipSignalingPort: 1234 }]);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
         const storedTrunks = await client.getTrunks();
@@ -203,11 +220,11 @@ matrix([[true, false]], async function (useAad) {
 
       const trunks: SipTrunk[] = [
         {
-          fqdn: "777.fqdn.com",
+          fqdn: getUniqueFqdn(recorder),
           sipSignalingPort: 5678,
         },
         {
-          fqdn: "888.fqdn.com",
+          fqdn: getUniqueFqdn(recorder),
           sipSignalingPort: 5678,
         },
       ];

@@ -37,13 +37,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json",
-        "Date": "Thu, 08 Sep 2022 23:12:30 GMT",
-        "MS-CV": "bK4Fx1SrykirhE229z6Y2g.0",
+        "Date": "Fri, 02 Dec 2022 00:19:31 GMT",
+        "MS-CV": "O9VtajN/F0ebWDZ7eNmQTw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "03nYaYwAAAACe9WKsZ4TySJv3V2ACeraeUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0lESJYwAAAAD8mrmCMzIlQp1NQiS\u002BjgYzUFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "228ms"
+        "X-Processing-Time": "104ms"
       },
       "ResponseBody": {
         "error": {
@@ -81,20 +81,20 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 23:12:30 GMT",
-        "MS-CV": "LJqTZIFNykmD9bSFS4FDYQ.0",
+        "Date": "Fri, 02 Dec 2022 00:19:32 GMT",
+        "MS-CV": "4Os7D/DkpkWrrmL5HVxvmQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "033YaYwAAAADQOSptMFDmR5giAkUc8tJmUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0lESJYwAAAAA8/pZHpPM0SYS3//CCtbfuUFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "130ms"
+        "X-Processing-Time": "91ms"
       },
       "ResponseBody": {
         "trunks": {
-          "111.fqdn.com": {
+          "test.9d286acebc524a3ca9ec9d8b650ccbe8.com": {
             "sipSignalingPort": 8239
           },
-          "222.fqdn.com": {
+          "test.9e7ef6188cb24af1b11687f41652c053.com": {
             "sipSignalingPort": 7348
           }
         },
@@ -102,5 +102,8 @@
       }
     }
   ],
-  "Variables": {}
+  "Variables": {
+    "fqdn-1": "test.ae2d2b2bb17a4ec5a56590b4cd75b557.com",
+    "fqdn-2": "test.f89c1f48ea5644f1922d67fd47a18baa.com"
+  }
 }
