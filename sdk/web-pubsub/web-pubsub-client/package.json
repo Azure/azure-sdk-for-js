@@ -6,7 +6,9 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "buffer": "buffer"
+    "buffer": "buffer",
+    "ws": "./src/ws.browser.js",
+    "./dist-esm/src/websocket/sendData.js": "./dist-esm/src/websocket/sendData.browser.js"
   },
   "types": "types/web-pubsub-client.d.ts",
   "scripts": {
@@ -60,7 +62,7 @@
   "dependencies": {
     "tslib": "^2.2.0",
     "@azure/logger": "^1.0.0",
-    "@azure/abort-controller": "^1.1.1",
+    "@azure/abort-controller": "^1.0.0",
     "@azure/core-util": "^1.1.1",
     "ws": "^7.4.5",
     "buffer": "^6.0.0"
