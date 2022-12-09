@@ -8,6 +8,7 @@ import { SimpleTokenCredential } from "./testutils.common";
 import { TokenCredential } from "@azure/core-auth";
 import { createXhrHttpClient } from "@azure/test-utils";
 import { _testOnlySetCachedDefaultHttpClient } from "../../src/utils/cache";
+import { isLiveMode } from "@azure-tools/test-recorder";
 
 export * from "./testutils.common";
 
@@ -42,7 +43,9 @@ export function getGenericBSU(
     accountSAS = "";
   }
 
-  _testOnlySetCachedDefaultHttpClient(createXhrHttpClient());
+  if (!isLiveMode()) {
+    _testOnlySetCachedDefaultHttpClient(createXhrHttpClient());
+  }
 
   const credentials = getGenericCredential(accountType);
   const pipeline = newPipeline(credentials, pipelineOptions);
@@ -193,8 +196,10 @@ export function getBrowserFile(name: string, size: number): File {
 }
 
 export function getSASConnectionStringFromEnvironment(): string {
-  const xhrClient = createXhrHttpClient();
-  _testOnlySetCachedDefaultHttpClient(xhrClient);
+  if (!isLiveMode()) {
+    const xhrClient = createXhrHttpClient();
+    _testOnlySetCachedDefaultHttpClient(xhrClient);
+  }
   const env = (self as any).__env__;
 
   return `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${env.ACCOUNT_SAS}`;

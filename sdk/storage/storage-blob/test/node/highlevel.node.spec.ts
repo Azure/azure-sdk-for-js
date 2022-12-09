@@ -692,7 +692,7 @@ describe("Highlevel", () => {
 
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
-    let expectedError = false;
+    let caughtError: Error | undefined = undefined;
 
     try {
       const aborter = new AbortController();
@@ -715,11 +715,10 @@ describe("Highlevel", () => {
       retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
       await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
     } catch (error: any) {
-      expectedError = true;
+      caughtError = error;
     }
-
-    assert.ok(expectedError);
     fs.unlinkSync(downloadedFile);
+    assert.equal(caughtError?.name, "AbortError");
   });
 
   it("download abort should work when still fetching body", async () => {
@@ -732,15 +731,18 @@ describe("Highlevel", () => {
     const aborter = new AbortController();
     const res = await blobClient.download(0, undefined, { abortSignal: aborter.signal });
 
-    let exceptionCaught = false;
-    res.readableStreamBody!.on("error", (err) => {
-      assert.equal(err.name, "AbortError");
-      exceptionCaught = true;
+    const bodyEnded = new Promise<void>((resolve, reject) => {
+      res.readableStreamBody!.on("error", (err) => {
+        if (err.name === "AbortError") {
+          resolve();
+        } else {
+          reject(new Error("Expected readableStreamBody to emit AbortError"));
+        }
+      });
     });
 
     aborter.abort();
-    await delay(10);
-    assert.ok(exceptionCaught);
+    await bodyEnded;
   });
 
   it("downloadToFile should success", async () => {
