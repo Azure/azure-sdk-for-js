@@ -3,7 +3,7 @@
 
 import * as sinon from "sinon";
 
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
 import { TableClient, TableTransaction, TransactionAction, odata } from "../../src";
 
 import { Context } from "mocha";
@@ -61,6 +61,23 @@ describe(`batch operations`, () => {
     assert.lengthOf(result.subResponses, 2);
     assert.equal(result.getResponseForEntity("1")?.status, 204);
     assert.equal(result.getResponseForEntity("2")?.status, 204);
+  });
+
+  it("should send concurrent transactions", async () => {
+    // Only run this in live mode. Enable playback when https://github.com/Azure/azure-sdk-for-js/issues/24189 is fixed
+    if (!isLiveMode()) {
+      return;
+    }
+    await Promise.all([
+      client.submitTransaction([["create", { partitionKey: "pk22", rowKey: "rk1", field: 1 }]]),
+      client.submitTransaction([["create", { partitionKey: "pk22", rowKey: "rk2", field: 2 }]]),
+    ]);
+
+    const entity1 = await client.getEntity("pk22", "rk1");
+    const entity2 = await client.getEntity("pk22", "rk2");
+
+    assert.equal(entity1.rowKey, "rk1");
+    assert.equal(entity2.rowKey, "rk2");
   });
 
   it("should send a set of create batch operations", async () => {
