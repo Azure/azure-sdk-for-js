@@ -14795,7 +14795,7 @@ packages:
     dev: false
 
   file:projects/arm-serialconsole.tgz:
-    resolution: {integrity: sha512-Jm9LoAuA9BESk1UBQxFIxUhu2GZLOwtsgAJksa+4C0dZ6vRRZcO0OEWp0hKuEMsU9PijIm91jVFTOlgIhSdouQ==, tarball: file:projects/arm-serialconsole.tgz}
+    resolution: {integrity: sha512-qS03MiGKzoaj7T5IfbGdgUbIvnf3jk0T6d+cfe899TR4gMyTtlyNwC2DNUzMhXuH9r/OrzOMJ9mkSRengMsJ/w==, tarball: file:projects/arm-serialconsole.tgz}
     name: '@rush-temp/arm-serialconsole'
     version: 0.0.0
     dependencies:
@@ -14806,18 +14806,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
