@@ -1,0 +1,169 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Search/searchServices/myjssearchservicexx/deleteQueryKey/testjskey?api-version=2020-08-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-search/3.1.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "ddd403e0-f014-46c3-b930-cfc322482de0"
+      },
+      "RequestBody": null,
+      "StatusCode": 500,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Connection": "close",
+        "Content-Language": "en",
+        "Content-Length": "151",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 07 Dec 2022 08:58:25 GMT",
+        "elapsed-time": "154",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "request-id": "ddd403e0-f014-46c3-b930-cfc322482de0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "e0771a72-2efd-410e-9ecc-4dfd3e000699",
+        "x-ms-failure-cause": "service",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
+        "x-ms-request-id": "ddd403e0-f014-46c3-b930-cfc322482de0",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221207T085825Z:e0771a72-2efd-410e-9ecc-4dfd3e000699"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InternalServerError",
+          "message": "An error has occured. RequestId: e0771a72-2efd-410e-9ecc-4dfd3e000699",
+          "target": null,
+          "details": null
+        }
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Search/searchServices/myjssearchservicexx/deleteQueryKey/testjskey?api-version=2020-08-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-search/3.1.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "ddd403e0-f014-46c3-b930-cfc322482de0"
+      },
+      "RequestBody": null,
+      "StatusCode": 500,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Connection": "close",
+        "Content-Language": "en",
+        "Content-Length": "151",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 07 Dec 2022 08:58:28 GMT",
+        "elapsed-time": "236",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "request-id": "ddd403e0-f014-46c3-b930-cfc322482de0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "e48dc631-d0d4-48d6-977f-233888290750",
+        "x-ms-failure-cause": "service",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
+        "x-ms-request-id": "ddd403e0-f014-46c3-b930-cfc322482de0",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221207T085829Z:e48dc631-d0d4-48d6-977f-233888290750"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InternalServerError",
+          "message": "An error has occured. RequestId: e48dc631-d0d4-48d6-977f-233888290750",
+          "target": null,
+          "details": null
+        }
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Search/searchServices/myjssearchservicexx/deleteQueryKey/testjskey?api-version=2020-08-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-search/3.1.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "ddd403e0-f014-46c3-b930-cfc322482de0"
+      },
+      "RequestBody": null,
+      "StatusCode": 500,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Connection": "close",
+        "Content-Language": "en",
+        "Content-Length": "151",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 07 Dec 2022 08:58:33 GMT",
+        "elapsed-time": "153",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "request-id": "ddd403e0-f014-46c3-b930-cfc322482de0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "afe20a3b-9bc9-4eb9-9bbf-2f24750dfcbe",
+        "x-ms-failure-cause": "service",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
+        "x-ms-request-id": "ddd403e0-f014-46c3-b930-cfc322482de0",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221207T085833Z:afe20a3b-9bc9-4eb9-9bbf-2f24750dfcbe"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InternalServerError",
+          "message": "An error has occured. RequestId: afe20a3b-9bc9-4eb9-9bbf-2f24750dfcbe",
+          "target": null,
+          "details": null
+        }
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Search/searchServices/myjssearchservicexx/deleteQueryKey/testjskey?api-version=2020-08-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-search/3.1.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "ddd403e0-f014-46c3-b930-cfc322482de0"
+      },
+      "RequestBody": null,
+      "StatusCode": 500,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Connection": "close",
+        "Content-Language": "en",
+        "Content-Length": "151",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 07 Dec 2022 08:58:39 GMT",
+        "elapsed-time": "171",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "request-id": "ddd403e0-f014-46c3-b930-cfc322482de0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "1c8b85f8-470f-46db-b896-0d310b057a37",
+        "x-ms-failure-cause": "service",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
+        "x-ms-request-id": "ddd403e0-f014-46c3-b930-cfc322482de0",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221207T085840Z:1c8b85f8-470f-46db-b896-0d310b057a37"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InternalServerError",
+          "message": "An error has occured. RequestId: 1c8b85f8-470f-46db-b896-0d310b057a37",
+          "target": null,
+          "details": null
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
