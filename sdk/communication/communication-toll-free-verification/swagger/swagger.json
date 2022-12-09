@@ -622,7 +622,7 @@
           "description": "Campaign Brief Id.",
           "type": "string"
         },
-        "submissionStatus": {
+        "status": {
           "description": "Campaign Brief status e.g. 'submitted', 'approved', etc",
           "enum": [
             "submitted",

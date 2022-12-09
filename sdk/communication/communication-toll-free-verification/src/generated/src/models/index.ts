@@ -12,7 +12,7 @@ export interface CampaignBrief {
   /** Campaign Brief Id. */
   id: string;
   /** Campaign Brief status e.g. 'submitted', 'approved', etc */
-  submissionStatus?: CampaignBriefStatus;
+  status?: CampaignBriefStatus;
   /**
    * Notes added to the Campaign Brief after being reviewed to help customer understand
    * review results and necessary follow up actions.

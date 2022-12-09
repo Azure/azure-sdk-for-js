@@ -20,8 +20,8 @@ export const CampaignBrief: coreClient.CompositeMapper = {
           name: "Uuid"
         }
       },
-      submissionStatus: {
-        serializedName: "submissionStatus",
+      status: {
+        serializedName: "status",
         type: {
           name: "String"
         }

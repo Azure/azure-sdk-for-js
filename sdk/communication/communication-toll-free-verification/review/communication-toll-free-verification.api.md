@@ -62,9 +62,9 @@ export interface CampaignBrief {
     // (undocumented)
     propertiesToClear?: string[];
     reviewNotes?: ReviewNote[];
+    status?: CampaignBriefStatus;
     statusUpdatedDate?: Date;
     submissionDate?: Date;
-    submissionStatus?: CampaignBriefStatus;
     useCaseInfo?: UseCaseInfo[];
 }
 
