@@ -8,23 +8,23 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AzureTrafficCollectorClient } from "@azure/arm-networkfunction";
-import { DefaultAzureCredential } from "@azure/identity";
+const { AzureTrafficCollectorClient } = require("@azure/arm-networkfunction");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Gets the collector policy in a specified Traffic Collector
+ * This sample demonstrates how to Deletes a specified Collector Policy resource.
  *
- * @summary Gets the collector policy in a specified Traffic Collector
- * x-ms-original-file: specification/networkfunction/resource-manager/Microsoft.NetworkFunction/stable/2022-11-01/examples/CollectorPolicyGet.json
+ * @summary Deletes a specified Collector Policy resource.
+ * x-ms-original-file: specification/networkfunction/resource-manager/Microsoft.NetworkFunction/stable/2022-11-01/examples/CollectorPolicyDelete.json
  */
-async function getCollectionPolicy() {
+async function deleteCollectionPolicy() {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";
   const azureTrafficCollectorName = "atc";
   const collectorPolicyName = "cp1";
   const credential = new DefaultAzureCredential();
   const client = new AzureTrafficCollectorClient(credential, subscriptionId);
-  const result = await client.collectorPolicies.get(
+  const result = await client.collectorPolicies.beginDeleteAndWait(
     resourceGroupName,
     azureTrafficCollectorName,
     collectorPolicyName
@@ -32,4 +32,4 @@ async function getCollectionPolicy() {
   console.log(result);
 }
 
-getCollectionPolicy().catch(console.error);
+deleteCollectionPolicy().catch(console.error);
