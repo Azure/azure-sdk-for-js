@@ -3,3 +3,4 @@
 
 export * from "./models";
 export * from "./tollFreeVerificationClient";
+export * from "./mappers";

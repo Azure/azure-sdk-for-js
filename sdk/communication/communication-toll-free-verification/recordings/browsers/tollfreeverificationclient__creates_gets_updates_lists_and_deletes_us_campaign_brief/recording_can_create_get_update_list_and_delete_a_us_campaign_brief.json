@@ -1,0 +1,594 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/tollfreeVerification/countries/US/campaignBriefs/00000000-0000-0000-0000-000000000000?api-version=2023-01-10-preview1",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Fri, 09 Dec 2022 21:46:14 GMT",
+        "x-ms-useragent": "azsdk-js-communication-toll-free-verification/1.0.0-beta.1 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "api-supported-versions": "2023-01-10-preview1",
+        "Content-Type": "application/json",
+        "Date": "Fri, 09 Dec 2022 21:46:13 GMT",
+        "MS-CV": "\u002BSC4wcY4SkWuZYnWz5rK1A.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0pqyTYwAAAADRWHDRfVmURpp\u002BjXItnVoMU0FPMzFFREdFMTIwOQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "290ms"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "NotFound",
+          "message": "Could not find the BaseBrief with key \u0027Azure|00000000-0000-0000-0000-000000000000|00000000-0000-0000-0000-000000000000\u0027"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/tollfreeVerification/countries/US/campaignBriefs/00000000-0000-0000-0000-000000000000?api-version=2023-01-10-preview1",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "727",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
+        "x-ms-content-sha256": "iQIN8W4C0WaYMJITFj0yHDBV2bRyfKpi/fGGF65p6Gk=",
+        "x-ms-date": "Fri, 09 Dec 2022 21:46:15 GMT",
+        "x-ms-useragent": "azsdk-js-communication-toll-free-verification/1.0.0-beta.1 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "countryCode": "US",
+        "businessPointOfContact": {
+          "firstName": "poc",
+          "email": "poc@poc.com"
+        },
+        "businessInformation": {
+          "companyName": "Contoso",
+          "companyUrl": "https://company.com",
+          "address": {
+            "addressLine1": "address1",
+            "addressLine2": "address2",
+            "locality": "citt",
+            "administrativeDivision": "Nevada",
+            "postalCode": "Company name",
+            "country": "US"
+          }
+        },
+        "useCaseInfo": [
+          {
+            "sampleMessages": [
+              "message1",
+              "message2",
+              "message3"
+            ],
+            "useCase": "AppNotifications",
+            "useCaseSummary": "description"
+          }
+        ],
+        "phoneNumbers": [
+          "\u002B123456789",
+          "\u002B987654321",
+          "\u002B123321123"
+        ],
+        "additionalInformation": "additional information",
+        "optInDetails": {
+          "description": "opt in descrition",
+          "options": [
+            {
+              "type": "keywordSMS",
+              "imageUrls": [
+                "http://smsurl.com"
+              ]
+            }
+          ]
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "api-supported-versions": "2023-01-10-preview1",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 09 Dec 2022 21:46:15 GMT",
+        "Location": "https://endpoint/tollfreeVerification/countries/US/campaignBriefs/00000000-0000-0000-0000-000000000000",
+        "MS-CV": "pId5\u002BVp11UOed5FWvxXWgg.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0pqyTYwAAAADnlDrR2uGXQYiDHKDw56QvU0FPMzFFREdFMTIwOQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "1274ms"
+      },
+      "ResponseBody": {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "status": "draft",
+        "statusUpdatedDate": "2022-12-09T21:46:16\u002B00:00",
+        "countryCode": "US",
+        "businessPointOfContact": {
+          "firstName": "poc",
+          "email": "poc@poc.com"
+        },
+        "businessInformation": {
+          "companyName": "Contoso",
+          "companyUrl": "https://company.com",
+          "address": {
+            "addressLine1": "address1",
+            "addressLine2": "address2",
+            "locality": "citt",
+            "administrativeDivision": "Nevada",
+            "postalCode": "Company name",
+            "country": "US"
+          }
+        },
+        "useCaseInfo": [
+          {
+            "sampleMessages": [
+              "message1",
+              "message2",
+              "message3"
+            ],
+            "useCase": "AppNotifications",
+            "useCaseSummary": "description"
+          }
+        ],
+        "phoneNumbers": [
+          "\u002B123456789",
+          "\u002B987654321",
+          "\u002B123321123"
+        ],
+        "additionalInformation": "additional information",
+        "optInDetails": {
+          "description": "opt in descrition",
+          "options": [
+            {
+              "type": "keywordSMS",
+              "imageUrls": [
+                "http://smsurl.com"
+              ]
+            }
+          ]
+        },
+        "propertiesToClear": []
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/tollfreeVerification/countries/US/campaignBriefs/00000000-0000-0000-0000-000000000000?api-version=2023-01-10-preview1",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Fri, 09 Dec 2022 21:46:16 GMT",
+        "x-ms-useragent": "azsdk-js-communication-toll-free-verification/1.0.0-beta.1 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2023-01-10-preview1",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 09 Dec 2022 21:46:16 GMT",
+        "MS-CV": "RhBW7oE8QkWS\u002BJMr0z3RCA.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0qKyTYwAAAADHTU8Gxf4CQouoD9x8lScWU0FPMzFFREdFMTIwOQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "465ms"
+      },
+      "ResponseBody": {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "status": "draft",
+        "statusUpdatedDate": "2022-12-09T21:46:16\u002B00:00",
+        "countryCode": "US",
+        "businessPointOfContact": {
+          "firstName": "poc",
+          "email": "poc@poc.com"
+        },
+        "businessInformation": {
+          "companyName": "Contoso",
+          "companyUrl": "https://company.com",
+          "address": {
+            "addressLine1": "address1",
+            "addressLine2": "address2",
+            "locality": "citt",
+            "administrativeDivision": "Nevada",
+            "postalCode": "Company name",
+            "country": "US"
+          }
+        },
+        "useCaseInfo": [
+          {
+            "sampleMessages": [
+              "message1",
+              "message2",
+              "message3"
+            ],
+            "useCase": "AppNotifications",
+            "useCaseSummary": "description"
+          }
+        ],
+        "phoneNumbers": [
+          "\u002B123456789",
+          "\u002B987654321",
+          "\u002B123321123"
+        ],
+        "additionalInformation": "additional information",
+        "optInDetails": {
+          "description": "opt in descrition",
+          "options": [
+            {
+              "type": "keywordSMS",
+              "imageUrls": [
+                "http://smsurl.com"
+              ]
+            }
+          ]
+        },
+        "propertiesToClear": []
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/tollfreeVerification/countries/US/campaignBriefs/00000000-0000-0000-0000-000000000000?api-version=2023-01-10-preview1",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "102",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
+        "x-ms-content-sha256": "aYqOD5WQbetNLeL6TZShwYbTjEdzmWgDaZYhOb2YC5A=",
+        "x-ms-date": "Fri, 09 Dec 2022 21:46:17 GMT",
+        "x-ms-useragent": "azsdk-js-communication-toll-free-verification/1.0.0-beta.1 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "additionalInformation": "additional information updated"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2023-01-10-preview1",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 09 Dec 2022 21:46:18 GMT",
+        "MS-CV": "u7ezm0Wh20O5IfYAuFw/tw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0qayTYwAAAABlHTMNuYNeSpKbbM0GTdqeU0FPMzFFREdFMTIwOQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "1238ms"
+      },
+      "ResponseBody": {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "status": "draft",
+        "statusUpdatedDate": "2022-12-09T21:46:16\u002B00:00",
+        "countryCode": "US",
+        "businessPointOfContact": {
+          "firstName": "poc",
+          "email": "poc@poc.com"
+        },
+        "businessInformation": {
+          "companyName": "Contoso",
+          "companyUrl": "https://company.com",
+          "address": {
+            "addressLine1": "address1",
+            "addressLine2": "address2",
+            "locality": "citt",
+            "administrativeDivision": "Nevada",
+            "postalCode": "Company name",
+            "country": "US"
+          }
+        },
+        "useCaseInfo": [
+          {
+            "sampleMessages": [
+              "message1",
+              "message2",
+              "message3"
+            ],
+            "useCase": "AppNotifications",
+            "useCaseSummary": "description"
+          }
+        ],
+        "phoneNumbers": [
+          "\u002B123456789",
+          "\u002B987654321",
+          "\u002B123321123"
+        ],
+        "additionalInformation": "additional information updated",
+        "optInDetails": {
+          "description": "opt in descrition"
+        },
+        "propertiesToClear": []
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/tollfreeVerification/countries/US/campaignBriefs/00000000-0000-0000-0000-000000000000?api-version=2023-01-10-preview1",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Fri, 09 Dec 2022 21:46:19 GMT",
+        "x-ms-useragent": "azsdk-js-communication-toll-free-verification/1.0.0-beta.1 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2023-01-10-preview1",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 09 Dec 2022 21:46:19 GMT",
+        "MS-CV": "xhfUlZ0dSUWmHxwQU8jt0w.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0q6yTYwAAAAB4ZaTPZCftTLyQFfjqC9ZXU0FPMzFFREdFMTIwOQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "394ms"
+      },
+      "ResponseBody": {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "status": "draft",
+        "statusUpdatedDate": "2022-12-09T21:46:16\u002B00:00",
+        "countryCode": "US",
+        "businessPointOfContact": {
+          "firstName": "poc",
+          "email": "poc@poc.com"
+        },
+        "businessInformation": {
+          "companyName": "Contoso",
+          "companyUrl": "https://company.com",
+          "address": {
+            "addressLine1": "address1",
+            "addressLine2": "address2",
+            "locality": "citt",
+            "administrativeDivision": "Nevada",
+            "postalCode": "Company name",
+            "country": "US"
+          }
+        },
+        "useCaseInfo": [
+          {
+            "sampleMessages": [
+              "message1",
+              "message2",
+              "message3"
+            ],
+            "useCase": "AppNotifications",
+            "useCaseSummary": "description"
+          }
+        ],
+        "phoneNumbers": [
+          "\u002B123456789",
+          "\u002B987654321",
+          "\u002B123321123"
+        ],
+        "additionalInformation": "additional information updated",
+        "optInDetails": {
+          "description": "opt in descrition"
+        },
+        "propertiesToClear": []
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/tollfreeVerification/countries/US/campaignBriefs?api-version=2023-01-10-preview1\u0026skip=0\u0026top=100",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Fri, 09 Dec 2022 21:46:20 GMT",
+        "x-ms-useragent": "azsdk-js-communication-toll-free-verification/1.0.0-beta.1 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2023-01-10-preview1",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 09 Dec 2022 21:46:20 GMT",
+        "MS-CV": "XLNcczC5IU2pW6grwyLm7w.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0rKyTYwAAAAA004OPB7ZpSriKaXtK6wAkU0FPMzFFREdFMTIwOQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "738ms"
+      },
+      "ResponseBody": {
+        "campaignBriefs": [
+          {
+            "id": "00000000-0000-0000-0000-000000000000",
+            "status": "draft",
+            "statusUpdatedDate": "2022-12-09T21:46:16\u002B00:00",
+            "countryCode": "US",
+            "businessPointOfContact": {
+              "firstName": "poc",
+              "email": "poc@poc.com"
+            },
+            "businessInformation": {
+              "companyName": "Contoso",
+              "companyUrl": "https://company.com",
+              "address": {
+                "addressLine1": "address1",
+                "addressLine2": "address2",
+                "locality": "citt",
+                "administrativeDivision": "Nevada",
+                "postalCode": "Company name",
+                "country": "US"
+              }
+            },
+            "useCaseInfo": [
+              {
+                "sampleMessages": [
+                  "message1",
+                  "message2",
+                  "message3"
+                ],
+                "useCase": "AppNotifications",
+                "useCaseSummary": "description"
+              }
+            ],
+            "phoneNumbers": [
+              "\u002B123456789",
+              "\u002B987654321",
+              "\u002B123321123"
+            ],
+            "additionalInformation": "additional information updated",
+            "optInDetails": {
+              "description": "opt in descrition"
+            },
+            "propertiesToClear": []
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/tollfreeVerification/countries/US/campaignBriefs/00000000-0000-0000-0000-000000000000?api-version=2023-01-10-preview1",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Fri, 09 Dec 2022 21:46:21 GMT",
+        "x-ms-useragent": "azsdk-js-communication-toll-free-verification/1.0.0-beta.1 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "api-supported-versions": "2023-01-10-preview1",
+        "Date": "Fri, 09 Dec 2022 21:46:21 GMT",
+        "MS-CV": "3jJQKn8DtUG3\u002BegTPJQ07g.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0rayTYwAAAAD7ZW3q6tTbQ52mmABPAgB/U0FPMzFFREdFMTIwOQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "584ms"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/tollfreeVerification/countries/US/campaignBriefs/00000000-0000-0000-0000-000000000000?api-version=2023-01-10-preview1",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Fri, 09 Dec 2022 21:46:22 GMT",
+        "x-ms-useragent": "azsdk-js-communication-toll-free-verification/1.0.0-beta.1 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "api-supported-versions": "2023-01-10-preview1",
+        "Content-Type": "application/json",
+        "Date": "Fri, 09 Dec 2022 21:46:22 GMT",
+        "MS-CV": "O1zhYZ0hUEqv8b8NbKc1DA.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0rqyTYwAAAABCuZjgfCV9Sry\u002BD\u002B92e\u002BB8U0FPMzFFREdFMTIwOQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "514ms"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "NotFound",
+          "message": "Could not find the BaseBrief with key \u0027Azure|00000000-0000-0000-0000-000000000000|00000000-0000-0000-0000-000000000000\u0027"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

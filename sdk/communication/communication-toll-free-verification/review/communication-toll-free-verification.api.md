@@ -34,6 +34,9 @@ export interface BusinessInformation {
 }
 
 // @public (undocumented)
+export const BusinessInformationMapper: coreClient.CompositeMapper;
+
+// @public (undocumented)
 export interface BusinessPointOfContact {
     // (undocumented)
     address?: Address;
@@ -42,6 +45,9 @@ export interface BusinessPointOfContact {
     lastName?: string;
     phone?: string;
 }
+
+// @public (undocumented)
+export const BusinessPointOfContactMapper: coreClient.CompositeMapper;
 
 // @public (undocumented)
 export interface CampaignBrief {
