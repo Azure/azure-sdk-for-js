@@ -3,16 +3,13 @@
 
 /// <reference lib="esnext.asynciterable" />
 
+import { TokenCredential } from "@azure/core-auth";
 import {
-  TokenCredential,
-  RestResponse,
-  OperationOptions,
   InternalPipelineOptions,
-  bearerTokenAuthenticationPolicy,
-  createPipelineFromOptions,
-  generateUuid,
   PipelineOptions,
-} from "@azure/core-http";
+  bearerTokenAuthenticationPolicy,
+ } from "@azure/core-rest-pipeline";
+import { OperationOptions } from "@azure/core-client";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { AzureDigitalTwinsAPI as GeneratedClient } from "./generated/azureDigitalTwinsAPI";
 import {
@@ -96,36 +93,23 @@ export class DigitalTwinsClient {
     credential: TokenCredential,
     options: DigitalTwinsClientOptions = {}
   ) {
-    const authPolicy = bearerTokenAuthenticationPolicy(credential, DEFAULT_DIGITALTWINS_SCOPE);
-    const libInfo = `azsdk-js-digital-twins-core/${SDK_VERSION}`;
-
-    const { apiVersion, ...pipelineOptions } = options;
-    if (!pipelineOptions.userAgentOptions) {
-      pipelineOptions.userAgentOptions = {};
-    }
-    if (pipelineOptions.userAgentOptions.userAgentPrefix) {
-      pipelineOptions.userAgentOptions.userAgentPrefix = `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
-    }
+    const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_DIGITALTWINS_SCOPE });
 
     const internalPipelineOptions: InternalPipelineOptions = {
-      ...pipelineOptions,
+      ...options,
       ...{
         loggingOptions: {
           logger: logger.info,
-          allowedHeaderNames: ["x-ms-request-id"],
+          additionalAllowedHeaderNames: ["x-ms-request-id"],
         },
       },
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-
     this.client = new GeneratedClient({
       endpoint: endpointUrl,
-      apiVersion,
-      ...pipeline,
+      ...internalPipelineOptions,
     });
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   /**
