@@ -1,0 +1,58 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Qumulo.Storage/fileSystems/myfileSystem?api-version=2022-10-12-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "370",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-Qumulo.Storage/1.0.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d201f543-f3eb-49f6-8572-8e39bcf2ceba"
+      },
+      "RequestBody": {
+        "location": "aaaaaaaaaaaaaaaaaaaaaaaaa",
+        "properties": {
+          "marketplaceDetails": {
+            "marketplaceSubscriptionId": "aaaaaaaaaaaaa",
+            "planId": "aaaaaa",
+            "offerId": "aaaaaaaaaaaaaaaaaaaaaaaaa",
+            "publisherId": "aa"
+          },
+          "storageSku": "Standard",
+          "userDetails": {
+            "email": "aaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "delegatedSubnetId": "aaaaaaaaaa",
+          "adminPassword": "ekceujoecaashtjlsgcymnrdozk",
+          "initialCapacity": 9
+        }
+      },
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "161",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 09 Dec 2022 02:50:33 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "7a02238f-93ad-404b-a9e3-ee51e43cb907",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "7a02238f-93ad-404b-a9e3-ee51e43cb907",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221209T025033Z:7a02238f-93ad-404b-a9e3-ee51e43cb907"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidResourceType",
+          "message": "The resource type could not be found in the namespace \u0027Qumulo.Storage\u0027 for api version \u00272022-10-12-preview\u0027."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

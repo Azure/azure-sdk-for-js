@@ -1,0 +1,39 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Qumulo.Storage/fileSystems/myfileSystem?api-version=2022-10-12-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-Qumulo.Storage/1.0.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "c887abf2-d0e2-4758-be83-0a19329a250d"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "161",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 09 Dec 2022 02:50:36 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "ece67251-a9e2-4815-b9ee-67aebfb021ae",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "ece67251-a9e2-4815-b9ee-67aebfb021ae",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221209T025037Z:ece67251-a9e2-4815-b9ee-67aebfb021ae"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidResourceType",
+          "message": "The resource type could not be found in the namespace \u0027Qumulo.Storage\u0027 for api version \u00272022-10-12-preview\u0027."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
