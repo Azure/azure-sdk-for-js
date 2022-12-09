@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/// <reference lib="esnext.asynciterable" />
-
 import { TokenCredential } from "@azure/core-auth";
 import {
   InternalPipelineOptions,
@@ -51,8 +49,13 @@ import {
 } from "./generated/models";
 import { tracingClient } from "./tracing";
 import { logger } from "./logger";
+import { CompatResponse } from "@azure/core-http-compat";
+import { v4 as uuid } from "uuid";
 
-export const SDK_VERSION: string = "1.1.0";
+export interface RestResponse {
+    [key: string]: any;
+    _response: CompatResponse;
+}
 
 export interface DigitalTwinsClientOptions extends PipelineOptions {
   /**
@@ -198,7 +201,7 @@ export class DigitalTwinsClient {
       "DigitalTwinsClient.deleteDigitalTwin",
       options,
       async (updatedOptions) => {
-        return this.client.digitalTwins.delete(digitalTwinId, updatedOptions);
+        return this.client.digitalTwins.delete(digitalTwinId, updatedOptions) as unknown as Promise<RestResponse>;
       }
     );
   }
@@ -363,7 +366,7 @@ export class DigitalTwinsClient {
           digitalTwinId,
           relationshipId,
           updatedOptions
-        );
+        ) as unknown as Promise<RestResponse>;
       }
     );
   }
@@ -385,7 +388,7 @@ export class DigitalTwinsClient {
       const optionsComplete: OperationOptions = {
         ...options,
       };
-      const listRelationshipResponse = await this.client.digitalTwins.listRelationships(
+      const listRelationshipResponse = this.client.digitalTwins.listRelationships(
         digitalTwinId,
         optionsComplete
       );
@@ -539,7 +542,7 @@ export class DigitalTwinsClient {
       options;
     digitalTwinsSendTelemetryOptionalParams.telemetrySourceTime = new Date().toISOString();
     if (!messageId) {
-      messageId = generateUuid();
+      messageId = uuid();
     }
 
     return tracingClient.withSpan(
