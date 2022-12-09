@@ -12,7 +12,6 @@ import { RequestOptions } from "../../request/RequestOptions";
 import { MaterializedResponse } from "../../request/Response";
 import { Resource } from "../Resource";
 import { User } from "../User";
-import { PermissionBody } from "./PermissionBody";
 import { PermissionDefinition } from "./PermissionDefinition";
 import { createPermissionResponse, PermissionResponse } from "./PermissionResponse";
 
@@ -88,12 +87,19 @@ export class Permission {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
+    const readResponse = await this.clientContext.read({
+      path,
+      resourceType: ResourceType.permission,
+      resourceId: id,
+      options,
+    });
+
     const response: MaterializedResponse<Resource> = await this.clientContext.delete({
       path,
       resourceType: ResourceType.permission,
       resourceId: id,
       options,
     });
-    return createPermissionResponse(response, this);
+    return createPermissionResponse({...response, result: readResponse.result}, this);
   }
 }

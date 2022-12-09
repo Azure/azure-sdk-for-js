@@ -11,12 +11,12 @@ import {
 } from "../../common";
 import { PartitionKey } from "../../documents";
 import { extractPartitionKey, undefinedPartitionKey } from "../../extractPartitionKey";
-import { RequestOptions, Response } from "../../request";
+import { RequestOptions } from "../../request";
 import { MaterializedResponse } from "../../request/Response";
 import { PatchRequestBody } from "../../utils/patch";
 import { Container } from "../Container";
 import { Resource } from "../Resource";
-import { ItemDefinition } from "./ItemDefinition";
+import { ItemDefinition, ItemDefinitionResponse } from "./ItemDefinition";
 import { validateAndCreateItemResponse, ItemResponse } from "./ItemResponse";
 
 /**
@@ -72,9 +72,9 @@ export class Item {
    * ({body: item} = await item.read<TodoItem>());
    * ```
    */
-  public async read<T extends Required<ItemDefinition> = any>(
+  public async read<T extends ItemDefinition = any>(
     options: RequestOptions = {}
-  ): Promise<ItemResponse<T>> {
+  ): Promise<ItemResponse<T & ItemDefinitionResponse>> {
     if (this.partitionKey === undefined) {
       const partitionKeyDefinition = await this.container.readPartitionKeyDefinitionOrFail();
       this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
@@ -82,7 +82,7 @@ export class Item {
 
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
-    let response: Response<Resource>;
+    let response: MaterializedResponse<Resource>;
     try {
       response = await this.clientContext.read({
         path,
@@ -111,7 +111,7 @@ export class Item {
   public replace(
     body: ItemDefinition,
     options?: RequestOptions
-  ): Promise<ItemResponse<Required<ItemDefinition>>>;
+  ): Promise<ItemResponse<ItemDefinitionResponse>>;
   /**
    * Replace the item's definition.
    *
@@ -126,7 +126,7 @@ export class Item {
   public replace<T extends ItemDefinition>(
     body: T,
     options?: RequestOptions
-  ): Promise<ItemResponse<T & Required<ItemDefinition>>>;
+  ): Promise<ItemResponse<T & ItemDefinitionResponse>>;
   public async replace<T extends ItemDefinition>(
     body: T,
     options: RequestOptions = {}
@@ -163,9 +163,9 @@ export class Item {
    *
    * @param options - Additional options for the request
    */
-  public async delete<T extends Required<ItemDefinition> = any>(
+  public async delete<T extends ItemDefinition = any>(
     options: RequestOptions = {}
-  ): Promise<ItemResponse<T>> {
+  ): Promise<ItemResponse<T & ItemDefinitionResponse>> {
     if (this.partitionKey === undefined) {
       const partitionKeyDefinition = await this.container.readPartitionKeyDefinitionOrFail();
       this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
@@ -192,10 +192,10 @@ export class Item {
    *
    * @param options - Additional options for the request
    */
-  public async patch<T extends Required<ItemDefinition> = any>(
+  public async patch<T extends ItemDefinition = any>(
     body: PatchRequestBody,
     options: RequestOptions = {}
-  ): Promise<ItemResponse<T>> {
+  ): Promise<ItemResponse<T & ItemDefinitionResponse>> {
     if (this.partitionKey === undefined) {
       const partitionKeyDefinition = await this.container.readPartitionKeyDefinitionOrFail();
       this.partitionKey = extractPartitionKey(body, partitionKeyDefinition);

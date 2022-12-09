@@ -90,12 +90,19 @@ export class Trigger {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
+    const readResponse = await this.clientContext.read({
+      path,
+      resourceType: ResourceType.trigger,
+      resourceId: id,
+      options,
+    });
+
     const response = await this.clientContext.delete({
       path,
       resourceType: ResourceType.trigger,
       resourceId: id,
       options,
     });
-    return createTriggerResponse(response, this);
+    return createTriggerResponse({...response, result: readResponse.result}, this);
   }
 }

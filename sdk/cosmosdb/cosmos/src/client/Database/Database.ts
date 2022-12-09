@@ -6,9 +6,8 @@ import { CosmosClient } from "../../CosmosClient";
 import { RequestOptions } from "../../request";
 import { Container, Containers } from "../Container";
 import { User, Users } from "../User";
-import { DatabaseDefinition } from "./DatabaseDefinition";
 import { createDatabaseResponse, DatabaseResponse } from "./DatabaseResponse";
-import { OfferResponse, OfferDefinition, Offer } from "../Offer";
+import { OfferResponse, Offer } from "../Offer";
 import { Resource } from "../Resource";
 import { MaterializedResponse } from "../../request/Response";
 
@@ -124,7 +123,7 @@ export class Database {
       query: `SELECT * from root where root.resource = "${url}"`,
       resultFn: (result) => result.Offers,
       options,
-    });
+    }) as any;
     const offer = response.result[0]
       ? new Offer(this.client, response.result[0].id, this.clientContext)
       : undefined;

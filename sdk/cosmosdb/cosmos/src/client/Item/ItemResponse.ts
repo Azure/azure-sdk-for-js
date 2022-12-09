@@ -22,8 +22,8 @@ export class ItemResponse<T extends ItemDefinitionResponse> extends GuaranteedRe
   public readonly item: Item;
 }
 
-export function validateAndCreateItemResponse<T extends Required<ItemDefinition> = any>(response: MaterializedResponse<Resource>, item: Item): ItemResponse<T> {
-  return new ItemResponse<T>(
+export function validateAndCreateItemResponse<T extends ItemDefinition = any>(response: MaterializedResponse<Resource>, item: Item): ItemResponse<any> {
+  return new ItemResponse<any>(
     response.result as T & Resource,
     response.headers,
     response.code,

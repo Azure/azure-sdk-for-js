@@ -8,7 +8,6 @@ import { FeedOptions, RequestOptions } from "../../request";
 import { Resource } from "../Resource";
 import { User } from "../User";
 import { Permission } from "./Permission";
-import { PermissionBody } from "./PermissionBody";
 import { PermissionDefinition } from "./PermissionDefinition";
 import { createPermissionResponse, PermissionResponse } from "./PermissionResponse";
 

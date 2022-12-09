@@ -5,7 +5,7 @@ import { CosmosClientOptions } from "./CosmosClientOptions";
 import { Location, DatabaseAccount } from "./documents";
 import { RequestOptions } from "./index";
 import { ResourceResponse } from "./request";
-import { DeepRequired, WithRequired } from "./utils/typeUtils";
+import { DeepRequired } from "./utils/typeUtils";
 
 /**
  * @hidden

@@ -114,7 +114,7 @@ export class ChangeFeedIterator<T> {
       feedOptions.initialHeaders[Constants.HttpHeaders.IfModifiedSince] = this.ifModifiedSince;
     }
 
-    const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>({
+    const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed({
       path: this.resourceLink,
       resourceType: ResourceType.item,
       resourceId: this.resourceId,

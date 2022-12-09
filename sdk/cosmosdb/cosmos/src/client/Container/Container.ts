@@ -20,9 +20,8 @@ import { Scripts } from "../Script/Scripts";
 import { ContainerDefinition } from "./ContainerDefinition";
 import { ContainerResponse } from "./ContainerResponse";
 import { PartitionKeyRange } from "./PartitionKeyRange";
-import { Offer, OfferDefinition } from "../Offer";
+import { Offer } from "../Offer";
 import { OfferResponse } from "../Offer/OfferResponse";
-import { Resource } from "../Resource";
 import { createContainerResponse } from "./ContainerResponse";
 import { assertNotUndefinedOrFail } from "../../utils/typeUtils";
 
@@ -163,9 +162,16 @@ export class Container {
   }
 
   /** Delete the container */
-  public async delete(options?: RequestOptions): Promise<ContainerResponse> {
+  public async delete(options?: RequestOptions): Promise<Partial<ContainerResponse>> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
+
+    const readResponse = await this.clientContext.read({
+      path,
+      resourceType: ResourceType.container,
+      resourceId: id,
+      options,
+    });
 
     const response = await this.clientContext.delete({
       path,
@@ -173,7 +179,7 @@ export class Container {
       resourceId: id,
       options,
     });
-    return createContainerResponse(response, this);
+    return createContainerResponse({...response, result: readResponse.result}, this);
   }
 
   /**
@@ -226,7 +232,7 @@ export class Container {
       query: `SELECT * from root where root.resource = "${url}"`,
       resultFn: (result) => result.Offers,
       options,
-    });
+    }) as any;
     const offer = response.result[0]
       ? new Offer(this.database.client, response.result[0].id, this.clientContext)
       : undefined;

@@ -6,6 +6,7 @@ import {
   CosmosClient,
   PatchOperationType,
   RequestContext,
+  Resource,
   ResourceType,
 } from "../../../src";
 import assert from "assert";
@@ -30,6 +31,13 @@ const requiredHeadersForAADAuth = {
     authorization: "type=aad&ver=1.0&sig=aadToken",
   },
 };
+const resource: Resource = {
+  id: "",
+  _etag: "",
+  _ts: 3,
+  _rid: "",
+  _self: "",
+}
 const database1Definition = {
   id: "db1",
 };
@@ -45,30 +53,40 @@ const item1patchRequest = {
   path: "/value",
   value: "patched_value",
 };
+
+
 const testDataset = {
   databaseGetResponse: {
     body: database1Definition,
     path: "",
     resourceType: ResourceType.database,
     resourceId: "db1",
+    partitionKey: "",
+    ...resource,
   },
   containerGetResponse: {
     body: container1Definition,
     path: "",
     resourceType: ResourceType.container,
     resourceId: "col1",
+    partitionKey: "",
+    ...resource,
   },
   itemGetResponse: {
     body: item1Definition,
     path: "",
     resourceType: ResourceType.item,
     resourceId: "item1",
+    partitionKey: "",
+    ...resource,
   },
   itemPatchResponse: {
     body: item1Definition,
     path: "",
     resourceType: ResourceType.item,
     resourceId: "item1",
+    partitionKey: "",
+    ...resource,
   },
 };
 

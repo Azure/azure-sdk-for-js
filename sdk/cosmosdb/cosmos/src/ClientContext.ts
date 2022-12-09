@@ -160,7 +160,7 @@ export class ClientContext {
     options: FeedOptions;
     partitionKeyRangeId?: string;
     partitionKey?: PartitionKey;
-  }): Promise<MaterializedResponse<Resource>> {
+  }): Promise<Response<Resource>> {
     // Query operations will use ReadEndpoint even though it uses
     // GET(for queryFeed) and POST(for regular query operations)
 
@@ -205,8 +205,7 @@ export class ClientContext {
     const response = await RequestHandler.request(request);
     logger.info("query " + requestId + " finished - " + (Date.now() - start) + "ms");
     this.captureSessionToken(undefined, path, OperationType.Query, response.headers);
-    const materializedResponse: MaterializedResponse<any> = this.validateObjectIsMaterializedResource(response);
-    return this.processQueryFeedResponse(materializedResponse, !!query, resultFn);
+    return this.processQueryFeedResponse(response, !!query, resultFn);
   }
 
   public async getQueryPlan(
@@ -307,7 +306,7 @@ export class ClientContext {
       } else {
         this.clearSessionToken(path);
       }
-      return this.validateObjectIsMaterializedResource(response);
+      return this.validateObjectIsMaterialized(response);
     } catch (err: any) {
       this.captureSessionToken(err, path, OperationType.Upsert, (err as ErrorResponse).headers);
       throw err;
@@ -407,10 +406,10 @@ export class ClientContext {
   }
 
   private processQueryFeedResponse(
-    res: MaterializedResponse<any>,
+    res: Response<any>,
     isQuery: boolean,
     resultFn: (result: { [key: string]: any }) => any[]
-  ): MaterializedResponse<any>  {
+  ): Response<any>  {
     if (isQuery) {
       return { result: resultFn(res.result), headers: res.headers, code: res.code };
     } else {
