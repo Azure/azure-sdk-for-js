@@ -6,7 +6,6 @@ import { createPrinter } from "../../util/printer";
 import { resolveProject } from "../../util/resolveProject";
 import path from "path";
 import semver from "semver";
-import micromatch from "micromatch";
 
 export const commandInfo = makeCommandInfo(
   "check-api",
