@@ -8,6 +8,7 @@ import {
   sanitizeURL,
   extractConnectionStringParts,
   isIpEndpointStyle,
+  setURLParameter,
 } from "../src/utils/utils.common";
 
 describe("Utility Helpers", () => {
@@ -36,6 +37,42 @@ describe("Utility Helpers", () => {
       "extractConnectionStringParts().accountName is different than expected."
     );
   }
+
+  it("setURLParameter correctly updates parameters", function () {
+    assert.equal(setURLParameter("http://test.com/", "a", "b"), "http://test.com/?a=b");
+    assert.equal(
+      setURLParameter("http://test.com/container/blob", "a", "b"),
+      "http://test.com/container/blob?a=b"
+    );
+    assert.equal(
+      setURLParameter("http://test.com/container/blob?a=b", "a", ""),
+      "http://test.com/container/blob"
+    );
+    assert.equal(
+      setURLParameter("http://test.com/container/blob?a=b", "a"),
+      "http://test.com/container/blob"
+    );
+    assert.equal(
+      setURLParameter("http://test.com/container/blob?a=b", "a", "c"),
+      "http://test.com/container/blob?a=c"
+    );
+    assert.equal(
+      setURLParameter("http://test.com/container/blob?a=b", "c", "d"),
+      "http://test.com/container/blob?a=b&c=d"
+    );
+    assert.equal(
+      setURLParameter("http://test.com/container/blob?a=b", "c", ""),
+      "http://test.com/container/blob?a=b"
+    );
+    assert.equal(
+      setURLParameter(
+        "http://test.com/container/blob",
+        "versionid",
+        "2022-12-10T19:55:31.5767937Z"
+      ),
+      "http://test.com/container/blob?versionid=2022-12-10T19%3A55%3A31.5767937Z"
+    );
+  });
 
   it("sanitizeURL redacts SAS token", () => {
     const url = "https://some.url.com/container/blob?sig=sasstring";
