@@ -2383,6 +2383,10 @@ packages:
       '@types/node': 18.11.9
     dev: false
 
+  /@types/braces/3.0.1:
+    resolution: {integrity: sha512-+euflG6ygo4bn0JHtn4pYqcXwRtLvElQ7/nnjDu7iYG56H0+OhCd7d6Ug0IE3WcFpZozBKW2+80FUbv5QGk5AQ==}
+    dev: false
+
   /@types/chai-as-promised/7.1.5:
     resolution: {integrity: sha512-jStwss93SITGBwt/niYrkf2C+/1KTeZCZl1LaeezTlqppAKeoQC7jxyqYuP72sxBGKCIbw7oHgbYssIRzT5FCQ==}
     dependencies:
@@ -2470,6 +2474,13 @@ packages:
       '@types/node': 18.11.9
     dev: false
 
+  /@types/glob/8.0.0:
+    resolution: {integrity: sha512-l6NQsDDyQUVeoTynNpC9uRvCUint/gSUXQA2euwmTuWGvPY5LSDUu6tkCtJB2SvGQlJQzLaKqcGZP4//7EDveA==}
+    dependencies:
+      '@types/minimatch': 5.1.2
+      '@types/node': 18.11.9
+    dev: false
+
   /@types/inquirer/8.2.5:
     resolution: {integrity: sha512-QXlzybid60YtAwfgG3cpykptRYUx2KomzNutMlWsQC64J/WG/gQSl+P4w7A21sGN0VIxRVava4rgnT7FQmFCdg==}
     dependencies:
@@ -2510,6 +2521,12 @@ packages:
     resolution: {integrity: sha512-W864tg/Osz1+9f4lrGTZpCSO5/z4608eUp19tbozkq2HJK6i3z1kT0H9tlADXuYIb1YYOBByU4Jsqkk75q48qA==}
     dependencies:
       '@types/unist': 2.0.6
+    dev: false
+
+  /@types/micromatch/4.0.2:
+    resolution: {integrity: sha512-oqXqVb0ci19GtH0vOA/U2TmHTcRY9kuZl4mqUxe0QmJAlIW13kzhuK5pi1i9+ngav8FjpSb9FVS/GE00GLX1VA==}
+    dependencies:
+      '@types/braces': 3.0.1
     dev: false
 
   /@types/mime/3.0.1:
@@ -2623,6 +2640,10 @@ packages:
 
   /@types/semaphore/1.1.1:
     resolution: {integrity: sha512-jmFpMslMtBGOXY2s7x6O8vBebcj6zhkwl0Pd/viZApo1uZaPk733P8doPvaiBbCG+R7201OLOl4QP7l1mFyuyw==}
+    dev: false
+
+  /@types/semver/7.3.13:
+    resolution: {integrity: sha512-21cFJr9z3g5dW8B0CVI9g2O9beqaThGQ6ZFBqHfwhzLDKUxaqTIy3vnfah/UPkfOiF2pLq+tGz+W8RyCskuslw==}
     dev: false
 
   /@types/serve-static/1.15.0:
@@ -16915,7 +16936,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-jXt0mNMVAFbNWzDCflA3P84Bk3OQ3EF4LfQX/GFgtHmdGgpLFFAAuMpYEgX8wUqTEqboFFT21NdsLXgljTJIaQ==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-HLUk05qXGJziVv/rNxkHzlhuR8iVzByYyfSygmeKKmkF13ZH5XWOa8Wr0mdwyfp09o7zHggGv2ZhsBw4HsPulg==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -16928,10 +16949,13 @@ packages:
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
       '@types/fs-extra': 9.0.13
+      '@types/glob': 8.0.0
+      '@types/micromatch': 4.0.2
       '@types/minimist': 1.2.2
       '@types/mocha': 7.0.2
       '@types/node': 14.18.33
       '@types/prettier': 2.7.1
+      '@types/semver': 7.3.13
       builtin-modules: 3.3.0
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
@@ -16940,6 +16964,8 @@ packages:
       dotenv: 16.0.3
       eslint: 8.28.0
       fs-extra: 11.0.0
+      glob: 8.0.3
+      micromatch: 4.0.5
       minimist: 1.2.7
       mocha: 7.2.0
       prettier: 2.8.0
@@ -16948,6 +16974,7 @@ packages:
       rollup-plugin-polyfill-node: 0.8.0_rollup@2.79.1
       rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       rollup-plugin-visualizer: 5.8.3_rollup@2.79.1
+      semver: 7.3.8
       ts-node: 10.9.1_c386e8b7aaca4ce6057194a7156a4f00
       tslib: 2.4.1
       typescript: 4.8.4
