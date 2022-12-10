@@ -152,6 +152,10 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     if (process.env.AZURE_IDENTITY_DISABLE_CP1) {
       clientCapabilities = [];
     }
+    if(options.instanceDiscovery){
+      //DO we need to set cloudDiscoveryMetadata OR authorityHostMetadata? 
+      //iF YES, WHAT scenarios?
+    }
 
     return {
       auth: {
@@ -159,9 +163,6 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         authority,
         knownAuthorities: getKnownAuthorities(tenantId, authority, options.instanceDiscovery),
         clientCapabilities,
-        // authorityMetadata: options.authorityMetadata,
-        // cloudDiscoveryMetadata: options.cloudDiscoveryMetadata,
-        // skipAuthorityMetadataCache: options.skipAuthorityMetadataCache,
       },
       // Cache is defined in this.prepare();
       system: {
