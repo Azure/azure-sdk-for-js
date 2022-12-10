@@ -291,12 +291,13 @@ export function appendToURLPath(url: string, name: string): string {
  */
 export function setURLParameter(url: string, name: string, value?: string): string {
   const urlParsed = new URL(url);
+  const encodedValue = value ? encodeURIComponent(value) : undefined;
   // mutating searchParams will change the encoding, so we have to do this ourselves
   const searchString = urlParsed.search;
 
   if (!searchString) {
-    if (value) {
-      urlParsed.search = `?${name}=${value}`;
+    if (encodedValue) {
+      urlParsed.search = `?${name}=${encodedValue}`;
       return urlParsed.toString();
     }
     return url;
@@ -307,8 +308,8 @@ export function setURLParameter(url: string, name: string, value?: string): stri
   for (const pair of searchString.slice(1).split("&")) {
     const [key] = pair.split("=", 2);
     if (key === name) {
-      if (value) {
-        searchPieces.push(`${name}=${value}`);
+      if (encodedValue) {
+        searchPieces.push(`${name}=${encodedValue}`);
       }
     } else {
       searchPieces.push(pair);
