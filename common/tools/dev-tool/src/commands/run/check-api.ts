@@ -134,14 +134,11 @@ export default leafCommand(commandInfo, async () => {
 
     const [matchingSelector, versions] = firstMatchingVersion;
 
-    // TODO: this is broken because these aren't actually globs. TS doesn't export an API for this afaik.
-    const firstMatchingPath = Object.entries(versions).find(
-      ([pattern]) =>
-        pattern === "*" ||
-        path.relative(process.cwd(), path.resolve(process.cwd(), pattern)) === defaultTypesFile
-    );
+    const resultFiles = Object.entries(versions)
+      .map(([pattern, entries]) => matchAndExpandMapping(fileName, pattern, entries))
+      .find((results) => results !== null) as string[] | undefined;
 
-    if (firstMatchingPath === undefined) {
+    if (resultFiles === undefined) {
       log.warn(
         `Package's 'typesVersions' entry "${matchingSelector}" matched TypeScript version ${tsVersion},`,
         `but no pattern in this entry matched the file: ${fileName}`
@@ -150,11 +147,50 @@ export default leafCommand(commandInfo, async () => {
       return [fileName];
     }
 
-    const [, resultFiles] = firstMatchingPath;
-
     log.info(`Resolved file names: ${resultFiles.join(", ")}`);
     return resultFiles.map((resultFile) =>
       path.relative(process.cwd(), path.resolve(process.cwd(), resultFile))
     );
   }
 });
+
+function matchAndExpandMapping(
+  candidate: string,
+  pattern: string,
+  results: string[]
+): string[] | null {
+  const patternSlug = pattern.split("*");
+
+  let processed = candidate;
+  const substitutionGroups: string[] = [];
+
+  if (patternSlug.length === 1) {
+    // Special case
+    if (patternSlug[0] === processed) return results;
+
+    return null;
+  }
+
+  if (!processed.startsWith(patternSlug[0])) return null;
+
+  processed = processed.replace(patternSlug[0], "");
+
+  for (const item of patternSlug.slice(1)) {
+    const startIdx = item === "" ? processed.length : processed.indexOf(item);
+
+    if (startIdx === -1) return null;
+
+    const matchValue = processed.slice(0, startIdx);
+    substitutionGroups.push(matchValue);
+
+    processed = processed.slice(startIdx).replace(item, "");
+  }
+
+  return results.map((fn) => {
+    for (const group of substitutionGroups) {
+      fn = fn.replace("*", group);
+    }
+
+    return fn;
+  });
+}
