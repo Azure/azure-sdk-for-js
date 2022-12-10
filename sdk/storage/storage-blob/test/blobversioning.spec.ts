@@ -109,7 +109,7 @@ describe("Blob versioning", () => {
     const getRes = await blobVersionClient.getProperties();
     assert.equal(getRes.contentLength, content.length);
     assert.equal(getRes.versionId, uploadRes.versionId);
-    assert.isFalse(getRes.isCurrentVersion, "first upload version should not be current");
+    assert.isNotTrue(getRes.isCurrentVersion, "first upload version should not be current");
 
     const getRes2 = await blobClient.getProperties();
     assert.equal(getRes2.contentLength, 0);
