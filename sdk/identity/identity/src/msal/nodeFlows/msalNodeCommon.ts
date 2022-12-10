@@ -152,9 +152,9 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     if (process.env.AZURE_IDENTITY_DISABLE_CP1) {
       clientCapabilities = [];
     }
-    if(options.instanceDiscovery){
-      //DO we need to set cloudDiscoveryMetadata OR authorityHostMetadata? 
-      //iF YES, WHAT scenarios?
+    if (options.instanceDiscovery) {
+      // DO we need to set cloudDiscoveryMetadata OR authorityHostMetadata?
+      // iF YES, WHAT scenarios?
     }
 
     return {
