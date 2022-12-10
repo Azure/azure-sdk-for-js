@@ -77,16 +77,12 @@ export function getAuthority(tenantId: string, host?: string): string {
 export function getKnownAuthorities(
   tenantId: string,
   authorityHost: string,
-  knownAuthorities?: string[]
+  instanceDiscovery?: boolean
 ): string[] {
-  let allKnownAuthorities: string[] = [];
-  if (tenantId === "adfs" && authorityHost) {
-    allKnownAuthorities = [authorityHost];
+  if ((tenantId === "adfs" && authorityHost)|| instanceDiscovery) {
+     return [authorityHost];
   }
-  if (knownAuthorities) {
-    allKnownAuthorities = allKnownAuthorities.concat(knownAuthorities);
-  }
-  return allKnownAuthorities;
+  return [];
 }
 
 /**

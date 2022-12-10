@@ -59,13 +59,7 @@ export interface AuthenticationRequiredErrorOptions {
 // @public
 export interface AuthorityValidationOptions {
     // (undocumented)
-    authorityMetadata?: string;
-    // (undocumented)
-    cloudDiscoveryMetadata?: string;
-    // (undocumented)
-    knownAuthorities?: string[];
-    // (undocumented)
-    skipAuthorityMetadataCache?: boolean;
+    instanceDiscovery?: boolean;
 }
 
 // @public

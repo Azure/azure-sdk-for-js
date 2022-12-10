@@ -7,8 +7,5 @@
  * to Azure Active Directory.
  */
 export interface AuthorityValidationOptions {
-  knownAuthorities?: string[];
-  cloudDiscoveryMetadata?: string;
-  authorityMetadata?: string;
-  skipAuthorityMetadataCache?: boolean;
+  instanceDiscovery?: boolean;
 }

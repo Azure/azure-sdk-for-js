@@ -7,7 +7,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "User-Agent": "User-Agent",
-        "x-ms-client-request-id": "ba0d6f29-b0ab-479e-add2-e5fd4597be1a"
+        "x-ms-client-request-id": "30f2fe64-4f20-4a8e-b168-370dff0e2874"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,13 +17,14 @@
         "Cache-Control": "max-age=86400, private",
         "Content-Length": "980",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 11 Mar 2022 23:32:05 GMT",
+        "Date": "Sat, 10 Dec 2022 00:47:24 GMT",
         "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
-        "Set-Cookie": "fpc=secret_cookie; expires=Sun, 10-Apr-2022 23:32:05 GMT; path=/; secure; HttpOnly; SameSite=None",
+        "Set-Cookie": "fpc=secret_cookie; expires=Mon, 09-Jan-2023 00:47:25 GMT; path=/; secure; HttpOnly; SameSite=None",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-ests-server": "2.1.12559.4 - NCUS ProdSlices",
-        "x-ms-request-id": "a8f874f6-d6e6-4f02-adf1-15a0e4802700"
+        "x-ms-ests-server": "2.1.14357.7 - EUS ProdSlices",
+        "x-ms-request-id": "ab6ae8be-d4f1-401f-a20f-74ad50864100",
+        "X-XSS-Protection": "0"
       },
       "ResponseBody": {
         "tenant_discovery_endpoint": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/v2.0/.well-known/openid-configuration",
@@ -79,7 +80,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "User-Agent": "User-Agent",
-        "x-ms-client-request-id": "40c8281c-353a-4309-935b-6df47bafc070"
+        "x-ms-client-request-id": "5cb25f41-d3ef-4e98-a9e1-204f88cecf29"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -87,22 +88,23 @@
         "Access-Control-Allow-Methods": "GET, OPTIONS",
         "Access-Control-Allow-Origin": "*",
         "Cache-Control": "max-age=86400, private",
-        "Content-Length": "1753",
+        "Content-Length": "1771",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 11 Mar 2022 23:32:05 GMT",
+        "Date": "Sat, 10 Dec 2022 00:47:25 GMT",
         "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
-        "Set-Cookie": "fpc=secret_cookie; expires=Sun, 10-Apr-2022 23:32:06 GMT; path=/; secure; HttpOnly; SameSite=None",
+        "Set-Cookie": "fpc=secret_cookie; expires=Mon, 09-Jan-2023 00:47:25 GMT; path=/; secure; HttpOnly; SameSite=None",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-ests-server": "2.1.12529.19 - NCUS ProdSlices",
-        "x-ms-request-id": "0eb49bd7-8aa6-4d29-b66a-3804346b1c00"
+        "x-ms-ests-server": "2.1.14357.7 - SCUS ProdSlices",
+        "x-ms-request-id": "33a88e3f-e7ac-41a0-90d1-0ac7442b4400",
+        "X-XSS-Protection": "0"
       },
       "ResponseBody": {
         "token_endpoint": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
         "token_endpoint_auth_methods_supported": [
-          "client_secret_post",
+          "azure_client_id_secret_post",
           "private_key_jwt",
-          "client_secret_basic"
+          "azure_client_id_secret_basic"
         ],
         "jwks_uri": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/discovery/v2.0/keys",
         "response_modes_supported": [
@@ -171,33 +173,39 @@
       "RequestHeaders": {
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
-        "Content-Length": "525",
+        "Content-Length": "577",
         "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
         "User-Agent": "User-Agent",
-        "x-ms-client-request-id": "e5256113-0528-4474-9fb3-bbbcf2566219"
+        "x-ms-client-request-id": "f9eff41e-7b36-4a97-86d5-f7884d8a127f"
       },
-      "RequestBody": "client_id=azure_client_id\u0026scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026grant_type=client_credentials\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|771,2,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026client-request-id=client-request-id\u0026client_secret=azure_client_secret\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
-      "StatusCode": 200,
+      "RequestBody": "azure_client_id_id=azure_client_id\u0026scope=https%3A%2F%2Fvault.azure.net%2F.default\u0026grant_type=azure_client_id_credentials\u0026x-azure_client_id-SKU=msal.js.node\u0026x-azure_client_id-VER=1.14.4\u0026x-azure_client_id-OS=win32\u0026x-azure_client_id-CPU=x64\u0026x-ms-lib-capability=retry-after, h429\u0026x-azure_client_id-current-telemetry=5|771,2,,,|,\u0026x-azure_client_id-last-telemetry=5|0|||0,0\u0026azure_client_id-request-id=azure_client_id-request-id\u0026azure_client_id_secret=s%3F%3Dq2ZAdO%3D-Vn8ecVgo0Hv64-%3D4ril2t\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 401,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
-        "Content-Length": "95",
+        "Content-Length": "647",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 11 Mar 2022 23:32:05 GMT",
+        "Date": "Sat, 10 Dec 2022 00:47:25 GMT",
         "Expires": "-1",
         "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
         "Pragma": "no-cache",
-        "Set-Cookie": "fpc=secret_cookie; expires=Sun, 10-Apr-2022 23:32:06 GMT; path=/; secure; HttpOnly; SameSite=None",
+        "Set-Cookie": "fpc=secret_cookie; expires=Mon, 09-Jan-2023 00:47:25 GMT; path=/; secure; HttpOnly; SameSite=None",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-clitelem": "1,0,0,,",
-        "x-ms-ests-server": "2.1.12529.19 - SCUS ProdSlices",
-        "x-ms-request-id": "8ceae043-1921-4764-83ba-7e3510343000"
+        "x-ms-clitelem": "1,7000215,0,,",
+        "x-ms-ests-server": "2.1.14357.7 - SCUS ProdSlices",
+        "x-ms-request-id": "795daa21-6f9c-4df9-a687-c55d0ca93900",
+        "X-XSS-Protection": "0"
       },
       "ResponseBody": {
-        "token_type": "Bearer",
-        "expires_in": 86399,
-        "ext_expires_in": 86399,
-        "access_token": "access_token"
+        "error": "invalid_azure_client_id",
+        "error_description": "AADSTS7000215: Invalid azure_client_id secret provided. Ensure the secret being sent in the request is the azure_client_id secret value, not the azure_client_id secret ID, for a secret added to app \u0027azure_client_id\u0027.\r\nTrace ID: 795daa21-6f9c-4df9-a687-c55d0ca93900\r\nCorrelation ID: f9eff41e-7b36-4a97-86d5-f7884d8a127f\r\nTimestamp: 2022-12-10 00:47:25Z",
+        "error_codes": [
+          7000215
+        ],
+        "timestamp": "2022-12-10 00:47:25Z",
+        "trace_id": "795daa21-6f9c-4df9-a687-c55d0ca93900",
+        "correlation_id": "f9eff41e-7b36-4a97-86d5-f7884d8a127f",
+        "error_uri": "https://login.microsoftonline.com/error?code=7000215"
       }
     }
   ],
