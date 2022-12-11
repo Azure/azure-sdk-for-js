@@ -27,7 +27,7 @@ parameters:
 extends:
   template: /eng/pipelines/templates/jobs/perf.yml
   parameters:
-    ServiceDirectory: eventhub/event-hubs
+    ServiceDirectory: eventhub
     Services: "^(eventhubs)$"
     PackageVersions: ${{ parameters.PackageVersions }}
     Tests: ${{ parameters.Tests }}
