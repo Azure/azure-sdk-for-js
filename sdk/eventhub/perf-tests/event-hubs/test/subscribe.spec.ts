@@ -116,20 +116,26 @@ async function sendBatch(
   const numberOfPartitions =
     partitionIds.length < partitions || partitions === -1 ? partitionIds.length : partitions;
   partitionIds = partitionIds.slice(0, numberOfPartitions);
-  const numberOfEventsPerPartition = Math.ceil(numberOfEvents / numberOfPartitions);
 
-  for (const partitionId of partitionIds) {
-    const batch = await producer.createBatch({ partitionId });
-    let numberOfEventsSent = 0;
-    // add events to our batch
-    while (numberOfEventsSent < numberOfEventsPerPartition) {
-      while (
-        batch.tryAdd({ body: _payload }) &&
-        numberOfEventsSent + batch.count <= numberOfEventsPerPartition
-      );
-      await producer.sendBatch(batch);
-      numberOfEventsSent = numberOfEventsSent + batch.count;
-    }
+  let totalEvents = 0;
+  for (const partition in partitionIds) {
+    const { lastEnqueuedSequenceNumber, beginningSequenceNumber } = await producer.getPartitionProperties(partition);
+    totalEvents += lastEnqueuedSequenceNumber - beginningSequenceNumber;
+  }
+
+  if (totalEvents >= numberOfEvents) return;
+
+  const eventsToAdd = numberOfEvents - totalEvents;
+  const batch = await producer.createBatch();
+  let numberOfEventsSent = 0;
+  // add events to our batch
+  while (numberOfEventsSent < eventsToAdd) {
+    while (
+      batch.tryAdd({ body: _payload }) &&
+      numberOfEventsSent + batch.count <= eventsToAdd
+    );
+    await producer.sendBatch(batch);
+    numberOfEventsSent = numberOfEventsSent + batch.count;
   }
 
   await producer.close();

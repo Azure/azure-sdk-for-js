@@ -15,7 +15,7 @@ Create an event-hubs namespace and populate the `.env` file with the following v
 
 - To test sending messages in batches
 
-  > `npm run perf-test:node -- SendTest --body-size 1024 --batch-size 100 --warmup 2 --duration 10 --parallel 2`
+  > `npm run perf-test:node -- SendTest --event-size 1024 --batch-size 100 --warmup 2 --duration 10 --parallel 2`
 
   _Note: For more default options, refer [Perf-Framework-Default-Options](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/perf/README.md#keyconcepts)._
 
