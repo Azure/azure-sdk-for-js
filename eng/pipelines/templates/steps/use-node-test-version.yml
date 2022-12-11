@@ -58,8 +58,8 @@ steps:
         Write-Host "Installing $($packageAtVersion)"
         # Install matching version of package
         where node
-        cd "C:\Program Files\nodejs"
-        cd node_modules\npm\node_modules\npm-lifecycle
+        # cd "C:\Program Files\nodejs"
+        # cd node_modules\npm\node_modules\npm-lifecycle
         npm install node-gyp@latest
         npm config get msvs_version
         node-gyp configure --msvs_version=2022
