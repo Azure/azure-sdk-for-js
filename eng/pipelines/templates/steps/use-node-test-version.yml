@@ -57,7 +57,7 @@ steps:
 
         Write-Host "Installing $($packageAtVersion)"
         # Install matching version of package
-        npm config set msvs_version 2019 --global
+        npm config set msvs_version 2022 --global
         npm install --no-package-lock $packageAtVersion
 
         Set-Location $currentLocation
