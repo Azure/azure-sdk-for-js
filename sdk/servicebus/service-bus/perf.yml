@@ -29,7 +29,7 @@ extends:
   parameters:
     operatingSystems: ${{ parameters.operatingSystems }}
     serviceDirectory: servicebus/service-bus
-    services: "^service-bus$"
+    services: "^servicebus$"
     packageVersions: ${{ parameters.packageVersions }}
     tests: ${{ parameters.tests }}
     arguments: ${{ parameters.arguments }}
