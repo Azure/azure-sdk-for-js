@@ -21,7 +21,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/communicationServices/regenerateKey.json
  */
 async function regenerateKey() {
-  const subscriptionId = "12345";
+  const subscriptionId = process.env["SUBSCRIPTION_ID"] || "12345";
   const resourceGroupName = "MyResourceGroup";
   const communicationServiceName = "MyCommunicationResource";
   const parameters: RegenerateKeyParameters = { keyType: "Primary" };

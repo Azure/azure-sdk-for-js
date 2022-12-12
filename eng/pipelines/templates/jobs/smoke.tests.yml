@@ -13,7 +13,7 @@ parameters:
     default: 'not-specified'
 
 jobs:
-  - ${{ if and(eq(parameters.Daily, false), ne(variables['Skip.Release'], 'true')) }}:
+  - ${{ if and(eq(parameters.Daily, false)) }}:
     - job: smoke_test_eligibility
       variables:
         - template: /eng/pipelines/templates/variables/globals.yml

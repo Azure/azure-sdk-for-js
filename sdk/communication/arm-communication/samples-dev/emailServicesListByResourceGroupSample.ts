@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/emailServices/listByResourceGroup.json
  */
 async function listEmailServiceResourcesByResourceGroup() {
-  const subscriptionId = "12345";
+  const subscriptionId = process.env["SUBSCRIPTION_ID"] || "12345";
   const resourceGroupName = "MyResourceGroup";
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(

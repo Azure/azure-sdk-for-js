@@ -21,7 +21,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/emailServices/update.json
  */
 async function updateEmailServiceResource() {
-  const subscriptionId = "12345";
+  const subscriptionId = process.env["SUBSCRIPTION_ID"] || "12345";
   const resourceGroupName = "MyResourceGroup";
   const emailServiceName = "MyEmailServiceResource";
   const parameters: EmailServiceResourceUpdate = { tags: { newTag: "newVal" } };
