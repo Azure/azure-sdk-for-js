@@ -42,19 +42,18 @@ parameters:
 
 stages:
   # The Prerelease and Release stages are conditioned on whether we are building a pull request and the branch.
-  - ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'), eq(parameters.IncludeRelease,true))}}:
-    - ${{ each artifact in parameters.Artifacts }}:
-      - stage:
-        variables:
-        - template: /eng/pipelines/templates/variables/globals.yml
-        displayName: 'Release: ${{artifact.name}}'
-        jobs:
-        - template: /eng/pipelines/templates/jobs/smoke.tests.yml
-          parameters:
-            Daily: false
-            ServiceDirectory: ${{ parameters.ServiceDirectory }}
-            ArtifactName: packages
-            Artifact: ${{ artifact }}
+  - ${{ each artifact in parameters.Artifacts }}:
+    - stage:
+      variables:
+      - template: /eng/pipelines/templates/variables/globals.yml
+      displayName: 'Release: ${{artifact.name}}'
+      jobs:
+      - template: /eng/pipelines/templates/jobs/smoke.tests.yml
+        parameters:
+          Daily: false
+          ServiceDirectory: ${{ parameters.ServiceDirectory }}
+          ArtifactName: packages
+          Artifact: ${{ artifact }}
   - stage: Build
     jobs:
       - template: /eng/pipelines/templates/jobs/ci.yml
