@@ -22,8 +22,8 @@ describe(`TollFreeVerificationClient - lists Campaign Briefs`, function () {
   });
 
   it("can list all campaign briefs", async function () {
-    for await (const campaignBrief of client.listCampaignBriefs('US')) {
-      assert.equal(campaignBrief.countryCode, 'US');
+    for await (const campaignBrief of client.listCampaignBriefs("US")) {
+      assert.equal(campaignBrief.countryCode, "US");
     }
   }).timeout(10000);
 });

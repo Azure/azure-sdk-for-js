@@ -3,5 +3,5 @@
 
 export {
   BusinessInformation as BusinessInformationMapper,
-  BusinessPointOfContact as BusinessPointOfContactMapper
+  BusinessPointOfContact as BusinessPointOfContactMapper,
 } from "./generated/src/models/mappers";

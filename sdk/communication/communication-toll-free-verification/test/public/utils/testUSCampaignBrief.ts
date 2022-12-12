@@ -6,7 +6,7 @@ import {
   BusinessInformationMapper,
   BusinessPointOfContactMapper,
   CampaignBrief,
-  TollFreeVerificationClient
+  TollFreeVerificationClient,
 } from "../../../src";
 import { assert } from "chai";
 import { CompositeMapper } from "@azure/core-client";
@@ -22,7 +22,7 @@ export function getTestUSCampaignBrief(): CampaignBrief {
 
   const testUSCampaignBrief: CampaignBrief = {
     id: campaignBriefId,
-    countryCode: 'US',
+    countryCode: "US",
     businessPointOfContact: {
       firstName: "poc",
       email: "poc@poc.com",
@@ -36,36 +36,26 @@ export function getTestUSCampaignBrief(): CampaignBrief {
         locality: "citt",
         administrativeDivision: "Nevada",
         postalCode: "Company name",
-        country: "US"
-      }
+        country: "US",
+      },
     },
     useCaseInfo: [
       {
-        sampleMessages: [
-          "message1",
-          "message2",
-          "message3"
-        ],
+        sampleMessages: ["message1", "message2", "message3"],
         useCase: "AppNotifications",
-        useCaseSummary: "description"
-      }
+        useCaseSummary: "description",
+      },
     ],
-    phoneNumbers: [
-      "+123456789",
-      "+987654321",
-      "+123321123"
-    ],
+    phoneNumbers: ["+123456789", "+987654321", "+123321123"],
     additionalInformation: "additional information",
     optInDetails: {
       description: "opt in descrition",
       options: [
         {
           type: "keywordSMS",
-          imageUrls: [
-            "http://smsurl.com"
-          ]
-        }
-      ]
+          imageUrls: ["http://smsurl.com"],
+        },
+      ],
     },
   };
 
@@ -81,7 +71,11 @@ export function assertEditableFieldsAreEqual(
 
   assertDeepEqualKnownFields(actual, expected, messageContext, [
     [(x) => x.businessInformation, BusinessInformationMapper, "Business Information do not match"],
-    [(x) => x.businessPointOfContact, BusinessPointOfContactMapper, "Business Point of Contact does not match"],
+    [
+      (x) => x.businessPointOfContact,
+      BusinessPointOfContactMapper,
+      "Business Point of Contact does not match",
+    ],
   ]);
 }
 
@@ -143,7 +137,7 @@ export async function doesCampaignBriefExist(
   id: string
 ): Promise<boolean> {
   try {
-    const campaignBrief = await client.getCampaignBrief(id, 'US');
+    const campaignBrief = await client.getCampaignBrief(id, "US");
     if (campaignBrief.id === id) {
       return true;
     } else {

@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TollFreeVerificationClient, TollFreeVerificationUpsertCampaignBriefOptionalParams } from "../../src";
+import {
+  TollFreeVerificationClient,
+  TollFreeVerificationUpsertCampaignBriefOptionalParams,
+} from "../../src";
 import {
   assertEditableFieldsAreEqual,
   doesCampaignBriefExist,
@@ -34,7 +37,7 @@ describe(`TollFreeVerificationClient - Campaign Brief`, function () {
     const updateRequest: TollFreeVerificationUpsertCampaignBriefOptionalParams = {
       body: {
         id: uscb.id,
-        additionalInformation: "additional information updated"
+        additionalInformation: "additional information updated",
       },
     };
 
@@ -43,33 +46,33 @@ describe(`TollFreeVerificationClient - Campaign Brief`, function () {
       console.warn(
         "Campaign brief should not exist, it has not yet been created. Cleaning up campaign brief."
       );
-      await client.deleteCampaignBrief(uscb.id, 'US');
+      await client.deleteCampaignBrief(uscb.id, "US");
       if (await doesCampaignBriefExist(client, uscb.id)) {
         assert.fail("Campaign brief should not exist, and could not be deleted");
       }
     }
 
     // create campaign brief by calling upsert
-    const submitResult = await client.upsertCampaignBrief(uscb.id, 'US', createRequest);
+    const submitResult = await client.upsertCampaignBrief(uscb.id, "US", createRequest);
     assert.isOk(submitResult, "Failed to create campaign brief");
     assert.equal(uscb.id, submitResult.id, "Campaign brief creation returned the wrong Id");
 
     // get campaign brief, verify it was created correctly
-    let getRes = await client.getCampaignBrief(uscb.id, 'US');
+    let getRes = await client.getCampaignBrief(uscb.id, "US");
     assertEditableFieldsAreEqual(uscb, getRes, "get after initial create");
 
     // update campaign brief by calling upsert
-    const updateResult = await client.upsertCampaignBrief(uscb.id, 'US', updateRequest);
+    const updateResult = await client.upsertCampaignBrief(uscb.id, "US", updateRequest);
     assert.isOk(updateResult, "Update campaign brief failed");
     assert.equal(uscb.id, updateResult.id, "Update campaign brief returned the wrong Id");
 
     // get campaign brief, verify it was updated correctly
-    getRes = await client.getCampaignBrief(uscb.id, 'US');
+    getRes = await client.getCampaignBrief(uscb.id, "US");
     assertEditableFieldsAreEqual(uscb, getRes, "get after update");
 
     // list campaign briefs, validate test campaign brief is in the list
     let foundTestCampaignBrief = false;
-    for await (const cb of client.listCampaignBriefs('US')) {
+    for await (const cb of client.listCampaignBriefs("US")) {
       if (cb.id === uscb.id) {
         foundTestCampaignBrief = true;
         assertEditableFieldsAreEqual(uscb, cb, "list all campaign briefs");
@@ -81,7 +84,7 @@ describe(`TollFreeVerificationClient - Campaign Brief`, function () {
     );
 
     // delete campaign brief, ensure it was removed
-    const delRes = await client.deleteCampaignBrief(uscb.id, 'US');
+    const delRes = await client.deleteCampaignBrief(uscb.id, "US");
     assert.isOk(delRes, "Deleting campaign brief failed");
     assert.isFalse(
       await doesCampaignBriefExist(client, uscb.id),
