@@ -284,7 +284,7 @@ export interface UtilizationAggregates {
   readonly valueUnit?: string;
 }
 
-export interface SavingsPlanModelPropertiesRenewProperties {
+export interface RenewProperties {
   purchaseProperties?: PurchaseRequest;
 }
 
@@ -409,10 +409,6 @@ export interface SavingsPlanUpdateRequestProperties {
   /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
   renew?: boolean;
   renewProperties?: RenewProperties;
-}
-
-export interface RenewProperties {
-  purchaseProperties?: PurchaseRequest;
 }
 
 export interface SavingsPlanUpdateValidateRequest {
@@ -629,7 +625,11 @@ export interface SavingsPlanModel extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly utilization?: Utilization;
-  renewProperties?: SavingsPlanModelPropertiesRenewProperties;
+  /** SavingsPlan Id of the SavingsPlan from which this SavingsPlan is renewed. */
+  renewSource?: string;
+  /** SavingsPlan Id of the SavingsPlan which is purchased because of renew. */
+  renewDestination?: string;
+  renewProperties?: RenewProperties;
 }
 
 /** Reservation order alias */

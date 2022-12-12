@@ -644,10 +644,10 @@ export const UtilizationAggregates: coreClient.CompositeMapper = {
   }
 };
 
-export const SavingsPlanModelPropertiesRenewProperties: coreClient.CompositeMapper = {
+export const RenewProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SavingsPlanModelPropertiesRenewProperties",
+    className: "RenewProperties",
     modelProperties: {
       purchaseProperties: {
         serializedName: "purchaseProperties",
@@ -923,22 +923,6 @@ export const SavingsPlanUpdateRequestProperties: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "RenewProperties"
-        }
-      }
-    }
-  }
-};
-
-export const RenewProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RenewProperties",
-    modelProperties: {
-      purchaseProperties: {
-        serializedName: "purchaseProperties",
-        type: {
-          name: "Composite",
-          className: "PurchaseRequest"
         }
       }
     }
@@ -1491,11 +1475,23 @@ export const SavingsPlanModel: coreClient.CompositeMapper = {
           className: "Utilization"
         }
       },
+      renewSource: {
+        serializedName: "properties.renewSource",
+        type: {
+          name: "String"
+        }
+      },
+      renewDestination: {
+        serializedName: "properties.renewDestination",
+        type: {
+          name: "String"
+        }
+      },
       renewProperties: {
         serializedName: "properties.renewProperties",
         type: {
           name: "Composite",
-          className: "SavingsPlanModelPropertiesRenewProperties"
+          className: "RenewProperties"
         }
       }
     }

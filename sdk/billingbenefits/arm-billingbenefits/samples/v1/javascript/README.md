@@ -1,4 +1,4 @@
-# client library samples for JavaScript (Beta)
+# client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for in some common scenarios.
 
@@ -57,20 +57,20 @@ npx cross-env  node operationsListSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/javascript/operationsListSample.js
-[reservationorderaliascreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/javascript/reservationOrderAliasCreateSample.js
-[reservationorderaliasgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/javascript/reservationOrderAliasGetSample.js
-[savingsplangetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/javascript/savingsPlanGetSample.js
-[savingsplanlistallsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/javascript/savingsPlanListAllSample.js
-[savingsplanlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/javascript/savingsPlanListSample.js
-[savingsplanorderaliascreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/javascript/savingsPlanOrderAliasCreateSample.js
-[savingsplanorderaliasgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/javascript/savingsPlanOrderAliasGetSample.js
-[savingsplanorderelevatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/javascript/savingsPlanOrderElevateSample.js
-[savingsplanordergetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/javascript/savingsPlanOrderGetSample.js
-[savingsplanorderlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/javascript/savingsPlanOrderListSample.js
-[savingsplanupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/javascript/savingsPlanUpdateSample.js
-[savingsplanvalidateupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/javascript/savingsPlanValidateUpdateSample.js
-[validatepurchasesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/javascript/validatePurchaseSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/javascript/operationsListSample.js
+[reservationorderaliascreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/javascript/reservationOrderAliasCreateSample.js
+[reservationorderaliasgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/javascript/reservationOrderAliasGetSample.js
+[savingsplangetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/javascript/savingsPlanGetSample.js
+[savingsplanlistallsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/javascript/savingsPlanListAllSample.js
+[savingsplanlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/javascript/savingsPlanListSample.js
+[savingsplanorderaliascreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/javascript/savingsPlanOrderAliasCreateSample.js
+[savingsplanorderaliasgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/javascript/savingsPlanOrderAliasGetSample.js
+[savingsplanorderelevatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/javascript/savingsPlanOrderElevateSample.js
+[savingsplanordergetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/javascript/savingsPlanOrderGetSample.js
+[savingsplanorderlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/javascript/savingsPlanOrderListSample.js
+[savingsplanupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/javascript/savingsPlanUpdateSample.js
+[savingsplanvalidateupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/javascript/savingsPlanValidateUpdateSample.js
+[validatepurchasesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/javascript/validatePurchaseSample.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-billingbenefits?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/billingbenefits/arm-billingbenefits/README.md

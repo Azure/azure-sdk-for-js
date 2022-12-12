@@ -1,4 +1,4 @@
-# client library samples for TypeScript (Beta)
+# client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for in some common scenarios.
 
@@ -69,20 +69,20 @@ npx cross-env  node dist/operationsListSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/typescript/src/operationsListSample.ts
-[reservationorderaliascreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/typescript/src/reservationOrderAliasCreateSample.ts
-[reservationorderaliasgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/typescript/src/reservationOrderAliasGetSample.ts
-[savingsplangetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/typescript/src/savingsPlanGetSample.ts
-[savingsplanlistallsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/typescript/src/savingsPlanListAllSample.ts
-[savingsplanlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/typescript/src/savingsPlanListSample.ts
-[savingsplanorderaliascreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/typescript/src/savingsPlanOrderAliasCreateSample.ts
-[savingsplanorderaliasgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/typescript/src/savingsPlanOrderAliasGetSample.ts
-[savingsplanorderelevatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/typescript/src/savingsPlanOrderElevateSample.ts
-[savingsplanordergetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/typescript/src/savingsPlanOrderGetSample.ts
-[savingsplanorderlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/typescript/src/savingsPlanOrderListSample.ts
-[savingsplanupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/typescript/src/savingsPlanUpdateSample.ts
-[savingsplanvalidateupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/typescript/src/savingsPlanValidateUpdateSample.ts
-[validatepurchasesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1-beta/typescript/src/validatePurchaseSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/typescript/src/operationsListSample.ts
+[reservationorderaliascreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/typescript/src/reservationOrderAliasCreateSample.ts
+[reservationorderaliasgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/typescript/src/reservationOrderAliasGetSample.ts
+[savingsplangetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/typescript/src/savingsPlanGetSample.ts
+[savingsplanlistallsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/typescript/src/savingsPlanListAllSample.ts
+[savingsplanlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/typescript/src/savingsPlanListSample.ts
+[savingsplanorderaliascreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/typescript/src/savingsPlanOrderAliasCreateSample.ts
+[savingsplanorderaliasgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/typescript/src/savingsPlanOrderAliasGetSample.ts
+[savingsplanorderelevatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/typescript/src/savingsPlanOrderElevateSample.ts
+[savingsplanordergetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/typescript/src/savingsPlanOrderGetSample.ts
+[savingsplanorderlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/typescript/src/savingsPlanOrderListSample.ts
+[savingsplanupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/typescript/src/savingsPlanUpdateSample.ts
+[savingsplanvalidateupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/typescript/src/savingsPlanValidateUpdateSample.ts
+[validatepurchasesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/typescript/src/validatePurchaseSample.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-billingbenefits?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/billingbenefits/arm-billingbenefits/README.md

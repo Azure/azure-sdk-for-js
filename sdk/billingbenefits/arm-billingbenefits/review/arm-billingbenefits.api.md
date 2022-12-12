@@ -492,8 +492,10 @@ export interface SavingsPlanModel extends Resource {
     readonly provisioningState?: ProvisioningState;
     readonly purchaseDateTime?: Date;
     renew?: boolean;
+    renewDestination?: string;
     // (undocumented)
-    renewProperties?: SavingsPlanModelPropertiesRenewProperties;
+    renewProperties?: RenewProperties;
+    renewSource?: string;
     sku: Sku;
     term?: Term;
     readonly userFriendlyAppliedScopeType?: string;
@@ -512,12 +514,6 @@ export interface SavingsPlanModelListResult {
     readonly additionalProperties?: SavingsPlanSummary[];
     readonly nextLink?: string;
     readonly value?: SavingsPlanModel[];
-}
-
-// @public (undocumented)
-export interface SavingsPlanModelPropertiesRenewProperties {
-    // (undocumented)
-    purchaseProperties?: PurchaseRequest;
 }
 
 // @public
