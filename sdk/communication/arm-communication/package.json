@@ -111,6 +111,7 @@
   },
   "autoPublish": true,
   "//sampleConfiguration": {
+    "skipFolder": true,
     "productName": "",
     "productSlugs": [
       "azure"
