@@ -51,7 +51,7 @@ export class UploadLogsTest extends MonitorIngestionPerfTest<UploadLogsOptions> 
 
   constructor() {
     super();
-    this.dataCollectionRuleId = getEnvVar("DATA_COLLECTION_RULE_ID");
+    this.dataCollectionRuleId = getEnvVar("INGESTION_DATA_COLLECTION_RULE_ID");
   }
 
   setup(): void {

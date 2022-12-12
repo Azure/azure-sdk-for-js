@@ -15,6 +15,9 @@ export abstract class MonitorIngestionPerfTest<TOptions> extends PerfTest<TOptio
   constructor() {
     super();
     const tokenCredential = new DefaultAzureCredential();
-    this.client = new LogsIngestionClient(getEnvVar("LOGS_INGESTION_ENDPOINT"), tokenCredential);
+    this.client = new LogsIngestionClient(
+      getEnvVar("MONITOR_INGESTION_DATA_COLLECTION_ENDPOINT"),
+      tokenCredential
+    );
   }
 }
