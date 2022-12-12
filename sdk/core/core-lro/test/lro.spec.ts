@@ -2156,6 +2156,7 @@ matrix(
               },
             ],
             implName,
+            throwOnNon2xxResponse,
           });
           poller.onProgress((currentState) => {
             if (state === undefined && serializedState === undefined) {
@@ -2327,6 +2328,7 @@ matrix(
 
       describe("poller cancellation", () => {
         it("cancelled poller gives access to partial results", async () => {
+          const body = { status: "canceled", results: [1, 2] };
           const pollingPath = "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/asyncOperationUrl";
           const poller = await createTestPoller({
             routes: [
@@ -2348,12 +2350,22 @@ matrix(
                 method: "GET",
                 path: pollingPath,
                 status: 200,
-                body: `{ "status": "canceled", "results": [1,2] }`,
+                body: JSON.stringify(body),
               },
             ],
+            throwOnNon2xxResponse,
             implName,
           });
-          await assertError(poller.pollUntilDone(), { messagePattern: /Operation was canceled/ });
+          await assertDivergentBehavior({
+            op: poller.pollUntilDone(),
+            throwOnNon2xxResponse,
+            throwing: {
+              messagePattern: /Operation was canceled/,
+            },
+            notThrowing: {
+              result: { ...body, statusCode: 200 },
+            },
+          });
           const result = poller.getResult();
           assert.deepEqual(result!.results, [1, 2]);
         });
@@ -2385,6 +2397,7 @@ matrix(
               },
             ],
             implName,
+            throwOnNon2xxResponse,
             updateState: () => {
               pollCount++;
             },
@@ -2401,8 +2414,13 @@ matrix(
               messagePattern: /The operation was aborted/,
             }
           );
-          await assertError(poller.pollUntilDone(), {
-            messagePattern: /The operation was aborted/,
+          await assertDivergentBehavior({
+            op: poller.pollUntilDone(),
+            throwOnNon2xxResponse,
+            throwing: {
+              messagePattern: /The operation was aborted/,
+            },
+            notThrowing: { result: undefined },
           });
           assert.equal(pollCount, 1);
           assert.ok(poller.isDone());
@@ -2433,6 +2451,7 @@ matrix(
                 status: 200,
               },
             ],
+            throwOnNon2xxResponse,
             implName,
             updateState: () => {
               pollCount++;
@@ -2479,6 +2498,7 @@ matrix(
                 status: 200,
               },
             ],
+            throwOnNon2xxResponse,
             implName,
             updateState: () => {
               pollCount++;
