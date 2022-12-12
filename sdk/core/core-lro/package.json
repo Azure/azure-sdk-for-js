@@ -87,7 +87,7 @@
     "test": "npm run build:test && npm run unit-test",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace --timeout 1200000 --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\""
+    "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\" nyc mocha -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace  --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\""
   },
   "sideEffects": false,
   "dependencies": {
@@ -103,6 +103,7 @@
     "@microsoft/api-extractor": "^7.31.1",
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.0",
+    "cross-env": "^7.0.2",
     "eslint": "^8.0.0",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
