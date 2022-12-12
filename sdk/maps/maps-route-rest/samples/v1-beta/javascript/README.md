@@ -1,13 +1,3 @@
----
-page_type: sample
-languages:
-  - javascript
-products:
-  - azure
-  - azure-maps
-urlFragment: maps-route-javascript-beta
----
-
 # Azure Maps Route client library samples for JavaScript (Beta)
 
 These sample programs show how to use the JavaScript client libraries for Azure Maps Route in some common scenarios.

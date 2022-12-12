@@ -6,12 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
-import { Jobs, Providers, Storage, Quotas } from "./operations";
-import { QuantumJobClientContext } from "./quantumJobClientContext";
+import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import * as coreAuth from "@azure/core-auth";
+import { JobsImpl, ProvidersImpl, StorageImpl, QuotasImpl } from "./operations";
+import { Jobs, Providers, Storage, Quotas } from "./operationsInterfaces";
 import { QuantumJobClientOptionalParams } from "./models";
 
-export class QuantumJobClient extends QuantumJobClientContext {
+export class QuantumJobClient extends coreClient.ServiceClient {
+  $host: string;
+  subscriptionId: string;
+  resourceGroupName: string;
+  workspaceName: string;
+
   /**
    * Initializes a new instance of the QuantumJobClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
@@ -22,17 +29,87 @@ export class QuantumJobClient extends QuantumJobClientContext {
    * @param options The parameter options
    */
   constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
+    credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     resourceGroupName: string,
     workspaceName: string,
     options?: QuantumJobClientOptionalParams
   ) {
-    super(credentials, subscriptionId, resourceGroupName, workspaceName, options);
-    this.jobs = new Jobs(this);
-    this.providers = new Providers(this);
-    this.storage = new Storage(this);
-    this.quotas = new Quotas(this);
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
+    if (subscriptionId === undefined) {
+      throw new Error("'subscriptionId' cannot be null");
+    }
+    if (resourceGroupName === undefined) {
+      throw new Error("'resourceGroupName' cannot be null");
+    }
+    if (workspaceName === undefined) {
+      throw new Error("'workspaceName' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: QuantumJobClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
+
+    const packageDetails = `azsdk-js-quantum-jobs/1.0.0-beta.2`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri:
+        options.endpoint ?? options.baseUri ?? "https://quantum.azure.com"
+    };
+    super(optionsWithDefaults);
+
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
+    }
+    // Parameter assignments
+    this.subscriptionId = subscriptionId;
+    this.resourceGroupName = resourceGroupName;
+    this.workspaceName = workspaceName;
+
+    // Assigning values to Constant parameters
+    this.$host = options.$host || "https://quantum.azure.com";
+    this.jobs = new JobsImpl(this);
+    this.providers = new ProvidersImpl(this);
+    this.storage = new StorageImpl(this);
+    this.quotas = new QuotasImpl(this);
   }
 
   jobs: Jobs;
