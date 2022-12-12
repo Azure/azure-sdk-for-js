@@ -5,7 +5,6 @@ import { ChildProcess, spawn, SpawnOptions } from "child_process";
 import { IncomingMessage, request, RequestOptions } from "http";
 import { createPrinter } from "./printer";
 import { resolveRoot } from "./resolveProject";
-import os from "os";
 import { readFile } from "fs/promises";
 import fs from "fs-extra";
 import path from "path";
@@ -13,25 +12,51 @@ import path from "path";
 const log = createPrinter("test-proxy");
 
 const TEST_PROXY_ARTIFACT_BASE_URL = "http://localhost:8081/";
-const TEST_PROXY_ARTIFACTS: Record<string, Record<string, string>> = {
-  Windows_NT: {
-    // Windows is a .zip, special case. The rest are tarballs.
-    x64: "test-proxy-standalone-win-x64.zip",
+
+interface TestProxyArtifact {
+  /**
+   * File name of the artifact archive to download.
+   */
+  fileName: string;
+
+  /**
+   * Location of the executable inside the downloaded archive.
+   */
+  executableLocation: string;
+}
+
+const TEST_PROXY_ARTIFACTS: Record<string, Record<string, TestProxyArtifact>> = {
+  win32: {
+    x64: { fileName: "test-proxy-standalone-win-x64.zip", executableLocation: "test-proxy.exe" },
   },
-  Linux: {
-    x64: "test-proxy-standalone-linux-x64.tar.gz",
-    arm64: "test-proxy-standalone-linux-arm64.tar.gz",
+  linux: {
+    x64: {
+      fileName: "test-proxy-standalone-linux-x64.tar.gz",
+      executableLocation: "tools/test-proxy/linux-x64/test-proxy",
+    },
+    arm64: {
+      fileName: "test-proxy-standalone-linux-arm64.tar.gz",
+      executableLocation: "tools/test-proxy/linux-arm64/test-proxy",
+    },
   },
-  Darwin: {
-    x64: "test-proxy-standalone-osx-x64.tar.gz",
-    arm64: "test-proxy-standalone-osx-x64.tar.gz", // Using the x64 release for ARM Mac until arm64 binaries are released (requires test proxy upgrade to .NET 6)
+  darwin: {
+    x64: {
+      fileName: "test-proxy-standalone-osx-x64.tar.gz",
+      executableLocation: "tools/test-proxy/osx-x64/test-proxy",
+    },
+    arm64: {
+      fileName: "test-proxy-standalone-osx-x64.tar.gz",
+      executableLocation: "tools/test-proxy/osx-arm64/test-proxy",
+    },
   },
 };
 
-function getTestProxyArtifact(): string {
-  const result = TEST_PROXY_ARTIFACTS[os.type()]?.[os.arch()];
+function getTestProxyArtifact(): TestProxyArtifact {
+  const result = TEST_PROXY_ARTIFACTS[process.platform]?.[process.arch];
   if (!result) {
-    throw new Error(`Unsupported OS/architecture combination: ${os.type()}/${os.arch()}`);
+    throw new Error(
+      `Unsupported platform/architecture combination: ${process.platform}/${process.arch}`
+    );
   }
 
   return result;
@@ -40,12 +65,10 @@ function getTestProxyArtifact(): string {
 export async function getTestProxyExecutable(): Promise<string> {
   const targetVersion = await getTargetVersion();
   const downloadDir = path.join(await resolveRoot(), ".test-proxy");
+  const artifact = await getTestProxyArtifact();
   const dirWithVersion = path.join(downloadDir, targetVersion);
 
-  const executable = path.join(
-    dirWithVersion,
-    os.type() === "Windows_NT" ? "test-proxy.exe" : "test-proxy"
-  );
+  const executable = path.join(dirWithVersion, artifact.executableLocation);
 
   // If we don't have the version that we're targeting downloaded, nuke the entire folder and redownload. This has the side effect of removing old test proxy versions
   // that we don't want.
@@ -53,7 +76,6 @@ export async function getTestProxyExecutable(): Promise<string> {
     await fs.remove(downloadDir);
 
     await fs.ensureDir(dirWithVersion);
-    const artifact = await getTestProxyArtifact();
 
     // download to dirWithVersion & extract
     console.log(`Downloading test proxy ${targetVersion}...`);
@@ -65,7 +87,7 @@ export async function getTestProxyExecutable(): Promise<string> {
         // Flags in order: progress bar, follow redirects, don't use .curlrc, output to standard output
         "-#Lqo-",
         // URL to download from
-        `${TEST_PROXY_ARTIFACT_BASE_URL}${artifact}`,
+        `${TEST_PROXY_ARTIFACT_BASE_URL}${artifact.fileName}`,
       ],
       {
         cwd: dirWithVersion,
