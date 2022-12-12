@@ -21,7 +21,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/communicationServices/checkNameAvailabilityAvailable.json
  */
 async function checkNameAvailabilityAvailable() {
-  const subscriptionId = process.env["SUBSCRIPTION_ID"] || "12345";
+  const subscriptionId = process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "12345";
   const nameAvailabilityParameters: NameAvailabilityParameters = {
     name: "MyCommunicationService",
     type: "Microsoft.Communication/CommunicationServices"
@@ -46,7 +46,7 @@ checkNameAvailabilityAvailable().catch(console.error);
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/communicationServices/checkNameAvailabilityUnavailable.json
  */
 async function checkNameAvailabilityUnavailable() {
-  const subscriptionId = process.env["SUBSCRIPTION_ID"] || "12345";
+  const subscriptionId = process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "12345";
   const nameAvailabilityParameters: NameAvailabilityParameters = {
     name: "MyCommunicationService",
     type: "Microsoft.Communication/CommunicationServices"
