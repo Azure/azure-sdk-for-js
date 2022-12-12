@@ -18,7 +18,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/emailServices/listBySubscription.json
  */
 async function main() {
-  const subscriptionId = process.env["COMMUNICATION_SUBSCRIPTION_ID"] || process.env["SUBSCRIPTION_ID"] || "12345";
+  const subscriptionId = process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "12345";
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const resArray = new Array();

@@ -18,8 +18,12 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/domains/createOrUpdate.json
  */
 async function main() {
-  const subscriptionId = process.env["COMMUNICATION_SUBSCRIPTION_ID"] || process.env["SUBSCRIPTION_ID"] || "12345";
-  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || process.env["RESOURCE_GROUP_NAME"] || process.env["RESOURCE_GROUP"] || "MyResourceGroup";
+  const subscriptionId = process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "12345";
+  const resourceGroupName =
+    process.env["COMMUNICATION_RESOURCE_GROUP"] ||
+    process.env["RESOURCE_GROUP_NAME"] ||
+    process.env["RESOURCE_GROUP"] ||
+    "MyResourceGroup";
   const emailServiceName = "MyEmailServiceResource";
   const domainName = "mydomain.com";
   const parameters = {

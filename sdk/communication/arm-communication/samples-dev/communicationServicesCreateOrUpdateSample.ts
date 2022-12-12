@@ -25,7 +25,7 @@ async function main() {
   const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || process.env["RESOURCE_GROUP_NAME"] || process.env["RESOURCE_GROUP"] || "MyResourceGroup";
   const communicationServiceName = "MyCommunicationResource";
   const parameters: CommunicationServiceResource = {
-    dataLocation: "United States",
+    dataLocation: "United States2",
     location: "Global"
   };
   const credential = new DefaultAzureCredential();
