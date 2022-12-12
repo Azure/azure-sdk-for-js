@@ -4,7 +4,6 @@ specifiers:
   '@rush-temp/abort-controller': file:./projects/abort-controller.tgz
   '@rush-temp/agrifood-farming': file:./projects/agrifood-farming.tgz
   '@rush-temp/ai-anomaly-detector': file:./projects/ai-anomaly-detector.tgz
-  '@rush-temp/ai-anomaly-detector-1': file:./projects/ai-anomaly-detector-1.tgz
   '@rush-temp/ai-document-translator': file:./projects/ai-document-translator.tgz
   '@rush-temp/ai-form-recognizer': file:./projects/ai-form-recognizer.tgz
   '@rush-temp/ai-language-conversations': file:./projects/ai-language-conversations.tgz
@@ -331,7 +330,6 @@ dependencies:
   '@rush-temp/abort-controller': file:projects/abort-controller.tgz
   '@rush-temp/agrifood-farming': file:projects/agrifood-farming.tgz
   '@rush-temp/ai-anomaly-detector': file:projects/ai-anomaly-detector.tgz
-  '@rush-temp/ai-anomaly-detector-1': file:projects/ai-anomaly-detector-1.tgz
   '@rush-temp/ai-document-translator': file:projects/ai-document-translator.tgz
   '@rush-temp/ai-form-recognizer': file:projects/ai-form-recognizer.tgz
   '@rush-temp/ai-language-conversations': file:projects/ai-language-conversations.tgz
@@ -4231,7 +4229,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221209
+      typescript: 5.0.0-dev.20221212
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -9333,8 +9331,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221209:
-    resolution: {integrity: sha512-1FzCXMc5vFSoL9j9R5GsMEHlDk03EyC+33UMCQvVW1La4suWPvNCqKA5EQBw6zbfE9fQPawKOcWlhOJ6uhRp4g==}
+  /typescript/5.0.0-dev.20221212:
+    resolution: {integrity: sha512-bnSpGyeM4wf0n7H5Tv4oWf3dPiEpUh2bBLbrLkJ9LsCQVdedHQwC52H3gtWEPT/yt4XCiDtfqjZTGHXxEtDn7A==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9983,52 +9981,6 @@ packages:
       source-map-support: 0.5.21
       tslib: 2.4.0
       typescript: 4.8.4
-    transitivePeerDependencies:
-      - bufferutil
-      - debug
-      - encoding
-      - supports-color
-      - utf-8-validate
-    dev: false
-
-  file:projects/ai-anomaly-detector-1.tgz:
-    resolution: {integrity: sha512-d8B6QjRDga0XrWtdwNnSz8Um8p9fQBDJ6U35KEDARbk9CLGD+f3CAKhpMmm/H67mourbsgH7UMcmtjwfUpec0g==, tarball: file:projects/ai-anomaly-detector-1.tgz}
-    name: '@rush-temp/ai-anomaly-detector-1'
-    version: 0.0.0
-    dependencies:
-      '@azure-tools/test-recorder': 1.0.2
-      '@azure/core-http': 2.2.5
-      '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.33.6
-      '@types/chai': 4.3.1
-      '@types/mocha': 7.0.2
-      '@types/node': 14.18.34
-      chai: 4.3.6
-      cross-env: 7.0.3
-      csv-parse: 5.3.0
-      dotenv: 8.6.0
-      eslint: 8.20.0
-      inherits: 2.0.4
-      karma: 6.4.0
-      karma-chrome-launcher: 3.1.1
-      karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.4.0
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.4.0
-      karma-junit-reporter: 2.0.1_karma@6.4.0
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.4.0
-      karma-sourcemap-loader: 0.3.8
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.0.2_mocha@7.2.0
-      nyc: 15.1.0
-      prettier: 2.7.1
-      rimraf: 3.0.2
-      tslib: 2.4.0
-      typescript: 4.8.4
-      util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -14735,7 +14687,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservicesbackup.tgz:
-    resolution: {integrity: sha512-Br/EMKkYjg3hbuG1RqOijOQKmN6nhf2c8cfm8kcAbFeLhNuKrxsftTksiCmN+fzAKjfXyh2UBVpR84wDarbhBA==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
+    resolution: {integrity: sha512-ujbREIL2OAvAl4obLe3bLdX5pWVhmoIotgheSrxKlwDSXlt1gfgiOPSpHziRnuORPeetdSjiSbRXLRrZIzSl2w==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
     name: '@rush-temp/arm-recoveryservicesbackup'
     version: 0.0.0
     dependencies:
@@ -14747,18 +14699,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.1
+      '@types/node': 14.18.34
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
+      rollup-plugin-sourcemaps: 0.6.3_f16397da2598c00f37427ef5183cf6d6
       tslib: 2.4.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
