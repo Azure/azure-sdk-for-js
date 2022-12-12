@@ -70,7 +70,7 @@ stages:
       - stage:
         variables:
         - template: /eng/pipelines/templates/variables/globals.yml
-        displayName: 'Release: ${{artifact.name}}'
+        displayName: 'Smoke test for ${{artifact.name}}'
         jobs:
         - template: /eng/pipelines/templates/jobs/smoke.tests.yml
           parameters:
