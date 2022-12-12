@@ -2514,6 +2514,90 @@ matrix(
           assert.equal(result.properties?.provisioningState, "Succeeded");
         });
       });
+      describe("general behavior", function () {
+        it("poll() doesn't poll after the poller is in a succeed status", async function () {
+          const poller = await createTestPoller({
+            routes: [
+              {
+                method: "PUT",
+                status: 200,
+                body: `{ "properties": { "provisioningState": "Succeeded"}, "id": "100", "name": "foo" }`,
+              },
+            ],
+            throwOnNon2xxResponse,
+          });
+          const result = await poller.pollUntilDone();
+          await poller.poll(); // This will fail if a polling request is sent
+          assert.equal(result.properties?.provisioningState, "Succeeded");
+        });
+        it("poll() doesn't poll after the poller is in a failed status", async function () {
+          const bodyObj = { properties: { provisioningState: "Failed" }, id: "100", name: "foo" };
+          const poller = await createTestPoller({
+            routes: [
+              {
+                method: "PUT",
+                status: 200,
+                body: JSON.stringify(bodyObj),
+              },
+            ],
+            throwOnNon2xxResponse,
+          });
+          await assertDivergentBehavior({
+            op: poller.pollUntilDone(),
+            notThrowing: {
+              result: { ...bodyObj, statusCode: 200 },
+            },
+            throwing: {
+              messagePattern: /failed/,
+            },
+            throwOnNon2xxResponse,
+          });
+          await assertDivergentBehavior({
+            op: poller.poll() as any,
+            notThrowing: {
+              result: undefined,
+            },
+            throwing: {
+              messagePattern: /failed/,
+            },
+            throwOnNon2xxResponse,
+          });
+        });
+        it("poll() doesn't poll after the poller is in a canceled status", async function () {
+          const bodyObj = { properties: { provisioningState: "Canceled" }, id: "100", name: "foo" };
+          const poller = await createTestPoller({
+            routes: [
+              {
+                method: "PUT",
+                status: 200,
+                body: JSON.stringify(bodyObj),
+              },
+            ],
+            throwOnNon2xxResponse,
+          });
+          await assertDivergentBehavior({
+            op: poller.pollUntilDone(),
+            notThrowing: {
+              result: { ...bodyObj, statusCode: 200 },
+            },
+            throwing: {
+              messagePattern: /canceled/,
+            },
+            throwOnNon2xxResponse,
+          });
+          await assertDivergentBehavior({
+            op: poller.poll() as any,
+            notThrowing: {
+              result: undefined,
+            },
+            throwing: {
+              messagePattern: /canceled/,
+            },
+            throwOnNon2xxResponse,
+          });
+          assert.equal(poller.getResult()?.properties?.provisioningState, "Canceled");
+        });
+      });
     });
   }
 );
