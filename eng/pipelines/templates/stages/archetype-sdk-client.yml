@@ -71,7 +71,6 @@ stages:
         variables:
         - template: /eng/pipelines/templates/variables/globals.yml
         displayName: 'Release: ${{artifact.name}}'
-        dependsOn: Build
         jobs:
         - template: /eng/pipelines/templates/jobs/smoke.tests.yml
           parameters:
