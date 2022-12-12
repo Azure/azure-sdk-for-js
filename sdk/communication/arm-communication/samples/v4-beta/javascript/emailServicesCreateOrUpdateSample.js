@@ -17,7 +17,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary Create a new EmailService or update an existing EmailService.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/emailServices/createOrUpdate.json
  */
-async function createOrUpdateEmailServiceResource() {
+async function main() {
   const subscriptionId = process.env["COMMUNICATION_SUBSCRIPTION_ID"] || process.env["SUBSCRIPTION_ID"] || "12345";
   const resourceGroupName = "MyResourceGroup";
   const emailServiceName = "MyEmailServiceResource";
@@ -35,4 +35,4 @@ async function createOrUpdateEmailServiceResource() {
   console.log(result);
 }
 
-createOrUpdateEmailServiceResource().catch(console.error);
+main().catch(console.error);

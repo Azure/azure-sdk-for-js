@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Initiate verification of DNS record.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/domains/initiateVerification.json
  */
-async function initiateVerification() {
+async function main() {
   const subscriptionId = process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "12345";
   const resourceGroupName = "MyResourceGroup";
   const emailServiceName = "MyEmailServiceResource";
@@ -40,4 +40,4 @@ async function initiateVerification() {
   console.log(result);
 }
 
-initiateVerification().catch(console.error);
+main().catch(console.error);

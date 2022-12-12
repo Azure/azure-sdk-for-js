@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Handles requests to list all resources in a subscription.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/emailServices/listBySubscription.json
  */
-async function listEmailServiceResourcesBySubscription() {
+async function main() {
   const subscriptionId = process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "12345";
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(
@@ -31,4 +31,4 @@ async function listEmailServiceResourcesBySubscription() {
   console.log(resArray);
 }
 
-listEmailServiceResourcesBySubscription().catch(console.error);
+main().catch(console.error);

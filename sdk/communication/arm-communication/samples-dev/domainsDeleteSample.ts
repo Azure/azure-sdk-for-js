@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Operation to delete a Domains resource.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/domains/delete.json
  */
-async function deleteDomainsResource() {
+async function main() {
   const subscriptionId = process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "12345";
   const resourceGroupName = "MyResourceGroup";
   const emailServiceName = "MyEmailServiceResource";
@@ -35,4 +35,4 @@ async function deleteDomainsResource() {
   console.log(result);
 }
 
-deleteDomainsResource().catch(console.error);
+main().catch(console.error);

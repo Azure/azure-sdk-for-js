@@ -17,7 +17,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary Operation to delete a EmailService.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/emailServices/delete.json
  */
-async function deleteEmailServiceResource() {
+async function main() {
   const subscriptionId = process.env["COMMUNICATION_SUBSCRIPTION_ID"] || process.env["SUBSCRIPTION_ID"] || "12345";
   const resourceGroupName = "MyResourceGroup";
   const emailServiceName = "MyEmailServiceResource";
@@ -27,4 +27,4 @@ async function deleteEmailServiceResource() {
   console.log(result);
 }
 
-deleteEmailServiceResource().catch(console.error);
+main().catch(console.error);

@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Operation to update an existing Domains resource.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/domains/update.json
  */
-async function updateDomainsResource() {
+async function main() {
   const subscriptionId = process.env["COMMUNICATION_SUBSCRIPTION_ID"] || process.env["SUBSCRIPTION_ID"] || "12345";
   const resourceGroupName = "MyResourceGroup";
   const emailServiceName = "MyEmailServiceResource";
@@ -43,4 +43,4 @@ async function updateDomainsResource() {
   console.log(result);
 }
 
-updateDomainsResource().catch(console.error);
+main().catch(console.error);

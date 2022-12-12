@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get a list of domains that are fully verified in Exchange Online.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/emailServices/getVerifiedExchangeOnlineDomains.json
  */
-async function getVerifiedExchangeOnlineDomains() {
+async function main() {
   const subscriptionId = process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "12345";
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(
@@ -28,4 +28,4 @@ async function getVerifiedExchangeOnlineDomains() {
   console.log(result);
 }
 
-getVerifiedExchangeOnlineDomains().catch(console.error);
+main().catch(console.error);

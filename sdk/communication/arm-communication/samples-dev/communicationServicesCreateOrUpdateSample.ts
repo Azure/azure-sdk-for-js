@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Create a new CommunicationService or update an existing CommunicationService.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/communicationServices/createOrUpdate.json
  */
-async function createOrUpdateResource() {
+async function main() {
   const subscriptionId = process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "12345";
   const resourceGroupName = "MyResourceGroup";
   const communicationServiceName = "MyCommunicationResource";
@@ -41,4 +41,4 @@ async function createOrUpdateResource() {
   console.log(result);
 }
 
-createOrUpdateResource().catch(console.error);
+main().catch(console.error);

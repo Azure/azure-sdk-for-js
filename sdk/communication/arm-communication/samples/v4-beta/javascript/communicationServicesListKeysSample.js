@@ -17,7 +17,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary Get the access keys of the CommunicationService resource.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/communicationServices/listKeys.json
  */
-async function listKeys() {
+async function main() {
   const subscriptionId = process.env["COMMUNICATION_SUBSCRIPTION_ID"] || process.env["SUBSCRIPTION_ID"] || "12345";
   const resourceGroupName = "MyResourceGroup";
   const communicationServiceName = "MyCommunicationResource";
@@ -30,4 +30,4 @@ async function listKeys() {
   console.log(result);
 }
 
-listKeys().catch(console.error);
+main().catch(console.error);

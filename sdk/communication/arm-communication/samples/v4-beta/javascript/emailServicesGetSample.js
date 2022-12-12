@@ -17,7 +17,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary Get the EmailService and its properties.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/emailServices/get.json
  */
-async function getEmailServiceResource() {
+async function main() {
   const subscriptionId = process.env["COMMUNICATION_SUBSCRIPTION_ID"] || process.env["SUBSCRIPTION_ID"] || "12345";
   const resourceGroupName = "MyResourceGroup";
   const emailServiceName = "MyEmailServiceResource";
@@ -27,4 +27,4 @@ async function getEmailServiceResource() {
   console.log(result);
 }
 
-getEmailServiceResource().catch(console.error);
+main().catch(console.error);

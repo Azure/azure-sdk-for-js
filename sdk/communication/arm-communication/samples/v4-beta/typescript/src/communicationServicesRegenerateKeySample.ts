@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Regenerate CommunicationService access key. PrimaryKey and SecondaryKey cannot be regenerated at the same time.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/communicationServices/regenerateKey.json
  */
-async function regenerateKey() {
+async function main() {
   const subscriptionId = process.env["COMMUNICATION_SUBSCRIPTION_ID"] || process.env["SUBSCRIPTION_ID"] || "12345";
   const resourceGroupName = "MyResourceGroup";
   const communicationServiceName = "MyCommunicationResource";
@@ -38,4 +38,4 @@ async function regenerateKey() {
   console.log(result);
 }
 
-regenerateKey().catch(console.error);
+main().catch(console.error);
