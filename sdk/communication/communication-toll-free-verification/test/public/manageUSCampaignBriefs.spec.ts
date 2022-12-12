@@ -12,7 +12,7 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecordedClient } from "./utils/recordedClient";
 
-describe(`TollFreeVerificationClient - manage a US Campaign Brief`, function () {
+describe(`TollFreeVerificationClient - Campaign Brief`, function () {
   let recorder: Recorder;
   let client: TollFreeVerificationClient;
 
@@ -26,7 +26,7 @@ describe(`TollFreeVerificationClient - manage a US Campaign Brief`, function () 
     }
   });
 
-  it("can manage a US Campaign Brief", async function () {
+  it("can manage a Brief", async function () {
     const uscb = getTestUSCampaignBrief();
     const createRequest: TollFreeVerificationUpsertCampaignBriefOptionalParams = {
       body: uscb,
