@@ -181,13 +181,20 @@ export class AppConfigurationClient {
       "AppConfigurationClient.addConfigurationSetting",
       options,
       async (updatedOptions) => {
+        let status;
         const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
         logger.info("[addConfigurationSetting] Creating a key value pair");
         const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
           ifNoneMatch: "*",
           label: configurationSetting.label,
           entity: keyValue,
-          ...updatedOptions,
+          ...updatedOptions,          
+          onResponse: (response) => {
+            status = response.status;
+            if (status === 412){
+              throw new Error ("Setting was already present");
+            }
+          },
         });
         const response = transformKeyValueResponse(originalResponse);
         assertResponse(response);
