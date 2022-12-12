@@ -1,6 +1,6 @@
 # Release History
     
-## 3.0.0 (2022-12-07)
+## 2.1.0 (2022-12-12)
     
 **Features**
 
@@ -26,9 +26,6 @@
   - Added Interface SubnetReference
   - Added Interface VirtualMachineResourceSettings
   - Added Interface VirtualNetworkResourceSettings
-
-**Breaking Changes**
-
   - Interface MoveResourcesListNextOptionalParams no longer has parameter filter
   - Interface UnresolvedDependenciesGetNextOptionalParams no longer has parameter dependencyLevel
   - Interface UnresolvedDependenciesGetNextOptionalParams no longer has parameter filter
