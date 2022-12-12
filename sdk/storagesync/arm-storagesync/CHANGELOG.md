@@ -1,15 +1,24 @@
 # Release History
+    
+## 9.1.0 (2022-12-12)
+    
+**Features**
 
-## 9.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface CloudEndpoint
+  - Added Interface CloudEndpointCreateParameters
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateLinkResource
+  - Added Interface ProxyResource
+  - Added Interface RegisteredServer
+  - Added Interface RegisteredServerCreateParameters
+  - Added Interface ServerEndpoint
+  - Added Interface ServerEndpointCreateParameters
+  - Added Interface StorageSyncService
+  - Added Interface SyncGroup
+  - Added Interface SyncGroupCreateParameters
+  - Added Interface TrackedResource
+  - Added Interface Workflow
+    
 ## 9.0.1 (2022-05-01)
 
 **Features**

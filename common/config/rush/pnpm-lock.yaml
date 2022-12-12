@@ -4015,7 +4015,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221211
+      typescript: 5.0.0-dev.20221212
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -9076,8 +9076,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221211:
-    resolution: {integrity: sha512-rRvbBc/FPV76zteUuKFLruOTbbD5OdE5TJINOCXB4kKWpo5nVlXaX3YQLPExPbmPf5TRiYsrKpn7LaTPIVxiOQ==}
+  /typescript/5.0.0-dev.20221212:
+    resolution: {integrity: sha512-bnSpGyeM4wf0n7H5Tv4oWf3dPiEpUh2bBLbrLkJ9LsCQVdedHQwC52H3gtWEPT/yt4XCiDtfqjZTGHXxEtDn7A==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -15140,7 +15140,7 @@ packages:
     dev: false
 
   file:projects/arm-storagesync.tgz:
-    resolution: {integrity: sha512-oLBwjQVRfoH2tG3R1a2/PCKcUcvkBPTJm5ilt1tn4Bdo0KLCtYS+FsQamGWBsLJkIaJAfO8E3ipIn9oliR2BRQ==, tarball: file:projects/arm-storagesync.tgz}
+    resolution: {integrity: sha512-EOW3XvhcXM+eWvE7NRSc/CBMAGhsIOD7/df7ZrFyH/xNTXINkiAzZFOeTKyRHexM/4PeNyRq3U22pIR0wirETw==, tarball: file:projects/arm-storagesync.tgz}
     name: '@rush-temp/arm-storagesync'
     version: 0.0.0
     dependencies:
@@ -15151,18 +15151,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
