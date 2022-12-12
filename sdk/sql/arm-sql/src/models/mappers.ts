@@ -4890,35 +4890,6 @@ export const OperationDisplay: coreClient.CompositeMapper = {
   }
 };
 
-export const OperationsHealthListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OperationsHealthListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "OperationsHealth"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const PrivateEndpointConnectionProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -8184,6 +8155,64 @@ export const ServerConnectionPolicyListResult: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "ServerConnectionPolicy"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DistributedAvailabilityGroupsListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DistributedAvailabilityGroupsListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DistributedAvailabilityGroup"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServerTrustCertificatesListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServerTrustCertificatesListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ServerTrustCertificate"
             }
           }
         }
@@ -11526,37 +11555,6 @@ export const ManagedServerSecurityAlertPolicy: coreClient.CompositeMapper = {
   }
 };
 
-export const OperationsHealth: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OperationsHealth",
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      namePropertiesName: {
-        serializedName: "properties.name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      health: {
-        serializedName: "properties.health",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "properties.description",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const PrivateEndpointConnection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -13423,6 +13421,111 @@ export const ServerConnectionPolicy: coreClient.CompositeMapper = {
       },
       connectionType: {
         serializedName: "properties.connectionType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DistributedAvailabilityGroup: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DistributedAvailabilityGroup",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      targetDatabase: {
+        serializedName: "properties.targetDatabase",
+        type: {
+          name: "String"
+        }
+      },
+      sourceEndpoint: {
+        serializedName: "properties.sourceEndpoint",
+        type: {
+          name: "String"
+        }
+      },
+      primaryAvailabilityGroupName: {
+        serializedName: "properties.primaryAvailabilityGroupName",
+        type: {
+          name: "String"
+        }
+      },
+      secondaryAvailabilityGroupName: {
+        serializedName: "properties.secondaryAvailabilityGroupName",
+        type: {
+          name: "String"
+        }
+      },
+      replicationMode: {
+        serializedName: "properties.replicationMode",
+        type: {
+          name: "String"
+        }
+      },
+      distributedAvailabilityGroupId: {
+        serializedName: "properties.distributedAvailabilityGroupId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      sourceReplicaId: {
+        serializedName: "properties.sourceReplicaId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      targetReplicaId: {
+        serializedName: "properties.targetReplicaId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      linkState: {
+        serializedName: "properties.linkState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      lastHardenedLsn: {
+        serializedName: "properties.lastHardenedLsn",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServerTrustCertificate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServerTrustCertificate",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      publicBlob: {
+        serializedName: "properties.publicBlob",
+        type: {
+          name: "String"
+        }
+      },
+      thumbprint: {
+        serializedName: "properties.thumbprint",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      certificateName: {
+        serializedName: "properties.certificateName",
+        readOnly: true,
         type: {
           name: "String"
         }

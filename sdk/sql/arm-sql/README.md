@@ -6,7 +6,7 @@ The Azure SQL Database management API provides a RESTful set of web services tha
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/sql/arm-sql) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-sql) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-sql) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-sql?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

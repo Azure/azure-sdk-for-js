@@ -85,7 +85,6 @@ import {
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImpl,
   ManagedServerSecurityAlertPoliciesImpl,
   OperationsImpl,
-  OperationsHealthOperationsImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   RecoverableManagedDatabasesImpl,
@@ -128,7 +127,9 @@ import {
   ManagedInstancesImpl,
   RestorableDroppedDatabasesImpl,
   RestorableDroppedManagedDatabasesImpl,
-  ServerConnectionPoliciesImpl
+  ServerConnectionPoliciesImpl,
+  DistributedAvailabilityGroupsImpl,
+  ServerTrustCertificatesImpl
 } from "./operations";
 import {
   RecoverableDatabases,
@@ -206,7 +207,6 @@ import {
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies,
   ManagedServerSecurityAlertPolicies,
   Operations,
-  OperationsHealthOperations,
   PrivateEndpointConnections,
   PrivateLinkResources,
   RecoverableManagedDatabases,
@@ -249,7 +249,9 @@ import {
   ManagedInstances,
   RestorableDroppedDatabases,
   RestorableDroppedManagedDatabases,
-  ServerConnectionPolicies
+  ServerConnectionPolicies,
+  DistributedAvailabilityGroups,
+  ServerTrustCertificates
 } from "./operationsInterfaces";
 import { SqlManagementClientOptionalParams } from "./models";
 
@@ -284,47 +286,53 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-sql/9.0.2`;
+    const packageDetails = `azsdk-js-arm-sql/10.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
 
+    let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
       const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
           coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
-      if (!bearerTokenAuthenticationPolicyFound) {
-        this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-        });
-        this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
-            scopes: `${optionsWithDefaults.baseUri}/.default`,
-            challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
-        );
-      }
+    }
+    if (
+      !options ||
+      !options.pipeline ||
+      options.pipeline.getOrderedPolicies().length == 0 ||
+      !bearerTokenAuthenticationPolicyFound
+    ) {
+      this.pipeline.removePolicy({
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+      });
+      this.pipeline.addPolicy(
+        coreRestPipeline.bearerTokenAuthenticationPolicy({
+          credential: credentials,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
+          challengeCallbacks: {
+            authorizeRequestOnChallenge:
+              coreClient.authorizeRequestOnClaimChallenge
+          }
+        })
+      );
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
@@ -470,7 +478,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       this
     );
     this.operations = new OperationsImpl(this);
-    this.operationsHealthOperations = new OperationsHealthOperationsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.recoverableManagedDatabases = new RecoverableManagedDatabasesImpl(
@@ -538,6 +545,10 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       this
     );
     this.serverConnectionPolicies = new ServerConnectionPoliciesImpl(this);
+    this.distributedAvailabilityGroups = new DistributedAvailabilityGroupsImpl(
+      this
+    );
+    this.serverTrustCertificates = new ServerTrustCertificatesImpl(this);
   }
 
   recoverableDatabases: RecoverableDatabases;
@@ -615,7 +626,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies;
   managedServerSecurityAlertPolicies: ManagedServerSecurityAlertPolicies;
   operations: Operations;
-  operationsHealthOperations: OperationsHealthOperations;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
   recoverableManagedDatabases: RecoverableManagedDatabases;
@@ -659,4 +669,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   restorableDroppedDatabases: RestorableDroppedDatabases;
   restorableDroppedManagedDatabases: RestorableDroppedManagedDatabases;
   serverConnectionPolicies: ServerConnectionPolicies;
+  distributedAvailabilityGroups: DistributedAvailabilityGroups;
+  serverTrustCertificates: ServerTrustCertificates;
 }
