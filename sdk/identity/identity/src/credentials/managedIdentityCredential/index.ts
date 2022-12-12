@@ -234,7 +234,7 @@ export class ManagedIdentityCredential implements TokenCredential {
         const appTokenParameters: AppTokenProviderParameters = {
           correlationId: this.identityClient.getCorrelationId(),
           tenantId: options?.tenantId || "organizations",
-          scopes: [...scopes],
+          scopes: Array.isArray(scopes) ? scopes : [scopes],
           claims: options?.claims,
         };
 
@@ -252,7 +252,6 @@ export class ManagedIdentityCredential implements TokenCredential {
 
             if (resultToken) {
               logger.info(`SetAppTokenProvider has saved the token in cache`);
-              logger.info(`token = ${resultToken.token}`);
 
               const expiresInSeconds = resultToken?.expiresOnTimestamp
                 ? Math.floor((resultToken.expiresOnTimestamp - Date.now()) / 1000)

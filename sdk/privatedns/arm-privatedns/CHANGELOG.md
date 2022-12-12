@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 3.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 3.1.0 (2022-12-02)
     
 **Features**
@@ -11,7 +21,7 @@
   - Added Interface VirtualNetworkLink
     
     
-### 3.0.1 (2022-04-28)
+## 3.0.1 (2022-04-28)
 
 **Features**
 
