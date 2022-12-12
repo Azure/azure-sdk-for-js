@@ -11,20 +11,20 @@
         "User-Agent": "azsdk-js-communication-toll-free-verification/1.0.0-beta.1 core-rest-pipeline/1.10.1 Node/v18.7.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 09 Dec 2022 21:46:03 GMT"
+        "x-ms-date": "Mon, 12 Dec 2022 18:08:34 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2023-01-10-preview1",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 09 Dec 2022 21:46:04 GMT",
-        "MS-CV": "\u002BluBz2dvmkSh2tfXcWbl8g.0",
+        "Date": "Mon, 12 Dec 2022 18:08:31 GMT",
+        "MS-CV": "/lwhG8zRPEiBBFt8DKJZPg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0m6yTYwAAAAAiwqGUTJirTJTaUTAE1sbvU0FPMzFFREdFMTExMwBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "0Hm6XYwAAAAAa6AqFvTNfQLXITe3CnpqyU0FPMzFFREdFMTEwNwBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1117ms"
+        "X-Processing-Time": "486ms"
       },
       "ResponseBody": {
         "campaignBriefs": [
