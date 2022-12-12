@@ -22,7 +22,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function main() {
   const subscriptionId = process.env["COMMUNICATION_SUBSCRIPTION_ID"] || process.env["SUBSCRIPTION_ID"] || "12345";
-  const resourceGroupName = "MyResourceGroup";
+  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || process.env["RESOURCE_GROUP_NAME"] || process.env["RESOURCE_GROUP"] || "MyResourceGroup";
   const communicationServiceName = "MyCommunicationResource";
   const parameters: CommunicationServiceResourceUpdate = {
     tags: { newTag: "newVal" }
