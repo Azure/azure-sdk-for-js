@@ -4,7 +4,6 @@ specifiers:
   '@rush-temp/abort-controller': file:./projects/abort-controller.tgz
   '@rush-temp/agrifood-farming': file:./projects/agrifood-farming.tgz
   '@rush-temp/ai-anomaly-detector': file:./projects/ai-anomaly-detector.tgz
-  '@rush-temp/ai-anomaly-detector-1': file:./projects/ai-anomaly-detector-1.tgz
   '@rush-temp/ai-document-translator': file:./projects/ai-document-translator.tgz
   '@rush-temp/ai-form-recognizer': file:./projects/ai-form-recognizer.tgz
   '@rush-temp/ai-language-conversations': file:./projects/ai-language-conversations.tgz
@@ -241,7 +240,6 @@ specifiers:
   '@rush-temp/dev-tool': file:./projects/dev-tool.tgz
   '@rush-temp/developer-devcenter': file:./projects/developer-devcenter.tgz
   '@rush-temp/digital-twins-core': file:./projects/digital-twins-core.tgz
-  '@rush-temp/dtdl-parser': file:./projects/dtdl-parser.tgz
   '@rush-temp/eslint-plugin-azure-sdk': file:./projects/eslint-plugin-azure-sdk.tgz
   '@rush-temp/event-hubs': file:./projects/event-hubs.tgz
   '@rush-temp/eventgrid': file:./projects/eventgrid.tgz
@@ -332,7 +330,6 @@ dependencies:
   '@rush-temp/abort-controller': file:projects/abort-controller.tgz
   '@rush-temp/agrifood-farming': file:projects/agrifood-farming.tgz
   '@rush-temp/ai-anomaly-detector': file:projects/ai-anomaly-detector.tgz
-  '@rush-temp/ai-anomaly-detector-1': file:projects/ai-anomaly-detector-1.tgz
   '@rush-temp/ai-document-translator': file:projects/ai-document-translator.tgz
   '@rush-temp/ai-form-recognizer': file:projects/ai-form-recognizer.tgz
   '@rush-temp/ai-language-conversations': file:projects/ai-language-conversations.tgz
@@ -569,7 +566,6 @@ dependencies:
   '@rush-temp/dev-tool': file:projects/dev-tool.tgz
   '@rush-temp/developer-devcenter': file:projects/developer-devcenter.tgz
   '@rush-temp/digital-twins-core': file:projects/digital-twins-core.tgz
-  '@rush-temp/dtdl-parser': file:projects/dtdl-parser.tgz
   '@rush-temp/eslint-plugin-azure-sdk': file:projects/eslint-plugin-azure-sdk.tgz
   '@rush-temp/event-hubs': file:projects/event-hubs.tgz
   '@rush-temp/eventgrid': file:projects/eventgrid.tgz
@@ -4021,7 +4017,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221208
+      typescript: 5.0.0-dev.20221211
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -9082,8 +9078,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221208:
-    resolution: {integrity: sha512-X9uK69qwF9KNf5i+SDMKAtS66MmUL+tbwbrtpyEplnWWdfErtw6ZRegxdgaTOAC7pFMALQuR/PCvkL6O78VbKg==}
+  /typescript/5.0.0-dev.20221211:
+    resolution: {integrity: sha512-rRvbBc/FPV76zteUuKFLruOTbbD5OdE5TJINOCXB4kKWpo5nVlXaX3YQLPExPbmPf5TRiYsrKpn7LaTPIVxiOQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9748,52 +9744,6 @@ packages:
       source-map-support: 0.5.21
       tslib: 2.4.1
       typescript: 4.8.4
-    transitivePeerDependencies:
-      - bufferutil
-      - debug
-      - encoding
-      - supports-color
-      - utf-8-validate
-    dev: false
-
-  file:projects/ai-anomaly-detector-1.tgz:
-    resolution: {integrity: sha512-d8B6QjRDga0XrWtdwNnSz8Um8p9fQBDJ6U35KEDARbk9CLGD+f3CAKhpMmm/H67mourbsgH7UMcmtjwfUpec0g==, tarball: file:projects/ai-anomaly-detector-1.tgz}
-    name: '@rush-temp/ai-anomaly-detector-1'
-    version: 0.0.0
-    dependencies:
-      '@azure-tools/test-recorder': 1.0.2
-      '@azure/core-http': 2.3.1
-      '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.33.6
-      '@types/chai': 4.3.4
-      '@types/mocha': 7.0.2
-      '@types/node': 14.18.33
-      chai: 4.3.7
-      cross-env: 7.0.3
-      csv-parse: 5.3.3
-      dotenv: 8.6.0
-      eslint: 8.28.0
-      inherits: 2.0.4
-      karma: 6.4.1
-      karma-chrome-launcher: 3.1.1
-      karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.4.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.4.1
-      karma-junit-reporter: 2.0.1_karma@6.4.1
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.4.1
-      karma-sourcemap-loader: 0.3.8
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.2.0_mocha@7.2.0
-      nyc: 15.1.0
-      prettier: 2.8.0
-      rimraf: 3.0.2
-      tslib: 2.4.1
-      typescript: 4.8.4
-      util: 0.12.5
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -11171,7 +11121,7 @@ packages:
     dev: false
 
   file:projects/arm-commerce.tgz:
-    resolution: {integrity: sha512-8Am81mU7kb+YS5ULi4ldCpPiXCdQtcSjerNd+QhwXRmcNNLpbWDqZ0kb/zQs/IzMepGVRr0yJNtgFI5ijPW+uQ==, tarball: file:projects/arm-commerce.tgz}
+    resolution: {integrity: sha512-Wf/ZBKBn7v4avmXzwOWjYfUBF+N3nKwYfSOOjxwu0T6a1Rg4Jj8LNqQD5ZTDfzxul/VV+tYg5y4CIfb3tK5s/A==, tarball: file:projects/arm-commerce.tgz}
     name: '@rush-temp/arm-commerce'
     version: 0.0.0
     dependencies:
@@ -11182,18 +11132,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -13788,7 +13739,7 @@ packages:
     dev: false
 
   file:projects/arm-networkfunction.tgz:
-    resolution: {integrity: sha512-7ZRZRmkWZ3oW+Myz/brKCV+WVHIB3Nn4jxLzZTKbWAHmCw8JbuFThAmYU8t6vopRUWqreT3Y0HqkPjAsSWIotg==, tarball: file:projects/arm-networkfunction.tgz}
+    resolution: {integrity: sha512-rv/PGgzNQgOkoGdhXFWa+infponXMHAScbhrZkLbQSCW3EFd9u0oCZRKancIwlXAZ6prk73dFH/lqa2kaZVArA==, tarball: file:projects/arm-networkfunction.tgz}
     name: '@rush-temp/arm-networkfunction'
     version: 0.0.0
     dependencies:
@@ -13799,18 +13750,18 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.33
       chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -17078,58 +17029,6 @@ packages:
       - utf-8-validate
     dev: false
 
-  file:projects/dtdl-parser.tgz:
-    resolution: {integrity: sha512-oadak9uqVnuit3rJujUthnEnz749jsjM7CwpLJrcr6L5LeP56GUTojveukyCl5ZqNyN1z4Fc6q2rHtnFBKnZyw==, tarball: file:projects/dtdl-parser.tgz}
-    name: '@rush-temp/dtdl-parser'
-    version: 0.0.0
-    dependencies:
-      '@microsoft/api-extractor': 7.33.6
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
-      '@types/chai': 4.3.4
-      '@types/chai-as-promised': 7.1.5
-      '@types/mocha': 7.0.2
-      '@types/node': 14.18.33
-      '@types/sinon': 9.0.11
-      chai: 4.3.7
-      chai-as-promised: 7.1.1_chai@4.3.7
-      cross-env: 7.0.3
-      eslint: 8.28.0
-      inherits: 2.0.4
-      karma: 6.4.1
-      karma-chrome-launcher: 3.1.1
-      karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.4.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.4.1
-      karma-json-preprocessor: 0.3.3_karma@6.4.1
-      karma-junit-reporter: 2.0.1_karma@6.4.1
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.4.1
-      mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 15.1.0
-      prettier: 1.19.1
-      rimraf: 3.0.2
-      rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
-      rollup-plugin-terser: 5.3.1_rollup@2.79.1
-      rollup-plugin-visualizer: 5.8.3_rollup@2.79.1
-      sinon: 9.2.4
-      ts-node: 9.1.1_typescript@4.6.4
-      tslib: 2.4.1
-      typescript: 4.6.4
-      util: 0.12.5
-    transitivePeerDependencies:
-      - bufferutil
-      - debug
-      - supports-color
-      - utf-8-validate
-    dev: false
-
   file:projects/eslint-plugin-azure-sdk.tgz:
     resolution: {integrity: sha512-7K+11TrWZBVEFFRo33mTdftRQpZN7ShyyHnluZn01UTX5skAt0bHwlue3F8XjA8YB9aCxYpj5OmQGRzC9UYdrg==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
@@ -19156,7 +19055,7 @@ packages:
     dev: false
 
   file:projects/quantum-jobs.tgz:
-    resolution: {integrity: sha512-tLelzKMNO5/3fkXY3ifyYjm3oF08Rvsm0v3tR2kNJ6ISpCaxSvasHXVHf5SJShuWgEwqZLaCyxST33cZKicmbQ==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-l/BSD4i+H4u/Se/aiY4QAQbZmNUBaATzCp8nZvTfq07EKyOG7V7gt/cN3YYhRDPsvN9179NAc9dJHMZv9KtTFg==, tarball: file:projects/quantum-jobs.tgz}
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
@@ -20285,7 +20184,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-client.tgz:
-    resolution: {integrity: sha512-7gOoevPIYyhxg9TekmZn9VXM79KwcmMyYx5Kef48XgcfqcHK8C5fWZzv9smFZBukGtCqjHDWSlHhgSR5FC0wgg==, tarball: file:projects/web-pubsub-client.tgz}
+    resolution: {integrity: sha512-jIBeW0as9y1/9Wseubgf49GeRWURiOaKJy4UTSBGXsW1+DWY2aoLc7vCqiZHVoByjeFe8GAsPLaszW7W6oYmkg==, tarball: file:projects/web-pubsub-client.tgz}
     name: '@rush-temp/web-pubsub-client'
     version: 0.0.0
     dependencies:
