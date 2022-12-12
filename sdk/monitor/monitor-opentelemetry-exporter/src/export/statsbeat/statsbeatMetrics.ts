@@ -89,7 +89,8 @@ export class StatsbeatMetrics {
   constructor(options: {
     instrumentationKey: string;
     endpointUrl: string;
-    collectionInterval?: number;
+    networkCollectionInterval?: number;
+    longCollectionInterval?: number;
   }) {
     this._connectionString = this._getConnectionString(options.endpointUrl);
     this._meterProvider = new MeterProvider();
@@ -103,7 +104,7 @@ export class StatsbeatMetrics {
     // Exports Network Statsbeat every 15 minutes
     const networkMetricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter,
-      exportIntervalMillis: options.collectionInterval || this._statsCollectionShortInterval, // 15 minutes
+      exportIntervalMillis: options.networkCollectionInterval || this._statsCollectionShortInterval, // 15 minutes
     };
 
     this._networkMetricReader = new PeriodicExportingMetricReader(networkMetricReaderOptions);
@@ -140,7 +141,7 @@ export class StatsbeatMetrics {
     const longIntervalMetricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter,
       // TODO: Get this to export once immediately once statsbeat starts up and then once a day after that.
-      exportIntervalMillis: options.collectionInterval || this._statsCollectionLongInterval, // 1 day
+      exportIntervalMillis: options.longCollectionInterval || this._statsCollectionLongInterval, // 1 day
     };
 
     this._longIntervalMetricReader = new PeriodicExportingMetricReader(
