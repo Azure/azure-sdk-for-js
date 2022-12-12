@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  AlertsListByManagerOptionalParams,
-  StorSimple8000SeriesManagementClient
-} from "@azure/arm-storsimple8000series";
-import { DefaultAzureCredential } from "@azure/identity";
+const { StorSimple8000SeriesManagementClient } = require("@azure/arm-storsimple8000series");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Retrieves all the alerts in a manager.
@@ -26,18 +23,11 @@ async function alertsListByManager() {
   const managerName = "ManagerForSDKTest1";
   const filter =
     "status%20eq%20'Active'%20and%20appearedOnTime%20ge%20'2017-06-09T18:30:00Z'%20and%20appearedOnTime%20le%20'2017-06-19T18:30:00Z'%20and%20sourceType%20eq%20'Device'%20and%20sourceName%20eq%20'Device05ForSDKTest'";
-  const options: AlertsListByManagerOptionalParams = { filter };
+  const options = { filter };
   const credential = new DefaultAzureCredential();
-  const client = new StorSimple8000SeriesManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new StorSimple8000SeriesManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.alerts.listByManager(
-    resourceGroupName,
-    managerName,
-    options
-  )) {
+  for await (let item of client.alerts.listByManager(resourceGroupName, managerName, options)) {
     resArray.push(item);
   }
   console.log(resArray);

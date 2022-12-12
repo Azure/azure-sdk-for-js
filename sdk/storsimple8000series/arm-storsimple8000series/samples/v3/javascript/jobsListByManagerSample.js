@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  JobsListByManagerOptionalParams,
-  StorSimple8000SeriesManagementClient
-} from "@azure/arm-storsimple8000series";
-import { DefaultAzureCredential } from "@azure/identity";
+const { StorSimple8000SeriesManagementClient } = require("@azure/arm-storsimple8000series");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Gets all the jobs for the specified manager. With optional OData query parameters, a filtered set of jobs is returned.
@@ -25,18 +22,11 @@ async function jobsListByManager() {
   const resourceGroupName = "ResourceGroupForSDKTest";
   const managerName = "ManagerForSDKTest1";
   const filter = "jobType%20eq%20'FailoverVolumeContainers'";
-  const options: JobsListByManagerOptionalParams = { filter };
+  const options = { filter };
   const credential = new DefaultAzureCredential();
-  const client = new StorSimple8000SeriesManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new StorSimple8000SeriesManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobs.listByManager(
-    resourceGroupName,
-    managerName,
-    options
-  )) {
+  for await (let item of client.jobs.listByManager(resourceGroupName, managerName, options)) {
     resArray.push(item);
   }
   console.log(resArray);

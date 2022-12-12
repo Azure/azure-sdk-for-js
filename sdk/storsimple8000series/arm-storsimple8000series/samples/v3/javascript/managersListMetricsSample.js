@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { StorSimple8000SeriesManagementClient } from "@azure/arm-storsimple8000series";
-import { DefaultAzureCredential } from "@azure/identity";
+const { StorSimple8000SeriesManagementClient } = require("@azure/arm-storsimple8000series");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Gets the metrics for the specified manager.
@@ -24,16 +24,9 @@ async function managersListMetrics() {
   const filter =
     "name/value%20eq%20'PrimaryStorageTieredUsed'%20and%20timeGrain%20eq%20'PT1H'%20and%20startTime%20ge%20'2017-06-17T18:30:00Z'%20and%20endTime%20le%20'2017-06-21T18:30:00Z'%20and%20category%20eq%20'CapacityUtilization'";
   const credential = new DefaultAzureCredential();
-  const client = new StorSimple8000SeriesManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new StorSimple8000SeriesManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managers.listMetrics(
-    resourceGroupName,
-    managerName,
-    filter
-  )) {
+  for await (let item of client.managers.listMetrics(resourceGroupName, managerName, filter)) {
     resArray.push(item);
   }
   console.log(resArray);
