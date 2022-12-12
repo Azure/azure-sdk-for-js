@@ -78,7 +78,7 @@ stages:
           MatrixReplace: ${{ parameters.MatrixReplace }}
           IncludeRelease: ${{ parameters.IncludeRelease }}
 
-  
+  - ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'), eq(parameters.IncludeRelease,true))}}:
     - template: archetype-js-release.yml
       parameters:
         DependsOn: Build
