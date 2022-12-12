@@ -146,10 +146,6 @@
   - Added Interface WorkloadItemResourceList
   - Added Interface WorkloadProtectableItemResource
   - Added Interface WorkloadProtectableItemResourceList
-
-**Breaking Changes**
-
-  - Operation ResourceGuardProxy.put has a new signature
   - Interface BackupEnginesListNextOptionalParams no longer has parameter filter
   - Interface BackupEnginesListNextOptionalParams no longer has parameter skipToken
   - Interface BackupJobsListNextOptionalParams no longer has parameter filter
@@ -166,7 +162,10 @@
   - Interface BackupWorkloadItemsListNextOptionalParams no longer has parameter skipToken
   - Interface ProtectableContainersListNextOptionalParams no longer has parameter filter
   - Interface RecoveryPointsListNextOptionalParams no longer has parameter filter
-    
+
+**Breaking Changes**
+
+  - Operation ResourceGuardProxy.put has a new signature
     
 ## 9.0.0 (2022-05-16)
     
