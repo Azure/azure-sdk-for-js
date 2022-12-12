@@ -57,7 +57,8 @@ steps:
 
         Write-Host "Installing $($packageAtVersion)"
         # Install matching version of package
-        npm install node-gyp@latest
+        npm install --global node-gyp@latest
+        npm prefix -g | % {npm config set node_gyp "$_\node_modules\node-gyp\bin\node-gyp.js"}
         npm install --no-package-lock $packageAtVersion
 
         Set-Location $currentLocation
