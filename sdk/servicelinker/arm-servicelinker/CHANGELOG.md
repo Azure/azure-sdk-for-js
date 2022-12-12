@@ -1,15 +1,26 @@
 # Release History
+    
+## 2.1.0 (2022-12-12)
+    
+**Features**
 
-## 2.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface AzureKeyVaultProperties
+  - Added Interface AzureResource
+  - Added Interface ConfluentBootstrapServer
+  - Added Interface ConfluentSchemaRegistry
+  - Added Interface KeyVaultSecretReferenceSecretInfo
+  - Added Interface KeyVaultSecretUriSecretInfo
+  - Added Interface LinkerResource
+  - Added Interface ProxyResource
+  - Added Interface SecretAuthInfo
+  - Added Interface ServicePrincipalCertificateAuthInfo
+  - Added Interface ServicePrincipalSecretAuthInfo
+  - Added Interface SystemAssignedIdentityAuthInfo
+  - Added Interface UserAssignedIdentityAuthInfo
+  - Added Interface ValueSecretInfo
+  - Enum KnownClientType has a new value KafkaSpringBoot
+    
+    
 ## 2.0.0 (2022-05-16)
     
 **Features**
