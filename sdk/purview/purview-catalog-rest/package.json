@@ -81,7 +81,7 @@
   "sideEffects": false,
   "autoPublish": false,
   "dependencies": {
-    "@azure/core-lro": "2.2.4",
+    "@azure/core-lro": "^2.2.4",
     "@azure/core-auth": "^1.3.0",
     "@azure-rest/core-client": "^1.0.0",
     "@azure/core-rest-pipeline": "^1.1.0",
@@ -119,7 +119,7 @@
     "mocha-junit-reporter": "^2.0.0",
     "mocha": "^7.1.1",
     "nyc": "^15.0.0",
-    "prettier": "2.5.1",
+    "prettier": "^2.8.1",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
     "typescript": "~4.8.0"

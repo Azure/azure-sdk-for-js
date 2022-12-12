@@ -51,7 +51,7 @@
     "mkdirp": "^1.0.4",
     "mocha": "^7.1.1",
     "nyc": "^15.0.0",
-    "prettier": "^2.5.1",
+    "prettier": "^2.8.1",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "rollup-plugin-sourcemaps": "^0.4.2",

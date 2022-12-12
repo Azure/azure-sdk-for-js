@@ -23,7 +23,7 @@
     "cross-env": "^7.0.3",
     "express": "^4.17.3",
     "eslint": "^7.15.0",
-    "prettier": "^2.5.1",
+    "prettier": "^2.8.1",
     "rimraf": "^3.0.0",
     "ts-node": "^10.0.0",
     "tslib": "^2.2.0",

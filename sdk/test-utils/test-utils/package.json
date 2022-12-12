@@ -82,7 +82,7 @@
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-env-preprocessor": "^0.1.1",
-    "prettier": "^2.5.1",
+    "prettier": "^2.8.1",
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
     "typescript": "~4.8.0"

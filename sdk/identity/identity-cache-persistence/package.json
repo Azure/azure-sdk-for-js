@@ -88,6 +88,6 @@
     "util": "^0.12.1",
     "sinon": "^9.0.2",
     "@types/sinon": "^9.0.4",
-    "prettier": "^2.5.1"
+    "prettier": "^2.8.1"
   }
 }
