@@ -18011,7 +18011,7 @@ packages:
     dev: false
 
   file:projects/maps-search.tgz:
-    resolution: {integrity: sha512-/rjat2s1rV8hzfPIVQzVe2Q5bUmUG/nujMXJiaO3GjvCxgVkiuQ212HBB9scYpu7+ISCDMP1T7c5idpwNhxAmA==, tarball: file:projects/maps-search.tgz}
+    resolution: {integrity: sha512-HAQLGT0EBGPXDc9NeOgI6Y6KnJVtJuHf6tyor4mhW/UAVAu9AwlbySFJsJuRY66FafbXuDRLl9S4PJy1ji9fxA==, tarball: file:projects/maps-search.tgz}
     name: '@rush-temp/maps-search'
     version: 0.0.0
     dependencies:
@@ -18049,7 +18049,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       nyc: 14.1.1
-      prettier: 2.2.1
+      prettier: 2.8.0
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.4.1
