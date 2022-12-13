@@ -1,4 +1,4 @@
-import { isProxyToolActive, startTestProxy, CommandRun, TestProxyHandle, runCommand } from "./testProxyUtils";
+import { isProxyToolActive, startTestProxy, TestProxyHandle } from "./testProxyUtils";
 import concurrently, { Command as ConcurrentlyCommand, ConcurrentlyOptions } from "concurrently";
 import { createPrinter } from "./printer";
 
