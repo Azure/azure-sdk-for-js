@@ -17725,7 +17725,7 @@ packages:
     dev: false
 
   file:projects/load-testing.tgz:
-    resolution: {integrity: sha512-hHCT/2nQlq6qIKIBbQydd3BvJBkWGtQPRLS8hBPw69H/U8gna01Evc8SY2BAfzNGI8aiBj0ZPyVbuJ6A1asMOA==, tarball: file:projects/load-testing.tgz}
+    resolution: {integrity: sha512-OKc2ku1/CaBcX0US9xcP9AG+0dBCZuVOAl4lMu+W6zB1MdRViv24kfE5vXUCVzlnxsk3o15ixNRNjudXkDJRJA==, tarball: file:projects/load-testing.tgz}
     name: '@rush-temp/load-testing'
     version: 0.0.0
     dependencies:
@@ -17757,7 +17757,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       nyc: 14.1.1
-      prettier: 2.2.1
+      prettier: 2.8.0
       process: 0.11.10
       rimraf: 3.0.2
       source-map-support: 0.5.21
