@@ -2176,11 +2176,8 @@ export { HttpRequestBody }
 
 // @public
 export interface HttpResponse {
-    // (undocumented)
     headers: HttpHeaders;
-    // (undocumented)
     request: WebResource;
-    // (undocumented)
     status: number;
 }
 
@@ -2800,7 +2797,6 @@ export { RequestPolicyOptions }
 
 // @public
 export interface ResponseLike {
-    // (undocumented)
     _response: HttpResponse;
 }
 
