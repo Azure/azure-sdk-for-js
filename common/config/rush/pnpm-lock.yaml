@@ -14830,7 +14830,7 @@ packages:
     dev: false
 
   file:projects/arm-servicefabric.tgz:
-    resolution: {integrity: sha512-Z1F4srotCKxBroOYAsuH+3aqDo07KxPnNQYl/XpR3m8hmghkBhIXQb2/k3TEBcsESWb/sOnTC+XFF43xrlRAlQ==, tarball: file:projects/arm-servicefabric.tgz}
+    resolution: {integrity: sha512-oe2DLDVmj3vtQy14eb7b/Fu1ady17jKq+iB1foFx07UQ1NqYqFMKrYTYGZ/CkyfJJCBfjzzq/obLYCLkQqQGLA==, tarball: file:projects/arm-servicefabric.tgz}
     name: '@rush-temp/arm-servicefabric'
     version: 0.0.0
     dependencies:
@@ -14860,7 +14860,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       nyc: 14.1.1
-      prettier: 2.2.1
+      prettier: 2.8.0
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.4.1
