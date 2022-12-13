@@ -12,25 +12,26 @@ import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Get all private link resources for a workspaces
+ * This sample demonstrates how to Get the status of a SQL pool operation
  *
- * @summary Get all private link resources for a workspaces
- * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/ListPrivateLinkResources.json
+ * @summary Get the status of a SQL pool operation
+ * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/GetLocationHeaderResultWithSqlPool.json
  */
-async function getPrivateLinkResourcesForWorkspace() {
+async function getTheResultOfAnOperationOnASqlAnalyticsPool() {
   const subscriptionId = "01234567-89ab-4def-0123-456789abcdef";
   const resourceGroupName = "ExampleResourceGroup";
   const workspaceName = "ExampleWorkspace";
+  const sqlPoolName = "ExampleSqlPool";
+  const operationId = "fedcba98-7654-4210-fedc-ba9876543210";
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.privateLinkResources.list(
+  const result = await client.sqlPoolOperationResults.beginGetLocationHeaderResultAndWait(
     resourceGroupName,
-    workspaceName
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+    workspaceName,
+    sqlPoolName,
+    operationId
+  );
+  console.log(result);
 }
 
-getPrivateLinkResourcesForWorkspace().catch(console.error);
+getTheResultOfAnOperationOnASqlAnalyticsPool().catch(console.error);

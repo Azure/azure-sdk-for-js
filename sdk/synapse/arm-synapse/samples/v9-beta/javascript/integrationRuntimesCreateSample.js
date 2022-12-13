@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  IntegrationRuntimeResource,
-  SynapseManagementClient
-} from "@azure/arm-synapse";
-import { DefaultAzureCredential } from "@azure/identity";
+const { SynapseManagementClient } = require("@azure/arm-synapse");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Create an integration runtime
@@ -25,11 +22,9 @@ async function createIntegrationRuntime() {
   const resourceGroupName = "exampleResourceGroup";
   const workspaceName = "exampleWorkspace";
   const integrationRuntimeName = "exampleIntegrationRuntime";
-  const integrationRuntime: IntegrationRuntimeResource = {
-    properties: {
-      type: "SelfHosted",
-      description: "A selfhosted integration runtime"
-    }
+  const integrationRuntime = {
+    typePropertiesType: "SelfHosted",
+    description: "A selfhosted integration runtime",
   };
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);

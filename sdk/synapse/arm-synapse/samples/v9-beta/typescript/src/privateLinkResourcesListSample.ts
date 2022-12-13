@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { SynapseManagementClient } = require("@azure/arm-synapse");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { SynapseManagementClient } from "@azure/arm-synapse";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to Get all private link resources for a workspaces
@@ -24,7 +24,10 @@ async function getPrivateLinkResourcesForWorkspace() {
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateLinkResources.list(resourceGroupName, workspaceName)) {
+  for await (let item of client.privateLinkResourcesOperations.list(
+    resourceGroupName,
+    workspaceName
+  )) {
     resArray.push(item);
   }
   console.log(resArray);

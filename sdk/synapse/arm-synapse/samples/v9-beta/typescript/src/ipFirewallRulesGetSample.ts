@@ -12,24 +12,24 @@ import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Get private link resource in workspace
+ * This sample demonstrates how to Get a firewall rule
  *
- * @summary Get private link resource in workspace
- * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/GetPrivateLinkResource.json
+ * @summary Get a firewall rule
+ * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/GetIpFirewallRule.json
  */
-async function getPrivateLinkResourcesForWorkspace() {
+async function getIPFirewallRule() {
   const subscriptionId = "01234567-89ab-4def-0123-456789abcdef";
   const resourceGroupName = "ExampleResourceGroup";
   const workspaceName = "ExampleWorkspace";
-  const privateLinkResourceName = "sql";
+  const ruleName = "ExampleIpFirewallRule";
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
-  const result = await client.privateLinkResources.get(
+  const result = await client.ipFirewallRules.get(
     resourceGroupName,
     workspaceName,
-    privateLinkResourceName
+    ruleName
   );
   console.log(result);
 }
 
-getPrivateLinkResourcesForWorkspace().catch(console.error);
+getIPFirewallRule().catch(console.error);

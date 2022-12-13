@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get a firewall rule
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/GetIpFirewallRule.json
  */
-async function createAnIPFirewallRule() {
+async function getIPFirewallRule() {
   const subscriptionId = "01234567-89ab-4def-0123-456789abcdef";
   const resourceGroupName = "ExampleResourceGroup";
   const workspaceName = "ExampleWorkspace";
@@ -32,4 +32,4 @@ async function createAnIPFirewallRule() {
   console.log(result);
 }
 
-createAnIPFirewallRule().catch(console.error);
+getIPFirewallRule().catch(console.error);

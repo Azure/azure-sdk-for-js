@@ -12,24 +12,33 @@ const { SynapseManagementClient } = require("@azure/arm-synapse");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Get private link resource in workspace
+ * This sample demonstrates how to Apply a partial update to a SQL pool
  *
- * @summary Get private link resource in workspace
- * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/GetPrivateLinkResource.json
+ * @summary Apply a partial update to a SQL pool
+ * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/UpdateSqlPool.json
  */
-async function getPrivateLinkResourcesForWorkspace() {
+async function updateASqlAnalyticsPool() {
   const subscriptionId = "01234567-89ab-4def-0123-456789abcdef";
   const resourceGroupName = "ExampleResourceGroup";
   const workspaceName = "ExampleWorkspace";
-  const privateLinkResourceName = "sql";
+  const sqlPoolName = "ExampleSqlPool";
+  const sqlPoolInfo = {
+    collation: "",
+    location: "West US 2",
+    maxSizeBytes: 0,
+    restorePointInTime: new Date("1970-01-01T00:00:00.000Z"),
+    sku: { name: "", tier: "" },
+    tags: {},
+  };
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
-  const result = await client.privateLinkResources.get(
+  const result = await client.sqlPools.beginUpdateAndWait(
     resourceGroupName,
     workspaceName,
-    privateLinkResourceName
+    sqlPoolName,
+    sqlPoolInfo
   );
   console.log(result);
 }
 
-getPrivateLinkResourcesForWorkspace().catch(console.error);
+updateASqlAnalyticsPool().catch(console.error);

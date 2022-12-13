@@ -63,7 +63,27 @@ export interface SqlPools {
    * @param sqlPoolInfo The updated SQL pool properties
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    sqlPoolInfo: SqlPoolPatchInfo,
+    options?: SqlPoolsUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SqlPoolsUpdateResponse>,
+      SqlPoolsUpdateResponse
+    >
+  >;
+  /**
+   * Apply a partial update to a SQL pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param sqlPoolName SQL pool name
+   * @param sqlPoolInfo The updated SQL pool properties
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,

@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { SynapseManagementClient } = require("@azure/arm-synapse");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { SqlPoolPatchInfo, SynapseManagementClient } from "@azure/arm-synapse";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to Apply a partial update to a SQL pool
@@ -22,17 +22,17 @@ async function updateASqlAnalyticsPool() {
   const resourceGroupName = "ExampleResourceGroup";
   const workspaceName = "ExampleWorkspace";
   const sqlPoolName = "ExampleSqlPool";
-  const sqlPoolInfo = {
+  const sqlPoolInfo: SqlPoolPatchInfo = {
     collation: "",
     location: "West US 2",
     maxSizeBytes: 0,
     restorePointInTime: new Date("1970-01-01T00:00:00.000Z"),
     sku: { name: "", tier: "" },
-    tags: {},
+    tags: {}
   };
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
-  const result = await client.sqlPools.update(
+  const result = await client.sqlPools.beginUpdateAndWait(
     resourceGroupName,
     workspaceName,
     sqlPoolName,

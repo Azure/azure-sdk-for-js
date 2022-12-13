@@ -29,6 +29,7 @@ async function createOrUpdateABigDataPool() {
     autoPause: { delayInMinutes: 15, enabled: true },
     autoScale: { enabled: true, maxNodeCount: 50, minNodeCount: 3 },
     defaultSparkLogFolder: "/logs",
+    isAutotuneEnabled: false,
     libraryRequirements: { content: "", filename: "requirements.txt" },
     location: "West US 2",
     nodeCount: 4,

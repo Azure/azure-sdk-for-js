@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { SynapseManagementClient } from "@azure/arm-synapse";
-import { DefaultAzureCredential } from "@azure/identity";
+const { SynapseManagementClient } = require("@azure/arm-synapse");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Get a firewall rule
@@ -17,19 +17,15 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get a firewall rule
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/GetIpFirewallRule.json
  */
-async function createAnIPFirewallRule() {
+async function getIPFirewallRule() {
   const subscriptionId = "01234567-89ab-4def-0123-456789abcdef";
   const resourceGroupName = "ExampleResourceGroup";
   const workspaceName = "ExampleWorkspace";
   const ruleName = "ExampleIpFirewallRule";
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
-  const result = await client.ipFirewallRules.get(
-    resourceGroupName,
-    workspaceName,
-    ruleName
-  );
+  const result = await client.ipFirewallRules.get(resourceGroupName, workspaceName, ruleName);
   console.log(result);
 }
 
-createAnIPFirewallRule().catch(console.error);
+getIPFirewallRule().catch(console.error);

@@ -24,7 +24,7 @@ async function getPrivateLinkResourcesForWorkspace() {
   const privateLinkResourceName = "sql";
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
-  const result = await client.privateLinkResources.get(
+  const result = await client.privateLinkResourcesOperations.get(
     resourceGroupName,
     workspaceName,
     privateLinkResourceName

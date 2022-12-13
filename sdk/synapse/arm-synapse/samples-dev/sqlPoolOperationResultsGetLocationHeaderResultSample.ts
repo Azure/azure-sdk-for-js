@@ -25,7 +25,7 @@ async function getTheResultOfAnOperationOnASqlAnalyticsPool() {
   const operationId = "fedcba98-7654-4210-fedc-ba9876543210";
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
-  const result = await client.sqlPoolOperationResults.getLocationHeaderResult(
+  const result = await client.sqlPoolOperationResults.beginGetLocationHeaderResultAndWait(
     resourceGroupName,
     workspaceName,
     sqlPoolName,

@@ -15,8 +15,8 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a PrivateLinkResources. */
-export interface PrivateLinkResources {
+/** Interface representing a PrivateLinkResourcesOperations. */
+export interface PrivateLinkResourcesOperations {
   /**
    * Get all private link resources for a workspaces
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

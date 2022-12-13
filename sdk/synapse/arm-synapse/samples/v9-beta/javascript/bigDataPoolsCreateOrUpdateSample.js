@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  BigDataPoolResourceInfo,
-  SynapseManagementClient
-} from "@azure/arm-synapse";
-import { DefaultAzureCredential } from "@azure/identity";
+const { SynapseManagementClient } = require("@azure/arm-synapse");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Create a new Big Data pool.
@@ -25,10 +22,11 @@ async function createOrUpdateABigDataPool() {
   const resourceGroupName = "ExampleResourceGroup";
   const workspaceName = "ExampleWorkspace";
   const bigDataPoolName = "ExamplePool";
-  const bigDataPoolInfo: BigDataPoolResourceInfo = {
+  const bigDataPoolInfo = {
     autoPause: { delayInMinutes: 15, enabled: true },
     autoScale: { enabled: true, maxNodeCount: 50, minNodeCount: 3 },
     defaultSparkLogFolder: "/logs",
+    isAutotuneEnabled: false,
     libraryRequirements: { content: "", filename: "requirements.txt" },
     location: "West US 2",
     nodeCount: 4,
@@ -36,7 +34,7 @@ async function createOrUpdateABigDataPool() {
     nodeSizeFamily: "MemoryOptimized",
     sparkEventsFolder: "/events",
     sparkVersion: "2.4",
-    tags: { key: "value" }
+    tags: { key: "value" },
   };
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
