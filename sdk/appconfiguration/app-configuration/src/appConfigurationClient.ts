@@ -38,7 +38,11 @@ import {
   deserializationPolicyName,
 } from "@azure/core-client";
 import { PagedAsyncIterableIterator, PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
-import { PipelinePolicy, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import {
+  PipelinePolicy,
+  bearerTokenAuthenticationPolicy,
+  RestError,
+} from "@azure/core-rest-pipeline";
 import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
@@ -181,24 +185,24 @@ export class AppConfigurationClient {
       "AppConfigurationClient.addConfigurationSetting",
       options,
       async (updatedOptions) => {
-        let status;
         const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
         logger.info("[addConfigurationSetting] Creating a key value pair");
-        const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
-          ifNoneMatch: "*",
-          label: configurationSetting.label,
-          entity: keyValue,
-          ...updatedOptions,          
-          onResponse: (response) => {
-            status = response.status;
-            if (status === 412){
-              throw new Error ("Setting was already present");
-            }
-          },
-        });
-        const response = transformKeyValueResponse(originalResponse);
-        assertResponse(response);
-        return response;
+        try {
+          const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
+            ifNoneMatch: "*",
+            label: configurationSetting.label,
+            entity: keyValue,
+            ...updatedOptions,
+          });
+          const response = transformKeyValueResponse(originalResponse);
+          assertResponse(response);
+          return response;
+        } catch (error) {
+          const err = error as RestError;
+          err.message = `Status ${err.statusCode}: Setting was already present`;
+          throw err;
+        }
+        throw new Error("Unreachable code");
       }
     );
   }
