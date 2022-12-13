@@ -209,28 +209,31 @@ export async function isProxyToolActive(): Promise<boolean> {
 }
 
 async function getTargetVersion() {
+  // Temporarily pinning to 1.0.0-dev.20221212.3 until changes made to eng/common in Jan '23.
+  return "1.0.0-dev.20221212.3";
+
   // Grab the tag from the `/eng/common/testproxy/target_version.txt` file [..is used to control the default version]
   // Example content:
   //
   // 1.0.0-dev.20220224.2
   // (Bot regularly updates the tag in the file above.)
-  try {
-    const contentInVersionFile = await readFile(
-      `${path.join(await resolveRoot(), "eng/common/testproxy/target_version.txt")}`,
-      "utf-8"
-    );
+  // try {
+  //   const contentInVersionFile = await readFile(
+  //     `${path.join(await resolveRoot(), "eng/common/testproxy/target_version.txt")}`,
+  //     "utf-8"
+  //   );
 
-    const tag = contentInVersionFile.trim();
-    if (tag === undefined) {
-      throw new Error();
-    }
+  //   const tag = contentInVersionFile.trim();
+  //   if (tag === undefined) {
+  //     throw new Error();
+  //   }
 
-    log.info(`Image tag obtained from the powershell script => ${tag}\n`);
-    return tag;
-  } catch (_: any) {
-    log.warn(
-      `Unable to get the image tag from the powershell script, trying "latest" tag instead\n`
-    );
-    return "latest";
-  }
+  //   log.info(`Image tag obtained from the powershell script => ${tag}\n`);
+  //   return tag;
+  // } catch (_: any) {
+  //   log.warn(
+  //     `Unable to get the image tag from the powershell script, trying "latest" tag instead\n`
+  //   );
+  //   return "latest";
+  // }
 }
