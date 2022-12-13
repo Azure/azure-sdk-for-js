@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-servicebus/7.0.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "a0ade52d-ffe3-43cd-836d-dfd48a7b38a9"
+        "User-Agent": "azsdk-js-arm-servicebus/6.1.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "40d6de87-f1ea-44ae-96ad-b194fb877fd7"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 09 Dec 2022 09:39:10 GMT",
+        "Date": "Tue, 13 Dec 2022 03:06:59 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
@@ -25,10 +25,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "4cf6e40b-fc7a-40cd-af4d-3bd5da67d36b",
-        "x-ms-ratelimit-remaining-subscription-reads": "11981",
-        "x-ms-request-id": "4cf6e40b-fc7a-40cd-af4d-3bd5da67d36b",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221209T093910Z:4cf6e40b-fc7a-40cd-af4d-3bd5da67d36b"
+        "x-ms-correlation-request-id": "12f6f707-5f16-4615-82ba-44d8f98b323a",
+        "x-ms-ratelimit-remaining-subscription-reads": "11982",
+        "x-ms-request-id": "12f6f707-5f16-4615-82ba-44d8f98b323a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221213T030659Z:12f6f707-5f16-4615-82ba-44d8f98b323a"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ServiceBus/namespaces/mynamespacexxx/queues/myQueue",
@@ -59,8 +59,8 @@
             "transferMessageCount": 0,
             "transferDeadLetterMessageCount": 0
           },
-          "createdAt": "2022-12-09T09:39:08.163Z",
-          "updatedAt": "2022-12-09T09:39:08.33Z",
+          "createdAt": "2022-12-13T03:06:56.887Z",
+          "updatedAt": "2022-12-13T03:06:57.76Z",
           "accessedAt": "0001-01-01T00:00:00Z"
         }
       }

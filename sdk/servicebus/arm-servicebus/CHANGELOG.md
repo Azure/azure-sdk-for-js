@@ -1,6 +1,6 @@
 # Release History
     
-## 7.0.0 (2022-12-09)
+## 6.1.0 (2022-12-09)
     
 **Features**
 
@@ -18,9 +18,6 @@
   - Added Interface SBTopic
   - Added Interface SqlRuleAction
   - Added Interface TrackedResource
-
-**Breaking Changes**
-
   - Interface QueuesListByNamespaceNextOptionalParams no longer has parameter skip
   - Interface QueuesListByNamespaceNextOptionalParams no longer has parameter top
   - Interface RulesListBySubscriptionsNextOptionalParams no longer has parameter skip
