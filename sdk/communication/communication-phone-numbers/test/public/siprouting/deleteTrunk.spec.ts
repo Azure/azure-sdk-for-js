@@ -47,14 +47,20 @@ matrix([[true, false]], async function (useAad) {
       const trunk: SipTrunk = {
         fqdn: testFqdn,
         sipSignalingPort: 5678,
+        enabled: true
       };
+      console.log("============ can delete an existing trunk");
       const storedTrunk = await client.setTrunk(trunk);
+      console.log("============ trunk set");
       assert.deepEqual(storedTrunk, trunk);
+      console.log("============ trunk deep equal");
       assert.exists((await client.getTrunks()).find((value) => value.fqdn === trunk.fqdn));
+      console.log("============ trunk exists");
 
       await client.deleteTrunk(testFqdn);
 
       assert.notExists((await client.getTrunks()).find((value) => value.fqdn === trunk.fqdn));
+      console.log("============ trunk doesn't exists");
     });
 
     it("cannot delete a not existing trunk but succeeds", async () => {
