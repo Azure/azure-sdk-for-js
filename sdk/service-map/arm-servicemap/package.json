@@ -27,7 +27,7 @@
   "types": "./types/arm-servicemap.d.ts",
   "devDependencies": {
     "@microsoft/api-extractor": "^7.31.1",
-    "@rollup/plugin-commonjs": "11.0.2",
+    "@rollup/plugin-commonjs": "^11.0.2",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",

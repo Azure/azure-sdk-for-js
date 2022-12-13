@@ -2,7 +2,7 @@
   "name": "@azure-rest/ai-anomaly-detector",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "A generated SDK for AnomalyDetectorRest.",
   "keywords": [
     "node",
@@ -76,7 +76,7 @@
     "dotenv": "^8.2.0",
     "eslint": "^8.0.0",
     "mkdirp": "^1.0.4",
-    "prettier": "2.2.1",
+    "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
     "typescript": "~4.6.0",
