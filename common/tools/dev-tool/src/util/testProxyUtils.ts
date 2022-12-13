@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { ChildProcess, spawn, SpawnOptions } from "child_process";
-import { IncomingMessage, request, RequestOptions } from "http";
 import { createPrinter } from "./printer";
 import { resolveRoot } from "./resolveProject";
 import fs from "fs-extra";
@@ -207,14 +206,6 @@ export async function isProxyToolActive(): Promise<boolean> {
   } catch (error: any) {
     return false;
   }
-}
-
-async function makeRequest(uri: string, requestOptions: RequestOptions): Promise<IncomingMessage> {
-  return new Promise<IncomingMessage>((resolve, reject) => {
-    const req = request(uri, requestOptions, resolve);
-    req.once("error", reject);
-    req.end();
-  });
 }
 
 async function getTargetVersion() {
