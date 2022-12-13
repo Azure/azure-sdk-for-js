@@ -29,8 +29,7 @@ async function virtualHubIPConfigurationPut() {
     body: {
       properties: {
         subnet: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
         },
       },
     },

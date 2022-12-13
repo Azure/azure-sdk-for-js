@@ -29,8 +29,7 @@ async function createVirtualNetworkTap() {
       location: "centraluseuap",
       properties: {
         destinationNetworkInterfaceIPConfiguration: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/testNetworkInterface/ipConfigurations/ipconfig1",
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/testNetworkInterface/ipConfigurations/ipconfig1",
         },
       },
     },
