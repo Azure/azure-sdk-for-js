@@ -29,8 +29,7 @@ async function copyARestorePointToADifferentRegion() {
     body: {
       properties: {
         sourceRestorePoint: {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/sourceRpcName/restorePoints/sourceRpName",
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/sourceRpcName/restorePoints/sourceRpName",
         },
       },
     },
@@ -69,8 +68,7 @@ async function createARestorePoint() {
       properties: {
         excludeDisks: [
           {
-            id:
-              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123",
+            id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123",
           },
         ],
       },

@@ -11231,7 +11231,7 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-v29ouVDwbjd+xijYqkHmvlnD+lasuXQJoQ1GGlQLHR6KrPxZfVV9QWSmtRhaQ/SQn4onQfiJ9m/rpN+PImKx3g==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-Ld3BqSuVjwCY+3vh2IA0Ce/NgQmKnitx5Q6n3VcDnit+6pZ8obFAMe3tgLdCXg0+k3T/5PWHoI2oJ9v64yx+Tw==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
@@ -11262,7 +11262,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       nyc: 14.1.1
-      prettier: 2.2.1
+      prettier: 2.8.0
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.4.1
