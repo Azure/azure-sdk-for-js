@@ -20,6 +20,7 @@ import {
 } from "./mappers";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { tracingClient } from "./generated/src/tracing";
+import { domain } from "process";
 
 export * from "./models";
 
@@ -101,6 +102,34 @@ export class SipRoutingClient {
     });
     const authPolicy = createCommunicationAuthPolicy(credential);
     this.client.pipeline.addPolicy(authPolicy);
+  }
+
+   /**
+   * Gets the SIP domains.
+   * @param options - The options parameters.
+   */
+    public async getDomains(options: OperationOptions = {}): Promise<SipDomain[]> {
+      return tracingClient.withSpan("SipRoutingClient-getDomains", options, async (updatedOptions) => {
+        const config = await this.client.sipRouting.get(updatedOptions);
+        return transformDomainsFromRestModel(config.domains);
+      });
+    }
+
+    /**
+   * Gets the SIP domain.
+   * @param domainUri - The domain's uri.
+   * @param options - The options parameters.
+   */
+  public async getDomain(domainUri: string, options: OperationOptions = {}): Promise<SipDomain> {
+    return tracingClient.withSpan("SipRoutingClient-getDomain", options, async (updatedOptions) => {
+      const domains = await this.getDomains(updatedOptions);
+      const domain = domains.find((value: SipDomain) => value.domainUri === domainUri);
+      if (domain) {
+        return domain;
+      }
+
+      throw { code: "NotFound", message: "Not Found" } as SipRoutingError;
+    });
   }
 
   /**
