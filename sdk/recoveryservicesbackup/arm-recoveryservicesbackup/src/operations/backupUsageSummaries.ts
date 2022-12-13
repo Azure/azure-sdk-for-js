@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { BackupUsageSummaries } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -51,8 +51,16 @@ export class BackupUsageSummariesImpl implements BackupUsageSummaries {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(vaultName, resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          vaultName,
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -60,9 +68,11 @@ export class BackupUsageSummariesImpl implements BackupUsageSummaries {
   private async *listPagingPage(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupUsageSummariesListOptionalParams
+    options?: BackupUsageSummariesListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<BackupManagementUsage[]> {
-    let result = await this._list(vaultName, resourceGroupName, options);
+    let result: BackupUsageSummariesListResponse;
+    result = await this._list(vaultName, resourceGroupName, options);
     yield result.value || [];
   }
 

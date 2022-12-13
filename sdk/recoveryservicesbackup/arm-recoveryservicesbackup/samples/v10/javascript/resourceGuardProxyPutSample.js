@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  ResourceGuardProxyBaseResource,
-  RecoveryServicesBackupClient
-} from "@azure/arm-recoveryservicesbackup";
-import { DefaultAzureCredential } from "@azure/identity";
+const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Add or Update ResourceGuardProxy under vault
@@ -27,14 +24,13 @@ async function createResourceGuardProxy() {
   const vaultName = "sampleVault";
   const resourceGroupName = "SampleResourceGroup";
   const resourceGuardProxyName = "swaggerExample";
-  const parameters: ResourceGuardProxyBaseResource = {
+  const parameters = {
     type: "Microsoft.RecoveryServices/vaults/backupResourceGuardProxies",
-    id:
-      "/subscriptions/0b352192-dcac-4cc7-992e-a96190ccc68c/resourceGroups/SampleResourceGroup/providers/Microsoft.RecoveryServicesBVTD2/vaults/sampleVault/backupResourceGuardProxies/swaggerExample",
+    id: "/subscriptions/0b352192-dcac-4cc7-992e-a96190ccc68c/resourceGroups/SampleResourceGroup/providers/Microsoft.RecoveryServicesBVTD2/vaults/sampleVault/backupResourceGuardProxies/swaggerExample",
     properties: {
       resourceGuardResourceId:
-        "/subscriptions/c999d45b-944f-418c-a0d8-c3fcfd1802c8/resourceGroups/vaultguardRGNew/providers/Microsoft.DataProtection/resourceGuards/VaultGuardTestNew"
-    }
+        "/subscriptions/c999d45b-944f-418c-a0d8-c3fcfd1802c8/resourceGroups/vaultguardRGNew/providers/Microsoft.DataProtection/resourceGuards/VaultGuardTestNew",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
