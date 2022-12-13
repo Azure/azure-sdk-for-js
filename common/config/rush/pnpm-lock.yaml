@@ -17441,7 +17441,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-d8ShRCIkLmxs0tP4V1TKXxvuu9DzNviN0Ev4XtbeqBd6BEn6wXGtfxBwviyb7zq8e2h0trxJQK63YngOAs6rxQ==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-BqXhVQyFsNpInwaEFVsFFhxkFgCbXh2RiBBSV3vzPSojNIGIUCAFCxQJTAflGunOkm8B0qdtZHGpSSrDfBPpAw==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
@@ -17471,7 +17471,7 @@ packages:
       mkdirp: 1.0.4
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      prettier: 2.2.1
+      prettier: 2.8.0
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.4.1
