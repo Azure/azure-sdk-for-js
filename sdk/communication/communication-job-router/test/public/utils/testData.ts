@@ -7,7 +7,7 @@ import {
   ExceptionPolicy,
   JobQueue,
   RouterJob,
-  RouterWorker
+  RouterWorker,
 } from "../../../src";
 
 export const exceptionPolicyRequest: ExceptionPolicy = {
@@ -20,16 +20,16 @@ export const exceptionPolicyRequest: ExceptionPolicy = {
           kind: "reclassify",
           classificationPolicyId: "Main",
           labelsToUpsert: {
-            escalated: true
-          }
-        }
+            escalated: true,
+          },
+        },
       },
       trigger: {
         kind: "wait-time",
-        thresholdSeconds: 5
-      }
-    }
-  }
+        thresholdSeconds: 5,
+      },
+    },
+  },
 };
 
 export const classificationPolicyRequest: ClassificationPolicy = {
@@ -43,15 +43,15 @@ export const classificationPolicyRequest: ClassificationPolicy = {
         {
           key: "foo",
           labelOperator: "equal",
-          value: { default: 10 }
-        }
-      ]
-    }
+          value: { default: 10 },
+        },
+      ],
+    },
   ],
   prioritizationRule: {
     kind: "static-rule",
-    value: { default: 2 }
-  }
+    value: { default: 2 },
+  },
 };
 
 export const distributionPolicyRequest: DistributionPolicy = {
@@ -60,9 +60,9 @@ export const distributionPolicyRequest: DistributionPolicy = {
     kind: "longest-idle",
     minConcurrentOffers: 1,
     maxConcurrentOffers: 5,
-    bypassSelectors: false
+    bypassSelectors: false,
   },
-  offerTtlInSeconds: 120
+  offerTtlInSeconds: 120,
 };
 
 export const queueRequest: JobQueue = {
@@ -70,7 +70,7 @@ export const queueRequest: JobQueue = {
   distributionPolicyId: "MainDistributionPolicy",
   name: "Main",
   labels: {},
-  exceptionPolicyId: "MainExceptionPolicy"
+  exceptionPolicyId: "MainExceptionPolicy",
 };
 
 export const workerRequest: RouterWorker = {
@@ -80,20 +80,20 @@ export const workerRequest: RouterWorker = {
   totalCapacity: 100,
   queueAssignments: {
     MainQueue: {},
-    SecondaryQueue: {}
+    SecondaryQueue: {},
   },
   labels: {},
   channelConfigurations: {
     CustomChatChannel: {
-      capacityCostPerJob: 10
+      capacityCostPerJob: 10,
     },
     CustomVoiceChannel: {
-      capacityCostPerJob: 100
-    }
-  }
+      capacityCostPerJob: 100,
+    },
+  },
 };
 
 export const jobRequest: RouterJob = {
   channelId: "ChatChannel",
-  labels: {}
+  labels: {},
 };
