@@ -29,7 +29,7 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("can set a new trunk", async () => {
-      const trunk: SipTrunk = { fqdn: "111.fqdn.com", sipSignalingPort: 1231 };
+      const trunk: SipTrunk = { fqdn: "111.fqdn.com", sipSignalingPort: 1231, enabled: true };
 
       const setTrunk = await client.setTrunk(trunk);
       assert.deepEqual(setTrunk, trunk);
@@ -39,7 +39,7 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("can set an existing trunk", async () => {
-      const trunk: SipTrunk = { fqdn: "111.fqdn.com", sipSignalingPort: 1231 };
+      const trunk: SipTrunk = { fqdn: "111.fqdn.com", sipSignalingPort: 1231, enabled: true };
       await client.setTrunk(trunk);
 
       trunk.sipSignalingPort = 6789;
@@ -55,8 +55,8 @@ matrix([[true, false]], async function (useAad) {
       await client.setTrunks([]);
 
       const trunks: SipTrunk[] = [
-        { fqdn: "111.fqdn.com", sipSignalingPort: 8239 },
-        { fqdn: "222.fqdn.com", sipSignalingPort: 7348 },
+        { fqdn: "111.fqdn.com", sipSignalingPort: 8239, enabled: true },
+        { fqdn: "222.fqdn.com", sipSignalingPort: 7348, enabled: true},
       ];
 
       const setTrunks = await client.setTrunks(trunks);
@@ -68,8 +68,8 @@ matrix([[true, false]], async function (useAad) {
 
     it("can set multiple existing trunks", async () => {
       const trunks: SipTrunk[] = [
-        { fqdn: "111.fqdn.com", sipSignalingPort: 8239 },
-        { fqdn: "222.fqdn.com", sipSignalingPort: 7348 },
+        { fqdn: "111.fqdn.com", sipSignalingPort: 8239, enabled: true },
+        { fqdn: "222.fqdn.com", sipSignalingPort: 7348, enabled: true },
       ];
       await client.setTrunks(trunks);
 
@@ -96,8 +96,8 @@ matrix([[true, false]], async function (useAad) {
 
     it("can set empty trunks when not empty before", async () => {
       const trunks: SipTrunk[] = [
-        { fqdn: "111.fqdn.com", sipSignalingPort: 8239 },
-        { fqdn: "222.fqdn.com", sipSignalingPort: 7348 },
+        { fqdn: "111.fqdn.com", sipSignalingPort: 8239, enabled: true },
+        { fqdn: "222.fqdn.com", sipSignalingPort: 7348, enabled: true },
       ];
       await client.setTrunks(trunks);
 
@@ -110,7 +110,7 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("cannot set invalid fqdn trunk", async () => {
-      const invalidTrunk: SipTrunk = { fqdn: "-1", sipSignalingPort: 8239 };
+      const invalidTrunk: SipTrunk = { fqdn: "-1", sipSignalingPort: 8239, enabled: true };
       try {
         await client.setTrunk(invalidTrunk);
       } catch (error: any) {
@@ -130,7 +130,7 @@ matrix([[true, false]], async function (useAad) {
     it("cannot set invalid port trunk", async () => {
       await client.setTrunks([]);
 
-      const invalidTrunk: SipTrunk = { fqdn: "111.fqdn.com", sipSignalingPort: 0 };
+      const invalidTrunk: SipTrunk = { fqdn: "111.fqdn.com", sipSignalingPort: 0, enabled: true };
 
       try {
         await client.setTrunk(invalidTrunk);
@@ -150,8 +150,8 @@ matrix([[true, false]], async function (useAad) {
 
     it("cannot set trunks without trunk used in route", async () => {
       const expectedTrunks: SipTrunk[] = [
-        { fqdn: "111.fqdn.com", sipSignalingPort: 8239 },
-        { fqdn: "222.fqdn.com", sipSignalingPort: 7348 },
+        { fqdn: "111.fqdn.com", sipSignalingPort: 8239, enabled: true },
+        { fqdn: "222.fqdn.com", sipSignalingPort: 7348, enabled: true },
       ];
       await client.setTrunks(expectedTrunks);
 
@@ -172,7 +172,7 @@ matrix([[true, false]], async function (useAad) {
       await client.setRoutes(expectedRoutes);
 
       try {
-        await client.setTrunks([{ fqdn: "111.fqdn.com", sipSignalingPort: 1234 }]);
+        await client.setTrunks([{ fqdn: "111.fqdn.com", sipSignalingPort: 1234, enabled: true }]);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
         const storedTrunks = await client.getTrunks();
@@ -205,10 +205,12 @@ matrix([[true, false]], async function (useAad) {
         {
           fqdn: "777.fqdn.com",
           sipSignalingPort: 5678,
+          enabled: true
         },
         {
           fqdn: "888.fqdn.com",
           sipSignalingPort: 5678,
+          enabled: true
         },
       ];
       await client.setTrunks(trunks);

@@ -90,6 +90,7 @@ matrix([[true, false]], async function (useAad) {
       const trunk: SipTrunk = {
         fqdn: "111.fqdn.com",
         sipSignalingPort: 5678,
+        enabled: true
       };
       await client.setTrunk(trunk);
 
@@ -199,8 +200,8 @@ matrix([[true, false]], async function (useAad) {
 
     it("cannot set a route with duplicated routing trunks", async () => {
       const trunks: SipTrunk[] = [
-        { fqdn: "111.fqdn.com", sipSignalingPort: 8239 },
-        { fqdn: "222.fqdn.com", sipSignalingPort: 7348 },
+        { fqdn: "111.fqdn.com", sipSignalingPort: 8239, enabled: true },
+        { fqdn: "222.fqdn.com", sipSignalingPort: 7348, enabled: true },
       ];
       await client.setTrunks(trunks);
 
@@ -246,10 +247,12 @@ matrix([[true, false]], async function (useAad) {
         {
           fqdn: "777.fqdn.com",
           sipSignalingPort: 5678,
+          enabled: true
         },
         {
           fqdn: "888.fqdn.com",
           sipSignalingPort: 5678,
+          enabled: true
         },
       ];
       await client.setTrunks(trunks);

@@ -11,10 +11,11 @@ import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { logger } from "./utils";
 import { SipRoutingClient as SipRoutingGeneratedClient } from "./generated/src/siprouting/sipRoutingClient";
 import { SipConfigurationPatch, SipRoutingError } from "./generated/src/siprouting/models";
-import { SipTrunk, SipTrunkRoute } from "./models";
-import { transformFromRestModel, transformIntoRestModel } from "./mappers";
+import { SipDomain, SipTrunk, SipTrunkRoute } from "./models";
+import { transformFromRestModel, transformIntoRestModel, transformDomainsFromRestModel } from "./mappers";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { tracingClient } from "./generated/src/tracing";
+import { domain } from "process";
 
 export * from "./models";
 
@@ -98,6 +99,34 @@ export class SipRoutingClient {
     this.client.pipeline.addPolicy(authPolicy);
   }
 
+   /**
+   * Gets the SIP domains.
+   * @param options - The options parameters.
+   */
+    public async getDomains(options: OperationOptions = {}): Promise<SipDomain[]> {
+      return tracingClient.withSpan("SipRoutingClient-getDomains", options, async (updatedOptions) => {
+        const config = await this.client.sipRouting.get(updatedOptions);
+        return transformDomainsFromRestModel(config.domains);
+      });
+    }
+
+    /**
+   * Gets the SIP domain.
+   * @param domainUri - The domain's uri.
+   * @param options - The options parameters.
+   */
+  public async getDomain(domainUri: string, options: OperationOptions = {}): Promise<SipDomain> {
+    return tracingClient.withSpan("SipRoutingClient-getDomain", options, async (updatedOptions) => {
+      const domains = await this.getDomains(updatedOptions);
+      const domain = domains.find((value: SipDomain) => value.domainUri === domainUri);
+      if (domain) {
+        return domain;
+      }
+
+      throw { code: "NotFound", message: "Not Found" } as SipRoutingError;
+    });
+  }
+
   /**
    * Gets the SIP trunks.
    * @param options - The options parameters.
@@ -134,6 +163,63 @@ export class SipRoutingClient {
     return tracingClient.withSpan("SipRoutingClient-getRoutes", options, async (updatedOptions) => {
       const config = await this.client.sipRouting.get(updatedOptions);
       return config.routes || [];
+    });
+  }
+
+  /**
+   * Sets the SIP domains.
+   * @param domains - The SIP domains to be set.
+   * @param options - The options parameters.
+   */
+   public async setDomains(domains: SipDomain[], options: OperationOptions = {}): Promise<SipDomain[]> {
+    return tracingClient.withSpan("SipRoutingClient-setDomains", options, async (updatedOptions) => {
+      const patch: SipConfigurationPatch = { domains: transformDomainsFromRestModel(domains) };
+      let config = await this.client.sipRouting.get(updatedOptions);
+      const storedDomains = transformDomainsFromRestModel(config.domains).map((domain) => domain.domainUri);
+      const setDomains = domains.map((domain) => domain.domainUri);
+      storedDomains.forEach((storedDomain) => {
+        const shouldDeleteStoredDomain = !setDomains.find((value) => value === storedDomain);
+        if (shouldDeleteStoredDomain) {
+          patch.domains![storedDomain] = null;
+        }
+      });
+
+      const isPatchNeeded = Object.keys(patch.domains!).length > 0;
+      if (isPatchNeeded) {
+        const payload = {
+          ...updatedOptions,
+          ...patch,
+        };
+        config = await this.client.sipRouting.patch(payload);
+      }
+
+      return transformDomainsFromRestModel(config.domains);
+    });
+  }
+
+  /**
+   * Sets the SIP domain.
+   * @param domain - The SIP domain to be set.
+   * @param options - The options parameters.
+   */
+   public async setDomain(domain: SipDomain, options: OperationOptions = {}): Promise<SipDomain> {
+    return tracingClient.withSpan("SipRoutingClient-setDomain", options, async (updatedOptions) => {
+      const patch: SipConfigurationPatch = {
+        domains: transformDomainsFromRestModel([domain]),
+      };
+      const payload = {
+        ...updatedOptions,
+        ...patch,
+      };
+      const config = await this.client.sipRouting.patch(payload);
+      const storedDomains = transformDomainsFromRestModel(config.domains).find(
+        (value: SipDomain) => value.domainUri === domain.domainUri
+      );
+      if (storedDomains) {
+        return storedDomains;
+      }
+
+      throw { code: "NotFound", message: "Not Found" } as SipRoutingError;
     });
   }
 
@@ -234,6 +320,31 @@ export class SipRoutingClient {
         trunks[fqdn] = null;
         const patch: SipConfigurationPatch = {
           trunks: trunks,
+        };
+
+        const payload = {
+          ...updatedOptions,
+          ...patch,
+        };
+        await this.client.sipRouting.patch(payload);
+      }
+    );
+  }
+
+  /**
+   * Deletes the SIP domain.
+   * @param domainUri - The domain's rui.
+   * @param options - The options parameters.
+   */
+   public async deleteDomain(domainUri: string, options: OperationOptions = {}): Promise<void> {
+    return tracingClient.withSpan(
+      "SipRoutingClient-deleteDomain",
+      options,
+      async (updatedOptions) => {
+        const domains: any = {};
+        domains[domainUri] = null;
+        const patch: SipConfigurationPatch = {
+          domains: domains,
         };
 
         const payload = {
