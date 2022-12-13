@@ -927,12 +927,30 @@ export function EscapePath(blobName: string): string {
   return split.join("/");
 }
 
+/**
+ * A representation of an HTTP response that
+ * includes a reference to the request that
+ * originated it.
+ */
 export interface HttpResponse {
+  /**
+   * The headers from the response.
+   */
   headers: HttpHeadersLike;
+  /**
+   * The original request that resulted in this response.
+   */
   request: WebResourceLike;
+  /**
+   * The HTTP status code returned from the service.
+   */
   status: number;
 }
 
+/**
+ * An object with a _response property that has
+ * headers already parsed into a typed object.
+ */
 export interface ResponseWithHeaders<Headers> {
   /**
    * The underlying HTTP response.
@@ -945,6 +963,10 @@ export interface ResponseWithHeaders<Headers> {
   };
 }
 
+/**
+ * An object with a _response property that has body
+ * and headers already parsed into known types.
+ */
 export interface ResponseWithBody<Headers, Body> {
   /**
    * The underlying HTTP response.
@@ -965,10 +987,19 @@ export interface ResponseWithBody<Headers, Body> {
   };
 }
 
+/**
+ * An object with a simple _response property.
+ */
 export interface ResponseLike {
+  /**
+   * The underlying HTTP response.
+   */
   _response: HttpResponse;
 }
 
+/**
+ * A type that represents an operation result with a known _response property.
+ */
 export type WithResponse<T, Headers = undefined, Body = undefined> = T &
   (Body extends object
     ? ResponseWithBody<Headers, Body>

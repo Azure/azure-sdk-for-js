@@ -34,9 +34,7 @@ import {
   FilterBlobSegment,
   FilterBlobSegmentModel,
   LeaseAccessConditions,
-  ListBlobsFlatSegmentResponseInternal,
   ListBlobsFlatSegmentResponseModel,
-  ListBlobsHierarchySegmentResponseInternal,
   ListBlobsHierarchySegmentResponseModel,
   PublicAccessType,
   SignedIdentifierModel,
@@ -79,7 +77,11 @@ import {
   PageBlobClient,
 } from "./Clients";
 import { BlobBatchClient } from "./BlobBatchClient";
-import { ListBlobsIncludeItem } from "./generated/src";
+import {
+  ListBlobsIncludeItem,
+  ListBlobsFlatSegmentResponse as ListBlobsFlatSegmentResponseInternal,
+  ListBlobsHierarchySegmentResponse as ListBlobsHierarchySegmentResponseInternal,
+} from "./generated/src";
 
 /**
  * Options to configure {@link ContainerClient.create} operation.

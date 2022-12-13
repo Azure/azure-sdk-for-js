@@ -24,6 +24,10 @@ import {
   PageBlob,
 } from "./generated/src/operationsInterfaces";
 import {
+  BlobGetPropertiesResponse as BlobGetPropertiesResponseInternal,
+  BlobGetTagsResponse as BlobGetTagsResponseInternal,
+} from "./generated/src";
+import {
   AppendBlobAppendBlockFromUrlResponse,
   AppendBlobAppendBlockResponse,
   AppendBlobCreateResponse,
@@ -69,11 +73,9 @@ import {
   BlobCopySourceTags,
   BlobDownloadResponseInternal,
   BlobDownloadHeaders,
-  BlobGetPropertiesResponseInternal,
   BlobGetPropertiesHeaders,
   BlobQueryResponseInternal,
   BlobQueryHeaders,
-  BlobGetTagsResponseInternal,
   BlockBlobGetBlockListHeaders,
   BlockBlobGetBlockListResponseInternal,
   PageBlobGetPageRangesResponseInternal,
@@ -81,6 +83,9 @@ import {
   PageListInternal,
   PageBlobGetPageRangesDiffResponseInternal,
   PageBlobGetPageRangesDiffHeaders,
+  BlobDeleteImmutabilityPolicyResponse,
+  BlobSetImmutabilityPolicyResponse,
+  BlobSetLegalHoldResponse,
 } from "./generatedModels";
 import {
   AppendBlobRequestConditions,
@@ -160,11 +165,6 @@ import { SasIPRange } from "./sas/SasIPRange";
 import { generateBlobSASQueryParameters } from "./sas/BlobSASSignatureValues";
 import { BlobSASPermissions } from "./sas/BlobSASPermissions";
 import { BlobLeaseClient } from "./BlobLeaseClient";
-import {
-  BlobDeleteImmutabilityPolicyResponse,
-  BlobSetImmutabilityPolicyResponse,
-  BlobSetLegalHoldResponse,
-} from "./generatedModels";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 
 /**

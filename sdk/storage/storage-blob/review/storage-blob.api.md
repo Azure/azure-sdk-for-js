@@ -154,10 +154,7 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
 }
 
 // @public
-export type AppendBlobAppendBlockFromUrlResponse = WithResponse<AppendBlobAppendBlockFromUrlResponseInternal, AppendBlobAppendBlockFromUrlHeaders>;
-
-// @public
-export type AppendBlobAppendBlockFromUrlResponseInternal = AppendBlobAppendBlockFromUrlHeaders;
+export type AppendBlobAppendBlockFromUrlResponse = WithResponse<AppendBlobAppendBlockFromUrlHeaders, AppendBlobAppendBlockFromUrlHeaders>;
 
 // @public
 export interface AppendBlobAppendBlockHeaders {
@@ -189,10 +186,7 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
 }
 
 // @public
-export type AppendBlobAppendBlockResponse = WithResponse<AppendBlobAppendBlockResponseInternal, AppendBlobAppendBlockHeaders>;
-
-// @public
-export type AppendBlobAppendBlockResponseInternal = AppendBlobAppendBlockHeaders;
+export type AppendBlobAppendBlockResponse = WithResponse<AppendBlobAppendBlockHeaders, AppendBlobAppendBlockHeaders>;
 
 // @public
 export class AppendBlobClient extends BlobClient {
@@ -253,10 +247,7 @@ export interface AppendBlobCreateOptions extends CommonOptions {
 }
 
 // @public
-export type AppendBlobCreateResponse = WithResponse<AppendBlobCreateResponseInternal, AppendBlobCreateHeaders>;
-
-// @public
-export type AppendBlobCreateResponseInternal = AppendBlobCreateHeaders;
+export type AppendBlobCreateResponse = WithResponse<AppendBlobCreateHeaders, AppendBlobCreateHeaders>;
 
 // @public
 export interface AppendBlobRequestConditions extends BlobRequestConditions, AppendPositionAccessConditions {
@@ -321,10 +312,7 @@ export interface BlobAbortCopyFromURLOptions extends CommonOptions {
 }
 
 // @public
-export type BlobAbortCopyFromURLResponse = WithResponse<BlobAbortCopyFromURLResponseInternal, BlobAbortCopyFromURLHeaders>;
-
-// @public
-export type BlobAbortCopyFromURLResponseInternal = BlobAbortCopyFromURLHeaders;
+export type BlobAbortCopyFromURLResponse = WithResponse<BlobAbortCopyFromURLHeaders, BlobAbortCopyFromURLHeaders>;
 
 // @public
 export interface BlobAcquireLeaseOptions extends CommonOptions {
@@ -458,10 +446,7 @@ export interface BlobCopyFromURLHeaders {
 }
 
 // @public
-export type BlobCopyFromURLResponse = WithResponse<BlobCopyFromURLResponseInternal, BlobCopyFromURLHeaders>;
-
-// @public
-export type BlobCopyFromURLResponseInternal = BlobCopyFromURLHeaders;
+export type BlobCopyFromURLResponse = WithResponse<BlobCopyFromURLHeaders, BlobCopyFromURLHeaders>;
 
 // @public
 export type BlobCopySourceTags = "REPLACE" | "COPY";
@@ -490,10 +475,7 @@ export interface BlobCreateSnapshotOptions extends CommonOptions {
 }
 
 // @public
-export type BlobCreateSnapshotResponse = WithResponse<BlobCreateSnapshotResponseInternal, BlobCreateSnapshotHeaders>;
-
-// @public
-export type BlobCreateSnapshotResponseInternal = BlobCreateSnapshotHeaders;
+export type BlobCreateSnapshotResponse = WithResponse<BlobCreateSnapshotHeaders, BlobCreateSnapshotHeaders>;
 
 // @public
 export interface BlobDeleteHeaders {
@@ -523,10 +505,7 @@ export interface BlobDeleteImmutabilityPolicyOptions extends CommonOptions {
 }
 
 // @public
-export type BlobDeleteImmutabilityPolicyResponse = WithResponse<BlobDeleteImmutabilityPolicyResponseInternal, BlobDeleteImmutabilityPolicyHeaders>;
-
-// @public
-export type BlobDeleteImmutabilityPolicyResponseInternal = BlobDeleteImmutabilityPolicyHeaders;
+export type BlobDeleteImmutabilityPolicyResponse = WithResponse<BlobDeleteImmutabilityPolicyHeaders, BlobDeleteImmutabilityPolicyHeaders>;
 
 // @public
 export interface BlobDeleteOptions extends CommonOptions {
@@ -537,10 +516,7 @@ export interface BlobDeleteOptions extends CommonOptions {
 }
 
 // @public
-export type BlobDeleteResponse = WithResponse<BlobDeleteResponseInternal, BlobDeleteHeaders>;
-
-// @public
-export type BlobDeleteResponseInternal = BlobDeleteHeaders;
+export type BlobDeleteResponse = WithResponse<BlobDeleteHeaders, BlobDeleteHeaders>;
 
 // @public
 export interface BlobDownloadHeaders {
@@ -661,12 +637,6 @@ export interface BlobFlatListSegment {
 }
 
 // @public (undocumented)
-export interface BlobFlatListSegmentInternal {
-    // (undocumented)
-    blobItems: BlobItemInternalModel[];
-}
-
-// @public (undocumented)
 export interface BlobFlatListSegmentModel {
     // (undocumented)
     blobItems: BlobItemInternal[];
@@ -750,10 +720,7 @@ export interface BlobGetPropertiesResponse extends BlobGetPropertiesResponseMode
 }
 
 // @public
-export type BlobGetPropertiesResponseInternal = BlobGetPropertiesHeaders;
-
-// @public
-export type BlobGetPropertiesResponseModel = WithResponse<BlobGetPropertiesResponseInternal, BlobGetPropertiesHeaders>;
+export type BlobGetPropertiesResponseModel = WithResponse<BlobGetPropertiesHeaders, BlobGetPropertiesHeaders>;
 
 // @public
 export interface BlobGetTagsHeaders {
@@ -776,22 +743,11 @@ export type BlobGetTagsResponse = WithResponse<{
 } & BlobGetTagsHeaders, BlobGetTagsHeaders, BlobTags>;
 
 // @public
-export type BlobGetTagsResponseInternal = BlobGetTagsHeaders & BlobTags;
-
-// @public
 export interface BlobHierarchyListSegment {
     // (undocumented)
     blobItems: BlobItem[];
     // (undocumented)
     blobPrefixes?: BlobPrefix[];
-}
-
-// @public (undocumented)
-export interface BlobHierarchyListSegmentInternal {
-    // (undocumented)
-    blobItems: BlobItemInternalModel[];
-    // (undocumented)
-    blobPrefixes?: BlobPrefixInternal[];
 }
 
 // @public (undocumented)
@@ -871,29 +827,6 @@ export interface BlobItemInternal {
 }
 
 // @public
-export interface BlobItemInternalModel {
-    blobTags?: BlobTags;
-    // (undocumented)
-    deleted: boolean;
-    hasVersionsOnly?: boolean;
-    // (undocumented)
-    isCurrentVersion?: boolean;
-    metadata?: {
-        [propertyName: string]: string;
-    };
-    // (undocumented)
-    name: BlobNameInternal;
-    objectReplicationMetadata?: {
-        [propertyName: string]: string;
-    };
-    properties: BlobProperties;
-    // (undocumented)
-    snapshot: string;
-    // (undocumented)
-    versionId?: string;
-}
-
-// @public
 export class BlobLeaseClient {
     constructor(client: ContainerClient | BlobClient, leaseId?: string);
     acquireLease(duration: number, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
@@ -906,21 +839,9 @@ export class BlobLeaseClient {
 }
 
 // @public (undocumented)
-export interface BlobNameInternal {
-    content?: string;
-    encoded?: boolean;
-}
-
-// @public (undocumented)
 export interface BlobPrefix {
     // (undocumented)
     name: string;
-}
-
-// @public (undocumented)
-export interface BlobPrefixInternal {
-    // (undocumented)
-    name: BlobNameInternal;
 }
 
 // @public
@@ -1231,10 +1152,7 @@ export interface BlobSetHTTPHeadersOptions extends CommonOptions {
 }
 
 // @public
-export type BlobSetHTTPHeadersResponse = WithResponse<BlobSetHTTPHeadersResponseInternal, BlobSetHTTPHeadersHeaders>;
-
-// @public
-export type BlobSetHTTPHeadersResponseInternal = BlobSetHTTPHeadersHeaders;
+export type BlobSetHTTPHeadersResponse = WithResponse<BlobSetHTTPHeadersHeaders, BlobSetHTTPHeadersHeaders>;
 
 // @public
 export interface BlobSetImmutabilityPolicyHeaders {
@@ -1254,10 +1172,7 @@ export interface BlobSetImmutabilityPolicyOptions extends CommonOptions {
 }
 
 // @public
-export type BlobSetImmutabilityPolicyResponse = WithResponse<BlobSetImmutabilityPolicyResponseInternal, BlobSetImmutabilityPolicyHeaders>;
-
-// @public
-export type BlobSetImmutabilityPolicyResponseInternal = BlobSetImmutabilityPolicyHeaders;
+export type BlobSetImmutabilityPolicyResponse = WithResponse<BlobSetImmutabilityPolicyHeaders, BlobSetImmutabilityPolicyHeaders>;
 
 // @public
 export interface BlobSetLegalHoldHeaders {
@@ -1274,10 +1189,7 @@ export interface BlobSetLegalHoldOptions extends CommonOptions {
 }
 
 // @public
-export type BlobSetLegalHoldResponse = WithResponse<BlobSetLegalHoldResponseInternal, BlobSetLegalHoldHeaders>;
-
-// @public
-export type BlobSetLegalHoldResponseInternal = BlobSetLegalHoldHeaders;
+export type BlobSetLegalHoldResponse = WithResponse<BlobSetLegalHoldHeaders, BlobSetLegalHoldHeaders>;
 
 // @public
 export interface BlobSetMetadataHeaders {
@@ -1303,10 +1215,7 @@ export interface BlobSetMetadataOptions extends CommonOptions {
 }
 
 // @public
-export type BlobSetMetadataResponse = WithResponse<BlobSetMetadataResponseInternal, BlobSetMetadataHeaders>;
-
-// @public
-export type BlobSetMetadataResponseInternal = BlobSetMetadataHeaders;
+export type BlobSetMetadataResponse = WithResponse<BlobSetMetadataHeaders, BlobSetMetadataHeaders>;
 
 // @public
 export interface BlobSetTagsHeaders {
@@ -1324,10 +1233,7 @@ export interface BlobSetTagsOptions extends CommonOptions {
 }
 
 // @public
-export type BlobSetTagsResponse = WithResponse<BlobSetTagsResponseInternal, BlobSetTagsHeaders>;
-
-// @public
-export type BlobSetTagsResponseInternal = BlobSetTagsHeaders;
+export type BlobSetTagsResponse = WithResponse<BlobSetTagsHeaders, BlobSetTagsHeaders>;
 
 // @public
 export interface BlobSetTierHeaders {
@@ -1345,10 +1251,7 @@ export interface BlobSetTierOptions extends CommonOptions {
 }
 
 // @public
-export type BlobSetTierResponse = WithResponse<BlobSetTierResponseInternal, BlobSetTierHeaders>;
-
-// @public
-export type BlobSetTierResponseInternal = BlobSetTierHeaders;
+export type BlobSetTierResponse = WithResponse<BlobSetTierHeaders, BlobSetTierHeaders>;
 
 // @public
 export interface BlobStartCopyFromURLHeaders {
@@ -1379,10 +1282,7 @@ export interface BlobStartCopyFromURLOptions extends CommonOptions {
 }
 
 // @public
-export type BlobStartCopyFromURLResponse = WithResponse<BlobStartCopyFromURLResponseInternal, BlobStartCopyFromURLHeaders>;
-
-// @public
-export type BlobStartCopyFromURLResponseInternal = BlobStartCopyFromURLHeaders;
+export type BlobStartCopyFromURLResponse = WithResponse<BlobStartCopyFromURLHeaders, BlobStartCopyFromURLHeaders>;
 
 // @public
 export interface BlobSyncCopyFromURLOptions extends CommonOptions {
@@ -1432,10 +1332,7 @@ export interface BlobUndeleteOptions extends CommonOptions {
 }
 
 // @public
-export type BlobUndeleteResponse = WithResponse<BlobUndeleteResponseInternal, BlobUndeleteHeaders>;
-
-// @public
-export type BlobUndeleteResponseInternal = BlobUndeleteHeaders;
+export type BlobUndeleteResponse = WithResponse<BlobUndeleteHeaders, BlobUndeleteHeaders>;
 
 // @public
 export type BlobUploadCommonResponse = WithResponse<BlockBlobUploadHeaders>;
@@ -1498,10 +1395,7 @@ export interface BlockBlobCommitBlockListOptions extends CommonOptions {
 }
 
 // @public
-export type BlockBlobCommitBlockListResponse = WithResponse<BlockBlobCommitBlockListResponseInternal, BlockBlobCommitBlockListHeaders>;
-
-// @public
-export type BlockBlobCommitBlockListResponseInternal = BlockBlobCommitBlockListHeaders;
+export type BlockBlobCommitBlockListResponse = WithResponse<BlockBlobCommitBlockListHeaders, BlockBlobCommitBlockListHeaders>;
 
 // @public
 export interface BlockBlobGetBlockListHeaders {
@@ -1562,10 +1456,7 @@ export interface BlockBlobPutBlobFromUrlHeaders {
 }
 
 // @public
-export type BlockBlobPutBlobFromUrlResponse = WithResponse<BlockBlobPutBlobFromUrlResponseInternal, BlockBlobPutBlobFromUrlHeaders>;
-
-// @public
-export type BlockBlobPutBlobFromUrlResponseInternal = BlockBlobPutBlobFromUrlHeaders;
+export type BlockBlobPutBlobFromUrlResponse = WithResponse<BlockBlobPutBlobFromUrlHeaders, BlockBlobPutBlobFromUrlHeaders>;
 
 // @public
 export interface BlockBlobQueryOptions extends CommonOptions {
@@ -1605,10 +1496,7 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
 }
 
 // @public
-export type BlockBlobStageBlockFromURLResponse = WithResponse<BlockBlobStageBlockFromURLResponseInternal, BlockBlobStageBlockFromURLHeaders>;
-
-// @public
-export type BlockBlobStageBlockFromURLResponseInternal = BlockBlobStageBlockFromURLHeaders;
+export type BlockBlobStageBlockFromURLResponse = WithResponse<BlockBlobStageBlockFromURLHeaders, BlockBlobStageBlockFromURLHeaders>;
 
 // @public
 export interface BlockBlobStageBlockHeaders {
@@ -1636,10 +1524,7 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
 }
 
 // @public
-export type BlockBlobStageBlockResponse = WithResponse<BlockBlobStageBlockResponseInternal, BlockBlobStageBlockHeaders>;
-
-// @public
-export type BlockBlobStageBlockResponseInternal = BlockBlobStageBlockHeaders;
+export type BlockBlobStageBlockResponse = WithResponse<BlockBlobStageBlockHeaders, BlockBlobStageBlockHeaders>;
 
 // @public
 export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
@@ -1698,10 +1583,7 @@ export interface BlockBlobUploadOptions extends CommonOptions {
 }
 
 // @public
-export type BlockBlobUploadResponse = WithResponse<BlockBlobUploadResponseInternal, BlockBlobUploadHeaders>;
-
-// @public
-export type BlockBlobUploadResponseInternal = BlockBlobUploadHeaders;
+export type BlockBlobUploadResponse = WithResponse<BlockBlobUploadHeaders, BlockBlobUploadHeaders>;
 
 // @public
 export interface BlockBlobUploadStreamOptions extends CommonOptions {
@@ -1844,10 +1726,7 @@ export interface ContainerCreateOptions extends CommonOptions {
 }
 
 // @public
-export type ContainerCreateResponse = WithResponse<ContainerCreateResponseInternal, ContainerCreateHeaders>;
-
-// @public
-export type ContainerCreateResponseInternal = ContainerCreateHeaders;
+export type ContainerCreateResponse = WithResponse<ContainerCreateHeaders, ContainerCreateHeaders>;
 
 // @public
 export interface ContainerDeleteBlobOptions extends BlobDeleteOptions {
@@ -1875,10 +1754,7 @@ export interface ContainerDeleteMethodOptions extends CommonOptions {
 }
 
 // @public
-export type ContainerDeleteResponse = WithResponse<ContainerDeleteResponseInternal, ContainerDeleteHeaders>;
-
-// @public
-export type ContainerDeleteResponseInternal = ContainerDeleteHeaders;
+export type ContainerDeleteResponse = WithResponse<ContainerDeleteHeaders, ContainerDeleteHeaders>;
 
 // @public
 export interface ContainerEncryptionScope {
@@ -1972,10 +1848,7 @@ export interface ContainerGetPropertiesOptions extends CommonOptions {
 }
 
 // @public
-export type ContainerGetPropertiesResponse = WithResponse<ContainerGetPropertiesResponseInternal, ContainerGetPropertiesHeaders>;
-
-// @public
-export type ContainerGetPropertiesResponseInternal = ContainerGetPropertiesHeaders;
+export type ContainerGetPropertiesResponse = WithResponse<ContainerGetPropertiesHeaders, ContainerGetPropertiesHeaders>;
 
 // @public
 export interface ContainerItem {
@@ -2017,8 +1890,10 @@ export interface ContainerListBlobHierarchySegmentHeaders {
 // @public
 export type ContainerListBlobHierarchySegmentResponse = WithResponse<ListBlobsHierarchySegmentResponse & ContainerListBlobHierarchySegmentHeaders, ContainerListBlobHierarchySegmentHeaders, ListBlobsHierarchySegmentResponseModel>;
 
+// Warning: (ae-forgotten-export) The symbol "ListBlobsHierarchySegmentResponse_2" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type ContainerListBlobHierarchySegmentResponseModel = ContainerListBlobHierarchySegmentHeaders & ListBlobsHierarchySegmentResponseInternal;
+export type ContainerListBlobHierarchySegmentResponseModel = ContainerListBlobHierarchySegmentHeaders & ListBlobsHierarchySegmentResponse_2;
 
 // @public
 export interface ContainerListBlobsOptions extends CommonOptions {
@@ -2081,10 +1956,7 @@ export interface ContainerRenameHeaders {
 }
 
 // @public
-export type ContainerRenameResponse = WithResponse<ContainerRenameResponseInternal, ContainerRenameHeaders>;
-
-// @public
-export type ContainerRenameResponseInternal = ContainerRenameHeaders;
+export type ContainerRenameResponse = WithResponse<ContainerRenameHeaders, ContainerRenameHeaders>;
 
 // @public
 export interface ContainerRenewLeaseOptions extends CommonOptions {
@@ -2151,10 +2023,7 @@ export interface ContainerSetAccessPolicyOptions extends CommonOptions {
 }
 
 // @public
-export type ContainerSetAccessPolicyResponse = WithResponse<ContainerSetAccessPolicyResponseInternal, ContainerSetAccessPolicyHeaders>;
-
-// @public
-export type ContainerSetAccessPolicyResponseInternal = ContainerSetAccessPolicyHeaders;
+export type ContainerSetAccessPolicyResponse = WithResponse<ContainerSetAccessPolicyHeaders, ContainerSetAccessPolicyHeaders>;
 
 // @public
 export interface ContainerSetMetadataHeaders {
@@ -2174,10 +2043,7 @@ export interface ContainerSetMetadataOptions extends CommonOptions {
 }
 
 // @public
-export type ContainerSetMetadataResponse = WithResponse<ContainerSetMetadataResponseInternal, ContainerSetMetadataHeaders>;
-
-// @public
-export type ContainerSetMetadataResponseInternal = ContainerSetMetadataHeaders;
+export type ContainerSetMetadataResponse = WithResponse<ContainerSetMetadataHeaders, ContainerSetMetadataHeaders>;
 
 // @public
 export interface ContainerUndeleteHeaders {
@@ -2189,10 +2055,7 @@ export interface ContainerUndeleteHeaders {
 }
 
 // @public
-export type ContainerUndeleteResponse = WithResponse<ContainerUndeleteResponseInternal, ContainerUndeleteHeaders>;
-
-// @public
-export type ContainerUndeleteResponseInternal = ContainerUndeleteHeaders;
+export type ContainerUndeleteResponse = WithResponse<ContainerUndeleteHeaders, ContainerUndeleteHeaders>;
 
 // @public
 export type CopyPollerBlobClient = Pick<BlobClient, "abortCopyFromURL" | "getProperties"> & {
@@ -2311,7 +2174,7 @@ export { HttpOperationResponse }
 
 export { HttpRequestBody }
 
-// @public (undocumented)
+// @public
 export interface HttpResponse {
     // (undocumented)
     headers: HttpHeaders;
@@ -2378,24 +2241,6 @@ export interface ListBlobsFlatSegmentResponse {
 }
 
 // @public
-export interface ListBlobsFlatSegmentResponseInternal {
-    // (undocumented)
-    containerName: string;
-    // (undocumented)
-    continuationToken?: string;
-    // (undocumented)
-    marker?: string;
-    // (undocumented)
-    maxPageSize?: number;
-    // (undocumented)
-    prefix?: string;
-    // (undocumented)
-    segment: BlobFlatListSegmentInternal;
-    // (undocumented)
-    serviceEndpoint: string;
-}
-
-// @public
 export interface ListBlobsFlatSegmentResponseModel {
     // (undocumented)
     containerName: string;
@@ -2429,26 +2274,6 @@ export interface ListBlobsHierarchySegmentResponse {
     prefix?: string;
     // (undocumented)
     segment: BlobHierarchyListSegment;
-    // (undocumented)
-    serviceEndpoint: string;
-}
-
-// @public
-export interface ListBlobsHierarchySegmentResponseInternal {
-    // (undocumented)
-    containerName: string;
-    // (undocumented)
-    continuationToken?: string;
-    // (undocumented)
-    delimiter?: string;
-    // (undocumented)
-    marker?: string;
-    // (undocumented)
-    maxPageSize?: number;
-    // (undocumented)
-    prefix?: string;
-    // (undocumented)
-    segment: BlobHierarchyListSegmentInternal;
     // (undocumented)
     serviceEndpoint: string;
 }
@@ -2580,10 +2405,7 @@ export interface PageBlobClearPagesOptions extends CommonOptions {
 }
 
 // @public
-export type PageBlobClearPagesResponse = WithResponse<PageBlobClearPagesResponseInternal, PageBlobClearPagesHeaders>;
-
-// @public
-export type PageBlobClearPagesResponseInternal = PageBlobClearPagesHeaders;
+export type PageBlobClearPagesResponse = WithResponse<PageBlobClearPagesHeaders, PageBlobClearPagesHeaders>;
 
 // @public
 export class PageBlobClient extends BlobClient {
@@ -2620,10 +2442,7 @@ export interface PageBlobCopyIncrementalHeaders {
 }
 
 // @public
-export type PageBlobCopyIncrementalResponse = WithResponse<PageBlobCopyIncrementalResponseInternal, PageBlobCopyIncrementalHeaders>;
-
-// @public
-export type PageBlobCopyIncrementalResponseInternal = PageBlobCopyIncrementalHeaders;
+export type PageBlobCopyIncrementalResponse = WithResponse<PageBlobCopyIncrementalHeaders, PageBlobCopyIncrementalHeaders>;
 
 // @public
 export interface PageBlobCreateHeaders {
@@ -2675,10 +2494,7 @@ export interface PageBlobCreateOptions extends CommonOptions {
 }
 
 // @public
-export type PageBlobCreateResponse = WithResponse<PageBlobCreateResponseInternal, PageBlobCreateHeaders>;
-
-// @public
-export type PageBlobCreateResponseInternal = PageBlobCreateHeaders;
+export type PageBlobCreateResponse = WithResponse<PageBlobCreateHeaders, PageBlobCreateHeaders>;
 
 // @public
 export interface PageBlobGetPageRangesDiffHeaders {
@@ -2773,10 +2589,7 @@ export interface PageBlobResizeOptions extends CommonOptions {
 }
 
 // @public
-export type PageBlobResizeResponse = WithResponse<PageBlobResizeResponseInternal, PageBlobResizeHeaders>;
-
-// @public
-export type PageBlobResizeResponseInternal = PageBlobResizeHeaders;
+export type PageBlobResizeResponse = WithResponse<PageBlobResizeHeaders, PageBlobResizeHeaders>;
 
 // @public
 export interface PageBlobStartCopyIncrementalOptions extends CommonOptions {
@@ -2803,10 +2616,7 @@ export interface PageBlobUpdateSequenceNumberOptions extends CommonOptions {
 }
 
 // @public
-export type PageBlobUpdateSequenceNumberResponse = WithResponse<PageBlobUpdateSequenceNumberResponseInternal, PageBlobUpdateSequenceNumberHeaders>;
-
-// @public
-export type PageBlobUpdateSequenceNumberResponseInternal = PageBlobUpdateSequenceNumberHeaders;
+export type PageBlobUpdateSequenceNumberResponse = WithResponse<PageBlobUpdateSequenceNumberHeaders, PageBlobUpdateSequenceNumberHeaders>;
 
 // @public
 export interface PageBlobUploadPagesFromURLHeaders {
@@ -2837,10 +2647,7 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
 }
 
 // @public
-export type PageBlobUploadPagesFromURLResponse = WithResponse<PageBlobUploadPagesFromURLResponseInternal, PageBlobUploadPagesFromURLHeaders>;
-
-// @public
-export type PageBlobUploadPagesFromURLResponseInternal = PageBlobUploadPagesFromURLHeaders;
+export type PageBlobUploadPagesFromURLResponse = WithResponse<PageBlobUploadPagesFromURLHeaders, PageBlobUploadPagesFromURLHeaders>;
 
 // @public
 export interface PageBlobUploadPagesHeaders {
@@ -2871,10 +2678,7 @@ export interface PageBlobUploadPagesOptions extends CommonOptions {
 }
 
 // @public
-export type PageBlobUploadPagesResponse = WithResponse<PageBlobUploadPagesResponseInternal, PageBlobUploadPagesHeaders>;
-
-// @public
-export type PageBlobUploadPagesResponseInternal = PageBlobUploadPagesHeaders;
+export type PageBlobUploadPagesResponse = WithResponse<PageBlobUploadPagesHeaders, PageBlobUploadPagesHeaders>;
 
 // @public
 export interface PageList {
@@ -2994,13 +2798,13 @@ export { RequestPolicyFactory }
 
 export { RequestPolicyOptions }
 
-// @public (undocumented)
+// @public
 export interface ResponseLike {
     // (undocumented)
     _response: HttpResponse;
 }
 
-// @public (undocumented)
+// @public
 export interface ResponseWithBody<Headers, Body> {
     _response: HttpResponse & {
         parsedHeaders: Headers;
@@ -3009,7 +2813,7 @@ export interface ResponseWithBody<Headers, Body> {
     };
 }
 
-// @public (undocumented)
+// @public
 export interface ResponseWithHeaders<Headers> {
     _response: HttpResponse & {
         parsedHeaders: Headers;
@@ -3144,10 +2948,7 @@ export interface ServiceGetAccountInfoOptions extends CommonOptions {
 }
 
 // @public
-export type ServiceGetAccountInfoResponse = WithResponse<ServiceGetAccountInfoResponseInternal, ServiceGetAccountInfoHeaders>;
-
-// @public
-export type ServiceGetAccountInfoResponseInternal = ServiceGetAccountInfoHeaders;
+export type ServiceGetAccountInfoResponse = WithResponse<ServiceGetAccountInfoHeaders, ServiceGetAccountInfoHeaders>;
 
 // @public
 export interface ServiceGetPropertiesHeaders {
@@ -3248,10 +3049,7 @@ export interface ServiceSetPropertiesOptions extends CommonOptions {
 }
 
 // @public
-export type ServiceSetPropertiesResponse = WithResponse<ServiceSetPropertiesResponseInternal, ServiceSetPropertiesHeaders>;
-
-// @public
-export type ServiceSetPropertiesResponseInternal = ServiceSetPropertiesHeaders;
+export type ServiceSetPropertiesResponse = WithResponse<ServiceSetPropertiesHeaders, ServiceSetPropertiesHeaders>;
 
 // @public
 export interface ServiceSubmitBatchHeaders {
@@ -3417,7 +3215,7 @@ export interface UserDelegationKeyModel {
 
 export { WebResource }
 
-// @public (undocumented)
+// @public
 export type WithResponse<T, Headers = undefined, Body = undefined> = T & (Body extends object ? ResponseWithBody<Headers, Body> : Headers extends object ? ResponseWithHeaders<Headers> : ResponseLike);
 
 // (No @packageDocumentation comment for this package)
