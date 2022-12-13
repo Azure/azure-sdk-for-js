@@ -6400,11 +6400,11 @@ packages:
       sourcemap-codec: 1.4.8
     dev: false
 
-  /magic-string/0.26.7:
-    resolution: {integrity: sha512-hX9XH3ziStPoPhJxLq1syWuZMxbDvGNbVchfrdCtanC7D13888bMFow61x8axrx+GfHLtVeAx2kxL7tTGRl+Ow==}
+  /magic-string/0.27.0:
+    resolution: {integrity: sha512-8UnnX2PeRAPZuN12svgR9j7M1uWMovg/CEnIwIG0LFkXSJJe4PdfUGiTGl8V9bsBHFUtfVINcSyYxd7q+kx9fA==}
     engines: {node: '>=12'}
     dependencies:
-      sourcemap-codec: 1.4.8
+      '@jridgewell/sourcemap-codec': 1.4.14
     dev: false
 
   /make-dir/2.1.0:
@@ -9796,7 +9796,7 @@ packages:
     dev: false
 
   file:projects/ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-MSht6l6NAV7BS2PowRAdrdKhyzMG82lFcGuid6qoNbNaDatbfMXNo2qpclOlpOPbNpZQ4/cTcvBAJJKEBVp60w==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-n+oq96I1elLgv67fkhebl7knNXsDi1/NWh+mrWDY+4Wz562JBo8weCSw0M65BLi1M4zwHapvkbV0wkvaHcvyZw==, tarball: file:projects/ai-form-recognizer.tgz}
     name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
@@ -9825,7 +9825,7 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5_karma@6.4.1
       karma-sourcemap-loader: 0.3.8
-      magic-string: 0.26.7
+      magic-string: 0.27.0
       mocha: 7.2.0
       mocha-junit-reporter: 2.2.0_mocha@7.2.0
       nyc: 15.1.0
@@ -10088,7 +10088,7 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-scaffolder.tgz:
-    resolution: {integrity: sha512-lFbcnRHf9/DE+Lpa9kmQrKNYiwJl3vg42f8vl+1jOlFFTcFFrbGjCZQo7/VyBNb7a+a6AARtGDKmHKQUmUs+rQ==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
+    resolution: {integrity: sha512-aQUQ5CLltieAlB8UbJbuzwZ/FNC1xQc6cCPXyYGdolYhnbxQIzsmHjg3xABsQqoyejfqJxuto3HzwYE0SY5rAA==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
     name: '@rush-temp/api-management-custom-widgets-scaffolder'
     version: 0.0.0
     dependencies:
@@ -10110,6 +10110,7 @@ packages:
       eslint: 7.32.0
       glob: 7.2.3
       inquirer: 8.2.5
+      magic-string: 0.27.0
       mocha: 7.2.0
       mocha-junit-reporter: 2.2.0_mocha@7.2.0
       mustache: 4.2.0
