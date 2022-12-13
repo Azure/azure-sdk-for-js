@@ -372,7 +372,6 @@ export {
   ContainerFilterBlobsHeaders,
   ContainerGetAccessPolicyResponse as ContainerGetAccessPolicyResponseModel,
   ContainerBreakLeaseOptionalParams,
-  ContainerListBlobHierarchySegmentResponse as ContainerListBlobHierarchySegmentResponseModel,
   ContainerProperties,
   CopyStatusType,
   CorsRule,

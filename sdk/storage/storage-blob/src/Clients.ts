@@ -5741,7 +5741,7 @@ export class PageBlobClient extends BlobClient {
     marker?: string,
     options?: PageBlobListPageRangesDiffSegmentOptions
   ): AsyncIterableIterator<PageBlobGetPageRangesDiffResponseModel> {
-    let getPageRangeItemSegmentsResponse;
+    let getPageRangeItemSegmentsResponse: PageBlobGetPageRangesResponseModel;
     if (!!marker || marker === undefined) {
       do {
         getPageRangeItemSegmentsResponse = await this.listPageRangesDiffSegment(

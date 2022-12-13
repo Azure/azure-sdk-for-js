@@ -27,7 +27,6 @@ import {
   ContainerGetPropertiesResponse,
   ContainerListBlobFlatSegmentHeaders,
   ContainerListBlobHierarchySegmentHeaders,
-  ContainerListBlobHierarchySegmentResponseModel,
   ContainerSetAccessPolicyResponse,
   ContainerSetMetadataResponse,
   FilterBlobItem,
@@ -81,6 +80,7 @@ import {
   ListBlobsIncludeItem,
   ListBlobsFlatSegmentResponse as ListBlobsFlatSegmentResponseInternal,
   ListBlobsHierarchySegmentResponse as ListBlobsHierarchySegmentResponseInternal,
+  ContainerListBlobHierarchySegmentResponse as ContainerListBlobHierarchySegmentResponseModel,
 } from "./generated/src";
 
 /**

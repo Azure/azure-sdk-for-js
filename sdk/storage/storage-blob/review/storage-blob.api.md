@@ -1890,11 +1890,6 @@ export interface ContainerListBlobHierarchySegmentHeaders {
 // @public
 export type ContainerListBlobHierarchySegmentResponse = WithResponse<ListBlobsHierarchySegmentResponse & ContainerListBlobHierarchySegmentHeaders, ContainerListBlobHierarchySegmentHeaders, ListBlobsHierarchySegmentResponseModel>;
 
-// Warning: (ae-forgotten-export) The symbol "ListBlobsHierarchySegmentResponse_2" needs to be exported by the entry point index.d.ts
-//
-// @public
-export type ContainerListBlobHierarchySegmentResponseModel = ContainerListBlobHierarchySegmentHeaders & ListBlobsHierarchySegmentResponse_2;
-
 // @public
 export interface ContainerListBlobsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
