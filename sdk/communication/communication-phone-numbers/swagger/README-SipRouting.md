@@ -75,6 +75,14 @@ directive:
       $["x-nullable"] = true;
 ```
 
+```yaml
+directive:
+  - from: swagger-document
+    where: "$.definitions.DomainPatch"
+    transform: >
+      $["x-nullable"] = true;
+```
+
 ### Directive for resolving default error type as "CommunicationErrorResponse"
 
 ```yaml

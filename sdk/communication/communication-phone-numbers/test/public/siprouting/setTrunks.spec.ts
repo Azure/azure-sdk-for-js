@@ -127,7 +127,7 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("cannot set invalid fqdn trunk", async () => {
-      const invalidTrunk: SipTrunk = { fqdn: "-1", sipSignalingPort: 8239 };
+      const invalidTrunk: SipTrunk = { fqdn: "-1", sipSignalingPort: 8239, enabled: true };
       try {
         await client.setTrunk(invalidTrunk);
       } catch (error: any) {
@@ -222,10 +222,12 @@ matrix([[true, false]], async function (useAad) {
         {
           fqdn: getUniqueFqdn(recorder),
           sipSignalingPort: 5678,
+          enabled: true
         },
         {
           fqdn: getUniqueFqdn(recorder),
           sipSignalingPort: 5678,
+          enabled: true
         },
       ];
       await client.setTrunks(trunks);

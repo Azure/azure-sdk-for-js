@@ -66,6 +66,7 @@ matrix([[true, false]], async function (useAad) {
 
       assert.isNotNull(trunk);
       assert.equal(trunk?.sipSignalingPort, 4567);
+      assert.equal(trunk?.enabled, true);
     });
 
     it("can retrieve trunks", async () => {
